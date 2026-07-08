@@ -35,7 +35,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <MotionTestContext.Provider value={motionTest}>
             <ForceReducedMotionContext.Provider value={testingReducedMotion}>
               {testingReducedMotion ? (
-                <div data-reduced-motion-test="">{children}</div>
+                <div data-reduced-motion-test="">
+                  <p
+                    role="status"
+                    className="bg-cobalt-wash text-cobalt-bright border-cobalt/30 sticky top-0 z-50 border-b px-4 py-1.5 text-center font-mono text-[11px] tracking-[0.08em] uppercase"
+                  >
+                    Reduced motion · test active — every demo is showing its
+                    fallback
+                  </p>
+                  {children}
+                </div>
               ) : (
                 children
               )}

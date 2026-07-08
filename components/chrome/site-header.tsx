@@ -3,13 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { MotionTestSwitch } from "@/components/chrome/motion-test-switch";
 import { ThemeToggle } from "@/components/chrome/theme-toggle";
 import { Wordmark } from "@/components/chrome/wordmark";
+import { CommandDeck } from "@/components/search/command-deck";
 import { cn } from "@/registry/lib/utils";
 
 const NAV = [
   { href: "/components", label: "Components" },
   { href: "/blocks", label: "Blocks" },
+  { href: "/playground", label: "Playground" },
 ] as const;
 
 export function SiteHeader() {
@@ -45,6 +48,8 @@ export function SiteHeader() {
         </div>
 
         <div className="flex items-center gap-2">
+          <CommandDeck />
+          <MotionTestSwitch />
           <ThemeToggle className="border-hairline text-ink-2 hover:text-ink hover:border-hairline-strong flex size-8 items-center justify-center rounded-2 border transition-colors" />
         </div>
       </div>

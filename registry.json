@@ -553,6 +553,197 @@
       }
     },
     {
+      "name": "command-deck",
+      "type": "registry:block",
+      "title": "Command Deck",
+      "description": "A command palette that arms before it fires — a deliberate fill sweeps the selected row before execution, so destructive commands never feel accidental.",
+      "files": [
+        {
+          "path": "registry/blocks/command-deck/command-deck.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "application"
+      ],
+      "meta": {
+        "serial": "KB-101"
+      }
+    },
+    {
+      "name": "access-panel",
+      "type": "registry:block",
+      "title": "Access Panel",
+      "description": "Sign-in that unlocks like a vault — steps ride a gantry rail, OTP digits drop into their cells, and the right code throws a breaker bolt open.",
+      "files": [
+        {
+          "path": "registry/blocks/access-panel/access-panel.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/trace-input.json",
+        "https://kinetiq.dev/r/pressure-button.json"
+      ],
+      "categories": [
+        "authentication"
+      ],
+      "meta": {
+        "serial": "KB-102"
+      }
+    },
+    {
+      "name": "signal-center",
+      "type": "registry:block",
+      "title": "Signal Center",
+      "description": "An inbox that files itself — signals arrive on the conveyor, swipe away with real velocity, and clear-all sweeps the floor in a cascade.",
+      "files": [
+        {
+          "path": "registry/blocks/signal-center/signal-center.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "categories": [
+        "application"
+      ],
+      "meta": {
+        "serial": "KB-103"
+      }
+    },
+    {
+      "name": "media-console",
+      "type": "registry:block",
+      "title": "Media Console",
+      "description": "A media island that unfolds into a console — the pill morphs open into transport, a caliper timeline, and a scope-scrubbed volume.",
+      "files": [
+        {
+          "path": "registry/blocks/media-console/media-console.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/caliper-slider.json",
+        "https://kinetiq.dev/r/scope-scrubber.json"
+      ],
+      "categories": [
+        "application"
+      ],
+      "meta": {
+        "serial": "KB-104"
+      }
+    },
+    {
+      "name": "checkout-receipt",
+      "type": "registry:block",
+      "title": "Checkout Receipt",
+      "description": "Payment that prints its proof — hold to pay, then a receipt feeds out of the slot line by line, tears off, and takes a PAID stamp.",
+      "files": [
+        {
+          "path": "registry/blocks/checkout-receipt/checkout-receipt.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/pressure-button.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "categories": [
+        "commerce"
+      ],
+      "meta": {
+        "serial": "KB-105"
+      }
+    },
+    {
+      "name": "intake-tray",
+      "type": "registry:block",
+      "title": "Intake Tray",
+      "description": "Files land, physically — dropped files fall into the tray with a squash, shingle into a stack, fill their gauge rings, and slide to the processed rail.",
+      "files": [
+        {
+          "path": "registry/blocks/intake-tray/intake-tray.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KB-106"
+      }
+    },
+    {
+      "name": "readout-grid",
+      "type": "registry:block",
+      "title": "Readout Grid",
+      "description": "Dashboard stats as instrument cards — a carry-rolling counter, a self-drawing sparkline, a split-flap delta, and a needle gauge, mounted with one cascade.",
+      "files": [
+        {
+          "path": "registry/blocks/readout-grid/readout-grid.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json",
+        "https://kinetiq.dev/r/flapboard.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KB-107"
+      }
+    },
+    {
       "name": "launch-checklist",
       "type": "registry:block",
       "title": "Launch Checklist",

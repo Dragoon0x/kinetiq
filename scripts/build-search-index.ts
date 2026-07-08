@@ -5,6 +5,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
+import { labs } from "../content/labs";
 import { catalogBlocks, catalogComponents } from "../content/manifest";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -38,12 +39,35 @@ async function main() {
         href: `/blocks/${b.name}`,
       }),
     ),
+    ...labs.map(
+      (lab): SearchEntry => ({
+        section: "Playground",
+        title: lab.title,
+        tagline: lab.tagline,
+        keywords: [lab.serial, "playground", "lab", lab.slug],
+        href: `/playground/${lab.slug}`,
+      }),
+    ),
     {
       section: "Pages",
       title: "Home",
       tagline: "Motion, calibrated.",
       keywords: ["kinetiq", "home"],
       href: "/",
+    },
+    {
+      section: "Pages",
+      title: "Playground",
+      tagline: "Learn motion by operating it.",
+      keywords: ["labs", "benches", "learn"],
+      href: "/playground",
+    },
+    {
+      section: "Pages",
+      title: "For AI agents",
+      tagline: "Programmatic registry access.",
+      keywords: ["llms", "registry", "api", "agents", "mcp"],
+      href: "/agents",
     },
   ];
 

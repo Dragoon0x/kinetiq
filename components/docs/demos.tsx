@@ -1,11 +1,18 @@
 import type { ComponentType } from "react";
 
+import { AccessPanelDemo } from "@/registry/demos/access-panel.demo";
 import { BreakerSwitchDemo } from "@/registry/demos/breaker-switch.demo";
+import { CommandDeckDemo } from "@/registry/demos/command-deck.demo";
 import { CaliperSliderDemo } from "@/registry/demos/caliper-slider.demo";
 import { CalloutDemo } from "@/registry/demos/callout.demo";
 import { CheckboxDemo } from "@/registry/demos/checkbox.demo";
+import { CheckoutReceiptDemo } from "@/registry/demos/checkout-receipt.demo";
+import { IntakeTrayDemo } from "@/registry/demos/intake-tray.demo";
+import { ReadoutGridDemo } from "@/registry/demos/readout-grid.demo";
 import { ConveyorListDemo } from "@/registry/demos/conveyor-list.demo";
 import { MagnetDockDemo } from "@/registry/demos/magnet-dock.demo";
+import { MediaConsoleDemo } from "@/registry/demos/media-console.demo";
+import { SignalCenterDemo } from "@/registry/demos/signal-center.demo";
 import { DrawerAccordionDemo } from "@/registry/demos/drawer-accordion.demo";
 import { FlapboardDemo } from "@/registry/demos/flapboard.demo";
 import { FocusTextDemo } from "@/registry/demos/focus-text.demo";
@@ -49,5 +56,12 @@ export const demos: Record<string, ComponentType> = {
   "telemetry-toast": TelemetryToastDemo,
   "ticker-tape": TickerTapeDemo,
   "scan-reveal": ScanRevealDemo,
+  "command-deck": CommandDeckDemo,
+  "access-panel": AccessPanelDemo,
+  "signal-center": SignalCenterDemo,
+  "media-console": MediaConsoleDemo,
+  "checkout-receipt": CheckoutReceiptDemo,
+  "intake-tray": IntakeTrayDemo,
+  "readout-grid": ReadoutGridDemo,
   "launch-checklist": LaunchChecklistDemo,
 };
