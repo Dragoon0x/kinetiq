@@ -713,6 +713,29 @@
       }
     },
     {
+      "name": "flux-canvas",
+      "type": "registry:ui",
+      "title": "Flux Canvas",
+      "description": "A gradient with a pulse — a tiny WebGL2 shader drives a drifting color mesh or a domain-warped noise field, tinted from your theme tokens.",
+      "files": [
+        {
+          "path": "registry/ui/flux-canvas.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "backgrounds"
+      ],
+      "meta": {
+        "serial": "KQ-034"
+      }
+    },
+    {
       "name": "wavefield",
       "type": "registry:ui",
       "title": "Wavefield",

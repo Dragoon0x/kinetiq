@@ -6,12 +6,14 @@ import { catalogBlocks, catalogComponents } from "@/content/manifest";
 
 /** Signature specimens on the exhibit floor — the full catalog lives one click away. */
 const FEATURED = [
-  "pressure-button",
+  "zoetrope",
   "caliper-slider",
   "flapboard",
-  "gyro-card",
-  "readout",
+  "wavefield",
+  "ledger",
   "media-console",
+  "gyro-card",
+  "beacon",
 ];
 
 /**

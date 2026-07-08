@@ -1223,6 +1223,46 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "flux-canvas",
+    type: "registry:ui",
+    title: "Flux Canvas",
+    description:
+      "A gradient with a pulse — a tiny WebGL2 shader drives a drifting color mesh or a domain-warped noise field, tinted from your theme tokens.",
+    files: [{ path: "registry/ui/flux-canvas.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["backgrounds"],
+    meta: { serial: "KQ-034" },
+    tagline: "A gradient with a pulse.",
+    keywords: ["background", "webgl", "shader", "gradient", "hero"],
+    // Installable via the registry; hidden from nav/docs until broad device
+    // QA (battery, driver variance) clears.
+    draft: true,
+    props: [
+      {
+        name: "variant",
+        type: '"mesh" | "warp"',
+        defaultValue: '"mesh"',
+        description: "Drifting color blobs, or a domain-warped noise field.",
+      },
+      {
+        name: "speed / interactive / colorVars",
+        type: "number / boolean / [string, string, string]",
+        description: "Clock rate, pointer displacement, and the three theme tokens sampled.",
+      },
+      {
+        name: "forceFallback",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Force the static CSS-gradient fallback.",
+      },
+    ],
+    usageNotes: [
+      "No WebGL2 or a lost context falls back to a static gradient from the same tokens; the loop pauses offscreen.",
+      "Under reduced motion the shader draws exactly one frame — the time uniform never advances.",
+    ],
+  },
+  {
     name: "wavefield",
     type: "registry:ui",
     title: "Wavefield",

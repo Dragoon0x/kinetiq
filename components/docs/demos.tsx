@@ -27,6 +27,7 @@ import { MediaConsoleDemo } from "@/registry/demos/media-console.demo";
 import { SignalCenterDemo } from "@/registry/demos/signal-center.demo";
 import { DrawerAccordionDemo } from "@/registry/demos/drawer-accordion.demo";
 import { FlapboardDemo } from "@/registry/demos/flapboard.demo";
+import { FluxCanvasDemo } from "@/registry/demos/flux-canvas.demo";
 import { FocusTextDemo } from "@/registry/demos/focus-text.demo";
 import { ForecastCardDemo } from "@/registry/demos/forecast-card.demo";
 import { GantryTabsDemo } from "@/registry/demos/gantry-tabs.demo";
@@ -77,6 +78,7 @@ export const demos: Record<string, ComponentType> = {
   ledger: LedgerDemo,
   zoetrope: ZoetropeDemo,
   wavefield: WavefieldDemo,
+  "flux-canvas": FluxCanvasDemo,
   callout: CalloutDemo,
   readout: ReadoutDemo,
   "focus-text": FocusTextDemo,
