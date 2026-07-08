@@ -10,7 +10,7 @@
     "start": "next start",
     "generate": "tsx scripts/build-registry.ts && tsx scripts/extract-sources.ts && tsx scripts/build-search-index.ts",
     "validate:registry": "tsx scripts/validate-registry.ts",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
     "check": "pnpm generate && pnpm typecheck && pnpm lint && pnpm validate:registry",
