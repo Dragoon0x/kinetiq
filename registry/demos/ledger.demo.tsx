@@ -94,8 +94,10 @@ function StatusChip({ status }: { status: TxnStatus }) {
       style={
         tone
           ? {
-              color: tone,
-              backgroundColor: `color-mix(in oklab, ${tone} 12%, transparent)`,
+              // Bias the label toward --foreground so it clears AA contrast on
+              // its own wash in both themes, while keeping the semantic hue.
+              color: `color-mix(in oklab, ${tone} 78%, var(--foreground))`,
+              backgroundColor: `color-mix(in oklab, ${tone} 14%, transparent)`,
             }
           : undefined
       }

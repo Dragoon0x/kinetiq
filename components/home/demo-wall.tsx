@@ -4,15 +4,19 @@ import { demos } from "@/components/docs/demos";
 import { SpecimenPlate } from "@/components/lab/specimen-plate";
 import { catalogBlocks, catalogComponents } from "@/content/manifest";
 
-/** Signature specimens on the exhibit floor — the full catalog lives one click away. */
+/**
+ * Signature specimens on the exhibit floor — visually striking but light to
+ * mount, so the landing page stays fast. The heavy showpieces (ledger's 10k
+ * rows, the canvas fields) live one click away on their own pages.
+ */
 const FEATURED = [
   "zoetrope",
   "caliper-slider",
   "flapboard",
-  "wavefield",
-  "ledger",
-  "media-console",
+  "radio-group",
   "gyro-card",
+  "media-console",
+  "status-seal",
   "beacon",
 ];
 
