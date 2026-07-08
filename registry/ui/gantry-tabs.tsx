@@ -14,7 +14,7 @@ import {
 } from "@/registry/lib/motion";
 import { cn } from "@/registry/lib/utils";
 
-type GantryTabsVariant = "underline" | "segmented" | "enclosed";
+type GantryTabsVariant = "underline" | "segmented" | "enclosed" | "expand";
 type GantryTabsOrientation = "horizontal" | "vertical";
 type GantryTabsActivationMode = "automatic" | "manual";
 
@@ -69,6 +69,11 @@ export type GantryTabsProps = Omit<
  * the new trigger. Panels crossfade with an 8px lift on `glide`; exits tween
  * out at 0.6× via `exitFor`. Under reduced motion the indicator teleports and
  * panels simply crossfade at `durations.fast`.
+ *
+ * `variant="expand"` keeps triggers icon-only (pass `icon` on each trigger)
+ * until selected — the active label unfolds beside its icon, width on
+ * `glide`, opacity at `durations.base`/`easings.enter` — with the indicator
+ * riding the segmented pill.
  */
 export function GantryTabs({
   value: controlledValue,
@@ -241,6 +246,9 @@ export function GantryTabsList({
     enclosed: horizontal
       ? "flex items-end gap-1 border-b border-border"
       : "flex flex-col gap-1 border-r border-border",
+    expand: horizontal
+      ? "inline-flex items-center gap-1 rounded-3 bg-muted p-1"
+      : "inline-flex flex-col gap-1 rounded-3 bg-muted p-1",
   }[variant];
 
   const indicatorClass = {
@@ -253,6 +261,9 @@ export function GantryTabsList({
     enclosed: horizontal
       ? "top-0 -bottom-px rounded-t-2 border border-border border-b-transparent bg-background"
       : "left-0 -right-px rounded-l-2 border border-border border-r-transparent bg-background",
+    expand: horizontal
+      ? "inset-y-1 rounded-2 bg-background shadow-sm"
+      : "inset-x-1 rounded-2 bg-background shadow-sm",
   }[variant];
 
   return (
@@ -285,10 +296,16 @@ export type GantryTabsTriggerProps = Omit<
   "value"
 > & {
   value: string;
+  /**
+   * Leading glyph. Under `variant="expand"` it is all an inactive trigger
+   * shows — the label (children) collapses to zero width until selected.
+   */
+  icon?: React.ReactNode;
 };
 
 export function GantryTabsTrigger({
   value,
+  icon,
   disabled,
   className,
   children,
@@ -299,6 +316,7 @@ export function GantryTabsTrigger({
 }: GantryTabsTriggerProps) {
   const context = useGantryTabs("GantryTabsTrigger");
   const { orientation, activationMode, variant, baseId } = context;
+  const motionSafe = useMotionSafe();
   const active = context.value === value;
   const horizontal = orientation === "horizontal";
   const tabId = `${baseId}-tab-${safeId(value)}`;
@@ -331,6 +349,8 @@ export function GantryTabsTrigger({
     underline: cn("px-3 py-2", !horizontal && "justify-start text-left"),
     segmented: "rounded-2 px-3 py-1.5",
     enclosed: cn("px-3 py-2", horizontal ? "rounded-t-2" : "rounded-l-2"),
+    // The 8px icon/label gap lives inside the collapsing span instead.
+    expand: "gap-0 rounded-2 px-2.5 py-1.5",
   }[variant];
 
   return (
@@ -363,7 +383,40 @@ export function GantryTabsTrigger({
       )}
       {...props}
     >
-      {children}
+      {icon != null && (
+        <span aria-hidden className="flex shrink-0 items-center justify-center">
+          {icon}
+        </span>
+      )}
+      {variant === "expand" ? (
+        // The label unfolds beside its icon on selection: width rides
+        // `glide`, opacity tweens in on `enter`. The text stays in the
+        // accessibility tree either way, so the switch names itself.
+        <motion.span
+          className="overflow-hidden"
+          initial={false}
+          animate={
+            active ? { width: "auto", opacity: 1 } : { width: 0, opacity: 0 }
+          }
+          transition={
+            motionSafe
+              ? {
+                  width: springs.glide,
+                  opacity: { duration: durations.base, ease: easings.enter },
+                }
+              : {
+                  width: { duration: 0 },
+                  opacity: { duration: durations.fast },
+                }
+          }
+        >
+          <span className={cn("block", icon != null && "pl-2")}>
+            {children}
+          </span>
+        </motion.span>
+      ) : (
+        children
+      )}
     </button>
   );
 }

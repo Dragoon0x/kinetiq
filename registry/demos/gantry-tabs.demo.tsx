@@ -2,6 +2,8 @@
 
 import * as React from "react";
 
+import { Gauge, ScrollText, Wrench } from "lucide-react";
+
 import {
   GantryTabs,
   GantryTabsContent,
@@ -25,12 +27,45 @@ const LOGS = [
   "08:31:09  CH-04 armed",
 ] as const;
 
+const EXPAND_TABS = [
+  { value: "monitor", label: "Monitor", icon: Gauge, line: "CH-01…04 nominal · 21.3°C" },
+  { value: "service", label: "Service", icon: Wrench, line: "Next service window: 6d 4h" },
+  { value: "logs", label: "Logs", icon: ScrollText, line: "09:14:02  CAL cycle complete" },
+] as const;
+
 export function GantryTabsDemo() {
   return (
-    <div className="w-full max-w-sm">
-      <p className="text-muted-foreground mb-3 text-sm font-medium">
-        Instrument settings
-      </p>
+    <div className="w-full max-w-sm space-y-8">
+      <div>
+        <p className="text-muted-foreground mb-3 text-sm font-medium">
+          Bay controls
+        </p>
+        <GantryTabs defaultValue="monitor" variant="expand">
+          <GantryTabsList>
+            {EXPAND_TABS.map((tab) => (
+              <GantryTabsTrigger
+                key={tab.value}
+                value={tab.value}
+                icon={<tab.icon className="size-4" />}
+              >
+                {tab.label}
+              </GantryTabsTrigger>
+            ))}
+          </GantryTabsList>
+          {EXPAND_TABS.map((tab) => (
+            <GantryTabsContent key={tab.value} value={tab.value} className="pt-3">
+              <p className="text-muted-foreground truncate font-mono text-xs">
+                {tab.line}
+              </p>
+            </GantryTabsContent>
+          ))}
+        </GantryTabs>
+      </div>
+
+      <div>
+        <p className="text-muted-foreground mb-3 text-sm font-medium">
+          Instrument settings
+        </p>
       <GantryTabs defaultValue="overview" variant="segmented">
         <GantryTabsList>
           <GantryTabsTrigger value="overview">Overview</GantryTabsTrigger>
@@ -79,7 +114,8 @@ export function GantryTabsDemo() {
             ))}
           </div>
         </GantryTabsContent>
-      </GantryTabs>
+        </GantryTabs>
+      </div>
     </div>
   );
 }

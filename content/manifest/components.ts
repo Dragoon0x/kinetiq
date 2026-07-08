@@ -1041,6 +1041,126 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "drawer",
+    type: "registry:ui",
+    title: "Drawer",
+    description:
+      "A side panel on rails — slides in on glide, drags toward its edge 1:1, and a projected release past 40% lets it leave with the momentum it already has.",
+    files: [{ path: "registry/ui/drawer.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlay"],
+    meta: { serial: "KQ-027" },
+    tagline: "A side panel on rails.",
+    keywords: ["drawer", "panel", "side", "overlay", "filters"],
+    props: [
+      {
+        name: "open / defaultOpen / onOpenChange",
+        type: "boolean / boolean / (open) => void",
+        description: "Controlled or uncontrolled visibility.",
+      },
+      {
+        name: "side / size",
+        type: '"left" | "right" / "sm" | "md" | "lg"',
+        defaultValue: '"right" / "md"',
+        description: "Edge and width preset (288 / 360 / 440).",
+      },
+      {
+        name: "dismissible / portal",
+        type: "boolean",
+        defaultValue: "true / true",
+        description:
+          "Escape, backdrop, and edge-drag dismissal; portal locks body scroll.",
+      },
+      {
+        name: "Trigger / Content / Title / Description / Close",
+        type: "compound parts",
+        description: "Composable parts sharing one context.",
+      },
+    ],
+    usageNotes: [
+      "The backdrop's opacity is bound to the drag — dismissal fades exactly as far as you've pulled.",
+      "Under reduced motion the panel fades; dragging stays 1:1 with instant resolution.",
+    ],
+  },
+  {
+    name: "bottom-sheet",
+    type: "registry:ui",
+    title: "Bottom Sheet",
+    description:
+      "It snaps where your gesture was going — velocity-projected releases settle on the nearest snap point in the gesture's direction, with rubber-band overdrag.",
+    files: [{ path: "registry/ui/bottom-sheet.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlay"],
+    meta: { serial: "KQ-028" },
+    tagline: "It snaps where your gesture was going.",
+    keywords: ["sheet", "bottom sheet", "snap points", "drag", "mobile"],
+    props: [
+      {
+        name: "snapPoints / initialSnap / onSnapChange",
+        type: "number[] / number / (index) => void",
+        defaultValue: "[0.4, 0.9] / 0",
+        description:
+          "Resting heights as viewport fractions; every settle reports its index.",
+      },
+      {
+        name: "open / defaultOpen / onOpenChange",
+        type: "boolean / boolean / (open) => void",
+        description: "Controlled or uncontrolled visibility.",
+      },
+      {
+        name: "dismissible / portal",
+        type: "boolean",
+        defaultValue: "true / true",
+        description:
+          "Projecting past the lowest snap dismisses; portal measures the visual viewport.",
+      },
+      {
+        name: "Handle",
+        type: "compound part",
+        description:
+          "The grab pill is a real button — arrows step snaps, Home/End jump, each step announces.",
+      },
+    ],
+    usageNotes: [
+      "The backdrop opacity is bound to the sheet's travel, live during the drag.",
+      "Under reduced motion it fades to its snap and releases resolve instantly; dragging stays 1:1.",
+    ],
+  },
+  {
+    name: "phase-switch",
+    type: "registry:ui",
+    title: "Phase Switch",
+    description:
+      "Day to night in one clean sweep — a framework-agnostic theme toggle that reveals the new theme as a circle growing from the button, via the View Transitions API.",
+    files: [{ path: "registry/ui/phase-switch.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["controls"],
+    meta: { serial: "KQ-033" },
+    tagline: "Day to night in one clean sweep.",
+    keywords: ["theme", "dark mode", "toggle", "view transitions"],
+    props: [
+      {
+        name: "checked / onCheckedChange",
+        type: "boolean / (next) => void",
+        description:
+          "Controlled only — flip your own theme class inside the callback; the component owns zero theme logic.",
+      },
+      {
+        name: "size / label",
+        type: '"sm" | "md" | "lg" / string',
+        defaultValue: '"md" / "Toggle theme"',
+        description: "Control size and accessible name.",
+      },
+    ],
+    usageNotes: [
+      "Add `::view-transition-old(root), ::view-transition-new(root) { animation: none }` to your CSS so the clip reveal isn't fought by the default crossfade.",
+      "Unsupported browsers and reduced motion get an instant flip with an icon crossfade.",
+    ],
+  },
+  {
     name: "cipher-text",
     type: "registry:ui",
     title: "Cipher Text",

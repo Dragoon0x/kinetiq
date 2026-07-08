@@ -608,6 +608,84 @@
       }
     },
     {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A side panel on rails — slides in on glide, drags toward its edge 1:1, and a projected release past 40% lets it leave with the momentum it already has.",
+      "files": [
+        {
+          "path": "registry/ui/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlay"
+      ],
+      "meta": {
+        "serial": "KQ-027"
+      }
+    },
+    {
+      "name": "bottom-sheet",
+      "type": "registry:ui",
+      "title": "Bottom Sheet",
+      "description": "It snaps where your gesture was going — velocity-projected releases settle on the nearest snap point in the gesture's direction, with rubber-band overdrag.",
+      "files": [
+        {
+          "path": "registry/ui/bottom-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlay"
+      ],
+      "meta": {
+        "serial": "KQ-028"
+      }
+    },
+    {
+      "name": "phase-switch",
+      "type": "registry:ui",
+      "title": "Phase Switch",
+      "description": "Day to night in one clean sweep — a framework-agnostic theme toggle that reveals the new theme as a circle growing from the button, via the View Transitions API.",
+      "files": [
+        {
+          "path": "registry/ui/phase-switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "controls"
+      ],
+      "meta": {
+        "serial": "KQ-033"
+      }
+    },
+    {
       "name": "cipher-text",
       "type": "registry:ui",
       "title": "Cipher Text",
@@ -763,6 +841,58 @@
       ],
       "meta": {
         "serial": "KB-102"
+      }
+    },
+    {
+      "name": "iris-menu",
+      "type": "registry:block",
+      "title": "Iris Menu",
+      "description": "Actions bloom from where you pressed — items launch from the trigger's center to seats along the freest quadrant's arc, and fold back in on close.",
+      "files": [
+        {
+          "path": "registry/blocks/iris-menu/iris-menu.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "menus"
+      ],
+      "meta": {
+        "serial": "KB-109"
+      }
+    },
+    {
+      "name": "overflow-rail",
+      "type": "registry:block",
+      "title": "Overflow Rail",
+      "description": "More actions, sprung from the dots — the pill rail morphs open inline while primaries yield with a recoil part and secondaries cascade in.",
+      "files": [
+        {
+          "path": "registry/blocks/overflow-rail/overflow-rail.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "menus"
+      ],
+      "meta": {
+        "serial": "KB-110"
       }
     },
     {

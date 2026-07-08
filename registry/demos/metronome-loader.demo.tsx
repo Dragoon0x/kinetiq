@@ -8,7 +8,14 @@ import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
 import { durations, easings, exitFor, springs } from "@/registry/lib/motion";
 import { MetronomeLoader } from "@/registry/ui/metronome-loader";
 
-const VARIANTS = ["pendulum", "bearing", "sweep"] as const;
+const VARIANTS = [
+  "pendulum",
+  "bearing",
+  "sweep",
+  "helix",
+  "printout",
+  "scramble",
+] as const;
 
 export function MetronomeLoaderDemo() {
   const motionSafe = useMotionSafe();

@@ -110,6 +110,88 @@ export const blocks: KinetiqItem[] = [
     ],
   },
   {
+    name: "iris-menu",
+    type: "registry:block",
+    title: "Iris Menu",
+    description:
+      "Actions bloom from where you pressed — items launch from the trigger's center to seats along the freest quadrant's arc, and fold back in on close.",
+    files: [
+      { path: "registry/blocks/iris-menu/iris-menu.tsx", type: "registry:block" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["menus"],
+    meta: { serial: "KB-109" },
+    tagline: "Actions bloom from where you pressed.",
+    keywords: ["radial menu", "fab", "actions", "bloom", "quick actions"],
+    props: [
+      {
+        name: "items",
+        type: "IrisMenuItem[]",
+        description:
+          "Up to six: { id, icon, label, onSelect, disabled?, destructive? }.",
+      },
+      {
+        name: "placement",
+        type: '"auto" | quadrant',
+        defaultValue: '"auto"',
+        description: "Auto measures the viewport and blooms into the roomiest quadrant.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "84",
+        description: "Distance from trigger center to each seat.",
+      },
+    ],
+    usageNotes: [
+      "Arrow keys rotate focus around the ring; Escape closes and restores the trigger.",
+      "Under reduced motion items fade in already seated — no travel.",
+    ],
+  },
+  {
+    name: "overflow-rail",
+    type: "registry:block",
+    title: "Overflow Rail",
+    description:
+      "More actions, sprung from the dots — the pill rail morphs open inline while primaries yield with a recoil part and secondaries cascade in.",
+    files: [
+      {
+        path: "registry/blocks/overflow-rail/overflow-rail.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["menus"],
+    meta: { serial: "KB-110" },
+    tagline: "More actions, sprung from the dots.",
+    keywords: ["toolbar", "actions", "overflow", "expandable", "rail"],
+    props: [
+      {
+        name: "primary / secondary",
+        type: "RailAction[]",
+        description:
+          "Always-visible actions and the set revealed by the ⋯ trigger.",
+      },
+      {
+        name: "open / defaultOpen / onOpenChange",
+        type: "boolean / boolean / (open) => void",
+        description: "Controlled or uncontrolled expansion.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Actions"',
+        description: "Accessible toolbar name.",
+      },
+    ],
+    usageNotes: [
+      "One toolbar: arrows rove across every visible action; Escape collapses and refocuses the trigger.",
+      "Under reduced motion the width jumps and secondaries fade in place.",
+    ],
+  },
+  {
     name: "signal-center",
     type: "registry:block",
     title: "Signal Center",

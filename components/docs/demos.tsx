@@ -2,7 +2,12 @@ import type { ComponentType } from "react";
 
 import { AccessPanelDemo } from "@/registry/demos/access-panel.demo";
 import { ActionRelayDemo } from "@/registry/demos/action-relay.demo";
+import { BottomSheetDemo } from "@/registry/demos/bottom-sheet.demo";
 import { BreakerSwitchDemo } from "@/registry/demos/breaker-switch.demo";
+import { DrawerDemo } from "@/registry/demos/drawer.demo";
+import { IrisMenuDemo } from "@/registry/demos/iris-menu.demo";
+import { OverflowRailDemo } from "@/registry/demos/overflow-rail.demo";
+import { PhaseSwitchDemo } from "@/registry/demos/phase-switch.demo";
 import { CommandDeckDemo } from "@/registry/demos/command-deck.demo";
 import { CaliperSliderDemo } from "@/registry/demos/caliper-slider.demo";
 import { CalloutDemo } from "@/registry/demos/callout.demo";
@@ -57,6 +62,9 @@ export const demos: Record<string, ComponentType> = {
   "magnet-dock": MagnetDockDemo,
   "conveyor-list": ConveyorListDemo,
   "drawer-accordion": DrawerAccordionDemo,
+  drawer: DrawerDemo,
+  "bottom-sheet": BottomSheetDemo,
+  "phase-switch": PhaseSwitchDemo,
   callout: CalloutDemo,
   readout: ReadoutDemo,
   "focus-text": FocusTextDemo,
@@ -70,6 +78,8 @@ export const demos: Record<string, ComponentType> = {
   "scan-reveal": ScanRevealDemo,
   "command-deck": CommandDeckDemo,
   "access-panel": AccessPanelDemo,
+  "iris-menu": IrisMenuDemo,
+  "overflow-rail": OverflowRailDemo,
   "signal-center": SignalCenterDemo,
   "media-console": MediaConsoleDemo,
   "checkout-receipt": CheckoutReceiptDemo,
