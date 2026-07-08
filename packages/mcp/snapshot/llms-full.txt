@@ -1,0 +1,966 @@
+# Kinetiq — full reference
+
+> A React component library where every animation shares five calibrated springs. Copy the source. Own the code. Ship interfaces that feel machined.
+
+Machine catalog: https://kinetiq.dev/registry-meta.json · MCP server: https://kinetiq.dev/mcp
+
+## Operating rules (AGENTS.md)
+
+# Kinetiq — Agent Rules
+
+Operating rules for coding agents working with Kinetiq components. Follow
+these and anything you compose stays on the system's motion vocabulary.
+
+## The motion language: five calibrated springs
+
+Every animation uses exactly one of five springs from `lib/motion.ts`. Never
+hand-write stiffness/damping numbers — reach for a named spring.
+
+| Spring | stiffness / damping / mass | Use it for |
+| --- | --- | --- |
+| `flick` | 1100 / 55 / 0.7 | Press states, tick draws, focus. **Confirms.** |
+| `snap` | 640 / 42 / 1.0 | Toggles, tab indicators, menus. One crisp overshoot. **Switches.** |
+| `glide` | 300 / 34 / 1.0 | Layout shifts, reorders, morphs. **Moves.** |
+| `drift` | 120 / 24 / 1.2 | Large surfaces, ambient motion, parallax settle. **Breathes.** |
+| `recoil` | 520 / 24 / 1.0 | Toasts, stamps, landings. Two visible bounces. **Celebrates.** |
+
+Say the verb the interaction performs — confirm, switch, move, breathe,
+celebrate — and you have the spring.
+
+## Tweens, not springs, for surface properties
+
+Springs drive spatial change (position, scale, rotation). Opacity, color,
+blur, and clip use the tween scale from `lib/motion.ts`:
+
+- Durations: `blink 0.08` · `fast 0.15` · `base 0.24` · `slow 0.40` · `page 0.70`
+- Easings: `enter [0.22,1,0.36,1]` · `exit [0.5,0,0.75,0]` · `move [0.65,0,0.35,1]` · `linear`
+- Enter offsets: `nudge 4` · `step 8` · `shift 16` (px). Scale-ins start at 0.96, never 0.
+
+## Orchestration
+
+- **600ms budget.** A choreographed sequence never exceeds 600ms total. Use
+  `cascade(count)` for the stagger interval — it tightens automatically as the
+  count grows.
+- **Exits are tweens at 0.6x the enter duration** with the `exit` easing, via
+  `exitFor()`. Never spring an exit — it reads as indecision.
+- One spatial axis per element; stagger from the element the user touched.
+
+## Reduced motion is a first-class state
+
+Read `useMotionSafe()` — never call `matchMedia` directly. When it returns
+false, degrade, do not disable:
+
+- Transform enters → opacity fade at `fast`.
+- Discrete springs → instant position + a color tween.
+- Direct manipulation (drag, sliders) → keep 1:1 tracking; drop inertia and settle.
+- Autoplay loops → static (marquees become a wrapped grid).
+- Scroll-linked → final state, opacity only. Number rolls → instant value + highlight.
+
+## Tokens
+
+Use shadcn semantic tokens only: `bg-background/card/popover/primary/muted/accent/destructive`,
+`text-*-foreground`, `border-border/input`, `ring`. For live-data accents
+(readouts, traces, LIVE badges) use `var(--signal, var(--primary))`. Radii:
+`rounded-1` (2px) · `rounded-2` (6px) · `rounded-3` (10px) · `rounded-4` (16px).
+
+## Accessibility
+
+Every interactive component ships real WAI-ARIA roles, complete keyboard
+support, and visible focus rings (`:focus-visible`, never removed). Silent
+state changes announce through an sr-only live region.
+
+## Installing
+
+Components are distributed as source through a shadcn-compatible registry.
+
+```sh
+# One-time: register the namespace
+npx shadcn@latest registry add @kinetiq=https://kinetiq.dev/r/{name}.json
+# Then add by name
+npx shadcn@latest add @kinetiq/pressure-button
+# Or zero-config by URL
+npx shadcn@latest add https://kinetiq.dev/r/pressure-button.json
+```
+
+Installed components import shared helpers (`lib/motion`, `lib/utils`, the
+`use-motion-safe` hook) via your project's aliases — the CLI rewrites them on
+install. Don't edit those shared files per-component; they're the shared
+vocabulary.
+
+## Motion system
+
+Five calibrated springs — every animation uses one of them:
+
+- `springs.flick` — stiffness 1100, damping 55, mass 0.7 (ζ 0.99, settles ~120ms). Press states, tick draws, focus. Confirms.
+- `springs.snap` — stiffness 640, damping 42, mass 1 (ζ 0.83, settles ~300ms). Toggles, tab indicators, menus — one crisp overshoot. Switches.
+- `springs.glide` — stiffness 300, damping 34, mass 1 (ζ 0.98, settles ~450ms). Layout shifts, reorders, morphs. Moves.
+- `springs.drift` — stiffness 120, damping 24, mass 1.2 (ζ 1, settles ~800ms). Large surfaces, ambient drift, parallax settle. Breathes.
+- `springs.recoil` — stiffness 520, damping 24, mass 1 (ζ 0.53, settles ~700ms). Toasts, stamps, landings — two visible bounces. Celebrates.
+
+Cascade: Stagger interval = clamp(0.6 / (count - 1), 0.02, 0.06)s so the whole choreography stays under a 600ms budget; dense lists tighten automatically.
+Exits: Exits are always tweens at 0.6x the enter duration with the exit easing — springs on exit read as indecision.
+Reduced motion: prefers-reduced-motion is a first-class state. Transform enters become opacity fades; discrete springs snap to position with a color tween; direct manipulation keeps 1:1 tracking but drops inertia; autoplay loops go static; scroll-linked renders its final frame; number rolls swap instantly. Every component reads useMotionSafe(), never matchMedia directly.
+
+## Catalog
+
+### Pressure Button (KQ-001) — `pressure-button`
+A button that pushes back.
+
+A button that pushes back — press squash on flick, spring rebound on snap, and a hold-to-confirm gauge ring for destructive actions.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pressure-button`
+
+Props:
+- `variant`: "solid" | "outline" | "ghost" | "danger" (default "solid") — Visual style. Danger pairs naturally with holdToConfirm.
+- `size`: "sm" | "md" | "lg" (default "md") — Control height and typography scale.
+- `holdToConfirm`: number — Milliseconds the button must be held before confirming. Adds a gauge ring; Escape or early release cancels.
+- `onConfirm`: () => void — Fires when a hold completes. Hold buttons never fire onClick.
+
+Notes:
+- Space and Enter drive the same physics as the pointer — hold either to confirm.
+- Under reduced motion the squash is replaced by a shade change; the gauge ring still fills because progress is feedback, not flourish.
+
+### Trace Input (KQ-002) — `trace-input`
+Focus draws its own boundary.
+
+Focus draws its own boundary — a stroke traces the field's perimeter, the label glides to an overline, and errors annotate themselves with a dimension line.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trace-input`
+
+Props:
+- `label`: string — Field label — rests as placeholder, floats to overline when focused or filled.
+- `description / error`: string — Helper and error lines below the field, chained into aria-describedby. Errors nudge the field and set aria-invalid.
+- `prefix / suffix`: ReactNode — Leading and trailing slots inside the field.
+- `…input props`: Omit<InputProps, "prefix"> — Standard input passthrough; controlled and uncontrolled both work.
+
+Notes:
+- The perimeter trace doubles as the focus indicator — it is never removed, only accelerated.
+- Under reduced motion the stroke appears instantly and the error nudge is skipped; the message still announces via aria-invalid.
+
+### Breaker Switch (KQ-003) — `breaker-switch`
+A toggle with mechanical conviction.
+
+A toggle with mechanical conviction — the thumb stretches in anticipation while held, throws on snap, and squashes against the track end as the rail recoils.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/breaker-switch`
+
+Props:
+- `checked / defaultChecked / onCheckedChange`: boolean / boolean / (checked) => void — Controlled or uncontrolled state.
+- `size`: "sm" | "md" | "lg" (default "md") — Fixed geometry — travel is derived, nothing is measured.
+- `onLabel / offLabel`: string — Tiny uppercase text inside the track ends.
+- `label`: ReactNode — Adjacent clickable label, associated automatically.
+- `name / value`: string — Renders a hidden input that submits while checked.
+
+Notes:
+- A native button with role="switch" — Space and Enter throw it, and Space arms the anticipation stretch.
+- Under reduced motion the thumb repositions instantly; only the color crossfade remains.
+
+### Checkbox (KQ-004) — `checkbox`
+The tick is drawn, not shown.
+
+The tick is drawn, not shown — a pathLength stroke on flick, an indeterminate dash that slides in, and group select-alls that cascade down the list.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/checkbox`
+
+Props:
+- `checked / defaultChecked`: boolean — Controlled or uncontrolled checked state.
+- `indeterminate`: boolean (default false) — Mixed state — dash visual plus native el.indeterminate.
+- `onCheckedChange`: (checked: boolean) => void — Fires with the next checked state.
+- `label / description`: ReactNode — Visible label (required) and muted secondary line.
+- `CheckboxGroup`: items, value, onValueChange, selectAll, legend… — Fieldset-based group with select-all parent (checked / unchecked / indeterminate) and cascading tick draws.
+
+Notes:
+- Native hidden inputs do the accessibility work; the drawn box is decorative.
+- Under reduced motion ticks appear instantly and select-all cascades lose their stagger.
+
+### Caliper Slider (KQ-005) — `caliper-slider`
+Reads like a vernier, moves like grease.
+
+Reads like a vernier, moves like grease — 1:1 drag with a snap settle, ticks that lean toward the jaw, and a live measured-span dimension line in range mode.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/caliper-slider`
+
+Props:
+- `min / max / step`: number (default 0 / 100 / 1) — Bounds and snap grid (float-precision cleaned).
+- `value / defaultValue / onValueChange`: number | [number, number] — Single or range; live stepped values during drag, deduped.
+- `range`: boolean (default false) — Two facing caliper jaws with a live span dimension line.
+- `marks`: number[] | boolean (default true) — Every step when ≤ 40 steps, else quarters; or pinned positions.
+- `format / readout`: (v) => string / "float" | "end" | "none" — Value formatting and where the mono readout renders.
+
+Notes:
+- Full APG slider keyboard set per thumb; range thumbs cross-clamp their ARIA bounds.
+- Under reduced motion tracking stays 1:1 — only the tick lean and the settle spring are removed.
+
+### Gantry Tabs (KQ-006) — `gantry-tabs`
+The indicator rides a rail.
+
+The indicator rides a rail — its leading edge glides ahead while the trailing edge lags a beat, stretching toward the destination before contracting to fit.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gantry-tabs`
+
+Props:
+- `value / defaultValue / onValueChange`: string / string / (value) => void — Controlled or uncontrolled active tab.
+- `variant`: "underline" | "segmented" | "enclosed" (default "underline") — Indicator style.
+- `orientation`: "horizontal" | "vertical" (default "horizontal") — Layout and arrow-key axis.
+- `activationMode`: "automatic" | "manual" (default "automatic") — Activate on focus, or on Enter/Space.
+- `keepMounted`: boolean (default false) — Keep inactive panels mounted but hidden.
+
+Notes:
+- Full APG tabs keyboard support with wrapping arrows; disabled triggers are skipped.
+- Under reduced motion the indicator teleports and panels crossfade without the lift.
+
+### Drawer Accordion (KQ-007) — `drawer-accordion`
+Opens like a specimen cabinet.
+
+Opens like a specimen cabinet — height glides while the inner content lags a beat behind, like paper settling in a pulled drawer.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/drawer-accordion`
+
+Props:
+- `type`: "single" | "multiple" (default "single") — Open one drawer at a time, or many.
+- `value / defaultValue`: string | string[] — Controlled or uncontrolled open value(s).
+- `onValueChange`: (value) => void — Fires with the next open value(s).
+- `collapsible`: boolean (default true) — Single mode: allow closing the open item.
+- `Item.value / Item.disabled`: string / boolean — Unique drawer id; disabled items are skipped in arrow navigation.
+- `Trigger.icon`: ReactNode — Leading icon slot before the header label.
+
+Notes:
+- Full APG accordion keyboard support: Arrow keys move between headers, Home and End jump.
+- Under reduced motion drawers open instantly and content crossfades — no lag, no sibling nudge.
+
+### Callout (KQ-008) — `callout`
+A label with a leader line.
+
+A tooltip with a leader line — the label pops from the anchor while a schematic elbow line draws itself to the card.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/callout`
+
+Props:
+- `content`: ReactNode — Label content. Never put interactive elements here.
+- `side / align`: "top" | "right" | "bottom" | "left" / "start" | "center" | "end" (default "top" / "center") — Anchor side and cross-axis alignment.
+- `delay`: number (default 150) — Hover open delay in ms. Keyboard focus opens instantly.
+- `followCursor`: boolean (default false) — Label trails the pointer with drift-damped lag; leader line omitted.
+- `disabled`: boolean (default false) — Never opens.
+
+Notes:
+- Opens on hover and on keyboard focus; Escape dismisses.
+- Under reduced motion the card fades in place — no pop, no leader draw, and followCursor pins to the anchor.
+
+### Morph Dialog (KQ-009) — `morph-dialog`
+The trigger becomes the dialog.
+
+The trigger becomes the dialog — a shared-element morph glides the card you clicked into the panel it opens, and reverses on close.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/morph-dialog`
+
+Props:
+- `open / defaultOpen / onOpenChange`: boolean / boolean / (open) => void — Controlled or uncontrolled open state.
+- `size`: "sm" | "md" | "lg" (default "md") — Panel width preset; ignored by the sheet variant.
+- `sheet`: boolean (default false) — Bottom-sheet variant — full-width, pinned to the bottom edge.
+- `dismissible`: boolean (default true) — Escape, backdrop click, and the built-in close button.
+- `portal`: boolean (default true) — Portal to body, or contain the overlay in a relative parent.
+- `Content.title / Content.description`: string — Wired to aria-labelledby and aria-describedby; title renders as h2.
+
+Notes:
+- Focus is trapped while open and restored to the trigger on close; body scroll locks in portal mode.
+- Under reduced motion the morph becomes a plain centered fade.
+
+### Select (KQ-010) — `select`
+A menu that unfolds from where you asked.
+
+A menu that unfolds from where you asked — the panel scales from the trigger's edge, options cascade in, and a highlight bar glides between them.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/select`
+
+Props:
+- `items`: (SelectOption | SelectGroup)[] — Flat options, labeled groups, or a mix; options take value, label, description, disabled.
+- `value / defaultValue / onValueChange`: string / string / (value) => void — Controlled or uncontrolled selection.
+- `searchable`: boolean (default false) — Pins a filter input at the top of the panel.
+- `placeholder / label / name`: string — Empty-state text, wired visible label, and hidden form input.
+
+Notes:
+- Combobox APG throughout: aria-activedescendant highlight, wrapping arrows, typeahead, Escape restores focus.
+- Under reduced motion everything fades — no scale, no cascade, instant highlight bar.
+
+### Telemetry Toast (KQ-011) — `telemetry-toast`
+Messages that queue like readings.
+
+Messages that queue like readings — recoil arrivals, a depth-receding stack, swipe dismissal with velocity projection, and timers that pause under your pointer.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/telemetry-toast`
+
+Props:
+- `ToastProvider.position`: "bottom-right" | "bottom-left" | "top-right" | "top-left" (default "bottom-right") — Viewport corner for the stack.
+- `ToastProvider.max`: number (default 3) — Visible stack size; extras queue FIFO.
+- `useToast()`: { toast(input) => id, dismiss(id) } — Imperative API from anywhere under the provider.
+- `ToastInput`: title, description?, variant?, duration?, action? — Variants info | success | warn | danger; duration ≤ 0 persists; action renders a button.
+
+Notes:
+- Danger toasts announce as alerts; the region is focusable via an Alt+T hotkey chord and timers pause on hover or focus.
+- Under reduced motion the stack flattens to a list with fade-only transitions — the progress hairline still drains.
+
+### Readout (KQ-012) — `readout`
+Numbers with momentum.
+
+Numbers with momentum — per-digit vertical rolls with real carry propagation, so 199 → 200 visibly carries right to left.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/readout`
+
+Props:
+- `value`: number — The numeric value to display.
+- `format`: (value: number) => string (default toLocaleString) — Formats the value; non-digit characters render as static cells.
+- `size`: "sm" | "md" | "lg" | "xl" (default "md") — Type scale.
+- `rollOn`: "any" | "increase" (default "any") — With "increase", decreases swap instantly — right for latency-style metrics.
+- `delta`: { value: string; direction: "up" | "down" } — Change badge that flips up when the value moves.
+
+Notes:
+- Rolling digits are aria-hidden; a polite live region announces the settled value once per burst.
+- Under reduced motion the value swaps instantly with a brief highlight pulse.
+
+### Focus Text (KQ-013) — `focus-text`
+Copy that resolves under the lens.
+
+Copy that resolves under the lens — words sharpen from an 8px blur like a microscope focus-pull, cascaded under the 600ms budget.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/focus-text`
+
+Props:
+- `children`: string — The copy to resolve.
+- `as`: "span" | "div" | "p" | "h1"–"h4" (default "span") — Rendered element.
+- `by`: "word" | "char" (default "word") — Split granularity; char mode never breaks mid-word.
+- `trigger / once`: "inView" | "mount" / boolean (default "inView" / true) — When the pull runs, and whether it re-blurs out of view.
+- `stagger / startDelay`: number — Seconds between units (defaults to the cascade budget) and lead-in delay.
+
+Notes:
+- Screen readers get a clean sr-only copy; the animated units are aria-hidden.
+- Under reduced motion the block does a single fast fade — text is always readable.
+
+### Flapboard (KQ-014) — `flapboard`
+Split-flap departures for your data.
+
+Split-flap departures for your data — each cell flips through intermediate characters with a column cascade, like an airport board settling.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/flapboard`
+
+Props:
+- `value`: string — Text to display, normalized against the charset.
+- `chars`: string (default " A–Z 0–9 ·-") — Charset scanned in flip order.
+- `flipSpeed`: number (default 40) — Milliseconds per flip step.
+- `padTo / align`: number / "left" | "right" — Minimum cell count and which side the value sits on.
+- `size`: "sm" | "md" | "lg" (default "md") — Fixed tile dimensions.
+
+Notes:
+- Cells are aria-hidden; a polite status region announces the settled value once.
+- Under reduced motion the board crossfades to the new value — no flipping.
+
+### Scope Scrubber (KQ-015) — `scope-scrubber`
+Drag a value; watch its physics.
+
+Drag a value; watch its physics — a scrub input with a live oscilloscope trace behind the numeral, where the settle spring's overshoot draws itself.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/scope-scrubber`
+
+Props:
+- `min / max / step`: number — Bounds (required) and release snap grid.
+- `value / defaultValue / onValueChange`: number / number / (value) => void — Controlled or uncontrolled; fires live while scrubbing.
+- `settle`: SpringName (default "snap") — Which calibrated spring the value settles on — its personality shows on the trace.
+- `sensitivity`: number (default (max−min)/200) — Value change per pixel of drag.
+- `label / unit / format / trace`: string / string / (v)=>string / boolean — Labeling, suffix, numeral formatting, and the history trace toggle.
+
+Notes:
+- Enter or double-click converts the plate into a plain number input; Escape cancels.
+- Under reduced motion scrubbing stays 1:1, release snaps instantly, and the trace hides.
+
+### Metronome Loader (KQ-016) — `metronome-loader`
+Waiting, kept honest.
+
+Waiting, kept honest — a pendulum, a bearing cradle, or a radar sweep; give it a value and it morphs into a determinate arc gauge.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/metronome-loader`
+
+Props:
+- `variant`: "pendulum" | "bearing" | "sweep" (default "pendulum") — Indeterminate style; ignored once value is set.
+- `size`: "sm" | "md" | "lg" (default "md") — 24 / 40 / 64 px.
+- `value`: number — 0–100; presence morphs the loader into a determinate arc gauge.
+- `label / showLabel`: string / boolean — Accessible name; optionally rendered visibly.
+
+Notes:
+- role="progressbar" throughout — indeterminate announces Loading, determinate reports its value.
+- Under reduced motion the loops freeze to a static glyph with a slow opacity pulse.
+
+### Gyro Card (KQ-017) — `gyro-card`
+A card with a sense of balance.
+
+A card with a sense of balance — pointer tilt with real inertia that overshoots past level and rebalances when you leave, with layered parallax and tracking glare.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gyro-card`
+
+Props:
+- `maxTilt`: number (default 8) — Peak rotation toward the pointer, in degrees.
+- `glare`: boolean (default true) — Radial sheen that tracks the light angle.
+- `GyroLayer.depth`: 0 | 1 | 2 — Parallax depth for child slots — pinned, ±4px, or ±8px counter-translation.
+
+Notes:
+- The motion is decorative: DOM order is untouched, and keyboard focus inside flattens the card to an energized ring state.
+- Under reduced motion there is no tilt, parallax, or glare — hover becomes a border emphasis.
+
+### Magnet Dock (KQ-018) — `magnet-dock`
+Icons that feel the cursor coming.
+
+Icons that feel the cursor coming — a cosine distance field magnifies the dock, and drag-reorder parts neighbors magnetically before snapping into a slot.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/magnet-dock`
+
+Props:
+- `items`: DockItem[] — { id, label, icon, active?, onSelect? } per icon.
+- `orientation`: "horizontal" | "vertical" (default "horizontal") — Dock axis — pointer tracking, tooltips, and arrows follow.
+- `magnify`: number (default 1.6) — Peak scale under the pointer or keyboard focus.
+- `reorderable / onReorder`: boolean / (order: string[]) => void — Pointer drag plus Space-lift keyboard reordering, announced live.
+
+Notes:
+- role="toolbar" with roving tabindex; a focused icon magnifies without the pointer.
+- Under reduced motion magnification is replaced by a 2px raise; reordering still works, 1:1.
+
+### Conveyor List (KQ-019) — `conveyor-list`
+A queue that moves like a belt.
+
+A queue that moves like a belt — items drift in from the feed side, brake into their slot with a squash, and lift off the belt when removed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/conveyor-list`
+
+Props:
+- `items / keyFor / renderItem`: T[] / (item) => string / (item) => ReactNode — Generic queue contents with stable keys driving enter, exit, and reorder identity.
+- `side`: "top" | "bottom" (default "top") — The feed edge new items enter from.
+- `maxVisible`: number (default 6) — Rows shown before the oldest overflow into a +N more count.
+- `announceItem`: (item: T) => string — Screen-reader text per row for the live log region.
+
+Notes:
+- The list is a role="log" live region — arrivals are announced politely.
+- Under reduced motion rows crossfade in place and layout shifts are instant.
+
+### Ticker Tape (KQ-020) — `ticker-tape`
+A marquee with friction.
+
+A marquee with friction — hover applies drag, grabbing tracks 1:1, and a fling carries real momentum that decays back to duty speed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ticker-tape`
+
+Props:
+- `speed`: number (default 60) — Duty cruising speed in px/s.
+- `direction`: "left" | "right" (default "left") — Travel direction.
+- `gap`: number (default 24) — Gap between items and loop copies.
+- `pauseOnHover`: boolean (default true) — Ease to 30% duty speed while hovered.
+
+Notes:
+- A visible pause control surfaces on keyboard focus; duplicated sequences are aria-hidden.
+- Under reduced motion the tape renders as a static wrapped grid showing each item once.
+
+### Scan Reveal (KQ-021) — `scan-reveal`
+Sections develop as the scanner passes.
+
+Sections develop as the scanner passes — a scroll-linked scan line sweeps once, and content resolves beneath it with a coordinate readout riding the beam.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/scan-reveal`
+
+Props:
+- `once`: boolean (default true) — Tear down the dual layers after the sweep completes.
+- `direction`: "down" | "up" (default "down") — Sweep direction.
+- `containerRef`: RefObject<HTMLElement> — Scrollable ancestor for scroll-linking inside overflow containers.
+
+Notes:
+- Interactive content lives only in the developed layer; the undeveloped copy is aria-hidden and inert.
+- Under reduced motion content renders fully developed with a single fast fade.
+
+### Radio Group (KQ-022) — `radio-group`
+Selection that travels, never teleports.
+
+Selection that travels, never teleports — one shared dot glides between rings while the receiving ring arms with a squash and rebounds as it lands.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/radio-group`
+
+Props:
+- `value / defaultValue / onValueChange`: string / string / (value) => void — Controlled or uncontrolled selection.
+- `orientation`: "vertical" | "horizontal" (default "vertical") — Layout and aria-orientation.
+- `name / label`: string / ReactNode — Hidden native radios for form posts; visible group label (or pass aria-label).
+- `Item.value / Item.description`: string / ReactNode — Item identity and a muted secondary line.
+
+Notes:
+- Full APG radio keyboard: arrows wrap and select, Space selects, Home and End jump.
+- Under reduced motion the dot swaps instantly with only a border-color tween.
+
+### Code Cells (KQ-023) — `code-cells`
+Six digits, dropped into place.
+
+Six digits, dropped into place — one hidden one-time-code input drives visual cells with digit drops, underline ticks, and a rejection nudge.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/code-cells`
+
+Props:
+- `length`: number (default 6) — Cell count; also the hidden input's maxLength.
+- `value / defaultValue / onValueChange`: string / string / (code) => void — Controlled or uncontrolled code, digits only.
+- `onComplete`: (code: string) => void — Fires once per fill; re-arms when the code shrinks.
+- `error / errorMessage`: boolean / string — Destructive borders plus a row nudge and a role=alert line.
+- `groups`: number[] — e.g. [3,3] renders a separator between digit groups.
+- `ref`: Ref<HTMLInputElement> — Reaches the hidden input — focus() after clearing.
+
+Notes:
+- The single hidden input with autocomplete="one-time-code" is the accessibility-correct OTP pattern — cells are decorative.
+- Under reduced motion digits appear instantly and the nudge is skipped; the alert still announces.
+
+### Action Relay (KQ-024) — `action-relay`
+A button that narrates the job.
+
+A button that narrates the job — state labels roll through a one-line mask with a blur crossfade while the width follows the new content.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/action-relay`
+
+Props:
+- `state / states`: string / Record<string, ReactNode> — Controlled state key and the content per state — nodes may embed icons or a small loader.
+- `busyStates`: string[] — States that report aria-busy and suppress interaction without stealing focus.
+- `onSettled`: (state) => void — Fires when the incoming roll lands — chain done → idle off it.
+- `announcements`: Record<string, string> — Screen-reader text per state; plain-text nodes announce themselves.
+- `variant / size`: pressure-button scales (default "solid" / "md") — Visual style, mirroring the button family.
+
+Notes:
+- Busy states keep focus (aria-disabled, not disabled) so the announcement chain is never interrupted.
+- Under reduced motion labels crossfade and the width jumps; onSettled still fires.
+
+### Status Seal (KQ-025) — `status-seal`
+Status, re-stamped on every change.
+
+Status, re-stamped on every change — variant swaps stamp in on recoil, a live pulse ring breathes at drift tempo, and counts carry-roll.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/status-seal`
+
+Props:
+- `variant`: "info" | "success" | "warn" | "danger" (default "info") — Semantic tinting with token fallbacks for consumer apps.
+- `children / icon`: ReactNode — Label and optional leading node (defaults to a status dot).
+- `count`: number — Embeds a small Readout so numbers carry-roll without re-stamping.
+- `live`: boolean (default false) — Pulse ring behind the dot at drift tempo.
+
+Notes:
+- role="status" announces label and count once per change, debounced.
+- Under reduced motion swaps are instant and the pulse ring holds static at mid-opacity.
+
+### Slipstream (KQ-026) — `slipstream`
+A highlight that rides in your wake.
+
+A highlight that rides in your wake — one pill glides behind hovered or focused items with a trailing-edge stretch, in any direction.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slipstream`
+
+Props:
+- `radius / inset`: number / number (default 8 / 0) — Pill corner radius, and how far it tucks inside each item rect (negative bleeds out).
+- `disabled`: boolean (default false) — Parks the pill and ignores hover/focus.
+- `SlipstreamItem`: div props — Wrap each link or button; the wrapper registers its rect for the pill to target.
+
+Notes:
+- Keyboard focus drives the pill exactly like hover — focusin on the group targets the focused item.
+- Under reduced motion the pill teleports with a fast fade; no trailing stretch.
+
+### Drawer (KQ-027) — `drawer`
+A side panel on rails.
+
+A side panel on rails — slides in on glide, drags toward its edge 1:1, and a projected release past 40% lets it leave with the momentum it already has.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/drawer`
+
+Props:
+- `open / defaultOpen / onOpenChange`: boolean / boolean / (open) => void — Controlled or uncontrolled visibility.
+- `side / size`: "left" | "right" / "sm" | "md" | "lg" (default "right" / "md") — Edge and width preset (288 / 360 / 440).
+- `dismissible / portal`: boolean (default true / true) — Escape, backdrop, and edge-drag dismissal; portal locks body scroll.
+- `Trigger / Content / Title / Description / Close`: compound parts — Composable parts sharing one context.
+
+Notes:
+- The backdrop's opacity is bound to the drag — dismissal fades exactly as far as you've pulled.
+- Under reduced motion the panel fades; dragging stays 1:1 with instant resolution.
+
+### Bottom Sheet (KQ-028) — `bottom-sheet`
+It snaps where your gesture was going.
+
+It snaps where your gesture was going — velocity-projected releases settle on the nearest snap point in the gesture's direction, with rubber-band overdrag.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bottom-sheet`
+
+Props:
+- `snapPoints / initialSnap / onSnapChange`: number[] / number / (index) => void (default [0.4, 0.9] / 0) — Resting heights as viewport fractions; every settle reports its index.
+- `open / defaultOpen / onOpenChange`: boolean / boolean / (open) => void — Controlled or uncontrolled visibility.
+- `dismissible / portal`: boolean (default true / true) — Projecting past the lowest snap dismisses; portal measures the visual viewport.
+- `Handle`: compound part — The grab pill is a real button — arrows step snaps, Home/End jump, each step announces.
+
+Notes:
+- The backdrop opacity is bound to the sheet's travel, live during the drag.
+- Under reduced motion it fades to its snap and releases resolve instantly; dragging stays 1:1.
+
+### Cipher Text (KQ-029) — `cipher-text`
+Characters lock in from the noise.
+
+Characters lock in from the noise — glyphs cycle deterministically, then resolve left-to-right under the 600ms cascade budget with a signal pulse per lock.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cipher-text`
+
+Props:
+- `children`: string — Copy to resolve; split into per-character mono cells.
+- `trigger`: "inView" | "mount" | "hover" (default "inView") — Hover re-scrambles then resolves on every entry.
+- `order`: "ltr" | "random" (default "ltr") — Lock-in sequence; random is hash-shuffled, never Math.random.
+- `charset / speed / as`: string / number / element (default A–Z 0–9 ·- / 30 / "span") — Glyph pool, ms per scramble tick, rendered element.
+
+Notes:
+- Screen readers and no-JS visitors get the clean string; the scramble layer is aria-hidden.
+- Under reduced motion the text renders plainly with a single fast fade.
+
+### Ledger (KQ-030) — `ledger`
+Ten thousand rows, sixty frames.
+
+Ten thousand rows, sixty frames — a hand-rolled virtualized table where sorting FLIPs only the rows you can see and selection cascades down the window.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ledger`
+
+Props:
+- `columns / rows / rowId`: LedgerColumn<T>[] / readonly T[] / (row) => string — Column defs (width px | "1fr", align, sortable, cell, sortFn), the full data set, and stable row identity.
+- `rowHeight / height / overscan`: number (default 40 / 320 / 6) — Fixed row height, viewport height, and window padding.
+- `sort / defaultSort / onSortChange`: LedgerSort | null — Controlled or uncontrolled; headers cycle asc → desc → none.
+- `selectable / selected / onSelectedChange`: boolean / ReadonlySet<string> / (next) => void — Checkbox column; select-all targets every row, not just visible.
+- `onVisibleRangeChange`: ({ from, to }) => void — 1-based visible range, emitted from the rAF scroll flush.
+
+Notes:
+- Roughly twenty nodes render regardless of row count; sort animates at most thirty visible rows.
+- Under reduced motion the chevron swaps instantly and rows jump — no FLIP, no tick cascade.
+
+### Zoetrope (KQ-031) — `zoetrope`
+Spin the drum; every frame finds its detent.
+
+Spin the drum; every frame finds its detent — panels ride the inside of a cylinder with drag inertia, wheel steps, and angular-distance dimming.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/zoetrope`
+
+Props:
+- `children`: ReactNode — Each direct child becomes a drum face (capped at twelve).
+- `index / defaultIndex / onIndexChange`: number / number / (index) => void — Controlled or uncontrolled front panel; fires on every settled detent.
+- `itemWidth / itemHeight / perspective`: number (default 160 / 200 / 1000) — Panel geometry; the ring radius derives from width and count.
+- `sensitivity`: number (default 0.35) — Drag ratio in degrees per pixel.
+- `getLabel`: (index) => string — Names panels for the live announcer.
+
+Notes:
+- Only the fronted panel is interactive; the rest are inert and aria-hidden.
+- Under reduced motion the drum becomes a flat scroll-snap row with identical semantics.
+
+### Wavefield (KQ-032) — `wavefield`
+Ambient physics, drawn on canvas.
+
+Ambient physics, drawn on canvas — interference lattices, drifting contours, breathing grids, and particle fields that pause when unseen.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/wavefield`
+
+Props:
+- `variant`: "interference" | "contour" | "lattice" | "drift" (default "interference") — Which field is drawn.
+- `speed / density / opacity`: number (default 0.5 / 0.5 / 1) — Clock rate, geometry density (capped), and canvas-layer opacity.
+- `children`: ReactNode — Overlay slot above the canvas — it carries all the semantics.
+
+Notes:
+- Colors resolve from your theme tokens and re-resolve on theme flips; the loop pauses when hidden or offscreen.
+- Under reduced motion exactly one designed frame is drawn — the loop never starts.
+
+### Phase Switch (KQ-033) — `phase-switch`
+Day to night in one clean sweep.
+
+Day to night in one clean sweep — a framework-agnostic theme toggle that reveals the new theme as a circle growing from the button, via the View Transitions API.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/phase-switch`
+
+Props:
+- `checked / onCheckedChange`: boolean / (next) => void — Controlled only — flip your own theme class inside the callback; the component owns zero theme logic.
+- `size / label`: "sm" | "md" | "lg" / string (default "md" / "Toggle theme") — Control size and accessible name.
+
+Notes:
+- Add `::view-transition-old(root), ::view-transition-new(root) { animation: none }` to your CSS so the clip reveal isn't fought by the default crossfade.
+- Unsupported browsers and reduced motion get an instant flip with an icon crossfade.
+
+### Command Deck (KB-101) — `command-deck`
+A palette that arms before it fires.
+
+A command palette that arms before it fires — a deliberate fill sweeps the selected row before execution, so destructive commands never feel accidental.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/command-deck`
+
+Props:
+- `commands`: DeckCommand[] — { id, label, hint?, icon?, section?, keywords?, destructive?, run } per command.
+- `open / defaultOpen / onOpenChange`: boolean / boolean / (open) => void — Controlled or uncontrolled visibility.
+- `hotkey`: boolean (default true) — Global ⌘K / Ctrl+K toggle listener.
+- `inline / portal`: boolean (default false / true) — Inline renders just the panel (docs/demos); portal overlays into body with focus trap and scroll lock.
+- `recentKey`: string (default "kinetiq-deck-recents") — localStorage key for the five most recent command ids.
+
+Notes:
+- Full combobox semantics with focus trap and restore; Escape mid-arm cancels the sweep.
+- Under reduced motion the arming sweep becomes an instant fill with a deliberate 120ms pause.
+
+### Access Panel (KB-102) — `access-panel`
+Sign-in that unlocks like a vault.
+
+Sign-in that unlocks like a vault — steps ride a gantry rail, OTP digits drop into their cells, and the right code throws a breaker bolt open.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/access-panel`
+
+Props:
+- `expectedCode`: string (default "246810") — The six-digit code that throws the bolt.
+- `onVerify`: (code: string) => void — Fires with the entered code on every attempt.
+- `onComplete`: (email: string) => void — Fires once when the correct code lands.
+- `email`: string — Prefills the email field.
+
+Notes:
+- One hidden input with autocomplete="one-time-code" drives the six visual cells — the accessibility-correct OTP pattern.
+- Under reduced motion the rail slides become fades and the rejection nudge is skipped; the alert still announces.
+
+### Signal Center (KB-103) — `signal-center`
+An inbox that files itself.
+
+An inbox that files itself — signals arrive on the conveyor, swipe away with real velocity, and clear-all sweeps the floor in a cascade.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/signal-center`
+
+Props:
+- `signals / defaultSignals / onSignalsChange`: Signal[] / Signal[] / (signals) => void — Controlled or uncontrolled feed; Signal = { id, source, title, detail?, time, read? }.
+- `onArchive`: (signal: Signal) => void — Fires per archived signal, including clear-all.
+- `title`: string (default "Signals") — Header title next to the live unread readout.
+
+Notes:
+- Archiving is keyboard-reachable via a per-row button; swiping is the fast path, not the only path.
+- Under reduced motion arrivals and exits become fades and clear-all loses its stagger.
+
+### Media Console (KB-104) — `media-console`
+A media island that unfolds into a console.
+
+A media island that unfolds into a console — the pill morphs open into transport, a caliper timeline, and a scope-scrubbed volume.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/media-console`
+
+Props:
+- `tracks`: Track[] — { id, title, artist, duration } — playback is simulated; the JSDoc shows wiring a real audio element.
+- `defaultExpanded`: boolean (default false) — Start as the pill or the full console.
+
+Notes:
+- Complete keyboard transport; Escape collapses the console back to the pill.
+- Under reduced motion the morph becomes a crossfade and the waveform holds still.
+
+### Checkout Receipt (KB-105) — `checkout-receipt`
+Payment that prints its proof.
+
+Payment that prints its proof — hold to pay, then a receipt feeds out of the slot line by line, tears off, and takes a PAID stamp.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/checkout-receipt`
+
+Props:
+- `items`: ReceiptItem[] — Line items ({ name, price }) summed into the total.
+- `currency`: string (default "$") — Price prefix.
+- `onPay`: () => void — Fires when the hold completes.
+
+Notes:
+- The receipt is real text in a definition list; only the barcode is decorative.
+- Under reduced motion the receipt appears whole and the stamp fades in.
+
+### Intake Tray (KB-106) — `intake-tray`
+Files land, physically.
+
+Files land, physically — dropped files fall into the tray with a squash, shingle into a stack, fill their gauge rings, and slide to the processed rail.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/intake-tray`
+
+Props:
+- `onFiles`: (files: File[]) => void — Receives each accepted batch.
+- `accept / maxFiles`: string / number (default — / 6) — Accepted types hint and tray capacity.
+- `simulate`: boolean (default true) — Hash-driven demo progress; the JSDoc documents wiring real uploads.
+- `ref`: Ref<IntakeTrayHandle> — Imperative addFiles() for programmatic intake.
+
+Notes:
+- The drop zone is a real button with a labeled native file input — fully keyboard operable.
+- Under reduced motion chips stack neatly with fades; the gauge rings still fill.
+
+### Readout Grid (KB-107) — `readout-grid`
+Dashboard stats as instrument cards.
+
+Dashboard stats as instrument cards — a carry-rolling counter, a self-drawing sparkline, a split-flap delta, and a needle gauge, mounted with one cascade.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/readout-grid`
+
+Props:
+- `metrics`: ReadoutGridMetrics — Optional full override of the four cards: counter, sparkline, flap, and gauge shapes.
+
+Notes:
+- Each card is an article whose label reads naturally to screen readers; chart visuals carry sr-only values.
+- Under reduced motion cards render in place, the sparkline arrives fully drawn, and the needle jumps.
+
+### Launch Checklist (KB-108) — `launch-checklist`
+Setup steps that stamp themselves done.
+
+Onboarding checklist where ticks draw themselves, finished steps strike through and settle to the bottom, and completing the set lands a CALIBRATED stamp.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/launch-checklist`
+
+Props:
+- `steps`: ChecklistStep[] — Step definitions: id, title, optional description.
+- `completed / defaultCompleted`: string[] — Controlled or uncontrolled set of completed step ids.
+- `onCompletedChange`: (completed: string[]) => void — Fires on every toggle with the new completed set.
+- `onComplete`: () => void — Fires once when the final step completes.
+
+Notes:
+- Rows are native checkboxes under the hood — the whole block is keyboard and screen-reader operable.
+- Under reduced motion rows reorder instantly and the stamp fades in; the progress track still reports value via ARIA.
+
+### Iris Menu (KB-109) — `iris-menu`
+Actions bloom from where you pressed.
+
+Actions bloom from where you pressed — items launch from the trigger's center to seats along the freest quadrant's arc, and fold back in on close.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/iris-menu`
+
+Props:
+- `items`: IrisMenuItem[] — Up to six: { id, icon, label, onSelect, disabled?, destructive? }.
+- `placement`: "auto" | quadrant (default "auto") — Auto measures the viewport and blooms into the roomiest quadrant.
+- `radius`: number (default 84) — Distance from trigger center to each seat.
+
+Notes:
+- Arrow keys rotate focus around the ring; Escape closes and restores the trigger.
+- Under reduced motion items fade in already seated — no travel.
+
+### Overflow Rail (KB-110) — `overflow-rail`
+More actions, sprung from the dots.
+
+More actions, sprung from the dots — the pill rail morphs open inline while primaries yield with a recoil part and secondaries cascade in.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/overflow-rail`
+
+Props:
+- `primary / secondary`: RailAction[] — Always-visible actions and the set revealed by the ⋯ trigger.
+- `open / defaultOpen / onOpenChange`: boolean / boolean / (open) => void — Controlled or uncontrolled expansion.
+- `label`: string (default "Actions") — Accessible toolbar name.
+
+Notes:
+- One toolbar: arrows rove across every visible action; Escape collapses and refocuses the trigger.
+- Under reduced motion the width jumps and secondaries fade in place.
+
+### Beacon (KB-111) — `beacon`
+One capsule, every live activity.
+
+One capsule, every live activity — the shell morphs between timer, upload, call, and now-playing views with blur crossfades, corners pinned.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/beacon`
+
+Props:
+- `activity`: BeaconActivity | null — Discriminated union: timer (endsAt), upload (progress), call (accept/decline), playing (title/artist); null collapses to a standby pill.
+- `expanded / defaultExpanded / onExpandedChange`: boolean / boolean / (expanded) => void — Controlled or uncontrolled detail row.
+- `onDismiss`: () => void — Renders a dismiss action in the detail row.
+
+Notes:
+- Call buttons are reachable while collapsed; activity changes announce once, debounced.
+- Under reduced motion the shell resizes instantly and the loops hold still.
+
+### Field Report (KB-112) — `field-report`
+Feedback that files itself.
+
+Feedback that files itself — a notch rating with a gliding indicator, a growing note field, and a submit that folds the form into a slot under a LOGGED stamp.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/field-report`
+
+Props:
+- `onSubmit`: ({ rating, note }) => void — Fires on valid submit; rating is 1–5.
+- `prompt / endLabels`: string / [string, string] (default "How did it feel?" / ["Rough","Dialed"]) — The question and the rail's end labels.
+- `resetAfterMs`: number — Fades a fresh form back in after filing.
+
+Notes:
+- The rating is a real radiogroup — arrows move the indicator, and empty submits nudge with a role=alert line.
+- Under reduced motion the filing collapse becomes a fade and the stamp lands statically.
+
+### Not Found (KB-113) — `not-found`
+Sweep complete. Sector empty.
+
+Sweep complete, sector empty — a radar arc scans a quiet grid while the 404 numeral deciphers itself, with home and command-deck exits.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/not-found`
+
+Props:
+- `homeHref`: string (default "/") — Return-to-base link target.
+- `onCommandDeck`: () => void — Renders the ghost command-deck action when provided.
+- `code / message`: string (default "404" / sector message) — The cipher numeral and the rising subline.
+
+Notes:
+- The heading carries real text for screen readers; the cipher layer and radar are decorative.
+- Under reduced motion the sweep freezes mid-arc and the numeral renders plainly.
+
+### Forecast Card (KB-114) — `forecast-card`
+Every vote moves every bar.
+
+Every vote moves every bar — one commit renormalizes the whole field while percentages carry-roll and the leader tick migrates to the new front-runner.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/forecast-card`
+
+Props:
+- `question / options`: string / ForecastOption[] — 2–4 outcomes as { id, label, votes }; options are always the source of counts.
+- `votedId / defaultVotedId / onVote`: string | null / string / (id) => void — Controlled or uncontrolled viewer vote.
+- `allowRevote`: boolean (default false) — Let the viewer move their vote between outcomes.
+- `closesAt`: string | Date — Compact mono CLOSES footer line.
+
+Notes:
+- Rows are aria-pressed buttons; each vote announces the new percentage and leadership once.
+- Under reduced motion widths jump and the leader tick teleports; the readouts pulse instead of rolling.
+
+### Balance Card (KB-115) — `balance-card`
+A balance with a private side.
+
+A balance with a private side — the numeral carry-rolls behind a privacy blur, a sparkline draws itself, and the card flips to its activity face.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/balance-card`
+
+Props:
+- `balance / format / delta / series`: number / (v)=>string / {value,direction} / number[] — The carry-rolling amount, its delta chip, and the sparkline data.
+- `activity`: BalanceActivity[] — Back-face rows: { id, label, amount, time }.
+- `onAction`: (action: "send" | "receive" | "convert") => void — Fires from the action row.
+- `defaultHidden`: boolean (default false) — Start with the balance blurred.
+
+Notes:
+- The hidden face is inert and aria-hidden — the flip never traps focus or leaks taps.
+- Under reduced motion the flip is instant, the sparkline arrives drawn, and the blur toggles without a tween.
+
+### Exchange Panel (KB-116) — `exchange-panel`
+Two units, one clean swap.
+
+Two units, one clean swap — the edited side is live, the computed side carry-rolls after a debounce, and swapping keeps focus while contents trade places.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/exchange-panel`
+
+Props:
+- `units`: ExchangeUnit[] | ExchangeGroup[] — Linear factors to a shared base unit; groups render a grouped select.
+- `feeRate`: number (default 0) — Fraction applied to the converted side, shown as a fee row.
+- `onChange / onDirectionChange`: (state) => void / (from, to) => void — Conversion updates and swap events.
+- `debounceMs`: number (default 200) — Delay before the computed side rolls.
+
+Notes:
+- One side holds authority; the other is always derived — swapping transfers authority with the gesture and refocuses the input.
+- Under reduced motion contents swap instantly and the readout uses its highlight fallback.
+
+### Utils — `utils`
+cn() — class composition.
+
+Class-name composition helper shared by every component.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/utils`
+
+### Calibration Set — `motion`
+flick · snap · glide · drift · recoil.
+
+Kinetiq's five calibrated springs plus the tween scale, cascade budget, and exit rules — the shared physics vocabulary every component draws from.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/motion`
+
+### useMotionSafe — `use-motion-safe`
+Reduced motion, decided once.
+
+Single source of truth for reduced-motion decisions: combines the OS preference with an optional app-level override context.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/use-motion-safe`
+
+### Agent Rules — `agents-rules`
+The design-system operating rules for agents.
+
+Kinetiq's operating rules for coding agents: the five-spring motion language, the tween scale, the 600ms cascade budget, the reduced-motion policy, token usage, and composition guidance. Installs as AGENTS.md at your repo root so your agent stays on the system's vocabulary.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/agents-rules`

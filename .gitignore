@@ -9,6 +9,7 @@ next-env.d.ts
 # generated build artifacts
 .generated/
 public/r/
+public/registry-meta.json
 
 # testing
 test-results/

@@ -1,0 +1,33 @@
+{
+  "name": "@kinetiq/mcp",
+  "version": "0.1.0",
+  "description": "Model Context Protocol server for the Kinetiq motion design system — search, read, and install components from any AI agent.",
+  "type": "module",
+  "bin": {
+    "kinetiq-mcp": "dist/index.js"
+  },
+  "files": ["dist", "snapshot"],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --target node18 --clean",
+    "dev": "tsx src/index.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsup": "^8.5.0",
+    "tsx": "^4.23.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "eslint": "^9.39.0",
+    "vitest": "^2.1.9"
+  }
+}

@@ -8,13 +8,17 @@
     "prebuild": "pnpm generate",
     "build": "next build",
     "start": "next start",
-    "generate": "tsx scripts/build-registry.ts && tsx scripts/extract-sources.ts && tsx scripts/build-search-index.ts",
+    "generate": "tsx scripts/build-registry.ts && tsx scripts/extract-sources.ts && tsx scripts/build-search-index.ts && tsx scripts/build-machine-meta.ts",
     "validate:registry": "tsx scripts/validate-registry.ts",
+    "validate:meta": "tsx scripts/validate-machine-meta.ts",
     "typecheck": "next typegen && tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "check": "pnpm generate && pnpm typecheck && pnpm lint && pnpm validate:registry",
-    "test:e2e": "playwright test"
+    "check": "pnpm generate && pnpm typecheck && pnpm lint && pnpm validate:registry && pnpm validate:meta",
+    "test:e2e": "playwright test",
+    "mcp:build": "pnpm --filter @kinetiq/mcp build",
+    "mcp:test": "pnpm --filter @kinetiq/mcp test",
+    "mcp:snapshot": "tsx scripts/build-machine-meta.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",

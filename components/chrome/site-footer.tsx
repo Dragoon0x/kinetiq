@@ -15,7 +15,13 @@ const COLUMNS = [
     links: [
       { href: "/playground", label: "Playground" },
       { href: "/guides", label: "Guides" },
-      { href: "/agents", label: "For AI agents" },
+    ],
+  },
+  {
+    heading: "AGENTS",
+    links: [
+      { href: "/mcp", label: "MCP server" },
+      { href: "/agents", label: "Registry access" },
     ],
   },
 ] as const;

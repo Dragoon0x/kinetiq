@@ -8,6 +8,7 @@ const config = [
       "node_modules/**",
       ".generated/**",
       "public/r/**",
+      "packages/**",
       "next-env.d.ts",
     ],
   },

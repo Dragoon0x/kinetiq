@@ -40,6 +40,7 @@ export const kinetiqItemSchema = z.object({
     "registry:block",
     "registry:hook",
     "registry:lib",
+    "registry:file",
   ]),
   title: z.string(),
   description: z.string(),

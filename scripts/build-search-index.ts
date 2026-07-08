@@ -74,9 +74,16 @@ async function main() {
     },
     {
       section: "Pages",
+      title: "MCP server",
+      tagline: "Connect any AI agent to Kinetiq.",
+      keywords: ["mcp", "agents", "tools", "claude", "cursor", "ai"],
+      href: "/mcp",
+    },
+    {
+      section: "Pages",
       title: "For AI agents",
       tagline: "Programmatic registry access.",
-      keywords: ["llms", "registry", "api", "agents", "mcp"],
+      keywords: ["llms", "registry", "api", "agents"],
       href: "/agents",
     },
   ];

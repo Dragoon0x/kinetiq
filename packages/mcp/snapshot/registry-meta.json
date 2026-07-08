@@ -1,0 +1,3348 @@
+{
+  "$schema": "https://kinetiq.dev/schema/registry-meta.json",
+  "registry": {
+    "name": "kinetiq",
+    "namespace": "@kinetiq",
+    "homepage": "https://kinetiq.dev",
+    "indexUrl": "https://kinetiq.dev/r/registry.json",
+    "docsUrl": "https://kinetiq.dev",
+    "counts": {
+      "components": 33,
+      "blocks": 16,
+      "shared": 4
+    }
+  },
+  "motion": {
+    "springs": {
+      "flick": {
+        "stiffness": 1100,
+        "damping": 55,
+        "mass": 0.7,
+        "dampingRatio": 0.99,
+        "settleMs": 120,
+        "role": "Press states, tick draws, focus. Confirms."
+      },
+      "snap": {
+        "stiffness": 640,
+        "damping": 42,
+        "mass": 1,
+        "dampingRatio": 0.83,
+        "settleMs": 300,
+        "role": "Toggles, tab indicators, menus — one crisp overshoot. Switches."
+      },
+      "glide": {
+        "stiffness": 300,
+        "damping": 34,
+        "mass": 1,
+        "dampingRatio": 0.98,
+        "settleMs": 450,
+        "role": "Layout shifts, reorders, morphs. Moves."
+      },
+      "drift": {
+        "stiffness": 120,
+        "damping": 24,
+        "mass": 1.2,
+        "dampingRatio": 1,
+        "settleMs": 800,
+        "role": "Large surfaces, ambient drift, parallax settle. Breathes."
+      },
+      "recoil": {
+        "stiffness": 520,
+        "damping": 24,
+        "mass": 1,
+        "dampingRatio": 0.53,
+        "settleMs": 700,
+        "role": "Toasts, stamps, landings — two visible bounces. Celebrates."
+      }
+    },
+    "tweens": {
+      "durations": {
+        "blink": 0.08,
+        "fast": 0.15,
+        "base": 0.24,
+        "slow": 0.4,
+        "page": 0.7
+      },
+      "easings": {
+        "enter": [
+          0.22,
+          1,
+          0.36,
+          1
+        ],
+        "exit": [
+          0.5,
+          0,
+          0.75,
+          0
+        ],
+        "move": [
+          0.65,
+          0,
+          0.35,
+          1
+        ],
+        "linear": [
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "distances": {
+        "nudge": 4,
+        "step": 8,
+        "shift": 16
+      }
+    },
+    "cascadeRule": "Stagger interval = clamp(0.6 / (count - 1), 0.02, 0.06)s so the whole choreography stays under a 600ms budget; dense lists tighten automatically.",
+    "exitRule": "Exits are always tweens at 0.6x the enter duration with the exit easing — springs on exit read as indecision.",
+    "reducedMotion": "prefers-reduced-motion is a first-class state. Transform enters become opacity fades; discrete springs snap to position with a color tween; direct manipulation keeps 1:1 tracking but drops inertia; autoplay loops go static; scroll-linked renders its final frame; number rolls swap instantly. Every component reads useMotionSafe(), never matchMedia directly."
+  },
+  "cascadeExample": 0.06,
+  "items": [
+    {
+      "slug": "pressure-button",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pressure Button",
+      "serial": "KQ-001",
+      "tagline": "A button that pushes back.",
+      "description": "A button that pushes back — press squash on flick, spring rebound on snap, and a hold-to-confirm gauge ring for destructive actions.",
+      "categories": [
+        "buttons"
+      ],
+      "keywords": [
+        "button",
+        "press",
+        "hold to confirm",
+        "destructive",
+        "cta"
+      ],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"solid\" | \"outline\" | \"ghost\" | \"danger\"",
+          "defaultValue": "\"solid\"",
+          "description": "Visual style. Danger pairs naturally with holdToConfirm."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Control height and typography scale."
+        },
+        {
+          "name": "holdToConfirm",
+          "type": "number",
+          "description": "Milliseconds the button must be held before confirming. Adds a gauge ring; Escape or early release cancels."
+        },
+        {
+          "name": "onConfirm",
+          "type": "() => void",
+          "description": "Fires when a hold completes. Hold buttons never fire onClick."
+        }
+      ],
+      "usageNotes": [
+        "Space and Enter drive the same physics as the pointer — hold either to confirm.",
+        "Under reduced motion the squash is replaced by a shade change; the gauge ring still fills because progress is feedback, not flourish."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/pressure-button",
+      "registryItemUrl": "https://kinetiq.dev/r/pressure-button.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pressure-button",
+        "npm": "npx shadcn@latest add @kinetiq/pressure-button",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pressure-button",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pressure-button",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/pressure-button.json"
+      }
+    },
+    {
+      "slug": "trace-input",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Trace Input",
+      "serial": "KQ-002",
+      "tagline": "Focus draws its own boundary.",
+      "description": "Focus draws its own boundary — a stroke traces the field's perimeter, the label glides to an overline, and errors annotate themselves with a dimension line.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "input",
+        "text field",
+        "form",
+        "validation",
+        "label"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Field label — rests as placeholder, floats to overline when focused or filled."
+        },
+        {
+          "name": "description / error",
+          "type": "string",
+          "description": "Helper and error lines below the field, chained into aria-describedby. Errors nudge the field and set aria-invalid."
+        },
+        {
+          "name": "prefix / suffix",
+          "type": "ReactNode",
+          "description": "Leading and trailing slots inside the field."
+        },
+        {
+          "name": "…input props",
+          "type": "Omit<InputProps, \"prefix\">",
+          "description": "Standard input passthrough; controlled and uncontrolled both work."
+        }
+      ],
+      "usageNotes": [
+        "The perimeter trace doubles as the focus indicator — it is never removed, only accelerated.",
+        "Under reduced motion the stroke appears instantly and the error nudge is skipped; the message still announces via aria-invalid."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/trace-input",
+      "registryItemUrl": "https://kinetiq.dev/r/trace-input.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/trace-input",
+        "npm": "npx shadcn@latest add @kinetiq/trace-input",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/trace-input",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/trace-input",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/trace-input.json"
+      }
+    },
+    {
+      "slug": "breaker-switch",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Breaker Switch",
+      "serial": "KQ-003",
+      "tagline": "A toggle with mechanical conviction.",
+      "description": "A toggle with mechanical conviction — the thumb stretches in anticipation while held, throws on snap, and squashes against the track end as the rail recoils.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "switch",
+        "toggle",
+        "form",
+        "power"
+      ],
+      "props": [
+        {
+          "name": "checked / defaultChecked / onCheckedChange",
+          "type": "boolean / boolean / (checked) => void",
+          "description": "Controlled or uncontrolled state."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Fixed geometry — travel is derived, nothing is measured."
+        },
+        {
+          "name": "onLabel / offLabel",
+          "type": "string",
+          "description": "Tiny uppercase text inside the track ends."
+        },
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "description": "Adjacent clickable label, associated automatically."
+        },
+        {
+          "name": "name / value",
+          "type": "string",
+          "description": "Renders a hidden input that submits while checked."
+        }
+      ],
+      "usageNotes": [
+        "A native button with role=\"switch\" — Space and Enter throw it, and Space arms the anticipation stretch.",
+        "Under reduced motion the thumb repositions instantly; only the color crossfade remains."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/breaker-switch",
+      "registryItemUrl": "https://kinetiq.dev/r/breaker-switch.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/breaker-switch",
+        "npm": "npx shadcn@latest add @kinetiq/breaker-switch",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/breaker-switch",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/breaker-switch",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/breaker-switch.json"
+      }
+    },
+    {
+      "slug": "checkbox",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "serial": "KQ-004",
+      "tagline": "The tick is drawn, not shown.",
+      "description": "The tick is drawn, not shown — a pathLength stroke on flick, an indeterminate dash that slides in, and group select-alls that cascade down the list.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "checkbox",
+        "form",
+        "selection",
+        "indeterminate",
+        "select all"
+      ],
+      "props": [
+        {
+          "name": "checked / defaultChecked",
+          "type": "boolean",
+          "description": "Controlled or uncontrolled checked state."
+        },
+        {
+          "name": "indeterminate",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Mixed state — dash visual plus native el.indeterminate."
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "(checked: boolean) => void",
+          "description": "Fires with the next checked state."
+        },
+        {
+          "name": "label / description",
+          "type": "ReactNode",
+          "description": "Visible label (required) and muted secondary line."
+        },
+        {
+          "name": "CheckboxGroup",
+          "type": "items, value, onValueChange, selectAll, legend…",
+          "description": "Fieldset-based group with select-all parent (checked / unchecked / indeterminate) and cascading tick draws."
+        }
+      ],
+      "usageNotes": [
+        "Native hidden inputs do the accessibility work; the drawn box is decorative.",
+        "Under reduced motion ticks appear instantly and select-all cascades lose their stagger."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/checkbox",
+      "registryItemUrl": "https://kinetiq.dev/r/checkbox.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/checkbox",
+        "npm": "npx shadcn@latest add @kinetiq/checkbox",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/checkbox",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/checkbox",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/checkbox.json"
+      }
+    },
+    {
+      "slug": "caliper-slider",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Caliper Slider",
+      "serial": "KQ-005",
+      "tagline": "Reads like a vernier, moves like grease.",
+      "description": "Reads like a vernier, moves like grease — 1:1 drag with a snap settle, ticks that lean toward the jaw, and a live measured-span dimension line in range mode.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "slider",
+        "range",
+        "input",
+        "measurement",
+        "ticks"
+      ],
+      "props": [
+        {
+          "name": "min / max / step",
+          "type": "number",
+          "defaultValue": "0 / 100 / 1",
+          "description": "Bounds and snap grid (float-precision cleaned)."
+        },
+        {
+          "name": "value / defaultValue / onValueChange",
+          "type": "number | [number, number]",
+          "description": "Single or range; live stepped values during drag, deduped."
+        },
+        {
+          "name": "range",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Two facing caliper jaws with a live span dimension line."
+        },
+        {
+          "name": "marks",
+          "type": "number[] | boolean",
+          "defaultValue": "true",
+          "description": "Every step when ≤ 40 steps, else quarters; or pinned positions."
+        },
+        {
+          "name": "format / readout",
+          "type": "(v) => string / \"float\" | \"end\" | \"none\"",
+          "description": "Value formatting and where the mono readout renders."
+        }
+      ],
+      "usageNotes": [
+        "Full APG slider keyboard set per thumb; range thumbs cross-clamp their ARIA bounds.",
+        "Under reduced motion tracking stays 1:1 — only the tick lean and the settle spring are removed."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/caliper-slider",
+      "registryItemUrl": "https://kinetiq.dev/r/caliper-slider.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/caliper-slider",
+        "npm": "npx shadcn@latest add @kinetiq/caliper-slider",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/caliper-slider",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/caliper-slider",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/caliper-slider.json"
+      }
+    },
+    {
+      "slug": "gantry-tabs",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gantry Tabs",
+      "serial": "KQ-006",
+      "tagline": "The indicator rides a rail.",
+      "description": "The indicator rides a rail — its leading edge glides ahead while the trailing edge lags a beat, stretching toward the destination before contracting to fit.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "tabs",
+        "navigation",
+        "segmented",
+        "underline",
+        "indicator"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue / onValueChange",
+          "type": "string / string / (value) => void",
+          "description": "Controlled or uncontrolled active tab."
+        },
+        {
+          "name": "variant",
+          "type": "\"underline\" | \"segmented\" | \"enclosed\"",
+          "defaultValue": "\"underline\"",
+          "description": "Indicator style."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "defaultValue": "\"horizontal\"",
+          "description": "Layout and arrow-key axis."
+        },
+        {
+          "name": "activationMode",
+          "type": "\"automatic\" | \"manual\"",
+          "defaultValue": "\"automatic\"",
+          "description": "Activate on focus, or on Enter/Space."
+        },
+        {
+          "name": "keepMounted",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Keep inactive panels mounted but hidden."
+        }
+      ],
+      "usageNotes": [
+        "Full APG tabs keyboard support with wrapping arrows; disabled triggers are skipped.",
+        "Under reduced motion the indicator teleports and panels crossfade without the lift."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/gantry-tabs",
+      "registryItemUrl": "https://kinetiq.dev/r/gantry-tabs.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gantry-tabs",
+        "npm": "npx shadcn@latest add @kinetiq/gantry-tabs",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gantry-tabs",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gantry-tabs",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/gantry-tabs.json"
+      }
+    },
+    {
+      "slug": "drawer-accordion",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Drawer Accordion",
+      "serial": "KQ-007",
+      "tagline": "Opens like a specimen cabinet.",
+      "description": "Opens like a specimen cabinet — height glides while the inner content lags a beat behind, like paper settling in a pulled drawer.",
+      "categories": [
+        "disclosure"
+      ],
+      "keywords": [
+        "accordion",
+        "disclosure",
+        "collapse",
+        "faq"
+      ],
+      "props": [
+        {
+          "name": "type",
+          "type": "\"single\" | \"multiple\"",
+          "defaultValue": "\"single\"",
+          "description": "Open one drawer at a time, or many."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | string[]",
+          "description": "Controlled or uncontrolled open value(s)."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value) => void",
+          "description": "Fires with the next open value(s)."
+        },
+        {
+          "name": "collapsible",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Single mode: allow closing the open item."
+        },
+        {
+          "name": "Item.value / Item.disabled",
+          "type": "string / boolean",
+          "description": "Unique drawer id; disabled items are skipped in arrow navigation."
+        },
+        {
+          "name": "Trigger.icon",
+          "type": "ReactNode",
+          "description": "Leading icon slot before the header label."
+        }
+      ],
+      "usageNotes": [
+        "Full APG accordion keyboard support: Arrow keys move between headers, Home and End jump.",
+        "Under reduced motion drawers open instantly and content crossfades — no lag, no sibling nudge."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/drawer-accordion",
+      "registryItemUrl": "https://kinetiq.dev/r/drawer-accordion.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/drawer-accordion",
+        "npm": "npx shadcn@latest add @kinetiq/drawer-accordion",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/drawer-accordion",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/drawer-accordion",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/drawer-accordion.json"
+      }
+    },
+    {
+      "slug": "callout",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Callout",
+      "serial": "KQ-008",
+      "tagline": "A label with a leader line.",
+      "description": "A tooltip with a leader line — the label pops from the anchor while a schematic elbow line draws itself to the card.",
+      "categories": [
+        "overlay"
+      ],
+      "keywords": [
+        "tooltip",
+        "annotation",
+        "hover",
+        "hint"
+      ],
+      "props": [
+        {
+          "name": "content",
+          "type": "ReactNode",
+          "description": "Label content. Never put interactive elements here."
+        },
+        {
+          "name": "side / align",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\" / \"start\" | \"center\" | \"end\"",
+          "defaultValue": "\"top\" / \"center\"",
+          "description": "Anchor side and cross-axis alignment."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "defaultValue": "150",
+          "description": "Hover open delay in ms. Keyboard focus opens instantly."
+        },
+        {
+          "name": "followCursor",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Label trails the pointer with drift-damped lag; leader line omitted."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Never opens."
+        }
+      ],
+      "usageNotes": [
+        "Opens on hover and on keyboard focus; Escape dismisses.",
+        "Under reduced motion the card fades in place — no pop, no leader draw, and followCursor pins to the anchor."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/callout",
+      "registryItemUrl": "https://kinetiq.dev/r/callout.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/callout",
+        "npm": "npx shadcn@latest add @kinetiq/callout",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/callout",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/callout",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/callout.json"
+      }
+    },
+    {
+      "slug": "morph-dialog",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Morph Dialog",
+      "serial": "KQ-009",
+      "tagline": "The trigger becomes the dialog.",
+      "description": "The trigger becomes the dialog — a shared-element morph glides the card you clicked into the panel it opens, and reverses on close.",
+      "categories": [
+        "overlay"
+      ],
+      "keywords": [
+        "dialog",
+        "modal",
+        "morph",
+        "sheet",
+        "shared element"
+      ],
+      "props": [
+        {
+          "name": "open / defaultOpen / onOpenChange",
+          "type": "boolean / boolean / (open) => void",
+          "description": "Controlled or uncontrolled open state."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Panel width preset; ignored by the sheet variant."
+        },
+        {
+          "name": "sheet",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Bottom-sheet variant — full-width, pinned to the bottom edge."
+        },
+        {
+          "name": "dismissible",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Escape, backdrop click, and the built-in close button."
+        },
+        {
+          "name": "portal",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Portal to body, or contain the overlay in a relative parent."
+        },
+        {
+          "name": "Content.title / Content.description",
+          "type": "string",
+          "description": "Wired to aria-labelledby and aria-describedby; title renders as h2."
+        }
+      ],
+      "usageNotes": [
+        "Focus is trapped while open and restored to the trigger on close; body scroll locks in portal mode.",
+        "Under reduced motion the morph becomes a plain centered fade."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/morph-dialog",
+      "registryItemUrl": "https://kinetiq.dev/r/morph-dialog.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/morph-dialog",
+        "npm": "npx shadcn@latest add @kinetiq/morph-dialog",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/morph-dialog",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/morph-dialog",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/morph-dialog.json"
+      }
+    },
+    {
+      "slug": "select",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Select",
+      "serial": "KQ-010",
+      "tagline": "A menu that unfolds from where you asked.",
+      "description": "A menu that unfolds from where you asked — the panel scales from the trigger's edge, options cascade in, and a highlight bar glides between them.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "select",
+        "combobox",
+        "dropdown",
+        "listbox",
+        "form"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "(SelectOption | SelectGroup)[]",
+          "description": "Flat options, labeled groups, or a mix; options take value, label, description, disabled."
+        },
+        {
+          "name": "value / defaultValue / onValueChange",
+          "type": "string / string / (value) => void",
+          "description": "Controlled or uncontrolled selection."
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Pins a filter input at the top of the panel."
+        },
+        {
+          "name": "placeholder / label / name",
+          "type": "string",
+          "description": "Empty-state text, wired visible label, and hidden form input."
+        }
+      ],
+      "usageNotes": [
+        "Combobox APG throughout: aria-activedescendant highlight, wrapping arrows, typeahead, Escape restores focus.",
+        "Under reduced motion everything fades — no scale, no cascade, instant highlight bar."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/select",
+      "registryItemUrl": "https://kinetiq.dev/r/select.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/select",
+        "npm": "npx shadcn@latest add @kinetiq/select",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/select",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/select",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/select.json"
+      }
+    },
+    {
+      "slug": "telemetry-toast",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Telemetry Toast",
+      "serial": "KQ-011",
+      "tagline": "Messages that queue like readings.",
+      "description": "Messages that queue like readings — recoil arrivals, a depth-receding stack, swipe dismissal with velocity projection, and timers that pause under your pointer.",
+      "categories": [
+        "feedback"
+      ],
+      "keywords": [
+        "toast",
+        "notification",
+        "snackbar",
+        "alert",
+        "queue"
+      ],
+      "props": [
+        {
+          "name": "ToastProvider.position",
+          "type": "\"bottom-right\" | \"bottom-left\" | \"top-right\" | \"top-left\"",
+          "defaultValue": "\"bottom-right\"",
+          "description": "Viewport corner for the stack."
+        },
+        {
+          "name": "ToastProvider.max",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Visible stack size; extras queue FIFO."
+        },
+        {
+          "name": "useToast()",
+          "type": "{ toast(input) => id, dismiss(id) }",
+          "description": "Imperative API from anywhere under the provider."
+        },
+        {
+          "name": "ToastInput",
+          "type": "title, description?, variant?, duration?, action?",
+          "description": "Variants info | success | warn | danger; duration ≤ 0 persists; action renders a button."
+        }
+      ],
+      "usageNotes": [
+        "Danger toasts announce as alerts; the region is focusable via an Alt+T hotkey chord and timers pause on hover or focus.",
+        "Under reduced motion the stack flattens to a list with fade-only transitions — the progress hairline still drains."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/telemetry-toast",
+      "registryItemUrl": "https://kinetiq.dev/r/telemetry-toast.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/telemetry-toast",
+        "npm": "npx shadcn@latest add @kinetiq/telemetry-toast",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/telemetry-toast",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/telemetry-toast",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/telemetry-toast.json"
+      }
+    },
+    {
+      "slug": "readout",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Readout",
+      "serial": "KQ-012",
+      "tagline": "Numbers with momentum.",
+      "description": "Numbers with momentum — per-digit vertical rolls with real carry propagation, so 199 → 200 visibly carries right to left.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "number",
+        "counter",
+        "ticker",
+        "odometer",
+        "metric",
+        "stat"
+      ],
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "description": "The numeric value to display."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "toLocaleString",
+          "description": "Formats the value; non-digit characters render as static cells."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "defaultValue": "\"md\"",
+          "description": "Type scale."
+        },
+        {
+          "name": "rollOn",
+          "type": "\"any\" | \"increase\"",
+          "defaultValue": "\"any\"",
+          "description": "With \"increase\", decreases swap instantly — right for latency-style metrics."
+        },
+        {
+          "name": "delta",
+          "type": "{ value: string; direction: \"up\" | \"down\" }",
+          "description": "Change badge that flips up when the value moves."
+        }
+      ],
+      "usageNotes": [
+        "Rolling digits are aria-hidden; a polite live region announces the settled value once per burst.",
+        "Under reduced motion the value swaps instantly with a brief highlight pulse."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/readout",
+      "registryItemUrl": "https://kinetiq.dev/r/readout.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/readout",
+        "npm": "npx shadcn@latest add @kinetiq/readout",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/readout",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/readout",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/readout.json"
+      }
+    },
+    {
+      "slug": "focus-text",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Focus Text",
+      "serial": "KQ-013",
+      "tagline": "Copy that resolves under the lens.",
+      "description": "Copy that resolves under the lens — words sharpen from an 8px blur like a microscope focus-pull, cascaded under the 600ms budget.",
+      "categories": [
+        "text"
+      ],
+      "keywords": [
+        "text",
+        "reveal",
+        "blur",
+        "headline",
+        "scroll"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "description": "The copy to resolve."
+        },
+        {
+          "name": "as",
+          "type": "\"span\" | \"div\" | \"p\" | \"h1\"–\"h4\"",
+          "defaultValue": "\"span\"",
+          "description": "Rendered element."
+        },
+        {
+          "name": "by",
+          "type": "\"word\" | \"char\"",
+          "defaultValue": "\"word\"",
+          "description": "Split granularity; char mode never breaks mid-word."
+        },
+        {
+          "name": "trigger / once",
+          "type": "\"inView\" | \"mount\" / boolean",
+          "defaultValue": "\"inView\" / true",
+          "description": "When the pull runs, and whether it re-blurs out of view."
+        },
+        {
+          "name": "stagger / startDelay",
+          "type": "number",
+          "description": "Seconds between units (defaults to the cascade budget) and lead-in delay."
+        }
+      ],
+      "usageNotes": [
+        "Screen readers get a clean sr-only copy; the animated units are aria-hidden.",
+        "Under reduced motion the block does a single fast fade — text is always readable."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/focus-text",
+      "registryItemUrl": "https://kinetiq.dev/r/focus-text.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/focus-text",
+        "npm": "npx shadcn@latest add @kinetiq/focus-text",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/focus-text",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/focus-text",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/focus-text.json"
+      }
+    },
+    {
+      "slug": "flapboard",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Flapboard",
+      "serial": "KQ-014",
+      "tagline": "Split-flap departures for your data.",
+      "description": "Split-flap departures for your data — each cell flips through intermediate characters with a column cascade, like an airport board settling.",
+      "categories": [
+        "data",
+        "text"
+      ],
+      "keywords": [
+        "split flap",
+        "board",
+        "status",
+        "departure",
+        "retro"
+      ],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Text to display, normalized against the charset."
+        },
+        {
+          "name": "chars",
+          "type": "string",
+          "defaultValue": "\" A–Z 0–9 ·-\"",
+          "description": "Charset scanned in flip order."
+        },
+        {
+          "name": "flipSpeed",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "Milliseconds per flip step."
+        },
+        {
+          "name": "padTo / align",
+          "type": "number / \"left\" | \"right\"",
+          "description": "Minimum cell count and which side the value sits on."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Fixed tile dimensions."
+        }
+      ],
+      "usageNotes": [
+        "Cells are aria-hidden; a polite status region announces the settled value once.",
+        "Under reduced motion the board crossfades to the new value — no flipping."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/flapboard",
+      "registryItemUrl": "https://kinetiq.dev/r/flapboard.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/flapboard",
+        "npm": "npx shadcn@latest add @kinetiq/flapboard",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/flapboard",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/flapboard",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/flapboard.json"
+      }
+    },
+    {
+      "slug": "scope-scrubber",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Scope Scrubber",
+      "serial": "KQ-015",
+      "tagline": "Drag a value; watch its physics.",
+      "description": "Drag a value; watch its physics — a scrub input with a live oscilloscope trace behind the numeral, where the settle spring's overshoot draws itself.",
+      "categories": [
+        "forms",
+        "data"
+      ],
+      "keywords": [
+        "scrubber",
+        "input",
+        "number",
+        "oscilloscope",
+        "drag"
+      ],
+      "props": [
+        {
+          "name": "min / max / step",
+          "type": "number",
+          "description": "Bounds (required) and release snap grid."
+        },
+        {
+          "name": "value / defaultValue / onValueChange",
+          "type": "number / number / (value) => void",
+          "description": "Controlled or uncontrolled; fires live while scrubbing."
+        },
+        {
+          "name": "settle",
+          "type": "SpringName",
+          "defaultValue": "\"snap\"",
+          "description": "Which calibrated spring the value settles on — its personality shows on the trace."
+        },
+        {
+          "name": "sensitivity",
+          "type": "number",
+          "defaultValue": "(max−min)/200",
+          "description": "Value change per pixel of drag."
+        },
+        {
+          "name": "label / unit / format / trace",
+          "type": "string / string / (v)=>string / boolean",
+          "description": "Labeling, suffix, numeral formatting, and the history trace toggle."
+        }
+      ],
+      "usageNotes": [
+        "Enter or double-click converts the plate into a plain number input; Escape cancels.",
+        "Under reduced motion scrubbing stays 1:1, release snaps instantly, and the trace hides."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/scope-scrubber",
+      "registryItemUrl": "https://kinetiq.dev/r/scope-scrubber.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/scope-scrubber",
+        "npm": "npx shadcn@latest add @kinetiq/scope-scrubber",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/scope-scrubber",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/scope-scrubber",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/scope-scrubber.json"
+      }
+    },
+    {
+      "slug": "metronome-loader",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Metronome Loader",
+      "serial": "KQ-016",
+      "tagline": "Waiting, kept honest.",
+      "description": "Waiting, kept honest — a pendulum, a bearing cradle, or a radar sweep; give it a value and it morphs into a determinate arc gauge.",
+      "categories": [
+        "feedback"
+      ],
+      "keywords": [
+        "loader",
+        "spinner",
+        "progress",
+        "pendulum",
+        "gauge"
+      ],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"pendulum\" | \"bearing\" | \"sweep\"",
+          "defaultValue": "\"pendulum\"",
+          "description": "Indeterminate style; ignored once value is set."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "24 / 40 / 64 px."
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "description": "0–100; presence morphs the loader into a determinate arc gauge."
+        },
+        {
+          "name": "label / showLabel",
+          "type": "string / boolean",
+          "description": "Accessible name; optionally rendered visibly."
+        }
+      ],
+      "usageNotes": [
+        "role=\"progressbar\" throughout — indeterminate announces Loading, determinate reports its value.",
+        "Under reduced motion the loops freeze to a static glyph with a slow opacity pulse."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/metronome-loader",
+      "registryItemUrl": "https://kinetiq.dev/r/metronome-loader.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/metronome-loader",
+        "npm": "npx shadcn@latest add @kinetiq/metronome-loader",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/metronome-loader",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/metronome-loader",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/metronome-loader.json"
+      }
+    },
+    {
+      "slug": "gyro-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gyro Card",
+      "serial": "KQ-017",
+      "tagline": "A card with a sense of balance.",
+      "description": "A card with a sense of balance — pointer tilt with real inertia that overshoots past level and rebalances when you leave, with layered parallax and tracking glare.",
+      "categories": [
+        "display"
+      ],
+      "keywords": [
+        "card",
+        "tilt",
+        "3d",
+        "parallax",
+        "hover"
+      ],
+      "props": [
+        {
+          "name": "maxTilt",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "Peak rotation toward the pointer, in degrees."
+        },
+        {
+          "name": "glare",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Radial sheen that tracks the light angle."
+        },
+        {
+          "name": "GyroLayer.depth",
+          "type": "0 | 1 | 2",
+          "description": "Parallax depth for child slots — pinned, ±4px, or ±8px counter-translation."
+        }
+      ],
+      "usageNotes": [
+        "The motion is decorative: DOM order is untouched, and keyboard focus inside flattens the card to an energized ring state.",
+        "Under reduced motion there is no tilt, parallax, or glare — hover becomes a border emphasis."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/gyro-card",
+      "registryItemUrl": "https://kinetiq.dev/r/gyro-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gyro-card",
+        "npm": "npx shadcn@latest add @kinetiq/gyro-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gyro-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gyro-card",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/gyro-card.json"
+      }
+    },
+    {
+      "slug": "magnet-dock",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Magnet Dock",
+      "serial": "KQ-018",
+      "tagline": "Icons that feel the cursor coming.",
+      "description": "Icons that feel the cursor coming — a cosine distance field magnifies the dock, and drag-reorder parts neighbors magnetically before snapping into a slot.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "dock",
+        "toolbar",
+        "magnify",
+        "reorder",
+        "launcher"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "DockItem[]",
+          "description": "{ id, label, icon, active?, onSelect? } per icon."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "defaultValue": "\"horizontal\"",
+          "description": "Dock axis — pointer tracking, tooltips, and arrows follow."
+        },
+        {
+          "name": "magnify",
+          "type": "number",
+          "defaultValue": "1.6",
+          "description": "Peak scale under the pointer or keyboard focus."
+        },
+        {
+          "name": "reorderable / onReorder",
+          "type": "boolean / (order: string[]) => void",
+          "description": "Pointer drag plus Space-lift keyboard reordering, announced live."
+        }
+      ],
+      "usageNotes": [
+        "role=\"toolbar\" with roving tabindex; a focused icon magnifies without the pointer.",
+        "Under reduced motion magnification is replaced by a 2px raise; reordering still works, 1:1."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/magnet-dock",
+      "registryItemUrl": "https://kinetiq.dev/r/magnet-dock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/magnet-dock",
+        "npm": "npx shadcn@latest add @kinetiq/magnet-dock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/magnet-dock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/magnet-dock",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/magnet-dock.json"
+      }
+    },
+    {
+      "slug": "conveyor-list",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Conveyor List",
+      "serial": "KQ-019",
+      "tagline": "A queue that moves like a belt.",
+      "description": "A queue that moves like a belt — items drift in from the feed side, brake into their slot with a squash, and lift off the belt when removed.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "list",
+        "queue",
+        "feed",
+        "log",
+        "jobs"
+      ],
+      "props": [
+        {
+          "name": "items / keyFor / renderItem",
+          "type": "T[] / (item) => string / (item) => ReactNode",
+          "description": "Generic queue contents with stable keys driving enter, exit, and reorder identity."
+        },
+        {
+          "name": "side",
+          "type": "\"top\" | \"bottom\"",
+          "defaultValue": "\"top\"",
+          "description": "The feed edge new items enter from."
+        },
+        {
+          "name": "maxVisible",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Rows shown before the oldest overflow into a +N more count."
+        },
+        {
+          "name": "announceItem",
+          "type": "(item: T) => string",
+          "description": "Screen-reader text per row for the live log region."
+        }
+      ],
+      "usageNotes": [
+        "The list is a role=\"log\" live region — arrivals are announced politely.",
+        "Under reduced motion rows crossfade in place and layout shifts are instant."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/conveyor-list",
+      "registryItemUrl": "https://kinetiq.dev/r/conveyor-list.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/conveyor-list",
+        "npm": "npx shadcn@latest add @kinetiq/conveyor-list",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/conveyor-list",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/conveyor-list",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/conveyor-list.json"
+      }
+    },
+    {
+      "slug": "ticker-tape",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ticker Tape",
+      "serial": "KQ-020",
+      "tagline": "A marquee with friction.",
+      "description": "A marquee with friction — hover applies drag, grabbing tracks 1:1, and a fling carries real momentum that decays back to duty speed.",
+      "categories": [
+        "motion"
+      ],
+      "keywords": [
+        "marquee",
+        "scroller",
+        "logos",
+        "loop",
+        "fling"
+      ],
+      "props": [
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "Duty cruising speed in px/s."
+        },
+        {
+          "name": "direction",
+          "type": "\"left\" | \"right\"",
+          "defaultValue": "\"left\"",
+          "description": "Travel direction."
+        },
+        {
+          "name": "gap",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "Gap between items and loop copies."
+        },
+        {
+          "name": "pauseOnHover",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Ease to 30% duty speed while hovered."
+        }
+      ],
+      "usageNotes": [
+        "A visible pause control surfaces on keyboard focus; duplicated sequences are aria-hidden.",
+        "Under reduced motion the tape renders as a static wrapped grid showing each item once."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/ticker-tape",
+      "registryItemUrl": "https://kinetiq.dev/r/ticker-tape.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ticker-tape",
+        "npm": "npx shadcn@latest add @kinetiq/ticker-tape",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ticker-tape",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ticker-tape",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/ticker-tape.json"
+      }
+    },
+    {
+      "slug": "scan-reveal",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Scan Reveal",
+      "serial": "KQ-021",
+      "tagline": "Sections develop as the scanner passes.",
+      "description": "Sections develop as the scanner passes — a scroll-linked scan line sweeps once, and content resolves beneath it with a coordinate readout riding the beam.",
+      "categories": [
+        "motion",
+        "scroll"
+      ],
+      "keywords": [
+        "scroll",
+        "reveal",
+        "landing",
+        "section",
+        "scan"
+      ],
+      "props": [
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Tear down the dual layers after the sweep completes."
+        },
+        {
+          "name": "direction",
+          "type": "\"down\" | \"up\"",
+          "defaultValue": "\"down\"",
+          "description": "Sweep direction."
+        },
+        {
+          "name": "containerRef",
+          "type": "RefObject<HTMLElement>",
+          "description": "Scrollable ancestor for scroll-linking inside overflow containers."
+        }
+      ],
+      "usageNotes": [
+        "Interactive content lives only in the developed layer; the undeveloped copy is aria-hidden and inert.",
+        "Under reduced motion content renders fully developed with a single fast fade."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/scan-reveal",
+      "registryItemUrl": "https://kinetiq.dev/r/scan-reveal.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/scan-reveal",
+        "npm": "npx shadcn@latest add @kinetiq/scan-reveal",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/scan-reveal",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/scan-reveal",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/scan-reveal.json"
+      }
+    },
+    {
+      "slug": "radio-group",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "serial": "KQ-022",
+      "tagline": "Selection that travels, never teleports.",
+      "description": "Selection that travels, never teleports — one shared dot glides between rings while the receiving ring arms with a squash and rebounds as it lands.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "radio",
+        "form",
+        "selection",
+        "single select",
+        "options"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue / onValueChange",
+          "type": "string / string / (value) => void",
+          "description": "Controlled or uncontrolled selection."
+        },
+        {
+          "name": "orientation",
+          "type": "\"vertical\" | \"horizontal\"",
+          "defaultValue": "\"vertical\"",
+          "description": "Layout and aria-orientation."
+        },
+        {
+          "name": "name / label",
+          "type": "string / ReactNode",
+          "description": "Hidden native radios for form posts; visible group label (or pass aria-label)."
+        },
+        {
+          "name": "Item.value / Item.description",
+          "type": "string / ReactNode",
+          "description": "Item identity and a muted secondary line."
+        }
+      ],
+      "usageNotes": [
+        "Full APG radio keyboard: arrows wrap and select, Space selects, Home and End jump.",
+        "Under reduced motion the dot swaps instantly with only a border-color tween."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/radio-group",
+      "registryItemUrl": "https://kinetiq.dev/r/radio-group.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/radio-group",
+        "npm": "npx shadcn@latest add @kinetiq/radio-group",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/radio-group",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/radio-group",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/radio-group.json"
+      }
+    },
+    {
+      "slug": "code-cells",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Code Cells",
+      "serial": "KQ-023",
+      "tagline": "Six digits, dropped into place.",
+      "description": "Six digits, dropped into place — one hidden one-time-code input drives visual cells with digit drops, underline ticks, and a rejection nudge.",
+      "categories": [
+        "forms",
+        "authentication"
+      ],
+      "keywords": [
+        "otp",
+        "code",
+        "verification",
+        "2fa",
+        "input"
+      ],
+      "props": [
+        {
+          "name": "length",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Cell count; also the hidden input's maxLength."
+        },
+        {
+          "name": "value / defaultValue / onValueChange",
+          "type": "string / string / (code) => void",
+          "description": "Controlled or uncontrolled code, digits only."
+        },
+        {
+          "name": "onComplete",
+          "type": "(code: string) => void",
+          "description": "Fires once per fill; re-arms when the code shrinks."
+        },
+        {
+          "name": "error / errorMessage",
+          "type": "boolean / string",
+          "description": "Destructive borders plus a row nudge and a role=alert line."
+        },
+        {
+          "name": "groups",
+          "type": "number[]",
+          "description": "e.g. [3,3] renders a separator between digit groups."
+        },
+        {
+          "name": "ref",
+          "type": "Ref<HTMLInputElement>",
+          "description": "Reaches the hidden input — focus() after clearing."
+        }
+      ],
+      "usageNotes": [
+        "The single hidden input with autocomplete=\"one-time-code\" is the accessibility-correct OTP pattern — cells are decorative.",
+        "Under reduced motion digits appear instantly and the nudge is skipped; the alert still announces."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/code-cells",
+      "registryItemUrl": "https://kinetiq.dev/r/code-cells.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/code-cells",
+        "npm": "npx shadcn@latest add @kinetiq/code-cells",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/code-cells",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/code-cells",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/code-cells.json"
+      }
+    },
+    {
+      "slug": "action-relay",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Action Relay",
+      "serial": "KQ-024",
+      "tagline": "A button that narrates the job.",
+      "description": "A button that narrates the job — state labels roll through a one-line mask with a blur crossfade while the width follows the new content.",
+      "categories": [
+        "buttons"
+      ],
+      "keywords": [
+        "button",
+        "state",
+        "loading",
+        "swap",
+        "cta"
+      ],
+      "props": [
+        {
+          "name": "state / states",
+          "type": "string / Record<string, ReactNode>",
+          "description": "Controlled state key and the content per state — nodes may embed icons or a small loader."
+        },
+        {
+          "name": "busyStates",
+          "type": "string[]",
+          "description": "States that report aria-busy and suppress interaction without stealing focus."
+        },
+        {
+          "name": "onSettled",
+          "type": "(state) => void",
+          "description": "Fires when the incoming roll lands — chain done → idle off it."
+        },
+        {
+          "name": "announcements",
+          "type": "Record<string, string>",
+          "description": "Screen-reader text per state; plain-text nodes announce themselves."
+        },
+        {
+          "name": "variant / size",
+          "type": "pressure-button scales",
+          "defaultValue": "\"solid\" / \"md\"",
+          "description": "Visual style, mirroring the button family."
+        }
+      ],
+      "usageNotes": [
+        "Busy states keep focus (aria-disabled, not disabled) so the announcement chain is never interrupted.",
+        "Under reduced motion labels crossfade and the width jumps; onSettled still fires."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/action-relay",
+      "registryItemUrl": "https://kinetiq.dev/r/action-relay.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/action-relay",
+        "npm": "npx shadcn@latest add @kinetiq/action-relay",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/action-relay",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/action-relay",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/action-relay.json"
+      }
+    },
+    {
+      "slug": "status-seal",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Status Seal",
+      "serial": "KQ-025",
+      "tagline": "Status, re-stamped on every change.",
+      "description": "Status, re-stamped on every change — variant swaps stamp in on recoil, a live pulse ring breathes at drift tempo, and counts carry-roll.",
+      "categories": [
+        "display",
+        "feedback"
+      ],
+      "keywords": [
+        "badge",
+        "status",
+        "pill",
+        "live",
+        "count"
+      ],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"info\" | \"success\" | \"warn\" | \"danger\"",
+          "defaultValue": "\"info\"",
+          "description": "Semantic tinting with token fallbacks for consumer apps."
+        },
+        {
+          "name": "children / icon",
+          "type": "ReactNode",
+          "description": "Label and optional leading node (defaults to a status dot)."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "description": "Embeds a small Readout so numbers carry-roll without re-stamping."
+        },
+        {
+          "name": "live",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Pulse ring behind the dot at drift tempo."
+        }
+      ],
+      "usageNotes": [
+        "role=\"status\" announces label and count once per change, debounced.",
+        "Under reduced motion swaps are instant and the pulse ring holds static at mid-opacity."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/status-seal",
+      "registryItemUrl": "https://kinetiq.dev/r/status-seal.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/status-seal",
+        "npm": "npx shadcn@latest add @kinetiq/status-seal",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/status-seal",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/status-seal",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/status-seal.json"
+      }
+    },
+    {
+      "slug": "slipstream",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Slipstream",
+      "serial": "KQ-026",
+      "tagline": "A highlight that rides in your wake.",
+      "description": "A highlight that rides in your wake — one pill glides behind hovered or focused items with a trailing-edge stretch, in any direction.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "hover",
+        "nav",
+        "highlight",
+        "shared layout",
+        "pill"
+      ],
+      "props": [
+        {
+          "name": "radius / inset",
+          "type": "number / number",
+          "defaultValue": "8 / 0",
+          "description": "Pill corner radius, and how far it tucks inside each item rect (negative bleeds out)."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Parks the pill and ignores hover/focus."
+        },
+        {
+          "name": "SlipstreamItem",
+          "type": "div props",
+          "description": "Wrap each link or button; the wrapper registers its rect for the pill to target."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard focus drives the pill exactly like hover — focusin on the group targets the focused item.",
+        "Under reduced motion the pill teleports with a fast fade; no trailing stretch."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/slipstream",
+      "registryItemUrl": "https://kinetiq.dev/r/slipstream.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/slipstream",
+        "npm": "npx shadcn@latest add @kinetiq/slipstream",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/slipstream",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/slipstream",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/slipstream.json"
+      }
+    },
+    {
+      "slug": "drawer",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "serial": "KQ-027",
+      "tagline": "A side panel on rails.",
+      "description": "A side panel on rails — slides in on glide, drags toward its edge 1:1, and a projected release past 40% lets it leave with the momentum it already has.",
+      "categories": [
+        "overlay"
+      ],
+      "keywords": [
+        "drawer",
+        "panel",
+        "side",
+        "overlay",
+        "filters"
+      ],
+      "props": [
+        {
+          "name": "open / defaultOpen / onOpenChange",
+          "type": "boolean / boolean / (open) => void",
+          "description": "Controlled or uncontrolled visibility."
+        },
+        {
+          "name": "side / size",
+          "type": "\"left\" | \"right\" / \"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"right\" / \"md\"",
+          "description": "Edge and width preset (288 / 360 / 440)."
+        },
+        {
+          "name": "dismissible / portal",
+          "type": "boolean",
+          "defaultValue": "true / true",
+          "description": "Escape, backdrop, and edge-drag dismissal; portal locks body scroll."
+        },
+        {
+          "name": "Trigger / Content / Title / Description / Close",
+          "type": "compound parts",
+          "description": "Composable parts sharing one context."
+        }
+      ],
+      "usageNotes": [
+        "The backdrop's opacity is bound to the drag — dismissal fades exactly as far as you've pulled.",
+        "Under reduced motion the panel fades; dragging stays 1:1 with instant resolution."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/drawer",
+      "registryItemUrl": "https://kinetiq.dev/r/drawer.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/drawer",
+        "npm": "npx shadcn@latest add @kinetiq/drawer",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/drawer",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/drawer",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/drawer.json"
+      }
+    },
+    {
+      "slug": "bottom-sheet",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Bottom Sheet",
+      "serial": "KQ-028",
+      "tagline": "It snaps where your gesture was going.",
+      "description": "It snaps where your gesture was going — velocity-projected releases settle on the nearest snap point in the gesture's direction, with rubber-band overdrag.",
+      "categories": [
+        "overlay"
+      ],
+      "keywords": [
+        "sheet",
+        "bottom sheet",
+        "snap points",
+        "drag",
+        "mobile"
+      ],
+      "props": [
+        {
+          "name": "snapPoints / initialSnap / onSnapChange",
+          "type": "number[] / number / (index) => void",
+          "defaultValue": "[0.4, 0.9] / 0",
+          "description": "Resting heights as viewport fractions; every settle reports its index."
+        },
+        {
+          "name": "open / defaultOpen / onOpenChange",
+          "type": "boolean / boolean / (open) => void",
+          "description": "Controlled or uncontrolled visibility."
+        },
+        {
+          "name": "dismissible / portal",
+          "type": "boolean",
+          "defaultValue": "true / true",
+          "description": "Projecting past the lowest snap dismisses; portal measures the visual viewport."
+        },
+        {
+          "name": "Handle",
+          "type": "compound part",
+          "description": "The grab pill is a real button — arrows step snaps, Home/End jump, each step announces."
+        }
+      ],
+      "usageNotes": [
+        "The backdrop opacity is bound to the sheet's travel, live during the drag.",
+        "Under reduced motion it fades to its snap and releases resolve instantly; dragging stays 1:1."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/bottom-sheet",
+      "registryItemUrl": "https://kinetiq.dev/r/bottom-sheet.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/bottom-sheet",
+        "npm": "npx shadcn@latest add @kinetiq/bottom-sheet",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/bottom-sheet",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/bottom-sheet",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/bottom-sheet.json"
+      }
+    },
+    {
+      "slug": "cipher-text",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cipher Text",
+      "serial": "KQ-029",
+      "tagline": "Characters lock in from the noise.",
+      "description": "Characters lock in from the noise — glyphs cycle deterministically, then resolve left-to-right under the 600ms cascade budget with a signal pulse per lock.",
+      "categories": [
+        "text"
+      ],
+      "keywords": [
+        "text",
+        "scramble",
+        "decrypt",
+        "reveal",
+        "mono"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "description": "Copy to resolve; split into per-character mono cells."
+        },
+        {
+          "name": "trigger",
+          "type": "\"inView\" | \"mount\" | \"hover\"",
+          "defaultValue": "\"inView\"",
+          "description": "Hover re-scrambles then resolves on every entry."
+        },
+        {
+          "name": "order",
+          "type": "\"ltr\" | \"random\"",
+          "defaultValue": "\"ltr\"",
+          "description": "Lock-in sequence; random is hash-shuffled, never Math.random."
+        },
+        {
+          "name": "charset / speed / as",
+          "type": "string / number / element",
+          "defaultValue": "A–Z 0–9 ·- / 30 / \"span\"",
+          "description": "Glyph pool, ms per scramble tick, rendered element."
+        }
+      ],
+      "usageNotes": [
+        "Screen readers and no-JS visitors get the clean string; the scramble layer is aria-hidden.",
+        "Under reduced motion the text renders plainly with a single fast fade."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/cipher-text",
+      "registryItemUrl": "https://kinetiq.dev/r/cipher-text.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cipher-text",
+        "npm": "npx shadcn@latest add @kinetiq/cipher-text",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cipher-text",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cipher-text",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/cipher-text.json"
+      }
+    },
+    {
+      "slug": "ledger",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ledger",
+      "serial": "KQ-030",
+      "tagline": "Ten thousand rows, sixty frames.",
+      "description": "Ten thousand rows, sixty frames — a hand-rolled virtualized table where sorting FLIPs only the rows you can see and selection cascades down the window.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "table",
+        "data grid",
+        "virtualized",
+        "sort",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "columns / rows / rowId",
+          "type": "LedgerColumn<T>[] / readonly T[] / (row) => string",
+          "description": "Column defs (width px | \"1fr\", align, sortable, cell, sortFn), the full data set, and stable row identity."
+        },
+        {
+          "name": "rowHeight / height / overscan",
+          "type": "number",
+          "defaultValue": "40 / 320 / 6",
+          "description": "Fixed row height, viewport height, and window padding."
+        },
+        {
+          "name": "sort / defaultSort / onSortChange",
+          "type": "LedgerSort | null",
+          "description": "Controlled or uncontrolled; headers cycle asc → desc → none."
+        },
+        {
+          "name": "selectable / selected / onSelectedChange",
+          "type": "boolean / ReadonlySet<string> / (next) => void",
+          "description": "Checkbox column; select-all targets every row, not just visible."
+        },
+        {
+          "name": "onVisibleRangeChange",
+          "type": "({ from, to }) => void",
+          "description": "1-based visible range, emitted from the rAF scroll flush."
+        }
+      ],
+      "usageNotes": [
+        "Roughly twenty nodes render regardless of row count; sort animates at most thirty visible rows.",
+        "Under reduced motion the chevron swaps instantly and rows jump — no FLIP, no tick cascade."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/checkbox.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/ledger",
+      "registryItemUrl": "https://kinetiq.dev/r/ledger.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ledger",
+        "npm": "npx shadcn@latest add @kinetiq/ledger",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ledger",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ledger",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/ledger.json"
+      }
+    },
+    {
+      "slug": "zoetrope",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Zoetrope",
+      "serial": "KQ-031",
+      "tagline": "Spin the drum; every frame finds its detent.",
+      "description": "Spin the drum; every frame finds its detent — panels ride the inside of a cylinder with drag inertia, wheel steps, and angular-distance dimming.",
+      "categories": [
+        "display"
+      ],
+      "keywords": [
+        "carousel",
+        "3d",
+        "drum",
+        "cylinder",
+        "gallery"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Each direct child becomes a drum face (capped at twelve)."
+        },
+        {
+          "name": "index / defaultIndex / onIndexChange",
+          "type": "number / number / (index) => void",
+          "description": "Controlled or uncontrolled front panel; fires on every settled detent."
+        },
+        {
+          "name": "itemWidth / itemHeight / perspective",
+          "type": "number",
+          "defaultValue": "160 / 200 / 1000",
+          "description": "Panel geometry; the ring radius derives from width and count."
+        },
+        {
+          "name": "sensitivity",
+          "type": "number",
+          "defaultValue": "0.35",
+          "description": "Drag ratio in degrees per pixel."
+        },
+        {
+          "name": "getLabel",
+          "type": "(index) => string",
+          "description": "Names panels for the live announcer."
+        }
+      ],
+      "usageNotes": [
+        "Only the fronted panel is interactive; the rest are inert and aria-hidden.",
+        "Under reduced motion the drum becomes a flat scroll-snap row with identical semantics."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/zoetrope",
+      "registryItemUrl": "https://kinetiq.dev/r/zoetrope.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/zoetrope",
+        "npm": "npx shadcn@latest add @kinetiq/zoetrope",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/zoetrope",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/zoetrope",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/zoetrope.json"
+      }
+    },
+    {
+      "slug": "wavefield",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Wavefield",
+      "serial": "KQ-032",
+      "tagline": "Ambient physics, drawn on canvas.",
+      "description": "Ambient physics, drawn on canvas — interference lattices, drifting contours, breathing grids, and particle fields that pause when unseen.",
+      "categories": [
+        "backgrounds"
+      ],
+      "keywords": [
+        "background",
+        "canvas",
+        "generative",
+        "hero",
+        "ambient"
+      ],
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"interference\" | \"contour\" | \"lattice\" | \"drift\"",
+          "defaultValue": "\"interference\"",
+          "description": "Which field is drawn."
+        },
+        {
+          "name": "speed / density / opacity",
+          "type": "number",
+          "defaultValue": "0.5 / 0.5 / 1",
+          "description": "Clock rate, geometry density (capped), and canvas-layer opacity."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Overlay slot above the canvas — it carries all the semantics."
+        }
+      ],
+      "usageNotes": [
+        "Colors resolve from your theme tokens and re-resolve on theme flips; the loop pauses when hidden or offscreen.",
+        "Under reduced motion exactly one designed frame is drawn — the loop never starts."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/wavefield",
+      "registryItemUrl": "https://kinetiq.dev/r/wavefield.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/wavefield",
+        "npm": "npx shadcn@latest add @kinetiq/wavefield",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/wavefield",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/wavefield",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/wavefield.json"
+      }
+    },
+    {
+      "slug": "phase-switch",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Phase Switch",
+      "serial": "KQ-033",
+      "tagline": "Day to night in one clean sweep.",
+      "description": "Day to night in one clean sweep — a framework-agnostic theme toggle that reveals the new theme as a circle growing from the button, via the View Transitions API.",
+      "categories": [
+        "controls"
+      ],
+      "keywords": [
+        "theme",
+        "dark mode",
+        "toggle",
+        "view transitions"
+      ],
+      "props": [
+        {
+          "name": "checked / onCheckedChange",
+          "type": "boolean / (next) => void",
+          "description": "Controlled only — flip your own theme class inside the callback; the component owns zero theme logic."
+        },
+        {
+          "name": "size / label",
+          "type": "\"sm\" | \"md\" | \"lg\" / string",
+          "defaultValue": "\"md\" / \"Toggle theme\"",
+          "description": "Control size and accessible name."
+        }
+      ],
+      "usageNotes": [
+        "Add `::view-transition-old(root), ::view-transition-new(root) { animation: none }` to your CSS so the clip reveal isn't fought by the default crossfade.",
+        "Unsupported browsers and reduced motion get an instant flip with an icon crossfade."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/phase-switch",
+      "registryItemUrl": "https://kinetiq.dev/r/phase-switch.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/phase-switch",
+        "npm": "npx shadcn@latest add @kinetiq/phase-switch",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/phase-switch",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/phase-switch",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/phase-switch.json"
+      }
+    },
+    {
+      "slug": "command-deck",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Command Deck",
+      "serial": "KB-101",
+      "tagline": "A palette that arms before it fires.",
+      "description": "A command palette that arms before it fires — a deliberate fill sweeps the selected row before execution, so destructive commands never feel accidental.",
+      "categories": [
+        "application"
+      ],
+      "keywords": [
+        "command palette",
+        "cmdk",
+        "search",
+        "shortcuts",
+        "launcher"
+      ],
+      "props": [
+        {
+          "name": "commands",
+          "type": "DeckCommand[]",
+          "description": "{ id, label, hint?, icon?, section?, keywords?, destructive?, run } per command."
+        },
+        {
+          "name": "open / defaultOpen / onOpenChange",
+          "type": "boolean / boolean / (open) => void",
+          "description": "Controlled or uncontrolled visibility."
+        },
+        {
+          "name": "hotkey",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Global ⌘K / Ctrl+K toggle listener."
+        },
+        {
+          "name": "inline / portal",
+          "type": "boolean",
+          "defaultValue": "false / true",
+          "description": "Inline renders just the panel (docs/demos); portal overlays into body with focus trap and scroll lock."
+        },
+        {
+          "name": "recentKey",
+          "type": "string",
+          "defaultValue": "\"kinetiq-deck-recents\"",
+          "description": "localStorage key for the five most recent command ids."
+        }
+      ],
+      "usageNotes": [
+        "Full combobox semantics with focus trap and restore; Escape mid-arm cancels the sweep.",
+        "Under reduced motion the arming sweep becomes an instant fill with a deliberate 120ms pause."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/command-deck",
+      "registryItemUrl": "https://kinetiq.dev/r/command-deck.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/command-deck",
+        "npm": "npx shadcn@latest add @kinetiq/command-deck",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/command-deck",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/command-deck",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/command-deck.json"
+      }
+    },
+    {
+      "slug": "access-panel",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Access Panel",
+      "serial": "KB-102",
+      "tagline": "Sign-in that unlocks like a vault.",
+      "description": "Sign-in that unlocks like a vault — steps ride a gantry rail, OTP digits drop into their cells, and the right code throws a breaker bolt open.",
+      "categories": [
+        "authentication"
+      ],
+      "keywords": [
+        "auth",
+        "otp",
+        "login",
+        "verification",
+        "code"
+      ],
+      "props": [
+        {
+          "name": "expectedCode",
+          "type": "string",
+          "defaultValue": "\"246810\"",
+          "description": "The six-digit code that throws the bolt."
+        },
+        {
+          "name": "onVerify",
+          "type": "(code: string) => void",
+          "description": "Fires with the entered code on every attempt."
+        },
+        {
+          "name": "onComplete",
+          "type": "(email: string) => void",
+          "description": "Fires once when the correct code lands."
+        },
+        {
+          "name": "email",
+          "type": "string",
+          "description": "Prefills the email field."
+        }
+      ],
+      "usageNotes": [
+        "One hidden input with autocomplete=\"one-time-code\" drives the six visual cells — the accessibility-correct OTP pattern.",
+        "Under reduced motion the rail slides become fades and the rejection nudge is skipped; the alert still announces."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/trace-input.json",
+        "https://kinetiq.dev/r/pressure-button.json",
+        "https://kinetiq.dev/r/code-cells.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/access-panel",
+      "registryItemUrl": "https://kinetiq.dev/r/access-panel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/access-panel",
+        "npm": "npx shadcn@latest add @kinetiq/access-panel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/access-panel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/access-panel",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/access-panel.json"
+      }
+    },
+    {
+      "slug": "signal-center",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Signal Center",
+      "serial": "KB-103",
+      "tagline": "An inbox that files itself.",
+      "description": "An inbox that files itself — signals arrive on the conveyor, swipe away with real velocity, and clear-all sweeps the floor in a cascade.",
+      "categories": [
+        "application"
+      ],
+      "keywords": [
+        "notifications",
+        "inbox",
+        "feed",
+        "swipe",
+        "archive"
+      ],
+      "props": [
+        {
+          "name": "signals / defaultSignals / onSignalsChange",
+          "type": "Signal[] / Signal[] / (signals) => void",
+          "description": "Controlled or uncontrolled feed; Signal = { id, source, title, detail?, time, read? }."
+        },
+        {
+          "name": "onArchive",
+          "type": "(signal: Signal) => void",
+          "description": "Fires per archived signal, including clear-all."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Signals\"",
+          "description": "Header title next to the live unread readout."
+        }
+      ],
+      "usageNotes": [
+        "Archiving is keyboard-reachable via a per-row button; swiping is the fast path, not the only path.",
+        "Under reduced motion arrivals and exits become fades and clear-all loses its stagger."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/signal-center",
+      "registryItemUrl": "https://kinetiq.dev/r/signal-center.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/signal-center",
+        "npm": "npx shadcn@latest add @kinetiq/signal-center",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/signal-center",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/signal-center",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/signal-center.json"
+      }
+    },
+    {
+      "slug": "media-console",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Media Console",
+      "serial": "KB-104",
+      "tagline": "A media island that unfolds into a console.",
+      "description": "A media island that unfolds into a console — the pill morphs open into transport, a caliper timeline, and a scope-scrubbed volume.",
+      "categories": [
+        "application"
+      ],
+      "keywords": [
+        "media",
+        "player",
+        "island",
+        "audio",
+        "waveform"
+      ],
+      "props": [
+        {
+          "name": "tracks",
+          "type": "Track[]",
+          "description": "{ id, title, artist, duration } — playback is simulated; the JSDoc shows wiring a real audio element."
+        },
+        {
+          "name": "defaultExpanded",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Start as the pill or the full console."
+        }
+      ],
+      "usageNotes": [
+        "Complete keyboard transport; Escape collapses the console back to the pill.",
+        "Under reduced motion the morph becomes a crossfade and the waveform holds still."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/caliper-slider.json",
+        "https://kinetiq.dev/r/scope-scrubber.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/media-console",
+      "registryItemUrl": "https://kinetiq.dev/r/media-console.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/media-console",
+        "npm": "npx shadcn@latest add @kinetiq/media-console",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/media-console",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/media-console",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/media-console.json"
+      }
+    },
+    {
+      "slug": "checkout-receipt",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Checkout Receipt",
+      "serial": "KB-105",
+      "tagline": "Payment that prints its proof.",
+      "description": "Payment that prints its proof — hold to pay, then a receipt feeds out of the slot line by line, tears off, and takes a PAID stamp.",
+      "categories": [
+        "commerce"
+      ],
+      "keywords": [
+        "checkout",
+        "payment",
+        "receipt",
+        "commerce",
+        "confirmation"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "ReceiptItem[]",
+          "description": "Line items ({ name, price }) summed into the total."
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "defaultValue": "\"$\"",
+          "description": "Price prefix."
+        },
+        {
+          "name": "onPay",
+          "type": "() => void",
+          "description": "Fires when the hold completes."
+        }
+      ],
+      "usageNotes": [
+        "The receipt is real text in a definition list; only the barcode is decorative.",
+        "Under reduced motion the receipt appears whole and the stamp fades in."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/pressure-button.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/checkout-receipt",
+      "registryItemUrl": "https://kinetiq.dev/r/checkout-receipt.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/checkout-receipt",
+        "npm": "npx shadcn@latest add @kinetiq/checkout-receipt",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/checkout-receipt",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/checkout-receipt",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/checkout-receipt.json"
+      }
+    },
+    {
+      "slug": "intake-tray",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Intake Tray",
+      "serial": "KB-106",
+      "tagline": "Files land, physically.",
+      "description": "Files land, physically — dropped files fall into the tray with a squash, shingle into a stack, fill their gauge rings, and slide to the processed rail.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "upload",
+        "file",
+        "dropzone",
+        "progress",
+        "drag and drop"
+      ],
+      "props": [
+        {
+          "name": "onFiles",
+          "type": "(files: File[]) => void",
+          "description": "Receives each accepted batch."
+        },
+        {
+          "name": "accept / maxFiles",
+          "type": "string / number",
+          "defaultValue": "— / 6",
+          "description": "Accepted types hint and tray capacity."
+        },
+        {
+          "name": "simulate",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Hash-driven demo progress; the JSDoc documents wiring real uploads."
+        },
+        {
+          "name": "ref",
+          "type": "Ref<IntakeTrayHandle>",
+          "description": "Imperative addFiles() for programmatic intake."
+        }
+      ],
+      "usageNotes": [
+        "The drop zone is a real button with a labeled native file input — fully keyboard operable.",
+        "Under reduced motion chips stack neatly with fades; the gauge rings still fill."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/intake-tray",
+      "registryItemUrl": "https://kinetiq.dev/r/intake-tray.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/intake-tray",
+        "npm": "npx shadcn@latest add @kinetiq/intake-tray",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/intake-tray",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/intake-tray",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/intake-tray.json"
+      }
+    },
+    {
+      "slug": "readout-grid",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Readout Grid",
+      "serial": "KB-107",
+      "tagline": "Dashboard stats as instrument cards.",
+      "description": "Dashboard stats as instrument cards — a carry-rolling counter, a self-drawing sparkline, a split-flap delta, and a needle gauge, mounted with one cascade.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "dashboard",
+        "stats",
+        "metrics",
+        "sparkline",
+        "gauge"
+      ],
+      "props": [
+        {
+          "name": "metrics",
+          "type": "ReadoutGridMetrics",
+          "description": "Optional full override of the four cards: counter, sparkline, flap, and gauge shapes."
+        }
+      ],
+      "usageNotes": [
+        "Each card is an article whose label reads naturally to screen readers; chart visuals carry sr-only values.",
+        "Under reduced motion cards render in place, the sparkline arrives fully drawn, and the needle jumps."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json",
+        "https://kinetiq.dev/r/flapboard.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/readout-grid",
+      "registryItemUrl": "https://kinetiq.dev/r/readout-grid.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/readout-grid",
+        "npm": "npx shadcn@latest add @kinetiq/readout-grid",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/readout-grid",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/readout-grid",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/readout-grid.json"
+      }
+    },
+    {
+      "slug": "launch-checklist",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Launch Checklist",
+      "serial": "KB-108",
+      "tagline": "Setup steps that stamp themselves done.",
+      "description": "Onboarding checklist where ticks draw themselves, finished steps strike through and settle to the bottom, and completing the set lands a CALIBRATED stamp.",
+      "categories": [
+        "onboarding"
+      ],
+      "keywords": [
+        "onboarding",
+        "checklist",
+        "progress",
+        "steps",
+        "stamp"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "ChecklistStep[]",
+          "description": "Step definitions: id, title, optional description."
+        },
+        {
+          "name": "completed / defaultCompleted",
+          "type": "string[]",
+          "description": "Controlled or uncontrolled set of completed step ids."
+        },
+        {
+          "name": "onCompletedChange",
+          "type": "(completed: string[]) => void",
+          "description": "Fires on every toggle with the new completed set."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "Fires once when the final step completes."
+        }
+      ],
+      "usageNotes": [
+        "Rows are native checkboxes under the hood — the whole block is keyboard and screen-reader operable.",
+        "Under reduced motion rows reorder instantly and the stamp fades in; the progress track still reports value via ARIA."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/launch-checklist",
+      "registryItemUrl": "https://kinetiq.dev/r/launch-checklist.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/launch-checklist",
+        "npm": "npx shadcn@latest add @kinetiq/launch-checklist",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/launch-checklist",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/launch-checklist",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/launch-checklist.json"
+      }
+    },
+    {
+      "slug": "iris-menu",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Iris Menu",
+      "serial": "KB-109",
+      "tagline": "Actions bloom from where you pressed.",
+      "description": "Actions bloom from where you pressed — items launch from the trigger's center to seats along the freest quadrant's arc, and fold back in on close.",
+      "categories": [
+        "menus"
+      ],
+      "keywords": [
+        "radial menu",
+        "fab",
+        "actions",
+        "bloom",
+        "quick actions"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "IrisMenuItem[]",
+          "description": "Up to six: { id, icon, label, onSelect, disabled?, destructive? }."
+        },
+        {
+          "name": "placement",
+          "type": "\"auto\" | quadrant",
+          "defaultValue": "\"auto\"",
+          "description": "Auto measures the viewport and blooms into the roomiest quadrant."
+        },
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "84",
+          "description": "Distance from trigger center to each seat."
+        }
+      ],
+      "usageNotes": [
+        "Arrow keys rotate focus around the ring; Escape closes and restores the trigger.",
+        "Under reduced motion items fade in already seated — no travel."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/iris-menu",
+      "registryItemUrl": "https://kinetiq.dev/r/iris-menu.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/iris-menu",
+        "npm": "npx shadcn@latest add @kinetiq/iris-menu",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/iris-menu",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/iris-menu",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/iris-menu.json"
+      }
+    },
+    {
+      "slug": "overflow-rail",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Overflow Rail",
+      "serial": "KB-110",
+      "tagline": "More actions, sprung from the dots.",
+      "description": "More actions, sprung from the dots — the pill rail morphs open inline while primaries yield with a recoil part and secondaries cascade in.",
+      "categories": [
+        "menus"
+      ],
+      "keywords": [
+        "toolbar",
+        "actions",
+        "overflow",
+        "expandable",
+        "rail"
+      ],
+      "props": [
+        {
+          "name": "primary / secondary",
+          "type": "RailAction[]",
+          "description": "Always-visible actions and the set revealed by the ⋯ trigger."
+        },
+        {
+          "name": "open / defaultOpen / onOpenChange",
+          "type": "boolean / boolean / (open) => void",
+          "description": "Controlled or uncontrolled expansion."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Actions\"",
+          "description": "Accessible toolbar name."
+        }
+      ],
+      "usageNotes": [
+        "One toolbar: arrows rove across every visible action; Escape collapses and refocuses the trigger.",
+        "Under reduced motion the width jumps and secondaries fade in place."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/overflow-rail",
+      "registryItemUrl": "https://kinetiq.dev/r/overflow-rail.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/overflow-rail",
+        "npm": "npx shadcn@latest add @kinetiq/overflow-rail",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/overflow-rail",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/overflow-rail",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/overflow-rail.json"
+      }
+    },
+    {
+      "slug": "beacon",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Beacon",
+      "serial": "KB-111",
+      "tagline": "One capsule, every live activity.",
+      "description": "One capsule, every live activity — the shell morphs between timer, upload, call, and now-playing views with blur crossfades, corners pinned.",
+      "categories": [
+        "application"
+      ],
+      "keywords": [
+        "island",
+        "capsule",
+        "live activity",
+        "status",
+        "pill"
+      ],
+      "props": [
+        {
+          "name": "activity",
+          "type": "BeaconActivity | null",
+          "description": "Discriminated union: timer (endsAt), upload (progress), call (accept/decline), playing (title/artist); null collapses to a standby pill."
+        },
+        {
+          "name": "expanded / defaultExpanded / onExpandedChange",
+          "type": "boolean / boolean / (expanded) => void",
+          "description": "Controlled or uncontrolled detail row."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "Renders a dismiss action in the detail row."
+        }
+      ],
+      "usageNotes": [
+        "Call buttons are reachable while collapsed; activity changes announce once, debounced.",
+        "Under reduced motion the shell resizes instantly and the loops hold still."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/beacon",
+      "registryItemUrl": "https://kinetiq.dev/r/beacon.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/beacon",
+        "npm": "npx shadcn@latest add @kinetiq/beacon",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/beacon",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/beacon",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/beacon.json"
+      }
+    },
+    {
+      "slug": "field-report",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Field Report",
+      "serial": "KB-112",
+      "tagline": "Feedback that files itself.",
+      "description": "Feedback that files itself — a notch rating with a gliding indicator, a growing note field, and a submit that folds the form into a slot under a LOGGED stamp.",
+      "categories": [
+        "feedback"
+      ],
+      "keywords": [
+        "feedback",
+        "rating",
+        "survey",
+        "widget",
+        "form"
+      ],
+      "props": [
+        {
+          "name": "onSubmit",
+          "type": "({ rating, note }) => void",
+          "description": "Fires on valid submit; rating is 1–5."
+        },
+        {
+          "name": "prompt / endLabels",
+          "type": "string / [string, string]",
+          "defaultValue": "\"How did it feel?\" / [\"Rough\",\"Dialed\"]",
+          "description": "The question and the rail's end labels."
+        },
+        {
+          "name": "resetAfterMs",
+          "type": "number",
+          "description": "Fades a fresh form back in after filing."
+        }
+      ],
+      "usageNotes": [
+        "The rating is a real radiogroup — arrows move the indicator, and empty submits nudge with a role=alert line.",
+        "Under reduced motion the filing collapse becomes a fade and the stamp lands statically."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/field-report",
+      "registryItemUrl": "https://kinetiq.dev/r/field-report.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/field-report",
+        "npm": "npx shadcn@latest add @kinetiq/field-report",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/field-report",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/field-report",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/field-report.json"
+      }
+    },
+    {
+      "slug": "not-found",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Not Found",
+      "serial": "KB-113",
+      "tagline": "Sweep complete. Sector empty.",
+      "description": "Sweep complete, sector empty — a radar arc scans a quiet grid while the 404 numeral deciphers itself, with home and command-deck exits.",
+      "categories": [
+        "pages"
+      ],
+      "keywords": [
+        "404",
+        "not found",
+        "error page",
+        "radar",
+        "empty state"
+      ],
+      "props": [
+        {
+          "name": "homeHref",
+          "type": "string",
+          "defaultValue": "\"/\"",
+          "description": "Return-to-base link target."
+        },
+        {
+          "name": "onCommandDeck",
+          "type": "() => void",
+          "description": "Renders the ghost command-deck action when provided."
+        },
+        {
+          "name": "code / message",
+          "type": "string",
+          "defaultValue": "\"404\" / sector message",
+          "description": "The cipher numeral and the rising subline."
+        }
+      ],
+      "usageNotes": [
+        "The heading carries real text for screen readers; the cipher layer and radar are decorative.",
+        "Under reduced motion the sweep freezes mid-arc and the numeral renders plainly."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/cipher-text.json",
+        "https://kinetiq.dev/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/not-found",
+      "registryItemUrl": "https://kinetiq.dev/r/not-found.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/not-found",
+        "npm": "npx shadcn@latest add @kinetiq/not-found",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/not-found",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/not-found",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/not-found.json"
+      }
+    },
+    {
+      "slug": "forecast-card",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Forecast Card",
+      "serial": "KB-114",
+      "tagline": "Every vote moves every bar.",
+      "description": "Every vote moves every bar — one commit renormalizes the whole field while percentages carry-roll and the leader tick migrates to the new front-runner.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "poll",
+        "forecast",
+        "probability",
+        "voting",
+        "survey"
+      ],
+      "props": [
+        {
+          "name": "question / options",
+          "type": "string / ForecastOption[]",
+          "description": "2–4 outcomes as { id, label, votes }; options are always the source of counts."
+        },
+        {
+          "name": "votedId / defaultVotedId / onVote",
+          "type": "string | null / string / (id) => void",
+          "description": "Controlled or uncontrolled viewer vote."
+        },
+        {
+          "name": "allowRevote",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Let the viewer move their vote between outcomes."
+        },
+        {
+          "name": "closesAt",
+          "type": "string | Date",
+          "description": "Compact mono CLOSES footer line."
+        }
+      ],
+      "usageNotes": [
+        "Rows are aria-pressed buttons; each vote announces the new percentage and leadership once.",
+        "Under reduced motion widths jump and the leader tick teleports; the readouts pulse instead of rolling."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/forecast-card",
+      "registryItemUrl": "https://kinetiq.dev/r/forecast-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/forecast-card",
+        "npm": "npx shadcn@latest add @kinetiq/forecast-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/forecast-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/forecast-card",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/forecast-card.json"
+      }
+    },
+    {
+      "slug": "balance-card",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Balance Card",
+      "serial": "KB-115",
+      "tagline": "A balance with a private side.",
+      "description": "A balance with a private side — the numeral carry-rolls behind a privacy blur, a sparkline draws itself, and the card flips to its activity face.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "balance",
+        "wallet",
+        "account",
+        "card",
+        "sparkline",
+        "flip"
+      ],
+      "props": [
+        {
+          "name": "balance / format / delta / series",
+          "type": "number / (v)=>string / {value,direction} / number[]",
+          "description": "The carry-rolling amount, its delta chip, and the sparkline data."
+        },
+        {
+          "name": "activity",
+          "type": "BalanceActivity[]",
+          "description": "Back-face rows: { id, label, amount, time }."
+        },
+        {
+          "name": "onAction",
+          "type": "(action: \"send\" | \"receive\" | \"convert\") => void",
+          "description": "Fires from the action row."
+        },
+        {
+          "name": "defaultHidden",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Start with the balance blurred."
+        }
+      ],
+      "usageNotes": [
+        "The hidden face is inert and aria-hidden — the flip never traps focus or leaks taps.",
+        "Under reduced motion the flip is instant, the sparkline arrives drawn, and the blur toggles without a tween."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/balance-card",
+      "registryItemUrl": "https://kinetiq.dev/r/balance-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/balance-card",
+        "npm": "npx shadcn@latest add @kinetiq/balance-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/balance-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/balance-card",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/balance-card.json"
+      }
+    },
+    {
+      "slug": "exchange-panel",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Exchange Panel",
+      "serial": "KB-116",
+      "tagline": "Two units, one clean swap.",
+      "description": "Two units, one clean swap — the edited side is live, the computed side carry-rolls after a debounce, and swapping keeps focus while contents trade places.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "converter",
+        "exchange",
+        "swap",
+        "units",
+        "currency"
+      ],
+      "props": [
+        {
+          "name": "units",
+          "type": "ExchangeUnit[] | ExchangeGroup[]",
+          "description": "Linear factors to a shared base unit; groups render a grouped select."
+        },
+        {
+          "name": "feeRate",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Fraction applied to the converted side, shown as a fee row."
+        },
+        {
+          "name": "onChange / onDirectionChange",
+          "type": "(state) => void / (from, to) => void",
+          "description": "Conversion updates and swap events."
+        },
+        {
+          "name": "debounceMs",
+          "type": "number",
+          "defaultValue": "200",
+          "description": "Delay before the computed side rolls."
+        }
+      ],
+      "usageNotes": [
+        "One side holds authority; the other is always derived — swapping transfers authority with the gesture and refocuses the input.",
+        "Under reduced motion contents swap instantly and the readout uses its highlight fallback."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json",
+        "https://kinetiq.dev/r/select.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/blocks/exchange-panel",
+      "registryItemUrl": "https://kinetiq.dev/r/exchange-panel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/exchange-panel",
+        "npm": "npx shadcn@latest add @kinetiq/exchange-panel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/exchange-panel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/exchange-panel",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/exchange-panel.json"
+      }
+    },
+    {
+      "slug": "utils",
+      "kind": "shared",
+      "type": "registry:lib",
+      "title": "Utils",
+      "tagline": "cn() — class composition.",
+      "description": "Class-name composition helper shared by every component.",
+      "keywords": [],
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryItemUrl": "https://kinetiq.dev/r/utils.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/utils",
+        "npm": "npx shadcn@latest add @kinetiq/utils",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/utils",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/utils",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/utils.json"
+      }
+    },
+    {
+      "slug": "motion",
+      "kind": "shared",
+      "type": "registry:lib",
+      "title": "Calibration Set",
+      "tagline": "flick · snap · glide · drift · recoil.",
+      "description": "Kinetiq's five calibrated springs plus the tween scale, cascade budget, and exit rules — the shared physics vocabulary every component draws from.",
+      "keywords": [
+        "spring",
+        "easing",
+        "physics",
+        "tokens"
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryItemUrl": "https://kinetiq.dev/r/motion.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/motion",
+        "npm": "npx shadcn@latest add @kinetiq/motion",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/motion",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/motion",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/motion.json"
+      }
+    },
+    {
+      "slug": "use-motion-safe",
+      "kind": "shared",
+      "type": "registry:hook",
+      "title": "useMotionSafe",
+      "tagline": "Reduced motion, decided once.",
+      "description": "Single source of truth for reduced-motion decisions: combines the OS preference with an optional app-level override context.",
+      "keywords": [
+        "reduced motion",
+        "accessibility"
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryItemUrl": "https://kinetiq.dev/r/use-motion-safe.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/use-motion-safe",
+        "npm": "npx shadcn@latest add @kinetiq/use-motion-safe",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/use-motion-safe",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/use-motion-safe",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/use-motion-safe.json"
+      }
+    },
+    {
+      "slug": "agents-rules",
+      "kind": "shared",
+      "type": "registry:file",
+      "title": "Agent Rules",
+      "tagline": "The design-system operating rules for agents.",
+      "description": "Kinetiq's operating rules for coding agents: the five-spring motion language, the tween scale, the 600ms cascade budget, the reduced-motion policy, token usage, and composition guidance. Installs as AGENTS.md at your repo root so your agent stays on the system's vocabulary.",
+      "keywords": [
+        "agents",
+        "conventions",
+        "rules",
+        "motion language",
+        "mcp"
+      ],
+      "registryItemUrl": "https://kinetiq.dev/r/agents-rules.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/agents-rules",
+        "npm": "npx shadcn@latest add @kinetiq/agents-rules",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/agents-rules",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/agents-rules",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/agents-rules.json"
+      }
+    }
+  ]
+}

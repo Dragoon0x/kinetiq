@@ -39,4 +39,20 @@ export const shared: KinetiqItem[] = [
     tagline: "Reduced motion, decided once.",
     keywords: ["reduced motion", "accessibility"],
   },
+  {
+    name: "agents-rules",
+    type: "registry:file",
+    title: "Agent Rules",
+    description:
+      "Kinetiq's operating rules for coding agents: the five-spring motion language, the tween scale, the 600ms cascade budget, the reduced-motion policy, token usage, and composition guidance. Installs as AGENTS.md at your repo root so your agent stays on the system's vocabulary.",
+    files: [
+      {
+        path: "registry/files/agents-rules.md",
+        type: "registry:file",
+        target: "AGENTS.md",
+      },
+    ],
+    tagline: "The design-system operating rules for agents.",
+    keywords: ["agents", "conventions", "rules", "motion language", "mcp"],
+  },
 ];

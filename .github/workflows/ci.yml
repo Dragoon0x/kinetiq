@@ -34,6 +34,9 @@ jobs:
       - name: Validate registry artifacts
         run: pnpm validate:registry
 
+      - name: Validate machine catalog
+        run: pnpm validate:meta
+
       - name: Build
         run: pnpm build
 
@@ -42,3 +45,28 @@ jobs:
 
       - name: End-to-end tests
         run: pnpm test:e2e
+
+  mcp:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate machine catalog + snapshot
+        run: pnpm generate
+
+      - name: Build MCP server
+        run: pnpm --filter @kinetiq/mcp build
+
+      - name: MCP server tests
+        run: pnpm --filter @kinetiq/mcp test

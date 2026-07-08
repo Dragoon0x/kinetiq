@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/playground",
     "/guides",
     "/agents",
+    "/mcp",
   ];
 
   return [

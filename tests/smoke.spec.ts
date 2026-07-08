@@ -11,6 +11,7 @@ const routes = [
   "/playground",
   "/guides",
   "/agents",
+  "/mcp",
   ...catalogComponents.map((c) => `/components/${c.name}`),
   ...catalogBlocks.map((b) => `/blocks/${b.name}`),
   ...labs.map((lab) => `/playground/${lab.slug}`),
