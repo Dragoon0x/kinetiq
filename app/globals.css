@@ -172,6 +172,26 @@
   text-transform: uppercase;
 }
 
+/* Shiki dual-theme output: tokens carry both palettes; the html class picks one. */
+.shiki,
+.shiki span {
+  color: var(--shiki-dark);
+  background-color: transparent !important;
+  font-style: var(--shiki-dark-font-style, normal);
+}
+
+.light .shiki,
+.light .shiki span {
+  color: var(--shiki-light);
+  font-style: var(--shiki-light-font-style, normal);
+}
+
+.shiki {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
 /* The theme toggle animates ::view-transition-new(root) itself (clip-path
    reveal from the toggle); the default crossfade would fight it. */
 ::view-transition-old(root),

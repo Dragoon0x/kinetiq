@@ -4,6 +4,58 @@
   "homepage": "https://kinetiq.dev",
   "items": [
     {
+      "name": "pressure-button",
+      "type": "registry:ui",
+      "title": "Pressure Button",
+      "description": "A button that pushes back — press squash on flick, spring rebound on snap, and a hold-to-confirm gauge ring for destructive actions.",
+      "files": [
+        {
+          "path": "registry/ui/pressure-button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "buttons"
+      ],
+      "meta": {
+        "serial": "KQ-001"
+      }
+    },
+    {
+      "name": "launch-checklist",
+      "type": "registry:block",
+      "title": "Launch Checklist",
+      "description": "Onboarding checklist where ticks draw themselves, finished steps strike through and settle to the bottom, and completing the set lands a CALIBRATED stamp.",
+      "files": [
+        {
+          "path": "registry/blocks/launch-checklist/launch-checklist.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "onboarding"
+      ],
+      "meta": {
+        "serial": "KB-108"
+      }
+    },
+    {
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

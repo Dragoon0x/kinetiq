@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 import { LazyMotion, MotionConfig, domAnimation } from "motion/react";
 
@@ -17,6 +17,11 @@ const MotionTestContext = createContext<MotionTestContextValue | null>(null);
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [testingReducedMotion, setTestingReducedMotion] = useState(false);
+
+  // Interaction tests wait on this marker before pressing anything.
+  useEffect(() => {
+    document.body.dataset.hydrated = "";
+  }, []);
 
   const motionTest = useMemo(
     () => ({ testingReducedMotion, setTestingReducedMotion }),
