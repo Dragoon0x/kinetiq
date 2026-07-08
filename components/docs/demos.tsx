@@ -1,11 +1,14 @@
 import type { ComponentType } from "react";
 
 import { AccessPanelDemo } from "@/registry/demos/access-panel.demo";
+import { ActionRelayDemo } from "@/registry/demos/action-relay.demo";
 import { BreakerSwitchDemo } from "@/registry/demos/breaker-switch.demo";
 import { CommandDeckDemo } from "@/registry/demos/command-deck.demo";
 import { CaliperSliderDemo } from "@/registry/demos/caliper-slider.demo";
 import { CalloutDemo } from "@/registry/demos/callout.demo";
 import { CheckboxDemo } from "@/registry/demos/checkbox.demo";
+import { CipherTextDemo } from "@/registry/demos/cipher-text.demo";
+import { CodeCellsDemo } from "@/registry/demos/code-cells.demo";
 import { CheckoutReceiptDemo } from "@/registry/demos/checkout-receipt.demo";
 import { IntakeTrayDemo } from "@/registry/demos/intake-tray.demo";
 import { ReadoutGridDemo } from "@/registry/demos/readout-grid.demo";
@@ -20,11 +23,14 @@ import { GantryTabsDemo } from "@/registry/demos/gantry-tabs.demo";
 import { GyroCardDemo } from "@/registry/demos/gyro-card.demo";
 import { ScopeScrubberDemo } from "@/registry/demos/scope-scrubber.demo";
 import { SelectDemo } from "@/registry/demos/select.demo";
+import { SlipstreamDemo } from "@/registry/demos/slipstream.demo";
+import { StatusSealDemo } from "@/registry/demos/status-seal.demo";
 import { MetronomeLoaderDemo } from "@/registry/demos/metronome-loader.demo";
 import { MorphDialogDemo } from "@/registry/demos/morph-dialog.demo";
 import { TelemetryToastDemo } from "@/registry/demos/telemetry-toast.demo";
 import { LaunchChecklistDemo } from "@/registry/demos/launch-checklist.demo";
 import { PressureButtonDemo } from "@/registry/demos/pressure-button.demo";
+import { RadioGroupDemo } from "@/registry/demos/radio-group.demo";
 import { ReadoutDemo } from "@/registry/demos/readout.demo";
 import { ScanRevealDemo } from "@/registry/demos/scan-reveal.demo";
 import { TickerTapeDemo } from "@/registry/demos/ticker-tape.demo";
@@ -36,9 +42,13 @@ import { TraceInputDemo } from "@/registry/demos/trace-input.demo";
  */
 export const demos: Record<string, ComponentType> = {
   "pressure-button": PressureButtonDemo,
+  "action-relay": ActionRelayDemo,
+  "status-seal": StatusSealDemo,
   "trace-input": TraceInputDemo,
   "breaker-switch": BreakerSwitchDemo,
   checkbox: CheckboxDemo,
+  "radio-group": RadioGroupDemo,
+  "code-cells": CodeCellsDemo,
   "caliper-slider": CaliperSliderDemo,
   "gantry-tabs": GantryTabsDemo,
   select: SelectDemo,
@@ -50,6 +60,8 @@ export const demos: Record<string, ComponentType> = {
   callout: CalloutDemo,
   readout: ReadoutDemo,
   "focus-text": FocusTextDemo,
+  slipstream: SlipstreamDemo,
+  "cipher-text": CipherTextDemo,
   flapboard: FlapboardDemo,
   "metronome-loader": MetronomeLoaderDemo,
   "morph-dialog": MorphDialogDemo,

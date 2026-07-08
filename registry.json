@@ -475,6 +475,165 @@
       }
     },
     {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Selection that travels, never teleports — one shared dot glides between rings while the receiving ring arms with a squash and rebounds as it lands.",
+      "files": [
+        {
+          "path": "registry/ui/radio-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-022"
+      }
+    },
+    {
+      "name": "code-cells",
+      "type": "registry:ui",
+      "title": "Code Cells",
+      "description": "Six digits, dropped into place — one hidden one-time-code input drives visual cells with digit drops, underline ticks, and a rejection nudge.",
+      "files": [
+        {
+          "path": "registry/ui/code-cells.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms",
+        "authentication"
+      ],
+      "meta": {
+        "serial": "KQ-023"
+      }
+    },
+    {
+      "name": "action-relay",
+      "type": "registry:ui",
+      "title": "Action Relay",
+      "description": "A button that narrates the job — state labels roll through a one-line mask with a blur crossfade while the width follows the new content.",
+      "files": [
+        {
+          "path": "registry/ui/action-relay.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "buttons"
+      ],
+      "meta": {
+        "serial": "KQ-024"
+      }
+    },
+    {
+      "name": "status-seal",
+      "type": "registry:ui",
+      "title": "Status Seal",
+      "description": "Status, re-stamped on every change — variant swaps stamp in on recoil, a live pulse ring breathes at drift tempo, and counts carry-roll.",
+      "files": [
+        {
+          "path": "registry/ui/status-seal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "categories": [
+        "display",
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-025"
+      }
+    },
+    {
+      "name": "slipstream",
+      "type": "registry:ui",
+      "title": "Slipstream",
+      "description": "A highlight that rides in your wake — one pill glides behind hovered or focused items with a trailing-edge stretch, in any direction.",
+      "files": [
+        {
+          "path": "registry/ui/slipstream.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-026"
+      }
+    },
+    {
+      "name": "cipher-text",
+      "type": "registry:ui",
+      "title": "Cipher Text",
+      "description": "Characters lock in from the noise — glyphs cycle deterministically, then resolve left-to-right under the 600ms cascade budget with a signal pulse per lock.",
+      "files": [
+        {
+          "path": "registry/ui/cipher-text.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-029"
+      }
+    },
+    {
       "name": "magnet-dock",
       "type": "registry:ui",
       "title": "Magnet Dock",

@@ -819,6 +819,271 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "radio-group",
+    type: "registry:ui",
+    title: "Radio Group",
+    description:
+      "Selection that travels, never teleports — one shared dot glides between rings while the receiving ring arms with a squash and rebounds as it lands.",
+    files: [{ path: "registry/ui/radio-group.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: { serial: "KQ-022" },
+    tagline: "Selection that travels, never teleports.",
+    keywords: ["radio", "form", "selection", "single select", "options"],
+    props: [
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "string / string / (value) => void",
+        description: "Controlled or uncontrolled selection.",
+      },
+      {
+        name: "orientation",
+        type: '"vertical" | "horizontal"',
+        defaultValue: '"vertical"',
+        description: "Layout and aria-orientation.",
+      },
+      {
+        name: "name / label",
+        type: "string / ReactNode",
+        description:
+          "Hidden native radios for form posts; visible group label (or pass aria-label).",
+      },
+      {
+        name: "Item.value / Item.description",
+        type: "string / ReactNode",
+        description: "Item identity and a muted secondary line.",
+      },
+    ],
+    usageNotes: [
+      "Full APG radio keyboard: arrows wrap and select, Space selects, Home and End jump.",
+      "Under reduced motion the dot swaps instantly with only a border-color tween.",
+    ],
+  },
+  {
+    name: "code-cells",
+    type: "registry:ui",
+    title: "Code Cells",
+    description:
+      "Six digits, dropped into place — one hidden one-time-code input drives visual cells with digit drops, underline ticks, and a rejection nudge.",
+    files: [{ path: "registry/ui/code-cells.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms", "authentication"],
+    meta: { serial: "KQ-023" },
+    tagline: "Six digits, dropped into place.",
+    keywords: ["otp", "code", "verification", "2fa", "input"],
+    props: [
+      {
+        name: "length",
+        type: "number",
+        defaultValue: "6",
+        description: "Cell count; also the hidden input's maxLength.",
+      },
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "string / string / (code) => void",
+        description: "Controlled or uncontrolled code, digits only.",
+      },
+      {
+        name: "onComplete",
+        type: "(code: string) => void",
+        description: "Fires once per fill; re-arms when the code shrinks.",
+      },
+      {
+        name: "error / errorMessage",
+        type: "boolean / string",
+        description: "Destructive borders plus a row nudge and a role=alert line.",
+      },
+      {
+        name: "groups",
+        type: "number[]",
+        description: "e.g. [3,3] renders a separator between digit groups.",
+      },
+      {
+        name: "ref",
+        type: "Ref<HTMLInputElement>",
+        description: "Reaches the hidden input — focus() after clearing.",
+      },
+    ],
+    usageNotes: [
+      "The single hidden input with autocomplete=\"one-time-code\" is the accessibility-correct OTP pattern — cells are decorative.",
+      "Under reduced motion digits appear instantly and the nudge is skipped; the alert still announces.",
+    ],
+  },
+  {
+    name: "action-relay",
+    type: "registry:ui",
+    title: "Action Relay",
+    description:
+      "A button that narrates the job — state labels roll through a one-line mask with a blur crossfade while the width follows the new content.",
+    files: [{ path: "registry/ui/action-relay.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["buttons"],
+    meta: { serial: "KQ-024" },
+    tagline: "A button that narrates the job.",
+    keywords: ["button", "state", "loading", "swap", "cta"],
+    props: [
+      {
+        name: "state / states",
+        type: "string / Record<string, ReactNode>",
+        description:
+          "Controlled state key and the content per state — nodes may embed icons or a small loader.",
+      },
+      {
+        name: "busyStates",
+        type: "string[]",
+        description:
+          "States that report aria-busy and suppress interaction without stealing focus.",
+      },
+      {
+        name: "onSettled",
+        type: "(state) => void",
+        description: "Fires when the incoming roll lands — chain done → idle off it.",
+      },
+      {
+        name: "announcements",
+        type: "Record<string, string>",
+        description: "Screen-reader text per state; plain-text nodes announce themselves.",
+      },
+      {
+        name: "variant / size",
+        type: "pressure-button scales",
+        defaultValue: '"solid" / "md"',
+        description: "Visual style, mirroring the button family.",
+      },
+    ],
+    usageNotes: [
+      "Busy states keep focus (aria-disabled, not disabled) so the announcement chain is never interrupted.",
+      "Under reduced motion labels crossfade and the width jumps; onSettled still fires.",
+    ],
+  },
+  {
+    name: "status-seal",
+    type: "registry:ui",
+    title: "Status Seal",
+    description:
+      "Status, re-stamped on every change — variant swaps stamp in on recoil, a live pulse ring breathes at drift tempo, and counts carry-roll.",
+    files: [{ path: "registry/ui/status-seal.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["display", "feedback"],
+    meta: { serial: "KQ-025" },
+    tagline: "Status, re-stamped on every change.",
+    keywords: ["badge", "status", "pill", "live", "count"],
+    props: [
+      {
+        name: "variant",
+        type: '"info" | "success" | "warn" | "danger"',
+        defaultValue: '"info"',
+        description: "Semantic tinting with token fallbacks for consumer apps.",
+      },
+      {
+        name: "children / icon",
+        type: "ReactNode",
+        description: "Label and optional leading node (defaults to a status dot).",
+      },
+      {
+        name: "count",
+        type: "number",
+        description: "Embeds a small Readout so numbers carry-roll without re-stamping.",
+      },
+      {
+        name: "live",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Pulse ring behind the dot at drift tempo.",
+      },
+    ],
+    usageNotes: [
+      "role=\"status\" announces label and count once per change, debounced.",
+      "Under reduced motion swaps are instant and the pulse ring holds static at mid-opacity.",
+    ],
+  },
+  {
+    name: "slipstream",
+    type: "registry:ui",
+    title: "Slipstream",
+    description:
+      "A highlight that rides in your wake — one pill glides behind hovered or focused items with a trailing-edge stretch, in any direction.",
+    files: [{ path: "registry/ui/slipstream.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: { serial: "KQ-026" },
+    tagline: "A highlight that rides in your wake.",
+    keywords: ["hover", "nav", "highlight", "shared layout", "pill"],
+    props: [
+      {
+        name: "radius / inset",
+        type: "number / number",
+        defaultValue: "8 / 0",
+        description:
+          "Pill corner radius, and how far it tucks inside each item rect (negative bleeds out).",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Parks the pill and ignores hover/focus.",
+      },
+      {
+        name: "SlipstreamItem",
+        type: "div props",
+        description:
+          "Wrap each link or button; the wrapper registers its rect for the pill to target.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard focus drives the pill exactly like hover — focusin on the group targets the focused item.",
+      "Under reduced motion the pill teleports with a fast fade; no trailing stretch.",
+    ],
+  },
+  {
+    name: "cipher-text",
+    type: "registry:ui",
+    title: "Cipher Text",
+    description:
+      "Characters lock in from the noise — glyphs cycle deterministically, then resolve left-to-right under the 600ms cascade budget with a signal pulse per lock.",
+    files: [{ path: "registry/ui/cipher-text.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["text"],
+    meta: { serial: "KQ-029" },
+    tagline: "Characters lock in from the noise.",
+    keywords: ["text", "scramble", "decrypt", "reveal", "mono"],
+    props: [
+      {
+        name: "children",
+        type: "string",
+        description: "Copy to resolve; split into per-character mono cells.",
+      },
+      {
+        name: "trigger",
+        type: '"inView" | "mount" | "hover"',
+        defaultValue: '"inView"',
+        description: "Hover re-scrambles then resolves on every entry.",
+      },
+      {
+        name: "order",
+        type: '"ltr" | "random"',
+        defaultValue: '"ltr"',
+        description: "Lock-in sequence; random is hash-shuffled, never Math.random.",
+      },
+      {
+        name: "charset / speed / as",
+        type: "string / number / element",
+        defaultValue: 'A–Z 0–9 ·- / 30 / "span"',
+        description: "Glyph pool, ms per scramble tick, rendered element.",
+      },
+    ],
+    usageNotes: [
+      "Screen readers and no-JS visitors get the clean string; the scramble layer is aria-hidden.",
+      "Under reduced motion the text renders plainly with a single fast fade.",
+    ],
+  },
+  {
     name: "magnet-dock",
     type: "registry:ui",
     title: "Magnet Dock",
