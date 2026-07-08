@@ -4,14 +4,26 @@ import { demos } from "@/components/docs/demos";
 import { SpecimenPlate } from "@/components/lab/specimen-plate";
 import { catalogBlocks, catalogComponents } from "@/content/manifest";
 
+/** Signature specimens on the exhibit floor — the full catalog lives one click away. */
+const FEATURED = [
+  "pressure-button",
+  "caliper-slider",
+  "flapboard",
+  "gyro-card",
+  "readout",
+  "media-console",
+];
+
 /**
- * The exhibit floor: every catalog item with a registered demo, live. Grows
- * automatically as instruments land in the manifest.
+ * The exhibit floor: a curated set of live specimens. Six demos keep the
+ * home page fast; the index pages carry the full catalog.
  */
 export function DemoWall() {
-  const items = [...catalogComponents, ...catalogBlocks].filter(
-    (item) => demos[item.name],
-  );
+  const items = [...catalogComponents, ...catalogBlocks]
+    .filter((item) => FEATURED.includes(item.name) && demos[item.name])
+    .sort(
+      (a, b) => FEATURED.indexOf(a.name) - FEATURED.indexOf(b.name),
+    );
 
   return (
     <div className="grid gap-5 md:grid-cols-2">
@@ -20,7 +32,7 @@ export function DemoWall() {
         if (!Demo) return null;
         const kind = item.type === "registry:block" ? "blocks" : "components";
         return (
-          <div key={item.name} className="group/wall relative">
+          <div key={item.name} className="group/wall relative min-w-0">
             <SpecimenPlate
               serial={item.meta?.serial ?? "KQ-000"}
               label={item.name.replace(/-/g, "/").toUpperCase()}

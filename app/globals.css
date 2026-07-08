@@ -73,7 +73,8 @@
 
   --ink: oklch(0.22 0.02 258);
   --ink-2: oklch(0.45 0.02 258);
-  --ink-3: oklch(0.58 0.02 258);
+  /* 0.54 keeps small mono labels ≥4.5:1 on white and the graph paper. */
+  --ink-3: oklch(0.54 0.02 258);
 
   --accent: oklch(0.5 0.21 262);
   --accent-bright: oklch(0.56 0.19 262);

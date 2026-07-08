@@ -413,6 +413,8 @@ function DockIconItem({
         liRef.current = el;
         registerLi(item.id, el);
       }}
+      // The group is a toolbar, not a list; the button inside carries semantics.
+      role="none"
       value={item.id}
       dragListener={reorderable}
       onDragStart={() => onDragStart(item.id)}

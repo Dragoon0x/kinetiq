@@ -11,6 +11,9 @@ const sans = Instrument_Sans({
   subsets: ["latin"],
   variable: "--font-instrument-sans",
   axes: ["wdth"],
+  // Optional: on a slow first visit the size-adjusted fallback holds the
+  // layout and LCP fires on first paint; the webfont wins every visit after.
+  display: "optional",
 });
 
 const mono = Martian_Mono({

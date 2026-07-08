@@ -17,6 +17,7 @@ export function MotionTestSwitch({ className }: { className?: string }) {
       type="button"
       onClick={() => setTestingReducedMotion(!testingReducedMotion)}
       aria-pressed={testingReducedMotion}
+      aria-label="Test reduced motion"
       title="Test reduced motion"
       className={cn(
         "flex h-8 items-center gap-1.5 rounded-2 border px-2 font-mono text-[10px] tracking-wide uppercase transition-colors",

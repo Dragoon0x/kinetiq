@@ -49,7 +49,6 @@ function CalibrationChip({
       type="button"
       onPointerEnter={() => setRun((r) => r + 1)}
       onClick={() => setRun((r) => r + 1)}
-      aria-label={`Run the ${name} spring — ${role}, settles in about ${settles}`}
       className={cn(
         "group border-hairline bg-surface-1 hover:border-hairline-strong block w-full rounded-3 border p-4 text-left transition-colors",
       )}

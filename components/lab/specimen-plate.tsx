@@ -85,10 +85,10 @@ export function SpecimenPlate({
         </span>
       </div>
 
-      {/* stage */}
+      {/* stage — wide specimens scroll inside the plate, never the page */}
       <div
         className={cn(
-          "flex items-center justify-center px-8 py-10",
+          "flex max-w-full items-center justify-center overflow-x-auto px-4 py-10 sm:px-8",
           contentClassName,
         )}
         style={{ minHeight }}
