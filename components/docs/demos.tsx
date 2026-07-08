@@ -40,12 +40,15 @@ import { MorphDialogDemo } from "@/registry/demos/morph-dialog.demo";
 import { NotFoundDemo } from "@/registry/demos/not-found.demo";
 import { TelemetryToastDemo } from "@/registry/demos/telemetry-toast.demo";
 import { LaunchChecklistDemo } from "@/registry/demos/launch-checklist.demo";
+import { LedgerDemo } from "@/registry/demos/ledger.demo";
 import { PressureButtonDemo } from "@/registry/demos/pressure-button.demo";
 import { RadioGroupDemo } from "@/registry/demos/radio-group.demo";
 import { ReadoutDemo } from "@/registry/demos/readout.demo";
 import { ScanRevealDemo } from "@/registry/demos/scan-reveal.demo";
 import { TickerTapeDemo } from "@/registry/demos/ticker-tape.demo";
 import { TraceInputDemo } from "@/registry/demos/trace-input.demo";
+import { WavefieldDemo } from "@/registry/demos/wavefield.demo";
+import { ZoetropeDemo } from "@/registry/demos/zoetrope.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -71,6 +74,9 @@ export const demos: Record<string, ComponentType> = {
   drawer: DrawerDemo,
   "bottom-sheet": BottomSheetDemo,
   "phase-switch": PhaseSwitchDemo,
+  ledger: LedgerDemo,
+  zoetrope: ZoetropeDemo,
+  wavefield: WavefieldDemo,
   callout: CalloutDemo,
   readout: ReadoutDemo,
   "focus-text": FocusTextDemo,

@@ -76,6 +76,7 @@ export const blocks: KinetiqItem[] = [
       "use-motion-safe",
       "trace-input",
       "pressure-button",
+      "code-cells",
     ],
     categories: ["authentication"],
     meta: { serial: "KB-102" },

@@ -1129,6 +1129,137 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "ledger",
+    type: "registry:ui",
+    title: "Ledger",
+    description:
+      "Ten thousand rows, sixty frames — a hand-rolled virtualized table where sorting FLIPs only the rows you can see and selection cascades down the window.",
+    files: [{ path: "registry/ui/ledger.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "checkbox"],
+    categories: ["data"],
+    meta: { serial: "KQ-030" },
+    tagline: "Ten thousand rows, sixty frames.",
+    keywords: ["table", "data grid", "virtualized", "sort", "selection"],
+    props: [
+      {
+        name: "columns / rows / rowId",
+        type: "LedgerColumn<T>[] / readonly T[] / (row) => string",
+        description:
+          "Column defs (width px | \"1fr\", align, sortable, cell, sortFn), the full data set, and stable row identity.",
+      },
+      {
+        name: "rowHeight / height / overscan",
+        type: "number",
+        defaultValue: "40 / 320 / 6",
+        description: "Fixed row height, viewport height, and window padding.",
+      },
+      {
+        name: "sort / defaultSort / onSortChange",
+        type: "LedgerSort | null",
+        description: "Controlled or uncontrolled; headers cycle asc → desc → none.",
+      },
+      {
+        name: "selectable / selected / onSelectedChange",
+        type: "boolean / ReadonlySet<string> / (next) => void",
+        description: "Checkbox column; select-all targets every row, not just visible.",
+      },
+      {
+        name: "onVisibleRangeChange",
+        type: "({ from, to }) => void",
+        description: "1-based visible range, emitted from the rAF scroll flush.",
+      },
+    ],
+    usageNotes: [
+      "Roughly twenty nodes render regardless of row count; sort animates at most thirty visible rows.",
+      "Under reduced motion the chevron swaps instantly and rows jump — no FLIP, no tick cascade.",
+    ],
+  },
+  {
+    name: "zoetrope",
+    type: "registry:ui",
+    title: "Zoetrope",
+    description:
+      "Spin the drum; every frame finds its detent — panels ride the inside of a cylinder with drag inertia, wheel steps, and angular-distance dimming.",
+    files: [{ path: "registry/ui/zoetrope.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["display"],
+    meta: { serial: "KQ-031" },
+    tagline: "Spin the drum; every frame finds its detent.",
+    keywords: ["carousel", "3d", "drum", "cylinder", "gallery"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Each direct child becomes a drum face (capped at twelve).",
+      },
+      {
+        name: "index / defaultIndex / onIndexChange",
+        type: "number / number / (index) => void",
+        description: "Controlled or uncontrolled front panel; fires on every settled detent.",
+      },
+      {
+        name: "itemWidth / itemHeight / perspective",
+        type: "number",
+        defaultValue: "160 / 200 / 1000",
+        description: "Panel geometry; the ring radius derives from width and count.",
+      },
+      {
+        name: "sensitivity",
+        type: "number",
+        defaultValue: "0.35",
+        description: "Drag ratio in degrees per pixel.",
+      },
+      {
+        name: "getLabel",
+        type: "(index) => string",
+        description: "Names panels for the live announcer.",
+      },
+    ],
+    usageNotes: [
+      "Only the fronted panel is interactive; the rest are inert and aria-hidden.",
+      "Under reduced motion the drum becomes a flat scroll-snap row with identical semantics.",
+    ],
+  },
+  {
+    name: "wavefield",
+    type: "registry:ui",
+    title: "Wavefield",
+    description:
+      "Ambient physics, drawn on canvas — interference lattices, drifting contours, breathing grids, and particle fields that pause when unseen.",
+    files: [{ path: "registry/ui/wavefield.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["backgrounds"],
+    meta: { serial: "KQ-032" },
+    tagline: "Ambient physics, drawn on canvas.",
+    keywords: ["background", "canvas", "generative", "hero", "ambient"],
+    props: [
+      {
+        name: "variant",
+        type: '"interference" | "contour" | "lattice" | "drift"',
+        defaultValue: '"interference"',
+        description: "Which field is drawn.",
+      },
+      {
+        name: "speed / density / opacity",
+        type: "number",
+        defaultValue: "0.5 / 0.5 / 1",
+        description: "Clock rate, geometry density (capped), and canvas-layer opacity.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Overlay slot above the canvas — it carries all the semantics.",
+      },
+    ],
+    usageNotes: [
+      "Colors resolve from your theme tokens and re-resolve on theme flips; the loop pauses when hidden or offscreen.",
+      "Under reduced motion exactly one designed frame is drawn — the loop never starts.",
+    ],
+  },
+  {
     name: "phase-switch",
     type: "registry:ui",
     title: "Phase Switch",

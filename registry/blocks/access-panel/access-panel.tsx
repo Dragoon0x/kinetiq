@@ -19,6 +19,7 @@ import {
   springs,
 } from "@/registry/lib/motion";
 import { cn } from "@/registry/lib/utils";
+import { CodeCells } from "@/registry/ui/code-cells";
 import { PressureButton } from "@/registry/ui/pressure-button";
 import { TraceInput } from "@/registry/ui/trace-input";
 
@@ -45,13 +46,14 @@ export type AccessPanelProps = {
 /**
  * Sign-in that unlocks like a vault. The two steps ride a gantry rail —
  * views slide ±24px on `glide` while the card height follows and a sliding
- * pill mirrors position between two step dots. OTP digits drop in from above
- * on `flick` with a phosphor underline tick; a wrong code nudges the whole
- * plate sideways and pins a CODE REJECTED dimension line; the right code
- * throws a breaker-style bolt across the top on `snap` (with an end squash)
- * while the form fades down and an ACCESS GRANTED state rises, its check
- * drawing itself on `flick`. Reduced motion: fades only, digits appear
- * instantly, the nudge is skipped, and the bolt simply crossfades.
+ * pill mirrors position between two step dots. OTP entry is the shipped
+ * CodeCells row (digits drop on `flick` with the phosphor tick, and it owns
+ * the cell-row nudge plus the CODE REJECTED line); a wrong code additionally
+ * nudges the whole plate sideways; the right code throws a breaker-style
+ * bolt across the top on `snap` (with an end squash) while the form fades
+ * down and an ACCESS GRANTED state rises, its check drawing itself on
+ * `flick`. Reduced motion: fades only, digits appear instantly, the nudge
+ * is skipped, and the bolt simply crossfades.
  */
 export function AccessPanel({
   onVerify,
@@ -62,9 +64,7 @@ export function AccessPanel({
 }: AccessPanelProps) {
   const motionSafe = useMotionSafe();
   const baseId = React.useId();
-  const otpId = `${baseId}-otp`;
   const otpHintId = `${baseId}-otp-hint`;
-  const otpErrorId = `${baseId}-otp-error`;
   const pillId = `${baseId}-step-pill`;
 
   const [view, setView] = React.useState<AccessView>("request");
@@ -74,7 +74,6 @@ export function AccessPanel({
   const [emailError, setEmailError] = React.useState<string | null>(null);
   const [code, setCode] = React.useState("");
   const [codeError, setCodeError] = React.useState(false);
-  const [otpFocused, setOtpFocused] = React.useState(false);
   const [cooldown, setCooldown] = React.useState(0);
   const [announce, setAnnounce] = React.useState("");
   const [height, setHeight] = React.useState<number | null>(null);
@@ -191,10 +190,10 @@ export function AccessPanel({
     );
   };
 
-  const verify = () => {
-    if (view !== "code" || code.length !== OTP_LENGTH) return;
-    onVerify?.(code);
-    if (code === expectedCode) {
+  const verify = (entered: string) => {
+    if (view !== "code" || entered.length !== OTP_LENGTH) return;
+    onVerify?.(entered);
+    if (entered === expectedCode) {
       setCodeError(false);
       setDirection(0);
       setView("granted");
@@ -211,14 +210,6 @@ export function AccessPanel({
     }
   };
 
-  /** The caret always sits after the last filled cell. */
-  const snapCaret = () => {
-    const input = otpRef.current;
-    if (!input) return;
-    const end = input.value.length;
-    input.setSelectionRange(end, end);
-  };
-
   const stepVariants: Variants = {
     enter: (dir: number) =>
       !motionSafe
@@ -231,11 +222,13 @@ export function AccessPanel({
       !motionSafe
         ? { opacity: 0, transition: { duration: durations.fast } }
         : dir === 0
-          ? { y: distances.step, opacity: 0, transition: exitFor(durations.base) }
+          ? {
+              y: distances.step,
+              opacity: 0,
+              transition: exitFor(durations.base),
+            }
           : { x: dir * -24, opacity: 0, transition: exitFor(durations.base) },
   };
-
-  const caretIndex = Math.min(code.length, OTP_LENGTH - 1);
 
   const requestView = (
     <form
@@ -246,8 +239,10 @@ export function AccessPanel({
       className="flex flex-col gap-4"
     >
       <div>
-        <h2 className="text-base leading-tight font-semibold">Request access</h2>
-        <p className="text-muted-foreground mt-1 text-sm">
+        <h2 className="text-base leading-tight font-semibold">
+          Request access
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
           We send a one-time code to your inbox.
         </p>
       </div>
@@ -273,140 +268,40 @@ export function AccessPanel({
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        verify();
+        verify(code);
       }}
       className="flex flex-col gap-4"
     >
       <div>
         <h2 className="text-base leading-tight font-semibold">Enter code</h2>
-        <p id={otpHintId} className="text-muted-foreground mt-1 text-sm">
+        <p id={otpHintId} className="mt-1 text-sm text-muted-foreground">
           Enter the 6-digit code sent to{" "}
-          <span className="text-foreground font-medium">
+          <span className="font-medium text-foreground">
             {emailValue || "your email"}
           </span>
           .
         </p>
       </div>
 
-      <div className="relative">
-        <label htmlFor={otpId} className="sr-only">
-          6-digit verification code
-        </label>
-        <div aria-hidden className="flex items-center justify-between gap-2">
-          {Array.from({ length: OTP_LENGTH }, (_, index) => {
-            const digit = code[index] ?? "";
-            const isCaret = otpFocused && index === caretIndex;
-            return (
-              <div
-                key={index}
-                className={cn(
-                  "relative flex h-12 w-10 items-center justify-center rounded-2 border bg-transparent font-mono text-lg tabular-nums transition-colors",
-                  codeError
-                    ? "border-destructive"
-                    : isCaret
-                      ? "border-ring"
-                      : "border-input",
-                )}
-              >
-                <AnimatePresence initial={false}>
-                  {digit !== "" && (
-                    <motion.span
-                      key={`${index}-${digit}`}
-                      initial={
-                        motionSafe
-                          ? { y: -distances.step, opacity: 0 }
-                          : { opacity: 0 }
-                      }
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{
-                        opacity: 0,
-                        transition: exitFor(durations.fast),
-                      }}
-                      transition={
-                        motionSafe
-                          ? {
-                              y: springs.flick,
-                              opacity: { duration: durations.blink },
-                            }
-                          : { duration: 0 }
-                      }
-                    >
-                      {digit}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-                <motion.span
-                  className="absolute inset-x-2 bottom-1.5 h-0.5 origin-left rounded-full"
-                  style={{ background: "var(--signal, var(--primary))" }}
-                  initial={false}
-                  animate={
-                    motionSafe
-                      ? {
-                          scaleX: digit === "" ? 0 : 1,
-                          opacity: digit === "" ? 0 : 1,
-                        }
-                      : { scaleX: 1, opacity: digit === "" ? 0 : 1 }
-                  }
-                  transition={
-                    motionSafe
-                      ? {
-                          scaleX: springs.flick,
-                          opacity: { duration: durations.blink },
-                        }
-                      : { duration: durations.fast }
-                  }
-                />
-              </div>
-            );
-          })}
-        </div>
-        <input
-          ref={otpRef}
-          id={otpId}
-          name="code"
-          value={code}
-          onChange={(event) => {
-            const digits = event.target.value.replace(/\D/g, "").slice(0, OTP_LENGTH);
-            setCode(digits);
-            if (codeError) setCodeError(false);
-          }}
-          onFocus={() => {
-            setOtpFocused(true);
-            snapCaret();
-          }}
-          onBlur={() => setOtpFocused(false)}
-          onSelect={snapCaret}
-          autoComplete="one-time-code"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          maxLength={6}
-          aria-invalid={codeError ? true : undefined}
-          aria-describedby={codeError ? `${otpHintId} ${otpErrorId}` : otpHintId}
-          className="absolute inset-0 z-10 h-full w-full cursor-text opacity-0"
-        />
-      </div>
-
-      <AnimatePresence initial={false}>
-        {codeError && (
-          <motion.p
-            key="code-error"
-            role="alert"
-            id={otpErrorId}
-            initial={{ opacity: 0, y: motionSafe ? -distances.nudge : 0 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, transition: exitFor(durations.fast) }}
-            transition={
-              motionSafe
-                ? { duration: durations.base, ease: easings.enter }
-                : { duration: durations.fast }
-            }
-            className="text-destructive -mt-1 flex items-center gap-2 font-mono text-[11px] tracking-[0.08em] uppercase"
-          >
-            <span aria-hidden className="bg-destructive h-px w-3 shrink-0" />
-            Code rejected · Try again
-          </motion.p>
-        )}
-      </AnimatePresence>
+      {/* CodeCells owns the cells, hidden input, caret pinning, the row
+          nudge, and the CODE REJECTED line; the forwarded ref reaches its
+          hidden input for the clear-and-refocus after a rejection. */}
+      <CodeCells
+        ref={otpRef}
+        length={OTP_LENGTH}
+        label="6-digit access code"
+        name="code"
+        autoFocus
+        value={code}
+        onValueChange={(next) => {
+          setCode(next);
+          if (codeError) setCodeError(false);
+        }}
+        onComplete={verify}
+        error={codeError}
+        errorMessage="Code rejected · Try again"
+        aria-describedby={otpHintId}
+      />
 
       <PressureButton
         type="submit"
@@ -420,16 +315,16 @@ export function AccessPanel({
         <button
           type="button"
           onClick={goBack}
-          className="text-muted-foreground hover:text-foreground text-sm underline-offset-4 transition-colors hover:underline"
+          className="text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
         >
           Back
         </button>
-        <p className="text-muted-foreground flex items-center gap-1.5 font-mono text-[11px] tracking-[0.08em] tabular-nums uppercase">
+        <p className="flex items-center gap-1.5 font-mono text-[11px] tracking-[0.08em] text-muted-foreground uppercase tabular-nums">
           <button
             type="button"
             onClick={resend}
             disabled={cooldown > 0}
-            className="hover:text-foreground uppercase underline-offset-4 transition-colors hover:underline disabled:pointer-events-none disabled:opacity-60"
+            className="uppercase underline-offset-4 transition-colors hover:text-foreground hover:underline disabled:pointer-events-none disabled:opacity-60"
           >
             Resend code
           </button>
@@ -441,7 +336,7 @@ export function AccessPanel({
 
   const grantedView = (
     <div className="flex flex-col items-center gap-1.5 py-4 text-center">
-      <span className="border-primary/40 bg-primary/10 mb-2 flex size-12 items-center justify-center rounded-full border">
+      <span className="mb-2 flex size-12 items-center justify-center rounded-full border border-primary/40 bg-primary/10">
         <svg viewBox="0 0 24 24" className="size-6" aria-hidden>
           {motionSafe ? (
             <motion.path
@@ -470,7 +365,7 @@ export function AccessPanel({
       <p className="font-mono text-sm font-semibold tracking-[0.15em] uppercase">
         Access granted
       </p>
-      <p className="text-muted-foreground text-sm">{emailValue}</p>
+      <p className="text-sm text-muted-foreground">{emailValue}</p>
     </div>
   );
 
@@ -481,15 +376,19 @@ export function AccessPanel({
     <motion.div
       style={{ x: plateX }}
       className={cn(
-        "border-border bg-card text-card-foreground w-full max-w-sm rounded-4 border p-5",
+        "w-full max-w-sm rounded-4 border border-border bg-card p-5 text-card-foreground",
         className,
       )}
     >
       {/* The vault bolt: locked at rest, thrown across on the right code. */}
       <div ref={boltTrackRef} aria-hidden className="relative mb-5 h-3">
-        <div className="border-border bg-secondary absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full border" />
+        <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full border border-border bg-secondary" />
         <motion.div
-          style={{ x: boltX, scaleX: boltSquash, transformOrigin: "right center" }}
+          style={{
+            x: boltX,
+            scaleX: boltSquash,
+            transformOrigin: "right center",
+          }}
           className={cn(
             "absolute top-0 left-0 h-3 w-7 rounded-1 border transition-colors duration-300",
             granted ? "border-primary bg-primary" : "border-input bg-muted",
@@ -498,7 +397,7 @@ export function AccessPanel({
       </div>
 
       <div className="mb-4 flex items-center justify-between">
-        <p className="text-muted-foreground font-mono text-[11px] font-medium tracking-[0.08em] uppercase">
+        <p className="font-mono text-[11px] font-medium tracking-[0.08em] text-muted-foreground uppercase">
           Access panel
         </p>
         {/* Step indicator: a pill glides between the two dots. */}
@@ -506,16 +405,19 @@ export function AccessPanel({
           {[0, 1].map((dot) => {
             const isCurrent = (view === "request" ? 0 : 1) === dot;
             return (
-              <span key={dot} className="bg-input relative size-1.5 rounded-full">
+              <span
+                key={dot}
+                className="relative size-1.5 rounded-full bg-input"
+              >
                 {isCurrent &&
                   (motionSafe ? (
                     <motion.span
                       layoutId={pillId}
                       transition={springs.glide}
-                      className="bg-primary absolute inset-y-0 -inset-x-1 rounded-full"
+                      className="absolute -inset-x-1 inset-y-0 rounded-full bg-primary"
                     />
                   ) : (
-                    <span className="bg-primary absolute inset-y-0 -inset-x-1 rounded-full" />
+                    <span className="absolute -inset-x-1 inset-y-0 rounded-full bg-primary" />
                   ))}
               </span>
             );

@@ -376,6 +376,14 @@ export function BottomSheetContent({
     };
   }, [open, dismissible, portal, setOpen]);
 
+  const onDrag = () => {
+    // Rubber-band above the most-open snap: compress the overshoot to 15%.
+    const top = yTop;
+    if (y.get() < top) {
+      y.set(top - (top - y.get()) * 0.85);
+    }
+  };
+
   const onDragEnd = (_: unknown, info: PanInfo) => {
     const projected = y.get() + info.velocity.y * 0.2;
     // Dismiss when the projection sails past the lowest snap by 15% height.
@@ -428,9 +436,13 @@ export function BottomSheetContent({
             aria-labelledby={titleId}
             tabIndex={-1}
             drag="y"
-            dragConstraints={{ top: yTop }}
-            dragElastic={0.15}
+            // Free drag owns y; pixel dragConstraints conflict with the
+            // external y MotionValue and freeze the gesture. The top snap is
+            // rubber-banded in onDrag and every release snaps in onDragEnd.
+            dragConstraints={false}
+            dragElastic={0}
             dragMomentum={false}
+            onDrag={onDrag}
             style={{ y, height: containerHeight || "100%" }}
             onDragEnd={onDragEnd}
             exit={{

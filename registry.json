@@ -660,6 +660,82 @@
       }
     },
     {
+      "name": "ledger",
+      "type": "registry:ui",
+      "title": "Ledger",
+      "description": "Ten thousand rows, sixty frames — a hand-rolled virtualized table where sorting FLIPs only the rows you can see and selection cascades down the window.",
+      "files": [
+        {
+          "path": "registry/ui/ledger.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/checkbox.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-030"
+      }
+    },
+    {
+      "name": "zoetrope",
+      "type": "registry:ui",
+      "title": "Zoetrope",
+      "description": "Spin the drum; every frame finds its detent — panels ride the inside of a cylinder with drag inertia, wheel steps, and angular-distance dimming.",
+      "files": [
+        {
+          "path": "registry/ui/zoetrope.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "display"
+      ],
+      "meta": {
+        "serial": "KQ-031"
+      }
+    },
+    {
+      "name": "wavefield",
+      "type": "registry:ui",
+      "title": "Wavefield",
+      "description": "Ambient physics, drawn on canvas — interference lattices, drifting contours, breathing grids, and particle fields that pause when unseen.",
+      "files": [
+        {
+          "path": "registry/ui/wavefield.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "backgrounds"
+      ],
+      "meta": {
+        "serial": "KQ-032"
+      }
+    },
+    {
       "name": "phase-switch",
       "type": "registry:ui",
       "title": "Phase Switch",
@@ -834,7 +910,8 @@
         "https://kinetiq.dev/r/motion.json",
         "https://kinetiq.dev/r/use-motion-safe.json",
         "https://kinetiq.dev/r/trace-input.json",
-        "https://kinetiq.dev/r/pressure-button.json"
+        "https://kinetiq.dev/r/pressure-button.json",
+        "https://kinetiq.dev/r/code-cells.json"
       ],
       "categories": [
         "authentication"
