@@ -172,6 +172,14 @@
   text-transform: uppercase;
 }
 
+/* The theme toggle animates ::view-transition-new(root) itself (clip-path
+   reveal from the toggle); the default crossfade would fight it. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 @layer base {
   * {
     border-color: var(--border);

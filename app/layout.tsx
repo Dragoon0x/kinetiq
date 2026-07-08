@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, Martian_Mono } from "next/font/google";
 
+import { Providers } from "@/components/providers";
 import { siteConfig } from "@/lib/site-config";
+import { themeScript } from "@/lib/theme-script";
 
 import "./globals.css";
 
@@ -31,10 +33,13 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body
         className={`${sans.variable} ${mono.variable} bg-background text-foreground font-sans antialiased`}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
