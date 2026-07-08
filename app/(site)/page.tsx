@@ -8,15 +8,20 @@ import { catalogBlocks, catalogComponents } from "@/content/manifest";
 export default function HomePage() {
   return (
     <main>
-      {/* hero */}
-      <section className="bg-grid bg-grid-fade">
-        <div className="mx-auto flex w-full max-w-7xl flex-col items-center px-6 pt-24 pb-20 text-center">
+      {/* hero — the grid + fade live on their own layer so the mask never
+          touches the content (a mask-image on an element fades its subtree). */}
+      <section className="relative overflow-hidden">
+        <div
+          aria-hidden
+          className="bg-grid bg-grid-fade pointer-events-none absolute inset-0"
+        />
+        <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center px-6 pt-24 pb-20 text-center">
           <p className="text-label text-ink-3">
             KINETIQ · {String(catalogComponents.length).padStart(2, "0")}{" "}
             INSTRUMENTS · {String(catalogBlocks.length).padStart(2, "0")}{" "}
             ASSEMBLIES
           </p>
-          <h1 className="mt-6 max-w-3xl text-5xl font-semibold tracking-tight text-balance sm:text-6xl">
+          <h1 className="text-ink mt-6 max-w-3xl text-5xl font-semibold tracking-tight text-balance sm:text-6xl">
             Motion, calibrated.
           </h1>
           <p className="text-ink-2 mt-6 max-w-xl text-lg text-balance">
