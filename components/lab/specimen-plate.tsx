@@ -5,10 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/registry/lib/utils";
 
 /**
- * The specimen plate: every live demo on the site sits in one. Corner
- * crosshairs, a mono serial tag, a status readout that flips to LIVE while
- * the specimen is energized (hover/focus), and a bottom dimension line that
- * reports the plate's true rendered width — the site measures itself.
+ * The specimen plate: every live demo on the site sits in one. A mono serial
+ * tag, a status readout that flips to LIVE while the specimen is energized
+ * (hover/focus), and a bottom dimension line that reports the plate's true
+ * rendered width — the site measures itself.
  */
 export function SpecimenPlate({
   serial,
@@ -58,11 +58,6 @@ export function SpecimenPlate({
         className,
       )}
     >
-      <Crosshair className="-top-px -left-px" />
-      <Crosshair className="-top-px -right-px" />
-      <Crosshair className="-bottom-px -left-px" />
-      <Crosshair className="-bottom-px -right-px" />
-
       {/* header rail */}
       <div className="flex items-center justify-between px-4 pt-3">
         <span className="text-label text-ink-3 select-none">
@@ -106,21 +101,5 @@ export function SpecimenPlate({
         <span className="bg-hairline h-px flex-1" />
       </div>
     </div>
-  );
-}
-
-function Crosshair({ className }: { className?: string }) {
-  return (
-    <span
-      aria-hidden
-      className={cn(
-        "pointer-events-none absolute size-3 transition-colors duration-150",
-        "text-hairline-strong group-hover:text-cobalt group-focus-within:text-cobalt",
-        className,
-      )}
-    >
-      <span className="absolute top-1/2 left-0 h-px w-full -translate-y-1/2 bg-current" />
-      <span className="absolute top-0 left-1/2 h-full w-px -translate-x-1/2 bg-current" />
-    </span>
   );
 }
