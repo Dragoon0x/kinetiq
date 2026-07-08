@@ -1,0 +1,6 @@
+node_modules/
+.next/
+.generated/
+public/r/
+pnpm-lock.yaml
+registry.json

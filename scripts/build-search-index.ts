@@ -1,0 +1,62 @@
+/**
+ * Flattens the manifest plus static pages into .generated/search-index.json
+ * for the command deck (⌘K). A few KB, statically imported — no service.
+ */
+import { mkdir, writeFile } from "node:fs/promises";
+import path from "node:path";
+
+import { catalogBlocks, catalogComponents } from "../content/manifest";
+
+const ROOT = path.resolve(import.meta.dirname, "..");
+const OUT_DIR = path.join(ROOT, ".generated");
+
+type SearchEntry = {
+  section: "Components" | "Blocks" | "Playground" | "Guides" | "Pages";
+  title: string;
+  tagline: string;
+  keywords: string[];
+  href: string;
+};
+
+async function main() {
+  const entries: SearchEntry[] = [
+    ...catalogComponents.map(
+      (c): SearchEntry => ({
+        section: "Components",
+        title: c.title,
+        tagline: c.tagline,
+        keywords: c.keywords,
+        href: `/components/${c.name}`,
+      }),
+    ),
+    ...catalogBlocks.map(
+      (b): SearchEntry => ({
+        section: "Blocks",
+        title: b.title,
+        tagline: b.tagline,
+        keywords: b.keywords,
+        href: `/blocks/${b.name}`,
+      }),
+    ),
+    {
+      section: "Pages",
+      title: "Home",
+      tagline: "Motion, calibrated.",
+      keywords: ["kinetiq", "home"],
+      href: "/",
+    },
+  ];
+
+  await mkdir(OUT_DIR, { recursive: true });
+  await writeFile(
+    path.join(OUT_DIR, "search-index.json"),
+    `${JSON.stringify(entries, null, 2)}\n`,
+  );
+
+  console.log(`search: ${entries.length} entries → .generated/search-index.json`);
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});
