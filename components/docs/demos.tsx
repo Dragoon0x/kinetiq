@@ -2,7 +2,11 @@ import type { ComponentType } from "react";
 
 import { AccessPanelDemo } from "@/registry/demos/access-panel.demo";
 import { ActionRelayDemo } from "@/registry/demos/action-relay.demo";
+import { BalanceCardDemo } from "@/registry/demos/balance-card.demo";
+import { BeaconDemo } from "@/registry/demos/beacon.demo";
+import { FieldReportDemo } from "@/registry/demos/field-report.demo";
 import { BottomSheetDemo } from "@/registry/demos/bottom-sheet.demo";
+import { ExchangePanelDemo } from "@/registry/demos/exchange-panel.demo";
 import { BreakerSwitchDemo } from "@/registry/demos/breaker-switch.demo";
 import { DrawerDemo } from "@/registry/demos/drawer.demo";
 import { IrisMenuDemo } from "@/registry/demos/iris-menu.demo";
@@ -24,6 +28,7 @@ import { SignalCenterDemo } from "@/registry/demos/signal-center.demo";
 import { DrawerAccordionDemo } from "@/registry/demos/drawer-accordion.demo";
 import { FlapboardDemo } from "@/registry/demos/flapboard.demo";
 import { FocusTextDemo } from "@/registry/demos/focus-text.demo";
+import { ForecastCardDemo } from "@/registry/demos/forecast-card.demo";
 import { GantryTabsDemo } from "@/registry/demos/gantry-tabs.demo";
 import { GyroCardDemo } from "@/registry/demos/gyro-card.demo";
 import { ScopeScrubberDemo } from "@/registry/demos/scope-scrubber.demo";
@@ -32,6 +37,7 @@ import { SlipstreamDemo } from "@/registry/demos/slipstream.demo";
 import { StatusSealDemo } from "@/registry/demos/status-seal.demo";
 import { MetronomeLoaderDemo } from "@/registry/demos/metronome-loader.demo";
 import { MorphDialogDemo } from "@/registry/demos/morph-dialog.demo";
+import { NotFoundDemo } from "@/registry/demos/not-found.demo";
 import { TelemetryToastDemo } from "@/registry/demos/telemetry-toast.demo";
 import { LaunchChecklistDemo } from "@/registry/demos/launch-checklist.demo";
 import { PressureButtonDemo } from "@/registry/demos/pressure-button.demo";
@@ -82,6 +88,12 @@ export const demos: Record<string, ComponentType> = {
   "overflow-rail": OverflowRailDemo,
   "signal-center": SignalCenterDemo,
   "media-console": MediaConsoleDemo,
+  beacon: BeaconDemo,
+  "field-report": FieldReportDemo,
+  "not-found": NotFoundDemo,
+  "forecast-card": ForecastCardDemo,
+  "balance-card": BalanceCardDemo,
+  "exchange-panel": ExchangePanelDemo,
   "checkout-receipt": CheckoutReceiptDemo,
   "intake-tray": IntakeTrayDemo,
   "readout-grid": ReadoutGridDemo,

@@ -409,6 +409,282 @@ export const blocks: KinetiqItem[] = [
     ],
   },
   {
+    name: "beacon",
+    type: "registry:block",
+    title: "Beacon",
+    description:
+      "One capsule, every live activity — the shell morphs between timer, upload, call, and now-playing views with blur crossfades, corners pinned.",
+    files: [
+      { path: "registry/blocks/beacon/beacon.tsx", type: "registry:block" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["application"],
+    meta: { serial: "KB-111" },
+    tagline: "One capsule, every live activity.",
+    keywords: ["island", "capsule", "live activity", "status", "pill"],
+    props: [
+      {
+        name: "activity",
+        type: "BeaconActivity | null",
+        description:
+          "Discriminated union: timer (endsAt), upload (progress), call (accept/decline), playing (title/artist); null collapses to a standby pill.",
+      },
+      {
+        name: "expanded / defaultExpanded / onExpandedChange",
+        type: "boolean / boolean / (expanded) => void",
+        description: "Controlled or uncontrolled detail row.",
+      },
+      {
+        name: "onDismiss",
+        type: "() => void",
+        description: "Renders a dismiss action in the detail row.",
+      },
+    ],
+    usageNotes: [
+      "Call buttons are reachable while collapsed; activity changes announce once, debounced.",
+      "Under reduced motion the shell resizes instantly and the loops hold still.",
+    ],
+  },
+  {
+    name: "field-report",
+    type: "registry:block",
+    title: "Field Report",
+    description:
+      "Feedback that files itself — a notch rating with a gliding indicator, a growing note field, and a submit that folds the form into a slot under a LOGGED stamp.",
+    files: [
+      {
+        path: "registry/blocks/field-report/field-report.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "pressure-button",
+    ],
+    categories: ["feedback"],
+    meta: { serial: "KB-112" },
+    tagline: "Feedback that files itself.",
+    keywords: ["feedback", "rating", "survey", "widget", "form"],
+    props: [
+      {
+        name: "onSubmit",
+        type: "({ rating, note }) => void",
+        description: "Fires on valid submit; rating is 1–5.",
+      },
+      {
+        name: "prompt / endLabels",
+        type: "string / [string, string]",
+        defaultValue: '"How did it feel?" / ["Rough","Dialed"]',
+        description: "The question and the rail's end labels.",
+      },
+      {
+        name: "resetAfterMs",
+        type: "number",
+        description: "Fades a fresh form back in after filing.",
+      },
+    ],
+    usageNotes: [
+      "The rating is a real radiogroup — arrows move the indicator, and empty submits nudge with a role=alert line.",
+      "Under reduced motion the filing collapse becomes a fade and the stamp lands statically.",
+    ],
+  },
+  {
+    name: "not-found",
+    type: "registry:block",
+    title: "Not Found",
+    description:
+      "Sweep complete, sector empty — a radar arc scans a quiet grid while the 404 numeral deciphers itself, with home and command-deck exits.",
+    files: [
+      { path: "registry/blocks/not-found/not-found.tsx", type: "registry:block" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "cipher-text",
+      "pressure-button",
+    ],
+    categories: ["pages"],
+    meta: { serial: "KB-113" },
+    tagline: "Sweep complete. Sector empty.",
+    keywords: ["404", "not found", "error page", "radar", "empty state"],
+    props: [
+      {
+        name: "homeHref",
+        type: "string",
+        defaultValue: '"/"',
+        description: "Return-to-base link target.",
+      },
+      {
+        name: "onCommandDeck",
+        type: "() => void",
+        description: "Renders the ghost command-deck action when provided.",
+      },
+      {
+        name: "code / message",
+        type: "string",
+        defaultValue: '"404" / sector message',
+        description: "The cipher numeral and the rising subline.",
+      },
+    ],
+    usageNotes: [
+      "The heading carries real text for screen readers; the cipher layer and radar are decorative.",
+      "Under reduced motion the sweep freezes mid-arc and the numeral renders plainly.",
+    ],
+  },
+  {
+    name: "forecast-card",
+    type: "registry:block",
+    title: "Forecast Card",
+    description:
+      "Every vote moves every bar — one commit renormalizes the whole field while percentages carry-roll and the leader tick migrates to the new front-runner.",
+    files: [
+      {
+        path: "registry/blocks/forecast-card/forecast-card.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["data"],
+    meta: { serial: "KB-114" },
+    tagline: "Every vote moves every bar.",
+    keywords: ["poll", "forecast", "probability", "voting", "survey"],
+    props: [
+      {
+        name: "question / options",
+        type: "string / ForecastOption[]",
+        description:
+          "2–4 outcomes as { id, label, votes }; options are always the source of counts.",
+      },
+      {
+        name: "votedId / defaultVotedId / onVote",
+        type: "string | null / string / (id) => void",
+        description: "Controlled or uncontrolled viewer vote.",
+      },
+      {
+        name: "allowRevote",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Let the viewer move their vote between outcomes.",
+      },
+      {
+        name: "closesAt",
+        type: "string | Date",
+        description: "Compact mono CLOSES footer line.",
+      },
+    ],
+    usageNotes: [
+      "Rows are aria-pressed buttons; each vote announces the new percentage and leadership once.",
+      "Under reduced motion widths jump and the leader tick teleports; the readouts pulse instead of rolling.",
+    ],
+  },
+  {
+    name: "balance-card",
+    type: "registry:block",
+    title: "Balance Card",
+    description:
+      "A balance with a private side — the numeral carry-rolls behind a privacy blur, a sparkline draws itself, and the card flips to its activity face.",
+    files: [
+      {
+        path: "registry/blocks/balance-card/balance-card.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["finance"],
+    meta: { serial: "KB-115" },
+    tagline: "A balance with a private side.",
+    keywords: ["balance", "wallet", "account", "card", "sparkline", "flip"],
+    props: [
+      {
+        name: "balance / format / delta / series",
+        type: "number / (v)=>string / {value,direction} / number[]",
+        description: "The carry-rolling amount, its delta chip, and the sparkline data.",
+      },
+      {
+        name: "activity",
+        type: "BalanceActivity[]",
+        description: "Back-face rows: { id, label, amount, time }.",
+      },
+      {
+        name: "onAction",
+        type: '(action: "send" | "receive" | "convert") => void',
+        description: "Fires from the action row.",
+      },
+      {
+        name: "defaultHidden",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Start with the balance blurred.",
+      },
+    ],
+    usageNotes: [
+      "The hidden face is inert and aria-hidden — the flip never traps focus or leaks taps.",
+      "Under reduced motion the flip is instant, the sparkline arrives drawn, and the blur toggles without a tween.",
+    ],
+  },
+  {
+    name: "exchange-panel",
+    type: "registry:block",
+    title: "Exchange Panel",
+    description:
+      "Two units, one clean swap — the edited side is live, the computed side carry-rolls after a debounce, and swapping keeps focus while contents trade places.",
+    files: [
+      {
+        path: "registry/blocks/exchange-panel/exchange-panel.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "select",
+    ],
+    categories: ["finance"],
+    meta: { serial: "KB-116" },
+    tagline: "Two units, one clean swap.",
+    keywords: ["converter", "exchange", "swap", "units", "currency"],
+    props: [
+      {
+        name: "units",
+        type: "ExchangeUnit[] | ExchangeGroup[]",
+        description:
+          "Linear factors to a shared base unit; groups render a grouped select.",
+      },
+      {
+        name: "feeRate",
+        type: "number",
+        defaultValue: "0",
+        description: "Fraction applied to the converted side, shown as a fee row.",
+      },
+      {
+        name: "onChange / onDirectionChange",
+        type: "(state) => void / (from, to) => void",
+        description: "Conversion updates and swap events.",
+      },
+      {
+        name: "debounceMs",
+        type: "number",
+        defaultValue: "200",
+        description: "Delay before the computed side rolls.",
+      },
+    ],
+    usageNotes: [
+      "One side holds authority; the other is always derived — swapping transfers authority with the gesture and refocuses the input.",
+      "Under reduced motion contents swap instantly and the readout uses its highlight fallback.",
+    ],
+  },
+  {
     name: "launch-checklist",
     type: "registry:block",
     title: "Launch Checklist",

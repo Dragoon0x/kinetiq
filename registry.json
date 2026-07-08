@@ -1033,6 +1033,170 @@
       }
     },
     {
+      "name": "beacon",
+      "type": "registry:block",
+      "title": "Beacon",
+      "description": "One capsule, every live activity — the shell morphs between timer, upload, call, and now-playing views with blur crossfades, corners pinned.",
+      "files": [
+        {
+          "path": "registry/blocks/beacon/beacon.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "categories": [
+        "application"
+      ],
+      "meta": {
+        "serial": "KB-111"
+      }
+    },
+    {
+      "name": "field-report",
+      "type": "registry:block",
+      "title": "Field Report",
+      "description": "Feedback that files itself — a notch rating with a gliding indicator, a growing note field, and a submit that folds the form into a slot under a LOGGED stamp.",
+      "files": [
+        {
+          "path": "registry/blocks/field-report/field-report.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/pressure-button.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KB-112"
+      }
+    },
+    {
+      "name": "not-found",
+      "type": "registry:block",
+      "title": "Not Found",
+      "description": "Sweep complete, sector empty — a radar arc scans a quiet grid while the 404 numeral deciphers itself, with home and command-deck exits.",
+      "files": [
+        {
+          "path": "registry/blocks/not-found/not-found.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/cipher-text.json",
+        "https://kinetiq.dev/r/pressure-button.json"
+      ],
+      "categories": [
+        "pages"
+      ],
+      "meta": {
+        "serial": "KB-113"
+      }
+    },
+    {
+      "name": "forecast-card",
+      "type": "registry:block",
+      "title": "Forecast Card",
+      "description": "Every vote moves every bar — one commit renormalizes the whole field while percentages carry-roll and the leader tick migrates to the new front-runner.",
+      "files": [
+        {
+          "path": "registry/blocks/forecast-card/forecast-card.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KB-114"
+      }
+    },
+    {
+      "name": "balance-card",
+      "type": "registry:block",
+      "title": "Balance Card",
+      "description": "A balance with a private side — the numeral carry-rolls behind a privacy blur, a sparkline draws itself, and the card flips to its activity face.",
+      "files": [
+        {
+          "path": "registry/blocks/balance-card/balance-card.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KB-115"
+      }
+    },
+    {
+      "name": "exchange-panel",
+      "type": "registry:block",
+      "title": "Exchange Panel",
+      "description": "Two units, one clean swap — the edited side is live, the computed side carry-rolls after a debounce, and swapping keeps focus while contents trade places.",
+      "files": [
+        {
+          "path": "registry/blocks/exchange-panel/exchange-panel.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json",
+        "https://kinetiq.dev/r/readout.json",
+        "https://kinetiq.dev/r/select.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KB-116"
+      }
+    },
+    {
       "name": "launch-checklist",
       "type": "registry:block",
       "title": "Launch Checklist",
