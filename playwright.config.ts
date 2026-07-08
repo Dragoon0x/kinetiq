@@ -8,7 +8,8 @@ export default defineConfig({
     baseURL: "http://localhost:3100",
   },
   webServer: {
-    command: "pnpm dev --port 3100",
+    // Serves the production build — run `pnpm build` first (CI does).
+    command: "pnpm start --port 3100",
     url: "http://localhost:3100",
     reuseExistingServer: true,
     timeout: 120_000,

@@ -26,9 +26,14 @@ for (const item of allItems) {
   names.add(item.name);
 }
 
-/** Catalog items that appear in nav/docs (excludes shared libs/hooks). */
-export const catalogComponents = components.filter((c) => !c.draft);
-export const catalogBlocks = blocks.filter((b) => !b.draft);
+const bySerial = (a: KinetiqItem, b: KinetiqItem) =>
+  (a.meta?.serial ?? "").localeCompare(b.meta?.serial ?? "");
+
+/** Catalog items that appear in nav/docs (excludes shared libs/hooks), in serial order. */
+export const catalogComponents = components
+  .filter((c) => !c.draft)
+  .sort(bySerial);
+export const catalogBlocks = blocks.filter((b) => !b.draft).sort(bySerial);
 
 export const itemBySlug = (slug: string): KinetiqItem | undefined =>
   allItems.find((item) => item.name === slug);

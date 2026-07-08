@@ -30,6 +30,529 @@
       }
     },
     {
+      "name": "trace-input",
+      "type": "registry:ui",
+      "title": "Trace Input",
+      "description": "Focus draws its own boundary — a stroke traces the field's perimeter, the label glides to an overline, and errors annotate themselves with a dimension line.",
+      "files": [
+        {
+          "path": "registry/ui/trace-input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-002"
+      }
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "The tick is drawn, not shown — a pathLength stroke on flick, an indeterminate dash that slides in, and group select-alls that cascade down the list.",
+      "files": [
+        {
+          "path": "registry/ui/checkbox.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-004"
+      }
+    },
+    {
+      "name": "breaker-switch",
+      "type": "registry:ui",
+      "title": "Breaker Switch",
+      "description": "A toggle with mechanical conviction — the thumb stretches in anticipation while held, throws on snap, and squashes against the track end as the rail recoils.",
+      "files": [
+        {
+          "path": "registry/ui/breaker-switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-003"
+      }
+    },
+    {
+      "name": "caliper-slider",
+      "type": "registry:ui",
+      "title": "Caliper Slider",
+      "description": "Reads like a vernier, moves like grease — 1:1 drag with a snap settle, ticks that lean toward the jaw, and a live measured-span dimension line in range mode.",
+      "files": [
+        {
+          "path": "registry/ui/caliper-slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-005"
+      }
+    },
+    {
+      "name": "drawer-accordion",
+      "type": "registry:ui",
+      "title": "Drawer Accordion",
+      "description": "Opens like a specimen cabinet — height glides while the inner content lags a beat behind, like paper settling in a pulled drawer.",
+      "files": [
+        {
+          "path": "registry/ui/drawer-accordion.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "disclosure"
+      ],
+      "meta": {
+        "serial": "KQ-007"
+      }
+    },
+    {
+      "name": "gantry-tabs",
+      "type": "registry:ui",
+      "title": "Gantry Tabs",
+      "description": "The indicator rides a rail — its leading edge glides ahead while the trailing edge lags a beat, stretching toward the destination before contracting to fit.",
+      "files": [
+        {
+          "path": "registry/ui/gantry-tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-006"
+      }
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "A menu that unfolds from where you asked — the panel scales from the trigger's edge, options cascade in, and a highlight bar glides between them.",
+      "files": [
+        {
+          "path": "registry/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-010"
+      }
+    },
+    {
+      "name": "morph-dialog",
+      "type": "registry:ui",
+      "title": "Morph Dialog",
+      "description": "The trigger becomes the dialog — a shared-element morph glides the card you clicked into the panel it opens, and reverses on close.",
+      "files": [
+        {
+          "path": "registry/ui/morph-dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlay"
+      ],
+      "meta": {
+        "serial": "KQ-009"
+      }
+    },
+    {
+      "name": "telemetry-toast",
+      "type": "registry:ui",
+      "title": "Telemetry Toast",
+      "description": "Messages that queue like readings — recoil arrivals, a depth-receding stack, swipe dismissal with velocity projection, and timers that pause under your pointer.",
+      "files": [
+        {
+          "path": "registry/ui/telemetry-toast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-011"
+      }
+    },
+    {
+      "name": "readout",
+      "type": "registry:ui",
+      "title": "Readout",
+      "description": "Numbers with momentum — per-digit vertical rolls with real carry propagation, so 199 → 200 visibly carries right to left.",
+      "files": [
+        {
+          "path": "registry/ui/readout.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-012"
+      }
+    },
+    {
+      "name": "focus-text",
+      "type": "registry:ui",
+      "title": "Focus Text",
+      "description": "Copy that resolves under the lens — words sharpen from an 8px blur like a microscope focus-pull, cascaded under the 600ms budget.",
+      "files": [
+        {
+          "path": "registry/ui/focus-text.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-013"
+      }
+    },
+    {
+      "name": "scope-scrubber",
+      "type": "registry:ui",
+      "title": "Scope Scrubber",
+      "description": "Drag a value; watch its physics — a scrub input with a live oscilloscope trace behind the numeral, where the settle spring's overshoot draws itself.",
+      "files": [
+        {
+          "path": "registry/ui/scope-scrubber.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms",
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-015"
+      }
+    },
+    {
+      "name": "gyro-card",
+      "type": "registry:ui",
+      "title": "Gyro Card",
+      "description": "A card with a sense of balance — pointer tilt with real inertia that overshoots past level and rebalances when you leave, with layered parallax and tracking glare.",
+      "files": [
+        {
+          "path": "registry/ui/gyro-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "display"
+      ],
+      "meta": {
+        "serial": "KQ-017"
+      }
+    },
+    {
+      "name": "flapboard",
+      "type": "registry:ui",
+      "title": "Flapboard",
+      "description": "Split-flap departures for your data — each cell flips through intermediate characters with a column cascade, like an airport board settling.",
+      "files": [
+        {
+          "path": "registry/ui/flapboard.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data",
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-014"
+      }
+    },
+    {
+      "name": "metronome-loader",
+      "type": "registry:ui",
+      "title": "Metronome Loader",
+      "description": "Waiting, kept honest — a pendulum, a bearing cradle, or a radar sweep; give it a value and it morphs into a determinate arc gauge.",
+      "files": [
+        {
+          "path": "registry/ui/metronome-loader.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-016"
+      }
+    },
+    {
+      "name": "ticker-tape",
+      "type": "registry:ui",
+      "title": "Ticker Tape",
+      "description": "A marquee with friction — hover applies drag, grabbing tracks 1:1, and a fling carries real momentum that decays back to duty speed.",
+      "files": [
+        {
+          "path": "registry/ui/ticker-tape.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-020"
+      }
+    },
+    {
+      "name": "scan-reveal",
+      "type": "registry:ui",
+      "title": "Scan Reveal",
+      "description": "Sections develop as the scanner passes — a scroll-linked scan line sweeps once, and content resolves beneath it with a coordinate readout riding the beam.",
+      "files": [
+        {
+          "path": "registry/ui/scan-reveal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion",
+        "scroll"
+      ],
+      "meta": {
+        "serial": "KQ-021"
+      }
+    },
+    {
+      "name": "magnet-dock",
+      "type": "registry:ui",
+      "title": "Magnet Dock",
+      "description": "Icons that feel the cursor coming — a cosine distance field magnifies the dock, and drag-reorder parts neighbors magnetically before snapping into a slot.",
+      "files": [
+        {
+          "path": "registry/ui/magnet-dock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-018"
+      }
+    },
+    {
+      "name": "conveyor-list",
+      "type": "registry:ui",
+      "title": "Conveyor List",
+      "description": "A queue that moves like a belt — items drift in from the feed side, brake into their slot with a squash, and lift off the belt when removed.",
+      "files": [
+        {
+          "path": "registry/ui/conveyor-list.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-019"
+      }
+    },
+    {
+      "name": "callout",
+      "type": "registry:ui",
+      "title": "Callout",
+      "description": "A tooltip with a leader line — the label pops from the anchor while a schematic elbow line draws itself to the card.",
+      "files": [
+        {
+          "path": "registry/ui/callout.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlay"
+      ],
+      "meta": {
+        "serial": "KQ-008"
+      }
+    },
+    {
       "name": "launch-checklist",
       "type": "registry:block",
       "title": "Launch Checklist",
