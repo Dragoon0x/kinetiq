@@ -1,11 +1,19 @@
 import type { MetadataRoute } from "next";
 
+import { guides } from "@/content/guides";
 import { labs } from "@/content/labs";
 import { catalogBlocks, catalogComponents } from "@/content/manifest";
 import { siteConfig } from "@/lib/site-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["", "/components", "/blocks", "/playground", "/agents"];
+  const staticRoutes = [
+    "",
+    "/components",
+    "/blocks",
+    "/playground",
+    "/guides",
+    "/agents",
+  ];
 
   return [
     ...staticRoutes.map((route) => ({
@@ -25,6 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...labs.map((lab) => ({
       url: `${siteConfig.url}/playground/${lab.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
+    ...guides.map((guide) => ({
+      url: `${siteConfig.url}/guides/${guide.slug}`,
       changeFrequency: "monthly" as const,
       priority: 0.6,
     })),

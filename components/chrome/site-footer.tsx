@@ -10,6 +10,14 @@ const COLUMNS = [
       { href: "/blocks", label: "Blocks" },
     ],
   },
+  {
+    heading: "LEARN",
+    links: [
+      { href: "/playground", label: "Playground" },
+      { href: "/guides", label: "Guides" },
+      { href: "/agents", label: "For AI agents" },
+    ],
+  },
 ] as const;
 
 export function SiteFooter() {

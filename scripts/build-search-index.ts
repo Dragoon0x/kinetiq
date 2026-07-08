@@ -5,6 +5,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
+import { guides } from "../content/guides";
 import { labs } from "../content/labs";
 import { catalogBlocks, catalogComponents } from "../content/manifest";
 
@@ -46,6 +47,15 @@ async function main() {
         tagline: lab.tagline,
         keywords: [lab.serial, "playground", "lab", lab.slug],
         href: `/playground/${lab.slug}`,
+      }),
+    ),
+    ...guides.map(
+      (guide): SearchEntry => ({
+        section: "Guides",
+        title: guide.title,
+        tagline: guide.tagline,
+        keywords: [guide.serial, "guide", "manual"],
+        href: `/guides/${guide.slug}`,
       }),
     ),
     {

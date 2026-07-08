@@ -1,3 +1,4 @@
+import { guides } from "@/content/guides";
 import { labs } from "@/content/labs";
 import {
   catalogBlocks,
@@ -59,6 +60,13 @@ export function GET() {
     ...labs.map(
       (lab) =>
         `- [${lab.title}](${siteConfig.url}/playground/${lab.slug}): ${lab.tagline}`,
+    ),
+    "",
+    "## Guides",
+    "",
+    ...guides.map(
+      (guide) =>
+        `- [${guide.title}](${siteConfig.url}/guides/${guide.slug}): ${guide.tagline}`,
     ),
     "",
   ];

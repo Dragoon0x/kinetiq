@@ -1,13 +1,20 @@
 import { expect, test } from "@playwright/test";
 
+import { guides } from "../content/guides";
+import { labs } from "../content/labs";
 import { catalogBlocks, catalogComponents } from "../content/manifest";
 
 const routes = [
   "/",
   "/components",
   "/blocks",
+  "/playground",
+  "/guides",
+  "/agents",
   ...catalogComponents.map((c) => `/components/${c.name}`),
   ...catalogBlocks.map((b) => `/blocks/${b.name}`),
+  ...labs.map((lab) => `/playground/${lab.slug}`),
+  ...guides.map((guide) => `/guides/${guide.slug}`),
 ];
 
 for (const route of routes) {
