@@ -6,7 +6,7 @@
 export const PLACEHOLDER_ORIGIN = "https://kinetiq.dev";
 
 /** The live production origin, used when no deploy env var overrides it. */
-const CANONICAL_ORIGIN = "https://kinetiq-ui.vercel.app";
+const CANONICAL_ORIGIN = "https://kinetiqui.vercel.app";
 
 /**
  * The canonical origin. Everything that emits an absolute URL — registry

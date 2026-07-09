@@ -67,11 +67,11 @@ Components are distributed as source through a shadcn-compatible registry.
 
 ```sh
 # One-time: register the namespace
-npx shadcn@latest registry add @kinetiq=https://kinetiq-ui.vercel.app/r/{name}.json
+npx shadcn@latest registry add @kinetiq=https://kinetiqui.vercel.app/r/{name}.json
 # Then add by name
 npx shadcn@latest add @kinetiq/pressure-button
 # Or zero-config by URL
-npx shadcn@latest add https://kinetiq-ui.vercel.app/r/pressure-button.json
+npx shadcn@latest add https://kinetiqui.vercel.app/r/pressure-button.json
 ```
 
 Installed components import shared helpers (`lib/motion`, `lib/utils`, the
