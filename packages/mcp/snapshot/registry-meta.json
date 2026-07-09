@@ -9,7 +9,7 @@
     "counts": {
       "components": 59,
       "blocks": 16,
-      "shared": 4
+      "shared": 6
     }
   },
   "motion": {
@@ -4851,6 +4851,58 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/use-motion-safe",
         "bun": "bunx --bun shadcn@latest add @kinetiq/use-motion-safe",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      }
+    },
+    {
+      "slug": "spatial",
+      "kind": "shared",
+      "type": "registry:lib",
+      "title": "Spatial Set",
+      "tagline": "Perspective, detents, orbits, lift.",
+      "description": "The shared geometry vocabulary of the spatial instruments — house perspective range, angle detents, contact-lift shadows, orbit projection, and deterministic seeding.",
+      "keywords": [
+        "spatial",
+        "3d",
+        "perspective",
+        "geometry",
+        "orbit"
+      ],
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/spatial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spatial",
+        "npm": "npx shadcn@latest add @kinetiq/spatial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spatial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spatial",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/spatial.json"
+      }
+    },
+    {
+      "slug": "use-pointer-tilt",
+      "kind": "shared",
+      "type": "registry:hook",
+      "title": "usePointerTilt",
+      "tagline": "Pointer → sprung perspective.",
+      "description": "Normalized pointer tracking mapped to sprung tilt values — the house idiom for pointer-driven perspective, with an underdamped rebalance on leave and a fine-pointer gate.",
+      "keywords": [
+        "tilt",
+        "pointer",
+        "3d",
+        "parallax",
+        "hook"
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/motion.json"
+      ],
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/use-pointer-tilt.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/use-pointer-tilt",
+        "npm": "npx shadcn@latest add @kinetiq/use-pointer-tilt",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/use-pointer-tilt",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/use-pointer-tilt",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
       }
     },
     {

@@ -12,6 +12,7 @@ import { cn } from "@/registry/lib/utils";
 const NAV = [
   { href: "/components", label: "Components" },
   { href: "/explore", label: "Explore" },
+  { href: "/spatial", label: "Spatial" },
   { href: "/blocks", label: "Blocks" },
   { href: "/playground", label: "Playground" },
   { href: "/guides", label: "Guides" },

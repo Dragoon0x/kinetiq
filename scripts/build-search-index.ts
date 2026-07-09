@@ -6,6 +6,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { itemsByCategory } from "../content/categories";
+import { itemsByCollection } from "../content/collections";
 import { guides } from "../content/guides";
 import { labs } from "../content/labs";
 import { catalogBlocks, catalogComponents } from "../content/manifest";
@@ -73,6 +74,22 @@ async function main() {
       keywords: ["explore", "gallery", "filter", "browse", "catalog"],
       href: "/explore",
     },
+    {
+      section: "Pages",
+      title: "Spatial wing",
+      tagline: "Depth as a material — the spatial collections, live.",
+      keywords: ["spatial", "3d", "depth", "wing", "collections", "gallery"],
+      href: "/spatial",
+    },
+    ...itemsByCollection(catalogComponents).map(
+      ({ collection }): SearchEntry => ({
+        section: "Pages",
+        title: `${collection.label} — Spatial wing`,
+        tagline: collection.blurb,
+        keywords: [collection.slug, "spatial", "collection"],
+        href: `/components/category/spatial#${collection.slug}`,
+      }),
+    ),
     ...itemsByCategory(catalogComponents).map(
       ({ category }): SearchEntry => ({
         section: "Pages",

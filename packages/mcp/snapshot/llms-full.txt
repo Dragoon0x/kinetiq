@@ -1378,6 +1378,20 @@ Single source of truth for reduced-motion decisions: combines the OS preference 
 
 Install: `pnpm dlx shadcn@latest add @kinetiq/use-motion-safe`
 
+### Spatial Set — `spatial`
+Perspective, detents, orbits, lift.
+
+The shared geometry vocabulary of the spatial instruments — house perspective range, angle detents, contact-lift shadows, orbit projection, and deterministic seeding.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spatial`
+
+### usePointerTilt — `use-pointer-tilt`
+Pointer → sprung perspective.
+
+Normalized pointer tracking mapped to sprung tilt values — the house idiom for pointer-driven perspective, with an underdamped rebalance on leave and a fine-pointer gate.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/use-pointer-tilt`
+
 ### Agent Rules — `agents-rules`
 The design-system operating rules for agents.
 

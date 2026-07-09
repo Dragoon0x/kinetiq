@@ -7,7 +7,9 @@ import {
   categoryBySlug,
   categoryOf,
 } from "@/content/categories";
+import { itemsByCollection } from "@/content/collections";
 import { catalogComponents } from "@/content/manifest";
+import type { KinetiqItem } from "@/content/manifest/types";
 
 export const dynamicParams = false;
 
@@ -70,22 +72,33 @@ export default async function ComponentCategoryPage({
       </h1>
       <p className="text-ink-2 mt-3 max-w-xl text-base">{category.blurb}</p>
 
-      <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((component) => (
-          <li key={component.name}>
-            <Link
-              href={`/components/${component.name}`}
-              className="group border-hairline bg-surface-1 hover:border-hairline-strong block h-full rounded-3 border p-5 transition-colors"
+      {category.slug === "spatial" ? (
+        // The wing is navigated by collection — one anchored section each.
+        <div className="mt-4">
+          {itemsByCollection(items).map(({ collection, items: members }) => (
+            <section
+              key={collection.slug}
+              id={collection.slug}
+              className="mt-10 scroll-mt-24"
             >
-              <p className="text-label text-ink-3">{component.meta?.serial}</p>
-              <h2 className="group-hover:text-cobalt-bright mt-3 font-semibold transition-colors">
-                {component.title}
-              </h2>
-              <p className="text-ink-2 mt-1.5 text-sm">{component.tagline}</p>
-            </Link>
-          </li>
-        ))}
-      </ul>
+              <div className="flex items-baseline justify-between gap-4">
+                <h2 className="text-xl font-semibold tracking-tight">
+                  {collection.label}
+                </h2>
+                <p aria-hidden className="text-label text-ink-3">
+                  {String(members.length).padStart(2, "0")}
+                </p>
+              </div>
+              <p className="text-ink-2 mt-1.5 max-w-xl text-sm">
+                {collection.blurb}
+              </p>
+              <CardGrid items={members} headingLevel="h3" className="mt-5" />
+            </section>
+          ))}
+        </div>
+      ) : (
+        <CardGrid items={items} headingLevel="h2" className="mt-10" />
+      )}
 
       <Link
         href={`/explore?category=${category.slug}`}
@@ -95,5 +108,36 @@ export default async function ComponentCategoryPage({
         <span aria-hidden>→</span>
       </Link>
     </main>
+  );
+}
+
+function CardGrid({
+  items,
+  headingLevel,
+  className,
+}: {
+  items: KinetiqItem[];
+  /** h2 under the page title, h3 under a collection heading. */
+  headingLevel: "h2" | "h3";
+  className?: string;
+}) {
+  const Heading = headingLevel;
+  return (
+    <ul className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${className ?? ""}`}>
+      {items.map((component) => (
+        <li key={component.name}>
+          <Link
+            href={`/components/${component.name}`}
+            className="group border-hairline bg-surface-1 hover:border-hairline-strong block h-full rounded-3 border p-5 transition-colors"
+          >
+            <p className="text-label text-ink-3">{component.meta?.serial}</p>
+            <Heading className="group-hover:text-cobalt-bright mt-3 font-semibold transition-colors">
+              {component.title}
+            </Heading>
+            <p className="text-ink-2 mt-1.5 text-sm">{component.tagline}</p>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }

@@ -9,6 +9,7 @@ const routes = [
   "/",
   "/components",
   "/explore",
+  "/spatial",
   "/blocks",
   "/playground",
   "/guides",

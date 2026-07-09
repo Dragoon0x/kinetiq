@@ -40,6 +40,30 @@ export const shared: KinetiqItem[] = [
     keywords: ["reduced motion", "accessibility"],
   },
   {
+    name: "spatial",
+    type: "registry:lib",
+    title: "Spatial Set",
+    description:
+      "The shared geometry vocabulary of the spatial instruments — house perspective range, angle detents, contact-lift shadows, orbit projection, and deterministic seeding.",
+    files: [{ path: "registry/lib/spatial.ts", type: "registry:lib" }],
+    tagline: "Perspective, detents, orbits, lift.",
+    keywords: ["spatial", "3d", "perspective", "geometry", "orbit"],
+  },
+  {
+    name: "use-pointer-tilt",
+    type: "registry:hook",
+    title: "usePointerTilt",
+    description:
+      "Normalized pointer tracking mapped to sprung tilt values — the house idiom for pointer-driven perspective, with an underdamped rebalance on leave and a fine-pointer gate.",
+    files: [
+      { path: "registry/hooks/use-pointer-tilt.ts", type: "registry:hook" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["motion"],
+    tagline: "Pointer → sprung perspective.",
+    keywords: ["tilt", "pointer", "3d", "parallax", "hook"],
+  },
+  {
     name: "agents-rules",
     type: "registry:file",
     title: "Agent Rules",

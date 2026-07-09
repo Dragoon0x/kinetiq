@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/components",
     "/explore",
+    "/spatial",
     "/blocks",
     "/playground",
     "/guides",

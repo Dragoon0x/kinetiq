@@ -7,6 +7,10 @@ import { useMemo, useState } from "react";
 import { useTheme, type Theme } from "@/components/chrome/theme-provider";
 import { LazyPlate } from "@/components/explore/lazy-plate";
 import { CATEGORIES, type CategorySlug } from "@/content/categories";
+import {
+  SPATIAL_COLLECTIONS,
+  type CollectionSlug,
+} from "@/content/collections";
 import { cn } from "@/registry/lib/utils";
 
 export type ExploreItem = {
@@ -16,6 +20,8 @@ export type ExploreItem = {
   serial: string;
   label: string;
   category: CategorySlug;
+  /** Wing collection, for spatial instruments only. */
+  collection: CollectionSlug | null;
   keywords: string[];
 };
 
@@ -37,15 +43,32 @@ export function Explorer({ items }: { items: ExploreItem[] }) {
       ? new Set([initialCategory])
       : new Set<CategorySlug>(),
   );
+  const [collections, setCollections] = useState<Set<CollectionSlug>>(
+    () => new Set<CollectionSlug>(),
+  );
   const [query, setQuery] = useState("");
   const [compact, setCompact] = useState(false);
   const [override, setOverride] = useState<Theme | null>(null);
   const previewTheme = override ?? theme;
 
+  const presentCollections = useMemo(() => {
+    const present = new Set(items.map((i) => i.collection));
+    return SPATIAL_COLLECTIONS.filter((c) => present.has(c.slug));
+  }, [items]);
+  const spatialActive = selected.has("spatial");
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return items.filter((item) => {
       if (selected.size > 0 && !selected.has(item.category)) return false;
+      if (
+        spatialActive &&
+        collections.size > 0 &&
+        item.category === "spatial" &&
+        (item.collection === null || !collections.has(item.collection))
+      ) {
+        return false;
+      }
       if (!q) return true;
       return (
         item.title.toLowerCase().includes(q) ||
@@ -54,10 +77,23 @@ export function Explorer({ items }: { items: ExploreItem[] }) {
         item.keywords.some((k) => k.toLowerCase().includes(q))
       );
     });
-  }, [items, selected, query]);
+  }, [items, selected, spatialActive, collections, query]);
 
   const toggleCategory = (slug: CategorySlug) =>
     setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(slug)) {
+        next.delete(slug);
+        // Leaving the wing retires its sub-filter too.
+        if (slug === "spatial") setCollections(new Set());
+      } else {
+        next.add(slug);
+      }
+      return next;
+    });
+
+  const toggleCollection = (slug: CollectionSlug) =>
+    setCollections((prev) => {
       const next = new Set(prev);
       if (next.has(slug)) next.delete(slug);
       else next.add(slug);
@@ -66,10 +102,12 @@ export function Explorer({ items }: { items: ExploreItem[] }) {
 
   const clearFilters = () => {
     setSelected(new Set());
+    setCollections(new Set());
     setQuery("");
   };
 
-  const hasFilters = selected.size > 0 || query.trim().length > 0;
+  const hasFilters =
+    selected.size > 0 || collections.size > 0 || query.trim().length > 0;
   const minHeight = compact ? 220 : 300;
 
   return (
@@ -144,6 +182,37 @@ export function Explorer({ items }: { items: ExploreItem[] }) {
             </button>
           ) : null}
         </div>
+
+        {spatialActive && presentCollections.length > 0 ? (
+          <div
+            aria-label="Spatial collections"
+            role="group"
+            className="mt-2 flex flex-wrap items-center gap-1.5"
+          >
+            <span aria-hidden className="text-label text-ink-3 px-1">
+              WING
+            </span>
+            {presentCollections.map((collection) => {
+              const on = collections.has(collection.slug);
+              return (
+                <button
+                  key={collection.slug}
+                  type="button"
+                  aria-pressed={on}
+                  onClick={() => toggleCollection(collection.slug)}
+                  className={cn(
+                    "rounded-full border px-2.5 py-0.5 text-xs transition-colors",
+                    on
+                      ? "border-cobalt-bright bg-cobalt-wash text-cobalt-bright"
+                      : "border-hairline text-ink-3 hover:text-ink hover:border-hairline-strong",
+                  )}
+                >
+                  {collection.label}
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
 
         <p aria-live="polite" className="text-label text-ink-3 mt-3">
           {filtered.length} of {items.length} specimens

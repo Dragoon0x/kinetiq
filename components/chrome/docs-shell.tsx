@@ -3,20 +3,43 @@ import {
   type SidebarGroup,
 } from "@/components/chrome/docs-sidebar";
 import { itemsByCategory } from "@/content/categories";
+import {
+  assertSpatialCollections,
+  itemsByCollection,
+} from "@/content/collections";
 import { catalogBlocks, catalogComponents } from "@/content/manifest";
 
 function catalogGroups(): SidebarGroup[] {
-  const componentGroups: SidebarGroup[] = itemsByCategory(catalogComponents).map(
-    ({ category, items }) => ({
-      heading: category.label,
-      href: `/components/category/${category.slug}`,
-      items: items.map((c) => ({
-        href: `/components/${c.name}`,
-        label: c.title,
-        serial: c.meta?.serial,
-      })),
-    }),
-  );
+  // Fails the build loudly if a spatial instrument lacks a collection.
+  assertSpatialCollections(catalogComponents);
+
+  const componentGroups: SidebarGroup[] = itemsByCategory(
+    catalogComponents,
+  ).flatMap(({ category, items }) => {
+    // The Spatial wing navigates by collection, not as one giant category.
+    if (category.slug === "spatial") {
+      return itemsByCollection(items).map(({ collection, items: members }) => ({
+        heading: `Spatial · ${collection.label}`,
+        href: `/components/category/spatial#${collection.slug}`,
+        items: members.map((c) => ({
+          href: `/components/${c.name}`,
+          label: c.title,
+          serial: c.meta?.serial,
+        })),
+      }));
+    }
+    return [
+      {
+        heading: category.label,
+        href: `/components/category/${category.slug}`,
+        items: items.map((c) => ({
+          href: `/components/${c.name}`,
+          label: c.title,
+          serial: c.meta?.serial,
+        })),
+      },
+    ];
+  });
 
   const blocksGroup: SidebarGroup = {
     heading: "Blocks",

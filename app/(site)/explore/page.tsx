@@ -3,6 +3,7 @@ import { Suspense } from "react";
 
 import { Explorer, type ExploreItem } from "@/components/explore/explorer";
 import { categoryOf } from "@/content/categories";
+import { collectionOf } from "@/content/collections";
 import { catalogComponents } from "@/content/manifest";
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function ExplorePage() {
     serial: c.meta?.serial ?? "KQ-000",
     label: c.name.replace(/-/g, "/").toUpperCase(),
     category: categoryOf(c),
+    collection: collectionOf(c)?.slug ?? null,
     keywords: c.keywords,
   }));
 
