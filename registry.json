@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "kinetiq",
-  "homepage": "https://kinetiq.dev",
+  "homepage": "https://kinetiq-ui.vercel.app",
   "items": [
     {
       "name": "pressure-button",
@@ -18,9 +18,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "buttons"
@@ -44,9 +44,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "forms"
@@ -70,9 +70,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "forms"
@@ -96,9 +96,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "forms"
@@ -122,9 +122,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "forms"
@@ -148,9 +148,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "disclosure"
@@ -174,9 +174,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "navigation"
@@ -200,9 +200,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "forms"
@@ -226,9 +226,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "overlay"
@@ -252,9 +252,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "feedback"
@@ -278,9 +278,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "data"
@@ -304,9 +304,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "text"
@@ -330,9 +330,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "forms",
@@ -357,9 +357,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "display"
@@ -383,9 +383,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "data",
@@ -410,9 +410,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "feedback"
@@ -436,9 +436,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "motion"
@@ -462,9 +462,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "motion",
@@ -489,9 +489,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "forms"
@@ -515,9 +515,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "forms",
@@ -542,9 +542,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "buttons"
@@ -568,10 +568,10 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
       "categories": [
         "display",
@@ -596,9 +596,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "navigation"
@@ -622,9 +622,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "overlay"
@@ -648,9 +648,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "overlay"
@@ -674,10 +674,10 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/checkbox.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/checkbox.json"
       ],
       "categories": [
         "data"
@@ -701,9 +701,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "display"
@@ -725,8 +725,8 @@
       ],
       "dependencies": [],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "backgrounds"
@@ -748,8 +748,8 @@
       ],
       "dependencies": [],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "backgrounds"
@@ -773,9 +773,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "controls"
@@ -799,9 +799,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "text"
@@ -825,9 +825,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "navigation"
@@ -851,9 +851,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "data"
@@ -877,9 +877,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "overlay"
@@ -904,9 +904,9 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "navigation"
@@ -930,9 +930,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "layout"
@@ -956,9 +956,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "selection"
@@ -983,9 +983,9 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "physics"
@@ -1009,9 +1009,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "data"
@@ -1035,9 +1035,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "data"
@@ -1061,9 +1061,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "spatial"
@@ -1087,9 +1087,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "spatial"
@@ -1110,8 +1110,8 @@
         }
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "physics"
@@ -1132,8 +1132,8 @@
         }
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "physics"
@@ -1157,9 +1157,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "physics"
@@ -1180,8 +1180,8 @@
         }
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "backgrounds"
@@ -1202,8 +1202,8 @@
         }
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "backgrounds"
@@ -1227,9 +1227,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "cursor"
@@ -1250,8 +1250,8 @@
         }
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "backgrounds"
@@ -1272,8 +1272,8 @@
         }
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "spatial"
@@ -1297,9 +1297,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "backgrounds"
@@ -1320,8 +1320,8 @@
         }
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "cursor"
@@ -1342,8 +1342,8 @@
         }
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "backgrounds"
@@ -1367,9 +1367,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "data"
@@ -1393,9 +1393,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "motion"
@@ -1419,9 +1419,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "physics"
@@ -1445,9 +1445,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "navigation"
@@ -1471,9 +1471,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "delight"
@@ -1497,9 +1497,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "delight"
@@ -1523,9 +1523,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "delight"
@@ -1549,9 +1549,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "application"
@@ -1575,12 +1575,12 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/trace-input.json",
-        "https://kinetiq.dev/r/pressure-button.json",
-        "https://kinetiq.dev/r/code-cells.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/trace-input.json",
+        "https://kinetiq-ui.vercel.app/r/pressure-button.json",
+        "https://kinetiq-ui.vercel.app/r/code-cells.json"
       ],
       "categories": [
         "authentication"
@@ -1604,9 +1604,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "menus"
@@ -1630,9 +1630,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "menus"
@@ -1656,10 +1656,10 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
       "categories": [
         "application"
@@ -1683,11 +1683,11 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/caliper-slider.json",
-        "https://kinetiq.dev/r/scope-scrubber.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/caliper-slider.json",
+        "https://kinetiq-ui.vercel.app/r/scope-scrubber.json"
       ],
       "categories": [
         "application"
@@ -1711,11 +1711,11 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/pressure-button.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/pressure-button.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
       "categories": [
         "commerce"
@@ -1739,9 +1739,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "forms"
@@ -1765,11 +1765,11 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json",
-        "https://kinetiq.dev/r/flapboard.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json",
+        "https://kinetiq-ui.vercel.app/r/flapboard.json"
       ],
       "categories": [
         "data"
@@ -1793,10 +1793,10 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
       "categories": [
         "application"
@@ -1820,10 +1820,10 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/pressure-button.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/pressure-button.json"
       ],
       "categories": [
         "feedback"
@@ -1847,11 +1847,11 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/cipher-text.json",
-        "https://kinetiq.dev/r/pressure-button.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/cipher-text.json",
+        "https://kinetiq-ui.vercel.app/r/pressure-button.json"
       ],
       "categories": [
         "pages"
@@ -1875,10 +1875,10 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
       "categories": [
         "data"
@@ -1902,10 +1902,10 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
       "categories": [
         "finance"
@@ -1929,11 +1929,11 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json",
-        "https://kinetiq.dev/r/select.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json",
+        "https://kinetiq-ui.vercel.app/r/select.json"
       ],
       "categories": [
         "finance"
@@ -1957,9 +1957,9 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
       "categories": [
         "onboarding"

@@ -1,25 +1,28 @@
 /**
- * The origin baked into source docs (the AGENTS.md rules) before the real
- * deployment origin is known. Build scripts rewrite it to the resolved origin
- * so no artifact or offline snapshot ever ships a dead install URL.
+ * A stand-in origin hardcoded in source docs (the AGENTS.md rules) that build
+ * scripts rewrite to the resolved origin, so no artifact or offline snapshot
+ * ever ships a dead install URL. Not a real destination — only a rewrite token.
  */
 export const PLACEHOLDER_ORIGIN = "https://kinetiq.dev";
+
+/** The live production origin, used when no deploy env var overrides it. */
+const CANONICAL_ORIGIN = "https://kinetiq-ui.vercel.app";
 
 /**
  * The canonical origin. Everything that emits an absolute URL — registry
  * install commands, machine catalog, llms.txt, sitemap, OG images — derives
  * from this, in both the Next runtime and the standalone tsx generate scripts.
  * Resolution order: an explicit NEXT_PUBLIC_SITE_URL (set once a custom domain
- * is attached) wins; on Vercel we fall back to the deployment's own production
- * domain so a fresh deploy is self-consistent with no configuration; local
- * builds use the placeholder.
+ * is attached) wins; on Vercel we otherwise take the deployment's own
+ * production domain; everything else (local dev, CI, the committed snapshot)
+ * uses the live production origin so generated artifacts are stable.
  */
 const resolveSiteUrl = () => {
   const explicit = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (explicit) return explicit.replace(/\/$/, "");
   const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
   if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
-  return PLACEHOLDER_ORIGIN;
+  return CANONICAL_ORIGIN;
 };
 
 export const siteConfig = {
