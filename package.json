@@ -16,8 +16,8 @@
     "format": "prettier --write .",
     "check": "pnpm generate && pnpm typecheck && pnpm lint && pnpm validate:registry && pnpm validate:meta",
     "test:e2e": "playwright test",
-    "mcp:build": "pnpm --filter @kinetiq/mcp build",
-    "mcp:test": "pnpm --filter @kinetiq/mcp test",
+    "mcp:build": "pnpm --filter @kinetiqui/mcp build",
+    "mcp:test": "pnpm --filter @kinetiqui/mcp test",
     "mcp:snapshot": "tsx scripts/build-machine-meta.ts"
   },
   "dependencies": {

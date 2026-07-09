@@ -28,16 +28,16 @@ const RESOURCES = [
 ] as const;
 
 const CLAUDE_CODE = `# After the package is published
-claude mcp add kinetiq -- npx -y @kinetiq/mcp
+claude mcp add kinetiq -- npx -y @kinetiqui/mcp
 
 # Point it at a local or forked registry
-claude mcp add kinetiq --env KINETIQ_REGISTRY_URL=http://localhost:3000 -- npx -y @kinetiq/mcp`;
+claude mcp add kinetiq --env KINETIQ_REGISTRY_URL=http://localhost:3000 -- npx -y @kinetiqui/mcp`;
 
 const CURSOR = `{
   "mcpServers": {
     "kinetiq": {
       "command": "npx",
-      "args": ["-y", "@kinetiq/mcp"],
+      "args": ["-y", "@kinetiqui/mcp"],
       "env": { "KINETIQ_REGISTRY_URL": "${siteConfig.url}" }
     }
   }
@@ -45,7 +45,7 @@ const CURSOR = `{
 
 const GENERIC = `{
   "command": "npx",
-  "args": ["-y", "@kinetiq/mcp"],
+  "args": ["-y", "@kinetiqui/mcp"],
   "env": { "KINETIQ_REGISTRY_URL": "${siteConfig.url}" }
 }`;
 

@@ -1,4 +1,4 @@
-# @kinetiq/mcp
+# @kinetiqui/mcp
 
 Model Context Protocol server for the **Kinetiq** motion design system. It lets
 any MCP-capable AI agent (Claude Code, Cursor, etc.) search the catalog, read a
@@ -8,7 +8,7 @@ live registry, with a bundled offline snapshot as a fallback.
 ## Use it (no install)
 
 ```bash
-npx @kinetiq/mcp
+npx @kinetiqui/mcp
 ```
 
 ### Claude Code
@@ -16,7 +16,7 @@ npx @kinetiq/mcp
 ```json
 {
   "mcpServers": {
-    "kinetiq": { "command": "npx", "args": ["-y", "@kinetiq/mcp"] }
+    "kinetiq": { "command": "npx", "args": ["-y", "@kinetiqui/mcp"] }
   }
 }
 ```
@@ -26,7 +26,7 @@ npx @kinetiq/mcp
 ```json
 {
   "mcpServers": {
-    "kinetiq": { "command": "npx", "args": ["-y", "@kinetiq/mcp"] }
+    "kinetiq": { "command": "npx", "args": ["-y", "@kinetiqui/mcp"] }
   }
 }
 ```
