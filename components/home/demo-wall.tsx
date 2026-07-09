@@ -10,14 +10,14 @@ import { catalogBlocks, catalogComponents } from "@/content/manifest";
  * rows, the canvas fields) live one click away on their own pages.
  */
 const FEATURED = [
+  "segmented-control",
+  "activity-rings",
+  "heart-tap",
   "zoetrope",
   "caliper-slider",
-  "flapboard",
-  "radio-group",
   "gyro-card",
-  "media-console",
+  "flapboard",
   "status-seal",
-  "beacon",
 ];
 
 /**

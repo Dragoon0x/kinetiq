@@ -95,9 +95,12 @@ function Ring({
 
     let bump: ReturnType<typeof animate> | undefined;
     if (complete) {
-      // Celebrate only after the arc has visibly filled.
+      // Celebrate only after the arc has visibly filled: pop to the peak, then
+      // let recoil ring it home. Springs take exactly two keyframes, so the
+      // pop is an instant set and the settle is the single sprung leg.
       sweep.then(() => {
-        bump = animate(scale, [1, BUMP_SCALE, 1], springs.recoil);
+        scale.set(BUMP_SCALE);
+        bump = animate(scale, 1, springs.recoil);
       });
     }
 
