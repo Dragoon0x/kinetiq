@@ -858,6 +858,54 @@ Notes:
 - The release rides the recoil spring, so the sheet overshoots and settles in two visible bounces.
 - Under reduced motion the mesh deforms 1:1 while dragging but snaps flat on release — no ripple.
 
+### Iron Filings (KQ-046) — `iron-filings`
+A field that aligns to your cursor.
+
+A canvas lattice of dash filings that align to the cursor like iron around a magnetic pole — near the pointer they snap radial and brighten, far off they relax and dim.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/iron-filings`
+
+Props:
+- `spacing`: number (default 26) — Pixels between filings in the grid (clamped 16–48).
+- `height`: number (default 320) — Stage height in px when used standalone.
+- `children`: ReactNode — Overlay content rendered above the field.
+
+Notes:
+- The canvas loop pauses offscreen and when the tab is hidden; colors re-resolve on a theme flip.
+- Under reduced motion it renders one static lattice frame — no loop, no cursor response.
+
+### Swarm Field (KQ-047) — `swarm-field`
+A flock that scatters from your cursor.
+
+A canvas flock of boids that murmur with emergent flocking and scatter from the cursor, then regroup — separation, alignment, cohesion, and flee, on a spatial hash.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/swarm-field`
+
+Props:
+- `count`: number (default 80) — Boid count, clamped to 10–100.
+- `height`: number (default 320) — Stage height in px when used standalone.
+- `children`: ReactNode — Overlay content rendered above the field.
+
+Notes:
+- Neighbor queries run on a spatial hash, so the flock stays near O(n); the loop pauses offscreen and when hidden.
+- Under reduced motion it renders one settled frame — no loop, no scatter.
+
+### Magnetic Cursor (KQ-048) — `magnetic-cursor`
+Targets that reach for the cursor.
+
+A pointer layer for fine cursors — a drift-lagged spotlight trails the cursor and any MagneticTarget leans toward it, then springs back; inert on touch and reduced motion.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/magnetic-cursor`
+
+Props:
+- `MagneticCursor.size`: number (default 28) — Spotlight follower diameter in px.
+- `MagneticTarget.strength`: number (default 0.35) — Fraction of the pointer offset a target follows.
+- `MagneticTarget.radius`: number (default 90) — Activation radius in px around the target.
+
+Notes:
+- Wrap real controls in MagneticTarget — the transform layer never touches focus or clicks.
+- Active only on (pointer:fine) with motion allowed; otherwise children render untouched.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

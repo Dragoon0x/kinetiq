@@ -61,6 +61,9 @@ import { ParallaxSceneDemo } from "@/registry/demos/parallax-scene.demo";
 import { TetherRopeDemo } from "@/registry/demos/tether-rope.demo";
 import { PendulumWaveDemo } from "@/registry/demos/pendulum-wave.demo";
 import { RubberSheetDemo } from "@/registry/demos/rubber-sheet.demo";
+import { IronFilingsDemo } from "@/registry/demos/iron-filings.demo";
+import { SwarmFieldDemo } from "@/registry/demos/swarm-field.demo";
+import { MagneticCursorDemo } from "@/registry/demos/magnetic-cursor.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -128,4 +131,7 @@ export const demos: Record<string, ComponentType> = {
   "tether-rope": TetherRopeDemo,
   "pendulum-wave": PendulumWaveDemo,
   "rubber-sheet": RubberSheetDemo,
+  "iron-filings": IronFilingsDemo,
+  "swarm-field": SwarmFieldDemo,
+  "magnetic-cursor": MagneticCursorDemo,
 };

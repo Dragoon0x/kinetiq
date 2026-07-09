@@ -1169,6 +1169,76 @@
       }
     },
     {
+      "name": "iron-filings",
+      "type": "registry:ui",
+      "title": "Iron Filings",
+      "description": "A canvas lattice of dash filings that align to the cursor like iron around a magnetic pole — near the pointer they snap radial and brighten, far off they relax and dim.",
+      "files": [
+        {
+          "path": "registry/ui/iron-filings.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "backgrounds"
+      ],
+      "meta": {
+        "serial": "KQ-046"
+      }
+    },
+    {
+      "name": "swarm-field",
+      "type": "registry:ui",
+      "title": "Swarm Field",
+      "description": "A canvas flock of boids that murmur with emergent flocking and scatter from the cursor, then regroup — separation, alignment, cohesion, and flee, on a spatial hash.",
+      "files": [
+        {
+          "path": "registry/ui/swarm-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "backgrounds"
+      ],
+      "meta": {
+        "serial": "KQ-047"
+      }
+    },
+    {
+      "name": "magnetic-cursor",
+      "type": "registry:ui",
+      "title": "Magnetic Cursor",
+      "description": "A pointer layer for fine cursors — a drift-lagged spotlight trails the cursor and any MagneticTarget leans toward it, then springs back; inert on touch and reduced motion.",
+      "files": [
+        {
+          "path": "registry/ui/magnetic-cursor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "cursor"
+      ],
+      "meta": {
+        "serial": "KQ-048"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
