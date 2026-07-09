@@ -76,6 +76,9 @@ import { OrbitMenuDemo } from "@/registry/demos/orbit-menu.demo";
 import { SparkBurstDemo } from "@/registry/demos/spark-burst.demo";
 import { HeartTapDemo } from "@/registry/demos/heart-tap.demo";
 import { ReactionFlyDemo } from "@/registry/demos/reaction-fly.demo";
+import { FacetCubeDemo } from "@/registry/demos/facet-cube.demo";
+import { PrismFlipDemo } from "@/registry/demos/prism-flip.demo";
+import { CoinToggleDemo } from "@/registry/demos/coin-toggle.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -158,4 +161,7 @@ export const demos: Record<string, ComponentType> = {
   "spark-burst": SparkBurstDemo,
   "heart-tap": HeartTapDemo,
   "reaction-fly": ReactionFlyDemo,
+  "facet-cube": FacetCubeDemo,
+  "prism-flip": PrismFlipDemo,
+  "coin-toggle": CoinToggleDemo,
 };

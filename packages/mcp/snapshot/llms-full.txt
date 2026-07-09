@@ -1096,6 +1096,57 @@ Notes:
 - Full menu semantics — the trigger has aria-haspopup, items are menuitems, Escape closes, and each reaction is announced.
 - Under reduced motion the picker opens without stagger and selecting bumps the tally with no fly-up.
 
+### Facet Cube (KQ-071) — `facet-cube`
+Six faces, one cube, snap detents.
+
+A six-face content cube with real CSS geometry — drag to rotate with per-pixel resistance, release and it snaps both axes to the nearest 90° detent, or walk faces with the arrow keys; the facing face is announced on settle.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/facet-cube`
+
+Props:
+- `faces`: ReactNode[] — Up to six face plates; missing faces render empty.
+- `labels`: string[] — Per-face names for the screen-reader announcement.
+- `size`: number (default 220) — Cube edge in px; the wrapper pads for mid-turn corners.
+- `defaultFace / onFaceChange`: number / (index) => void — Starting face and the settle callback.
+
+Notes:
+- A focusable group with aria-roledescription — arrows rotate one detent, Home returns to face one, and the facing face is announced politely.
+- Under reduced motion the cube renders flat: one face at a time, instant swaps, same keys and announcements.
+
+### Prism Flip (KQ-072) — `prism-flip`
+Three panels on one rolling prism.
+
+A triangular prism that rolls toward the viewer between three panels — tap to advance, drag vertically against the detents, or step with the arrow keys; true equilateral geometry with edge shading.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/prism-flip`
+
+Props:
+- `panels`: ReactNode[] — The three faces; extra entries are ignored.
+- `index / defaultIndex / onIndexChange`: number / number / (index) => void — Controlled or uncontrolled facing panel.
+- `labels`: string[] — Per-panel names for the announcement.
+- `height`: number (default 128) — Panel height in px; clearance is derived from it.
+
+Notes:
+- A focusable rotator — arrows step panels, Home returns to the first, and the facing panel is announced politely.
+- Under reduced motion the prism renders one flat panel with instant crossfade swaps.
+
+### Coin Toggle (KQ-073) — `coin-toggle`
+Heads on, tails off.
+
+A switch struck as a coin — it flips 180° in true perspective on every toggle, always forward, and lands with an edge-wobble on the recoil spring; faces are yours to mint.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/coin-toggle`
+
+Props:
+- `checked / defaultChecked / onCheckedChange`: boolean / boolean / (checked) => void — Controlled or uncontrolled switch state.
+- `size`: number (default 56) — Coin diameter in px.
+- `faces`: { on: ReactNode; off: ReactNode } — Custom face artwork; defaults to minted glyphs.
+- `aria-label`: string — Required accessible name for the bare switch.
+
+Notes:
+- A real role=switch button — Space and Enter flip it, aria-checked tracks state, and focus-visible rings are never removed.
+- Under reduced motion the faces crossfade with no flip or wobble — the accent change carries the state.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

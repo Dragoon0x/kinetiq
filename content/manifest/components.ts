@@ -2529,4 +2529,127 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the picker opens without stagger and selecting bumps the tally with no fly-up.",
     ],
   },
+  {
+    name: "facet-cube",
+    type: "registry:ui",
+    title: "Facet Cube",
+    description:
+      "A six-face content cube with real CSS geometry — drag to rotate with per-pixel resistance, release and it snaps both axes to the nearest 90° detent, or walk faces with the arrow keys; the facing face is announced on settle.",
+    files: [{ path: "registry/ui/facet-cube.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-071" },
+    tagline: "Six faces, one cube, snap detents.",
+    keywords: ["cube", "3d", "rotate", "faces", "spatial", "drag", "detent"],
+    props: [
+      {
+        name: "faces",
+        type: "ReactNode[]",
+        description: "Up to six face plates; missing faces render empty.",
+      },
+      {
+        name: "labels",
+        type: "string[]",
+        description: "Per-face names for the screen-reader announcement.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "220",
+        description: "Cube edge in px; the wrapper pads for mid-turn corners.",
+      },
+      {
+        name: "defaultFace / onFaceChange",
+        type: "number / (index) => void",
+        description: "Starting face and the settle callback.",
+      },
+    ],
+    usageNotes: [
+      "A focusable group with aria-roledescription — arrows rotate one detent, Home returns to face one, and the facing face is announced politely.",
+      "Under reduced motion the cube renders flat: one face at a time, instant swaps, same keys and announcements.",
+    ],
+  },
+  {
+    name: "prism-flip",
+    type: "registry:ui",
+    title: "Prism Flip",
+    description:
+      "A triangular prism that rolls toward the viewer between three panels — tap to advance, drag vertically against the detents, or step with the arrow keys; true equilateral geometry with edge shading.",
+    files: [{ path: "registry/ui/prism-flip.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-072" },
+    tagline: "Three panels on one rolling prism.",
+    keywords: ["prism", "3d", "rotator", "panels", "spatial", "toggle", "roll"],
+    props: [
+      {
+        name: "panels",
+        type: "ReactNode[]",
+        description: "The three faces; extra entries are ignored.",
+      },
+      {
+        name: "index / defaultIndex / onIndexChange",
+        type: "number / number / (index) => void",
+        description: "Controlled or uncontrolled facing panel.",
+      },
+      {
+        name: "labels",
+        type: "string[]",
+        description: "Per-panel names for the announcement.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "128",
+        description: "Panel height in px; clearance is derived from it.",
+      },
+    ],
+    usageNotes: [
+      "A focusable rotator — arrows step panels, Home returns to the first, and the facing panel is announced politely.",
+      "Under reduced motion the prism renders one flat panel with instant crossfade swaps.",
+    ],
+  },
+  {
+    name: "coin-toggle",
+    type: "registry:ui",
+    title: "Coin Toggle",
+    description:
+      "A switch struck as a coin — it flips 180° in true perspective on every toggle, always forward, and lands with an edge-wobble on the recoil spring; faces are yours to mint.",
+    files: [{ path: "registry/ui/coin-toggle.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-073" },
+    tagline: "Heads on, tails off.",
+    keywords: ["switch", "toggle", "coin", "flip", "3d", "spatial", "control"],
+    props: [
+      {
+        name: "checked / defaultChecked / onCheckedChange",
+        type: "boolean / boolean / (checked) => void",
+        description: "Controlled or uncontrolled switch state.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "56",
+        description: "Coin diameter in px.",
+      },
+      {
+        name: "faces",
+        type: "{ on: ReactNode; off: ReactNode }",
+        description: "Custom face artwork; defaults to minted glyphs.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Required accessible name for the bare switch.",
+      },
+    ],
+    usageNotes: [
+      "A real role=switch button — Space and Enter flip it, aria-checked tracks state, and focus-visible rings are never removed.",
+      "Under reduced motion the faces crossfade with no flip or wobble — the accent change carries the state.",
+    ],
+  },
 ];

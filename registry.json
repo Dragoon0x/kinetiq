@@ -1535,6 +1535,87 @@
       }
     },
     {
+      "name": "facet-cube",
+      "type": "registry:ui",
+      "title": "Facet Cube",
+      "description": "A six-face content cube with real CSS geometry — drag to rotate with per-pixel resistance, release and it snaps both axes to the nearest 90° detent, or walk faces with the arrow keys; the facing face is announced on settle.",
+      "files": [
+        {
+          "path": "registry/ui/facet-cube.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-071"
+      }
+    },
+    {
+      "name": "prism-flip",
+      "type": "registry:ui",
+      "title": "Prism Flip",
+      "description": "A triangular prism that rolls toward the viewer between three panels — tap to advance, drag vertically against the detents, or step with the arrow keys; true equilateral geometry with edge shading.",
+      "files": [
+        {
+          "path": "registry/ui/prism-flip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-072"
+      }
+    },
+    {
+      "name": "coin-toggle",
+      "type": "registry:ui",
+      "title": "Coin Toggle",
+      "description": "A switch struck as a coin — it flips 180° in true perspective on every toggle, always forward, and lands with an edge-wobble on the recoil spring; faces are yours to mint.",
+      "files": [
+        {
+          "path": "registry/ui/coin-toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-073"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
