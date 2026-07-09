@@ -2084,4 +2084,114 @@ export const components: KinetiqItem[] = [
       "Active only on (pointer:fine) with motion allowed; otherwise children render untouched.",
     ],
   },
+  {
+    name: "aurora-ribbon",
+    type: "registry:ui",
+    title: "Aurora Ribbon",
+    description:
+      "Slow sinusoidal ribbons of light that undulate across the field like an aurora and bend toward the pointer — a calm, luminous canvas backdrop.",
+    files: [{ path: "registry/ui/aurora-ribbon.tsx", type: "registry:ui" }],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["backgrounds"],
+    meta: { serial: "KQ-049" },
+    tagline: "Light ribbons that lean toward the cursor.",
+    keywords: ["canvas", "aurora", "background", "gradient", "ambient", "glow"],
+    props: [
+      {
+        name: "bands",
+        type: "number",
+        defaultValue: "3",
+        description: "Number of ribbons, clamped to 1–6.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "320",
+        description: "Stage height in px when used standalone.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Overlay content rendered above the field.",
+      },
+    ],
+    usageNotes: [
+      "Ribbons bloom where they overlap (additive compositing); the loop pauses offscreen and when the tab is hidden.",
+      "Under reduced motion it renders one static frame — no undulation, no pointer response.",
+    ],
+  },
+  {
+    name: "point-globe",
+    type: "registry:ui",
+    title: "Point Globe",
+    description:
+      "A globe of points on a Fibonacci sphere that drifts on its own and spins under your drag, carrying angular momentum — near points brighten, the far side dims.",
+    files: [{ path: "registry/ui/point-globe.tsx", type: "registry:ui" }],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-050" },
+    tagline: "A dotted planet you spin.",
+    keywords: ["canvas", "globe", "sphere", "3d", "points", "rotation"],
+    props: [
+      {
+        name: "points",
+        type: "number",
+        defaultValue: "520",
+        description: "Dots on the sphere, clamped to 120–700.",
+      },
+      {
+        name: "autoRotate",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Idle drift when not being dragged.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "340",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Drag to spin; release carries momentum that decays back to the idle drift. The loop pauses offscreen and when hidden.",
+      "Under reduced motion it renders a static globe — no drift, no momentum.",
+    ],
+  },
+  {
+    name: "voronoi-shatter",
+    type: "registry:ui",
+    title: "Voronoi Shatter",
+    description:
+      "A Voronoi tessellation that fractures outward from your tap — shards fly, rotate, and fade, then ring back into place and reseal on the recoil spring.",
+    files: [{ path: "registry/ui/voronoi-shatter.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["backgrounds"],
+    meta: { serial: "KQ-051" },
+    tagline: "Tap and the tessellation shatters, then reseals.",
+    keywords: ["voronoi", "shatter", "fracture", "svg", "cells", "background"],
+    props: [
+      {
+        name: "cells",
+        type: "number",
+        defaultValue: "28",
+        description: "Voronoi seed sites, clamped to 8–60.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Stage height in px.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Names the surface.",
+      },
+    ],
+    usageNotes: [
+      "Cells are a real Voronoi built from half-plane clipping, computed once; the shard transforms repaint imperatively from one progress spring.",
+      "Under reduced motion a tap leaves the tessellation whole — no shatter.",
+    ],
+  },
 ];

@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiq.dev/r/registry.json",
     "docsUrl": "https://kinetiq.dev",
     "counts": {
-      "components": 47,
+      "components": 50,
       "blocks": 16,
       "shared": 4
     }
@@ -3122,6 +3122,179 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/magnetic-cursor",
         "bun": "bunx --bun shadcn@latest add @kinetiq/magnetic-cursor",
         "direct": "npx shadcn@latest add https://kinetiq.dev/r/magnetic-cursor.json"
+      }
+    },
+    {
+      "slug": "aurora-ribbon",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Aurora Ribbon",
+      "serial": "KQ-049",
+      "tagline": "Light ribbons that lean toward the cursor.",
+      "description": "Slow sinusoidal ribbons of light that undulate across the field like an aurora and bend toward the pointer — a calm, luminous canvas backdrop.",
+      "categories": [
+        "backgrounds"
+      ],
+      "keywords": [
+        "canvas",
+        "aurora",
+        "background",
+        "gradient",
+        "ambient",
+        "glow"
+      ],
+      "props": [
+        {
+          "name": "bands",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Number of ribbons, clamped to 1–6."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "320",
+          "description": "Stage height in px when used standalone."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Overlay content rendered above the field."
+        }
+      ],
+      "usageNotes": [
+        "Ribbons bloom where they overlap (additive compositing); the loop pauses offscreen and when the tab is hidden.",
+        "Under reduced motion it renders one static frame — no undulation, no pointer response."
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/aurora-ribbon",
+      "registryItemUrl": "https://kinetiq.dev/r/aurora-ribbon.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/aurora-ribbon",
+        "npm": "npx shadcn@latest add @kinetiq/aurora-ribbon",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/aurora-ribbon",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/aurora-ribbon",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/aurora-ribbon.json"
+      }
+    },
+    {
+      "slug": "point-globe",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Point Globe",
+      "serial": "KQ-050",
+      "tagline": "A dotted planet you spin.",
+      "description": "A globe of points on a Fibonacci sphere that drifts on its own and spins under your drag, carrying angular momentum — near points brighten, the far side dims.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "canvas",
+        "globe",
+        "sphere",
+        "3d",
+        "points",
+        "rotation"
+      ],
+      "props": [
+        {
+          "name": "points",
+          "type": "number",
+          "defaultValue": "520",
+          "description": "Dots on the sphere, clamped to 120–700."
+        },
+        {
+          "name": "autoRotate",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Idle drift when not being dragged."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "340",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "Drag to spin; release carries momentum that decays back to the idle drift. The loop pauses offscreen and when hidden.",
+        "Under reduced motion it renders a static globe — no drift, no momentum."
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/point-globe",
+      "registryItemUrl": "https://kinetiq.dev/r/point-globe.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/point-globe",
+        "npm": "npx shadcn@latest add @kinetiq/point-globe",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/point-globe",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/point-globe",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/point-globe.json"
+      }
+    },
+    {
+      "slug": "voronoi-shatter",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Voronoi Shatter",
+      "serial": "KQ-051",
+      "tagline": "Tap and the tessellation shatters, then reseals.",
+      "description": "A Voronoi tessellation that fractures outward from your tap — shards fly, rotate, and fade, then ring back into place and reseal on the recoil spring.",
+      "categories": [
+        "backgrounds"
+      ],
+      "keywords": [
+        "voronoi",
+        "shatter",
+        "fracture",
+        "svg",
+        "cells",
+        "background"
+      ],
+      "props": [
+        {
+          "name": "cells",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "Voronoi seed sites, clamped to 8–60."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "Stage height in px."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "description": "Names the surface."
+        }
+      ],
+      "usageNotes": [
+        "Cells are a real Voronoi built from half-plane clipping, computed once; the shard transforms repaint imperatively from one progress spring.",
+        "Under reduced motion a tap leaves the tessellation whole — no shatter."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/voronoi-shatter",
+      "registryItemUrl": "https://kinetiq.dev/r/voronoi-shatter.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/voronoi-shatter",
+        "npm": "npx shadcn@latest add @kinetiq/voronoi-shatter",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/voronoi-shatter",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/voronoi-shatter",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/voronoi-shatter.json"
       }
     },
     {

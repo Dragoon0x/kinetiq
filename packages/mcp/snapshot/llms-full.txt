@@ -906,6 +906,54 @@ Notes:
 - Wrap real controls in MagneticTarget — the transform layer never touches focus or clicks.
 - Active only on (pointer:fine) with motion allowed; otherwise children render untouched.
 
+### Aurora Ribbon (KQ-049) — `aurora-ribbon`
+Light ribbons that lean toward the cursor.
+
+Slow sinusoidal ribbons of light that undulate across the field like an aurora and bend toward the pointer — a calm, luminous canvas backdrop.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/aurora-ribbon`
+
+Props:
+- `bands`: number (default 3) — Number of ribbons, clamped to 1–6.
+- `height`: number (default 320) — Stage height in px when used standalone.
+- `children`: ReactNode — Overlay content rendered above the field.
+
+Notes:
+- Ribbons bloom where they overlap (additive compositing); the loop pauses offscreen and when the tab is hidden.
+- Under reduced motion it renders one static frame — no undulation, no pointer response.
+
+### Point Globe (KQ-050) — `point-globe`
+A dotted planet you spin.
+
+A globe of points on a Fibonacci sphere that drifts on its own and spins under your drag, carrying angular momentum — near points brighten, the far side dims.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/point-globe`
+
+Props:
+- `points`: number (default 520) — Dots on the sphere, clamped to 120–700.
+- `autoRotate`: boolean (default true) — Idle drift when not being dragged.
+- `height`: number (default 340) — Stage height in px.
+
+Notes:
+- Drag to spin; release carries momentum that decays back to the idle drift. The loop pauses offscreen and when hidden.
+- Under reduced motion it renders a static globe — no drift, no momentum.
+
+### Voronoi Shatter (KQ-051) — `voronoi-shatter`
+Tap and the tessellation shatters, then reseals.
+
+A Voronoi tessellation that fractures outward from your tap — shards fly, rotate, and fade, then ring back into place and reseal on the recoil spring.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/voronoi-shatter`
+
+Props:
+- `cells`: number (default 28) — Voronoi seed sites, clamped to 8–60.
+- `height`: number (default 280) — Stage height in px.
+- `aria-label`: string — Names the surface.
+
+Notes:
+- Cells are a real Voronoi built from half-plane clipping, computed once; the shard transforms repaint imperatively from one progress spring.
+- Under reduced motion a tap leaves the tessellation whole — no shatter.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

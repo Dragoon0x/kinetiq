@@ -1239,6 +1239,76 @@
       }
     },
     {
+      "name": "aurora-ribbon",
+      "type": "registry:ui",
+      "title": "Aurora Ribbon",
+      "description": "Slow sinusoidal ribbons of light that undulate across the field like an aurora and bend toward the pointer — a calm, luminous canvas backdrop.",
+      "files": [
+        {
+          "path": "registry/ui/aurora-ribbon.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "backgrounds"
+      ],
+      "meta": {
+        "serial": "KQ-049"
+      }
+    },
+    {
+      "name": "point-globe",
+      "type": "registry:ui",
+      "title": "Point Globe",
+      "description": "A globe of points on a Fibonacci sphere that drifts on its own and spins under your drag, carrying angular momentum — near points brighten, the far side dims.",
+      "files": [
+        {
+          "path": "registry/ui/point-globe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-050"
+      }
+    },
+    {
+      "name": "voronoi-shatter",
+      "type": "registry:ui",
+      "title": "Voronoi Shatter",
+      "description": "A Voronoi tessellation that fractures outward from your tap — shards fly, rotate, and fade, then ring back into place and reseal on the recoil spring.",
+      "files": [
+        {
+          "path": "registry/ui/voronoi-shatter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "backgrounds"
+      ],
+      "meta": {
+        "serial": "KQ-051"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

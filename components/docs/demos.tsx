@@ -64,6 +64,9 @@ import { RubberSheetDemo } from "@/registry/demos/rubber-sheet.demo";
 import { IronFilingsDemo } from "@/registry/demos/iron-filings.demo";
 import { SwarmFieldDemo } from "@/registry/demos/swarm-field.demo";
 import { MagneticCursorDemo } from "@/registry/demos/magnetic-cursor.demo";
+import { AuroraRibbonDemo } from "@/registry/demos/aurora-ribbon.demo";
+import { PointGlobeDemo } from "@/registry/demos/point-globe.demo";
+import { VoronoiShatterDemo } from "@/registry/demos/voronoi-shatter.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -134,4 +137,7 @@ export const demos: Record<string, ComponentType> = {
   "iron-filings": IronFilingsDemo,
   "swarm-field": SwarmFieldDemo,
   "magnetic-cursor": MagneticCursorDemo,
+  "aurora-ribbon": AuroraRibbonDemo,
+  "point-globe": PointGlobeDemo,
+  "voronoi-shatter": VoronoiShatterDemo,
 };
