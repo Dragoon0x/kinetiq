@@ -1642,4 +1642,127 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the thumb appears under the active segment instantly — no travel, color only.",
     ],
   },
+  {
+    name: "triage-deck",
+    type: "registry:ui",
+    title: "Triage Deck",
+    description:
+      "A decision stack you flick through — throw a card right to accept or left to reject, a velocity-projected release commits, and the next card rises from behind.",
+    files: [{ path: "registry/ui/triage-deck.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["physics"],
+    meta: { serial: "KQ-038" },
+    tagline: "Flick to accept, flick to reject.",
+    keywords: ["swipe", "cards", "deck", "triage", "review", "gesture"],
+    props: [
+      {
+        name: "cards",
+        type: "{ id: string; content: ReactNode }[]",
+        description:
+          "The queue; the top card is interactive, the rest peek behind.",
+      },
+      {
+        name: "onDecide",
+        type: '(id, decision: "accept" | "reject") => void',
+        description: "Fires when a card commits in either direction.",
+      },
+      {
+        name: "onEmpty",
+        type: "() => void",
+        description: "Fires when the last card is decided.",
+      },
+      {
+        name: "acceptLabel / rejectLabel",
+        type: "string / string",
+        description: "Button and affordance labels.",
+      },
+    ],
+    usageNotes: [
+      "Arrow keys decide (left rejects, right accepts) and buttons drive it pointer-free; a live region announces each decision.",
+      "Under reduced motion cards cross-fade instead of flying off — dragging still tracks, without the throw.",
+    ],
+  },
+  {
+    name: "spark-chart",
+    type: "registry:ui",
+    title: "Spark Chart",
+    description:
+      "A compact line or area chart that draws itself on arrival, then lets you scrub a crosshair that snaps to the nearest point and reads its value.",
+    files: [{ path: "registry/ui/spark-chart.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["data"],
+    meta: { serial: "KQ-039" },
+    tagline: "A trace that draws itself, then reads out.",
+    keywords: ["chart", "sparkline", "graph", "line", "area", "scrubber"],
+    props: [
+      {
+        name: "data",
+        type: "number[] | { x: number | string; y: number }[]",
+        description:
+          "Bare numbers get index labels; objects carry their own x.",
+      },
+      {
+        name: "variant",
+        type: '"line" | "area"',
+        defaultValue: '"line"',
+        description: "Stroke only, or a filled area under the curve.",
+      },
+      {
+        name: "height / format",
+        type: "number / (y) => string",
+        description: "Chart height in px and value formatting for the readout.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Accessible name and summary for the trace.",
+      },
+    ],
+    usageNotes: [
+      "Focus and arrow-key to move the crosshair; Home and End jump; the active point is announced.",
+      "Under reduced motion the trace renders fully drawn — scrubbing still works, without the draw-on.",
+    ],
+  },
+  {
+    name: "activity-rings",
+    type: "registry:ui",
+    title: "Activity Rings",
+    description:
+      "Concentric arcs that sweep from empty to their value on arrival, staggered under one budget, with a recoil bump the moment a ring completes.",
+    files: [{ path: "registry/ui/activity-rings.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["data"],
+    meta: { serial: "KQ-040" },
+    tagline: "Arcs that sweep to value, and bump when full.",
+    keywords: ["rings", "progress", "gauge", "dashboard", "arc", "radial"],
+    props: [
+      {
+        name: "rings",
+        type: "{ value: number; label: string; color?: string }[]",
+        description: "Outer to inner; value is a 0–1 fraction.",
+      },
+      {
+        name: "size / strokeWidth / gap",
+        type: "number",
+        description: "Diameter and ring geometry in px.",
+      },
+      {
+        name: "center",
+        type: "ReactNode",
+        description: "Optional content in the hub, e.g. a total.",
+      },
+      {
+        name: "replayKey",
+        type: "number | string",
+        description: "Change it to re-run the sweep.",
+      },
+    ],
+    usageNotes: [
+      "Each ring is a progressbar with a percent value text, backed by a visible legend so it never relies on color alone.",
+      "Under reduced motion rings render at their final value instantly — no sweep, no completion bump.",
+    ],
+  },
 ];

@@ -727,6 +727,57 @@ Notes:
 - Full APG radio keyboard: arrows move and select (wrapping), Home and End jump, Space selects.
 - Under reduced motion the thumb appears under the active segment instantly — no travel, color only.
 
+### Triage Deck (KQ-038) — `triage-deck`
+Flick to accept, flick to reject.
+
+A decision stack you flick through — throw a card right to accept or left to reject, a velocity-projected release commits, and the next card rises from behind.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/triage-deck`
+
+Props:
+- `cards`: { id: string; content: ReactNode }[] — The queue; the top card is interactive, the rest peek behind.
+- `onDecide`: (id, decision: "accept" | "reject") => void — Fires when a card commits in either direction.
+- `onEmpty`: () => void — Fires when the last card is decided.
+- `acceptLabel / rejectLabel`: string / string — Button and affordance labels.
+
+Notes:
+- Arrow keys decide (left rejects, right accepts) and buttons drive it pointer-free; a live region announces each decision.
+- Under reduced motion cards cross-fade instead of flying off — dragging still tracks, without the throw.
+
+### Spark Chart (KQ-039) — `spark-chart`
+A trace that draws itself, then reads out.
+
+A compact line or area chart that draws itself on arrival, then lets you scrub a crosshair that snaps to the nearest point and reads its value.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spark-chart`
+
+Props:
+- `data`: number[] | { x: number | string; y: number }[] — Bare numbers get index labels; objects carry their own x.
+- `variant`: "line" | "area" (default "line") — Stroke only, or a filled area under the curve.
+- `height / format`: number / (y) => string — Chart height in px and value formatting for the readout.
+- `label`: string — Accessible name and summary for the trace.
+
+Notes:
+- Focus and arrow-key to move the crosshair; Home and End jump; the active point is announced.
+- Under reduced motion the trace renders fully drawn — scrubbing still works, without the draw-on.
+
+### Activity Rings (KQ-040) — `activity-rings`
+Arcs that sweep to value, and bump when full.
+
+Concentric arcs that sweep from empty to their value on arrival, staggered under one budget, with a recoil bump the moment a ring completes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/activity-rings`
+
+Props:
+- `rings`: { value: number; label: string; color?: string }[] — Outer to inner; value is a 0–1 fraction.
+- `size / strokeWidth / gap`: number — Diameter and ring geometry in px.
+- `center`: ReactNode — Optional content in the hub, e.g. a total.
+- `replayKey`: number | string — Change it to re-run the sweep.
+
+Notes:
+- Each ring is a progressbar with a percent value text, backed by a visible legend so it never relies on color alone.
+- Under reduced motion rings render at their final value instantly — no sweep, no completion bump.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

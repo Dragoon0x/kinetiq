@@ -53,6 +53,9 @@ import { ZoetropeDemo } from "@/registry/demos/zoetrope.demo";
 import { KineticGalleryDemo } from "@/registry/demos/kinetic-gallery.demo";
 import { TileGridDemo } from "@/registry/demos/tile-grid.demo";
 import { SegmentedControlDemo } from "@/registry/demos/segmented-control.demo";
+import { TriageDeckDemo } from "@/registry/demos/triage-deck.demo";
+import { SparkChartDemo } from "@/registry/demos/spark-chart.demo";
+import { ActivityRingsDemo } from "@/registry/demos/activity-rings.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -112,4 +115,7 @@ export const demos: Record<string, ComponentType> = {
   "kinetic-gallery": KineticGalleryDemo,
   "tile-grid": TileGridDemo,
   "segmented-control": SegmentedControlDemo,
+  "triage-deck": TriageDeckDemo,
+  "spark-chart": SparkChartDemo,
+  "activity-rings": ActivityRingsDemo,
 };

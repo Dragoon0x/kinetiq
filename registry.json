@@ -968,6 +968,85 @@
       }
     },
     {
+      "name": "triage-deck",
+      "type": "registry:ui",
+      "title": "Triage Deck",
+      "description": "A decision stack you flick through — throw a card right to accept or left to reject, a velocity-projected release commits, and the next card rises from behind.",
+      "files": [
+        {
+          "path": "registry/ui/triage-deck.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "physics"
+      ],
+      "meta": {
+        "serial": "KQ-038"
+      }
+    },
+    {
+      "name": "spark-chart",
+      "type": "registry:ui",
+      "title": "Spark Chart",
+      "description": "A compact line or area chart that draws itself on arrival, then lets you scrub a crosshair that snaps to the nearest point and reads its value.",
+      "files": [
+        {
+          "path": "registry/ui/spark-chart.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-039"
+      }
+    },
+    {
+      "name": "activity-rings",
+      "type": "registry:ui",
+      "title": "Activity Rings",
+      "description": "Concentric arcs that sweep from empty to their value on arrival, staggered under one budget, with a recoil bump the moment a ring completes.",
+      "files": [
+        {
+          "path": "registry/ui/activity-rings.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-040"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

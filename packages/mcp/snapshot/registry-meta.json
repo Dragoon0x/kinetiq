@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiq.dev/r/registry.json",
     "docsUrl": "https://kinetiq.dev",
     "counts": {
-      "components": 36,
+      "components": 39,
       "blocks": 16,
       "shared": 4
     }
@@ -2469,6 +2469,197 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/segmented-control",
         "bun": "bunx --bun shadcn@latest add @kinetiq/segmented-control",
         "direct": "npx shadcn@latest add https://kinetiq.dev/r/segmented-control.json"
+      }
+    },
+    {
+      "slug": "triage-deck",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Triage Deck",
+      "serial": "KQ-038",
+      "tagline": "Flick to accept, flick to reject.",
+      "description": "A decision stack you flick through — throw a card right to accept or left to reject, a velocity-projected release commits, and the next card rises from behind.",
+      "categories": [
+        "physics"
+      ],
+      "keywords": [
+        "swipe",
+        "cards",
+        "deck",
+        "triage",
+        "review",
+        "gesture"
+      ],
+      "props": [
+        {
+          "name": "cards",
+          "type": "{ id: string; content: ReactNode }[]",
+          "description": "The queue; the top card is interactive, the rest peek behind."
+        },
+        {
+          "name": "onDecide",
+          "type": "(id, decision: \"accept\" | \"reject\") => void",
+          "description": "Fires when a card commits in either direction."
+        },
+        {
+          "name": "onEmpty",
+          "type": "() => void",
+          "description": "Fires when the last card is decided."
+        },
+        {
+          "name": "acceptLabel / rejectLabel",
+          "type": "string / string",
+          "description": "Button and affordance labels."
+        }
+      ],
+      "usageNotes": [
+        "Arrow keys decide (left rejects, right accepts) and buttons drive it pointer-free; a live region announces each decision.",
+        "Under reduced motion cards cross-fade instead of flying off — dragging still tracks, without the throw."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/triage-deck",
+      "registryItemUrl": "https://kinetiq.dev/r/triage-deck.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/triage-deck",
+        "npm": "npx shadcn@latest add @kinetiq/triage-deck",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/triage-deck",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/triage-deck",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/triage-deck.json"
+      }
+    },
+    {
+      "slug": "spark-chart",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Spark Chart",
+      "serial": "KQ-039",
+      "tagline": "A trace that draws itself, then reads out.",
+      "description": "A compact line or area chart that draws itself on arrival, then lets you scrub a crosshair that snaps to the nearest point and reads its value.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "chart",
+        "sparkline",
+        "graph",
+        "line",
+        "area",
+        "scrubber"
+      ],
+      "props": [
+        {
+          "name": "data",
+          "type": "number[] | { x: number | string; y: number }[]",
+          "description": "Bare numbers get index labels; objects carry their own x."
+        },
+        {
+          "name": "variant",
+          "type": "\"line\" | \"area\"",
+          "defaultValue": "\"line\"",
+          "description": "Stroke only, or a filled area under the curve."
+        },
+        {
+          "name": "height / format",
+          "type": "number / (y) => string",
+          "description": "Chart height in px and value formatting for the readout."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Accessible name and summary for the trace."
+        }
+      ],
+      "usageNotes": [
+        "Focus and arrow-key to move the crosshair; Home and End jump; the active point is announced.",
+        "Under reduced motion the trace renders fully drawn — scrubbing still works, without the draw-on."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/spark-chart",
+      "registryItemUrl": "https://kinetiq.dev/r/spark-chart.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spark-chart",
+        "npm": "npx shadcn@latest add @kinetiq/spark-chart",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spark-chart",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spark-chart",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/spark-chart.json"
+      }
+    },
+    {
+      "slug": "activity-rings",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Activity Rings",
+      "serial": "KQ-040",
+      "tagline": "Arcs that sweep to value, and bump when full.",
+      "description": "Concentric arcs that sweep from empty to their value on arrival, staggered under one budget, with a recoil bump the moment a ring completes.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "rings",
+        "progress",
+        "gauge",
+        "dashboard",
+        "arc",
+        "radial"
+      ],
+      "props": [
+        {
+          "name": "rings",
+          "type": "{ value: number; label: string; color?: string }[]",
+          "description": "Outer to inner; value is a 0–1 fraction."
+        },
+        {
+          "name": "size / strokeWidth / gap",
+          "type": "number",
+          "description": "Diameter and ring geometry in px."
+        },
+        {
+          "name": "center",
+          "type": "ReactNode",
+          "description": "Optional content in the hub, e.g. a total."
+        },
+        {
+          "name": "replayKey",
+          "type": "number | string",
+          "description": "Change it to re-run the sweep."
+        }
+      ],
+      "usageNotes": [
+        "Each ring is a progressbar with a percent value text, backed by a visible legend so it never relies on color alone.",
+        "Under reduced motion rings render at their final value instantly — no sweep, no completion bump."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/activity-rings",
+      "registryItemUrl": "https://kinetiq.dev/r/activity-rings.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/activity-rings",
+        "npm": "npx shadcn@latest add @kinetiq/activity-rings",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/activity-rings",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/activity-rings",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/activity-rings.json"
       }
     },
     {
