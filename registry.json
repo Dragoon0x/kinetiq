@@ -1099,6 +1099,76 @@
       }
     },
     {
+      "name": "tether-rope",
+      "type": "registry:ui",
+      "title": "Tether Rope",
+      "description": "A hanging rope you grab and swing — a Verlet chain with gravity and length constraints, so it whips, goes taut, and settles like real cord.",
+      "files": [
+        {
+          "path": "registry/ui/tether-rope.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "physics"
+      ],
+      "meta": {
+        "serial": "KQ-043"
+      }
+    },
+    {
+      "name": "pendulum-wave",
+      "type": "registry:ui",
+      "title": "Pendulum Wave",
+      "description": "A rank of pendulums whose periods step apart — released together they drift through traveling waves and snap back into alignment on a fixed cycle.",
+      "files": [
+        {
+          "path": "registry/ui/pendulum-wave.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "physics"
+      ],
+      "meta": {
+        "serial": "KQ-044"
+      }
+    },
+    {
+      "name": "rubber-sheet",
+      "type": "registry:ui",
+      "title": "Rubber Sheet",
+      "description": "A taut mesh you pull toward the pointer with a smooth falloff; release and the vertices fire home, ringing through equilibrium twice before they settle.",
+      "files": [
+        {
+          "path": "registry/ui/rubber-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "physics"
+      ],
+      "meta": {
+        "serial": "KQ-045"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

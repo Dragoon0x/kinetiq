@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiq.dev/r/registry.json",
     "docsUrl": "https://kinetiq.dev",
     "counts": {
-      "components": 41,
+      "components": 44,
       "blocks": 16,
       "shared": 4
     }
@@ -2777,6 +2777,178 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/parallax-scene",
         "bun": "bunx --bun shadcn@latest add @kinetiq/parallax-scene",
         "direct": "npx shadcn@latest add https://kinetiq.dev/r/parallax-scene.json"
+      }
+    },
+    {
+      "slug": "tether-rope",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tether Rope",
+      "serial": "KQ-043",
+      "tagline": "Grab the cord; Verlet does the rest.",
+      "description": "A hanging rope you grab and swing — a Verlet chain with gravity and length constraints, so it whips, goes taut, and settles like real cord.",
+      "categories": [
+        "physics"
+      ],
+      "keywords": [
+        "rope",
+        "verlet",
+        "physics",
+        "chain",
+        "cloth",
+        "simulation"
+      ],
+      "props": [
+        {
+          "name": "nodes",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "Segment nodes, clamped to 4–16."
+        },
+        {
+          "name": "anchor",
+          "type": "\"top\" | \"ends\"",
+          "defaultValue": "\"top\"",
+          "description": "Pin the first node, or both ends like a slung cable."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "Drag any point to swing the rope; a Reset button re-drops it. The loop pauses offscreen and when the tab is hidden.",
+        "Under reduced motion it renders a static hanging catenary — no simulation."
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/tether-rope",
+      "registryItemUrl": "https://kinetiq.dev/r/tether-rope.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tether-rope",
+        "npm": "npx shadcn@latest add @kinetiq/tether-rope",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tether-rope",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tether-rope",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/tether-rope.json"
+      }
+    },
+    {
+      "slug": "pendulum-wave",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pendulum Wave",
+      "serial": "KQ-044",
+      "tagline": "Periods that part, then realign.",
+      "description": "A rank of pendulums whose periods step apart — released together they drift through traveling waves and snap back into alignment on a fixed cycle.",
+      "categories": [
+        "physics"
+      ],
+      "keywords": [
+        "pendulum",
+        "wave",
+        "harmonic",
+        "physics",
+        "oscillation",
+        "kinetic"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "Pendulums, clamped to 4–20."
+        },
+        {
+          "name": "amplitude / cycleSeconds / baseOscillations",
+          "type": "number",
+          "description": "Swing angle, realign-cycle length, and the longest pendulum's swing count."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "260",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "Motion is analytic — each bob follows a closed-form cosine, so the realign cycle is exact. Restart re-aligns them.",
+        "Under reduced motion it renders one static fanned frame — no loop."
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/pendulum-wave",
+      "registryItemUrl": "https://kinetiq.dev/r/pendulum-wave.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pendulum-wave",
+        "npm": "npx shadcn@latest add @kinetiq/pendulum-wave",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pendulum-wave",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pendulum-wave",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/pendulum-wave.json"
+      }
+    },
+    {
+      "slug": "rubber-sheet",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rubber Sheet",
+      "serial": "KQ-045",
+      "tagline": "Pull the membrane; it rings back.",
+      "description": "A taut mesh you pull toward the pointer with a smooth falloff; release and the vertices fire home, ringing through equilibrium twice before they settle.",
+      "categories": [
+        "physics"
+      ],
+      "keywords": [
+        "membrane",
+        "mesh",
+        "elastic",
+        "physics",
+        "grid",
+        "deform"
+      ],
+      "props": [
+        {
+          "name": "columns / rows",
+          "type": "number",
+          "description": "Mesh density; columns default 9, rows default 7."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "260",
+          "description": "Stage height in px."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "description": "Names the surface."
+        }
+      ],
+      "usageNotes": [
+        "The release rides the recoil spring, so the sheet overshoots and settles in two visible bounces.",
+        "Under reduced motion the mesh deforms 1:1 while dragging but snaps flat on release — no ripple."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/rubber-sheet",
+      "registryItemUrl": "https://kinetiq.dev/r/rubber-sheet.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rubber-sheet",
+        "npm": "npx shadcn@latest add @kinetiq/rubber-sheet",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rubber-sheet",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rubber-sheet",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/rubber-sheet.json"
       }
     },
     {

@@ -58,6 +58,9 @@ import { SparkChartDemo } from "@/registry/demos/spark-chart.demo";
 import { ActivityRingsDemo } from "@/registry/demos/activity-rings.demo";
 import { CoverflowDemo } from "@/registry/demos/coverflow.demo";
 import { ParallaxSceneDemo } from "@/registry/demos/parallax-scene.demo";
+import { TetherRopeDemo } from "@/registry/demos/tether-rope.demo";
+import { PendulumWaveDemo } from "@/registry/demos/pendulum-wave.demo";
+import { RubberSheetDemo } from "@/registry/demos/rubber-sheet.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -122,4 +125,7 @@ export const demos: Record<string, ComponentType> = {
   "activity-rings": ActivityRingsDemo,
   coverflow: CoverflowDemo,
   "parallax-scene": ParallaxSceneDemo,
+  "tether-rope": TetherRopeDemo,
+  "pendulum-wave": PendulumWaveDemo,
+  "rubber-sheet": RubberSheetDemo,
 };

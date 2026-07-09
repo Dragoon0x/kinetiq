@@ -810,6 +810,54 @@ Notes:
 - The parallax is decorative — layer content stays in normal flow and fully focusable.
 - Under reduced motion the layers render flat and stationary at their neutral position.
 
+### Tether Rope (KQ-043) — `tether-rope`
+Grab the cord; Verlet does the rest.
+
+A hanging rope you grab and swing — a Verlet chain with gravity and length constraints, so it whips, goes taut, and settles like real cord.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tether-rope`
+
+Props:
+- `nodes`: number (default 12) — Segment nodes, clamped to 4–16.
+- `anchor`: "top" | "ends" (default "top") — Pin the first node, or both ends like a slung cable.
+- `height`: number (default 280) — Stage height in px.
+
+Notes:
+- Drag any point to swing the rope; a Reset button re-drops it. The loop pauses offscreen and when the tab is hidden.
+- Under reduced motion it renders a static hanging catenary — no simulation.
+
+### Pendulum Wave (KQ-044) — `pendulum-wave`
+Periods that part, then realign.
+
+A rank of pendulums whose periods step apart — released together they drift through traveling waves and snap back into alignment on a fixed cycle.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pendulum-wave`
+
+Props:
+- `count`: number (default 12) — Pendulums, clamped to 4–20.
+- `amplitude / cycleSeconds / baseOscillations`: number — Swing angle, realign-cycle length, and the longest pendulum's swing count.
+- `height`: number (default 260) — Stage height in px.
+
+Notes:
+- Motion is analytic — each bob follows a closed-form cosine, so the realign cycle is exact. Restart re-aligns them.
+- Under reduced motion it renders one static fanned frame — no loop.
+
+### Rubber Sheet (KQ-045) — `rubber-sheet`
+Pull the membrane; it rings back.
+
+A taut mesh you pull toward the pointer with a smooth falloff; release and the vertices fire home, ringing through equilibrium twice before they settle.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rubber-sheet`
+
+Props:
+- `columns / rows`: number — Mesh density; columns default 9, rows default 7.
+- `height`: number (default 260) — Stage height in px.
+- `aria-label`: string — Names the surface.
+
+Notes:
+- The release rides the recoil spring, so the sheet overshoots and settles in two visible bounces.
+- Under reduced motion the mesh deforms 1:1 while dragging but snaps flat on release — no ripple.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -1836,4 +1836,121 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the layers render flat and stationary at their neutral position.",
     ],
   },
+  {
+    name: "tether-rope",
+    type: "registry:ui",
+    title: "Tether Rope",
+    description:
+      "A hanging rope you grab and swing — a Verlet chain with gravity and length constraints, so it whips, goes taut, and settles like real cord.",
+    files: [{ path: "registry/ui/tether-rope.tsx", type: "registry:ui" }],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["physics"],
+    meta: { serial: "KQ-043" },
+    tagline: "Grab the cord; Verlet does the rest.",
+    keywords: ["rope", "verlet", "physics", "chain", "cloth", "simulation"],
+    props: [
+      {
+        name: "nodes",
+        type: "number",
+        defaultValue: "12",
+        description: "Segment nodes, clamped to 4–16.",
+      },
+      {
+        name: "anchor",
+        type: '"top" | "ends"',
+        defaultValue: '"top"',
+        description: "Pin the first node, or both ends like a slung cable.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Drag any point to swing the rope; a Reset button re-drops it. The loop pauses offscreen and when the tab is hidden.",
+      "Under reduced motion it renders a static hanging catenary — no simulation.",
+    ],
+  },
+  {
+    name: "pendulum-wave",
+    type: "registry:ui",
+    title: "Pendulum Wave",
+    description:
+      "A rank of pendulums whose periods step apart — released together they drift through traveling waves and snap back into alignment on a fixed cycle.",
+    files: [{ path: "registry/ui/pendulum-wave.tsx", type: "registry:ui" }],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["physics"],
+    meta: { serial: "KQ-044" },
+    tagline: "Periods that part, then realign.",
+    keywords: [
+      "pendulum",
+      "wave",
+      "harmonic",
+      "physics",
+      "oscillation",
+      "kinetic",
+    ],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "12",
+        description: "Pendulums, clamped to 4–20.",
+      },
+      {
+        name: "amplitude / cycleSeconds / baseOscillations",
+        type: "number",
+        description:
+          "Swing angle, realign-cycle length, and the longest pendulum's swing count.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "260",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Motion is analytic — each bob follows a closed-form cosine, so the realign cycle is exact. Restart re-aligns them.",
+      "Under reduced motion it renders one static fanned frame — no loop.",
+    ],
+  },
+  {
+    name: "rubber-sheet",
+    type: "registry:ui",
+    title: "Rubber Sheet",
+    description:
+      "A taut mesh you pull toward the pointer with a smooth falloff; release and the vertices fire home, ringing through equilibrium twice before they settle.",
+    files: [{ path: "registry/ui/rubber-sheet.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["physics"],
+    meta: { serial: "KQ-045" },
+    tagline: "Pull the membrane; it rings back.",
+    keywords: ["membrane", "mesh", "elastic", "physics", "grid", "deform"],
+    props: [
+      {
+        name: "columns / rows",
+        type: "number",
+        description: "Mesh density; columns default 9, rows default 7.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "260",
+        description: "Stage height in px.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Names the surface.",
+      },
+    ],
+    usageNotes: [
+      "The release rides the recoil spring, so the sheet overshoots and settles in two visible bounces.",
+      "Under reduced motion the mesh deforms 1:1 while dragging but snaps flat on release — no ripple.",
+    ],
+  },
 ];
