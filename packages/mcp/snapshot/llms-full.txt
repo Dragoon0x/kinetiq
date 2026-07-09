@@ -985,6 +985,53 @@ Notes:
 - Concurrent ripples are pooled and capped; crests reinforce where wavefronts cross. The loop pauses offscreen and when hidden.
 - Under reduced motion it renders one calm static frame — a tap does not propagate.
 
+### Flow Diagram (KQ-054) — `flow-diagram`
+Quantity, flowing between nodes.
+
+A Sankey flow — nodes in columns, links sized to their value with a marching-dash current, and a hover that traces a node's whole upstream and downstream path.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/flow-diagram`
+
+Props:
+- `nodes`: { id: string; label: string; column: number }[] — Graph nodes with their column placement.
+- `links`: { source: string; target: string; value: number }[] — Flows; value drives link thickness.
+- `height`: number (default 300) — Stage height in px.
+
+Notes:
+- Hover or focus a node to trace its connected path; an sr-only summary lists every flow.
+- Under reduced motion the dashes stop marching — the highlight is color only.
+
+### Timeline Spine (KQ-055) — `timeline-spine`
+A playhead that rides your scroll.
+
+A scroll-linked timeline — a playhead rides the spine as you scroll, the spine fills behind it, and each event pops in as the head reaches it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/timeline-spine`
+
+Props:
+- `events`: { title: string; detail?: ReactNode; marker?: ReactNode }[] — Ordered events rendered along the spine.
+- `aria-label`: string — Names the timeline region.
+
+Notes:
+- Events are a semantic ordered list, readable regardless of motion; the spine and playhead are decorative.
+- Under reduced motion everything renders in its final state — no scroll-driven animation.
+
+### Pull to Refresh (KQ-056) — `pull-to-refresh`
+Pull past the detent; rows cascade in.
+
+Over-pull the list past a calibrated detent and release — it holds to refresh, then settles back as the fresh rows cascade in.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pull-to-refresh`
+
+Props:
+- `onRefresh`: () => Promise<void> | void — Called when a past-detent pull is released.
+- `children`: ReactNode — The scrollable content.
+- `threshold`: number (default 72) — Pixels past which release triggers a refresh.
+
+Notes:
+- Only engages when the list is scrolled to the top; a focusable Refresh button keeps it operable without a pointer.
+- Under reduced motion the pull eases home without overshoot and the new rows fade in once — no cascade.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

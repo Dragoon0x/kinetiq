@@ -2267,4 +2267,113 @@ export const components: KinetiqItem[] = [
       "Under reduced motion it renders one calm static frame — a tap does not propagate.",
     ],
   },
+  {
+    name: "flow-diagram",
+    type: "registry:ui",
+    title: "Flow Diagram",
+    description:
+      "A Sankey flow — nodes in columns, links sized to their value with a marching-dash current, and a hover that traces a node's whole upstream and downstream path.",
+    files: [{ path: "registry/ui/flow-diagram.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["data"],
+    meta: { serial: "KQ-054" },
+    tagline: "Quantity, flowing between nodes.",
+    keywords: ["sankey", "flow", "diagram", "graph", "data", "network"],
+    props: [
+      {
+        name: "nodes",
+        type: "{ id: string; label: string; column: number }[]",
+        description: "Graph nodes with their column placement.",
+      },
+      {
+        name: "links",
+        type: "{ source: string; target: string; value: number }[]",
+        description: "Flows; value drives link thickness.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Hover or focus a node to trace its connected path; an sr-only summary lists every flow.",
+      "Under reduced motion the dashes stop marching — the highlight is color only.",
+    ],
+  },
+  {
+    name: "timeline-spine",
+    type: "registry:ui",
+    title: "Timeline Spine",
+    description:
+      "A scroll-linked timeline — a playhead rides the spine as you scroll, the spine fills behind it, and each event pops in as the head reaches it.",
+    files: [{ path: "registry/ui/timeline-spine.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: { serial: "KQ-055" },
+    tagline: "A playhead that rides your scroll.",
+    keywords: ["timeline", "scroll", "spine", "changelog", "reveal", "progress"],
+    props: [
+      {
+        name: "events",
+        type: "{ title: string; detail?: ReactNode; marker?: ReactNode }[]",
+        description: "Ordered events rendered along the spine.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Names the timeline region.",
+      },
+    ],
+    usageNotes: [
+      "Events are a semantic ordered list, readable regardless of motion; the spine and playhead are decorative.",
+      "Under reduced motion everything renders in its final state — no scroll-driven animation.",
+    ],
+  },
+  {
+    name: "pull-to-refresh",
+    type: "registry:ui",
+    title: "Pull to Refresh",
+    description:
+      "Over-pull the list past a calibrated detent and release — it holds to refresh, then settles back as the fresh rows cascade in.",
+    files: [{ path: "registry/ui/pull-to-refresh.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["physics"],
+    meta: { serial: "KQ-056" },
+    tagline: "Pull past the detent; rows cascade in.",
+    keywords: [
+      "pull to refresh",
+      "gesture",
+      "list",
+      "rubber band",
+      "refresh",
+      "physics",
+    ],
+    props: [
+      {
+        name: "onRefresh",
+        type: "() => Promise<void> | void",
+        description: "Called when a past-detent pull is released.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The scrollable content.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "72",
+        description: "Pixels past which release triggers a refresh.",
+      },
+    ],
+    usageNotes: [
+      "Only engages when the list is scrolled to the top; a focusable Refresh button keeps it operable without a pointer.",
+      "Under reduced motion the pull eases home without overshoot and the new rows fade in once — no cascade.",
+    ],
+  },
 ];

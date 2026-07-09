@@ -1353,6 +1353,84 @@
       }
     },
     {
+      "name": "flow-diagram",
+      "type": "registry:ui",
+      "title": "Flow Diagram",
+      "description": "A Sankey flow — nodes in columns, links sized to their value with a marching-dash current, and a hover that traces a node's whole upstream and downstream path.",
+      "files": [
+        {
+          "path": "registry/ui/flow-diagram.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-054"
+      }
+    },
+    {
+      "name": "timeline-spine",
+      "type": "registry:ui",
+      "title": "Timeline Spine",
+      "description": "A scroll-linked timeline — a playhead rides the spine as you scroll, the spine fills behind it, and each event pops in as the head reaches it.",
+      "files": [
+        {
+          "path": "registry/ui/timeline-spine.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-055"
+      }
+    },
+    {
+      "name": "pull-to-refresh",
+      "type": "registry:ui",
+      "title": "Pull to Refresh",
+      "description": "Over-pull the list past a calibrated detent and release — it holds to refresh, then settles back as the fresh rows cascade in.",
+      "files": [
+        {
+          "path": "registry/ui/pull-to-refresh.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "physics"
+      ],
+      "meta": {
+        "serial": "KQ-056"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

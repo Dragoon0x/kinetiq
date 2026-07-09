@@ -312,7 +312,7 @@ export function PendulumWave({
                 // Cobalt→signal sweep across the row keeps the wave legible.
                 fill={`color-mix(in oklch, var(--signal) ${Math.round(
                   bob.hue * 100,
-                )}%, var(--cobalt-bright))`}
+                )}%, var(--accent-bright))`}
               />
             </g>
           ))}
