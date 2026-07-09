@@ -1,11 +1,11 @@
 {
-  "$schema": "https://kinetiq.dev/schema/registry-meta.json",
+  "$schema": "https://kinetiq-ui.vercel.app/schema/registry-meta.json",
   "registry": {
     "name": "kinetiq",
     "namespace": "@kinetiq",
-    "homepage": "https://kinetiq.dev",
-    "indexUrl": "https://kinetiq.dev/r/registry.json",
-    "docsUrl": "https://kinetiq.dev",
+    "homepage": "https://kinetiq-ui.vercel.app",
+    "indexUrl": "https://kinetiq-ui.vercel.app/r/registry.json",
+    "docsUrl": "https://kinetiq-ui.vercel.app",
     "counts": {
       "components": 59,
       "blocks": 16,
@@ -151,18 +151,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/pressure-button",
-      "registryItemUrl": "https://kinetiq.dev/r/pressure-button.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/pressure-button",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/pressure-button.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pressure-button",
         "npm": "npx shadcn@latest add @kinetiq/pressure-button",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/pressure-button",
         "bun": "bunx --bun shadcn@latest add @kinetiq/pressure-button",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/pressure-button.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/pressure-button.json"
       }
     },
     {
@@ -213,18 +213,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/trace-input",
-      "registryItemUrl": "https://kinetiq.dev/r/trace-input.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/trace-input",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/trace-input.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/trace-input",
         "npm": "npx shadcn@latest add @kinetiq/trace-input",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/trace-input",
         "bun": "bunx --bun shadcn@latest add @kinetiq/trace-input",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/trace-input.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/trace-input.json"
       }
     },
     {
@@ -280,18 +280,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/breaker-switch",
-      "registryItemUrl": "https://kinetiq.dev/r/breaker-switch.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/breaker-switch",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/breaker-switch.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/breaker-switch",
         "npm": "npx shadcn@latest add @kinetiq/breaker-switch",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/breaker-switch",
         "bun": "bunx --bun shadcn@latest add @kinetiq/breaker-switch",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/breaker-switch.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/breaker-switch.json"
       }
     },
     {
@@ -348,18 +348,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/checkbox",
-      "registryItemUrl": "https://kinetiq.dev/r/checkbox.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/checkbox",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/checkbox.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/checkbox",
         "npm": "npx shadcn@latest add @kinetiq/checkbox",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/checkbox",
         "bun": "bunx --bun shadcn@latest add @kinetiq/checkbox",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/checkbox.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/checkbox.json"
       }
     },
     {
@@ -418,18 +418,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/caliper-slider",
-      "registryItemUrl": "https://kinetiq.dev/r/caliper-slider.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/caliper-slider",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/caliper-slider.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/caliper-slider",
         "npm": "npx shadcn@latest add @kinetiq/caliper-slider",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/caliper-slider",
         "bun": "bunx --bun shadcn@latest add @kinetiq/caliper-slider",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/caliper-slider.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/caliper-slider.json"
       }
     },
     {
@@ -489,18 +489,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/gantry-tabs",
-      "registryItemUrl": "https://kinetiq.dev/r/gantry-tabs.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/gantry-tabs",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/gantry-tabs.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gantry-tabs",
         "npm": "npx shadcn@latest add @kinetiq/gantry-tabs",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/gantry-tabs",
         "bun": "bunx --bun shadcn@latest add @kinetiq/gantry-tabs",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/gantry-tabs.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/gantry-tabs.json"
       }
     },
     {
@@ -562,18 +562,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/drawer-accordion",
-      "registryItemUrl": "https://kinetiq.dev/r/drawer-accordion.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/drawer-accordion",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/drawer-accordion.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/drawer-accordion",
         "npm": "npx shadcn@latest add @kinetiq/drawer-accordion",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/drawer-accordion",
         "bun": "bunx --bun shadcn@latest add @kinetiq/drawer-accordion",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/drawer-accordion.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/drawer-accordion.json"
       }
     },
     {
@@ -632,18 +632,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/callout",
-      "registryItemUrl": "https://kinetiq.dev/r/callout.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/callout",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/callout.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/callout",
         "npm": "npx shadcn@latest add @kinetiq/callout",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/callout",
         "bun": "bunx --bun shadcn@latest add @kinetiq/callout",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/callout.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/callout.json"
       }
     },
     {
@@ -708,18 +708,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/morph-dialog",
-      "registryItemUrl": "https://kinetiq.dev/r/morph-dialog.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/morph-dialog",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/morph-dialog.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/morph-dialog",
         "npm": "npx shadcn@latest add @kinetiq/morph-dialog",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/morph-dialog",
         "bun": "bunx --bun shadcn@latest add @kinetiq/morph-dialog",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/morph-dialog.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/morph-dialog.json"
       }
     },
     {
@@ -771,18 +771,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/select",
-      "registryItemUrl": "https://kinetiq.dev/r/select.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/select",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/select.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/select",
         "npm": "npx shadcn@latest add @kinetiq/select",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/select",
         "bun": "bunx --bun shadcn@latest add @kinetiq/select",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/select.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/select.json"
       }
     },
     {
@@ -835,18 +835,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/telemetry-toast",
-      "registryItemUrl": "https://kinetiq.dev/r/telemetry-toast.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/telemetry-toast",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/telemetry-toast.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/telemetry-toast",
         "npm": "npx shadcn@latest add @kinetiq/telemetry-toast",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/telemetry-toast",
         "bun": "bunx --bun shadcn@latest add @kinetiq/telemetry-toast",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/telemetry-toast.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/telemetry-toast.json"
       }
     },
     {
@@ -906,18 +906,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/readout",
-      "registryItemUrl": "https://kinetiq.dev/r/readout.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/readout",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/readout.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/readout",
         "npm": "npx shadcn@latest add @kinetiq/readout",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/readout",
         "bun": "bunx --bun shadcn@latest add @kinetiq/readout",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/readout.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/readout.json"
       }
     },
     {
@@ -976,18 +976,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/focus-text",
-      "registryItemUrl": "https://kinetiq.dev/r/focus-text.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/focus-text",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/focus-text.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/focus-text",
         "npm": "npx shadcn@latest add @kinetiq/focus-text",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/focus-text",
         "bun": "bunx --bun shadcn@latest add @kinetiq/focus-text",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/focus-text.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/focus-text.json"
       }
     },
     {
@@ -1047,18 +1047,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/flapboard",
-      "registryItemUrl": "https://kinetiq.dev/r/flapboard.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/flapboard",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/flapboard.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/flapboard",
         "npm": "npx shadcn@latest add @kinetiq/flapboard",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/flapboard",
         "bun": "bunx --bun shadcn@latest add @kinetiq/flapboard",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/flapboard.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/flapboard.json"
       }
     },
     {
@@ -1117,18 +1117,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/scope-scrubber",
-      "registryItemUrl": "https://kinetiq.dev/r/scope-scrubber.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/scope-scrubber",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/scope-scrubber.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/scope-scrubber",
         "npm": "npx shadcn@latest add @kinetiq/scope-scrubber",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/scope-scrubber",
         "bun": "bunx --bun shadcn@latest add @kinetiq/scope-scrubber",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/scope-scrubber.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/scope-scrubber.json"
       }
     },
     {
@@ -1181,18 +1181,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/metronome-loader",
-      "registryItemUrl": "https://kinetiq.dev/r/metronome-loader.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/metronome-loader",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/metronome-loader.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/metronome-loader",
         "npm": "npx shadcn@latest add @kinetiq/metronome-loader",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/metronome-loader",
         "bun": "bunx --bun shadcn@latest add @kinetiq/metronome-loader",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/metronome-loader.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/metronome-loader.json"
       }
     },
     {
@@ -1240,18 +1240,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/gyro-card",
-      "registryItemUrl": "https://kinetiq.dev/r/gyro-card.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/gyro-card",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/gyro-card.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gyro-card",
         "npm": "npx shadcn@latest add @kinetiq/gyro-card",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/gyro-card",
         "bun": "bunx --bun shadcn@latest add @kinetiq/gyro-card",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/gyro-card.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/gyro-card.json"
       }
     },
     {
@@ -1304,18 +1304,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/magnet-dock",
-      "registryItemUrl": "https://kinetiq.dev/r/magnet-dock.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/magnet-dock",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/magnet-dock.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/magnet-dock",
         "npm": "npx shadcn@latest add @kinetiq/magnet-dock",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/magnet-dock",
         "bun": "bunx --bun shadcn@latest add @kinetiq/magnet-dock",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/magnet-dock.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/magnet-dock.json"
       }
     },
     {
@@ -1368,18 +1368,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/conveyor-list",
-      "registryItemUrl": "https://kinetiq.dev/r/conveyor-list.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/conveyor-list",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/conveyor-list.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/conveyor-list",
         "npm": "npx shadcn@latest add @kinetiq/conveyor-list",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/conveyor-list",
         "bun": "bunx --bun shadcn@latest add @kinetiq/conveyor-list",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/conveyor-list.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/conveyor-list.json"
       }
     },
     {
@@ -1434,18 +1434,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/ticker-tape",
-      "registryItemUrl": "https://kinetiq.dev/r/ticker-tape.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/ticker-tape",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/ticker-tape.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ticker-tape",
         "npm": "npx shadcn@latest add @kinetiq/ticker-tape",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/ticker-tape",
         "bun": "bunx --bun shadcn@latest add @kinetiq/ticker-tape",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/ticker-tape.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/ticker-tape.json"
       }
     },
     {
@@ -1494,18 +1494,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/scan-reveal",
-      "registryItemUrl": "https://kinetiq.dev/r/scan-reveal.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/scan-reveal",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/scan-reveal.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/scan-reveal",
         "npm": "npx shadcn@latest add @kinetiq/scan-reveal",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/scan-reveal",
         "bun": "bunx --bun shadcn@latest add @kinetiq/scan-reveal",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/scan-reveal.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/scan-reveal.json"
       }
     },
     {
@@ -1557,18 +1557,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/radio-group",
-      "registryItemUrl": "https://kinetiq.dev/r/radio-group.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/radio-group",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/radio-group.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/radio-group",
         "npm": "npx shadcn@latest add @kinetiq/radio-group",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/radio-group",
         "bun": "bunx --bun shadcn@latest add @kinetiq/radio-group",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/radio-group.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/radio-group.json"
       }
     },
     {
@@ -1631,18 +1631,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/code-cells",
-      "registryItemUrl": "https://kinetiq.dev/r/code-cells.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/code-cells",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/code-cells.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/code-cells",
         "npm": "npx shadcn@latest add @kinetiq/code-cells",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/code-cells",
         "bun": "bunx --bun shadcn@latest add @kinetiq/code-cells",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/code-cells.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/code-cells.json"
       }
     },
     {
@@ -1699,18 +1699,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/action-relay",
-      "registryItemUrl": "https://kinetiq.dev/r/action-relay.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/action-relay",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/action-relay.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/action-relay",
         "npm": "npx shadcn@latest add @kinetiq/action-relay",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/action-relay",
         "bun": "bunx --bun shadcn@latest add @kinetiq/action-relay",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/action-relay.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/action-relay.json"
       }
     },
     {
@@ -1764,19 +1764,19 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/status-seal",
-      "registryItemUrl": "https://kinetiq.dev/r/status-seal.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/status-seal",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/status-seal.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/status-seal",
         "npm": "npx shadcn@latest add @kinetiq/status-seal",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/status-seal",
         "bun": "bunx --bun shadcn@latest add @kinetiq/status-seal",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/status-seal.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/status-seal.json"
       }
     },
     {
@@ -1824,18 +1824,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/slipstream",
-      "registryItemUrl": "https://kinetiq.dev/r/slipstream.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/slipstream",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/slipstream.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/slipstream",
         "npm": "npx shadcn@latest add @kinetiq/slipstream",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/slipstream",
         "bun": "bunx --bun shadcn@latest add @kinetiq/slipstream",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/slipstream.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/slipstream.json"
       }
     },
     {
@@ -1888,18 +1888,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/drawer",
-      "registryItemUrl": "https://kinetiq.dev/r/drawer.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/drawer",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/drawer.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/drawer",
         "npm": "npx shadcn@latest add @kinetiq/drawer",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/drawer",
         "bun": "bunx --bun shadcn@latest add @kinetiq/drawer",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/drawer.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/drawer.json"
       }
     },
     {
@@ -1952,18 +1952,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/bottom-sheet",
-      "registryItemUrl": "https://kinetiq.dev/r/bottom-sheet.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/bottom-sheet",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/bottom-sheet.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/bottom-sheet",
         "npm": "npx shadcn@latest add @kinetiq/bottom-sheet",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/bottom-sheet",
         "bun": "bunx --bun shadcn@latest add @kinetiq/bottom-sheet",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/bottom-sheet.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/bottom-sheet.json"
       }
     },
     {
@@ -2017,18 +2017,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/cipher-text",
-      "registryItemUrl": "https://kinetiq.dev/r/cipher-text.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/cipher-text",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/cipher-text.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cipher-text",
         "npm": "npx shadcn@latest add @kinetiq/cipher-text",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/cipher-text",
         "bun": "bunx --bun shadcn@latest add @kinetiq/cipher-text",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/cipher-text.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/cipher-text.json"
       }
     },
     {
@@ -2085,19 +2085,19 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/checkbox.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/checkbox.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/ledger",
-      "registryItemUrl": "https://kinetiq.dev/r/ledger.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/ledger",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/ledger.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ledger",
         "npm": "npx shadcn@latest add @kinetiq/ledger",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/ledger",
         "bun": "bunx --bun shadcn@latest add @kinetiq/ledger",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/ledger.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/ledger.json"
       }
     },
     {
@@ -2155,18 +2155,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/zoetrope",
-      "registryItemUrl": "https://kinetiq.dev/r/zoetrope.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/zoetrope",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/zoetrope.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/zoetrope",
         "npm": "npx shadcn@latest add @kinetiq/zoetrope",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/zoetrope",
         "bun": "bunx --bun shadcn@latest add @kinetiq/zoetrope",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/zoetrope.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/zoetrope.json"
       }
     },
     {
@@ -2212,17 +2212,17 @@
       ],
       "dependencies": [],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/wavefield",
-      "registryItemUrl": "https://kinetiq.dev/r/wavefield.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/wavefield",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/wavefield.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/wavefield",
         "npm": "npx shadcn@latest add @kinetiq/wavefield",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/wavefield",
         "bun": "bunx --bun shadcn@latest add @kinetiq/wavefield",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/wavefield.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/wavefield.json"
       }
     },
     {
@@ -2263,18 +2263,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/phase-switch",
-      "registryItemUrl": "https://kinetiq.dev/r/phase-switch.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/phase-switch",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/phase-switch.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/phase-switch",
         "npm": "npx shadcn@latest add @kinetiq/phase-switch",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/phase-switch",
         "bun": "bunx --bun shadcn@latest add @kinetiq/phase-switch",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/phase-switch.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/phase-switch.json"
       }
     },
     {
@@ -2329,18 +2329,18 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/kinetic-gallery",
-      "registryItemUrl": "https://kinetiq.dev/r/kinetic-gallery.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/kinetic-gallery",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/kinetic-gallery.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/kinetic-gallery",
         "npm": "npx shadcn@latest add @kinetiq/kinetic-gallery",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/kinetic-gallery",
         "bun": "bunx --bun shadcn@latest add @kinetiq/kinetic-gallery",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/kinetic-gallery.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/kinetic-gallery.json"
       }
     },
     {
@@ -2393,18 +2393,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/tile-grid",
-      "registryItemUrl": "https://kinetiq.dev/r/tile-grid.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/tile-grid",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/tile-grid.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tile-grid",
         "npm": "npx shadcn@latest add @kinetiq/tile-grid",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/tile-grid",
         "bun": "bunx --bun shadcn@latest add @kinetiq/tile-grid",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/tile-grid.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/tile-grid.json"
       }
     },
     {
@@ -2457,18 +2457,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/segmented-control",
-      "registryItemUrl": "https://kinetiq.dev/r/segmented-control.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/segmented-control",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/segmented-control.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/segmented-control",
         "npm": "npx shadcn@latest add @kinetiq/segmented-control",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/segmented-control",
         "bun": "bunx --bun shadcn@latest add @kinetiq/segmented-control",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/segmented-control.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/segmented-control.json"
       }
     },
     {
@@ -2521,18 +2521,18 @@
         "lucide-react"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/triage-deck",
-      "registryItemUrl": "https://kinetiq.dev/r/triage-deck.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/triage-deck",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/triage-deck.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/triage-deck",
         "npm": "npx shadcn@latest add @kinetiq/triage-deck",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/triage-deck",
         "bun": "bunx --bun shadcn@latest add @kinetiq/triage-deck",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/triage-deck.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/triage-deck.json"
       }
     },
     {
@@ -2585,18 +2585,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/spark-chart",
-      "registryItemUrl": "https://kinetiq.dev/r/spark-chart.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/spark-chart",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/spark-chart.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spark-chart",
         "npm": "npx shadcn@latest add @kinetiq/spark-chart",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/spark-chart",
         "bun": "bunx --bun shadcn@latest add @kinetiq/spark-chart",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/spark-chart.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/spark-chart.json"
       }
     },
     {
@@ -2648,18 +2648,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/radial-bars",
-      "registryItemUrl": "https://kinetiq.dev/r/radial-bars.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/radial-bars",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/radial-bars.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/radial-bars",
         "npm": "npx shadcn@latest add @kinetiq/radial-bars",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/radial-bars",
         "bun": "bunx --bun shadcn@latest add @kinetiq/radial-bars",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/radial-bars.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/radial-bars.json"
       }
     },
     {
@@ -2706,18 +2706,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/coverflow",
-      "registryItemUrl": "https://kinetiq.dev/r/coverflow.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/coverflow",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/coverflow.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/coverflow",
         "npm": "npx shadcn@latest add @kinetiq/coverflow",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/coverflow",
         "bun": "bunx --bun shadcn@latest add @kinetiq/coverflow",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/coverflow.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/coverflow.json"
       }
     },
     {
@@ -2765,18 +2765,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/parallax-scene",
-      "registryItemUrl": "https://kinetiq.dev/r/parallax-scene.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/parallax-scene",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/parallax-scene.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/parallax-scene",
         "npm": "npx shadcn@latest add @kinetiq/parallax-scene",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/parallax-scene",
         "bun": "bunx --bun shadcn@latest add @kinetiq/parallax-scene",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/parallax-scene.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/parallax-scene.json"
       }
     },
     {
@@ -2823,17 +2823,17 @@
         "Under reduced motion it renders a static hanging catenary — no simulation."
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/tether-rope",
-      "registryItemUrl": "https://kinetiq.dev/r/tether-rope.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/tether-rope",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/tether-rope.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tether-rope",
         "npm": "npx shadcn@latest add @kinetiq/tether-rope",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/tether-rope",
         "bun": "bunx --bun shadcn@latest add @kinetiq/tether-rope",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/tether-rope.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/tether-rope.json"
       }
     },
     {
@@ -2879,17 +2879,17 @@
         "Under reduced motion it renders one static fanned frame — no loop."
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/pendulum-wave",
-      "registryItemUrl": "https://kinetiq.dev/r/pendulum-wave.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/pendulum-wave",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/pendulum-wave.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pendulum-wave",
         "npm": "npx shadcn@latest add @kinetiq/pendulum-wave",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/pendulum-wave",
         "bun": "bunx --bun shadcn@latest add @kinetiq/pendulum-wave",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/pendulum-wave.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/pendulum-wave.json"
       }
     },
     {
@@ -2937,18 +2937,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/rubber-sheet",
-      "registryItemUrl": "https://kinetiq.dev/r/rubber-sheet.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/rubber-sheet",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/rubber-sheet.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rubber-sheet",
         "npm": "npx shadcn@latest add @kinetiq/rubber-sheet",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/rubber-sheet",
         "bun": "bunx --bun shadcn@latest add @kinetiq/rubber-sheet",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/rubber-sheet.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/rubber-sheet.json"
       }
     },
     {
@@ -2994,17 +2994,17 @@
         "Under reduced motion it renders one static lattice frame — no loop, no cursor response."
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/iron-filings",
-      "registryItemUrl": "https://kinetiq.dev/r/iron-filings.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/iron-filings",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/iron-filings.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/iron-filings",
         "npm": "npx shadcn@latest add @kinetiq/iron-filings",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/iron-filings",
         "bun": "bunx --bun shadcn@latest add @kinetiq/iron-filings",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/iron-filings.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/iron-filings.json"
       }
     },
     {
@@ -3050,17 +3050,17 @@
         "Under reduced motion it renders one settled frame — no loop, no scatter."
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/swarm-field",
-      "registryItemUrl": "https://kinetiq.dev/r/swarm-field.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/swarm-field",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/swarm-field.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/swarm-field",
         "npm": "npx shadcn@latest add @kinetiq/swarm-field",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/swarm-field",
         "bun": "bunx --bun shadcn@latest add @kinetiq/swarm-field",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/swarm-field.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/swarm-field.json"
       }
     },
     {
@@ -3110,18 +3110,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/magnetic-cursor",
-      "registryItemUrl": "https://kinetiq.dev/r/magnetic-cursor.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/magnetic-cursor",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/magnetic-cursor.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/magnetic-cursor",
         "npm": "npx shadcn@latest add @kinetiq/magnetic-cursor",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/magnetic-cursor",
         "bun": "bunx --bun shadcn@latest add @kinetiq/magnetic-cursor",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/magnetic-cursor.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/magnetic-cursor.json"
       }
     },
     {
@@ -3167,17 +3167,17 @@
         "Under reduced motion it renders one static frame — no undulation, no pointer response."
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/aurora-ribbon",
-      "registryItemUrl": "https://kinetiq.dev/r/aurora-ribbon.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/aurora-ribbon",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/aurora-ribbon.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/aurora-ribbon",
         "npm": "npx shadcn@latest add @kinetiq/aurora-ribbon",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/aurora-ribbon",
         "bun": "bunx --bun shadcn@latest add @kinetiq/aurora-ribbon",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/aurora-ribbon.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/aurora-ribbon.json"
       }
     },
     {
@@ -3224,17 +3224,17 @@
         "Under reduced motion it renders a static globe — no drift, no momentum."
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/point-globe",
-      "registryItemUrl": "https://kinetiq.dev/r/point-globe.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/point-globe",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/point-globe.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/point-globe",
         "npm": "npx shadcn@latest add @kinetiq/point-globe",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/point-globe",
         "bun": "bunx --bun shadcn@latest add @kinetiq/point-globe",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/point-globe.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/point-globe.json"
       }
     },
     {
@@ -3283,18 +3283,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/voronoi-shatter",
-      "registryItemUrl": "https://kinetiq.dev/r/voronoi-shatter.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/voronoi-shatter",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/voronoi-shatter.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/voronoi-shatter",
         "npm": "npx shadcn@latest add @kinetiq/voronoi-shatter",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/voronoi-shatter",
         "bun": "bunx --bun shadcn@latest add @kinetiq/voronoi-shatter",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/voronoi-shatter.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/voronoi-shatter.json"
       }
     },
     {
@@ -3340,17 +3340,17 @@
         "Under reduced motion it renders one static frame — no trail, no pointer response."
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/comet-cursor",
-      "registryItemUrl": "https://kinetiq.dev/r/comet-cursor.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/comet-cursor",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/comet-cursor.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/comet-cursor",
         "npm": "npx shadcn@latest add @kinetiq/comet-cursor",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/comet-cursor",
         "bun": "bunx --bun shadcn@latest add @kinetiq/comet-cursor",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/comet-cursor.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/comet-cursor.json"
       }
     },
     {
@@ -3390,17 +3390,17 @@
         "Under reduced motion it renders one calm static frame — a tap does not propagate."
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/ripple-surface",
-      "registryItemUrl": "https://kinetiq.dev/r/ripple-surface.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/ripple-surface",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/ripple-surface.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ripple-surface",
         "npm": "npx shadcn@latest add @kinetiq/ripple-surface",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/ripple-surface",
         "bun": "bunx --bun shadcn@latest add @kinetiq/ripple-surface",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/ripple-surface.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/ripple-surface.json"
       }
     },
     {
@@ -3448,18 +3448,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/flow-diagram",
-      "registryItemUrl": "https://kinetiq.dev/r/flow-diagram.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/flow-diagram",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/flow-diagram.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/flow-diagram",
         "npm": "npx shadcn@latest add @kinetiq/flow-diagram",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/flow-diagram",
         "bun": "bunx --bun shadcn@latest add @kinetiq/flow-diagram",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/flow-diagram.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/flow-diagram.json"
       }
     },
     {
@@ -3501,18 +3501,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/timeline-spine",
-      "registryItemUrl": "https://kinetiq.dev/r/timeline-spine.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/timeline-spine",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/timeline-spine.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/timeline-spine",
         "npm": "npx shadcn@latest add @kinetiq/timeline-spine",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/timeline-spine",
         "bun": "bunx --bun shadcn@latest add @kinetiq/timeline-spine",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/timeline-spine.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/timeline-spine.json"
       }
     },
     {
@@ -3560,18 +3560,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/pull-to-refresh",
-      "registryItemUrl": "https://kinetiq.dev/r/pull-to-refresh.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/pull-to-refresh",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/pull-to-refresh.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pull-to-refresh",
         "npm": "npx shadcn@latest add @kinetiq/pull-to-refresh",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/pull-to-refresh",
         "bun": "bunx --bun shadcn@latest add @kinetiq/pull-to-refresh",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/pull-to-refresh.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/pull-to-refresh.json"
       }
     },
     {
@@ -3619,18 +3619,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/orbit-menu",
-      "registryItemUrl": "https://kinetiq.dev/r/orbit-menu.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/orbit-menu",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/orbit-menu.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/orbit-menu",
         "npm": "npx shadcn@latest add @kinetiq/orbit-menu",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/orbit-menu",
         "bun": "bunx --bun shadcn@latest add @kinetiq/orbit-menu",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/orbit-menu.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/orbit-menu.json"
       }
     },
     {
@@ -3678,18 +3678,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/spark-burst",
-      "registryItemUrl": "https://kinetiq.dev/r/spark-burst.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/spark-burst",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/spark-burst.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spark-burst",
         "npm": "npx shadcn@latest add @kinetiq/spark-burst",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/spark-burst",
         "bun": "bunx --bun shadcn@latest add @kinetiq/spark-burst",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/spark-burst.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/spark-burst.json"
       }
     },
     {
@@ -3737,18 +3737,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/heart-tap",
-      "registryItemUrl": "https://kinetiq.dev/r/heart-tap.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/heart-tap",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/heart-tap.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/heart-tap",
         "npm": "npx shadcn@latest add @kinetiq/heart-tap",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/heart-tap",
         "bun": "bunx --bun shadcn@latest add @kinetiq/heart-tap",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/heart-tap.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/heart-tap.json"
       }
     },
     {
@@ -3795,18 +3795,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/components/reaction-fly",
-      "registryItemUrl": "https://kinetiq.dev/r/reaction-fly.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/components/reaction-fly",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/reaction-fly.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/reaction-fly",
         "npm": "npx shadcn@latest add @kinetiq/reaction-fly",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/reaction-fly",
         "bun": "bunx --bun shadcn@latest add @kinetiq/reaction-fly",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/reaction-fly.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/reaction-fly.json"
       }
     },
     {
@@ -3865,18 +3865,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/command-deck",
-      "registryItemUrl": "https://kinetiq.dev/r/command-deck.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/command-deck",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/command-deck.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/command-deck",
         "npm": "npx shadcn@latest add @kinetiq/command-deck",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/command-deck",
         "bun": "bunx --bun shadcn@latest add @kinetiq/command-deck",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/command-deck.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/command-deck.json"
       }
     },
     {
@@ -3928,21 +3928,21 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/trace-input.json",
-        "https://kinetiq.dev/r/pressure-button.json",
-        "https://kinetiq.dev/r/code-cells.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/trace-input.json",
+        "https://kinetiq-ui.vercel.app/r/pressure-button.json",
+        "https://kinetiq-ui.vercel.app/r/code-cells.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/access-panel",
-      "registryItemUrl": "https://kinetiq.dev/r/access-panel.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/access-panel",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/access-panel.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/access-panel",
         "npm": "npx shadcn@latest add @kinetiq/access-panel",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/access-panel",
         "bun": "bunx --bun shadcn@latest add @kinetiq/access-panel",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/access-panel.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/access-panel.json"
       }
     },
     {
@@ -3989,19 +3989,19 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/signal-center",
-      "registryItemUrl": "https://kinetiq.dev/r/signal-center.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/signal-center",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/signal-center.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/signal-center",
         "npm": "npx shadcn@latest add @kinetiq/signal-center",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/signal-center",
         "bun": "bunx --bun shadcn@latest add @kinetiq/signal-center",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/signal-center.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/signal-center.json"
       }
     },
     {
@@ -4043,20 +4043,20 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/caliper-slider.json",
-        "https://kinetiq.dev/r/scope-scrubber.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/caliper-slider.json",
+        "https://kinetiq-ui.vercel.app/r/scope-scrubber.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/media-console",
-      "registryItemUrl": "https://kinetiq.dev/r/media-console.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/media-console",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/media-console.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/media-console",
         "npm": "npx shadcn@latest add @kinetiq/media-console",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/media-console",
         "bun": "bunx --bun shadcn@latest add @kinetiq/media-console",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/media-console.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/media-console.json"
       }
     },
     {
@@ -4103,20 +4103,20 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/pressure-button.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/pressure-button.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/checkout-receipt",
-      "registryItemUrl": "https://kinetiq.dev/r/checkout-receipt.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/checkout-receipt",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/checkout-receipt.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/checkout-receipt",
         "npm": "npx shadcn@latest add @kinetiq/checkout-receipt",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/checkout-receipt",
         "bun": "bunx --bun shadcn@latest add @kinetiq/checkout-receipt",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/checkout-receipt.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/checkout-receipt.json"
       }
     },
     {
@@ -4169,18 +4169,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/intake-tray",
-      "registryItemUrl": "https://kinetiq.dev/r/intake-tray.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/intake-tray",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/intake-tray.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/intake-tray",
         "npm": "npx shadcn@latest add @kinetiq/intake-tray",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/intake-tray",
         "bun": "bunx --bun shadcn@latest add @kinetiq/intake-tray",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/intake-tray.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/intake-tray.json"
       }
     },
     {
@@ -4216,20 +4216,20 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json",
-        "https://kinetiq.dev/r/flapboard.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json",
+        "https://kinetiq-ui.vercel.app/r/flapboard.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/readout-grid",
-      "registryItemUrl": "https://kinetiq.dev/r/readout-grid.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/readout-grid",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/readout-grid.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/readout-grid",
         "npm": "npx shadcn@latest add @kinetiq/readout-grid",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/readout-grid",
         "bun": "bunx --bun shadcn@latest add @kinetiq/readout-grid",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/readout-grid.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/readout-grid.json"
       }
     },
     {
@@ -4280,18 +4280,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/launch-checklist",
-      "registryItemUrl": "https://kinetiq.dev/r/launch-checklist.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/launch-checklist",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/launch-checklist.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/launch-checklist",
         "npm": "npx shadcn@latest add @kinetiq/launch-checklist",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/launch-checklist",
         "bun": "bunx --bun shadcn@latest add @kinetiq/launch-checklist",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/launch-checklist.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/launch-checklist.json"
       }
     },
     {
@@ -4339,18 +4339,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/iris-menu",
-      "registryItemUrl": "https://kinetiq.dev/r/iris-menu.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/iris-menu",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/iris-menu.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/iris-menu",
         "npm": "npx shadcn@latest add @kinetiq/iris-menu",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/iris-menu",
         "bun": "bunx --bun shadcn@latest add @kinetiq/iris-menu",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/iris-menu.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/iris-menu.json"
       }
     },
     {
@@ -4397,18 +4397,18 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/overflow-rail",
-      "registryItemUrl": "https://kinetiq.dev/r/overflow-rail.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/overflow-rail",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/overflow-rail.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/overflow-rail",
         "npm": "npx shadcn@latest add @kinetiq/overflow-rail",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/overflow-rail",
         "bun": "bunx --bun shadcn@latest add @kinetiq/overflow-rail",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/overflow-rail.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/overflow-rail.json"
       }
     },
     {
@@ -4454,19 +4454,19 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/beacon",
-      "registryItemUrl": "https://kinetiq.dev/r/beacon.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/beacon",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/beacon.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/beacon",
         "npm": "npx shadcn@latest add @kinetiq/beacon",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/beacon",
         "bun": "bunx --bun shadcn@latest add @kinetiq/beacon",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/beacon.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/beacon.json"
       }
     },
     {
@@ -4513,19 +4513,19 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/pressure-button.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/pressure-button.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/field-report",
-      "registryItemUrl": "https://kinetiq.dev/r/field-report.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/field-report",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/field-report.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/field-report",
         "npm": "npx shadcn@latest add @kinetiq/field-report",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/field-report",
         "bun": "bunx --bun shadcn@latest add @kinetiq/field-report",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/field-report.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/field-report.json"
       }
     },
     {
@@ -4573,20 +4573,20 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/cipher-text.json",
-        "https://kinetiq.dev/r/pressure-button.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/cipher-text.json",
+        "https://kinetiq-ui.vercel.app/r/pressure-button.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/not-found",
-      "registryItemUrl": "https://kinetiq.dev/r/not-found.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/not-found",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/not-found.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/not-found",
         "npm": "npx shadcn@latest add @kinetiq/not-found",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/not-found",
         "bun": "bunx --bun shadcn@latest add @kinetiq/not-found",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/not-found.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/not-found.json"
       }
     },
     {
@@ -4638,19 +4638,19 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/forecast-card",
-      "registryItemUrl": "https://kinetiq.dev/r/forecast-card.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/forecast-card",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/forecast-card.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/forecast-card",
         "npm": "npx shadcn@latest add @kinetiq/forecast-card",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/forecast-card",
         "bun": "bunx --bun shadcn@latest add @kinetiq/forecast-card",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/forecast-card.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/forecast-card.json"
       }
     },
     {
@@ -4703,19 +4703,19 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/balance-card",
-      "registryItemUrl": "https://kinetiq.dev/r/balance-card.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/balance-card",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/balance-card.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/balance-card",
         "npm": "npx shadcn@latest add @kinetiq/balance-card",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/balance-card",
         "bun": "bunx --bun shadcn@latest add @kinetiq/balance-card",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/balance-card.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/balance-card.json"
       }
     },
     {
@@ -4768,20 +4768,20 @@
         "motion"
       ],
       "registryDependencies": [
-        "https://kinetiq.dev/r/utils.json",
-        "https://kinetiq.dev/r/motion.json",
-        "https://kinetiq.dev/r/use-motion-safe.json",
-        "https://kinetiq.dev/r/readout.json",
-        "https://kinetiq.dev/r/select.json"
+        "https://kinetiq-ui.vercel.app/r/utils.json",
+        "https://kinetiq-ui.vercel.app/r/motion.json",
+        "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiq-ui.vercel.app/r/readout.json",
+        "https://kinetiq-ui.vercel.app/r/select.json"
       ],
-      "docsUrl": "https://kinetiq.dev/blocks/exchange-panel",
-      "registryItemUrl": "https://kinetiq.dev/r/exchange-panel.json",
+      "docsUrl": "https://kinetiq-ui.vercel.app/blocks/exchange-panel",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/exchange-panel.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/exchange-panel",
         "npm": "npx shadcn@latest add @kinetiq/exchange-panel",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/exchange-panel",
         "bun": "bunx --bun shadcn@latest add @kinetiq/exchange-panel",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/exchange-panel.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/exchange-panel.json"
       }
     },
     {
@@ -4796,13 +4796,13 @@
         "clsx",
         "tailwind-merge"
       ],
-      "registryItemUrl": "https://kinetiq.dev/r/utils.json",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/utils.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/utils",
         "npm": "npx shadcn@latest add @kinetiq/utils",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/utils",
         "bun": "bunx --bun shadcn@latest add @kinetiq/utils",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/utils.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/utils.json"
       }
     },
     {
@@ -4821,13 +4821,13 @@
       "dependencies": [
         "motion"
       ],
-      "registryItemUrl": "https://kinetiq.dev/r/motion.json",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/motion.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/motion",
         "npm": "npx shadcn@latest add @kinetiq/motion",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/motion",
         "bun": "bunx --bun shadcn@latest add @kinetiq/motion",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/motion.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/motion.json"
       }
     },
     {
@@ -4844,13 +4844,13 @@
       "dependencies": [
         "motion"
       ],
-      "registryItemUrl": "https://kinetiq.dev/r/use-motion-safe.json",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/use-motion-safe.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/use-motion-safe",
         "npm": "npx shadcn@latest add @kinetiq/use-motion-safe",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/use-motion-safe",
         "bun": "bunx --bun shadcn@latest add @kinetiq/use-motion-safe",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/use-motion-safe.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/use-motion-safe.json"
       }
     },
     {
@@ -4867,13 +4867,13 @@
         "motion language",
         "mcp"
       ],
-      "registryItemUrl": "https://kinetiq.dev/r/agents-rules.json",
+      "registryItemUrl": "https://kinetiq-ui.vercel.app/r/agents-rules.json",
       "install": {
         "pnpm": "pnpm dlx shadcn@latest add @kinetiq/agents-rules",
         "npm": "npx shadcn@latest add @kinetiq/agents-rules",
         "yarn": "yarn dlx shadcn@latest add @kinetiq/agents-rules",
         "bun": "bunx --bun shadcn@latest add @kinetiq/agents-rules",
-        "direct": "npx shadcn@latest add https://kinetiq.dev/r/agents-rules.json"
+        "direct": "npx shadcn@latest add https://kinetiq-ui.vercel.app/r/agents-rules.json"
       }
     }
   ]

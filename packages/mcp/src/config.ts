@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url";
 
 /** The registry to read from. Override to point at a local site or a fork. */
 export const REGISTRY_URL = (
-  process.env.KINETIQ_REGISTRY_URL ?? "https://kinetiq.dev"
+  process.env.KINETIQ_REGISTRY_URL ?? "https://kinetiq-ui.vercel.app"
 ).replace(/\/$/, "");
 
 /** How long to wait on the live registry before falling back to the snapshot. */
