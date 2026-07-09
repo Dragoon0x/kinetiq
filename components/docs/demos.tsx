@@ -56,6 +56,8 @@ import { SegmentedControlDemo } from "@/registry/demos/segmented-control.demo";
 import { TriageDeckDemo } from "@/registry/demos/triage-deck.demo";
 import { SparkChartDemo } from "@/registry/demos/spark-chart.demo";
 import { ActivityRingsDemo } from "@/registry/demos/activity-rings.demo";
+import { CoverflowDemo } from "@/registry/demos/coverflow.demo";
+import { ParallaxSceneDemo } from "@/registry/demos/parallax-scene.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -118,4 +120,6 @@ export const demos: Record<string, ComponentType> = {
   "triage-deck": TriageDeckDemo,
   "spark-chart": SparkChartDemo,
   "activity-rings": ActivityRingsDemo,
+  coverflow: CoverflowDemo,
+  "parallax-scene": ParallaxSceneDemo,
 };

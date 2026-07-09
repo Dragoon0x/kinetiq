@@ -778,6 +778,38 @@ Notes:
 - Each ring is a progressbar with a percent value text, backed by a visible legend so it never relies on color alone.
 - Under reduced motion rings render at their final value instantly — no sweep, no completion bump.
 
+### Coverflow (KQ-041) — `coverflow`
+Covers that bank away in perspective.
+
+A cover gallery in perspective — the active card faces you while its neighbors bank away and recede, and any card you steer to glides to the front.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/coverflow`
+
+Props:
+- `children`: ReactNode — Each direct child is a cover.
+- `index / defaultIndex / onIndexChange`: number / number / (index) => void — Controlled or uncontrolled active cover.
+- `aria-label`: string — Names the gallery region.
+
+Notes:
+- Drag, wheel, click a side cover, or arrow-key to steer; a live region announces the active item.
+- Under reduced motion it flattens to a native scroll-snap row — no perspective, same controls.
+
+### Parallax Scene (KQ-042) — `parallax-scene`
+Layers that part around the pointer.
+
+A depth-layered diorama that parades its layers past the pointer — each sits at its own depth, the whole scene tilts toward your cursor and drifts back on leave.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/parallax-scene`
+
+Props:
+- `children`: ReactNode — ParallaxLayer elements, back to front (max ~4).
+- `maxTilt`: number (default 8) — Degrees the scene rotates toward the pointer.
+- `Layer.depth`: number — 0 is far and moves least; 1 is near and moves most.
+
+Notes:
+- The parallax is decorative — layer content stays in normal flow and fully focusable.
+- Under reduced motion the layers render flat and stationary at their neutral position.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

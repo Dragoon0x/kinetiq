@@ -1047,6 +1047,58 @@
       }
     },
     {
+      "name": "coverflow",
+      "type": "registry:ui",
+      "title": "Coverflow",
+      "description": "A cover gallery in perspective — the active card faces you while its neighbors bank away and recede, and any card you steer to glides to the front.",
+      "files": [
+        {
+          "path": "registry/ui/coverflow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-041"
+      }
+    },
+    {
+      "name": "parallax-scene",
+      "type": "registry:ui",
+      "title": "Parallax Scene",
+      "description": "A depth-layered diorama that parades its layers past the pointer — each sits at its own depth, the whole scene tilts toward your cursor and drifts back on leave.",
+      "files": [
+        {
+          "path": "registry/ui/parallax-scene.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-042"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

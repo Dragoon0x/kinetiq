@@ -1765,4 +1765,75 @@ export const components: KinetiqItem[] = [
       "Under reduced motion rings render at their final value instantly — no sweep, no completion bump.",
     ],
   },
+  {
+    name: "coverflow",
+    type: "registry:ui",
+    title: "Coverflow",
+    description:
+      "A cover gallery in perspective — the active card faces you while its neighbors bank away and recede, and any card you steer to glides to the front.",
+    files: [{ path: "registry/ui/coverflow.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-041" },
+    tagline: "Covers that bank away in perspective.",
+    keywords: ["coverflow", "carousel", "3d", "gallery", "perspective", "cards"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Each direct child is a cover.",
+      },
+      {
+        name: "index / defaultIndex / onIndexChange",
+        type: "number / number / (index) => void",
+        description: "Controlled or uncontrolled active cover.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Names the gallery region.",
+      },
+    ],
+    usageNotes: [
+      "Drag, wheel, click a side cover, or arrow-key to steer; a live region announces the active item.",
+      "Under reduced motion it flattens to a native scroll-snap row — no perspective, same controls.",
+    ],
+  },
+  {
+    name: "parallax-scene",
+    type: "registry:ui",
+    title: "Parallax Scene",
+    description:
+      "A depth-layered diorama that parades its layers past the pointer — each sits at its own depth, the whole scene tilts toward your cursor and drifts back on leave.",
+    files: [{ path: "registry/ui/parallax-scene.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-042" },
+    tagline: "Layers that part around the pointer.",
+    keywords: ["parallax", "depth", "3d", "diorama", "tilt", "layers"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "ParallaxLayer elements, back to front (max ~4).",
+      },
+      {
+        name: "maxTilt",
+        type: "number",
+        defaultValue: "8",
+        description: "Degrees the scene rotates toward the pointer.",
+      },
+      {
+        name: "Layer.depth",
+        type: "number",
+        description: "0 is far and moves least; 1 is near and moves most.",
+      },
+    ],
+    usageNotes: [
+      "The parallax is decorative — layer content stays in normal flow and fully focusable.",
+      "Under reduced motion the layers render flat and stationary at their neutral position.",
+    ],
+  },
 ];
