@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiq.dev/r/registry.json",
     "docsUrl": "https://kinetiq.dev",
     "counts": {
-      "components": 58,
+      "components": 59,
       "blocks": 16,
       "shared": 4
     }
@@ -3749,6 +3749,64 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/heart-tap",
         "bun": "bunx --bun shadcn@latest add @kinetiq/heart-tap",
         "direct": "npx shadcn@latest add https://kinetiq.dev/r/heart-tap.json"
+      }
+    },
+    {
+      "slug": "reaction-fly",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Reaction Fly",
+      "serial": "KQ-060",
+      "tagline": "Reactions that bloom, then fly.",
+      "description": "Press to bloom a reaction picker; choosing one sends a copy flying up — rising, drifting, and fading on its own jittered path — while its tally ticks up.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "reaction",
+        "emoji",
+        "like",
+        "fly",
+        "delight",
+        "livestream"
+      ],
+      "props": [
+        {
+          "name": "reactions",
+          "type": "{ id: string; label: string; node?: ReactNode }[]",
+          "description": "The pickable reactions; defaults to a curated set."
+        },
+        {
+          "name": "onReact",
+          "type": "(id: string) => void",
+          "description": "Fires with the reaction id on each selection."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "description": "Names the trigger."
+        }
+      ],
+      "usageNotes": [
+        "Full menu semantics — the trigger has aria-haspopup, items are menuitems, Escape closes, and each reaction is announced.",
+        "Under reduced motion the picker opens without stagger and selecting bumps the tally with no fly-up."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/reaction-fly",
+      "registryItemUrl": "https://kinetiq.dev/r/reaction-fly.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/reaction-fly",
+        "npm": "npx shadcn@latest add @kinetiq/reaction-fly",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/reaction-fly",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/reaction-fly",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/reaction-fly.json"
       }
     },
     {

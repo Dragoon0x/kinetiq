@@ -75,6 +75,7 @@ import { PullToRefreshDemo } from "@/registry/demos/pull-to-refresh.demo";
 import { OrbitMenuDemo } from "@/registry/demos/orbit-menu.demo";
 import { SparkBurstDemo } from "@/registry/demos/spark-burst.demo";
 import { HeartTapDemo } from "@/registry/demos/heart-tap.demo";
+import { ReactionFlyDemo } from "@/registry/demos/reaction-fly.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -156,4 +157,5 @@ export const demos: Record<string, ComponentType> = {
   "orbit-menu": OrbitMenuDemo,
   "spark-burst": SparkBurstDemo,
   "heart-tap": HeartTapDemo,
+  "reaction-fly": ReactionFlyDemo,
 };

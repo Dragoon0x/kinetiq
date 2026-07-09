@@ -2493,4 +2493,39 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the fill switches and the count swaps instantly — no pop, sparks, or roll.",
     ],
   },
+  {
+    name: "reaction-fly",
+    type: "registry:ui",
+    title: "Reaction Fly",
+    description:
+      "Press to bloom a reaction picker; choosing one sends a copy flying up — rising, drifting, and fading on its own jittered path — while its tally ticks up.",
+    files: [{ path: "registry/ui/reaction-fly.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-060" },
+    tagline: "Reactions that bloom, then fly.",
+    keywords: ["reaction", "emoji", "like", "fly", "delight", "livestream"],
+    props: [
+      {
+        name: "reactions",
+        type: "{ id: string; label: string; node?: ReactNode }[]",
+        description: "The pickable reactions; defaults to a curated set.",
+      },
+      {
+        name: "onReact",
+        type: "(id: string) => void",
+        description: "Fires with the reaction id on each selection.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Names the trigger.",
+      },
+    ],
+    usageNotes: [
+      "Full menu semantics — the trigger has aria-haspopup, items are menuitems, Escape closes, and each reaction is announced.",
+      "Under reduced motion the picker opens without stagger and selecting bumps the tally with no fly-up.",
+    ],
+  },
 ];

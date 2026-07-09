@@ -1080,6 +1080,22 @@ Notes:
 - A real toggle button — Space/Enter like, aria-pressed and the count are announced.
 - Under reduced motion the fill switches and the count swaps instantly — no pop, sparks, or roll.
 
+### Reaction Fly (KQ-060) — `reaction-fly`
+Reactions that bloom, then fly.
+
+Press to bloom a reaction picker; choosing one sends a copy flying up — rising, drifting, and fading on its own jittered path — while its tally ticks up.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/reaction-fly`
+
+Props:
+- `reactions`: { id: string; label: string; node?: ReactNode }[] — The pickable reactions; defaults to a curated set.
+- `onReact`: (id: string) => void — Fires with the reaction id on each selection.
+- `aria-label`: string — Names the trigger.
+
+Notes:
+- Full menu semantics — the trigger has aria-haspopup, items are menuitems, Escape closes, and each reaction is announced.
+- Under reduced motion the picker opens without stagger and selecting bumps the tally with no fly-up.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -1509,6 +1509,32 @@
       }
     },
     {
+      "name": "reaction-fly",
+      "type": "registry:ui",
+      "title": "Reaction Fly",
+      "description": "Press to bloom a reaction picker; choosing one sends a copy flying up — rising, drifting, and fading on its own jittered path — while its tally ticks up.",
+      "files": [
+        {
+          "path": "registry/ui/reaction-fly.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-060"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
