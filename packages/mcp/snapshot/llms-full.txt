@@ -1344,6 +1344,54 @@ Notes:
 - The open hand is a radiogroup — arrows move the raised card, Enter or Space plays it, Escape folds the hand and returns focus to the stack.
 - Under reduced motion the fan opens flat and instantly, raising is a highlight, and picks move without flight or bump.
 
+### Hallway Menu (KQ-116) — `hallway-menu`
+Every stop looks down its own hallway.
+
+A mega-menu of parallel hallways — sweeping the rail looks down each corridor in one-point perspective, doors hinge off the walls toward a far-wall plate, and the whole view swings sideways between stops.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hallway-menu`
+
+Props:
+- `hallways`: { id, label, items: { id, label, hint? }[] }[] — Two to five hallways on the rail.
+- `onSelect`: (hallwayId, itemId) => void — Fires when a door is chosen.
+- `corridorHeight`: number (default 220) — Corridor stage height in px.
+
+Notes:
+- Rail buttons carry aria-expanded; ArrowDown enters the corridor, arrows walk the doors in documented wall order, and Escape returns to the rail.
+- Under reduced motion each corridor renders as a flat two-column panel with instant open and the same keyboard.
+
+### Deck Switcher (KQ-117) — `deck-switcher`
+Views raked back, one zooms forward.
+
+An app-switcher for views — open the deck and every view rakes back into a tilted stack; slide the rake by drag, wheel, or arrows, then commit and the chosen view zooms forward while the rest fold away.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/deck-switcher`
+
+Props:
+- `views`: { id, title, content }[] — Two to six views; all stay mounted so their state survives switches.
+- `activeId / defaultActiveId / onActiveChange`: string / string / (id) => void — Controlled or uncontrolled active view; fires only when the commit changes it.
+- `height`: number (default 300) — Stage height in px.
+
+Notes:
+- The open deck is a listbox — arrows slide the rake, Home and End jump, Enter commits, and Escape cancels back to the previous view with focus returned.
+- Under reduced motion the deck is a flat list of title cards and commits swap instantly.
+
+### Flyover Map (KQ-118) — `flyover-map`
+The page, miniature and tilted.
+
+A scroll region with its own tilted minimap — districts sized to their sections, a live viewport indicator riding the scroll, and a click that flies the view to any district on the glide spring.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/flyover-map`
+
+Props:
+- `sections`: { id, label, content }[] — Three to six sections stacked in the scroll region.
+- `onArrive`: (id) => void — Fires when a flight lands or scrolling settles in a new section.
+- `height`: number (default 320) — Viewport height in px.
+
+Notes:
+- The minimap is a navigation landmark of real buttons — aria-current tracks the active district and arrivals are announced politely.
+- Under reduced motion the map renders flat and district clicks jump instantly with no flight.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

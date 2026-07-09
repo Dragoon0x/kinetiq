@@ -3111,4 +3111,112 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the fan opens flat and instantly, raising is a highlight, and picks move without flight or bump.",
     ],
   },
+  {
+    name: "hallway-menu",
+    type: "registry:ui",
+    title: "Hallway Menu",
+    description:
+      "A mega-menu of parallel hallways — sweeping the rail looks down each corridor in one-point perspective, doors hinge off the walls toward a far-wall plate, and the whole view swings sideways between stops.",
+    files: [{ path: "registry/ui/hallway-menu.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-116" },
+    tagline: "Every stop looks down its own hallway.",
+    keywords: ["menu", "mega-menu", "hallway", "corridor", "spatial", "navigation"],
+    props: [
+      {
+        name: "hallways",
+        type: "{ id, label, items: { id, label, hint? }[] }[]",
+        description: "Two to five hallways on the rail.",
+      },
+      {
+        name: "onSelect",
+        type: "(hallwayId, itemId) => void",
+        description: "Fires when a door is chosen.",
+      },
+      {
+        name: "corridorHeight",
+        type: "number",
+        defaultValue: "220",
+        description: "Corridor stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Rail buttons carry aria-expanded; ArrowDown enters the corridor, arrows walk the doors in documented wall order, and Escape returns to the rail.",
+      "Under reduced motion each corridor renders as a flat two-column panel with instant open and the same keyboard.",
+    ],
+  },
+  {
+    name: "deck-switcher",
+    type: "registry:ui",
+    title: "Deck Switcher",
+    description:
+      "An app-switcher for views — open the deck and every view rakes back into a tilted stack; slide the rake by drag, wheel, or arrows, then commit and the chosen view zooms forward while the rest fold away.",
+    files: [{ path: "registry/ui/deck-switcher.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-117" },
+    tagline: "Views raked back, one zooms forward.",
+    keywords: ["switcher", "views", "deck", "rake", "spatial", "listbox", "3d"],
+    props: [
+      {
+        name: "views",
+        type: "{ id, title, content }[]",
+        description: "Two to six views; all stay mounted so their state survives switches.",
+      },
+      {
+        name: "activeId / defaultActiveId / onActiveChange",
+        type: "string / string / (id) => void",
+        description: "Controlled or uncontrolled active view; fires only when the commit changes it.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The open deck is a listbox — arrows slide the rake, Home and End jump, Enter commits, and Escape cancels back to the previous view with focus returned.",
+      "Under reduced motion the deck is a flat list of title cards and commits swap instantly.",
+    ],
+  },
+  {
+    name: "flyover-map",
+    type: "registry:ui",
+    title: "Flyover Map",
+    description:
+      "A scroll region with its own tilted minimap — districts sized to their sections, a live viewport indicator riding the scroll, and a click that flies the view to any district on the glide spring.",
+    files: [{ path: "registry/ui/flyover-map.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-118" },
+    tagline: "The page, miniature and tilted.",
+    keywords: ["minimap", "scroll", "map", "navigation", "spatial", "flyover"],
+    props: [
+      {
+        name: "sections",
+        type: "{ id, label, content }[]",
+        description: "Three to six sections stacked in the scroll region.",
+      },
+      {
+        name: "onArrive",
+        type: "(id) => void",
+        description: "Fires when a flight lands or scrolling settles in a new section.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "320",
+        description: "Viewport height in px.",
+      },
+    ],
+    usageNotes: [
+      "The minimap is a navigation landmark of real buttons — aria-current tracks the active district and arrivals are announced politely.",
+      "Under reduced motion the map renders flat and district clicks jump instantly with no flight.",
+    ],
+  },
 ];

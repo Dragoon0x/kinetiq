@@ -1940,6 +1940,87 @@
       }
     },
     {
+      "name": "hallway-menu",
+      "type": "registry:ui",
+      "title": "Hallway Menu",
+      "description": "A mega-menu of parallel hallways — sweeping the rail looks down each corridor in one-point perspective, doors hinge off the walls toward a far-wall plate, and the whole view swings sideways between stops.",
+      "files": [
+        {
+          "path": "registry/ui/hallway-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-116"
+      }
+    },
+    {
+      "name": "deck-switcher",
+      "type": "registry:ui",
+      "title": "Deck Switcher",
+      "description": "An app-switcher for views — open the deck and every view rakes back into a tilted stack; slide the rake by drag, wheel, or arrows, then commit and the chosen view zooms forward while the rest fold away.",
+      "files": [
+        {
+          "path": "registry/ui/deck-switcher.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-117"
+      }
+    },
+    {
+      "name": "flyover-map",
+      "type": "registry:ui",
+      "title": "Flyover Map",
+      "description": "A scroll region with its own tilted minimap — districts sized to their sections, a live viewport indicator riding the scroll, and a click that flies the view to any district on the glide spring.",
+      "files": [
+        {
+          "path": "registry/ui/flyover-map.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-118"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

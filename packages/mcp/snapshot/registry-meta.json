@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 74,
+      "components": 77,
       "blocks": 16,
       "shared": 6
     }
@@ -4759,6 +4759,187 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/card-fan",
         "bun": "bunx --bun shadcn@latest add @kinetiq/card-fan",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/card-fan.json"
+      }
+    },
+    {
+      "slug": "hallway-menu",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Hallway Menu",
+      "serial": "KQ-116",
+      "tagline": "Every stop looks down its own hallway.",
+      "description": "A mega-menu of parallel hallways — sweeping the rail looks down each corridor in one-point perspective, doors hinge off the walls toward a far-wall plate, and the whole view swings sideways between stops.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "menu",
+        "mega-menu",
+        "hallway",
+        "corridor",
+        "spatial",
+        "navigation"
+      ],
+      "props": [
+        {
+          "name": "hallways",
+          "type": "{ id, label, items: { id, label, hint? }[] }[]",
+          "description": "Two to five hallways on the rail."
+        },
+        {
+          "name": "onSelect",
+          "type": "(hallwayId, itemId) => void",
+          "description": "Fires when a door is chosen."
+        },
+        {
+          "name": "corridorHeight",
+          "type": "number",
+          "defaultValue": "220",
+          "description": "Corridor stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "Rail buttons carry aria-expanded; ArrowDown enters the corridor, arrows walk the doors in documented wall order, and Escape returns to the rail.",
+        "Under reduced motion each corridor renders as a flat two-column panel with instant open and the same keyboard."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/hallway-menu",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hallway-menu.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hallway-menu",
+        "npm": "npx shadcn@latest add @kinetiq/hallway-menu",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hallway-menu",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hallway-menu",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hallway-menu.json"
+      }
+    },
+    {
+      "slug": "deck-switcher",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Deck Switcher",
+      "serial": "KQ-117",
+      "tagline": "Views raked back, one zooms forward.",
+      "description": "An app-switcher for views — open the deck and every view rakes back into a tilted stack; slide the rake by drag, wheel, or arrows, then commit and the chosen view zooms forward while the rest fold away.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "switcher",
+        "views",
+        "deck",
+        "rake",
+        "spatial",
+        "listbox",
+        "3d"
+      ],
+      "props": [
+        {
+          "name": "views",
+          "type": "{ id, title, content }[]",
+          "description": "Two to six views; all stay mounted so their state survives switches."
+        },
+        {
+          "name": "activeId / defaultActiveId / onActiveChange",
+          "type": "string / string / (id) => void",
+          "description": "Controlled or uncontrolled active view; fires only when the commit changes it."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "The open deck is a listbox — arrows slide the rake, Home and End jump, Enter commits, and Escape cancels back to the previous view with focus returned.",
+        "Under reduced motion the deck is a flat list of title cards and commits swap instantly."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/deck-switcher",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/deck-switcher.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/deck-switcher",
+        "npm": "npx shadcn@latest add @kinetiq/deck-switcher",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/deck-switcher",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/deck-switcher",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/deck-switcher.json"
+      }
+    },
+    {
+      "slug": "flyover-map",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Flyover Map",
+      "serial": "KQ-118",
+      "tagline": "The page, miniature and tilted.",
+      "description": "A scroll region with its own tilted minimap — districts sized to their sections, a live viewport indicator riding the scroll, and a click that flies the view to any district on the glide spring.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "minimap",
+        "scroll",
+        "map",
+        "navigation",
+        "spatial",
+        "flyover"
+      ],
+      "props": [
+        {
+          "name": "sections",
+          "type": "{ id, label, content }[]",
+          "description": "Three to six sections stacked in the scroll region."
+        },
+        {
+          "name": "onArrive",
+          "type": "(id) => void",
+          "description": "Fires when a flight lands or scrolling settles in a new section."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "320",
+          "description": "Viewport height in px."
+        }
+      ],
+      "usageNotes": [
+        "The minimap is a navigation landmark of real buttons — aria-current tracks the active district and arrivals are announced politely.",
+        "Under reduced motion the map renders flat and district clicks jump instantly with no flight."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/flyover-map",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/flyover-map.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/flyover-map",
+        "npm": "npx shadcn@latest add @kinetiq/flyover-map",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/flyover-map",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/flyover-map",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/flyover-map.json"
       }
     },
     {
