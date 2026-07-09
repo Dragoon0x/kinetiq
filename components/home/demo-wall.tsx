@@ -11,7 +11,7 @@ import { catalogBlocks, catalogComponents } from "@/content/manifest";
  */
 const FEATURED = [
   "segmented-control",
-  "activity-rings",
+  "radial-bars",
   "heart-tap",
   "zoetrope",
   "caliper-slider",

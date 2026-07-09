@@ -55,7 +55,7 @@ import { TileGridDemo } from "@/registry/demos/tile-grid.demo";
 import { SegmentedControlDemo } from "@/registry/demos/segmented-control.demo";
 import { TriageDeckDemo } from "@/registry/demos/triage-deck.demo";
 import { SparkChartDemo } from "@/registry/demos/spark-chart.demo";
-import { ActivityRingsDemo } from "@/registry/demos/activity-rings.demo";
+import { RadialBarsDemo } from "@/registry/demos/radial-bars.demo";
 import { CoverflowDemo } from "@/registry/demos/coverflow.demo";
 import { ParallaxSceneDemo } from "@/registry/demos/parallax-scene.demo";
 import { TetherRopeDemo } from "@/registry/demos/tether-rope.demo";
@@ -137,7 +137,7 @@ export const demos: Record<string, ComponentType> = {
   "segmented-control": SegmentedControlDemo,
   "triage-deck": TriageDeckDemo,
   "spark-chart": SparkChartDemo,
-  "activity-rings": ActivityRingsDemo,
+  "radial-bars": RadialBarsDemo,
   coverflow: CoverflowDemo,
   "parallax-scene": ParallaxSceneDemo,
   "tether-rope": TetherRopeDemo,

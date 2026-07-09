@@ -1021,13 +1021,13 @@
       }
     },
     {
-      "name": "activity-rings",
+      "name": "radial-bars",
       "type": "registry:ui",
-      "title": "Activity Rings",
-      "description": "Concentric arcs that sweep from empty to their value on arrival, staggered under one budget, with a recoil bump the moment a ring completes.",
+      "title": "Radial Bars",
+      "description": "A polar bar chart — wedges radiate from a hub, each growing to its value on the glide spring; hover or focus a wedge to brighten it and read its value in the hub.",
       "files": [
         {
-          "path": "registry/ui/activity-rings.tsx",
+          "path": "registry/ui/radial-bars.tsx",
           "type": "registry:ui"
         }
       ],

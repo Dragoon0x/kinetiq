@@ -761,22 +761,22 @@ Notes:
 - Focus and arrow-key to move the crosshair; Home and End jump; the active point is announced.
 - Under reduced motion the trace renders fully drawn — scrubbing still works, without the draw-on.
 
-### Activity Rings (KQ-040) — `activity-rings`
-Arcs that sweep to value, and bump when full.
+### Radial Bars (KQ-040) — `radial-bars`
+Bars that radiate from a hub.
 
-Concentric arcs that sweep from empty to their value on arrival, staggered under one budget, with a recoil bump the moment a ring completes.
+A polar bar chart — wedges radiate from a hub, each growing to its value on the glide spring; hover or focus a wedge to brighten it and read its value in the hub.
 
-Install: `pnpm dlx shadcn@latest add @kinetiq/activity-rings`
+Install: `pnpm dlx shadcn@latest add @kinetiq/radial-bars`
 
 Props:
-- `rings`: { value: number; label: string; color?: string }[] — Outer to inner; value is a 0–1 fraction.
-- `size / strokeWidth / gap`: number — Diameter and ring geometry in px.
-- `center`: ReactNode — Optional content in the hub, e.g. a total.
-- `replayKey`: number | string — Change it to re-run the sweep.
+- `data`: { label: string; value: number; color?: string }[] — One wedge per entry; value drives its radial length.
+- `max`: number — Value that reaches the outer radius; defaults to the data max.
+- `size / format`: number / (value) => string — Diameter in px and value formatting for the readout.
+- `aria-label`: string — Names the chart region.
 
 Notes:
-- Each ring is a progressbar with a percent value text, backed by a visible legend so it never relies on color alone.
-- Under reduced motion rings render at their final value instantly — no sweep, no completion bump.
+- Every wedge is a focusable data point announcing its label and value, so the chart is operable by keyboard.
+- Under reduced motion the wedges render at full length instantly — the hover/focus highlight is color only.
 
 ### Coverflow (KQ-041) — `coverflow`
 Covers that bank away in perspective.
