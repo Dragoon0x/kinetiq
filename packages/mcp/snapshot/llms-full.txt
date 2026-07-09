@@ -1147,6 +1147,56 @@ Notes:
 - A real role=switch button — Space and Enter flip it, aria-checked tracks state, and focus-visible rings are never removed.
 - Under reduced motion the faces crossfade with no flip or wobble — the accent change carries the state.
 
+### Dice Roll (KQ-074) — `dice-roll`
+A die that always answers.
+
+Hold to charge — the die swells and shivers while an arc fills — then release to tumble two full turns and land on a face you chose: outcomes come from a prop or a fixed sequence, never chance.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/dice-roll`
+
+Props:
+- `value / onRoll`: number / (value) => void — Controlled outcome for the next roll, and the landing callback.
+- `sequence`: number[] — Uncontrolled outcomes, cycled in order — deterministic by design.
+- `size`: number (default 88) — Die edge in px.
+
+Notes:
+- A real button — hold Space or Enter to charge, release to roll; Escape aborts a charge; the result is announced politely.
+- Under reduced motion there is no shiver or tumble — release swaps straight to the outcome face and announces it.
+
+### Gimbal Dial (KQ-075) — `gimbal-dial`
+Two rings, two channels, one hub.
+
+A two-axis picker built as nested rings in perspective — spin the outer band for one value and the inner for the other; flicks carry momentum, releases settle on detents, and a hub reads both channels live.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gimbal-dial`
+
+Props:
+- `value / defaultValue / onValueChange`: { yaw, pitch } / same / (value) => void — Controlled or uncontrolled 0–100 per axis; fires once per settled detent.
+- `step`: number (default 5) — Detent size in value units.
+- `size`: number (default 200) — Outer ring diameter in px.
+- `axisLabels`: { yaw: string; pitch: string } — Accessible names for the two slider bands.
+
+Notes:
+- Each ring is an independent role=slider — arrows step it, Home and End jump, and aria-valuenow tracks the detents.
+- Under reduced motion the rings render flat and drags update values directly with no momentum.
+
+### Rolodex List (KQ-076) — `rolodex-list`
+A wheel of records with a crest.
+
+Records on a vertical wheel — drag, scroll a notch at a time, or arrow through; cards flip over the crest, the front record carries the accent, and Enter pulls it. A selection control, not a display drum.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rolodex-list`
+
+Props:
+- `items`: { id, content, label? }[] — The records on the wheel.
+- `index / defaultIndex / onIndexChange`: number / number / (index) => void — Controlled or uncontrolled front record; change fires on settle.
+- `onSelect`: (id, index) => void — Explicit activation — Enter, Space, or a tap on the front card.
+- `height / loop`: number / boolean (default 260 / true) — Viewport height in px, and whether the wheel wraps.
+
+Notes:
+- A real listbox — aria-activedescendant tracks the front record, arrows rotate one step, and the wheel only captures scroll while the pointer is over it.
+- Under reduced motion it renders a flat three-row list with instant swaps and the same semantics.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

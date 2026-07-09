@@ -2652,4 +2652,123 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the faces crossfade with no flip or wobble — the accent change carries the state.",
     ],
   },
+  {
+    name: "dice-roll",
+    type: "registry:ui",
+    title: "Dice Roll",
+    description:
+      "Hold to charge — the die swells and shivers while an arc fills — then release to tumble two full turns and land on a face you chose: outcomes come from a prop or a fixed sequence, never chance.",
+    files: [{ path: "registry/ui/dice-roll.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-074" },
+    tagline: "A die that always answers.",
+    keywords: ["dice", "die", "3d", "tumble", "roll", "spatial", "random"],
+    props: [
+      {
+        name: "value / onRoll",
+        type: "number / (value) => void",
+        description: "Controlled outcome for the next roll, and the landing callback.",
+      },
+      {
+        name: "sequence",
+        type: "number[]",
+        description: "Uncontrolled outcomes, cycled in order — deterministic by design.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "88",
+        description: "Die edge in px.",
+      },
+    ],
+    usageNotes: [
+      "A real button — hold Space or Enter to charge, release to roll; Escape aborts a charge; the result is announced politely.",
+      "Under reduced motion there is no shiver or tumble — release swaps straight to the outcome face and announces it.",
+    ],
+  },
+  {
+    name: "gimbal-dial",
+    type: "registry:ui",
+    title: "Gimbal Dial",
+    description:
+      "A two-axis picker built as nested rings in perspective — spin the outer band for one value and the inner for the other; flicks carry momentum, releases settle on detents, and a hub reads both channels live.",
+    files: [{ path: "registry/ui/gimbal-dial.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-075" },
+    tagline: "Two rings, two channels, one hub.",
+    keywords: ["dial", "gimbal", "rings", "2-axis", "spatial", "picker", "knob"],
+    props: [
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "{ yaw, pitch } / same / (value) => void",
+        description: "Controlled or uncontrolled 0–100 per axis; fires once per settled detent.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "5",
+        description: "Detent size in value units.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "200",
+        description: "Outer ring diameter in px.",
+      },
+      {
+        name: "axisLabels",
+        type: "{ yaw: string; pitch: string }",
+        description: "Accessible names for the two slider bands.",
+      },
+    ],
+    usageNotes: [
+      "Each ring is an independent role=slider — arrows step it, Home and End jump, and aria-valuenow tracks the detents.",
+      "Under reduced motion the rings render flat and drags update values directly with no momentum.",
+    ],
+  },
+  {
+    name: "rolodex-list",
+    type: "registry:ui",
+    title: "Rolodex List",
+    description:
+      "Records on a vertical wheel — drag, scroll a notch at a time, or arrow through; cards flip over the crest, the front record carries the accent, and Enter pulls it. A selection control, not a display drum.",
+    files: [{ path: "registry/ui/rolodex-list.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-076" },
+    tagline: "A wheel of records with a crest.",
+    keywords: ["rolodex", "list", "wheel", "3d", "spatial", "listbox", "records"],
+    props: [
+      {
+        name: "items",
+        type: "{ id, content, label? }[]",
+        description: "The records on the wheel.",
+      },
+      {
+        name: "index / defaultIndex / onIndexChange",
+        type: "number / number / (index) => void",
+        description: "Controlled or uncontrolled front record; change fires on settle.",
+      },
+      {
+        name: "onSelect",
+        type: "(id, index) => void",
+        description: "Explicit activation — Enter, Space, or a tap on the front card.",
+      },
+      {
+        name: "height / loop",
+        type: "number / boolean",
+        defaultValue: "260 / true",
+        description: "Viewport height in px, and whether the wheel wraps.",
+      },
+    ],
+    usageNotes: [
+      "A real listbox — aria-activedescendant tracks the front record, arrows rotate one step, and the wheel only captures scroll while the pointer is over it.",
+      "Under reduced motion it renders a flat three-row list with instant swaps and the same semantics.",
+    ],
+  },
 ];

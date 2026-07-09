@@ -1616,6 +1616,87 @@
       }
     },
     {
+      "name": "dice-roll",
+      "type": "registry:ui",
+      "title": "Dice Roll",
+      "description": "Hold to charge — the die swells and shivers while an arc fills — then release to tumble two full turns and land on a face you chose: outcomes come from a prop or a fixed sequence, never chance.",
+      "files": [
+        {
+          "path": "registry/ui/dice-roll.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-074"
+      }
+    },
+    {
+      "name": "gimbal-dial",
+      "type": "registry:ui",
+      "title": "Gimbal Dial",
+      "description": "A two-axis picker built as nested rings in perspective — spin the outer band for one value and the inner for the other; flicks carry momentum, releases settle on detents, and a hub reads both channels live.",
+      "files": [
+        {
+          "path": "registry/ui/gimbal-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-075"
+      }
+    },
+    {
+      "name": "rolodex-list",
+      "type": "registry:ui",
+      "title": "Rolodex List",
+      "description": "Records on a vertical wheel — drag, scroll a notch at a time, or arrow through; cards flip over the crest, the front record carries the accent, and Enter pulls it. A selection control, not a display drum.",
+      "files": [
+        {
+          "path": "registry/ui/rolodex-list.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-076"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

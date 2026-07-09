@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 62,
+      "components": 65,
       "blocks": 16,
       "shared": 6
     }
@@ -4005,6 +4005,200 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/coin-toggle",
         "bun": "bunx --bun shadcn@latest add @kinetiq/coin-toggle",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/coin-toggle.json"
+      }
+    },
+    {
+      "slug": "dice-roll",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Dice Roll",
+      "serial": "KQ-074",
+      "tagline": "A die that always answers.",
+      "description": "Hold to charge — the die swells and shivers while an arc fills — then release to tumble two full turns and land on a face you chose: outcomes come from a prop or a fixed sequence, never chance.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "dice",
+        "die",
+        "3d",
+        "tumble",
+        "roll",
+        "spatial",
+        "random"
+      ],
+      "props": [
+        {
+          "name": "value / onRoll",
+          "type": "number / (value) => void",
+          "description": "Controlled outcome for the next roll, and the landing callback."
+        },
+        {
+          "name": "sequence",
+          "type": "number[]",
+          "description": "Uncontrolled outcomes, cycled in order — deterministic by design."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "88",
+          "description": "Die edge in px."
+        }
+      ],
+      "usageNotes": [
+        "A real button — hold Space or Enter to charge, release to roll; Escape aborts a charge; the result is announced politely.",
+        "Under reduced motion there is no shiver or tumble — release swaps straight to the outcome face and announces it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/dice-roll",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/dice-roll.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/dice-roll",
+        "npm": "npx shadcn@latest add @kinetiq/dice-roll",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/dice-roll",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/dice-roll",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/dice-roll.json"
+      }
+    },
+    {
+      "slug": "gimbal-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gimbal Dial",
+      "serial": "KQ-075",
+      "tagline": "Two rings, two channels, one hub.",
+      "description": "A two-axis picker built as nested rings in perspective — spin the outer band for one value and the inner for the other; flicks carry momentum, releases settle on detents, and a hub reads both channels live.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "dial",
+        "gimbal",
+        "rings",
+        "2-axis",
+        "spatial",
+        "picker",
+        "knob"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue / onValueChange",
+          "type": "{ yaw, pitch } / same / (value) => void",
+          "description": "Controlled or uncontrolled 0–100 per axis; fires once per settled detent."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Detent size in value units."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "200",
+          "description": "Outer ring diameter in px."
+        },
+        {
+          "name": "axisLabels",
+          "type": "{ yaw: string; pitch: string }",
+          "description": "Accessible names for the two slider bands."
+        }
+      ],
+      "usageNotes": [
+        "Each ring is an independent role=slider — arrows step it, Home and End jump, and aria-valuenow tracks the detents.",
+        "Under reduced motion the rings render flat and drags update values directly with no momentum."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/gimbal-dial",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gimbal-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gimbal-dial",
+        "npm": "npx shadcn@latest add @kinetiq/gimbal-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gimbal-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gimbal-dial",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gimbal-dial.json"
+      }
+    },
+    {
+      "slug": "rolodex-list",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rolodex List",
+      "serial": "KQ-076",
+      "tagline": "A wheel of records with a crest.",
+      "description": "Records on a vertical wheel — drag, scroll a notch at a time, or arrow through; cards flip over the crest, the front record carries the accent, and Enter pulls it. A selection control, not a display drum.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "rolodex",
+        "list",
+        "wheel",
+        "3d",
+        "spatial",
+        "listbox",
+        "records"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id, content, label? }[]",
+          "description": "The records on the wheel."
+        },
+        {
+          "name": "index / defaultIndex / onIndexChange",
+          "type": "number / number / (index) => void",
+          "description": "Controlled or uncontrolled front record; change fires on settle."
+        },
+        {
+          "name": "onSelect",
+          "type": "(id, index) => void",
+          "description": "Explicit activation — Enter, Space, or a tap on the front card."
+        },
+        {
+          "name": "height / loop",
+          "type": "number / boolean",
+          "defaultValue": "260 / true",
+          "description": "Viewport height in px, and whether the wheel wraps."
+        }
+      ],
+      "usageNotes": [
+        "A real listbox — aria-activedescendant tracks the front record, arrows rotate one step, and the wheel only captures scroll while the pointer is over it.",
+        "Under reduced motion it renders a flat three-row list with instant swaps and the same semantics."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/rolodex-list",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/rolodex-list.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rolodex-list",
+        "npm": "npx shadcn@latest add @kinetiq/rolodex-list",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rolodex-list",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rolodex-list",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/rolodex-list.json"
       }
     },
     {
