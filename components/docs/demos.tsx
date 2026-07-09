@@ -88,6 +88,9 @@ import { OrreryDemo } from "@/registry/demos/orrery.demo";
 import { BalanceMobileDemo } from "@/registry/demos/balance-mobile.demo";
 import { RingDialDemo } from "@/registry/demos/ring-dial.demo";
 import { ZAccordionDemo } from "@/registry/demos/z-accordion.demo";
+import { DepthMenuDemo } from "@/registry/demos/depth-menu.demo";
+import { StageTabsDemo } from "@/registry/demos/stage-tabs.demo";
+import { CardFanDemo } from "@/registry/demos/card-fan.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -182,4 +185,7 @@ export const demos: Record<string, ComponentType> = {
   "balance-mobile": BalanceMobileDemo,
   "ring-dial": RingDialDemo,
   "z-accordion": ZAccordionDemo,
+  "depth-menu": DepthMenuDemo,
+  "stage-tabs": StageTabsDemo,
+  "card-fan": CardFanDemo,
 };

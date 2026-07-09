@@ -1859,6 +1859,87 @@
       }
     },
     {
+      "name": "depth-menu",
+      "type": "registry:ui",
+      "title": "Depth Menu",
+      "description": "An inline menu that spends depth on hierarchy — entering a branch pushes the current level back into a hanging trail, a breadcrumb rail floats above for multi-level jumps, and focus always returns to the row you came from.",
+      "files": [
+        {
+          "path": "registry/ui/depth-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-113"
+      }
+    },
+    {
+      "name": "stage-tabs",
+      "type": "registry:ui",
+      "title": "Stage Tabs",
+      "description": "Tabs staged like a theater revolve — the outgoing panel sweeps to one wing as the incoming one revolves in from the other, direction following tab order, over a floor shadow that squashes with the turn.",
+      "files": [
+        {
+          "path": "registry/ui/stage-tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-114"
+      }
+    },
+    {
+      "name": "card-fan",
+      "type": "registry:ui",
+      "title": "Card Fan",
+      "description": "A hand of cards that fans open around a shared pivot — sweep to raise one, siblings part around it, and picking flies the card to a played slot where it lands on the recoil spring.",
+      "files": [
+        {
+          "path": "registry/ui/card-fan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-115"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -1295,6 +1295,55 @@ Notes:
 - True accordion semantics — header buttons carry aria-expanded, panels are labelled regions, and arrows, Home, and End move between headers.
 - Under reduced motion it renders as a flat accordion in normal flow with instant expand and no recession.
 
+### Depth Menu (KQ-113) — `depth-menu`
+Branches recede; the trail hangs behind.
+
+An inline menu that spends depth on hierarchy — entering a branch pushes the current level back into a hanging trail, a breadcrumb rail floats above for multi-level jumps, and focus always returns to the row you came from.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/depth-menu`
+
+Props:
+- `items`: { id, label, hint?, children? }[] — The tree; branch nodes carry children.
+- `onSelect`: (id, path) => void — Fires on a leaf with its ancestor path.
+- `depthGap`: number (default 80) — Perspective-honest recession per level.
+
+Notes:
+- WAI-ARIA menu keyboard — arrows move, Right or Enter descends, Left or Escape pops with focus returned, and level changes are announced.
+- Under reduced motion levels swap instantly and the breadcrumb alone carries the context.
+
+### Stage Tabs (KQ-114) — `stage-tabs`
+Panels on a revolve.
+
+Tabs staged like a theater revolve — the outgoing panel sweeps to one wing as the incoming one revolves in from the other, direction following tab order, over a floor shadow that squashes with the turn.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stage-tabs`
+
+Props:
+- `tabs`: { id, label, content }[] — The tab set.
+- `value / defaultValue / onValueChange`: string / string / (id) => void — Controlled or uncontrolled active tab.
+- `minHeight`: number (default 180) — Stage floor height in px.
+
+Notes:
+- Real tabs — roving tabindex, arrows auto-activate with wrap, Home and End jump, and the panel itself is focusable.
+- Under reduced motion panels crossfade instantly and the underline jumps without gliding.
+
+### Card Fan (KQ-115) — `card-fan`
+Fan, sweep, play.
+
+A hand of cards that fans open around a shared pivot — sweep to raise one, siblings part around it, and picking flies the card to a played slot where it lands on the recoil spring.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/card-fan`
+
+Props:
+- `cards`: { id, label, content }[] — Up to seven cards in the hand.
+- `value / defaultValue / onSelect`: string | null / same / (id) => void — Controlled or uncontrolled played card.
+- `open / defaultOpen / onOpenChange`: boolean / boolean / (open) => void — Controlled or uncontrolled fan state.
+- `cardWidth`: number (default 120) — Card width in px; height is 1.45×.
+
+Notes:
+- The open hand is a radiogroup — arrows move the raised card, Enter or Space plays it, Escape folds the hand and returns focus to the stack.
+- Under reduced motion the fan opens flat and instantly, raising is a highlight, and picks move without flight or bump.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

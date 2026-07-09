@@ -2998,4 +2998,117 @@ export const components: KinetiqItem[] = [
       "Under reduced motion it renders as a flat accordion in normal flow with instant expand and no recession.",
     ],
   },
+  {
+    name: "depth-menu",
+    type: "registry:ui",
+    title: "Depth Menu",
+    description:
+      "An inline menu that spends depth on hierarchy — entering a branch pushes the current level back into a hanging trail, a breadcrumb rail floats above for multi-level jumps, and focus always returns to the row you came from.",
+    files: [{ path: "registry/ui/depth-menu.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-113" },
+    tagline: "Branches recede; the trail hangs behind.",
+    keywords: ["menu", "submenu", "depth", "spatial", "navigation", "breadcrumb"],
+    props: [
+      {
+        name: "items",
+        type: "{ id, label, hint?, children? }[]",
+        description: "The tree; branch nodes carry children.",
+      },
+      {
+        name: "onSelect",
+        type: "(id, path) => void",
+        description: "Fires on a leaf with its ancestor path.",
+      },
+      {
+        name: "depthGap",
+        type: "number",
+        defaultValue: "80",
+        description: "Perspective-honest recession per level.",
+      },
+    ],
+    usageNotes: [
+      "WAI-ARIA menu keyboard — arrows move, Right or Enter descends, Left or Escape pops with focus returned, and level changes are announced.",
+      "Under reduced motion levels swap instantly and the breadcrumb alone carries the context.",
+    ],
+  },
+  {
+    name: "stage-tabs",
+    type: "registry:ui",
+    title: "Stage Tabs",
+    description:
+      "Tabs staged like a theater revolve — the outgoing panel sweeps to one wing as the incoming one revolves in from the other, direction following tab order, over a floor shadow that squashes with the turn.",
+    files: [{ path: "registry/ui/stage-tabs.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-114" },
+    tagline: "Panels on a revolve.",
+    keywords: ["tabs", "stage", "revolve", "spatial", "panels", "3d"],
+    props: [
+      {
+        name: "tabs",
+        type: "{ id, label, content }[]",
+        description: "The tab set.",
+      },
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "string / string / (id) => void",
+        description: "Controlled or uncontrolled active tab.",
+      },
+      {
+        name: "minHeight",
+        type: "number",
+        defaultValue: "180",
+        description: "Stage floor height in px.",
+      },
+    ],
+    usageNotes: [
+      "Real tabs — roving tabindex, arrows auto-activate with wrap, Home and End jump, and the panel itself is focusable.",
+      "Under reduced motion panels crossfade instantly and the underline jumps without gliding.",
+    ],
+  },
+  {
+    name: "card-fan",
+    type: "registry:ui",
+    title: "Card Fan",
+    description:
+      "A hand of cards that fans open around a shared pivot — sweep to raise one, siblings part around it, and picking flies the card to a played slot where it lands on the recoil spring.",
+    files: [{ path: "registry/ui/card-fan.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-115" },
+    tagline: "Fan, sweep, play.",
+    keywords: ["cards", "fan", "hand", "pick", "spatial", "radiogroup"],
+    props: [
+      {
+        name: "cards",
+        type: "{ id, label, content }[]",
+        description: "Up to seven cards in the hand.",
+      },
+      {
+        name: "value / defaultValue / onSelect",
+        type: "string | null / same / (id) => void",
+        description: "Controlled or uncontrolled played card.",
+      },
+      {
+        name: "open / defaultOpen / onOpenChange",
+        type: "boolean / boolean / (open) => void",
+        description: "Controlled or uncontrolled fan state.",
+      },
+      {
+        name: "cardWidth",
+        type: "number",
+        defaultValue: "120",
+        description: "Card width in px; height is 1.45×.",
+      },
+    ],
+    usageNotes: [
+      "The open hand is a radiogroup — arrows move the raised card, Enter or Space plays it, Escape folds the hand and returns focus to the stack.",
+      "Under reduced motion the fan opens flat and instantly, raising is a highlight, and picks move without flight or bump.",
+    ],
+  },
 ];
