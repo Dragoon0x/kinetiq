@@ -50,6 +50,9 @@ import { TickerTapeDemo } from "@/registry/demos/ticker-tape.demo";
 import { TraceInputDemo } from "@/registry/demos/trace-input.demo";
 import { WavefieldDemo } from "@/registry/demos/wavefield.demo";
 import { ZoetropeDemo } from "@/registry/demos/zoetrope.demo";
+import { KineticGalleryDemo } from "@/registry/demos/kinetic-gallery.demo";
+import { TileGridDemo } from "@/registry/demos/tile-grid.demo";
+import { SegmentedControlDemo } from "@/registry/demos/segmented-control.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -106,4 +109,7 @@ export const demos: Record<string, ComponentType> = {
   "intake-tray": IntakeTrayDemo,
   "readout-grid": ReadoutGridDemo,
   "launch-checklist": LaunchChecklistDemo,
+  "kinetic-gallery": KineticGalleryDemo,
+  "tile-grid": TileGridDemo,
+  "segmented-control": SegmentedControlDemo,
 };

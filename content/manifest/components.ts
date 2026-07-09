@@ -1507,4 +1507,139 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the card fades in place — no pop, no leader draw, and followCursor pins to the anchor.",
     ],
   },
+  {
+    name: "kinetic-gallery",
+    type: "registry:ui",
+    title: "Kinetic Gallery",
+    description:
+      "Grab the strip and throw it — release carries momentum that decays and snaps the nearest frame to the rail, with prev/next and dot controls.",
+    files: [{ path: "registry/ui/kinetic-gallery.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: { serial: "KQ-035" },
+    tagline: "Throw the strip; the nearest frame finds the rail.",
+    keywords: ["carousel", "gallery", "slider", "fling", "momentum", "snap"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "Each direct child is a slide; widths are measured for snapping.",
+      },
+      {
+        name: "gap",
+        type: "number",
+        defaultValue: "16",
+        description: "Pixel gap between slides.",
+      },
+      {
+        name: "align",
+        type: '"start" | "center"',
+        defaultValue: '"start"',
+        description: "Where the active slide settles against the rail.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Names the gallery region for assistive tech.",
+      },
+    ],
+    usageNotes: [
+      "Arrow keys step slides, Home and End jump to the ends; a live region announces the current frame.",
+      "Under reduced motion it becomes a native scroll-snap strip — direct swipe, no thrown momentum.",
+    ],
+  },
+  {
+    name: "tile-grid",
+    type: "registry:ui",
+    title: "Tile Grid",
+    description:
+      "Drag a tile and the grid reflows around it — the others FLIP-glide into their new slots, with a full keyboard lift-move-drop for reordering without a mouse.",
+    files: [{ path: "registry/ui/tile-grid.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["layout"],
+    meta: { serial: "KQ-036" },
+    tagline: "Drag a tile; the grid reflows around it.",
+    keywords: ["reorder", "drag and drop", "grid", "sortable", "flip", "layout"],
+    props: [
+      {
+        name: "tiles",
+        type: "{ id: string; content: ReactNode }[]",
+        description: "The tiles in their initial order; identity drives the FLIP.",
+      },
+      {
+        name: "columns",
+        type: "number",
+        defaultValue: "3",
+        description: "Grid column count.",
+      },
+      {
+        name: "onOrderChange",
+        type: "(ids: string[]) => void",
+        description: "Fires with the new id order after a drop or keyboard move.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Names the reorderable list.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Space lifts a tile, arrows move it (left/right by one, up/down by a row), Space drops, Escape cancels.",
+      "Under reduced motion tiles snap to their new positions — dragging still tracks 1:1, without the glide.",
+    ],
+  },
+  {
+    name: "segmented-control",
+    type: "registry:ui",
+    title: "Segmented Control",
+    description:
+      "A compact value picker whose raised thumb glides between segments on snap — radio-group semantics, so it selects a value rather than switching panels.",
+    files: [
+      { path: "registry/ui/segmented-control.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: { serial: "KQ-037" },
+    tagline: "A thumb that glides to the chosen segment.",
+    keywords: [
+      "segmented",
+      "toggle group",
+      "radio",
+      "selection",
+      "control",
+      "tabs",
+    ],
+    props: [
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "string / string / (value) => void",
+        description: "Controlled or uncontrolled selection.",
+      },
+      {
+        name: "name / label",
+        type: "string / ReactNode",
+        description:
+          "Hidden native radios for form posts; a visible group label (or pass aria-label).",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md"',
+        defaultValue: '"md"',
+        description: "Control height and type scale.",
+      },
+      {
+        name: "Item.value / Item.disabled",
+        type: "string / boolean",
+        description: "Segment identity and per-segment disabling.",
+      },
+    ],
+    usageNotes: [
+      "Full APG radio keyboard: arrows move and select (wrapping), Home and End jump, Space selects.",
+      "Under reduced motion the thumb appears under the active segment instantly — no travel, color only.",
+    ],
+  },
 ];

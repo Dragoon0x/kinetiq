@@ -889,6 +889,85 @@
       }
     },
     {
+      "name": "kinetic-gallery",
+      "type": "registry:ui",
+      "title": "Kinetic Gallery",
+      "description": "Grab the strip and throw it — release carries momentum that decays and snaps the nearest frame to the rail, with prev/next and dot controls.",
+      "files": [
+        {
+          "path": "registry/ui/kinetic-gallery.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-035"
+      }
+    },
+    {
+      "name": "tile-grid",
+      "type": "registry:ui",
+      "title": "Tile Grid",
+      "description": "Drag a tile and the grid reflows around it — the others FLIP-glide into their new slots, with a full keyboard lift-move-drop for reordering without a mouse.",
+      "files": [
+        {
+          "path": "registry/ui/tile-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-036"
+      }
+    },
+    {
+      "name": "segmented-control",
+      "type": "registry:ui",
+      "title": "Segmented Control",
+      "description": "A compact value picker whose raised thumb glides between segments on snap — radio-group semantics, so it selects a value rather than switching panels.",
+      "files": [
+        {
+          "path": "registry/ui/segmented-control.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-037"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
