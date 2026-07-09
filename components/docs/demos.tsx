@@ -67,6 +67,8 @@ import { MagneticCursorDemo } from "@/registry/demos/magnetic-cursor.demo";
 import { AuroraRibbonDemo } from "@/registry/demos/aurora-ribbon.demo";
 import { PointGlobeDemo } from "@/registry/demos/point-globe.demo";
 import { VoronoiShatterDemo } from "@/registry/demos/voronoi-shatter.demo";
+import { CometCursorDemo } from "@/registry/demos/comet-cursor.demo";
+import { RippleSurfaceDemo } from "@/registry/demos/ripple-surface.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -140,4 +142,6 @@ export const demos: Record<string, ComponentType> = {
   "aurora-ribbon": AuroraRibbonDemo,
   "point-globe": PointGlobeDemo,
   "voronoi-shatter": VoronoiShatterDemo,
+  "comet-cursor": CometCursorDemo,
+  "ripple-surface": RippleSurfaceDemo,
 };

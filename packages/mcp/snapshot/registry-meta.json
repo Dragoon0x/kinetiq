@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiq.dev/r/registry.json",
     "docsUrl": "https://kinetiq.dev",
     "counts": {
-      "components": 50,
+      "components": 52,
       "blocks": 16,
       "shared": 4
     }
@@ -3295,6 +3295,112 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/voronoi-shatter",
         "bun": "bunx --bun shadcn@latest add @kinetiq/voronoi-shatter",
         "direct": "npx shadcn@latest add https://kinetiq.dev/r/voronoi-shatter.json"
+      }
+    },
+    {
+      "slug": "comet-cursor",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Comet Cursor",
+      "serial": "KQ-052",
+      "tagline": "A comet that chases the pointer.",
+      "description": "A contained field where the pointer drags a luminous comet — a bright head with a tapering tail that thickens with speed and collapses when you rest.",
+      "categories": [
+        "cursor"
+      ],
+      "keywords": [
+        "canvas",
+        "cursor",
+        "trail",
+        "comet",
+        "particles",
+        "pointer"
+      ],
+      "props": [
+        {
+          "name": "trail",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "Trail sample count, clamped to 8–64."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "320",
+          "description": "Stage height in px."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Overlay content rendered above the field."
+        }
+      ],
+      "usageNotes": [
+        "The tail widens with pointer speed and collapses into the head at rest; the loop pauses offscreen and when hidden.",
+        "Under reduced motion it renders one static frame — no trail, no pointer response."
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/comet-cursor",
+      "registryItemUrl": "https://kinetiq.dev/r/comet-cursor.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/comet-cursor",
+        "npm": "npx shadcn@latest add @kinetiq/comet-cursor",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/comet-cursor",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/comet-cursor",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/comet-cursor.json"
+      }
+    },
+    {
+      "slug": "ripple-surface",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ripple Surface",
+      "serial": "KQ-053",
+      "tagline": "Tap and wavefronts interfere.",
+      "description": "Tap the surface and a wavefront propagates out; tap again and the rings overlap into visible interference — a calm canvas pond that answers every touch.",
+      "categories": [
+        "backgrounds"
+      ],
+      "keywords": [
+        "canvas",
+        "ripple",
+        "wave",
+        "background",
+        "interference",
+        "water"
+      ],
+      "props": [
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "320",
+          "description": "Stage height in px."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Overlay content rendered above the field."
+        }
+      ],
+      "usageNotes": [
+        "Concurrent ripples are pooled and capped; crests reinforce where wavefronts cross. The loop pauses offscreen and when hidden.",
+        "Under reduced motion it renders one calm static frame — a tap does not propagate."
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/ripple-surface",
+      "registryItemUrl": "https://kinetiq.dev/r/ripple-surface.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ripple-surface",
+        "npm": "npx shadcn@latest add @kinetiq/ripple-surface",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ripple-surface",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ripple-surface",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/ripple-surface.json"
       }
     },
     {

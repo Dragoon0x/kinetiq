@@ -2194,4 +2194,77 @@ export const components: KinetiqItem[] = [
       "Under reduced motion a tap leaves the tessellation whole — no shatter.",
     ],
   },
+  {
+    name: "comet-cursor",
+    type: "registry:ui",
+    title: "Comet Cursor",
+    description:
+      "A contained field where the pointer drags a luminous comet — a bright head with a tapering tail that thickens with speed and collapses when you rest.",
+    files: [{ path: "registry/ui/comet-cursor.tsx", type: "registry:ui" }],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["cursor"],
+    meta: { serial: "KQ-052" },
+    tagline: "A comet that chases the pointer.",
+    keywords: ["canvas", "cursor", "trail", "comet", "particles", "pointer"],
+    props: [
+      {
+        name: "trail",
+        type: "number",
+        defaultValue: "28",
+        description: "Trail sample count, clamped to 8–64.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "320",
+        description: "Stage height in px.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Overlay content rendered above the field.",
+      },
+    ],
+    usageNotes: [
+      "The tail widens with pointer speed and collapses into the head at rest; the loop pauses offscreen and when hidden.",
+      "Under reduced motion it renders one static frame — no trail, no pointer response.",
+    ],
+  },
+  {
+    name: "ripple-surface",
+    type: "registry:ui",
+    title: "Ripple Surface",
+    description:
+      "Tap the surface and a wavefront propagates out; tap again and the rings overlap into visible interference — a calm canvas pond that answers every touch.",
+    files: [{ path: "registry/ui/ripple-surface.tsx", type: "registry:ui" }],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["backgrounds"],
+    meta: { serial: "KQ-053" },
+    tagline: "Tap and wavefronts interfere.",
+    keywords: [
+      "canvas",
+      "ripple",
+      "wave",
+      "background",
+      "interference",
+      "water",
+    ],
+    props: [
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "320",
+        description: "Stage height in px.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Overlay content rendered above the field.",
+      },
+    ],
+    usageNotes: [
+      "Concurrent ripples are pooled and capped; crests reinforce where wavefronts cross. The loop pauses offscreen and when hidden.",
+      "Under reduced motion it renders one calm static frame — a tap does not propagate.",
+    ],
+  },
 ];

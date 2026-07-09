@@ -954,6 +954,37 @@ Notes:
 - Cells are a real Voronoi built from half-plane clipping, computed once; the shard transforms repaint imperatively from one progress spring.
 - Under reduced motion a tap leaves the tessellation whole — no shatter.
 
+### Comet Cursor (KQ-052) — `comet-cursor`
+A comet that chases the pointer.
+
+A contained field where the pointer drags a luminous comet — a bright head with a tapering tail that thickens with speed and collapses when you rest.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/comet-cursor`
+
+Props:
+- `trail`: number (default 28) — Trail sample count, clamped to 8–64.
+- `height`: number (default 320) — Stage height in px.
+- `children`: ReactNode — Overlay content rendered above the field.
+
+Notes:
+- The tail widens with pointer speed and collapses into the head at rest; the loop pauses offscreen and when hidden.
+- Under reduced motion it renders one static frame — no trail, no pointer response.
+
+### Ripple Surface (KQ-053) — `ripple-surface`
+Tap and wavefronts interfere.
+
+Tap the surface and a wavefront propagates out; tap again and the rings overlap into visible interference — a calm canvas pond that answers every touch.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ripple-surface`
+
+Props:
+- `height`: number (default 320) — Stage height in px.
+- `children`: ReactNode — Overlay content rendered above the field.
+
+Notes:
+- Concurrent ripples are pooled and capped; crests reinforce where wavefronts cross. The loop pauses offscreen and when hidden.
+- Under reduced motion it renders one calm static frame — a tap does not propagate.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
