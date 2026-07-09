@@ -6,7 +6,7 @@
  */
 import { execSync } from "node:child_process";
 import { existsSync } from "node:fs";
-import { copyFile, mkdir, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { allItems } from "../content/manifest";
@@ -73,6 +73,28 @@ async function main() {
 
   // Serve the index too, for registry-level tooling.
   await copyFile(registryPath, path.join(outDir, "registry.json"));
+
+  // Artifacts inline file contents verbatim, so a source file that hardcodes
+  // the placeholder origin (the AGENTS.md rules doc) would ship a dead install
+  // URL on a real deployment. Rewrite it to the resolved origin — a no-op
+  // locally, where the two are identical.
+  const PLACEHOLDER_ORIGIN = "https://kinetiq.dev";
+  if (siteConfig.url !== PLACEHOLDER_ORIGIN) {
+    let patched = 0;
+    for (const name of await readdir(outDir)) {
+      if (!name.endsWith(".json")) continue;
+      const filePath = path.join(outDir, name);
+      const before = await readFile(filePath, "utf8");
+      const after = before.replaceAll(PLACEHOLDER_ORIGIN, siteConfig.url);
+      if (after !== before) {
+        await writeFile(filePath, after);
+        patched += 1;
+      }
+    }
+    if (patched > 0) {
+      console.log(`registry: rewrote placeholder origin in ${patched} artifact(s)`);
+    }
+  }
 
   console.log(`registry: ${allItems.length} item(s) → public/r/`);
 }
