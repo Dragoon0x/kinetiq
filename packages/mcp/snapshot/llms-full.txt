@@ -1197,6 +1197,57 @@ Notes:
 - A real listbox — aria-activedescendant tracks the front record, arrows rotate one step, and the wheel only captures scroll while the pointer is over it.
 - Under reduced motion it renders a flat three-row list with instant swaps and the same semantics.
 
+### Wheel Picker (KQ-077) — `wheel-picker`
+Options on a drum, settled by detent.
+
+A value picker built as a recessed drum — options curve beneath a fixed selection window, drags carry momentum into detents, every landing ticks the window caps, and letter keys typeahead straight to an option.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/wheel-picker`
+
+Props:
+- `options`: { value: string; label: string }[] — The drum's rows.
+- `value / defaultValue / onValueChange`: string / string / (value) => void — Controlled or uncontrolled selection; fires once per settle.
+- `visibleRows / height`: 3 | 5 | 7 / number (default 5 / 200) — Window size and control height.
+- `aria-label / aria-labelledby`: string — One is required — it is a bare form control.
+
+Notes:
+- A real listbox — arrows and Page keys step rows, Home and End jump, letters typeahead, and the wheel only captures scroll over the control.
+- Under reduced motion the drum renders as a flat column with instant swaps and the same window styling.
+
+### Flip Mosaic (KQ-078) — `flip-mosaic`
+One grid, two boards, a traveling flip.
+
+Two boards on one grid — every tile carries an A face and a B face, and toggling sweeps a cascade of Y-flips across the mosaic from your chosen origin, always inside the choreography budget.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/flip-mosaic`
+
+Props:
+- `tiles`: { a: ReactNode; b: ReactNode }[] — Each tile's two faces.
+- `side / defaultSide / onSideChange`: "a" | "b" / same / (side) => void — Controlled or uncontrolled facing board.
+- `origin`: "start" | "end" | "center" (default "start") — Where the cascade wave begins.
+- `columns / tileAspect / gap`: number / number / number (default 4 / 1 / 8) — Grid shape.
+
+Notes:
+- Interactive mode is a single role=switch button — Space and Enter flip the board and the settled side is announced.
+- Under reduced motion there is no cascade or 3D — the whole board crossfades at once.
+
+### Orrery (KQ-079) — `orrery`
+An orbital system with a focus slot.
+
+Bodies orbit a hub on inclined elliptical paths — inner rings run faster, the whole system pauses when unwatched, and clicking a body flies it forward into a focus card until Escape sends it home.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/orrery`
+
+Props:
+- `items`: { id, label, node? }[] — Up to eight orbiting bodies; default faces are minted discs.
+- `hub / detail`: ReactNode / (item) => ReactNode — The center piece and the focus-card renderer.
+- `radius / inclineDeg / period`: number / number / number (default 120 / 24 / 36) — Orbit geometry and the outer revolution time in seconds.
+- `onFocusChange`: (id | null) => void — Fires when a body is captured or released.
+
+Notes:
+- Every body is a real button — Enter captures it, Escape releases, and captures are announced politely; the orbit pauses under keyboard focus.
+- The loop pauses offscreen and when the tab hides, with the clock rebased on resume; under reduced motion the system rests at its phase positions and captures swap instantly.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

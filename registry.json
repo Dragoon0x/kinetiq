@@ -1697,6 +1697,87 @@
       }
     },
     {
+      "name": "wheel-picker",
+      "type": "registry:ui",
+      "title": "Wheel Picker",
+      "description": "A value picker built as a recessed drum — options curve beneath a fixed selection window, drags carry momentum into detents, every landing ticks the window caps, and letter keys typeahead straight to an option.",
+      "files": [
+        {
+          "path": "registry/ui/wheel-picker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-077"
+      }
+    },
+    {
+      "name": "flip-mosaic",
+      "type": "registry:ui",
+      "title": "Flip Mosaic",
+      "description": "Two boards on one grid — every tile carries an A face and a B face, and toggling sweeps a cascade of Y-flips across the mosaic from your chosen origin, always inside the choreography budget.",
+      "files": [
+        {
+          "path": "registry/ui/flip-mosaic.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-078"
+      }
+    },
+    {
+      "name": "orrery",
+      "type": "registry:ui",
+      "title": "Orrery",
+      "description": "Bodies orbit a hub on inclined elliptical paths — inner rings run faster, the whole system pauses when unwatched, and clicking a body flies it forward into a focus card until Escape sends it home.",
+      "files": [
+        {
+          "path": "registry/ui/orrery.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-079"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

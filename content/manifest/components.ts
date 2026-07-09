@@ -2771,4 +2771,128 @@ export const components: KinetiqItem[] = [
       "Under reduced motion it renders a flat three-row list with instant swaps and the same semantics.",
     ],
   },
+  {
+    name: "wheel-picker",
+    type: "registry:ui",
+    title: "Wheel Picker",
+    description:
+      "A value picker built as a recessed drum — options curve beneath a fixed selection window, drags carry momentum into detents, every landing ticks the window caps, and letter keys typeahead straight to an option.",
+    files: [{ path: "registry/ui/wheel-picker.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-077" },
+    tagline: "Options on a drum, settled by detent.",
+    keywords: ["picker", "wheel", "drum", "form", "select", "spatial", "listbox"],
+    props: [
+      {
+        name: "options",
+        type: "{ value: string; label: string }[]",
+        description: "The drum's rows.",
+      },
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "string / string / (value) => void",
+        description: "Controlled or uncontrolled selection; fires once per settle.",
+      },
+      {
+        name: "visibleRows / height",
+        type: "3 | 5 | 7 / number",
+        defaultValue: "5 / 200",
+        description: "Window size and control height.",
+      },
+      {
+        name: "aria-label / aria-labelledby",
+        type: "string",
+        description: "One is required — it is a bare form control.",
+      },
+    ],
+    usageNotes: [
+      "A real listbox — arrows and Page keys step rows, Home and End jump, letters typeahead, and the wheel only captures scroll over the control.",
+      "Under reduced motion the drum renders as a flat column with instant swaps and the same window styling.",
+    ],
+  },
+  {
+    name: "flip-mosaic",
+    type: "registry:ui",
+    title: "Flip Mosaic",
+    description:
+      "Two boards on one grid — every tile carries an A face and a B face, and toggling sweeps a cascade of Y-flips across the mosaic from your chosen origin, always inside the choreography budget.",
+    files: [{ path: "registry/ui/flip-mosaic.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-078" },
+    tagline: "One grid, two boards, a traveling flip.",
+    keywords: ["mosaic", "tiles", "flip", "grid", "spatial", "cascade", "toggle"],
+    props: [
+      {
+        name: "tiles",
+        type: "{ a: ReactNode; b: ReactNode }[]",
+        description: "Each tile's two faces.",
+      },
+      {
+        name: "side / defaultSide / onSideChange",
+        type: '"a" | "b" / same / (side) => void',
+        description: "Controlled or uncontrolled facing board.",
+      },
+      {
+        name: "origin",
+        type: '"start" | "end" | "center"',
+        defaultValue: '"start"',
+        description: "Where the cascade wave begins.",
+      },
+      {
+        name: "columns / tileAspect / gap",
+        type: "number / number / number",
+        defaultValue: "4 / 1 / 8",
+        description: "Grid shape.",
+      },
+    ],
+    usageNotes: [
+      "Interactive mode is a single role=switch button — Space and Enter flip the board and the settled side is announced.",
+      "Under reduced motion there is no cascade or 3D — the whole board crossfades at once.",
+    ],
+  },
+  {
+    name: "orrery",
+    type: "registry:ui",
+    title: "Orrery",
+    description:
+      "Bodies orbit a hub on inclined elliptical paths — inner rings run faster, the whole system pauses when unwatched, and clicking a body flies it forward into a focus card until Escape sends it home.",
+    files: [{ path: "registry/ui/orrery.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-079" },
+    tagline: "An orbital system with a focus slot.",
+    keywords: ["orbit", "orrery", "planets", "spatial", "3d", "ambient", "focus"],
+    props: [
+      {
+        name: "items",
+        type: "{ id, label, node? }[]",
+        description: "Up to eight orbiting bodies; default faces are minted discs.",
+      },
+      {
+        name: "hub / detail",
+        type: "ReactNode / (item) => ReactNode",
+        description: "The center piece and the focus-card renderer.",
+      },
+      {
+        name: "radius / inclineDeg / period",
+        type: "number / number / number",
+        defaultValue: "120 / 24 / 36",
+        description: "Orbit geometry and the outer revolution time in seconds.",
+      },
+      {
+        name: "onFocusChange",
+        type: "(id | null) => void",
+        description: "Fires when a body is captured or released.",
+      },
+    ],
+    usageNotes: [
+      "Every body is a real button — Enter captures it, Escape releases, and captures are announced politely; the orbit pauses under keyboard focus.",
+      "The loop pauses offscreen and when the tab hides, with the clock rebased on resume; under reduced motion the system rests at its phase positions and captures swap instantly.",
+    ],
+  },
 ];
