@@ -1248,6 +1248,53 @@ Notes:
 - Every body is a real button — Enter captures it, Escape releases, and captures are announced politely; the orbit pauses under keyboard focus.
 - The loop pauses offscreen and when the tab hides, with the clock rebased on resume; under reduced motion the system rests at its phase positions and captures swap instantly.
 
+### Balance Mobile (KQ-080) — `balance-mobile`
+Torque you can tug.
+
+A hanging mobile with honest torque — pods hang from beams whose tilt is computed from the loads beneath them; pull a pod and every beam above re-tilts live, then the whole rig swings back through equilibrium on release.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/balance-mobile`
+
+Props:
+- `items`: { id, label, weight? }[] — Up to four pods; weight defaults to one.
+- `height`: number (default 260) — Rig height in px.
+
+Notes:
+- Every pod is a real button — Space or Enter gives it a tug, announced politely; drags add weight proportional to the pull.
+- Under reduced motion the rig rests at equilibrium and tugs read as a small instant tilt with no swing.
+
+### Ring Dial (KQ-111) — `ring-dial`
+Stops that pull like magnets.
+
+A lens ring in perspective — a knurled band whose detents pull the value in like magnets as you cross them; the fixed needle blinks on every land and the hub pulses the committed stop.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ring-dial`
+
+Props:
+- `min / max / detents / step`: number / number / number[] / number (default 0 / 100 / — / 10) — Range and stops; explicit detents win over the step grid.
+- `value / defaultValue / onValueChange / onInput`: number / number / (value) => void / (value) => void — Controlled or uncontrolled value; change fires per land, input streams live.
+- `format`: (value) => string — Formats the hub readout, band numerals, and aria-valuetext.
+- `size`: number (default 220) — Dial diameter in px.
+
+Notes:
+- A real slider — arrows step between detents, Home and End reach the first and last, and aria-valuetext speaks the formatted stop.
+- Under reduced motion the ring renders flat and tracks the pointer one-to-one with no magnetic pull; the needle blink remains as the land cue.
+
+### Z Accordion (KQ-112) — `z-accordion`
+Sections that step back, not down.
+
+An accordion that spends depth instead of height — the open sheet glides to the front while the rest step back into the rack, scaled, dimmed, and stacked so every header stays in reach.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/z-accordion`
+
+Props:
+- `items`: { id, title, content }[] — The sheets; three to five read best.
+- `open / defaultOpen / onOpenChange`: string / string / (id) => void — Controlled or uncontrolled open sheet — exactly one at a time.
+
+Notes:
+- True accordion semantics — header buttons carry aria-expanded, panels are labelled regions, and arrows, Home, and End move between headers.
+- Under reduced motion it renders as a flat accordion in normal flow with instant expand and no recession.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -85,6 +85,9 @@ import { RolodexListDemo } from "@/registry/demos/rolodex-list.demo";
 import { WheelPickerDemo } from "@/registry/demos/wheel-picker.demo";
 import { FlipMosaicDemo } from "@/registry/demos/flip-mosaic.demo";
 import { OrreryDemo } from "@/registry/demos/orrery.demo";
+import { BalanceMobileDemo } from "@/registry/demos/balance-mobile.demo";
+import { RingDialDemo } from "@/registry/demos/ring-dial.demo";
+import { ZAccordionDemo } from "@/registry/demos/z-accordion.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -176,4 +179,7 @@ export const demos: Record<string, ComponentType> = {
   "wheel-picker": WheelPickerDemo,
   "flip-mosaic": FlipMosaicDemo,
   orrery: OrreryDemo,
+  "balance-mobile": BalanceMobileDemo,
+  "ring-dial": RingDialDemo,
+  "z-accordion": ZAccordionDemo,
 };

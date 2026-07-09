@@ -2895,4 +2895,107 @@ export const components: KinetiqItem[] = [
       "The loop pauses offscreen and when the tab hides, with the clock rebased on resume; under reduced motion the system rests at its phase positions and captures swap instantly.",
     ],
   },
+  {
+    name: "balance-mobile",
+    type: "registry:ui",
+    title: "Balance Mobile",
+    description:
+      "A hanging mobile with honest torque — pods hang from beams whose tilt is computed from the loads beneath them; pull a pod and every beam above re-tilts live, then the whole rig swings back through equilibrium on release.",
+    files: [{ path: "registry/ui/balance-mobile.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-080" },
+    tagline: "Torque you can tug.",
+    keywords: ["mobile", "hanging", "balance", "physics", "spatial", "torque"],
+    props: [
+      {
+        name: "items",
+        type: "{ id, label, weight? }[]",
+        description: "Up to four pods; weight defaults to one.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "260",
+        description: "Rig height in px.",
+      },
+    ],
+    usageNotes: [
+      "Every pod is a real button — Space or Enter gives it a tug, announced politely; drags add weight proportional to the pull.",
+      "Under reduced motion the rig rests at equilibrium and tugs read as a small instant tilt with no swing.",
+    ],
+  },
+  {
+    name: "ring-dial",
+    type: "registry:ui",
+    title: "Ring Dial",
+    description:
+      "A lens ring in perspective — a knurled band whose detents pull the value in like magnets as you cross them; the fixed needle blinks on every land and the hub pulses the committed stop.",
+    files: [{ path: "registry/ui/ring-dial.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-111" },
+    tagline: "Stops that pull like magnets.",
+    keywords: ["dial", "ring", "lens", "detent", "slider", "spatial", "knob"],
+    props: [
+      {
+        name: "min / max / detents / step",
+        type: "number / number / number[] / number",
+        defaultValue: "0 / 100 / — / 10",
+        description: "Range and stops; explicit detents win over the step grid.",
+      },
+      {
+        name: "value / defaultValue / onValueChange / onInput",
+        type: "number / number / (value) => void / (value) => void",
+        description: "Controlled or uncontrolled value; change fires per land, input streams live.",
+      },
+      {
+        name: "format",
+        type: "(value) => string",
+        description: "Formats the hub readout, band numerals, and aria-valuetext.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "220",
+        description: "Dial diameter in px.",
+      },
+    ],
+    usageNotes: [
+      "A real slider — arrows step between detents, Home and End reach the first and last, and aria-valuetext speaks the formatted stop.",
+      "Under reduced motion the ring renders flat and tracks the pointer one-to-one with no magnetic pull; the needle blink remains as the land cue.",
+    ],
+  },
+  {
+    name: "z-accordion",
+    type: "registry:ui",
+    title: "Z Accordion",
+    description:
+      "An accordion that spends depth instead of height — the open sheet glides to the front while the rest step back into the rack, scaled, dimmed, and stacked so every header stays in reach.",
+    files: [{ path: "registry/ui/z-accordion.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-112" },
+    tagline: "Sections that step back, not down.",
+    keywords: ["accordion", "sections", "depth", "spatial", "disclosure", "stack"],
+    props: [
+      {
+        name: "items",
+        type: "{ id, title, content }[]",
+        description: "The sheets; three to five read best.",
+      },
+      {
+        name: "open / defaultOpen / onOpenChange",
+        type: "string / string / (id) => void",
+        description: "Controlled or uncontrolled open sheet — exactly one at a time.",
+      },
+    ],
+    usageNotes: [
+      "True accordion semantics — header buttons carry aria-expanded, panels are labelled regions, and arrows, Home, and End move between headers.",
+      "Under reduced motion it renders as a flat accordion in normal flow with instant expand and no recession.",
+    ],
+  },
 ];

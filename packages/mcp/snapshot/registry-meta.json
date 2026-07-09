@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 68,
+      "components": 71,
       "blocks": 16,
       "shared": 6
     }
@@ -4398,6 +4398,182 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/orrery",
         "bun": "bunx --bun shadcn@latest add @kinetiq/orrery",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/orrery.json"
+      }
+    },
+    {
+      "slug": "balance-mobile",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Balance Mobile",
+      "serial": "KQ-080",
+      "tagline": "Torque you can tug.",
+      "description": "A hanging mobile with honest torque — pods hang from beams whose tilt is computed from the loads beneath them; pull a pod and every beam above re-tilts live, then the whole rig swings back through equilibrium on release.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "mobile",
+        "hanging",
+        "balance",
+        "physics",
+        "spatial",
+        "torque"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id, label, weight? }[]",
+          "description": "Up to four pods; weight defaults to one."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "260",
+          "description": "Rig height in px."
+        }
+      ],
+      "usageNotes": [
+        "Every pod is a real button — Space or Enter gives it a tug, announced politely; drags add weight proportional to the pull.",
+        "Under reduced motion the rig rests at equilibrium and tugs read as a small instant tilt with no swing."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/balance-mobile",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/balance-mobile.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/balance-mobile",
+        "npm": "npx shadcn@latest add @kinetiq/balance-mobile",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/balance-mobile",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/balance-mobile",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/balance-mobile.json"
+      }
+    },
+    {
+      "slug": "ring-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ring Dial",
+      "serial": "KQ-111",
+      "tagline": "Stops that pull like magnets.",
+      "description": "A lens ring in perspective — a knurled band whose detents pull the value in like magnets as you cross them; the fixed needle blinks on every land and the hub pulses the committed stop.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "dial",
+        "ring",
+        "lens",
+        "detent",
+        "slider",
+        "spatial",
+        "knob"
+      ],
+      "props": [
+        {
+          "name": "min / max / detents / step",
+          "type": "number / number / number[] / number",
+          "defaultValue": "0 / 100 / — / 10",
+          "description": "Range and stops; explicit detents win over the step grid."
+        },
+        {
+          "name": "value / defaultValue / onValueChange / onInput",
+          "type": "number / number / (value) => void / (value) => void",
+          "description": "Controlled or uncontrolled value; change fires per land, input streams live."
+        },
+        {
+          "name": "format",
+          "type": "(value) => string",
+          "description": "Formats the hub readout, band numerals, and aria-valuetext."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "220",
+          "description": "Dial diameter in px."
+        }
+      ],
+      "usageNotes": [
+        "A real slider — arrows step between detents, Home and End reach the first and last, and aria-valuetext speaks the formatted stop.",
+        "Under reduced motion the ring renders flat and tracks the pointer one-to-one with no magnetic pull; the needle blink remains as the land cue."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/ring-dial",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/ring-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ring-dial",
+        "npm": "npx shadcn@latest add @kinetiq/ring-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ring-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ring-dial",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/ring-dial.json"
+      }
+    },
+    {
+      "slug": "z-accordion",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Z Accordion",
+      "serial": "KQ-112",
+      "tagline": "Sections that step back, not down.",
+      "description": "An accordion that spends depth instead of height — the open sheet glides to the front while the rest step back into the rack, scaled, dimmed, and stacked so every header stays in reach.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "accordion",
+        "sections",
+        "depth",
+        "spatial",
+        "disclosure",
+        "stack"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id, title, content }[]",
+          "description": "The sheets; three to five read best."
+        },
+        {
+          "name": "open / defaultOpen / onOpenChange",
+          "type": "string / string / (id) => void",
+          "description": "Controlled or uncontrolled open sheet — exactly one at a time."
+        }
+      ],
+      "usageNotes": [
+        "True accordion semantics — header buttons carry aria-expanded, panels are labelled regions, and arrows, Home, and End move between headers.",
+        "Under reduced motion it renders as a flat accordion in normal flow with instant expand and no recession."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/z-accordion",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/z-accordion.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/z-accordion",
+        "npm": "npx shadcn@latest add @kinetiq/z-accordion",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/z-accordion",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/z-accordion",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/z-accordion.json"
       }
     },
     {

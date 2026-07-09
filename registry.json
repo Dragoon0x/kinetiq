@@ -1778,6 +1778,87 @@
       }
     },
     {
+      "name": "balance-mobile",
+      "type": "registry:ui",
+      "title": "Balance Mobile",
+      "description": "A hanging mobile with honest torque — pods hang from beams whose tilt is computed from the loads beneath them; pull a pod and every beam above re-tilts live, then the whole rig swings back through equilibrium on release.",
+      "files": [
+        {
+          "path": "registry/ui/balance-mobile.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-080"
+      }
+    },
+    {
+      "name": "ring-dial",
+      "type": "registry:ui",
+      "title": "Ring Dial",
+      "description": "A lens ring in perspective — a knurled band whose detents pull the value in like magnets as you cross them; the fixed needle blinks on every land and the hub pulses the committed stop.",
+      "files": [
+        {
+          "path": "registry/ui/ring-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-111"
+      }
+    },
+    {
+      "name": "z-accordion",
+      "type": "registry:ui",
+      "title": "Z Accordion",
+      "description": "An accordion that spends depth instead of height — the open sheet glides to the front while the rest step back into the rack, scaled, dimmed, and stacked so every header stays in reach.",
+      "files": [
+        {
+          "path": "registry/ui/z-accordion.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-112"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
