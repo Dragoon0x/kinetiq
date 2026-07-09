@@ -72,6 +72,9 @@ import { RippleSurfaceDemo } from "@/registry/demos/ripple-surface.demo";
 import { FlowDiagramDemo } from "@/registry/demos/flow-diagram.demo";
 import { TimelineSpineDemo } from "@/registry/demos/timeline-spine.demo";
 import { PullToRefreshDemo } from "@/registry/demos/pull-to-refresh.demo";
+import { OrbitMenuDemo } from "@/registry/demos/orbit-menu.demo";
+import { SparkBurstDemo } from "@/registry/demos/spark-burst.demo";
+import { HeartTapDemo } from "@/registry/demos/heart-tap.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -150,4 +153,7 @@ export const demos: Record<string, ComponentType> = {
   "flow-diagram": FlowDiagramDemo,
   "timeline-spine": TimelineSpineDemo,
   "pull-to-refresh": PullToRefreshDemo,
+  "orbit-menu": OrbitMenuDemo,
+  "spark-burst": SparkBurstDemo,
+  "heart-tap": HeartTapDemo,
 };

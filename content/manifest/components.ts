@@ -2376,4 +2376,121 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the pull eases home without overshoot and the new rows fade in once — no cascade.",
     ],
   },
+  {
+    name: "orbit-menu",
+    type: "registry:ui",
+    title: "Orbit Menu",
+    description:
+      "Items ring a hub and rotate on a weighted dial — flick the ring and it flings, then snaps the nearest item into the active detent at the top.",
+    files: [{ path: "registry/ui/orbit-menu.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: { serial: "KQ-057" },
+    tagline: "A dial of options that snaps to a detent.",
+    keywords: ["radial", "menu", "orbit", "dial", "navigation", "selector"],
+    props: [
+      {
+        name: "items",
+        type: "{ id: string; label: string; icon?: ReactNode }[]",
+        description: "Options placed evenly around the ring.",
+      },
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "string / string / (id) => void",
+        description: "Controlled or uncontrolled active item.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "260",
+        description: "Ring diameter in px.",
+      },
+    ],
+    usageNotes: [
+      "Drag to spin, click an item, or arrow-key to rotate; a live region announces the active item.",
+      "Under reduced motion selection snaps to the detent instantly — no fling momentum.",
+    ],
+  },
+  {
+    name: "spark-burst",
+    type: "registry:ui",
+    title: "Spark Burst",
+    description:
+      "A calibrated celebration, not confetti — call fire() and a tight radial burst of hairline rays and a fast ring shoots out and fades, monochrome with a signal glint.",
+    files: [{ path: "registry/ui/spark-burst.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-058" },
+    tagline: "Restraint as celebration.",
+    keywords: [
+      "burst",
+      "celebration",
+      "confetti",
+      "sparks",
+      "delight",
+      "imperative",
+    ],
+    props: [
+      {
+        name: "ref.fire(opts?)",
+        type: "(opts?: { rays?: number }) => void",
+        description: "Imperative handle — call it to emit one burst.",
+      },
+      {
+        name: "rays / spread",
+        type: "number / number",
+        description:
+          "Ray count (default 12) and travel distance in px (default 40).",
+      },
+      {
+        name: "color",
+        type: "string",
+        defaultValue: '"var(--signal)"',
+        description: "Ray color.",
+      },
+    ],
+    usageNotes: [
+      "Get a ref of type SparkBurstHandle and call fire(); rapid fires stack and clean themselves up.",
+      "Under reduced motion fire() gives a single centered pulse — no radiating rays.",
+    ],
+  },
+  {
+    name: "heart-tap",
+    type: "registry:ui",
+    title: "Heart Tap",
+    description:
+      "A like that celebrates — the heart squashes then pops, a tight ring of sparks bursts once, and the count rolls up; un-liking deflates and rolls back down.",
+    files: [{ path: "registry/ui/heart-tap.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-059" },
+    tagline: "Pop, sparks, and a rolling count.",
+    keywords: ["like", "heart", "reaction", "counter", "delight", "toggle"],
+    props: [
+      {
+        name: "liked / defaultLiked / onChange",
+        type: "boolean / boolean / (state) => void",
+        description:
+          "Controlled or uncontrolled liked state; onChange gets { liked, count }.",
+      },
+      {
+        name: "count / defaultCount",
+        type: "number / number",
+        description: "Controlled or uncontrolled count, clamped at zero.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "28",
+        description: "Heart glyph size in px.",
+      },
+    ],
+    usageNotes: [
+      "A real toggle button — Space/Enter like, aria-pressed and the count are announced.",
+      "Under reduced motion the fill switches and the count swaps instantly — no pop, sparks, or roll.",
+    ],
+  },
 ];

@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiq.dev/r/registry.json",
     "docsUrl": "https://kinetiq.dev",
     "counts": {
-      "components": 55,
+      "components": 58,
       "blocks": 16,
       "shared": 4
     }
@@ -3572,6 +3572,183 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/pull-to-refresh",
         "bun": "bunx --bun shadcn@latest add @kinetiq/pull-to-refresh",
         "direct": "npx shadcn@latest add https://kinetiq.dev/r/pull-to-refresh.json"
+      }
+    },
+    {
+      "slug": "orbit-menu",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Orbit Menu",
+      "serial": "KQ-057",
+      "tagline": "A dial of options that snaps to a detent.",
+      "description": "Items ring a hub and rotate on a weighted dial — flick the ring and it flings, then snaps the nearest item into the active detent at the top.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "radial",
+        "menu",
+        "orbit",
+        "dial",
+        "navigation",
+        "selector"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id: string; label: string; icon?: ReactNode }[]",
+          "description": "Options placed evenly around the ring."
+        },
+        {
+          "name": "value / defaultValue / onValueChange",
+          "type": "string / string / (id) => void",
+          "description": "Controlled or uncontrolled active item."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "260",
+          "description": "Ring diameter in px."
+        }
+      ],
+      "usageNotes": [
+        "Drag to spin, click an item, or arrow-key to rotate; a live region announces the active item.",
+        "Under reduced motion selection snaps to the detent instantly — no fling momentum."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/orbit-menu",
+      "registryItemUrl": "https://kinetiq.dev/r/orbit-menu.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/orbit-menu",
+        "npm": "npx shadcn@latest add @kinetiq/orbit-menu",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/orbit-menu",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/orbit-menu",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/orbit-menu.json"
+      }
+    },
+    {
+      "slug": "spark-burst",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Spark Burst",
+      "serial": "KQ-058",
+      "tagline": "Restraint as celebration.",
+      "description": "A calibrated celebration, not confetti — call fire() and a tight radial burst of hairline rays and a fast ring shoots out and fades, monochrome with a signal glint.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "burst",
+        "celebration",
+        "confetti",
+        "sparks",
+        "delight",
+        "imperative"
+      ],
+      "props": [
+        {
+          "name": "ref.fire(opts?)",
+          "type": "(opts?: { rays?: number }) => void",
+          "description": "Imperative handle — call it to emit one burst."
+        },
+        {
+          "name": "rays / spread",
+          "type": "number / number",
+          "description": "Ray count (default 12) and travel distance in px (default 40)."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "\"var(--signal)\"",
+          "description": "Ray color."
+        }
+      ],
+      "usageNotes": [
+        "Get a ref of type SparkBurstHandle and call fire(); rapid fires stack and clean themselves up.",
+        "Under reduced motion fire() gives a single centered pulse — no radiating rays."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/spark-burst",
+      "registryItemUrl": "https://kinetiq.dev/r/spark-burst.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spark-burst",
+        "npm": "npx shadcn@latest add @kinetiq/spark-burst",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spark-burst",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spark-burst",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/spark-burst.json"
+      }
+    },
+    {
+      "slug": "heart-tap",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Heart Tap",
+      "serial": "KQ-059",
+      "tagline": "Pop, sparks, and a rolling count.",
+      "description": "A like that celebrates — the heart squashes then pops, a tight ring of sparks bursts once, and the count rolls up; un-liking deflates and rolls back down.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "like",
+        "heart",
+        "reaction",
+        "counter",
+        "delight",
+        "toggle"
+      ],
+      "props": [
+        {
+          "name": "liked / defaultLiked / onChange",
+          "type": "boolean / boolean / (state) => void",
+          "description": "Controlled or uncontrolled liked state; onChange gets { liked, count }."
+        },
+        {
+          "name": "count / defaultCount",
+          "type": "number / number",
+          "description": "Controlled or uncontrolled count, clamped at zero."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "Heart glyph size in px."
+        }
+      ],
+      "usageNotes": [
+        "A real toggle button — Space/Enter like, aria-pressed and the count are announced.",
+        "Under reduced motion the fill switches and the count swaps instantly — no pop, sparks, or roll."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiq.dev/r/utils.json",
+        "https://kinetiq.dev/r/motion.json",
+        "https://kinetiq.dev/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiq.dev/components/heart-tap",
+      "registryItemUrl": "https://kinetiq.dev/r/heart-tap.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/heart-tap",
+        "npm": "npx shadcn@latest add @kinetiq/heart-tap",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/heart-tap",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/heart-tap",
+        "direct": "npx shadcn@latest add https://kinetiq.dev/r/heart-tap.json"
       }
     },
     {

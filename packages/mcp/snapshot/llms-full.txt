@@ -1032,6 +1032,54 @@ Notes:
 - Only engages when the list is scrolled to the top; a focusable Refresh button keeps it operable without a pointer.
 - Under reduced motion the pull eases home without overshoot and the new rows fade in once — no cascade.
 
+### Orbit Menu (KQ-057) — `orbit-menu`
+A dial of options that snaps to a detent.
+
+Items ring a hub and rotate on a weighted dial — flick the ring and it flings, then snaps the nearest item into the active detent at the top.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/orbit-menu`
+
+Props:
+- `items`: { id: string; label: string; icon?: ReactNode }[] — Options placed evenly around the ring.
+- `value / defaultValue / onValueChange`: string / string / (id) => void — Controlled or uncontrolled active item.
+- `size`: number (default 260) — Ring diameter in px.
+
+Notes:
+- Drag to spin, click an item, or arrow-key to rotate; a live region announces the active item.
+- Under reduced motion selection snaps to the detent instantly — no fling momentum.
+
+### Spark Burst (KQ-058) — `spark-burst`
+Restraint as celebration.
+
+A calibrated celebration, not confetti — call fire() and a tight radial burst of hairline rays and a fast ring shoots out and fades, monochrome with a signal glint.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spark-burst`
+
+Props:
+- `ref.fire(opts?)`: (opts?: { rays?: number }) => void — Imperative handle — call it to emit one burst.
+- `rays / spread`: number / number — Ray count (default 12) and travel distance in px (default 40).
+- `color`: string (default "var(--signal)") — Ray color.
+
+Notes:
+- Get a ref of type SparkBurstHandle and call fire(); rapid fires stack and clean themselves up.
+- Under reduced motion fire() gives a single centered pulse — no radiating rays.
+
+### Heart Tap (KQ-059) — `heart-tap`
+Pop, sparks, and a rolling count.
+
+A like that celebrates — the heart squashes then pops, a tight ring of sparks bursts once, and the count rolls up; un-liking deflates and rolls back down.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/heart-tap`
+
+Props:
+- `liked / defaultLiked / onChange`: boolean / boolean / (state) => void — Controlled or uncontrolled liked state; onChange gets { liked, count }.
+- `count / defaultCount`: number / number — Controlled or uncontrolled count, clamped at zero.
+- `size`: number (default 28) — Heart glyph size in px.
+
+Notes:
+- A real toggle button — Space/Enter like, aria-pressed and the count are announced.
+- Under reduced motion the fill switches and the count swaps instantly — no pop, sparks, or roll.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
