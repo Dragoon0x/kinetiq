@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 77,
+      "components": 80,
       "blocks": 16,
       "shared": 6
     }
@@ -3810,6 +3810,71 @@
       }
     },
     {
+      "slug": "depth-stack",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Depth Stack",
+      "serial": "KQ-061",
+      "tagline": "Browse the pile, layer by layer.",
+      "description": "A face-on pile of layers browsed along the z-axis — scroll a notch, drag, or arrow through; the active layer sits crisp while the rest recede into a stepped skyline of peeking headers.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "stack",
+        "layers",
+        "depth",
+        "spatial",
+        "browse",
+        "pile"
+      ],
+      "props": [
+        {
+          "name": "layers",
+          "type": "{ id, label, content }[]",
+          "description": "Three to eight layers, front to deepest."
+        },
+        {
+          "name": "index / defaultIndex / onIndexChange",
+          "type": "number / number / (index) => void",
+          "description": "Controlled or uncontrolled active layer; fires once per settle."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "260",
+          "description": "Stage height in px."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "description": "Required — names the layer stack."
+        }
+      ],
+      "usageNotes": [
+        "Arrows and the wheel move one layer, Home and End jump on the glide spring, tick-rail buttons carry aria-current, and settles are announced.",
+        "Under reduced motion the active layer renders alone beneath a compressed label shelf with instant swaps."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/depth-stack",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/depth-stack.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/depth-stack",
+        "npm": "npx shadcn@latest add @kinetiq/depth-stack",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/depth-stack",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/depth-stack",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/depth-stack.json"
+      }
+    },
+    {
       "slug": "facet-cube",
       "kind": "component",
       "type": "registry:ui",
@@ -4940,6 +5005,135 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/flyover-map",
         "bun": "bunx --bun shadcn@latest add @kinetiq/flyover-map",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/flyover-map.json"
+      }
+    },
+    {
+      "slug": "gate-stepper",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gate Stepper",
+      "serial": "KQ-119",
+      "tagline": "The gates ahead stay in sight.",
+      "description": "A wizard where progress is distance — every remaining gate is visible ahead, receding through the current one; advancing sweeps the active gate past the camera while the line moves up a slot, and a refused gate shakes its head.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "stepper",
+        "wizard",
+        "gates",
+        "spatial",
+        "steps",
+        "form"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "{ id, title, content }[]",
+          "description": "Two to five gates."
+        },
+        {
+          "name": "index / defaultIndex / onIndexChange",
+          "type": "number / number / (index) => void",
+          "description": "Controlled or uncontrolled position."
+        },
+        {
+          "name": "canAdvance",
+          "type": "(index) => boolean",
+          "description": "Gate check before Next; a refusal shakes and announces."
+        },
+        {
+          "name": "nextLabel / backLabel / doneLabel / onComplete",
+          "type": "string / string / string / () => void",
+          "description": "Footer wording and the finish callback."
+        }
+      ],
+      "usageNotes": [
+        "The active gate is a labelled group and every change or refusal is announced politely; ahead and passed gates are hidden from AT.",
+        "Under reduced motion it is a flat stepper — no recession, instant swaps, refusals announce without the shake."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/gate-stepper",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gate-stepper.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gate-stepper",
+        "npm": "npx shadcn@latest add @kinetiq/gate-stepper",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gate-stepper",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gate-stepper",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gate-stepper.json"
+      }
+    },
+    {
+      "slug": "hinge-nav",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Hinge Nav",
+      "serial": "KQ-120",
+      "tagline": "Doors on the frame, not drawers in it.",
+      "description": "Navigation doors hinged on the frame edges — pull a side tab and the panel swings in from edge-on over the dimmed stage, bumping the frame as it lands; Escape or the stage swings it shut.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "nav",
+        "door",
+        "hinge",
+        "panel",
+        "spatial",
+        "disclosure"
+      ],
+      "props": [
+        {
+          "name": "doors",
+          "type": "{ side: \"left\" | \"right\", label, items }[]",
+          "description": "One door per side; one open at a time."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The stage content the doors swing over."
+        },
+        {
+          "name": "onSelect",
+          "type": "(side, id) => void",
+          "description": "Fires when a door row is chosen; the door closes after."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "Tabs carry aria-expanded, the door is a labelled region, focus moves to the first row on open and returns to the tab on Escape.",
+        "Under reduced motion doors fade-slide in flat with no rotation or frame bump."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/hinge-nav",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hinge-nav.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hinge-nav",
+        "npm": "npx shadcn@latest add @kinetiq/hinge-nav",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hinge-nav",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hinge-nav",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hinge-nav.json"
       }
     },
     {

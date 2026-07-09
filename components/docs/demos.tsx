@@ -94,6 +94,9 @@ import { CardFanDemo } from "@/registry/demos/card-fan.demo";
 import { HallwayMenuDemo } from "@/registry/demos/hallway-menu.demo";
 import { DeckSwitcherDemo } from "@/registry/demos/deck-switcher.demo";
 import { FlyoverMapDemo } from "@/registry/demos/flyover-map.demo";
+import { GateStepperDemo } from "@/registry/demos/gate-stepper.demo";
+import { HingeNavDemo } from "@/registry/demos/hinge-nav.demo";
+import { DepthStackDemo } from "@/registry/demos/depth-stack.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -194,4 +197,7 @@ export const demos: Record<string, ComponentType> = {
   "hallway-menu": HallwayMenuDemo,
   "deck-switcher": DeckSwitcherDemo,
   "flyover-map": FlyoverMapDemo,
+  "gate-stepper": GateStepperDemo,
+  "hinge-nav": HingeNavDemo,
+  "depth-stack": DepthStackDemo,
 };

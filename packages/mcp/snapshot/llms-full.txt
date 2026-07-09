@@ -1096,6 +1096,23 @@ Notes:
 - Full menu semantics — the trigger has aria-haspopup, items are menuitems, Escape closes, and each reaction is announced.
 - Under reduced motion the picker opens without stagger and selecting bumps the tally with no fly-up.
 
+### Depth Stack (KQ-061) — `depth-stack`
+Browse the pile, layer by layer.
+
+A face-on pile of layers browsed along the z-axis — scroll a notch, drag, or arrow through; the active layer sits crisp while the rest recede into a stepped skyline of peeking headers.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/depth-stack`
+
+Props:
+- `layers`: { id, label, content }[] — Three to eight layers, front to deepest.
+- `index / defaultIndex / onIndexChange`: number / number / (index) => void — Controlled or uncontrolled active layer; fires once per settle.
+- `height`: number (default 260) — Stage height in px.
+- `aria-label`: string — Required — names the layer stack.
+
+Notes:
+- Arrows and the wheel move one layer, Home and End jump on the glide spring, tick-rail buttons carry aria-current, and settles are announced.
+- Under reduced motion the active layer renders alone beneath a compressed label shelf with instant swaps.
+
 ### Facet Cube (KQ-071) — `facet-cube`
 Six faces, one cube, snap detents.
 
@@ -1391,6 +1408,40 @@ Props:
 Notes:
 - The minimap is a navigation landmark of real buttons — aria-current tracks the active district and arrivals are announced politely.
 - Under reduced motion the map renders flat and district clicks jump instantly with no flight.
+
+### Gate Stepper (KQ-119) — `gate-stepper`
+The gates ahead stay in sight.
+
+A wizard where progress is distance — every remaining gate is visible ahead, receding through the current one; advancing sweeps the active gate past the camera while the line moves up a slot, and a refused gate shakes its head.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gate-stepper`
+
+Props:
+- `steps`: { id, title, content }[] — Two to five gates.
+- `index / defaultIndex / onIndexChange`: number / number / (index) => void — Controlled or uncontrolled position.
+- `canAdvance`: (index) => boolean — Gate check before Next; a refusal shakes and announces.
+- `nextLabel / backLabel / doneLabel / onComplete`: string / string / string / () => void — Footer wording and the finish callback.
+
+Notes:
+- The active gate is a labelled group and every change or refusal is announced politely; ahead and passed gates are hidden from AT.
+- Under reduced motion it is a flat stepper — no recession, instant swaps, refusals announce without the shake.
+
+### Hinge Nav (KQ-120) — `hinge-nav`
+Doors on the frame, not drawers in it.
+
+Navigation doors hinged on the frame edges — pull a side tab and the panel swings in from edge-on over the dimmed stage, bumping the frame as it lands; Escape or the stage swings it shut.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hinge-nav`
+
+Props:
+- `doors`: { side: "left" | "right", label, items }[] — One door per side; one open at a time.
+- `children`: ReactNode — The stage content the doors swing over.
+- `onSelect`: (side, id) => void — Fires when a door row is chosen; the door closes after.
+- `height`: number (default 280) — Stage height in px.
+
+Notes:
+- Tabs carry aria-expanded, the door is a labelled region, focus moves to the first row on open and returns to the tab on Escape.
+- Under reduced motion doors fade-slide in flat with no rotation or frame bump.
 
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.

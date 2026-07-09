@@ -3219,4 +3219,126 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the map renders flat and district clicks jump instantly with no flight.",
     ],
   },
+  {
+    name: "gate-stepper",
+    type: "registry:ui",
+    title: "Gate Stepper",
+    description:
+      "A wizard where progress is distance — every remaining gate is visible ahead, receding through the current one; advancing sweeps the active gate past the camera while the line moves up a slot, and a refused gate shakes its head.",
+    files: [{ path: "registry/ui/gate-stepper.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-119" },
+    tagline: "The gates ahead stay in sight.",
+    keywords: ["stepper", "wizard", "gates", "spatial", "steps", "form"],
+    props: [
+      {
+        name: "steps",
+        type: "{ id, title, content }[]",
+        description: "Two to five gates.",
+      },
+      {
+        name: "index / defaultIndex / onIndexChange",
+        type: "number / number / (index) => void",
+        description: "Controlled or uncontrolled position.",
+      },
+      {
+        name: "canAdvance",
+        type: "(index) => boolean",
+        description: "Gate check before Next; a refusal shakes and announces.",
+      },
+      {
+        name: "nextLabel / backLabel / doneLabel / onComplete",
+        type: "string / string / string / () => void",
+        description: "Footer wording and the finish callback.",
+      },
+    ],
+    usageNotes: [
+      "The active gate is a labelled group and every change or refusal is announced politely; ahead and passed gates are hidden from AT.",
+      "Under reduced motion it is a flat stepper — no recession, instant swaps, refusals announce without the shake.",
+    ],
+  },
+  {
+    name: "hinge-nav",
+    type: "registry:ui",
+    title: "Hinge Nav",
+    description:
+      "Navigation doors hinged on the frame edges — pull a side tab and the panel swings in from edge-on over the dimmed stage, bumping the frame as it lands; Escape or the stage swings it shut.",
+    files: [{ path: "registry/ui/hinge-nav.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-120" },
+    tagline: "Doors on the frame, not drawers in it.",
+    keywords: ["nav", "door", "hinge", "panel", "spatial", "disclosure"],
+    props: [
+      {
+        name: "doors",
+        type: '{ side: "left" | "right", label, items }[]',
+        description: "One door per side; one open at a time.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The stage content the doors swing over.",
+      },
+      {
+        name: "onSelect",
+        type: "(side, id) => void",
+        description: "Fires when a door row is chosen; the door closes after.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Tabs carry aria-expanded, the door is a labelled region, focus moves to the first row on open and returns to the tab on Escape.",
+      "Under reduced motion doors fade-slide in flat with no rotation or frame bump.",
+    ],
+  },
+  {
+    name: "depth-stack",
+    type: "registry:ui",
+    title: "Depth Stack",
+    description:
+      "A face-on pile of layers browsed along the z-axis — scroll a notch, drag, or arrow through; the active layer sits crisp while the rest recede into a stepped skyline of peeking headers.",
+    files: [{ path: "registry/ui/depth-stack.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-061" },
+    tagline: "Browse the pile, layer by layer.",
+    keywords: ["stack", "layers", "depth", "spatial", "browse", "pile"],
+    props: [
+      {
+        name: "layers",
+        type: "{ id, label, content }[]",
+        description: "Three to eight layers, front to deepest.",
+      },
+      {
+        name: "index / defaultIndex / onIndexChange",
+        type: "number / number / (index) => void",
+        description: "Controlled or uncontrolled active layer; fires once per settle.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "260",
+        description: "Stage height in px.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Required — names the layer stack.",
+      },
+    ],
+    usageNotes: [
+      "Arrows and the wheel move one layer, Home and End jump on the glide spring, tick-rail buttons carry aria-current, and settles are announced.",
+      "Under reduced motion the active layer renders alone beneath a compressed label shelf with instant swaps.",
+    ],
+  },
 ];
