@@ -7,6 +7,7 @@ const COLUMNS = [
     heading: "LIBRARY",
     links: [
       { href: "/components", label: "Components" },
+      { href: "/explore", label: "Explore" },
       { href: "/blocks", label: "Blocks" },
     ],
   },

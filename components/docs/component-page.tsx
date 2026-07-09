@@ -7,6 +7,7 @@ import { DocTabs } from "@/components/docs/doc-tabs";
 import { InstallCommand } from "@/components/docs/install-command";
 import { PropTable } from "@/components/docs/prop-table";
 import { SpecimenPlate } from "@/components/lab/specimen-plate";
+import { categoryBySlug, categoryOf } from "@/content/categories";
 import type { KinetiqItem } from "@/content/manifest/types";
 
 /**
@@ -23,6 +24,8 @@ export function ComponentDocPage({
   const Demo = demos[item.name];
   const plateLabel = item.name.replace(/-/g, "/").toUpperCase();
   const serial = item.meta?.serial ?? "KQ-000";
+  const category =
+    kind === "components" ? categoryBySlug(categoryOf(item)) : undefined;
   const demoPath = `registry/demos/${item.name}.demo.tsx`;
   const demoSource = sources[demoPath];
 
@@ -78,6 +81,17 @@ export function ComponentDocPage({
           {kind}
         </Link>
         <span aria-hidden>/</span>
+        {category ? (
+          <>
+            <Link
+              href={`/components/category/${category.slug}`}
+              className="hover:text-ink transition-colors"
+            >
+              {category.label}
+            </Link>
+            <span aria-hidden>/</span>
+          </>
+        ) : null}
         <span className="text-ink-2">{item.title}</span>
       </nav>
 

@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 
+import { itemsByCategory } from "../content/categories";
 import { guides } from "../content/guides";
 import { labs } from "../content/labs";
 import { catalogBlocks, catalogComponents } from "../content/manifest";
@@ -7,11 +8,15 @@ import { catalogBlocks, catalogComponents } from "../content/manifest";
 const routes = [
   "/",
   "/components",
+  "/explore",
   "/blocks",
   "/playground",
   "/guides",
   "/agents",
   "/mcp",
+  ...itemsByCategory(catalogComponents).map(
+    ({ category }) => `/components/category/${category.slug}`,
+  ),
   ...catalogComponents.map((c) => `/components/${c.name}`),
   ...catalogBlocks.map((b) => `/blocks/${b.name}`),
   ...labs.map((lab) => `/playground/${lab.slug}`),

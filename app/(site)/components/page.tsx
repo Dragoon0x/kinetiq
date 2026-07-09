@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { itemsByCategory } from "@/content/categories";
 import { catalogComponents } from "@/content/manifest";
 
 export const metadata: Metadata = {
@@ -10,6 +11,8 @@ export const metadata: Metadata = {
 };
 
 export default function ComponentsIndexPage() {
+  const categoryGroups = itemsByCategory(catalogComponents);
+
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-12">
       <p className="text-label text-ink-3">
@@ -20,6 +23,21 @@ export default function ComponentsIndexPage() {
         Every instrument draws from the same five calibrated springs, so
         anything you compose feels machined from one piece.
       </p>
+
+      <nav aria-label="Categories" className="mt-8 flex flex-wrap gap-2">
+        {categoryGroups.map(({ category, items }) => (
+          <Link
+            key={category.slug}
+            href={`/components/category/${category.slug}`}
+            className="border-hairline text-ink-2 hover:text-ink hover:border-hairline-strong inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition-colors"
+          >
+            {category.label}
+            <span aria-hidden className="text-ink-3 font-mono text-[10px]">
+              {items.length}
+            </span>
+          </Link>
+        ))}
+      </nav>
 
       <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {catalogComponents.map((component) => (

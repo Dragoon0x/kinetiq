@@ -5,6 +5,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
+import { itemsByCategory } from "../content/categories";
 import { guides } from "../content/guides";
 import { labs } from "../content/labs";
 import { catalogBlocks, catalogComponents } from "../content/manifest";
@@ -65,6 +66,22 @@ async function main() {
       keywords: ["kinetiq", "home"],
       href: "/",
     },
+    {
+      section: "Pages",
+      title: "Explore",
+      tagline: "The whole catalog, live and filterable.",
+      keywords: ["explore", "gallery", "filter", "browse", "catalog"],
+      href: "/explore",
+    },
+    ...itemsByCategory(catalogComponents).map(
+      ({ category }): SearchEntry => ({
+        section: "Pages",
+        title: `${category.label} components`,
+        tagline: category.blurb,
+        keywords: [category.slug, "category", category.label.toLowerCase()],
+        href: `/components/category/${category.slug}`,
+      }),
+    ),
     {
       section: "Pages",
       title: "Playground",

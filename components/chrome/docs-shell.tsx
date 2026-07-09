@@ -1,35 +1,41 @@
 import {
   DocsSidebar,
-  type SidebarSection,
+  type SidebarGroup,
 } from "@/components/chrome/docs-sidebar";
+import { itemsByCategory } from "@/content/categories";
 import { catalogBlocks, catalogComponents } from "@/content/manifest";
 
-function catalogSections(): SidebarSection[] {
-  return [
-    {
-      heading: "COMPONENTS",
-      items: catalogComponents.map((c) => ({
+function catalogGroups(): SidebarGroup[] {
+  const componentGroups: SidebarGroup[] = itemsByCategory(catalogComponents).map(
+    ({ category, items }) => ({
+      heading: category.label,
+      href: `/components/category/${category.slug}`,
+      items: items.map((c) => ({
         href: `/components/${c.name}`,
         label: c.title,
         serial: c.meta?.serial,
       })),
-    },
-    {
-      heading: "BLOCKS",
-      items: catalogBlocks.map((b) => ({
-        href: `/blocks/${b.name}`,
-        label: b.title,
-        serial: b.meta?.serial,
-      })),
-    },
-  ];
+    }),
+  );
+
+  const blocksGroup: SidebarGroup = {
+    heading: "Blocks",
+    href: "/blocks",
+    items: catalogBlocks.map((b) => ({
+      href: `/blocks/${b.name}`,
+      label: b.title,
+      serial: b.meta?.serial,
+    })),
+  };
+
+  return [...componentGroups, blocksGroup];
 }
 
 /** Sidebar + content shell shared by the components and blocks sections. */
 export function DocsShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto flex w-full max-w-7xl px-6">
-      <DocsSidebar sections={catalogSections()} />
+      <DocsSidebar groups={catalogGroups()} />
       <div className="min-w-0 flex-1">{children}</div>
     </div>
   );
