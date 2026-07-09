@@ -1,4 +1,11 @@
 /**
+ * The origin baked into source docs (the AGENTS.md rules) before the real
+ * deployment origin is known. Build scripts rewrite it to the resolved origin
+ * so no artifact or offline snapshot ever ships a dead install URL.
+ */
+export const PLACEHOLDER_ORIGIN = "https://kinetiq.dev";
+
+/**
  * The canonical origin. Everything that emits an absolute URL — registry
  * install commands, machine catalog, llms.txt, sitemap, OG images — derives
  * from this, in both the Next runtime and the standalone tsx generate scripts.
@@ -12,7 +19,7 @@ const resolveSiteUrl = () => {
   if (explicit) return explicit.replace(/\/$/, "");
   const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
   if (vercel) return `https://${vercel.replace(/\/$/, "")}`;
-  return "https://kinetiq.dev";
+  return PLACEHOLDER_ORIGIN;
 };
 
 export const siteConfig = {
@@ -28,3 +35,14 @@ export const siteConfig = {
 
 export const REGISTRY_ITEM_URL = (slug: string) =>
   `${siteConfig.url}/r/${slug}.json`;
+
+/**
+ * Rewrite the placeholder origin embedded in inlined doc text (the AGENTS.md
+ * rules) to the resolved origin, so registry artifacts and the offline MCP
+ * snapshot never ship a dead install URL. A no-op on local builds, where the
+ * resolved origin is still the placeholder.
+ */
+export const resolveOrigin = (text: string) =>
+  siteConfig.url === PLACEHOLDER_ORIGIN
+    ? text
+    : text.replaceAll(PLACEHOLDER_ORIGIN, siteConfig.url);

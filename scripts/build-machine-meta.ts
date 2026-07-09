@@ -13,6 +13,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 import { buildLlmsFull, buildMachineMeta } from "../content/machine-meta";
+import { resolveOrigin } from "../lib/site-config";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const PUBLIC_DIR = path.join(ROOT, "public");
@@ -21,7 +22,10 @@ const SNAPSHOT_DIR = path.join(ROOT, "packages", "mcp", "snapshot");
 const AGENTS_RULES_SRC = path.join(ROOT, "registry", "files", "agents-rules.md");
 
 async function main() {
-  const agentsRules = await readFile(AGENTS_RULES_SRC, "utf8");
+  // The rules doc hardcodes the placeholder origin; rewrite it to the resolved
+  // origin so the force-static route, llms-full text, and the bundled MCP
+  // snapshot all carry live install URLs (a no-op locally).
+  const agentsRules = resolveOrigin(await readFile(AGENTS_RULES_SRC, "utf8"));
   const meta = buildMachineMeta();
   const metaJson = `${JSON.stringify(meta, null, 2)}\n`;
   const llmsFull = buildLlmsFull(agentsRules);

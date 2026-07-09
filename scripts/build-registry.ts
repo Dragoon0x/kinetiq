@@ -11,7 +11,7 @@ import path from "node:path";
 
 import { allItems } from "../content/manifest";
 import { REGISTRY_FIELDS, type KinetiqItem } from "../content/manifest/types";
-import { REGISTRY_ITEM_URL, siteConfig } from "../lib/site-config";
+import { REGISTRY_ITEM_URL, resolveOrigin, siteConfig } from "../lib/site-config";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 
@@ -78,22 +78,19 @@ async function main() {
   // the placeholder origin (the AGENTS.md rules doc) would ship a dead install
   // URL on a real deployment. Rewrite it to the resolved origin — a no-op
   // locally, where the two are identical.
-  const PLACEHOLDER_ORIGIN = "https://kinetiq.dev";
-  if (siteConfig.url !== PLACEHOLDER_ORIGIN) {
-    let patched = 0;
-    for (const name of await readdir(outDir)) {
-      if (!name.endsWith(".json")) continue;
-      const filePath = path.join(outDir, name);
-      const before = await readFile(filePath, "utf8");
-      const after = before.replaceAll(PLACEHOLDER_ORIGIN, siteConfig.url);
-      if (after !== before) {
-        await writeFile(filePath, after);
-        patched += 1;
-      }
+  let patched = 0;
+  for (const name of await readdir(outDir)) {
+    if (!name.endsWith(".json")) continue;
+    const filePath = path.join(outDir, name);
+    const before = await readFile(filePath, "utf8");
+    const after = resolveOrigin(before);
+    if (after !== before) {
+      await writeFile(filePath, after);
+      patched += 1;
     }
-    if (patched > 0) {
-      console.log(`registry: rewrote placeholder origin in ${patched} artifact(s)`);
-    }
+  }
+  if (patched > 0) {
+    console.log(`registry: rewrote placeholder origin in ${patched} artifact(s)`);
   }
 
   console.log(`registry: ${allItems.length} item(s) → public/r/`);
