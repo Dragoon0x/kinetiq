@@ -219,7 +219,10 @@ export function TraceInput({
       </motion.div>
 
       {description && (
-        <p id={descriptionId} className="text-muted-foreground mt-1.5 text-xs">
+        <p
+          id={descriptionId}
+          className="text-muted-foreground mt-1.5 px-3 text-xs"
+        >
           {description}
         </p>
       )}
@@ -240,7 +243,7 @@ export function TraceInput({
                 ? { duration: durations.base, ease: easings.enter }
                 : { duration: durations.fast }
             }
-            className="text-destructive mt-1.5 flex items-center gap-2 text-xs"
+            className="text-destructive mt-1.5 flex items-center gap-2 px-3 text-xs"
           >
             {/* The dimension line: a 12px hairline pinning the note to the field. */}
             <span aria-hidden className="bg-destructive h-px w-3 shrink-0" />
