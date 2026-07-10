@@ -1915,6 +1915,38 @@ Notes:
 - Tabs carry aria-expanded, the door is a labelled region, focus moves to the first row on open and returns to the tab on Escape.
 - Under reduced motion doors fade-slide in flat with no rotation or frame bump.
 
+### Pop Book (KQ-121) — `pop-book`
+Cutouts that stand up from the fold.
+
+A pop-up spread that opens with scroll — the two page halves relax apart while hinged cutouts stand up from the center fold rank by rank, back row first, every rise scrubbed 1:1.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pop-book`
+
+Props:
+- `pieces`: { id, node, row? }[] — Three to six cutouts; row 0 is the back rank.
+- `onOpenChange`: (openness) => void — Streams the spread, deduped to twentieths.
+- `height`: number (default 280) — Scroll stage height in px.
+
+Notes:
+- An sr-only list carries every cutout; the spread is presentational and the region scrolls natively.
+- Under reduced motion the plate renders fully open and static.
+
+### Iso Blocks (KQ-122) — `iso-blocks`
+A district that rises to meet you.
+
+An isometric block city drawn entirely in flat 2D — every cuboid is three clip-path faces shaded from one hue, so the projection is Safari-proof by construction; blocks rise to the hand and light their roofs.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/iso-blocks`
+
+Props:
+- `blocks`: { id, label, storeys?, hue? }[] — Four to twelve blocks on a near-square grid.
+- `onInspect`: (id) => void — Fires when a block is pressed.
+- `cell`: number (default 64) — Grid cell width in px.
+
+Notes:
+- Every block is a real button — keyboard focus raises and lights it exactly like hover.
+- Under reduced motion the city reads as a flat top-down survey with the same buttons.
+
 ### Swing Door (KQ-151) — `swing-door`
 Past the detent or slammed home.
 

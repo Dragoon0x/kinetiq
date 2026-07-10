@@ -3152,6 +3152,59 @@
       }
     },
     {
+      "name": "pop-book",
+      "type": "registry:ui",
+      "title": "Pop Book",
+      "description": "A pop-up spread that opens with scroll — the two page halves relax apart while hinged cutouts stand up from the center fold rank by rank, back row first, every rise scrubbed 1:1.",
+      "files": [
+        {
+          "path": "registry/ui/pop-book.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-121"
+      }
+    },
+    {
+      "name": "iso-blocks",
+      "type": "registry:ui",
+      "title": "Iso Blocks",
+      "description": "An isometric block city drawn entirely in flat 2D — every cuboid is three clip-path faces shaded from one hue, so the projection is Safari-proof by construction; blocks rise to the hand and light their roofs.",
+      "files": [
+        {
+          "path": "registry/ui/iso-blocks.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-122"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

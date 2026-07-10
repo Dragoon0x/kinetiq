@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 119,
+      "components": 121,
       "blocks": 16,
       "shared": 6
     }
@@ -6918,6 +6918,125 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/hinge-nav",
         "bun": "bunx --bun shadcn@latest add @kinetiq/hinge-nav",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hinge-nav.json"
+      }
+    },
+    {
+      "slug": "pop-book",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pop Book",
+      "serial": "KQ-121",
+      "tagline": "Cutouts that stand up from the fold.",
+      "description": "A pop-up spread that opens with scroll — the two page halves relax apart while hinged cutouts stand up from the center fold rank by rank, back row first, every rise scrubbed 1:1.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "pop-up",
+        "book",
+        "spread",
+        "scroll",
+        "spatial",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "pieces",
+          "type": "{ id, node, row? }[]",
+          "description": "Three to six cutouts; row 0 is the back rank."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(openness) => void",
+          "description": "Streams the spread, deduped to twentieths."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "Scroll stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "An sr-only list carries every cutout; the spread is presentational and the region scrolls natively.",
+        "Under reduced motion the plate renders fully open and static."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/pop-book",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/pop-book.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pop-book",
+        "npm": "npx shadcn@latest add @kinetiq/pop-book",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pop-book",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pop-book",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/pop-book.json"
+      }
+    },
+    {
+      "slug": "iso-blocks",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Iso Blocks",
+      "serial": "KQ-122",
+      "tagline": "A district that rises to meet you.",
+      "description": "An isometric block city drawn entirely in flat 2D — every cuboid is three clip-path faces shaded from one hue, so the projection is Safari-proof by construction; blocks rise to the hand and light their roofs.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "isometric",
+        "blocks",
+        "city",
+        "grid",
+        "spatial",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "blocks",
+          "type": "{ id, label, storeys?, hue? }[]",
+          "description": "Four to twelve blocks on a near-square grid."
+        },
+        {
+          "name": "onInspect",
+          "type": "(id) => void",
+          "description": "Fires when a block is pressed."
+        },
+        {
+          "name": "cell",
+          "type": "number",
+          "defaultValue": "64",
+          "description": "Grid cell width in px."
+        }
+      ],
+      "usageNotes": [
+        "Every block is a real button — keyboard focus raises and lights it exactly like hover.",
+        "Under reduced motion the city reads as a flat top-down survey with the same buttons."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/iso-blocks",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/iso-blocks.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/iso-blocks",
+        "npm": "npx shadcn@latest add @kinetiq/iso-blocks",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/iso-blocks",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/iso-blocks",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/iso-blocks.json"
       }
     },
     {

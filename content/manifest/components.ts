@@ -4858,4 +4858,76 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the deck fades between raised and bridged with no chains or runner.",
     ],
   },
+  {
+    name: "pop-book",
+    type: "registry:ui",
+    title: "Pop Book",
+    description:
+      "A pop-up spread that opens with scroll — the two page halves relax apart while hinged cutouts stand up from the center fold rank by rank, back row first, every rise scrubbed 1:1.",
+    files: [{ path: "registry/ui/pop-book.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-121" },
+    tagline: "Cutouts that stand up from the fold.",
+    keywords: ["pop-up", "book", "spread", "scroll", "spatial", "scene"],
+    props: [
+      {
+        name: "pieces",
+        type: "{ id, node, row? }[]",
+        description: "Three to six cutouts; row 0 is the back rank.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(openness) => void",
+        description: "Streams the spread, deduped to twentieths.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Scroll stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "An sr-only list carries every cutout; the spread is presentational and the region scrolls natively.",
+      "Under reduced motion the plate renders fully open and static.",
+    ],
+  },
+  {
+    name: "iso-blocks",
+    type: "registry:ui",
+    title: "Iso Blocks",
+    description:
+      "An isometric block city drawn entirely in flat 2D — every cuboid is three clip-path faces shaded from one hue, so the projection is Safari-proof by construction; blocks rise to the hand and light their roofs.",
+    files: [{ path: "registry/ui/iso-blocks.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-122" },
+    tagline: "A district that rises to meet you.",
+    keywords: ["isometric", "blocks", "city", "grid", "spatial", "scene"],
+    props: [
+      {
+        name: "blocks",
+        type: "{ id, label, storeys?, hue? }[]",
+        description: "Four to twelve blocks on a near-square grid.",
+      },
+      {
+        name: "onInspect",
+        type: "(id) => void",
+        description: "Fires when a block is pressed.",
+      },
+      {
+        name: "cell",
+        type: "number",
+        defaultValue: "64",
+        description: "Grid cell width in px.",
+      },
+    ],
+    usageNotes: [
+      "Every block is a real button — keyboard focus raises and lights it exactly like hover.",
+      "Under reduced motion the city reads as a flat top-down survey with the same buttons.",
+    ],
+  },
 ];

@@ -136,6 +136,8 @@ import { ComboDialsDemo } from "@/registry/demos/combo-dials.demo";
 import { ZipperSeamDemo } from "@/registry/demos/zipper-seam.demo";
 import { TrapdoorDropDemo } from "@/registry/demos/trapdoor-drop.demo";
 import { DrawbridgeDemo } from "@/registry/demos/drawbridge.demo";
+import { PopBookDemo } from "@/registry/demos/pop-book.demo";
+import { IsoBlocksDemo } from "@/registry/demos/iso-blocks.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -278,4 +280,6 @@ export const demos: Record<string, ComponentType> = {
   "zipper-seam": ZipperSeamDemo,
   "trapdoor-drop": TrapdoorDropDemo,
   drawbridge: DrawbridgeDemo,
+  "pop-book": PopBookDemo,
+  "iso-blocks": IsoBlocksDemo,
 };
