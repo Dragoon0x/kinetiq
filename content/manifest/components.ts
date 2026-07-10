@@ -4482,4 +4482,118 @@ export const components: KinetiqItem[] = [
       "Under reduced motion it renders as a flat list with the same buttons and selection.",
     ],
   },
+  {
+    name: "swing-door",
+    type: "registry:ui",
+    title: "Swing Door",
+    description:
+      "A hinged door with handle physics — drag it past the detent and it swings wide on the glide spring; let go early and it slams home, shuddering the frame and puffing a dust line at the jamb.",
+    files: [{ path: "registry/ui/swing-door.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-151" },
+    tagline: "Past the detent or slammed home.",
+    keywords: ["door", "hinge", "slam", "disclosure", "spatial", "mechanism"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "What waits in the doorway.",
+      },
+      {
+        name: "doorFace",
+        type: "ReactNode",
+        description: "Artwork on the door; defaults to a minted panel.",
+      },
+      {
+        name: "open / defaultOpen / onOpenChange",
+        type: "boolean / boolean / (open) => void",
+        description: "Controlled or uncontrolled door state.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "240",
+        description: "Frame height in px.",
+      },
+    ],
+    usageNotes: [
+      "The handle is a real button with aria-expanded; Escape slams the door and focus returns to the handle.",
+      "Under reduced motion the door slides flat with no slam or shudder.",
+    ],
+  },
+  {
+    name: "hatch-board",
+    type: "registry:ui",
+    title: "Hatch Board",
+    description:
+      "A grid of spring-loaded hatches — every lid pops open on its own snap spring to reveal the well beneath, latches shut with a click pulse, and the whole board can cascade open or closed from a corner.",
+    files: [{ path: "registry/ui/hatch-board.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-152" },
+    tagline: "Every lid rides its own spring.",
+    keywords: ["hatch", "grid", "lids", "reveal", "spatial", "mechanism"],
+    props: [
+      {
+        name: "hatches",
+        type: "{ id, label, lid, well }[]",
+        description: "Four to nine hatches; the label names each disclosure.",
+      },
+      {
+        name: "openIds / defaultOpenIds / onOpenChange",
+        type: "string[] / string[] / (openIds) => void",
+        description: "Controlled or uncontrolled open set.",
+      },
+      {
+        name: "columns / cellAspect",
+        type: "number / number",
+        defaultValue: "3 / 1.1",
+        description: "Board shape.",
+      },
+    ],
+    usageNotes: [
+      "Each lid is a real disclosure button; wells are labelled regions, inert while shut, and the open count is announced.",
+      "Under reduced motion lids fade flat with no pops or cascade.",
+    ],
+  },
+  {
+    name: "gear-train",
+    type: "registry:ui",
+    title: "Gear Train",
+    description:
+      "Three meshed gears with honest ratios — drag any wheel and the transmission carries your hand to a needle on the output shaft; teeth stay interleaved at every angle by construction, and releases coast on a velocity-seeded drift.",
+    files: [{ path: "registry/ui/gear-train.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-153" },
+    tagline: "Ratios you can feel.",
+    keywords: ["gears", "transmission", "mechanism", "spatial", "dial", "ratio"],
+    props: [
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "number / number / (value) => void",
+        description: "Controlled or uncontrolled needle value, 0-100; fires once per settle.",
+      },
+      {
+        name: "teeth",
+        type: "[number, number, number]",
+        defaultValue: "[12, 18, 24]",
+        description: "Drive, idler, and output tooth counts.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "240",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The train is one slider — arrows step by two, Page keys by ten, Home and End glide the rails, and every settle is announced by value.",
+      "Under reduced motion gears track the hand one-to-one with no coast; the tooth-tick blink remains as an opacity cue.",
+    ],
+  },
 ];

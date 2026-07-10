@@ -1915,6 +1915,55 @@ Notes:
 - Tabs carry aria-expanded, the door is a labelled region, focus moves to the first row on open and returns to the tab on Escape.
 - Under reduced motion doors fade-slide in flat with no rotation or frame bump.
 
+### Swing Door (KQ-151) — `swing-door`
+Past the detent or slammed home.
+
+A hinged door with handle physics — drag it past the detent and it swings wide on the glide spring; let go early and it slams home, shuddering the frame and puffing a dust line at the jamb.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/swing-door`
+
+Props:
+- `children`: ReactNode — What waits in the doorway.
+- `doorFace`: ReactNode — Artwork on the door; defaults to a minted panel.
+- `open / defaultOpen / onOpenChange`: boolean / boolean / (open) => void — Controlled or uncontrolled door state.
+- `height`: number (default 240) — Frame height in px.
+
+Notes:
+- The handle is a real button with aria-expanded; Escape slams the door and focus returns to the handle.
+- Under reduced motion the door slides flat with no slam or shudder.
+
+### Hatch Board (KQ-152) — `hatch-board`
+Every lid rides its own spring.
+
+A grid of spring-loaded hatches — every lid pops open on its own snap spring to reveal the well beneath, latches shut with a click pulse, and the whole board can cascade open or closed from a corner.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hatch-board`
+
+Props:
+- `hatches`: { id, label, lid, well }[] — Four to nine hatches; the label names each disclosure.
+- `openIds / defaultOpenIds / onOpenChange`: string[] / string[] / (openIds) => void — Controlled or uncontrolled open set.
+- `columns / cellAspect`: number / number (default 3 / 1.1) — Board shape.
+
+Notes:
+- Each lid is a real disclosure button; wells are labelled regions, inert while shut, and the open count is announced.
+- Under reduced motion lids fade flat with no pops or cascade.
+
+### Gear Train (KQ-153) — `gear-train`
+Ratios you can feel.
+
+Three meshed gears with honest ratios — drag any wheel and the transmission carries your hand to a needle on the output shaft; teeth stay interleaved at every angle by construction, and releases coast on a velocity-seeded drift.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gear-train`
+
+Props:
+- `value / defaultValue / onValueChange`: number / number / (value) => void — Controlled or uncontrolled needle value, 0-100; fires once per settle.
+- `teeth`: [number, number, number] (default [12, 18, 24]) — Drive, idler, and output tooth counts.
+- `height`: number (default 240) — Stage height in px.
+
+Notes:
+- The train is one slider — arrows step by two, Page keys by ten, Home and End glide the rails, and every settle is announced by value.
+- Under reduced motion gears track the hand one-to-one with no coast; the tooth-tick blink remains as an opacity cue.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -126,6 +126,9 @@ import { ConvergeQuoteDemo } from "@/registry/demos/converge-quote.demo";
 import { ShadowScriptDemo } from "@/registry/demos/shadow-script.demo";
 import { PunchTypeDemo } from "@/registry/demos/punch-type.demo";
 import { HelixIndexDemo } from "@/registry/demos/helix-index.demo";
+import { SwingDoorDemo } from "@/registry/demos/swing-door.demo";
+import { HatchBoardDemo } from "@/registry/demos/hatch-board.demo";
+import { GearTrainDemo } from "@/registry/demos/gear-train.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -258,4 +261,7 @@ export const demos: Record<string, ComponentType> = {
   "shadow-script": ShadowScriptDemo,
   "punch-type": PunchTypeDemo,
   "helix-index": HelixIndexDemo,
+  "swing-door": SwingDoorDemo,
+  "hatch-board": HatchBoardDemo,
+  "gear-train": GearTrainDemo,
 };

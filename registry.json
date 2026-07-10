@@ -2882,6 +2882,87 @@
       }
     },
     {
+      "name": "swing-door",
+      "type": "registry:ui",
+      "title": "Swing Door",
+      "description": "A hinged door with handle physics — drag it past the detent and it swings wide on the glide spring; let go early and it slams home, shuddering the frame and puffing a dust line at the jamb.",
+      "files": [
+        {
+          "path": "registry/ui/swing-door.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-151"
+      }
+    },
+    {
+      "name": "hatch-board",
+      "type": "registry:ui",
+      "title": "Hatch Board",
+      "description": "A grid of spring-loaded hatches — every lid pops open on its own snap spring to reveal the well beneath, latches shut with a click pulse, and the whole board can cascade open or closed from a corner.",
+      "files": [
+        {
+          "path": "registry/ui/hatch-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-152"
+      }
+    },
+    {
+      "name": "gear-train",
+      "type": "registry:ui",
+      "title": "Gear Train",
+      "description": "Three meshed gears with honest ratios — drag any wheel and the transmission carries your hand to a needle on the output shaft; teeth stay interleaved at every angle by construction, and releases coast on a velocity-seeded drift.",
+      "files": [
+        {
+          "path": "registry/ui/gear-train.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-153"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
