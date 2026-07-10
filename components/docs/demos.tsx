@@ -174,6 +174,8 @@ import { RainPaneDemo } from "@/registry/demos/rain-pane.demo";
 import { SunShaftDemo } from "@/registry/demos/sun-shaft.demo";
 import { FireflyFieldDemo } from "@/registry/demos/firefly-field.demo";
 import { VaporRingDemo } from "@/registry/demos/vapor-ring.demo";
+import { GravityWellDemo } from "@/registry/demos/gravity-well.demo";
+import { PaperFlightDemo } from "@/registry/demos/paper-flight.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -354,4 +356,6 @@ export const demos: Record<string, ComponentType> = {
   "sun-shaft": SunShaftDemo,
   "firefly-field": FireflyFieldDemo,
   "vapor-ring": VaporRingDemo,
+  "gravity-well": GravityWellDemo,
+  "paper-flight": PaperFlightDemo,
 };

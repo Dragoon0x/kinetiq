@@ -4169,6 +4169,58 @@
       }
     },
     {
+      "name": "gravity-well",
+      "type": "registry:ui",
+      "title": "Gravity Well",
+      "description": "Bodies orbit a gravity well that follows the pointer — a softened pull holds them in ellipses, motion trails streaking their paths; flick the well fast and a stream slingshots free before the field draws it back.",
+      "files": [
+        {
+          "path": "registry/ui/gravity-well.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-139"
+      }
+    },
+    {
+      "name": "paper-flight",
+      "type": "registry:ui",
+      "title": "Paper Flight",
+      "description": "Folded gliders drift across the hangar at their own depths; click the sky and one launches on a bezier flight, banking to face its path and scaling with the arc before it fades at the far edge.",
+      "files": [
+        {
+          "path": "registry/ui/paper-flight.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-140"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

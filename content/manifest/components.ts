@@ -6343,4 +6343,80 @@ export const components: KinetiqItem[] = [
       "Under reduced motion a click draws one static ring, replaced on the next click, with no loop.",
     ],
   },
+  {
+    name: "gravity-well",
+    type: "registry:ui",
+    title: "Gravity Well",
+    description:
+      "Bodies orbit a gravity well that follows the pointer — a softened pull holds them in ellipses, motion trails streaking their paths; flick the well fast and a stream slingshots free before the field draws it back.",
+    files: [{ path: "registry/ui/gravity-well.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-139" },
+    tagline: "Draw the well; fling fast to slingshot bodies free.",
+    keywords: ["gravity", "orbit", "particles", "canvas", "spatial", "physics"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "120",
+        description: "Orbiting body count, capped for cheapness.",
+      },
+      {
+        name: "onFling",
+        type: "(flung) => void",
+        description: "Fires when a fling slings bodies free and when it settles.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Field height in px.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is aria-hidden with a polite live region; the pointer is the well, easing back to center when it leaves.",
+      "The field pauses off-screen and when hidden, rebasing its clock so the orbits never jump.",
+      "Under reduced motion it paints one static frame of concentric orbital rings with no loop.",
+    ],
+  },
+  {
+    name: "paper-flight",
+    type: "registry:ui",
+    title: "Paper Flight",
+    description:
+      "Folded gliders drift across the hangar at their own depths; click the sky and one launches on a bezier flight, banking to face its path and scaling with the arc before it fades at the far edge.",
+    files: [{ path: "registry/ui/paper-flight.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-140" },
+    tagline: "Click the sky; a glider swoops across on its path.",
+    keywords: ["paper", "glider", "canvas", "flight", "spatial", "bezier"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "7",
+        description: "Ambient drifting gliders, clamped to a cheap range.",
+      },
+      {
+        name: "onLaunch",
+        type: "(index) => void",
+        description: "Fires the launched flight index per launch.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Hangar height in px.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is aria-hidden with a keyboard Launch button, so a flight can be sent without a pointer.",
+      "Flights pool to a fixed cap, so rapid clicks stay cheap; each launch fires onLaunch with its index.",
+      "Under reduced motion the gliders pose at rest and a launch drops one static mid-flight glider, no loop.",
+    ],
+  },
 ];
