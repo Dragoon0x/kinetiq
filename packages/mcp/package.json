@@ -1,6 +1,6 @@
 {
   "name": "@kinetiqui/mcp",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Model Context Protocol server for the Kinetiq motion design system — search, read, and install components from any AI agent.",
   "type": "module",
   "license": "MIT",
