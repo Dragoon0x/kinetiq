@@ -4369,4 +4369,117 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the quote renders assembled and static.",
     ],
   },
+  {
+    name: "shadow-script",
+    type: "registry:ui",
+    title: "Shadow Script",
+    description:
+      "Drag the lamp along its arc and the type's cast shadow stretches, skews, and finally becomes legible — because the shadow is a second message, sharpening as the light swings low.",
+    files: [{ path: "registry/ui/shadow-script.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-108" },
+    tagline: "The shadow has something to say.",
+    keywords: ["shadow", "light", "text", "reveal", "spatial", "secret"],
+    props: [
+      {
+        name: "text / secret",
+        type: "string / string",
+        description: "The standing headline and the message hidden in its shadow.",
+      },
+      {
+        name: "defaultAngle",
+        type: "number",
+        defaultValue: "0",
+        description: "Light angle, -60 to 60 degrees.",
+      },
+      {
+        name: "onReveal",
+        type: "(revealed) => void",
+        description: "Fires crossing legibility in either direction.",
+      },
+    ],
+    usageNotes: [
+      "The lamp is a real slider — arrows nudge by four degrees, Home and End reach the extremes, and aria-valuetext reads the angle.",
+      "Both texts always live in an sr-only line; under reduced motion the shadow renders pre-stretched and legible.",
+    ],
+  },
+  {
+    name: "punch-type",
+    type: "registry:ui",
+    title: "Punch Type",
+    description:
+      "A word die-cut through the surface — the letterforms are true SVG mask cutouts onto a vista behind, and sweeping the pointer shifts the scene so the windows fill with moving color.",
+    files: [{ path: "registry/ui/punch-type.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-109" },
+    tagline: "Letters as windows.",
+    keywords: ["stencil", "mask", "cutout", "text", "spatial", "parallax"],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "One short word, punched at display size.",
+      },
+      {
+        name: "scene",
+        type: "ReactNode",
+        description: "The layer behind; defaults to a deterministic vista.",
+      },
+      {
+        name: "depth / height",
+        type: "number / number",
+        defaultValue: "16 / 200",
+        description: "Max scene counter-shift and stage height.",
+      },
+    ],
+    usageNotes: [
+      "The plate is a labelled image with an adjacent interaction note; nothing inside is focusable.",
+      "Under reduced motion and coarse pointers the vista rests at a fixed offset.",
+    ],
+  },
+  {
+    name: "helix-index",
+    type: "registry:ui",
+    title: "Helix Index",
+    description:
+      "An index wound on a spiral staircase — winding the coil also travels it, so the front record always reads mid-stage; drag, scroll a notch, or arrow through, and Enter pulls the record facing you.",
+    files: [{ path: "registry/ui/helix-index.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-110" },
+    tagline: "Wind the spiral; read the front.",
+    keywords: ["helix", "spiral", "index", "list", "spatial", "3d"],
+    props: [
+      {
+        name: "items",
+        type: "{ id, label, hint? }[]",
+        description: "Five to twelve records on the coil.",
+      },
+      {
+        name: "value / defaultValue / onSelect",
+        type: "string | null / same / (id) => void",
+        description: "Controlled or uncontrolled selection; default also seats the coil.",
+      },
+      {
+        name: "radius / pitch / stepDeg / height",
+        type: "number / number / number / number",
+        defaultValue: "96 / 34 / 40 / 260",
+        description: "Coil geometry and stage height.",
+      },
+    ],
+    usageNotes: [
+      "One roving tab stop — arrows wind one record, Home and End glide the coil, and the settled record is announced.",
+      "Under reduced motion it renders as a flat list with the same buttons and selection.",
+    ],
+  },
 ];

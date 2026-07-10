@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 106,
+      "components": 109,
       "blocks": 16,
       "shared": 6
     }
@@ -6122,6 +6122,186 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/converge-quote",
         "bun": "bunx --bun shadcn@latest add @kinetiq/converge-quote",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/converge-quote.json"
+      }
+    },
+    {
+      "slug": "shadow-script",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Shadow Script",
+      "serial": "KQ-108",
+      "tagline": "The shadow has something to say.",
+      "description": "Drag the lamp along its arc and the type's cast shadow stretches, skews, and finally becomes legible — because the shadow is a second message, sharpening as the light swings low.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "shadow",
+        "light",
+        "text",
+        "reveal",
+        "spatial",
+        "secret"
+      ],
+      "props": [
+        {
+          "name": "text / secret",
+          "type": "string / string",
+          "description": "The standing headline and the message hidden in its shadow."
+        },
+        {
+          "name": "defaultAngle",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Light angle, -60 to 60 degrees."
+        },
+        {
+          "name": "onReveal",
+          "type": "(revealed) => void",
+          "description": "Fires crossing legibility in either direction."
+        }
+      ],
+      "usageNotes": [
+        "The lamp is a real slider — arrows nudge by four degrees, Home and End reach the extremes, and aria-valuetext reads the angle.",
+        "Both texts always live in an sr-only line; under reduced motion the shadow renders pre-stretched and legible."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/shadow-script",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/shadow-script.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/shadow-script",
+        "npm": "npx shadcn@latest add @kinetiq/shadow-script",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/shadow-script",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/shadow-script",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/shadow-script.json"
+      }
+    },
+    {
+      "slug": "punch-type",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Punch Type",
+      "serial": "KQ-109",
+      "tagline": "Letters as windows.",
+      "description": "A word die-cut through the surface — the letterforms are true SVG mask cutouts onto a vista behind, and sweeping the pointer shifts the scene so the windows fill with moving color.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "stencil",
+        "mask",
+        "cutout",
+        "text",
+        "spatial",
+        "parallax"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "One short word, punched at display size."
+        },
+        {
+          "name": "scene",
+          "type": "ReactNode",
+          "description": "The layer behind; defaults to a deterministic vista."
+        },
+        {
+          "name": "depth / height",
+          "type": "number / number",
+          "defaultValue": "16 / 200",
+          "description": "Max scene counter-shift and stage height."
+        }
+      ],
+      "usageNotes": [
+        "The plate is a labelled image with an adjacent interaction note; nothing inside is focusable.",
+        "Under reduced motion and coarse pointers the vista rests at a fixed offset."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/punch-type",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/punch-type.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/punch-type",
+        "npm": "npx shadcn@latest add @kinetiq/punch-type",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/punch-type",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/punch-type",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/punch-type.json"
+      }
+    },
+    {
+      "slug": "helix-index",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Helix Index",
+      "serial": "KQ-110",
+      "tagline": "Wind the spiral; read the front.",
+      "description": "An index wound on a spiral staircase — winding the coil also travels it, so the front record always reads mid-stage; drag, scroll a notch, or arrow through, and Enter pulls the record facing you.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "helix",
+        "spiral",
+        "index",
+        "list",
+        "spatial",
+        "3d"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id, label, hint? }[]",
+          "description": "Five to twelve records on the coil."
+        },
+        {
+          "name": "value / defaultValue / onSelect",
+          "type": "string | null / same / (id) => void",
+          "description": "Controlled or uncontrolled selection; default also seats the coil."
+        },
+        {
+          "name": "radius / pitch / stepDeg / height",
+          "type": "number / number / number / number",
+          "defaultValue": "96 / 34 / 40 / 260",
+          "description": "Coil geometry and stage height."
+        }
+      ],
+      "usageNotes": [
+        "One roving tab stop — arrows wind one record, Home and End glide the coil, and the settled record is announced.",
+        "Under reduced motion it renders as a flat list with the same buttons and selection."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/helix-index",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/helix-index.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/helix-index",
+        "npm": "npx shadcn@latest add @kinetiq/helix-index",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/helix-index",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/helix-index",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/helix-index.json"
       }
     },
     {

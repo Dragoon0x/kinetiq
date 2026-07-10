@@ -123,6 +123,9 @@ import { PathTypeDemo } from "@/registry/demos/path-type.demo";
 import { BillboardRunDemo } from "@/registry/demos/billboard-run.demo";
 import { TurnWordDemo } from "@/registry/demos/turn-word.demo";
 import { ConvergeQuoteDemo } from "@/registry/demos/converge-quote.demo";
+import { ShadowScriptDemo } from "@/registry/demos/shadow-script.demo";
+import { PunchTypeDemo } from "@/registry/demos/punch-type.demo";
+import { HelixIndexDemo } from "@/registry/demos/helix-index.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -252,4 +255,7 @@ export const demos: Record<string, ComponentType> = {
   "billboard-run": BillboardRunDemo,
   "turn-word": TurnWordDemo,
   "converge-quote": ConvergeQuoteDemo,
+  "shadow-script": ShadowScriptDemo,
+  "punch-type": PunchTypeDemo,
+  "helix-index": HelixIndexDemo,
 };

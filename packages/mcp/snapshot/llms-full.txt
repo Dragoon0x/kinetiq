@@ -1704,6 +1704,54 @@ Notes:
 - An sr-only blockquote carries the full quote; the floating lines are presentational and the region scrolls natively.
 - Under reduced motion the quote renders assembled and static.
 
+### Shadow Script (KQ-108) — `shadow-script`
+The shadow has something to say.
+
+Drag the lamp along its arc and the type's cast shadow stretches, skews, and finally becomes legible — because the shadow is a second message, sharpening as the light swings low.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/shadow-script`
+
+Props:
+- `text / secret`: string / string — The standing headline and the message hidden in its shadow.
+- `defaultAngle`: number (default 0) — Light angle, -60 to 60 degrees.
+- `onReveal`: (revealed) => void — Fires crossing legibility in either direction.
+
+Notes:
+- The lamp is a real slider — arrows nudge by four degrees, Home and End reach the extremes, and aria-valuetext reads the angle.
+- Both texts always live in an sr-only line; under reduced motion the shadow renders pre-stretched and legible.
+
+### Punch Type (KQ-109) — `punch-type`
+Letters as windows.
+
+A word die-cut through the surface — the letterforms are true SVG mask cutouts onto a vista behind, and sweeping the pointer shifts the scene so the windows fill with moving color.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/punch-type`
+
+Props:
+- `text`: string — One short word, punched at display size.
+- `scene`: ReactNode — The layer behind; defaults to a deterministic vista.
+- `depth / height`: number / number (default 16 / 200) — Max scene counter-shift and stage height.
+
+Notes:
+- The plate is a labelled image with an adjacent interaction note; nothing inside is focusable.
+- Under reduced motion and coarse pointers the vista rests at a fixed offset.
+
+### Helix Index (KQ-110) — `helix-index`
+Wind the spiral; read the front.
+
+An index wound on a spiral staircase — winding the coil also travels it, so the front record always reads mid-stage; drag, scroll a notch, or arrow through, and Enter pulls the record facing you.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/helix-index`
+
+Props:
+- `items`: { id, label, hint? }[] — Five to twelve records on the coil.
+- `value / defaultValue / onSelect`: string | null / same / (id) => void — Controlled or uncontrolled selection; default also seats the coil.
+- `radius / pitch / stepDeg / height`: number / number / number / number (default 96 / 34 / 40 / 260) — Coil geometry and stage height.
+
+Notes:
+- One roving tab stop — arrows wind one record, Home and End glide the coil, and the settled record is announced.
+- Under reduced motion it renders as a flat list with the same buttons and selection.
+
 ### Ring Dial (KQ-111) — `ring-dial`
 Stops that pull like magnets.
 

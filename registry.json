@@ -2801,6 +2801,87 @@
       }
     },
     {
+      "name": "shadow-script",
+      "type": "registry:ui",
+      "title": "Shadow Script",
+      "description": "Drag the lamp along its arc and the type's cast shadow stretches, skews, and finally becomes legible — because the shadow is a second message, sharpening as the light swings low.",
+      "files": [
+        {
+          "path": "registry/ui/shadow-script.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-108"
+      }
+    },
+    {
+      "name": "punch-type",
+      "type": "registry:ui",
+      "title": "Punch Type",
+      "description": "A word die-cut through the surface — the letterforms are true SVG mask cutouts onto a vista behind, and sweeping the pointer shifts the scene so the windows fill with moving color.",
+      "files": [
+        {
+          "path": "registry/ui/punch-type.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-109"
+      }
+    },
+    {
+      "name": "helix-index",
+      "type": "registry:ui",
+      "title": "Helix Index",
+      "description": "An index wound on a spiral staircase — winding the coil also travels it, so the front record always reads mid-stage; drag, scroll a notch, or arrow through, and Enter pulls the record facing you.",
+      "files": [
+        {
+          "path": "registry/ui/helix-index.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-110"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
