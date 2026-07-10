@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 151,
+      "components": 154,
       "blocks": 16,
       "shared": 6
     }
@@ -8274,6 +8274,194 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/depth-fog",
         "bun": "bunx --bun shadcn@latest add @kinetiq/depth-fog",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/depth-fog.json"
+      }
+    },
+    {
+      "slug": "ember-column",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ember Column",
+      "serial": "KQ-133",
+      "tagline": "The embers lean toward you as you pass.",
+      "description": "A column of embers rises off the forge flue, each spark brightening then fading as it climbs and swaying on its own draft; sweep the pointer across and the whole stream leans toward you, easing back to vertical as you leave.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "embers",
+        "particles",
+        "canvas",
+        "fire",
+        "spatial",
+        "column"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "90",
+          "description": "Ember count, capped for cheapness."
+        },
+        {
+          "name": "onEmberPass",
+          "type": "(rate) => void",
+          "description": "Streams a coarse embers-per-second rate, deduped."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Flue height in px."
+        }
+      ],
+      "usageNotes": [
+        "The canvas is aria-hidden with a polite live region; the pointer bends the stream with a vertical falloff.",
+        "The column pauses off-screen and when hidden, rebasing its clock so the rise never jumps.",
+        "Under reduced motion it paints one static frozen frame with no animation loop."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/ember-column",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/ember-column.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ember-column",
+        "npm": "npx shadcn@latest add @kinetiq/ember-column",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ember-column",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ember-column",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/ember-column.json"
+      }
+    },
+    {
+      "slug": "constellation-map",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Constellation Map",
+      "serial": "KQ-134",
+      "tagline": "Turn the sky; links form, click to pin a star.",
+      "description": "A cloud of stars you turn with a drag — spin the sky and it coasts to a stop, links stitch between the stars nearest the cursor, and clicking a named star pins it with a label; the named stars are reachable from a keyboard list too.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "constellation",
+        "stars",
+        "canvas",
+        "point-cloud",
+        "spatial",
+        "3d"
+      ],
+      "props": [
+        {
+          "name": "stars",
+          "type": "Star[]",
+          "description": "Named, pinnable stars plotted in the cloud."
+        },
+        {
+          "name": "extra",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "Unlabelled filler stars for density."
+        },
+        {
+          "name": "onPin",
+          "type": "(id | null) => void",
+          "description": "Fires the pinned star id, null when unpinned."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Sky height in px."
+        }
+      ],
+      "usageNotes": [
+        "The named stars are reachable from a keyboard button list that pins and orbits one to the front.",
+        "The cloud coasts on release then idle-stops the loop once nothing is moving, to save battery.",
+        "Under reduced motion the sky is static, links forming on hover with a single repaint and no loop."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/constellation-map",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/constellation-map.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/constellation-map",
+        "npm": "npx shadcn@latest add @kinetiq/constellation-map",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/constellation-map",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/constellation-map",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/constellation-map.json"
+      }
+    },
+    {
+      "slug": "rain-pane",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rain Pane",
+      "serial": "KQ-135",
+      "tagline": "Tap the glass; the rain splashes where you touch.",
+      "description": "Rain runs down a glass pane at two depths — near streaks fall fast and bright, far ones slow and faint — and tapping the glass splashes a ring of droplets wherever you touch.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "rain",
+        "canvas",
+        "ambient",
+        "splash",
+        "spatial",
+        "weather"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "70",
+          "description": "Total streaks across both depths, capped."
+        },
+        {
+          "name": "onSplash",
+          "type": "(at) => void",
+          "description": "Fires the { x, y } of each tap splash."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Pane height in px."
+        }
+      ],
+      "usageNotes": [
+        "Cheap and gated — the rain pauses off-screen and when the tab is hidden, rebasing its clock.",
+        "Splashes pool to a fixed cap, so rapid taps stay light; each tap fires onSplash with its point.",
+        "Under reduced motion a few streaks freeze in place and a tap draws one static splash ring."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/rain-pane",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/rain-pane.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rain-pane",
+        "npm": "npx shadcn@latest add @kinetiq/rain-pane",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rain-pane",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rain-pane",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/rain-pane.json"
       }
     },
     {

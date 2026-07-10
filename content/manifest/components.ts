@@ -6116,4 +6116,123 @@ export const components: KinetiqItem[] = [
       "Under reduced motion it holds a static, mostly-parted frame so the content is never trapped behind haze.",
     ],
   },
+  {
+    name: "ember-column",
+    type: "registry:ui",
+    title: "Ember Column",
+    description:
+      "A column of embers rises off the forge flue, each spark brightening then fading as it climbs and swaying on its own draft; sweep the pointer across and the whole stream leans toward you, easing back to vertical as you leave.",
+    files: [{ path: "registry/ui/ember-column.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-133" },
+    tagline: "The embers lean toward you as you pass.",
+    keywords: ["embers", "particles", "canvas", "fire", "spatial", "column"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "90",
+        description: "Ember count, capped for cheapness.",
+      },
+      {
+        name: "onEmberPass",
+        type: "(rate) => void",
+        description: "Streams a coarse embers-per-second rate, deduped.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Flue height in px.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is aria-hidden with a polite live region; the pointer bends the stream with a vertical falloff.",
+      "The column pauses off-screen and when hidden, rebasing its clock so the rise never jumps.",
+      "Under reduced motion it paints one static frozen frame with no animation loop.",
+    ],
+  },
+  {
+    name: "constellation-map",
+    type: "registry:ui",
+    title: "Constellation Map",
+    description:
+      "A cloud of stars you turn with a drag — spin the sky and it coasts to a stop, links stitch between the stars nearest the cursor, and clicking a named star pins it with a label; the named stars are reachable from a keyboard list too.",
+    files: [{ path: "registry/ui/constellation-map.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-134" },
+    tagline: "Turn the sky; links form, click to pin a star.",
+    keywords: ["constellation", "stars", "canvas", "point-cloud", "spatial", "3d"],
+    props: [
+      {
+        name: "stars",
+        type: "Star[]",
+        description: "Named, pinnable stars plotted in the cloud.",
+      },
+      {
+        name: "extra",
+        type: "number",
+        defaultValue: "60",
+        description: "Unlabelled filler stars for density.",
+      },
+      {
+        name: "onPin",
+        type: "(id | null) => void",
+        description: "Fires the pinned star id, null when unpinned.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Sky height in px.",
+      },
+    ],
+    usageNotes: [
+      "The named stars are reachable from a keyboard button list that pins and orbits one to the front.",
+      "The cloud coasts on release then idle-stops the loop once nothing is moving, to save battery.",
+      "Under reduced motion the sky is static, links forming on hover with a single repaint and no loop.",
+    ],
+  },
+  {
+    name: "rain-pane",
+    type: "registry:ui",
+    title: "Rain Pane",
+    description:
+      "Rain runs down a glass pane at two depths — near streaks fall fast and bright, far ones slow and faint — and tapping the glass splashes a ring of droplets wherever you touch.",
+    files: [{ path: "registry/ui/rain-pane.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-135" },
+    tagline: "Tap the glass; the rain splashes where you touch.",
+    keywords: ["rain", "canvas", "ambient", "splash", "spatial", "weather"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "70",
+        description: "Total streaks across both depths, capped.",
+      },
+      {
+        name: "onSplash",
+        type: "(at) => void",
+        description: "Fires the { x, y } of each tap splash.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Pane height in px.",
+      },
+    ],
+    usageNotes: [
+      "Cheap and gated — the rain pauses off-screen and when the tab is hidden, rebasing its clock.",
+      "Splashes pool to a fixed cap, so rapid taps stay light; each tap fires onSplash with its point.",
+      "Under reduced motion a few streaks freeze in place and a tap draws one static splash ring.",
+    ],
+  },
 ];

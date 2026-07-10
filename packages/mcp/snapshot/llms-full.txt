@@ -2282,6 +2282,58 @@ Notes:
 - The fog pauses off-screen and when hidden, rebasing its drift clock so it never jumps on resume.
 - Under reduced motion it holds a static, mostly-parted frame so the content is never trapped behind haze.
 
+### Ember Column (KQ-133) — `ember-column`
+The embers lean toward you as you pass.
+
+A column of embers rises off the forge flue, each spark brightening then fading as it climbs and swaying on its own draft; sweep the pointer across and the whole stream leans toward you, easing back to vertical as you leave.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ember-column`
+
+Props:
+- `count`: number (default 90) — Ember count, capped for cheapness.
+- `onEmberPass`: (rate) => void — Streams a coarse embers-per-second rate, deduped.
+- `height`: number (default 300) — Flue height in px.
+
+Notes:
+- The canvas is aria-hidden with a polite live region; the pointer bends the stream with a vertical falloff.
+- The column pauses off-screen and when hidden, rebasing its clock so the rise never jumps.
+- Under reduced motion it paints one static frozen frame with no animation loop.
+
+### Constellation Map (KQ-134) — `constellation-map`
+Turn the sky; links form, click to pin a star.
+
+A cloud of stars you turn with a drag — spin the sky and it coasts to a stop, links stitch between the stars nearest the cursor, and clicking a named star pins it with a label; the named stars are reachable from a keyboard list too.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/constellation-map`
+
+Props:
+- `stars`: Star[] — Named, pinnable stars plotted in the cloud.
+- `extra`: number (default 60) — Unlabelled filler stars for density.
+- `onPin`: (id | null) => void — Fires the pinned star id, null when unpinned.
+- `height`: number (default 300) — Sky height in px.
+
+Notes:
+- The named stars are reachable from a keyboard button list that pins and orbits one to the front.
+- The cloud coasts on release then idle-stops the loop once nothing is moving, to save battery.
+- Under reduced motion the sky is static, links forming on hover with a single repaint and no loop.
+
+### Rain Pane (KQ-135) — `rain-pane`
+Tap the glass; the rain splashes where you touch.
+
+Rain runs down a glass pane at two depths — near streaks fall fast and bright, far ones slow and faint — and tapping the glass splashes a ring of droplets wherever you touch.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rain-pane`
+
+Props:
+- `count`: number (default 70) — Total streaks across both depths, capped.
+- `onSplash`: (at) => void — Fires the { x, y } of each tap splash.
+- `height`: number (default 300) — Pane height in px.
+
+Notes:
+- Cheap and gated — the rain pauses off-screen and when the tab is hidden, rebasing its clock.
+- Splashes pool to a fixed cap, so rapid taps stay light; each tap fires onSplash with its point.
+- Under reduced motion a few streaks freeze in place and a tap draws one static splash ring.
+
 ### Terrain Relief (KQ-141) — `terrain-relief`
 Orbit the relief; a node reads its elevation.
 

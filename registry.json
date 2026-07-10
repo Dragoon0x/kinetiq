@@ -4013,6 +4013,84 @@
       }
     },
     {
+      "name": "ember-column",
+      "type": "registry:ui",
+      "title": "Ember Column",
+      "description": "A column of embers rises off the forge flue, each spark brightening then fading as it climbs and swaying on its own draft; sweep the pointer across and the whole stream leans toward you, easing back to vertical as you leave.",
+      "files": [
+        {
+          "path": "registry/ui/ember-column.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-133"
+      }
+    },
+    {
+      "name": "constellation-map",
+      "type": "registry:ui",
+      "title": "Constellation Map",
+      "description": "A cloud of stars you turn with a drag — spin the sky and it coasts to a stop, links stitch between the stars nearest the cursor, and clicking a named star pins it with a label; the named stars are reachable from a keyboard list too.",
+      "files": [
+        {
+          "path": "registry/ui/constellation-map.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-134"
+      }
+    },
+    {
+      "name": "rain-pane",
+      "type": "registry:ui",
+      "title": "Rain Pane",
+      "description": "Rain runs down a glass pane at two depths — near streaks fall fast and bright, far ones slow and faint — and tapping the glass splashes a ring of droplets wherever you touch.",
+      "files": [
+        {
+          "path": "registry/ui/rain-pane.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-135"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

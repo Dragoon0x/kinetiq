@@ -168,6 +168,9 @@ import { LittlePlanetDemo } from "@/registry/demos/little-planet.demo";
 import { FisheyeGridDemo } from "@/registry/demos/fisheye-grid.demo";
 import { StarWarpDemo } from "@/registry/demos/star-warp.demo";
 import { DepthFogDemo } from "@/registry/demos/depth-fog.demo";
+import { EmberColumnDemo } from "@/registry/demos/ember-column.demo";
+import { ConstellationMapDemo } from "@/registry/demos/constellation-map.demo";
+import { RainPaneDemo } from "@/registry/demos/rain-pane.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -342,4 +345,7 @@ export const demos: Record<string, ComponentType> = {
   "fisheye-grid": FisheyeGridDemo,
   "star-warp": StarWarpDemo,
   "depth-fog": DepthFogDemo,
+  "ember-column": EmberColumnDemo,
+  "constellation-map": ConstellationMapDemo,
+  "rain-pane": RainPaneDemo,
 };
