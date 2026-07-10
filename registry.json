@@ -2185,6 +2185,59 @@
       }
     },
     {
+      "name": "focus-rack",
+      "type": "registry:ui",
+      "title": "Focus Rack",
+      "description": "Layered planes at staggered depths with one in focus — the rest wait soft and dim behind it; racking focus dollies the chosen plane forward on the glide spring while the previous one settles back into the blur.",
+      "files": [
+        {
+          "path": "registry/ui/focus-rack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-065"
+      }
+    },
+    {
+      "name": "layer-peel",
+      "type": "registry:ui",
+      "title": "Layer Peel",
+      "description": "Drag the corner grip and the top sheet peels back on its left hinge, shading as it lifts while the layer beneath rises to meet it — release past the detent to tear it away, release early and it recoils shut.",
+      "files": [
+        {
+          "path": "registry/ui/layer-peel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-066"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

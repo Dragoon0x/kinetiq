@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 83,
+      "components": 85,
       "blocks": 16,
       "shared": 6
     }
@@ -4060,6 +4060,131 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/hover-relief",
         "bun": "bunx --bun shadcn@latest add @kinetiq/hover-relief",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hover-relief.json"
+      }
+    },
+    {
+      "slug": "focus-rack",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Focus Rack",
+      "serial": "KQ-065",
+      "tagline": "Rack focus between the planes.",
+      "description": "Layered planes at staggered depths with one in focus — the rest wait soft and dim behind it; racking focus dollies the chosen plane forward on the glide spring while the previous one settles back into the blur.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "focus",
+        "planes",
+        "blur",
+        "depth",
+        "spatial",
+        "rack"
+      ],
+      "props": [
+        {
+          "name": "planes",
+          "type": "{ id, label, content }[]",
+          "description": "Two to four planes, nearest first."
+        },
+        {
+          "name": "focusId / defaultFocusId / onFocusChange",
+          "type": "string / string / (id) => void",
+          "description": "Controlled or uncontrolled focused plane."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "240",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "The rail chips are the keyboard path — real buttons with aria-pressed; the focused plane is announced politely.",
+        "Under reduced motion focus swaps with a fast tween and no dolly; the soft blur is capped at 3px everywhere."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/focus-rack",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/focus-rack.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/focus-rack",
+        "npm": "npx shadcn@latest add @kinetiq/focus-rack",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/focus-rack",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/focus-rack",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/focus-rack.json"
+      }
+    },
+    {
+      "slug": "layer-peel",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Layer Peel",
+      "serial": "KQ-066",
+      "tagline": "Peel past the detent or snap back.",
+      "description": "Drag the corner grip and the top sheet peels back on its left hinge, shading as it lifts while the layer beneath rises to meet it — release past the detent to tear it away, release early and it recoils shut.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "peel",
+        "layers",
+        "drag",
+        "reveal",
+        "spatial",
+        "detent"
+      ],
+      "props": [
+        {
+          "name": "layers",
+          "type": "{ id, label, content }[]",
+          "description": "Two to six sheets, top first."
+        },
+        {
+          "name": "onPeel",
+          "type": "(id) => void",
+          "description": "Fires as a sheet tears away."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Cycle back to the first sheet after the last."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "230",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "The grip is a real button — a plain click or Enter performs a full peel, so the keyboard tears the same sheet.",
+        "Under reduced motion peeling advances instantly with no hinge or recoil."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/layer-peel",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/layer-peel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/layer-peel",
+        "npm": "npx shadcn@latest add @kinetiq/layer-peel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/layer-peel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/layer-peel",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/layer-peel.json"
       }
     },
     {

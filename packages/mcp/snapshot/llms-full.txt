@@ -1162,6 +1162,39 @@ Notes:
 - Every tile is a real button — keyboard focus lifts it to full height and Enter pops it like a click.
 - Under reduced motion the relief is a flat hover highlight and clicks fire without the pop.
 
+### Focus Rack (KQ-065) — `focus-rack`
+Rack focus between the planes.
+
+Layered planes at staggered depths with one in focus — the rest wait soft and dim behind it; racking focus dollies the chosen plane forward on the glide spring while the previous one settles back into the blur.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/focus-rack`
+
+Props:
+- `planes`: { id, label, content }[] — Two to four planes, nearest first.
+- `focusId / defaultFocusId / onFocusChange`: string / string / (id) => void — Controlled or uncontrolled focused plane.
+- `height`: number (default 240) — Stage height in px.
+
+Notes:
+- The rail chips are the keyboard path — real buttons with aria-pressed; the focused plane is announced politely.
+- Under reduced motion focus swaps with a fast tween and no dolly; the soft blur is capped at 3px everywhere.
+
+### Layer Peel (KQ-066) — `layer-peel`
+Peel past the detent or snap back.
+
+Drag the corner grip and the top sheet peels back on its left hinge, shading as it lifts while the layer beneath rises to meet it — release past the detent to tear it away, release early and it recoils shut.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/layer-peel`
+
+Props:
+- `layers`: { id, label, content }[] — Two to six sheets, top first.
+- `onPeel`: (id) => void — Fires as a sheet tears away.
+- `loop`: boolean (default true) — Cycle back to the first sheet after the last.
+- `height`: number (default 230) — Stage height in px.
+
+Notes:
+- The grip is a real button — a plain click or Enter performs a full peel, so the keyboard tears the same sheet.
+- Under reduced motion peeling advances instantly with no hinge or recoil.
+
 ### Facet Cube (KQ-071) — `facet-cube`
 Six faces, one cube, snap detents.
 

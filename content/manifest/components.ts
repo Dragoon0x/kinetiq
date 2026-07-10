@@ -3466,4 +3466,82 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the relief is a flat hover highlight and clicks fire without the pop.",
     ],
   },
+  {
+    name: "focus-rack",
+    type: "registry:ui",
+    title: "Focus Rack",
+    description:
+      "Layered planes at staggered depths with one in focus — the rest wait soft and dim behind it; racking focus dollies the chosen plane forward on the glide spring while the previous one settles back into the blur.",
+    files: [{ path: "registry/ui/focus-rack.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-065" },
+    tagline: "Rack focus between the planes.",
+    keywords: ["focus", "planes", "blur", "depth", "spatial", "rack"],
+    props: [
+      {
+        name: "planes",
+        type: "{ id, label, content }[]",
+        description: "Two to four planes, nearest first.",
+      },
+      {
+        name: "focusId / defaultFocusId / onFocusChange",
+        type: "string / string / (id) => void",
+        description: "Controlled or uncontrolled focused plane.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "240",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The rail chips are the keyboard path — real buttons with aria-pressed; the focused plane is announced politely.",
+      "Under reduced motion focus swaps with a fast tween and no dolly; the soft blur is capped at 3px everywhere.",
+    ],
+  },
+  {
+    name: "layer-peel",
+    type: "registry:ui",
+    title: "Layer Peel",
+    description:
+      "Drag the corner grip and the top sheet peels back on its left hinge, shading as it lifts while the layer beneath rises to meet it — release past the detent to tear it away, release early and it recoils shut.",
+    files: [{ path: "registry/ui/layer-peel.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-066" },
+    tagline: "Peel past the detent or snap back.",
+    keywords: ["peel", "layers", "drag", "reveal", "spatial", "detent"],
+    props: [
+      {
+        name: "layers",
+        type: "{ id, label, content }[]",
+        description: "Two to six sheets, top first.",
+      },
+      {
+        name: "onPeel",
+        type: "(id) => void",
+        description: "Fires as a sheet tears away.",
+      },
+      {
+        name: "loop",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Cycle back to the first sheet after the last.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "230",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The grip is a real button — a plain click or Enter performs a full peel, so the keyboard tears the same sheet.",
+      "Under reduced motion peeling advances instantly with no hinge or recoil.",
+    ],
+  },
 ];

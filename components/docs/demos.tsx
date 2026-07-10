@@ -100,6 +100,8 @@ import { DepthStackDemo } from "@/registry/demos/depth-stack.demo";
 import { PeekPortalDemo } from "@/registry/demos/peek-portal.demo";
 import { StrataScrollDemo } from "@/registry/demos/strata-scroll.demo";
 import { HoverReliefDemo } from "@/registry/demos/hover-relief.demo";
+import { FocusRackDemo } from "@/registry/demos/focus-rack.demo";
+import { LayerPeelDemo } from "@/registry/demos/layer-peel.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -206,4 +208,6 @@ export const demos: Record<string, ComponentType> = {
   "peek-portal": PeekPortalDemo,
   "strata-scroll": StrataScrollDemo,
   "hover-relief": HoverReliefDemo,
+  "focus-rack": FocusRackDemo,
+  "layer-peel": LayerPeelDemo,
 };
