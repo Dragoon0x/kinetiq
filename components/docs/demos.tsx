@@ -141,6 +141,9 @@ import { IsoBlocksDemo } from "@/registry/demos/iso-blocks.demo";
 import { LiftTrayDemo } from "@/registry/demos/lift-tray.demo";
 import { ShakerDomeDemo } from "@/registry/demos/shaker-dome.demo";
 import { DaylightDialDemo } from "@/registry/demos/daylight-dial.demo";
+import { CutoutTownDemo } from "@/registry/demos/cutout-town.demo";
+import { TransitWindowDemo } from "@/registry/demos/transit-window.demo";
+import { SpotlightStageDemo } from "@/registry/demos/spotlight-stage.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -288,4 +291,7 @@ export const demos: Record<string, ComponentType> = {
   "lift-tray": LiftTrayDemo,
   "shaker-dome": ShakerDomeDemo,
   "daylight-dial": DaylightDialDemo,
+  "cutout-town": CutoutTownDemo,
+  "transit-window": TransitWindowDemo,
+  "spotlight-stage": SpotlightStageDemo,
 };

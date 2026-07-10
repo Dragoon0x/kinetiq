@@ -1994,6 +1994,54 @@ Notes:
 - The track is one slider — arrows step an hour, Page keys three, Home and End bound the day, and aria-valuetext reads the clock.
 - Naturally reduced-motion-safe: the scene scrubs one-to-one with the dial and merely loses its spring lag.
 
+### Cutout Town (KQ-126) — `cutout-town`
+Buildings that stand up from the plan.
+
+A town plan whose buildings stand up from their plots as you scroll — each plot wakes before its band, the facade rotates upright from flat, and a base shadow widens beneath it; windows are lit deterministically per building.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cutout-town`
+
+Props:
+- `buildings`: { id, label, width, height, x }[] — Three to six facades and their plots.
+- `onRaised`: (count) => void — How many stand fully, deduped.
+- `stageHeight`: number (default 280) — Scroll stage height in px.
+
+Notes:
+- An sr-only list carries every building; the plan is presentational and the region scrolls natively.
+- Under reduced motion the town renders fully built and static.
+
+### Transit Window (KQ-127) — `transit-window`
+The near fence outruns the far hills.
+
+A train window whose landscape passes with your scroll — three looping parallax bands at honest speeds, mile markers that file past on the first lap, and a cabin sway that leans only with scroll velocity.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/transit-window`
+
+Props:
+- `journey`: number (default 4) — Track length as a multiple of the stage height.
+- `onMilestone`: (marker) => void — Fires as each of four mile markers passes.
+- `height`: number (default 250) — Cabin height in px.
+
+Notes:
+- An sr-only line describes the scene; the region scrolls natively and the distance readout renders without re-renders.
+- Under reduced motion the landscape holds a mid-journey frame while the readout still tracks.
+
+### Spotlight Stage (KQ-128) — `spotlight-stage`
+Acts step into the light.
+
+A dark stage where one sprung beam is the single truth — the rig cone and floor pool derive from it, every act brightens on a gaussian falloff as the light passes, and a click holds an act in the spot until Escape reopens the stage.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spotlight-stage`
+
+Props:
+- `acts`: { id, label, node }[] — Two to four plates on the stage.
+- `value / defaultValue / onSpot`: string | null / same / (id) => void — Controlled or uncontrolled spotlit act.
+- `height`: number (default 250) — Stage height in px.
+
+Notes:
+- Every act is a real button — keyboard focus summons the beam, Enter commits regardless of the spring, Escape reopens the stage.
+- Under reduced motion the house lights are even and selection is an accent border with no beam.
+
 ### Swing Door (KQ-151) — `swing-door`
 Past the detent or slammed home.
 

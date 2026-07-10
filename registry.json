@@ -3287,6 +3287,88 @@
       }
     },
     {
+      "name": "cutout-town",
+      "type": "registry:ui",
+      "title": "Cutout Town",
+      "description": "A town plan whose buildings stand up from their plots as you scroll — each plot wakes before its band, the facade rotates upright from flat, and a base shadow widens beneath it; windows are lit deterministically per building.",
+      "files": [
+        {
+          "path": "registry/ui/cutout-town.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-126"
+      }
+    },
+    {
+      "name": "transit-window",
+      "type": "registry:ui",
+      "title": "Transit Window",
+      "description": "A train window whose landscape passes with your scroll — three looping parallax bands at honest speeds, mile markers that file past on the first lap, and a cabin sway that leans only with scroll velocity.",
+      "files": [
+        {
+          "path": "registry/ui/transit-window.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-127"
+      }
+    },
+    {
+      "name": "spotlight-stage",
+      "type": "registry:ui",
+      "title": "Spotlight Stage",
+      "description": "A dark stage where one sprung beam is the single truth — the rig cone and floor pool derive from it, every act brightens on a gaussian falloff as the light passes, and a click holds an act in the spot until Escape reopens the stage.",
+      "files": [
+        {
+          "path": "registry/ui/spotlight-stage.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-128"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

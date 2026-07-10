@@ -5040,4 +5040,119 @@ export const components: KinetiqItem[] = [
       "Naturally reduced-motion-safe: the scene scrubs one-to-one with the dial and merely loses its spring lag.",
     ],
   },
+  {
+    name: "cutout-town",
+    type: "registry:ui",
+    title: "Cutout Town",
+    description:
+      "A town plan whose buildings stand up from their plots as you scroll — each plot wakes before its band, the facade rotates upright from flat, and a base shadow widens beneath it; windows are lit deterministically per building.",
+    files: [{ path: "registry/ui/cutout-town.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-126" },
+    tagline: "Buildings that stand up from the plan.",
+    keywords: ["town", "buildings", "scroll", "rise", "spatial", "scene"],
+    props: [
+      {
+        name: "buildings",
+        type: "{ id, label, width, height, x }[]",
+        description: "Three to six facades and their plots.",
+      },
+      {
+        name: "onRaised",
+        type: "(count) => void",
+        description: "How many stand fully, deduped.",
+      },
+      {
+        name: "stageHeight",
+        type: "number",
+        defaultValue: "280",
+        description: "Scroll stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "An sr-only list carries every building; the plan is presentational and the region scrolls natively.",
+      "Under reduced motion the town renders fully built and static.",
+    ],
+  },
+  {
+    name: "transit-window",
+    type: "registry:ui",
+    title: "Transit Window",
+    description:
+      "A train window whose landscape passes with your scroll — three looping parallax bands at honest speeds, mile markers that file past on the first lap, and a cabin sway that leans only with scroll velocity.",
+    files: [{ path: "registry/ui/transit-window.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-127" },
+    tagline: "The near fence outruns the far hills.",
+    keywords: ["train", "window", "parallax", "journey", "spatial", "scene"],
+    props: [
+      {
+        name: "journey",
+        type: "number",
+        defaultValue: "4",
+        description: "Track length as a multiple of the stage height.",
+      },
+      {
+        name: "onMilestone",
+        type: "(marker) => void",
+        description: "Fires as each of four mile markers passes.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "250",
+        description: "Cabin height in px.",
+      },
+    ],
+    usageNotes: [
+      "An sr-only line describes the scene; the region scrolls natively and the distance readout renders without re-renders.",
+      "Under reduced motion the landscape holds a mid-journey frame while the readout still tracks.",
+    ],
+  },
+  {
+    name: "spotlight-stage",
+    type: "registry:ui",
+    title: "Spotlight Stage",
+    description:
+      "A dark stage where one sprung beam is the single truth — the rig cone and floor pool derive from it, every act brightens on a gaussian falloff as the light passes, and a click holds an act in the spot until Escape reopens the stage.",
+    files: [{ path: "registry/ui/spotlight-stage.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spatial",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-128" },
+    tagline: "Acts step into the light.",
+    keywords: ["spotlight", "stage", "light", "beam", "spatial", "scene"],
+    props: [
+      {
+        name: "acts",
+        type: "{ id, label, node }[]",
+        description: "Two to four plates on the stage.",
+      },
+      {
+        name: "value / defaultValue / onSpot",
+        type: "string | null / same / (id) => void",
+        description: "Controlled or uncontrolled spotlit act.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "250",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Every act is a real button — keyboard focus summons the beam, Enter commits regardless of the spring, Escape reopens the stage.",
+      "Under reduced motion the house lights are even and selection is an accent border with no beam.",
+    ],
+  },
 ];
