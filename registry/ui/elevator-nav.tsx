@@ -377,7 +377,7 @@ type FloorStackProps = {
 function FloorStack({ floors, height, carY }: FloorStackProps) {
   return (
     <motion.div className="absolute inset-x-0 top-0" style={{ y: carY }}>
-      {floors.map((floor, idx) => (
+      {floors.map((floor) => (
         <div
           key={floor.id}
           className="flex items-center justify-center p-4 text-center"

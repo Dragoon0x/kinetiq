@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 148,
+      "components": 151,
       "blocks": 16,
       "shared": 6
     }
@@ -8156,6 +8156,127 @@
       }
     },
     {
+      "slug": "star-warp",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Star Warp",
+      "serial": "KQ-131",
+      "tagline": "Hold to jump to warp; steer the streaks.",
+      "description": "A starfield streaming past the cabin — hold to jump to warp and the stars stretch into streaks, move to steer the vanishing point toward the pointer, then release and they ease back down to a cruise.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "starfield",
+        "warp",
+        "canvas",
+        "hyperspace",
+        "spatial",
+        "stars"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "180",
+          "description": "Star count, clamped to a sane maximum."
+        },
+        {
+          "name": "onWarp",
+          "type": "(warping) => void",
+          "description": "Fires as the drive enters and leaves warp."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Field height in px."
+        }
+      ],
+      "usageNotes": [
+        "The canvas is aria-hidden with a keyboard Hold-to-warp button, so the effect is fully operable without a pointer.",
+        "The field pauses off-screen and when the tab is hidden, rebasing its clock so the stream never jumps.",
+        "Under reduced motion it paints one static sparse frame with no animation loop."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/star-warp",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/star-warp.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/star-warp",
+        "npm": "npx shadcn@latest add @kinetiq/star-warp",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/star-warp",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/star-warp",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/star-warp.json"
+      }
+    },
+    {
+      "slug": "depth-fog",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Depth Fog",
+      "serial": "KQ-132",
+      "tagline": "Sweep the fog aside to read beneath it.",
+      "description": "Drifting banks of fog roll across the panel at parallax depths and part around the pointer to reveal the survey beneath, closing back in the moment you move on.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "fog",
+        "haze",
+        "canvas",
+        "reveal",
+        "spatial",
+        "parallax"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The content revealed behind the fog (real DOM)."
+        },
+        {
+          "name": "onClear",
+          "type": "(clearing) => void",
+          "description": "Fires as the pointer starts and stops parting the fog."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Panel height in px."
+        }
+      ],
+      "usageNotes": [
+        "The content behind is real DOM, so it stays readable to assistive tech regardless of the fog above it.",
+        "The fog pauses off-screen and when hidden, rebasing its drift clock so it never jumps on resume.",
+        "Under reduced motion it holds a static, mostly-parted frame so the content is never trapped behind haze."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/depth-fog",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/depth-fog.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/depth-fog",
+        "npm": "npx shadcn@latest add @kinetiq/depth-fog",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/depth-fog",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/depth-fog",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/depth-fog.json"
+      }
+    },
+    {
       "slug": "terrain-relief",
       "kind": "component",
       "type": "registry:ui",
@@ -8412,6 +8533,73 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/radar-scope",
         "bun": "bunx --bun shadcn@latest add @kinetiq/radar-scope",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/radar-scope.json"
+      }
+    },
+    {
+      "slug": "fisheye-grid",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Fisheye Grid",
+      "serial": "KQ-145",
+      "tagline": "Sweep the lens; tiles bulge up beneath it.",
+      "description": "A magnifier you sweep across a grid — tiles under the lens bulge up and spread apart in a radial fisheye, the largest riding to the front while the rest ease back to rest, and the tile at the lens center reads out as you go.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "fisheye",
+        "lens",
+        "magnifier",
+        "grid",
+        "spatial",
+        "distortion"
+      ],
+      "props": [
+        {
+          "name": "cells",
+          "type": "FisheyeCell[]",
+          "description": "Tiles laid on a near-square grid under the lens."
+        },
+        {
+          "name": "onFocusCell",
+          "type": "(id | null) => void",
+          "description": "Fires the tile at the lens center, null off-grid."
+        },
+        {
+          "name": "lensRadius / strength",
+          "type": "number",
+          "defaultValue": "110 / 0.6",
+          "description": "Lens reach in px and bulge magnitude."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Grid height in px."
+        }
+      ],
+      "usageNotes": [
+        "On fine pointers the lens glides under the cursor; on touch it drags a puck; arrows move it a tile at a time.",
+        "Every tile derives its bulge from the shared lens value, so nothing writes state per pointer-move.",
+        "Under reduced motion the lens drops and a discrete focused tile scales up in place instead."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/fisheye-grid",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/fisheye-grid.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/fisheye-grid",
+        "npm": "npx shadcn@latest add @kinetiq/fisheye-grid",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/fisheye-grid",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/fisheye-grid",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/fisheye-grid.json"
       }
     },
     {

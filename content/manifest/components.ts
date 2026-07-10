@@ -5998,4 +5998,122 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the sections sit in a static ring and surface with an instant jump.",
     ],
   },
+  {
+    name: "fisheye-grid",
+    type: "registry:ui",
+    title: "Fisheye Grid",
+    description:
+      "A magnifier you sweep across a grid — tiles under the lens bulge up and spread apart in a radial fisheye, the largest riding to the front while the rest ease back to rest, and the tile at the lens center reads out as you go.",
+    files: [{ path: "registry/ui/fisheye-grid.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-145" },
+    tagline: "Sweep the lens; tiles bulge up beneath it.",
+    keywords: ["fisheye", "lens", "magnifier", "grid", "spatial", "distortion"],
+    props: [
+      {
+        name: "cells",
+        type: "FisheyeCell[]",
+        description: "Tiles laid on a near-square grid under the lens.",
+      },
+      {
+        name: "onFocusCell",
+        type: "(id | null) => void",
+        description: "Fires the tile at the lens center, null off-grid.",
+      },
+      {
+        name: "lensRadius / strength",
+        type: "number",
+        defaultValue: "110 / 0.6",
+        description: "Lens reach in px and bulge magnitude.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Grid height in px.",
+      },
+    ],
+    usageNotes: [
+      "On fine pointers the lens glides under the cursor; on touch it drags a puck; arrows move it a tile at a time.",
+      "Every tile derives its bulge from the shared lens value, so nothing writes state per pointer-move.",
+      "Under reduced motion the lens drops and a discrete focused tile scales up in place instead.",
+    ],
+  },
+  {
+    name: "star-warp",
+    type: "registry:ui",
+    title: "Star Warp",
+    description:
+      "A starfield streaming past the cabin — hold to jump to warp and the stars stretch into streaks, move to steer the vanishing point toward the pointer, then release and they ease back down to a cruise.",
+    files: [{ path: "registry/ui/star-warp.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-131" },
+    tagline: "Hold to jump to warp; steer the streaks.",
+    keywords: ["starfield", "warp", "canvas", "hyperspace", "spatial", "stars"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "180",
+        description: "Star count, clamped to a sane maximum.",
+      },
+      {
+        name: "onWarp",
+        type: "(warping) => void",
+        description: "Fires as the drive enters and leaves warp.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Field height in px.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is aria-hidden with a keyboard Hold-to-warp button, so the effect is fully operable without a pointer.",
+      "The field pauses off-screen and when the tab is hidden, rebasing its clock so the stream never jumps.",
+      "Under reduced motion it paints one static sparse frame with no animation loop.",
+    ],
+  },
+  {
+    name: "depth-fog",
+    type: "registry:ui",
+    title: "Depth Fog",
+    description:
+      "Drifting banks of fog roll across the panel at parallax depths and part around the pointer to reveal the survey beneath, closing back in the moment you move on.",
+    files: [{ path: "registry/ui/depth-fog.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-132" },
+    tagline: "Sweep the fog aside to read beneath it.",
+    keywords: ["fog", "haze", "canvas", "reveal", "spatial", "parallax"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The content revealed behind the fog (real DOM).",
+      },
+      {
+        name: "onClear",
+        type: "(clearing) => void",
+        description: "Fires as the pointer starts and stops parting the fog.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Panel height in px.",
+      },
+    ],
+    usageNotes: [
+      "The content behind is real DOM, so it stays readable to assistive tech regardless of the fog above it.",
+      "The fog pauses off-screen and when hidden, rebasing its drift clock so it never jumps on resume.",
+      "Under reduced motion it holds a static, mostly-parted frame so the content is never trapped behind haze.",
+    ],
+  },
 ];

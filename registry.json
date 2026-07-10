@@ -3934,6 +3934,85 @@
       }
     },
     {
+      "name": "fisheye-grid",
+      "type": "registry:ui",
+      "title": "Fisheye Grid",
+      "description": "A magnifier you sweep across a grid — tiles under the lens bulge up and spread apart in a radial fisheye, the largest riding to the front while the rest ease back to rest, and the tile at the lens center reads out as you go.",
+      "files": [
+        {
+          "path": "registry/ui/fisheye-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-145"
+      }
+    },
+    {
+      "name": "star-warp",
+      "type": "registry:ui",
+      "title": "Star Warp",
+      "description": "A starfield streaming past the cabin — hold to jump to warp and the stars stretch into streaks, move to steer the vanishing point toward the pointer, then release and they ease back down to a cruise.",
+      "files": [
+        {
+          "path": "registry/ui/star-warp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-131"
+      }
+    },
+    {
+      "name": "depth-fog",
+      "type": "registry:ui",
+      "title": "Depth Fog",
+      "description": "Drifting banks of fog roll across the panel at parallax depths and part around the pointer to reveal the survey beneath, closing back in the moment you move on.",
+      "files": [
+        {
+          "path": "registry/ui/depth-fog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-132"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -165,6 +165,9 @@ import { ExplodeViewDemo } from "@/registry/demos/explode-view.demo";
 import { RadarScopeDemo } from "@/registry/demos/radar-scope.demo";
 import { MatrixRiseDemo } from "@/registry/demos/matrix-rise.demo";
 import { LittlePlanetDemo } from "@/registry/demos/little-planet.demo";
+import { FisheyeGridDemo } from "@/registry/demos/fisheye-grid.demo";
+import { StarWarpDemo } from "@/registry/demos/star-warp.demo";
+import { DepthFogDemo } from "@/registry/demos/depth-fog.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -336,4 +339,7 @@ export const demos: Record<string, ComponentType> = {
   "radar-scope": RadarScopeDemo,
   "matrix-rise": MatrixRiseDemo,
   "little-planet": LittlePlanetDemo,
+  "fisheye-grid": FisheyeGridDemo,
+  "star-warp": StarWarpDemo,
+  "depth-fog": DepthFogDemo,
 };
