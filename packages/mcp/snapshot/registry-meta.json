@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 93,
+      "components": 95,
       "blocks": 16,
       "shared": 6
     }
@@ -5328,6 +5328,131 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/fold-out",
         "bun": "bunx --bun shadcn@latest add @kinetiq/fold-out",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/fold-out.json"
+      }
+    },
+    {
+      "slug": "curtain-lift",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Curtain Lift",
+      "serial": "KQ-096",
+      "tagline": "A hem that travels as a wave.",
+      "description": "A draped curtain of sine-fold strips over a stage — raising it sends the folds up with a center-out stagger so the hem travels as a wave, or part mode compresses the halves toward the wings.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "curtain",
+        "reveal",
+        "folds",
+        "stage",
+        "spatial",
+        "theater"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The stage the curtain conceals."
+        },
+        {
+          "name": "mode",
+          "type": "\"lift\" | \"part\"",
+          "defaultValue": "\"lift\"",
+          "description": "Straight up, or split to the wings."
+        },
+        {
+          "name": "open / defaultOpen / onOpenChange",
+          "type": "boolean / boolean / (open) => void",
+          "description": "Controlled or uncontrolled rig state."
+        },
+        {
+          "name": "folds / height",
+          "type": "number / number",
+          "defaultValue": "14 / 220",
+          "description": "Strip count and stage height."
+        }
+      ],
+      "usageNotes": [
+        "One real toggle button with aria-expanded runs the rig, and the curtain state is announced politely.",
+        "Under reduced motion the curtain fades in place with no wave."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/curtain-lift",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/curtain-lift.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/curtain-lift",
+        "npm": "npx shadcn@latest add @kinetiq/curtain-lift",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/curtain-lift",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/curtain-lift",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/curtain-lift.json"
+      }
+    },
+    {
+      "slug": "mirror-hall",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mirror Hall",
+      "serial": "KQ-097",
+      "tagline": "Reflections that bend to your hand.",
+      "description": "A hall of mirrors — the plate recedes through scaled, dimmed, alternately-flipped copies toward a vanishing point, and the corridor bends toward the pointer with the deepest reflections swinging farthest.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "mirror",
+        "recursion",
+        "corridor",
+        "spatial",
+        "infinity"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The reflected plate — keep it light, it renders N times."
+        },
+        {
+          "name": "copies / falloff / bend",
+          "type": "number / number / number",
+          "defaultValue": "5 / 0.86 / 14",
+          "description": "Reflection count, scale step, and corridor bend per depth."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "240",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "Only the front plate is real — every reflection is aria-hidden and inert.",
+        "Under reduced motion the corridor rests centered with no bend."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/mirror-hall",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/mirror-hall.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mirror-hall",
+        "npm": "npx shadcn@latest add @kinetiq/mirror-hall",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mirror-hall",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mirror-hall",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/mirror-hall.json"
       }
     },
     {

@@ -1493,6 +1493,39 @@ Notes:
 - The toggle is a real button with aria-expanded; the strip height animates with the folds so layout follows honestly.
 - Under reduced motion panels simply appear and disappear with a fast fade.
 
+### Curtain Lift (KQ-096) — `curtain-lift`
+A hem that travels as a wave.
+
+A draped curtain of sine-fold strips over a stage — raising it sends the folds up with a center-out stagger so the hem travels as a wave, or part mode compresses the halves toward the wings.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/curtain-lift`
+
+Props:
+- `children`: ReactNode — The stage the curtain conceals.
+- `mode`: "lift" | "part" (default "lift") — Straight up, or split to the wings.
+- `open / defaultOpen / onOpenChange`: boolean / boolean / (open) => void — Controlled or uncontrolled rig state.
+- `folds / height`: number / number (default 14 / 220) — Strip count and stage height.
+
+Notes:
+- One real toggle button with aria-expanded runs the rig, and the curtain state is announced politely.
+- Under reduced motion the curtain fades in place with no wave.
+
+### Mirror Hall (KQ-097) — `mirror-hall`
+Reflections that bend to your hand.
+
+A hall of mirrors — the plate recedes through scaled, dimmed, alternately-flipped copies toward a vanishing point, and the corridor bends toward the pointer with the deepest reflections swinging farthest.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mirror-hall`
+
+Props:
+- `children`: ReactNode — The reflected plate — keep it light, it renders N times.
+- `copies / falloff / bend`: number / number / number (default 5 / 0.86 / 14) — Reflection count, scale step, and corridor bend per depth.
+- `height`: number (default 240) — Stage height in px.
+
+Notes:
+- Only the front plate is real — every reflection is aria-hidden and inert.
+- Under reduced motion the corridor rests centered with no bend.
+
 ### Ring Dial (KQ-111) — `ring-dial`
 Stops that pull like magnets.
 

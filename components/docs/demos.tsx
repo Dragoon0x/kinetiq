@@ -110,6 +110,8 @@ import { GlassPaneDemo } from "@/registry/demos/glass-pane.demo";
 import { FoilCardDemo } from "@/registry/demos/foil-card.demo";
 import { SlatWallDemo } from "@/registry/demos/slat-wall.demo";
 import { FoldOutDemo } from "@/registry/demos/fold-out.demo";
+import { CurtainLiftDemo } from "@/registry/demos/curtain-lift.demo";
+import { MirrorHallDemo } from "@/registry/demos/mirror-hall.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -226,4 +228,6 @@ export const demos: Record<string, ComponentType> = {
   "foil-card": FoilCardDemo,
   "slat-wall": SlatWallDemo,
   "fold-out": FoldOutDemo,
+  "curtain-lift": CurtainLiftDemo,
+  "mirror-hall": MirrorHallDemo,
 };

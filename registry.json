@@ -2455,6 +2455,59 @@
       }
     },
     {
+      "name": "curtain-lift",
+      "type": "registry:ui",
+      "title": "Curtain Lift",
+      "description": "A draped curtain of sine-fold strips over a stage — raising it sends the folds up with a center-out stagger so the hem travels as a wave, or part mode compresses the halves toward the wings.",
+      "files": [
+        {
+          "path": "registry/ui/curtain-lift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-096"
+      }
+    },
+    {
+      "name": "mirror-hall",
+      "type": "registry:ui",
+      "title": "Mirror Hall",
+      "description": "A hall of mirrors — the plate recedes through scaled, dimmed, alternately-flipped copies toward a vanishing point, and the corridor bends toward the pointer with the deepest reflections swinging farthest.",
+      "files": [
+        {
+          "path": "registry/ui/mirror-hall.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-097"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

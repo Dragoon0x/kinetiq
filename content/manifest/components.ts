@@ -3864,4 +3864,88 @@ export const components: KinetiqItem[] = [
       "Under reduced motion panels simply appear and disappear with a fast fade.",
     ],
   },
+  {
+    name: "curtain-lift",
+    type: "registry:ui",
+    title: "Curtain Lift",
+    description:
+      "A draped curtain of sine-fold strips over a stage — raising it sends the folds up with a center-out stagger so the hem travels as a wave, or part mode compresses the halves toward the wings.",
+    files: [{ path: "registry/ui/curtain-lift.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-096" },
+    tagline: "A hem that travels as a wave.",
+    keywords: ["curtain", "reveal", "folds", "stage", "spatial", "theater"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The stage the curtain conceals.",
+      },
+      {
+        name: "mode",
+        type: '"lift" | "part"',
+        defaultValue: '"lift"',
+        description: "Straight up, or split to the wings.",
+      },
+      {
+        name: "open / defaultOpen / onOpenChange",
+        type: "boolean / boolean / (open) => void",
+        description: "Controlled or uncontrolled rig state.",
+      },
+      {
+        name: "folds / height",
+        type: "number / number",
+        defaultValue: "14 / 220",
+        description: "Strip count and stage height.",
+      },
+    ],
+    usageNotes: [
+      "One real toggle button with aria-expanded runs the rig, and the curtain state is announced politely.",
+      "Under reduced motion the curtain fades in place with no wave.",
+    ],
+  },
+  {
+    name: "mirror-hall",
+    type: "registry:ui",
+    title: "Mirror Hall",
+    description:
+      "A hall of mirrors — the plate recedes through scaled, dimmed, alternately-flipped copies toward a vanishing point, and the corridor bends toward the pointer with the deepest reflections swinging farthest.",
+    files: [{ path: "registry/ui/mirror-hall.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-097" },
+    tagline: "Reflections that bend to your hand.",
+    keywords: ["mirror", "recursion", "corridor", "spatial", "infinity"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The reflected plate — keep it light, it renders N times.",
+      },
+      {
+        name: "copies / falloff / bend",
+        type: "number / number / number",
+        defaultValue: "5 / 0.86 / 14",
+        description: "Reflection count, scale step, and corridor bend per depth.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "240",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Only the front plate is real — every reflection is aria-hidden and inert.",
+      "Under reduced motion the corridor rests centered with no bend.",
+    ],
+  },
 ];
