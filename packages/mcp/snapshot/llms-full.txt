@@ -1459,6 +1459,40 @@ Notes:
 - The whole card is a real button — Space and Enter stamp it, and the focus ring is never removed.
 - Under reduced motion the sheen rests at a fixed angle and the stamp is an opacity-only flash.
 
+### Slat Wall (KQ-093) — `slat-wall`
+Seven louvers, one swap.
+
+A louver wall — content sliced across horizontal slats that each rotate on their own axis in a cascading wave to swap between two faces; every slat is a window onto the full face, so any content survives the slicing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slat-wall`
+
+Props:
+- `a / b`: ReactNode / ReactNode — The wall's two full-size faces.
+- `side / defaultSide / onSideChange`: "a" | "b" / same / (side) => void — Controlled or uncontrolled facing side.
+- `slats / height`: number / number (default 7 / 220) — Louver count and wall height.
+- `aria-label`: string — Required — the wall is one switch button.
+
+Notes:
+- One real role=switch button — Space and Enter flip the wall and the facing side is announced.
+- Under reduced motion the faces crossfade whole with no wave.
+
+### Fold Out (KQ-094) — `fold-out`
+Creases that open in order.
+
+An origami strip unfolding in staged hinges — one progress spring drives every crease, each panel's hinge mapped to a later slice of the travel so the sheet opens stage by stage with shading lifting as each fold flattens.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fold-out`
+
+Props:
+- `panels`: ReactNode[] — Up to four panels, unfolding top to bottom.
+- `open / defaultOpen / onOpenChange`: boolean / boolean / (open) => void — Controlled or uncontrolled fold state.
+- `panelHeight`: number (default 88) — Height of each panel in px.
+- `openLabel / closeLabel`: string / string — Toggle wording.
+
+Notes:
+- The toggle is a real button with aria-expanded; the strip height animates with the folds so layout follows honestly.
+- Under reduced motion panels simply appear and disappear with a fast fade.
+
 ### Ring Dial (KQ-111) — `ring-dial`
 Stops that pull like magnets.
 

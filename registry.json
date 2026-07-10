@@ -2401,6 +2401,60 @@
       }
     },
     {
+      "name": "slat-wall",
+      "type": "registry:ui",
+      "title": "Slat Wall",
+      "description": "A louver wall — content sliced across horizontal slats that each rotate on their own axis in a cascading wave to swap between two faces; every slat is a window onto the full face, so any content survives the slicing.",
+      "files": [
+        {
+          "path": "registry/ui/slat-wall.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-093"
+      }
+    },
+    {
+      "name": "fold-out",
+      "type": "registry:ui",
+      "title": "Fold Out",
+      "description": "An origami strip unfolding in staged hinges — one progress spring drives every crease, each panel's hinge mapped to a later slice of the travel so the sheet opens stage by stage with shading lifting as each fold flattens.",
+      "files": [
+        {
+          "path": "registry/ui/fold-out.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-094"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

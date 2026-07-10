@@ -3782,4 +3782,86 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the sheen rests at a fixed angle and the stamp is an opacity-only flash.",
     ],
   },
+  {
+    name: "slat-wall",
+    type: "registry:ui",
+    title: "Slat Wall",
+    description:
+      "A louver wall — content sliced across horizontal slats that each rotate on their own axis in a cascading wave to swap between two faces; every slat is a window onto the full face, so any content survives the slicing.",
+    files: [{ path: "registry/ui/slat-wall.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-093" },
+    tagline: "Seven louvers, one swap.",
+    keywords: ["louver", "slats", "flip", "wall", "spatial", "toggle"],
+    props: [
+      {
+        name: "a / b",
+        type: "ReactNode / ReactNode",
+        description: "The wall's two full-size faces.",
+      },
+      {
+        name: "side / defaultSide / onSideChange",
+        type: '"a" | "b" / same / (side) => void',
+        description: "Controlled or uncontrolled facing side.",
+      },
+      {
+        name: "slats / height",
+        type: "number / number",
+        defaultValue: "7 / 220",
+        description: "Louver count and wall height.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Required — the wall is one switch button.",
+      },
+    ],
+    usageNotes: [
+      "One real role=switch button — Space and Enter flip the wall and the facing side is announced.",
+      "Under reduced motion the faces crossfade whole with no wave.",
+    ],
+  },
+  {
+    name: "fold-out",
+    type: "registry:ui",
+    title: "Fold Out",
+    description:
+      "An origami strip unfolding in staged hinges — one progress spring drives every crease, each panel's hinge mapped to a later slice of the travel so the sheet opens stage by stage with shading lifting as each fold flattens.",
+    files: [{ path: "registry/ui/fold-out.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-094" },
+    tagline: "Creases that open in order.",
+    keywords: ["fold", "origami", "unfold", "hinges", "spatial", "disclosure"],
+    props: [
+      {
+        name: "panels",
+        type: "ReactNode[]",
+        description: "Up to four panels, unfolding top to bottom.",
+      },
+      {
+        name: "open / defaultOpen / onOpenChange",
+        type: "boolean / boolean / (open) => void",
+        description: "Controlled or uncontrolled fold state.",
+      },
+      {
+        name: "panelHeight",
+        type: "number",
+        defaultValue: "88",
+        description: "Height of each panel in px.",
+      },
+      {
+        name: "openLabel / closeLabel",
+        type: "string / string",
+        description: "Toggle wording.",
+      },
+    ],
+    usageNotes: [
+      "The toggle is a real button with aria-expanded; the strip height animates with the folds so layout follows honestly.",
+      "Under reduced motion panels simply appear and disappear with a fast fade.",
+    ],
+  },
 ];
