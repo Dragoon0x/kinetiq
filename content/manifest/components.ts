@@ -4930,4 +4930,114 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the city reads as a flat top-down survey with the same buttons.",
     ],
   },
+  {
+    name: "lift-tray",
+    type: "registry:ui",
+    title: "Lift Tray",
+    description:
+      "Tools that float up to your hand — each plate levitates off the tray with a contact shadow that shrinks and softens as it rises, neighbors lifting in sympathy, item shadow and ground ellipse two views of one altitude.",
+    files: [{ path: "registry/ui/lift-tray.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spatial",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-123" },
+    tagline: "Every tool floats to your hand.",
+    keywords: ["tray", "levitate", "shadow", "hover", "spatial", "scene"],
+    props: [
+      {
+        name: "items",
+        type: "{ id, label, node }[]",
+        description: "Three to five tools on the tray.",
+      },
+      {
+        name: "onPick",
+        type: "(id) => void",
+        description: "Fires when a tool is pressed.",
+      },
+      {
+        name: "maxLift",
+        type: "number",
+        defaultValue: "14",
+        description: "Peak levitation in px.",
+      },
+    ],
+    usageNotes: [
+      "Every tool is a real button — keyboard focus levitates it exactly like hover, and picks are announced.",
+      "Under reduced motion hover is a flat highlight and the ground shadows rest static.",
+    ],
+  },
+  {
+    name: "shaker-dome",
+    type: "registry:ui",
+    title: "Shaker Dome",
+    description:
+      "A keepsake dome over a diorama — shake it by hand and the seeded flakes swirl off the true semicircular shell, settling on gravity until the scene stands still and the loop stands down.",
+    files: [{ path: "registry/ui/shaker-dome.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-124" },
+    tagline: "The flakes take the long way down.",
+    keywords: ["dome", "snow", "shake", "canvas", "spatial", "scene"],
+    props: [
+      {
+        name: "scene",
+        type: "ReactNode",
+        description: "The diorama under the glass; defaults to a minted monument.",
+      },
+      {
+        name: "flakes",
+        type: "number",
+        defaultValue: "42",
+        description: "Particle count, capped at eighty.",
+      },
+      {
+        name: "label / height",
+        type: "ReactNode / number",
+        defaultValue: "nameplate / 240",
+        description: "Plinth engraving and stage height.",
+      },
+    ],
+    usageNotes: [
+      "The STIR button gives the keyboard a standard kick and stirs are announced; the sim idles the moment the flakes rest.",
+      "The loop pauses offscreen and in hidden tabs; under reduced motion one settled frame renders and the shake is disabled.",
+    ],
+  },
+  {
+    name: "daylight-dial",
+    type: "registry:ui",
+    title: "Daylight Dial",
+    description:
+      "A time-of-day dial over a skyline — one hour value drives the sky's keyframed color ramp, the sun and moon in anti-phase on their arc, sweeping building shadows with honest projection, and stars that keep their hours.",
+    files: [{ path: "registry/ui/daylight-dial.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-125" },
+    tagline: "Drag the sky; the shadows obey.",
+    keywords: ["daylight", "sun", "moon", "time", "spatial", "scene", "dial"],
+    props: [
+      {
+        name: "hour / defaultHour / onHourChange",
+        type: "number / number / (hour) => void",
+        description: "Controlled or uncontrolled 0-24 clock; settles announce integers.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "250",
+        description: "Scene height in px.",
+      },
+    ],
+    usageNotes: [
+      "The track is one slider — arrows step an hour, Page keys three, Home and End bound the day, and aria-valuetext reads the clock.",
+      "Naturally reduced-motion-safe: the scene scrubs one-to-one with the dial and merely loses its spring lag.",
+    ],
+  },
 ];

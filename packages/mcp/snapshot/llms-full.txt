@@ -1947,6 +1947,53 @@ Notes:
 - Every block is a real button — keyboard focus raises and lights it exactly like hover.
 - Under reduced motion the city reads as a flat top-down survey with the same buttons.
 
+### Lift Tray (KQ-123) — `lift-tray`
+Every tool floats to your hand.
+
+Tools that float up to your hand — each plate levitates off the tray with a contact shadow that shrinks and softens as it rises, neighbors lifting in sympathy, item shadow and ground ellipse two views of one altitude.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lift-tray`
+
+Props:
+- `items`: { id, label, node }[] — Three to five tools on the tray.
+- `onPick`: (id) => void — Fires when a tool is pressed.
+- `maxLift`: number (default 14) — Peak levitation in px.
+
+Notes:
+- Every tool is a real button — keyboard focus levitates it exactly like hover, and picks are announced.
+- Under reduced motion hover is a flat highlight and the ground shadows rest static.
+
+### Shaker Dome (KQ-124) — `shaker-dome`
+The flakes take the long way down.
+
+A keepsake dome over a diorama — shake it by hand and the seeded flakes swirl off the true semicircular shell, settling on gravity until the scene stands still and the loop stands down.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/shaker-dome`
+
+Props:
+- `scene`: ReactNode — The diorama under the glass; defaults to a minted monument.
+- `flakes`: number (default 42) — Particle count, capped at eighty.
+- `label / height`: ReactNode / number (default nameplate / 240) — Plinth engraving and stage height.
+
+Notes:
+- The STIR button gives the keyboard a standard kick and stirs are announced; the sim idles the moment the flakes rest.
+- The loop pauses offscreen and in hidden tabs; under reduced motion one settled frame renders and the shake is disabled.
+
+### Daylight Dial (KQ-125) — `daylight-dial`
+Drag the sky; the shadows obey.
+
+A time-of-day dial over a skyline — one hour value drives the sky's keyframed color ramp, the sun and moon in anti-phase on their arc, sweeping building shadows with honest projection, and stars that keep their hours.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/daylight-dial`
+
+Props:
+- `hour / defaultHour / onHourChange`: number / number / (hour) => void — Controlled or uncontrolled 0-24 clock; settles announce integers.
+- `height`: number (default 250) — Scene height in px.
+
+Notes:
+- The track is one slider — arrows step an hour, Page keys three, Home and End bound the day, and aria-valuetext reads the clock.
+- Naturally reduced-motion-safe: the scene scrubs one-to-one with the dial and merely loses its spring lag.
+
 ### Swing Door (KQ-151) — `swing-door`
 Past the detent or slammed home.
 

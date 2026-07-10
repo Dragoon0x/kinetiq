@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 121,
+      "components": 124,
       "blocks": 16,
       "shared": 6
     }
@@ -7037,6 +7037,184 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/iso-blocks",
         "bun": "bunx --bun shadcn@latest add @kinetiq/iso-blocks",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/iso-blocks.json"
+      }
+    },
+    {
+      "slug": "lift-tray",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Lift Tray",
+      "serial": "KQ-123",
+      "tagline": "Every tool floats to your hand.",
+      "description": "Tools that float up to your hand — each plate levitates off the tray with a contact shadow that shrinks and softens as it rises, neighbors lifting in sympathy, item shadow and ground ellipse two views of one altitude.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "tray",
+        "levitate",
+        "shadow",
+        "hover",
+        "spatial",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id, label, node }[]",
+          "description": "Three to five tools on the tray."
+        },
+        {
+          "name": "onPick",
+          "type": "(id) => void",
+          "description": "Fires when a tool is pressed."
+        },
+        {
+          "name": "maxLift",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "Peak levitation in px."
+        }
+      ],
+      "usageNotes": [
+        "Every tool is a real button — keyboard focus levitates it exactly like hover, and picks are announced.",
+        "Under reduced motion hover is a flat highlight and the ground shadows rest static."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/lift-tray",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/lift-tray.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/lift-tray",
+        "npm": "npx shadcn@latest add @kinetiq/lift-tray",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/lift-tray",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/lift-tray",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/lift-tray.json"
+      }
+    },
+    {
+      "slug": "shaker-dome",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Shaker Dome",
+      "serial": "KQ-124",
+      "tagline": "The flakes take the long way down.",
+      "description": "A keepsake dome over a diorama — shake it by hand and the seeded flakes swirl off the true semicircular shell, settling on gravity until the scene stands still and the loop stands down.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "dome",
+        "snow",
+        "shake",
+        "canvas",
+        "spatial",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "scene",
+          "type": "ReactNode",
+          "description": "The diorama under the glass; defaults to a minted monument."
+        },
+        {
+          "name": "flakes",
+          "type": "number",
+          "defaultValue": "42",
+          "description": "Particle count, capped at eighty."
+        },
+        {
+          "name": "label / height",
+          "type": "ReactNode / number",
+          "defaultValue": "nameplate / 240",
+          "description": "Plinth engraving and stage height."
+        }
+      ],
+      "usageNotes": [
+        "The STIR button gives the keyboard a standard kick and stirs are announced; the sim idles the moment the flakes rest.",
+        "The loop pauses offscreen and in hidden tabs; under reduced motion one settled frame renders and the shake is disabled."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/shaker-dome",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/shaker-dome.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/shaker-dome",
+        "npm": "npx shadcn@latest add @kinetiq/shaker-dome",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/shaker-dome",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/shaker-dome",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/shaker-dome.json"
+      }
+    },
+    {
+      "slug": "daylight-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Daylight Dial",
+      "serial": "KQ-125",
+      "tagline": "Drag the sky; the shadows obey.",
+      "description": "A time-of-day dial over a skyline — one hour value drives the sky's keyframed color ramp, the sun and moon in anti-phase on their arc, sweeping building shadows with honest projection, and stars that keep their hours.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "daylight",
+        "sun",
+        "moon",
+        "time",
+        "spatial",
+        "scene",
+        "dial"
+      ],
+      "props": [
+        {
+          "name": "hour / defaultHour / onHourChange",
+          "type": "number / number / (hour) => void",
+          "description": "Controlled or uncontrolled 0-24 clock; settles announce integers."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "250",
+          "description": "Scene height in px."
+        }
+      ],
+      "usageNotes": [
+        "The track is one slider — arrows step an hour, Page keys three, Home and End bound the day, and aria-valuetext reads the clock.",
+        "Naturally reduced-motion-safe: the scene scrubs one-to-one with the dial and merely loses its spring lag."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/daylight-dial",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/daylight-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/daylight-dial",
+        "npm": "npx shadcn@latest add @kinetiq/daylight-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/daylight-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/daylight-dial",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/daylight-dial.json"
       }
     },
     {
