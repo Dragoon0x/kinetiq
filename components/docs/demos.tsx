@@ -102,6 +102,8 @@ import { StrataScrollDemo } from "@/registry/demos/strata-scroll.demo";
 import { HoverReliefDemo } from "@/registry/demos/hover-relief.demo";
 import { FocusRackDemo } from "@/registry/demos/focus-rack.demo";
 import { LayerPeelDemo } from "@/registry/demos/layer-peel.demo";
+import { SliceCompareDemo } from "@/registry/demos/slice-compare.demo";
+import { DepthLensDemo } from "@/registry/demos/depth-lens.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -210,4 +212,6 @@ export const demos: Record<string, ComponentType> = {
   "hover-relief": HoverReliefDemo,
   "focus-rack": FocusRackDemo,
   "layer-peel": LayerPeelDemo,
+  "slice-compare": SliceCompareDemo,
+  "depth-lens": DepthLensDemo,
 };

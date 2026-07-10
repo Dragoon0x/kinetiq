@@ -3544,4 +3544,93 @@ export const components: KinetiqItem[] = [
       "Under reduced motion peeling advances instantly with no hinge or recoil.",
     ],
   },
+  {
+    name: "slice-compare",
+    type: "registry:ui",
+    title: "Slice Compare",
+    description:
+      "A comparison divider struck as a blade — it leans into the cut as you drag and swings back plumb on release, parting two scenes with cast shadows on both sides of the edge.",
+    files: [{ path: "registry/ui/slice-compare.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-067" },
+    tagline: "A blade, not a wipe.",
+    keywords: ["compare", "before-after", "slider", "blade", "spatial", "split"],
+    props: [
+      {
+        name: "before / after",
+        type: "ReactNode / ReactNode",
+        description: "The two scenes either side of the blade.",
+      },
+      {
+        name: "beforeLabel / afterLabel",
+        type: "string / string",
+        description: "Corner labels and the slider valuetext.",
+      },
+      {
+        name: "defaultPosition / onPositionChange",
+        type: "number / (position) => void",
+        description: "Starting cut position (0-100) and the change callback.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "220",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The handle is a real slider — arrows nudge by two, Page keys by ten, Home and End reach the rails.",
+      "Under reduced motion the blade stays plumb and tracks the pointer one-to-one.",
+    ],
+  },
+  {
+    name: "depth-lens",
+    type: "registry:ui",
+    title: "Depth Lens",
+    description:
+      "An x-ray lens that chases the pointer on the glide spring and cuts through the surface to the layer beneath — the aperture is a registered second copy, so the two layers line up perfectly under the glass.",
+    files: [{ path: "registry/ui/depth-lens.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spatial",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-068" },
+    tagline: "Cut a hole to the layer beneath.",
+    keywords: ["lens", "x-ray", "layers", "reveal", "spatial", "magnifier"],
+    props: [
+      {
+        name: "surface / beneath",
+        type: "ReactNode / ReactNode",
+        description: "The visible layer and the one exposed inside the lens.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "64",
+        description: "Lens radius in px.",
+      },
+      {
+        name: "surfaceLabel / beneathLabel",
+        type: "string / string",
+        description: "Corner labels naming the layers.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "240",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The stage is focusable and arrows steer the lens; on coarse pointers a tap re-anchors it.",
+      "Under reduced motion the lens rests at center and keyboard moves are instant.",
+    ],
+  },
 ];
