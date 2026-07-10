@@ -2102,6 +2102,89 @@
       }
     },
     {
+      "name": "peek-portal",
+      "type": "registry:ui",
+      "title": "Peek Portal",
+      "description": "A framed aperture with a scene that counter-shifts against the frame as you lean around it — two layers moving oppositely sell the depth — and a click that zooms through the portal into the full view.",
+      "files": [
+        {
+          "path": "registry/ui/peek-portal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-062"
+      }
+    },
+    {
+      "name": "strata-scroll",
+      "type": "registry:ui",
+      "title": "Strata Scroll",
+      "description": "Strata that separate as scroll passes between them — each seam hides an interlayer note that wakes at the viewport center while the upper plate leans back and the lower leans forward, all scrubbed 1:1 from scroll through transforms alone.",
+      "files": [
+        {
+          "path": "registry/ui/strata-scroll.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-063"
+      }
+    },
+    {
+      "name": "hover-relief",
+      "type": "registry:ui",
+      "title": "Hover Relief",
+      "description": "A tile grid that extrudes toward the cursor like a relief map — a gaussian falloff lifts neighbors proportionally on pure motion-value writes, focus raises a tile to full height, and clicks pop on the recoil spring.",
+      "files": [
+        {
+          "path": "registry/ui/hover-relief.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-064"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -3341,4 +3341,129 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the active layer renders alone beneath a compressed label shelf with instant swaps.",
     ],
   },
+  {
+    name: "peek-portal",
+    type: "registry:ui",
+    title: "Peek Portal",
+    description:
+      "A framed aperture with a scene that counter-shifts against the frame as you lean around it — two layers moving oppositely sell the depth — and a click that zooms through the portal into the full view.",
+    files: [{ path: "registry/ui/peek-portal.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spatial",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-062" },
+    tagline: "Lean around it, then step through.",
+    keywords: ["portal", "aperture", "parallax", "window", "spatial", "reveal"],
+    props: [
+      {
+        name: "scene / beyond",
+        type: "ReactNode / ReactNode",
+        description: "What shows through the aperture, and the view you step into.",
+      },
+      {
+        name: "depth",
+        type: "number",
+        defaultValue: "14",
+        description: "Peak counter-shift in px.",
+      },
+      {
+        name: "onStep",
+        type: "(through) => void",
+        description: "Fires stepping through and back.",
+      },
+      {
+        name: "sceneLabel / backLabel",
+        type: "string / string",
+        description: "Accessible names for the frame button and the back chip.",
+      },
+    ],
+    usageNotes: [
+      "The frame is a real button — stepping through moves focus to the back chip and returning restores it; both moves are announced.",
+      "Under reduced motion there is no parallax and both steps are instant crossfades.",
+    ],
+  },
+  {
+    name: "strata-scroll",
+    type: "registry:ui",
+    title: "Strata Scroll",
+    description:
+      "Strata that separate as scroll passes between them — each seam hides an interlayer note that wakes at the viewport center while the upper plate leans back and the lower leans forward, all scrubbed 1:1 from scroll through transforms alone.",
+    files: [{ path: "registry/ui/strata-scroll.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-063" },
+    tagline: "Seams that open in passing.",
+    keywords: ["scroll", "strata", "layers", "seam", "spatial", "scrubbed"],
+    props: [
+      {
+        name: "strata",
+        type: "{ id, label, content, note? }[]",
+        description: "Three to six strata; each note hides in the seam below its stratum.",
+      },
+      {
+        name: "onFocusChange",
+        type: "(id) => void",
+        description: "Fires when the stratum nearest center changes.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "320",
+        description: "Viewport height in px.",
+      },
+    ],
+    usageNotes: [
+      "A keyboard-scrollable labelled region; the active stratum carries the accent and is announced politely.",
+      "Under reduced motion the notes render as static dividers and only active tracking remains — nothing leans.",
+    ],
+  },
+  {
+    name: "hover-relief",
+    type: "registry:ui",
+    title: "Hover Relief",
+    description:
+      "A tile grid that extrudes toward the cursor like a relief map — a gaussian falloff lifts neighbors proportionally on pure motion-value writes, focus raises a tile to full height, and clicks pop on the recoil spring.",
+    files: [{ path: "registry/ui/hover-relief.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spatial",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-064" },
+    tagline: "The board rises to meet your hand.",
+    keywords: ["grid", "relief", "hover", "extrude", "spatial", "tiles", "cursor"],
+    props: [
+      {
+        name: "tiles",
+        type: "{ id, label, glyph?, hint? }[]",
+        description: "Six to twenty-four action tiles.",
+      },
+      {
+        name: "columns / maxLift / radius",
+        type: "number / number / number",
+        defaultValue: "4 / 16 / 1.6",
+        description: "Grid shape, peak extrusion in px, and falloff radius in tile units.",
+      },
+      {
+        name: "onTileClick",
+        type: "(id) => void",
+        description: "Fires on tile activation.",
+      },
+    ],
+    usageNotes: [
+      "Every tile is a real button — keyboard focus lifts it to full height and Enter pops it like a click.",
+      "Under reduced motion the relief is a flat hover highlight and clicks fire without the pop.",
+    ],
+  },
 ];

@@ -1113,6 +1113,55 @@ Notes:
 - Arrows and the wheel move one layer, Home and End jump on the glide spring, tick-rail buttons carry aria-current, and settles are announced.
 - Under reduced motion the active layer renders alone beneath a compressed label shelf with instant swaps.
 
+### Peek Portal (KQ-062) — `peek-portal`
+Lean around it, then step through.
+
+A framed aperture with a scene that counter-shifts against the frame as you lean around it — two layers moving oppositely sell the depth — and a click that zooms through the portal into the full view.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/peek-portal`
+
+Props:
+- `scene / beyond`: ReactNode / ReactNode — What shows through the aperture, and the view you step into.
+- `depth`: number (default 14) — Peak counter-shift in px.
+- `onStep`: (through) => void — Fires stepping through and back.
+- `sceneLabel / backLabel`: string / string — Accessible names for the frame button and the back chip.
+
+Notes:
+- The frame is a real button — stepping through moves focus to the back chip and returning restores it; both moves are announced.
+- Under reduced motion there is no parallax and both steps are instant crossfades.
+
+### Strata Scroll (KQ-063) — `strata-scroll`
+Seams that open in passing.
+
+Strata that separate as scroll passes between them — each seam hides an interlayer note that wakes at the viewport center while the upper plate leans back and the lower leans forward, all scrubbed 1:1 from scroll through transforms alone.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/strata-scroll`
+
+Props:
+- `strata`: { id, label, content, note? }[] — Three to six strata; each note hides in the seam below its stratum.
+- `onFocusChange`: (id) => void — Fires when the stratum nearest center changes.
+- `height`: number (default 320) — Viewport height in px.
+
+Notes:
+- A keyboard-scrollable labelled region; the active stratum carries the accent and is announced politely.
+- Under reduced motion the notes render as static dividers and only active tracking remains — nothing leans.
+
+### Hover Relief (KQ-064) — `hover-relief`
+The board rises to meet your hand.
+
+A tile grid that extrudes toward the cursor like a relief map — a gaussian falloff lifts neighbors proportionally on pure motion-value writes, focus raises a tile to full height, and clicks pop on the recoil spring.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hover-relief`
+
+Props:
+- `tiles`: { id, label, glyph?, hint? }[] — Six to twenty-four action tiles.
+- `columns / maxLift / radius`: number / number / number (default 4 / 16 / 1.6) — Grid shape, peak extrusion in px, and falloff radius in tile units.
+- `onTileClick`: (id) => void — Fires on tile activation.
+
+Notes:
+- Every tile is a real button — keyboard focus lifts it to full height and Enter pops it like a click.
+- Under reduced motion the relief is a flat hover highlight and clicks fire without the pop.
+
 ### Facet Cube (KQ-071) — `facet-cube`
 Six faces, one cube, snap detents.
 

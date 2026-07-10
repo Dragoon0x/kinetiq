@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 80,
+      "components": 83,
       "blocks": 16,
       "shared": 6
     }
@@ -3872,6 +3872,194 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/depth-stack",
         "bun": "bunx --bun shadcn@latest add @kinetiq/depth-stack",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/depth-stack.json"
+      }
+    },
+    {
+      "slug": "peek-portal",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Peek Portal",
+      "serial": "KQ-062",
+      "tagline": "Lean around it, then step through.",
+      "description": "A framed aperture with a scene that counter-shifts against the frame as you lean around it — two layers moving oppositely sell the depth — and a click that zooms through the portal into the full view.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "portal",
+        "aperture",
+        "parallax",
+        "window",
+        "spatial",
+        "reveal"
+      ],
+      "props": [
+        {
+          "name": "scene / beyond",
+          "type": "ReactNode / ReactNode",
+          "description": "What shows through the aperture, and the view you step into."
+        },
+        {
+          "name": "depth",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "Peak counter-shift in px."
+        },
+        {
+          "name": "onStep",
+          "type": "(through) => void",
+          "description": "Fires stepping through and back."
+        },
+        {
+          "name": "sceneLabel / backLabel",
+          "type": "string / string",
+          "description": "Accessible names for the frame button and the back chip."
+        }
+      ],
+      "usageNotes": [
+        "The frame is a real button — stepping through moves focus to the back chip and returning restores it; both moves are announced.",
+        "Under reduced motion there is no parallax and both steps are instant crossfades."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/peek-portal",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/peek-portal.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/peek-portal",
+        "npm": "npx shadcn@latest add @kinetiq/peek-portal",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/peek-portal",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/peek-portal",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/peek-portal.json"
+      }
+    },
+    {
+      "slug": "strata-scroll",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Strata Scroll",
+      "serial": "KQ-063",
+      "tagline": "Seams that open in passing.",
+      "description": "Strata that separate as scroll passes between them — each seam hides an interlayer note that wakes at the viewport center while the upper plate leans back and the lower leans forward, all scrubbed 1:1 from scroll through transforms alone.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "scroll",
+        "strata",
+        "layers",
+        "seam",
+        "spatial",
+        "scrubbed"
+      ],
+      "props": [
+        {
+          "name": "strata",
+          "type": "{ id, label, content, note? }[]",
+          "description": "Three to six strata; each note hides in the seam below its stratum."
+        },
+        {
+          "name": "onFocusChange",
+          "type": "(id) => void",
+          "description": "Fires when the stratum nearest center changes."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "320",
+          "description": "Viewport height in px."
+        }
+      ],
+      "usageNotes": [
+        "A keyboard-scrollable labelled region; the active stratum carries the accent and is announced politely.",
+        "Under reduced motion the notes render as static dividers and only active tracking remains — nothing leans."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/strata-scroll",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/strata-scroll.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/strata-scroll",
+        "npm": "npx shadcn@latest add @kinetiq/strata-scroll",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/strata-scroll",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/strata-scroll",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/strata-scroll.json"
+      }
+    },
+    {
+      "slug": "hover-relief",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Hover Relief",
+      "serial": "KQ-064",
+      "tagline": "The board rises to meet your hand.",
+      "description": "A tile grid that extrudes toward the cursor like a relief map — a gaussian falloff lifts neighbors proportionally on pure motion-value writes, focus raises a tile to full height, and clicks pop on the recoil spring.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "grid",
+        "relief",
+        "hover",
+        "extrude",
+        "spatial",
+        "tiles",
+        "cursor"
+      ],
+      "props": [
+        {
+          "name": "tiles",
+          "type": "{ id, label, glyph?, hint? }[]",
+          "description": "Six to twenty-four action tiles."
+        },
+        {
+          "name": "columns / maxLift / radius",
+          "type": "number / number / number",
+          "defaultValue": "4 / 16 / 1.6",
+          "description": "Grid shape, peak extrusion in px, and falloff radius in tile units."
+        },
+        {
+          "name": "onTileClick",
+          "type": "(id) => void",
+          "description": "Fires on tile activation."
+        }
+      ],
+      "usageNotes": [
+        "Every tile is a real button — keyboard focus lifts it to full height and Enter pops it like a click.",
+        "Under reduced motion the relief is a flat hover highlight and clicks fire without the pop."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/hover-relief",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hover-relief.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hover-relief",
+        "npm": "npx shadcn@latest add @kinetiq/hover-relief",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hover-relief",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hover-relief",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hover-relief.json"
       }
     },
     {

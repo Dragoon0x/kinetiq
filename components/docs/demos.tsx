@@ -97,6 +97,9 @@ import { FlyoverMapDemo } from "@/registry/demos/flyover-map.demo";
 import { GateStepperDemo } from "@/registry/demos/gate-stepper.demo";
 import { HingeNavDemo } from "@/registry/demos/hinge-nav.demo";
 import { DepthStackDemo } from "@/registry/demos/depth-stack.demo";
+import { PeekPortalDemo } from "@/registry/demos/peek-portal.demo";
+import { StrataScrollDemo } from "@/registry/demos/strata-scroll.demo";
+import { HoverReliefDemo } from "@/registry/demos/hover-relief.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -200,4 +203,7 @@ export const demos: Record<string, ComponentType> = {
   "gate-stepper": GateStepperDemo,
   "hinge-nav": HingeNavDemo,
   "depth-stack": DepthStackDemo,
+  "peek-portal": PeekPortalDemo,
+  "strata-scroll": StrataScrollDemo,
+  "hover-relief": HoverReliefDemo,
 };
