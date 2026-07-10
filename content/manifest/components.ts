@@ -4142,4 +4142,118 @@ export const components: KinetiqItem[] = [
       "Under reduced motion it renders as a plain wrapped headline with the active word underlined.",
     ],
   },
+  {
+    name: "extrude-title",
+    type: "registry:ui",
+    title: "Extrude Title",
+    description:
+      "A headline extruded in layered shadow — the block tilts with the pointer while the extrusion counter-rotates so the light reads as fixed, and pressing crushes the depth flat before it pops back on the recoil spring.",
+    files: [{ path: "registry/ui/extrude-title.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spatial",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-102" },
+    tagline: "Type with a block behind it.",
+    keywords: ["title", "extrude", "3d", "text", "spatial", "press"],
+    props: [
+      {
+        name: "children",
+        type: "string",
+        description: "The title text — a string, it is layered.",
+      },
+      {
+        name: "depth / stepPx",
+        type: "number / number",
+        defaultValue: "8 / 1.1",
+        description: "Extrusion steps and offset per step.",
+      },
+      {
+        name: "onPress",
+        type: "() => void",
+        description: "Fires on the flattening press.",
+      },
+    ],
+    usageNotes: [
+      "The title is a real button — Space and Enter flatten it exactly like a pointer press.",
+      "Under reduced motion the extrusion is static and presses flatten with fast tweens instead of springs.",
+    ],
+  },
+  {
+    name: "orbit-tags",
+    type: "registry:ui",
+    title: "Orbit Tags",
+    description:
+      "A selectable tag sphere — chips ride a golden-angle lattice you can spin with momentum, arrows walk the roving tab stop while the sphere rotates each tag to the front, and selection glides its chip to face you.",
+    files: [{ path: "registry/ui/orbit-tags.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-103" },
+    tagline: "A sphere of chips, one in reach.",
+    keywords: ["tags", "sphere", "orbit", "selection", "spatial", "3d"],
+    props: [
+      {
+        name: "tags",
+        type: "{ id, label }[]",
+        description: "Up to sixteen chips on the lattice.",
+      },
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "string | null / same / (id) => void",
+        description: "Controlled or uncontrolled single selection.",
+      },
+      {
+        name: "radius / height",
+        type: "number / number",
+        defaultValue: "92 / 240",
+        description: "Sphere radius and stage height.",
+      },
+    ],
+    usageNotes: [
+      "Every chip is a real button on a roving tab stop; the ambient spin pauses under keyboard focus, hover, and offscreen.",
+      "Under reduced motion the sphere renders as a flat chip cloud with the same selection and keyboard.",
+    ],
+  },
+  {
+    name: "path-type",
+    type: "registry:ui",
+    title: "Path Type",
+    description:
+      "A sentence set on an undulating ribbon — scroll draws the path in while the type rides its wave, cresting and dipping with a leading tick, every position scrubbed 1:1 from scroll.",
+    files: [{ path: "registry/ui/path-type.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-104" },
+    tagline: "Type that rides its own wave.",
+    keywords: ["text", "path", "wave", "scroll", "spatial", "ribbon"],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "One sentence to set on the ribbon.",
+      },
+      {
+        name: "amplitude / height",
+        type: "number / number",
+        defaultValue: "26 / 260",
+        description: "Wave height and scroll stage height.",
+      },
+      {
+        name: "onProgress",
+        type: "(progress) => void",
+        description: "Streams the ride, deduped to hundredths.",
+      },
+    ],
+    usageNotes: [
+      "The sentence lives in an sr-only paragraph; the SVG is presentational and the region scrolls natively from the keyboard.",
+      "Under reduced motion the ribbon renders fully drawn with the type at rest.",
+    ],
+  },
 ];

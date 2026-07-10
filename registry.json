@@ -2638,6 +2638,88 @@
       }
     },
     {
+      "name": "extrude-title",
+      "type": "registry:ui",
+      "title": "Extrude Title",
+      "description": "A headline extruded in layered shadow — the block tilts with the pointer while the extrusion counter-rotates so the light reads as fixed, and pressing crushes the depth flat before it pops back on the recoil spring.",
+      "files": [
+        {
+          "path": "registry/ui/extrude-title.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-102"
+      }
+    },
+    {
+      "name": "orbit-tags",
+      "type": "registry:ui",
+      "title": "Orbit Tags",
+      "description": "A selectable tag sphere — chips ride a golden-angle lattice you can spin with momentum, arrows walk the roving tab stop while the sphere rotates each tag to the front, and selection glides its chip to face you.",
+      "files": [
+        {
+          "path": "registry/ui/orbit-tags.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-103"
+      }
+    },
+    {
+      "name": "path-type",
+      "type": "registry:ui",
+      "title": "Path Type",
+      "description": "A sentence set on an undulating ribbon — scroll draws the path in while the type rides its wave, cresting and dipping with a leading tick, every position scrubbed 1:1 from scroll.",
+      "files": [
+        {
+          "path": "registry/ui/path-type.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-104"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

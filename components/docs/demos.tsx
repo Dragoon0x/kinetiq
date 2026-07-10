@@ -117,6 +117,9 @@ import { FrostWipeDemo } from "@/registry/demos/frost-wipe.demo";
 import { CrumpleSheetDemo } from "@/registry/demos/crumple-sheet.demo";
 import { LenticularCardDemo } from "@/registry/demos/lenticular-card.demo";
 import { VanishTypeDemo } from "@/registry/demos/vanish-type.demo";
+import { ExtrudeTitleDemo } from "@/registry/demos/extrude-title.demo";
+import { OrbitTagsDemo } from "@/registry/demos/orbit-tags.demo";
+import { PathTypeDemo } from "@/registry/demos/path-type.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -240,4 +243,7 @@ export const demos: Record<string, ComponentType> = {
   "crumple-sheet": CrumpleSheetDemo,
   "lenticular-card": LenticularCardDemo,
   "vanish-type": VanishTypeDemo,
+  "extrude-title": ExtrudeTitleDemo,
+  "orbit-tags": OrbitTagsDemo,
+  "path-type": PathTypeDemo,
 };

@@ -1607,6 +1607,54 @@ Notes:
 - The full statement lives in an sr-only paragraph — the visual words are presentational, and the region scrolls natively from the keyboard.
 - Under reduced motion it renders as a plain wrapped headline with the active word underlined.
 
+### Extrude Title (KQ-102) — `extrude-title`
+Type with a block behind it.
+
+A headline extruded in layered shadow — the block tilts with the pointer while the extrusion counter-rotates so the light reads as fixed, and pressing crushes the depth flat before it pops back on the recoil spring.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/extrude-title`
+
+Props:
+- `children`: string — The title text — a string, it is layered.
+- `depth / stepPx`: number / number (default 8 / 1.1) — Extrusion steps and offset per step.
+- `onPress`: () => void — Fires on the flattening press.
+
+Notes:
+- The title is a real button — Space and Enter flatten it exactly like a pointer press.
+- Under reduced motion the extrusion is static and presses flatten with fast tweens instead of springs.
+
+### Orbit Tags (KQ-103) — `orbit-tags`
+A sphere of chips, one in reach.
+
+A selectable tag sphere — chips ride a golden-angle lattice you can spin with momentum, arrows walk the roving tab stop while the sphere rotates each tag to the front, and selection glides its chip to face you.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/orbit-tags`
+
+Props:
+- `tags`: { id, label }[] — Up to sixteen chips on the lattice.
+- `value / defaultValue / onValueChange`: string | null / same / (id) => void — Controlled or uncontrolled single selection.
+- `radius / height`: number / number (default 92 / 240) — Sphere radius and stage height.
+
+Notes:
+- Every chip is a real button on a roving tab stop; the ambient spin pauses under keyboard focus, hover, and offscreen.
+- Under reduced motion the sphere renders as a flat chip cloud with the same selection and keyboard.
+
+### Path Type (KQ-104) — `path-type`
+Type that rides its own wave.
+
+A sentence set on an undulating ribbon — scroll draws the path in while the type rides its wave, cresting and dipping with a leading tick, every position scrubbed 1:1 from scroll.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/path-type`
+
+Props:
+- `text`: string — One sentence to set on the ribbon.
+- `amplitude / height`: number / number (default 26 / 260) — Wave height and scroll stage height.
+- `onProgress`: (progress) => void — Streams the ride, deduped to hundredths.
+
+Notes:
+- The sentence lives in an sr-only paragraph; the SVG is presentational and the region scrolls natively from the keyboard.
+- Under reduced motion the ribbon renders fully drawn with the type at rest.
+
 ### Ring Dial (KQ-111) — `ring-dial`
 Stops that pull like magnets.
 
