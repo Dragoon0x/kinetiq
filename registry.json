@@ -3774,6 +3774,86 @@
       }
     },
     {
+      "name": "section-cut",
+      "type": "registry:ui",
+      "title": "Section Cut",
+      "description": "Drag a cutting plane down through a layered core sample and the block above the plane clips away, opening each stratum at a hatched section face as the plane crosses it, its label called out and a depth readout tracking the cut.",
+      "files": [
+        {
+          "path": "registry/ui/section-cut.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-146"
+      }
+    },
+    {
+      "name": "blueprint-rise",
+      "type": "registry:ui",
+      "title": "Blueprint Rise",
+      "description": "A flat floor plan that stands up as you scroll — the plan tilts from a top-down view to a three-quarter oblique while every wall extrudes off its floor line into a line-art model, a rise readout tracking the climb from plan to structure.",
+      "files": [
+        {
+          "path": "registry/ui/blueprint-rise.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-148"
+      }
+    },
+    {
+      "name": "explode-view",
+      "type": "registry:ui",
+      "title": "Explode View",
+      "description": "A stacked assembly that separates on command — toggle it and the parts fan apart along an isometric axis in a staggered cascade, a leader line running from each part to its label; toggle back and they nest into one solid again.",
+      "files": [
+        {
+          "path": "registry/ui/explode-view.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-149"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

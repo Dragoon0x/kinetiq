@@ -5751,4 +5751,125 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the needle jumps to the pointer bearing and the detent with no wobble.",
     ],
   },
+  {
+    name: "section-cut",
+    type: "registry:ui",
+    title: "Section Cut",
+    description:
+      "Drag a cutting plane down through a layered core sample and the block above the plane clips away, opening each stratum at a hatched section face as the plane crosses it, its label called out and a depth readout tracking the cut.",
+    files: [{ path: "registry/ui/section-cut.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-146" },
+    tagline: "Drag the plane; a stratum opens at the cut.",
+    keywords: ["section", "cut", "strata", "core", "spatial", "cross-section"],
+    props: [
+      {
+        name: "strata",
+        type: "Stratum[]",
+        description: "Bands top to bottom, each with a thickness and tone.",
+      },
+      {
+        name: "onCut",
+        type: "(id | null) => void",
+        description: "Fires the stratum at the cut face, null above grade.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Core height in px.",
+      },
+    ],
+    usageNotes: [
+      "The plane is a role=slider — drag tracks 1:1, arrows step it, PageUp/Down jump a whole stratum.",
+      "onCut reports the intersected stratum, deduped; the depth readout derives from the plane, never a per-frame write.",
+      "Under reduced motion the plane and the clip resolve instantly with the same section semantics.",
+    ],
+  },
+  {
+    name: "blueprint-rise",
+    type: "registry:ui",
+    title: "Blueprint Rise",
+    description:
+      "A flat floor plan that stands up as you scroll — the plan tilts from a top-down view to a three-quarter oblique while every wall extrudes off its floor line into a line-art model, a rise readout tracking the climb from plan to structure.",
+    files: [{ path: "registry/ui/blueprint-rise.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-148" },
+    tagline: "Scroll the plan up into a standing model.",
+    keywords: ["blueprint", "floor-plan", "extrude", "scroll", "spatial", "architecture"],
+    props: [
+      {
+        name: "walls",
+        type: "WallSeg[]",
+        description: "Wall segments in 0..1 plan coordinates, with a height.",
+      },
+      {
+        name: "labels",
+        type: "{ id, x, y, text }[]",
+        description: "Room labels on the floor plane.",
+      },
+      {
+        name: "journey / height",
+        type: "number",
+        defaultValue: "3 / 300",
+        description: "Scroll track length in stages and stage height in px.",
+      },
+      {
+        name: "onRise",
+        type: "(progress) => void",
+        description: "Streams the rise 0..1, deduped to twentieths.",
+      },
+    ],
+    usageNotes: [
+      "Pure SVG faux-3D — no CSS 3D — so the extruded model stays Safari-proof.",
+      "An sr-only line describes the plan; the region scrolls natively and the model is presentational.",
+      "Under reduced motion the model holds a mid-rise composition while the readout still tracks scroll.",
+    ],
+  },
+  {
+    name: "explode-view",
+    type: "registry:ui",
+    title: "Explode View",
+    description:
+      "A stacked assembly that separates on command — toggle it and the parts fan apart along an isometric axis in a staggered cascade, a leader line running from each part to its label; toggle back and they nest into one solid again.",
+    files: [{ path: "registry/ui/explode-view.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-149" },
+    tagline: "Toggle to fan the assembly apart, labelled.",
+    keywords: ["explode", "assembly", "parts", "diagram", "spatial", "exploded-view"],
+    props: [
+      {
+        name: "parts",
+        type: "Part[]",
+        description: "Assembly parts, ordered bottom to top.",
+      },
+      {
+        name: "exploded / defaultExploded",
+        type: "boolean",
+        description: "Controlled or initial exploded state.",
+      },
+      {
+        name: "onToggle",
+        type: "(exploded) => void",
+        description: "Fires the new state when the assembly is toggled.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Parts are focusable buttons — hovering or focusing one lights the part and its leader-lined label.",
+      "The separation staggers on a cascade so the outer parts lead; the controlled exploded prop is honored.",
+      "Under reduced motion the assembly swaps instantly between nested and fanned, leaders and all.",
+    ],
+  },
 ];

@@ -2283,6 +2283,23 @@ Notes:
 - The rider is a bezier-derived marker travelling a tween from origin to destination while the route is active.
 - Under reduced motion no rider travels; the arc brightens and marks its midpoint instead.
 
+### Section Cut (KQ-146) — `section-cut`
+Drag the plane; a stratum opens at the cut.
+
+Drag a cutting plane down through a layered core sample and the block above the plane clips away, opening each stratum at a hatched section face as the plane crosses it, its label called out and a depth readout tracking the cut.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/section-cut`
+
+Props:
+- `strata`: Stratum[] — Bands top to bottom, each with a thickness and tone.
+- `onCut`: (id | null) => void — Fires the stratum at the cut face, null above grade.
+- `height`: number (default 300) — Core height in px.
+
+Notes:
+- The plane is a role=slider — drag tracks 1:1, arrows step it, PageUp/Down jump a whole stratum.
+- onCut reports the intersected stratum, deduped; the depth readout derives from the plane, never a per-frame write.
+- Under reduced motion the plane and the clip resolve instantly with the same section semantics.
+
 ### Compass Needle (KQ-147) — `compass-needle`
 Drag the dial; the needle wobbles to a point.
 
@@ -2300,6 +2317,42 @@ Notes:
 - The dial is a role=slider — arrows step one detent, Home returns to north, and the value text names the cardinal point.
 - Release snaps the short way to the nearest detent on the recoil spring, its two bounces reading as magnetism.
 - Under reduced motion the needle jumps to the pointer bearing and the detent with no wobble.
+
+### Blueprint Rise (KQ-148) — `blueprint-rise`
+Scroll the plan up into a standing model.
+
+A flat floor plan that stands up as you scroll — the plan tilts from a top-down view to a three-quarter oblique while every wall extrudes off its floor line into a line-art model, a rise readout tracking the climb from plan to structure.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/blueprint-rise`
+
+Props:
+- `walls`: WallSeg[] — Wall segments in 0..1 plan coordinates, with a height.
+- `labels`: { id, x, y, text }[] — Room labels on the floor plane.
+- `journey / height`: number (default 3 / 300) — Scroll track length in stages and stage height in px.
+- `onRise`: (progress) => void — Streams the rise 0..1, deduped to twentieths.
+
+Notes:
+- Pure SVG faux-3D — no CSS 3D — so the extruded model stays Safari-proof.
+- An sr-only line describes the plan; the region scrolls natively and the model is presentational.
+- Under reduced motion the model holds a mid-rise composition while the readout still tracks scroll.
+
+### Explode View (KQ-149) — `explode-view`
+Toggle to fan the assembly apart, labelled.
+
+A stacked assembly that separates on command — toggle it and the parts fan apart along an isometric axis in a staggered cascade, a leader line running from each part to its label; toggle back and they nest into one solid again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/explode-view`
+
+Props:
+- `parts`: Part[] — Assembly parts, ordered bottom to top.
+- `exploded / defaultExploded`: boolean — Controlled or initial exploded state.
+- `onToggle`: (exploded) => void — Fires the new state when the assembly is toggled.
+- `height`: number (default 300) — Stage height in px.
+
+Notes:
+- Parts are focusable buttons — hovering or focusing one lights the part and its leader-lined label.
+- The separation staggers on a cascade so the outer parts lead; the controlled exploded prop is honored.
+- Under reduced motion the assembly swaps instantly between nested and fanned, leaders and all.
 
 ### Swing Door (KQ-151) — `swing-door`
 Past the detent or slammed home.

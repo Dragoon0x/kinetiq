@@ -159,6 +159,9 @@ import { ElevatorNavDemo } from "@/registry/demos/elevator-nav.demo";
 import { TerrainReliefDemo } from "@/registry/demos/terrain-relief.demo";
 import { ArcRoutesDemo } from "@/registry/demos/arc-routes.demo";
 import { CompassNeedleDemo } from "@/registry/demos/compass-needle.demo";
+import { SectionCutDemo } from "@/registry/demos/section-cut.demo";
+import { BlueprintRiseDemo } from "@/registry/demos/blueprint-rise.demo";
+import { ExplodeViewDemo } from "@/registry/demos/explode-view.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -324,4 +327,7 @@ export const demos: Record<string, ComponentType> = {
   "terrain-relief": TerrainReliefDemo,
   "arc-routes": ArcRoutesDemo,
   "compass-needle": CompassNeedleDemo,
+  "section-cut": SectionCutDemo,
+  "blueprint-rise": BlueprintRiseDemo,
+  "explode-view": ExplodeViewDemo,
 };
