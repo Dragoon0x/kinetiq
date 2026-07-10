@@ -5373,4 +5373,133 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the pan resolves instantly with a hard clamp; the vista is seeded off the serial and identical every render.",
     ],
   },
+  {
+    name: "zoom-atlas",
+    type: "registry:ui",
+    title: "Zoom Atlas",
+    description:
+      "Semantic zoom made physical — the atlas is a grid of sectors, and clicking one flies the camera into it, the whole board scaling about that cell until it fills the frame; a breadcrumb hangs at the top to fly you back out to the overview.",
+    files: [{ path: "registry/ui/zoom-atlas.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-085" },
+    tagline: "Click a sector; the camera flies in.",
+    keywords: ["zoom", "semantic", "atlas", "grid", "camera", "spatial"],
+    props: [
+      {
+        name: "regions",
+        type: "AtlasRegion[]",
+        description: "Sectors laid on a near-square grid; each a zoom target.",
+      },
+      {
+        name: "columns",
+        type: "number",
+        defaultValue: "ceil(sqrt(n))",
+        description: "Grid columns; the fill scale keys off it.",
+      },
+      {
+        name: "onZoom",
+        type: "(id | null) => void",
+        description: "Fires the focused sector id, null on return to overview.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Atlas height in px.",
+      },
+    ],
+    usageNotes: [
+      "Sectors are real buttons — Enter flies in, Escape or the breadcrumb flies back out.",
+      "onZoom fires the id on entry and null on return, deduped against the current view.",
+      "Under reduced motion the fly is an instant swap between the overview grid and a full-frame sector.",
+    ],
+  },
+  {
+    name: "crane-scroll",
+    type: "registry:ui",
+    title: "Crane Scroll",
+    description:
+      "A crane shot on a scroll track — the ground plane tips from an overhead plan to an eye-level elevation as you scroll, its plots standing up into view while their labels billboard to stay readable, a stage readout naming the shot from top-down through three-quarter to front.",
+    files: [{ path: "registry/ui/crane-scroll.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-086" },
+    tagline: "Scroll cranes the camera from plan to elevation.",
+    keywords: ["crane", "camera", "scroll", "ground-plane", "spatial", "survey"],
+    props: [
+      {
+        name: "tiles",
+        type: "CraneTile[]",
+        description: "Plots seated on the ground plane, front to back.",
+      },
+      {
+        name: "journey",
+        type: "number",
+        defaultValue: "3",
+        description: "Scroll track length as a multiple of height.",
+      },
+      {
+        name: "onCrane",
+        type: "(progress) => void",
+        description: "Streams the crane 0..1, deduped to twentieths.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Scroll stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "An sr-only line describes the crane; the region scrolls natively and the 3D scene is presentational.",
+      "Labels billboard against the plane so they stay upright through the whole crane.",
+      "Under reduced motion the scene holds a three-quarter pose while the readout still names the shot.",
+    ],
+  },
+  {
+    name: "look-room",
+    type: "registry:ui",
+    title: "Look Room",
+    description:
+      "A room you look around from the inside — the pointer tilts the interior within a fixed field of view, five walls shaded so the corners read, and plaques pinned across them are focusable; focusing one glides the room to face it, and activating it logs the look.",
+    files: [{ path: "registry/ui/look-room.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spatial",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-087" },
+    tagline: "Look around the room; a plaque swings to face you.",
+    keywords: ["room", "interior", "look", "camera", "3d", "spatial"],
+    props: [
+      {
+        name: "hotspots",
+        type: "RoomHotspot[]",
+        description: "Plaques pinned to the front, left, or right wall by at (0..1).",
+      },
+      {
+        name: "onLook",
+        type: "(id) => void",
+        description: "Fires when a plaque is faced and activated.",
+      },
+      {
+        name: "depth / height",
+        type: "number",
+        defaultValue: "260 / 290",
+        description: "Room depth and stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Pointer-look is gated to fine pointers; on touch the focused stage looks around with the arrow keys.",
+      "Plaques are real buttons — focusing one glides the room to face it, Enter logs the look.",
+      "Under reduced motion the room collapses to a flat, wall-grouped list of focusable plaques with no 3D.",
+    ],
+  },
 ];

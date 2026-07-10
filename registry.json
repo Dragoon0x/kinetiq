@@ -3531,6 +3531,87 @@
       }
     },
     {
+      "name": "zoom-atlas",
+      "type": "registry:ui",
+      "title": "Zoom Atlas",
+      "description": "Semantic zoom made physical — the atlas is a grid of sectors, and clicking one flies the camera into it, the whole board scaling about that cell until it fills the frame; a breadcrumb hangs at the top to fly you back out to the overview.",
+      "files": [
+        {
+          "path": "registry/ui/zoom-atlas.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-085"
+      }
+    },
+    {
+      "name": "crane-scroll",
+      "type": "registry:ui",
+      "title": "Crane Scroll",
+      "description": "A crane shot on a scroll track — the ground plane tips from an overhead plan to an eye-level elevation as you scroll, its plots standing up into view while their labels billboard to stay readable, a stage readout naming the shot from top-down through three-quarter to front.",
+      "files": [
+        {
+          "path": "registry/ui/crane-scroll.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-086"
+      }
+    },
+    {
+      "name": "look-room",
+      "type": "registry:ui",
+      "title": "Look Room",
+      "description": "A room you look around from the inside — the pointer tilts the interior within a fixed field of view, five walls shaded so the corners read, and plaques pinned across them are focusable; focusing one glides the room to face it, and activating it logs the look.",
+      "files": [
+        {
+          "path": "registry/ui/look-room.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-087"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -1495,6 +1495,59 @@ Notes:
 - The frame is a focusable group — arrows pan by 15% of the window, Home and End jump to the ends.
 - Under reduced motion the pan resolves instantly with a hard clamp; the vista is seeded off the serial and identical every render.
 
+### Zoom Atlas (KQ-085) — `zoom-atlas`
+Click a sector; the camera flies in.
+
+Semantic zoom made physical — the atlas is a grid of sectors, and clicking one flies the camera into it, the whole board scaling about that cell until it fills the frame; a breadcrumb hangs at the top to fly you back out to the overview.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/zoom-atlas`
+
+Props:
+- `regions`: AtlasRegion[] — Sectors laid on a near-square grid; each a zoom target.
+- `columns`: number (default ceil(sqrt(n))) — Grid columns; the fill scale keys off it.
+- `onZoom`: (id | null) => void — Fires the focused sector id, null on return to overview.
+- `height`: number (default 300) — Atlas height in px.
+
+Notes:
+- Sectors are real buttons — Enter flies in, Escape or the breadcrumb flies back out.
+- onZoom fires the id on entry and null on return, deduped against the current view.
+- Under reduced motion the fly is an instant swap between the overview grid and a full-frame sector.
+
+### Crane Scroll (KQ-086) — `crane-scroll`
+Scroll cranes the camera from plan to elevation.
+
+A crane shot on a scroll track — the ground plane tips from an overhead plan to an eye-level elevation as you scroll, its plots standing up into view while their labels billboard to stay readable, a stage readout naming the shot from top-down through three-quarter to front.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crane-scroll`
+
+Props:
+- `tiles`: CraneTile[] — Plots seated on the ground plane, front to back.
+- `journey`: number (default 3) — Scroll track length as a multiple of height.
+- `onCrane`: (progress) => void — Streams the crane 0..1, deduped to twentieths.
+- `height`: number (default 280) — Scroll stage height in px.
+
+Notes:
+- An sr-only line describes the crane; the region scrolls natively and the 3D scene is presentational.
+- Labels billboard against the plane so they stay upright through the whole crane.
+- Under reduced motion the scene holds a three-quarter pose while the readout still names the shot.
+
+### Look Room (KQ-087) — `look-room`
+Look around the room; a plaque swings to face you.
+
+A room you look around from the inside — the pointer tilts the interior within a fixed field of view, five walls shaded so the corners read, and plaques pinned across them are focusable; focusing one glides the room to face it, and activating it logs the look.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/look-room`
+
+Props:
+- `hotspots`: RoomHotspot[] — Plaques pinned to the front, left, or right wall by at (0..1).
+- `onLook`: (id) => void — Fires when a plaque is faced and activated.
+- `depth / height`: number (default 260 / 290) — Room depth and stage height in px.
+
+Notes:
+- Pointer-look is gated to fine pointers; on touch the focused stage looks around with the arrow keys.
+- Plaques are real buttons — focusing one glides the room to face it, Enter logs the look.
+- Under reduced motion the room collapses to a flat, wall-grouped list of focusable plaques with no 3D.
+
 ### Glass Pane (KQ-091) — `glass-pane`
 Sheets that part for your hand.
 
