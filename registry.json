@@ -2556,6 +2556,88 @@
       }
     },
     {
+      "name": "crumple-sheet",
+      "type": "registry:ui",
+      "title": "Crumple Sheet",
+      "description": "Dismiss crumples the sheet into a paper ball — a deterministic facet mesh converges over the fading content, shading by how far each triangle collapsed, and the wad sits there as a button until you smooth it back out with a settle wobble.",
+      "files": [
+        {
+          "path": "registry/ui/crumple-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-099"
+      }
+    },
+    {
+      "name": "lenticular-card",
+      "type": "registry:ui",
+      "title": "Lenticular Card",
+      "description": "A ridged-lens card holding two faces — sweeping across it flips one vertical ridge at a time, the wave trailing your hand, with a sheen band riding the active ridge; a house slider gives the keyboard the same sweep.",
+      "files": [
+        {
+          "path": "registry/ui/lenticular-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-100"
+      }
+    },
+    {
+      "name": "vanish-type",
+      "type": "registry:ui",
+      "title": "Vanish Type",
+      "description": "A statement set along a ray to its vanishing point — scroll pulls each word into the reading slot in turn while the rest recede up the ray or drift off behind, every position scrubbed 1:1 from scroll.",
+      "files": [
+        {
+          "path": "registry/ui/vanish-type.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-101"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

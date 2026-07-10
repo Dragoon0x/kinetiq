@@ -4017,4 +4017,129 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the refrost is instant rather than gradual; the regrow loop pauses offscreen and in hidden tabs.",
     ],
   },
+  {
+    name: "crumple-sheet",
+    type: "registry:ui",
+    title: "Crumple Sheet",
+    description:
+      "Dismiss crumples the sheet into a paper ball — a deterministic facet mesh converges over the fading content, shading by how far each triangle collapsed, and the wad sits there as a button until you smooth it back out with a settle wobble.",
+    files: [{ path: "registry/ui/crumple-sheet.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-099" },
+    tagline: "Wad it up; smooth it out.",
+    keywords: ["crumple", "paper", "dismiss", "mesh", "spatial", "restore"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The sheet's content.",
+      },
+      {
+        name: "crumpled / defaultCrumpled / onCrumpleChange",
+        type: "boolean / boolean / (crumpled) => void",
+        description: "Controlled or uncontrolled wad state.",
+      },
+      {
+        name: "dismissLabel / restoreLabel",
+        type: "string / string",
+        description: "Chip and wad wording.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "220",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The wad is a real button — focus hops from the dismiss chip to the wad and back, and both states are announced.",
+      "Under reduced motion the mesh never mounts; the sheet and wad swap with a fast fade.",
+    ],
+  },
+  {
+    name: "lenticular-card",
+    type: "registry:ui",
+    title: "Lenticular Card",
+    description:
+      "A ridged-lens card holding two faces — sweeping across it flips one vertical ridge at a time, the wave trailing your hand, with a sheen band riding the active ridge; a house slider gives the keyboard the same sweep.",
+    files: [{ path: "registry/ui/lenticular-card.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spatial",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-100" },
+    tagline: "Two faces, one ridge at a time.",
+    keywords: ["lenticular", "ridges", "card", "faces", "spatial", "sweep"],
+    props: [
+      {
+        name: "a / b",
+        type: "ReactNode / ReactNode",
+        description: "The two full-size faces, sliced across the ridges.",
+      },
+      {
+        name: "ridges",
+        type: "number",
+        defaultValue: "14",
+        description: "Strip count, clamped 4-28.",
+      },
+      {
+        name: "onDominantChange",
+        type: '(side: "a" | "b") => void',
+        description: "Fires once when the majority face crosses over.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "210",
+        description: "Card height in px.",
+      },
+    ],
+    usageNotes: [
+      "The slider is always rendered and is the accessible control — arrows sweep by five, Home and End jump, and pointer sweeps keep its value honest.",
+      "Under reduced motion pointer tracking is off and the slider sweeps with instant flips.",
+    ],
+  },
+  {
+    name: "vanish-type",
+    type: "registry:ui",
+    title: "Vanish Type",
+    description:
+      "A statement set along a ray to its vanishing point — scroll pulls each word into the reading slot in turn while the rest recede up the ray or drift off behind, every position scrubbed 1:1 from scroll.",
+    files: [{ path: "registry/ui/vanish-type.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-101" },
+    tagline: "One word in the slot at a time.",
+    keywords: ["type", "text", "vanishing", "scroll", "spatial", "headline"],
+    props: [
+      {
+        name: "words",
+        type: "string[]",
+        description: "Four to ten words of one statement.",
+      },
+      {
+        name: "onWordChange",
+        type: "(index) => void",
+        description: "Fires as the reading slot changes words.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "260",
+        description: "Scroll stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The full statement lives in an sr-only paragraph — the visual words are presentational, and the region scrolls natively from the keyboard.",
+      "Under reduced motion it renders as a plain wrapped headline with the active word underlined.",
+    ],
+  },
 ];

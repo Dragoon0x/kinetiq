@@ -1557,6 +1557,56 @@ Notes:
 - WIPE CLEAR and REFROST chips give the keyboard the same control, and the pane state is announced politely.
 - Under reduced motion the refrost is instant rather than gradual; the regrow loop pauses offscreen and in hidden tabs.
 
+### Crumple Sheet (KQ-099) — `crumple-sheet`
+Wad it up; smooth it out.
+
+Dismiss crumples the sheet into a paper ball — a deterministic facet mesh converges over the fading content, shading by how far each triangle collapsed, and the wad sits there as a button until you smooth it back out with a settle wobble.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crumple-sheet`
+
+Props:
+- `children`: ReactNode — The sheet's content.
+- `crumpled / defaultCrumpled / onCrumpleChange`: boolean / boolean / (crumpled) => void — Controlled or uncontrolled wad state.
+- `dismissLabel / restoreLabel`: string / string — Chip and wad wording.
+- `height`: number (default 220) — Stage height in px.
+
+Notes:
+- The wad is a real button — focus hops from the dismiss chip to the wad and back, and both states are announced.
+- Under reduced motion the mesh never mounts; the sheet and wad swap with a fast fade.
+
+### Lenticular Card (KQ-100) — `lenticular-card`
+Two faces, one ridge at a time.
+
+A ridged-lens card holding two faces — sweeping across it flips one vertical ridge at a time, the wave trailing your hand, with a sheen band riding the active ridge; a house slider gives the keyboard the same sweep.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lenticular-card`
+
+Props:
+- `a / b`: ReactNode / ReactNode — The two full-size faces, sliced across the ridges.
+- `ridges`: number (default 14) — Strip count, clamped 4-28.
+- `onDominantChange`: (side: "a" | "b") => void — Fires once when the majority face crosses over.
+- `height`: number (default 210) — Card height in px.
+
+Notes:
+- The slider is always rendered and is the accessible control — arrows sweep by five, Home and End jump, and pointer sweeps keep its value honest.
+- Under reduced motion pointer tracking is off and the slider sweeps with instant flips.
+
+### Vanish Type (KQ-101) — `vanish-type`
+One word in the slot at a time.
+
+A statement set along a ray to its vanishing point — scroll pulls each word into the reading slot in turn while the rest recede up the ray or drift off behind, every position scrubbed 1:1 from scroll.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vanish-type`
+
+Props:
+- `words`: string[] — Four to ten words of one statement.
+- `onWordChange`: (index) => void — Fires as the reading slot changes words.
+- `height`: number (default 260) — Scroll stage height in px.
+
+Notes:
+- The full statement lives in an sr-only paragraph — the visual words are presentational, and the region scrolls natively from the keyboard.
+- Under reduced motion it renders as a plain wrapped headline with the active word underlined.
+
 ### Ring Dial (KQ-111) — `ring-dial`
 Stops that pull like magnets.
 
