@@ -3633,4 +3633,70 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the lens rests at center and keyboard moves are instant.",
     ],
   },
+  {
+    name: "altitude-list",
+    type: "registry:ui",
+    title: "Altitude List",
+    description:
+      "Readings that float at altitudes — every plate lifts off its ground line in proportion to its value, casting a contact shadow that lengthens with height; re-sorting flies the plates to their new rank while the altitudes hold.",
+    files: [{ path: "registry/ui/altitude-list.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-069" },
+    tagline: "Magnitude you can read as height.",
+    keywords: ["list", "altitude", "sort", "values", "spatial", "shadow"],
+    props: [
+      {
+        name: "items",
+        type: "{ id, label, value, unit? }[]",
+        description: "Three to eight readings.",
+      },
+      {
+        name: "defaultSort / onSortChange",
+        type: '"value-desc" | "value-asc" | "label" / (sort) => void',
+        description: "Starting order and the change callback.",
+      },
+    ],
+    usageNotes: [
+      "Sort chips are real buttons with aria-pressed; the reorder rides layout animation on the glide spring.",
+      "Under reduced motion plates sit flat with value bars and re-orders are instant.",
+    ],
+  },
+  {
+    name: "horizon-rise",
+    type: "registry:ui",
+    title: "Horizon Rise",
+    description:
+      "Sections that rise from below a ground-plane horizon — each lies tipped back beyond the line until scroll carries it into view, then stands upright on the glide spring beneath a converging ground grid.",
+    files: [{ path: "registry/ui/horizon-rise.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-070" },
+    tagline: "Stand up over the horizon.",
+    keywords: ["scroll", "entrance", "horizon", "rise", "spatial", "reveal"],
+    props: [
+      {
+        name: "sections",
+        type: "{ id, node }[]",
+        description: "The sections that rise as they enter view.",
+      },
+      {
+        name: "once",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Animate only on the first entrance.",
+      },
+      {
+        name: "height",
+        type: "number",
+        description: "Optional internal scroll stage; omit to ride the page.",
+      },
+    ],
+    usageNotes: [
+      "With a height it is a keyboard-scrollable labelled region; without one it rides the page scroll.",
+      "Under reduced motion sections simply fade in place with no tilt or rise.",
+    ],
+  },
 ];

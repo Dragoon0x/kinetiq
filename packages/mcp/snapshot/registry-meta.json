@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 87,
+      "components": 89,
       "blocks": 16,
       "shared": 6
     }
@@ -4317,6 +4317,120 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/depth-lens",
         "bun": "bunx --bun shadcn@latest add @kinetiq/depth-lens",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/depth-lens.json"
+      }
+    },
+    {
+      "slug": "altitude-list",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Altitude List",
+      "serial": "KQ-069",
+      "tagline": "Magnitude you can read as height.",
+      "description": "Readings that float at altitudes — every plate lifts off its ground line in proportion to its value, casting a contact shadow that lengthens with height; re-sorting flies the plates to their new rank while the altitudes hold.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "list",
+        "altitude",
+        "sort",
+        "values",
+        "spatial",
+        "shadow"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id, label, value, unit? }[]",
+          "description": "Three to eight readings."
+        },
+        {
+          "name": "defaultSort / onSortChange",
+          "type": "\"value-desc\" | \"value-asc\" | \"label\" / (sort) => void",
+          "description": "Starting order and the change callback."
+        }
+      ],
+      "usageNotes": [
+        "Sort chips are real buttons with aria-pressed; the reorder rides layout animation on the glide spring.",
+        "Under reduced motion plates sit flat with value bars and re-orders are instant."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/altitude-list",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/altitude-list.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/altitude-list",
+        "npm": "npx shadcn@latest add @kinetiq/altitude-list",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/altitude-list",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/altitude-list",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/altitude-list.json"
+      }
+    },
+    {
+      "slug": "horizon-rise",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Horizon Rise",
+      "serial": "KQ-070",
+      "tagline": "Stand up over the horizon.",
+      "description": "Sections that rise from below a ground-plane horizon — each lies tipped back beyond the line until scroll carries it into view, then stands upright on the glide spring beneath a converging ground grid.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "scroll",
+        "entrance",
+        "horizon",
+        "rise",
+        "spatial",
+        "reveal"
+      ],
+      "props": [
+        {
+          "name": "sections",
+          "type": "{ id, node }[]",
+          "description": "The sections that rise as they enter view."
+        },
+        {
+          "name": "once",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Animate only on the first entrance."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Optional internal scroll stage; omit to ride the page."
+        }
+      ],
+      "usageNotes": [
+        "With a height it is a keyboard-scrollable labelled region; without one it rides the page scroll.",
+        "Under reduced motion sections simply fade in place with no tilt or rise."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/horizon-rise",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/horizon-rise.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/horizon-rise",
+        "npm": "npx shadcn@latest add @kinetiq/horizon-rise",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/horizon-rise",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/horizon-rise",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/horizon-rise.json"
       }
     },
     {

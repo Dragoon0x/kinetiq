@@ -2293,6 +2293,60 @@
       }
     },
     {
+      "name": "altitude-list",
+      "type": "registry:ui",
+      "title": "Altitude List",
+      "description": "Readings that float at altitudes — every plate lifts off its ground line in proportion to its value, casting a contact shadow that lengthens with height; re-sorting flies the plates to their new rank while the altitudes hold.",
+      "files": [
+        {
+          "path": "registry/ui/altitude-list.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-069"
+      }
+    },
+    {
+      "name": "horizon-rise",
+      "type": "registry:ui",
+      "title": "Horizon Rise",
+      "description": "Sections that rise from below a ground-plane horizon — each lies tipped back beyond the line until scroll carries it into view, then stands upright on the glide spring beneath a converging ground grid.",
+      "files": [
+        {
+          "path": "registry/ui/horizon-rise.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-070"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

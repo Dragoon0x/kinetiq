@@ -104,6 +104,8 @@ import { FocusRackDemo } from "@/registry/demos/focus-rack.demo";
 import { LayerPeelDemo } from "@/registry/demos/layer-peel.demo";
 import { SliceCompareDemo } from "@/registry/demos/slice-compare.demo";
 import { DepthLensDemo } from "@/registry/demos/depth-lens.demo";
+import { AltitudeListDemo } from "@/registry/demos/altitude-list.demo";
+import { HorizonRiseDemo } from "@/registry/demos/horizon-rise.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -214,4 +216,6 @@ export const demos: Record<string, ComponentType> = {
   "layer-peel": LayerPeelDemo,
   "slice-compare": SliceCompareDemo,
   "depth-lens": DepthLensDemo,
+  "altitude-list": AltitudeListDemo,
+  "horizon-rise": HorizonRiseDemo,
 };

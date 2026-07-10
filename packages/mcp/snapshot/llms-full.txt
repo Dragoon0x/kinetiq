@@ -1229,6 +1229,37 @@ Notes:
 - The stage is focusable and arrows steer the lens; on coarse pointers a tap re-anchors it.
 - Under reduced motion the lens rests at center and keyboard moves are instant.
 
+### Altitude List (KQ-069) — `altitude-list`
+Magnitude you can read as height.
+
+Readings that float at altitudes — every plate lifts off its ground line in proportion to its value, casting a contact shadow that lengthens with height; re-sorting flies the plates to their new rank while the altitudes hold.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/altitude-list`
+
+Props:
+- `items`: { id, label, value, unit? }[] — Three to eight readings.
+- `defaultSort / onSortChange`: "value-desc" | "value-asc" | "label" / (sort) => void — Starting order and the change callback.
+
+Notes:
+- Sort chips are real buttons with aria-pressed; the reorder rides layout animation on the glide spring.
+- Under reduced motion plates sit flat with value bars and re-orders are instant.
+
+### Horizon Rise (KQ-070) — `horizon-rise`
+Stand up over the horizon.
+
+Sections that rise from below a ground-plane horizon — each lies tipped back beyond the line until scroll carries it into view, then stands upright on the glide spring beneath a converging ground grid.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/horizon-rise`
+
+Props:
+- `sections`: { id, node }[] — The sections that rise as they enter view.
+- `once`: boolean (default true) — Animate only on the first entrance.
+- `height`: number — Optional internal scroll stage; omit to ride the page.
+
+Notes:
+- With a height it is a keyboard-scrollable labelled region; without one it rides the page scroll.
+- Under reduced motion sections simply fade in place with no tilt or rise.
+
 ### Facet Cube (KQ-071) — `facet-cube`
 Six faces, one cube, snap detents.
 
