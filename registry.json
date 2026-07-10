@@ -3125,6 +3125,33 @@
       }
     },
     {
+      "name": "drawbridge",
+      "type": "registry:ui",
+      "title": "Drawbridge",
+      "description": "A span between two content islands — lowering pays the chains out from the gantry as the deck swings down, thumps the far abutment on the recoil, and a runner crosses once to prove the connection before the far bank wakes.",
+      "files": [
+        {
+          "path": "registry/ui/drawbridge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-160"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

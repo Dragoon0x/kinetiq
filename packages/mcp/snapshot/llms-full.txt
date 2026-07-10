@@ -2061,6 +2061,23 @@ Notes:
 - Dismissal is always two presses — arm, then confirm — with Escape backing out; every stage is announced.
 - Under reduced motion the item fades instantly on confirm with the same two-stage semantics.
 
+### Drawbridge (KQ-160) — `drawbridge`
+Chains out, deck down, crossing proved.
+
+A span between two content islands — lowering pays the chains out from the gantry as the deck swings down, thumps the far abutment on the recoil, and a runner crosses once to prove the connection before the far bank wakes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/drawbridge`
+
+Props:
+- `near / far`: ReactNode / ReactNode — The two banks; the far one is reachable only while bridged.
+- `bridged / defaultBridged / onBridgedChange`: boolean / boolean / (bridged) => void — Controlled or uncontrolled span state.
+- `lowerLabel / raiseLabel`: string / string — Toggle wording.
+- `height`: number (default 250) — Stage height in px.
+
+Notes:
+- One real toggle with aria-expanded; the far bank is inert and dimmed until the deck lands, and both states are announced.
+- Under reduced motion the deck fades between raised and bridged with no chains or runner.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

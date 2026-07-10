@@ -135,6 +135,7 @@ import { PulleyLiftDemo } from "@/registry/demos/pulley-lift.demo";
 import { ComboDialsDemo } from "@/registry/demos/combo-dials.demo";
 import { ZipperSeamDemo } from "@/registry/demos/zipper-seam.demo";
 import { TrapdoorDropDemo } from "@/registry/demos/trapdoor-drop.demo";
+import { DrawbridgeDemo } from "@/registry/demos/drawbridge.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -276,4 +277,5 @@ export const demos: Record<string, ComponentType> = {
   "combo-dials": ComboDialsDemo,
   "zipper-seam": ZipperSeamDemo,
   "trapdoor-drop": TrapdoorDropDemo,
+  drawbridge: DrawbridgeDemo,
 };

@@ -4817,4 +4817,45 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the item fades instantly on confirm with the same two-stage semantics.",
     ],
   },
+  {
+    name: "drawbridge",
+    type: "registry:ui",
+    title: "Drawbridge",
+    description:
+      "A span between two content islands — lowering pays the chains out from the gantry as the deck swings down, thumps the far abutment on the recoil, and a runner crosses once to prove the connection before the far bank wakes.",
+    files: [{ path: "registry/ui/drawbridge.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-160" },
+    tagline: "Chains out, deck down, crossing proved.",
+    keywords: ["bridge", "drawbridge", "connect", "islands", "spatial", "mechanism"],
+    props: [
+      {
+        name: "near / far",
+        type: "ReactNode / ReactNode",
+        description: "The two banks; the far one is reachable only while bridged.",
+      },
+      {
+        name: "bridged / defaultBridged / onBridgedChange",
+        type: "boolean / boolean / (bridged) => void",
+        description: "Controlled or uncontrolled span state.",
+      },
+      {
+        name: "lowerLabel / raiseLabel",
+        type: "string / string",
+        description: "Toggle wording.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "250",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "One real toggle with aria-expanded; the far bank is inert and dimmed until the deck lands, and both states are announced.",
+      "Under reduced motion the deck fades between raised and bridged with no chains or runner.",
+    ],
+  },
 ];

@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 118,
+      "components": 119,
       "blocks": 16,
       "shared": 6
     }
@@ -7469,6 +7469,71 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/trapdoor-drop",
         "bun": "bunx --bun shadcn@latest add @kinetiq/trapdoor-drop",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/trapdoor-drop.json"
+      }
+    },
+    {
+      "slug": "drawbridge",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Drawbridge",
+      "serial": "KQ-160",
+      "tagline": "Chains out, deck down, crossing proved.",
+      "description": "A span between two content islands — lowering pays the chains out from the gantry as the deck swings down, thumps the far abutment on the recoil, and a runner crosses once to prove the connection before the far bank wakes.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "bridge",
+        "drawbridge",
+        "connect",
+        "islands",
+        "spatial",
+        "mechanism"
+      ],
+      "props": [
+        {
+          "name": "near / far",
+          "type": "ReactNode / ReactNode",
+          "description": "The two banks; the far one is reachable only while bridged."
+        },
+        {
+          "name": "bridged / defaultBridged / onBridgedChange",
+          "type": "boolean / boolean / (bridged) => void",
+          "description": "Controlled or uncontrolled span state."
+        },
+        {
+          "name": "lowerLabel / raiseLabel",
+          "type": "string / string",
+          "description": "Toggle wording."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "250",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "One real toggle with aria-expanded; the far bank is inert and dimmed until the deck lands, and both states are announced.",
+        "Under reduced motion the deck fades between raised and bridged with no chains or runner."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/drawbridge",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/drawbridge.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/drawbridge",
+        "npm": "npx shadcn@latest add @kinetiq/drawbridge",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/drawbridge",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/drawbridge",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/drawbridge.json"
       }
     },
     {
