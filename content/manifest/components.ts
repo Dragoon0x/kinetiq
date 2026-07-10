@@ -5629,4 +5629,126 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the floor swaps instantly, the dial jumps, and the doors skip their travel.",
     ],
   },
+  {
+    name: "terrain-relief",
+    type: "registry:ui",
+    title: "Terrain Relief",
+    description:
+      "A data heightmap drawn as a rotatable wireframe terrain — the grid projects into an oblique surface you orbit by dragging, strands painter-ordered by depth and fading into the distance, and hovering a node lifts a readout of its elevation.",
+    files: [{ path: "registry/ui/terrain-relief.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-141" },
+    tagline: "Orbit the relief; a node reads its elevation.",
+    keywords: ["terrain", "heightmap", "wireframe", "chart", "spatial", "map"],
+    props: [
+      {
+        name: "data",
+        type: "number[][]",
+        description: "Elevations by [row][col]; normalized internally.",
+      },
+      {
+        name: "onProbe",
+        type: "(probe | null) => void",
+        description: "Fires the probed { row, col, value }, null on leave.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Chart height in px.",
+      },
+    ],
+    usageNotes: [
+      "Drag orbits the surface; ArrowLeft/Right rotate and Home resets to the default oblique angle.",
+      "A node hover or focus fires onProbe with the elevation in original units and lifts a readout.",
+      "Under reduced motion the surface holds one static oblique frame while probing stays live.",
+    ],
+  },
+  {
+    name: "arc-routes",
+    type: "registry:ui",
+    title: "Arc Routes",
+    description:
+      "Great-circle arcs lifting off a flat map — pins plot ports across the panel and each route bows a quadratic arc between two of them, arching higher the longer the hop; hovering or focusing a route brightens its arc and rides a marker along it from origin to destination.",
+    files: [{ path: "registry/ui/arc-routes.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-143" },
+    tagline: "Hover a route; a rider arcs to its port.",
+    keywords: ["arc", "routes", "map", "flight", "spatial", "great-circle"],
+    props: [
+      {
+        name: "pins",
+        type: "RoutePin[]",
+        description: "Ports plotted by normalized x, y across the map.",
+      },
+      {
+        name: "routes",
+        type: "Route[]",
+        description: "Arcs between pins, referenced by from and to ids.",
+      },
+      {
+        name: "onRide",
+        type: "(routeId | null) => void",
+        description: "Fires the ridden route id, null when it ends.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Map height in px.",
+      },
+    ],
+    usageNotes: [
+      "Routes ride from a legend of real buttons, so they are keyboard-reachable and announce on focus.",
+      "The rider is a bezier-derived marker travelling a tween from origin to destination while the route is active.",
+      "Under reduced motion no rider travels; the arc brightens and marks its midpoint instead.",
+    ],
+  },
+  {
+    name: "compass-needle",
+    type: "registry:ui",
+    title: "Compass Needle",
+    description:
+      "A bearing picker with a magnetic settle — the needle tracks the pointer bearing as you drag around the rose, then on release swings the short way to the nearest cardinal detent and wobbles home like a magnetized compass; the arrow keys step it point by point.",
+    files: [{ path: "registry/ui/compass-needle.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-147" },
+    tagline: "Drag the dial; the needle wobbles to a point.",
+    keywords: ["compass", "bearing", "dial", "direction", "spatial", "picker"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        description: "Controlled or initial bearing, 0 (N) clockwise to 359.",
+      },
+      {
+        name: "onChange",
+        type: "(deg) => void",
+        description: "Fires the settled bearing once it snaps to a detent.",
+      },
+      {
+        name: "detent",
+        type: "number",
+        defaultValue: "45",
+        description: "Detent grid in degrees; 45 gives the 8-point rose.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Dial size in px.",
+      },
+    ],
+    usageNotes: [
+      "The dial is a role=slider — arrows step one detent, Home returns to north, and the value text names the cardinal point.",
+      "Release snaps the short way to the nearest detent on the recoil spring, its two bounces reading as magnetism.",
+      "Under reduced motion the needle jumps to the pointer bearing and the detent with no wobble.",
+    ],
+  },
 ];

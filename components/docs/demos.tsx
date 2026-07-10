@@ -156,6 +156,9 @@ import { LookRoomDemo } from "@/registry/demos/look-room.demo";
 import { CameraRailDemo } from "@/registry/demos/camera-rail.demo";
 import { PivotGridDemo } from "@/registry/demos/pivot-grid.demo";
 import { ElevatorNavDemo } from "@/registry/demos/elevator-nav.demo";
+import { TerrainReliefDemo } from "@/registry/demos/terrain-relief.demo";
+import { ArcRoutesDemo } from "@/registry/demos/arc-routes.demo";
+import { CompassNeedleDemo } from "@/registry/demos/compass-needle.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -318,4 +321,7 @@ export const demos: Record<string, ComponentType> = {
   "camera-rail": CameraRailDemo,
   "pivot-grid": PivotGridDemo,
   "elevator-nav": ElevatorNavDemo,
+  "terrain-relief": TerrainReliefDemo,
+  "arc-routes": ArcRoutesDemo,
+  "compass-needle": CompassNeedleDemo,
 };

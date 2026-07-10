@@ -3693,6 +3693,87 @@
       }
     },
     {
+      "name": "terrain-relief",
+      "type": "registry:ui",
+      "title": "Terrain Relief",
+      "description": "A data heightmap drawn as a rotatable wireframe terrain — the grid projects into an oblique surface you orbit by dragging, strands painter-ordered by depth and fading into the distance, and hovering a node lifts a readout of its elevation.",
+      "files": [
+        {
+          "path": "registry/ui/terrain-relief.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-141"
+      }
+    },
+    {
+      "name": "arc-routes",
+      "type": "registry:ui",
+      "title": "Arc Routes",
+      "description": "Great-circle arcs lifting off a flat map — pins plot ports across the panel and each route bows a quadratic arc between two of them, arching higher the longer the hop; hovering or focusing a route brightens its arc and rides a marker along it from origin to destination.",
+      "files": [
+        {
+          "path": "registry/ui/arc-routes.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-143"
+      }
+    },
+    {
+      "name": "compass-needle",
+      "type": "registry:ui",
+      "title": "Compass Needle",
+      "description": "A bearing picker with a magnetic settle — the needle tracks the pointer bearing as you drag around the rose, then on release swings the short way to the nearest cardinal detent and wobbles home like a magnetized compass; the arrow keys step it point by point.",
+      "files": [
+        {
+          "path": "registry/ui/compass-needle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-147"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

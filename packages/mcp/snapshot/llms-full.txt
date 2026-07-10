@@ -2248,6 +2248,59 @@ Notes:
 - The stage is one slider — arrows step fifteen degrees, Page keys ninety, Home returns by the shortest path, and aria-valuetext reads the yaw.
 - Under reduced motion the platter jumps between detents while the projection still scrubs live.
 
+### Terrain Relief (KQ-141) — `terrain-relief`
+Orbit the relief; a node reads its elevation.
+
+A data heightmap drawn as a rotatable wireframe terrain — the grid projects into an oblique surface you orbit by dragging, strands painter-ordered by depth and fading into the distance, and hovering a node lifts a readout of its elevation.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/terrain-relief`
+
+Props:
+- `data`: number[][] — Elevations by [row][col]; normalized internally.
+- `onProbe`: (probe | null) => void — Fires the probed { row, col, value }, null on leave.
+- `height`: number (default 300) — Chart height in px.
+
+Notes:
+- Drag orbits the surface; ArrowLeft/Right rotate and Home resets to the default oblique angle.
+- A node hover or focus fires onProbe with the elevation in original units and lifts a readout.
+- Under reduced motion the surface holds one static oblique frame while probing stays live.
+
+### Arc Routes (KQ-143) — `arc-routes`
+Hover a route; a rider arcs to its port.
+
+Great-circle arcs lifting off a flat map — pins plot ports across the panel and each route bows a quadratic arc between two of them, arching higher the longer the hop; hovering or focusing a route brightens its arc and rides a marker along it from origin to destination.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/arc-routes`
+
+Props:
+- `pins`: RoutePin[] — Ports plotted by normalized x, y across the map.
+- `routes`: Route[] — Arcs between pins, referenced by from and to ids.
+- `onRide`: (routeId | null) => void — Fires the ridden route id, null when it ends.
+- `height`: number (default 280) — Map height in px.
+
+Notes:
+- Routes ride from a legend of real buttons, so they are keyboard-reachable and announce on focus.
+- The rider is a bezier-derived marker travelling a tween from origin to destination while the route is active.
+- Under reduced motion no rider travels; the arc brightens and marks its midpoint instead.
+
+### Compass Needle (KQ-147) — `compass-needle`
+Drag the dial; the needle wobbles to a point.
+
+A bearing picker with a magnetic settle — the needle tracks the pointer bearing as you drag around the rose, then on release swings the short way to the nearest cardinal detent and wobbles home like a magnetized compass; the arrow keys step it point by point.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/compass-needle`
+
+Props:
+- `value / defaultValue`: number — Controlled or initial bearing, 0 (N) clockwise to 359.
+- `onChange`: (deg) => void — Fires the settled bearing once it snaps to a detent.
+- `detent`: number (default 45) — Detent grid in degrees; 45 gives the 8-point rose.
+- `height`: number (default 300) — Dial size in px.
+
+Notes:
+- The dial is a role=slider — arrows step one detent, Home returns to north, and the value text names the cardinal point.
+- Release snaps the short way to the nearest detent on the recoil spring, its two bounces reading as magnetism.
+- Under reduced motion the needle jumps to the pointer bearing and the detent with no wobble.
+
 ### Swing Door (KQ-151) — `swing-door`
 Past the detent or slammed home.
 

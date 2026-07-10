@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 139,
+      "components": 142,
       "blocks": 16,
       "shared": 6
     }
@@ -8153,6 +8153,200 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/turn-model",
         "bun": "bunx --bun shadcn@latest add @kinetiq/turn-model",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/turn-model.json"
+      }
+    },
+    {
+      "slug": "terrain-relief",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Terrain Relief",
+      "serial": "KQ-141",
+      "tagline": "Orbit the relief; a node reads its elevation.",
+      "description": "A data heightmap drawn as a rotatable wireframe terrain — the grid projects into an oblique surface you orbit by dragging, strands painter-ordered by depth and fading into the distance, and hovering a node lifts a readout of its elevation.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "terrain",
+        "heightmap",
+        "wireframe",
+        "chart",
+        "spatial",
+        "map"
+      ],
+      "props": [
+        {
+          "name": "data",
+          "type": "number[][]",
+          "description": "Elevations by [row][col]; normalized internally."
+        },
+        {
+          "name": "onProbe",
+          "type": "(probe | null) => void",
+          "description": "Fires the probed { row, col, value }, null on leave."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Chart height in px."
+        }
+      ],
+      "usageNotes": [
+        "Drag orbits the surface; ArrowLeft/Right rotate and Home resets to the default oblique angle.",
+        "A node hover or focus fires onProbe with the elevation in original units and lifts a readout.",
+        "Under reduced motion the surface holds one static oblique frame while probing stays live."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/terrain-relief",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/terrain-relief.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/terrain-relief",
+        "npm": "npx shadcn@latest add @kinetiq/terrain-relief",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/terrain-relief",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/terrain-relief",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/terrain-relief.json"
+      }
+    },
+    {
+      "slug": "arc-routes",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Arc Routes",
+      "serial": "KQ-143",
+      "tagline": "Hover a route; a rider arcs to its port.",
+      "description": "Great-circle arcs lifting off a flat map — pins plot ports across the panel and each route bows a quadratic arc between two of them, arching higher the longer the hop; hovering or focusing a route brightens its arc and rides a marker along it from origin to destination.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "arc",
+        "routes",
+        "map",
+        "flight",
+        "spatial",
+        "great-circle"
+      ],
+      "props": [
+        {
+          "name": "pins",
+          "type": "RoutePin[]",
+          "description": "Ports plotted by normalized x, y across the map."
+        },
+        {
+          "name": "routes",
+          "type": "Route[]",
+          "description": "Arcs between pins, referenced by from and to ids."
+        },
+        {
+          "name": "onRide",
+          "type": "(routeId | null) => void",
+          "description": "Fires the ridden route id, null when it ends."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "Map height in px."
+        }
+      ],
+      "usageNotes": [
+        "Routes ride from a legend of real buttons, so they are keyboard-reachable and announce on focus.",
+        "The rider is a bezier-derived marker travelling a tween from origin to destination while the route is active.",
+        "Under reduced motion no rider travels; the arc brightens and marks its midpoint instead."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/arc-routes",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/arc-routes.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/arc-routes",
+        "npm": "npx shadcn@latest add @kinetiq/arc-routes",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/arc-routes",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/arc-routes",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/arc-routes.json"
+      }
+    },
+    {
+      "slug": "compass-needle",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Compass Needle",
+      "serial": "KQ-147",
+      "tagline": "Drag the dial; the needle wobbles to a point.",
+      "description": "A bearing picker with a magnetic settle — the needle tracks the pointer bearing as you drag around the rose, then on release swings the short way to the nearest cardinal detent and wobbles home like a magnetized compass; the arrow keys step it point by point.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "compass",
+        "bearing",
+        "dial",
+        "direction",
+        "spatial",
+        "picker"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "description": "Controlled or initial bearing, 0 (N) clockwise to 359."
+        },
+        {
+          "name": "onChange",
+          "type": "(deg) => void",
+          "description": "Fires the settled bearing once it snaps to a detent."
+        },
+        {
+          "name": "detent",
+          "type": "number",
+          "defaultValue": "45",
+          "description": "Detent grid in degrees; 45 gives the 8-point rose."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Dial size in px."
+        }
+      ],
+      "usageNotes": [
+        "The dial is a role=slider — arrows step one detent, Home returns to north, and the value text names the cardinal point.",
+        "Release snaps the short way to the nearest detent on the recoil spring, its two bounces reading as magnetism.",
+        "Under reduced motion the needle jumps to the pointer bearing and the detent with no wobble."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/compass-needle",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/compass-needle.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/compass-needle",
+        "npm": "npx shadcn@latest add @kinetiq/compass-needle",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/compass-needle",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/compass-needle",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/compass-needle.json"
       }
     },
     {
