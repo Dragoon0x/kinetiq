@@ -1655,6 +1655,55 @@ Notes:
 - The sentence lives in an sr-only paragraph; the SVG is presentational and the region scrolls natively from the keyboard.
 - Under reduced motion the ribbon renders fully drawn with the type at rest.
 
+### Billboard Run (KQ-105) — `billboard-run`
+Copy you drive past.
+
+Headlines on angled roadside billboards — scroll drives past them down a converging road, each board growing from the vanishing point, banking by the camera, and sweeping off the frame, all scrubbed 1:1.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/billboard-run`
+
+Props:
+- `boards`: { id, headline, deck? }[] — Three to six billboards along the road.
+- `onPass`: (index) => void — Fires as each board sweeps past the camera.
+- `height`: number (default 280) — Scroll stage height in px.
+
+Notes:
+- An sr-only ordered list carries every headline; the road and boards are presentational and the region scrolls natively.
+- Under reduced motion the boards render as a flat stacked list with the nearest one accented.
+
+### Turn Word (KQ-106) — `turn-word`
+Only the letters that differ turn.
+
+One word becomes another letter by letter — cells half-turn edge-on, swap their glyph, and land on the snap spring in a cascade, while letters the two words share hold perfectly still.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/turn-word`
+
+Props:
+- `words`: [string, string] — The two states; the shorter is padded with figure spaces.
+- `active / defaultActive / onTurn`: 0 | 1 / 0 | 1 / (active) => void — Controlled or uncontrolled facing word.
+- `interactive`: boolean (default true) — Whether the word itself is a switch button.
+
+Notes:
+- Interactive mode is a real role=switch — Space and Enter turn it, and the settled word is announced.
+- Under reduced motion the words crossfade whole with no letter turns.
+
+### Converge Quote (KQ-107) — `converge-quote`
+Lines that land in their own time.
+
+A pull-quote scattered through depth — each line floats at its own distance and jitter until scroll assembles them onto one readable plane in staggered bands, the attribution arriving last under its rule.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/converge-quote`
+
+Props:
+- `lines`: string[] — Two to five lines of one quote.
+- `attribution`: string — Arrives after the last line lands.
+- `onConverge`: (converged) => void — Fires crossing 85% assembly, both directions.
+- `height`: number (default 260) — Scroll stage height in px.
+
+Notes:
+- An sr-only blockquote carries the full quote; the floating lines are presentational and the region scrolls natively.
+- Under reduced motion the quote renders assembled and static.
+
 ### Ring Dial (KQ-111) — `ring-dial`
 Stops that pull like magnets.
 

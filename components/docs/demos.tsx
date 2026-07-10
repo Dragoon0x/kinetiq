@@ -120,6 +120,9 @@ import { VanishTypeDemo } from "@/registry/demos/vanish-type.demo";
 import { ExtrudeTitleDemo } from "@/registry/demos/extrude-title.demo";
 import { OrbitTagsDemo } from "@/registry/demos/orbit-tags.demo";
 import { PathTypeDemo } from "@/registry/demos/path-type.demo";
+import { BillboardRunDemo } from "@/registry/demos/billboard-run.demo";
+import { TurnWordDemo } from "@/registry/demos/turn-word.demo";
+import { ConvergeQuoteDemo } from "@/registry/demos/converge-quote.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -246,4 +249,7 @@ export const demos: Record<string, ComponentType> = {
   "extrude-title": ExtrudeTitleDemo,
   "orbit-tags": OrbitTagsDemo,
   "path-type": PathTypeDemo,
+  "billboard-run": BillboardRunDemo,
+  "turn-word": TurnWordDemo,
+  "converge-quote": ConvergeQuoteDemo,
 };

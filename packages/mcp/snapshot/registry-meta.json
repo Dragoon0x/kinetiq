@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 103,
+      "components": 106,
       "blocks": 16,
       "shared": 6
     }
@@ -5937,6 +5937,191 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/path-type",
         "bun": "bunx --bun shadcn@latest add @kinetiq/path-type",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/path-type.json"
+      }
+    },
+    {
+      "slug": "billboard-run",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Billboard Run",
+      "serial": "KQ-105",
+      "tagline": "Copy you drive past.",
+      "description": "Headlines on angled roadside billboards — scroll drives past them down a converging road, each board growing from the vanishing point, banking by the camera, and sweeping off the frame, all scrubbed 1:1.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "billboard",
+        "road",
+        "scroll",
+        "headlines",
+        "spatial",
+        "drive"
+      ],
+      "props": [
+        {
+          "name": "boards",
+          "type": "{ id, headline, deck? }[]",
+          "description": "Three to six billboards along the road."
+        },
+        {
+          "name": "onPass",
+          "type": "(index) => void",
+          "description": "Fires as each board sweeps past the camera."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "Scroll stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "An sr-only ordered list carries every headline; the road and boards are presentational and the region scrolls natively.",
+        "Under reduced motion the boards render as a flat stacked list with the nearest one accented."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/billboard-run",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/billboard-run.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/billboard-run",
+        "npm": "npx shadcn@latest add @kinetiq/billboard-run",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/billboard-run",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/billboard-run",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/billboard-run.json"
+      }
+    },
+    {
+      "slug": "turn-word",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Turn Word",
+      "serial": "KQ-106",
+      "tagline": "Only the letters that differ turn.",
+      "description": "One word becomes another letter by letter — cells half-turn edge-on, swap their glyph, and land on the snap spring in a cascade, while letters the two words share hold perfectly still.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "word",
+        "letters",
+        "flip",
+        "swap",
+        "spatial",
+        "text"
+      ],
+      "props": [
+        {
+          "name": "words",
+          "type": "[string, string]",
+          "description": "The two states; the shorter is padded with figure spaces."
+        },
+        {
+          "name": "active / defaultActive / onTurn",
+          "type": "0 | 1 / 0 | 1 / (active) => void",
+          "description": "Controlled or uncontrolled facing word."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Whether the word itself is a switch button."
+        }
+      ],
+      "usageNotes": [
+        "Interactive mode is a real role=switch — Space and Enter turn it, and the settled word is announced.",
+        "Under reduced motion the words crossfade whole with no letter turns."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/turn-word",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/turn-word.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/turn-word",
+        "npm": "npx shadcn@latest add @kinetiq/turn-word",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/turn-word",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/turn-word",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/turn-word.json"
+      }
+    },
+    {
+      "slug": "converge-quote",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Converge Quote",
+      "serial": "KQ-107",
+      "tagline": "Lines that land in their own time.",
+      "description": "A pull-quote scattered through depth — each line floats at its own distance and jitter until scroll assembles them onto one readable plane in staggered bands, the attribution arriving last under its rule.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "quote",
+        "converge",
+        "scroll",
+        "depth",
+        "spatial",
+        "assembly"
+      ],
+      "props": [
+        {
+          "name": "lines",
+          "type": "string[]",
+          "description": "Two to five lines of one quote."
+        },
+        {
+          "name": "attribution",
+          "type": "string",
+          "description": "Arrives after the last line lands."
+        },
+        {
+          "name": "onConverge",
+          "type": "(converged) => void",
+          "description": "Fires crossing 85% assembly, both directions."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "260",
+          "description": "Scroll stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "An sr-only blockquote carries the full quote; the floating lines are presentational and the region scrolls natively.",
+        "Under reduced motion the quote renders assembled and static."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/converge-quote",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/converge-quote.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/converge-quote",
+        "npm": "npx shadcn@latest add @kinetiq/converge-quote",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/converge-quote",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/converge-quote",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/converge-quote.json"
       }
     },
     {

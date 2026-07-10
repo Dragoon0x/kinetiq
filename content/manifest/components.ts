@@ -4256,4 +4256,117 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the ribbon renders fully drawn with the type at rest.",
     ],
   },
+  {
+    name: "billboard-run",
+    type: "registry:ui",
+    title: "Billboard Run",
+    description:
+      "Headlines on angled roadside billboards — scroll drives past them down a converging road, each board growing from the vanishing point, banking by the camera, and sweeping off the frame, all scrubbed 1:1.",
+    files: [{ path: "registry/ui/billboard-run.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-105" },
+    tagline: "Copy you drive past.",
+    keywords: ["billboard", "road", "scroll", "headlines", "spatial", "drive"],
+    props: [
+      {
+        name: "boards",
+        type: "{ id, headline, deck? }[]",
+        description: "Three to six billboards along the road.",
+      },
+      {
+        name: "onPass",
+        type: "(index) => void",
+        description: "Fires as each board sweeps past the camera.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Scroll stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "An sr-only ordered list carries every headline; the road and boards are presentational and the region scrolls natively.",
+      "Under reduced motion the boards render as a flat stacked list with the nearest one accented.",
+    ],
+  },
+  {
+    name: "turn-word",
+    type: "registry:ui",
+    title: "Turn Word",
+    description:
+      "One word becomes another letter by letter — cells half-turn edge-on, swap their glyph, and land on the snap spring in a cascade, while letters the two words share hold perfectly still.",
+    files: [{ path: "registry/ui/turn-word.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-106" },
+    tagline: "Only the letters that differ turn.",
+    keywords: ["word", "letters", "flip", "swap", "spatial", "text"],
+    props: [
+      {
+        name: "words",
+        type: "[string, string]",
+        description: "The two states; the shorter is padded with figure spaces.",
+      },
+      {
+        name: "active / defaultActive / onTurn",
+        type: "0 | 1 / 0 | 1 / (active) => void",
+        description: "Controlled or uncontrolled facing word.",
+      },
+      {
+        name: "interactive",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Whether the word itself is a switch button.",
+      },
+    ],
+    usageNotes: [
+      "Interactive mode is a real role=switch — Space and Enter turn it, and the settled word is announced.",
+      "Under reduced motion the words crossfade whole with no letter turns.",
+    ],
+  },
+  {
+    name: "converge-quote",
+    type: "registry:ui",
+    title: "Converge Quote",
+    description:
+      "A pull-quote scattered through depth — each line floats at its own distance and jitter until scroll assembles them onto one readable plane in staggered bands, the attribution arriving last under its rule.",
+    files: [{ path: "registry/ui/converge-quote.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-107" },
+    tagline: "Lines that land in their own time.",
+    keywords: ["quote", "converge", "scroll", "depth", "spatial", "assembly"],
+    props: [
+      {
+        name: "lines",
+        type: "string[]",
+        description: "Two to five lines of one quote.",
+      },
+      {
+        name: "attribution",
+        type: "string",
+        description: "Arrives after the last line lands.",
+      },
+      {
+        name: "onConverge",
+        type: "(converged) => void",
+        description: "Fires crossing 85% assembly, both directions.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "260",
+        description: "Scroll stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "An sr-only blockquote carries the full quote; the floating lines are presentational and the region scrolls natively.",
+      "Under reduced motion the quote renders assembled and static.",
+    ],
+  },
 ];
