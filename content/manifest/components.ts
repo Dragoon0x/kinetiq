@@ -4704,4 +4704,117 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the car jumps between floors with no glide or bounce.",
     ],
   },
+  {
+    name: "combo-dials",
+    type: "registry:ui",
+    title: "Combo Dials",
+    description:
+      "A combination lock of stacked cylinder dials — digits sweep the rim under your drag, settle into detents with a click, and when every dial agrees with the setting the bolt slides open.",
+    files: [{ path: "registry/ui/combo-dials.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-157" },
+    tagline: "Three dials, one agreement.",
+    keywords: ["combination", "dials", "lock", "digits", "spatial", "mechanism"],
+    props: [
+      {
+        name: "length",
+        type: "number",
+        defaultValue: "3",
+        description: "Dial count, two to five.",
+      },
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "string / string / (value) => void",
+        description: "Controlled or uncontrolled digits; fires per settled digit.",
+      },
+      {
+        name: "secret / onUnlock",
+        type: "string / () => void",
+        description: "The setting to match and the single-fire unlock callback.",
+      },
+    ],
+    usageNotes: [
+      "Each dial is a spinbutton — arrows step with wrap, typing a digit glides straight to it, and settles are announced per dial.",
+      "Under reduced motion digits jump detent by detent and the bolt opens with a fast fade; near-misses never announce proximity.",
+    ],
+  },
+  {
+    name: "zipper-seam",
+    type: "registry:ui",
+    title: "Zipper Seam",
+    description:
+      "Fabric halves joined by a toothed seam — draw the pull down and they part in a V above it, teeth shearing aside along the edges, with a shiver when the yank lands fully open.",
+    files: [{ path: "registry/ui/zipper-seam.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-158" },
+    tagline: "The seam parts above the pull.",
+    keywords: ["zipper", "seam", "reveal", "fabric", "spatial", "mechanism"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "What lies in the seam.",
+      },
+      {
+        name: "progress / defaultProgress / onProgressChange",
+        type: "number / number / (progress) => void",
+        description: "Controlled or uncontrolled 0-100 opening; fires on settle.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "260",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The pull is a vertical slider — arrows step by five, Page keys by twenty, Home and End seal and open; ends snap and announce.",
+      "Under reduced motion the seam tracks the hand one-to-one with no snaps or shiver.",
+    ],
+  },
+  {
+    name: "trapdoor-drop",
+    type: "registry:ui",
+    title: "Trapdoor Drop",
+    description:
+      "A two-stage disposal platform — arming slides the bolts aside while the item wobbles, confirming swings both leaves down from their outer hinges, and the item accelerates into the well past blinking depth rings before the doors clap shut.",
+    files: [{ path: "registry/ui/trapdoor-drop.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-159" },
+    tagline: "The long way down, on purpose.",
+    keywords: ["trapdoor", "drop", "dismiss", "confirm", "spatial", "mechanism"],
+    props: [
+      {
+        name: "children / itemKey",
+        type: "ReactNode / string",
+        description: "The item on the doors; change the key to lower in the next one.",
+      },
+      {
+        name: "onDrop",
+        type: "() => void",
+        description: "Fires exactly once when the item has fallen through.",
+      },
+      {
+        name: "armLabel / dropLabel / disarmLabel",
+        type: "string / string / string",
+        description: "The two-stage wording.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "240",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Dismissal is always two presses — arm, then confirm — with Escape backing out; every stage is announced.",
+      "Under reduced motion the item fades instantly on confirm with the same two-stage semantics.",
+    ],
+  },
 ];

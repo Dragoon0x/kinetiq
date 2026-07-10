@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 115,
+      "components": 118,
       "blocks": 16,
       "shared": 6
     }
@@ -7284,6 +7284,191 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/pulley-lift",
         "bun": "bunx --bun shadcn@latest add @kinetiq/pulley-lift",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/pulley-lift.json"
+      }
+    },
+    {
+      "slug": "combo-dials",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Combo Dials",
+      "serial": "KQ-157",
+      "tagline": "Three dials, one agreement.",
+      "description": "A combination lock of stacked cylinder dials — digits sweep the rim under your drag, settle into detents with a click, and when every dial agrees with the setting the bolt slides open.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "combination",
+        "dials",
+        "lock",
+        "digits",
+        "spatial",
+        "mechanism"
+      ],
+      "props": [
+        {
+          "name": "length",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Dial count, two to five."
+        },
+        {
+          "name": "value / defaultValue / onValueChange",
+          "type": "string / string / (value) => void",
+          "description": "Controlled or uncontrolled digits; fires per settled digit."
+        },
+        {
+          "name": "secret / onUnlock",
+          "type": "string / () => void",
+          "description": "The setting to match and the single-fire unlock callback."
+        }
+      ],
+      "usageNotes": [
+        "Each dial is a spinbutton — arrows step with wrap, typing a digit glides straight to it, and settles are announced per dial.",
+        "Under reduced motion digits jump detent by detent and the bolt opens with a fast fade; near-misses never announce proximity."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/combo-dials",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/combo-dials.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/combo-dials",
+        "npm": "npx shadcn@latest add @kinetiq/combo-dials",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/combo-dials",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/combo-dials",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/combo-dials.json"
+      }
+    },
+    {
+      "slug": "zipper-seam",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Zipper Seam",
+      "serial": "KQ-158",
+      "tagline": "The seam parts above the pull.",
+      "description": "Fabric halves joined by a toothed seam — draw the pull down and they part in a V above it, teeth shearing aside along the edges, with a shiver when the yank lands fully open.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "zipper",
+        "seam",
+        "reveal",
+        "fabric",
+        "spatial",
+        "mechanism"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "What lies in the seam."
+        },
+        {
+          "name": "progress / defaultProgress / onProgressChange",
+          "type": "number / number / (progress) => void",
+          "description": "Controlled or uncontrolled 0-100 opening; fires on settle."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "260",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "The pull is a vertical slider — arrows step by five, Page keys by twenty, Home and End seal and open; ends snap and announce.",
+        "Under reduced motion the seam tracks the hand one-to-one with no snaps or shiver."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/zipper-seam",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/zipper-seam.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/zipper-seam",
+        "npm": "npx shadcn@latest add @kinetiq/zipper-seam",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/zipper-seam",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/zipper-seam",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/zipper-seam.json"
+      }
+    },
+    {
+      "slug": "trapdoor-drop",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Trapdoor Drop",
+      "serial": "KQ-159",
+      "tagline": "The long way down, on purpose.",
+      "description": "A two-stage disposal platform — arming slides the bolts aside while the item wobbles, confirming swings both leaves down from their outer hinges, and the item accelerates into the well past blinking depth rings before the doors clap shut.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "trapdoor",
+        "drop",
+        "dismiss",
+        "confirm",
+        "spatial",
+        "mechanism"
+      ],
+      "props": [
+        {
+          "name": "children / itemKey",
+          "type": "ReactNode / string",
+          "description": "The item on the doors; change the key to lower in the next one."
+        },
+        {
+          "name": "onDrop",
+          "type": "() => void",
+          "description": "Fires exactly once when the item has fallen through."
+        },
+        {
+          "name": "armLabel / dropLabel / disarmLabel",
+          "type": "string / string / string",
+          "description": "The two-stage wording."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "240",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "Dismissal is always two presses — arm, then confirm — with Escape backing out; every stage is announced.",
+        "Under reduced motion the item fades instantly on confirm with the same two-stage semantics."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/trapdoor-drop",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/trapdoor-drop.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/trapdoor-drop",
+        "npm": "npx shadcn@latest add @kinetiq/trapdoor-drop",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/trapdoor-drop",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/trapdoor-drop",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/trapdoor-drop.json"
       }
     },
     {

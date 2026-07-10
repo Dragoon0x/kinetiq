@@ -3044,6 +3044,87 @@
       }
     },
     {
+      "name": "combo-dials",
+      "type": "registry:ui",
+      "title": "Combo Dials",
+      "description": "A combination lock of stacked cylinder dials — digits sweep the rim under your drag, settle into detents with a click, and when every dial agrees with the setting the bolt slides open.",
+      "files": [
+        {
+          "path": "registry/ui/combo-dials.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-157"
+      }
+    },
+    {
+      "name": "zipper-seam",
+      "type": "registry:ui",
+      "title": "Zipper Seam",
+      "description": "Fabric halves joined by a toothed seam — draw the pull down and they part in a V above it, teeth shearing aside along the edges, with a shiver when the yank lands fully open.",
+      "files": [
+        {
+          "path": "registry/ui/zipper-seam.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-158"
+      }
+    },
+    {
+      "name": "trapdoor-drop",
+      "type": "registry:ui",
+      "title": "Trapdoor Drop",
+      "description": "A two-stage disposal platform — arming slides the bolts aside while the item wobbles, confirming swings both leaves down from their outer hinges, and the item accelerates into the well past blinking depth rings before the doors clap shut.",
+      "files": [
+        {
+          "path": "registry/ui/trapdoor-drop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-159"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -2012,6 +2012,55 @@ Notes:
 - The frame is a vertical slider and every floor tab is a real button with aria-current; arrivals are announced by label.
 - Under reduced motion the car jumps between floors with no glide or bounce.
 
+### Combo Dials (KQ-157) — `combo-dials`
+Three dials, one agreement.
+
+A combination lock of stacked cylinder dials — digits sweep the rim under your drag, settle into detents with a click, and when every dial agrees with the setting the bolt slides open.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/combo-dials`
+
+Props:
+- `length`: number (default 3) — Dial count, two to five.
+- `value / defaultValue / onValueChange`: string / string / (value) => void — Controlled or uncontrolled digits; fires per settled digit.
+- `secret / onUnlock`: string / () => void — The setting to match and the single-fire unlock callback.
+
+Notes:
+- Each dial is a spinbutton — arrows step with wrap, typing a digit glides straight to it, and settles are announced per dial.
+- Under reduced motion digits jump detent by detent and the bolt opens with a fast fade; near-misses never announce proximity.
+
+### Zipper Seam (KQ-158) — `zipper-seam`
+The seam parts above the pull.
+
+Fabric halves joined by a toothed seam — draw the pull down and they part in a V above it, teeth shearing aside along the edges, with a shiver when the yank lands fully open.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/zipper-seam`
+
+Props:
+- `children`: ReactNode — What lies in the seam.
+- `progress / defaultProgress / onProgressChange`: number / number / (progress) => void — Controlled or uncontrolled 0-100 opening; fires on settle.
+- `height`: number (default 260) — Stage height in px.
+
+Notes:
+- The pull is a vertical slider — arrows step by five, Page keys by twenty, Home and End seal and open; ends snap and announce.
+- Under reduced motion the seam tracks the hand one-to-one with no snaps or shiver.
+
+### Trapdoor Drop (KQ-159) — `trapdoor-drop`
+The long way down, on purpose.
+
+A two-stage disposal platform — arming slides the bolts aside while the item wobbles, confirming swings both leaves down from their outer hinges, and the item accelerates into the well past blinking depth rings before the doors clap shut.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trapdoor-drop`
+
+Props:
+- `children / itemKey`: ReactNode / string — The item on the doors; change the key to lower in the next one.
+- `onDrop`: () => void — Fires exactly once when the item has fallen through.
+- `armLabel / dropLabel / disarmLabel`: string / string / string — The two-stage wording.
+- `height`: number (default 240) — Stage height in px.
+
+Notes:
+- Dismissal is always two presses — arm, then confirm — with Escape backing out; every stage is announced.
+- Under reduced motion the item fades instantly on confirm with the same two-stage semantics.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

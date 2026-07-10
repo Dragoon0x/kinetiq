@@ -132,6 +132,9 @@ import { GearTrainDemo } from "@/registry/demos/gear-train.demo";
 import { CommitLeverDemo } from "@/registry/demos/commit-lever.demo";
 import { CrankReelDemo } from "@/registry/demos/crank-reel.demo";
 import { PulleyLiftDemo } from "@/registry/demos/pulley-lift.demo";
+import { ComboDialsDemo } from "@/registry/demos/combo-dials.demo";
+import { ZipperSeamDemo } from "@/registry/demos/zipper-seam.demo";
+import { TrapdoorDropDemo } from "@/registry/demos/trapdoor-drop.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -270,4 +273,7 @@ export const demos: Record<string, ComponentType> = {
   "commit-lever": CommitLeverDemo,
   "crank-reel": CrankReelDemo,
   "pulley-lift": PulleyLiftDemo,
+  "combo-dials": ComboDialsDemo,
+  "zipper-seam": ZipperSeamDemo,
+  "trapdoor-drop": TrapdoorDropDemo,
 };
