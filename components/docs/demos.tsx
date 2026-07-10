@@ -144,6 +144,9 @@ import { DaylightDialDemo } from "@/registry/demos/daylight-dial.demo";
 import { CutoutTownDemo } from "@/registry/demos/cutout-town.demo";
 import { TransitWindowDemo } from "@/registry/demos/transit-window.demo";
 import { SpotlightStageDemo } from "@/registry/demos/spotlight-stage.demo";
+import { PullShelfDemo } from "@/registry/demos/pull-shelf.demo";
+import { TurnModelDemo } from "@/registry/demos/turn-model.demo";
+import { DollyFrameDemo } from "@/registry/demos/dolly-frame.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -294,4 +297,7 @@ export const demos: Record<string, ComponentType> = {
   "cutout-town": CutoutTownDemo,
   "transit-window": TransitWindowDemo,
   "spotlight-stage": SpotlightStageDemo,
+  "pull-shelf": PullShelfDemo,
+  "turn-model": TurnModelDemo,
+  "dolly-frame": DollyFrameDemo,
 };

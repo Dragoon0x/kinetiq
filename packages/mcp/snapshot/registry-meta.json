@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 127,
+      "components": 130,
       "blocks": 16,
       "shared": 6
     }
@@ -5080,6 +5080,66 @@
       }
     },
     {
+      "slug": "dolly-frame",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Dolly Frame",
+      "serial": "KQ-081",
+      "tagline": "The world rushes; the subject holds.",
+      "description": "The vertigo push-in — scroll rushes the corridor wide with every arch scaling faster by depth while the subject holds its size dead center, letterbox bars tightening and the focal readout climbing from 24 to 85mm.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "dolly",
+        "zoom",
+        "vertigo",
+        "camera",
+        "spatial",
+        "scroll"
+      ],
+      "props": [
+        {
+          "name": "subject / backdrop",
+          "type": "ReactNode / ReactNode",
+          "description": "The held plate, and the vista behind (defaults to the corridor)."
+        },
+        {
+          "name": "onDolly",
+          "type": "(progress) => void",
+          "description": "Streams the push, deduped to twentieths."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "Scroll stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "An sr-only line describes the shot; the region scrolls natively and the visuals are presentational.",
+        "Under reduced motion the frame holds a mid-push composition while the readout still tracks."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/dolly-frame",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/dolly-frame.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/dolly-frame",
+        "npm": "npx shadcn@latest add @kinetiq/dolly-frame",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/dolly-frame",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/dolly-frame",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/dolly-frame.json"
+      }
+    },
+    {
       "slug": "glass-pane",
       "kind": "component",
       "type": "registry:ui",
@@ -7397,6 +7457,120 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/spotlight-stage",
         "bun": "bunx --bun shadcn@latest add @kinetiq/spotlight-stage",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/spotlight-stage.json"
+      }
+    },
+    {
+      "slug": "pull-shelf",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pull Shelf",
+      "serial": "KQ-129",
+      "tagline": "Tip a spine; read the spread.",
+      "description": "Books on an instrument ledge — a spine tips out of the rank as your hand arrives, neighbors parting around it, and pulling it flies the book forward to open into a two-page spread while a dashed gap holds its slot.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "shelf",
+        "books",
+        "library",
+        "open",
+        "spatial",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "books",
+          "type": "{ id, title, spineWidth?, height?, hue?, spread }[]",
+          "description": "Four to eight volumes; geometry seeds deterministically per id."
+        },
+        {
+          "name": "open / defaultOpen / onOpenChange",
+          "type": "string | null / same / (id) => void",
+          "description": "Controlled or uncontrolled open volume — one at a time."
+        }
+      ],
+      "usageNotes": [
+        "Every spine is a real disclosure button; focus moves to the spread's close chip on open and returns on Escape or close.",
+        "Under reduced motion spreads fade in place and spines highlight flat."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/pull-shelf",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/pull-shelf.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pull-shelf",
+        "npm": "npx shadcn@latest add @kinetiq/pull-shelf",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pull-shelf",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pull-shelf",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/pull-shelf.json"
+      }
+    },
+    {
+      "slug": "turn-model",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Turn Model",
+      "serial": "KQ-130",
+      "tagline": "Drawn live, not filmed.",
+      "description": "An object turntable drawn live — one yaw value projects the wireframe every frame, splitting edges into dim back and inked front paths, with platter ticks riding the same matrix; drag with momentum into 15° detents.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "turntable",
+        "wireframe",
+        "3d",
+        "model",
+        "spatial",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "model",
+          "type": "{ vertices, edges }",
+          "description": "A 3D wireframe; defaults to the minted monument."
+        },
+        {
+          "name": "angle / defaultAngle / onAngleChange",
+          "type": "number / number / (angle) => void",
+          "description": "Controlled or uncontrolled yaw; settles announce snapped degrees."
+        },
+        {
+          "name": "size / elevationDeg",
+          "type": "number / number",
+          "defaultValue": "220 / 18",
+          "description": "Stage size and the fixed camera tilt."
+        }
+      ],
+      "usageNotes": [
+        "The stage is one slider — arrows step fifteen degrees, Page keys ninety, Home returns by the shortest path, and aria-valuetext reads the yaw.",
+        "Under reduced motion the platter jumps between detents while the projection still scrubs live."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/turn-model",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/turn-model.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/turn-model",
+        "npm": "npx shadcn@latest add @kinetiq/turn-model",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/turn-model",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/turn-model",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/turn-model.json"
       }
     },
     {

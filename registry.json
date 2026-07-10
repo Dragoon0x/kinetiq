@@ -3369,6 +3369,87 @@
       }
     },
     {
+      "name": "pull-shelf",
+      "type": "registry:ui",
+      "title": "Pull Shelf",
+      "description": "Books on an instrument ledge — a spine tips out of the rank as your hand arrives, neighbors parting around it, and pulling it flies the book forward to open into a two-page spread while a dashed gap holds its slot.",
+      "files": [
+        {
+          "path": "registry/ui/pull-shelf.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-129"
+      }
+    },
+    {
+      "name": "turn-model",
+      "type": "registry:ui",
+      "title": "Turn Model",
+      "description": "An object turntable drawn live — one yaw value projects the wireframe every frame, splitting edges into dim back and inked front paths, with platter ticks riding the same matrix; drag with momentum into 15° detents.",
+      "files": [
+        {
+          "path": "registry/ui/turn-model.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-130"
+      }
+    },
+    {
+      "name": "dolly-frame",
+      "type": "registry:ui",
+      "title": "Dolly Frame",
+      "description": "The vertigo push-in — scroll rushes the corridor wide with every arch scaling faster by depth while the subject holds its size dead center, letterbox bars tightening and the focal readout climbing from 24 to 85mm.",
+      "files": [
+        {
+          "path": "registry/ui/dolly-frame.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-081"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

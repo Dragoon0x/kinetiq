@@ -5155,4 +5155,106 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the house lights are even and selection is an accent border with no beam.",
     ],
   },
+  {
+    name: "pull-shelf",
+    type: "registry:ui",
+    title: "Pull Shelf",
+    description:
+      "Books on an instrument ledge — a spine tips out of the rank as your hand arrives, neighbors parting around it, and pulling it flies the book forward to open into a two-page spread while a dashed gap holds its slot.",
+    files: [{ path: "registry/ui/pull-shelf.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-129" },
+    tagline: "Tip a spine; read the spread.",
+    keywords: ["shelf", "books", "library", "open", "spatial", "scene"],
+    props: [
+      {
+        name: "books",
+        type: "{ id, title, spineWidth?, height?, hue?, spread }[]",
+        description: "Four to eight volumes; geometry seeds deterministically per id.",
+      },
+      {
+        name: "open / defaultOpen / onOpenChange",
+        type: "string | null / same / (id) => void",
+        description: "Controlled or uncontrolled open volume — one at a time.",
+      },
+    ],
+    usageNotes: [
+      "Every spine is a real disclosure button; focus moves to the spread's close chip on open and returns on Escape or close.",
+      "Under reduced motion spreads fade in place and spines highlight flat.",
+    ],
+  },
+  {
+    name: "turn-model",
+    type: "registry:ui",
+    title: "Turn Model",
+    description:
+      "An object turntable drawn live — one yaw value projects the wireframe every frame, splitting edges into dim back and inked front paths, with platter ticks riding the same matrix; drag with momentum into 15° detents.",
+    files: [{ path: "registry/ui/turn-model.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-130" },
+    tagline: "Drawn live, not filmed.",
+    keywords: ["turntable", "wireframe", "3d", "model", "spatial", "scene"],
+    props: [
+      {
+        name: "model",
+        type: "{ vertices, edges }",
+        description: "A 3D wireframe; defaults to the minted monument.",
+      },
+      {
+        name: "angle / defaultAngle / onAngleChange",
+        type: "number / number / (angle) => void",
+        description: "Controlled or uncontrolled yaw; settles announce snapped degrees.",
+      },
+      {
+        name: "size / elevationDeg",
+        type: "number / number",
+        defaultValue: "220 / 18",
+        description: "Stage size and the fixed camera tilt.",
+      },
+    ],
+    usageNotes: [
+      "The stage is one slider — arrows step fifteen degrees, Page keys ninety, Home returns by the shortest path, and aria-valuetext reads the yaw.",
+      "Under reduced motion the platter jumps between detents while the projection still scrubs live.",
+    ],
+  },
+  {
+    name: "dolly-frame",
+    type: "registry:ui",
+    title: "Dolly Frame",
+    description:
+      "The vertigo push-in — scroll rushes the corridor wide with every arch scaling faster by depth while the subject holds its size dead center, letterbox bars tightening and the focal readout climbing from 24 to 85mm.",
+    files: [{ path: "registry/ui/dolly-frame.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-081" },
+    tagline: "The world rushes; the subject holds.",
+    keywords: ["dolly", "zoom", "vertigo", "camera", "spatial", "scroll"],
+    props: [
+      {
+        name: "subject / backdrop",
+        type: "ReactNode / ReactNode",
+        description: "The held plate, and the vista behind (defaults to the corridor).",
+      },
+      {
+        name: "onDolly",
+        type: "(progress) => void",
+        description: "Streams the push, deduped to twentieths.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Scroll stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "An sr-only line describes the shot; the region scrolls natively and the visuals are presentational.",
+      "Under reduced motion the frame holds a mid-push composition while the readout still tracks.",
+    ],
+  },
 ];

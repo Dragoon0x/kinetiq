@@ -1427,6 +1427,22 @@ Notes:
 - Every pod is a real button — Space or Enter gives it a tug, announced politely; drags add weight proportional to the pull.
 - Under reduced motion the rig rests at equilibrium and tugs read as a small instant tilt with no swing.
 
+### Dolly Frame (KQ-081) — `dolly-frame`
+The world rushes; the subject holds.
+
+The vertigo push-in — scroll rushes the corridor wide with every arch scaling faster by depth while the subject holds its size dead center, letterbox bars tightening and the focal readout climbing from 24 to 85mm.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/dolly-frame`
+
+Props:
+- `subject / backdrop`: ReactNode / ReactNode — The held plate, and the vista behind (defaults to the corridor).
+- `onDolly`: (progress) => void — Streams the push, deduped to twentieths.
+- `height`: number (default 280) — Scroll stage height in px.
+
+Notes:
+- An sr-only line describes the shot; the region scrolls natively and the visuals are presentational.
+- Under reduced motion the frame holds a mid-push composition while the readout still tracks.
+
 ### Glass Pane (KQ-091) — `glass-pane`
 Sheets that part for your hand.
 
@@ -2041,6 +2057,37 @@ Props:
 Notes:
 - Every act is a real button — keyboard focus summons the beam, Enter commits regardless of the spring, Escape reopens the stage.
 - Under reduced motion the house lights are even and selection is an accent border with no beam.
+
+### Pull Shelf (KQ-129) — `pull-shelf`
+Tip a spine; read the spread.
+
+Books on an instrument ledge — a spine tips out of the rank as your hand arrives, neighbors parting around it, and pulling it flies the book forward to open into a two-page spread while a dashed gap holds its slot.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pull-shelf`
+
+Props:
+- `books`: { id, title, spineWidth?, height?, hue?, spread }[] — Four to eight volumes; geometry seeds deterministically per id.
+- `open / defaultOpen / onOpenChange`: string | null / same / (id) => void — Controlled or uncontrolled open volume — one at a time.
+
+Notes:
+- Every spine is a real disclosure button; focus moves to the spread's close chip on open and returns on Escape or close.
+- Under reduced motion spreads fade in place and spines highlight flat.
+
+### Turn Model (KQ-130) — `turn-model`
+Drawn live, not filmed.
+
+An object turntable drawn live — one yaw value projects the wireframe every frame, splitting edges into dim back and inked front paths, with platter ticks riding the same matrix; drag with momentum into 15° detents.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/turn-model`
+
+Props:
+- `model`: { vertices, edges } — A 3D wireframe; defaults to the minted monument.
+- `angle / defaultAngle / onAngleChange`: number / number / (angle) => void — Controlled or uncontrolled yaw; settles announce snapped degrees.
+- `size / elevationDeg`: number / number (default 220 / 18) — Stage size and the fixed camera tilt.
+
+Notes:
+- The stage is one slider — arrows step fifteen degrees, Page keys ninety, Home returns by the shortest path, and aria-valuetext reads the yaw.
+- Under reduced motion the platter jumps between detents while the projection still scrubs live.
 
 ### Swing Door (KQ-151) — `swing-door`
 Past the detent or slammed home.
