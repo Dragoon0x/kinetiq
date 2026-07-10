@@ -5502,4 +5502,131 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the room collapses to a flat, wall-grouped list of focusable plaques with no 3D.",
     ],
   },
+  {
+    name: "camera-rail",
+    type: "registry:ui",
+    title: "Camera Rail",
+    description:
+      "A content monorail that rides past a fixed camera — cars recede left and right of the platform, a drag or the arrow keys drive the rail, and a release throws it on momentum before it snaps the nearest station to center under a stop marker.",
+    files: [{ path: "registry/ui/camera-rail.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-088" },
+    tagline: "Ride the rail; a station snaps to the platform.",
+    keywords: ["rail", "station", "camera", "carousel", "spatial", "monorail"],
+    props: [
+      {
+        name: "stations",
+        type: "RailStation[]",
+        description: "Cars evenly spaced along the rail, left to right.",
+      },
+      {
+        name: "value / defaultStation",
+        type: "string",
+        description: "Controlled or initial station at the platform.",
+      },
+      {
+        name: "onArrive",
+        type: "(id) => void",
+        description: "Fires the station id once it settles at the platform.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Rail stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The frame is a focusable group — arrows ride one station, Home and End run to the ends; cars ride to center on click.",
+      "A release throws the rail on momentum then snaps to the nearest station, deduped against the last arrival.",
+      "Under reduced motion every gesture jumps to its nearest station with no glide or momentum.",
+    ],
+  },
+  {
+    name: "pivot-grid",
+    type: "registry:ui",
+    title: "Pivot Grid",
+    description:
+      "A wall of cards that turns a corner — clicking one pivots the whole assembly a quarter turn on its hinge so the wall swings away edge-on and that card's room swings in to face you; Escape or the room's back control turns you back to the wall.",
+    files: [{ path: "registry/ui/pivot-grid.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-089" },
+    tagline: "Click a card; the wall turns into its room.",
+    keywords: ["pivot", "wall", "room", "3d", "camera", "spatial"],
+    props: [
+      {
+        name: "cards",
+        type: "PivotCard[]",
+        description: "Wall cards; each carries an optional room face.",
+      },
+      {
+        name: "columns",
+        type: "number",
+        defaultValue: "3",
+        description: "Wall grid columns.",
+      },
+      {
+        name: "onEnter",
+        type: "(id | null) => void",
+        description: "Fires the entered card id, null on return to the wall.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Cards are real buttons — Enter turns into the room, Escape or the back control turns home; focus follows into and out of the room.",
+      "onEnter fires the card id on entry and null on return, deduped.",
+      "Under reduced motion the pivot is an instant swap between the wall grid and the room.",
+    ],
+  },
+  {
+    name: "elevator-nav",
+    type: "registry:ui",
+    title: "Elevator Nav",
+    description:
+      "Section navigation as an elevator ride — calling a floor rides the car past the floors between, a dial ticking through the numbers as they pass, and two doors part on arrival to reveal the floor; a new call shuts them and rides on.",
+    files: [{ path: "registry/ui/elevator-nav.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-090" },
+    tagline: "Call a floor; the doors part on arrival.",
+    keywords: ["elevator", "floors", "navigation", "camera", "spatial", "ride"],
+    props: [
+      {
+        name: "floors",
+        type: "Floor[]",
+        description: "Floors top to bottom; the call panel mirrors the order.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "Controlled or initial floor.",
+      },
+      {
+        name: "onArrive",
+        type: "(id) => void",
+        description: "Fires the floor id once the doors part on arrival.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Shaft stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Call-panel buttons and the shaft take arrow keys to change floors; the dial derives its number from the car, never a per-frame write.",
+      "A new call shuts the doors, rides, and parts them on the settle; onArrive fires once per arrival, deduped.",
+      "Under reduced motion the floor swaps instantly, the dial jumps, and the doors skip their travel.",
+    ],
+  },
 ];

@@ -3612,6 +3612,87 @@
       }
     },
     {
+      "name": "camera-rail",
+      "type": "registry:ui",
+      "title": "Camera Rail",
+      "description": "A content monorail that rides past a fixed camera — cars recede left and right of the platform, a drag or the arrow keys drive the rail, and a release throws it on momentum before it snaps the nearest station to center under a stop marker.",
+      "files": [
+        {
+          "path": "registry/ui/camera-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-088"
+      }
+    },
+    {
+      "name": "pivot-grid",
+      "type": "registry:ui",
+      "title": "Pivot Grid",
+      "description": "A wall of cards that turns a corner — clicking one pivots the whole assembly a quarter turn on its hinge so the wall swings away edge-on and that card's room swings in to face you; Escape or the room's back control turns you back to the wall.",
+      "files": [
+        {
+          "path": "registry/ui/pivot-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-089"
+      }
+    },
+    {
+      "name": "elevator-nav",
+      "type": "registry:ui",
+      "title": "Elevator Nav",
+      "description": "Section navigation as an elevator ride — calling a floor rides the car past the floors between, a dial ticking through the numbers as they pass, and two doors part on arrival to reveal the floor; a new call shuts them and rides on.",
+      "files": [
+        {
+          "path": "registry/ui/elevator-nav.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-090"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

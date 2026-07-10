@@ -153,6 +153,9 @@ import { PanWindowDemo } from "@/registry/demos/pan-window.demo";
 import { ZoomAtlasDemo } from "@/registry/demos/zoom-atlas.demo";
 import { CraneScrollDemo } from "@/registry/demos/crane-scroll.demo";
 import { LookRoomDemo } from "@/registry/demos/look-room.demo";
+import { CameraRailDemo } from "@/registry/demos/camera-rail.demo";
+import { PivotGridDemo } from "@/registry/demos/pivot-grid.demo";
+import { ElevatorNavDemo } from "@/registry/demos/elevator-nav.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -312,4 +315,7 @@ export const demos: Record<string, ComponentType> = {
   "zoom-atlas": ZoomAtlasDemo,
   "crane-scroll": CraneScrollDemo,
   "look-room": LookRoomDemo,
+  "camera-rail": CameraRailDemo,
+  "pivot-grid": PivotGridDemo,
+  "elevator-nav": ElevatorNavDemo,
 };
