@@ -17,6 +17,8 @@ import { cn } from "@/registry/lib/utils";
 
 /** Light swing limit either side of overhead, in degrees. */
 const RANGE = 60;
+/** Literal for aria-valuemin — the a11y linter wants a plain number. */
+const MIN_ANGLE = -60;
 /** Legibility line: |angle| at and past which the shadow reads. */
 const REVEAL_AT = 42;
 /** Arrow-key nudge, degrees. */
@@ -236,7 +238,7 @@ export function ShadowScript({
           tabIndex={0}
           aria-label={ariaLabel}
           aria-orientation="horizontal"
-          aria-valuemin={-RANGE}
+          aria-valuemin={MIN_ANGLE}
           aria-valuemax={RANGE}
           aria-valuenow={announced}
           aria-valuetext={

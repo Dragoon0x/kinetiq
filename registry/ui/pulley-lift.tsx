@@ -268,8 +268,10 @@ export function PulleyLift({
     glideTo(index);
   });
 
-  const beginDrag =
-    (sign: 1 | -1) => (event: React.PointerEvent<HTMLDivElement>) => {
+  const startDrag = (
+    sign: 1 | -1,
+    event: React.PointerEvent<HTMLDivElement>,
+  ) => {
       if (event.pointerType === "mouse" && event.button !== 0) return;
       if (dragRef.current) return;
       settleControl.current?.stop();
@@ -282,7 +284,7 @@ export function PulleyLift({
         sign,
       };
       event.currentTarget.setPointerCapture(event.pointerId);
-    };
+  };
 
   const dragMove = (event: React.PointerEvent<HTMLDivElement>) => {
     const drag = dragRef.current;
@@ -339,12 +341,6 @@ export function PulleyLift({
   };
 
   const settledFloor = list[settledIndex];
-  const grabHandlers = (sign: 1 | -1) => ({
-    onPointerDown: beginDrag(sign),
-    onPointerMove: dragMove,
-    onPointerUp: endDrag,
-    onPointerCancel: endDrag,
-  });
 
   return (
     <div
@@ -422,7 +418,10 @@ export function PulleyLift({
           width: ROPE_HIT_W,
           height: height - cy - PAD_BOT,
         }}
-        {...grabHandlers(1)}
+        onPointerDown={(e) => startDrag(1, e)}
+        onPointerMove={dragMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
       />
       <div
         aria-hidden
@@ -433,7 +432,10 @@ export function PulleyLift({
           width: ROPE_HIT_W,
           height: height - cy - PAD_BOT,
         }}
-        {...grabHandlers(-1)}
+        onPointerDown={(e) => startDrag(-1, e)}
+        onPointerMove={dragMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
       />
 
       {/* Counterweight — a dense little block riding the right fall, always
@@ -448,7 +450,10 @@ export function PulleyLift({
           width: WEIGHT_W,
           height: WEIGHT_H,
         }}
-        {...grabHandlers(-1)}
+        onPointerDown={(e) => startDrag(-1, e)}
+        onPointerMove={dragMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
       >
         <span className="bg-hairline-strong h-px w-full" />
         <span className="bg-hairline-strong h-px w-full" />
@@ -466,7 +471,10 @@ export function PulleyLift({
           width: `calc((100% - ${TABS_W}px) / 2 - ${WHEEL_R + PAD_X - ROPE_INSET}px)`,
           height: PLAT_H,
         }}
-        {...grabHandlers(1)}
+        onPointerDown={(e) => startDrag(1, e)}
+        onPointerMove={dragMove}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
       >
         {/* Hitch pin, directly under the left fall. */}
         <span
