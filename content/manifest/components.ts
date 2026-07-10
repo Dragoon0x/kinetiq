@@ -3699,4 +3699,87 @@ export const components: KinetiqItem[] = [
       "Under reduced motion sections simply fade in place with no tilt or rise.",
     ],
   },
+  {
+    name: "glass-pane",
+    type: "registry:ui",
+    title: "Glass Pane",
+    description:
+      "Stacked translucent sheets that separate in depth when your hand arrives — each glass slides out along its own diagonal on the glide spring while a specular highlight tracks the pointer across the top sheet.",
+    files: [{ path: "registry/ui/glass-pane.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-091" },
+    tagline: "Sheets that part for your hand.",
+    keywords: ["glass", "sheets", "layers", "translucent", "spatial", "hover"],
+    props: [
+      {
+        name: "sheets",
+        type: "{ id, label, content }[]",
+        description: "Two to four sheets, rear first.",
+      },
+      {
+        name: "separation",
+        type: "number",
+        defaultValue: "12",
+        description: "Peak separation per sheet step, in px.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "230",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard focus inside any sheet separates the stack exactly like hover.",
+      "Under reduced motion the sheets rest slightly fanned with a fixed highlight.",
+    ],
+  },
+  {
+    name: "foil-card",
+    type: "registry:ui",
+    title: "Foil Card",
+    description:
+      "A holographic foil card where only the light moves — the sheen chases the pointer across fine striping, rotating hue with the travel, and pressing stamps a bright flash into the foil.",
+    files: [{ path: "registry/ui/foil-card.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "use-pointer-tilt",
+    ],
+    categories: ["spatial"],
+    meta: { serial: "KQ-092" },
+    tagline: "The light moves, not the card.",
+    keywords: ["foil", "holographic", "sheen", "card", "spatial", "stamp"],
+    props: [
+      {
+        name: "children / emblem",
+        type: "ReactNode / ReactNode",
+        description: "Card content, and foil-only artwork for the strongest sheen.",
+      },
+      {
+        name: "intensity",
+        type: "number",
+        defaultValue: "0.6",
+        description: "Sheen strength, 0-1.",
+      },
+      {
+        name: "onStamp",
+        type: "() => void",
+        description: "Fires on the press flash.",
+      },
+    ],
+    usageNotes: [
+      "The whole card is a real button — Space and Enter stamp it, and the focus ring is never removed.",
+      "Under reduced motion the sheen rests at a fixed angle and the stamp is an opacity-only flash.",
+    ],
+  },
 ];

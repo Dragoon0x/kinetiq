@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 89,
+      "components": 91,
       "blocks": 16,
       "shared": 6
     }
@@ -5077,6 +5077,127 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/balance-mobile",
         "bun": "bunx --bun shadcn@latest add @kinetiq/balance-mobile",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/balance-mobile.json"
+      }
+    },
+    {
+      "slug": "glass-pane",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Glass Pane",
+      "serial": "KQ-091",
+      "tagline": "Sheets that part for your hand.",
+      "description": "Stacked translucent sheets that separate in depth when your hand arrives — each glass slides out along its own diagonal on the glide spring while a specular highlight tracks the pointer across the top sheet.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "glass",
+        "sheets",
+        "layers",
+        "translucent",
+        "spatial",
+        "hover"
+      ],
+      "props": [
+        {
+          "name": "sheets",
+          "type": "{ id, label, content }[]",
+          "description": "Two to four sheets, rear first."
+        },
+        {
+          "name": "separation",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "Peak separation per sheet step, in px."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "230",
+          "description": "Stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard focus inside any sheet separates the stack exactly like hover.",
+        "Under reduced motion the sheets rest slightly fanned with a fixed highlight."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/glass-pane",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/glass-pane.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/glass-pane",
+        "npm": "npx shadcn@latest add @kinetiq/glass-pane",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/glass-pane",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/glass-pane",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/glass-pane.json"
+      }
+    },
+    {
+      "slug": "foil-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Foil Card",
+      "serial": "KQ-092",
+      "tagline": "The light moves, not the card.",
+      "description": "A holographic foil card where only the light moves — the sheen chases the pointer across fine striping, rotating hue with the travel, and pressing stamps a bright flash into the foil.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "foil",
+        "holographic",
+        "sheen",
+        "card",
+        "spatial",
+        "stamp"
+      ],
+      "props": [
+        {
+          "name": "children / emblem",
+          "type": "ReactNode / ReactNode",
+          "description": "Card content, and foil-only artwork for the strongest sheen."
+        },
+        {
+          "name": "intensity",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "Sheen strength, 0-1."
+        },
+        {
+          "name": "onStamp",
+          "type": "() => void",
+          "description": "Fires on the press flash."
+        }
+      ],
+      "usageNotes": [
+        "The whole card is a real button — Space and Enter stamp it, and the focus ring is never removed.",
+        "Under reduced motion the sheen rests at a fixed angle and the stamp is an opacity-only flash."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/foil-card",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/foil-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/foil-card",
+        "npm": "npx shadcn@latest add @kinetiq/foil-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/foil-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/foil-card",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/foil-card.json"
       }
     },
     {

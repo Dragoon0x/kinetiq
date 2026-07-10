@@ -106,6 +106,8 @@ import { SliceCompareDemo } from "@/registry/demos/slice-compare.demo";
 import { DepthLensDemo } from "@/registry/demos/depth-lens.demo";
 import { AltitudeListDemo } from "@/registry/demos/altitude-list.demo";
 import { HorizonRiseDemo } from "@/registry/demos/horizon-rise.demo";
+import { GlassPaneDemo } from "@/registry/demos/glass-pane.demo";
+import { FoilCardDemo } from "@/registry/demos/foil-card.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -218,4 +220,6 @@ export const demos: Record<string, ComponentType> = {
   "depth-lens": DepthLensDemo,
   "altitude-list": AltitudeListDemo,
   "horizon-rise": HorizonRiseDemo,
+  "glass-pane": GlassPaneDemo,
+  "foil-card": FoilCardDemo,
 };

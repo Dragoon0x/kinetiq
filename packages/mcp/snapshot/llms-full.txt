@@ -1427,6 +1427,38 @@ Notes:
 - Every pod is a real button — Space or Enter gives it a tug, announced politely; drags add weight proportional to the pull.
 - Under reduced motion the rig rests at equilibrium and tugs read as a small instant tilt with no swing.
 
+### Glass Pane (KQ-091) — `glass-pane`
+Sheets that part for your hand.
+
+Stacked translucent sheets that separate in depth when your hand arrives — each glass slides out along its own diagonal on the glide spring while a specular highlight tracks the pointer across the top sheet.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/glass-pane`
+
+Props:
+- `sheets`: { id, label, content }[] — Two to four sheets, rear first.
+- `separation`: number (default 12) — Peak separation per sheet step, in px.
+- `height`: number (default 230) — Stage height in px.
+
+Notes:
+- Keyboard focus inside any sheet separates the stack exactly like hover.
+- Under reduced motion the sheets rest slightly fanned with a fixed highlight.
+
+### Foil Card (KQ-092) — `foil-card`
+The light moves, not the card.
+
+A holographic foil card where only the light moves — the sheen chases the pointer across fine striping, rotating hue with the travel, and pressing stamps a bright flash into the foil.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/foil-card`
+
+Props:
+- `children / emblem`: ReactNode / ReactNode — Card content, and foil-only artwork for the strongest sheen.
+- `intensity`: number (default 0.6) — Sheen strength, 0-1.
+- `onStamp`: () => void — Fires on the press flash.
+
+Notes:
+- The whole card is a real button — Space and Enter stamp it, and the focus ring is never removed.
+- Under reduced motion the sheen rests at a fixed angle and the stamp is an opacity-only flash.
+
 ### Ring Dial (KQ-111) — `ring-dial`
 Stops that pull like magnets.
 

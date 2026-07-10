@@ -2347,6 +2347,60 @@
       }
     },
     {
+      "name": "glass-pane",
+      "type": "registry:ui",
+      "title": "Glass Pane",
+      "description": "Stacked translucent sheets that separate in depth when your hand arrives — each glass slides out along its own diagonal on the glide spring while a specular highlight tracks the pointer across the top sheet.",
+      "files": [
+        {
+          "path": "registry/ui/glass-pane.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-091"
+      }
+    },
+    {
+      "name": "foil-card",
+      "type": "registry:ui",
+      "title": "Foil Card",
+      "description": "A holographic foil card where only the light moves — the sheen chases the pointer across fine striping, rotating hue with the travel, and pressing stamps a bright flash into the foil.",
+      "files": [
+        {
+          "path": "registry/ui/foil-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-092"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
