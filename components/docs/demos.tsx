@@ -162,6 +162,9 @@ import { CompassNeedleDemo } from "@/registry/demos/compass-needle.demo";
 import { SectionCutDemo } from "@/registry/demos/section-cut.demo";
 import { BlueprintRiseDemo } from "@/registry/demos/blueprint-rise.demo";
 import { ExplodeViewDemo } from "@/registry/demos/explode-view.demo";
+import { RadarScopeDemo } from "@/registry/demos/radar-scope.demo";
+import { MatrixRiseDemo } from "@/registry/demos/matrix-rise.demo";
+import { LittlePlanetDemo } from "@/registry/demos/little-planet.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -330,4 +333,7 @@ export const demos: Record<string, ComponentType> = {
   "section-cut": SectionCutDemo,
   "blueprint-rise": BlueprintRiseDemo,
   "explode-view": ExplodeViewDemo,
+  "radar-scope": RadarScopeDemo,
+  "matrix-rise": MatrixRiseDemo,
+  "little-planet": LittlePlanetDemo,
 };

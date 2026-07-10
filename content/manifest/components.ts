@@ -5872,4 +5872,130 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the assembly swaps instantly between nested and fanned, leaders and all.",
     ],
   },
+  {
+    name: "radar-scope",
+    type: "registry:ui",
+    title: "Radar Scope",
+    description:
+      "A polar approach scope whose sweep beam rakes the display once a cycle, lighting each contact as it crosses its bearing and leaving it to fade in afterglow; click a contact to pin a callout, or reach every one through the keyboard list beside the scope.",
+    files: [{ path: "registry/ui/radar-scope.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-144" },
+    tagline: "The sweep lights each contact; click to inspect.",
+    keywords: ["radar", "scope", "sweep", "canvas", "spatial", "polar"],
+    props: [
+      {
+        name: "blips",
+        type: "Blip[]",
+        description: "Contacts placed by bearing (deg) and range (0..1).",
+      },
+      {
+        name: "onInspect",
+        type: "(id | null) => void",
+        description: "Fires the inspected contact id, null when cleared.",
+      },
+      {
+        name: "sweepPeriod",
+        type: "number",
+        defaultValue: "4",
+        description: "Seconds per full sweep rotation.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Scope height in px.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is aria-hidden with a parallel button list, so every contact is inspectable from the keyboard.",
+      "The sweep pauses off-screen and when the tab is hidden, rebasing its clock so it never jumps on resume.",
+      "Under reduced motion the scope paints one static frame with every contact lit and no animation loop.",
+    ],
+  },
+  {
+    name: "matrix-rise",
+    type: "registry:ui",
+    title: "Matrix Rise",
+    description:
+      "A heat grid that stands up into a bar city — toggle it and every cell extrudes into an isometric bar whose height tracks its value, the field rising in a diagonal cascade; toggle back and it lies flat as a heatmap again.",
+    files: [{ path: "registry/ui/matrix-rise.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-150" },
+    tagline: "Toggle the grid up into a city of bars.",
+    keywords: ["matrix", "heatmap", "bars", "isometric", "spatial", "data"],
+    props: [
+      {
+        name: "data",
+        type: "number[][]",
+        description: "The value matrix; drives both color and bar height.",
+      },
+      {
+        name: "rowLabels / colLabels",
+        type: "string[]",
+        description: "Optional axis labels.",
+      },
+      {
+        name: "risen / defaultRisen",
+        type: "boolean",
+        description: "Controlled or initial raised state.",
+      },
+      {
+        name: "onToggle",
+        type: "(risen) => void",
+        description: "Fires the new state when the grid is toggled.",
+      },
+    ],
+    usageNotes: [
+      "The bars are clip-path faces, not CSS 3D, so the city stays Safari-proof.",
+      "Hovering or focusing a cell reads its value; the controlled risen prop is honored.",
+      "Under reduced motion the grid swaps instantly between heatmap and city.",
+    ],
+  },
+  {
+    name: "little-planet",
+    type: "registry:ui",
+    title: "Little Planet",
+    description:
+      "Sections wrapped around a tiny planet's rim — spin the planet and each curves up to the top slot, growing to full size as it surfaces while the far side tucks behind the horizon; release snaps the nearest section home.",
+    files: [{ path: "registry/ui/little-planet.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-142" },
+    tagline: "Spin the planet; a section curves up to the top.",
+    keywords: ["planet", "globe", "rim", "carousel", "spatial", "stereographic"],
+    props: [
+      {
+        name: "sections",
+        type: "PlanetSection[]",
+        description: "Sections spaced evenly around the planet rim.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "Controlled or initial surfaced section id.",
+      },
+      {
+        name: "onSurface",
+        type: "(id) => void",
+        description: "Fires the section id once it settles at the top.",
+      },
+      {
+        name: "radius / height",
+        type: "number",
+        defaultValue: "96 / 320",
+        description: "Planet radius and stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The planet is a focusable control — arrows spin one section to the top, Home returns to the first.",
+      "A release snaps the nearest section to the top the short way; the controlled value is honored.",
+      "Under reduced motion the sections sit in a static ring and surface with an instant jump.",
+    ],
+  },
 ];

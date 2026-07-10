@@ -2265,6 +2265,24 @@ Notes:
 - A node hover or focus fires onProbe with the elevation in original units and lifts a readout.
 - Under reduced motion the surface holds one static oblique frame while probing stays live.
 
+### Little Planet (KQ-142) — `little-planet`
+Spin the planet; a section curves up to the top.
+
+Sections wrapped around a tiny planet's rim — spin the planet and each curves up to the top slot, growing to full size as it surfaces while the far side tucks behind the horizon; release snaps the nearest section home.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/little-planet`
+
+Props:
+- `sections`: PlanetSection[] — Sections spaced evenly around the planet rim.
+- `value / defaultValue`: string — Controlled or initial surfaced section id.
+- `onSurface`: (id) => void — Fires the section id once it settles at the top.
+- `radius / height`: number (default 96 / 320) — Planet radius and stage height in px.
+
+Notes:
+- The planet is a focusable control — arrows spin one section to the top, Home returns to the first.
+- A release snaps the nearest section to the top the short way; the controlled value is honored.
+- Under reduced motion the sections sit in a static ring and surface with an instant jump.
+
 ### Arc Routes (KQ-143) — `arc-routes`
 Hover a route; a rider arcs to its port.
 
@@ -2282,6 +2300,24 @@ Notes:
 - Routes ride from a legend of real buttons, so they are keyboard-reachable and announce on focus.
 - The rider is a bezier-derived marker travelling a tween from origin to destination while the route is active.
 - Under reduced motion no rider travels; the arc brightens and marks its midpoint instead.
+
+### Radar Scope (KQ-144) — `radar-scope`
+The sweep lights each contact; click to inspect.
+
+A polar approach scope whose sweep beam rakes the display once a cycle, lighting each contact as it crosses its bearing and leaving it to fade in afterglow; click a contact to pin a callout, or reach every one through the keyboard list beside the scope.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/radar-scope`
+
+Props:
+- `blips`: Blip[] — Contacts placed by bearing (deg) and range (0..1).
+- `onInspect`: (id | null) => void — Fires the inspected contact id, null when cleared.
+- `sweepPeriod`: number (default 4) — Seconds per full sweep rotation.
+- `height`: number (default 300) — Scope height in px.
+
+Notes:
+- The canvas is aria-hidden with a parallel button list, so every contact is inspectable from the keyboard.
+- The sweep pauses off-screen and when the tab is hidden, rebasing its clock so it never jumps on resume.
+- Under reduced motion the scope paints one static frame with every contact lit and no animation loop.
 
 ### Section Cut (KQ-146) — `section-cut`
 Drag the plane; a stratum opens at the cut.
@@ -2353,6 +2389,24 @@ Notes:
 - Parts are focusable buttons — hovering or focusing one lights the part and its leader-lined label.
 - The separation staggers on a cascade so the outer parts lead; the controlled exploded prop is honored.
 - Under reduced motion the assembly swaps instantly between nested and fanned, leaders and all.
+
+### Matrix Rise (KQ-150) — `matrix-rise`
+Toggle the grid up into a city of bars.
+
+A heat grid that stands up into a bar city — toggle it and every cell extrudes into an isometric bar whose height tracks its value, the field rising in a diagonal cascade; toggle back and it lies flat as a heatmap again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/matrix-rise`
+
+Props:
+- `data`: number[][] — The value matrix; drives both color and bar height.
+- `rowLabels / colLabels`: string[] — Optional axis labels.
+- `risen / defaultRisen`: boolean — Controlled or initial raised state.
+- `onToggle`: (risen) => void — Fires the new state when the grid is toggled.
+
+Notes:
+- The bars are clip-path faces, not CSS 3D, so the city stays Safari-proof.
+- Hovering or focusing a cell reads its value; the controlled risen prop is honored.
+- Under reduced motion the grid swaps instantly between heatmap and city.
 
 ### Swing Door (KQ-151) — `swing-door`
 Past the detent or slammed home.

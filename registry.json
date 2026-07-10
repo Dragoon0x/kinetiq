@@ -3854,6 +3854,86 @@
       }
     },
     {
+      "name": "radar-scope",
+      "type": "registry:ui",
+      "title": "Radar Scope",
+      "description": "A polar approach scope whose sweep beam rakes the display once a cycle, lighting each contact as it crosses its bearing and leaving it to fade in afterglow; click a contact to pin a callout, or reach every one through the keyboard list beside the scope.",
+      "files": [
+        {
+          "path": "registry/ui/radar-scope.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-144"
+      }
+    },
+    {
+      "name": "matrix-rise",
+      "type": "registry:ui",
+      "title": "Matrix Rise",
+      "description": "A heat grid that stands up into a bar city — toggle it and every cell extrudes into an isometric bar whose height tracks its value, the field rising in a diagonal cascade; toggle back and it lies flat as a heatmap again.",
+      "files": [
+        {
+          "path": "registry/ui/matrix-rise.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-150"
+      }
+    },
+    {
+      "name": "little-planet",
+      "type": "registry:ui",
+      "title": "Little Planet",
+      "description": "Sections wrapped around a tiny planet's rim — spin the planet and each curves up to the top slot, growing to full size as it surfaces while the far side tucks behind the horizon; release snaps the nearest section home.",
+      "files": [
+        {
+          "path": "registry/ui/little-planet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-142"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
