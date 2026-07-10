@@ -129,6 +129,9 @@ import { HelixIndexDemo } from "@/registry/demos/helix-index.demo";
 import { SwingDoorDemo } from "@/registry/demos/swing-door.demo";
 import { HatchBoardDemo } from "@/registry/demos/hatch-board.demo";
 import { GearTrainDemo } from "@/registry/demos/gear-train.demo";
+import { CommitLeverDemo } from "@/registry/demos/commit-lever.demo";
+import { CrankReelDemo } from "@/registry/demos/crank-reel.demo";
+import { PulleyLiftDemo } from "@/registry/demos/pulley-lift.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -264,4 +267,7 @@ export const demos: Record<string, ComponentType> = {
   "swing-door": SwingDoorDemo,
   "hatch-board": HatchBoardDemo,
   "gear-train": GearTrainDemo,
+  "commit-lever": CommitLeverDemo,
+  "crank-reel": CrankReelDemo,
+  "pulley-lift": PulleyLiftDemo,
 };

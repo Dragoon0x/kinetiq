@@ -2963,6 +2963,87 @@
       }
     },
     {
+      "name": "commit-lever",
+      "type": "registry:ui",
+      "title": "Commit Lever",
+      "description": "A two-stage action lever — the pull stiffens at the guard notch and the flap swings aside as you push through to arm; full travel commits with a thunk, locks, and glides home after the reset.",
+      "files": [
+        {
+          "path": "registry/ui/commit-lever.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-154"
+      }
+    },
+    {
+      "name": "crank-reel",
+      "type": "registry:ui",
+      "title": "Crank Reel",
+      "description": "A hand-crank that winds progress onto a visible spool — forward turns bank units with ratchet ticks while backward cranking just chatters on the freewheel; the drum trails the handle on the glide spring.",
+      "files": [
+        {
+          "path": "registry/ui/crank-reel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-155"
+      }
+    },
+    {
+      "name": "pulley-lift",
+      "type": "registry:ui",
+      "title": "Pulley Lift",
+      "description": "A dumbwaiter on one honest travel value — haul the platform, the counterweight, or either rope fall, and the car settles to the nearest floor with an elastic arrival while the sheave turns by exactly the rope it passed.",
+      "files": [
+        {
+          "path": "registry/ui/pulley-lift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-156"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

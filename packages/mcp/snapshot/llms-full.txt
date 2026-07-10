@@ -1964,6 +1964,54 @@ Notes:
 - The train is one slider — arrows step by two, Page keys by ten, Home and End glide the rails, and every settle is announced by value.
 - Under reduced motion gears track the hand one-to-one with no coast; the tooth-tick blink remains as an opacity cue.
 
+### Commit Lever (KQ-154) — `commit-lever`
+Past the guard, then all the way.
+
+A two-stage action lever — the pull stiffens at the guard notch and the flap swings aside as you push through to arm; full travel commits with a thunk, locks, and glides home after the reset.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/commit-lever`
+
+Props:
+- `onCommit`: () => void — Required — fires exactly once per full travel.
+- `onArmChange`: (armed) => void — Tracks the armed stage, deduped.
+- `commitLabel / resetDelay / disabled`: string / number / boolean (default "Commit" / 900 / false) — Wording, auto-return delay (0 holds), and the safety.
+
+Notes:
+- The grip is a real button — first press arms, second commits, Escape disarms; every stage is announced.
+- Under reduced motion the lever snaps between its three stations with no thunk or lamp blink.
+
+### Crank Reel (KQ-155) — `crank-reel`
+Wind forward; the freewheel only clicks.
+
+A hand-crank that winds progress onto a visible spool — forward turns bank units with ratchet ticks while backward cranking just chatters on the freewheel; the drum trails the handle on the glide spring.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crank-reel`
+
+Props:
+- `value / defaultValue / onValueChange`: number / number / (value) => void — Controlled or uncontrolled wound units; fires per unit.
+- `max / unitsPerTurn / reversible`: number / number / boolean (default 12 / 2 / false) — Capacity, gearing, and whether backward unwinds.
+- `onSlip / spoolLabel`: () => void / string — Freewheel slip callback and the wound material's name.
+
+Notes:
+- The rig is one slider — arrows wind a unit, Home and End run the rails with a single batched announcement, and slips announce as freewheel.
+- Under reduced motion the crank and drum move instantly and the pawl kick becomes an opacity blink.
+
+### Pulley Lift (KQ-156) — `pulley-lift`
+The counterweight lands the car.
+
+A dumbwaiter on one honest travel value — haul the platform, the counterweight, or either rope fall, and the car settles to the nearest floor with an elastic arrival while the sheave turns by exactly the rope it passed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pulley-lift`
+
+Props:
+- `floors`: { id, label, content }[] — Two to four floors, ground first.
+- `floor / defaultFloor / onFloorChange`: string / string / (id) => void — Controlled or uncontrolled floor; fires on settle.
+- `height`: number (default 280) — Shaft height in px.
+
+Notes:
+- The frame is a vertical slider and every floor tab is a real button with aria-current; arrivals are announced by label.
+- Under reduced motion the car jumps between floors with no glide or bounce.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

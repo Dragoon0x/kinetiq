@@ -4596,4 +4596,112 @@ export const components: KinetiqItem[] = [
       "Under reduced motion gears track the hand one-to-one with no coast; the tooth-tick blink remains as an opacity cue.",
     ],
   },
+  {
+    name: "commit-lever",
+    type: "registry:ui",
+    title: "Commit Lever",
+    description:
+      "A two-stage action lever — the pull stiffens at the guard notch and the flap swings aside as you push through to arm; full travel commits with a thunk, locks, and glides home after the reset.",
+    files: [{ path: "registry/ui/commit-lever.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-154" },
+    tagline: "Past the guard, then all the way.",
+    keywords: ["lever", "commit", "arm", "guard", "spatial", "mechanism"],
+    props: [
+      {
+        name: "onCommit",
+        type: "() => void",
+        description: "Required — fires exactly once per full travel.",
+      },
+      {
+        name: "onArmChange",
+        type: "(armed) => void",
+        description: "Tracks the armed stage, deduped.",
+      },
+      {
+        name: "commitLabel / resetDelay / disabled",
+        type: "string / number / boolean",
+        defaultValue: '"Commit" / 900 / false',
+        description: "Wording, auto-return delay (0 holds), and the safety.",
+      },
+    ],
+    usageNotes: [
+      "The grip is a real button — first press arms, second commits, Escape disarms; every stage is announced.",
+      "Under reduced motion the lever snaps between its three stations with no thunk or lamp blink.",
+    ],
+  },
+  {
+    name: "crank-reel",
+    type: "registry:ui",
+    title: "Crank Reel",
+    description:
+      "A hand-crank that winds progress onto a visible spool — forward turns bank units with ratchet ticks while backward cranking just chatters on the freewheel; the drum trails the handle on the glide spring.",
+    files: [{ path: "registry/ui/crank-reel.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-155" },
+    tagline: "Wind forward; the freewheel only clicks.",
+    keywords: ["crank", "reel", "winch", "ratchet", "spatial", "mechanism"],
+    props: [
+      {
+        name: "value / defaultValue / onValueChange",
+        type: "number / number / (value) => void",
+        description: "Controlled or uncontrolled wound units; fires per unit.",
+      },
+      {
+        name: "max / unitsPerTurn / reversible",
+        type: "number / number / boolean",
+        defaultValue: "12 / 2 / false",
+        description: "Capacity, gearing, and whether backward unwinds.",
+      },
+      {
+        name: "onSlip / spoolLabel",
+        type: "() => void / string",
+        description: "Freewheel slip callback and the wound material's name.",
+      },
+    ],
+    usageNotes: [
+      "The rig is one slider — arrows wind a unit, Home and End run the rails with a single batched announcement, and slips announce as freewheel.",
+      "Under reduced motion the crank and drum move instantly and the pawl kick becomes an opacity blink.",
+    ],
+  },
+  {
+    name: "pulley-lift",
+    type: "registry:ui",
+    title: "Pulley Lift",
+    description:
+      "A dumbwaiter on one honest travel value — haul the platform, the counterweight, or either rope fall, and the car settles to the nearest floor with an elastic arrival while the sheave turns by exactly the rope it passed.",
+    files: [{ path: "registry/ui/pulley-lift.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-156" },
+    tagline: "The counterweight lands the car.",
+    keywords: ["pulley", "lift", "elevator", "rope", "spatial", "mechanism"],
+    props: [
+      {
+        name: "floors",
+        type: "{ id, label, content }[]",
+        description: "Two to four floors, ground first.",
+      },
+      {
+        name: "floor / defaultFloor / onFloorChange",
+        type: "string / string / (id) => void",
+        description: "Controlled or uncontrolled floor; fires on settle.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Shaft height in px.",
+      },
+    ],
+    usageNotes: [
+      "The frame is a vertical slider and every floor tab is a real button with aria-current; arrivals are announced by label.",
+      "Under reduced motion the car jumps between floors with no glide or bounce.",
+    ],
+  },
 ];
