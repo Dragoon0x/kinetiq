@@ -6,13 +6,17 @@ import { catalogBlocks, catalogComponents } from "@/content/manifest";
 
 /**
  * Signature specimens on the exhibit floor — visually striking but light to
- * mount, so the landing page stays fast. The heavy showpieces (ledger's 10k
- * rows, the canvas fields) live one click away on their own pages.
+ * mount, so the landing page stays fast. Two spatial leads (facet-cube,
+ * foil-card) front the Spatial Wing; both are CSS-only, so the wall carries
+ * zero canvas. The heavy showpieces (ledger's 10k rows, the canvas fields)
+ * live one click away on their own pages.
  */
 const FEATURED = [
+  "facet-cube",
   "segmented-control",
   "radial-bars",
   "heart-tap",
+  "foil-card",
   "zoetrope",
   "caliper-slider",
   "gyro-card",
