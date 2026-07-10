@@ -98,7 +98,6 @@ export function CurtainLift({
             return (
               <motion.span
                 // Folds are positional strips; index keys are stable.
-                // eslint-disable-next-line react/no-array-index-key
                 key={i}
                 initial={false}
                 animate={

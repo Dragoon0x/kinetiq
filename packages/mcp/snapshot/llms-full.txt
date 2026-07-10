@@ -1493,6 +1493,21 @@ Notes:
 - The toggle is a real button with aria-expanded; the strip height animates with the folds so layout follows honestly.
 - Under reduced motion panels simply appear and disappear with a fast fade.
 
+### Height Field (KQ-095) — `height-field`
+Sculpt the ground; the lines follow.
+
+A canvas terrain you sculpt by hand — a gaussian brush raises or carves the ground while survey isolines redraw as the field settles back toward its seeded base; the loop idles the moment nothing moves.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/height-field`
+
+Props:
+- `levels / brush / relax`: number / number / number (default 5 / 42 / 0.985) — Isoline count, brush radius in px, and settle retention.
+- `height`: number (default 240) — Stage height in px.
+
+Notes:
+- RAISE and CARVE are real chip buttons; the canvas is presentational behind a labelled wrapper with a described interaction.
+- The loop pauses offscreen and in hidden tabs, idles when settled, and under reduced motion renders one static seeded frame.
+
 ### Curtain Lift (KQ-096) — `curtain-lift`
 A hem that travels as a wave.
 
@@ -1525,6 +1540,22 @@ Props:
 Notes:
 - Only the front plate is real — every reflection is aria-hidden and inert.
 - Under reduced motion the corridor rests centered with no bend.
+
+### Frost Wipe (KQ-098) — `frost-wipe`
+Wipe to read; stillness frosts it back.
+
+A frosted pane over live content — wipe it clear with the pointer and the frost regrows after a moment of stillness; the grain is seeded per instance and the regrow loop runs only while there is frost to grow.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/frost-wipe`
+
+Props:
+- `children`: ReactNode — The content under the glass — always real DOM for AT.
+- `brush / refrostDelay`: number / number (default 26 / 1600) — Wipe radius in px and the idle delay before regrowth.
+- `height`: number (default 220) — Stage height in px.
+
+Notes:
+- WIPE CLEAR and REFROST chips give the keyboard the same control, and the pane state is announced politely.
+- Under reduced motion the refrost is instant rather than gradual; the regrow loop pauses offscreen and in hidden tabs.
 
 ### Ring Dial (KQ-111) — `ring-dial`
 Stops that pull like magnets.

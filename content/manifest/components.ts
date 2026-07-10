@@ -3948,4 +3948,73 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the corridor rests centered with no bend.",
     ],
   },
+  {
+    name: "height-field",
+    type: "registry:ui",
+    title: "Height Field",
+    description:
+      "A canvas terrain you sculpt by hand — a gaussian brush raises or carves the ground while survey isolines redraw as the field settles back toward its seeded base; the loop idles the moment nothing moves.",
+    files: [{ path: "registry/ui/height-field.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-095" },
+    tagline: "Sculpt the ground; the lines follow.",
+    keywords: ["canvas", "terrain", "contour", "sculpt", "spatial", "isolines"],
+    props: [
+      {
+        name: "levels / brush / relax",
+        type: "number / number / number",
+        defaultValue: "5 / 42 / 0.985",
+        description: "Isoline count, brush radius in px, and settle retention.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "240",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "RAISE and CARVE are real chip buttons; the canvas is presentational behind a labelled wrapper with a described interaction.",
+      "The loop pauses offscreen and in hidden tabs, idles when settled, and under reduced motion renders one static seeded frame.",
+    ],
+  },
+  {
+    name: "frost-wipe",
+    type: "registry:ui",
+    title: "Frost Wipe",
+    description:
+      "A frosted pane over live content — wipe it clear with the pointer and the frost regrows after a moment of stillness; the grain is seeded per instance and the regrow loop runs only while there is frost to grow.",
+    files: [{ path: "registry/ui/frost-wipe.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-098" },
+    tagline: "Wipe to read; stillness frosts it back.",
+    keywords: ["canvas", "frost", "wipe", "reveal", "spatial", "glass"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The content under the glass — always real DOM for AT.",
+      },
+      {
+        name: "brush / refrostDelay",
+        type: "number / number",
+        defaultValue: "26 / 1600",
+        description: "Wipe radius in px and the idle delay before regrowth.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "220",
+        description: "Stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "WIPE CLEAR and REFROST chips give the keyboard the same control, and the pane state is announced politely.",
+      "Under reduced motion the refrost is instant rather than gradual; the regrow loop pauses offscreen and in hidden tabs.",
+    ],
+  },
 ];

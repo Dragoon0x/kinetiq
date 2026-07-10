@@ -90,7 +90,6 @@ export function SlatWall({
           Array.from({ length: count }, (_, i) => (
             <motion.span
               // Slat order is fixed; index keys are stable here.
-              // eslint-disable-next-line react/no-array-index-key
               key={i}
               initial={false}
               animate={{ rotateX: showingB ? 180 : 0 }}

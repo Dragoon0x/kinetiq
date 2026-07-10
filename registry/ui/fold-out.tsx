@@ -110,7 +110,6 @@ export function FoldOut({
           {(open ? list : list.slice(0, 1)).map((node, i) => (
             <motion.div
               // Panels are positional; index keys are stable.
-              // eslint-disable-next-line react/no-array-index-key
               key={i}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
