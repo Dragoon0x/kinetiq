@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 154,
+      "components": 157,
       "blocks": 16,
       "shared": 6
     }
@@ -8462,6 +8462,183 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/rain-pane",
         "bun": "bunx --bun shadcn@latest add @kinetiq/rain-pane",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/rain-pane.json"
+      }
+    },
+    {
+      "slug": "sun-shaft",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sun Shaft",
+      "serial": "KQ-136",
+      "tagline": "Move through the beam; the motes swirl in your wake.",
+      "description": "A shaft of light crosses the atrium with dust motes drifting through it, brighter where they cross the beam; move the pointer through and the motes swirl into an eddy in your wake, settling back as you pass.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "sun-shaft",
+        "light",
+        "motes",
+        "canvas",
+        "spatial",
+        "volumetric"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "70",
+          "description": "Dust mote count, capped for cheapness."
+        },
+        {
+          "name": "onStir",
+          "type": "(stirring) => void",
+          "description": "Fires as the pointer enters and leaves the beam."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Panel height in px."
+        }
+      ],
+      "usageNotes": [
+        "The canvas is aria-hidden with a polite live region; the pointer spins a vortex through nearby motes.",
+        "The shaft pauses off-screen and when hidden, rebasing its clock so the drift never jumps.",
+        "Under reduced motion it paints one static lit frame with the motes at rest and no loop."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/sun-shaft",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/sun-shaft.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sun-shaft",
+        "npm": "npx shadcn@latest add @kinetiq/sun-shaft",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sun-shaft",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sun-shaft",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/sun-shaft.json"
+      }
+    },
+    {
+      "slug": "firefly-field",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Firefly Field",
+      "serial": "KQ-137",
+      "tagline": "Hold, and the fireflies gather to your hand.",
+      "description": "Fireflies wander and blink at their own depths across a dusk meadow; press and hold and they gather to your hand, milling around it, then disperse back into the dark when you let go.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "fireflies",
+        "particles",
+        "canvas",
+        "gather",
+        "spatial",
+        "ambient"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "48",
+          "description": "Firefly count, clamped to a cheap range."
+        },
+        {
+          "name": "onGather",
+          "type": "(gathering) => void",
+          "description": "Fires as the hold starts and stops."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Meadow height in px."
+        }
+      ],
+      "usageNotes": [
+        "The canvas is aria-hidden with a keyboard Gather button (Space or Enter held), so it works without a pointer.",
+        "The field pauses off-screen and when hidden, rebasing its clock over the pause.",
+        "Under reduced motion it holds a calm static scatter with no wander or gather loop."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/firefly-field",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/firefly-field.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/firefly-field",
+        "npm": "npx shadcn@latest add @kinetiq/firefly-field",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/firefly-field",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/firefly-field",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/firefly-field.json"
+      }
+    },
+    {
+      "slug": "vapor-ring",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Vapor Ring",
+      "serial": "KQ-138",
+      "tagline": "Click the air; a ring of vapor rolls out.",
+      "description": "Click the still air and a ring of vapor puffs out, its turbulent edge expanding toward you and drifting up as it thins to nothing; the loop sleeps whenever the last ring has faded.",
+      "categories": [
+        "spatial"
+      ],
+      "keywords": [
+        "vapor",
+        "smoke-ring",
+        "canvas",
+        "puff",
+        "spatial",
+        "ambient"
+      ],
+      "props": [
+        {
+          "name": "onPuff",
+          "type": "(at) => void",
+          "description": "Fires the { x, y } of each puff."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Surface height in px."
+        }
+      ],
+      "usageNotes": [
+        "Rings pool to a fixed cap, so rapid clicks stay cheap; each click fires onPuff with its point.",
+        "The loop idle-stops the instant the last ring has faded and wakes on the next puff.",
+        "Under reduced motion a click draws one static ring, replaced on the next click, with no loop."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/vapor-ring",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/vapor-ring.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/vapor-ring",
+        "npm": "npx shadcn@latest add @kinetiq/vapor-ring",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/vapor-ring",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/vapor-ring",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/vapor-ring.json"
       }
     },
     {

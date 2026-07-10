@@ -171,6 +171,9 @@ import { DepthFogDemo } from "@/registry/demos/depth-fog.demo";
 import { EmberColumnDemo } from "@/registry/demos/ember-column.demo";
 import { ConstellationMapDemo } from "@/registry/demos/constellation-map.demo";
 import { RainPaneDemo } from "@/registry/demos/rain-pane.demo";
+import { SunShaftDemo } from "@/registry/demos/sun-shaft.demo";
+import { FireflyFieldDemo } from "@/registry/demos/firefly-field.demo";
+import { VaporRingDemo } from "@/registry/demos/vapor-ring.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -348,4 +351,7 @@ export const demos: Record<string, ComponentType> = {
   "ember-column": EmberColumnDemo,
   "constellation-map": ConstellationMapDemo,
   "rain-pane": RainPaneDemo,
+  "sun-shaft": SunShaftDemo,
+  "firefly-field": FireflyFieldDemo,
+  "vapor-ring": VaporRingDemo,
 };

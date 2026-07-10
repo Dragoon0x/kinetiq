@@ -6235,4 +6235,112 @@ export const components: KinetiqItem[] = [
       "Under reduced motion a few streaks freeze in place and a tap draws one static splash ring.",
     ],
   },
+  {
+    name: "sun-shaft",
+    type: "registry:ui",
+    title: "Sun Shaft",
+    description:
+      "A shaft of light crosses the atrium with dust motes drifting through it, brighter where they cross the beam; move the pointer through and the motes swirl into an eddy in your wake, settling back as you pass.",
+    files: [{ path: "registry/ui/sun-shaft.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-136" },
+    tagline: "Move through the beam; the motes swirl in your wake.",
+    keywords: ["sun-shaft", "light", "motes", "canvas", "spatial", "volumetric"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "70",
+        description: "Dust mote count, capped for cheapness.",
+      },
+      {
+        name: "onStir",
+        type: "(stirring) => void",
+        description: "Fires as the pointer enters and leaves the beam.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Panel height in px.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is aria-hidden with a polite live region; the pointer spins a vortex through nearby motes.",
+      "The shaft pauses off-screen and when hidden, rebasing its clock so the drift never jumps.",
+      "Under reduced motion it paints one static lit frame with the motes at rest and no loop.",
+    ],
+  },
+  {
+    name: "firefly-field",
+    type: "registry:ui",
+    title: "Firefly Field",
+    description:
+      "Fireflies wander and blink at their own depths across a dusk meadow; press and hold and they gather to your hand, milling around it, then disperse back into the dark when you let go.",
+    files: [{ path: "registry/ui/firefly-field.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-137" },
+    tagline: "Hold, and the fireflies gather to your hand.",
+    keywords: ["fireflies", "particles", "canvas", "gather", "spatial", "ambient"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "48",
+        description: "Firefly count, clamped to a cheap range.",
+      },
+      {
+        name: "onGather",
+        type: "(gathering) => void",
+        description: "Fires as the hold starts and stops.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Meadow height in px.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is aria-hidden with a keyboard Gather button (Space or Enter held), so it works without a pointer.",
+      "The field pauses off-screen and when hidden, rebasing its clock over the pause.",
+      "Under reduced motion it holds a calm static scatter with no wander or gather loop.",
+    ],
+  },
+  {
+    name: "vapor-ring",
+    type: "registry:ui",
+    title: "Vapor Ring",
+    description:
+      "Click the still air and a ring of vapor puffs out, its turbulent edge expanding toward you and drifting up as it thins to nothing; the loop sleeps whenever the last ring has faded.",
+    files: [{ path: "registry/ui/vapor-ring.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-138" },
+    tagline: "Click the air; a ring of vapor rolls out.",
+    keywords: ["vapor", "smoke-ring", "canvas", "puff", "spatial", "ambient"],
+    props: [
+      {
+        name: "onPuff",
+        type: "(at) => void",
+        description: "Fires the { x, y } of each puff.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Surface height in px.",
+      },
+    ],
+    usageNotes: [
+      "Rings pool to a fixed cap, so rapid clicks stay cheap; each click fires onPuff with its point.",
+      "The loop idle-stops the instant the last ring has faded and wakes on the next puff.",
+      "Under reduced motion a click draws one static ring, replaced on the next click, with no loop.",
+    ],
+  },
 ];

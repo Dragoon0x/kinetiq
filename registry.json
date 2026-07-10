@@ -4091,6 +4091,84 @@
       }
     },
     {
+      "name": "sun-shaft",
+      "type": "registry:ui",
+      "title": "Sun Shaft",
+      "description": "A shaft of light crosses the atrium with dust motes drifting through it, brighter where they cross the beam; move the pointer through and the motes swirl into an eddy in your wake, settling back as you pass.",
+      "files": [
+        {
+          "path": "registry/ui/sun-shaft.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-136"
+      }
+    },
+    {
+      "name": "firefly-field",
+      "type": "registry:ui",
+      "title": "Firefly Field",
+      "description": "Fireflies wander and blink at their own depths across a dusk meadow; press and hold and they gather to your hand, milling around it, then disperse back into the dark when you let go.",
+      "files": [
+        {
+          "path": "registry/ui/firefly-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-137"
+      }
+    },
+    {
+      "name": "vapor-ring",
+      "type": "registry:ui",
+      "title": "Vapor Ring",
+      "description": "Click the still air and a ring of vapor puffs out, its turbulent edge expanding toward you and drifting up as it thins to nothing; the loop sleeps whenever the last ring has faded.",
+      "files": [
+        {
+          "path": "registry/ui/vapor-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-138"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
