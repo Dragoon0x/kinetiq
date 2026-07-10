@@ -5257,4 +5257,120 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the frame holds a mid-push composition while the readout still tracks.",
     ],
   },
+  {
+    name: "orbit-stage",
+    type: "registry:ui",
+    title: "Orbit Stage",
+    description:
+      "A three-station specimen turntable — drag orbits the camera around the staged group, the plates billboarded so they always face you while position, scale, and stacking carry the depth; release glides on the thrown momentum and snaps a station to the front, the pedestal ring ticking off its 120-degree detents.",
+    files: [{ path: "registry/ui/orbit-stage.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-082" },
+    tagline: "Orbit the stage; a station swings to the front.",
+    keywords: ["orbit", "turntable", "camera", "stage", "spatial", "carousel"],
+    props: [
+      {
+        name: "plates",
+        type: "StagePlate[]",
+        description: "The stations; the first three seat the turntable.",
+      },
+      {
+        name: "station / defaultStation",
+        type: "string",
+        description: "Controlled or initial front plate id.",
+      },
+      {
+        name: "onStationChange",
+        type: "(id) => void",
+        description: "Fires the front plate id once the orbit settles.",
+      },
+      {
+        name: "radius / height",
+        type: "number",
+        defaultValue: "110 / 260",
+        description: "Orbit radius and stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Only the front plate is tabbable and live; back plates are inert and aria-hidden until they settle forward.",
+      "The frame is a focusable group — arrows rotate one station, Home returns to the first.",
+      "Under reduced motion the poses swap in a single frame with a fast crossfade; every flight is stopped on unmount.",
+    ],
+  },
+  {
+    name: "tunnel-dive",
+    type: "registry:ui",
+    title: "Tunnel Dive",
+    description:
+      "A dive through receding frames — scroll flies the camera down a z-tunnel where each gate rushes from a far speck to blow past the lens, a starburst cresting between gates and the depth readout counting them off as they pass.",
+    files: [{ path: "registry/ui/tunnel-dive.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-083" },
+    tagline: "Scroll dives; each gate blows past.",
+    keywords: ["tunnel", "dive", "depth", "camera", "scroll", "spatial"],
+    props: [
+      {
+        name: "frames",
+        type: "TunnelFrame[]",
+        description: "The gates to fly through, front to back.",
+      },
+      {
+        name: "onFramePass",
+        type: "(index) => void",
+        description: "Fires as each gate blows past, deduped ascending.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "280",
+        description: "Scroll stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "An sr-only list carries the gates; the region scrolls natively and the depth visuals are presentational.",
+      "Passes dedupe ascending and re-arm on scroll-back, so a gate never double-fires.",
+      "Under reduced motion the tunnel reads as a flat outlined list with a nearest-gate readout.",
+    ],
+  },
+  {
+    name: "pan-window",
+    type: "registry:ui",
+    title: "Pan Window",
+    description:
+      "A wide dusk ridge behind glass — drag-pan across the panorama with rubber-resisting edges while three depth bands trail at parallax; survey markers pinned along the ridge step forward as each crosses the center third, their detail lines unfurling, and a bearing readout tracks the sweep.",
+    files: [{ path: "registry/ui/pan-window.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["spatial"],
+    meta: { serial: "KQ-084" },
+    tagline: "Pan the ridge; markers step to the glass.",
+    keywords: ["panorama", "pan", "parallax", "camera", "spatial", "map"],
+    props: [
+      {
+        name: "hotspots",
+        type: "PanHotspot[]",
+        description: "Two to four markers pinned across the vista by x (0..1).",
+      },
+      {
+        name: "onVisit",
+        type: "(id) => void",
+        description: "Fires when a centered marker is activated.",
+      },
+      {
+        name: "height / panoramaWidth",
+        type: "number",
+        defaultValue: "240 / 2.2",
+        description: "Window height in px and panorama span in window widths.",
+      },
+    ],
+    usageNotes: [
+      "Markers are real buttons — focusing glides one to center, Enter visits; a pointer click visits a centered marker and pans an off-center one to center.",
+      "The frame is a focusable group — arrows pan by 15% of the window, Home and End jump to the ends.",
+      "Under reduced motion the pan resolves instantly with a hard clamp; the vista is seeded off the serial and identical every render.",
+    ],
+  },
 ];

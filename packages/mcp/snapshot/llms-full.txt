@@ -1443,6 +1443,58 @@ Notes:
 - An sr-only line describes the shot; the region scrolls natively and the visuals are presentational.
 - Under reduced motion the frame holds a mid-push composition while the readout still tracks.
 
+### Orbit Stage (KQ-082) — `orbit-stage`
+Orbit the stage; a station swings to the front.
+
+A three-station specimen turntable — drag orbits the camera around the staged group, the plates billboarded so they always face you while position, scale, and stacking carry the depth; release glides on the thrown momentum and snaps a station to the front, the pedestal ring ticking off its 120-degree detents.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/orbit-stage`
+
+Props:
+- `plates`: StagePlate[] — The stations; the first three seat the turntable.
+- `station / defaultStation`: string — Controlled or initial front plate id.
+- `onStationChange`: (id) => void — Fires the front plate id once the orbit settles.
+- `radius / height`: number (default 110 / 260) — Orbit radius and stage height in px.
+
+Notes:
+- Only the front plate is tabbable and live; back plates are inert and aria-hidden until they settle forward.
+- The frame is a focusable group — arrows rotate one station, Home returns to the first.
+- Under reduced motion the poses swap in a single frame with a fast crossfade; every flight is stopped on unmount.
+
+### Tunnel Dive (KQ-083) — `tunnel-dive`
+Scroll dives; each gate blows past.
+
+A dive through receding frames — scroll flies the camera down a z-tunnel where each gate rushes from a far speck to blow past the lens, a starburst cresting between gates and the depth readout counting them off as they pass.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tunnel-dive`
+
+Props:
+- `frames`: TunnelFrame[] — The gates to fly through, front to back.
+- `onFramePass`: (index) => void — Fires as each gate blows past, deduped ascending.
+- `height`: number (default 280) — Scroll stage height in px.
+
+Notes:
+- An sr-only list carries the gates; the region scrolls natively and the depth visuals are presentational.
+- Passes dedupe ascending and re-arm on scroll-back, so a gate never double-fires.
+- Under reduced motion the tunnel reads as a flat outlined list with a nearest-gate readout.
+
+### Pan Window (KQ-084) — `pan-window`
+Pan the ridge; markers step to the glass.
+
+A wide dusk ridge behind glass — drag-pan across the panorama with rubber-resisting edges while three depth bands trail at parallax; survey markers pinned along the ridge step forward as each crosses the center third, their detail lines unfurling, and a bearing readout tracks the sweep.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pan-window`
+
+Props:
+- `hotspots`: PanHotspot[] — Two to four markers pinned across the vista by x (0..1).
+- `onVisit`: (id) => void — Fires when a centered marker is activated.
+- `height / panoramaWidth`: number (default 240 / 2.2) — Window height in px and panorama span in window widths.
+
+Notes:
+- Markers are real buttons — focusing glides one to center, Enter visits; a pointer click visits a centered marker and pans an off-center one to center.
+- The frame is a focusable group — arrows pan by 15% of the window, Home and End jump to the ends.
+- Under reduced motion the pan resolves instantly with a hard clamp; the vista is seeded off the serial and identical every render.
+
 ### Glass Pane (KQ-091) — `glass-pane`
 Sheets that part for your hand.
 

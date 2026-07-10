@@ -3450,6 +3450,87 @@
       }
     },
     {
+      "name": "orbit-stage",
+      "type": "registry:ui",
+      "title": "Orbit Stage",
+      "description": "A three-station specimen turntable — drag orbits the camera around the staged group, the plates billboarded so they always face you while position, scale, and stacking carry the depth; release glides on the thrown momentum and snaps a station to the front, the pedestal ring ticking off its 120-degree detents.",
+      "files": [
+        {
+          "path": "registry/ui/orbit-stage.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-082"
+      }
+    },
+    {
+      "name": "tunnel-dive",
+      "type": "registry:ui",
+      "title": "Tunnel Dive",
+      "description": "A dive through receding frames — scroll flies the camera down a z-tunnel where each gate rushes from a far speck to blow past the lens, a starburst cresting between gates and the depth readout counting them off as they pass.",
+      "files": [
+        {
+          "path": "registry/ui/tunnel-dive.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-083"
+      }
+    },
+    {
+      "name": "pan-window",
+      "type": "registry:ui",
+      "title": "Pan Window",
+      "description": "A wide dusk ridge behind glass — drag-pan across the panorama with rubber-resisting edges while three depth bands trail at parallax; survey markers pinned along the ridge step forward as each crosses the center third, their detail lines unfurling, and a bearing readout tracks the sweep.",
+      "files": [
+        {
+          "path": "registry/ui/pan-window.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "spatial"
+      ],
+      "meta": {
+        "serial": "KQ-084"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

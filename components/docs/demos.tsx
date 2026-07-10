@@ -147,6 +147,9 @@ import { SpotlightStageDemo } from "@/registry/demos/spotlight-stage.demo";
 import { PullShelfDemo } from "@/registry/demos/pull-shelf.demo";
 import { TurnModelDemo } from "@/registry/demos/turn-model.demo";
 import { DollyFrameDemo } from "@/registry/demos/dolly-frame.demo";
+import { OrbitStageDemo } from "@/registry/demos/orbit-stage.demo";
+import { TunnelDiveDemo } from "@/registry/demos/tunnel-dive.demo";
+import { PanWindowDemo } from "@/registry/demos/pan-window.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -300,4 +303,7 @@ export const demos: Record<string, ComponentType> = {
   "pull-shelf": PullShelfDemo,
   "turn-model": TurnModelDemo,
   "dolly-frame": DollyFrameDemo,
+  "orbit-stage": OrbitStageDemo,
+  "tunnel-dive": TunnelDiveDemo,
+  "pan-window": PanWindowDemo,
 };
