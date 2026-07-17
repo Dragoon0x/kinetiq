@@ -5433,6 +5433,78 @@
       }
     },
     {
+      "name": "gradient-drift",
+      "type": "registry:ui",
+      "title": "Gradient Drift",
+      "description": "An ambient backdrop of soft gradient blobs that drift and breathe past each other — pure CSS and transforms, no canvas or WebGL. Each blob follows its own slow mirrored loop at a different tempo, so the field never visibly repeats, and heavy blur melts them into a single wash behind your content.",
+      "files": [
+        {
+          "path": "registry/ui/gradient-drift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "backgrounds"
+      ],
+      "meta": {
+        "serial": "KQ-208"
+      }
+    },
+    {
+      "name": "particle-network",
+      "type": "registry:ui",
+      "title": "Particle Network",
+      "description": "A drifting mesh of nodes that link up when they come close — the nearer two nodes, the brighter the thread between them. The pointer draws the nearest nodes toward it, tightening the web, then lets them wander off. Rendered flat on canvas, distinct from any 3D field.",
+      "files": [
+        {
+          "path": "registry/ui/particle-network.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "backgrounds"
+      ],
+      "meta": {
+        "serial": "KQ-209"
+      }
+    },
+    {
+      "name": "flow-field",
+      "type": "registry:ui",
+      "title": "Flow Field",
+      "description": "Streaks combed by an invisible current. Each particle reads a smooth, slowly-evolving angle field and drifts along it, trailing a fading tail; when one runs off the edge or ages out it respawns elsewhere, so the field keeps flowing. The field is a closed-form sum of sines — deterministic, no noise tables.",
+      "files": [
+        {
+          "path": "registry/ui/flow-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "backgrounds"
+      ],
+      "meta": {
+        "serial": "KQ-210"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

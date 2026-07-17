@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 206,
+      "components": 209,
       "blocks": 16,
       "shared": 6
     }
@@ -12782,6 +12782,172 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/tag-field",
         "bun": "bunx --bun shadcn@latest add @kinetiq/tag-field",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/tag-field.json"
+      }
+    },
+    {
+      "slug": "gradient-drift",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gradient Drift",
+      "serial": "KQ-208",
+      "tagline": "Soft blobs drift behind the content — no canvas.",
+      "description": "An ambient backdrop of soft gradient blobs that drift and breathe past each other — pure CSS and transforms, no canvas or WebGL. Each blob follows its own slow mirrored loop at a different tempo, so the field never visibly repeats, and heavy blur melts them into a single wash behind your content.",
+      "categories": [
+        "backgrounds"
+      ],
+      "keywords": [
+        "gradient",
+        "background",
+        "blobs",
+        "ambient",
+        "mesh",
+        "backgrounds"
+      ],
+      "props": [
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Stage height in px when standalone."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Content rendered above the wash."
+        }
+      ],
+      "usageNotes": [
+        "Pure CSS and transforms — no canvas or WebGL, safe to layer widely.",
+        "Each blob loops on its own tempo so the field never visibly repeats.",
+        "Under reduced motion the blobs hold a fixed, composed arrangement."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/gradient-drift",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gradient-drift.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gradient-drift",
+        "npm": "npx shadcn@latest add @kinetiq/gradient-drift",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gradient-drift",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gradient-drift",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gradient-drift.json"
+      }
+    },
+    {
+      "slug": "particle-network",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Particle Network",
+      "serial": "KQ-209",
+      "tagline": "Nodes thread together; the pointer pulls the web in.",
+      "description": "A drifting mesh of nodes that link up when they come close — the nearer two nodes, the brighter the thread between them. The pointer draws the nearest nodes toward it, tightening the web, then lets them wander off. Rendered flat on canvas, distinct from any 3D field.",
+      "categories": [
+        "backgrounds"
+      ],
+      "keywords": [
+        "particles",
+        "network",
+        "nodes",
+        "canvas",
+        "background",
+        "backgrounds"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "description": "Node count, clamped to 20–90."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Stage height in px when standalone."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Overlay content above the canvas."
+        }
+      ],
+      "usageNotes": [
+        "Nodes link when close, the thread brightening as they near; the pointer gathers them.",
+        "DPR-capped canvas, ResizeObserver-sized, the loop pauses offscreen or when hidden.",
+        "Under reduced motion it paints one settled web."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/particle-network",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/particle-network.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/particle-network",
+        "npm": "npx shadcn@latest add @kinetiq/particle-network",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/particle-network",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/particle-network",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/particle-network.json"
+      }
+    },
+    {
+      "slug": "flow-field",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Flow Field",
+      "serial": "KQ-210",
+      "tagline": "Particles comb along an invisible current, trailing tails.",
+      "description": "Streaks combed by an invisible current. Each particle reads a smooth, slowly-evolving angle field and drifts along it, trailing a fading tail; when one runs off the edge or ages out it respawns elsewhere, so the field keeps flowing. The field is a closed-form sum of sines — deterministic, no noise tables.",
+      "categories": [
+        "backgrounds"
+      ],
+      "keywords": [
+        "flow field",
+        "noise",
+        "particles",
+        "streaks",
+        "canvas",
+        "backgrounds"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "description": "Particle count, clamped to 40–240."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Stage height in px when standalone."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Overlay content above the canvas."
+        }
+      ],
+      "usageNotes": [
+        "Particles follow a closed-form angle field and respawn as they age or exit.",
+        "A sim-time clock advances only while running, so pauses never jump the field.",
+        "Under reduced motion it paints one settled comb of trails."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/flow-field",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/flow-field.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/flow-field",
+        "npm": "npx shadcn@latest add @kinetiq/flow-field",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/flow-field",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/flow-field",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/flow-field.json"
       }
     },
     {

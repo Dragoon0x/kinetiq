@@ -3557,6 +3557,56 @@ Notes:
 - Backspace on an empty field removes the last tag; each chip has a remove button.
 - Under reduced motion chips appear and leave with no spring or reflow.
 
+### Gradient Drift (KQ-208) — `gradient-drift`
+Soft blobs drift behind the content — no canvas.
+
+An ambient backdrop of soft gradient blobs that drift and breathe past each other — pure CSS and transforms, no canvas or WebGL. Each blob follows its own slow mirrored loop at a different tempo, so the field never visibly repeats, and heavy blur melts them into a single wash behind your content.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gradient-drift`
+
+Props:
+- `height`: number — Stage height in px when standalone.
+- `children`: ReactNode — Content rendered above the wash.
+
+Notes:
+- Pure CSS and transforms — no canvas or WebGL, safe to layer widely.
+- Each blob loops on its own tempo so the field never visibly repeats.
+- Under reduced motion the blobs hold a fixed, composed arrangement.
+
+### Particle Network (KQ-209) — `particle-network`
+Nodes thread together; the pointer pulls the web in.
+
+A drifting mesh of nodes that link up when they come close — the nearer two nodes, the brighter the thread between them. The pointer draws the nearest nodes toward it, tightening the web, then lets them wander off. Rendered flat on canvas, distinct from any 3D field.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/particle-network`
+
+Props:
+- `count`: number — Node count, clamped to 20–90.
+- `height`: number — Stage height in px when standalone.
+- `children`: ReactNode — Overlay content above the canvas.
+
+Notes:
+- Nodes link when close, the thread brightening as they near; the pointer gathers them.
+- DPR-capped canvas, ResizeObserver-sized, the loop pauses offscreen or when hidden.
+- Under reduced motion it paints one settled web.
+
+### Flow Field (KQ-210) — `flow-field`
+Particles comb along an invisible current, trailing tails.
+
+Streaks combed by an invisible current. Each particle reads a smooth, slowly-evolving angle field and drifts along it, trailing a fading tail; when one runs off the edge or ages out it respawns elsewhere, so the field keeps flowing. The field is a closed-form sum of sines — deterministic, no noise tables.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/flow-field`
+
+Props:
+- `count`: number — Particle count, clamped to 40–240.
+- `height`: number — Stage height in px when standalone.
+- `children`: ReactNode — Overlay content above the canvas.
+
+Notes:
+- Particles follow a closed-form angle field and respawn as they age or exit.
+- A sim-time clock advances only while running, so pauses never jump the field.
+- Under reduced motion it paints one settled comb of trails.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -223,6 +223,9 @@ import { PlinkoDropDemo } from "@/registry/demos/plinko-drop.demo";
 import { RangeDualDemo } from "@/registry/demos/range-dual.demo";
 import { StepperNumberDemo } from "@/registry/demos/stepper-number.demo";
 import { TagFieldDemo } from "@/registry/demos/tag-field.demo";
+import { GradientDriftDemo } from "@/registry/demos/gradient-drift.demo";
+import { ParticleNetworkDemo } from "@/registry/demos/particle-network.demo";
+import { FlowFieldDemo } from "@/registry/demos/flow-field.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -452,4 +455,7 @@ export const demos: Record<string, ComponentType> = {
   "range-dual": RangeDualDemo,
   "stepper-number": StepperNumberDemo,
   "tag-field": TagFieldDemo,
+  "gradient-drift": GradientDriftDemo,
+  "particle-network": ParticleNetworkDemo,
+  "flow-field": FlowFieldDemo,
 };

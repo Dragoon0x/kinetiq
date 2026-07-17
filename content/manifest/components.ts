@@ -8114,4 +8114,107 @@ export const components: KinetiqItem[] = [
       "Under reduced motion chips appear and leave with no spring or reflow.",
     ],
   },
+  {
+    name: "gradient-drift",
+    type: "registry:ui",
+    title: "Gradient Drift",
+    description:
+      "An ambient backdrop of soft gradient blobs that drift and breathe past each other — pure CSS and transforms, no canvas or WebGL. Each blob follows its own slow mirrored loop at a different tempo, so the field never visibly repeats, and heavy blur melts them into a single wash behind your content.",
+    files: [{ path: "registry/ui/gradient-drift.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["backgrounds"],
+    meta: { serial: "KQ-208" },
+    tagline: "Soft blobs drift behind the content — no canvas.",
+    keywords: ["gradient", "background", "blobs", "ambient", "mesh", "backgrounds"],
+    props: [
+      {
+        name: "height",
+        type: "number",
+        description: "Stage height in px when standalone.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Content rendered above the wash.",
+      },
+    ],
+    usageNotes: [
+      "Pure CSS and transforms — no canvas or WebGL, safe to layer widely.",
+      "Each blob loops on its own tempo so the field never visibly repeats.",
+      "Under reduced motion the blobs hold a fixed, composed arrangement.",
+    ],
+  },
+  {
+    name: "particle-network",
+    type: "registry:ui",
+    title: "Particle Network",
+    description:
+      "A drifting mesh of nodes that link up when they come close — the nearer two nodes, the brighter the thread between them. The pointer draws the nearest nodes toward it, tightening the web, then lets them wander off. Rendered flat on canvas, distinct from any 3D field.",
+    files: [{ path: "registry/ui/particle-network.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["backgrounds"],
+    meta: { serial: "KQ-209" },
+    tagline: "Nodes thread together; the pointer pulls the web in.",
+    keywords: ["particles", "network", "nodes", "canvas", "background", "backgrounds"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        description: "Node count, clamped to 20–90.",
+      },
+      {
+        name: "height",
+        type: "number",
+        description: "Stage height in px when standalone.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Overlay content above the canvas.",
+      },
+    ],
+    usageNotes: [
+      "Nodes link when close, the thread brightening as they near; the pointer gathers them.",
+      "DPR-capped canvas, ResizeObserver-sized, the loop pauses offscreen or when hidden.",
+      "Under reduced motion it paints one settled web.",
+    ],
+  },
+  {
+    name: "flow-field",
+    type: "registry:ui",
+    title: "Flow Field",
+    description:
+      "Streaks combed by an invisible current. Each particle reads a smooth, slowly-evolving angle field and drifts along it, trailing a fading tail; when one runs off the edge or ages out it respawns elsewhere, so the field keeps flowing. The field is a closed-form sum of sines — deterministic, no noise tables.",
+    files: [{ path: "registry/ui/flow-field.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["backgrounds"],
+    meta: { serial: "KQ-210" },
+    tagline: "Particles comb along an invisible current, trailing tails.",
+    keywords: ["flow field", "noise", "particles", "streaks", "canvas", "backgrounds"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        description: "Particle count, clamped to 40–240.",
+      },
+      {
+        name: "height",
+        type: "number",
+        description: "Stage height in px when standalone.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Overlay content above the canvas.",
+      },
+    ],
+    usageNotes: [
+      "Particles follow a closed-form angle field and respawn as they age or exit.",
+      "A sim-time clock advances only while running, so pauses never jump the field.",
+      "Under reduced motion it paints one settled comb of trails.",
+    ],
+  },
 ];
