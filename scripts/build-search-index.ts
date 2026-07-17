@@ -5,11 +5,12 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { itemsByCategory } from "../content/categories";
+import { categoryBySlug, itemsByCategory } from "../content/categories";
 import { itemsByCollection } from "../content/collections";
 import { guides } from "../content/guides";
 import { labs } from "../content/labs";
 import { catalogBlocks, catalogComponents } from "../content/manifest";
+import { SHOWCASES } from "../content/showcases";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT_DIR = path.join(ROOT, ".generated");
@@ -90,6 +91,22 @@ async function main() {
         href: `/components/category/spatial#${collection.slug}`,
       }),
     ),
+    ...SHOWCASES.map((showcase): SearchEntry => {
+      const label = categoryBySlug(showcase.slug)?.label ?? showcase.slug;
+      return {
+        section: "Pages",
+        title: `${label} showcase`,
+        tagline: showcase.deck,
+        keywords: [
+          showcase.slug,
+          "showcase",
+          "gallery",
+          "room",
+          label.toLowerCase(),
+        ],
+        href: `/showcase/${showcase.slug}`,
+      };
+    }),
     ...itemsByCategory(catalogComponents).map(
       ({ category }): SearchEntry => ({
         section: "Pages",

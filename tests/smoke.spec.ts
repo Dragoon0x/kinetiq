@@ -4,6 +4,7 @@ import { itemsByCategory } from "../content/categories";
 import { guides } from "../content/guides";
 import { labs } from "../content/labs";
 import { catalogBlocks, catalogComponents } from "../content/manifest";
+import { SHOWCASES } from "../content/showcases";
 
 const routes = [
   "/",
@@ -15,6 +16,7 @@ const routes = [
   "/guides",
   "/agents",
   "/mcp",
+  ...SHOWCASES.map((showcase) => `/showcase/${showcase.slug}`),
   ...itemsByCategory(catalogComponents).map(
     ({ category }) => `/components/category/${category.slug}`,
   ),

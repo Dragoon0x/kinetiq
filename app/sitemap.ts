@@ -4,6 +4,7 @@ import { itemsByCategory } from "@/content/categories";
 import { guides } from "@/content/guides";
 import { labs } from "@/content/labs";
 import { catalogBlocks, catalogComponents } from "@/content/manifest";
+import { SHOWCASES } from "@/content/showcases";
 import { siteConfig } from "@/lib/site-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -24,6 +25,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${siteConfig.url}${route}`,
       changeFrequency: "weekly" as const,
       priority: route === "" ? 1 : 0.8,
+    })),
+    ...SHOWCASES.map((showcase) => ({
+      url: `${siteConfig.url}/showcase/${showcase.slug}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
     })),
     ...itemsByCategory(catalogComponents).map(({ category }) => ({
       url: `${siteConfig.url}/components/category/${category.slug}`,

@@ -72,6 +72,18 @@ export default async function ComponentCategoryPage({
       </h1>
       <p className="text-ink-2 mt-3 max-w-xl text-base">{category.blurb}</p>
 
+      <Link
+        href={
+          category.slug === "spatial" ? "/spatial" : `/showcase/${category.slug}`
+        }
+        className="text-cobalt-bright hover:text-ink mt-4 inline-flex items-center gap-2 text-sm transition-colors"
+      >
+        {category.slug === "spatial"
+          ? "Enter the Spatial Wing"
+          : `See the ${category.label} showcase`}
+        <span aria-hidden>→</span>
+      </Link>
+
       {category.slug === "spatial" ? (
         // The wing is navigated by collection — one anchored section each.
         <div className="mt-4">
