@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 184,
+      "components": 187,
       "blocks": 16,
       "shared": 6
     }
@@ -11457,6 +11457,176 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/progress-scrub",
         "bun": "bunx --bun shadcn@latest add @kinetiq/progress-scrub",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/progress-scrub.json"
+      }
+    },
+    {
+      "slug": "sticky-reveal",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sticky Reveal",
+      "serial": "KQ-186",
+      "tagline": "The stage pins; scenes cross-fade on scroll.",
+      "description": "A stage that stays put while the story scrolls through it. The panel pins to the top and the scroll drives which scene is lit — each cross-fades in as its stretch of the track arrives while a rail of dots marks the position, so a short sequence plays out in place.",
+      "categories": [
+        "motion"
+      ],
+      "keywords": [
+        "scroll",
+        "scrollytelling",
+        "pinned",
+        "reveal",
+        "sticky",
+        "motion"
+      ],
+      "props": [
+        {
+          "name": "scenes",
+          "type": "Scene[]",
+          "description": "The ordered scenes, one lit at a time."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Pinned stage height in px."
+        }
+      ],
+      "usageNotes": [
+        "The scroll region is a labelled, keyboard-focusable landmark, and off-scene panels are hidden from assistive tech.",
+        "Reduced motion refuses the pin: it lays the scenes out as a plain stacked list, all readable.",
+        "Nothing is gated behind the scroll animation."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/sticky-reveal",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/sticky-reveal.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sticky-reveal",
+        "npm": "npx shadcn@latest add @kinetiq/sticky-reveal",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sticky-reveal",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sticky-reveal",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/sticky-reveal.json"
+      }
+    },
+    {
+      "slug": "confetti-pop",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Confetti Pop",
+      "serial": "KQ-187",
+      "tagline": "A press throws confetti that rains back down.",
+      "description": "A burst of confetti with real fall to it. Each bit is thrown from the press point with a seeded spread, then pulled down by gravity, slowed by drag, spun, and faded — so the spray arcs up and rains back. Colours come from the theme, and it is deterministic: the same press throws the same shape.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "confetti",
+        "burst",
+        "celebrate",
+        "canvas",
+        "particles",
+        "delight"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "70",
+          "description": "Bits per burst."
+        },
+        {
+          "name": "onPop",
+          "type": "() => void",
+          "description": "Fires on each burst."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "220",
+          "description": "Panel height in px."
+        }
+      ],
+      "usageNotes": [
+        "The canvas is DPR-capped, ResizeObserver-sized, IntersectionObserver + visibility gated, and idle-stops the instant the last bit has fallen.",
+        "The trigger is a real button (Enter and Space); the canvas is decorative and aria-hidden.",
+        "Under reduced motion a press lays a single still spray instead of raining."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/confetti-pop",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/confetti-pop.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/confetti-pop",
+        "npm": "npx shadcn@latest add @kinetiq/confetti-pop",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/confetti-pop",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/confetti-pop",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/confetti-pop.json"
+      }
+    },
+    {
+      "slug": "sound-toggle",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sound Toggle",
+      "serial": "KQ-188",
+      "tagline": "The waves draw out; the slash strikes in.",
+      "description": "A mute switch whose sound is visible. Turning it on draws the waves out of the speaker in a quick outward stagger; muting retracts them and strikes a slash across in their place, so the state is legible at a glance without reading a word.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "sound",
+        "mute",
+        "switch",
+        "toggle",
+        "audio",
+        "delight"
+      ],
+      "props": [
+        {
+          "name": "on / defaultOn",
+          "type": "boolean",
+          "description": "Controlled or initial sound-on state."
+        },
+        {
+          "name": "onChange",
+          "type": "(on) => void",
+          "description": "Fires the new state on toggle."
+        }
+      ],
+      "usageNotes": [
+        "A real switch — checked and labelled, toggles on Enter and Space, state announced.",
+        "The waves and slash carry the state visually so colour is never the only cue.",
+        "Under reduced motion the waves and slash swap in place with no draw."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/sound-toggle",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/sound-toggle.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sound-toggle",
+        "npm": "npx shadcn@latest add @kinetiq/sound-toggle",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sound-toggle",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sound-toggle",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/sound-toggle.json"
       }
     },
     {

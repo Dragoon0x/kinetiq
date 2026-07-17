@@ -3174,6 +3174,55 @@ Notes:
 - Scrolling and scrubbing are two-way bound onto the same control.
 - Under reduced motion a seek jumps straight to the target instead of gliding.
 
+### Sticky Reveal (KQ-186) — `sticky-reveal`
+The stage pins; scenes cross-fade on scroll.
+
+A stage that stays put while the story scrolls through it. The panel pins to the top and the scroll drives which scene is lit — each cross-fades in as its stretch of the track arrives while a rail of dots marks the position, so a short sequence plays out in place.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sticky-reveal`
+
+Props:
+- `scenes`: Scene[] — The ordered scenes, one lit at a time.
+- `height`: number (default 300) — Pinned stage height in px.
+
+Notes:
+- The scroll region is a labelled, keyboard-focusable landmark, and off-scene panels are hidden from assistive tech.
+- Reduced motion refuses the pin: it lays the scenes out as a plain stacked list, all readable.
+- Nothing is gated behind the scroll animation.
+
+### Confetti Pop (KQ-187) — `confetti-pop`
+A press throws confetti that rains back down.
+
+A burst of confetti with real fall to it. Each bit is thrown from the press point with a seeded spread, then pulled down by gravity, slowed by drag, spun, and faded — so the spray arcs up and rains back. Colours come from the theme, and it is deterministic: the same press throws the same shape.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/confetti-pop`
+
+Props:
+- `count`: number (default 70) — Bits per burst.
+- `onPop`: () => void — Fires on each burst.
+- `height`: number (default 220) — Panel height in px.
+
+Notes:
+- The canvas is DPR-capped, ResizeObserver-sized, IntersectionObserver + visibility gated, and idle-stops the instant the last bit has fallen.
+- The trigger is a real button (Enter and Space); the canvas is decorative and aria-hidden.
+- Under reduced motion a press lays a single still spray instead of raining.
+
+### Sound Toggle (KQ-188) — `sound-toggle`
+The waves draw out; the slash strikes in.
+
+A mute switch whose sound is visible. Turning it on draws the waves out of the speaker in a quick outward stagger; muting retracts them and strikes a slash across in their place, so the state is legible at a glance without reading a word.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sound-toggle`
+
+Props:
+- `on / defaultOn`: boolean — Controlled or initial sound-on state.
+- `onChange`: (on) => void — Fires the new state on toggle.
+
+Notes:
+- A real switch — checked and labelled, toggles on Enter and Space, state announced.
+- The waves and slash carry the state visually so colour is never the only cue.
+- Under reduced motion the waves and slash swap in place with no draw.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

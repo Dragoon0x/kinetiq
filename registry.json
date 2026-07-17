@@ -4866,6 +4866,84 @@
       }
     },
     {
+      "name": "sticky-reveal",
+      "type": "registry:ui",
+      "title": "Sticky Reveal",
+      "description": "A stage that stays put while the story scrolls through it. The panel pins to the top and the scroll drives which scene is lit — each cross-fades in as its stretch of the track arrives while a rail of dots marks the position, so a short sequence plays out in place.",
+      "files": [
+        {
+          "path": "registry/ui/sticky-reveal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-186"
+      }
+    },
+    {
+      "name": "confetti-pop",
+      "type": "registry:ui",
+      "title": "Confetti Pop",
+      "description": "A burst of confetti with real fall to it. Each bit is thrown from the press point with a seeded spread, then pulled down by gravity, slowed by drag, spun, and faded — so the spray arcs up and rains back. Colours come from the theme, and it is deterministic: the same press throws the same shape.",
+      "files": [
+        {
+          "path": "registry/ui/confetti-pop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-187"
+      }
+    },
+    {
+      "name": "sound-toggle",
+      "type": "registry:ui",
+      "title": "Sound Toggle",
+      "description": "A mute switch whose sound is visible. Turning it on draws the waves out of the speaker in a quick outward stagger; muting retracts them and strikes a slash across in their place, so the state is legible at a glance without reading a word.",
+      "files": [
+        {
+          "path": "registry/ui/sound-toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-188"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

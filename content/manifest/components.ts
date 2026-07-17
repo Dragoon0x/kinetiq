@@ -7287,4 +7287,105 @@ export const components: KinetiqItem[] = [
       "Under reduced motion a seek jumps straight to the target instead of gliding.",
     ],
   },
+  {
+    name: "sticky-reveal",
+    type: "registry:ui",
+    title: "Sticky Reveal",
+    description:
+      "A stage that stays put while the story scrolls through it. The panel pins to the top and the scroll drives which scene is lit — each cross-fades in as its stretch of the track arrives while a rail of dots marks the position, so a short sequence plays out in place.",
+    files: [{ path: "registry/ui/sticky-reveal.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: { serial: "KQ-186" },
+    tagline: "The stage pins; scenes cross-fade on scroll.",
+    keywords: ["scroll", "scrollytelling", "pinned", "reveal", "sticky", "motion"],
+    props: [
+      {
+        name: "scenes",
+        type: "Scene[]",
+        description: "The ordered scenes, one lit at a time.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "300",
+        description: "Pinned stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "The scroll region is a labelled, keyboard-focusable landmark, and off-scene panels are hidden from assistive tech.",
+      "Reduced motion refuses the pin: it lays the scenes out as a plain stacked list, all readable.",
+      "Nothing is gated behind the scroll animation.",
+    ],
+  },
+  {
+    name: "confetti-pop",
+    type: "registry:ui",
+    title: "Confetti Pop",
+    description:
+      "A burst of confetti with real fall to it. Each bit is thrown from the press point with a seeded spread, then pulled down by gravity, slowed by drag, spun, and faded — so the spray arcs up and rains back. Colours come from the theme, and it is deterministic: the same press throws the same shape.",
+    files: [{ path: "registry/ui/confetti-pop.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe", "spatial"],
+    categories: ["delight"],
+    meta: { serial: "KQ-187" },
+    tagline: "A press throws confetti that rains back down.",
+    keywords: ["confetti", "burst", "celebrate", "canvas", "particles", "delight"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "70",
+        description: "Bits per burst.",
+      },
+      {
+        name: "onPop",
+        type: "() => void",
+        description: "Fires on each burst.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "220",
+        description: "Panel height in px.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is DPR-capped, ResizeObserver-sized, IntersectionObserver + visibility gated, and idle-stops the instant the last bit has fallen.",
+      "The trigger is a real button (Enter and Space); the canvas is decorative and aria-hidden.",
+      "Under reduced motion a press lays a single still spray instead of raining.",
+    ],
+  },
+  {
+    name: "sound-toggle",
+    type: "registry:ui",
+    title: "Sound Toggle",
+    description:
+      "A mute switch whose sound is visible. Turning it on draws the waves out of the speaker in a quick outward stagger; muting retracts them and strikes a slash across in their place, so the state is legible at a glance without reading a word.",
+    files: [{ path: "registry/ui/sound-toggle.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-188" },
+    tagline: "The waves draw out; the slash strikes in.",
+    keywords: ["sound", "mute", "switch", "toggle", "audio", "delight"],
+    props: [
+      {
+        name: "on / defaultOn",
+        type: "boolean",
+        description: "Controlled or initial sound-on state.",
+      },
+      {
+        name: "onChange",
+        type: "(on) => void",
+        description: "Fires the new state on toggle.",
+      },
+    ],
+    usageNotes: [
+      "A real switch — checked and labelled, toggles on Enter and Space, state announced.",
+      "The waves and slash carry the state visually so colour is never the only cue.",
+      "Under reduced motion the waves and slash swap in place with no draw.",
+    ],
+  },
 ];

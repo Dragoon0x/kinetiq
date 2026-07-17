@@ -201,6 +201,9 @@ import { TrailInkDemo } from "@/registry/demos/trail-ink.demo";
 import { RevealStaggerDemo } from "@/registry/demos/reveal-stagger.demo";
 import { MarqueeSwapDemo } from "@/registry/demos/marquee-swap.demo";
 import { ProgressScrubDemo } from "@/registry/demos/progress-scrub.demo";
+import { StickyRevealDemo } from "@/registry/demos/sticky-reveal.demo";
+import { ConfettiPopDemo } from "@/registry/demos/confetti-pop.demo";
+import { SoundToggleDemo } from "@/registry/demos/sound-toggle.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -408,4 +411,7 @@ export const demos: Record<string, ComponentType> = {
   "reveal-stagger": RevealStaggerDemo,
   "marquee-swap": MarqueeSwapDemo,
   "progress-scrub": ProgressScrubDemo,
+  "sticky-reveal": StickyRevealDemo,
+  "confetti-pop": ConfettiPopDemo,
+  "sound-toggle": SoundToggleDemo,
 };
