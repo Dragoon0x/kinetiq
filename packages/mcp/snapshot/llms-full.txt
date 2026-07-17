@@ -2915,6 +2915,55 @@ Notes:
 - The substring is derived off the motion value, so a long line never costs per-character renders.
 - Under reduced motion the whole line prints at once with a steady caret.
 
+### Highlight Sweep (KQ-172) — `highlight-sweep`
+The marker sweeps in as the phrase arrives.
+
+A highlighter that draws itself across a phrase the moment it scrolls into view. The marker is a wash behind the text scaled from a left origin, so it fills the way a pen would rather than fading in; it runs once, then holds.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/highlight-sweep`
+
+Props:
+- `children`: ReactNode — The phrase to highlight.
+- `tone`: "accent" | "success" | "warn" (default "accent") — The marker wash colour.
+
+Notes:
+- The text is the content and the wash is decoration, so nothing changes what a screen reader reads.
+- The sweep runs once on view via an in-view trigger, then holds.
+- Under reduced motion the wash is placed without the sweep.
+
+### Gradient Title (KQ-173) — `gradient-title`
+A headline whose sheen tracks your pointer.
+
+A heading painted with a sheen that follows the pointer. The gradient is clipped to the glyphs and oversized, so moving the pointer only slides its position — one motion value, no re-render — while the weight leans heavier under your hand and eases back when you leave.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gradient-title`
+
+Props:
+- `children`: ReactNode — The heading text.
+- `as`: "span" | "p" | "h1" | "h2" | "h3" (default "h2") — The semantic wrapper element.
+
+Notes:
+- Real text inside a real heading element — structure and search are untouched; the sheen is decoration.
+- The sheen slides off one motion value, so a pointer move never costs a render.
+- Reduced motion or a coarse pointer holds the sheen centred and the weight steady.
+
+### Redact Reveal (KQ-174) — `redact-reveal`
+The bar wipes back to reveal the words.
+
+Text under a redaction bar that wipes away to show the words. The bar scales off its left edge, so the line is uncovered left-to-right like a marker pulled back rather than a fade; covering it again wipes the bar closed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/redact-reveal`
+
+Props:
+- `children`: ReactNode — The words under the bar.
+- `revealed`: boolean — Controlled reveal; omit to let the trigger drive it.
+- `revealOn`: "hover" | "press" (default "hover") — Uncover while hovered/focused, or toggle on a press.
+
+Notes:
+- The words underneath are always real text, readable to assistive tech whether or not the bar is drawn — the redaction is purely visual.
+- In press mode the field is a real toggle button; in hover mode it uncovers on hover or focus.
+- Under reduced motion the bar swaps in and out with no wipe.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

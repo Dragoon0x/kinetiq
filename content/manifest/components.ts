@@ -6765,4 +6765,105 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the whole line prints at once with a steady caret.",
     ],
   },
+  {
+    name: "highlight-sweep",
+    type: "registry:ui",
+    title: "Highlight Sweep",
+    description:
+      "A highlighter that draws itself across a phrase the moment it scrolls into view. The marker is a wash behind the text scaled from a left origin, so it fills the way a pen would rather than fading in; it runs once, then holds.",
+    files: [{ path: "registry/ui/highlight-sweep.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["text"],
+    meta: { serial: "KQ-172" },
+    tagline: "The marker sweeps in as the phrase arrives.",
+    keywords: ["highlight", "marker", "emphasis", "scroll", "text"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The phrase to highlight.",
+      },
+      {
+        name: "tone",
+        type: '"accent" | "success" | "warn"',
+        defaultValue: '"accent"',
+        description: "The marker wash colour.",
+      },
+    ],
+    usageNotes: [
+      "The text is the content and the wash is decoration, so nothing changes what a screen reader reads.",
+      "The sweep runs once on view via an in-view trigger, then holds.",
+      "Under reduced motion the wash is placed without the sweep.",
+    ],
+  },
+  {
+    name: "gradient-title",
+    type: "registry:ui",
+    title: "Gradient Title",
+    description:
+      "A heading painted with a sheen that follows the pointer. The gradient is clipped to the glyphs and oversized, so moving the pointer only slides its position — one motion value, no re-render — while the weight leans heavier under your hand and eases back when you leave.",
+    files: [{ path: "registry/ui/gradient-title.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["text"],
+    meta: { serial: "KQ-173" },
+    tagline: "A headline whose sheen tracks your pointer.",
+    keywords: ["gradient", "heading", "sheen", "title", "text", "variable-font"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The heading text.",
+      },
+      {
+        name: "as",
+        type: '"span" | "p" | "h1" | "h2" | "h3"',
+        defaultValue: '"h2"',
+        description: "The semantic wrapper element.",
+      },
+    ],
+    usageNotes: [
+      "Real text inside a real heading element — structure and search are untouched; the sheen is decoration.",
+      "The sheen slides off one motion value, so a pointer move never costs a render.",
+      "Reduced motion or a coarse pointer holds the sheen centred and the weight steady.",
+    ],
+  },
+  {
+    name: "redact-reveal",
+    type: "registry:ui",
+    title: "Redact Reveal",
+    description:
+      "Text under a redaction bar that wipes away to show the words. The bar scales off its left edge, so the line is uncovered left-to-right like a marker pulled back rather than a fade; covering it again wipes the bar closed.",
+    files: [{ path: "registry/ui/redact-reveal.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["text"],
+    meta: { serial: "KQ-174" },
+    tagline: "The bar wipes back to reveal the words.",
+    keywords: ["redact", "reveal", "spoiler", "wipe", "text"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The words under the bar.",
+      },
+      {
+        name: "revealed",
+        type: "boolean",
+        description: "Controlled reveal; omit to let the trigger drive it.",
+      },
+      {
+        name: "revealOn",
+        type: '"hover" | "press"',
+        defaultValue: '"hover"',
+        description: "Uncover while hovered/focused, or toggle on a press.",
+      },
+    ],
+    usageNotes: [
+      "The words underneath are always real text, readable to assistive tech whether or not the bar is drawn — the redaction is purely visual.",
+      "In press mode the field is a real toggle button; in hover mode it uncovers on hover or focus.",
+      "Under reduced motion the bar swaps in and out with no wipe.",
+    ],
+  },
 ];

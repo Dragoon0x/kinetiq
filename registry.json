@@ -4456,6 +4456,84 @@
       }
     },
     {
+      "name": "highlight-sweep",
+      "type": "registry:ui",
+      "title": "Highlight Sweep",
+      "description": "A highlighter that draws itself across a phrase the moment it scrolls into view. The marker is a wash behind the text scaled from a left origin, so it fills the way a pen would rather than fading in; it runs once, then holds.",
+      "files": [
+        {
+          "path": "registry/ui/highlight-sweep.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-172"
+      }
+    },
+    {
+      "name": "gradient-title",
+      "type": "registry:ui",
+      "title": "Gradient Title",
+      "description": "A heading painted with a sheen that follows the pointer. The gradient is clipped to the glyphs and oversized, so moving the pointer only slides its position — one motion value, no re-render — while the weight leans heavier under your hand and eases back when you leave.",
+      "files": [
+        {
+          "path": "registry/ui/gradient-title.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-173"
+      }
+    },
+    {
+      "name": "redact-reveal",
+      "type": "registry:ui",
+      "title": "Redact Reveal",
+      "description": "Text under a redaction bar that wipes away to show the words. The bar scales off its left edge, so the line is uncovered left-to-right like a marker pulled back rather than a fade; covering it again wipes the bar closed.",
+      "files": [
+        {
+          "path": "registry/ui/redact-reveal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-174"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
