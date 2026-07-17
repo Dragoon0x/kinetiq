@@ -5283,6 +5283,78 @@
       }
     },
     {
+      "name": "newton-cradle",
+      "type": "registry:ui",
+      "title": "Newton's Cradle",
+      "description": "A Newton's cradle rendered in SVG. The end ball falls, the line holds still, and the momentum pops out the far ball — a perpetual, deterministic transfer. The swing eases in on the fall and out on the rise so it reads as gravity, and the inner balls never move.",
+      "files": [
+        {
+          "path": "registry/ui/newton-cradle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "physics"
+      ],
+      "meta": {
+        "serial": "KQ-202"
+      }
+    },
+    {
+      "name": "gooey-blob",
+      "type": "registry:ui",
+      "title": "Gooey Blob",
+      "description": "A cluster of metaballs that behave like one gooey mass on canvas. The lead blob chases the pointer; the others hold a loose ring and get drawn in when it passes, necks stretching between them and snapping as they part — merge and split with no seams. The union is a single filled path of circles bridged by tangent-matched bezier necks over a lightly damped spring.",
+      "files": [
+        {
+          "path": "registry/ui/gooey-blob.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "physics"
+      ],
+      "meta": {
+        "serial": "KQ-203"
+      }
+    },
+    {
+      "name": "plinko-drop",
+      "type": "registry:ui",
+      "title": "Plinko Drop",
+      "description": "A Galton board on canvas. Balls drip from the top, glance off a lattice of pegs with a deterministic left-or-right nudge at each hit, and drop into the bins below — where the tally settles into a bell curve. Click the board to drop one where you point. Each ball's path is seeded from its drop index, so the whole run is reproducible.",
+      "files": [
+        {
+          "path": "registry/ui/plinko-drop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "physics"
+      ],
+      "meta": {
+        "serial": "KQ-204"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

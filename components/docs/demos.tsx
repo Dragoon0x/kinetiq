@@ -217,6 +217,9 @@ import { HeatCalendarDemo } from "@/registry/demos/heat-calendar.demo";
 import { BreadcrumbTrailDemo } from "@/registry/demos/breadcrumb-trail.demo";
 import { PaginationRailDemo } from "@/registry/demos/pagination-rail.demo";
 import { StepperFlowDemo } from "@/registry/demos/stepper-flow.demo";
+import { NewtonCradleDemo } from "@/registry/demos/newton-cradle.demo";
+import { GooeyBlobDemo } from "@/registry/demos/gooey-blob.demo";
+import { PlinkoDropDemo } from "@/registry/demos/plinko-drop.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -440,4 +443,7 @@ export const demos: Record<string, ComponentType> = {
   "breadcrumb-trail": BreadcrumbTrailDemo,
   "pagination-rail": PaginationRailDemo,
   "stepper-flow": StepperFlowDemo,
+  "newton-cradle": NewtonCradleDemo,
+  "gooey-blob": GooeyBlobDemo,
+  "plinko-drop": PlinkoDropDemo,
 };

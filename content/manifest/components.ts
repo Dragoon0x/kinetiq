@@ -7888,4 +7888,107 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the fills and checks land with no draw.",
     ],
   },
+  {
+    name: "newton-cradle",
+    type: "registry:ui",
+    title: "Newton's Cradle",
+    description:
+      "A Newton's cradle rendered in SVG. The end ball falls, the line holds still, and the momentum pops out the far ball — a perpetual, deterministic transfer. The swing eases in on the fall and out on the rise so it reads as gravity, and the inner balls never move.",
+    files: [{ path: "registry/ui/newton-cradle.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["physics"],
+    meta: { serial: "KQ-202" },
+    tagline: "The end ball pops out; the middle holds still.",
+    keywords: ["newton", "cradle", "pendulum", "momentum", "physics", "physics"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        description: "Number of balls, clamped to 3–7.",
+      },
+      {
+        name: "period",
+        type: "number",
+        description: "Seconds per full left-right cycle.",
+      },
+    ],
+    usageNotes: [
+      "The swing eases in on the fall and out on the rise for a gravity feel.",
+      "Rendered as an image with a descriptive label; the inner balls stay put.",
+      "Under reduced motion it holds one ball drawn aside, mid-transfer.",
+    ],
+  },
+  {
+    name: "gooey-blob",
+    type: "registry:ui",
+    title: "Gooey Blob",
+    description:
+      "A cluster of metaballs that behave like one gooey mass on canvas. The lead blob chases the pointer; the others hold a loose ring and get drawn in when it passes, necks stretching between them and snapping as they part — merge and split with no seams. The union is a single filled path of circles bridged by tangent-matched bezier necks over a lightly damped spring.",
+    files: [{ path: "registry/ui/gooey-blob.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["physics"],
+    meta: { serial: "KQ-203" },
+    tagline: "Metaballs that chase the pointer, merging and splitting.",
+    keywords: ["metaball", "goo", "blob", "canvas", "physics", "physics"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        description: "Blobs including the pointer follower, clamped to 3–7.",
+      },
+      {
+        name: "height",
+        type: "number",
+        description: "Stage height in px when standalone.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Overlay content above the canvas.",
+      },
+    ],
+    usageNotes: [
+      "The lead blob follows the pointer and pulls the others in as it passes.",
+      "DPR-capped canvas, ResizeObserver-sized, the loop pauses offscreen or when hidden.",
+      "Under reduced motion it paints one settled arrangement and never animates.",
+    ],
+  },
+  {
+    name: "plinko-drop",
+    type: "registry:ui",
+    title: "Plinko Drop",
+    description:
+      "A Galton board on canvas. Balls drip from the top, glance off a lattice of pegs with a deterministic left-or-right nudge at each hit, and drop into the bins below — where the tally settles into a bell curve. Click the board to drop one where you point. Each ball's path is seeded from its drop index, so the whole run is reproducible.",
+    files: [{ path: "registry/ui/plinko-drop.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["physics"],
+    meta: { serial: "KQ-204" },
+    tagline: "Pegs scatter the drops; the bins bell out.",
+    keywords: ["plinko", "galton", "board", "bell curve", "canvas", "physics"],
+    props: [
+      {
+        name: "rows",
+        type: "number",
+        description: "Peg rows, clamped to 5–12.",
+      },
+      {
+        name: "height",
+        type: "number",
+        description: "Stage height in px when standalone.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Overlay content above the canvas.",
+      },
+    ],
+    usageNotes: [
+      "A steady drip fills the bins; clicking the board drops a ball where you point.",
+      "Each ball's bounces are seeded from its index, so the run is reproducible.",
+      "Under reduced motion it paints one settled board with a filled histogram.",
+    ],
+  },
 ];

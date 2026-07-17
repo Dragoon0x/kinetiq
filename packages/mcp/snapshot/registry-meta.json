@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 200,
+      "components": 203,
       "blocks": 16,
       "shared": 6
     }
@@ -12424,6 +12424,172 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/stepper-flow",
         "bun": "bunx --bun shadcn@latest add @kinetiq/stepper-flow",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/stepper-flow.json"
+      }
+    },
+    {
+      "slug": "newton-cradle",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Newton's Cradle",
+      "serial": "KQ-202",
+      "tagline": "The end ball pops out; the middle holds still.",
+      "description": "A Newton's cradle rendered in SVG. The end ball falls, the line holds still, and the momentum pops out the far ball — a perpetual, deterministic transfer. The swing eases in on the fall and out on the rise so it reads as gravity, and the inner balls never move.",
+      "categories": [
+        "physics"
+      ],
+      "keywords": [
+        "newton",
+        "cradle",
+        "pendulum",
+        "momentum",
+        "physics",
+        "physics"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "description": "Number of balls, clamped to 3–7."
+        },
+        {
+          "name": "period",
+          "type": "number",
+          "description": "Seconds per full left-right cycle."
+        }
+      ],
+      "usageNotes": [
+        "The swing eases in on the fall and out on the rise for a gravity feel.",
+        "Rendered as an image with a descriptive label; the inner balls stay put.",
+        "Under reduced motion it holds one ball drawn aside, mid-transfer."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/newton-cradle",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/newton-cradle.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/newton-cradle",
+        "npm": "npx shadcn@latest add @kinetiq/newton-cradle",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/newton-cradle",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/newton-cradle",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/newton-cradle.json"
+      }
+    },
+    {
+      "slug": "gooey-blob",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gooey Blob",
+      "serial": "KQ-203",
+      "tagline": "Metaballs that chase the pointer, merging and splitting.",
+      "description": "A cluster of metaballs that behave like one gooey mass on canvas. The lead blob chases the pointer; the others hold a loose ring and get drawn in when it passes, necks stretching between them and snapping as they part — merge and split with no seams. The union is a single filled path of circles bridged by tangent-matched bezier necks over a lightly damped spring.",
+      "categories": [
+        "physics"
+      ],
+      "keywords": [
+        "metaball",
+        "goo",
+        "blob",
+        "canvas",
+        "physics",
+        "physics"
+      ],
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "description": "Blobs including the pointer follower, clamped to 3–7."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Stage height in px when standalone."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Overlay content above the canvas."
+        }
+      ],
+      "usageNotes": [
+        "The lead blob follows the pointer and pulls the others in as it passes.",
+        "DPR-capped canvas, ResizeObserver-sized, the loop pauses offscreen or when hidden.",
+        "Under reduced motion it paints one settled arrangement and never animates."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/gooey-blob",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gooey-blob.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gooey-blob",
+        "npm": "npx shadcn@latest add @kinetiq/gooey-blob",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gooey-blob",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gooey-blob",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gooey-blob.json"
+      }
+    },
+    {
+      "slug": "plinko-drop",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Plinko Drop",
+      "serial": "KQ-204",
+      "tagline": "Pegs scatter the drops; the bins bell out.",
+      "description": "A Galton board on canvas. Balls drip from the top, glance off a lattice of pegs with a deterministic left-or-right nudge at each hit, and drop into the bins below — where the tally settles into a bell curve. Click the board to drop one where you point. Each ball's path is seeded from its drop index, so the whole run is reproducible.",
+      "categories": [
+        "physics"
+      ],
+      "keywords": [
+        "plinko",
+        "galton",
+        "board",
+        "bell curve",
+        "canvas",
+        "physics"
+      ],
+      "props": [
+        {
+          "name": "rows",
+          "type": "number",
+          "description": "Peg rows, clamped to 5–12."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "description": "Stage height in px when standalone."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Overlay content above the canvas."
+        }
+      ],
+      "usageNotes": [
+        "A steady drip fills the bins; clicking the board drops a ball where you point.",
+        "Each ball's bounces are seeded from its index, so the run is reproducible.",
+        "Under reduced motion it paints one settled board with a filled histogram."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/plinko-drop",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/plinko-drop.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/plinko-drop",
+        "npm": "npx shadcn@latest add @kinetiq/plinko-drop",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/plinko-drop",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/plinko-drop",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/plinko-drop.json"
       }
     },
     {
