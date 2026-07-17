@@ -4221,6 +4221,84 @@
       }
     },
     {
+      "name": "chip-cloud",
+      "type": "registry:ui",
+      "title": "Chip Cloud",
+      "description": "A multi-select field split in two: a tray of what you have picked and a cloud of what is left. Picking a chip flies the very same pill out of the cloud and into the tray while the survivors close the gap; picking it again flies it home.",
+      "files": [
+        {
+          "path": "registry/ui/chip-cloud.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-161"
+      }
+    },
+    {
+      "name": "rating-arc",
+      "type": "registry:ui",
+      "title": "Rating Arc",
+      "description": "A rating that fills along a 220-degree arc — the fill draws itself and the thumb rides the curve rather than cutting across it, while sweeping the arc paints a ghost of the score you would commit.",
+      "files": [
+        {
+          "path": "registry/ui/rating-arc.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-162"
+      }
+    },
+    {
+      "name": "swatch-lock",
+      "type": "registry:ui",
+      "title": "Swatch Lock",
+      "description": "A grid of colour swatches where the pick locks in: a ring draws itself around the chosen chip while the rest ease back to let it stand alone. Locking is the whole affordance — you can see what is held without reading anything.",
+      "files": [
+        {
+          "path": "registry/ui/swatch-lock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-163"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

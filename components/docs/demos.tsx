@@ -176,6 +176,9 @@ import { FireflyFieldDemo } from "@/registry/demos/firefly-field.demo";
 import { VaporRingDemo } from "@/registry/demos/vapor-ring.demo";
 import { GravityWellDemo } from "@/registry/demos/gravity-well.demo";
 import { PaperFlightDemo } from "@/registry/demos/paper-flight.demo";
+import { ChipCloudDemo } from "@/registry/demos/chip-cloud.demo";
+import { RatingArcDemo } from "@/registry/demos/rating-arc.demo";
+import { SwatchLockDemo } from "@/registry/demos/swatch-lock.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -358,4 +361,7 @@ export const demos: Record<string, ComponentType> = {
   "vapor-ring": VaporRingDemo,
   "gravity-well": GravityWellDemo,
   "paper-flight": PaperFlightDemo,
+  "chip-cloud": ChipCloudDemo,
+  "rating-arc": RatingArcDemo,
+  "swatch-lock": SwatchLockDemo,
 };

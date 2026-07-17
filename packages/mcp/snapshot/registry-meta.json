@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 159,
+      "components": 162,
       "blocks": 16,
       "shared": 6
     }
@@ -10027,6 +10027,201 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/drawbridge",
         "bun": "bunx --bun shadcn@latest add @kinetiq/drawbridge",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/drawbridge.json"
+      }
+    },
+    {
+      "slug": "chip-cloud",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Chip Cloud",
+      "serial": "KQ-161",
+      "tagline": "Pick a chip; it flies to the tray.",
+      "description": "A multi-select field split in two: a tray of what you have picked and a cloud of what is left. Picking a chip flies the very same pill out of the cloud and into the tray while the survivors close the gap; picking it again flies it home.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "chips",
+        "multi-select",
+        "tags",
+        "filter",
+        "selection",
+        "tokens"
+      ],
+      "props": [
+        {
+          "name": "chips",
+          "type": "Chip[]",
+          "description": "The full roster; picked chips gather in the tray."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string[]",
+          "description": "Controlled or initial picks, in pick order."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(ids) => void",
+          "description": "Fires the picked ids whenever the set changes."
+        },
+        {
+          "name": "label / placeholder",
+          "type": "ReactNode / string",
+          "description": "Group label, and the copy shown while the tray is empty."
+        }
+      ],
+      "usageNotes": [
+        "Every chip is a real toggle button, so the field is operable with Tab and Space alone.",
+        "A picked chip changes container, which replaces its DOM node — the chip is re-focused as it lands so the keyboard never loses its place.",
+        "Under reduced motion chips reposition in a single frame; same picks, order, and announcements."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/chip-cloud",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/chip-cloud.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/chip-cloud",
+        "npm": "npx shadcn@latest add @kinetiq/chip-cloud",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/chip-cloud",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/chip-cloud",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/chip-cloud.json"
+      }
+    },
+    {
+      "slug": "rating-arc",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rating Arc",
+      "serial": "KQ-162",
+      "tagline": "Sweep the arc; the score fills to your thumb.",
+      "description": "A rating that fills along a 220-degree arc — the fill draws itself and the thumb rides the curve rather than cutting across it, while sweeping the arc paints a ghost of the score you would commit.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "rating",
+        "arc",
+        "stars",
+        "score",
+        "selection",
+        "dial"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "description": "Controlled or initial score, 0..max."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value) => void",
+          "description": "Fires the committed score."
+        },
+        {
+          "name": "max / step",
+          "type": "number",
+          "defaultValue": "5 / 1",
+          "description": "Top of the scale and its granularity; 0.5 gives half marks."
+        },
+        {
+          "name": "label / readout",
+          "type": "string / boolean",
+          "defaultValue": "\"Rating\" / true",
+          "description": "Accessible name, and whether to print the score beneath."
+        }
+      ],
+      "usageNotes": [
+        "Reports as a slider — arrows step, Home and End jump the ends, and aria-valuetext reads the score rather than a bare number.",
+        "The hover ghost is driven straight off motion values, so sweeping the arc never costs a React render.",
+        "Under reduced motion the fill and thumb land in a single frame; same scale and commits."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/rating-arc",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/rating-arc.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rating-arc",
+        "npm": "npx shadcn@latest add @kinetiq/rating-arc",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rating-arc",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rating-arc",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/rating-arc.json"
+      }
+    },
+    {
+      "slug": "swatch-lock",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Swatch Lock",
+      "serial": "KQ-163",
+      "tagline": "The pick locks; the rest step back.",
+      "description": "A grid of colour swatches where the pick locks in: a ring draws itself around the chosen chip while the rest ease back to let it stand alone. Locking is the whole affordance — you can see what is held without reading anything.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "swatch",
+        "colour",
+        "palette",
+        "picker",
+        "selection",
+        "grid"
+      ],
+      "props": [
+        {
+          "name": "swatches",
+          "type": "Swatch[]",
+          "description": "Each carries an id, a label, and any CSS colour."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial pick."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Renders a hidden native radio per swatch so forms post the pick."
+        },
+        {
+          "name": "columns",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Grid columns; Up and Down step by exactly this many."
+        }
+      ],
+      "usageNotes": [
+        "Full APG radio keyboard on a roving tabindex — Left and Right walk the roster and wrap, Up and Down step a row, Home and End jump the ends, Space selects.",
+        "Colour is never the only cue: every swatch carries a label, and the label is what assistive tech announces.",
+        "Under reduced motion the ring is simply there and the dim is a colour change; the first paint never animates."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/swatch-lock",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/swatch-lock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/swatch-lock",
+        "npm": "npx shadcn@latest add @kinetiq/swatch-lock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/swatch-lock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/swatch-lock",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/swatch-lock.json"
       }
     },
     {

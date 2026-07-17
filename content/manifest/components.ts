@@ -6419,4 +6419,130 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the gliders pose at rest and a launch drops one static mid-flight glider, no loop.",
     ],
   },
+  {
+    name: "chip-cloud",
+    type: "registry:ui",
+    title: "Chip Cloud",
+    description:
+      "A multi-select field split in two: a tray of what you have picked and a cloud of what is left. Picking a chip flies the very same pill out of the cloud and into the tray while the survivors close the gap; picking it again flies it home.",
+    files: [{ path: "registry/ui/chip-cloud.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: { serial: "KQ-161" },
+    tagline: "Pick a chip; it flies to the tray.",
+    keywords: ["chips", "multi-select", "tags", "filter", "selection", "tokens"],
+    props: [
+      {
+        name: "chips",
+        type: "Chip[]",
+        description: "The full roster; picked chips gather in the tray.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        description: "Controlled or initial picks, in pick order.",
+      },
+      {
+        name: "onValueChange",
+        type: "(ids) => void",
+        description: "Fires the picked ids whenever the set changes.",
+      },
+      {
+        name: "label / placeholder",
+        type: "ReactNode / string",
+        description: "Group label, and the copy shown while the tray is empty.",
+      },
+    ],
+    usageNotes: [
+      "Every chip is a real toggle button, so the field is operable with Tab and Space alone.",
+      "A picked chip changes container, which replaces its DOM node — the chip is re-focused as it lands so the keyboard never loses its place.",
+      "Under reduced motion chips reposition in a single frame; same picks, order, and announcements.",
+    ],
+  },
+  {
+    name: "rating-arc",
+    type: "registry:ui",
+    title: "Rating Arc",
+    description:
+      "A rating that fills along a 220-degree arc — the fill draws itself and the thumb rides the curve rather than cutting across it, while sweeping the arc paints a ghost of the score you would commit.",
+    files: [{ path: "registry/ui/rating-arc.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: { serial: "KQ-162" },
+    tagline: "Sweep the arc; the score fills to your thumb.",
+    keywords: ["rating", "arc", "stars", "score", "selection", "dial"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        description: "Controlled or initial score, 0..max.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value) => void",
+        description: "Fires the committed score.",
+      },
+      {
+        name: "max / step",
+        type: "number",
+        defaultValue: "5 / 1",
+        description: "Top of the scale and its granularity; 0.5 gives half marks.",
+      },
+      {
+        name: "label / readout",
+        type: "string / boolean",
+        defaultValue: '"Rating" / true',
+        description: "Accessible name, and whether to print the score beneath.",
+      },
+    ],
+    usageNotes: [
+      "Reports as a slider — arrows step, Home and End jump the ends, and aria-valuetext reads the score rather than a bare number.",
+      "The hover ghost is driven straight off motion values, so sweeping the arc never costs a React render.",
+      "Under reduced motion the fill and thumb land in a single frame; same scale and commits.",
+    ],
+  },
+  {
+    name: "swatch-lock",
+    type: "registry:ui",
+    title: "Swatch Lock",
+    description:
+      "A grid of colour swatches where the pick locks in: a ring draws itself around the chosen chip while the rest ease back to let it stand alone. Locking is the whole affordance — you can see what is held without reading anything.",
+    files: [{ path: "registry/ui/swatch-lock.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: { serial: "KQ-163" },
+    tagline: "The pick locks; the rest step back.",
+    keywords: ["swatch", "colour", "palette", "picker", "selection", "grid"],
+    props: [
+      {
+        name: "swatches",
+        type: "Swatch[]",
+        description: "Each carries an id, a label, and any CSS colour.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "Controlled or initial pick.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "Renders a hidden native radio per swatch so forms post the pick.",
+      },
+      {
+        name: "columns",
+        type: "number",
+        defaultValue: "5",
+        description: "Grid columns; Up and Down step by exactly this many.",
+      },
+    ],
+    usageNotes: [
+      "Full APG radio keyboard on a roving tabindex — Left and Right walk the roster and wrap, Up and Down step a row, Home and End jump the ends, Space selects.",
+      "Colour is never the only cue: every swatch carries a label, and the label is what assistive tech announces.",
+      "Under reduced motion the ring is simply there and the dim is a colour change; the first paint never animates.",
+    ],
+  },
 ];

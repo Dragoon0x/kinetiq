@@ -2759,6 +2759,60 @@ Notes:
 - One real toggle with aria-expanded; the far bank is inert and dimmed until the deck lands, and both states are announced.
 - Under reduced motion the deck fades between raised and bridged with no chains or runner.
 
+### Chip Cloud (KQ-161) — `chip-cloud`
+Pick a chip; it flies to the tray.
+
+A multi-select field split in two: a tray of what you have picked and a cloud of what is left. Picking a chip flies the very same pill out of the cloud and into the tray while the survivors close the gap; picking it again flies it home.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/chip-cloud`
+
+Props:
+- `chips`: Chip[] — The full roster; picked chips gather in the tray.
+- `value / defaultValue`: string[] — Controlled or initial picks, in pick order.
+- `onValueChange`: (ids) => void — Fires the picked ids whenever the set changes.
+- `label / placeholder`: ReactNode / string — Group label, and the copy shown while the tray is empty.
+
+Notes:
+- Every chip is a real toggle button, so the field is operable with Tab and Space alone.
+- A picked chip changes container, which replaces its DOM node — the chip is re-focused as it lands so the keyboard never loses its place.
+- Under reduced motion chips reposition in a single frame; same picks, order, and announcements.
+
+### Rating Arc (KQ-162) — `rating-arc`
+Sweep the arc; the score fills to your thumb.
+
+A rating that fills along a 220-degree arc — the fill draws itself and the thumb rides the curve rather than cutting across it, while sweeping the arc paints a ghost of the score you would commit.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rating-arc`
+
+Props:
+- `value / defaultValue`: number — Controlled or initial score, 0..max.
+- `onValueChange`: (value) => void — Fires the committed score.
+- `max / step`: number (default 5 / 1) — Top of the scale and its granularity; 0.5 gives half marks.
+- `label / readout`: string / boolean (default "Rating" / true) — Accessible name, and whether to print the score beneath.
+
+Notes:
+- Reports as a slider — arrows step, Home and End jump the ends, and aria-valuetext reads the score rather than a bare number.
+- The hover ghost is driven straight off motion values, so sweeping the arc never costs a React render.
+- Under reduced motion the fill and thumb land in a single frame; same scale and commits.
+
+### Swatch Lock (KQ-163) — `swatch-lock`
+The pick locks; the rest step back.
+
+A grid of colour swatches where the pick locks in: a ring draws itself around the chosen chip while the rest ease back to let it stand alone. Locking is the whole affordance — you can see what is held without reading anything.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/swatch-lock`
+
+Props:
+- `swatches`: Swatch[] — Each carries an id, a label, and any CSS colour.
+- `value / defaultValue`: string — Controlled or initial pick.
+- `name`: string — Renders a hidden native radio per swatch so forms post the pick.
+- `columns`: number (default 5) — Grid columns; Up and Down step by exactly this many.
+
+Notes:
+- Full APG radio keyboard on a roving tabindex — Left and Right walk the roster and wrap, Up and Down step a row, Home and End jump the ends, Space selects.
+- Colour is never the only cue: every swatch carries a label, and the label is what assistive tech announces.
+- Under reduced motion the ring is simply there and the dim is a colour change; the first paint never animates.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
