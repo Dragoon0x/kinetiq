@@ -5101,6 +5101,110 @@
       }
     },
     {
+      "name": "gauge-cluster",
+      "type": "registry:ui",
+      "title": "Gauge Cluster",
+      "description": "A row of needle gauges. On mount each needle sweeps up from rest to its value while the arc fills in behind it, and any reading in the red zone turns its arc and readout to the danger colour. Each dial reads as a meter to assistive tech.",
+      "files": [
+        {
+          "path": "registry/ui/gauge-cluster.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-195"
+      }
+    },
+    {
+      "name": "bar-race",
+      "type": "registry:ui",
+      "title": "Bar Race",
+      "description": "A ranked bar chart that races. When the values change the bars grow or shrink and the rows swap places with a FLIP glide, so a lead change reads as one continuous overtake rather than a redraw. Presented as a list for assistive tech.",
+      "files": [
+        {
+          "path": "registry/ui/bar-race.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-196"
+      }
+    },
+    {
+      "name": "donut-breakdown",
+      "type": "registry:ui",
+      "title": "Donut Breakdown",
+      "description": "A donut whose segments draw themselves in around the ring in turn. Hovering a slice — or focusing its legend entry — pops it outward and swaps the centre readout to that slice's share; the legend carries the full data for assistive tech.",
+      "files": [
+        {
+          "path": "registry/ui/donut-breakdown.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-197"
+      }
+    },
+    {
+      "name": "heat-calendar",
+      "type": "registry:ui",
+      "title": "Heat Calendar",
+      "description": "A contribution heatmap. Cells wash in on a short diagonal cascade, and moving across the grid — by pointer or the arrow keys — floats a readout of that day's tally. Roving focus keeps the whole grid to a single tab stop.",
+      "files": [
+        {
+          "path": "registry/ui/heat-calendar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-198"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

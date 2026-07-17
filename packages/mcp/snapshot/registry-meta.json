@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 193,
+      "components": 197,
       "blocks": 16,
       "shared": 6
     }
@@ -12016,6 +12016,232 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/spotlight-tour",
         "bun": "bunx --bun shadcn@latest add @kinetiq/spotlight-tour",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/spotlight-tour.json"
+      }
+    },
+    {
+      "slug": "gauge-cluster",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gauge Cluster",
+      "serial": "KQ-195",
+      "tagline": "Needles sweep up to value; the red zone bites.",
+      "description": "A row of needle gauges. On mount each needle sweeps up from rest to its value while the arc fills in behind it, and any reading in the red zone turns its arc and readout to the danger colour. Each dial reads as a meter to assistive tech.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "gauge",
+        "meter",
+        "dial",
+        "needle",
+        "dashboard",
+        "data"
+      ],
+      "props": [
+        {
+          "name": "gauges",
+          "type": "Gauge[]",
+          "description": "Dials — id, label, value, min, max, unit, and an optional redline."
+        }
+      ],
+      "usageNotes": [
+        "Each dial exposes role=meter with min, max, and the current value.",
+        "A reading at or above its redline flips the arc and number to the danger colour.",
+        "Under reduced motion the needles and arcs land at value with no sweep."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/gauge-cluster",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gauge-cluster.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gauge-cluster",
+        "npm": "npx shadcn@latest add @kinetiq/gauge-cluster",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gauge-cluster",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gauge-cluster",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gauge-cluster.json"
+      }
+    },
+    {
+      "slug": "bar-race",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Bar Race",
+      "serial": "KQ-196",
+      "tagline": "Bars overtake each other as the numbers move.",
+      "description": "A ranked bar chart that races. When the values change the bars grow or shrink and the rows swap places with a FLIP glide, so a lead change reads as one continuous overtake rather than a redraw. Presented as a list for assistive tech.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "bar chart",
+        "race",
+        "ranking",
+        "flip",
+        "leaderboard",
+        "data"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "BarRaceItem[]",
+          "description": "Current standings — id, label, value, optional color."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "description": "Fixed scale ceiling; defaults to the current leader."
+        },
+        {
+          "name": "format",
+          "type": "(value) => string",
+          "description": "Formats the trailing readout."
+        }
+      ],
+      "usageNotes": [
+        "Feed a new items array and the rows re-rank and resize toward it.",
+        "Colours are keyed to each item's id so they stay put through a reorder.",
+        "Under reduced motion the bars resize and re-rank without the glide."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/bar-race",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/bar-race.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/bar-race",
+        "npm": "npx shadcn@latest add @kinetiq/bar-race",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/bar-race",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/bar-race",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/bar-race.json"
+      }
+    },
+    {
+      "slug": "donut-breakdown",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Donut Breakdown",
+      "serial": "KQ-197",
+      "tagline": "Slices draw in; hover pops one and reads its share.",
+      "description": "A donut whose segments draw themselves in around the ring in turn. Hovering a slice — or focusing its legend entry — pops it outward and swaps the centre readout to that slice's share; the legend carries the full data for assistive tech.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "donut",
+        "pie",
+        "chart",
+        "breakdown",
+        "segments",
+        "data"
+      ],
+      "props": [
+        {
+          "name": "segments",
+          "type": "DonutSegment[]",
+          "description": "Slices — id, label, value, optional color."
+        },
+        {
+          "name": "format",
+          "type": "(value) => string",
+          "description": "Formats the centre and legend readouts."
+        },
+        {
+          "name": "totalLabel",
+          "type": "string",
+          "description": "Heading for the default centre readout."
+        }
+      ],
+      "usageNotes": [
+        "Hover a slice or focus its legend button to pop it and read its share.",
+        "The legend buttons are the keyboard path and announce each slice's percent.",
+        "Under reduced motion the ring lands whole with no draw or pop."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/donut-breakdown",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/donut-breakdown.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/donut-breakdown",
+        "npm": "npx shadcn@latest add @kinetiq/donut-breakdown",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/donut-breakdown",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/donut-breakdown",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/donut-breakdown.json"
+      }
+    },
+    {
+      "slug": "heat-calendar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Heat Calendar",
+      "serial": "KQ-198",
+      "tagline": "A year of days, warming cell by cell.",
+      "description": "A contribution heatmap. Cells wash in on a short diagonal cascade, and moving across the grid — by pointer or the arrow keys — floats a readout of that day's tally. Roving focus keeps the whole grid to a single tab stop.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "heatmap",
+        "calendar",
+        "contributions",
+        "grid",
+        "activity",
+        "data"
+      ],
+      "props": [
+        {
+          "name": "days",
+          "type": "HeatDay[]",
+          "description": "Chronological days — date and count — laid out in columns of seven."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "description": "Scale ceiling for the four levels; defaults to the busiest day."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "description": "Unit shown in the hover readout."
+        }
+      ],
+      "usageNotes": [
+        "Arrow keys move a single roving focus across days; the readout follows.",
+        "Levels bucket each count into four filled shades against the ceiling.",
+        "Under reduced motion the cells appear filled with no cascade."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/heat-calendar",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/heat-calendar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/heat-calendar",
+        "npm": "npx shadcn@latest add @kinetiq/heat-calendar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/heat-calendar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/heat-calendar",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/heat-calendar.json"
       }
     },
     {

@@ -210,6 +210,10 @@ import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
 import { SpotlightTourDemo } from "@/registry/demos/spotlight-tour.demo";
+import { GaugeClusterDemo } from "@/registry/demos/gauge-cluster.demo";
+import { BarRaceDemo } from "@/registry/demos/bar-race.demo";
+import { DonutBreakdownDemo } from "@/registry/demos/donut-breakdown.demo";
+import { HeatCalendarDemo } from "@/registry/demos/heat-calendar.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -426,4 +430,8 @@ export const demos: Record<string, ComponentType> = {
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,
   "spotlight-tour": SpotlightTourDemo,
+  "gauge-cluster": GaugeClusterDemo,
+  "bar-race": BarRaceDemo,
+  "donut-breakdown": DonutBreakdownDemo,
+  "heat-calendar": HeatCalendarDemo,
 };

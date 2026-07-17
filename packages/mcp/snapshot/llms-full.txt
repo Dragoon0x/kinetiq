@@ -3335,6 +3335,72 @@ Notes:
 - Focus is trapped in the popover and the scrim traps clicks behind it.
 - Under reduced motion the spotlight jumps between steps instead of gliding.
 
+### Gauge Cluster (KQ-195) — `gauge-cluster`
+Needles sweep up to value; the red zone bites.
+
+A row of needle gauges. On mount each needle sweeps up from rest to its value while the arc fills in behind it, and any reading in the red zone turns its arc and readout to the danger colour. Each dial reads as a meter to assistive tech.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gauge-cluster`
+
+Props:
+- `gauges`: Gauge[] — Dials — id, label, value, min, max, unit, and an optional redline.
+
+Notes:
+- Each dial exposes role=meter with min, max, and the current value.
+- A reading at or above its redline flips the arc and number to the danger colour.
+- Under reduced motion the needles and arcs land at value with no sweep.
+
+### Bar Race (KQ-196) — `bar-race`
+Bars overtake each other as the numbers move.
+
+A ranked bar chart that races. When the values change the bars grow or shrink and the rows swap places with a FLIP glide, so a lead change reads as one continuous overtake rather than a redraw. Presented as a list for assistive tech.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bar-race`
+
+Props:
+- `items`: BarRaceItem[] — Current standings — id, label, value, optional color.
+- `max`: number — Fixed scale ceiling; defaults to the current leader.
+- `format`: (value) => string — Formats the trailing readout.
+
+Notes:
+- Feed a new items array and the rows re-rank and resize toward it.
+- Colours are keyed to each item's id so they stay put through a reorder.
+- Under reduced motion the bars resize and re-rank without the glide.
+
+### Donut Breakdown (KQ-197) — `donut-breakdown`
+Slices draw in; hover pops one and reads its share.
+
+A donut whose segments draw themselves in around the ring in turn. Hovering a slice — or focusing its legend entry — pops it outward and swaps the centre readout to that slice's share; the legend carries the full data for assistive tech.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/donut-breakdown`
+
+Props:
+- `segments`: DonutSegment[] — Slices — id, label, value, optional color.
+- `format`: (value) => string — Formats the centre and legend readouts.
+- `totalLabel`: string — Heading for the default centre readout.
+
+Notes:
+- Hover a slice or focus its legend button to pop it and read its share.
+- The legend buttons are the keyboard path and announce each slice's percent.
+- Under reduced motion the ring lands whole with no draw or pop.
+
+### Heat Calendar (KQ-198) — `heat-calendar`
+A year of days, warming cell by cell.
+
+A contribution heatmap. Cells wash in on a short diagonal cascade, and moving across the grid — by pointer or the arrow keys — floats a readout of that day's tally. Roving focus keeps the whole grid to a single tab stop.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/heat-calendar`
+
+Props:
+- `days`: HeatDay[] — Chronological days — date and count — laid out in columns of seven.
+- `max`: number — Scale ceiling for the four levels; defaults to the busiest day.
+- `unit`: string — Unit shown in the hover readout.
+
+Notes:
+- Arrow keys move a single roving focus across days; the readout follows.
+- Levels bucket each count into four filled shades against the ceiling.
+- Under reduced motion the cells appear filled with no cascade.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
