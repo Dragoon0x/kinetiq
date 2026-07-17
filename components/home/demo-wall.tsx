@@ -13,15 +13,15 @@ import { catalogBlocks, catalogComponents } from "@/content/manifest";
  */
 const FEATURED = [
   "facet-cube",
-  "segmented-control",
-  "radial-bars",
-  "heart-tap",
-  "foil-card",
-  "zoetrope",
+  "gauge-cluster",
+  "chip-cloud",
+  "gradient-title",
+  "newton-cradle",
+  "stepper-flow",
+  "masonry-flow",
+  "boop-mascot",
   "caliper-slider",
-  "gyro-card",
-  "flapboard",
-  "status-seal",
+  "foil-card",
 ];
 
 /**

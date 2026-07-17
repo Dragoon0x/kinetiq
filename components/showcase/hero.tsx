@@ -2,6 +2,7 @@
 
 import { demos } from "@/components/docs/demos";
 import { FocusText } from "@/registry/ui/focus-text";
+import { GradientTitle } from "@/registry/ui/gradient-title";
 import { Wavefield } from "@/registry/ui/wavefield";
 
 /**
@@ -52,6 +53,13 @@ export function HeroHeadline({
       <FocusText as="h1" by="word" className={className}>
         {text}
       </FocusText>
+    );
+  }
+  if (slug === "gradient-title") {
+    return (
+      <GradientTitle as="h1" className={className}>
+        {text}
+      </GradientTitle>
     );
   }
   return <h1 className={className}>{text}</h1>;
