@@ -3223,6 +3223,62 @@ Notes:
 - The waves and slash carry the state visually so colour is never the only cue.
 - Under reduced motion the waves and slash swap in place with no draw.
 
+### Sticker Peel (KQ-189) — `sticker-peel`
+Grab a corner; it curls, then lifts clean off.
+
+A sticker you can actually peel. Drag it and the grabbed corner curls up off the surface, a shadow pools beneath, and the card tilts away; release before the threshold and it snaps back into place, or past it and it lifts clean off to bare the dashed slot underneath. A paired button peels and re-sticks it for keyboard and pointer-free use.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sticker-peel`
+
+Props:
+- `children`: ReactNode — The sticker face.
+- `width / height`: number — Sticker size in px.
+- `threshold`: number — Drag distance in px past which a release removes it.
+- `label`: string — Accessible name for the sticker and its control.
+- `onPeel / onRestore`: () => void — Fire when the sticker lifts off or re-sticks.
+
+Notes:
+- Drag any corner to peel; release short of the threshold and it recoils back into the slot.
+- The paired button peels and re-sticks it, so the interaction is never drag-only.
+- Under reduced motion the lift is a plain fade with no curl, tilt, or spring.
+
+### Boop Mascot (KQ-190) — `boop-mascot`
+Boop it — the whole head squashes and springs back.
+
+A small face that reacts. Its eyes follow the pointer on a drift spring, and a click, tap, or Enter/Space boops it — the whole head squashes and springs back, the eyes pinch shut, the smile rounds into an open O, and the cheeks flush for a beat before it settles.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/boop-mascot`
+
+Props:
+- `label`: string — Accessible name for the toy.
+- `size`: number — Rendered pixel size of the square face.
+- `onBoop`: () => void — Fires on every boop.
+
+Notes:
+- A real button — boops on click, tap, and Enter or Space, with an accessible name.
+- Eye-tracking only engages for a fine pointer; touch just boops.
+- Under reduced motion it still boops the face and cheeks but skips the squash and the eye spring.
+
+### Popover Menu (KQ-191) — `popover-menu`
+Unfolds from the trigger; the arrow keeps its aim.
+
+A trigger-anchored menu that unfolds from its button on a single crisp overshoot, a small arrow tracking the trigger. It flips side or alignment when the viewport runs short so it never spills off-screen, and carries full menu semantics: roving arrow keys, Home and End, Escape and outside-click to close, and focus returned to the trigger on select.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/popover-menu`
+
+Props:
+- `items`: PopoverMenuItem[] — The menu rows — id, label, optional icon, disabled, onSelect.
+- `children`: ReactNode — Trigger label / content.
+- `side`: top | bottom — Preferred side; flips when the viewport is tight.
+- `align`: start | end — Preferred horizontal edge; flips on overflow.
+- `label`: string — Accessible name for the menu surface.
+
+Notes:
+- Open with click or ArrowDown; move with the arrow keys, Home, and End; select with Enter.
+- The panel flips side and alignment to stay on-screen, and the arrow re-aims at the trigger.
+- Escape or an outside click closes it and returns focus to the trigger.
+- Under reduced motion it appears without the unfold or the row cascade.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

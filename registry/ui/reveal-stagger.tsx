@@ -6,7 +6,6 @@ import { motion } from "motion/react";
 
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
 import { cascade, distances, durations, easings } from "@/registry/lib/motion";
-import { cn } from "@/registry/lib/utils";
 
 export type RevealStaggerProps = {
   children: React.ReactNode;

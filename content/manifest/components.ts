@@ -7388,4 +7388,134 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the waves and slash swap in place with no draw.",
     ],
   },
+  {
+    name: "sticker-peel",
+    type: "registry:ui",
+    title: "Sticker Peel",
+    description:
+      "A sticker you can actually peel. Drag it and the grabbed corner curls up off the surface, a shadow pools beneath, and the card tilts away; release before the threshold and it snaps back into place, or past it and it lifts clean off to bare the dashed slot underneath. A paired button peels and re-sticks it for keyboard and pointer-free use.",
+    files: [{ path: "registry/ui/sticker-peel.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-189" },
+    tagline: "Grab a corner; it curls, then lifts clean off.",
+    keywords: ["sticker", "peel", "drag", "dismiss", "curl", "delight"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The sticker face.",
+      },
+      {
+        name: "width / height",
+        type: "number",
+        description: "Sticker size in px.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        description: "Drag distance in px past which a release removes it.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Accessible name for the sticker and its control.",
+      },
+      {
+        name: "onPeel / onRestore",
+        type: "() => void",
+        description: "Fire when the sticker lifts off or re-sticks.",
+      },
+    ],
+    usageNotes: [
+      "Drag any corner to peel; release short of the threshold and it recoils back into the slot.",
+      "The paired button peels and re-sticks it, so the interaction is never drag-only.",
+      "Under reduced motion the lift is a plain fade with no curl, tilt, or spring.",
+    ],
+  },
+  {
+    name: "boop-mascot",
+    type: "registry:ui",
+    title: "Boop Mascot",
+    description:
+      "A small face that reacts. Its eyes follow the pointer on a drift spring, and a click, tap, or Enter/Space boops it — the whole head squashes and springs back, the eyes pinch shut, the smile rounds into an open O, and the cheeks flush for a beat before it settles.",
+    files: [{ path: "registry/ui/boop-mascot.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "use-pointer-tilt"],
+    categories: ["delight"],
+    meta: { serial: "KQ-190" },
+    tagline: "Boop it — the whole head squashes and springs back.",
+    keywords: ["mascot", "boop", "squash", "character", "delight", "toy"],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description: "Accessible name for the toy.",
+      },
+      {
+        name: "size",
+        type: "number",
+        description: "Rendered pixel size of the square face.",
+      },
+      {
+        name: "onBoop",
+        type: "() => void",
+        description: "Fires on every boop.",
+      },
+    ],
+    usageNotes: [
+      "A real button — boops on click, tap, and Enter or Space, with an accessible name.",
+      "Eye-tracking only engages for a fine pointer; touch just boops.",
+      "Under reduced motion it still boops the face and cheeks but skips the squash and the eye spring.",
+    ],
+  },
+  {
+    name: "popover-menu",
+    type: "registry:ui",
+    title: "Popover Menu",
+    description:
+      "A trigger-anchored menu that unfolds from its button on a single crisp overshoot, a small arrow tracking the trigger. It flips side or alignment when the viewport runs short so it never spills off-screen, and carries full menu semantics: roving arrow keys, Home and End, Escape and outside-click to close, and focus returned to the trigger on select.",
+    files: [{ path: "registry/ui/popover-menu.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: { serial: "KQ-191" },
+    tagline: "Unfolds from the trigger; the arrow keeps its aim.",
+    keywords: ["popover", "menu", "dropdown", "overlay", "actions", "overlays"],
+    props: [
+      {
+        name: "items",
+        type: "PopoverMenuItem[]",
+        description:
+          "The menu rows — id, label, optional icon, disabled, onSelect.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Trigger label / content.",
+      },
+      {
+        name: "side",
+        type: "top | bottom",
+        description: "Preferred side; flips when the viewport is tight.",
+      },
+      {
+        name: "align",
+        type: "start | end",
+        description: "Preferred horizontal edge; flips on overflow.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Accessible name for the menu surface.",
+      },
+    ],
+    usageNotes: [
+      "Open with click or ArrowDown; move with the arrow keys, Home, and End; select with Enter.",
+      "The panel flips side and alignment to stay on-screen, and the arrow re-aims at the trigger.",
+      "Escape or an outside click closes it and returns focus to the trigger.",
+      "Under reduced motion it appears without the unfold or the row cascade.",
+    ],
+  },
 ];

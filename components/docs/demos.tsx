@@ -204,6 +204,9 @@ import { ProgressScrubDemo } from "@/registry/demos/progress-scrub.demo";
 import { StickyRevealDemo } from "@/registry/demos/sticky-reveal.demo";
 import { ConfettiPopDemo } from "@/registry/demos/confetti-pop.demo";
 import { SoundToggleDemo } from "@/registry/demos/sound-toggle.demo";
+import { StickerPeelDemo } from "@/registry/demos/sticker-peel.demo";
+import { BoopMascotDemo } from "@/registry/demos/boop-mascot.demo";
+import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -414,4 +417,7 @@ export const demos: Record<string, ComponentType> = {
   "sticky-reveal": StickyRevealDemo,
   "confetti-pop": ConfettiPopDemo,
   "sound-toggle": SoundToggleDemo,
+  "sticker-peel": StickerPeelDemo,
+  "boop-mascot": BoopMascotDemo,
+  "popover-menu": PopoverMenuDemo,
 };
