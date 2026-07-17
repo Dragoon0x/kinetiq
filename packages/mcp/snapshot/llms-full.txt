@@ -3279,6 +3279,62 @@ Notes:
 - Escape or an outside click closes it and returns focus to the trigger.
 - Under reduced motion it appears without the unfold or the row cascade.
 
+### Context Menu (KQ-192) — `context-menu`
+Springs from the right-click; cascades into submenus.
+
+A menu that springs from the point you right-click. It clamps to the viewport — flipping up or left near an edge — cascades its rows in, and opens nested submenus to the side on hover or ArrowRight. Full keyboard control: the Menu or Shift+F10 key opens it from the focused region, arrows and Home/End move, ArrowLeft steps back out of a submenu, Escape and an outside click dismiss, and focus returns to the region.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/context-menu`
+
+Props:
+- `items`: ContextMenuItem[] — Rows — id, label, icon, shortcut, disabled, separator, nested items, onSelect.
+- `children`: ReactNode — The region that owns the menu.
+- `label`: string — Accessible name for the menu surface.
+
+Notes:
+- Right-click the region, or focus it and press the Menu key or Shift+F10.
+- Arrows and Home/End move; ArrowRight opens a submenu, ArrowLeft steps back out.
+- Escape or an outside click closes it and returns focus to the region.
+- Under reduced motion it appears without the spring or the row cascade.
+
+### Hover Card (KQ-193) — `hover-card`
+A preview that floats up from an inline anchor.
+
+A rich preview that expands from an inline anchor. Hovering the trigger — or focusing it — floats a card in on a single overshoot with a small arrow; the pointer can cross into the card without it closing, and it retracts a beat after you leave. The card flips above the anchor when the space below runs short.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hover-card`
+
+Props:
+- `trigger`: ReactNode — Inline anchor — a link, name, or chip.
+- `children`: ReactNode — Rich card content; may be interactive.
+- `side / align`: top | bottom / start | center | end — Preferred placement; side flips when the viewport is tight.
+- `openDelay / closeDelay`: number — Hover open delay and the grace period before closing, in ms.
+
+Notes:
+- Opens on hover after a short delay, or immediately on keyboard focus.
+- The pointer can move onto the card to interact without it closing.
+- Escape closes it; the card flips above the anchor when the space below is short.
+- Under reduced motion it cross-fades in place with no scale or travel.
+
+### Spotlight Tour (KQ-194) — `spotlight-tour`
+A moving spotlight walks the eye through each step.
+
+A guided onboarding tour. A dimming scrim cuts a moving spotlight over each target in turn while a popover explains it, gliding from one step to the next; the highlighted element stays lit through the dark. Arrow keys and the buttons step through, Escape or the close control ends it, focus is trapped in the popover, and the spotlight re-tracks its target on scroll and resize.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spotlight-tour`
+
+Props:
+- `steps`: TourStep[] — Ordered steps — id, a target ref, title, and body.
+- `open`: boolean — Whether the tour is running (controlled).
+- `onOpenChange`: (open) => void — Fires when the tour opens or closes.
+- `onFinish`: () => void — Fires when the last step is completed, not merely dismissed.
+
+Notes:
+- Point each step at an element via a ref; the spotlight scrolls it into view.
+- Arrow keys move between steps, Escape or the close button ends the tour.
+- Focus is trapped in the popover and the scrim traps clicks behind it.
+- Under reduced motion the spotlight jumps between steps instead of gliding.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

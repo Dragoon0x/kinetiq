@@ -7518,4 +7518,126 @@ export const components: KinetiqItem[] = [
       "Under reduced motion it appears without the unfold or the row cascade.",
     ],
   },
+  {
+    name: "context-menu",
+    type: "registry:ui",
+    title: "Context Menu",
+    description:
+      "A menu that springs from the point you right-click. It clamps to the viewport — flipping up or left near an edge — cascades its rows in, and opens nested submenus to the side on hover or ArrowRight. Full keyboard control: the Menu or Shift+F10 key opens it from the focused region, arrows and Home/End move, ArrowLeft steps back out of a submenu, Escape and an outside click dismiss, and focus returns to the region.",
+    files: [{ path: "registry/ui/context-menu.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: { serial: "KQ-192" },
+    tagline: "Springs from the right-click; cascades into submenus.",
+    keywords: ["context menu", "right-click", "menu", "submenu", "overlay", "overlays"],
+    props: [
+      {
+        name: "items",
+        type: "ContextMenuItem[]",
+        description:
+          "Rows — id, label, icon, shortcut, disabled, separator, nested items, onSelect.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The region that owns the menu.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Accessible name for the menu surface.",
+      },
+    ],
+    usageNotes: [
+      "Right-click the region, or focus it and press the Menu key or Shift+F10.",
+      "Arrows and Home/End move; ArrowRight opens a submenu, ArrowLeft steps back out.",
+      "Escape or an outside click closes it and returns focus to the region.",
+      "Under reduced motion it appears without the spring or the row cascade.",
+    ],
+  },
+  {
+    name: "hover-card",
+    type: "registry:ui",
+    title: "Hover Card",
+    description:
+      "A rich preview that expands from an inline anchor. Hovering the trigger — or focusing it — floats a card in on a single overshoot with a small arrow; the pointer can cross into the card without it closing, and it retracts a beat after you leave. The card flips above the anchor when the space below runs short.",
+    files: [{ path: "registry/ui/hover-card.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: { serial: "KQ-193" },
+    tagline: "A preview that floats up from an inline anchor.",
+    keywords: ["hover card", "preview", "popover", "tooltip", "overlay", "overlays"],
+    props: [
+      {
+        name: "trigger",
+        type: "ReactNode",
+        description: "Inline anchor — a link, name, or chip.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "Rich card content; may be interactive.",
+      },
+      {
+        name: "side / align",
+        type: "top | bottom / start | center | end",
+        description: "Preferred placement; side flips when the viewport is tight.",
+      },
+      {
+        name: "openDelay / closeDelay",
+        type: "number",
+        description: "Hover open delay and the grace period before closing, in ms.",
+      },
+    ],
+    usageNotes: [
+      "Opens on hover after a short delay, or immediately on keyboard focus.",
+      "The pointer can move onto the card to interact without it closing.",
+      "Escape closes it; the card flips above the anchor when the space below is short.",
+      "Under reduced motion it cross-fades in place with no scale or travel.",
+    ],
+  },
+  {
+    name: "spotlight-tour",
+    type: "registry:ui",
+    title: "Spotlight Tour",
+    description:
+      "A guided onboarding tour. A dimming scrim cuts a moving spotlight over each target in turn while a popover explains it, gliding from one step to the next; the highlighted element stays lit through the dark. Arrow keys and the buttons step through, Escape or the close control ends it, focus is trapped in the popover, and the spotlight re-tracks its target on scroll and resize.",
+    files: [{ path: "registry/ui/spotlight-tour.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: { serial: "KQ-194" },
+    tagline: "A moving spotlight walks the eye through each step.",
+    keywords: ["tour", "onboarding", "spotlight", "walkthrough", "coach mark", "overlays"],
+    props: [
+      {
+        name: "steps",
+        type: "TourStep[]",
+        description: "Ordered steps — id, a target ref, title, and body.",
+      },
+      {
+        name: "open",
+        type: "boolean",
+        description: "Whether the tour is running (controlled).",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open) => void",
+        description: "Fires when the tour opens or closes.",
+      },
+      {
+        name: "onFinish",
+        type: "() => void",
+        description: "Fires when the last step is completed, not merely dismissed.",
+      },
+    ],
+    usageNotes: [
+      "Point each step at an element via a ref; the spotlight scrolls it into view.",
+      "Arrow keys move between steps, Escape or the close button ends the tour.",
+      "Focus is trapped in the popover and the scrim traps clicks behind it.",
+      "Under reduced motion the spotlight jumps between steps instead of gliding.",
+    ],
+  },
 ];

@@ -5023,6 +5023,84 @@
       }
     },
     {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "A menu that springs from the point you right-click. It clamps to the viewport — flipping up or left near an edge — cascades its rows in, and opens nested submenus to the side on hover or ArrowRight. Full keyboard control: the Menu or Shift+F10 key opens it from the focused region, arrows and Home/End move, ArrowLeft steps back out of a submenu, Escape and an outside click dismiss, and focus returns to the region.",
+      "files": [
+        {
+          "path": "registry/ui/context-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-192"
+      }
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "A rich preview that expands from an inline anchor. Hovering the trigger — or focusing it — floats a card in on a single overshoot with a small arrow; the pointer can cross into the card without it closing, and it retracts a beat after you leave. The card flips above the anchor when the space below runs short.",
+      "files": [
+        {
+          "path": "registry/ui/hover-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-193"
+      }
+    },
+    {
+      "name": "spotlight-tour",
+      "type": "registry:ui",
+      "title": "Spotlight Tour",
+      "description": "A guided onboarding tour. A dimming scrim cuts a moving spotlight over each target in turn while a popover explains it, gliding from one step to the next; the highlighted element stays lit through the dark. Arrow keys and the buttons step through, Escape or the close control ends it, focus is trapped in the popover, and the spotlight re-tracks its target on scroll and resize.",
+      "files": [
+        {
+          "path": "registry/ui/spotlight-tour.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-194"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

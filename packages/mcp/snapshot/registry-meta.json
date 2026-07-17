@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 190,
+      "components": 193,
       "blocks": 16,
       "shared": 6
     }
@@ -11826,6 +11826,196 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/popover-menu",
         "bun": "bunx --bun shadcn@latest add @kinetiq/popover-menu",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/popover-menu.json"
+      }
+    },
+    {
+      "slug": "context-menu",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "serial": "KQ-192",
+      "tagline": "Springs from the right-click; cascades into submenus.",
+      "description": "A menu that springs from the point you right-click. It clamps to the viewport — flipping up or left near an edge — cascades its rows in, and opens nested submenus to the side on hover or ArrowRight. Full keyboard control: the Menu or Shift+F10 key opens it from the focused region, arrows and Home/End move, ArrowLeft steps back out of a submenu, Escape and an outside click dismiss, and focus returns to the region.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "context menu",
+        "right-click",
+        "menu",
+        "submenu",
+        "overlay",
+        "overlays"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "ContextMenuItem[]",
+          "description": "Rows — id, label, icon, shortcut, disabled, separator, nested items, onSelect."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The region that owns the menu."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Accessible name for the menu surface."
+        }
+      ],
+      "usageNotes": [
+        "Right-click the region, or focus it and press the Menu key or Shift+F10.",
+        "Arrows and Home/End move; ArrowRight opens a submenu, ArrowLeft steps back out.",
+        "Escape or an outside click closes it and returns focus to the region.",
+        "Under reduced motion it appears without the spring or the row cascade."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/context-menu",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/context-menu.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/context-menu",
+        "npm": "npx shadcn@latest add @kinetiq/context-menu",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/context-menu",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/context-menu",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/context-menu.json"
+      }
+    },
+    {
+      "slug": "hover-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "serial": "KQ-193",
+      "tagline": "A preview that floats up from an inline anchor.",
+      "description": "A rich preview that expands from an inline anchor. Hovering the trigger — or focusing it — floats a card in on a single overshoot with a small arrow; the pointer can cross into the card without it closing, and it retracts a beat after you leave. The card flips above the anchor when the space below runs short.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "hover card",
+        "preview",
+        "popover",
+        "tooltip",
+        "overlay",
+        "overlays"
+      ],
+      "props": [
+        {
+          "name": "trigger",
+          "type": "ReactNode",
+          "description": "Inline anchor — a link, name, or chip."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "Rich card content; may be interactive."
+        },
+        {
+          "name": "side / align",
+          "type": "top | bottom / start | center | end",
+          "description": "Preferred placement; side flips when the viewport is tight."
+        },
+        {
+          "name": "openDelay / closeDelay",
+          "type": "number",
+          "description": "Hover open delay and the grace period before closing, in ms."
+        }
+      ],
+      "usageNotes": [
+        "Opens on hover after a short delay, or immediately on keyboard focus.",
+        "The pointer can move onto the card to interact without it closing.",
+        "Escape closes it; the card flips above the anchor when the space below is short.",
+        "Under reduced motion it cross-fades in place with no scale or travel."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/hover-card",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hover-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hover-card",
+        "npm": "npx shadcn@latest add @kinetiq/hover-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hover-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hover-card",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hover-card.json"
+      }
+    },
+    {
+      "slug": "spotlight-tour",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Spotlight Tour",
+      "serial": "KQ-194",
+      "tagline": "A moving spotlight walks the eye through each step.",
+      "description": "A guided onboarding tour. A dimming scrim cuts a moving spotlight over each target in turn while a popover explains it, gliding from one step to the next; the highlighted element stays lit through the dark. Arrow keys and the buttons step through, Escape or the close control ends it, focus is trapped in the popover, and the spotlight re-tracks its target on scroll and resize.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "tour",
+        "onboarding",
+        "spotlight",
+        "walkthrough",
+        "coach mark",
+        "overlays"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "TourStep[]",
+          "description": "Ordered steps — id, a target ref, title, and body."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "description": "Whether the tour is running (controlled)."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open) => void",
+          "description": "Fires when the tour opens or closes."
+        },
+        {
+          "name": "onFinish",
+          "type": "() => void",
+          "description": "Fires when the last step is completed, not merely dismissed."
+        }
+      ],
+      "usageNotes": [
+        "Point each step at an element via a ref; the spotlight scrolls it into view.",
+        "Arrow keys move between steps, Escape or the close button ends the tour.",
+        "Focus is trapped in the popover and the scrim traps clicks behind it.",
+        "Under reduced motion the spotlight jumps between steps instead of gliding."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/spotlight-tour",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/spotlight-tour.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spotlight-tour",
+        "npm": "npx shadcn@latest add @kinetiq/spotlight-tour",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spotlight-tour",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spotlight-tour",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/spotlight-tour.json"
       }
     },
     {
