@@ -2813,6 +2813,57 @@ Notes:
 - Colour is never the only cue: every swatch carries a label, and the label is what assistive tech announces.
 - Under reduced motion the ring is simply there and the dim is a colour change; the first paint never animates.
 
+### Skeleton Weave (KQ-166) — `skeleton-weave`
+The placeholder weaves, then hands over.
+
+A placeholder that holds the shape of what is coming, then hands over. A sheen sweeps each row on a diagonal, staggered down the stack so the block reads as one woven surface; when the content arrives the placeholder fades and the real thing rises the last few pixels into place.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/skeleton-weave`
+
+Props:
+- `loading`: boolean — While true the placeholder holds the space.
+- `rows`: string[] — Placeholder row widths; longest first reads like prose.
+- `children`: ReactNode — The real content, revealed when loading turns false.
+
+Notes:
+- The placeholder is aria-hidden and the region is aria-busy, so assistive tech is told the state once rather than made to read decorative bars.
+- A polite live region announces the wait.
+- Under reduced motion the placeholder is a still surface and the content simply appears.
+
+### Stage Progress (KQ-167) — `stage-progress`
+See which stage is slow, not just a percent.
+
+Progress that admits it has parts. Each stage owns a segment: the ones behind you are filled and ticked, the one in flight fills to its own fraction or breathes when it cannot say, and the ones ahead wait as empty track — so you can see which stage is slow.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stage-progress`
+
+Props:
+- `stages`: Stage[] — The ordered stages; each owns a segment and a label.
+- `current`: number — Index of the stage in flight; earlier ones have landed.
+- `progress`: number — 0..1 within the current stage; omit for indeterminate.
+
+Notes:
+- Fills ride scaleX off a left origin rather than an animated width, so the bar never triggers layout.
+- The strip reports as one progressbar whose aria-valuetext names the stage, not a percentage.
+- Under reduced motion fills land in a frame, the tick is simply there, and the indeterminate stage holds steady.
+
+### Alert Bar (KQ-168) — `alert-bar`
+A notice that takes its own space, by severity.
+
+An inline notice that takes its own space rather than floating over the work. Opening glides the row down from zero height while a severity stripe draws itself down the leading edge; dismissing collapses it back and the space closes behind it, so nothing below jumps.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/alert-bar`
+
+Props:
+- `open / defaultOpen`: boolean — Controlled or initial visibility.
+- `severity`: "info" | "success" | "warn" | "danger" (default "info") — Sets the stripe, the title tone, and how loudly it speaks.
+- `title / children`: string / ReactNode — The heading and an optional body.
+
+Notes:
+- Severity sets the role: warnings and failures mount as an assertive alert; info and success report politely and wait their turn.
+- Colour is paired with a title tone, never asked to carry the meaning alone.
+- Under reduced motion the row and its stripe are simply present or gone.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

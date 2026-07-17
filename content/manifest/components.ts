@@ -6545,4 +6545,113 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the ring is simply there and the dim is a colour change; the first paint never animates.",
     ],
   },
+  {
+    name: "skeleton-weave",
+    type: "registry:ui",
+    title: "Skeleton Weave",
+    description:
+      "A placeholder that holds the shape of what is coming, then hands over. A sheen sweeps each row on a diagonal, staggered down the stack so the block reads as one woven surface; when the content arrives the placeholder fades and the real thing rises the last few pixels into place.",
+    files: [{ path: "registry/ui/skeleton-weave.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["feedback"],
+    meta: { serial: "KQ-166" },
+    tagline: "The placeholder weaves, then hands over.",
+    keywords: ["skeleton", "placeholder", "loading", "shimmer", "feedback"],
+    props: [
+      {
+        name: "loading",
+        type: "boolean",
+        description: "While true the placeholder holds the space.",
+      },
+      {
+        name: "rows",
+        type: "string[]",
+        description: "Placeholder row widths; longest first reads like prose.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The real content, revealed when loading turns false.",
+      },
+    ],
+    usageNotes: [
+      "The placeholder is aria-hidden and the region is aria-busy, so assistive tech is told the state once rather than made to read decorative bars.",
+      "A polite live region announces the wait.",
+      "Under reduced motion the placeholder is a still surface and the content simply appears.",
+    ],
+  },
+  {
+    name: "stage-progress",
+    type: "registry:ui",
+    title: "Stage Progress",
+    description:
+      "Progress that admits it has parts. Each stage owns a segment: the ones behind you are filled and ticked, the one in flight fills to its own fraction or breathes when it cannot say, and the ones ahead wait as empty track — so you can see which stage is slow.",
+    files: [{ path: "registry/ui/stage-progress.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["feedback"],
+    meta: { serial: "KQ-167" },
+    tagline: "See which stage is slow, not just a percent.",
+    keywords: ["progress", "stages", "steps", "multi-stage", "feedback"],
+    props: [
+      {
+        name: "stages",
+        type: "Stage[]",
+        description: "The ordered stages; each owns a segment and a label.",
+      },
+      {
+        name: "current",
+        type: "number",
+        description: "Index of the stage in flight; earlier ones have landed.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description: "0..1 within the current stage; omit for indeterminate.",
+      },
+    ],
+    usageNotes: [
+      "Fills ride scaleX off a left origin rather than an animated width, so the bar never triggers layout.",
+      "The strip reports as one progressbar whose aria-valuetext names the stage, not a percentage.",
+      "Under reduced motion fills land in a frame, the tick is simply there, and the indeterminate stage holds steady.",
+    ],
+  },
+  {
+    name: "alert-bar",
+    type: "registry:ui",
+    title: "Alert Bar",
+    description:
+      "An inline notice that takes its own space rather than floating over the work. Opening glides the row down from zero height while a severity stripe draws itself down the leading edge; dismissing collapses it back and the space closes behind it, so nothing below jumps.",
+    files: [{ path: "registry/ui/alert-bar.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["feedback"],
+    meta: { serial: "KQ-168" },
+    tagline: "A notice that takes its own space, by severity.",
+    keywords: ["alert", "banner", "notice", "inline", "severity", "feedback"],
+    props: [
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        description: "Controlled or initial visibility.",
+      },
+      {
+        name: "severity",
+        type: '"info" | "success" | "warn" | "danger"',
+        defaultValue: '"info"',
+        description: "Sets the stripe, the title tone, and how loudly it speaks.",
+      },
+      {
+        name: "title / children",
+        type: "string / ReactNode",
+        description: "The heading and an optional body.",
+      },
+    ],
+    usageNotes: [
+      "Severity sets the role: warnings and failures mount as an assertive alert; info and success report politely and wait their turn.",
+      "Colour is paired with a title tone, never asked to carry the meaning alone.",
+      "Under reduced motion the row and its stripe are simply present or gone.",
+    ],
+  },
 ];

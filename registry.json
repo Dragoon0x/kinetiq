@@ -4299,6 +4299,85 @@
       }
     },
     {
+      "name": "skeleton-weave",
+      "type": "registry:ui",
+      "title": "Skeleton Weave",
+      "description": "A placeholder that holds the shape of what is coming, then hands over. A sheen sweeps each row on a diagonal, staggered down the stack so the block reads as one woven surface; when the content arrives the placeholder fades and the real thing rises the last few pixels into place.",
+      "files": [
+        {
+          "path": "registry/ui/skeleton-weave.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-166"
+      }
+    },
+    {
+      "name": "stage-progress",
+      "type": "registry:ui",
+      "title": "Stage Progress",
+      "description": "Progress that admits it has parts. Each stage owns a segment: the ones behind you are filled and ticked, the one in flight fills to its own fraction or breathes when it cannot say, and the ones ahead wait as empty track — so you can see which stage is slow.",
+      "files": [
+        {
+          "path": "registry/ui/stage-progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-167"
+      }
+    },
+    {
+      "name": "alert-bar",
+      "type": "registry:ui",
+      "title": "Alert Bar",
+      "description": "An inline notice that takes its own space rather than floating over the work. Opening glides the row down from zero height while a severity stripe draws itself down the leading edge; dismissing collapses it back and the space closes behind it, so nothing below jumps.",
+      "files": [
+        {
+          "path": "registry/ui/alert-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-168"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

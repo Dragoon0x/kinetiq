@@ -179,6 +179,9 @@ import { PaperFlightDemo } from "@/registry/demos/paper-flight.demo";
 import { ChipCloudDemo } from "@/registry/demos/chip-cloud.demo";
 import { RatingArcDemo } from "@/registry/demos/rating-arc.demo";
 import { SwatchLockDemo } from "@/registry/demos/swatch-lock.demo";
+import { SkeletonWeaveDemo } from "@/registry/demos/skeleton-weave.demo";
+import { StageProgressDemo } from "@/registry/demos/stage-progress.demo";
+import { AlertBarDemo } from "@/registry/demos/alert-bar.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -364,4 +367,7 @@ export const demos: Record<string, ComponentType> = {
   "chip-cloud": ChipCloudDemo,
   "rating-arc": RatingArcDemo,
   "swatch-lock": SwatchLockDemo,
+  "skeleton-weave": SkeletonWeaveDemo,
+  "stage-progress": StageProgressDemo,
+  "alert-bar": AlertBarDemo,
 };
