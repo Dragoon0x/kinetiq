@@ -7192,4 +7192,99 @@ export const components: KinetiqItem[] = [
       "Under reduced motion there is no drying loop — the pointer leaves a still mark and moves on.",
     ],
   },
+  {
+    name: "reveal-stagger",
+    type: "registry:ui",
+    title: "Reveal Stagger",
+    description:
+      "Wrap a group and its children arrive in sequence as it scrolls into view — each rising a little and resolving, stepped by a stagger that tightens automatically so a long list never reads as lag. It runs once, then stays put.",
+    files: [{ path: "registry/ui/reveal-stagger.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: { serial: "KQ-183" },
+    tagline: "Children rise into view, one after another.",
+    keywords: ["reveal", "stagger", "scroll", "in-view", "cascade", "motion"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The group; each direct child gets its own entrance.",
+      },
+      {
+        name: "step",
+        type: "number",
+        description: "Seconds between children; auto-tightens under the budget.",
+      },
+    ],
+    usageNotes: [
+      "Children are rendered exactly as given, each in its own layer, so markup and reading order are unchanged.",
+      "The entrance runs once on view via an in-view trigger.",
+      "Under reduced motion every child is placed at once with no rise.",
+    ],
+  },
+  {
+    name: "marquee-swap",
+    type: "registry:ui",
+    title: "Marquee Swap",
+    description:
+      "One line at a time, rolling upward. The current line lifts out the top as the next rises from the bottom into the same clipped slot, so a run of phrases reads as a single rolling display rather than a stack.",
+    files: [{ path: "registry/ui/marquee-swap.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: { serial: "KQ-184" },
+    tagline: "Lines roll upward through one slot.",
+    keywords: ["marquee", "roller", "headline", "rotate", "vertical", "motion"],
+    props: [
+      {
+        name: "items",
+        type: "string[]",
+        description: "The lines to roll through, in order.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "2.6",
+        description: "Seconds each line holds before the next rolls up.",
+      },
+    ],
+    usageNotes: [
+      "The live line is announced politely, so the rotation is not lost to a screen reader.",
+      "The slot is clipped, so only the live line shows.",
+      "Reduced motion is deliberately still — it holds the first line and does not auto-roll.",
+    ],
+  },
+  {
+    name: "progress-scrub",
+    type: "registry:ui",
+    title: "Progress Scrub",
+    description:
+      "A reading bar that both reports and drives. As you scroll the region its fill tracks how far through you are; grab the bar and you scrub the other way — the region scrolls to wherever you drag, so the same control shows progress and seeks with it.",
+    files: [{ path: "registry/ui/progress-scrub.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["motion"],
+    meta: { serial: "KQ-185" },
+    tagline: "A progress bar you can also scrub.",
+    keywords: ["progress", "scroll", "scrub", "seek", "reading", "motion"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The scrollable content.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "240",
+        description: "Scroll region height in px.",
+      },
+    ],
+    usageNotes: [
+      "The bar is a real slider — it carries its position for assistive tech, and arrows, Home, and End step and jump the scroll.",
+      "Scrolling and scrubbing are two-way bound onto the same control.",
+      "Under reduced motion a seek jumps straight to the target instead of gliding.",
+    ],
+  },
 ];

@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 181,
+      "components": 184,
       "blocks": 16,
       "shared": 6
     }
@@ -11294,6 +11294,169 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/trail-ink",
         "bun": "bunx --bun shadcn@latest add @kinetiq/trail-ink",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/trail-ink.json"
+      }
+    },
+    {
+      "slug": "reveal-stagger",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Reveal Stagger",
+      "serial": "KQ-183",
+      "tagline": "Children rise into view, one after another.",
+      "description": "Wrap a group and its children arrive in sequence as it scrolls into view — each rising a little and resolving, stepped by a stagger that tightens automatically so a long list never reads as lag. It runs once, then stays put.",
+      "categories": [
+        "motion"
+      ],
+      "keywords": [
+        "reveal",
+        "stagger",
+        "scroll",
+        "in-view",
+        "cascade",
+        "motion"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The group; each direct child gets its own entrance."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "description": "Seconds between children; auto-tightens under the budget."
+        }
+      ],
+      "usageNotes": [
+        "Children are rendered exactly as given, each in its own layer, so markup and reading order are unchanged.",
+        "The entrance runs once on view via an in-view trigger.",
+        "Under reduced motion every child is placed at once with no rise."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/reveal-stagger",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/reveal-stagger",
+        "npm": "npx shadcn@latest add @kinetiq/reveal-stagger",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/reveal-stagger",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/reveal-stagger",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/reveal-stagger.json"
+      }
+    },
+    {
+      "slug": "marquee-swap",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Marquee Swap",
+      "serial": "KQ-184",
+      "tagline": "Lines roll upward through one slot.",
+      "description": "One line at a time, rolling upward. The current line lifts out the top as the next rises from the bottom into the same clipped slot, so a run of phrases reads as a single rolling display rather than a stack.",
+      "categories": [
+        "motion"
+      ],
+      "keywords": [
+        "marquee",
+        "roller",
+        "headline",
+        "rotate",
+        "vertical",
+        "motion"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "string[]",
+          "description": "The lines to roll through, in order."
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "defaultValue": "2.6",
+          "description": "Seconds each line holds before the next rolls up."
+        }
+      ],
+      "usageNotes": [
+        "The live line is announced politely, so the rotation is not lost to a screen reader.",
+        "The slot is clipped, so only the live line shows.",
+        "Reduced motion is deliberately still — it holds the first line and does not auto-roll."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/marquee-swap",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/marquee-swap.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/marquee-swap",
+        "npm": "npx shadcn@latest add @kinetiq/marquee-swap",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/marquee-swap",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/marquee-swap",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/marquee-swap.json"
+      }
+    },
+    {
+      "slug": "progress-scrub",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Progress Scrub",
+      "serial": "KQ-185",
+      "tagline": "A progress bar you can also scrub.",
+      "description": "A reading bar that both reports and drives. As you scroll the region its fill tracks how far through you are; grab the bar and you scrub the other way — the region scrolls to wherever you drag, so the same control shows progress and seeks with it.",
+      "categories": [
+        "motion"
+      ],
+      "keywords": [
+        "progress",
+        "scroll",
+        "scrub",
+        "seek",
+        "reading",
+        "motion"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The scrollable content."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "240",
+          "description": "Scroll region height in px."
+        }
+      ],
+      "usageNotes": [
+        "The bar is a real slider — it carries its position for assistive tech, and arrows, Home, and End step and jump the scroll.",
+        "Scrolling and scrubbing are two-way bound onto the same control.",
+        "Under reduced motion a seek jumps straight to the target instead of gliding."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/progress-scrub",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/progress-scrub.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/progress-scrub",
+        "npm": "npx shadcn@latest add @kinetiq/progress-scrub",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/progress-scrub",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/progress-scrub",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/progress-scrub.json"
       }
     },
     {

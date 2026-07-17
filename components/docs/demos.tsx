@@ -198,6 +198,9 @@ import { ListboxRosterDemo } from "@/registry/demos/listbox-roster.demo";
 import { TriToggleDemo } from "@/registry/demos/tri-toggle.demo";
 import { CursorLabelDemo } from "@/registry/demos/cursor-label.demo";
 import { TrailInkDemo } from "@/registry/demos/trail-ink.demo";
+import { RevealStaggerDemo } from "@/registry/demos/reveal-stagger.demo";
+import { MarqueeSwapDemo } from "@/registry/demos/marquee-swap.demo";
+import { ProgressScrubDemo } from "@/registry/demos/progress-scrub.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -402,4 +405,7 @@ export const demos: Record<string, ComponentType> = {
   "tri-toggle": TriToggleDemo,
   "cursor-label": CursorLabelDemo,
   "trail-ink": TrailInkDemo,
+  "reveal-stagger": RevealStaggerDemo,
+  "marquee-swap": MarqueeSwapDemo,
+  "progress-scrub": ProgressScrubDemo,
 };

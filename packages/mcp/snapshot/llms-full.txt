@@ -3126,6 +3126,54 @@ Notes:
 - Colours are read from the theme and re-resolved on a light/dark flip.
 - Under reduced motion there is no drying loop — the pointer leaves a still mark and moves on.
 
+### Reveal Stagger (KQ-183) — `reveal-stagger`
+Children rise into view, one after another.
+
+Wrap a group and its children arrive in sequence as it scrolls into view — each rising a little and resolving, stepped by a stagger that tightens automatically so a long list never reads as lag. It runs once, then stays put.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/reveal-stagger`
+
+Props:
+- `children`: ReactNode — The group; each direct child gets its own entrance.
+- `step`: number — Seconds between children; auto-tightens under the budget.
+
+Notes:
+- Children are rendered exactly as given, each in its own layer, so markup and reading order are unchanged.
+- The entrance runs once on view via an in-view trigger.
+- Under reduced motion every child is placed at once with no rise.
+
+### Marquee Swap (KQ-184) — `marquee-swap`
+Lines roll upward through one slot.
+
+One line at a time, rolling upward. The current line lifts out the top as the next rises from the bottom into the same clipped slot, so a run of phrases reads as a single rolling display rather than a stack.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/marquee-swap`
+
+Props:
+- `items`: string[] — The lines to roll through, in order.
+- `interval`: number (default 2.6) — Seconds each line holds before the next rolls up.
+
+Notes:
+- The live line is announced politely, so the rotation is not lost to a screen reader.
+- The slot is clipped, so only the live line shows.
+- Reduced motion is deliberately still — it holds the first line and does not auto-roll.
+
+### Progress Scrub (KQ-185) — `progress-scrub`
+A progress bar you can also scrub.
+
+A reading bar that both reports and drives. As you scroll the region its fill tracks how far through you are; grab the bar and you scrub the other way — the region scrolls to wherever you drag, so the same control shows progress and seeks with it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/progress-scrub`
+
+Props:
+- `children`: ReactNode — The scrollable content.
+- `height`: number (default 240) — Scroll region height in px.
+
+Notes:
+- The bar is a real slider — it carries its position for assistive tech, and arrows, Home, and End step and jump the scroll.
+- Scrolling and scrubbing are two-way bound onto the same control.
+- Under reduced motion a seek jumps straight to the target instead of gliding.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

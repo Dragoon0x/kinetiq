@@ -4789,6 +4789,83 @@
       }
     },
     {
+      "name": "reveal-stagger",
+      "type": "registry:ui",
+      "title": "Reveal Stagger",
+      "description": "Wrap a group and its children arrive in sequence as it scrolls into view — each rising a little and resolving, stepped by a stagger that tightens automatically so a long list never reads as lag. It runs once, then stays put.",
+      "files": [
+        {
+          "path": "registry/ui/reveal-stagger.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-183"
+      }
+    },
+    {
+      "name": "marquee-swap",
+      "type": "registry:ui",
+      "title": "Marquee Swap",
+      "description": "One line at a time, rolling upward. The current line lifts out the top as the next rises from the bottom into the same clipped slot, so a run of phrases reads as a single rolling display rather than a stack.",
+      "files": [
+        {
+          "path": "registry/ui/marquee-swap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-184"
+      }
+    },
+    {
+      "name": "progress-scrub",
+      "type": "registry:ui",
+      "title": "Progress Scrub",
+      "description": "A reading bar that both reports and drives. As you scroll the region its fill tracks how far through you are; grab the bar and you scrub the other way — the region scrolls to wherever you drag, so the same control shows progress and seeks with it.",
+      "files": [
+        {
+          "path": "registry/ui/progress-scrub.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-185"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
