@@ -2964,6 +2964,55 @@ Notes:
 - In press mode the field is a real toggle button; in hover mode it uncovers on hover or focus.
 - Under reduced motion the bar swaps in and out with no wipe.
 
+### Balance Quote (KQ-175) — `balance-quote`
+A balanced quote that rises word by word.
+
+A pull-quote that sets itself well and arrives in order. The lines are balanced so no widow is left hanging, and on the way in the words rise and resolve one after another in a tight cascade — the eye is walked through the sentence rather than shown all of it at once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/balance-quote`
+
+Props:
+- `children`: string — The quotation, as plain text.
+- `cite`: string — Attribution shown beneath.
+
+Notes:
+- The whole quotation is one block of real text, so it reads as a sentence to assistive tech; only the per-word rise is decoration.
+- The cascade runs once on view via an in-view trigger, then rests.
+- Under reduced motion the quote is set in place with no cascade.
+
+### Split Pane (KQ-176) — `split-pane`
+Drag the divider; it snaps to thirds.
+
+Two panes with a divider you can move. Dragging tracks the handle one to one; on release it eases to the nearest snap — the thirds and the half — if it is close, and stays put otherwise. The grabber swells while hovered or held so the hit target announces itself.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/split-pane`
+
+Props:
+- `start / end`: ReactNode — The two pane contents.
+- `defaultSplit / min / max`: number (default 50 / 20 / 80) — Start width and travel limits, in percent.
+- `snap`: number[] — Targets the divider settles to on release, within 4%.
+
+Notes:
+- The divider is a real separator with a value — arrows nudge, Shift jumps, Home and End go to the limits, and it reads its position aloud.
+- Drag is one to one; the snap glides only on release.
+- Under reduced motion the snap lands without the glide.
+
+### Masonry Flow (KQ-177) — `masonry-flow`
+Filter the wall; the tiles FLIP to fit.
+
+A masonry that keeps its tiles when the set changes. Columns are laid by the browser so the count follows the width for free; when a filter drops or adds tiles, each survivor FLIPs from its old box to its new one while the ones leaving fade down and the ones arriving fade up.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/masonry-flow`
+
+Props:
+- `items`: MasonryItem[] — Tiles keyed by a stable id so motion tracks them across reflows.
+- `minColumnWidth`: string (default "10rem") — Column width; the browser fits as many as span.
+
+Notes:
+- Tiles are keyed by a stable id, which lets motion follow the same tile across a reflow rather than cross-fading unrelated boxes.
+- The parent controls the filtered set; the component animates whatever it is handed.
+- Under reduced motion the FLIP and fades drop; tiles appear in their new places.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

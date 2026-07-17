@@ -4534,6 +4534,83 @@
       }
     },
     {
+      "name": "balance-quote",
+      "type": "registry:ui",
+      "title": "Balance Quote",
+      "description": "A pull-quote that sets itself well and arrives in order. The lines are balanced so no widow is left hanging, and on the way in the words rise and resolve one after another in a tight cascade — the eye is walked through the sentence rather than shown all of it at once.",
+      "files": [
+        {
+          "path": "registry/ui/balance-quote.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-175"
+      }
+    },
+    {
+      "name": "split-pane",
+      "type": "registry:ui",
+      "title": "Split Pane",
+      "description": "Two panes with a divider you can move. Dragging tracks the handle one to one; on release it eases to the nearest snap — the thirds and the half — if it is close, and stays put otherwise. The grabber swells while hovered or held so the hit target announces itself.",
+      "files": [
+        {
+          "path": "registry/ui/split-pane.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-176"
+      }
+    },
+    {
+      "name": "masonry-flow",
+      "type": "registry:ui",
+      "title": "Masonry Flow",
+      "description": "A masonry that keeps its tiles when the set changes. Columns are laid by the browser so the count follows the width for free; when a filter drops or adds tiles, each survivor FLIPs from its old box to its new one while the ones leaving fade down and the ones arriving fade up.",
+      "files": [
+        {
+          "path": "registry/ui/masonry-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-177"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

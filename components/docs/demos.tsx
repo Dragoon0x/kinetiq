@@ -188,6 +188,9 @@ import { TypeOnDemo } from "@/registry/demos/type-on.demo";
 import { HighlightSweepDemo } from "@/registry/demos/highlight-sweep.demo";
 import { GradientTitleDemo } from "@/registry/demos/gradient-title.demo";
 import { RedactRevealDemo } from "@/registry/demos/redact-reveal.demo";
+import { BalanceQuoteDemo } from "@/registry/demos/balance-quote.demo";
+import { SplitPaneDemo } from "@/registry/demos/split-pane.demo";
+import { MasonryFlowDemo } from "@/registry/demos/masonry-flow.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -382,4 +385,7 @@ export const demos: Record<string, ComponentType> = {
   "highlight-sweep": HighlightSweepDemo,
   "gradient-title": GradientTitleDemo,
   "redact-reveal": RedactRevealDemo,
+  "balance-quote": BalanceQuoteDemo,
+  "split-pane": SplitPaneDemo,
+  "masonry-flow": MasonryFlowDemo,
 };

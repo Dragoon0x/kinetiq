@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 171,
+      "components": 174,
       "blocks": 16,
       "shared": 6
     }
@@ -10746,6 +10746,173 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/redact-reveal",
         "bun": "bunx --bun shadcn@latest add @kinetiq/redact-reveal",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/redact-reveal.json"
+      }
+    },
+    {
+      "slug": "balance-quote",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Balance Quote",
+      "serial": "KQ-175",
+      "tagline": "A balanced quote that rises word by word.",
+      "description": "A pull-quote that sets itself well and arrives in order. The lines are balanced so no widow is left hanging, and on the way in the words rise and resolve one after another in a tight cascade — the eye is walked through the sentence rather than shown all of it at once.",
+      "categories": [
+        "text"
+      ],
+      "keywords": [
+        "quote",
+        "pull-quote",
+        "blockquote",
+        "cascade",
+        "text"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "string",
+          "description": "The quotation, as plain text."
+        },
+        {
+          "name": "cite",
+          "type": "string",
+          "description": "Attribution shown beneath."
+        }
+      ],
+      "usageNotes": [
+        "The whole quotation is one block of real text, so it reads as a sentence to assistive tech; only the per-word rise is decoration.",
+        "The cascade runs once on view via an in-view trigger, then rests.",
+        "Under reduced motion the quote is set in place with no cascade."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/balance-quote",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/balance-quote.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/balance-quote",
+        "npm": "npx shadcn@latest add @kinetiq/balance-quote",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/balance-quote",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/balance-quote",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/balance-quote.json"
+      }
+    },
+    {
+      "slug": "split-pane",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Split Pane",
+      "serial": "KQ-176",
+      "tagline": "Drag the divider; it snaps to thirds.",
+      "description": "Two panes with a divider you can move. Dragging tracks the handle one to one; on release it eases to the nearest snap — the thirds and the half — if it is close, and stays put otherwise. The grabber swells while hovered or held so the hit target announces itself.",
+      "categories": [
+        "layout"
+      ],
+      "keywords": [
+        "split",
+        "resize",
+        "panes",
+        "divider",
+        "splitter",
+        "layout"
+      ],
+      "props": [
+        {
+          "name": "start / end",
+          "type": "ReactNode",
+          "description": "The two pane contents."
+        },
+        {
+          "name": "defaultSplit / min / max",
+          "type": "number",
+          "defaultValue": "50 / 20 / 80",
+          "description": "Start width and travel limits, in percent."
+        },
+        {
+          "name": "snap",
+          "type": "number[]",
+          "description": "Targets the divider settles to on release, within 4%."
+        }
+      ],
+      "usageNotes": [
+        "The divider is a real separator with a value — arrows nudge, Shift jumps, Home and End go to the limits, and it reads its position aloud.",
+        "Drag is one to one; the snap glides only on release.",
+        "Under reduced motion the snap lands without the glide."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/split-pane",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/split-pane.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/split-pane",
+        "npm": "npx shadcn@latest add @kinetiq/split-pane",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/split-pane",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/split-pane",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/split-pane.json"
+      }
+    },
+    {
+      "slug": "masonry-flow",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Masonry Flow",
+      "serial": "KQ-177",
+      "tagline": "Filter the wall; the tiles FLIP to fit.",
+      "description": "A masonry that keeps its tiles when the set changes. Columns are laid by the browser so the count follows the width for free; when a filter drops or adds tiles, each survivor FLIPs from its old box to its new one while the ones leaving fade down and the ones arriving fade up.",
+      "categories": [
+        "layout"
+      ],
+      "keywords": [
+        "masonry",
+        "grid",
+        "flip",
+        "reflow",
+        "filter",
+        "layout"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "MasonryItem[]",
+          "description": "Tiles keyed by a stable id so motion tracks them across reflows."
+        },
+        {
+          "name": "minColumnWidth",
+          "type": "string",
+          "defaultValue": "\"10rem\"",
+          "description": "Column width; the browser fits as many as span."
+        }
+      ],
+      "usageNotes": [
+        "Tiles are keyed by a stable id, which lets motion follow the same tile across a reflow rather than cross-fading unrelated boxes.",
+        "The parent controls the filtered set; the component animates whatever it is handed.",
+        "Under reduced motion the FLIP and fades drop; tiles appear in their new places."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/masonry-flow",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/masonry-flow.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/masonry-flow",
+        "npm": "npx shadcn@latest add @kinetiq/masonry-flow",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/masonry-flow",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/masonry-flow",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/masonry-flow.json"
       }
     },
     {

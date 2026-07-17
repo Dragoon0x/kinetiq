@@ -6866,4 +6866,104 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the bar swaps in and out with no wipe.",
     ],
   },
+  {
+    name: "balance-quote",
+    type: "registry:ui",
+    title: "Balance Quote",
+    description:
+      "A pull-quote that sets itself well and arrives in order. The lines are balanced so no widow is left hanging, and on the way in the words rise and resolve one after another in a tight cascade — the eye is walked through the sentence rather than shown all of it at once.",
+    files: [{ path: "registry/ui/balance-quote.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["text"],
+    meta: { serial: "KQ-175" },
+    tagline: "A balanced quote that rises word by word.",
+    keywords: ["quote", "pull-quote", "blockquote", "cascade", "text"],
+    props: [
+      {
+        name: "children",
+        type: "string",
+        description: "The quotation, as plain text.",
+      },
+      {
+        name: "cite",
+        type: "string",
+        description: "Attribution shown beneath.",
+      },
+    ],
+    usageNotes: [
+      "The whole quotation is one block of real text, so it reads as a sentence to assistive tech; only the per-word rise is decoration.",
+      "The cascade runs once on view via an in-view trigger, then rests.",
+      "Under reduced motion the quote is set in place with no cascade.",
+    ],
+  },
+  {
+    name: "split-pane",
+    type: "registry:ui",
+    title: "Split Pane",
+    description:
+      "Two panes with a divider you can move. Dragging tracks the handle one to one; on release it eases to the nearest snap — the thirds and the half — if it is close, and stays put otherwise. The grabber swells while hovered or held so the hit target announces itself.",
+    files: [{ path: "registry/ui/split-pane.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["layout"],
+    meta: { serial: "KQ-176" },
+    tagline: "Drag the divider; it snaps to thirds.",
+    keywords: ["split", "resize", "panes", "divider", "splitter", "layout"],
+    props: [
+      {
+        name: "start / end",
+        type: "ReactNode",
+        description: "The two pane contents.",
+      },
+      {
+        name: "defaultSplit / min / max",
+        type: "number",
+        defaultValue: "50 / 20 / 80",
+        description: "Start width and travel limits, in percent.",
+      },
+      {
+        name: "snap",
+        type: "number[]",
+        description: "Targets the divider settles to on release, within 4%.",
+      },
+    ],
+    usageNotes: [
+      "The divider is a real separator with a value — arrows nudge, Shift jumps, Home and End go to the limits, and it reads its position aloud.",
+      "Drag is one to one; the snap glides only on release.",
+      "Under reduced motion the snap lands without the glide.",
+    ],
+  },
+  {
+    name: "masonry-flow",
+    type: "registry:ui",
+    title: "Masonry Flow",
+    description:
+      "A masonry that keeps its tiles when the set changes. Columns are laid by the browser so the count follows the width for free; when a filter drops or adds tiles, each survivor FLIPs from its old box to its new one while the ones leaving fade down and the ones arriving fade up.",
+    files: [{ path: "registry/ui/masonry-flow.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["layout"],
+    meta: { serial: "KQ-177" },
+    tagline: "Filter the wall; the tiles FLIP to fit.",
+    keywords: ["masonry", "grid", "flip", "reflow", "filter", "layout"],
+    props: [
+      {
+        name: "items",
+        type: "MasonryItem[]",
+        description: "Tiles keyed by a stable id so motion tracks them across reflows.",
+      },
+      {
+        name: "minColumnWidth",
+        type: "string",
+        defaultValue: '"10rem"',
+        description: "Column width; the browser fits as many as span.",
+      },
+    ],
+    usageNotes: [
+      "Tiles are keyed by a stable id, which lets motion follow the same tile across a reflow rather than cross-fading unrelated boxes.",
+      "The parent controls the filtered set; the component animates whatever it is handed.",
+      "Under reduced motion the FLIP and fades drop; tiles appear in their new places.",
+    ],
+  },
 ];
