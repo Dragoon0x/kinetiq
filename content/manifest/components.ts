@@ -6966,4 +6966,99 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the FLIP and fades drop; tiles appear in their new places.",
     ],
   },
+  {
+    name: "expander-tree",
+    type: "registry:ui",
+    title: "Expander Tree",
+    description:
+      "A nested disclosure that opens with a little procession. Expanding a node glides its panel to height while a guide line draws down the indent and the children arrive one after another, so the hierarchy reads as it unfolds rather than snapping open.",
+    files: [{ path: "registry/ui/expander-tree.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["layout"],
+    meta: { serial: "KQ-178" },
+    tagline: "Open a branch; the children cascade in.",
+    keywords: ["tree", "disclosure", "nested", "expand", "hierarchy", "layout"],
+    props: [
+      {
+        name: "nodes",
+        type: "TreeNode[]",
+        description: "The tree; each node has a label and optional children.",
+      },
+      {
+        name: "defaultExpanded",
+        type: "string[]",
+        description: "Node ids expanded on first render.",
+      },
+    ],
+    usageNotes: [
+      "Each parent is a real disclosure button carrying aria-expanded over the region it controls, so the tree is walked and toggled with Tab and Space.",
+      "The guide line and the per-child cascade are decorative; the structure is the list.",
+      "Under reduced motion panels open and close instantly with no draw or cascade.",
+    ],
+  },
+  {
+    name: "sticky-stack",
+    type: "registry:ui",
+    title: "Sticky Stack",
+    description:
+      "Scroll a run of sections and their headers stack up at the top instead of one replacing the next. Each header sticks a header-height lower than the last, piling into a legible ledger of where you are; when a section scrolls past, its header releases and peels away, uncovering the one beneath.",
+    files: [{ path: "registry/ui/sticky-stack.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: ["utils"],
+    categories: ["layout"],
+    meta: { serial: "KQ-179" },
+    tagline: "Headers stack at the top, then peel away.",
+    keywords: ["sticky", "headers", "stack", "scroll", "sections", "layout"],
+    props: [
+      {
+        name: "sections",
+        type: "StackSection[]",
+        description: "Each carries a title and its content.",
+      },
+      {
+        name: "headerHeight / height",
+        type: "number",
+        defaultValue: "44 / 320",
+        description: "Header height (the stack step) and the viewport height, in px.",
+      },
+    ],
+    usageNotes: [
+      "Pure sticky positioning — no scroll listeners, no transforms, nothing per frame — so it is inert under reduced motion and cheap on a long list.",
+      "The scroll region is a labelled, keyboard-focusable landmark.",
+      "Headers stack by an increasing sticky offset, then peel with their section when it ends.",
+    ],
+  },
+  {
+    name: "cursor-lens",
+    type: "registry:ui",
+    title: "Cursor Lens",
+    description:
+      "A round glass that follows the pointer and magnifies whatever is beneath it. The magnified copy scales about the exact point under the cursor and a fixed circular clip travels with it, both driven off two motion values — so the glass tracks the cursor without a single render.",
+    files: [{ path: "registry/ui/cursor-lens.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-pointer-tilt"],
+    categories: ["cursor"],
+    meta: { serial: "KQ-180" },
+    tagline: "A glass that magnifies under your pointer.",
+    keywords: ["cursor", "lens", "magnifier", "zoom", "loupe", "pointer"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The content under the glass; keep it presentational.",
+      },
+      {
+        name: "zoom / size",
+        type: "number",
+        defaultValue: "2 / 128",
+        description: "Magnification and lens diameter in px.",
+      },
+    ],
+    usageNotes: [
+      "The lens tracks the pointer off motion values, so moving it never costs a render.",
+      "A fine-pointer instrument: on touch it steps aside and the content is left plain; the magnified copy is aria-hidden, so it is read once.",
+      "It has no ambient motion — it moves only when you do — so it needs no reduced-motion pathway.",
+    ],
+  },
 ];

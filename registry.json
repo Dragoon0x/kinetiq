@@ -4611,6 +4611,80 @@
       }
     },
     {
+      "name": "expander-tree",
+      "type": "registry:ui",
+      "title": "Expander Tree",
+      "description": "A nested disclosure that opens with a little procession. Expanding a node glides its panel to height while a guide line draws down the indent and the children arrive one after another, so the hierarchy reads as it unfolds rather than snapping open.",
+      "files": [
+        {
+          "path": "registry/ui/expander-tree.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-178"
+      }
+    },
+    {
+      "name": "sticky-stack",
+      "type": "registry:ui",
+      "title": "Sticky Stack",
+      "description": "Scroll a run of sections and their headers stack up at the top instead of one replacing the next. Each header sticks a header-height lower than the last, piling into a legible ledger of where you are; when a section scrolls past, its header releases and peels away, uncovering the one beneath.",
+      "files": [
+        {
+          "path": "registry/ui/sticky-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-179"
+      }
+    },
+    {
+      "name": "cursor-lens",
+      "type": "registry:ui",
+      "title": "Cursor Lens",
+      "description": "A round glass that follows the pointer and magnifies whatever is beneath it. The magnified copy scales about the exact point under the cursor and a fixed circular clip travels with it, both driven off two motion values — so the glass tracks the cursor without a single render.",
+      "files": [
+        {
+          "path": "registry/ui/cursor-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "cursor"
+      ],
+      "meta": {
+        "serial": "KQ-180"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
