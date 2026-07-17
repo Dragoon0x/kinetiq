@@ -5205,6 +5205,84 @@
       }
     },
     {
+      "name": "breadcrumb-trail",
+      "type": "registry:ui",
+      "title": "Breadcrumb Trail",
+      "description": "A breadcrumb whose separators draw themselves in as a connected trail. When the path outgrows its width the middle folds into an ellipsis that expands the hidden crumbs back in on click, and the last crumb is marked as the current page.",
+      "files": [
+        {
+          "path": "registry/ui/breadcrumb-trail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-199"
+      }
+    },
+    {
+      "name": "pagination-rail",
+      "type": "registry:ui",
+      "title": "Pagination Rail",
+      "description": "A pager with a lively active pill. Changing pages slides the filled indicator from the old number to the new one on a single overshoot, and hovering or focusing any page floats a preview above it. Prev and Next clamp at the ends.",
+      "files": [
+        {
+          "path": "registry/ui/pagination-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-200"
+      }
+    },
+    {
+      "name": "stepper-flow",
+      "type": "registry:ui",
+      "title": "Stepper Flow",
+      "description": "A wizard stepper. As the active step advances, the connector into each cleared step fills and its node stamps a check on a springy landing; the current node holds a ring and any earlier node can be clicked to step back.",
+      "files": [
+        {
+          "path": "registry/ui/stepper-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-201"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

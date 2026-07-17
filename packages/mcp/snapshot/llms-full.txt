@@ -3401,6 +3401,58 @@ Notes:
 - Levels bucket each count into four filled shades against the ceiling.
 - Under reduced motion the cells appear filled with no cascade.
 
+### Breadcrumb Trail (KQ-199) — `breadcrumb-trail`
+The trail draws itself; the middle folds away.
+
+A breadcrumb whose separators draw themselves in as a connected trail. When the path outgrows its width the middle folds into an ellipsis that expands the hidden crumbs back in on click, and the last crumb is marked as the current page.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/breadcrumb-trail`
+
+Props:
+- `items`: Crumb[] — The path — id, label, optional href.
+- `maxVisible`: number — Crumbs shown before the middle collapses into an ellipsis.
+- `onNavigate`: (crumb) => void — Called on activation; prevents default navigation when set.
+
+Notes:
+- Past maxVisible the middle collapses to an ellipsis that expands on click.
+- The last crumb is the current page and is never a link.
+- Under reduced motion the trail and any reveal appear without drawing.
+
+### Pagination Rail (KQ-200) — `pagination-rail`
+The active pill slides; each page previews on hover.
+
+A pager with a lively active pill. Changing pages slides the filled indicator from the old number to the new one on a single overshoot, and hovering or focusing any page floats a preview above it. Prev and Next clamp at the ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pagination-rail`
+
+Props:
+- `total / page`: number — Total pages and the current 1-based page.
+- `onPageChange`: (page) => void — Fires with the requested page.
+- `siblingCount`: number — Pages kept either side of the current before an ellipsis.
+- `preview`: (page) => ReactNode — Content for the hover/focus preview over a page.
+
+Notes:
+- The filled indicator is a shared element that slides between pages.
+- Hovering or focusing a page floats its preview; Prev and Next disable at the ends.
+- Under reduced motion the pill jumps and previews cross-fade without travel.
+
+### Stepper Flow (KQ-201) — `stepper-flow`
+Connectors fill, cleared steps stamp a check.
+
+A wizard stepper. As the active step advances, the connector into each cleared step fills and its node stamps a check on a springy landing; the current node holds a ring and any earlier node can be clicked to step back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stepper-flow`
+
+Props:
+- `steps`: Step[] — The steps — id, label, optional description.
+- `current`: number — Active step index; steps before it read as complete.
+- `onStepChange`: (index) => void — Fires when a completed or current step is clicked.
+
+Notes:
+- Cleared steps stamp a check and their inbound connector fills.
+- Earlier steps are clickable to go back; upcoming steps are disabled.
+- Under reduced motion the fills and checks land with no draw.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

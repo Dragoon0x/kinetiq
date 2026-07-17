@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 197,
+      "components": 200,
       "blocks": 16,
       "shared": 6
     }
@@ -12242,6 +12242,188 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/heat-calendar",
         "bun": "bunx --bun shadcn@latest add @kinetiq/heat-calendar",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/heat-calendar.json"
+      }
+    },
+    {
+      "slug": "breadcrumb-trail",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Breadcrumb Trail",
+      "serial": "KQ-199",
+      "tagline": "The trail draws itself; the middle folds away.",
+      "description": "A breadcrumb whose separators draw themselves in as a connected trail. When the path outgrows its width the middle folds into an ellipsis that expands the hidden crumbs back in on click, and the last crumb is marked as the current page.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "breadcrumb",
+        "trail",
+        "navigation",
+        "path",
+        "overflow",
+        "navigation"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "Crumb[]",
+          "description": "The path — id, label, optional href."
+        },
+        {
+          "name": "maxVisible",
+          "type": "number",
+          "description": "Crumbs shown before the middle collapses into an ellipsis."
+        },
+        {
+          "name": "onNavigate",
+          "type": "(crumb) => void",
+          "description": "Called on activation; prevents default navigation when set."
+        }
+      ],
+      "usageNotes": [
+        "Past maxVisible the middle collapses to an ellipsis that expands on click.",
+        "The last crumb is the current page and is never a link.",
+        "Under reduced motion the trail and any reveal appear without drawing."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/breadcrumb-trail",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/breadcrumb-trail.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/breadcrumb-trail",
+        "npm": "npx shadcn@latest add @kinetiq/breadcrumb-trail",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/breadcrumb-trail",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/breadcrumb-trail",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/breadcrumb-trail.json"
+      }
+    },
+    {
+      "slug": "pagination-rail",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pagination Rail",
+      "serial": "KQ-200",
+      "tagline": "The active pill slides; each page previews on hover.",
+      "description": "A pager with a lively active pill. Changing pages slides the filled indicator from the old number to the new one on a single overshoot, and hovering or focusing any page floats a preview above it. Prev and Next clamp at the ends.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "pagination",
+        "pager",
+        "pages",
+        "navigation",
+        "indicator",
+        "navigation"
+      ],
+      "props": [
+        {
+          "name": "total / page",
+          "type": "number",
+          "description": "Total pages and the current 1-based page."
+        },
+        {
+          "name": "onPageChange",
+          "type": "(page) => void",
+          "description": "Fires with the requested page."
+        },
+        {
+          "name": "siblingCount",
+          "type": "number",
+          "description": "Pages kept either side of the current before an ellipsis."
+        },
+        {
+          "name": "preview",
+          "type": "(page) => ReactNode",
+          "description": "Content for the hover/focus preview over a page."
+        }
+      ],
+      "usageNotes": [
+        "The filled indicator is a shared element that slides between pages.",
+        "Hovering or focusing a page floats its preview; Prev and Next disable at the ends.",
+        "Under reduced motion the pill jumps and previews cross-fade without travel."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/pagination-rail",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/pagination-rail.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pagination-rail",
+        "npm": "npx shadcn@latest add @kinetiq/pagination-rail",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pagination-rail",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pagination-rail",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/pagination-rail.json"
+      }
+    },
+    {
+      "slug": "stepper-flow",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Stepper Flow",
+      "serial": "KQ-201",
+      "tagline": "Connectors fill, cleared steps stamp a check.",
+      "description": "A wizard stepper. As the active step advances, the connector into each cleared step fills and its node stamps a check on a springy landing; the current node holds a ring and any earlier node can be clicked to step back.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "stepper",
+        "wizard",
+        "steps",
+        "progress",
+        "navigation",
+        "navigation"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "Step[]",
+          "description": "The steps — id, label, optional description."
+        },
+        {
+          "name": "current",
+          "type": "number",
+          "description": "Active step index; steps before it read as complete."
+        },
+        {
+          "name": "onStepChange",
+          "type": "(index) => void",
+          "description": "Fires when a completed or current step is clicked."
+        }
+      ],
+      "usageNotes": [
+        "Cleared steps stamp a check and their inbound connector fills.",
+        "Earlier steps are clickable to go back; upcoming steps are disabled.",
+        "Under reduced motion the fills and checks land with no draw."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/stepper-flow",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/stepper-flow.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stepper-flow",
+        "npm": "npx shadcn@latest add @kinetiq/stepper-flow",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stepper-flow",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stepper-flow",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/stepper-flow.json"
       }
     },
     {

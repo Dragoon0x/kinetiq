@@ -7775,4 +7775,117 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the cells appear filled with no cascade.",
     ],
   },
+  {
+    name: "breadcrumb-trail",
+    type: "registry:ui",
+    title: "Breadcrumb Trail",
+    description:
+      "A breadcrumb whose separators draw themselves in as a connected trail. When the path outgrows its width the middle folds into an ellipsis that expands the hidden crumbs back in on click, and the last crumb is marked as the current page.",
+    files: [{ path: "registry/ui/breadcrumb-trail.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: { serial: "KQ-199" },
+    tagline: "The trail draws itself; the middle folds away.",
+    keywords: ["breadcrumb", "trail", "navigation", "path", "overflow", "navigation"],
+    props: [
+      {
+        name: "items",
+        type: "Crumb[]",
+        description: "The path — id, label, optional href.",
+      },
+      {
+        name: "maxVisible",
+        type: "number",
+        description: "Crumbs shown before the middle collapses into an ellipsis.",
+      },
+      {
+        name: "onNavigate",
+        type: "(crumb) => void",
+        description: "Called on activation; prevents default navigation when set.",
+      },
+    ],
+    usageNotes: [
+      "Past maxVisible the middle collapses to an ellipsis that expands on click.",
+      "The last crumb is the current page and is never a link.",
+      "Under reduced motion the trail and any reveal appear without drawing.",
+    ],
+  },
+  {
+    name: "pagination-rail",
+    type: "registry:ui",
+    title: "Pagination Rail",
+    description:
+      "A pager with a lively active pill. Changing pages slides the filled indicator from the old number to the new one on a single overshoot, and hovering or focusing any page floats a preview above it. Prev and Next clamp at the ends.",
+    files: [{ path: "registry/ui/pagination-rail.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: { serial: "KQ-200" },
+    tagline: "The active pill slides; each page previews on hover.",
+    keywords: ["pagination", "pager", "pages", "navigation", "indicator", "navigation"],
+    props: [
+      {
+        name: "total / page",
+        type: "number",
+        description: "Total pages and the current 1-based page.",
+      },
+      {
+        name: "onPageChange",
+        type: "(page) => void",
+        description: "Fires with the requested page.",
+      },
+      {
+        name: "siblingCount",
+        type: "number",
+        description: "Pages kept either side of the current before an ellipsis.",
+      },
+      {
+        name: "preview",
+        type: "(page) => ReactNode",
+        description: "Content for the hover/focus preview over a page.",
+      },
+    ],
+    usageNotes: [
+      "The filled indicator is a shared element that slides between pages.",
+      "Hovering or focusing a page floats its preview; Prev and Next disable at the ends.",
+      "Under reduced motion the pill jumps and previews cross-fade without travel.",
+    ],
+  },
+  {
+    name: "stepper-flow",
+    type: "registry:ui",
+    title: "Stepper Flow",
+    description:
+      "A wizard stepper. As the active step advances, the connector into each cleared step fills and its node stamps a check on a springy landing; the current node holds a ring and any earlier node can be clicked to step back.",
+    files: [{ path: "registry/ui/stepper-flow.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: { serial: "KQ-201" },
+    tagline: "Connectors fill, cleared steps stamp a check.",
+    keywords: ["stepper", "wizard", "steps", "progress", "navigation", "navigation"],
+    props: [
+      {
+        name: "steps",
+        type: "Step[]",
+        description: "The steps — id, label, optional description.",
+      },
+      {
+        name: "current",
+        type: "number",
+        description: "Active step index; steps before it read as complete.",
+      },
+      {
+        name: "onStepChange",
+        type: "(index) => void",
+        description: "Fires when a completed or current step is clicked.",
+      },
+    ],
+    usageNotes: [
+      "Cleared steps stamp a check and their inbound connector fills.",
+      "Earlier steps are clickable to go back; upcoming steps are disabled.",
+      "Under reduced motion the fills and checks land with no draw.",
+    ],
+  },
 ];
