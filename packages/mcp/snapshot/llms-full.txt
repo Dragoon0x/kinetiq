@@ -3503,6 +3503,60 @@ Notes:
 - Each ball's bounces are seeded from its index, so the run is reproducible.
 - Under reduced motion it paints one settled board with a filled histogram.
 
+### Range Dual (KQ-205) — `range-dual`
+Two thumbs that shove each other, never crossing.
+
+A dual-thumb range where the thumbs collide and shove. Drag one into the other and it carries the second along instead of stopping, so the span never inverts; the filled bar tracks between them and a value bubble lifts over whichever thumb is live. Both thumbs are real sliders — arrows, Home/End, and PageUp/Down all push the same way.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/range-dual`
+
+Props:
+- `value`: [number, number] — Current low and high pair.
+- `onValueChange`: ([low, high]) => void — Fires with the new pair.
+- `min / max / step`: number — Bounds and increment.
+- `format`: (value) => string — Formats the bubble and aria-valuetext.
+
+Notes:
+- Dragging a thumb past the other pushes it along instead of stopping.
+- Each thumb is a slider — arrows, PageUp/Down, and Home/End all apply.
+- Under reduced motion the bubbles and thumbs settle without spring.
+
+### Stepper Number (KQ-206) — `stepper-number`
+Hold to accelerate; the readout rolls like an odometer.
+
+A number spinner with weight to it. Hold a button and it accelerates from a tick to a blur; each change rolls the readout like an odometer, up or down with the direction of travel; and a push past the limit nudges and bounces back instead of doing nothing. A real spinbutton — arrows, PageUp/Down, and Home/End all work.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stepper-number`
+
+Props:
+- `value`: number — Current value (controlled).
+- `onValueChange`: (value) => void — Fires with the new value.
+- `min / max / step`: number — Bounds and increment.
+- `format`: (value) => string — Formats the display and aria-valuetext.
+
+Notes:
+- Press and hold a button to accelerate; the readout rolls with the direction.
+- A real spinbutton: arrows step, PageUp/Down jump by ten, Home/End clamp.
+- Under reduced motion the readout swaps with no roll or bounce.
+
+### Tag Field (KQ-207) — `tag-field`
+Type, Enter, chip. Paste a list, it splits.
+
+A field that turns text into tokens. Type and press Enter or comma to chip a tag in on a spring; paste a delimited list and it splits into several at once; backspace on an empty field lifts the last one back off. Removing a chip reflows the rest with a FLIP glide, and duplicates are ignored.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tag-field`
+
+Props:
+- `value`: string[] — Current tags (controlled).
+- `onValueChange`: (tags) => void — Fires with the new tag list.
+- `maxTags`: number — Optional cap on the number of tags.
+- `placeholder`: string — Input placeholder.
+
+Notes:
+- Enter or comma commits the current token; paste a delimited list to add many.
+- Backspace on an empty field removes the last tag; each chip has a remove button.
+- Under reduced motion chips appear and leave with no spring or reflow.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

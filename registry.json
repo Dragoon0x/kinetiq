@@ -5355,6 +5355,84 @@
       }
     },
     {
+      "name": "range-dual",
+      "type": "registry:ui",
+      "title": "Range Dual",
+      "description": "A dual-thumb range where the thumbs collide and shove. Drag one into the other and it carries the second along instead of stopping, so the span never inverts; the filled bar tracks between them and a value bubble lifts over whichever thumb is live. Both thumbs are real sliders — arrows, Home/End, and PageUp/Down all push the same way.",
+      "files": [
+        {
+          "path": "registry/ui/range-dual.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "inputs"
+      ],
+      "meta": {
+        "serial": "KQ-205"
+      }
+    },
+    {
+      "name": "stepper-number",
+      "type": "registry:ui",
+      "title": "Stepper Number",
+      "description": "A number spinner with weight to it. Hold a button and it accelerates from a tick to a blur; each change rolls the readout like an odometer, up or down with the direction of travel; and a push past the limit nudges and bounces back instead of doing nothing. A real spinbutton — arrows, PageUp/Down, and Home/End all work.",
+      "files": [
+        {
+          "path": "registry/ui/stepper-number.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "inputs"
+      ],
+      "meta": {
+        "serial": "KQ-206"
+      }
+    },
+    {
+      "name": "tag-field",
+      "type": "registry:ui",
+      "title": "Tag Field",
+      "description": "A field that turns text into tokens. Type and press Enter or comma to chip a tag in on a spring; paste a delimited list and it splits into several at once; backspace on an empty field lifts the last one back off. Removing a chip reflows the rest with a FLIP glide, and duplicates are ignored.",
+      "files": [
+        {
+          "path": "registry/ui/tag-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "inputs"
+      ],
+      "meta": {
+        "serial": "KQ-207"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

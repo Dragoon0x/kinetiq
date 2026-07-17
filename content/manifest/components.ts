@@ -7991,4 +7991,127 @@ export const components: KinetiqItem[] = [
       "Under reduced motion it paints one settled board with a filled histogram.",
     ],
   },
+  {
+    name: "range-dual",
+    type: "registry:ui",
+    title: "Range Dual",
+    description:
+      "A dual-thumb range where the thumbs collide and shove. Drag one into the other and it carries the second along instead of stopping, so the span never inverts; the filled bar tracks between them and a value bubble lifts over whichever thumb is live. Both thumbs are real sliders — arrows, Home/End, and PageUp/Down all push the same way.",
+    files: [{ path: "registry/ui/range-dual.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["inputs"],
+    meta: { serial: "KQ-205" },
+    tagline: "Two thumbs that shove each other, never crossing.",
+    keywords: ["range", "slider", "dual", "min max", "collision", "inputs"],
+    props: [
+      {
+        name: "value",
+        type: "[number, number]",
+        description: "Current low and high pair.",
+      },
+      {
+        name: "onValueChange",
+        type: "([low, high]) => void",
+        description: "Fires with the new pair.",
+      },
+      {
+        name: "min / max / step",
+        type: "number",
+        description: "Bounds and increment.",
+      },
+      {
+        name: "format",
+        type: "(value) => string",
+        description: "Formats the bubble and aria-valuetext.",
+      },
+    ],
+    usageNotes: [
+      "Dragging a thumb past the other pushes it along instead of stopping.",
+      "Each thumb is a slider — arrows, PageUp/Down, and Home/End all apply.",
+      "Under reduced motion the bubbles and thumbs settle without spring.",
+    ],
+  },
+  {
+    name: "stepper-number",
+    type: "registry:ui",
+    title: "Stepper Number",
+    description:
+      "A number spinner with weight to it. Hold a button and it accelerates from a tick to a blur; each change rolls the readout like an odometer, up or down with the direction of travel; and a push past the limit nudges and bounces back instead of doing nothing. A real spinbutton — arrows, PageUp/Down, and Home/End all work.",
+    files: [{ path: "registry/ui/stepper-number.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["inputs"],
+    meta: { serial: "KQ-206" },
+    tagline: "Hold to accelerate; the readout rolls like an odometer.",
+    keywords: ["stepper", "number", "spinner", "quantity", "input", "inputs"],
+    props: [
+      {
+        name: "value",
+        type: "number",
+        description: "Current value (controlled).",
+      },
+      {
+        name: "onValueChange",
+        type: "(value) => void",
+        description: "Fires with the new value.",
+      },
+      {
+        name: "min / max / step",
+        type: "number",
+        description: "Bounds and increment.",
+      },
+      {
+        name: "format",
+        type: "(value) => string",
+        description: "Formats the display and aria-valuetext.",
+      },
+    ],
+    usageNotes: [
+      "Press and hold a button to accelerate; the readout rolls with the direction.",
+      "A real spinbutton: arrows step, PageUp/Down jump by ten, Home/End clamp.",
+      "Under reduced motion the readout swaps with no roll or bounce.",
+    ],
+  },
+  {
+    name: "tag-field",
+    type: "registry:ui",
+    title: "Tag Field",
+    description:
+      "A field that turns text into tokens. Type and press Enter or comma to chip a tag in on a spring; paste a delimited list and it splits into several at once; backspace on an empty field lifts the last one back off. Removing a chip reflows the rest with a FLIP glide, and duplicates are ignored.",
+    files: [{ path: "registry/ui/tag-field.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["inputs"],
+    meta: { serial: "KQ-207" },
+    tagline: "Type, Enter, chip. Paste a list, it splits.",
+    keywords: ["tags", "tokens", "chips", "input", "multi", "inputs"],
+    props: [
+      {
+        name: "value",
+        type: "string[]",
+        description: "Current tags (controlled).",
+      },
+      {
+        name: "onValueChange",
+        type: "(tags) => void",
+        description: "Fires with the new tag list.",
+      },
+      {
+        name: "maxTags",
+        type: "number",
+        description: "Optional cap on the number of tags.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        description: "Input placeholder.",
+      },
+    ],
+    usageNotes: [
+      "Enter or comma commits the current token; paste a delimited list to add many.",
+      "Backspace on an empty field removes the last tag; each chip has a remove button.",
+      "Under reduced motion chips appear and leave with no spring or reflow.",
+    ],
+  },
 ];

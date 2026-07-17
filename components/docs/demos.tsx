@@ -220,6 +220,9 @@ import { StepperFlowDemo } from "@/registry/demos/stepper-flow.demo";
 import { NewtonCradleDemo } from "@/registry/demos/newton-cradle.demo";
 import { GooeyBlobDemo } from "@/registry/demos/gooey-blob.demo";
 import { PlinkoDropDemo } from "@/registry/demos/plinko-drop.demo";
+import { RangeDualDemo } from "@/registry/demos/range-dual.demo";
+import { StepperNumberDemo } from "@/registry/demos/stepper-number.demo";
+import { TagFieldDemo } from "@/registry/demos/tag-field.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -446,4 +449,7 @@ export const demos: Record<string, ComponentType> = {
   "newton-cradle": NewtonCradleDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
+  "range-dual": RangeDualDemo,
+  "stepper-number": StepperNumberDemo,
+  "tag-field": TagFieldDemo,
 };
