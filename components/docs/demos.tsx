@@ -194,6 +194,8 @@ import { MasonryFlowDemo } from "@/registry/demos/masonry-flow.demo";
 import { ExpanderTreeDemo } from "@/registry/demos/expander-tree.demo";
 import { StickyStackDemo } from "@/registry/demos/sticky-stack.demo";
 import { CursorLensDemo } from "@/registry/demos/cursor-lens.demo";
+import { ListboxRosterDemo } from "@/registry/demos/listbox-roster.demo";
+import { TriToggleDemo } from "@/registry/demos/tri-toggle.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -394,4 +396,6 @@ export const demos: Record<string, ComponentType> = {
   "expander-tree": ExpanderTreeDemo,
   "sticky-stack": StickyStackDemo,
   "cursor-lens": CursorLensDemo,
+  "listbox-roster": ListboxRosterDemo,
+  "tri-toggle": TriToggleDemo,
 };

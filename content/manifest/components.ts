@@ -7061,4 +7061,76 @@ export const components: KinetiqItem[] = [
       "It has no ambient motion — it moves only when you do — so it needs no reduced-motion pathway.",
     ],
   },
+  {
+    name: "listbox-roster",
+    type: "registry:ui",
+    title: "Listbox Roster",
+    description:
+      "An always-open multi-select — a roster you scan rather than a menu you poke. One highlight marker glides between rows as focus moves, ticking a row draws its check, and a running count keeps score.",
+    files: [{ path: "registry/ui/listbox-roster.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: { serial: "KQ-164" },
+    tagline: "A marker glides the roster; ticks draw in.",
+    keywords: ["listbox", "multi-select", "list", "selection", "roster"],
+    props: [
+      {
+        name: "options",
+        type: "ListOption[]",
+        description: "Each row has an id, a label, and an optional hint.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        description: "Controlled or initial selection.",
+      },
+      {
+        name: "onValueChange",
+        type: "(ids) => void",
+        description: "Fires the selected ids whenever they change.",
+      },
+    ],
+    usageNotes: [
+      "Follows the listbox pattern on a roving tabindex — Up and Down walk and wrap, Home and End jump, Space or Enter toggles, under aria-multiselectable.",
+      "The running count is announced politely.",
+      "Under reduced motion the marker and checks are placed without the glide or draw.",
+    ],
+  },
+  {
+    name: "tri-toggle",
+    type: "registry:ui",
+    title: "Tri Toggle",
+    description:
+      "A switch with a middle. One knob rides a three-stop track — off, a considered middle, on — gliding to the chosen stop on snap with a single crisp overshoot, keyed by a shared layoutId so the same knob travels rather than three knobs blinking.",
+    files: [{ path: "registry/ui/tri-toggle.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: { serial: "KQ-165" },
+    tagline: "A switch with a considered middle.",
+    keywords: ["toggle", "switch", "three-state", "tri-state", "selection"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "Controlled or initial position.",
+      },
+      {
+        name: "options",
+        type: "[TriOption, TriOption, TriOption]",
+        description: "Exactly three stops; defaults to off / auto / on.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "Renders a hidden native radio per stop so forms post the value.",
+      },
+    ],
+    usageNotes: [
+      "A radio group under the hood — a roving tabindex where Left and Right step without wrapping past the ends, Home and End jump to off and on, Space selects.",
+      "Exactly three positions; the knob glides between them on the snap spring.",
+      "Under reduced motion the knob swaps to its stop instantly, colour only.",
+    ],
+  },
 ];

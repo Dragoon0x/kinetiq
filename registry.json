@@ -4685,6 +4685,58 @@
       }
     },
     {
+      "name": "listbox-roster",
+      "type": "registry:ui",
+      "title": "Listbox Roster",
+      "description": "An always-open multi-select — a roster you scan rather than a menu you poke. One highlight marker glides between rows as focus moves, ticking a row draws its check, and a running count keeps score.",
+      "files": [
+        {
+          "path": "registry/ui/listbox-roster.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-164"
+      }
+    },
+    {
+      "name": "tri-toggle",
+      "type": "registry:ui",
+      "title": "Tri Toggle",
+      "description": "A switch with a middle. One knob rides a three-stop track — off, a considered middle, on — gliding to the chosen stop on snap with a single crisp overshoot, keyed by a shared layoutId so the same knob travels rather than three knobs blinking.",
+      "files": [
+        {
+          "path": "registry/ui/tri-toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-165"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

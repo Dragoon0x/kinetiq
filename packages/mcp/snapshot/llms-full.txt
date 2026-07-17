@@ -2813,6 +2813,40 @@ Notes:
 - Colour is never the only cue: every swatch carries a label, and the label is what assistive tech announces.
 - Under reduced motion the ring is simply there and the dim is a colour change; the first paint never animates.
 
+### Listbox Roster (KQ-164) — `listbox-roster`
+A marker glides the roster; ticks draw in.
+
+An always-open multi-select — a roster you scan rather than a menu you poke. One highlight marker glides between rows as focus moves, ticking a row draws its check, and a running count keeps score.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/listbox-roster`
+
+Props:
+- `options`: ListOption[] — Each row has an id, a label, and an optional hint.
+- `value / defaultValue`: string[] — Controlled or initial selection.
+- `onValueChange`: (ids) => void — Fires the selected ids whenever they change.
+
+Notes:
+- Follows the listbox pattern on a roving tabindex — Up and Down walk and wrap, Home and End jump, Space or Enter toggles, under aria-multiselectable.
+- The running count is announced politely.
+- Under reduced motion the marker and checks are placed without the glide or draw.
+
+### Tri Toggle (KQ-165) — `tri-toggle`
+A switch with a considered middle.
+
+A switch with a middle. One knob rides a three-stop track — off, a considered middle, on — gliding to the chosen stop on snap with a single crisp overshoot, keyed by a shared layoutId so the same knob travels rather than three knobs blinking.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tri-toggle`
+
+Props:
+- `value / defaultValue`: string — Controlled or initial position.
+- `options`: [TriOption, TriOption, TriOption] — Exactly three stops; defaults to off / auto / on.
+- `name`: string — Renders a hidden native radio per stop so forms post the value.
+
+Notes:
+- A radio group under the hood — a roving tabindex where Left and Right step without wrapping past the ends, Home and End jump to off and on, Space selects.
+- Exactly three positions; the knob glides between them on the snap spring.
+- Under reduced motion the knob swaps to its stop instantly, colour only.
+
 ### Skeleton Weave (KQ-166) — `skeleton-weave`
 The placeholder weaves, then hands over.
 

@@ -7,7 +7,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 177,
+      "components": 179,
       "blocks": 16,
       "shared": 6
     }
@@ -10222,6 +10222,122 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/swatch-lock",
         "bun": "bunx --bun shadcn@latest add @kinetiq/swatch-lock",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/swatch-lock.json"
+      }
+    },
+    {
+      "slug": "listbox-roster",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Listbox Roster",
+      "serial": "KQ-164",
+      "tagline": "A marker glides the roster; ticks draw in.",
+      "description": "An always-open multi-select — a roster you scan rather than a menu you poke. One highlight marker glides between rows as focus moves, ticking a row draws its check, and a running count keeps score.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "listbox",
+        "multi-select",
+        "list",
+        "selection",
+        "roster"
+      ],
+      "props": [
+        {
+          "name": "options",
+          "type": "ListOption[]",
+          "description": "Each row has an id, a label, and an optional hint."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string[]",
+          "description": "Controlled or initial selection."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(ids) => void",
+          "description": "Fires the selected ids whenever they change."
+        }
+      ],
+      "usageNotes": [
+        "Follows the listbox pattern on a roving tabindex — Up and Down walk and wrap, Home and End jump, Space or Enter toggles, under aria-multiselectable.",
+        "The running count is announced politely.",
+        "Under reduced motion the marker and checks are placed without the glide or draw."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/listbox-roster",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/listbox-roster.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/listbox-roster",
+        "npm": "npx shadcn@latest add @kinetiq/listbox-roster",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/listbox-roster",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/listbox-roster",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/listbox-roster.json"
+      }
+    },
+    {
+      "slug": "tri-toggle",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tri Toggle",
+      "serial": "KQ-165",
+      "tagline": "A switch with a considered middle.",
+      "description": "A switch with a middle. One knob rides a three-stop track — off, a considered middle, on — gliding to the chosen stop on snap with a single crisp overshoot, keyed by a shared layoutId so the same knob travels rather than three knobs blinking.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "toggle",
+        "switch",
+        "three-state",
+        "tri-state",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial position."
+        },
+        {
+          "name": "options",
+          "type": "[TriOption, TriOption, TriOption]",
+          "description": "Exactly three stops; defaults to off / auto / on."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Renders a hidden native radio per stop so forms post the value."
+        }
+      ],
+      "usageNotes": [
+        "A radio group under the hood — a roving tabindex where Left and Right step without wrapping past the ends, Home and End jump to off and on, Space selects.",
+        "Exactly three positions; the knob glides between them on the snap spring.",
+        "Under reduced motion the knob swaps to its stop instantly, colour only."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/tri-toggle",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/tri-toggle.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tri-toggle",
+        "npm": "npx shadcn@latest add @kinetiq/tri-toggle",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tri-toggle",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tri-toggle",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/tri-toggle.json"
       }
     },
     {
