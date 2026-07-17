@@ -182,6 +182,9 @@ import { SwatchLockDemo } from "@/registry/demos/swatch-lock.demo";
 import { SkeletonWeaveDemo } from "@/registry/demos/skeleton-weave.demo";
 import { StageProgressDemo } from "@/registry/demos/stage-progress.demo";
 import { AlertBarDemo } from "@/registry/demos/alert-bar.demo";
+import { StatusPipDemo } from "@/registry/demos/status-pip.demo";
+import { RetryPulseDemo } from "@/registry/demos/retry-pulse.demo";
+import { TypeOnDemo } from "@/registry/demos/type-on.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -370,4 +373,7 @@ export const demos: Record<string, ComponentType> = {
   "skeleton-weave": SkeletonWeaveDemo,
   "stage-progress": StageProgressDemo,
   "alert-bar": AlertBarDemo,
+  "status-pip": StatusPipDemo,
+  "retry-pulse": RetryPulseDemo,
+  "type-on": TypeOnDemo,
 };

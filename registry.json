@@ -4378,6 +4378,84 @@
       }
     },
     {
+      "name": "status-pip",
+      "type": "registry:ui",
+      "title": "Status Pip",
+      "description": "A presence dot that stays alive without shouting. Live states breathe a slow halo out and fade it; changing state morphs the dot's colour rather than cutting to it, and the status name always travels with the dot so colour is only ever a reinforcement.",
+      "files": [
+        {
+          "path": "registry/ui/status-pip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-169"
+      }
+    },
+    {
+      "name": "retry-pulse",
+      "type": "registry:ui",
+      "title": "Retry Pulse",
+      "description": "An action that carries its own outcome. Failing snaps the button sideways once, then offers the retry; retrying spins a bearing where the label was; succeeding stamps a check that draws itself and lands on the recoil spring — all through one slot, so the control never changes width.",
+      "files": [
+        {
+          "path": "registry/ui/retry-pulse.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-170"
+      }
+    },
+    {
+      "name": "type-on",
+      "type": "registry:ui",
+      "title": "Type On",
+      "description": "A line that types itself out behind a caret and un-types when it is replaced. One motion value holds the revealed length and the shown substring is derived from it, so the whole run costs a single render however long the line; swapping the text backspaces the old and types the new.",
+      "files": [
+        {
+          "path": "registry/ui/type-on.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-171"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

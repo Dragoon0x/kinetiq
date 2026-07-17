@@ -6654,4 +6654,115 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the row and its stripe are simply present or gone.",
     ],
   },
+  {
+    name: "status-pip",
+    type: "registry:ui",
+    title: "Status Pip",
+    description:
+      "A presence dot that stays alive without shouting. Live states breathe a slow halo out and fade it; changing state morphs the dot's colour rather than cutting to it, and the status name always travels with the dot so colour is only ever a reinforcement.",
+    files: [{ path: "registry/ui/status-pip.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["feedback"],
+    meta: { serial: "KQ-169" },
+    tagline: "Presence that breathes, and morphs its colour.",
+    keywords: ["status", "presence", "indicator", "dot", "pip", "feedback"],
+    props: [
+      {
+        name: "status",
+        type: '"online" | "away" | "busy" | "offline"',
+        description: "The current state; sets the colour and the announced name.",
+      },
+      {
+        name: "label",
+        type: "ReactNode",
+        description: "Visible text beside the dot; omit and the status name is read.",
+      },
+      {
+        name: "pulse",
+        type: "boolean",
+        description: "Force the halo on or off; defaults on for live states.",
+      },
+    ],
+    usageNotes: [
+      "Reports through a polite live region, so a change from Online to Busy is announced once.",
+      "Colour is always paired with the status name, never the only cue.",
+      "Under reduced motion the halo drops and the colour simply changes.",
+    ],
+  },
+  {
+    name: "retry-pulse",
+    type: "registry:ui",
+    title: "Retry Pulse",
+    description:
+      "An action that carries its own outcome. Failing snaps the button sideways once, then offers the retry; retrying spins a bearing where the label was; succeeding stamps a check that draws itself and lands on the recoil spring — all through one slot, so the control never changes width.",
+    files: [{ path: "registry/ui/retry-pulse.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["feedback"],
+    meta: { serial: "KQ-170" },
+    tagline: "Fail shakes, retry spins, success stamps.",
+    keywords: ["retry", "button", "loading", "error", "success", "feedback"],
+    props: [
+      {
+        name: "status",
+        type: '"idle" | "loading" | "success" | "error"',
+        description: "The controlled state driving the button.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Fired on activation while idle or errored.",
+      },
+      {
+        name: "label / retryLabel",
+        type: "string",
+        defaultValue: '"Submit" / "Retry"',
+        description: "The idle label and the errored label.",
+      },
+    ],
+    usageNotes: [
+      "Reports aria-busy while it works and each outcome through a polite live region, so the state is spoken.",
+      "The four states swap through one fixed slot, so the button never changes width under the cursor.",
+      "Under reduced motion the shake, spin, and draw drop; the icons are simply there.",
+    ],
+  },
+  {
+    name: "type-on",
+    type: "registry:ui",
+    title: "Type On",
+    description:
+      "A line that types itself out behind a caret and un-types when it is replaced. One motion value holds the revealed length and the shown substring is derived from it, so the whole run costs a single render however long the line; swapping the text backspaces the old and types the new.",
+    files: [{ path: "registry/ui/type-on.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["text"],
+    meta: { serial: "KQ-171" },
+    tagline: "Types itself out, un-types on the swap.",
+    keywords: ["typewriter", "typing", "caret", "text", "teletype"],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "The line to type; changing it de-types then re-types.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "26",
+        description: "Characters per second.",
+      },
+      {
+        name: "as / caret",
+        type: '"span" | "p" | "h2" | "h3" / boolean',
+        defaultValue: '"p" / true',
+        description: "The wrapper element and whether the caret blinks.",
+      },
+    ],
+    usageNotes: [
+      "The full line is always present for assistive tech and search; only the animated copy is aria-hidden, so a screen reader is never fed one character at a time.",
+      "The substring is derived off the motion value, so a long line never costs per-character renders.",
+      "Under reduced motion the whole line prints at once with a steady caret.",
+    ],
+  },
 ];
