@@ -3095,6 +3095,37 @@ Notes:
 - A fine-pointer instrument: on touch it steps aside and the content is left plain; the magnified copy is aria-hidden, so it is read once.
 - It has no ambient motion — it moves only when you do — so it needs no reduced-motion pathway.
 
+### Cursor Label (KQ-181) — `cursor-label`
+The cursor names what it is over.
+
+A cursor that says what a thing does. Inside the region it rides a small dot that trails the pointer; cross an element tagged with a verb and the dot morphs into a pill carrying that word, snapping back to a dot on the way out — the guidance lives with the element.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cursor-label`
+
+Props:
+- `children`: ReactNode — The region; tag any element with data-cursor="Verb".
+
+Notes:
+- The pill is decoration and aria-hidden; the real elements keep their own roles, focus, and hit areas.
+- A fine-pointer flourish — on touch the region renders plain.
+- Under reduced motion the pill tracks and morphs without the trailing spring.
+
+### Trail Ink (KQ-182) — `trail-ink`
+Ink that follows your hand, then dries.
+
+A brush that lays wet ink under the pointer and lets it dry away. Each sample is stamped with a birth time; the loop tapers every segment by how fast you were moving and fades it as it ages, so a fast flick leaves a thin quick line and a slow drag a heavier one, then the whole stroke dries to nothing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trail-ink`
+
+Props:
+- `height`: number (default 260) — Panel height in px.
+- `fade`: number (default 1.4) — Seconds a stroke takes to dry and fade.
+
+Notes:
+- A disciplined canvas: DPR capped at 2, ResizeObserver, IntersectionObserver + visibility gating, and it idle-stops the moment the last stroke has dried.
+- Colours are read from the theme and re-resolved on a light/dark flip.
+- Under reduced motion there is no drying loop — the pointer leaves a still mark and moves on.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

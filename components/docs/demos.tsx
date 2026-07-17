@@ -196,6 +196,8 @@ import { StickyStackDemo } from "@/registry/demos/sticky-stack.demo";
 import { CursorLensDemo } from "@/registry/demos/cursor-lens.demo";
 import { ListboxRosterDemo } from "@/registry/demos/listbox-roster.demo";
 import { TriToggleDemo } from "@/registry/demos/tri-toggle.demo";
+import { CursorLabelDemo } from "@/registry/demos/cursor-label.demo";
+import { TrailInkDemo } from "@/registry/demos/trail-ink.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -398,4 +400,6 @@ export const demos: Record<string, ComponentType> = {
   "cursor-lens": CursorLensDemo,
   "listbox-roster": ListboxRosterDemo,
   "tri-toggle": TriToggleDemo,
+  "cursor-label": CursorLabelDemo,
+  "trail-ink": TrailInkDemo,
 };

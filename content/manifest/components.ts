@@ -7133,4 +7133,63 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the knob swaps to its stop instantly, colour only.",
     ],
   },
+  {
+    name: "cursor-label",
+    type: "registry:ui",
+    title: "Cursor Label",
+    description:
+      "A cursor that says what a thing does. Inside the region it rides a small dot that trails the pointer; cross an element tagged with a verb and the dot morphs into a pill carrying that word, snapping back to a dot on the way out — the guidance lives with the element.",
+    files: [{ path: "registry/ui/cursor-label.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "use-pointer-tilt"],
+    categories: ["cursor"],
+    meta: { serial: "KQ-181" },
+    tagline: "The cursor names what it is over.",
+    keywords: ["cursor", "label", "pill", "hover", "hint", "pointer"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The region; tag any element with data-cursor=\"Verb\".",
+      },
+    ],
+    usageNotes: [
+      "The pill is decoration and aria-hidden; the real elements keep their own roles, focus, and hit areas.",
+      "A fine-pointer flourish — on touch the region renders plain.",
+      "Under reduced motion the pill tracks and morphs without the trailing spring.",
+    ],
+  },
+  {
+    name: "trail-ink",
+    type: "registry:ui",
+    title: "Trail Ink",
+    description:
+      "A brush that lays wet ink under the pointer and lets it dry away. Each sample is stamped with a birth time; the loop tapers every segment by how fast you were moving and fades it as it ages, so a fast flick leaves a thin quick line and a slow drag a heavier one, then the whole stroke dries to nothing.",
+    files: [{ path: "registry/ui/trail-ink.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "use-motion-safe"],
+    categories: ["cursor"],
+    meta: { serial: "KQ-182" },
+    tagline: "Ink that follows your hand, then dries.",
+    keywords: ["cursor", "ink", "brush", "trail", "canvas", "stroke"],
+    props: [
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "260",
+        description: "Panel height in px.",
+      },
+      {
+        name: "fade",
+        type: "number",
+        defaultValue: "1.4",
+        description: "Seconds a stroke takes to dry and fade.",
+      },
+    ],
+    usageNotes: [
+      "A disciplined canvas: DPR capped at 2, ResizeObserver, IntersectionObserver + visibility gating, and it idle-stops the moment the last stroke has dried.",
+      "Colours are read from the theme and re-resolved on a light/dark flip.",
+      "Under reduced motion there is no drying loop — the pointer leaves a still mark and moves on.",
+    ],
+  },
 ];

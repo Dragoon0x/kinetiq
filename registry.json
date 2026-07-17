@@ -4737,6 +4737,58 @@
       }
     },
     {
+      "name": "cursor-label",
+      "type": "registry:ui",
+      "title": "Cursor Label",
+      "description": "A cursor that says what a thing does. Inside the region it rides a small dot that trails the pointer; cross an element tagged with a verb and the dot morphs into a pill carrying that word, snapping back to a dot on the way out — the guidance lives with the element.",
+      "files": [
+        {
+          "path": "registry/ui/cursor-label.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/use-pointer-tilt.json"
+      ],
+      "categories": [
+        "cursor"
+      ],
+      "meta": {
+        "serial": "KQ-181"
+      }
+    },
+    {
+      "name": "trail-ink",
+      "type": "registry:ui",
+      "title": "Trail Ink",
+      "description": "A brush that lays wet ink under the pointer and lets it dry away. Each sample is stamped with a birth time; the loop tapers every segment by how fast you were moving and fades it as it ages, so a fast flick leaves a thin quick line and a slow drag a heavier one, then the whole stroke dries to nothing.",
+      "files": [
+        {
+          "path": "registry/ui/trail-ink.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "cursor"
+      ],
+      "meta": {
+        "serial": "KQ-182"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
