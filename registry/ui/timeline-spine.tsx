@@ -149,7 +149,8 @@ function TimelineRow({
   const lit = useTransform(fill, [lo, at], [0, 1]);
   const dotBackground = useTransform(
     lit,
-    (value) => `color-mix(in oklch, var(--signal) ${value * 100}%, var(--surface-2))`,
+    (value) =>
+      `color-mix(in oklch, var(--signal) ${value * 100}%, var(--color-surface-2))`,
   );
   const dotScale = useTransform(lit, [0, 1], [0.82, 1]);
   const dotGlow = useTransform(
