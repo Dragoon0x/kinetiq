@@ -14,8 +14,12 @@ const OPTIONS: ForecastOption[] = [
   { id: "plumb-meter", label: "Plumb Meter", votes: 7 },
 ];
 
-/** Evaluated once per load — the market closes a week out. */
-const CLOSES_AT = new Date(Date.now() + 7 * 86_400_000);
+/**
+ * Fixed epoch (never Date.now()) so the label is identical in the prerendered
+ * HTML and after hydration — a clock read here bakes the build date into the
+ * server pass and drifts further from the client's every day the build ages.
+ */
+const CLOSES_AT = new Date(Date.UTC(2027, 0, 15));
 
 export function ForecastCardDemo() {
   // Remounting with a fresh key is the documented reset for the

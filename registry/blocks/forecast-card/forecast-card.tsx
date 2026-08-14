@@ -55,17 +55,26 @@ const MONTHS = [
   "DEC",
 ] as const;
 
-/** Read once at module scope — render stays pure, SSR and client agree. */
-const CURRENT_YEAR = new Date().getFullYear();
+/**
+ * Read once at module scope, in UTC. The prerendered server pass and the
+ * client pass evaluate this module at different instants and in different
+ * timezones, so a local-time read would drift the label between them and
+ * mismatch on hydration.
+ */
+const CURRENT_YEAR = new Date().getUTCFullYear();
 
-/** "JUL 15", with the year appended only when it isn't this year. */
+/**
+ * "JUL 15", with the year appended only when it isn't this year. Formatted in
+ * UTC so one date renders one label everywhere — a local-time read shifts the
+ * day across the server/viewer timezone gap and mismatches on hydration.
+ */
 function formatCloses(value: string | Date): string {
   const date = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(date.getTime())) return typeof value === "string" ? value : "";
-  const label = `${MONTHS[date.getMonth()] ?? ""} ${date.getDate()}`;
-  return date.getFullYear() === CURRENT_YEAR
+  const label = `${MONTHS[date.getUTCMonth()] ?? ""} ${date.getUTCDate()}`;
+  return date.getUTCFullYear() === CURRENT_YEAR
     ? label
-    : `${label} ${date.getFullYear()}`;
+    : `${label} ${date.getUTCFullYear()}`;
 }
 
 const formatPercent = (value: number): string => `${value}%`;
