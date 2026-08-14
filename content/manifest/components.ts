@@ -8217,4 +8217,118 @@ export const components: KinetiqItem[] = [
       "Under reduced motion it paints one settled comb of trails.",
     ],
   },
+  {
+    name: "volley-thread",
+    type: "registry:ui",
+    title: "Volley Thread",
+    description:
+      "A conversation where each turn arrives under its own weight. A message enters from the side that owns it, rides in on the glide spring, and settles; consecutive turns from one speaker stagger against each other on the cascade budget, so a burst reads as a run of thought rather than a dump. Speaker is carried three ways — the side it sits on, a mono label above each run, and a screen-reader name on every bubble — never by colour alone.",
+    files: [{ path: "registry/ui/volley-thread.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: { serial: "KQ-211" },
+    tagline: "Each turn lands under its own weight.",
+    keywords: ["chat", "thread", "conversation", "message", "agent", "transcript"],
+    props: [
+      {
+        name: "messages",
+        type: "VolleyMessage[]",
+        description: "Turns to render, each with an id, a role, and content.",
+      },
+      {
+        name: "pending",
+        type: "ReactNode",
+        description: "Held open at the foot of the thread while a reply forms.",
+      },
+      {
+        name: "follow",
+        type: "boolean",
+        description: "Follow the newest message as it lands.",
+      },
+    ],
+    usageNotes: [
+      "Runs of one speaker stagger on the cascade budget; a change of speaker restarts it.",
+      "The list is a log with polite live semantics, so additions announce without taking focus.",
+      "Under reduced motion the travel is dropped and turns resolve in place.",
+    ],
+  },
+  {
+    name: "prompt-well",
+    type: "registry:ui",
+    title: "Prompt Well",
+    description:
+      "A composer that deepens as the thought gets longer, growing line by line to a row cap and then holding and scrolling so the send control never walks down the page. Typing @ opens the sources it can draw on and / opens the commands it can run, filtered as you type; the list rises on snap, arrow keys move, Enter or Tab takes one. The field is a combobox over that list with an active descendant, so the highlighted row is announced without the caret leaving the text.",
+    files: [{ path: "registry/ui/prompt-well.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: { serial: "KQ-212" },
+    tagline: "Deepens as the thought gets longer.",
+    keywords: ["prompt", "composer", "textarea", "mention", "command", "agent"],
+    props: [
+      {
+        name: "sources",
+        type: "WellOption[]",
+        description: "Offered after @, anywhere a word can start.",
+      },
+      {
+        name: "commands",
+        type: "WellOption[]",
+        description: "Offered after /, and only when it leads the prompt.",
+      },
+      {
+        name: "busy",
+        type: "boolean",
+        description: "Swaps send for stop and blocks submission.",
+      },
+      {
+        name: "maxRows",
+        type: "number",
+        description: "Rows the well grows to before it scrolls.",
+      },
+    ],
+    usageNotes: [
+      "A trigger only counts at the start of a word and a space closes it, so prose never opens the list.",
+      "Enter sends and Shift+Enter breaks the line; Escape dismisses the list without clearing the field.",
+      "Under reduced motion the list appears in place and the control swaps without travel.",
+    ],
+  },
+  {
+    name: "code-lathe",
+    type: "registry:ui",
+    title: "Code Lathe",
+    description:
+      "A listing turned out line by line, the way an agent actually writes one — each line landing a beat behind the one above so the block builds at a readable pace instead of appearing whole. Highlighting is a single deterministic pass over comments, strings, numbers, and words: enough to read a snippet by, with no parser and nothing to load. In diff mode a leading plus or minus becomes a gutter marker and a tinted row, and is stripped from what gets copied.",
+    files: [{ path: "registry/ui/code-lathe.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: { serial: "KQ-213" },
+    tagline: "Turned out one line at a time.",
+    keywords: ["code", "syntax", "diff", "stream", "snippet", "agent"],
+    props: [
+      { name: "code", type: "string", description: "The source to display." },
+      {
+        name: "stream",
+        type: "boolean",
+        description: "Turn the listing out line by line instead of whole.",
+      },
+      {
+        name: "diff",
+        type: "boolean",
+        description: "Read a leading +/- as an edit and mark the gutter.",
+      },
+      {
+        name: "perLine",
+        type: "number",
+        description: "Seconds per line while streaming.",
+      },
+    ],
+    usageNotes: [
+      "Every line is in the DOM from the first frame and only dimmed while it waits, so copy and screen readers always see the whole source.",
+      "Highlighting is regex-only and language-agnostic; it never ships a grammar or a worker.",
+      "Under reduced motion the listing is simply there, complete and still.",
+    ],
+  },
 ];

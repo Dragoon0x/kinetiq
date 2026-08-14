@@ -5505,6 +5505,84 @@
       }
     },
     {
+      "name": "volley-thread",
+      "type": "registry:ui",
+      "title": "Volley Thread",
+      "description": "A conversation where each turn arrives under its own weight. A message enters from the side that owns it, rides in on the glide spring, and settles; consecutive turns from one speaker stagger against each other on the cascade budget, so a burst reads as a run of thought rather than a dump. Speaker is carried three ways — the side it sits on, a mono label above each run, and a screen-reader name on every bubble — never by colour alone.",
+      "files": [
+        {
+          "path": "registry/ui/volley-thread.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-211"
+      }
+    },
+    {
+      "name": "prompt-well",
+      "type": "registry:ui",
+      "title": "Prompt Well",
+      "description": "A composer that deepens as the thought gets longer, growing line by line to a row cap and then holding and scrolling so the send control never walks down the page. Typing @ opens the sources it can draw on and / opens the commands it can run, filtered as you type; the list rises on snap, arrow keys move, Enter or Tab takes one. The field is a combobox over that list with an active descendant, so the highlighted row is announced without the caret leaving the text.",
+      "files": [
+        {
+          "path": "registry/ui/prompt-well.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-212"
+      }
+    },
+    {
+      "name": "code-lathe",
+      "type": "registry:ui",
+      "title": "Code Lathe",
+      "description": "A listing turned out line by line, the way an agent actually writes one — each line landing a beat behind the one above so the block builds at a readable pace instead of appearing whole. Highlighting is a single deterministic pass over comments, strings, numbers, and words: enough to read a snippet by, with no parser and nothing to load. In diff mode a leading plus or minus becomes a gutter marker and a tinted row, and is stripped from what gets copied.",
+      "files": [
+        {
+          "path": "registry/ui/code-lathe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-213"
+      }
+    },
+    {
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

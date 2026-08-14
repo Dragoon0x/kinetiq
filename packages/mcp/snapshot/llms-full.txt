@@ -3607,6 +3607,59 @@ Notes:
 - A sim-time clock advances only while running, so pauses never jump the field.
 - Under reduced motion it paints one settled comb of trails.
 
+### Volley Thread (KQ-211) — `volley-thread`
+Each turn lands under its own weight.
+
+A conversation where each turn arrives under its own weight. A message enters from the side that owns it, rides in on the glide spring, and settles; consecutive turns from one speaker stagger against each other on the cascade budget, so a burst reads as a run of thought rather than a dump. Speaker is carried three ways — the side it sits on, a mono label above each run, and a screen-reader name on every bubble — never by colour alone.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/volley-thread`
+
+Props:
+- `messages`: VolleyMessage[] — Turns to render, each with an id, a role, and content.
+- `pending`: ReactNode — Held open at the foot of the thread while a reply forms.
+- `follow`: boolean — Follow the newest message as it lands.
+
+Notes:
+- Runs of one speaker stagger on the cascade budget; a change of speaker restarts it.
+- The list is a log with polite live semantics, so additions announce without taking focus.
+- Under reduced motion the travel is dropped and turns resolve in place.
+
+### Prompt Well (KQ-212) — `prompt-well`
+Deepens as the thought gets longer.
+
+A composer that deepens as the thought gets longer, growing line by line to a row cap and then holding and scrolling so the send control never walks down the page. Typing @ opens the sources it can draw on and / opens the commands it can run, filtered as you type; the list rises on snap, arrow keys move, Enter or Tab takes one. The field is a combobox over that list with an active descendant, so the highlighted row is announced without the caret leaving the text.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/prompt-well`
+
+Props:
+- `sources`: WellOption[] — Offered after @, anywhere a word can start.
+- `commands`: WellOption[] — Offered after /, and only when it leads the prompt.
+- `busy`: boolean — Swaps send for stop and blocks submission.
+- `maxRows`: number — Rows the well grows to before it scrolls.
+
+Notes:
+- A trigger only counts at the start of a word and a space closes it, so prose never opens the list.
+- Enter sends and Shift+Enter breaks the line; Escape dismisses the list without clearing the field.
+- Under reduced motion the list appears in place and the control swaps without travel.
+
+### Code Lathe (KQ-213) — `code-lathe`
+Turned out one line at a time.
+
+A listing turned out line by line, the way an agent actually writes one — each line landing a beat behind the one above so the block builds at a readable pace instead of appearing whole. Highlighting is a single deterministic pass over comments, strings, numbers, and words: enough to read a snippet by, with no parser and nothing to load. In diff mode a leading plus or minus becomes a gutter marker and a tinted row, and is stripped from what gets copied.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/code-lathe`
+
+Props:
+- `code`: string — The source to display.
+- `stream`: boolean — Turn the listing out line by line instead of whole.
+- `diff`: boolean — Read a leading +/- as an edit and mark the gutter.
+- `perLine`: number — Seconds per line while streaming.
+
+Notes:
+- Every line is in the DOM from the first frame and only dimmed while it waits, so copy and screen readers always see the whole source.
+- Highlighting is regex-only and language-agnostic; it never ships a grammar or a worker.
+- Under reduced motion the listing is simply there, complete and still.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

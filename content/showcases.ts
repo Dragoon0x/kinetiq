@@ -95,6 +95,14 @@ export const SHOWCASES: Showcase[] = [
     closing: "Confirmation is a physical event.",
   },
   {
+    slug: "agent",
+    headline: "Watch the machine work.",
+    deck: "Turns, prompts, and edits that arrive with weight — so you can see what was done, and step in before it lands.",
+    hero: { slug: "volley-thread", mode: "stage" },
+    leads: ["prompt-well", "code-lathe"],
+    closing: "Legible work beats a spinner.",
+  },
+  {
     slug: "layout",
     headline: "Structure that rearranges itself.",
     deck: "Disclosure, grids, and shells that reflow on the glide instead of jumping.",

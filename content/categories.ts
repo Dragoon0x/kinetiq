@@ -18,6 +18,7 @@ export type CategorySlug =
   | "overlays"
   | "data"
   | "feedback"
+  | "agent"
   | "layout"
   | "motion"
   | "text"
@@ -70,6 +71,12 @@ export const CATEGORIES: Category[] = [
     label: "Feedback",
     blurb:
       "Status in motion — toasts, loaders, and seals that confirm what just happened.",
+  },
+  {
+    slug: "agent",
+    label: "Agent",
+    blurb:
+      "Surfaces for machines that work — turns, prompts, traces, and edits you can watch land.",
   },
   {
     slug: "layout",

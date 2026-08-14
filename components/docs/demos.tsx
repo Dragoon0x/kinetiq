@@ -226,6 +226,9 @@ import { TagFieldDemo } from "@/registry/demos/tag-field.demo";
 import { GradientDriftDemo } from "@/registry/demos/gradient-drift.demo";
 import { ParticleNetworkDemo } from "@/registry/demos/particle-network.demo";
 import { FlowFieldDemo } from "@/registry/demos/flow-field.demo";
+import { CodeLatheDemo } from "@/registry/demos/code-lathe.demo";
+import { PromptWellDemo } from "@/registry/demos/prompt-well.demo";
+import { VolleyThreadDemo } from "@/registry/demos/volley-thread.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -450,6 +453,9 @@ export const demos: Record<string, ComponentType> = {
   "pagination-rail": PaginationRailDemo,
   "stepper-flow": StepperFlowDemo,
   "newton-cradle": NewtonCradleDemo,
+  "volley-thread": VolleyThreadDemo,
+  "prompt-well": PromptWellDemo,
+  "code-lathe": CodeLatheDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,
