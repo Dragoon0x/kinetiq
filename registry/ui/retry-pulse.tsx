@@ -127,7 +127,17 @@ export function RetryPulse({
                   strokeWidth={2}
                   strokeLinecap="round"
                   animate={motionSafe ? { rotate: 360 } : undefined}
-                  style={{ transformOrigin: "8px 8px" }}
+                  // The spin must turn about the ring's centre, which needs both
+                  // keys: motion replaces a plain transformOrigin with
+                  // "50% 50%" on SVG children (only "origin*" keys survive), and
+                  // without an explicit box it measures from the arc's own
+                  // bounding box. Left alone the arc turned about (11, 5) — it
+                  // scythed off the track ring and clipped the 16×16 corners.
+                  style={{
+                    transformBox: "view-box",
+                    originX: "8px",
+                    originY: "8px",
+                  }}
                   transition={{ duration: 0.8, ease: easings.linear, repeat: Infinity }}
                 />
               </motion.svg>

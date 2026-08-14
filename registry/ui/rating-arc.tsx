@@ -227,11 +227,22 @@ export function RatingArc({
             {/* The thumb rides a group rotated about the dial's centre, so it
                 travels the curve instead of cutting the chord an x/y tween
                 would. `transform-box: view-box` resolves the origin in viewBox
-                units, so it stays true at any rendered size. */}
+                units, so it stays true at any rendered size.
+
+                The origin must go through originX/originY: motion rebuilds
+                transform-origin for SVG children from its own animated values,
+                and only keys beginning "origin" survive that pass — a plain
+                transformOrigin is replaced with "50% 50%". That put the pivot
+                at the viewBox centre (110, 72.5), shrinking the thumb's sweep
+                radius from 88 to 60.5 so it left the track by up to 45 units
+                while the tick dots stayed put. It also broke the drag: scoreAt
+                and pointAt map the pointer onto the true arc, so the handle
+                trailed that far behind the cursor. */}
             <motion.g
               style={{
                 rotate: phi,
-                transformOrigin: `${CX}px ${CY}px`,
+                originX: `${CX}px`,
+                originY: `${CY}px`,
                 transformBox: "view-box",
               }}
             >

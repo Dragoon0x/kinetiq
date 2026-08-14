@@ -124,7 +124,14 @@ export function DonutBreakdown({
                 style={{
                   rotate: arc.startDeg,
                   transformBox: "view-box",
-                  transformOrigin: `${CX}px ${CY}px`,
+                  // Motion drops a plain transformOrigin on SVG children and
+                  // substitutes "50% 50%", which here happens to land on the
+                  // dial centre — correct only while the viewBox stays square
+                  // around it. Stated through originX/originY it is actually
+                  // honoured, so moving CX/CY or the viewBox can't silently
+                  // knock every arc off its centre.
+                  originX: `${CX}px`,
+                  originY: `${CY}px`,
                 }}
                 initial={motionSafe ? { pathLength: 0 } : { pathLength: arc.frac }}
                 animate={{ pathLength: arc.frac }}

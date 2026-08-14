@@ -138,7 +138,15 @@ function GaugeDial({ gauge, motionSafe }: { gauge: Gauge; motionSafe: boolean })
           style={{
             rotate,
             transformBox: "view-box",
-            transformOrigin: `${CX}px ${CY}px`,
+            // originX/originY, never transformOrigin: motion rebuilds
+            // transform-origin for SVG children from its own animated values and
+            // replaces anything the style prop asks for with "50% 50%". Only
+            // keys beginning "origin" are carried through. Left as
+            // transformOrigin the needle pivoted at the viewBox centre (50, 41)
+            // — nine units above its hub, swinging the tail 16 units clear of
+            // the cap and pushing the tip outside the box at low values.
+            originX: `${CX}px`,
+            originY: `${CY}px`,
           }}
         />
         <circle cx={CX} cy={CY} r="4" fill="var(--ink)" />
