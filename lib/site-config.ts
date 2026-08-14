@@ -25,6 +25,23 @@ const resolveSiteUrl = () => {
   return CANONICAL_ORIGIN;
 };
 
+/**
+ * The person behind the library. Single source of truth — the footer, the page
+ * metadata, the OG/X card, the registry index, and every published registry
+ * artifact all read from here, so the credit can never drift between surfaces.
+ */
+export const author = {
+  name: "Dragoon",
+  handle: "0xDragoon",
+  /** The X handle, in the @form the card metadata expects. */
+  x: "@0xDragoonLab",
+  url: "https://x.com/0xDragoonLab",
+  role: "Maker, founder, and builder",
+} as const;
+
+/** `Name (handle) <url>` — the form registry consumers and npm both expect. */
+export const authorCredit = `${author.name} (${author.handle}) <${author.url}>`;
+
 export const siteConfig = {
   name: "Kinetiq",
   tagline: "Motion, calibrated.",

@@ -32,3 +32,11 @@ pnpm test:e2e   # Playwright suite
   registry, search, OG images, and `llms.txt`.
 - `app/` — the documentation site.
 - `scripts/` — registry/source/search build pipeline.
+
+## Maker
+
+Built by **Dragoon** (`0xDragoon`) — maker, founder, and builder.
+
+[x.com/0xDragoonLab](https://x.com/0xDragoonLab)
+
+Released under the [MIT License](./LICENSE).

@@ -2,8 +2,10 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "kinetiq",
   "homepage": "https://kinetiqui.vercel.app",
+  "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
   "items": [
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "pressure-button",
       "type": "registry:ui",
       "title": "Pressure Button",
@@ -30,6 +32,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "trace-input",
       "type": "registry:ui",
       "title": "Trace Input",
@@ -56,6 +59,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
@@ -82,6 +86,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "breaker-switch",
       "type": "registry:ui",
       "title": "Breaker Switch",
@@ -108,6 +113,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "caliper-slider",
       "type": "registry:ui",
       "title": "Caliper Slider",
@@ -134,6 +140,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "drawer-accordion",
       "type": "registry:ui",
       "title": "Drawer Accordion",
@@ -160,6 +167,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "gantry-tabs",
       "type": "registry:ui",
       "title": "Gantry Tabs",
@@ -186,6 +194,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "select",
       "type": "registry:ui",
       "title": "Select",
@@ -212,6 +221,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "morph-dialog",
       "type": "registry:ui",
       "title": "Morph Dialog",
@@ -238,6 +248,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "telemetry-toast",
       "type": "registry:ui",
       "title": "Telemetry Toast",
@@ -264,6 +275,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "readout",
       "type": "registry:ui",
       "title": "Readout",
@@ -290,6 +302,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "focus-text",
       "type": "registry:ui",
       "title": "Focus Text",
@@ -316,6 +329,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "scope-scrubber",
       "type": "registry:ui",
       "title": "Scope Scrubber",
@@ -343,6 +357,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "gyro-card",
       "type": "registry:ui",
       "title": "Gyro Card",
@@ -369,6 +384,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "flapboard",
       "type": "registry:ui",
       "title": "Flapboard",
@@ -396,6 +412,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "metronome-loader",
       "type": "registry:ui",
       "title": "Metronome Loader",
@@ -422,6 +439,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "ticker-tape",
       "type": "registry:ui",
       "title": "Ticker Tape",
@@ -448,6 +466,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "scan-reveal",
       "type": "registry:ui",
       "title": "Scan Reveal",
@@ -475,6 +494,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "radio-group",
       "type": "registry:ui",
       "title": "Radio Group",
@@ -501,6 +521,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "code-cells",
       "type": "registry:ui",
       "title": "Code Cells",
@@ -528,6 +549,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "action-relay",
       "type": "registry:ui",
       "title": "Action Relay",
@@ -554,6 +576,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "status-seal",
       "type": "registry:ui",
       "title": "Status Seal",
@@ -582,6 +605,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "slipstream",
       "type": "registry:ui",
       "title": "Slipstream",
@@ -608,6 +632,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "drawer",
       "type": "registry:ui",
       "title": "Drawer",
@@ -634,6 +659,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "bottom-sheet",
       "type": "registry:ui",
       "title": "Bottom Sheet",
@@ -660,6 +686,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "ledger",
       "type": "registry:ui",
       "title": "Ledger",
@@ -687,6 +714,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "zoetrope",
       "type": "registry:ui",
       "title": "Zoetrope",
@@ -713,6 +741,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "flux-canvas",
       "type": "registry:ui",
       "title": "Flux Canvas",
@@ -736,6 +765,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "wavefield",
       "type": "registry:ui",
       "title": "Wavefield",
@@ -759,6 +789,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "phase-switch",
       "type": "registry:ui",
       "title": "Phase Switch",
@@ -785,6 +816,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "cipher-text",
       "type": "registry:ui",
       "title": "Cipher Text",
@@ -811,6 +843,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "magnet-dock",
       "type": "registry:ui",
       "title": "Magnet Dock",
@@ -837,6 +870,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "conveyor-list",
       "type": "registry:ui",
       "title": "Conveyor List",
@@ -863,6 +897,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "callout",
       "type": "registry:ui",
       "title": "Callout",
@@ -889,6 +924,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "kinetic-gallery",
       "type": "registry:ui",
       "title": "Kinetic Gallery",
@@ -916,6 +952,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "tile-grid",
       "type": "registry:ui",
       "title": "Tile Grid",
@@ -942,6 +979,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "segmented-control",
       "type": "registry:ui",
       "title": "Segmented Control",
@@ -968,6 +1006,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "triage-deck",
       "type": "registry:ui",
       "title": "Triage Deck",
@@ -995,6 +1034,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "spark-chart",
       "type": "registry:ui",
       "title": "Spark Chart",
@@ -1021,6 +1061,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "radial-bars",
       "type": "registry:ui",
       "title": "Radial Bars",
@@ -1047,6 +1088,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "coverflow",
       "type": "registry:ui",
       "title": "Coverflow",
@@ -1073,6 +1115,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "parallax-scene",
       "type": "registry:ui",
       "title": "Parallax Scene",
@@ -1099,6 +1142,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "tether-rope",
       "type": "registry:ui",
       "title": "Tether Rope",
@@ -1121,6 +1165,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "pendulum-wave",
       "type": "registry:ui",
       "title": "Pendulum Wave",
@@ -1143,6 +1188,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "rubber-sheet",
       "type": "registry:ui",
       "title": "Rubber Sheet",
@@ -1169,6 +1215,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "iron-filings",
       "type": "registry:ui",
       "title": "Iron Filings",
@@ -1191,6 +1238,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "swarm-field",
       "type": "registry:ui",
       "title": "Swarm Field",
@@ -1213,6 +1261,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "magnetic-cursor",
       "type": "registry:ui",
       "title": "Magnetic Cursor",
@@ -1239,6 +1288,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "aurora-ribbon",
       "type": "registry:ui",
       "title": "Aurora Ribbon",
@@ -1261,6 +1311,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "point-globe",
       "type": "registry:ui",
       "title": "Point Globe",
@@ -1283,6 +1334,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "voronoi-shatter",
       "type": "registry:ui",
       "title": "Voronoi Shatter",
@@ -1309,6 +1361,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "comet-cursor",
       "type": "registry:ui",
       "title": "Comet Cursor",
@@ -1331,6 +1384,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "ripple-surface",
       "type": "registry:ui",
       "title": "Ripple Surface",
@@ -1353,6 +1407,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "flow-diagram",
       "type": "registry:ui",
       "title": "Flow Diagram",
@@ -1379,6 +1434,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "timeline-spine",
       "type": "registry:ui",
       "title": "Timeline Spine",
@@ -1405,6 +1461,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "pull-to-refresh",
       "type": "registry:ui",
       "title": "Pull to Refresh",
@@ -1431,6 +1488,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "orbit-menu",
       "type": "registry:ui",
       "title": "Orbit Menu",
@@ -1457,6 +1515,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "spark-burst",
       "type": "registry:ui",
       "title": "Spark Burst",
@@ -1483,6 +1542,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "heart-tap",
       "type": "registry:ui",
       "title": "Heart Tap",
@@ -1509,6 +1569,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "reaction-fly",
       "type": "registry:ui",
       "title": "Reaction Fly",
@@ -1535,6 +1596,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "facet-cube",
       "type": "registry:ui",
       "title": "Facet Cube",
@@ -1562,6 +1624,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "prism-flip",
       "type": "registry:ui",
       "title": "Prism Flip",
@@ -1589,6 +1652,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "coin-toggle",
       "type": "registry:ui",
       "title": "Coin Toggle",
@@ -1616,6 +1680,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "dice-roll",
       "type": "registry:ui",
       "title": "Dice Roll",
@@ -1643,6 +1708,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "gimbal-dial",
       "type": "registry:ui",
       "title": "Gimbal Dial",
@@ -1670,6 +1736,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "rolodex-list",
       "type": "registry:ui",
       "title": "Rolodex List",
@@ -1697,6 +1764,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "wheel-picker",
       "type": "registry:ui",
       "title": "Wheel Picker",
@@ -1724,6 +1792,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "flip-mosaic",
       "type": "registry:ui",
       "title": "Flip Mosaic",
@@ -1751,6 +1820,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "orrery",
       "type": "registry:ui",
       "title": "Orrery",
@@ -1778,6 +1848,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "balance-mobile",
       "type": "registry:ui",
       "title": "Balance Mobile",
@@ -1805,6 +1876,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "ring-dial",
       "type": "registry:ui",
       "title": "Ring Dial",
@@ -1832,6 +1904,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "z-accordion",
       "type": "registry:ui",
       "title": "Z Accordion",
@@ -1859,6 +1932,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "depth-menu",
       "type": "registry:ui",
       "title": "Depth Menu",
@@ -1886,6 +1960,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "stage-tabs",
       "type": "registry:ui",
       "title": "Stage Tabs",
@@ -1913,6 +1988,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "card-fan",
       "type": "registry:ui",
       "title": "Card Fan",
@@ -1940,6 +2016,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "hallway-menu",
       "type": "registry:ui",
       "title": "Hallway Menu",
@@ -1967,6 +2044,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "deck-switcher",
       "type": "registry:ui",
       "title": "Deck Switcher",
@@ -1994,6 +2072,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "flyover-map",
       "type": "registry:ui",
       "title": "Flyover Map",
@@ -2021,6 +2100,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "gate-stepper",
       "type": "registry:ui",
       "title": "Gate Stepper",
@@ -2048,6 +2128,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "hinge-nav",
       "type": "registry:ui",
       "title": "Hinge Nav",
@@ -2075,6 +2156,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "depth-stack",
       "type": "registry:ui",
       "title": "Depth Stack",
@@ -2102,6 +2184,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "peek-portal",
       "type": "registry:ui",
       "title": "Peek Portal",
@@ -2130,6 +2213,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "strata-scroll",
       "type": "registry:ui",
       "title": "Strata Scroll",
@@ -2157,6 +2241,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "hover-relief",
       "type": "registry:ui",
       "title": "Hover Relief",
@@ -2185,6 +2270,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "focus-rack",
       "type": "registry:ui",
       "title": "Focus Rack",
@@ -2211,6 +2297,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "layer-peel",
       "type": "registry:ui",
       "title": "Layer Peel",
@@ -2238,6 +2325,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "slice-compare",
       "type": "registry:ui",
       "title": "Slice Compare",
@@ -2265,6 +2353,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "depth-lens",
       "type": "registry:ui",
       "title": "Depth Lens",
@@ -2293,6 +2382,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "altitude-list",
       "type": "registry:ui",
       "title": "Altitude List",
@@ -2320,6 +2410,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "horizon-rise",
       "type": "registry:ui",
       "title": "Horizon Rise",
@@ -2347,6 +2438,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "glass-pane",
       "type": "registry:ui",
       "title": "Glass Pane",
@@ -2374,6 +2466,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "foil-card",
       "type": "registry:ui",
       "title": "Foil Card",
@@ -2401,6 +2494,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "slat-wall",
       "type": "registry:ui",
       "title": "Slat Wall",
@@ -2428,6 +2522,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "fold-out",
       "type": "registry:ui",
       "title": "Fold Out",
@@ -2455,6 +2550,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "curtain-lift",
       "type": "registry:ui",
       "title": "Curtain Lift",
@@ -2481,6 +2577,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "mirror-hall",
       "type": "registry:ui",
       "title": "Mirror Hall",
@@ -2508,6 +2605,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "height-field",
       "type": "registry:ui",
       "title": "Height Field",
@@ -2532,6 +2630,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "frost-wipe",
       "type": "registry:ui",
       "title": "Frost Wipe",
@@ -2556,6 +2655,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "crumple-sheet",
       "type": "registry:ui",
       "title": "Crumple Sheet",
@@ -2583,6 +2683,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "lenticular-card",
       "type": "registry:ui",
       "title": "Lenticular Card",
@@ -2611,6 +2712,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vanish-type",
       "type": "registry:ui",
       "title": "Vanish Type",
@@ -2638,6 +2740,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "extrude-title",
       "type": "registry:ui",
       "title": "Extrude Title",
@@ -2666,6 +2769,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "orbit-tags",
       "type": "registry:ui",
       "title": "Orbit Tags",
@@ -2693,6 +2797,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "path-type",
       "type": "registry:ui",
       "title": "Path Type",
@@ -2720,6 +2825,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "billboard-run",
       "type": "registry:ui",
       "title": "Billboard Run",
@@ -2747,6 +2853,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "turn-word",
       "type": "registry:ui",
       "title": "Turn Word",
@@ -2774,6 +2881,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "converge-quote",
       "type": "registry:ui",
       "title": "Converge Quote",
@@ -2801,6 +2909,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "shadow-script",
       "type": "registry:ui",
       "title": "Shadow Script",
@@ -2828,6 +2937,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "punch-type",
       "type": "registry:ui",
       "title": "Punch Type",
@@ -2855,6 +2965,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "helix-index",
       "type": "registry:ui",
       "title": "Helix Index",
@@ -2882,6 +2993,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "swing-door",
       "type": "registry:ui",
       "title": "Swing Door",
@@ -2909,6 +3021,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "hatch-board",
       "type": "registry:ui",
       "title": "Hatch Board",
@@ -2936,6 +3049,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "gear-train",
       "type": "registry:ui",
       "title": "Gear Train",
@@ -2963,6 +3077,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "commit-lever",
       "type": "registry:ui",
       "title": "Commit Lever",
@@ -2990,6 +3105,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "crank-reel",
       "type": "registry:ui",
       "title": "Crank Reel",
@@ -3017,6 +3133,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "pulley-lift",
       "type": "registry:ui",
       "title": "Pulley Lift",
@@ -3044,6 +3161,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "combo-dials",
       "type": "registry:ui",
       "title": "Combo Dials",
@@ -3071,6 +3189,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "zipper-seam",
       "type": "registry:ui",
       "title": "Zipper Seam",
@@ -3098,6 +3217,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "trapdoor-drop",
       "type": "registry:ui",
       "title": "Trapdoor Drop",
@@ -3125,6 +3245,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "drawbridge",
       "type": "registry:ui",
       "title": "Drawbridge",
@@ -3152,6 +3273,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "pop-book",
       "type": "registry:ui",
       "title": "Pop Book",
@@ -3179,6 +3301,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "iso-blocks",
       "type": "registry:ui",
       "title": "Iso Blocks",
@@ -3205,6 +3328,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "lift-tray",
       "type": "registry:ui",
       "title": "Lift Tray",
@@ -3233,6 +3357,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "shaker-dome",
       "type": "registry:ui",
       "title": "Shaker Dome",
@@ -3260,6 +3385,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "daylight-dial",
       "type": "registry:ui",
       "title": "Daylight Dial",
@@ -3287,6 +3413,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "cutout-town",
       "type": "registry:ui",
       "title": "Cutout Town",
@@ -3314,6 +3441,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "transit-window",
       "type": "registry:ui",
       "title": "Transit Window",
@@ -3341,6 +3469,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "spotlight-stage",
       "type": "registry:ui",
       "title": "Spotlight Stage",
@@ -3369,6 +3498,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "pull-shelf",
       "type": "registry:ui",
       "title": "Pull Shelf",
@@ -3396,6 +3526,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "turn-model",
       "type": "registry:ui",
       "title": "Turn Model",
@@ -3423,6 +3554,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "dolly-frame",
       "type": "registry:ui",
       "title": "Dolly Frame",
@@ -3450,6 +3582,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "orbit-stage",
       "type": "registry:ui",
       "title": "Orbit Stage",
@@ -3477,6 +3610,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "tunnel-dive",
       "type": "registry:ui",
       "title": "Tunnel Dive",
@@ -3504,6 +3638,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "pan-window",
       "type": "registry:ui",
       "title": "Pan Window",
@@ -3531,6 +3666,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "zoom-atlas",
       "type": "registry:ui",
       "title": "Zoom Atlas",
@@ -3557,6 +3693,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "crane-scroll",
       "type": "registry:ui",
       "title": "Crane Scroll",
@@ -3584,6 +3721,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "look-room",
       "type": "registry:ui",
       "title": "Look Room",
@@ -3612,6 +3750,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "camera-rail",
       "type": "registry:ui",
       "title": "Camera Rail",
@@ -3639,6 +3778,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "pivot-grid",
       "type": "registry:ui",
       "title": "Pivot Grid",
@@ -3666,6 +3806,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "elevator-nav",
       "type": "registry:ui",
       "title": "Elevator Nav",
@@ -3693,6 +3834,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "terrain-relief",
       "type": "registry:ui",
       "title": "Terrain Relief",
@@ -3720,6 +3862,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "arc-routes",
       "type": "registry:ui",
       "title": "Arc Routes",
@@ -3747,6 +3890,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "compass-needle",
       "type": "registry:ui",
       "title": "Compass Needle",
@@ -3774,6 +3918,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "section-cut",
       "type": "registry:ui",
       "title": "Section Cut",
@@ -3801,6 +3946,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "blueprint-rise",
       "type": "registry:ui",
       "title": "Blueprint Rise",
@@ -3827,6 +3973,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "explode-view",
       "type": "registry:ui",
       "title": "Explode View",
@@ -3854,6 +4001,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "radar-scope",
       "type": "registry:ui",
       "title": "Radar Scope",
@@ -3880,6 +4028,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "matrix-rise",
       "type": "registry:ui",
       "title": "Matrix Rise",
@@ -3907,6 +4056,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "little-planet",
       "type": "registry:ui",
       "title": "Little Planet",
@@ -3934,6 +4084,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "fisheye-grid",
       "type": "registry:ui",
       "title": "Fisheye Grid",
@@ -3961,6 +4112,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "star-warp",
       "type": "registry:ui",
       "title": "Star Warp",
@@ -3987,6 +4139,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "depth-fog",
       "type": "registry:ui",
       "title": "Depth Fog",
@@ -4013,6 +4166,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "ember-column",
       "type": "registry:ui",
       "title": "Ember Column",
@@ -4039,6 +4193,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "constellation-map",
       "type": "registry:ui",
       "title": "Constellation Map",
@@ -4065,6 +4220,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "rain-pane",
       "type": "registry:ui",
       "title": "Rain Pane",
@@ -4091,6 +4247,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "sun-shaft",
       "type": "registry:ui",
       "title": "Sun Shaft",
@@ -4117,6 +4274,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "firefly-field",
       "type": "registry:ui",
       "title": "Firefly Field",
@@ -4143,6 +4301,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vapor-ring",
       "type": "registry:ui",
       "title": "Vapor Ring",
@@ -4169,6 +4328,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "gravity-well",
       "type": "registry:ui",
       "title": "Gravity Well",
@@ -4195,6 +4355,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "paper-flight",
       "type": "registry:ui",
       "title": "Paper Flight",
@@ -4221,6 +4382,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "chip-cloud",
       "type": "registry:ui",
       "title": "Chip Cloud",
@@ -4247,6 +4409,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "rating-arc",
       "type": "registry:ui",
       "title": "Rating Arc",
@@ -4273,6 +4436,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "swatch-lock",
       "type": "registry:ui",
       "title": "Swatch Lock",
@@ -4299,6 +4463,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "skeleton-weave",
       "type": "registry:ui",
       "title": "Skeleton Weave",
@@ -4325,6 +4490,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "stage-progress",
       "type": "registry:ui",
       "title": "Stage Progress",
@@ -4351,6 +4517,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "alert-bar",
       "type": "registry:ui",
       "title": "Alert Bar",
@@ -4378,6 +4545,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "status-pip",
       "type": "registry:ui",
       "title": "Status Pip",
@@ -4404,6 +4572,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "retry-pulse",
       "type": "registry:ui",
       "title": "Retry Pulse",
@@ -4430,6 +4599,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "type-on",
       "type": "registry:ui",
       "title": "Type On",
@@ -4456,6 +4626,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "highlight-sweep",
       "type": "registry:ui",
       "title": "Highlight Sweep",
@@ -4482,6 +4653,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "gradient-title",
       "type": "registry:ui",
       "title": "Gradient Title",
@@ -4508,6 +4680,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "redact-reveal",
       "type": "registry:ui",
       "title": "Redact Reveal",
@@ -4534,6 +4707,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "balance-quote",
       "type": "registry:ui",
       "title": "Balance Quote",
@@ -4560,6 +4734,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "split-pane",
       "type": "registry:ui",
       "title": "Split Pane",
@@ -4585,6 +4760,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "masonry-flow",
       "type": "registry:ui",
       "title": "Masonry Flow",
@@ -4611,6 +4787,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "expander-tree",
       "type": "registry:ui",
       "title": "Expander Tree",
@@ -4638,6 +4815,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "sticky-stack",
       "type": "registry:ui",
       "title": "Sticky Stack",
@@ -4660,6 +4838,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "cursor-lens",
       "type": "registry:ui",
       "title": "Cursor Lens",
@@ -4685,6 +4864,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "listbox-roster",
       "type": "registry:ui",
       "title": "Listbox Roster",
@@ -4711,6 +4891,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "tri-toggle",
       "type": "registry:ui",
       "title": "Tri Toggle",
@@ -4737,6 +4918,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "cursor-label",
       "type": "registry:ui",
       "title": "Cursor Label",
@@ -4764,6 +4946,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "trail-ink",
       "type": "registry:ui",
       "title": "Trail Ink",
@@ -4789,6 +4972,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "reveal-stagger",
       "type": "registry:ui",
       "title": "Reveal Stagger",
@@ -4815,6 +4999,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "marquee-swap",
       "type": "registry:ui",
       "title": "Marquee Swap",
@@ -4841,6 +5026,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "progress-scrub",
       "type": "registry:ui",
       "title": "Progress Scrub",
@@ -4866,6 +5052,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "sticky-reveal",
       "type": "registry:ui",
       "title": "Sticky Reveal",
@@ -4892,6 +5079,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "confetti-pop",
       "type": "registry:ui",
       "title": "Confetti Pop",
@@ -4918,6 +5106,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "sound-toggle",
       "type": "registry:ui",
       "title": "Sound Toggle",
@@ -4944,6 +5133,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "sticker-peel",
       "type": "registry:ui",
       "title": "Sticker Peel",
@@ -4970,6 +5160,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "boop-mascot",
       "type": "registry:ui",
       "title": "Boop Mascot",
@@ -4997,6 +5188,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "popover-menu",
       "type": "registry:ui",
       "title": "Popover Menu",
@@ -5023,6 +5215,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "context-menu",
       "type": "registry:ui",
       "title": "Context Menu",
@@ -5049,6 +5242,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "hover-card",
       "type": "registry:ui",
       "title": "Hover Card",
@@ -5075,6 +5269,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "spotlight-tour",
       "type": "registry:ui",
       "title": "Spotlight Tour",
@@ -5101,6 +5296,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "gauge-cluster",
       "type": "registry:ui",
       "title": "Gauge Cluster",
@@ -5127,6 +5323,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "bar-race",
       "type": "registry:ui",
       "title": "Bar Race",
@@ -5153,6 +5350,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "donut-breakdown",
       "type": "registry:ui",
       "title": "Donut Breakdown",
@@ -5179,6 +5377,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "heat-calendar",
       "type": "registry:ui",
       "title": "Heat Calendar",
@@ -5205,6 +5404,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "breadcrumb-trail",
       "type": "registry:ui",
       "title": "Breadcrumb Trail",
@@ -5231,6 +5431,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "pagination-rail",
       "type": "registry:ui",
       "title": "Pagination Rail",
@@ -5257,6 +5458,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "stepper-flow",
       "type": "registry:ui",
       "title": "Stepper Flow",
@@ -5283,6 +5485,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "newton-cradle",
       "type": "registry:ui",
       "title": "Newton's Cradle",
@@ -5309,6 +5512,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "gooey-blob",
       "type": "registry:ui",
       "title": "Gooey Blob",
@@ -5332,6 +5536,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "plinko-drop",
       "type": "registry:ui",
       "title": "Plinko Drop",
@@ -5355,6 +5560,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "range-dual",
       "type": "registry:ui",
       "title": "Range Dual",
@@ -5381,6 +5587,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "stepper-number",
       "type": "registry:ui",
       "title": "Stepper Number",
@@ -5407,6 +5614,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "tag-field",
       "type": "registry:ui",
       "title": "Tag Field",
@@ -5433,6 +5641,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "gradient-drift",
       "type": "registry:ui",
       "title": "Gradient Drift",
@@ -5459,6 +5668,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "particle-network",
       "type": "registry:ui",
       "title": "Particle Network",
@@ -5482,6 +5692,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "flow-field",
       "type": "registry:ui",
       "title": "Flow Field",
@@ -5505,6 +5716,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "volley-thread",
       "type": "registry:ui",
       "title": "Volley Thread",
@@ -5531,6 +5743,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "prompt-well",
       "type": "registry:ui",
       "title": "Prompt Well",
@@ -5557,6 +5770,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "code-lathe",
       "type": "registry:ui",
       "title": "Code Lathe",
@@ -5583,6 +5797,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
@@ -5609,6 +5824,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "access-panel",
       "type": "registry:block",
       "title": "Access Panel",
@@ -5638,6 +5854,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "iris-menu",
       "type": "registry:block",
       "title": "Iris Menu",
@@ -5664,6 +5881,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "overflow-rail",
       "type": "registry:block",
       "title": "Overflow Rail",
@@ -5690,6 +5908,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "signal-center",
       "type": "registry:block",
       "title": "Signal Center",
@@ -5717,6 +5936,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "media-console",
       "type": "registry:block",
       "title": "Media Console",
@@ -5745,6 +5965,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "checkout-receipt",
       "type": "registry:block",
       "title": "Checkout Receipt",
@@ -5773,6 +5994,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "intake-tray",
       "type": "registry:block",
       "title": "Intake Tray",
@@ -5799,6 +6021,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "readout-grid",
       "type": "registry:block",
       "title": "Readout Grid",
@@ -5827,6 +6050,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "beacon",
       "type": "registry:block",
       "title": "Beacon",
@@ -5854,6 +6078,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "field-report",
       "type": "registry:block",
       "title": "Field Report",
@@ -5881,6 +6106,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "not-found",
       "type": "registry:block",
       "title": "Not Found",
@@ -5909,6 +6135,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "forecast-card",
       "type": "registry:block",
       "title": "Forecast Card",
@@ -5936,6 +6163,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "balance-card",
       "type": "registry:block",
       "title": "Balance Card",
@@ -5963,6 +6191,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "exchange-panel",
       "type": "registry:block",
       "title": "Exchange Panel",
@@ -5991,6 +6220,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "launch-checklist",
       "type": "registry:block",
       "title": "Launch Checklist",
@@ -6017,6 +6247,7 @@
       }
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
@@ -6033,6 +6264,7 @@
       ]
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "motion",
       "type": "registry:lib",
       "title": "Calibration Set",
@@ -6048,6 +6280,7 @@
       ]
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "use-motion-safe",
       "type": "registry:hook",
       "title": "useMotionSafe",
@@ -6063,6 +6296,7 @@
       ]
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "spatial",
       "type": "registry:lib",
       "title": "Spatial Set",
@@ -6075,6 +6309,7 @@
       ]
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "use-pointer-tilt",
       "type": "registry:hook",
       "title": "usePointerTilt",
@@ -6093,6 +6328,7 @@
       ]
     },
     {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "agents-rules",
       "type": "registry:file",
       "title": "Agent Rules",

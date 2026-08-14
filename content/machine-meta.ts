@@ -7,7 +7,7 @@ import {
   easings,
   springs,
 } from "../registry/lib/motion";
-import { REGISTRY_ITEM_URL, siteConfig } from "../lib/site-config";
+import { REGISTRY_ITEM_URL, author, siteConfig } from "../lib/site-config";
 import {
   catalogBlocks,
   catalogComponents,
@@ -152,6 +152,12 @@ export function buildMachineMeta(): MachineMeta {
       name: siteConfig.registryName,
       namespace: siteConfig.registryNamespace,
       homepage: siteConfig.url,
+      author: {
+        name: author.name,
+        handle: author.handle,
+        url: author.url,
+        role: author.role,
+      },
       indexUrl: `${siteConfig.url}/r/registry.json`,
       docsUrl: siteConfig.url,
       counts: {
@@ -293,6 +299,12 @@ export const machineMetaSchema = z.object({
     name: z.string(),
     namespace: z.string(),
     homepage: z.string(),
+    author: z.object({
+      name: z.string(),
+      handle: z.string(),
+      url: z.string().url(),
+      role: z.string(),
+    }),
     indexUrl: z.string().url(),
     docsUrl: z.string().url(),
     counts: z.object({

@@ -11,7 +11,12 @@ import path from "node:path";
 
 import { allItems } from "../content/manifest";
 import { REGISTRY_FIELDS, type KinetiqItem } from "../content/manifest/types";
-import { REGISTRY_ITEM_URL, resolveOrigin, siteConfig } from "../lib/site-config";
+import {
+  REGISTRY_ITEM_URL,
+  authorCredit,
+  resolveOrigin,
+  siteConfig,
+} from "../lib/site-config";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 
@@ -30,7 +35,9 @@ function expandRegistryDependencies(deps: string[] | undefined, from: string) {
 }
 
 function toRegistryItem(item: KinetiqItem) {
-  const entry: Record<string, unknown> = {};
+  // Every published artifact carries the credit, so an item installed straight
+  // from its URL still names who made it.
+  const entry: Record<string, unknown> = { author: authorCredit };
   for (const field of REGISTRY_FIELDS) {
     const value = item[field];
     if (value !== undefined) entry[field] = value;
@@ -58,6 +65,7 @@ async function main() {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: siteConfig.registryName,
     homepage: siteConfig.url,
+    author: authorCredit,
     items: allItems.map(toRegistryItem),
   };
 

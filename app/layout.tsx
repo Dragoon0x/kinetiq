@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Sans, Martian_Mono } from "next/font/google";
 
 import { Providers } from "@/components/providers";
-import { siteConfig } from "@/lib/site-config";
+import { author, siteConfig } from "@/lib/site-config";
 import { themeScript } from "@/lib/theme-script";
 
 import "./globals.css";
@@ -29,6 +29,24 @@ export const metadata: Metadata = {
     template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
+  applicationName: siteConfig.name,
+  authors: [{ name: author.name, url: author.url }],
+  creator: `${author.name} (${author.handle})`,
+  publisher: `${author.name} (${author.handle})`,
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.name,
+    url: siteConfig.url,
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: author.x,
+    creator: author.x,
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+  },
 };
 
 export default function RootLayout({

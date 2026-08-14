@@ -1,6 +1,7 @@
 {
   "name": "kinetiq",
   "version": "0.1.0",
+  "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "scripts": {

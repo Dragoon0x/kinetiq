@@ -4,6 +4,12 @@
     "name": "kinetiq",
     "namespace": "@kinetiq",
     "homepage": "https://kinetiqui.vercel.app",
+    "author": {
+      "name": "Dragoon",
+      "handle": "0xDragoon",
+      "url": "https://x.com/0xDragoonLab",
+      "role": "Maker, founder, and builder"
+    },
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {

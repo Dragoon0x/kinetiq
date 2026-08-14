@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Wordmark } from "@/components/chrome/wordmark";
+import { author } from "@/lib/site-config";
 
 const COLUMNS = [
   {
@@ -37,6 +38,17 @@ export function SiteFooter() {
           <p className="text-ink-3 mt-3 text-sm">
             Motion, calibrated. Every component on the same five springs.
           </p>
+          <p className="text-ink-3 mt-4 text-sm">
+            {author.role} —{" "}
+            <a
+              href={author.url}
+              target="_blank"
+              rel="me noreferrer"
+              className="text-ink-2 hover:text-ink underline underline-offset-4 transition-colors"
+            >
+              {author.name}
+            </a>
+          </p>
         </div>
         <div className="flex gap-16">
           {COLUMNS.map((column) => (
@@ -61,6 +73,14 @@ export function SiteFooter() {
       <div className="border-hairline border-t">
         <div className="text-label text-ink-3 mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
           <span>KINETIQ · MOTION LABORATORY</span>
+          <a
+            href={author.url}
+            target="_blank"
+            rel="me noreferrer"
+            className="hover:text-ink-2 transition-colors"
+          >
+            BUILT BY {author.name.toUpperCase()} · {author.handle.toUpperCase()}
+          </a>
           <span>EST. 2026</span>
         </div>
       </div>
