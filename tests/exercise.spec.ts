@@ -26,6 +26,14 @@ test.describe.configure({ mode: "parallel" });
 
 for (const { kind, name } of targets) {
   test(`exercise ${kind}/${name}`, async ({ page }) => {
+    // gotoHydrated allows 15s, and the click loop below can spend its full
+    // budget per control when a specimen animates layout on a soft spring —
+    // Playwright holds a click until the box is stable across two frames. On
+    // the 30s default those two alone add up to the whole budget and the
+    // context is torn down mid-wait, which reports as "Target closed" and
+    // reads exactly like a renderer crash.
+    test.setTimeout(60_000);
+
     const problems: string[] = [];
     page.on("console", (m) => {
       if (m.type() === "error") problems.push(`console.error: ${m.text()}`);
@@ -71,7 +79,7 @@ for (const { kind, name } of targets) {
       try {
         if (!(await control.isVisible())) continue;
         if (await control.isDisabled().catch(() => false)) continue;
-        await control.click({ timeout: 2500 });
+        await control.click({ timeout: 1200 });
         await page.waitForTimeout(140);
       } catch {
         // A control that moved or got covered mid-animation is not a defect on
