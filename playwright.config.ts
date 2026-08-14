@@ -15,7 +15,16 @@ export default defineConfig({
    * errors, hydration warnings — are deterministic, so a retry cannot launder
    * them.
    */
-  retries: process.env.CI ? 2 : 1,
+  retries: 2,
+  /**
+   * Bounded on purpose. Every exercise test drives a page full of concurrent
+   * animation, and the suite also loads all 230+ pages in smoke. Left
+   * uncapped, Playwright takes half the cores and the heaviest specimens start
+   * losing frames badly enough to blow even a 60s budget — signal-center alone
+   * runs in 3.7s, and passes 225/225 when the sweep runs by itself. Three
+   * workers keeps the wall clock close while leaving the renderers room.
+   */
+  workers: process.env.CI ? 2 : 3,
   reporter: [["list"]],
   use: {
     baseURL: "http://localhost:3100",

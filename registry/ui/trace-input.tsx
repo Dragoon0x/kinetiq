@@ -101,7 +101,12 @@ export function TraceInput({
           }
         }}
         className={cn(
-          "relative flex h-14 cursor-text items-center gap-2 rounded-2 border bg-transparent px-3 transition-colors",
+          // Children stretch rather than centre: the field's optical line is
+          // the text row, not the box middle. The top of the box is reserved
+          // for the label to float into, so the input carries a pt-4 and the
+          // affixes match it — centring them on the box instead would leave
+          // them sitting 8px above the placeholder they sit beside.
+          "relative flex h-14 cursor-text items-stretch gap-2 rounded-2 border bg-transparent px-3 transition-colors",
           error ? "border-destructive" : "border-input",
           disabled && "cursor-not-allowed opacity-50",
         )}
@@ -161,7 +166,7 @@ export function TraceInput({
         {prefix && (
           <span
             aria-hidden
-            className="text-muted-foreground flex shrink-0 items-center"
+            className="text-muted-foreground flex shrink-0 items-center pt-4"
           >
             {prefix}
           </span>
@@ -211,7 +216,7 @@ export function TraceInput({
         {suffix && (
           <span
             aria-hidden
-            className="text-muted-foreground flex shrink-0 items-center"
+            className="text-muted-foreground flex shrink-0 items-center pt-4"
           >
             {suffix}
           </span>

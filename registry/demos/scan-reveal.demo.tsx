@@ -37,7 +37,10 @@ export function ScanRevealDemo() {
     <div className="flex w-full max-w-sm flex-col gap-3">
       <div
         ref={scrollRef}
-        className="border-border bg-card h-[340px] w-full overflow-y-auto rounded-3 border"
+        // `relative` is load-bearing, not decoration: scroll-linking measures
+        // the target through its offsetParent chain, and a static container is
+        // never an offsetParent — the sweep would silently never start.
+        className="border-border bg-card relative h-[340px] w-full overflow-y-auto rounded-3 border"
       >
         <div className="flex h-[300px] items-end justify-center pb-6">
           <span className="text-muted-foreground font-mono text-[10px] tracking-[0.2em] uppercase">

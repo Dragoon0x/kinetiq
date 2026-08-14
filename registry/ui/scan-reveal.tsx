@@ -19,7 +19,12 @@ export type ScanRevealProps = {
   once?: boolean;
   /** Sweep direction across the section. */
   direction?: "down" | "up";
-  /** Scrollable ancestor, so scroll-linking works inside overflow containers. */
+  /**
+   * Scrollable ancestor, so scroll-linking works inside overflow containers.
+   * That element **must be positioned** — `relative`, `absolute`, `sticky`, or
+   * `fixed`. Progress is measured through the offsetParent chain, and a static
+   * container is never an offsetParent, so the sweep silently never starts.
+   */
   containerRef?: React.RefObject<HTMLElement | null>;
   className?: string;
   children: React.ReactNode;
@@ -85,6 +90,21 @@ export function ScanReveal({
     const t = direction === "down" ? value : 1 - value;
     setReadout(Math.max(0, Math.round(rect.top + rect.height * t)));
   });
+
+  // A static container measures as no movement at all, and the failure is
+  // invisible — the section just sits undeveloped forever. Say so in dev.
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    const element = containerRef?.current;
+    if (!element) return;
+    if (getComputedStyle(element).position === "static") {
+      console.warn(
+        "[scan-reveal] containerRef points at a position: static element. " +
+          "Scroll progress is measured through the offsetParent chain, so the " +
+          "sweep will never start. Give the scroll container position: relative.",
+      );
+    }
+  }, [containerRef]);
 
   // Reduced motion: fully developed, one opacity fade on first in-view.
   if (!motionSafe) {

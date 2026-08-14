@@ -815,6 +815,7 @@ export const components: KinetiqItem[] = [
     ],
     usageNotes: [
       "Interactive content lives only in the developed layer; the undeveloped copy is aria-hidden and inert.",
+      "A containerRef must point at a positioned element — progress is measured through the offsetParent chain, so a static container never sweeps.",
       "Under reduced motion content renders fully developed with a single fast fade.",
     ],
   },

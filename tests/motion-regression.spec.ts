@@ -254,3 +254,74 @@ test("pull-to-refresh arms at the detent and refreshes on release", async ({
 
   expect(problems, problems.join("\n")).toEqual([]);
 });
+
+test("scan-reveal actually sweeps as its container scrolls", async ({ page }) => {
+  // Scroll progress is measured through the offsetParent chain, so a static
+  // scroll container measures as no movement and the section sits undeveloped
+  // forever — a total, silent failure that renders and tests clean.
+  await gotoHydrated(page, "/components/scan-reveal");
+  const stage = page.locator("[data-specimen-stage]").first();
+  const panel = stage.locator(".overflow-y-auto").first();
+  await expect(panel).toBeVisible();
+
+  const positioned = await panel.evaluate(
+    (el) => getComputedStyle(el).position !== "static",
+  );
+  expect(positioned, "scroll container must be positioned").toBe(true);
+
+  const clip = () =>
+    page.evaluate(() => {
+      const box = document.querySelector(
+        "[data-specimen-stage] .overflow-y-auto",
+      )!;
+      const layer = box.querySelector('[style*="clip-path"]');
+      // Once the sweep completes the layers tear down, so no layer means done.
+      return layer ? getComputedStyle(layer).clipPath : "developed";
+    });
+
+  // How much of the section is still undeveloped, as a percentage.
+  const remaining = async () => {
+    const value = await clip();
+    if (value === "developed") return 0;
+    const match = value.match(/([\d.]+)%/);
+    return match ? Number(match[1]) : 100;
+  };
+
+  const atRest = await remaining();
+  expect(atRest, "should start essentially undeveloped").toBeGreaterThan(80);
+
+  await panel.evaluate((el) => {
+    el.scrollTop = 130;
+  });
+  await page.waitForTimeout(300);
+  const mid = await remaining();
+  expect(mid, "sweep never advanced as the container scrolled").toBeLessThan(
+    atRest - 20,
+  );
+
+  await panel.evaluate((el) => {
+    el.scrollTop = 320;
+  });
+  await page.waitForTimeout(400);
+  expect(await remaining(), "sweep never completed").toBe(0);
+});
+
+test("trace-input aligns its affixes with the text line", async ({ page }) => {
+  // The box centre is not the field's optical line: the space above the text is
+  // reserved for the label to float into. Centring an icon on the box instead
+  // leaves it sitting 8px above the placeholder beside it.
+  await gotoHydrated(page, "/components/trace-input");
+  const drift = await page.evaluate(() => {
+    const field = document.querySelector(
+      "[data-specimen-stage] .h-14",
+    ) as HTMLElement;
+    const icon = field.querySelector("span svg") as SVGElement;
+    const label = field.querySelector("label") as HTMLElement;
+    const mid = (el: Element) => {
+      const r = el.getBoundingClientRect();
+      return (r.top + r.bottom) / 2;
+    };
+    return Math.abs(mid(icon) - mid(label));
+  });
+  expect(drift, "prefix icon is off the placeholder's line").toBeLessThan(1.5);
+});
