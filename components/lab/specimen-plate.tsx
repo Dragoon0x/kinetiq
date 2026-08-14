@@ -82,6 +82,7 @@ export function SpecimenPlate({
 
       {/* stage — wide specimens scroll inside the plate, never the page */}
       <div
+        data-specimen-stage=""
         className={cn(
           "flex max-w-full items-center justify-center overflow-x-auto px-4 py-10 sm:px-8",
           contentClassName,
