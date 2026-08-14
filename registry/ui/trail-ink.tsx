@@ -14,7 +14,15 @@ export type TrailInkProps = {
   "aria-label"?: string;
 };
 
-type InkPoint = { x: number; y: number; born: number; width: number };
+type InkPoint = {
+  x: number;
+  y: number;
+  born: number;
+  width: number;
+  /** First sample of a stroke — nothing is drawn into it, so lifting the pointer
+   * and re-entering elsewhere never rules a line across the panel. */
+  starts: boolean;
+};
 
 /**
  * A brush that lays wet ink under the pointer and lets it dry away. Each sample
@@ -85,7 +93,7 @@ export function TrailInk({
       for (let i = 1; i < points.length; i += 1) {
         const a = points[i - 1];
         const b = points[i];
-        if (!a || !b) continue;
+        if (!a || !b || b.starts) continue;
         const age = clock - b.born;
         const alpha = 1 - age / fade;
         if (alpha <= 0) continue;
@@ -109,11 +117,14 @@ export function TrailInk({
         points.shift();
       }
       paint();
-      if (points.length > 1) {
+      // Idle-stop only once every point has dried and been shifted out. Testing
+      // for a second point instead would discard the seed point of a stroke in
+      // progress — pointer moves arrive about one per frame, so the buffer would
+      // never reach the two points a segment needs and no ink would ever land.
+      if (points.length > 0) {
         raf = requestAnimationFrame(frame);
       } else {
         running = false;
-        points.length = 0;
         hasLast = false;
       }
     };
@@ -129,6 +140,7 @@ export function TrailInk({
       const rect = container.getBoundingClientRect();
       const x = clientX - rect.left;
       const y = clientY - rect.top;
+      const starts = !hasLast;
       const dist = hasLast ? Math.hypot(x - lastX, y - lastY) : 0;
       // Fast strokes run thin, slow ones heavy — a calligraphic taper.
       const strokeWidth = Math.max(1.5, 7 - dist * 0.35);
@@ -142,7 +154,7 @@ export function TrailInk({
         ctx.strokeStyle = ink;
         ctx.lineCap = "round";
         ctx.lineWidth = strokeWidth;
-        if (points.length > 0) {
+        if (!starts && points.length > 0) {
           const prev = points[points.length - 1];
           if (prev) {
             ctx.beginPath();
@@ -152,11 +164,14 @@ export function TrailInk({
           }
         }
         ctx.globalAlpha = 1;
-        points.push({ x, y, born: 0, width: strokeWidth });
+        // The still mark lives on the canvas, so only the previous sample is
+        // worth keeping — retaining every one would grow without bound.
+        points.length = 0;
+        points.push({ x, y, born: 0, width: strokeWidth, starts });
         return;
       }
 
-      points.push({ x, y, born: clock, width: strokeWidth });
+      points.push({ x, y, born: clock, width: strokeWidth, starts });
       wake();
     };
 

@@ -193,6 +193,14 @@ export function OrbitStage({
     const finish = () => {
       flights.delete(flight);
       if (epochRef.current !== epoch) return;
+      // Land the yaw exactly on its target before anything reads it. A
+      // zero-duration tween — the reduced-motion path — resolves before it has
+      // committed a value, and the settle it triggers re-runs the alignment
+      // effect, whose seize() stops the pending flight before that commit ever
+      // happens. The stage would then never move, and because the effect keeps
+      // seeing an unchanged yaw it relaunches forever, starving the main
+      // thread until the tab dies.
+      yaw.set(target);
       onDone?.();
     };
     flight.then(finish, finish);

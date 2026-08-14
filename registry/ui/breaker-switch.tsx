@@ -5,7 +5,7 @@ import * as React from "react";
 import { animate, motion, useMotionValue } from "motion/react";
 
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
-import { durations, springs } from "@/registry/lib/motion";
+import { durations, easings, springs } from "@/registry/lib/motion";
 import { cn } from "@/registry/lib/utils";
 
 /**
@@ -103,9 +103,12 @@ export function BreakerSwitch({
     trackX.set(checked ? -1 : 1);
     animate(trackX, 0, springs.flick);
     stretchAnimation.current?.stop();
+    // Squash-and-release is three keyframes, and springs accept exactly two, so
+    // the deformation runs as a tween: it waits for the snap travel to reach
+    // the far wall (~120ms), bites to 0.85, then returns to rest.
     stretchAnimation.current = animate(stretch, [stretch.get(), 0.85, 1], {
-      ...springs.snap,
-      // The squash waits for the snap travel to reach the far wall (~120ms).
+      duration: durations.base,
+      ease: easings.move,
       delay: 0.12,
     });
   }, [checked, motionSafe, stretch, trackX]);

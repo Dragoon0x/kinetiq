@@ -189,16 +189,20 @@ export function PullToRefresh({
     }
 
     const next = resist(delta);
+    // A detent tick still in flight must never fight the finger — the live
+    // pointer position always wins.
+    stopPull();
     pull.set(next);
 
     const armed = next >= detent;
     const wasArmed = phaseRef.current === "armed";
     if (armed && !wasArmed) {
       setPhaseBoth("armed");
-      // The detent "click": a crisp tick as the gauge locks in.
+      // The detent "click": kick 6px past the lock point, then snap back to it.
+      // Springs take exactly two keyframes, so the kick is a set(), not a frame.
       if (motionSafe) {
-        stopPull();
-        controlsRef.current = animate(pull, [next, next + 6, next], springs.snap);
+        pull.set(next + 6);
+        controlsRef.current = animate(pull, next, springs.snap);
       }
     } else if (!armed && wasArmed) {
       setPhaseBoth("pulling");
