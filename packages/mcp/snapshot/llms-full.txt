@@ -4379,6 +4379,72 @@ Notes:
 - The tended line is the card's point; keep it concrete enough to point at.
 - Cards lift 3px under the pointer; reduced motion holds them still.
 
+### Shift Cards Use Cases (KB-229) — `usecase-shift-cards`
+Find your minute of the day.
+
+Use cases told as moments in a shift, not personas on a slide: each card names a role, the minute of the day the product shows up, and three beats — before, during, after — ending in the outcome that earns its keep. Cards arrive on the cascade; the beats read as consecutive frames.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/usecase-shift-cards`
+
+Props:
+- `cases`: ShiftCase[] — Role, the minute, three beats, and the outcome per card.
+- `eyebrow / headline / copy`: string — The standfirst above the cards.
+
+Notes:
+- Beats are an ordered list — numbered, before → during → after.
+- The outcome line is the card's close; keep it something a reader could repeat.
+- Three across on desktop, stacked below lg.
+
+### Station Line How-It-Works (KB-230) — `how-station-line`
+Walk the line, stop by stop.
+
+How-it-works as a station line: the journey is the library's own stepper — pick a station and its scene slides in from the direction of travel, showing the artifacts the product actually holds at that point. The stepper carries the geometry and the keyboard; the section only stages what each stop means.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/how-station-line`
+
+Props:
+- `stations`: Station[] — Label, title, copy, and the artifacts each stop holds.
+- `eyebrow / headline / copy`: string — The centered standfirst.
+
+Notes:
+- The line is stepper-flow — filling connectors, stamped checks, and keyboard travel come from it.
+- Scenes slide from the direction of travel; reduced motion crossfades in place.
+- Artifacts are the proof layer: name what the product holds, not what it intends.
+
+### Field Passage Content (KB-231) — `content-field-passage`
+Prose at measure, one number arguing.
+
+An editorial passage with one figure doing the arguing: prose set at reading measure, and beside it a single pull stat on the rolling readout — large, sourced, and unhurried. Content sections earn their place by being readable; the only motion here is the number arriving.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/content-field-passage`
+
+Props:
+- `paragraphs`: string[] — The passage, one paragraph per entry.
+- `figure`: PassageFigure — The pull stat beside the prose.
+- `kicker / headline / byline`: string — The passage's frame.
+
+Notes:
+- The figure panel sticks beside the prose on large screens and follows it below on small.
+- Keep paragraphs at reading measure — the grid caps the prose column deliberately.
+- The byline is the provenance; passages without one read as copy, not content.
+
+### Evidence Band Proof (KB-232) — `proof-evidence-band`
+Metric, voice, and marks — one band.
+
+Social proof as one mixed band — a metric, a voice, and the marks — because separately each is owned ground, and together they make the one argument none makes alone: many teams, measured results, in their own words. The metric rolls in on the readout, the marks ride the tape, and the quote just sits there being true.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/proof-evidence-band`
+
+Props:
+- `metric`: { value, suffix, label } — The band's one number, on the readout.
+- `quote`: { text, cite } — The band's one voice.
+- `marks`: string[] — Typographic wordmarks on the tape; all-caps marks take the mono stack.
+
+Notes:
+- Deliberately one of each — a second metric or quote turns the band back into owned ground.
+- The tape is aria-hidden with a sr-only roll call, same as the marquee hall.
+- The band frames itself with borders; place it between unbordered sections.
+
 ### Utils — `utils`
 cn() — class composition.
 

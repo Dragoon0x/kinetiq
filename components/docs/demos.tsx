@@ -257,6 +257,10 @@ import { ContactRoutingDeskDemo } from "@/registry/demos/contact-routing-desk.de
 import { NewsletterPressroomDemo } from "@/registry/demos/newsletter-pressroom.demo";
 import { StepformGatehouseDemo } from "@/registry/demos/stepform-gatehouse.demo";
 import { TeamBenchRosterDemo } from "@/registry/demos/team-bench-roster.demo";
+import { ContentFieldPassageDemo } from "@/registry/demos/content-field-passage.demo";
+import { HowStationLineDemo } from "@/registry/demos/how-station-line.demo";
+import { ProofEvidenceBandDemo } from "@/registry/demos/proof-evidence-band.demo";
+import { UsecaseShiftCardsDemo } from "@/registry/demos/usecase-shift-cards.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -512,6 +516,10 @@ export const demos: Record<string, ComponentType> = {
   "newsletter-pressroom": NewsletterPressroomDemo,
   "contact-routing-desk": ContactRoutingDeskDemo,
   "team-bench-roster": TeamBenchRosterDemo,
+  "usecase-shift-cards": UsecaseShiftCardsDemo,
+  "how-station-line": HowStationLineDemo,
+  "content-field-passage": ContentFieldPassageDemo,
+  "proof-evidence-band": ProofEvidenceBandDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

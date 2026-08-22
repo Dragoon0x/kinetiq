@@ -2062,4 +2062,199 @@ export const blocks: KinetiqItem[] = [
       "Cards lift 3px under the pointer; reduced motion holds them still.",
     ],
   },
+  {
+    name: "usecase-shift-cards",
+    type: "registry:block",
+    title: "Shift Cards Use Cases",
+    description:
+      "Use cases told as moments in a shift, not personas on a slide: each card names a role, the minute of the day the product shows up, and three beats — before, during, after — ending in the outcome that earns its keep. Cards arrive on the cascade; the beats read as consecutive frames.",
+    files: [
+      {
+        path: "registry/blocks/usecase-shift-cards/usecase-shift-cards.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["use-cases"],
+    meta: { serial: "KB-229" },
+    tagline: "Find your minute of the day.",
+    keywords: [
+      "use cases",
+      "roles",
+      "personas",
+      "moments",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "cases",
+        type: "ShiftCase[]",
+        description: "Role, the minute, three beats, and the outcome per card.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The standfirst above the cards.",
+      },
+    ],
+    usageNotes: [
+      "Beats are an ordered list — numbered, before → during → after.",
+      "The outcome line is the card's close; keep it something a reader could repeat.",
+      "Three across on desktop, stacked below lg.",
+    ],
+  },
+  {
+    name: "how-station-line",
+    type: "registry:block",
+    title: "Station Line How-It-Works",
+    description:
+      "How-it-works as a station line: the journey is the library's own stepper — pick a station and its scene slides in from the direction of travel, showing the artifacts the product actually holds at that point. The stepper carries the geometry and the keyboard; the section only stages what each stop means.",
+    files: [
+      {
+        path: "registry/blocks/how-station-line/how-station-line.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "stepper-flow",
+      "status-seal",
+    ],
+    categories: ["how-it-works"],
+    meta: { serial: "KB-230" },
+    tagline: "Walk the line, stop by stop.",
+    keywords: [
+      "how it works",
+      "process",
+      "steps",
+      "stations",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "stations",
+        type: "Station[]",
+        description: "Label, title, copy, and the artifacts each stop holds.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The centered standfirst.",
+      },
+    ],
+    usageNotes: [
+      "The line is stepper-flow — filling connectors, stamped checks, and keyboard travel come from it.",
+      "Scenes slide from the direction of travel; reduced motion crossfades in place.",
+      "Artifacts are the proof layer: name what the product holds, not what it intends.",
+    ],
+  },
+  {
+    name: "content-field-passage",
+    type: "registry:block",
+    title: "Field Passage Content",
+    description:
+      "An editorial passage with one figure doing the arguing: prose set at reading measure, and beside it a single pull stat on the rolling readout — large, sourced, and unhurried. Content sections earn their place by being readable; the only motion here is the number arriving.",
+    files: [
+      {
+        path: "registry/blocks/content-field-passage/content-field-passage.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["content-sections"],
+    meta: { serial: "KB-231" },
+    tagline: "Prose at measure, one number arguing.",
+    keywords: [
+      "content",
+      "editorial",
+      "narrative",
+      "stat",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "paragraphs",
+        type: "string[]",
+        description: "The passage, one paragraph per entry.",
+      },
+      {
+        name: "figure",
+        type: "PassageFigure",
+        description: "The pull stat beside the prose.",
+      },
+      {
+        name: "kicker / headline / byline",
+        type: "string",
+        description: "The passage's frame.",
+      },
+    ],
+    usageNotes: [
+      "The figure panel sticks beside the prose on large screens and follows it below on small.",
+      "Keep paragraphs at reading measure — the grid caps the prose column deliberately.",
+      "The byline is the provenance; passages without one read as copy, not content.",
+    ],
+  },
+  {
+    name: "proof-evidence-band",
+    type: "registry:block",
+    title: "Evidence Band Proof",
+    description:
+      "Social proof as one mixed band — a metric, a voice, and the marks — because separately each is owned ground, and together they make the one argument none makes alone: many teams, measured results, in their own words. The metric rolls in on the readout, the marks ride the tape, and the quote just sits there being true.",
+    files: [
+      {
+        path: "registry/blocks/proof-evidence-band/proof-evidence-band.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "ticker-tape",
+    ],
+    categories: ["social-proof"],
+    meta: { serial: "KB-232" },
+    tagline: "Metric, voice, and marks — one band.",
+    keywords: [
+      "social proof",
+      "evidence",
+      "logos",
+      "quote",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "metric",
+        type: "{ value, suffix, label }",
+        description: "The band's one number, on the readout.",
+      },
+      {
+        name: "quote",
+        type: "{ text, cite }",
+        description: "The band's one voice.",
+      },
+      {
+        name: "marks",
+        type: "string[]",
+        description:
+          "Typographic wordmarks on the tape; all-caps marks take the mono stack.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately one of each — a second metric or quote turns the band back into owned ground.",
+      "The tape is aria-hidden with a sr-only roll call, same as the marquee hall.",
+      "The band frames itself with borders; place it between unbordered sections.",
+    ],
+  },
 ];

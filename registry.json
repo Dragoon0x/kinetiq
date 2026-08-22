@@ -7074,6 +7074,119 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "usecase-shift-cards",
+      "type": "registry:block",
+      "title": "Shift Cards Use Cases",
+      "description": "Use cases told as moments in a shift, not personas on a slide: each card names a role, the minute of the day the product shows up, and three beats — before, during, after — ending in the outcome that earns its keep. Cards arrive on the cascade; the beats read as consecutive frames.",
+      "files": [
+        {
+          "path": "registry/blocks/usecase-shift-cards/usecase-shift-cards.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "use-cases"
+      ],
+      "meta": {
+        "serial": "KB-229"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "how-station-line",
+      "type": "registry:block",
+      "title": "Station Line How-It-Works",
+      "description": "How-it-works as a station line: the journey is the library's own stepper — pick a station and its scene slides in from the direction of travel, showing the artifacts the product actually holds at that point. The stepper carries the geometry and the keyboard; the section only stages what each stop means.",
+      "files": [
+        {
+          "path": "registry/blocks/how-station-line/how-station-line.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/stepper-flow.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "how-it-works"
+      ],
+      "meta": {
+        "serial": "KB-230"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "content-field-passage",
+      "type": "registry:block",
+      "title": "Field Passage Content",
+      "description": "An editorial passage with one figure doing the arguing: prose set at reading measure, and beside it a single pull stat on the rolling readout — large, sourced, and unhurried. Content sections earn their place by being readable; the only motion here is the number arriving.",
+      "files": [
+        {
+          "path": "registry/blocks/content-field-passage/content-field-passage.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "content-sections"
+      ],
+      "meta": {
+        "serial": "KB-231"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "proof-evidence-band",
+      "type": "registry:block",
+      "title": "Evidence Band Proof",
+      "description": "Social proof as one mixed band — a metric, a voice, and the marks — because separately each is owned ground, and together they make the one argument none makes alone: many teams, measured results, in their own words. The metric rolls in on the readout, the marks ride the tape, and the quote just sits there being true.",
+      "files": [
+        {
+          "path": "registry/blocks/proof-evidence-band/proof-evidence-band.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/ticker-tape.json"
+      ],
+      "categories": [
+        "social-proof"
+      ],
+      "meta": {
+        "serial": "KB-232"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
