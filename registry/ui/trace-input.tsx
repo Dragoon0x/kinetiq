@@ -10,21 +10,16 @@ import {
   durations,
   easings,
   exitFor,
-  springs,
 } from "@/registry/lib/motion";
 import { cn } from "@/registry/lib/utils";
-
-/** Resting label sits where a placeholder would; floated it becomes an overline. */
-const LABEL_VARIANTS = {
-  rest: { y: 26, scale: 1 },
-  float: { y: 7, scale: 0.85 },
-} as const;
 
 export type TraceInputProps = Omit<
   React.ComponentPropsWithoutRef<"input">,
   "prefix"
 > & {
   label: string;
+  /** Hide the label visually but keep it for assistive tech. */
+  labelHidden?: boolean;
   description?: string;
   error?: string;
   prefix?: React.ReactNode;
@@ -32,26 +27,29 @@ export type TraceInputProps = Omit<
 };
 
 /**
- * Focus draws its own boundary: a 1.5px ring-colored stroke traces the
- * field's perimeter (pathLength 0→1, `durations.base` + `easings.enter`) and
- * fades out on blur at `exitFor(durations.base)`. The label glides between
- * placeholder and overline positions on `glide`; an invalid value nudges the
- * field 2px sideways and pins a dimension line beside the error text.
- * Reduced motion: the stroke fades in at `durations.fast`, the label snaps,
- * and the nudge is skipped.
+ * A plain text field, with the focus drawn rather than switched on. The label
+ * sits above the box where a form label belongs, so everything inside the box —
+ * the affixes and the text itself — shares one centred line.
+ *
+ * Focus draws its own boundary: a 1.5px ring-coloured stroke traces the field's
+ * perimeter (pathLength 0→1, `durations.base` + `easings.enter`) and fades out
+ * on blur at `exitFor(durations.base)`, while the label warms to the ring
+ * colour. An invalid value nudges the field 2px sideways and pins a dimension
+ * line beside the error text.
+ *
+ * Reduced motion: the stroke appears instantly and fades, and the nudge is
+ * skipped — the field still reports focus and error exactly the same way.
  */
 export function TraceInput({
   label,
+  labelHidden,
   description,
   error,
   prefix,
   suffix,
   className,
   id,
-  value,
-  defaultValue,
   disabled,
-  onChange,
   onFocus,
   onBlur,
   ...props
@@ -64,12 +62,6 @@ export function TraceInput({
   const errorId = `${baseId}-error`;
 
   const [focused, setFocused] = React.useState(false);
-  const isControlled = value !== undefined;
-  const [innerHasValue, setInnerHasValue] = React.useState(
-    () => defaultValue !== undefined && String(defaultValue).length > 0,
-  );
-  const hasValue = isControlled ? String(value).length > 0 : innerHasValue;
-  const floated = focused || hasValue;
 
   // Imperative keyframes so a changing error message re-nudges without
   // remounting (a remount would drop focus mid-typing).
@@ -90,6 +82,22 @@ export function TraceInput({
 
   return (
     <div className={cn("w-full", className)}>
+      <label
+        htmlFor={inputId}
+        className={cn(
+          "mb-1.5 block text-sm font-medium transition-colors",
+          labelHidden && "sr-only",
+          error
+            ? "text-destructive"
+            : focused
+              ? "text-primary"
+              : "text-foreground",
+        )}
+        style={{ transitionDuration: `${durations.fast}s` }}
+      >
+        {label}
+      </label>
+
       <motion.div
         style={{ x: fieldX }}
         onPointerDown={(event) => {
@@ -101,12 +109,9 @@ export function TraceInput({
           }
         }}
         className={cn(
-          // Children stretch rather than centre: the field's optical line is
-          // the text row, not the box middle. The top of the box is reserved
-          // for the label to float into, so the input carries a pt-4 and the
-          // affixes match it — centring them on the box instead would leave
-          // them sitting 8px above the placeholder they sit beside.
-          "relative flex h-14 cursor-text items-stretch gap-2 rounded-2 border bg-transparent px-3 transition-colors",
+          // One centred row: affixes and text share the box's middle, because
+          // nothing is reserved above them any more.
+          "relative flex h-11 cursor-text items-center gap-2 rounded-2 border bg-transparent px-3 transition-colors",
           error ? "border-destructive" : "border-input",
           disabled && "cursor-not-allowed opacity-50",
         )}
@@ -166,57 +171,34 @@ export function TraceInput({
         {prefix && (
           <span
             aria-hidden
-            className="text-muted-foreground flex shrink-0 items-center pt-4"
+            className="text-muted-foreground flex shrink-0 items-center"
           >
             {prefix}
           </span>
         )}
 
-        <div className="relative h-full min-w-0 flex-1">
-          <motion.label
-            htmlFor={inputId}
-            variants={LABEL_VARIANTS}
-            initial={false}
-            animate={floated ? "float" : "rest"}
-            transition={motionSafe ? springs.glide : { duration: 0 }}
-            className={cn(
-              "pointer-events-none absolute top-0 left-0 origin-left text-sm leading-5 whitespace-nowrap transition-colors",
-              focused ? "text-primary" : "text-muted-foreground",
-            )}
-          >
-            {label}
-          </motion.label>
-          <input
-            ref={inputRef}
-            id={inputId}
-            disabled={disabled}
-            value={value}
-            defaultValue={defaultValue}
-            aria-invalid={error ? true : undefined}
-            aria-describedby={describedBy}
-            onChange={(event) => {
-              if (!isControlled) {
-                setInnerHasValue(event.target.value.length > 0);
-              }
-              onChange?.(event);
-            }}
-            onFocus={(event) => {
-              setFocused(true);
-              onFocus?.(event);
-            }}
-            onBlur={(event) => {
-              setFocused(false);
-              onBlur?.(event);
-            }}
-            className="text-foreground h-full w-full bg-transparent pt-4 text-sm outline-none"
-            {...props}
-          />
-        </div>
+        <input
+          ref={inputRef}
+          id={inputId}
+          disabled={disabled}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={describedBy}
+          onFocus={(event) => {
+            setFocused(true);
+            onFocus?.(event);
+          }}
+          onBlur={(event) => {
+            setFocused(false);
+            onBlur?.(event);
+          }}
+          className="text-foreground placeholder:text-muted-foreground h-full w-full min-w-0 flex-1 bg-transparent text-sm outline-none"
+          {...props}
+        />
 
         {suffix && (
           <span
             aria-hidden
-            className="text-muted-foreground flex shrink-0 items-center pt-4"
+            className="text-muted-foreground flex shrink-0 items-center"
           >
             {suffix}
           </span>
@@ -224,10 +206,7 @@ export function TraceInput({
       </motion.div>
 
       {description && (
-        <p
-          id={descriptionId}
-          className="text-muted-foreground mt-1.5 px-3 text-xs"
-        >
+        <p id={descriptionId} className="text-muted-foreground mt-1.5 text-xs">
           {description}
         </p>
       )}
@@ -248,7 +227,7 @@ export function TraceInput({
                 ? { duration: durations.base, ease: easings.enter }
                 : { duration: durations.fast }
             }
-            className="text-destructive mt-1.5 flex items-center gap-2 px-3 text-xs"
+            className="text-destructive mt-1.5 flex items-center gap-2 text-xs"
           >
             {/* The dimension line: a 12px hairline pinning the note to the field. */}
             <span aria-hidden className="bg-destructive h-px w-3 shrink-0" />

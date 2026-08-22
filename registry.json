@@ -36,7 +36,7 @@
       "name": "trace-input",
       "type": "registry:ui",
       "title": "Trace Input",
-      "description": "Focus draws its own boundary — a stroke traces the field's perimeter, the label glides to an overline, and errors annotate themselves with a dimension line.",
+      "description": "A plain text field with the focus drawn rather than switched on. A stroke traces the field's perimeter as it takes focus and the label warms to the ring colour; errors nudge the box and annotate themselves with a dimension line. The label sits above the box, so the affixes and the text share one centred line inside it.",
       "files": [
         {
           "path": "registry/ui/trace-input.tsx",

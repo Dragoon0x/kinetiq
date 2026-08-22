@@ -123,18 +123,19 @@ Notes:
 ### Trace Input (KQ-002) — `trace-input`
 Focus draws its own boundary.
 
-Focus draws its own boundary — a stroke traces the field's perimeter, the label glides to an overline, and errors annotate themselves with a dimension line.
+A plain text field with the focus drawn rather than switched on. A stroke traces the field's perimeter as it takes focus and the label warms to the ring colour; errors nudge the box and annotate themselves with a dimension line. The label sits above the box, so the affixes and the text share one centred line inside it.
 
 Install: `pnpm dlx shadcn@latest add @kinetiq/trace-input`
 
 Props:
-- `label`: string — Field label — rests as placeholder, floats to overline when focused or filled.
+- `label`: string — Field label, rendered above the box. Pass labelHidden to keep it for assistive tech only.
 - `description / error`: string — Helper and error lines below the field, chained into aria-describedby. Errors nudge the field and set aria-invalid.
 - `prefix / suffix`: ReactNode — Leading and trailing slots inside the field.
 - `…input props`: Omit<InputProps, "prefix"> — Standard input passthrough; controlled and uncontrolled both work.
 
 Notes:
 - The perimeter trace doubles as the focus indicator — it is never removed, only accelerated.
+- The label is above the box, so pass a placeholder for hint text inside it; nothing is reserved and every child stays centred.
 - Under reduced motion the stroke appears instantly and the error nudge is skipped; the message still announces via aria-invalid.
 
 ### Breaker Switch (KQ-003) — `breaker-switch`

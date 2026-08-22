@@ -306,22 +306,32 @@ test("scan-reveal actually sweeps as its container scrolls", async ({ page }) =>
   expect(await remaining(), "sweep never completed").toBe(0);
 });
 
-test("trace-input aligns its affixes with the text line", async ({ page }) => {
-  // The box centre is not the field's optical line: the space above the text is
-  // reserved for the label to float into. Centring an icon on the box instead
-  // leaves it sitting 8px above the placeholder beside it.
+test("trace-input centres its icon and text in the box", async ({ page }) => {
+  // The field is a plain box now — the label sits above it, so nothing is
+  // reserved inside and every child shares the box's middle. Previously the
+  // icon centred on the box while the text sat 8px lower, under a reserve kept
+  // for a floating label.
   await gotoHydrated(page, "/components/trace-input");
-  const drift = await page.evaluate(() => {
+  const offsets = await page.evaluate(() => {
     const field = document.querySelector(
-      "[data-specimen-stage] .h-14",
+      "[data-specimen-stage] .h-11",
     ) as HTMLElement;
-    const icon = field.querySelector("span svg") as SVGElement;
-    const label = field.querySelector("label") as HTMLElement;
     const mid = (el: Element) => {
       const r = el.getBoundingClientRect();
       return (r.top + r.bottom) / 2;
     };
-    return Math.abs(mid(icon) - mid(label));
+    const box = mid(field);
+    const icon = field.querySelector("span svg") as SVGElement;
+    const input = field.querySelector("input") as HTMLElement;
+    return {
+      icon: Math.abs(mid(icon) - box),
+      input: Math.abs(mid(input) - box),
+      // The label must have left the box entirely.
+      labelInside: field.querySelector("label") !== null,
+    };
   });
-  expect(drift, "prefix icon is off the placeholder's line").toBeLessThan(1.5);
+
+  expect(offsets.labelInside, "label is still inside the box").toBe(false);
+  expect(offsets.icon, "icon is off the box centre").toBeLessThan(1);
+  expect(offsets.input, "text is off the box centre").toBeLessThan(1);
 });

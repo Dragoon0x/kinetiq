@@ -249,6 +249,7 @@ export function AccessPanel({
       <TraceInput
         label="Work email"
         type="email"
+        placeholder="you@company.com"
         name="email"
         autoComplete="email"
         value={emailValue}

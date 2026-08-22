@@ -20,6 +20,7 @@ export function TraceInputDemo() {
       <TraceInput
         label="Instrument name"
         name="instrument"
+        placeholder="Bench lathe 04"
         prefix={<Wrench className="size-4" />}
         description="As etched on the chassis plate."
         autoComplete="off"
@@ -28,6 +29,7 @@ export function TraceInputDemo() {
         label="Operator email"
         name="operator-email"
         type="email"
+        placeholder="you@lab.example"
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         error={emailInvalid ? "Enter a valid email address." : undefined}

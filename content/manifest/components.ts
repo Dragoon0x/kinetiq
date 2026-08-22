@@ -50,7 +50,7 @@ export const components: KinetiqItem[] = [
     type: "registry:ui",
     title: "Trace Input",
     description:
-      "Focus draws its own boundary — a stroke traces the field's perimeter, the label glides to an overline, and errors annotate themselves with a dimension line.",
+      "A plain text field with the focus drawn rather than switched on. A stroke traces the field's perimeter as it takes focus and the label warms to the ring colour; errors nudge the box and annotate themselves with a dimension line. The label sits above the box, so the affixes and the text share one centred line inside it.",
     files: [{ path: "registry/ui/trace-input.tsx", type: "registry:ui" }],
     dependencies: ["motion"],
     registryDependencies: ["utils", "motion", "use-motion-safe"],
@@ -63,7 +63,7 @@ export const components: KinetiqItem[] = [
         name: "label",
         type: "string",
         description:
-          "Field label — rests as placeholder, floats to overline when focused or filled.",
+          "Field label, rendered above the box. Pass labelHidden to keep it for assistive tech only.",
       },
       {
         name: "description / error",
@@ -84,6 +84,7 @@ export const components: KinetiqItem[] = [
     ],
     usageNotes: [
       "The perimeter trace doubles as the focus indicator — it is never removed, only accelerated.",
+      "The label is above the box, so pass a placeholder for hint text inside it; nothing is reserved and every child stays centred.",
       "Under reduced motion the stroke appears instantly and the error nudge is skipped; the message still announces via aria-invalid.",
     ],
   },
