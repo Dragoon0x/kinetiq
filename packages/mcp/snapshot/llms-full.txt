@@ -4086,6 +4086,55 @@ Notes:
 - Beats are plain data; each panel replays its sequence on entry.
 - Under reduced motion beats print in place and the indicator parks.
 
+### Meridian Tiers Pricing (KB-211) — `pricing-meridian-tiers`
+Flip the billing; watch every price roll.
+
+Three tiers under one billing switch. The switch is the library's own segmented control, and the prices are readouts — flip the billing and every numeral carry-rolls to its new value instead of blinking, so the difference between the modes is something you watch happen. The chosen tier stands taller and carries a seal; the maths never moves a card.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pricing-meridian-tiers`
+
+Props:
+- `tiers`: MeridianTier[] — Name, blurb, monthly and annual prices, features, and an optional seal.
+- `onSelect`: (tierId, billing) => void — Fired with the tier and the active billing mode.
+
+Notes:
+- Prices are readouts, so a billing flip carry-rolls every numeral at once.
+- The sealed tier lifts with negative margin on md+ only — cards stay level when stacked.
+- The switch is a real radio group; arrow keys move billing focus.
+
+### Usage Dial Pricing (KB-212) — `pricing-usage-dial`
+Measure the bill before it exists.
+
+Usage pricing you can measure: one caliper, one bill. Drag the jaws to the volume you expect and the monthly total carry-rolls to meet it, priced through progressive bands whose rates are printed right there — a price you can check beats a price you must trust. The caliper is the library's own instrument; the total is a readout.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pricing-usage-dial`
+
+Props:
+- `bands`: UsageBand[] — Progressive bands, ascending; each prices only its own span.
+- `min / max / step / defaultUsage / unit`: number · string — The caliper's range and the metered unit.
+- `onCta`: (usage) => void — Fired with the measured volume.
+
+Notes:
+- The total is computed progressively — each band prices its own span, never the whole volume.
+- Band boundaries pin caliper marks, so the detents are the price breaks.
+- Active bands read full strength; bands beyond the measured span sit at half opacity.
+
+### Open Ledger Pricing (KB-213) — `pricing-open-ledger`
+Arithmetic performed in front of you.
+
+A price you can audit: the bill as an open ledger, one line per thing, each optional line with a real drawn-tick control. Toggle a line and the total carry-rolls to its new sum — arithmetic performed in front of you, which is the entire argument. No bundle names, no contact-us veil.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pricing-open-ledger`
+
+Props:
+- `lines`: LedgerLine[] — Label, detail, price; base lines are always on, others carry a checkbox.
+- `onCta`: (activeLineIds, total) => void — Fired with the composed bill.
+
+Notes:
+- Optional lines are the library's checkbox — the tick draws, and toggling rolls the total.
+- Base lines render without a control and are marked ALWAYS ON.
+- The total is derived, never stored — the lines are the single source of truth.
+
 ### Utils — `utils`
 cn() — class composition.
 

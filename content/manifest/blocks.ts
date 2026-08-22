@@ -1136,11 +1136,7 @@ export const blocks: KinetiqItem[] = [
       },
     ],
     dependencies: ["motion"],
-    registryDependencies: [
-      "utils",
-      "motion",
-      "use-motion-safe",
-    ],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
     categories: ["features"],
     meta: { serial: "KB-209" },
     tagline: "Copy and proof, woven row by row.",
@@ -1212,6 +1208,152 @@ export const blocks: KinetiqItem[] = [
       "The tab bar is gantry-tabs — indicator physics, keyboard travel, and ARIA come from it.",
       "Beats are plain data; each panel replays its sequence on entry.",
       "Under reduced motion beats print in place and the indicator parks.",
+    ],
+  },
+  {
+    name: "pricing-meridian-tiers",
+    type: "registry:block",
+    title: "Meridian Tiers Pricing",
+    description:
+      "Three tiers under one billing switch. The switch is the library's own segmented control, and the prices are readouts — flip the billing and every numeral carry-rolls to its new value instead of blinking, so the difference between the modes is something you watch happen. The chosen tier stands taller and carries a seal; the maths never moves a card.",
+    files: [
+      {
+        path: "registry/blocks/pricing-meridian-tiers/pricing-meridian-tiers.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "segmented-control",
+      "readout",
+      "status-seal",
+      "pressure-button",
+    ],
+    categories: ["pricing"],
+    meta: { serial: "KB-211" },
+    tagline: "Flip the billing; watch every price roll.",
+    keywords: ["pricing", "tiers", "plans", "billing", "section", "marketing"],
+    props: [
+      {
+        name: "tiers",
+        type: "MeridianTier[]",
+        description:
+          "Name, blurb, monthly and annual prices, features, and an optional seal.",
+      },
+      {
+        name: "onSelect",
+        type: "(tierId, billing) => void",
+        description: "Fired with the tier and the active billing mode.",
+      },
+    ],
+    usageNotes: [
+      "Prices are readouts, so a billing flip carry-rolls every numeral at once.",
+      "The sealed tier lifts with negative margin on md+ only — cards stay level when stacked.",
+      "The switch is a real radio group; arrow keys move billing focus.",
+    ],
+  },
+  {
+    name: "pricing-usage-dial",
+    type: "registry:block",
+    title: "Usage Dial Pricing",
+    description:
+      "Usage pricing you can measure: one caliper, one bill. Drag the jaws to the volume you expect and the monthly total carry-rolls to meet it, priced through progressive bands whose rates are printed right there — a price you can check beats a price you must trust. The caliper is the library's own instrument; the total is a readout.",
+    files: [
+      {
+        path: "registry/blocks/pricing-usage-dial/pricing-usage-dial.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "caliper-slider",
+      "readout",
+      "status-seal",
+      "pressure-button",
+    ],
+    categories: ["pricing"],
+    meta: { serial: "KB-212" },
+    tagline: "Measure the bill before it exists.",
+    keywords: ["pricing", "usage", "metered", "slider", "section", "marketing"],
+    props: [
+      {
+        name: "bands",
+        type: "UsageBand[]",
+        description:
+          "Progressive bands, ascending; each prices only its own span.",
+      },
+      {
+        name: "min / max / step / defaultUsage / unit",
+        type: "number · string",
+        description: "The caliper's range and the metered unit.",
+      },
+      {
+        name: "onCta",
+        type: "(usage) => void",
+        description: "Fired with the measured volume.",
+      },
+    ],
+    usageNotes: [
+      "The total is computed progressively — each band prices its own span, never the whole volume.",
+      "Band boundaries pin caliper marks, so the detents are the price breaks.",
+      "Active bands read full strength; bands beyond the measured span sit at half opacity.",
+    ],
+  },
+  {
+    name: "pricing-open-ledger",
+    type: "registry:block",
+    title: "Open Ledger Pricing",
+    description:
+      "A price you can audit: the bill as an open ledger, one line per thing, each optional line with a real drawn-tick control. Toggle a line and the total carry-rolls to its new sum — arithmetic performed in front of you, which is the entire argument. No bundle names, no contact-us veil.",
+    files: [
+      {
+        path: "registry/blocks/pricing-open-ledger/pricing-open-ledger.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "checkbox",
+      "readout",
+      "pressure-button",
+    ],
+    categories: ["pricing"],
+    meta: { serial: "KB-213" },
+    tagline: "Arithmetic performed in front of you.",
+    keywords: [
+      "pricing",
+      "ledger",
+      "itemized",
+      "addons",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "lines",
+        type: "LedgerLine[]",
+        description:
+          "Label, detail, price; base lines are always on, others carry a checkbox.",
+      },
+      {
+        name: "onCta",
+        type: "(activeLineIds, total) => void",
+        description: "Fired with the composed bill.",
+      },
+    ],
+    usageNotes: [
+      "Optional lines are the library's checkbox — the tick draws, and toggling rolls the total.",
+      "Base lines render without a control and are marked ALWAYS ON.",
+      "The total is derived, never stored — the lines are the single source of truth.",
     ],
   },
 ];

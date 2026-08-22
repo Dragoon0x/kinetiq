@@ -239,6 +239,9 @@ import { NavGlassRailDemo } from "@/registry/demos/nav-glass-rail.demo";
 import { FeaturesBentoFieldDemo } from "@/registry/demos/features-bento-field.demo";
 import { FeaturesLedgerRowsDemo } from "@/registry/demos/features-ledger-rows.demo";
 import { FeaturesRelayTabsDemo } from "@/registry/demos/features-relay-tabs.demo";
+import { PricingMeridianTiersDemo } from "@/registry/demos/pricing-meridian-tiers.demo";
+import { PricingOpenLedgerDemo } from "@/registry/demos/pricing-open-ledger.demo";
+import { PricingUsageDialDemo } from "@/registry/demos/pricing-usage-dial.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -476,6 +479,9 @@ export const demos: Record<string, ComponentType> = {
   "features-bento-field": FeaturesBentoFieldDemo,
   "features-ledger-rows": FeaturesLedgerRowsDemo,
   "features-relay-tabs": FeaturesRelayTabsDemo,
+  "pricing-meridian-tiers": PricingMeridianTiersDemo,
+  "pricing-usage-dial": PricingUsageDialDemo,
+  "pricing-open-ledger": PricingOpenLedgerDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,
