@@ -229,6 +229,9 @@ import { FlowFieldDemo } from "@/registry/demos/flow-field.demo";
 import { CodeLatheDemo } from "@/registry/demos/code-lathe.demo";
 import { PromptWellDemo } from "@/registry/demos/prompt-well.demo";
 import { VolleyThreadDemo } from "@/registry/demos/volley-thread.demo";
+import { HeroConsoleDriftDemo } from "@/registry/demos/hero-console-drift.demo";
+import { HeroLaunchBeaconDemo } from "@/registry/demos/hero-launch-beacon.demo";
+import { HeroSplitLedgerDemo } from "@/registry/demos/hero-split-ledger.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -456,6 +459,9 @@ export const demos: Record<string, ComponentType> = {
   "volley-thread": VolleyThreadDemo,
   "prompt-well": PromptWellDemo,
   "code-lathe": CodeLatheDemo,
+  "hero-split-ledger": HeroSplitLedgerDemo,
+  "hero-launch-beacon": HeroLaunchBeaconDemo,
+  "hero-console-drift": HeroConsoleDriftDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

@@ -7,6 +7,7 @@ import {
   assertSpatialCollections,
   itemsByCollection,
 } from "@/content/collections";
+import { isSection, sectionsByFamily } from "@/content/block-categories";
 import { catalogBlocks, catalogComponents } from "@/content/manifest";
 
 function catalogGroups(): SidebarGroup[] {
@@ -41,17 +42,31 @@ function catalogGroups(): SidebarGroup[] {
     ];
   });
 
+  // Card blocks stay one flat group; sections fan out per family, in
+  // landing-page order.
+  const cardBlocks = catalogBlocks.filter((b) => !isSection(b));
   const blocksGroup: SidebarGroup = {
     heading: "Blocks",
     href: "/blocks",
-    items: catalogBlocks.map((b) => ({
+    items: cardBlocks.map((b) => ({
       href: `/blocks/${b.name}`,
       label: b.title,
       serial: b.meta?.serial,
     })),
   };
+  const sectionGroups: SidebarGroup[] = sectionsByFamily(catalogBlocks).map(
+    ({ family, items }) => ({
+      heading: family.label,
+      href: "/blocks",
+      items: items.map((b) => ({
+        href: `/blocks/${b.name}`,
+        label: b.title,
+        serial: b.meta?.serial,
+      })),
+    }),
+  );
 
-  return [...componentGroups, blocksGroup];
+  return [...componentGroups, blocksGroup, ...sectionGroups];
 }
 
 /** Sidebar + content shell shared by the components and blocks sections. */

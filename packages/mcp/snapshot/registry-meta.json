@@ -14,7 +14,7 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 212,
-      "blocks": 16,
+      "blocks": 19,
       "shared": 6
     }
   },
@@ -14118,6 +14118,198 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/exchange-panel",
         "bun": "bunx --bun shadcn@latest add @kinetiq/exchange-panel",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/exchange-panel.json"
+      }
+    },
+    {
+      "slug": "hero-split-ledger",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Split Ledger Hero",
+      "serial": "KB-201",
+      "tagline": "The argument left, the product at work right.",
+      "description": "An editorial split hero: the argument on the left, the product already at work on the right. The copy column arrives on the cascade; the vignette is a live day-ledger whose total carry-rolls and whose rows carry real status seals. A gradient drift held low behind everything keeps the reading line in charge.",
+      "categories": [
+        "hero"
+      ],
+      "keywords": [
+        "hero",
+        "landing",
+        "section",
+        "split",
+        "header",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "headline / copy / eyebrow",
+          "type": "string",
+          "description": "The copy column. Headline is two lines, one per element."
+        },
+        {
+          "name": "rows / panelTitle / panelMetric",
+          "type": "LedgerRow[] · string · {label, value}",
+          "description": "The vignette's schedule and its rolling total."
+        },
+        {
+          "name": "primaryCta / secondaryCta / onPrimary / onSecondary",
+          "type": "string · () => void",
+          "description": "Both actions; primary carries the arrow."
+        }
+      ],
+      "usageNotes": [
+        "The vignette is composed from readout and status-seal, so the proof panel moves like the product, not like a screenshot.",
+        "Sections render full-bleed: give the block the page width and it manages its own column.",
+        "Under reduced motion the copy resolves in place and the drift holds still."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/gradient-drift.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/hero-split-ledger",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hero-split-ledger.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hero-split-ledger",
+        "npm": "npx shadcn@latest add @kinetiq/hero-split-ledger",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hero-split-ledger",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hero-split-ledger",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hero-split-ledger.json"
+      }
+    },
+    {
+      "slug": "hero-launch-beacon",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Launch Beacon Hero",
+      "serial": "KB-202",
+      "tagline": "One announcement, one claim, one action.",
+      "description": "A centered launch hero: one announcement, one claim, one action. The stack lands on the cascade over a contour wavefield held at low opacity, and the proof row carry-rolls its numbers in — a number that arrives reads as measured where a printed one reads as claimed.",
+      "categories": [
+        "hero"
+      ],
+      "keywords": [
+        "hero",
+        "landing",
+        "section",
+        "centered",
+        "launch",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "notice / headline / copy",
+          "type": "string",
+          "description": "Announcement chip, two-line headline, and the standfirst."
+        },
+        {
+          "name": "metrics",
+          "type": "BeaconMetric[]",
+          "description": "The proof row — value, suffix, label; numbers roll in."
+        },
+        {
+          "name": "primaryCta / secondaryCta / onPrimary / onSecondary",
+          "type": "string · () => void",
+          "description": "Both actions; secondary renders as a ghost."
+        }
+      ],
+      "usageNotes": [
+        "The wavefield is atmosphere, not spectacle — held at 0.35 opacity under a grounding gradient so copy stays the brightest thing on stage.",
+        "Sections render full-bleed: give the block the page width and it manages its own column.",
+        "Under reduced motion the stack resolves in place, the field stills, and the metrics print at value."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/wavefield.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/hero-launch-beacon",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hero-launch-beacon.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hero-launch-beacon",
+        "npm": "npx shadcn@latest add @kinetiq/hero-launch-beacon",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hero-launch-beacon",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hero-launch-beacon",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hero-launch-beacon.json"
+      }
+    },
+    {
+      "slug": "hero-console-drift",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Console Drift Hero",
+      "serial": "KB-203",
+      "tagline": "The product demonstrating itself in its own medium.",
+      "description": "A console hero for tools that live in the terminal. Copy holds the left edge; the vignette is a framed console whose listing turns out line by line — the product demonstrating itself in its own medium — while aurora ribbons rise from the page floor, faded low so the listing stays the brightest thing on the stage.",
+      "categories": [
+        "hero"
+      ],
+      "keywords": [
+        "hero",
+        "landing",
+        "section",
+        "terminal",
+        "developer",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "headline / copy / eyebrow",
+          "type": "string",
+          "description": "The copy column. Headline is two lines, one per element."
+        },
+        {
+          "name": "code / filename / checks",
+          "type": "string · string · string[]",
+          "description": "The console vignette — listing, title rail, and its seals."
+        },
+        {
+          "name": "primaryCta / secondaryCta / onPrimary / onSecondary",
+          "type": "string · () => void",
+          "description": "Both actions; primary carries the arrow."
+        }
+      ],
+      "usageNotes": [
+        "The listing is code-lathe with streaming on — every line is in the DOM from the first frame, so copy and screen readers always see whole source.",
+        "Sections render full-bleed: give the block the page width and it manages its own column.",
+        "Under reduced motion the listing is simply there, complete and still, and the ribbons hold."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/aurora-ribbon.json",
+        "https://kinetiqui.vercel.app/r/code-lathe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/hero-console-drift",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hero-console-drift.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hero-console-drift",
+        "npm": "npx shadcn@latest add @kinetiq/hero-console-drift",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hero-console-drift",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hero-console-drift",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hero-console-drift.json"
       }
     },
     {

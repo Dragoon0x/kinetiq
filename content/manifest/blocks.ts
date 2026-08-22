@@ -106,7 +106,7 @@ export const blocks: KinetiqItem[] = [
       },
     ],
     usageNotes: [
-      "One hidden input with autocomplete=\"one-time-code\" drives the six visual cells — the accessibility-correct OTP pattern.",
+      'One hidden input with autocomplete="one-time-code" drives the six visual cells — the accessibility-correct OTP pattern.',
       "Under reduced motion the rail slides become fades and the rejection nudge is skipped; the alert still announces.",
     ],
   },
@@ -117,7 +117,10 @@ export const blocks: KinetiqItem[] = [
     description:
       "Actions bloom from where you pressed — items launch from the trigger's center to seats along the freest quadrant's arc, and fold back in on close.",
     files: [
-      { path: "registry/blocks/iris-menu/iris-menu.tsx", type: "registry:block" },
+      {
+        path: "registry/blocks/iris-menu/iris-menu.tsx",
+        type: "registry:block",
+      },
     ],
     dependencies: ["motion"],
     registryDependencies: ["utils", "motion", "use-motion-safe"],
@@ -136,7 +139,8 @@ export const blocks: KinetiqItem[] = [
         name: "placement",
         type: '"auto" | quadrant',
         defaultValue: '"auto"',
-        description: "Auto measures the viewport and blooms into the roomiest quadrant.",
+        description:
+          "Auto measures the viewport and blooms into the roomiest quadrant.",
       },
       {
         name: "radius",
@@ -500,7 +504,10 @@ export const blocks: KinetiqItem[] = [
     description:
       "Sweep complete, sector empty — a radar arc scans a quiet grid while the 404 numeral deciphers itself, with home and command-deck exits.",
     files: [
-      { path: "registry/blocks/not-found/not-found.tsx", type: "registry:block" },
+      {
+        path: "registry/blocks/not-found/not-found.tsx",
+        type: "registry:block",
+      },
     ],
     dependencies: ["motion"],
     registryDependencies: [
@@ -607,7 +614,8 @@ export const blocks: KinetiqItem[] = [
       {
         name: "balance / format / delta / series",
         type: "number / (v)=>string / {value,direction} / number[]",
-        description: "The carry-rolling amount, its delta chip, and the sparkline data.",
+        description:
+          "The carry-rolling amount, its delta chip, and the sparkline data.",
       },
       {
         name: "activity",
@@ -666,7 +674,8 @@ export const blocks: KinetiqItem[] = [
         name: "feeRate",
         type: "number",
         defaultValue: "0",
-        description: "Fraction applied to the converted side, shown as a fee row.",
+        description:
+          "Fraction applied to the converted side, shown as a fee row.",
       },
       {
         name: "onChange / onDirectionChange",
@@ -728,6 +737,165 @@ export const blocks: KinetiqItem[] = [
     usageNotes: [
       "Rows are native checkboxes under the hood — the whole block is keyboard and screen-reader operable.",
       "Under reduced motion rows reorder instantly and the stamp fades in; the progress track still reports value via ARIA.",
+    ],
+  },
+  {
+    name: "hero-split-ledger",
+    type: "registry:block",
+    title: "Split Ledger Hero",
+    description:
+      "An editorial split hero: the argument on the left, the product already at work on the right. The copy column arrives on the cascade; the vignette is a live day-ledger whose total carry-rolls and whose rows carry real status seals. A gradient drift held low behind everything keeps the reading line in charge.",
+    files: [
+      {
+        path: "registry/blocks/hero-split-ledger/hero-split-ledger.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "gradient-drift",
+      "pressure-button",
+      "readout",
+      "reveal-stagger",
+      "status-seal",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-201" },
+    tagline: "The argument left, the product at work right.",
+    keywords: ["hero", "landing", "section", "split", "header", "marketing"],
+    props: [
+      {
+        name: "headline / copy / eyebrow",
+        type: "string",
+        description: "The copy column. Headline is two lines, one per element.",
+      },
+      {
+        name: "rows / panelTitle / panelMetric",
+        type: "LedgerRow[] · string · {label, value}",
+        description: "The vignette's schedule and its rolling total.",
+      },
+      {
+        name: "primaryCta / secondaryCta / onPrimary / onSecondary",
+        type: "string · () => void",
+        description: "Both actions; primary carries the arrow.",
+      },
+    ],
+    usageNotes: [
+      "The vignette is composed from readout and status-seal, so the proof panel moves like the product, not like a screenshot.",
+      "Sections render full-bleed: give the block the page width and it manages its own column.",
+      "Under reduced motion the copy resolves in place and the drift holds still.",
+    ],
+  },
+  {
+    name: "hero-launch-beacon",
+    type: "registry:block",
+    title: "Launch Beacon Hero",
+    description:
+      "A centered launch hero: one announcement, one claim, one action. The stack lands on the cascade over a contour wavefield held at low opacity, and the proof row carry-rolls its numbers in — a number that arrives reads as measured where a printed one reads as claimed.",
+    files: [
+      {
+        path: "registry/blocks/hero-launch-beacon/hero-launch-beacon.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "wavefield",
+      "pressure-button",
+      "readout",
+      "reveal-stagger",
+      "status-seal",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-202" },
+    tagline: "One announcement, one claim, one action.",
+    keywords: ["hero", "landing", "section", "centered", "launch", "marketing"],
+    props: [
+      {
+        name: "notice / headline / copy",
+        type: "string",
+        description:
+          "Announcement chip, two-line headline, and the standfirst.",
+      },
+      {
+        name: "metrics",
+        type: "BeaconMetric[]",
+        description: "The proof row — value, suffix, label; numbers roll in.",
+      },
+      {
+        name: "primaryCta / secondaryCta / onPrimary / onSecondary",
+        type: "string · () => void",
+        description: "Both actions; secondary renders as a ghost.",
+      },
+    ],
+    usageNotes: [
+      "The wavefield is atmosphere, not spectacle — held at 0.35 opacity under a grounding gradient so copy stays the brightest thing on stage.",
+      "Sections render full-bleed: give the block the page width and it manages its own column.",
+      "Under reduced motion the stack resolves in place, the field stills, and the metrics print at value.",
+    ],
+  },
+  {
+    name: "hero-console-drift",
+    type: "registry:block",
+    title: "Console Drift Hero",
+    description:
+      "A console hero for tools that live in the terminal. Copy holds the left edge; the vignette is a framed console whose listing turns out line by line — the product demonstrating itself in its own medium — while aurora ribbons rise from the page floor, faded low so the listing stays the brightest thing on the stage.",
+    files: [
+      {
+        path: "registry/blocks/hero-console-drift/hero-console-drift.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "aurora-ribbon",
+      "code-lathe",
+      "pressure-button",
+      "reveal-stagger",
+      "status-seal",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-203" },
+    tagline: "The product demonstrating itself in its own medium.",
+    keywords: [
+      "hero",
+      "landing",
+      "section",
+      "terminal",
+      "developer",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "headline / copy / eyebrow",
+        type: "string",
+        description: "The copy column. Headline is two lines, one per element.",
+      },
+      {
+        name: "code / filename / checks",
+        type: "string · string · string[]",
+        description:
+          "The console vignette — listing, title rail, and its seals.",
+      },
+      {
+        name: "primaryCta / secondaryCta / onPrimary / onSecondary",
+        type: "string · () => void",
+        description: "Both actions; primary carries the arrow.",
+      },
+    ],
+    usageNotes: [
+      "The listing is code-lathe with streaming on — every line is in the DOM from the first frame, so copy and screen readers always see whole source.",
+      "Sections render full-bleed: give the block the page width and it manages its own column.",
+      "Under reduced motion the listing is simply there, complete and still, and the ribbons hold.",
     ],
   },
 ];

@@ -6248,6 +6248,102 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-split-ledger",
+      "type": "registry:block",
+      "title": "Split Ledger Hero",
+      "description": "An editorial split hero: the argument on the left, the product already at work on the right. The copy column arrives on the cascade; the vignette is a live day-ledger whose total carry-rolls and whose rows carry real status seals. A gradient drift held low behind everything keeps the reading line in charge.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-split-ledger/hero-split-ledger.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/gradient-drift.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-201"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-launch-beacon",
+      "type": "registry:block",
+      "title": "Launch Beacon Hero",
+      "description": "A centered launch hero: one announcement, one claim, one action. The stack lands on the cascade over a contour wavefield held at low opacity, and the proof row carry-rolls its numbers in — a number that arrives reads as measured where a printed one reads as claimed.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-launch-beacon/hero-launch-beacon.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/wavefield.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-202"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-console-drift",
+      "type": "registry:block",
+      "title": "Console Drift Hero",
+      "description": "A console hero for tools that live in the terminal. Copy holds the left edge; the vignette is a framed console whose listing turns out line by line — the product demonstrating itself in its own medium — while aurora ribbons rise from the page floor, faded low so the listing stays the brightest thing on the stage.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-console-drift/hero-console-drift.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/aurora-ribbon.json",
+        "https://kinetiqui.vercel.app/r/code-lathe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-203"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
