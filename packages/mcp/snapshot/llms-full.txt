@@ -4445,6 +4445,87 @@ Notes:
 - The tape is aria-hidden with a sr-only roll call, same as the marquee hall.
 - The band frames itself with borders; place it between unbordered sections.
 
+### Patch Bay Integrations (KB-233) — `integrations-patch-bay`
+Filter the bay; the wall re-racks.
+
+Integrations as a patch bay: every tool is a jack, filtered by kind with plain chips, and the wall reflows on the masonry instrument — surviving tiles glide to their new sockets rather than reprinting. Connected jacks carry a live seal; available ones state plainly what plugging them in would mean.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/integrations-patch-bay`
+
+Props:
+- `tools`: PatchTool[] — Name, kind, blurb, and connected/available state per jack.
+- `eyebrow / headline / copy`: string — The standfirst above the bay.
+
+Notes:
+- The reflow is masonry-flow — FLIP travel and exit fades come from it, keyed by stable ids.
+- Filter chips are real toggles with aria-pressed; the count reports politely.
+- Every jack's blurb says what connecting does, not what the logo is.
+
+### Ops Desk Data Table (KB-234) — `datatable-ops-desk`
+Not a mockup — the instrument itself.
+
+A working grid in a marketing section, honestly: the library's own virtualized ledger — real sorting, whole-dataset selection — dressed with an ops toolbar whose counts carry-roll as the selection changes. The point of the section is that the table is not a mockup; it is the instrument the page is selling, doing its job on the page.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/datatable-ops-desk`
+
+Props:
+- `runs`: OpsRun[] — The rows; the default roster is deterministic.
+- `onArchive`: (ids) => void — Fired with the selection; the toolbar clears after.
+
+Notes:
+- Virtualization, sorting, and select-all belong to ledger; the section adds the desk around it.
+- The selected count is a readout, so bulk-selects roll rather than blink.
+- Row state renders as seals through the ledger's cell renderer.
+
+### Capability Board Comparison (KB-235) — `comparison-capability-board`
+A board that concedes a row is a board you can trust.
+
+A comparison set as a capability board: capabilities down the side, the honest alternatives across the top — including the notebook, which wins a row, because a board that never concedes anything reads as advertising. Ticks are drawn, dashes are quiet, prose cells say the true middle thing, and the recommended column is sealed and tinted, never reordered.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/comparison-capability-board`
+
+Props:
+- `columns`: BoardColumn[] — The alternatives; one may be recommended.
+- `rows`: BoardRow[] — Capability, optional detail, and a cell per column — boolean or prose.
+
+Notes:
+- A real table with scoped headers — screen readers get the grid, not a div soup.
+- Wide boards scroll inside their own frame; the page never scrolls sideways.
+- String cells are the design's escape hatch: the true middle answer beats a grudging tick.
+
+### Vault Brief Trust (KB-236) — `trust-vault-brief`
+Boring, on purpose, in writing.
+
+Trust stated calmly, in full: the compliance marks as seals with their cadence attached, three safeguards in plain language, and ninety days of uptime drawn by the spark instrument rather than claimed in a sentence. Nothing pulses, nothing looms — a security page that fidgets reads as nervous.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trust-vault-brief`
+
+Props:
+- `marks`: VaultMark[] — Compliance label plus the cadence that keeps it honest.
+- `safeguards`: VaultSafeguard[] — Icon, title, and the plain-language claim.
+- `uptime`: number[] — Ninety points, most recent last; drawn by spark-chart.
+
+Notes:
+- Every mark carries its verification cadence — a badge without one is decoration.
+- The uptime series is deterministic by default; feed real data in production.
+- Deliberately still: seals do not pulse here, and nothing auto-animates.
+
+### Plate Rail Gallery (KB-237) — `gallery-plate-rail`
+Throw the rail; it lands on a plate.
+
+A gallery on the fling instrument — momentum, friction, and snap all come from kinetic-gallery — carrying typographic plates instead of photographs: scenes from the field, set in type, that read in both themes and never arrive as a broken image. Throw the rail; it lands on a plate.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gallery-plate-rail`
+
+Props:
+- `plates`: RailPlate[] — Kicker, title, body, and the footer figure per plate.
+- `eyebrow / headline`: string — The standfirst above the rail.
+
+Notes:
+- All gallery physics belong to kinetic-gallery — fling, friction, snap, and keyboard travel.
+- Plates are typographic on purpose: both themes, any density, no image pipeline.
+- Swap plates for image children if you must — the rail does not care what it carries.
+
 ### Utils — `utils`
 cn() — class composition.
 

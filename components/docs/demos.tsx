@@ -261,6 +261,11 @@ import { ContentFieldPassageDemo } from "@/registry/demos/content-field-passage.
 import { HowStationLineDemo } from "@/registry/demos/how-station-line.demo";
 import { ProofEvidenceBandDemo } from "@/registry/demos/proof-evidence-band.demo";
 import { UsecaseShiftCardsDemo } from "@/registry/demos/usecase-shift-cards.demo";
+import { ComparisonCapabilityBoardDemo } from "@/registry/demos/comparison-capability-board.demo";
+import { DatatableOpsDeskDemo } from "@/registry/demos/datatable-ops-desk.demo";
+import { GalleryPlateRailDemo } from "@/registry/demos/gallery-plate-rail.demo";
+import { IntegrationsPatchBayDemo } from "@/registry/demos/integrations-patch-bay.demo";
+import { TrustVaultBriefDemo } from "@/registry/demos/trust-vault-brief.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -520,6 +525,11 @@ export const demos: Record<string, ComponentType> = {
   "how-station-line": HowStationLineDemo,
   "content-field-passage": ContentFieldPassageDemo,
   "proof-evidence-band": ProofEvidenceBandDemo,
+  "integrations-patch-bay": IntegrationsPatchBayDemo,
+  "datatable-ops-desk": DatatableOpsDeskDemo,
+  "comparison-capability-board": ComparisonCapabilityBoardDemo,
+  "trust-vault-brief": TrustVaultBriefDemo,
+  "gallery-plate-rail": GalleryPlateRailDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

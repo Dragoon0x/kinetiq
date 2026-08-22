@@ -14,7 +14,7 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 212,
-      "blocks": 48,
+      "blocks": 53,
       "shared": 6
     }
   },
@@ -15970,6 +15970,287 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/proof-evidence-band",
         "bun": "bunx --bun shadcn@latest add @kinetiq/proof-evidence-band",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/proof-evidence-band.json"
+      }
+    },
+    {
+      "slug": "integrations-patch-bay",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Patch Bay Integrations",
+      "serial": "KB-233",
+      "tagline": "Filter the bay; the wall re-racks.",
+      "description": "Integrations as a patch bay: every tool is a jack, filtered by kind with plain chips, and the wall reflows on the masonry instrument — surviving tiles glide to their new sockets rather than reprinting. Connected jacks carry a live seal; available ones state plainly what plugging them in would mean.",
+      "categories": [
+        "integrations"
+      ],
+      "keywords": [
+        "integrations",
+        "directory",
+        "filter",
+        "tools",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "tools",
+          "type": "PatchTool[]",
+          "description": "Name, kind, blurb, and connected/available state per jack."
+        },
+        {
+          "name": "eyebrow / headline / copy",
+          "type": "string",
+          "description": "The standfirst above the bay."
+        }
+      ],
+      "usageNotes": [
+        "The reflow is masonry-flow — FLIP travel and exit fades come from it, keyed by stable ids.",
+        "Filter chips are real toggles with aria-pressed; the count reports politely.",
+        "Every jack's blurb says what connecting does, not what the logo is."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/masonry-flow.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/integrations-patch-bay",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/integrations-patch-bay.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/integrations-patch-bay",
+        "npm": "npx shadcn@latest add @kinetiq/integrations-patch-bay",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/integrations-patch-bay",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/integrations-patch-bay",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/integrations-patch-bay.json"
+      }
+    },
+    {
+      "slug": "datatable-ops-desk",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Ops Desk Data Table",
+      "serial": "KB-234",
+      "tagline": "Not a mockup — the instrument itself.",
+      "description": "A working grid in a marketing section, honestly: the library's own virtualized ledger — real sorting, whole-dataset selection — dressed with an ops toolbar whose counts carry-roll as the selection changes. The point of the section is that the table is not a mockup; it is the instrument the page is selling, doing its job on the page.",
+      "categories": [
+        "data-tables"
+      ],
+      "keywords": [
+        "table",
+        "data",
+        "grid",
+        "sorting",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "runs",
+          "type": "OpsRun[]",
+          "description": "The rows; the default roster is deterministic."
+        },
+        {
+          "name": "onArchive",
+          "type": "(ids) => void",
+          "description": "Fired with the selection; the toolbar clears after."
+        }
+      ],
+      "usageNotes": [
+        "Virtualization, sorting, and select-all belong to ledger; the section adds the desk around it.",
+        "The selected count is a readout, so bulk-selects roll rather than blink.",
+        "Row state renders as seals through the ledger's cell renderer."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/ledger.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/datatable-ops-desk",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/datatable-ops-desk.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/datatable-ops-desk",
+        "npm": "npx shadcn@latest add @kinetiq/datatable-ops-desk",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/datatable-ops-desk",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/datatable-ops-desk",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/datatable-ops-desk.json"
+      }
+    },
+    {
+      "slug": "comparison-capability-board",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Capability Board Comparison",
+      "serial": "KB-235",
+      "tagline": "A board that concedes a row is a board you can trust.",
+      "description": "A comparison set as a capability board: capabilities down the side, the honest alternatives across the top — including the notebook, which wins a row, because a board that never concedes anything reads as advertising. Ticks are drawn, dashes are quiet, prose cells say the true middle thing, and the recommended column is sealed and tinted, never reordered.",
+      "categories": [
+        "comparison"
+      ],
+      "keywords": [
+        "comparison",
+        "table",
+        "matrix",
+        "capabilities",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "columns",
+          "type": "BoardColumn[]",
+          "description": "The alternatives; one may be recommended."
+        },
+        {
+          "name": "rows",
+          "type": "BoardRow[]",
+          "description": "Capability, optional detail, and a cell per column — boolean or prose."
+        }
+      ],
+      "usageNotes": [
+        "A real table with scoped headers — screen readers get the grid, not a div soup.",
+        "Wide boards scroll inside their own frame; the page never scrolls sideways.",
+        "String cells are the design's escape hatch: the true middle answer beats a grudging tick."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/comparison-capability-board",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/comparison-capability-board.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/comparison-capability-board",
+        "npm": "npx shadcn@latest add @kinetiq/comparison-capability-board",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/comparison-capability-board",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/comparison-capability-board",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/comparison-capability-board.json"
+      }
+    },
+    {
+      "slug": "trust-vault-brief",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Vault Brief Trust",
+      "serial": "KB-236",
+      "tagline": "Boring, on purpose, in writing.",
+      "description": "Trust stated calmly, in full: the compliance marks as seals with their cadence attached, three safeguards in plain language, and ninety days of uptime drawn by the spark instrument rather than claimed in a sentence. Nothing pulses, nothing looms — a security page that fidgets reads as nervous.",
+      "categories": [
+        "trust"
+      ],
+      "keywords": [
+        "security",
+        "trust",
+        "compliance",
+        "uptime",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "marks",
+          "type": "VaultMark[]",
+          "description": "Compliance label plus the cadence that keeps it honest."
+        },
+        {
+          "name": "safeguards",
+          "type": "VaultSafeguard[]",
+          "description": "Icon, title, and the plain-language claim."
+        },
+        {
+          "name": "uptime",
+          "type": "number[]",
+          "description": "Ninety points, most recent last; drawn by spark-chart."
+        }
+      ],
+      "usageNotes": [
+        "Every mark carries its verification cadence — a badge without one is decoration.",
+        "The uptime series is deterministic by default; feed real data in production.",
+        "Deliberately still: seals do not pulse here, and nothing auto-animates."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spark-chart.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/trust-vault-brief",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/trust-vault-brief.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/trust-vault-brief",
+        "npm": "npx shadcn@latest add @kinetiq/trust-vault-brief",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/trust-vault-brief",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/trust-vault-brief",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/trust-vault-brief.json"
+      }
+    },
+    {
+      "slug": "gallery-plate-rail",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Plate Rail Gallery",
+      "serial": "KB-237",
+      "tagline": "Throw the rail; it lands on a plate.",
+      "description": "A gallery on the fling instrument — momentum, friction, and snap all come from kinetic-gallery — carrying typographic plates instead of photographs: scenes from the field, set in type, that read in both themes and never arrive as a broken image. Throw the rail; it lands on a plate.",
+      "categories": [
+        "galleries"
+      ],
+      "keywords": [
+        "gallery",
+        "carousel",
+        "plates",
+        "editorial",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "plates",
+          "type": "RailPlate[]",
+          "description": "Kicker, title, body, and the footer figure per plate."
+        },
+        {
+          "name": "eyebrow / headline",
+          "type": "string",
+          "description": "The standfirst above the rail."
+        }
+      ],
+      "usageNotes": [
+        "All gallery physics belong to kinetic-gallery — fling, friction, snap, and keyboard travel.",
+        "Plates are typographic on purpose: both themes, any density, no image pipeline.",
+        "Swap plates for image children if you must — the rail does not care what it carries."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/kinetic-gallery.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/gallery-plate-rail",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gallery-plate-rail.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gallery-plate-rail",
+        "npm": "npx shadcn@latest add @kinetiq/gallery-plate-rail",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gallery-plate-rail",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gallery-plate-rail",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gallery-plate-rail.json"
       }
     },
     {

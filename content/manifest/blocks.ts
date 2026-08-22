@@ -2257,4 +2257,244 @@ export const blocks: KinetiqItem[] = [
       "The band frames itself with borders; place it between unbordered sections.",
     ],
   },
+  {
+    name: "integrations-patch-bay",
+    type: "registry:block",
+    title: "Patch Bay Integrations",
+    description:
+      "Integrations as a patch bay: every tool is a jack, filtered by kind with plain chips, and the wall reflows on the masonry instrument — surviving tiles glide to their new sockets rather than reprinting. Connected jacks carry a live seal; available ones state plainly what plugging them in would mean.",
+    files: [
+      {
+        path: "registry/blocks/integrations-patch-bay/integrations-patch-bay.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "masonry-flow",
+      "status-seal",
+    ],
+    categories: ["integrations"],
+    meta: { serial: "KB-233" },
+    tagline: "Filter the bay; the wall re-racks.",
+    keywords: [
+      "integrations",
+      "directory",
+      "filter",
+      "tools",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "tools",
+        type: "PatchTool[]",
+        description:
+          "Name, kind, blurb, and connected/available state per jack.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The standfirst above the bay.",
+      },
+    ],
+    usageNotes: [
+      "The reflow is masonry-flow — FLIP travel and exit fades come from it, keyed by stable ids.",
+      "Filter chips are real toggles with aria-pressed; the count reports politely.",
+      "Every jack's blurb says what connecting does, not what the logo is.",
+    ],
+  },
+  {
+    name: "datatable-ops-desk",
+    type: "registry:block",
+    title: "Ops Desk Data Table",
+    description:
+      "A working grid in a marketing section, honestly: the library's own virtualized ledger — real sorting, whole-dataset selection — dressed with an ops toolbar whose counts carry-roll as the selection changes. The point of the section is that the table is not a mockup; it is the instrument the page is selling, doing its job on the page.",
+    files: [
+      {
+        path: "registry/blocks/datatable-ops-desk/datatable-ops-desk.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "ledger",
+      "readout",
+      "status-seal",
+      "pressure-button",
+    ],
+    categories: ["data-tables"],
+    meta: { serial: "KB-234" },
+    tagline: "Not a mockup — the instrument itself.",
+    keywords: ["table", "data", "grid", "sorting", "section", "marketing"],
+    props: [
+      {
+        name: "runs",
+        type: "OpsRun[]",
+        description: "The rows; the default roster is deterministic.",
+      },
+      {
+        name: "onArchive",
+        type: "(ids) => void",
+        description: "Fired with the selection; the toolbar clears after.",
+      },
+    ],
+    usageNotes: [
+      "Virtualization, sorting, and select-all belong to ledger; the section adds the desk around it.",
+      "The selected count is a readout, so bulk-selects roll rather than blink.",
+      "Row state renders as seals through the ledger's cell renderer.",
+    ],
+  },
+  {
+    name: "comparison-capability-board",
+    type: "registry:block",
+    title: "Capability Board Comparison",
+    description:
+      "A comparison set as a capability board: capabilities down the side, the honest alternatives across the top — including the notebook, which wins a row, because a board that never concedes anything reads as advertising. Ticks are drawn, dashes are quiet, prose cells say the true middle thing, and the recommended column is sealed and tinted, never reordered.",
+    files: [
+      {
+        path: "registry/blocks/comparison-capability-board/comparison-capability-board.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "status-seal"],
+    categories: ["comparison"],
+    meta: { serial: "KB-235" },
+    tagline: "A board that concedes a row is a board you can trust.",
+    keywords: [
+      "comparison",
+      "table",
+      "matrix",
+      "capabilities",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "columns",
+        type: "BoardColumn[]",
+        description: "The alternatives; one may be recommended.",
+      },
+      {
+        name: "rows",
+        type: "BoardRow[]",
+        description:
+          "Capability, optional detail, and a cell per column — boolean or prose.",
+      },
+    ],
+    usageNotes: [
+      "A real table with scoped headers — screen readers get the grid, not a div soup.",
+      "Wide boards scroll inside their own frame; the page never scrolls sideways.",
+      "String cells are the design's escape hatch: the true middle answer beats a grudging tick.",
+    ],
+  },
+  {
+    name: "trust-vault-brief",
+    type: "registry:block",
+    title: "Vault Brief Trust",
+    description:
+      "Trust stated calmly, in full: the compliance marks as seals with their cadence attached, three safeguards in plain language, and ninety days of uptime drawn by the spark instrument rather than claimed in a sentence. Nothing pulses, nothing looms — a security page that fidgets reads as nervous.",
+    files: [
+      {
+        path: "registry/blocks/trust-vault-brief/trust-vault-brief.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spark-chart",
+      "status-seal",
+    ],
+    categories: ["trust"],
+    meta: { serial: "KB-236" },
+    tagline: "Boring, on purpose, in writing.",
+    keywords: [
+      "security",
+      "trust",
+      "compliance",
+      "uptime",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "marks",
+        type: "VaultMark[]",
+        description: "Compliance label plus the cadence that keeps it honest.",
+      },
+      {
+        name: "safeguards",
+        type: "VaultSafeguard[]",
+        description: "Icon, title, and the plain-language claim.",
+      },
+      {
+        name: "uptime",
+        type: "number[]",
+        description: "Ninety points, most recent last; drawn by spark-chart.",
+      },
+    ],
+    usageNotes: [
+      "Every mark carries its verification cadence — a badge without one is decoration.",
+      "The uptime series is deterministic by default; feed real data in production.",
+      "Deliberately still: seals do not pulse here, and nothing auto-animates.",
+    ],
+  },
+  {
+    name: "gallery-plate-rail",
+    type: "registry:block",
+    title: "Plate Rail Gallery",
+    description:
+      "A gallery on the fling instrument — momentum, friction, and snap all come from kinetic-gallery — carrying typographic plates instead of photographs: scenes from the field, set in type, that read in both themes and never arrive as a broken image. Throw the rail; it lands on a plate.",
+    files: [
+      {
+        path: "registry/blocks/gallery-plate-rail/gallery-plate-rail.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "kinetic-gallery",
+    ],
+    categories: ["galleries"],
+    meta: { serial: "KB-237" },
+    tagline: "Throw the rail; it lands on a plate.",
+    keywords: [
+      "gallery",
+      "carousel",
+      "plates",
+      "editorial",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "plates",
+        type: "RailPlate[]",
+        description: "Kicker, title, body, and the footer figure per plate.",
+      },
+      {
+        name: "eyebrow / headline",
+        type: "string",
+        description: "The standfirst above the rail.",
+      },
+    ],
+    usageNotes: [
+      "All gallery physics belong to kinetic-gallery — fling, friction, snap, and keyboard travel.",
+      "Plates are typographic on purpose: both themes, any density, no image pipeline.",
+      "Swap plates for image children if you must — the rail does not care what it carries.",
+    ],
+  },
 ];

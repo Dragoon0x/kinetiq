@@ -7187,6 +7187,147 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "integrations-patch-bay",
+      "type": "registry:block",
+      "title": "Patch Bay Integrations",
+      "description": "Integrations as a patch bay: every tool is a jack, filtered by kind with plain chips, and the wall reflows on the masonry instrument — surviving tiles glide to their new sockets rather than reprinting. Connected jacks carry a live seal; available ones state plainly what plugging them in would mean.",
+      "files": [
+        {
+          "path": "registry/blocks/integrations-patch-bay/integrations-patch-bay.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/masonry-flow.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "integrations"
+      ],
+      "meta": {
+        "serial": "KB-233"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "datatable-ops-desk",
+      "type": "registry:block",
+      "title": "Ops Desk Data Table",
+      "description": "A working grid in a marketing section, honestly: the library's own virtualized ledger — real sorting, whole-dataset selection — dressed with an ops toolbar whose counts carry-roll as the selection changes. The point of the section is that the table is not a mockup; it is the instrument the page is selling, doing its job on the page.",
+      "files": [
+        {
+          "path": "registry/blocks/datatable-ops-desk/datatable-ops-desk.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/ledger.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "data-tables"
+      ],
+      "meta": {
+        "serial": "KB-234"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "comparison-capability-board",
+      "type": "registry:block",
+      "title": "Capability Board Comparison",
+      "description": "A comparison set as a capability board: capabilities down the side, the honest alternatives across the top — including the notebook, which wins a row, because a board that never concedes anything reads as advertising. Ticks are drawn, dashes are quiet, prose cells say the true middle thing, and the recommended column is sealed and tinted, never reordered.",
+      "files": [
+        {
+          "path": "registry/blocks/comparison-capability-board/comparison-capability-board.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "comparison"
+      ],
+      "meta": {
+        "serial": "KB-235"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "trust-vault-brief",
+      "type": "registry:block",
+      "title": "Vault Brief Trust",
+      "description": "Trust stated calmly, in full: the compliance marks as seals with their cadence attached, three safeguards in plain language, and ninety days of uptime drawn by the spark instrument rather than claimed in a sentence. Nothing pulses, nothing looms — a security page that fidgets reads as nervous.",
+      "files": [
+        {
+          "path": "registry/blocks/trust-vault-brief/trust-vault-brief.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spark-chart.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "trust"
+      ],
+      "meta": {
+        "serial": "KB-236"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gallery-plate-rail",
+      "type": "registry:block",
+      "title": "Plate Rail Gallery",
+      "description": "A gallery on the fling instrument — momentum, friction, and snap all come from kinetic-gallery — carrying typographic plates instead of photographs: scenes from the field, set in type, that read in both themes and never arrive as a broken image. Throw the rail; it lands on a plate.",
+      "files": [
+        {
+          "path": "registry/blocks/gallery-plate-rail/gallery-plate-rail.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/kinetic-gallery.json"
+      ],
+      "categories": [
+        "galleries"
+      ],
+      "meta": {
+        "serial": "KB-237"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
