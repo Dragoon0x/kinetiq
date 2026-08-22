@@ -249,6 +249,10 @@ import { CtaLaunchWindowDemo } from "@/registry/demos/cta-launch-window.demo";
 import { CtaTerminalCloseDemo } from "@/registry/demos/cta-terminal-close.demo";
 import { TestimonialDispatchWallDemo } from "@/registry/demos/testimonial-dispatch-wall.demo";
 import { TestimonialStandingDeskDemo } from "@/registry/demos/testimonial-standing-desk.demo";
+import { AnnounceLaunchRailDemo } from "@/registry/demos/announce-launch-rail.demo";
+import { EmptyFirstLightDemo } from "@/registry/demos/empty-first-light.demo";
+import { FaqCounterDeskDemo } from "@/registry/demos/faq-counter-desk.demo";
+import { FaqSplitRegistryDemo } from "@/registry/demos/faq-split-registry.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -496,6 +500,10 @@ export const demos: Record<string, ComponentType> = {
   "testimonial-standing-desk": TestimonialStandingDeskDemo,
   "cta-launch-window": CtaLaunchWindowDemo,
   "cta-terminal-close": CtaTerminalCloseDemo,
+  "faq-split-registry": FaqSplitRegistryDemo,
+  "faq-counter-desk": FaqCounterDeskDemo,
+  "announce-launch-rail": AnnounceLaunchRailDemo,
+  "empty-first-light": EmptyFirstLightDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

@@ -4249,6 +4249,71 @@ Notes:
 - Assurances are seals, not prose: short, checkable claims.
 - The card centers itself; the section stays quiet around it.
 
+### Split Registry FAQ (KB-221) — `faq-split-registry`
+The rail answers where; the drawers answer what.
+
+A FAQ set like a registry: the index down a sticky left rail — one jump link per group — and the questions on the right, each group a drawer accordion whose panels glide open on the library's own spring. The split earns the section its place: the accordion answers one question, the rail answers where is my question.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/faq-split-registry`
+
+Props:
+- `groups`: RegistryGroup[] — Heading plus question/answer entries per group.
+- `eyebrow / headline / copy`: string — The rail's standfirst.
+
+Notes:
+- All disclosure motion belongs to drawer-accordion — the section only arranges it.
+- Rail links are plain anchors with scroll margins, so deep links land cleanly.
+- The rail sticks on lg and stacks above the drawers on small screens.
+
+### Counter Desk FAQ (KB-222) — `faq-counter-desk`
+Ask first, browse second.
+
+A FAQ with a counter desk: ask first, browse second. The filter is the library's own traced field, narrowing the drawers live as you type — matching question, answer, and hidden keywords — and when nothing matches, the desk says so plainly and offers a person, carrying your words along.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/faq-counter-desk`
+
+Props:
+- `questions`: DeskQuestion[] — Question, answer, and hidden keywords the filter also matches.
+- `onContact`: (query) => void — The unanswered path, fired with what was typed.
+
+Notes:
+- The match count reports through a polite status line as the filter narrows.
+- The empty desk is a real state with a real action, not a dead end.
+- Filtering matches hidden keywords, so drawers surface for words their text never uses.
+
+### Launch Rail Announcements (KB-223) — `announce-launch-rail`
+One rail, every update, one dismissal.
+
+A launch rail for the top of a page: the library's own alert bar carrying a rolling slot of updates — one line at a time, each holding just long enough to read. The bar owns the entrance, the severity stripe, and the dismissal that closes the space behind it; the slot only rolls. Dismiss it and every update goes at once, the way a rail should.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/announce-launch-rail`
+
+Props:
+- `updates`: string[] — The lines the slot rolls through, in order.
+- `open / onOpenChange`: boolean · (open) => void — Controlled visibility passthrough to the bar.
+- `actionLabel / onAction`: string · () => void — The see-everything path at the rail's end.
+
+Notes:
+- Entrance, stripe, and dismissal belong to alert-bar; the rolling slot belongs to marquee-swap.
+- The rail spans full-bleed — its borders are suppressed so the page edge is the frame.
+- Under reduced motion the slot steps between lines without travel.
+
+### First Light Empty State (KB-224) — `empty-first-light`
+A runway, not an apology.
+
+The first minute of a product, treated as a moment rather than an apology: a dashed intake frame where the work will soon live, three concrete first moves arriving on the cascade, and one primary action. No sad illustration, no nothing-here-yet — the empty state is a runway, and it says which way to take off.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/empty-first-light`
+
+Props:
+- `actions`: FirstAction[] — Three concrete first moves, each a real button.
+- `headline / copy / primaryCta`: string — What this place becomes, and the main way in.
+
+Notes:
+- Deliberately in-panel: the full-page empty state belongs to the not-found block.
+- First moves are buttons, not cards — every surface here does something.
+- Under reduced motion the moves print in place.
+
 ### Utils — `utils`
 cn() — class composition.
 

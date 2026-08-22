@@ -1681,4 +1681,197 @@ export const blocks: KinetiqItem[] = [
       "The card centers itself; the section stays quiet around it.",
     ],
   },
+  {
+    name: "faq-split-registry",
+    type: "registry:block",
+    title: "Split Registry FAQ",
+    description:
+      "A FAQ set like a registry: the index down a sticky left rail — one jump link per group — and the questions on the right, each group a drawer accordion whose panels glide open on the library's own spring. The split earns the section its place: the accordion answers one question, the rail answers where is my question.",
+    files: [
+      {
+        path: "registry/blocks/faq-split-registry/faq-split-registry.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "drawer-accordion",
+    ],
+    categories: ["faq"],
+    meta: { serial: "KB-221" },
+    tagline: "The rail answers where; the drawers answer what.",
+    keywords: [
+      "faq",
+      "questions",
+      "accordion",
+      "index",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "groups",
+        type: "RegistryGroup[]",
+        description: "Heading plus question/answer entries per group.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The rail's standfirst.",
+      },
+    ],
+    usageNotes: [
+      "All disclosure motion belongs to drawer-accordion — the section only arranges it.",
+      "Rail links are plain anchors with scroll margins, so deep links land cleanly.",
+      "The rail sticks on lg and stacks above the drawers on small screens.",
+    ],
+  },
+  {
+    name: "faq-counter-desk",
+    type: "registry:block",
+    title: "Counter Desk FAQ",
+    description:
+      "A FAQ with a counter desk: ask first, browse second. The filter is the library's own traced field, narrowing the drawers live as you type — matching question, answer, and hidden keywords — and when nothing matches, the desk says so plainly and offers a person, carrying your words along.",
+    files: [
+      {
+        path: "registry/blocks/faq-counter-desk/faq-counter-desk.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "drawer-accordion",
+      "trace-input",
+      "pressure-button",
+    ],
+    categories: ["faq"],
+    meta: { serial: "KB-222" },
+    tagline: "Ask first, browse second.",
+    keywords: ["faq", "search", "filter", "help", "section", "marketing"],
+    props: [
+      {
+        name: "questions",
+        type: "DeskQuestion[]",
+        description:
+          "Question, answer, and hidden keywords the filter also matches.",
+      },
+      {
+        name: "onContact",
+        type: "(query) => void",
+        description: "The unanswered path, fired with what was typed.",
+      },
+    ],
+    usageNotes: [
+      "The match count reports through a polite status line as the filter narrows.",
+      "The empty desk is a real state with a real action, not a dead end.",
+      "Filtering matches hidden keywords, so drawers surface for words their text never uses.",
+    ],
+  },
+  {
+    name: "announce-launch-rail",
+    type: "registry:block",
+    title: "Launch Rail Announcements",
+    description:
+      "A launch rail for the top of a page: the library's own alert bar carrying a rolling slot of updates — one line at a time, each holding just long enough to read. The bar owns the entrance, the severity stripe, and the dismissal that closes the space behind it; the slot only rolls. Dismiss it and every update goes at once, the way a rail should.",
+    files: [
+      {
+        path: "registry/blocks/announce-launch-rail/announce-launch-rail.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "alert-bar",
+      "marquee-swap",
+    ],
+    categories: ["announcement"],
+    meta: { serial: "KB-223" },
+    tagline: "One rail, every update, one dismissal.",
+    keywords: [
+      "announcement",
+      "banner",
+      "updates",
+      "rail",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "updates",
+        type: "string[]",
+        description: "The lines the slot rolls through, in order.",
+      },
+      {
+        name: "open / onOpenChange",
+        type: "boolean · (open) => void",
+        description: "Controlled visibility passthrough to the bar.",
+      },
+      {
+        name: "actionLabel / onAction",
+        type: "string · () => void",
+        description: "The see-everything path at the rail's end.",
+      },
+    ],
+    usageNotes: [
+      "Entrance, stripe, and dismissal belong to alert-bar; the rolling slot belongs to marquee-swap.",
+      "The rail spans full-bleed — its borders are suppressed so the page edge is the frame.",
+      "Under reduced motion the slot steps between lines without travel.",
+    ],
+  },
+  {
+    name: "empty-first-light",
+    type: "registry:block",
+    title: "First Light Empty State",
+    description:
+      "The first minute of a product, treated as a moment rather than an apology: a dashed intake frame where the work will soon live, three concrete first moves arriving on the cascade, and one primary action. No sad illustration, no nothing-here-yet — the empty state is a runway, and it says which way to take off.",
+    files: [
+      {
+        path: "registry/blocks/empty-first-light/empty-first-light.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "pressure-button",
+    ],
+    categories: ["empty-states"],
+    meta: { serial: "KB-224" },
+    tagline: "A runway, not an apology.",
+    keywords: [
+      "empty state",
+      "onboarding",
+      "first run",
+      "getting started",
+      "section",
+    ],
+    props: [
+      {
+        name: "actions",
+        type: "FirstAction[]",
+        description: "Three concrete first moves, each a real button.",
+      },
+      {
+        name: "headline / copy / primaryCta",
+        type: "string",
+        description: "What this place becomes, and the main way in.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately in-panel: the full-page empty state belongs to the not-found block.",
+      "First moves are buttons, not cards — every surface here does something.",
+      "Under reduced motion the moves print in place.",
+    ],
+  },
 ];
