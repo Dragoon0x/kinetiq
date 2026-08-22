@@ -1369,12 +1369,7 @@ export const blocks: KinetiqItem[] = [
       },
     ],
     dependencies: ["motion"],
-    registryDependencies: [
-      "utils",
-      "motion",
-      "use-motion-safe",
-      "readout",
-    ],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
     categories: ["stats"],
     meta: { serial: "KB-214" },
     tagline: "The claim is the number.",
@@ -1490,6 +1485,200 @@ export const blocks: KinetiqItem[] = [
       "Motion belongs to ticker-tape — friction, hover drag, and the reduced-motion park come from it.",
       "The tapes are aria-hidden; a sr-only line reads every mark in order.",
       "Wordmarks are text, so they follow the theme with no asset swaps.",
+    ],
+  },
+  {
+    name: "testimonial-dispatch-wall",
+    type: "registry:block",
+    title: "Dispatch Wall Testimonials",
+    description:
+      "A dispatch wall: one quotation set large on the balance instrument — its words rising and resolving in reading order — over a wall of shorter dispatches arriving on the cascade. The lead quote carries the argument; the wall carries the pattern. All type, no headshots: what was said, who said it, nothing performing sincerity.",
+    files: [
+      {
+        path: "registry/blocks/testimonial-dispatch-wall/testimonial-dispatch-wall.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "balance-quote",
+    ],
+    categories: ["testimonials"],
+    meta: { serial: "KB-217" },
+    tagline: "One lead voice, a wall of pattern.",
+    keywords: [
+      "testimonials",
+      "quotes",
+      "wall",
+      "social proof",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "lead",
+        type: "{ quote, cite }",
+        description: "The large quotation on the balance instrument.",
+      },
+      {
+        name: "dispatches",
+        type: "Dispatch[]",
+        description: "The wall — quote, name, role per card.",
+      },
+    ],
+    usageNotes: [
+      "The lead quote's word-by-word rise belongs to balance-quote; the wall only cascades.",
+      "Cards are figures with real blockquote and figcaption semantics.",
+      "Four across on desktop, two on tablet, one on small screens.",
+    ],
+  },
+  {
+    name: "testimonial-standing-desk",
+    type: "registry:block",
+    title: "Standing Desk Testimonials",
+    description:
+      "One testimony at a time, at a standing desk: the roster on the left, the floor given wholly to whoever holds it. Choosing a name slides their testimony in from the side it queues on, and every claim carries a proof seal — the measured thing the quote rests on — because a testimonial with a number survives skepticism better than adjectives do.",
+    files: [
+      {
+        path: "registry/blocks/testimonial-standing-desk/testimonial-standing-desk.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "status-seal"],
+    categories: ["testimonials"],
+    meta: { serial: "KB-218" },
+    tagline: "Every claim carries its number.",
+    keywords: [
+      "testimonials",
+      "spotlight",
+      "proof",
+      "tabs",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "entries",
+        type: "DeskEntry[]",
+        description: "Quote, name, role, and the proof line sealed beside it.",
+      },
+      {
+        name: "eyebrow / headline",
+        type: "string",
+        description: "The standfirst above the desk.",
+      },
+    ],
+    usageNotes: [
+      "The roster is a real tablist; the floor is the single live panel.",
+      "Testimonies enter from the side they queue on — direction follows roster order.",
+      "Under reduced motion testimonies crossfade in place.",
+    ],
+  },
+  {
+    name: "cta-launch-window",
+    type: "registry:block",
+    title: "Launch Window CTA",
+    description:
+      "The closing ask as a lit window: one headline, one field, one button, framed in a drifting gradient held bright at the section's heart and dark at its edges. The field and the button are the library's own — the same traced focus and pressed confirm as everywhere else — because the last thing a page asks should feel like the product it sold.",
+    files: [
+      {
+        path: "registry/blocks/cta-launch-window/cta-launch-window.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "gradient-drift",
+      "trace-input",
+      "pressure-button",
+    ],
+    categories: ["cta"],
+    meta: { serial: "KB-219" },
+    tagline: "The last ask feels like the product.",
+    keywords: ["cta", "signup", "email", "closing", "section", "marketing"],
+    props: [
+      {
+        name: "headline / copy / cta",
+        type: "string",
+        description: "The ask; headline is two lines.",
+      },
+      {
+        name: "onSubmit",
+        type: "(email) => void",
+        description: "Fired with a shape-valid address.",
+      },
+      {
+        name: "notes",
+        type: "string[]",
+        description: "The quiet reassurances under the form.",
+      },
+    ],
+    usageNotes: [
+      "The drift is held behind a vertical gradient so the window reads lit at its heart.",
+      "Submit validates the address shape and reports through a polite status line.",
+      "Reassurances stay mono and quiet — they are footnotes, not features.",
+    ],
+  },
+  {
+    name: "cta-terminal-close",
+    type: "registry:block",
+    title: "Terminal Close CTA",
+    description:
+      "A closing move for tools that live in the terminal: the ask is the install command itself, turned out in the console frame with copy one click away — because for this audience, get started means give me the line. A conventional button stands beside it for everyone else.",
+    files: [
+      {
+        path: "registry/blocks/cta-terminal-close/cta-terminal-close.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "code-lathe",
+      "pressure-button",
+      "status-seal",
+    ],
+    categories: ["cta"],
+    meta: { serial: "KB-220" },
+    tagline: "The ask is the install line.",
+    keywords: [
+      "cta",
+      "terminal",
+      "install",
+      "developer",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "command",
+        type: "string",
+        description: "The one line that starts everything, with copy attached.",
+      },
+      {
+        name: "assurances",
+        type: "string[]",
+        description: "Seals beside the frame — platforms, permissions, exit.",
+      },
+      {
+        name: "cta / onCta",
+        type: "string · () => void",
+        description: "The conventional path beside the command.",
+      },
+    ],
+    usageNotes: [
+      "The command frame is code-lathe — its copy control and reduced-motion behaviour come with it.",
+      "Assurances are seals, not prose: short, checkable claims.",
+      "The card centers itself; the section stays quiet around it.",
     ],
   },
 ];

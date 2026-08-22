@@ -4183,6 +4183,72 @@ Notes:
 - The tapes are aria-hidden; a sr-only line reads every mark in order.
 - Wordmarks are text, so they follow the theme with no asset swaps.
 
+### Dispatch Wall Testimonials (KB-217) — `testimonial-dispatch-wall`
+One lead voice, a wall of pattern.
+
+A dispatch wall: one quotation set large on the balance instrument — its words rising and resolving in reading order — over a wall of shorter dispatches arriving on the cascade. The lead quote carries the argument; the wall carries the pattern. All type, no headshots: what was said, who said it, nothing performing sincerity.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/testimonial-dispatch-wall`
+
+Props:
+- `lead`: { quote, cite } — The large quotation on the balance instrument.
+- `dispatches`: Dispatch[] — The wall — quote, name, role per card.
+
+Notes:
+- The lead quote's word-by-word rise belongs to balance-quote; the wall only cascades.
+- Cards are figures with real blockquote and figcaption semantics.
+- Four across on desktop, two on tablet, one on small screens.
+
+### Standing Desk Testimonials (KB-218) — `testimonial-standing-desk`
+Every claim carries its number.
+
+One testimony at a time, at a standing desk: the roster on the left, the floor given wholly to whoever holds it. Choosing a name slides their testimony in from the side it queues on, and every claim carries a proof seal — the measured thing the quote rests on — because a testimonial with a number survives skepticism better than adjectives do.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/testimonial-standing-desk`
+
+Props:
+- `entries`: DeskEntry[] — Quote, name, role, and the proof line sealed beside it.
+- `eyebrow / headline`: string — The standfirst above the desk.
+
+Notes:
+- The roster is a real tablist; the floor is the single live panel.
+- Testimonies enter from the side they queue on — direction follows roster order.
+- Under reduced motion testimonies crossfade in place.
+
+### Launch Window CTA (KB-219) — `cta-launch-window`
+The last ask feels like the product.
+
+The closing ask as a lit window: one headline, one field, one button, framed in a drifting gradient held bright at the section's heart and dark at its edges. The field and the button are the library's own — the same traced focus and pressed confirm as everywhere else — because the last thing a page asks should feel like the product it sold.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cta-launch-window`
+
+Props:
+- `headline / copy / cta`: string — The ask; headline is two lines.
+- `onSubmit`: (email) => void — Fired with a shape-valid address.
+- `notes`: string[] — The quiet reassurances under the form.
+
+Notes:
+- The drift is held behind a vertical gradient so the window reads lit at its heart.
+- Submit validates the address shape and reports through a polite status line.
+- Reassurances stay mono and quiet — they are footnotes, not features.
+
+### Terminal Close CTA (KB-220) — `cta-terminal-close`
+The ask is the install line.
+
+A closing move for tools that live in the terminal: the ask is the install command itself, turned out in the console frame with copy one click away — because for this audience, get started means give me the line. A conventional button stands beside it for everyone else.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cta-terminal-close`
+
+Props:
+- `command`: string — The one line that starts everything, with copy attached.
+- `assurances`: string[] — Seals beside the frame — platforms, permissions, exit.
+- `cta / onCta`: string · () => void — The conventional path beside the command.
+
+Notes:
+- The command frame is code-lathe — its copy control and reduced-motion behaviour come with it.
+- Assurances are seals, not prose: short, checkable claims.
+- The card centers itself; the section stays quiet around it.
+
 ### Utils — `utils`
 cn() — class composition.
 
