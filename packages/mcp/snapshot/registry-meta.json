@@ -14,7 +14,7 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 212,
-      "blocks": 23,
+      "blocks": 26,
       "shared": 6
     }
   },
@@ -14539,6 +14539,168 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/footer-drift-mark",
         "bun": "bunx --bun shadcn@latest add @kinetiq/footer-drift-mark",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/footer-drift-mark.json"
+      }
+    },
+    {
+      "slug": "features-bento-field",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Bento Field Features",
+      "serial": "KB-208",
+      "tagline": "One working cell anchors the grid.",
+      "description": "A bento field: one working cell anchors the grid and the rest state their case at a glance. The anchor is a live throughput chart drawn by the library's own spark instrument; the smaller cells carry a rolling metric, sealed guarantees, and plain statements. Cells arrive on the cascade, largest first.",
+      "categories": [
+        "features"
+      ],
+      "keywords": [
+        "features",
+        "bento",
+        "grid",
+        "section",
+        "metrics",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "eyebrow / headline / copy",
+          "type": "string",
+          "description": "The section's standfirst above the grid."
+        }
+      ],
+      "usageNotes": [
+        "The anchor chart is spark-chart on a fixed series — it draws the same line every render, SSR included.",
+        "Cells are the real instrument set, so the grid inherits every reduced-motion fallback it needs.",
+        "The grid drops to one column under sm and the anchor keeps its lead position."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spark-chart.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/features-bento-field",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/features-bento-field.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/features-bento-field",
+        "npm": "npx shadcn@latest add @kinetiq/features-bento-field",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/features-bento-field",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/features-bento-field",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/features-bento-field.json"
+      }
+    },
+    {
+      "slug": "features-ledger-rows",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Ledger Rows Features",
+      "serial": "KB-209",
+      "tagline": "Copy and proof, woven row by row.",
+      "description": "Feature rows that alternate like a well-set ledger: copy on one side, a framed visual on the other, sides swapping each row so the page reads in a weave. Each row arrives on the cascade as it enters the viewport; the visuals are typographic panels in the library's own chrome, so they read as product rather than illustration.",
+      "categories": [
+        "features"
+      ],
+      "keywords": [
+        "features",
+        "rows",
+        "alternating",
+        "section",
+        "narrative",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "features",
+          "type": "LedgerFeature[]",
+          "description": "Kicker, title, copy, points, and an optional visual per row."
+        },
+        {
+          "name": "eyebrow / headline",
+          "type": "string",
+          "description": "The standfirst above the rows."
+        }
+      ],
+      "usageNotes": [
+        "Pass your own `visual` per row to replace the framed panels — the weave and cascade stay.",
+        "Rows swap sides with the order utilities only, so source order and reading order agree.",
+        "Under reduced motion rows resolve in place as they enter."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/features-ledger-rows",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/features-ledger-rows.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/features-ledger-rows",
+        "npm": "npx shadcn@latest add @kinetiq/features-ledger-rows",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/features-ledger-rows",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/features-ledger-rows",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/features-ledger-rows.json"
+      }
+    },
+    {
+      "slug": "features-relay-tabs",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Relay Tabs Features",
+      "serial": "KB-210",
+      "tagline": "Three scenes, one stage.",
+      "description": "A staged feature tour on the library's own tab gantry: three scenes, one stage. The indicator's travel comes from gantry-tabs, and each scene's panel plays a short terminal sequence of beats faded in down the list — switching tabs reads as changing what the product is doing, not swapping a screenshot.",
+      "categories": [
+        "features"
+      ],
+      "keywords": [
+        "features",
+        "tabs",
+        "tour",
+        "section",
+        "staged",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "scenes",
+          "type": "RelayScene[]",
+          "description": "Tab value, label, icon, title, copy, and the beats the panel plays."
+        },
+        {
+          "name": "eyebrow / headline / copy",
+          "type": "string",
+          "description": "The centered standfirst."
+        }
+      ],
+      "usageNotes": [
+        "The tab bar is gantry-tabs — indicator physics, keyboard travel, and ARIA come from it.",
+        "Beats are plain data; each panel replays its sequence on entry.",
+        "Under reduced motion beats print in place and the indicator parks."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/gantry-tabs.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/features-relay-tabs",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/features-relay-tabs.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/features-relay-tabs",
+        "npm": "npx shadcn@latest add @kinetiq/features-relay-tabs",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/features-relay-tabs",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/features-relay-tabs",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/features-relay-tabs.json"
       }
     },
     {

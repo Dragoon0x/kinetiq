@@ -236,6 +236,9 @@ import { FooterDriftMarkDemo } from "@/registry/demos/footer-drift-mark.demo";
 import { FooterTerraceDemo } from "@/registry/demos/footer-terrace.demo";
 import { NavDockPillDemo } from "@/registry/demos/nav-dock-pill.demo";
 import { NavGlassRailDemo } from "@/registry/demos/nav-glass-rail.demo";
+import { FeaturesBentoFieldDemo } from "@/registry/demos/features-bento-field.demo";
+import { FeaturesLedgerRowsDemo } from "@/registry/demos/features-ledger-rows.demo";
+import { FeaturesRelayTabsDemo } from "@/registry/demos/features-relay-tabs.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -470,6 +473,9 @@ export const demos: Record<string, ComponentType> = {
   "nav-dock-pill": NavDockPillDemo,
   "footer-terrace": FooterTerraceDemo,
   "footer-drift-mark": FooterDriftMarkDemo,
+  "features-bento-field": FeaturesBentoFieldDemo,
+  "features-ledger-rows": FeaturesLedgerRowsDemo,
+  "features-relay-tabs": FeaturesRelayTabsDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

@@ -1085,4 +1085,133 @@ export const blocks: KinetiqItem[] = [
       "Keep the mark short — it repeats four times per loop copy at display size.",
     ],
   },
+  {
+    name: "features-bento-field",
+    type: "registry:block",
+    title: "Bento Field Features",
+    description:
+      "A bento field: one working cell anchors the grid and the rest state their case at a glance. The anchor is a live throughput chart drawn by the library's own spark instrument; the smaller cells carry a rolling metric, sealed guarantees, and plain statements. Cells arrive on the cascade, largest first.",
+    files: [
+      {
+        path: "registry/blocks/features-bento-field/features-bento-field.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spark-chart",
+      "readout",
+      "status-seal",
+    ],
+    categories: ["features"],
+    meta: { serial: "KB-208" },
+    tagline: "One working cell anchors the grid.",
+    keywords: ["features", "bento", "grid", "section", "metrics", "marketing"],
+    props: [
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The section's standfirst above the grid.",
+      },
+    ],
+    usageNotes: [
+      "The anchor chart is spark-chart on a fixed series — it draws the same line every render, SSR included.",
+      "Cells are the real instrument set, so the grid inherits every reduced-motion fallback it needs.",
+      "The grid drops to one column under sm and the anchor keeps its lead position.",
+    ],
+  },
+  {
+    name: "features-ledger-rows",
+    type: "registry:block",
+    title: "Ledger Rows Features",
+    description:
+      "Feature rows that alternate like a well-set ledger: copy on one side, a framed visual on the other, sides swapping each row so the page reads in a weave. Each row arrives on the cascade as it enters the viewport; the visuals are typographic panels in the library's own chrome, so they read as product rather than illustration.",
+    files: [
+      {
+        path: "registry/blocks/features-ledger-rows/features-ledger-rows.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+    ],
+    categories: ["features"],
+    meta: { serial: "KB-209" },
+    tagline: "Copy and proof, woven row by row.",
+    keywords: [
+      "features",
+      "rows",
+      "alternating",
+      "section",
+      "narrative",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "features",
+        type: "LedgerFeature[]",
+        description:
+          "Kicker, title, copy, points, and an optional visual per row.",
+      },
+      {
+        name: "eyebrow / headline",
+        type: "string",
+        description: "The standfirst above the rows.",
+      },
+    ],
+    usageNotes: [
+      "Pass your own `visual` per row to replace the framed panels — the weave and cascade stay.",
+      "Rows swap sides with the order utilities only, so source order and reading order agree.",
+      "Under reduced motion rows resolve in place as they enter.",
+    ],
+  },
+  {
+    name: "features-relay-tabs",
+    type: "registry:block",
+    title: "Relay Tabs Features",
+    description:
+      "A staged feature tour on the library's own tab gantry: three scenes, one stage. The indicator's travel comes from gantry-tabs, and each scene's panel plays a short terminal sequence of beats faded in down the list — switching tabs reads as changing what the product is doing, not swapping a screenshot.",
+    files: [
+      {
+        path: "registry/blocks/features-relay-tabs/features-relay-tabs.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "gantry-tabs",
+      "status-seal",
+    ],
+    categories: ["features"],
+    meta: { serial: "KB-210" },
+    tagline: "Three scenes, one stage.",
+    keywords: ["features", "tabs", "tour", "section", "staged", "marketing"],
+    props: [
+      {
+        name: "scenes",
+        type: "RelayScene[]",
+        description:
+          "Tab value, label, icon, title, copy, and the beats the panel plays.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The centered standfirst.",
+      },
+    ],
+    usageNotes: [
+      "The tab bar is gantry-tabs — indicator physics, keyboard travel, and ARIA come from it.",
+      "Beats are plain data; each panel replays its sequence on entry.",
+      "Under reduced motion beats print in place and the indicator parks.",
+    ],
+  },
 ];

@@ -6460,6 +6460,92 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "features-bento-field",
+      "type": "registry:block",
+      "title": "Bento Field Features",
+      "description": "A bento field: one working cell anchors the grid and the rest state their case at a glance. The anchor is a live throughput chart drawn by the library's own spark instrument; the smaller cells carry a rolling metric, sealed guarantees, and plain statements. Cells arrive on the cascade, largest first.",
+      "files": [
+        {
+          "path": "registry/blocks/features-bento-field/features-bento-field.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spark-chart.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "features"
+      ],
+      "meta": {
+        "serial": "KB-208"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "features-ledger-rows",
+      "type": "registry:block",
+      "title": "Ledger Rows Features",
+      "description": "Feature rows that alternate like a well-set ledger: copy on one side, a framed visual on the other, sides swapping each row so the page reads in a weave. Each row arrives on the cascade as it enters the viewport; the visuals are typographic panels in the library's own chrome, so they read as product rather than illustration.",
+      "files": [
+        {
+          "path": "registry/blocks/features-ledger-rows/features-ledger-rows.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "features"
+      ],
+      "meta": {
+        "serial": "KB-209"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "features-relay-tabs",
+      "type": "registry:block",
+      "title": "Relay Tabs Features",
+      "description": "A staged feature tour on the library's own tab gantry: three scenes, one stage. The indicator's travel comes from gantry-tabs, and each scene's panel plays a short terminal sequence of beats faded in down the list — switching tabs reads as changing what the product is doing, not swapping a screenshot.",
+      "files": [
+        {
+          "path": "registry/blocks/features-relay-tabs/features-relay-tabs.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/gantry-tabs.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "features"
+      ],
+      "meta": {
+        "serial": "KB-210"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
