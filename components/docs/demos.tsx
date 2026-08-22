@@ -253,6 +253,10 @@ import { AnnounceLaunchRailDemo } from "@/registry/demos/announce-launch-rail.de
 import { EmptyFirstLightDemo } from "@/registry/demos/empty-first-light.demo";
 import { FaqCounterDeskDemo } from "@/registry/demos/faq-counter-desk.demo";
 import { FaqSplitRegistryDemo } from "@/registry/demos/faq-split-registry.demo";
+import { ContactRoutingDeskDemo } from "@/registry/demos/contact-routing-desk.demo";
+import { NewsletterPressroomDemo } from "@/registry/demos/newsletter-pressroom.demo";
+import { StepformGatehouseDemo } from "@/registry/demos/stepform-gatehouse.demo";
+import { TeamBenchRosterDemo } from "@/registry/demos/team-bench-roster.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -504,6 +508,10 @@ export const demos: Record<string, ComponentType> = {
   "faq-counter-desk": FaqCounterDeskDemo,
   "announce-launch-rail": AnnounceLaunchRailDemo,
   "empty-first-light": EmptyFirstLightDemo,
+  "stepform-gatehouse": StepformGatehouseDemo,
+  "newsletter-pressroom": NewsletterPressroomDemo,
+  "contact-routing-desk": ContactRoutingDeskDemo,
+  "team-bench-roster": TeamBenchRosterDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

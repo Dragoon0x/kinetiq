@@ -6955,6 +6955,125 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stepform-gatehouse",
+      "type": "registry:block",
+      "title": "Gatehouse Step Form",
+      "description": "A gatehouse for longer asks: the journey drawn by the library's own stepper — connectors filling, cleared steps stamping their check — while each stage slides in from the direction of travel. The shell's contribution is the data layer: per-step validation that blocks forward but never back, a review stage before anything sends, and a finished state that says what happens next.",
+      "files": [
+        {
+          "path": "registry/blocks/stepform-gatehouse/stepform-gatehouse.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/stepper-flow.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/select.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "step-form"
+      ],
+      "meta": {
+        "serial": "KB-225"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "newsletter-pressroom",
+      "type": "registry:block",
+      "title": "Pressroom Newsletter",
+      "description": "A newsletter signup that shows the goods: the latest issue set as a pressroom proof — number, title, standfirst, read time — beside the ask. Subscribing is the library's own field and pressed confirm, and the cadence line is a commitment, not a vibe. If the preview does not earn the address, the section has honestly answered the question.",
+      "files": [
+        {
+          "path": "registry/blocks/newsletter-pressroom/newsletter-pressroom.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "newsletter"
+      ],
+      "meta": {
+        "serial": "KB-226"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "contact-routing-desk",
+      "type": "registry:block",
+      "title": "Routing Desk Contact",
+      "description": "Contact as a routing desk: say why you are writing first, and the desk answers with who will read it and how fast — the expectation stated before the message is asked for, not promised after. The route picker is the library's own segmented control; each route swaps in only the fields it actually needs.",
+      "files": [
+        {
+          "path": "registry/blocks/contact-routing-desk/contact-routing-desk.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/segmented-control.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "contact"
+      ],
+      "meta": {
+        "serial": "KB-227"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "team-bench-roster",
+      "type": "registry:block",
+      "title": "Bench Roster Team",
+      "description": "The team as a bench roster: initials plates instead of headshots, a role, and — the line that matters — what each person actually tends. Cards arrive on the cascade and lift under the pointer. A roster that says what everyone owns tells a truer story than a wall of faces.",
+      "files": [
+        {
+          "path": "registry/blocks/team-bench-roster/team-bench-roster.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "team"
+      ],
+      "meta": {
+        "serial": "KB-228"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

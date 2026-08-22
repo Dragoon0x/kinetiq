@@ -4314,6 +4314,71 @@ Notes:
 - First moves are buttons, not cards — every surface here does something.
 - Under reduced motion the moves print in place.
 
+### Gatehouse Step Form (KB-225) — `stepform-gatehouse`
+Forward must earn it; back is always open.
+
+A gatehouse for longer asks: the journey drawn by the library's own stepper — connectors filling, cleared steps stamping their check — while each stage slides in from the direction of travel. The shell's contribution is the data layer: per-step validation that blocks forward but never back, a review stage before anything sends, and a finished state that says what happens next.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stepform-gatehouse`
+
+Props:
+- `onSubmit`: (submission) => void — Fired once, from the review stage.
+- `eyebrow / headline`: string — The standfirst above the gatehouse.
+
+Notes:
+- The journey indicator is stepper-flow — completed steps stay clickable, so back never needs a button it does not have.
+- Validation gates Continue only; errors appear on the fields that earned them.
+- Stages slide from the direction of travel; reduced motion crossfades in place.
+
+### Pressroom Newsletter (KB-226) — `newsletter-pressroom`
+Show the issue, then ask.
+
+A newsletter signup that shows the goods: the latest issue set as a pressroom proof — number, title, standfirst, read time — beside the ask. Subscribing is the library's own field and pressed confirm, and the cadence line is a commitment, not a vibe. If the preview does not earn the address, the section has honestly answered the question.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/newsletter-pressroom`
+
+Props:
+- `latest`: PressIssue — The proof: number, title, standfirst, read minutes.
+- `cadence`: string — The commitment line — when it comes, how leaving works.
+- `onSubscribe`: (email) => void — Fired with a shape-valid address.
+
+Notes:
+- The preview is typeset, not screenshotted — it reads in both themes and scales like text.
+- Submit validates the address shape and reports through a polite status line.
+- Keep the cadence line honest; it is the section's entire trust argument.
+
+### Routing Desk Contact (KB-227) — `contact-routing-desk`
+Who answers, and when, before you write.
+
+Contact as a routing desk: say why you are writing first, and the desk answers with who will read it and how fast — the expectation stated before the message is asked for, not promised after. The route picker is the library's own segmented control; each route swaps in only the fields it actually needs.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/contact-routing-desk`
+
+Props:
+- `routes`: DeskRoute[] — Label, desk, response expectation, and an optional extra field per route.
+- `onSubmit`: (routeId, fields) => void — Fired with the route and its fields.
+
+Notes:
+- The expectation seal is part of the form, not the confirmation — the deal is visible before writing.
+- Routes swap only the fields they need; email and message stay put.
+- The sent state restates the expectation and starts the clock.
+
+### Bench Roster Team (KB-228) — `team-bench-roster`
+What everyone tends, on the record.
+
+The team as a bench roster: initials plates instead of headshots, a role, and — the line that matters — what each person actually tends. Cards arrive on the cascade and lift under the pointer. A roster that says what everyone owns tells a truer story than a wall of faces.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/team-bench-roster`
+
+Props:
+- `members`: BenchMember[] — Name, role, the tended line, and an optional link per member.
+- `eyebrow / headline / copy`: string — The standfirst above the roster.
+
+Notes:
+- Initials plates are derived from the name — deterministic, themed, and never a broken image.
+- The tended line is the card's point; keep it concrete enough to point at.
+- Cards lift 3px under the pointer; reduced motion holds them still.
+
 ### Utils — `utils`
 cn() — class composition.
 

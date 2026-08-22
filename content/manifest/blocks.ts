@@ -1874,4 +1874,192 @@ export const blocks: KinetiqItem[] = [
       "Under reduced motion the moves print in place.",
     ],
   },
+  {
+    name: "stepform-gatehouse",
+    type: "registry:block",
+    title: "Gatehouse Step Form",
+    description:
+      "A gatehouse for longer asks: the journey drawn by the library's own stepper — connectors filling, cleared steps stamping their check — while each stage slides in from the direction of travel. The shell's contribution is the data layer: per-step validation that blocks forward but never back, a review stage before anything sends, and a finished state that says what happens next.",
+    files: [
+      {
+        path: "registry/blocks/stepform-gatehouse/stepform-gatehouse.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "stepper-flow",
+      "trace-input",
+      "select",
+      "pressure-button",
+      "status-seal",
+    ],
+    categories: ["step-form"],
+    meta: { serial: "KB-225" },
+    tagline: "Forward must earn it; back is always open.",
+    keywords: [
+      "form",
+      "multi-step",
+      "wizard",
+      "validation",
+      "section",
+      "signup",
+    ],
+    props: [
+      {
+        name: "onSubmit",
+        type: "(submission) => void",
+        description: "Fired once, from the review stage.",
+      },
+      {
+        name: "eyebrow / headline",
+        type: "string",
+        description: "The standfirst above the gatehouse.",
+      },
+    ],
+    usageNotes: [
+      "The journey indicator is stepper-flow — completed steps stay clickable, so back never needs a button it does not have.",
+      "Validation gates Continue only; errors appear on the fields that earned them.",
+      "Stages slide from the direction of travel; reduced motion crossfades in place.",
+    ],
+  },
+  {
+    name: "newsletter-pressroom",
+    type: "registry:block",
+    title: "Pressroom Newsletter",
+    description:
+      "A newsletter signup that shows the goods: the latest issue set as a pressroom proof — number, title, standfirst, read time — beside the ask. Subscribing is the library's own field and pressed confirm, and the cadence line is a commitment, not a vibe. If the preview does not earn the address, the section has honestly answered the question.",
+    files: [
+      {
+        path: "registry/blocks/newsletter-pressroom/newsletter-pressroom.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "trace-input",
+      "pressure-button",
+    ],
+    categories: ["newsletter"],
+    meta: { serial: "KB-226" },
+    tagline: "Show the issue, then ask.",
+    keywords: [
+      "newsletter",
+      "signup",
+      "email",
+      "issue",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "latest",
+        type: "PressIssue",
+        description: "The proof: number, title, standfirst, read minutes.",
+      },
+      {
+        name: "cadence",
+        type: "string",
+        description: "The commitment line — when it comes, how leaving works.",
+      },
+      {
+        name: "onSubscribe",
+        type: "(email) => void",
+        description: "Fired with a shape-valid address.",
+      },
+    ],
+    usageNotes: [
+      "The preview is typeset, not screenshotted — it reads in both themes and scales like text.",
+      "Submit validates the address shape and reports through a polite status line.",
+      "Keep the cadence line honest; it is the section's entire trust argument.",
+    ],
+  },
+  {
+    name: "contact-routing-desk",
+    type: "registry:block",
+    title: "Routing Desk Contact",
+    description:
+      "Contact as a routing desk: say why you are writing first, and the desk answers with who will read it and how fast — the expectation stated before the message is asked for, not promised after. The route picker is the library's own segmented control; each route swaps in only the fields it actually needs.",
+    files: [
+      {
+        path: "registry/blocks/contact-routing-desk/contact-routing-desk.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "segmented-control",
+      "trace-input",
+      "pressure-button",
+      "status-seal",
+    ],
+    categories: ["contact"],
+    meta: { serial: "KB-227" },
+    tagline: "Who answers, and when, before you write.",
+    keywords: ["contact", "form", "routing", "support", "section", "marketing"],
+    props: [
+      {
+        name: "routes",
+        type: "DeskRoute[]",
+        description:
+          "Label, desk, response expectation, and an optional extra field per route.",
+      },
+      {
+        name: "onSubmit",
+        type: "(routeId, fields) => void",
+        description: "Fired with the route and its fields.",
+      },
+    ],
+    usageNotes: [
+      "The expectation seal is part of the form, not the confirmation — the deal is visible before writing.",
+      "Routes swap only the fields they need; email and message stay put.",
+      "The sent state restates the expectation and starts the clock.",
+    ],
+  },
+  {
+    name: "team-bench-roster",
+    type: "registry:block",
+    title: "Bench Roster Team",
+    description:
+      "The team as a bench roster: initials plates instead of headshots, a role, and — the line that matters — what each person actually tends. Cards arrive on the cascade and lift under the pointer. A roster that says what everyone owns tells a truer story than a wall of faces.",
+    files: [
+      {
+        path: "registry/blocks/team-bench-roster/team-bench-roster.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["team"],
+    meta: { serial: "KB-228" },
+    tagline: "What everyone tends, on the record.",
+    keywords: ["team", "people", "roster", "about", "section", "marketing"],
+    props: [
+      {
+        name: "members",
+        type: "BenchMember[]",
+        description:
+          "Name, role, the tended line, and an optional link per member.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The standfirst above the roster.",
+      },
+    ],
+    usageNotes: [
+      "Initials plates are derived from the name — deterministic, themed, and never a broken image.",
+      "The tended line is the card's point; keep it concrete enough to point at.",
+      "Cards lift 3px under the pointer; reduced motion holds them still.",
+    ],
+  },
 ];
