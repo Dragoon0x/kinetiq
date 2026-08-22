@@ -4135,6 +4135,54 @@ Notes:
 - Base lines render without a control and are marked ALWAYS ON.
 - The total is derived, never stored — the lines are the single source of truth.
 
+### Signal Band Stats (KB-214) — `stats-signal-band`
+The claim is the number.
+
+A stats band set like a headline, not a dashboard: oversized numerals on a single rule, edge to edge, no cards and no charts. Every numeral is the library's rolling readout at display size, resolving on the cascade as the band enters.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stats-signal-band`
+
+Props:
+- `stats`: BandStat[] — Value, suffix, and the label under the rule.
+- `kicker / footnote`: string — The rule's overline and the provenance line beneath.
+
+Notes:
+- Deliberately no cards and no charts — the typographic band is what the instrument grid block does not do.
+- Numbers resolve on the cascade as the band enters; under reduced motion they print at value.
+- Two columns under lg, four across on desktop.
+
+### Impact Report Stats (KB-215) — `stats-impact-report`
+Numbers with their provenance attached.
+
+Stats set as an impact report rather than a dashboard: a narrative column that says what changed and why it matters, beside a ledger of metric rows — each a rolling numeral, its delta seal, and a year of context drawn as a spark line right where the claim is made. The attestation line says where the numbers come from, because a stat without provenance is just typography.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stats-impact-report`
+
+Props:
+- `rows`: ImpactRow[] — Metric, value, delta, and the twelve-point context series.
+- `attestation`: string — The sign-off naming the numbers' source and window.
+
+Notes:
+- Each row's spark line is the library's spark-chart on a fixed series — deterministic, SSR-safe.
+- Deltas are seals: direction picks the tone, success for up, info for an intended fall.
+- Rows stack their chart under the numeral on small screens.
+
+### Marquee Hall Logos (KB-216) — `logo-marquee-hall`
+Two tapes, running against each other.
+
+A hall of marks on two counter-running tapes — the library's own ticker, with its friction and hover drag, carrying typographic wordmarks instead of image files, so the row reads sharply in both themes at any density. The rows run against each other slowly enough to scan; under reduced motion both park as a plain double rail.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/logo-marquee-hall`
+
+Props:
+- `marks`: HallMark[] — Typographic wordmarks, split across the two rows; `mono` switches the stack.
+- `claim`: string — The line above the hall.
+
+Notes:
+- Motion belongs to ticker-tape — friction, hover drag, and the reduced-motion park come from it.
+- The tapes are aria-hidden; a sr-only line reads every mark in order.
+- Wordmarks are text, so they follow the theme with no asset swaps.
+
 ### Utils — `utils`
 cn() — class composition.
 

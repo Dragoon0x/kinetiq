@@ -1356,4 +1356,140 @@ export const blocks: KinetiqItem[] = [
       "The total is derived, never stored — the lines are the single source of truth.",
     ],
   },
+  {
+    name: "stats-signal-band",
+    type: "registry:block",
+    title: "Signal Band Stats",
+    description:
+      "A stats band set like a headline, not a dashboard: oversized numerals on a single rule, edge to edge, no cards and no charts. Every numeral is the library's rolling readout at display size, resolving on the cascade as the band enters.",
+    files: [
+      {
+        path: "registry/blocks/stats-signal-band/stats-signal-band.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+    ],
+    categories: ["stats"],
+    meta: { serial: "KB-214" },
+    tagline: "The claim is the number.",
+    keywords: ["stats", "metrics", "band", "numbers", "section", "marketing"],
+    props: [
+      {
+        name: "stats",
+        type: "BandStat[]",
+        description: "Value, suffix, and the label under the rule.",
+      },
+      {
+        name: "kicker / footnote",
+        type: "string",
+        description: "The rule's overline and the provenance line beneath.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately no cards and no charts — the typographic band is what the instrument grid block does not do.",
+      "Numbers resolve on the cascade as the band enters; under reduced motion they print at value.",
+      "Two columns under lg, four across on desktop.",
+    ],
+  },
+  {
+    name: "stats-impact-report",
+    type: "registry:block",
+    title: "Impact Report Stats",
+    description:
+      "Stats set as an impact report rather than a dashboard: a narrative column that says what changed and why it matters, beside a ledger of metric rows — each a rolling numeral, its delta seal, and a year of context drawn as a spark line right where the claim is made. The attestation line says where the numbers come from, because a stat without provenance is just typography.",
+    files: [
+      {
+        path: "registry/blocks/stats-impact-report/stats-impact-report.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "spark-chart",
+      "status-seal",
+    ],
+    categories: ["stats"],
+    meta: { serial: "KB-215" },
+    tagline: "Numbers with their provenance attached.",
+    keywords: [
+      "stats",
+      "report",
+      "metrics",
+      "sparkline",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "rows",
+        type: "ImpactRow[]",
+        description:
+          "Metric, value, delta, and the twelve-point context series.",
+      },
+      {
+        name: "attestation",
+        type: "string",
+        description: "The sign-off naming the numbers' source and window.",
+      },
+    ],
+    usageNotes: [
+      "Each row's spark line is the library's spark-chart on a fixed series — deterministic, SSR-safe.",
+      "Deltas are seals: direction picks the tone, success for up, info for an intended fall.",
+      "Rows stack their chart under the numeral on small screens.",
+    ],
+  },
+  {
+    name: "logo-marquee-hall",
+    type: "registry:block",
+    title: "Marquee Hall Logos",
+    description:
+      "A hall of marks on two counter-running tapes — the library's own ticker, with its friction and hover drag, carrying typographic wordmarks instead of image files, so the row reads sharply in both themes at any density. The rows run against each other slowly enough to scan; under reduced motion both park as a plain double rail.",
+    files: [
+      {
+        path: "registry/blocks/logo-marquee-hall/logo-marquee-hall.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "ticker-tape"],
+    categories: ["logo-cloud"],
+    meta: { serial: "KB-216" },
+    tagline: "Two tapes, running against each other.",
+    keywords: [
+      "logos",
+      "marquee",
+      "social proof",
+      "wordmarks",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "marks",
+        type: "HallMark[]",
+        description:
+          "Typographic wordmarks, split across the two rows; `mono` switches the stack.",
+      },
+      {
+        name: "claim",
+        type: "string",
+        description: "The line above the hall.",
+      },
+    ],
+    usageNotes: [
+      "Motion belongs to ticker-tape — friction, hover drag, and the reduced-motion park come from it.",
+      "The tapes are aria-hidden; a sr-only line reads every mark in order.",
+      "Wordmarks are text, so they follow the theme with no asset swaps.",
+    ],
+  },
 ];

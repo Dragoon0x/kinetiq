@@ -242,6 +242,9 @@ import { FeaturesRelayTabsDemo } from "@/registry/demos/features-relay-tabs.demo
 import { PricingMeridianTiersDemo } from "@/registry/demos/pricing-meridian-tiers.demo";
 import { PricingOpenLedgerDemo } from "@/registry/demos/pricing-open-ledger.demo";
 import { PricingUsageDialDemo } from "@/registry/demos/pricing-usage-dial.demo";
+import { LogoMarqueeHallDemo } from "@/registry/demos/logo-marquee-hall.demo";
+import { StatsImpactReportDemo } from "@/registry/demos/stats-impact-report.demo";
+import { StatsSignalBandDemo } from "@/registry/demos/stats-signal-band.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -482,6 +485,9 @@ export const demos: Record<string, ComponentType> = {
   "pricing-meridian-tiers": PricingMeridianTiersDemo,
   "pricing-usage-dial": PricingUsageDialDemo,
   "pricing-open-ledger": PricingOpenLedgerDemo,
+  "stats-signal-band": StatsSignalBandDemo,
+  "stats-impact-report": StatsImpactReportDemo,
+  "logo-marquee-hall": LogoMarqueeHallDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

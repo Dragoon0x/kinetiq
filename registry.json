@@ -6638,6 +6638,92 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stats-signal-band",
+      "type": "registry:block",
+      "title": "Signal Band Stats",
+      "description": "A stats band set like a headline, not a dashboard: oversized numerals on a single rule, edge to edge, no cards and no charts. Every numeral is the library's rolling readout at display size, resolving on the cascade as the band enters.",
+      "files": [
+        {
+          "path": "registry/blocks/stats-signal-band/stats-signal-band.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "stats"
+      ],
+      "meta": {
+        "serial": "KB-214"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stats-impact-report",
+      "type": "registry:block",
+      "title": "Impact Report Stats",
+      "description": "Stats set as an impact report rather than a dashboard: a narrative column that says what changed and why it matters, beside a ledger of metric rows — each a rolling numeral, its delta seal, and a year of context drawn as a spark line right where the claim is made. The attestation line says where the numbers come from, because a stat without provenance is just typography.",
+      "files": [
+        {
+          "path": "registry/blocks/stats-impact-report/stats-impact-report.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/spark-chart.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "stats"
+      ],
+      "meta": {
+        "serial": "KB-215"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "logo-marquee-hall",
+      "type": "registry:block",
+      "title": "Marquee Hall Logos",
+      "description": "A hall of marks on two counter-running tapes — the library's own ticker, with its friction and hover drag, carrying typographic wordmarks instead of image files, so the row reads sharply in both themes at any density. The rows run against each other slowly enough to scan; under reduced motion both park as a plain double rail.",
+      "files": [
+        {
+          "path": "registry/blocks/logo-marquee-hall/logo-marquee-hall.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/ticker-tape.json"
+      ],
+      "categories": [
+        "logo-cloud"
+      ],
+      "meta": {
+        "serial": "KB-216"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
