@@ -898,4 +898,191 @@ export const blocks: KinetiqItem[] = [
       "Under reduced motion the listing is simply there, complete and still, and the ribbons hold.",
     ],
   },
+  {
+    name: "nav-glass-rail",
+    type: "registry:block",
+    title: "Glass Rail Navbar",
+    description:
+      "A glass rail that condenses as the page gets underway: tall and transparent at rest, tighter with a blur and a hairline once content scrolls under it. Desktop links share one slipstream pill that chases hover and focus; the mobile fold glides open below the rail.",
+    files: [
+      {
+        path: "registry/blocks/nav-glass-rail/nav-glass-rail.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "slipstream",
+      "pressure-button",
+    ],
+    categories: ["navbar"],
+    meta: { serial: "KB-204" },
+    tagline: "Earns its keep once content moves under it.",
+    keywords: [
+      "navbar",
+      "header",
+      "navigation",
+      "sticky",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "brand / links / activeHref",
+        type: "ReactNode · RailLink[] · string",
+        description: "Identity, the link set, and the current page.",
+      },
+      {
+        name: "cta / onCta",
+        type: "string · () => void",
+        description: "The rail's one action; repeated inside the mobile fold.",
+      },
+    ],
+    usageNotes: [
+      "The hover pill is slipstream — one shared pill chasing hover and focus, never one per link.",
+      "The fold and the condensing are height and blur only; no layout jumps for content below.",
+      "Under reduced motion the pill parks, and the fold and condensing switch states in place.",
+    ],
+  },
+  {
+    name: "nav-dock-pill",
+    type: "registry:block",
+    title: "Dock Pill Navbar",
+    description:
+      "A floating pill dock moored top-center rather than spanning the page. The active page carries a seated dot; choosing another link sends the dot sliding along the pill on the snap spring via a shared layout id. On small screens the fold opens as a full sheet whose links land on the cascade.",
+    files: [
+      {
+        path: "registry/blocks/nav-dock-pill/nav-dock-pill.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "reveal-stagger",
+    ],
+    categories: ["navbar"],
+    meta: { serial: "KB-205" },
+    tagline: "One dot, one home, always somewhere.",
+    keywords: ["navbar", "pill", "dock", "navigation", "section", "marketing"],
+    props: [
+      {
+        name: "brand / links / activeHref",
+        type: "ReactNode · PillLink[] · string",
+        description: "Identity, the link set, and the seated page.",
+      },
+      {
+        name: "cta / onCta",
+        type: "string · () => void",
+        description: "The dock's one action; repeated inside the sheet.",
+      },
+    ],
+    usageNotes: [
+      "The dot is a layoutId — it travels between links rather than blinking out and back.",
+      "The mobile sheet is a dialog: focus stays inside it and Escape-free close is the visible button.",
+      "Under reduced motion the dot seats instantly and the sheet fades in place.",
+    ],
+  },
+  {
+    name: "footer-terrace",
+    type: "registry:block",
+    title: "Terrace Footer",
+    description:
+      "A terraced mega footer: brand and the ask on the top terrace, the link garden below, and the ground line — a live status pip and the fine print — at the base. The newsletter slot composes the library's own field and button, so subscribing has the same traced focus and pressed confirm as the product above it.",
+    files: [
+      {
+        path: "registry/blocks/footer-terrace/footer-terrace.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "trace-input",
+      "pressure-button",
+      "status-pip",
+    ],
+    categories: ["footer"],
+    meta: { serial: "KB-206" },
+    tagline: "Brand, link garden, ground line.",
+    keywords: [
+      "footer",
+      "links",
+      "newsletter",
+      "status",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "columns",
+        type: "TerraceColumn[]",
+        description: "The link garden — heading plus links per column.",
+      },
+      {
+        name: "newsletterTitle / onSubscribe",
+        type: "string · (email) => void",
+        description: "The ask; omit onSubscribe to run the form inert.",
+      },
+      {
+        name: "statusLabel / fineprint",
+        type: "string",
+        description: "The ground line's two ends.",
+      },
+    ],
+    usageNotes: [
+      "The status line breathes through status-pip rather than claiming uptime in static text.",
+      "Subscribe validates the address shape and reports through a polite status line.",
+      "Columns collapse two-up on small screens; the ground line wraps before it truncates.",
+    ],
+  },
+  {
+    name: "footer-drift-mark",
+    type: "registry:block",
+    title: "Drift Mark Footer",
+    description:
+      "A closing footer built around the wordmark itself: the name rides a slow ticker at display size behind a hairline, dragging under hover the way the tape always has — the brand at rest, still moving. One closing ask above; a thin link line and the fine print below.",
+    files: [
+      {
+        path: "registry/blocks/footer-drift-mark/footer-drift-mark.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "ticker-tape",
+      "pressure-button",
+    ],
+    categories: ["footer"],
+    meta: { serial: "KB-207" },
+    tagline: "The brand at rest, still moving.",
+    keywords: ["footer", "wordmark", "marquee", "cta", "section", "marketing"],
+    props: [
+      {
+        name: "mark / headline",
+        type: "string",
+        description: "The riding wordmark and the closing ask above it.",
+      },
+      {
+        name: "cta / onCta / links / fineprint",
+        type: "string · () => void · DriftLink[] · string",
+        description: "The action, the thin link line, and the last word.",
+      },
+    ],
+    usageNotes: [
+      "The moving mark is ticker-tape — friction, hover drag, and the reduced-motion park all come from it.",
+      "The tape row is aria-hidden; the brand is carried by the visible links and fine print.",
+      "Keep the mark short — it repeats four times per loop copy at display size.",
+    ],
+  },
 ];

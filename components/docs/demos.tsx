@@ -232,6 +232,10 @@ import { VolleyThreadDemo } from "@/registry/demos/volley-thread.demo";
 import { HeroConsoleDriftDemo } from "@/registry/demos/hero-console-drift.demo";
 import { HeroLaunchBeaconDemo } from "@/registry/demos/hero-launch-beacon.demo";
 import { HeroSplitLedgerDemo } from "@/registry/demos/hero-split-ledger.demo";
+import { FooterDriftMarkDemo } from "@/registry/demos/footer-drift-mark.demo";
+import { FooterTerraceDemo } from "@/registry/demos/footer-terrace.demo";
+import { NavDockPillDemo } from "@/registry/demos/nav-dock-pill.demo";
+import { NavGlassRailDemo } from "@/registry/demos/nav-glass-rail.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -462,6 +466,10 @@ export const demos: Record<string, ComponentType> = {
   "hero-split-ledger": HeroSplitLedgerDemo,
   "hero-launch-beacon": HeroLaunchBeaconDemo,
   "hero-console-drift": HeroConsoleDriftDemo,
+  "nav-glass-rail": NavGlassRailDemo,
+  "nav-dock-pill": NavDockPillDemo,
+  "footer-terrace": FooterTerraceDemo,
+  "footer-drift-mark": FooterDriftMarkDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,
