@@ -4904,4 +4904,272 @@ export const blocks: KinetiqItem[] = [
       "Let the weakest number in; four numbers above ninety persuade nobody.",
     ],
   },
+  {
+    name: "trust-incident-log",
+    type: "registry:block",
+    title: "Incident Log Trust",
+    description:
+      "Trust argued from the incidents rather than the certificates: every failure of the last year, what actually happened in plain words, and what changed because of it. The vault brief states the controls; this states the times the controls were not enough — the harder claim, and the one an experienced buyer is testing for.",
+    files: [
+      {
+        path: "registry/blocks/trust-incident-log/trust-incident-log.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "status-seal",
+    ],
+    categories: ["trust"],
+    meta: { serial: "KB-290" },
+    tagline: "A page with no incidents is a page not counting.",
+    keywords: [
+      "trust",
+      "incidents",
+      "postmortem",
+      "reliability",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "incidents",
+        type: "Incident[]",
+        description:
+          "Each failure with its minutes, what happened, and what changed.",
+      },
+      {
+        name: "windowLabel / totalMinutesLabel",
+        type: "string",
+        description: "Captions for the two derived counters.",
+      },
+    ],
+    usageNotes: [
+      "Counters derive from the incidents — the totals cannot drift from the list.",
+      "Write 'what happened' without euphemism; 'a brief service interruption' undoes the entire section.",
+      "Dates are pre-formatted strings, so the section never touches a clock.",
+      "Publish the embarrassing one. A log of three tidy incidents reads as a curated log.",
+    ],
+  },
+  {
+    name: "trust-data-residency",
+    type: "registry:block",
+    title: "Data Residency Trust",
+    description:
+      "The question a serious buyer asks third: where does our data actually sit, how long do you keep it, and who outside your company can see it. Answered as a table with a row per kind of data — including the two rows most pages omit, billing and error traces — and the full subprocessor list underneath.",
+    files: [
+      {
+        path: "registry/blocks/trust-data-residency/trust-data-residency.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["trust"],
+    meta: { serial: "KB-291" },
+    tagline: "Where it sits, how long, and who sees it.",
+    keywords: [
+      "trust",
+      "data",
+      "residency",
+      "retention",
+      "subprocessors",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "rows",
+        type: "ResidencyRow[]",
+        description: "Kind, location, retention, and who can see it.",
+      },
+      {
+        name: "subprocessors / noticeLine",
+        type: "Subprocessor[] · string",
+        description: "Everyone data is handed to, and the notice commitment.",
+      },
+    ],
+    usageNotes: [
+      "Include billing and error traces. Omitting the awkward rows is what makes the table worth reading.",
+      '"Nobody" reads in the success colour, so it must be literally true — including your own staff.',
+      "The notice line is prose, not a seal: seals do not wrap, and this is a sentence.",
+    ],
+  },
+  {
+    name: "usecase-not-for-you",
+    type: "registry:block",
+    title: "Not For You Use Case",
+    description:
+      "The use-case section that also says who it is not for — and sends those readers somewhere else by name. Pages that only list good fits leave the reader to work out the bad ones alone, usually after a trial and a disappointment. Naming the misfits costs a few unqualified signups and buys every remaining claim its credibility.",
+    files: [
+      {
+        path: "registry/blocks/usecase-not-for-you/usecase-not-for-you.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["use-cases"],
+    meta: { serial: "KB-292" },
+    tagline: "Name the misfits and send them elsewhere.",
+    keywords: [
+      "use cases",
+      "fit",
+      "qualification",
+      "honesty",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "goodFits / badFits",
+        type: "FitCase[]",
+        description: "Both lists, at equal weight.",
+      },
+      {
+        name: "instead",
+        type: "string",
+        description:
+          "Where a misfit should go instead — the line that makes it generous rather than coy.",
+      },
+    ],
+    usageNotes: [
+      "Every bad fit needs an `instead`, or the column reads as false modesty.",
+      "Make the misfits real. A 'not for you' list of strawmen is worse than no list.",
+      "Keep both columns the same length; an unbalanced pair looks like hedging.",
+    ],
+  },
+  {
+    name: "usecase-job-stories",
+    type: "registry:block",
+    title: "Job Stories Use Case",
+    description:
+      "Use cases written as job stories rather than personas: the situation, the motivation, the outcome — and then, unusually, the single thing in the product that serves it. A job story without that last line is a nice sentence about a customer; with it, the section becomes a map from circumstance to feature the reader can check.",
+    files: [
+      {
+        path: "registry/blocks/usecase-job-stories/usecase-job-stories.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["use-cases"],
+    meta: { serial: "KB-293" },
+    tagline: "Situations, not job titles.",
+    keywords: [
+      "use cases",
+      "job stories",
+      "jobs to be done",
+      "situations",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "stories",
+        type: "JobStory[]",
+        description: "When / want / so-that, plus the thing that serves it.",
+      },
+      {
+        name: "servedLabel",
+        type: "string",
+        description: "Caption over the serving line.",
+      },
+    ],
+    usageNotes: [
+      "The `served` line is what separates this from a wall of nice sentences — never leave it out.",
+      "Write situations, not roles: the same person wants different things at different hours.",
+      "The connectives are set in the muted ink so the story reads as one sentence, not three fields.",
+    ],
+  },
+  {
+    name: "how-who-does-what",
+    type: "registry:block",
+    title: "Who Does What How-It-Works",
+    description:
+      "How it works, answered as who does the work: three lanes — your side, the product, and ours — with each step in the lane that owns it. Most how-it-works sections quietly imply the reader does everything or nothing; this one commits to a division of labour, which is what a buyer is really asking when they ask how long it takes.",
+    files: [
+      {
+        path: "registry/blocks/how-who-does-what/how-who-does-what.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["how-it-works"],
+    meta: { serial: "KB-294" },
+    tagline: "A division of labour, committed to.",
+    keywords: [
+      "how it works",
+      "lanes",
+      "responsibility",
+      "onboarding",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "steps",
+        type: "HandoffStep[]",
+        description: "Each step's owning lane, copy, and effort line.",
+      },
+      {
+        name: "lanes",
+        type: "Record<LaneOwner, string>",
+        description: "Lane names: your side, the product, ours.",
+      },
+    ],
+    usageNotes: [
+      "The effort line is the honest part — a lane diagram without durations answers nothing.",
+      "Lanes collapse below md and each step names its own owner inline, so nothing depends on column position at 360.",
+      "Give your own team real steps. Three lanes where one is empty is a two-lane diagram with a decoration.",
+    ],
+  },
+  {
+    name: "how-plain-steps",
+    type: "registry:block",
+    title: "Plain Steps How-It-Works",
+    description:
+      "Three steps, numbered, and nothing else. The clock, the script, the station line and the lanes all do something with the sequence; sometimes a page has already spent its interaction budget and how-it-works simply has to be read in eight seconds. This is that section, and its restraint is the feature.",
+    files: [
+      {
+        path: "registry/blocks/how-plain-steps/how-plain-steps.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["how-it-works"],
+    meta: { serial: "KB-295" },
+    tagline: "Readable in eight seconds.",
+    keywords: [
+      "how it works",
+      "steps",
+      "plain",
+      "restrained",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "steps",
+        type: "PlainStep[]",
+        description: "Three steps; numbering is automatic.",
+      },
+      {
+        name: "footnote",
+        type: "string",
+        description: "The honest line under the steps.",
+      },
+    ],
+    usageNotes: [
+      "Reach for it when the page is already busy above — pairing it with the station line wastes both.",
+      "Three steps. If the process genuinely needs five, it needs a different section.",
+      "The standfirst copy is optional here; the headline and the steps are usually enough.",
+    ],
+  },
 ];

@@ -318,6 +318,12 @@ import { PricingCreditPacksDemo } from "@/registry/demos/pricing-credit-packs.de
 import { PricingWhereItGoesDemo } from "@/registry/demos/pricing-where-it-goes.demo";
 import { StatsRankRaceDemo } from "@/registry/demos/stats-rank-race.demo";
 import { StatsRingSetDemo } from "@/registry/demos/stats-ring-set.demo";
+import { HowPlainStepsDemo } from "@/registry/demos/how-plain-steps.demo";
+import { HowWhoDoesWhatDemo } from "@/registry/demos/how-who-does-what.demo";
+import { TrustDataResidencyDemo } from "@/registry/demos/trust-data-residency.demo";
+import { TrustIncidentLogDemo } from "@/registry/demos/trust-incident-log.demo";
+import { UsecaseJobStoriesDemo } from "@/registry/demos/usecase-job-stories.demo";
+import { UsecaseNotForYouDemo } from "@/registry/demos/usecase-not-for-you.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -634,6 +640,12 @@ export const demos: Record<string, ComponentType> = {
   "cta-last-objection": CtaLastObjectionDemo,
   "stats-rank-race": StatsRankRaceDemo,
   "stats-ring-set": StatsRingSetDemo,
+  "trust-incident-log": TrustIncidentLogDemo,
+  "trust-data-residency": TrustDataResidencyDemo,
+  "usecase-not-for-you": UsecaseNotForYouDemo,
+  "usecase-job-stories": UsecaseJobStoriesDemo,
+  "how-who-does-what": HowWhoDoesWhatDemo,
+  "how-plain-steps": HowPlainStepsDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

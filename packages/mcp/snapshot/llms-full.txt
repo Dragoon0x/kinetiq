@@ -5371,6 +5371,103 @@ Notes:
 - Give it spread. Values inside a twenty point band render as four wedges of the same length, and the section stops making its own argument.
 - Let the weakest number in; four numbers above ninety persuade nobody.
 
+### Incident Log Trust (KB-290) — `trust-incident-log`
+A page with no incidents is a page not counting.
+
+Trust argued from the incidents rather than the certificates: every failure of the last year, what actually happened in plain words, and what changed because of it. The vault brief states the controls; this states the times the controls were not enough — the harder claim, and the one an experienced buyer is testing for.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trust-incident-log`
+
+Props:
+- `incidents`: Incident[] — Each failure with its minutes, what happened, and what changed.
+- `windowLabel / totalMinutesLabel`: string — Captions for the two derived counters.
+
+Notes:
+- Counters derive from the incidents — the totals cannot drift from the list.
+- Write 'what happened' without euphemism; 'a brief service interruption' undoes the entire section.
+- Dates are pre-formatted strings, so the section never touches a clock.
+- Publish the embarrassing one. A log of three tidy incidents reads as a curated log.
+
+### Data Residency Trust (KB-291) — `trust-data-residency`
+Where it sits, how long, and who sees it.
+
+The question a serious buyer asks third: where does our data actually sit, how long do you keep it, and who outside your company can see it. Answered as a table with a row per kind of data — including the two rows most pages omit, billing and error traces — and the full subprocessor list underneath.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trust-data-residency`
+
+Props:
+- `rows`: ResidencyRow[] — Kind, location, retention, and who can see it.
+- `subprocessors / noticeLine`: Subprocessor[] · string — Everyone data is handed to, and the notice commitment.
+
+Notes:
+- Include billing and error traces. Omitting the awkward rows is what makes the table worth reading.
+- "Nobody" reads in the success colour, so it must be literally true — including your own staff.
+- The notice line is prose, not a seal: seals do not wrap, and this is a sentence.
+
+### Not For You Use Case (KB-292) — `usecase-not-for-you`
+Name the misfits and send them elsewhere.
+
+The use-case section that also says who it is not for — and sends those readers somewhere else by name. Pages that only list good fits leave the reader to work out the bad ones alone, usually after a trial and a disappointment. Naming the misfits costs a few unqualified signups and buys every remaining claim its credibility.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/usecase-not-for-you`
+
+Props:
+- `goodFits / badFits`: FitCase[] — Both lists, at equal weight.
+- `instead`: string — Where a misfit should go instead — the line that makes it generous rather than coy.
+
+Notes:
+- Every bad fit needs an `instead`, or the column reads as false modesty.
+- Make the misfits real. A 'not for you' list of strawmen is worse than no list.
+- Keep both columns the same length; an unbalanced pair looks like hedging.
+
+### Job Stories Use Case (KB-293) — `usecase-job-stories`
+Situations, not job titles.
+
+Use cases written as job stories rather than personas: the situation, the motivation, the outcome — and then, unusually, the single thing in the product that serves it. A job story without that last line is a nice sentence about a customer; with it, the section becomes a map from circumstance to feature the reader can check.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/usecase-job-stories`
+
+Props:
+- `stories`: JobStory[] — When / want / so-that, plus the thing that serves it.
+- `servedLabel`: string — Caption over the serving line.
+
+Notes:
+- The `served` line is what separates this from a wall of nice sentences — never leave it out.
+- Write situations, not roles: the same person wants different things at different hours.
+- The connectives are set in the muted ink so the story reads as one sentence, not three fields.
+
+### Who Does What How-It-Works (KB-294) — `how-who-does-what`
+A division of labour, committed to.
+
+How it works, answered as who does the work: three lanes — your side, the product, and ours — with each step in the lane that owns it. Most how-it-works sections quietly imply the reader does everything or nothing; this one commits to a division of labour, which is what a buyer is really asking when they ask how long it takes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/how-who-does-what`
+
+Props:
+- `steps`: HandoffStep[] — Each step's owning lane, copy, and effort line.
+- `lanes`: Record<LaneOwner, string> — Lane names: your side, the product, ours.
+
+Notes:
+- The effort line is the honest part — a lane diagram without durations answers nothing.
+- Lanes collapse below md and each step names its own owner inline, so nothing depends on column position at 360.
+- Give your own team real steps. Three lanes where one is empty is a two-lane diagram with a decoration.
+
+### Plain Steps How-It-Works (KB-295) — `how-plain-steps`
+Readable in eight seconds.
+
+Three steps, numbered, and nothing else. The clock, the script, the station line and the lanes all do something with the sequence; sometimes a page has already spent its interaction budget and how-it-works simply has to be read in eight seconds. This is that section, and its restraint is the feature.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/how-plain-steps`
+
+Props:
+- `steps`: PlainStep[] — Three steps; numbering is automatic.
+- `footnote`: string — The honest line under the steps.
+
+Notes:
+- Reach for it when the page is already busy above — pairing it with the station line wastes both.
+- Three steps. If the process genuinely needs five, it needs a different section.
+- The standfirst copy is optional here; the headline and the steps are usually enough.
+
 ### Utils — `utils`
 cn() — class composition.
 

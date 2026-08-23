@@ -8811,6 +8811,170 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "trust-incident-log",
+      "type": "registry:block",
+      "title": "Incident Log Trust",
+      "description": "Trust argued from the incidents rather than the certificates: every failure of the last year, what actually happened in plain words, and what changed because of it. The vault brief states the controls; this states the times the controls were not enough — the harder claim, and the one an experienced buyer is testing for.",
+      "files": [
+        {
+          "path": "registry/blocks/trust-incident-log/trust-incident-log.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "trust"
+      ],
+      "meta": {
+        "serial": "KB-290"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "trust-data-residency",
+      "type": "registry:block",
+      "title": "Data Residency Trust",
+      "description": "The question a serious buyer asks third: where does our data actually sit, how long do you keep it, and who outside your company can see it. Answered as a table with a row per kind of data — including the two rows most pages omit, billing and error traces — and the full subprocessor list underneath.",
+      "files": [
+        {
+          "path": "registry/blocks/trust-data-residency/trust-data-residency.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "trust"
+      ],
+      "meta": {
+        "serial": "KB-291"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "usecase-not-for-you",
+      "type": "registry:block",
+      "title": "Not For You Use Case",
+      "description": "The use-case section that also says who it is not for — and sends those readers somewhere else by name. Pages that only list good fits leave the reader to work out the bad ones alone, usually after a trial and a disappointment. Naming the misfits costs a few unqualified signups and buys every remaining claim its credibility.",
+      "files": [
+        {
+          "path": "registry/blocks/usecase-not-for-you/usecase-not-for-you.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "use-cases"
+      ],
+      "meta": {
+        "serial": "KB-292"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "usecase-job-stories",
+      "type": "registry:block",
+      "title": "Job Stories Use Case",
+      "description": "Use cases written as job stories rather than personas: the situation, the motivation, the outcome — and then, unusually, the single thing in the product that serves it. A job story without that last line is a nice sentence about a customer; with it, the section becomes a map from circumstance to feature the reader can check.",
+      "files": [
+        {
+          "path": "registry/blocks/usecase-job-stories/usecase-job-stories.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "use-cases"
+      ],
+      "meta": {
+        "serial": "KB-293"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "how-who-does-what",
+      "type": "registry:block",
+      "title": "Who Does What How-It-Works",
+      "description": "How it works, answered as who does the work: three lanes — your side, the product, and ours — with each step in the lane that owns it. Most how-it-works sections quietly imply the reader does everything or nothing; this one commits to a division of labour, which is what a buyer is really asking when they ask how long it takes.",
+      "files": [
+        {
+          "path": "registry/blocks/how-who-does-what/how-who-does-what.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "how-it-works"
+      ],
+      "meta": {
+        "serial": "KB-294"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "how-plain-steps",
+      "type": "registry:block",
+      "title": "Plain Steps How-It-Works",
+      "description": "Three steps, numbered, and nothing else. The clock, the script, the station line and the lanes all do something with the sequence; sometimes a page has already spent its interaction budget and how-it-works simply has to be read in eight seconds. This is that section, and its restraint is the feature.",
+      "files": [
+        {
+          "path": "registry/blocks/how-plain-steps/how-plain-steps.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "how-it-works"
+      ],
+      "meta": {
+        "serial": "KB-295"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
