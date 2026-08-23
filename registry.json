@@ -7902,6 +7902,122 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-quiet-word",
+      "type": "registry:block",
+      "title": "Quiet Word Hero",
+      "description": "A manifesto hero: no vignette, no backdrop, no product window — one oversized sentence carrying the whole argument, with the phrase that matters swept by the highlighter as it enters. For products whose best pitch is a sentence the reader would underline themselves.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-quiet-word/hero-quiet-word.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/highlight-sweep.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-258"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-agent-bench",
+      "type": "registry:block",
+      "title": "Agent Bench Hero",
+      "description": "A hero for agent products where the vignette is the composer itself: the real prompt well, wired live — type @ and the sources actually open, / and the commands do — framed as a bench window with a working seal. The reader's first act on the page is the product's core act, which is the entire argument an agent product needs to make.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-agent-bench/hero-agent-bench.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/prompt-well.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-259"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "features-spec-sheet",
+      "type": "registry:block",
+      "title": "Spec Sheet Features",
+      "description": "The product as a spec sheet: capabilities set like a chassis plate — grouped terms, mono values, one plain note each — rows resolving on the cascade as the plate enters. For readers who trust a specification more than an adjective, which is most of the readers worth having.",
+      "files": [
+        {
+          "path": "registry/blocks/features-spec-sheet/features-spec-sheet.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "features"
+      ],
+      "meta": {
+        "serial": "KB-260"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "features-gauge-row",
+      "type": "registry:block",
+      "title": "Gauge Row Features",
+      "description": "Capability as headroom: three needle gauges from the library's own cluster, swept to bench-condition values with their red zones showing — because a needle sitting at two-thirds with a visible redline says more about capacity than any adjective. Two notes below say what the reader is looking at and why the honesty is the feature.",
+      "files": [
+        {
+          "path": "registry/blocks/features-gauge-row/features-gauge-row.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/gauge-cluster.json"
+      ],
+      "categories": [
+        "features"
+      ],
+      "meta": {
+        "serial": "KB-261"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

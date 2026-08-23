@@ -286,6 +286,10 @@ import { FaqRibbonTabsDemo } from "@/registry/demos/faq-ribbon-tabs.demo";
 import { LogoProofGridDemo } from "@/registry/demos/logo-proof-grid.demo";
 import { NavAtlasPanelDemo } from "@/registry/demos/nav-atlas-panel.demo";
 import { NavSplitDeskDemo } from "@/registry/demos/nav-split-desk.demo";
+import { FeaturesGaugeRowDemo } from "@/registry/demos/features-gauge-row.demo";
+import { FeaturesSpecSheetDemo } from "@/registry/demos/features-spec-sheet.demo";
+import { HeroAgentBenchDemo } from "@/registry/demos/hero-agent-bench.demo";
+import { HeroQuietWordDemo } from "@/registry/demos/hero-quiet-word.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -570,6 +574,10 @@ export const demos: Record<string, ComponentType> = {
   "nav-atlas-panel": NavAtlasPanelDemo,
   "faq-ribbon-tabs": FaqRibbonTabsDemo,
   "logo-proof-grid": LogoProofGridDemo,
+  "hero-quiet-word": HeroQuietWordDemo,
+  "hero-agent-bench": HeroAgentBenchDemo,
+  "features-spec-sheet": FeaturesSpecSheetDemo,
+  "features-gauge-row": FeaturesGaugeRowDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

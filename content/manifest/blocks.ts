@@ -3423,4 +3423,196 @@ export const blocks: KinetiqItem[] = [
       "Cells share hairlines through a single bordered grid, two across on small screens.",
     ],
   },
+  {
+    name: "hero-quiet-word",
+    type: "registry:block",
+    title: "Quiet Word Hero",
+    description:
+      "A manifesto hero: no vignette, no backdrop, no product window — one oversized sentence carrying the whole argument, with the phrase that matters swept by the highlighter as it enters. For products whose best pitch is a sentence the reader would underline themselves.",
+    files: [
+      {
+        path: "registry/blocks/hero-quiet-word/hero-quiet-word.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "highlight-sweep",
+      "pressure-button",
+      "reveal-stagger",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-258" },
+    tagline: "A sentence the reader would underline.",
+    keywords: [
+      "hero",
+      "manifesto",
+      "typographic",
+      "editorial",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "lead / swept / tail",
+        type: "string",
+        description:
+          "The sentence in three pieces; the middle one takes the sweep.",
+      },
+      {
+        name: "copy / cta / onCta / footnote",
+        type: "string · () => void",
+        description:
+          "The standfirst, the one action, and the quiet line under it.",
+      },
+    ],
+    usageNotes: [
+      "The sweep belongs to highlight-sweep — it draws once, on entry, and holds.",
+      "Resist adding a vignette; the emptiness is what makes the sentence loud.",
+      "Keep the swept phrase short — the marker reads as emphasis, not decoration.",
+    ],
+  },
+  {
+    name: "hero-agent-bench",
+    type: "registry:block",
+    title: "Agent Bench Hero",
+    description:
+      "A hero for agent products where the vignette is the composer itself: the real prompt well, wired live — type @ and the sources actually open, / and the commands do — framed as a bench window with a working seal. The reader's first act on the page is the product's core act, which is the entire argument an agent product needs to make.",
+    files: [
+      {
+        path: "registry/blocks/hero-agent-bench/hero-agent-bench.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "prompt-well",
+      "status-seal",
+      "pressure-button",
+      "reveal-stagger",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-259" },
+    tagline: "The vignette is the composer, wired live.",
+    keywords: ["hero", "agent", "ai", "composer", "section", "marketing"],
+    props: [
+      {
+        name: "sources / commands / onAsk",
+        type: "WellOption[] · (prompt) => void",
+        description: "The live composer's offer sets and its submit.",
+      },
+      {
+        name: "headline / copy / eyebrow / vignetteTitle",
+        type: "string",
+        description: "The copy column and the bench window's title rail.",
+      },
+      {
+        name: "primaryCta / secondaryCta / onPrimary / onSecondary",
+        type: "string · () => void",
+        description: "Both actions.",
+      },
+    ],
+    usageNotes: [
+      "The composer is prompt-well, genuinely interactive — the copy should invite trying it.",
+      "Keep the source list short and named like the reader's own files.",
+      "The seal on the window rail states what the bench is reading; keep it truthful to the source list.",
+    ],
+  },
+  {
+    name: "features-spec-sheet",
+    type: "registry:block",
+    title: "Spec Sheet Features",
+    description:
+      "The product as a spec sheet: capabilities set like a chassis plate — grouped terms, mono values, one plain note each — rows resolving on the cascade as the plate enters. For readers who trust a specification more than an adjective, which is most of the readers worth having.",
+    files: [
+      {
+        path: "registry/blocks/features-spec-sheet/features-spec-sheet.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["features"],
+    meta: { serial: "KB-260" },
+    tagline: "Read the spec, not the pitch.",
+    keywords: [
+      "features",
+      "spec",
+      "table",
+      "technical",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "groups",
+        type: "SpecGroup[]",
+        description: "Heading plus term/value/note rows per group.",
+      },
+      {
+        name: "plateLine",
+        type: "string",
+        description: "The stamped footer line on the plate.",
+      },
+    ],
+    usageNotes: [
+      "Values are mono and short; the note underneath carries the prose.",
+      "Every line should be checkable — the copy promises lines come off the plate when untrue.",
+      "The double border is the plate's chassis; keep it.",
+    ],
+  },
+  {
+    name: "features-gauge-row",
+    type: "registry:block",
+    title: "Gauge Row Features",
+    description:
+      "Capability as headroom: three needle gauges from the library's own cluster, swept to bench-condition values with their red zones showing — because a needle sitting at two-thirds with a visible redline says more about capacity than any adjective. Two notes below say what the reader is looking at and why the honesty is the feature.",
+    files: [
+      {
+        path: "registry/blocks/features-gauge-row/features-gauge-row.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "gauge-cluster",
+    ],
+    categories: ["features"],
+    meta: { serial: "KB-261" },
+    tagline: "A needle at two-thirds beats an adjective.",
+    keywords: [
+      "features",
+      "gauges",
+      "capacity",
+      "headroom",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "gauges",
+        type: "Gauge[]",
+        description: "The cluster's needles — value, max, unit, redline.",
+      },
+      {
+        name: "notes / attestation",
+        type: "GaugeNote[] · string",
+        description: "What the reader is looking at, and the bench conditions.",
+      },
+    ],
+    usageNotes: [
+      "Needle sweep, red zones, and meter semantics belong to gauge-cluster.",
+      "Set values at honest load — needles pinned at 10% read as staged.",
+      "The attestation names the conditions; gauges without conditions are theatre.",
+    ],
+  },
 ];

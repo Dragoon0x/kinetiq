@@ -14,7 +14,7 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 212,
-      "blocks": 73,
+      "blocks": 77,
       "shared": 6
     }
   },
@@ -17390,6 +17390,235 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/logo-proof-grid",
         "bun": "bunx --bun shadcn@latest add @kinetiq/logo-proof-grid",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/logo-proof-grid.json"
+      }
+    },
+    {
+      "slug": "hero-quiet-word",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Quiet Word Hero",
+      "serial": "KB-258",
+      "tagline": "A sentence the reader would underline.",
+      "description": "A manifesto hero: no vignette, no backdrop, no product window — one oversized sentence carrying the whole argument, with the phrase that matters swept by the highlighter as it enters. For products whose best pitch is a sentence the reader would underline themselves.",
+      "categories": [
+        "hero"
+      ],
+      "keywords": [
+        "hero",
+        "manifesto",
+        "typographic",
+        "editorial",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "lead / swept / tail",
+          "type": "string",
+          "description": "The sentence in three pieces; the middle one takes the sweep."
+        },
+        {
+          "name": "copy / cta / onCta / footnote",
+          "type": "string · () => void",
+          "description": "The standfirst, the one action, and the quiet line under it."
+        }
+      ],
+      "usageNotes": [
+        "The sweep belongs to highlight-sweep — it draws once, on entry, and holds.",
+        "Resist adding a vignette; the emptiness is what makes the sentence loud.",
+        "Keep the swept phrase short — the marker reads as emphasis, not decoration."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/highlight-sweep.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/hero-quiet-word",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hero-quiet-word.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hero-quiet-word",
+        "npm": "npx shadcn@latest add @kinetiq/hero-quiet-word",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hero-quiet-word",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hero-quiet-word",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hero-quiet-word.json"
+      }
+    },
+    {
+      "slug": "hero-agent-bench",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Agent Bench Hero",
+      "serial": "KB-259",
+      "tagline": "The vignette is the composer, wired live.",
+      "description": "A hero for agent products where the vignette is the composer itself: the real prompt well, wired live — type @ and the sources actually open, / and the commands do — framed as a bench window with a working seal. The reader's first act on the page is the product's core act, which is the entire argument an agent product needs to make.",
+      "categories": [
+        "hero"
+      ],
+      "keywords": [
+        "hero",
+        "agent",
+        "ai",
+        "composer",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "sources / commands / onAsk",
+          "type": "WellOption[] · (prompt) => void",
+          "description": "The live composer's offer sets and its submit."
+        },
+        {
+          "name": "headline / copy / eyebrow / vignetteTitle",
+          "type": "string",
+          "description": "The copy column and the bench window's title rail."
+        },
+        {
+          "name": "primaryCta / secondaryCta / onPrimary / onSecondary",
+          "type": "string · () => void",
+          "description": "Both actions."
+        }
+      ],
+      "usageNotes": [
+        "The composer is prompt-well, genuinely interactive — the copy should invite trying it.",
+        "Keep the source list short and named like the reader's own files.",
+        "The seal on the window rail states what the bench is reading; keep it truthful to the source list."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/prompt-well.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/hero-agent-bench",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hero-agent-bench.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hero-agent-bench",
+        "npm": "npx shadcn@latest add @kinetiq/hero-agent-bench",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hero-agent-bench",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hero-agent-bench",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hero-agent-bench.json"
+      }
+    },
+    {
+      "slug": "features-spec-sheet",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Spec Sheet Features",
+      "serial": "KB-260",
+      "tagline": "Read the spec, not the pitch.",
+      "description": "The product as a spec sheet: capabilities set like a chassis plate — grouped terms, mono values, one plain note each — rows resolving on the cascade as the plate enters. For readers who trust a specification more than an adjective, which is most of the readers worth having.",
+      "categories": [
+        "features"
+      ],
+      "keywords": [
+        "features",
+        "spec",
+        "table",
+        "technical",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "groups",
+          "type": "SpecGroup[]",
+          "description": "Heading plus term/value/note rows per group."
+        },
+        {
+          "name": "plateLine",
+          "type": "string",
+          "description": "The stamped footer line on the plate."
+        }
+      ],
+      "usageNotes": [
+        "Values are mono and short; the note underneath carries the prose.",
+        "Every line should be checkable — the copy promises lines come off the plate when untrue.",
+        "The double border is the plate's chassis; keep it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/features-spec-sheet",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/features-spec-sheet.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/features-spec-sheet",
+        "npm": "npx shadcn@latest add @kinetiq/features-spec-sheet",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/features-spec-sheet",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/features-spec-sheet",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/features-spec-sheet.json"
+      }
+    },
+    {
+      "slug": "features-gauge-row",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Gauge Row Features",
+      "serial": "KB-261",
+      "tagline": "A needle at two-thirds beats an adjective.",
+      "description": "Capability as headroom: three needle gauges from the library's own cluster, swept to bench-condition values with their red zones showing — because a needle sitting at two-thirds with a visible redline says more about capacity than any adjective. Two notes below say what the reader is looking at and why the honesty is the feature.",
+      "categories": [
+        "features"
+      ],
+      "keywords": [
+        "features",
+        "gauges",
+        "capacity",
+        "headroom",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "gauges",
+          "type": "Gauge[]",
+          "description": "The cluster's needles — value, max, unit, redline."
+        },
+        {
+          "name": "notes / attestation",
+          "type": "GaugeNote[] · string",
+          "description": "What the reader is looking at, and the bench conditions."
+        }
+      ],
+      "usageNotes": [
+        "Needle sweep, red zones, and meter semantics belong to gauge-cluster.",
+        "Set values at honest load — needles pinned at 10% read as staged.",
+        "The attestation names the conditions; gauges without conditions are theatre."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/gauge-cluster.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/features-gauge-row",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/features-gauge-row.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/features-gauge-row",
+        "npm": "npx shadcn@latest add @kinetiq/features-gauge-row",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/features-gauge-row",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/features-gauge-row",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/features-gauge-row.json"
       }
     },
     {
