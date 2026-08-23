@@ -8018,6 +8018,117 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cta-signature-line",
+      "type": "registry:block",
+      "title": "Signature Line CTA",
+      "description": "The close as a signature line: a ledger of names instead of an email funnel — the count rolls, the latest signatures sit there as provenance, and signing asks only for a name. For communities and open registries where joining is a public act, and the page's proof is who already did.",
+      "files": [
+        {
+          "path": "registry/blocks/cta-signature-line/cta-signature-line.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "cta"
+      ],
+      "meta": {
+        "serial": "KB-262"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cta-postscript",
+      "type": "registry:block",
+      "title": "Postscript CTA",
+      "description": "The close as a postscript: after the whole page has argued, one short paragraph in the founder's voice — set like the end of a letter, signed, with a single action and one quiet alternative. It works because it drops the register: the page stops presenting and starts talking.",
+      "files": [
+        {
+          "path": "registry/blocks/cta-postscript/cta-postscript.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "cta"
+      ],
+      "meta": {
+        "serial": "KB-263"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pricing-seat-counter",
+      "type": "registry:block",
+      "title": "Seat Counter Pricing",
+      "description": "Seat pricing with the arithmetic on the counter: step the seats and both numbers roll — the applicable rate, which drops at printed breaks, and the total it produces. Discrete where the usage dial is continuous: for teams who buy in people, not units, and want to see exactly where the next seat gets cheaper.",
+      "files": [
+        {
+          "path": "registry/blocks/pricing-seat-counter/pricing-seat-counter.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/stepper-number.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "pricing"
+      ],
+      "meta": {
+        "serial": "KB-264"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "faq-last-word",
+      "type": "registry:block",
+      "title": "Last Word FAQ",
+      "description": "The questions answered in full sentences, no drawers to open: an editorial FAQ set as a two-column read, ending on the question most FAQs avoid — what is this bad at. Everything visible at once, because a page late enough to hold a FAQ owes the reader answers, not another interaction.",
+      "files": [
+        {
+          "path": "registry/blocks/faq-last-word/faq-last-word.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json"
+      ],
+      "categories": [
+        "faq"
+      ],
+      "meta": {
+        "serial": "KB-265"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

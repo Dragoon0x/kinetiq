@@ -4916,6 +4916,71 @@ Notes:
 - Set values at honest load — needles pinned at 10% read as staged.
 - The attestation names the conditions; gauges without conditions are theatre.
 
+### Signature Line CTA (KB-262) — `cta-signature-line`
+Joining as a public act.
+
+The close as a signature line: a ledger of names instead of an email funnel — the count rolls, the latest signatures sit there as provenance, and signing asks only for a name. For communities and open registries where joining is a public act, and the page's proof is who already did.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cta-signature-line`
+
+Props:
+- `count / countLabel / recent`: number · string · Signature[] — The rolling count and the provenance names.
+- `onSign`: (name) => void — Fired once; signing increments the shown count locally.
+
+Notes:
+- Signing asks for a name only — adding an email field turns it back into a funnel.
+- The local increment is honest UI, not the record; wire onSign to the real ledger.
+- Recent names render in mono italic, like a signature, not a testimonial.
+
+### Postscript CTA (KB-263) — `cta-postscript`
+The page stops presenting and starts talking.
+
+The close as a postscript: after the whole page has argued, one short paragraph in the founder's voice — set like the end of a letter, signed, with a single action and one quiet alternative. It works because it drops the register: the page stops presenting and starts talking.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cta-postscript`
+
+Props:
+- `postscript / signature / signatureRole`: string — The paragraph and who signs it.
+- `cta / onCta / altLabel / altHref`: string · () => void — The one action and the quiet alternative.
+
+Notes:
+- Keep it under four sentences or it becomes another section.
+- The alternative is an inline text link on purpose — two buttons would raise the register again.
+- Write the P.S. in a person's voice; the drop in register is the device.
+
+### Seat Counter Pricing (KB-264) — `pricing-seat-counter`
+See where the next seat gets cheaper.
+
+Seat pricing with the arithmetic on the counter: step the seats and both numbers roll — the applicable rate, which drops at printed breaks, and the total it produces. Discrete where the usage dial is continuous: for teams who buy in people, not units, and want to see exactly where the next seat gets cheaper.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pricing-seat-counter`
+
+Props:
+- `breaks`: SeatBreak[] — Ascending rate breaks; the active one reads full strength.
+- `min / max / defaultSeats`: number — The counter's range.
+- `onCta`: (seats, total) => void — Fired with the counted crew and its total.
+
+Notes:
+- Stepping belongs to stepper-number — keyboard, hold-to-repeat, and clamping come with it.
+- The applicable rate is the whole-count rate, not banded — print the breaks so that is obvious.
+- Both numerals are readouts; a break crossing rolls rate and total together.
+
+### Last Word FAQ (KB-265) — `faq-last-word`
+Answers owed, not interactions.
+
+The questions answered in full sentences, no drawers to open: an editorial FAQ set as a two-column read, ending on the question most FAQs avoid — what is this bad at. Everything visible at once, because a page late enough to hold a FAQ owes the reader answers, not another interaction.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/faq-last-word`
+
+Props:
+- `entries`: LastWordEntry[] — Numbered question/answer pairs, all visible.
+- `eyebrow / headline / copy`: string — The standfirst.
+
+Notes:
+- Deliberately still and drawer-free — the disclosure variants already exist three ways.
+- End on the concession question; it buys the other answers their credibility.
+- Four to six entries; more belongs in a drawer variant.
+
 ### Utils — `utils`
 cn() — class composition.
 

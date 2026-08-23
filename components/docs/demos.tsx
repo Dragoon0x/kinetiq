@@ -290,6 +290,10 @@ import { FeaturesGaugeRowDemo } from "@/registry/demos/features-gauge-row.demo";
 import { FeaturesSpecSheetDemo } from "@/registry/demos/features-spec-sheet.demo";
 import { HeroAgentBenchDemo } from "@/registry/demos/hero-agent-bench.demo";
 import { HeroQuietWordDemo } from "@/registry/demos/hero-quiet-word.demo";
+import { CtaPostscriptDemo } from "@/registry/demos/cta-postscript.demo";
+import { CtaSignatureLineDemo } from "@/registry/demos/cta-signature-line.demo";
+import { FaqLastWordDemo } from "@/registry/demos/faq-last-word.demo";
+import { PricingSeatCounterDemo } from "@/registry/demos/pricing-seat-counter.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -578,6 +582,10 @@ export const demos: Record<string, ComponentType> = {
   "hero-agent-bench": HeroAgentBenchDemo,
   "features-spec-sheet": FeaturesSpecSheetDemo,
   "features-gauge-row": FeaturesGaugeRowDemo,
+  "cta-signature-line": CtaSignatureLineDemo,
+  "cta-postscript": CtaPostscriptDemo,
+  "pricing-seat-counter": PricingSeatCounterDemo,
+  "faq-last-word": FaqLastWordDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

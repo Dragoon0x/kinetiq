@@ -3615,4 +3615,187 @@ export const blocks: KinetiqItem[] = [
       "The attestation names the conditions; gauges without conditions are theatre.",
     ],
   },
+  {
+    name: "cta-signature-line",
+    type: "registry:block",
+    title: "Signature Line CTA",
+    description:
+      "The close as a signature line: a ledger of names instead of an email funnel — the count rolls, the latest signatures sit there as provenance, and signing asks only for a name. For communities and open registries where joining is a public act, and the page's proof is who already did.",
+    files: [
+      {
+        path: "registry/blocks/cta-signature-line/cta-signature-line.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "trace-input",
+      "pressure-button",
+    ],
+    categories: ["cta"],
+    meta: { serial: "KB-262" },
+    tagline: "Joining as a public act.",
+    keywords: [
+      "cta",
+      "community",
+      "registry",
+      "signature",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "count / countLabel / recent",
+        type: "number · string · Signature[]",
+        description: "The rolling count and the provenance names.",
+      },
+      {
+        name: "onSign",
+        type: "(name) => void",
+        description: "Fired once; signing increments the shown count locally.",
+      },
+    ],
+    usageNotes: [
+      "Signing asks for a name only — adding an email field turns it back into a funnel.",
+      "The local increment is honest UI, not the record; wire onSign to the real ledger.",
+      "Recent names render in mono italic, like a signature, not a testimonial.",
+    ],
+  },
+  {
+    name: "cta-postscript",
+    type: "registry:block",
+    title: "Postscript CTA",
+    description:
+      "The close as a postscript: after the whole page has argued, one short paragraph in the founder's voice — set like the end of a letter, signed, with a single action and one quiet alternative. It works because it drops the register: the page stops presenting and starts talking.",
+    files: [
+      {
+        path: "registry/blocks/cta-postscript/cta-postscript.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "pressure-button",
+    ],
+    categories: ["cta"],
+    meta: { serial: "KB-263" },
+    tagline: "The page stops presenting and starts talking.",
+    keywords: [
+      "cta",
+      "postscript",
+      "founder",
+      "letter",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "postscript / signature / signatureRole",
+        type: "string",
+        description: "The paragraph and who signs it.",
+      },
+      {
+        name: "cta / onCta / altLabel / altHref",
+        type: "string · () => void",
+        description: "The one action and the quiet alternative.",
+      },
+    ],
+    usageNotes: [
+      "Keep it under four sentences or it becomes another section.",
+      "The alternative is an inline text link on purpose — two buttons would raise the register again.",
+      "Write the P.S. in a person's voice; the drop in register is the device.",
+    ],
+  },
+  {
+    name: "pricing-seat-counter",
+    type: "registry:block",
+    title: "Seat Counter Pricing",
+    description:
+      "Seat pricing with the arithmetic on the counter: step the seats and both numbers roll — the applicable rate, which drops at printed breaks, and the total it produces. Discrete where the usage dial is continuous: for teams who buy in people, not units, and want to see exactly where the next seat gets cheaper.",
+    files: [
+      {
+        path: "registry/blocks/pricing-seat-counter/pricing-seat-counter.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "stepper-number",
+      "readout",
+      "pressure-button",
+    ],
+    categories: ["pricing"],
+    meta: { serial: "KB-264" },
+    tagline: "See where the next seat gets cheaper.",
+    keywords: ["pricing", "seats", "stepper", "breaks", "section", "marketing"],
+    props: [
+      {
+        name: "breaks",
+        type: "SeatBreak[]",
+        description:
+          "Ascending rate breaks; the active one reads full strength.",
+      },
+      {
+        name: "min / max / defaultSeats",
+        type: "number",
+        description: "The counter's range.",
+      },
+      {
+        name: "onCta",
+        type: "(seats, total) => void",
+        description: "Fired with the counted crew and its total.",
+      },
+    ],
+    usageNotes: [
+      "Stepping belongs to stepper-number — keyboard, hold-to-repeat, and clamping come with it.",
+      "The applicable rate is the whole-count rate, not banded — print the breaks so that is obvious.",
+      "Both numerals are readouts; a break crossing rolls rate and total together.",
+    ],
+  },
+  {
+    name: "faq-last-word",
+    type: "registry:block",
+    title: "Last Word FAQ",
+    description:
+      "The questions answered in full sentences, no drawers to open: an editorial FAQ set as a two-column read, ending on the question most FAQs avoid — what is this bad at. Everything visible at once, because a page late enough to hold a FAQ owes the reader answers, not another interaction.",
+    files: [
+      {
+        path: "registry/blocks/faq-last-word/faq-last-word.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils"],
+    categories: ["faq"],
+    meta: { serial: "KB-265" },
+    tagline: "Answers owed, not interactions.",
+    keywords: ["faq", "editorial", "static", "plain", "section", "marketing"],
+    props: [
+      {
+        name: "entries",
+        type: "LastWordEntry[]",
+        description: "Numbered question/answer pairs, all visible.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The standfirst.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately still and drawer-free — the disclosure variants already exist three ways.",
+      "End on the concession question; it buys the other answers their credibility.",
+      "Four to six entries; more belongs in a drawer variant.",
+    ],
+  },
 ];
