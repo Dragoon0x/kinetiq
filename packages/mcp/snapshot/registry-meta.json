@@ -14,7 +14,7 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 212,
-      "blocks": 117,
+      "blocks": 123,
       "shared": 6
     }
   },
@@ -19846,6 +19846,336 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/empty-needs-access",
         "bun": "bunx --bun shadcn@latest add @kinetiq/empty-needs-access",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/empty-needs-access.json"
+      }
+    },
+    {
+      "slug": "stepform-branching-intake",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Branching Intake Step Form",
+      "serial": "KB-302",
+      "tagline": "Say who you are and the form gets shorter.",
+      "description": "A branching intake: the first answer decides the route, and the rail visibly re-forms to the length that route actually takes — two stages, or three, or one. Long forms lose people because the end is invisible; a form that shortens itself in front of you when you say who you are makes the opposite promise.",
+      "categories": [
+        "step-form"
+      ],
+      "keywords": [
+        "step form",
+        "branching",
+        "intake",
+        "routing",
+        "section",
+        "app"
+      ],
+      "props": [
+        {
+          "name": "routes",
+          "type": "IntakeRoute[]",
+          "description": "Each route carries its own steps and its own outcome."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(routeId, answers) => void",
+          "description": "Fired with the route taken and everything gathered."
+        }
+      ],
+      "usageNotes": [
+        "The rail is derived from the chosen route, so picking a different one re-forms it — that visible shortening is the whole device.",
+        "Give at least one route a single step. A branching form where every branch is the same length is a straight form with extra clicks.",
+        "Each route states its own outcome; a shared closing line wastes the routing."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/stage-progress.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/radio-group.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/stepform-branching-intake",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/stepform-branching-intake.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stepform-branching-intake",
+        "npm": "npx shadcn@latest add @kinetiq/stepform-branching-intake",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stepform-branching-intake",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stepform-branching-intake",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/stepform-branching-intake.json"
+      }
+    },
+    {
+      "slug": "stepform-resume-later",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Resume Later Step Form",
+      "serial": "KB-303",
+      "tagline": "Some of this is not your job.",
+      "description": "The long form that admits it is long: every section listed with what it asks for and how many minutes it takes, what is already done, and — the part that makes it usable — which sections somebody else has to fill in. A setup needing finance to supply payroll codes cannot be finished in one sitting, and a wizard that pretends otherwise strands people on step four.",
+      "categories": [
+        "step-form"
+      ],
+      "keywords": [
+        "step form",
+        "onboarding",
+        "resume",
+        "progress",
+        "section",
+        "app"
+      ],
+      "props": [
+        {
+          "name": "sections",
+          "type": "ResumeSection[]",
+          "description": "Each section's ask, minutes, done state, and owner when it is not the reader."
+        },
+        {
+          "name": "savedLine / onContinue",
+          "type": "string · (id) => void",
+          "description": "The promise that makes leaving safe, and the way back in."
+        }
+      ],
+      "usageNotes": [
+        "Counts and minutes-remaining are derived from the sections — they cannot drift from the list.",
+        "The owner line is the reason to choose this over a wizard: name who else is needed.",
+        "Minutes must be honest. A section marked 3 min that takes twenty is worse than no estimate."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/stepform-resume-later",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/stepform-resume-later.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stepform-resume-later",
+        "npm": "npx shadcn@latest add @kinetiq/stepform-resume-later",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stepform-resume-later",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stepform-resume-later",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/stepform-resume-later.json"
+      }
+    },
+    {
+      "slug": "team-founders-note",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Founders Note Team",
+      "serial": "KB-304",
+      "tagline": "Answerable for, not titled as.",
+      "description": "The founders' note, signed, with each name attached to the thing it is answerable for rather than to a title. A team section built from job titles tells the reader nothing they can act on; a short list of who answers for what tells them exactly who to write to when something breaks.",
+      "categories": [
+        "team"
+      ],
+      "keywords": [
+        "team",
+        "founders",
+        "about",
+        "accountability",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "founders",
+          "type": "Founder[]",
+          "description": "Name, role, and the thing each is answerable for."
+        },
+        {
+          "name": "note / contactLine",
+          "type": "string[] · string",
+          "description": "The letter and how to reach them without a form."
+        }
+      ],
+      "usageNotes": [
+        "Write accountability, not scope: \"every plan it refuses to explain\" beats \"product and engineering\".",
+        "Deliberately still — a founders' note that animates is a founders' note nobody believes.",
+        "Two or three founders. Past that it is a leadership grid, which is a different section."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/team-founders-note",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/team-founders-note.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/team-founders-note",
+        "npm": "npx shadcn@latest add @kinetiq/team-founders-note",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/team-founders-note",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/team-founders-note",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/team-founders-note.json"
+      }
+    },
+    {
+      "slug": "team-where-we-are",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Where We Are Team",
+      "serial": "KB-305",
+      "tagline": "Cities are trivia; coverage is information.",
+      "description": "Where the team actually is, and — the useful part — which hours of the day that adds up to. A page of city names is trivia; a page that says the team covers 06:00 to midnight UTC and names the six hours nobody is awake for tells a buyer in another timezone whether they will be answered.",
+      "categories": [
+        "team"
+      ],
+      "keywords": [
+        "team",
+        "distributed",
+        "remote",
+        "timezones",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "places",
+          "type": "TeamPlace[]",
+          "description": "City, country, headcount, and pre-formatted working hours."
+        },
+        {
+          "name": "coverageLine / gapLine",
+          "type": "string",
+          "description": "What the hours add up to, and the hours nobody covers."
+        }
+      ],
+      "usageNotes": [
+        "The gap line is what makes the coverage claim credible — never omit it.",
+        "Hours are pre-formatted strings in one stated zone, so the section never reads a clock.",
+        "The total is derived from the places; it cannot disagree with the rows."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/team-where-we-are",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/team-where-we-are.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/team-where-we-are",
+        "npm": "npx shadcn@latest add @kinetiq/team-where-we-are",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/team-where-we-are",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/team-where-we-are",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/team-where-we-are.json"
+      }
+    },
+    {
+      "slug": "content-principles-list",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Principles List Content",
+      "serial": "KB-306",
+      "tagline": "A principle without a cost is a value.",
+      "description": "Operating principles with the price of each one attached. Any company can publish four admirable sentences; a principle only becomes information when it says what it costs the people who wrote it — the office view that stays plain, the mornings that arrive flagged, the customers who leave easily.",
+      "categories": [
+        "content-sections"
+      ],
+      "keywords": [
+        "content",
+        "principles",
+        "values",
+        "about",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "principles",
+          "type": "Principle[]",
+          "description": "Each rule with the thing it costs to keep."
+        },
+        {
+          "name": "costLabel",
+          "type": "string",
+          "description": "Caption over the cost line."
+        }
+      ],
+      "usageNotes": [
+        "Without `costsUs` this is a values page, and nobody has ever believed one.",
+        "Name a real cost — a competitor's advantage, a lost account, a capped growth rate.",
+        "Four rules. Ten is a manifesto, and a manifesto settles no arguments."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/content-principles-list",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/content-principles-list.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/content-principles-list",
+        "npm": "npx shadcn@latest add @kinetiq/content-principles-list",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/content-principles-list",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/content-principles-list",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/content-principles-list.json"
+      }
+    },
+    {
+      "slug": "content-glossary",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Glossary Content",
+      "serial": "KB-307",
+      "tagline": "Map their vocabulary onto yours.",
+      "description": "The words this product uses and what they actually mean — with the term people use elsewhere printed beside each one, so a reader can map their own vocabulary onto yours rather than guessing. Any product with an opinionated vocabulary quietly loses readers who assume a familiar word means the familiar thing.",
+      "categories": [
+        "content-sections"
+      ],
+      "keywords": [
+        "content",
+        "glossary",
+        "definitions",
+        "vocabulary",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "terms",
+          "type": "GlossaryTerm[]",
+          "description": "Term, definition, and what it is called elsewhere."
+        },
+        {
+          "name": "elsewhereLabel",
+          "type": "string",
+          "description": "Caption over the mapping line."
+        }
+      ],
+      "usageNotes": [
+        "The `elsewhere` line is the useful half — a glossary that only defines your own words assumes the reader already agreed to them.",
+        "Define words whose familiar meaning would mislead. Defining obvious ones reads as padding.",
+        "Say why a word was chosen when the choice carries meaning; that is the definition doing real work."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/content-glossary",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/content-glossary.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/content-glossary",
+        "npm": "npx shadcn@latest add @kinetiq/content-glossary",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/content-glossary",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/content-glossary",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/content-glossary.json"
       }
     },
     {

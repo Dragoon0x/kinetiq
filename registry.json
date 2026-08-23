@@ -9139,6 +9139,174 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stepform-branching-intake",
+      "type": "registry:block",
+      "title": "Branching Intake Step Form",
+      "description": "A branching intake: the first answer decides the route, and the rail visibly re-forms to the length that route actually takes — two stages, or three, or one. Long forms lose people because the end is invisible; a form that shortens itself in front of you when you say who you are makes the opposite promise.",
+      "files": [
+        {
+          "path": "registry/blocks/stepform-branching-intake/stepform-branching-intake.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/stage-progress.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/radio-group.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "step-form"
+      ],
+      "meta": {
+        "serial": "KB-302"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stepform-resume-later",
+      "type": "registry:block",
+      "title": "Resume Later Step Form",
+      "description": "The long form that admits it is long: every section listed with what it asks for and how many minutes it takes, what is already done, and — the part that makes it usable — which sections somebody else has to fill in. A setup needing finance to supply payroll codes cannot be finished in one sitting, and a wizard that pretends otherwise strands people on step four.",
+      "files": [
+        {
+          "path": "registry/blocks/stepform-resume-later/stepform-resume-later.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "step-form"
+      ],
+      "meta": {
+        "serial": "KB-303"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "team-founders-note",
+      "type": "registry:block",
+      "title": "Founders Note Team",
+      "description": "The founders' note, signed, with each name attached to the thing it is answerable for rather than to a title. A team section built from job titles tells the reader nothing they can act on; a short list of who answers for what tells them exactly who to write to when something breaks.",
+      "files": [
+        {
+          "path": "registry/blocks/team-founders-note/team-founders-note.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json"
+      ],
+      "categories": [
+        "team"
+      ],
+      "meta": {
+        "serial": "KB-304"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "team-where-we-are",
+      "type": "registry:block",
+      "title": "Where We Are Team",
+      "description": "Where the team actually is, and — the useful part — which hours of the day that adds up to. A page of city names is trivia; a page that says the team covers 06:00 to midnight UTC and names the six hours nobody is awake for tells a buyer in another timezone whether they will be answered.",
+      "files": [
+        {
+          "path": "registry/blocks/team-where-we-are/team-where-we-are.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "team"
+      ],
+      "meta": {
+        "serial": "KB-305"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "content-principles-list",
+      "type": "registry:block",
+      "title": "Principles List Content",
+      "description": "Operating principles with the price of each one attached. Any company can publish four admirable sentences; a principle only becomes information when it says what it costs the people who wrote it — the office view that stays plain, the mornings that arrive flagged, the customers who leave easily.",
+      "files": [
+        {
+          "path": "registry/blocks/content-principles-list/content-principles-list.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "content-sections"
+      ],
+      "meta": {
+        "serial": "KB-306"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "content-glossary",
+      "type": "registry:block",
+      "title": "Glossary Content",
+      "description": "The words this product uses and what they actually mean — with the term people use elsewhere printed beside each one, so a reader can map their own vocabulary onto yours rather than guessing. Any product with an opinionated vocabulary quietly loses readers who assume a familiar word means the familiar thing.",
+      "files": [
+        {
+          "path": "registry/blocks/content-glossary/content-glossary.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "content-sections"
+      ],
+      "meta": {
+        "serial": "KB-307"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

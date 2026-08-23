@@ -5439,4 +5439,274 @@ export const blocks: KinetiqItem[] = [
       "The after-line is announced politely rather than assertively, so nobody is left refreshing.",
     ],
   },
+  {
+    name: "stepform-branching-intake",
+    type: "registry:block",
+    title: "Branching Intake Step Form",
+    description:
+      "A branching intake: the first answer decides the route, and the rail visibly re-forms to the length that route actually takes — two stages, or three, or one. Long forms lose people because the end is invisible; a form that shortens itself in front of you when you say who you are makes the opposite promise.",
+    files: [
+      {
+        path: "registry/blocks/stepform-branching-intake/stepform-branching-intake.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "stage-progress",
+      "trace-input",
+      "radio-group",
+      "status-seal",
+      "pressure-button",
+    ],
+    categories: ["step-form"],
+    meta: { serial: "KB-302" },
+    tagline: "Say who you are and the form gets shorter.",
+    keywords: ["step form", "branching", "intake", "routing", "section", "app"],
+    props: [
+      {
+        name: "routes",
+        type: "IntakeRoute[]",
+        description: "Each route carries its own steps and its own outcome.",
+      },
+      {
+        name: "onSubmit",
+        type: "(routeId, answers) => void",
+        description: "Fired with the route taken and everything gathered.",
+      },
+    ],
+    usageNotes: [
+      "The rail is derived from the chosen route, so picking a different one re-forms it — that visible shortening is the whole device.",
+      "Give at least one route a single step. A branching form where every branch is the same length is a straight form with extra clicks.",
+      "Each route states its own outcome; a shared closing line wastes the routing.",
+    ],
+  },
+  {
+    name: "stepform-resume-later",
+    type: "registry:block",
+    title: "Resume Later Step Form",
+    description:
+      "The long form that admits it is long: every section listed with what it asks for and how many minutes it takes, what is already done, and — the part that makes it usable — which sections somebody else has to fill in. A setup needing finance to supply payroll codes cannot be finished in one sitting, and a wizard that pretends otherwise strands people on step four.",
+    files: [
+      {
+        path: "registry/blocks/stepform-resume-later/stepform-resume-later.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "status-seal",
+      "pressure-button",
+    ],
+    categories: ["step-form"],
+    meta: { serial: "KB-303" },
+    tagline: "Some of this is not your job.",
+    keywords: [
+      "step form",
+      "onboarding",
+      "resume",
+      "progress",
+      "section",
+      "app",
+    ],
+    props: [
+      {
+        name: "sections",
+        type: "ResumeSection[]",
+        description:
+          "Each section's ask, minutes, done state, and owner when it is not the reader.",
+      },
+      {
+        name: "savedLine / onContinue",
+        type: "string · (id) => void",
+        description:
+          "The promise that makes leaving safe, and the way back in.",
+      },
+    ],
+    usageNotes: [
+      "Counts and minutes-remaining are derived from the sections — they cannot drift from the list.",
+      "The owner line is the reason to choose this over a wizard: name who else is needed.",
+      "Minutes must be honest. A section marked 3 min that takes twenty is worse than no estimate.",
+    ],
+  },
+  {
+    name: "team-founders-note",
+    type: "registry:block",
+    title: "Founders Note Team",
+    description:
+      "The founders' note, signed, with each name attached to the thing it is answerable for rather than to a title. A team section built from job titles tells the reader nothing they can act on; a short list of who answers for what tells them exactly who to write to when something breaks.",
+    files: [
+      {
+        path: "registry/blocks/team-founders-note/team-founders-note.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils"],
+    categories: ["team"],
+    meta: { serial: "KB-304" },
+    tagline: "Answerable for, not titled as.",
+    keywords: [
+      "team",
+      "founders",
+      "about",
+      "accountability",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "founders",
+        type: "Founder[]",
+        description: "Name, role, and the thing each is answerable for.",
+      },
+      {
+        name: "note / contactLine",
+        type: "string[] · string",
+        description: "The letter and how to reach them without a form.",
+      },
+    ],
+    usageNotes: [
+      'Write accountability, not scope: "every plan it refuses to explain" beats "product and engineering".',
+      "Deliberately still — a founders' note that animates is a founders' note nobody believes.",
+      "Two or three founders. Past that it is a leadership grid, which is a different section.",
+    ],
+  },
+  {
+    name: "team-where-we-are",
+    type: "registry:block",
+    title: "Where We Are Team",
+    description:
+      "Where the team actually is, and — the useful part — which hours of the day that adds up to. A page of city names is trivia; a page that says the team covers 06:00 to midnight UTC and names the six hours nobody is awake for tells a buyer in another timezone whether they will be answered.",
+    files: [
+      {
+        path: "registry/blocks/team-where-we-are/team-where-we-are.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["team"],
+    meta: { serial: "KB-305" },
+    tagline: "Cities are trivia; coverage is information.",
+    keywords: [
+      "team",
+      "distributed",
+      "remote",
+      "timezones",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "places",
+        type: "TeamPlace[]",
+        description:
+          "City, country, headcount, and pre-formatted working hours.",
+      },
+      {
+        name: "coverageLine / gapLine",
+        type: "string",
+        description: "What the hours add up to, and the hours nobody covers.",
+      },
+    ],
+    usageNotes: [
+      "The gap line is what makes the coverage claim credible — never omit it.",
+      "Hours are pre-formatted strings in one stated zone, so the section never reads a clock.",
+      "The total is derived from the places; it cannot disagree with the rows.",
+    ],
+  },
+  {
+    name: "content-principles-list",
+    type: "registry:block",
+    title: "Principles List Content",
+    description:
+      "Operating principles with the price of each one attached. Any company can publish four admirable sentences; a principle only becomes information when it says what it costs the people who wrote it — the office view that stays plain, the mornings that arrive flagged, the customers who leave easily.",
+    files: [
+      {
+        path: "registry/blocks/content-principles-list/content-principles-list.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["content-sections"],
+    meta: { serial: "KB-306" },
+    tagline: "A principle without a cost is a value.",
+    keywords: [
+      "content",
+      "principles",
+      "values",
+      "about",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "principles",
+        type: "Principle[]",
+        description: "Each rule with the thing it costs to keep.",
+      },
+      {
+        name: "costLabel",
+        type: "string",
+        description: "Caption over the cost line.",
+      },
+    ],
+    usageNotes: [
+      "Without `costsUs` this is a values page, and nobody has ever believed one.",
+      "Name a real cost — a competitor's advantage, a lost account, a capped growth rate.",
+      "Four rules. Ten is a manifesto, and a manifesto settles no arguments.",
+    ],
+  },
+  {
+    name: "content-glossary",
+    type: "registry:block",
+    title: "Glossary Content",
+    description:
+      "The words this product uses and what they actually mean — with the term people use elsewhere printed beside each one, so a reader can map their own vocabulary onto yours rather than guessing. Any product with an opinionated vocabulary quietly loses readers who assume a familiar word means the familiar thing.",
+    files: [
+      {
+        path: "registry/blocks/content-glossary/content-glossary.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["content-sections"],
+    meta: { serial: "KB-307" },
+    tagline: "Map their vocabulary onto yours.",
+    keywords: [
+      "content",
+      "glossary",
+      "definitions",
+      "vocabulary",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "terms",
+        type: "GlossaryTerm[]",
+        description: "Term, definition, and what it is called elsewhere.",
+      },
+      {
+        name: "elsewhereLabel",
+        type: "string",
+        description: "Caption over the mapping line.",
+      },
+    ],
+    usageNotes: [
+      "The `elsewhere` line is the useful half — a glossary that only defines your own words assumes the reader already agreed to them.",
+      "Define words whose familiar meaning would mislead. Defining obvious ones reads as padding.",
+      "Say why a word was chosen when the choice carries meaning; that is the definition doing real work.",
+    ],
+  },
 ];

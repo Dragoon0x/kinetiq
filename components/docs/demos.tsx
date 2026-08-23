@@ -330,6 +330,12 @@ import { EmptyNeedsAccessDemo } from "@/registry/demos/empty-needs-access.demo";
 import { EmptyNoMatchesDemo } from "@/registry/demos/empty-no-matches.demo";
 import { LogoReceiptWallDemo } from "@/registry/demos/logo-receipt-wall.demo";
 import { LogoSegmentShelfDemo } from "@/registry/demos/logo-segment-shelf.demo";
+import { ContentGlossaryDemo } from "@/registry/demos/content-glossary.demo";
+import { ContentPrinciplesListDemo } from "@/registry/demos/content-principles-list.demo";
+import { StepformBranchingIntakeDemo } from "@/registry/demos/stepform-branching-intake.demo";
+import { StepformResumeLaterDemo } from "@/registry/demos/stepform-resume-later.demo";
+import { TeamFoundersNoteDemo } from "@/registry/demos/team-founders-note.demo";
+import { TeamWhereWeAreDemo } from "@/registry/demos/team-where-we-are.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -658,6 +664,12 @@ export const demos: Record<string, ComponentType> = {
   "announce-scheduled-window": AnnounceScheduledWindowDemo,
   "empty-no-matches": EmptyNoMatchesDemo,
   "empty-needs-access": EmptyNeedsAccessDemo,
+  "stepform-branching-intake": StepformBranchingIntakeDemo,
+  "stepform-resume-later": StepformResumeLaterDemo,
+  "team-founders-note": TeamFoundersNoteDemo,
+  "team-where-we-are": TeamWhereWeAreDemo,
+  "content-principles-list": ContentPrinciplesListDemo,
+  "content-glossary": ContentGlossaryDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,
