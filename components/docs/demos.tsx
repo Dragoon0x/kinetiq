@@ -350,6 +350,13 @@ import { AuthSecondFactorDemo } from "@/registry/demos/auth-second-factor.demo";
 import { AuthSignInDemo } from "@/registry/demos/auth-sign-in.demo";
 import { AuthSignUpDemo } from "@/registry/demos/auth-sign-up.demo";
 import { AuthWorkspacePickDemo } from "@/registry/demos/auth-workspace-pick.demo";
+import { AboutHowWeWorkDemo } from "@/registry/demos/about-how-we-work.demo";
+import { AboutStoryDemo } from "@/registry/demos/about-story.demo";
+import { CareersIndexDemo } from "@/registry/demos/careers-index.demo";
+import { CareersRoleDemo } from "@/registry/demos/careers-role.demo";
+import { OnboardingFirstRunDemo } from "@/registry/demos/onboarding-first-run.demo";
+import { OnboardingImportOrStartDemo } from "@/registry/demos/onboarding-import-or-start.demo";
+import { OnboardingInviteCrewDemo } from "@/registry/demos/onboarding-invite-crew.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -700,6 +707,13 @@ export const demos: Record<string, ComponentType> = {
   "auth-recover": AuthRecoverDemo,
   "auth-second-factor": AuthSecondFactorDemo,
   "auth-workspace-pick": AuthWorkspacePickDemo,
+  "onboarding-first-run": OnboardingFirstRunDemo,
+  "onboarding-import-or-start": OnboardingImportOrStartDemo,
+  "onboarding-invite-crew": OnboardingInviteCrewDemo,
+  "about-story": AboutStoryDemo,
+  "about-how-we-work": AboutHowWeWorkDemo,
+  "careers-index": CareersIndexDemo,
+  "careers-role": CareersRoleDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

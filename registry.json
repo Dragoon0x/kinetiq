@@ -9692,6 +9692,221 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "onboarding-first-run",
+      "type": "registry:page",
+      "title": "First Run Onboarding Page",
+      "description": "The first session, asked one question at a time, with a way out at the top. The escape hatch is the part that matters: onboarding that cannot be skipped is a wall, and the people most likely to hit it are the ones setting up their second yard who already know all the answers.",
+      "files": [
+        {
+          "path": "registry/pages/onboarding-first-run/onboarding-first-run.tsx",
+          "type": "registry:page",
+          "target": "app/(onboarding)/welcome/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/stepform-one-question.json"
+      ],
+      "categories": [
+        "onboarding"
+      ],
+      "meta": {
+        "serial": "KP-006"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "onboarding-import-or-start",
+      "type": "registry:page",
+      "title": "Import or Start Onboarding Page",
+      "description": "The fork at the start: bring something over, start clean, or look around first — each with its cost in minutes and what it needs from you. Products that force the import path lose everyone without their data to hand, and products that hide it lose everyone who has it.",
+      "files": [
+        {
+          "path": "registry/pages/onboarding-import-or-start/onboarding-import-or-start.tsx",
+          "type": "registry:page",
+          "target": "app/(onboarding)/start/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "onboarding"
+      ],
+      "meta": {
+        "serial": "KP-007"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "onboarding-invite-crew",
+      "type": "registry:page",
+      "title": "Invite Crew Onboarding Page",
+      "description": "Inviting the team, with each role's powers stated in full before anyone is added: what it can do, and — the half almost every invite screen omits — what it cannot. Permissions are the thing people get wrong at setup and discover months later.",
+      "files": [
+        {
+          "path": "registry/pages/onboarding-invite-crew/onboarding-invite-crew.tsx",
+          "type": "registry:page",
+          "target": "app/(onboarding)/invite/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "onboarding"
+      ],
+      "meta": {
+        "serial": "KP-008"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "about-story",
+      "type": "registry:page",
+      "title": "About Story Page",
+      "description": "The about page as an argument rather than a brochure: why the product exists, who answers for it, the numbers behind the claim, and — unusually for an about page — the incidents. A company willing to put its failures on the same page as its origin story is making a claim its competitors mostly cannot copy.",
+      "files": [
+        {
+          "path": "registry/pages/about-story/about-story.tsx",
+          "type": "registry:page",
+          "target": "app/(marketing)/about/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/content-margin-notes.json",
+        "https://kinetiqui.vercel.app/r/team-founders-note.json",
+        "https://kinetiqui.vercel.app/r/stats-impact-report.json",
+        "https://kinetiqui.vercel.app/r/trust-incident-log.json",
+        "https://kinetiqui.vercel.app/r/cta-postscript.json"
+      ],
+      "categories": [
+        "about"
+      ],
+      "meta": {
+        "serial": "KP-009"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "about-how-we-work",
+      "type": "registry:page",
+      "title": "How We Work Page",
+      "description": "The operating manual, published: the rules and what they cost, the words used carefully, where the team is and which hours that leaves uncovered, who does what during a rollout, and where the data sits. The page a careful buyer reads second — after they believe the product works and before they believe the company will still be here.",
+      "files": [
+        {
+          "path": "registry/pages/about-how-we-work/about-how-we-work.tsx",
+          "type": "registry:page",
+          "target": "app/(marketing)/how-we-work/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/content-principles-list.json",
+        "https://kinetiqui.vercel.app/r/content-glossary.json",
+        "https://kinetiqui.vercel.app/r/team-where-we-are.json",
+        "https://kinetiqui.vercel.app/r/how-who-does-what.json",
+        "https://kinetiqui.vercel.app/r/trust-data-residency.json"
+      ],
+      "categories": [
+        "about"
+      ],
+      "meta": {
+        "serial": "KP-010"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "careers-index",
+      "type": "registry:page",
+      "title": "Careers Index Page",
+      "description": "Careers written to help the wrong people leave: the bench and its empty seats, where the team is and the hours nobody covers, the rules and what they cost, and a fit section naming who this is not for. A careers page optimised for volume produces a funnel full of people who resign in a year.",
+      "files": [
+        {
+          "path": "registry/pages/careers-index/careers-index.tsx",
+          "type": "registry:page",
+          "target": "app/(marketing)/careers/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/team-open-bench.json",
+        "https://kinetiqui.vercel.app/r/team-where-we-are.json",
+        "https://kinetiqui.vercel.app/r/content-principles-list.json",
+        "https://kinetiqui.vercel.app/r/usecase-not-for-you.json",
+        "https://kinetiqui.vercel.app/r/cta-last-objection.json"
+      ],
+      "categories": [
+        "careers"
+      ],
+      "meta": {
+        "serial": "KP-011"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "careers-role",
+      "type": "registry:page",
+      "title": "Careers Role Page",
+      "description": "A single role, written so the wrong applicant can rule themselves out in ninety seconds: the pay stated, the interview loop described, what the person will actually do in their first months, and a list of what is not being asked for. That last list is why this page gets fewer, better applications.",
+      "files": [
+        {
+          "path": "registry/pages/careers-role/careers-role.tsx",
+          "type": "registry:page",
+          "target": "app/(marketing)/careers/[role]/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/how-plain-steps.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "careers"
+      ],
+      "meta": {
+        "serial": "KP-012"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

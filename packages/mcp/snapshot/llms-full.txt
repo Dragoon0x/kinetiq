@@ -5886,6 +5886,112 @@ Notes:
 - State the signed-in address prominently — the wrong account is the commonest cause of a missing workspace.
 - Do not auto-forward on a single workspace without saying so; a page that vanishes is a page people cannot get back to.
 
+### First Run Onboarding Page (KP-006) — `onboarding-first-run`
+Always leave the door open.
+
+The first session, asked one question at a time, with a way out at the top. The escape hatch is the part that matters: onboarding that cannot be skipped is a wall, and the people most likely to hit it are the ones setting up their second yard who already know all the answers.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/onboarding-first-run`
+
+Props:
+- `skipLabel / skipHref`: string — The escape hatch, kept at the top rather than the bottom.
+- `onDone`: (answers) => void — Fired with everything gathered.
+
+Notes:
+- Never remove the skip. Onboarding that cannot be skipped is a wall, and repeat users hit it hardest.
+- The questions belong to stepform-one-question — pass it your own set rather than restyling this page.
+
+### Import or Start Onboarding Page (KP-007) — `onboarding-import-or-start`
+Three ways in, none of them a door that locks.
+
+The fork at the start: bring something over, start clean, or look around first — each with its cost in minutes and what it needs from you. Products that force the import path lose everyone without their data to hand, and products that hide it lose everyone who has it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/onboarding-import-or-start`
+
+Props:
+- `routes`: StartRoute[] — Each path with its effort, prerequisites, and whether it is suggested.
+- `reversibleLine`: string — The line that makes the choice safe to make quickly.
+
+Notes:
+- Always offer a look-around route. Some people will not type anything until they have seen the thing work.
+- State the minutes. A path without a cost is a path people avoid in case it is the long one.
+- Suggest exactly one route — two suggestions is no suggestion.
+
+### Invite Crew Onboarding Page (KP-008) — `onboarding-invite-crew`
+State what a role cannot do.
+
+Inviting the team, with each role's powers stated in full before anyone is added: what it can do, and — the half almost every invite screen omits — what it cannot. Permissions are the thing people get wrong at setup and discover months later.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/onboarding-invite-crew`
+
+Props:
+- `roles`: InviteRole[] — Each role with both its powers and its limits.
+- `onSend / whatTheyGetLine`: (invites) => void · string — The send hook, and what the invitee actually receives.
+
+Notes:
+- The `cannot` half is not optional — it is the only reason this screen beats a dropdown of role names.
+- Duplicate addresses are refused with a reason rather than silently merged.
+- Say what an invite creates and when it expires; an invite with unstated terms gets forwarded around.
+
+### About Story Page (KP-009) — `about-story`
+Failures on the same page as the origin story.
+
+The about page as an argument rather than a brochure: why the product exists, who answers for it, the numbers behind the claim, and — unusually for an about page — the incidents. A company willing to put its failures on the same page as its origin story is making a claim its competitors mostly cannot copy.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/about-story`
+
+Props:
+- `className`: string — The page composes shipped sections; pass content through each section's own props.
+
+Notes:
+- Every section here is a shipped block. If this page needs markup a section could own, that is a missing section rather than page-local styling.
+- The incident log is the unusual choice and the reason the page works — moving it to a separate status page loses the effect.
+- Order matters: why, who, how much, what went wrong, what now.
+
+### How We Work Page (KP-010) — `about-how-we-work`
+The operating manual, published.
+
+The operating manual, published: the rules and what they cost, the words used carefully, where the team is and which hours that leaves uncovered, who does what during a rollout, and where the data sits. The page a careful buyer reads second — after they believe the product works and before they believe the company will still be here.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/about-how-we-work`
+
+Props:
+- `className`: string — Composes shipped sections; pass content through each section's props.
+
+Notes:
+- Pair it with about-story rather than merging them — one argues why, this one argues how.
+- Keep data residency last. It is the section people arrive looking for and the one they leave satisfied by.
+
+### Careers Index Page (KP-011) — `careers-index`
+Help the wrong people leave.
+
+Careers written to help the wrong people leave: the bench and its empty seats, where the team is and the hours nobody covers, the rules and what they cost, and a fit section naming who this is not for. A careers page optimised for volume produces a funnel full of people who resign in a year.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/careers-index`
+
+Props:
+- `className`: string — Composes shipped sections; pass content through each section's props.
+
+Notes:
+- The fit and objection sections ship with marketing copy — replace their content with hiring equivalents. The shapes are the point, and both take typed props.
+- Publishing the uncovered hours is a feature here: candidates in those timezones deserve to know before applying.
+
+### Careers Role Page (KP-012) — `careers-role`
+Ninety seconds to rule yourself out.
+
+A single role, written so the wrong applicant can rule themselves out in ninety seconds: the pay stated, the interview loop described, what the person will actually do in their first months, and a list of what is not being asked for. That last list is why this page gets fewer, better applications.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/careers-role`
+
+Props:
+- `facts / doing / notAsking`: RoleFact[] · string[] — The particulars, the first ninety days, and what is not required.
+- `payLine`: string — The band, stated. A role page without one wastes both sides' time.
+
+Notes:
+- Publish the band. Every conversation that starts without it is a conversation about the wrong thing.
+- The not-asking list is the differentiator — it is what makes the rest of the page believable.
+- The interview loop uses how-plain-steps, so the hiring process is described in the same shape as the product's.
+
 ### Utils — `utils`
 cn() — class composition.
 
