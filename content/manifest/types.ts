@@ -28,11 +28,18 @@ export const registryFileSchema = z.object({
     "registry:hook",
     "registry:lib",
     "registry:file",
+    "registry:page",
   ]),
+  /**
+   * Where the CLI writes the file in a consuming app. Optional for component
+   * files, which land under the user's configured registry path — but
+   * REQUIRED for registry:page and registry:file, which have no such default
+   * and would otherwise be written nowhere. Enforced below.
+   */
   target: z.string().optional(),
 });
 
-export const kinetiqItemSchema = z.object({
+const baseKinetiqItemSchema = z.object({
   /** Slug. Doubles as the registry item name and the docs URL segment. */
   name: z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/),
   type: z.enum([
@@ -41,6 +48,7 @@ export const kinetiqItemSchema = z.object({
     "registry:hook",
     "registry:lib",
     "registry:file",
+    "registry:page",
   ]),
   title: z.string(),
   description: z.string(),
@@ -52,8 +60,11 @@ export const kinetiqItemSchema = z.object({
   categories: z.array(z.string()).optional(),
   meta: z
     .object({
-      /** Specimen serial: KQ-001…, KB-101…, shown in docs, OG, registry. */
-      serial: z.string().regex(/^K[QB]-\d{3}$/),
+      /**
+       * Specimen serial, shown in docs, OG, and the registry.
+       * KQ-### components · KB-### blocks and sections · KP-### pages.
+       */
+      serial: z.string().regex(/^K[QBP]-\d{3}$/),
     })
     .optional(),
 
@@ -66,6 +77,28 @@ export const kinetiqItemSchema = z.object({
   /** Hide from nav/index while a piece is under construction. */
   draft: z.boolean().optional(),
 });
+
+/**
+ * A page or a bare file has no default destination the way a component does,
+ * so the CLI needs an explicit `target` or it has nowhere to write. Enforced
+ * here rather than in a lint rule, so a page that forgets one cannot reach
+ * the registry at all.
+ */
+export const kinetiqItemSchema = baseKinetiqItemSchema.superRefine(
+  (item, ctx) => {
+    for (const [index, file] of item.files.entries()) {
+      const needsTarget =
+        file.type === "registry:page" || file.type === "registry:file";
+      if (needsTarget && !file.target) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["files", index, "target"],
+          message: `${file.type} requires a target path (e.g. "app/login/page.tsx") — the CLI has no default for it.`,
+        });
+      }
+    }
+  },
+);
 
 export type KinetiqItem = z.infer<typeof kinetiqItemSchema>;
 

@@ -1,5 +1,6 @@
 import { blocks } from "./blocks";
 import { components } from "./components";
+import { pages } from "./pages";
 import { shared } from "./shared";
 import { kinetiqItemSchema, type KinetiqItem } from "./types";
 
@@ -7,6 +8,7 @@ import { kinetiqItemSchema, type KinetiqItem } from "./types";
 export const allItems: KinetiqItem[] = [
   ...components,
   ...blocks,
+  ...pages,
   ...shared,
 ].map((item) => {
   const parsed = kinetiqItemSchema.safeParse(item);
@@ -34,6 +36,7 @@ export const catalogComponents = components
   .filter((c) => !c.draft)
   .sort(bySerial);
 export const catalogBlocks = blocks.filter((b) => !b.draft).sort(bySerial);
+export const catalogPages = pages.filter((p) => !p.draft).sort(bySerial);
 
 export const itemBySlug = (slug: string): KinetiqItem | undefined =>
   allItems.find((item) => item.name === slug);
