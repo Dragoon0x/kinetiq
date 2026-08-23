@@ -278,6 +278,10 @@ import { AnnounceFirstLightStripDemo } from "@/registry/demos/announce-first-lig
 import { StatsHeatYearDemo } from "@/registry/demos/stats-heat-year.demo";
 import { StatsShareDialDemo } from "@/registry/demos/stats-share-dial.demo";
 import { TestimonialFocusTurnDemo } from "@/registry/demos/testimonial-focus-turn.demo";
+import { ContactDirectLinesDemo } from "@/registry/demos/contact-direct-lines.demo";
+import { FooterQuietCloseDemo } from "@/registry/demos/footer-quiet-close.demo";
+import { GalleryCoverShelfDemo } from "@/registry/demos/gallery-cover-shelf.demo";
+import { NewsletterLedgerNoteDemo } from "@/registry/demos/newsletter-ledger-note.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -554,6 +558,10 @@ export const demos: Record<string, ComponentType> = {
   "stats-heat-year": StatsHeatYearDemo,
   "testimonial-focus-turn": TestimonialFocusTurnDemo,
   "announce-first-light-strip": AnnounceFirstLightStripDemo,
+  "footer-quiet-close": FooterQuietCloseDemo,
+  "newsletter-ledger-note": NewsletterLedgerNoteDemo,
+  "contact-direct-lines": ContactDirectLinesDemo,
+  "gallery-cover-shelf": GalleryCoverShelfDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

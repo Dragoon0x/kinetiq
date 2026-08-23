@@ -7680,6 +7680,115 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "footer-quiet-close",
+      "type": "registry:block",
+      "title": "Quiet Close Footer",
+      "description": "The quiet close: one row — wordmark, links, fine print — and one human sign-off line above it. For pages whose footer's whole job is to end gracefully: no columns, no form, no wordmark theatrics, just the page signing its name and stepping back. The stillness is the design.",
+      "files": [
+        {
+          "path": "registry/blocks/footer-quiet-close/footer-quiet-close.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json"
+      ],
+      "categories": [
+        "footer"
+      ],
+      "meta": {
+        "serial": "KB-250"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "newsletter-ledger-note",
+      "type": "registry:block",
+      "title": "Ledger Note Newsletter",
+      "description": "A newsletter note for between sections: one line of pitch, the field, and the circulation count rolling beside it — because join four thousand readers is only worth saying when the number is real enough to print. Compact by design; the full pressroom treatment belongs to its own section.",
+      "files": [
+        {
+          "path": "registry/blocks/newsletter-ledger-note/newsletter-ledger-note.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "newsletter"
+      ],
+      "meta": {
+        "serial": "KB-251"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "contact-direct-lines",
+      "type": "registry:block",
+      "title": "Direct Lines Contact",
+      "description": "Contact without a form: three direct lines, each an address you can copy verbatim — the copy control confirms in place — with who reads it, how fast, and a live pip where someone is actually on rotation now. For teams whose honest answer to contact us is an inbox with a person behind it, not a ticket funnel.",
+      "files": [
+        {
+          "path": "registry/blocks/contact-direct-lines/contact-direct-lines.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "categories": [
+        "contact"
+      ],
+      "meta": {
+        "serial": "KB-252"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gallery-cover-shelf",
+      "type": "registry:block",
+      "title": "Cover Shelf Gallery",
+      "description": "A shelf of covers in perspective: the library's coverflow banks each plate in 3D as the shelf turns — drag, wheel, and keys all come with it — and the plates are typeset covers, not images, so the shelf reads in both themes at any density. The active cover sits square; its neighbours wait at an angle, the way a shelf actually looks.",
+      "files": [
+        {
+          "path": "registry/blocks/gallery-cover-shelf/gallery-cover-shelf.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/coverflow.json"
+      ],
+      "categories": [
+        "galleries"
+      ],
+      "meta": {
+        "serial": "KB-253"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

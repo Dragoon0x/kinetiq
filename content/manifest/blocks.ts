@@ -3075,4 +3075,168 @@ export const blocks: KinetiqItem[] = [
       "The drift stays behind a horizontal gradient so the line reads at both edges.",
     ],
   },
+  {
+    name: "footer-quiet-close",
+    type: "registry:block",
+    title: "Quiet Close Footer",
+    description:
+      "The quiet close: one row — wordmark, links, fine print — and one human sign-off line above it. For pages whose footer's whole job is to end gracefully: no columns, no form, no wordmark theatrics, just the page signing its name and stepping back. The stillness is the design.",
+    files: [
+      {
+        path: "registry/blocks/footer-quiet-close/footer-quiet-close.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils"],
+    categories: ["footer"],
+    meta: { serial: "KB-250" },
+    tagline: "The page signing its name and stepping back.",
+    keywords: ["footer", "minimal", "simple", "close", "section", "marketing"],
+    props: [
+      {
+        name: "brand / links / fineprint",
+        type: "ReactNode · QuietLink[] · string",
+        description: "The single row's three parts.",
+      },
+      {
+        name: "signoff",
+        type: "string",
+        description: "The one human line above the legal one.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately still — no motion imports at all; the stillness is the point.",
+      "The sign-off is the block's voice; write it like a person, not a brand.",
+      "The row wraps in thirds on narrow screens without reordering.",
+    ],
+  },
+  {
+    name: "newsletter-ledger-note",
+    type: "registry:block",
+    title: "Ledger Note Newsletter",
+    description:
+      "A newsletter note for between sections: one line of pitch, the field, and the circulation count rolling beside it — because join four thousand readers is only worth saying when the number is real enough to print. Compact by design; the full pressroom treatment belongs to its own section.",
+    files: [
+      {
+        path: "registry/blocks/newsletter-ledger-note/newsletter-ledger-note.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "trace-input",
+      "pressure-button",
+    ],
+    categories: ["newsletter"],
+    meta: { serial: "KB-251" },
+    tagline: "A circulation count worth printing.",
+    keywords: [
+      "newsletter",
+      "signup",
+      "inline",
+      "band",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "readers / readersLabel",
+        type: "number · string",
+        description: "The honest circulation count, on the readout.",
+      },
+      {
+        name: "headline / copy / cta",
+        type: "string",
+        description: "The one-line pitch and the ask.",
+      },
+      {
+        name: "onSubscribe",
+        type: "(email) => void",
+        description: "Fired with a shape-valid address.",
+      },
+    ],
+    usageNotes: [
+      "A band, not a destination — borders top and bottom seat it between sections.",
+      "Print the readers count only if it is real; the block's honesty is its pitch.",
+      "The form collapses under the pitch on small screens.",
+    ],
+  },
+  {
+    name: "contact-direct-lines",
+    type: "registry:block",
+    title: "Direct Lines Contact",
+    description:
+      "Contact without a form: three direct lines, each an address you can copy verbatim — the copy control confirms in place — with who reads it, how fast, and a live pip where someone is actually on rotation now. For teams whose honest answer to contact us is an inbox with a person behind it, not a ticket funnel.",
+    files: [
+      {
+        path: "registry/blocks/contact-direct-lines/contact-direct-lines.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "status-pip"],
+    categories: ["contact"],
+    meta: { serial: "KB-252" },
+    tagline: "Real inboxes, stated plainly.",
+    keywords: ["contact", "email", "direct", "no form", "section", "marketing"],
+    props: [
+      {
+        name: "lines",
+        type: "DirectLine[]",
+        description:
+          "Kicker, title, address, expectation, and whether someone is on rotation.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The standfirst above the lines.",
+      },
+    ],
+    usageNotes: [
+      "Addresses are mailto links and copyable verbatim; the copy control confirms in place.",
+      "The pip only appears where presence is measured — an always-on pip is a lie.",
+      "A denied clipboard fails silently; the mailto link is the fallback path.",
+    ],
+  },
+  {
+    name: "gallery-cover-shelf",
+    type: "registry:block",
+    title: "Cover Shelf Gallery",
+    description:
+      "A shelf of covers in perspective: the library's coverflow banks each plate in 3D as the shelf turns — drag, wheel, and keys all come with it — and the plates are typeset covers, not images, so the shelf reads in both themes at any density. The active cover sits square; its neighbours wait at an angle, the way a shelf actually looks.",
+    files: [
+      {
+        path: "registry/blocks/gallery-cover-shelf/gallery-cover-shelf.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "coverflow"],
+    categories: ["galleries"],
+    meta: { serial: "KB-253" },
+    tagline: "The active cover sits square.",
+    keywords: ["gallery", "coverflow", "shelf", "3d", "section", "marketing"],
+    props: [
+      {
+        name: "covers",
+        type: "ShelfCover[]",
+        description: "Kicker, title, note per typeset cover.",
+      },
+      {
+        name: "eyebrow / headline",
+        type: "string",
+        description: "The centered standfirst.",
+      },
+    ],
+    usageNotes: [
+      "All shelf physics belong to coverflow — banking, drag, wheel, and keyboard travel.",
+      "The status line names the active cover politely as the shelf turns.",
+      "Swap the typeset plates for images if you must; the shelf carries either.",
+    ],
+  },
 ];
