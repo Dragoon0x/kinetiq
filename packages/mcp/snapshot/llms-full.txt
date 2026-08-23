@@ -5741,6 +5741,70 @@ Notes:
 - The early quote is set in the muted ink and the later one larger, so the eye travels the right way.
 - Two pairs is plenty — this shape asks for real reading.
 
+### Unprompted Social Proof (KB-313) — `proof-unprompted`
+A testimonial is given; a mention is found.
+
+Proof nobody asked for: things said about the product where the product was not listening — a mailing list, a forum, a crew group chat — reproduced with where and when, including the one that is not a compliment. A testimonial is given; a mention is found, and the difference is the whole argument.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/proof-unprompted`
+
+Props:
+- `mentions`: FoundMention[] — Where, when, who, the quote, and whether it is critical.
+- `provenance`: string — How these were gathered — the line that makes them credible.
+
+Notes:
+- Keep the critical one. Removing it makes the other three worthless, which is the entire point of the section.
+- Withhold handles and names unless you asked. Quoting a public post is not the same as naming its author on a marketing page.
+- Dates are pre-formatted strings, so the section never touches a clock.
+
+### Back Issues Newsletter (KB-314) — `newsletter-back-issues`
+Read four before you decide.
+
+Signup with the back catalogue in front of it: four real issues, readable now, before anything is asked for. Every newsletter section promises the reader something good will arrive; this one lets them check by reading four that already did — a far cheaper thing to ask than trust.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/newsletter-back-issues`
+
+Props:
+- `issues / totalIssues`: BackIssue[] · number — The listed issues and how many exist in all.
+- `cadence / onSubscribe`: string · (email) => void — The promise under the field, and the hook.
+
+Notes:
+- Do not gate the archive. A locked back catalogue asks for trust while proving you will not extend any.
+- Title the issues honestly — "We got tide modelling wrong for four months" sells the list better than a topic ever will.
+- Read times are part of the offer; a nine minute issue and a four minute one are different products.
+
+### Open Hours Contact (KB-315) — `contact-open-hours`
+A time and a person, not a form.
+
+Contact as a standing invitation rather than a form or an address: three open sessions a week, each with a stated subject and a named host, plus what to bring so the half hour is not spent establishing context. The shortest path for anyone whose question is really a conversation.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/contact-open-hours`
+
+Props:
+- `hours`: OpenHour[] — When, what it is for, who hosts, and which is next.
+- `bring / fallbackLine`: string[] · string — What makes the half hour useful, and the path for everyone else.
+
+Notes:
+- Name the host. "Someone from the team" is a form with extra steps.
+- Times are pre-formatted in one stated zone; the section never reads a clock, so it cannot drift from the server.
+- The fallback line is not optional — three fixed times exclude most of the world.
+
+### Contact Sheet Gallery (KB-316) — `gallery-contact-sheet`
+The whole roll, keepers ringed.
+
+The contact sheet: twelve frames at working size with their numbers on the edge and the selects ringed, the way a sheet gets marked up before anything is printed. Where the shelf banks covers and the rail flings plates past, this one does not move at all — it shows the whole roll, including the frames that were not chosen.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gallery-contact-sheet`
+
+Props:
+- `frames`: SheetFrame[] — Frame number, caption, wash, and whether it is a select.
+- `rollLabel`: string — Printed along the head of the sheet.
+
+Notes:
+- Deliberately motionless past the cascade — the moving gallery variants already exist twice.
+- Show the frames that did not make it. A contact sheet of nothing but selects is a portfolio.
+- The select ring sits outside the frame, like a mark made on the sheet rather than on the image.
+
 ### Utils — `utils`
 cn() — class composition.
 

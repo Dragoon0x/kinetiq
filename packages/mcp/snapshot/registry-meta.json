@@ -14,7 +14,7 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 212,
-      "blocks": 128,
+      "blocks": 132,
       "shared": 6
     }
   },
@@ -20447,6 +20447,227 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/testimonial-two-dates",
         "bun": "bunx --bun shadcn@latest add @kinetiq/testimonial-two-dates",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/testimonial-two-dates.json"
+      }
+    },
+    {
+      "slug": "proof-unprompted",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Unprompted Social Proof",
+      "serial": "KB-313",
+      "tagline": "A testimonial is given; a mention is found.",
+      "description": "Proof nobody asked for: things said about the product where the product was not listening — a mailing list, a forum, a crew group chat — reproduced with where and when, including the one that is not a compliment. A testimonial is given; a mention is found, and the difference is the whole argument.",
+      "categories": [
+        "social-proof"
+      ],
+      "keywords": [
+        "social proof",
+        "mentions",
+        "unprompted",
+        "found",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "mentions",
+          "type": "FoundMention[]",
+          "description": "Where, when, who, the quote, and whether it is critical."
+        },
+        {
+          "name": "provenance",
+          "type": "string",
+          "description": "How these were gathered — the line that makes them credible."
+        }
+      ],
+      "usageNotes": [
+        "Keep the critical one. Removing it makes the other three worthless, which is the entire point of the section.",
+        "Withhold handles and names unless you asked. Quoting a public post is not the same as naming its author on a marketing page.",
+        "Dates are pre-formatted strings, so the section never touches a clock."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/proof-unprompted",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/proof-unprompted.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/proof-unprompted",
+        "npm": "npx shadcn@latest add @kinetiq/proof-unprompted",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/proof-unprompted",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/proof-unprompted",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/proof-unprompted.json"
+      }
+    },
+    {
+      "slug": "newsletter-back-issues",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Back Issues Newsletter",
+      "serial": "KB-314",
+      "tagline": "Read four before you decide.",
+      "description": "Signup with the back catalogue in front of it: four real issues, readable now, before anything is asked for. Every newsletter section promises the reader something good will arrive; this one lets them check by reading four that already did — a far cheaper thing to ask than trust.",
+      "categories": [
+        "newsletter"
+      ],
+      "keywords": [
+        "newsletter",
+        "archive",
+        "back issues",
+        "signup",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "issues / totalIssues",
+          "type": "BackIssue[] · number",
+          "description": "The listed issues and how many exist in all."
+        },
+        {
+          "name": "cadence / onSubscribe",
+          "type": "string · (email) => void",
+          "description": "The promise under the field, and the hook."
+        }
+      ],
+      "usageNotes": [
+        "Do not gate the archive. A locked back catalogue asks for trust while proving you will not extend any.",
+        "Title the issues honestly — \"We got tide modelling wrong for four months\" sells the list better than a topic ever will.",
+        "Read times are part of the offer; a nine minute issue and a four minute one are different products."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/newsletter-back-issues",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/newsletter-back-issues.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/newsletter-back-issues",
+        "npm": "npx shadcn@latest add @kinetiq/newsletter-back-issues",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/newsletter-back-issues",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/newsletter-back-issues",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/newsletter-back-issues.json"
+      }
+    },
+    {
+      "slug": "contact-open-hours",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Open Hours Contact",
+      "serial": "KB-315",
+      "tagline": "A time and a person, not a form.",
+      "description": "Contact as a standing invitation rather than a form or an address: three open sessions a week, each with a stated subject and a named host, plus what to bring so the half hour is not spent establishing context. The shortest path for anyone whose question is really a conversation.",
+      "categories": [
+        "contact"
+      ],
+      "keywords": [
+        "contact",
+        "office hours",
+        "open",
+        "sessions",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "hours",
+          "type": "OpenHour[]",
+          "description": "When, what it is for, who hosts, and which is next."
+        },
+        {
+          "name": "bring / fallbackLine",
+          "type": "string[] · string",
+          "description": "What makes the half hour useful, and the path for everyone else."
+        }
+      ],
+      "usageNotes": [
+        "Name the host. \"Someone from the team\" is a form with extra steps.",
+        "Times are pre-formatted in one stated zone; the section never reads a clock, so it cannot drift from the server.",
+        "The fallback line is not optional — three fixed times exclude most of the world."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/contact-open-hours",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/contact-open-hours.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/contact-open-hours",
+        "npm": "npx shadcn@latest add @kinetiq/contact-open-hours",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/contact-open-hours",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/contact-open-hours",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/contact-open-hours.json"
+      }
+    },
+    {
+      "slug": "gallery-contact-sheet",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Contact Sheet Gallery",
+      "serial": "KB-316",
+      "tagline": "The whole roll, keepers ringed.",
+      "description": "The contact sheet: twelve frames at working size with their numbers on the edge and the selects ringed, the way a sheet gets marked up before anything is printed. Where the shelf banks covers and the rail flings plates past, this one does not move at all — it shows the whole roll, including the frames that were not chosen.",
+      "categories": [
+        "galleries"
+      ],
+      "keywords": [
+        "gallery",
+        "contact sheet",
+        "grid",
+        "photography",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "frames",
+          "type": "SheetFrame[]",
+          "description": "Frame number, caption, wash, and whether it is a select."
+        },
+        {
+          "name": "rollLabel",
+          "type": "string",
+          "description": "Printed along the head of the sheet."
+        }
+      ],
+      "usageNotes": [
+        "Deliberately motionless past the cascade — the moving gallery variants already exist twice.",
+        "Show the frames that did not make it. A contact sheet of nothing but selects is a portfolio.",
+        "The select ring sits outside the frame, like a mark made on the sheet rather than on the image."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/gallery-contact-sheet",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gallery-contact-sheet.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gallery-contact-sheet",
+        "npm": "npx shadcn@latest add @kinetiq/gallery-contact-sheet",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gallery-contact-sheet",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gallery-contact-sheet",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gallery-contact-sheet.json"
       }
     },
     {

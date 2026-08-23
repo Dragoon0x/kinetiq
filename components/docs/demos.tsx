@@ -341,6 +341,10 @@ import { DatatableInlineEditDemo } from "@/registry/demos/datatable-inline-edit.
 import { IntegrationsBuildYourOwnDemo } from "@/registry/demos/integrations-build-your-own.demo";
 import { IntegrationsConnectTimeDemo } from "@/registry/demos/integrations-connect-time.demo";
 import { TestimonialTwoDatesDemo } from "@/registry/demos/testimonial-two-dates.demo";
+import { ContactOpenHoursDemo } from "@/registry/demos/contact-open-hours.demo";
+import { GalleryContactSheetDemo } from "@/registry/demos/gallery-contact-sheet.demo";
+import { NewsletterBackIssuesDemo } from "@/registry/demos/newsletter-back-issues.demo";
+import { ProofUnpromptedDemo } from "@/registry/demos/proof-unprompted.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -680,6 +684,10 @@ export const demos: Record<string, ComponentType> = {
   "datatable-grouped-rollup": DatatableGroupedRollupDemo,
   "datatable-inline-edit": DatatableInlineEditDemo,
   "testimonial-two-dates": TestimonialTwoDatesDemo,
+  "proof-unprompted": ProofUnpromptedDemo,
+  "newsletter-back-issues": NewsletterBackIssuesDemo,
+  "contact-open-hours": ContactOpenHoursDemo,
+  "gallery-contact-sheet": GalleryContactSheetDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

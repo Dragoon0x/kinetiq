@@ -5932,4 +5932,185 @@ export const blocks: KinetiqItem[] = [
       "Two pairs is plenty — this shape asks for real reading.",
     ],
   },
+  {
+    name: "proof-unprompted",
+    type: "registry:block",
+    title: "Unprompted Social Proof",
+    description:
+      "Proof nobody asked for: things said about the product where the product was not listening — a mailing list, a forum, a crew group chat — reproduced with where and when, including the one that is not a compliment. A testimonial is given; a mention is found, and the difference is the whole argument.",
+    files: [
+      {
+        path: "registry/blocks/proof-unprompted/proof-unprompted.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["social-proof"],
+    meta: { serial: "KB-313" },
+    tagline: "A testimonial is given; a mention is found.",
+    keywords: [
+      "social proof",
+      "mentions",
+      "unprompted",
+      "found",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "mentions",
+        type: "FoundMention[]",
+        description: "Where, when, who, the quote, and whether it is critical.",
+      },
+      {
+        name: "provenance",
+        type: "string",
+        description:
+          "How these were gathered — the line that makes them credible.",
+      },
+    ],
+    usageNotes: [
+      "Keep the critical one. Removing it makes the other three worthless, which is the entire point of the section.",
+      "Withhold handles and names unless you asked. Quoting a public post is not the same as naming its author on a marketing page.",
+      "Dates are pre-formatted strings, so the section never touches a clock.",
+    ],
+  },
+  {
+    name: "newsletter-back-issues",
+    type: "registry:block",
+    title: "Back Issues Newsletter",
+    description:
+      "Signup with the back catalogue in front of it: four real issues, readable now, before anything is asked for. Every newsletter section promises the reader something good will arrive; this one lets them check by reading four that already did — a far cheaper thing to ask than trust.",
+    files: [
+      {
+        path: "registry/blocks/newsletter-back-issues/newsletter-back-issues.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "trace-input",
+      "pressure-button",
+    ],
+    categories: ["newsletter"],
+    meta: { serial: "KB-314" },
+    tagline: "Read four before you decide.",
+    keywords: [
+      "newsletter",
+      "archive",
+      "back issues",
+      "signup",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "issues / totalIssues",
+        type: "BackIssue[] · number",
+        description: "The listed issues and how many exist in all.",
+      },
+      {
+        name: "cadence / onSubscribe",
+        type: "string · (email) => void",
+        description: "The promise under the field, and the hook.",
+      },
+    ],
+    usageNotes: [
+      "Do not gate the archive. A locked back catalogue asks for trust while proving you will not extend any.",
+      'Title the issues honestly — "We got tide modelling wrong for four months" sells the list better than a topic ever will.',
+      "Read times are part of the offer; a nine minute issue and a four minute one are different products.",
+    ],
+  },
+  {
+    name: "contact-open-hours",
+    type: "registry:block",
+    title: "Open Hours Contact",
+    description:
+      "Contact as a standing invitation rather than a form or an address: three open sessions a week, each with a stated subject and a named host, plus what to bring so the half hour is not spent establishing context. The shortest path for anyone whose question is really a conversation.",
+    files: [
+      {
+        path: "registry/blocks/contact-open-hours/contact-open-hours.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "status-pip"],
+    categories: ["contact"],
+    meta: { serial: "KB-315" },
+    tagline: "A time and a person, not a form.",
+    keywords: [
+      "contact",
+      "office hours",
+      "open",
+      "sessions",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "hours",
+        type: "OpenHour[]",
+        description: "When, what it is for, who hosts, and which is next.",
+      },
+      {
+        name: "bring / fallbackLine",
+        type: "string[] · string",
+        description:
+          "What makes the half hour useful, and the path for everyone else.",
+      },
+    ],
+    usageNotes: [
+      'Name the host. "Someone from the team" is a form with extra steps.',
+      "Times are pre-formatted in one stated zone; the section never reads a clock, so it cannot drift from the server.",
+      "The fallback line is not optional — three fixed times exclude most of the world.",
+    ],
+  },
+  {
+    name: "gallery-contact-sheet",
+    type: "registry:block",
+    title: "Contact Sheet Gallery",
+    description:
+      "The contact sheet: twelve frames at working size with their numbers on the edge and the selects ringed, the way a sheet gets marked up before anything is printed. Where the shelf banks covers and the rail flings plates past, this one does not move at all — it shows the whole roll, including the frames that were not chosen.",
+    files: [
+      {
+        path: "registry/blocks/gallery-contact-sheet/gallery-contact-sheet.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["galleries"],
+    meta: { serial: "KB-316" },
+    tagline: "The whole roll, keepers ringed.",
+    keywords: [
+      "gallery",
+      "contact sheet",
+      "grid",
+      "photography",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "frames",
+        type: "SheetFrame[]",
+        description: "Frame number, caption, wash, and whether it is a select.",
+      },
+      {
+        name: "rollLabel",
+        type: "string",
+        description: "Printed along the head of the sheet.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately motionless past the cascade — the moving gallery variants already exist twice.",
+      "Show the frames that did not make it. A contact sheet of nothing but selects is a portfolio.",
+      "The select ring sits outside the frame, like a mark made on the sheet rather than on the image.",
+    ],
+  },
 ];

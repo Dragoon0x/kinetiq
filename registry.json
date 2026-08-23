@@ -9442,6 +9442,119 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "proof-unprompted",
+      "type": "registry:block",
+      "title": "Unprompted Social Proof",
+      "description": "Proof nobody asked for: things said about the product where the product was not listening — a mailing list, a forum, a crew group chat — reproduced with where and when, including the one that is not a compliment. A testimonial is given; a mention is found, and the difference is the whole argument.",
+      "files": [
+        {
+          "path": "registry/blocks/proof-unprompted/proof-unprompted.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "social-proof"
+      ],
+      "meta": {
+        "serial": "KB-313"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "newsletter-back-issues",
+      "type": "registry:block",
+      "title": "Back Issues Newsletter",
+      "description": "Signup with the back catalogue in front of it: four real issues, readable now, before anything is asked for. Every newsletter section promises the reader something good will arrive; this one lets them check by reading four that already did — a far cheaper thing to ask than trust.",
+      "files": [
+        {
+          "path": "registry/blocks/newsletter-back-issues/newsletter-back-issues.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "newsletter"
+      ],
+      "meta": {
+        "serial": "KB-314"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "contact-open-hours",
+      "type": "registry:block",
+      "title": "Open Hours Contact",
+      "description": "Contact as a standing invitation rather than a form or an address: three open sessions a week, each with a stated subject and a named host, plus what to bring so the half hour is not spent establishing context. The shortest path for anyone whose question is really a conversation.",
+      "files": [
+        {
+          "path": "registry/blocks/contact-open-hours/contact-open-hours.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "categories": [
+        "contact"
+      ],
+      "meta": {
+        "serial": "KB-315"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gallery-contact-sheet",
+      "type": "registry:block",
+      "title": "Contact Sheet Gallery",
+      "description": "The contact sheet: twelve frames at working size with their numbers on the edge and the selects ringed, the way a sheet gets marked up before anything is printed. Where the shelf banks covers and the rail flings plates past, this one does not move at all — it shows the whole roll, including the frames that were not chosen.",
+      "files": [
+        {
+          "path": "registry/blocks/gallery-contact-sheet/gallery-contact-sheet.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "galleries"
+      ],
+      "meta": {
+        "serial": "KB-316"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
