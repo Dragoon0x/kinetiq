@@ -306,6 +306,12 @@ import { ContentMarginNotesDemo } from "@/registry/demos/content-margin-notes.de
 import { DatatableRunHistoryDemo } from "@/registry/demos/datatable-run-history.demo";
 import { IntegrationsTwoWayDemo } from "@/registry/demos/integrations-two-way.demo";
 import { ProofLiveFloorDemo } from "@/registry/demos/proof-live-floor.demo";
+import { FeaturesPersonaSwitchDemo } from "@/registry/demos/features-persona-switch.demo";
+import { FeaturesPinnedScrollDemo } from "@/registry/demos/features-pinned-scroll.demo";
+import { FeaturesQuietGridDemo } from "@/registry/demos/features-quiet-grid.demo";
+import { HeroCompareWipeDemo } from "@/registry/demos/hero-compare-wipe.demo";
+import { HeroGalleryWallDemo } from "@/registry/demos/hero-gallery-wall.demo";
+import { HeroPriceForwardDemo } from "@/registry/demos/hero-price-forward.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -610,6 +616,12 @@ export const demos: Record<string, ComponentType> = {
   "proof-live-floor": ProofLiveFloorDemo,
   "integrations-two-way": IntegrationsTwoWayDemo,
   "datatable-run-history": DatatableRunHistoryDemo,
+  "hero-compare-wipe": HeroCompareWipeDemo,
+  "hero-gallery-wall": HeroGalleryWallDemo,
+  "hero-price-forward": HeroPriceForwardDemo,
+  "features-pinned-scroll": FeaturesPinnedScrollDemo,
+  "features-quiet-grid": FeaturesQuietGridDemo,
+  "features-persona-switch": FeaturesPersonaSwitchDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

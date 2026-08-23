@@ -4363,4 +4363,286 @@ export const blocks: KinetiqItem[] = [
       "The drifting row is the point: seed a series that is fine today and clearly heading somewhere.",
     ],
   },
+  {
+    name: "hero-compare-wipe",
+    type: "registry:block",
+    title: "Compare Wipe Hero",
+    description:
+      "A hero for products that replace something: the argument on the left, and on the right the same morning twice with a blade between them the reader drags themselves. Handing over the blade is the point — a claim the visitor proves with their own hand in the first ten seconds is worth more than any headline.",
+    files: [
+      {
+        path: "registry/blocks/hero-compare-wipe/hero-compare-wipe.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "slice-compare",
+      "pressure-button",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-278" },
+    tagline: "The visitor proves it themselves.",
+    keywords: [
+      "hero",
+      "before after",
+      "compare",
+      "wipe",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "before / after",
+        type: "WipeLine[]",
+        description: "The same timeline twice; keep the times identical.",
+      },
+      {
+        name: "beforeLabel / afterLabel",
+        type: "string",
+        description: "The blade's two side labels.",
+      },
+    ],
+    usageNotes: [
+      "The wipe belongs to slice-compare — never re-implement the blade or its drag.",
+      "Both panels must show the same hours, or the comparison is rhetoric rather than evidence.",
+      "Keep the after panel boring; 'no change' twice is the strongest line in it.",
+    ],
+  },
+  {
+    name: "hero-gallery-wall",
+    type: "registry:block",
+    title: "Gallery Wall Hero",
+    description:
+      "A visual-first hero for work that has to be seen: the claim sits small above a wall of plates that runs the full bleed, scrollable by hand or by keyboard on the library's own gallery. The copy deliberately yields — on a page selling images, a headline competing with the images is a headline in the way.",
+    files: [
+      {
+        path: "registry/blocks/hero-gallery-wall/hero-gallery-wall.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "kinetic-gallery",
+      "pressure-button",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-279" },
+    tagline: "The copy yields to the work.",
+    keywords: [
+      "hero",
+      "gallery",
+      "visual",
+      "portfolio",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "plates",
+        type: "WallPlate[]",
+        description: "Each plate's face label, caption, and wash.",
+      },
+      {
+        name: "wash",
+        type: "string",
+        description:
+          "Any CSS background; swap for real artwork and nothing else changes.",
+      },
+    ],
+    usageNotes: [
+      "Scrolling, snapping, and keyboard travel come from kinetic-gallery.",
+      "Keep the headline short — it is a caption for the wall, not a pitch.",
+      "The wash is a stand-in; real images want the same aspect box and nothing more.",
+    ],
+  },
+  {
+    name: "hero-price-forward",
+    type: "registry:block",
+    title: "Price Forward Hero",
+    description:
+      "A hero that leads with the price. Most pages spend the fold establishing that they are worth asking about; this one answers the question the visitor came with and lets the rest of the page earn the number afterwards. It only works with simple pricing and nothing hidden below.",
+    files: [
+      {
+        path: "registry/blocks/hero-price-forward/hero-price-forward.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "pressure-button",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-280" },
+    tagline: "Answer the question they arrived with.",
+    keywords: [
+      "hero",
+      "pricing",
+      "transparent",
+      "single plan",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "price / currency / period",
+        type: "number · string",
+        description: "The number, on its own plate.",
+      },
+      {
+        name: "includes / footnote",
+        type: "string[] · string",
+        description: "What it covers, and the line that makes it believable.",
+      },
+    ],
+    usageNotes: [
+      "A headline price with an asterisk is worse than no price at all — only use this when nothing is hidden below.",
+      "The footnote is load-bearing: say how billing ends before anyone asks.",
+      "The numeral is a readout, so a price experiment rolls rather than cuts.",
+    ],
+  },
+  {
+    name: "features-pinned-scroll",
+    type: "registry:block",
+    title: "Pinned Scroll Features",
+    description:
+      "The feature tour that uses the scroll it already has: the stage pins and scenes cross-fade under it as the reader moves, so the sequence is paced by the page rather than by a control. The pinning and the hand-off between scenes belong entirely to the sticky instrument.",
+    files: [
+      {
+        path: "registry/blocks/features-pinned-scroll/features-pinned-scroll.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "sticky-reveal"],
+    categories: ["features"],
+    meta: { serial: "KB-281" },
+    tagline: "Paced by the page, not a control.",
+    keywords: [
+      "features",
+      "scroll",
+      "pinned",
+      "sequence",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "scenes",
+        type: "PinnedScene[]",
+        description: "Each beat's step, title, copy, and mono face lines.",
+      },
+      {
+        name: "height",
+        type: "number",
+        description: "Pinned stage height in px.",
+      },
+    ],
+    usageNotes: [
+      "Pinning is sticky-reveal's — never re-implement scroll pinning in the section.",
+      "Four beats is the ceiling; a pinned stage that outstays its scroll reads as a hang.",
+      "Pair with relay-tabs only if the page is long; both on one page competes for the same attention.",
+    ],
+  },
+  {
+    name: "features-quiet-grid",
+    type: "registry:block",
+    title: "Quiet Grid Features",
+    description:
+      "The restrained one: a plain grid of claims, numbered, with nothing moving but their arrival. Every library needs the section you reach for when the page already has three interactive ones and this part simply has to be read — a page where everything earns attention has none left to give.",
+    files: [
+      {
+        path: "registry/blocks/features-quiet-grid/features-quiet-grid.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["features"],
+    meta: { serial: "KB-282" },
+    tagline: "The one that just has to be read.",
+    keywords: [
+      "features",
+      "grid",
+      "plain",
+      "restrained",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "features",
+        type: "QuietFeature[]",
+        description: "Title and copy per claim; numbering is automatic.",
+      },
+      {
+        name: "columns",
+        type: "2 | 3",
+        description: "Columns at the widest breakpoint.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately still — reach for the bento, the tour, or the gauge row when a claim needs proving.",
+      "Six or four claims; an odd number leaves a hole in the last row at three columns.",
+      "No icons on purpose. An icon per claim is decoration pretending to be information.",
+    ],
+  },
+  {
+    name: "features-persona-switch",
+    type: "registry:block",
+    title: "Persona Switch Features",
+    description:
+      "The same product, argued three ways: a control picks the reader, and the claims swap for the ones that person actually cares about. It solves the real problem of a mixed audience without the usual answer — three near-identical feature sections stacked down the page.",
+    files: [
+      {
+        path: "registry/blocks/features-persona-switch/features-persona-switch.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "segmented-control",
+    ],
+    categories: ["features"],
+    meta: { serial: "KB-283" },
+    tagline: "What it is for depends where you stand.",
+    keywords: [
+      "features",
+      "personas",
+      "audience",
+      "switch",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "personas",
+        type: "Persona[]",
+        description: "Each reader's lede and three claims.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The standfirst above the control.",
+      },
+    ],
+    usageNotes: [
+      "The thumb's travel belongs to segmented-control; the section only swaps content under it.",
+      "Write genuinely different claims per persona — if two personas share a point, the section is decoration.",
+      "The control keeps its own scroll rail so long labels never widen the page at 360.",
+    ],
+  },
 ];

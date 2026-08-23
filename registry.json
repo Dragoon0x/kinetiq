@@ -8476,6 +8476,175 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-compare-wipe",
+      "type": "registry:block",
+      "title": "Compare Wipe Hero",
+      "description": "A hero for products that replace something: the argument on the left, and on the right the same morning twice with a blade between them the reader drags themselves. Handing over the blade is the point — a claim the visitor proves with their own hand in the first ten seconds is worth more than any headline.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-compare-wipe/hero-compare-wipe.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/slice-compare.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-278"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-gallery-wall",
+      "type": "registry:block",
+      "title": "Gallery Wall Hero",
+      "description": "A visual-first hero for work that has to be seen: the claim sits small above a wall of plates that runs the full bleed, scrollable by hand or by keyboard on the library's own gallery. The copy deliberately yields — on a page selling images, a headline competing with the images is a headline in the way.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-gallery-wall/hero-gallery-wall.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/kinetic-gallery.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-279"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-price-forward",
+      "type": "registry:block",
+      "title": "Price Forward Hero",
+      "description": "A hero that leads with the price. Most pages spend the fold establishing that they are worth asking about; this one answers the question the visitor came with and lets the rest of the page earn the number afterwards. It only works with simple pricing and nothing hidden below.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-price-forward/hero-price-forward.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-280"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "features-pinned-scroll",
+      "type": "registry:block",
+      "title": "Pinned Scroll Features",
+      "description": "The feature tour that uses the scroll it already has: the stage pins and scenes cross-fade under it as the reader moves, so the sequence is paced by the page rather than by a control. The pinning and the hand-off between scenes belong entirely to the sticky instrument.",
+      "files": [
+        {
+          "path": "registry/blocks/features-pinned-scroll/features-pinned-scroll.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/sticky-reveal.json"
+      ],
+      "categories": [
+        "features"
+      ],
+      "meta": {
+        "serial": "KB-281"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "features-quiet-grid",
+      "type": "registry:block",
+      "title": "Quiet Grid Features",
+      "description": "The restrained one: a plain grid of claims, numbered, with nothing moving but their arrival. Every library needs the section you reach for when the page already has three interactive ones and this part simply has to be read — a page where everything earns attention has none left to give.",
+      "files": [
+        {
+          "path": "registry/blocks/features-quiet-grid/features-quiet-grid.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "features"
+      ],
+      "meta": {
+        "serial": "KB-282"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "features-persona-switch",
+      "type": "registry:block",
+      "title": "Persona Switch Features",
+      "description": "The same product, argued three ways: a control picks the reader, and the claims swap for the ones that person actually cares about. It solves the real problem of a mixed audience without the usual answer — three near-identical feature sections stacked down the page.",
+      "files": [
+        {
+          "path": "registry/blocks/features-persona-switch/features-persona-switch.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/segmented-control.json"
+      ],
+      "categories": [
+        "features"
+      ],
+      "meta": {
+        "serial": "KB-283"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

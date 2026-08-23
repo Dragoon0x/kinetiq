@@ -5178,6 +5178,102 @@ Notes:
 - Every sparkline is a real spark-chart, so each row carries its own sr-only summary sentence.
 - The drifting row is the point: seed a series that is fine today and clearly heading somewhere.
 
+### Compare Wipe Hero (KB-278) — `hero-compare-wipe`
+The visitor proves it themselves.
+
+A hero for products that replace something: the argument on the left, and on the right the same morning twice with a blade between them the reader drags themselves. Handing over the blade is the point — a claim the visitor proves with their own hand in the first ten seconds is worth more than any headline.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hero-compare-wipe`
+
+Props:
+- `before / after`: WipeLine[] — The same timeline twice; keep the times identical.
+- `beforeLabel / afterLabel`: string — The blade's two side labels.
+
+Notes:
+- The wipe belongs to slice-compare — never re-implement the blade or its drag.
+- Both panels must show the same hours, or the comparison is rhetoric rather than evidence.
+- Keep the after panel boring; 'no change' twice is the strongest line in it.
+
+### Gallery Wall Hero (KB-279) — `hero-gallery-wall`
+The copy yields to the work.
+
+A visual-first hero for work that has to be seen: the claim sits small above a wall of plates that runs the full bleed, scrollable by hand or by keyboard on the library's own gallery. The copy deliberately yields — on a page selling images, a headline competing with the images is a headline in the way.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hero-gallery-wall`
+
+Props:
+- `plates`: WallPlate[] — Each plate's face label, caption, and wash.
+- `wash`: string — Any CSS background; swap for real artwork and nothing else changes.
+
+Notes:
+- Scrolling, snapping, and keyboard travel come from kinetic-gallery.
+- Keep the headline short — it is a caption for the wall, not a pitch.
+- The wash is a stand-in; real images want the same aspect box and nothing more.
+
+### Price Forward Hero (KB-280) — `hero-price-forward`
+Answer the question they arrived with.
+
+A hero that leads with the price. Most pages spend the fold establishing that they are worth asking about; this one answers the question the visitor came with and lets the rest of the page earn the number afterwards. It only works with simple pricing and nothing hidden below.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hero-price-forward`
+
+Props:
+- `price / currency / period`: number · string — The number, on its own plate.
+- `includes / footnote`: string[] · string — What it covers, and the line that makes it believable.
+
+Notes:
+- A headline price with an asterisk is worse than no price at all — only use this when nothing is hidden below.
+- The footnote is load-bearing: say how billing ends before anyone asks.
+- The numeral is a readout, so a price experiment rolls rather than cuts.
+
+### Pinned Scroll Features (KB-281) — `features-pinned-scroll`
+Paced by the page, not a control.
+
+The feature tour that uses the scroll it already has: the stage pins and scenes cross-fade under it as the reader moves, so the sequence is paced by the page rather than by a control. The pinning and the hand-off between scenes belong entirely to the sticky instrument.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/features-pinned-scroll`
+
+Props:
+- `scenes`: PinnedScene[] — Each beat's step, title, copy, and mono face lines.
+- `height`: number — Pinned stage height in px.
+
+Notes:
+- Pinning is sticky-reveal's — never re-implement scroll pinning in the section.
+- Four beats is the ceiling; a pinned stage that outstays its scroll reads as a hang.
+- Pair with relay-tabs only if the page is long; both on one page competes for the same attention.
+
+### Quiet Grid Features (KB-282) — `features-quiet-grid`
+The one that just has to be read.
+
+The restrained one: a plain grid of claims, numbered, with nothing moving but their arrival. Every library needs the section you reach for when the page already has three interactive ones and this part simply has to be read — a page where everything earns attention has none left to give.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/features-quiet-grid`
+
+Props:
+- `features`: QuietFeature[] — Title and copy per claim; numbering is automatic.
+- `columns`: 2 | 3 — Columns at the widest breakpoint.
+
+Notes:
+- Deliberately still — reach for the bento, the tour, or the gauge row when a claim needs proving.
+- Six or four claims; an odd number leaves a hole in the last row at three columns.
+- No icons on purpose. An icon per claim is decoration pretending to be information.
+
+### Persona Switch Features (KB-283) — `features-persona-switch`
+What it is for depends where you stand.
+
+The same product, argued three ways: a control picks the reader, and the claims swap for the ones that person actually cares about. It solves the real problem of a mixed audience without the usual answer — three near-identical feature sections stacked down the page.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/features-persona-switch`
+
+Props:
+- `personas`: Persona[] — Each reader's lede and three claims.
+- `eyebrow / headline / copy`: string — The standfirst above the control.
+
+Notes:
+- The thumb's travel belongs to segmented-control; the section only swaps content under it.
+- Write genuinely different claims per persona — if two personas share a point, the section is decoration.
+- The control keeps its own scroll rail so long labels never widen the page at 360.
+
 ### Utils — `utils`
 cn() — class composition.
 
