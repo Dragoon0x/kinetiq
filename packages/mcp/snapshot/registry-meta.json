@@ -14,7 +14,7 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 212,
-      "blocks": 53,
+      "blocks": 57,
       "shared": 6
     }
   },
@@ -16251,6 +16251,242 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/gallery-plate-rail",
         "bun": "bunx --bun shadcn@latest add @kinetiq/gallery-plate-rail",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gallery-plate-rail.json"
+      }
+    },
+    {
+      "slug": "hero-signal-ridge",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Signal Ridge Hero",
+      "serial": "KB-238",
+      "tagline": "The vignette is the chart, already running.",
+      "description": "A hero for products that live and die by a line going the right way: copy holds the left, and the vignette is the product's own chart — the spark instrument drawing a fixed series with its crosshair ready, headline numbers rolling in beside it. A flow field combs quietly underneath, the signal made ambient.",
+      "categories": [
+        "hero"
+      ],
+      "keywords": [
+        "hero",
+        "analytics",
+        "telemetry",
+        "chart",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "series / seriesLabel / metrics",
+          "type": "number[] · string · RidgeMetric[]",
+          "description": "The vignette — a fixed series and the numbers beside it."
+        },
+        {
+          "name": "headline / copy / eyebrow",
+          "type": "string",
+          "description": "The copy column; headline is two lines."
+        },
+        {
+          "name": "primaryCta / secondaryCta / onPrimary / onSecondary",
+          "type": "string · () => void",
+          "description": "Both actions."
+        }
+      ],
+      "usageNotes": [
+        "The chart is spark-chart on a fixed series — crosshair, tooltip, and reduced-motion behaviour come with it.",
+        "The flow field is held at 0.25 opacity under a grounding gradient; the chart stays the brightest thing.",
+        "Feed real telemetry by replacing `series`; everything else holds."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/flow-field.json",
+        "https://kinetiqui.vercel.app/r/spark-chart.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/hero-signal-ridge",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hero-signal-ridge.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hero-signal-ridge",
+        "npm": "npx shadcn@latest add @kinetiq/hero-signal-ridge",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hero-signal-ridge",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hero-signal-ridge",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hero-signal-ridge.json"
+      }
+    },
+    {
+      "slug": "hero-first-light",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "First Light Hero",
+      "serial": "KB-239",
+      "tagline": "One ask, on the centre line.",
+      "description": "An early-access hero: the whole page asks for one thing, and the form is the headline's own punctuation — a traced field and a pressed confirm on the centre line, nothing else competing. A drift wavefield breathes at the floor of the stage, and the assurances sit under the fold in mono, quiet as fine print but readable as promises.",
+      "categories": [
+        "hero"
+      ],
+      "keywords": [
+        "hero",
+        "early access",
+        "waitlist",
+        "signup",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "notice / headline / copy",
+          "type": "string",
+          "description": "The seal, the two-line headline, and the standfirst."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(email) => void",
+          "description": "Fired with a shape-valid address; the status line confirms."
+        },
+        {
+          "name": "footnote / assurances",
+          "type": "string · string[]",
+          "description": "The quiet line under the form and the mono promises."
+        }
+      ],
+      "usageNotes": [
+        "The form is trace-input + pressure-button — the same instruments the product ships.",
+        "The footnote swaps for the confirmation in place, so nothing jumps.",
+        "Under reduced motion the field stills and the stack resolves in place."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/wavefield.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/hero-first-light",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hero-first-light.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hero-first-light",
+        "npm": "npx shadcn@latest add @kinetiq/hero-first-light",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hero-first-light",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hero-first-light",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hero-first-light.json"
+      }
+    },
+    {
+      "slug": "features-proof-strip",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Proof Strip Features",
+      "serial": "KB-240",
+      "tagline": "If it moves when you touch it, it is true.",
+      "description": "Three claims, each proven by a working control instead of an icon: flip the breaker and the guard state actually flips, watch the count roll as the queue drains, see the presence pip breathe because it is genuinely live. A feature strip where every cell answers the reader's click is worth a page of adjectives.",
+      "categories": [
+        "features"
+      ],
+      "keywords": [
+        "features",
+        "interactive",
+        "proof",
+        "demo",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "eyebrow / headline / copy",
+          "type": "string",
+          "description": "The standfirst; the cells are the fixed proof set."
+        }
+      ],
+      "usageNotes": [
+        "Every proof is a real instrument — breaker-switch, readout, status-pip — wired live in the section.",
+        "The strip is deliberately three cells; more proofs dilute the point.",
+        "Cells arrive on the cascade and inherit each instrument's reduced-motion fallback."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/breaker-switch.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/features-proof-strip",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/features-proof-strip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/features-proof-strip",
+        "npm": "npx shadcn@latest add @kinetiq/features-proof-strip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/features-proof-strip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/features-proof-strip",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/features-proof-strip.json"
+      }
+    },
+    {
+      "slug": "features-flow-atlas",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Flow Atlas Features",
+      "serial": "KB-241",
+      "tagline": "One weighted diagram beats four paragraphs.",
+      "description": "The system as an atlas: the library's own flow instrument draws where the volume actually goes — links weighted, columns honest — and three callouts below explain the junctions worth understanding. One diagram that moves like the product beats four paragraphs that describe it.",
+      "categories": [
+        "features"
+      ],
+      "keywords": [
+        "features",
+        "architecture",
+        "diagram",
+        "flow",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "nodes / links",
+          "type": "FlowNode[] · FlowLink[]",
+          "description": "The atlas — columns and weighted links, straight into flow-diagram."
+        },
+        {
+          "name": "callouts",
+          "type": "AtlasCallout[]",
+          "description": "The numbered junction notes under the diagram."
+        }
+      ],
+      "usageNotes": [
+        "All drawing belongs to flow-diagram — weights, self-draw, and its accessibility summary.",
+        "Callout numbers are typographic; they annotate reading order, not diagram positions.",
+        "Keep links honest: weights should sum sensibly through every column."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/flow-diagram.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/features-flow-atlas",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/features-flow-atlas.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/features-flow-atlas",
+        "npm": "npx shadcn@latest add @kinetiq/features-flow-atlas",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/features-flow-atlas",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/features-flow-atlas",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/features-flow-atlas.json"
       }
     },
     {

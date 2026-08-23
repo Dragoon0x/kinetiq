@@ -4526,6 +4526,71 @@ Notes:
 - Plates are typographic on purpose: both themes, any density, no image pipeline.
 - Swap plates for image children if you must — the rail does not care what it carries.
 
+### Signal Ridge Hero (KB-238) — `hero-signal-ridge`
+The vignette is the chart, already running.
+
+A hero for products that live and die by a line going the right way: copy holds the left, and the vignette is the product's own chart — the spark instrument drawing a fixed series with its crosshair ready, headline numbers rolling in beside it. A flow field combs quietly underneath, the signal made ambient.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hero-signal-ridge`
+
+Props:
+- `series / seriesLabel / metrics`: number[] · string · RidgeMetric[] — The vignette — a fixed series and the numbers beside it.
+- `headline / copy / eyebrow`: string — The copy column; headline is two lines.
+- `primaryCta / secondaryCta / onPrimary / onSecondary`: string · () => void — Both actions.
+
+Notes:
+- The chart is spark-chart on a fixed series — crosshair, tooltip, and reduced-motion behaviour come with it.
+- The flow field is held at 0.25 opacity under a grounding gradient; the chart stays the brightest thing.
+- Feed real telemetry by replacing `series`; everything else holds.
+
+### First Light Hero (KB-239) — `hero-first-light`
+One ask, on the centre line.
+
+An early-access hero: the whole page asks for one thing, and the form is the headline's own punctuation — a traced field and a pressed confirm on the centre line, nothing else competing. A drift wavefield breathes at the floor of the stage, and the assurances sit under the fold in mono, quiet as fine print but readable as promises.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hero-first-light`
+
+Props:
+- `notice / headline / copy`: string — The seal, the two-line headline, and the standfirst.
+- `onSubmit`: (email) => void — Fired with a shape-valid address; the status line confirms.
+- `footnote / assurances`: string · string[] — The quiet line under the form and the mono promises.
+
+Notes:
+- The form is trace-input + pressure-button — the same instruments the product ships.
+- The footnote swaps for the confirmation in place, so nothing jumps.
+- Under reduced motion the field stills and the stack resolves in place.
+
+### Proof Strip Features (KB-240) — `features-proof-strip`
+If it moves when you touch it, it is true.
+
+Three claims, each proven by a working control instead of an icon: flip the breaker and the guard state actually flips, watch the count roll as the queue drains, see the presence pip breathe because it is genuinely live. A feature strip where every cell answers the reader's click is worth a page of adjectives.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/features-proof-strip`
+
+Props:
+- `eyebrow / headline / copy`: string — The standfirst; the cells are the fixed proof set.
+
+Notes:
+- Every proof is a real instrument — breaker-switch, readout, status-pip — wired live in the section.
+- The strip is deliberately three cells; more proofs dilute the point.
+- Cells arrive on the cascade and inherit each instrument's reduced-motion fallback.
+
+### Flow Atlas Features (KB-241) — `features-flow-atlas`
+One weighted diagram beats four paragraphs.
+
+The system as an atlas: the library's own flow instrument draws where the volume actually goes — links weighted, columns honest — and three callouts below explain the junctions worth understanding. One diagram that moves like the product beats four paragraphs that describe it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/features-flow-atlas`
+
+Props:
+- `nodes / links`: FlowNode[] · FlowLink[] — The atlas — columns and weighted links, straight into flow-diagram.
+- `callouts`: AtlasCallout[] — The numbered junction notes under the diagram.
+
+Notes:
+- All drawing belongs to flow-diagram — weights, self-draw, and its accessibility summary.
+- Callout numbers are typographic; they annotate reading order, not diagram positions.
+- Keep links honest: weights should sum sensibly through every column.
+
 ### Utils — `utils`
 cn() — class composition.
 

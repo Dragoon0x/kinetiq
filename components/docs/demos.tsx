@@ -266,6 +266,10 @@ import { DatatableOpsDeskDemo } from "@/registry/demos/datatable-ops-desk.demo";
 import { GalleryPlateRailDemo } from "@/registry/demos/gallery-plate-rail.demo";
 import { IntegrationsPatchBayDemo } from "@/registry/demos/integrations-patch-bay.demo";
 import { TrustVaultBriefDemo } from "@/registry/demos/trust-vault-brief.demo";
+import { FeaturesFlowAtlasDemo } from "@/registry/demos/features-flow-atlas.demo";
+import { FeaturesProofStripDemo } from "@/registry/demos/features-proof-strip.demo";
+import { HeroFirstLightDemo } from "@/registry/demos/hero-first-light.demo";
+import { HeroSignalRidgeDemo } from "@/registry/demos/hero-signal-ridge.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -530,6 +534,10 @@ export const demos: Record<string, ComponentType> = {
   "comparison-capability-board": ComparisonCapabilityBoardDemo,
   "trust-vault-brief": TrustVaultBriefDemo,
   "gallery-plate-rail": GalleryPlateRailDemo,
+  "hero-signal-ridge": HeroSignalRidgeDemo,
+  "hero-first-light": HeroFirstLightDemo,
+  "features-proof-strip": FeaturesProofStripDemo,
+  "features-flow-atlas": FeaturesFlowAtlasDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

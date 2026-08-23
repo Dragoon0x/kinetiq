@@ -2497,4 +2497,214 @@ export const blocks: KinetiqItem[] = [
       "Swap plates for image children if you must — the rail does not care what it carries.",
     ],
   },
+  {
+    name: "hero-signal-ridge",
+    type: "registry:block",
+    title: "Signal Ridge Hero",
+    description:
+      "A hero for products that live and die by a line going the right way: copy holds the left, and the vignette is the product's own chart — the spark instrument drawing a fixed series with its crosshair ready, headline numbers rolling in beside it. A flow field combs quietly underneath, the signal made ambient.",
+    files: [
+      {
+        path: "registry/blocks/hero-signal-ridge/hero-signal-ridge.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "flow-field",
+      "spark-chart",
+      "readout",
+      "status-seal",
+      "reveal-stagger",
+      "pressure-button",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-238" },
+    tagline: "The vignette is the chart, already running.",
+    keywords: [
+      "hero",
+      "analytics",
+      "telemetry",
+      "chart",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "series / seriesLabel / metrics",
+        type: "number[] · string · RidgeMetric[]",
+        description: "The vignette — a fixed series and the numbers beside it.",
+      },
+      {
+        name: "headline / copy / eyebrow",
+        type: "string",
+        description: "The copy column; headline is two lines.",
+      },
+      {
+        name: "primaryCta / secondaryCta / onPrimary / onSecondary",
+        type: "string · () => void",
+        description: "Both actions.",
+      },
+    ],
+    usageNotes: [
+      "The chart is spark-chart on a fixed series — crosshair, tooltip, and reduced-motion behaviour come with it.",
+      "The flow field is held at 0.25 opacity under a grounding gradient; the chart stays the brightest thing.",
+      "Feed real telemetry by replacing `series`; everything else holds.",
+    ],
+  },
+  {
+    name: "hero-first-light",
+    type: "registry:block",
+    title: "First Light Hero",
+    description:
+      "An early-access hero: the whole page asks for one thing, and the form is the headline's own punctuation — a traced field and a pressed confirm on the centre line, nothing else competing. A drift wavefield breathes at the floor of the stage, and the assurances sit under the fold in mono, quiet as fine print but readable as promises.",
+    files: [
+      {
+        path: "registry/blocks/hero-first-light/hero-first-light.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "wavefield",
+      "trace-input",
+      "pressure-button",
+      "status-seal",
+      "reveal-stagger",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-239" },
+    tagline: "One ask, on the centre line.",
+    keywords: [
+      "hero",
+      "early access",
+      "waitlist",
+      "signup",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "notice / headline / copy",
+        type: "string",
+        description: "The seal, the two-line headline, and the standfirst.",
+      },
+      {
+        name: "onSubmit",
+        type: "(email) => void",
+        description:
+          "Fired with a shape-valid address; the status line confirms.",
+      },
+      {
+        name: "footnote / assurances",
+        type: "string · string[]",
+        description: "The quiet line under the form and the mono promises.",
+      },
+    ],
+    usageNotes: [
+      "The form is trace-input + pressure-button — the same instruments the product ships.",
+      "The footnote swaps for the confirmation in place, so nothing jumps.",
+      "Under reduced motion the field stills and the stack resolves in place.",
+    ],
+  },
+  {
+    name: "features-proof-strip",
+    type: "registry:block",
+    title: "Proof Strip Features",
+    description:
+      "Three claims, each proven by a working control instead of an icon: flip the breaker and the guard state actually flips, watch the count roll as the queue drains, see the presence pip breathe because it is genuinely live. A feature strip where every cell answers the reader's click is worth a page of adjectives.",
+    files: [
+      {
+        path: "registry/blocks/features-proof-strip/features-proof-strip.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "breaker-switch",
+      "readout",
+      "status-pip",
+    ],
+    categories: ["features"],
+    meta: { serial: "KB-240" },
+    tagline: "If it moves when you touch it, it is true.",
+    keywords: [
+      "features",
+      "interactive",
+      "proof",
+      "demo",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The standfirst; the cells are the fixed proof set.",
+      },
+    ],
+    usageNotes: [
+      "Every proof is a real instrument — breaker-switch, readout, status-pip — wired live in the section.",
+      "The strip is deliberately three cells; more proofs dilute the point.",
+      "Cells arrive on the cascade and inherit each instrument's reduced-motion fallback.",
+    ],
+  },
+  {
+    name: "features-flow-atlas",
+    type: "registry:block",
+    title: "Flow Atlas Features",
+    description:
+      "The system as an atlas: the library's own flow instrument draws where the volume actually goes — links weighted, columns honest — and three callouts below explain the junctions worth understanding. One diagram that moves like the product beats four paragraphs that describe it.",
+    files: [
+      {
+        path: "registry/blocks/features-flow-atlas/features-flow-atlas.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "flow-diagram",
+    ],
+    categories: ["features"],
+    meta: { serial: "KB-241" },
+    tagline: "One weighted diagram beats four paragraphs.",
+    keywords: [
+      "features",
+      "architecture",
+      "diagram",
+      "flow",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "nodes / links",
+        type: "FlowNode[] · FlowLink[]",
+        description:
+          "The atlas — columns and weighted links, straight into flow-diagram.",
+      },
+      {
+        name: "callouts",
+        type: "AtlasCallout[]",
+        description: "The numbered junction notes under the diagram.",
+      },
+    ],
+    usageNotes: [
+      "All drawing belongs to flow-diagram — weights, self-draw, and its accessibility summary.",
+      "Callout numbers are typographic; they annotate reading order, not diagram positions.",
+      "Keep links honest: weights should sum sensibly through every column.",
+    ],
+  },
 ];

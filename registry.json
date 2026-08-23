@@ -7328,6 +7328,129 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-signal-ridge",
+      "type": "registry:block",
+      "title": "Signal Ridge Hero",
+      "description": "A hero for products that live and die by a line going the right way: copy holds the left, and the vignette is the product's own chart — the spark instrument drawing a fixed series with its crosshair ready, headline numbers rolling in beside it. A flow field combs quietly underneath, the signal made ambient.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-signal-ridge/hero-signal-ridge.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/flow-field.json",
+        "https://kinetiqui.vercel.app/r/spark-chart.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-238"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-first-light",
+      "type": "registry:block",
+      "title": "First Light Hero",
+      "description": "An early-access hero: the whole page asks for one thing, and the form is the headline's own punctuation — a traced field and a pressed confirm on the centre line, nothing else competing. A drift wavefield breathes at the floor of the stage, and the assurances sit under the fold in mono, quiet as fine print but readable as promises.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-first-light/hero-first-light.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/wavefield.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-239"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "features-proof-strip",
+      "type": "registry:block",
+      "title": "Proof Strip Features",
+      "description": "Three claims, each proven by a working control instead of an icon: flip the breaker and the guard state actually flips, watch the count roll as the queue drains, see the presence pip breathe because it is genuinely live. A feature strip where every cell answers the reader's click is worth a page of adjectives.",
+      "files": [
+        {
+          "path": "registry/blocks/features-proof-strip/features-proof-strip.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/breaker-switch.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "categories": [
+        "features"
+      ],
+      "meta": {
+        "serial": "KB-240"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "features-flow-atlas",
+      "type": "registry:block",
+      "title": "Flow Atlas Features",
+      "description": "The system as an atlas: the library's own flow instrument draws where the volume actually goes — links weighted, columns honest — and three callouts below explain the junctions worth understanding. One diagram that moves like the product beats four paragraphs that describe it.",
+      "files": [
+        {
+          "path": "registry/blocks/features-flow-atlas/features-flow-atlas.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/flow-diagram.json"
+      ],
+      "categories": [
+        "features"
+      ],
+      "meta": {
+        "serial": "KB-241"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
