@@ -5112,6 +5112,72 @@ Notes:
 - Order the paragraphs by what changed first; a case study that lists benefits is an ad.
 - The margin stacks above the story below lg; keep results to three or four.
 
+### Margin Notes Content (KB-274) — `content-margin-notes`
+Argument, not assertion.
+
+An editorial passage with its annotations in the margin, aligned to the paragraph each one belongs to — the shape of a marked-up document rather than a marketing page. Nothing pops or reveals: the notes are simply there, beside the sentence they qualify, which is what makes a claim readable as argument instead of assertion.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/content-margin-notes`
+
+Props:
+- `passages`: MarginPassage[] — Paragraphs, each with an optional margin note.
+- `standfirst / signature`: string — The opening and the document's foot.
+
+Notes:
+- Below the margin breakpoint notes fold in under their paragraph on a rule, still attached.
+- Notes warm on hover through the group only — no state, no reveal; the alignment is the device.
+- Leave paragraphs unannotated where there is nothing to qualify; a note on every line is a footnote habit, not an argument.
+
+### Live Floor Social Proof (KB-275) — `proof-live-floor`
+Somewhere it is 06:40.
+
+Proof as the floor itself, running: a live feed of what is happening across every yard right now, arriving on the conveyor with the standing counts above it. Where the evidence band assembles a case from logos, metrics, and a quote, this one makes the simpler and harder argument — that the thing is in use at this moment, and here is it happening.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/proof-live-floor`
+
+Props:
+- `events`: FloorEvent[] — The pool the feed cycles through; keep places coarse.
+- `interval / visible`: number — Seconds between arrivals, and rows held before the overflow count.
+- `counts`: FloorCount[] — The standing numbers above the feed.
+
+Notes:
+- Rotation is deterministic — the server renders tick 0 and the client walks the same pool, so there is no hydration drift and no clock.
+- Each arrival gets a fresh row key; reusing an event id would read to the conveyor as a reorder, not an arrival.
+- Never name customers in the feed. Coarse places are proof; a customer list is a leak.
+- Ages come from row position, not timestamps — nothing here needs to be true to the second to be honest.
+
+### Two-Way Integrations (KB-276) — `integrations-two-way`
+Which way the data actually goes.
+
+Integrations answered honestly: not which logos we have, but which direction the data actually moves, what is read, what is written, and how often. For the buyer who has been burned by an integration that turned out to be a nightly CSV, and who will ask the question in the second call if the page does not answer it in the first.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/integrations-two-way`
+
+Props:
+- `flows`: IntegrationFlow[] — Each connection with its direction and both payloads.
+- `caveat`: string — The footnote most integration pages omit.
+
+Notes:
+- Deliberately unfiltered — browsing a catalogue belongs to the patch bay; this page answers one question.
+- Only claim two-way when both halves are live; the section's whole value is that the claim is checkable.
+- State sync intervals as floors, and mean it.
+
+### Run History Table (KB-277) — `datatable-run-history`
+Where a row tells you it is in trouble.
+
+A report grid where each row carries its own history: the latest number, the outcome, and the last eight runs plotted small beside them, so a row that is fine today but drifting is visible without opening anything. The ops desk is for working a dataset; this one is for reading a trend across rows at a glance.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/datatable-run-history`
+
+Props:
+- `rows`: RunRow[] — Name, outcome, latest duration, and the run history behind it.
+- `durationLabel / historyLabel`: string — Column captions, reused as the mobile labels.
+
+Notes:
+- Nothing sorts on purpose — the argument is the shape of each line, and sorting belongs to the ops desk.
+- Every sparkline is a real spark-chart, so each row carries its own sr-only summary sentence.
+- The drifting row is the point: seed a series that is fine today and clearly heading somewhere.
+
 ### Utils — `utils`
 cn() — class composition.
 

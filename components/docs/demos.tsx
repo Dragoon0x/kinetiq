@@ -302,6 +302,10 @@ import { EmptyClearedDeskDemo } from "@/registry/demos/empty-cleared-desk.demo";
 import { StepformOneQuestionDemo } from "@/registry/demos/stepform-one-question.demo";
 import { TeamOpenBenchDemo } from "@/registry/demos/team-open-bench.demo";
 import { TestimonialCaseColumnDemo } from "@/registry/demos/testimonial-case-column.demo";
+import { ContentMarginNotesDemo } from "@/registry/demos/content-margin-notes.demo";
+import { DatatableRunHistoryDemo } from "@/registry/demos/datatable-run-history.demo";
+import { IntegrationsTwoWayDemo } from "@/registry/demos/integrations-two-way.demo";
+import { ProofLiveFloorDemo } from "@/registry/demos/proof-live-floor.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -602,6 +606,10 @@ export const demos: Record<string, ComponentType> = {
   "stepform-one-question": StepformOneQuestionDemo,
   "team-open-bench": TeamOpenBenchDemo,
   "testimonial-case-column": TestimonialCaseColumnDemo,
+  "content-margin-notes": ContentMarginNotesDemo,
+  "proof-live-floor": ProofLiveFloorDemo,
+  "integrations-two-way": IntegrationsTwoWayDemo,
+  "datatable-run-history": DatatableRunHistoryDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

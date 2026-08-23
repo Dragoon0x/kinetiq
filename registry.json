@@ -8360,6 +8360,122 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "content-margin-notes",
+      "type": "registry:block",
+      "title": "Margin Notes Content",
+      "description": "An editorial passage with its annotations in the margin, aligned to the paragraph each one belongs to — the shape of a marked-up document rather than a marketing page. Nothing pops or reveals: the notes are simply there, beside the sentence they qualify, which is what makes a claim readable as argument instead of assertion.",
+      "files": [
+        {
+          "path": "registry/blocks/content-margin-notes/content-margin-notes.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "content-sections"
+      ],
+      "meta": {
+        "serial": "KB-274"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "proof-live-floor",
+      "type": "registry:block",
+      "title": "Live Floor Social Proof",
+      "description": "Proof as the floor itself, running: a live feed of what is happening across every yard right now, arriving on the conveyor with the standing counts above it. Where the evidence band assembles a case from logos, metrics, and a quote, this one makes the simpler and harder argument — that the thing is in use at this moment, and here is it happening.",
+      "files": [
+        {
+          "path": "registry/blocks/proof-live-floor/proof-live-floor.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/conveyor-list.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "categories": [
+        "social-proof"
+      ],
+      "meta": {
+        "serial": "KB-275"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "integrations-two-way",
+      "type": "registry:block",
+      "title": "Two-Way Integrations",
+      "description": "Integrations answered honestly: not which logos we have, but which direction the data actually moves, what is read, what is written, and how often. For the buyer who has been burned by an integration that turned out to be a nightly CSV, and who will ask the question in the second call if the page does not answer it in the first.",
+      "files": [
+        {
+          "path": "registry/blocks/integrations-two-way/integrations-two-way.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "integrations"
+      ],
+      "meta": {
+        "serial": "KB-276"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "datatable-run-history",
+      "type": "registry:block",
+      "title": "Run History Table",
+      "description": "A report grid where each row carries its own history: the latest number, the outcome, and the last eight runs plotted small beside them, so a row that is fine today but drifting is visible without opening anything. The ops desk is for working a dataset; this one is for reading a trend across rows at a glance.",
+      "files": [
+        {
+          "path": "registry/blocks/datatable-run-history/datatable-run-history.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spark-chart.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "data-tables"
+      ],
+      "meta": {
+        "serial": "KB-277"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

@@ -4168,4 +4168,199 @@ export const blocks: KinetiqItem[] = [
       "The margin stacks above the story below lg; keep results to three or four.",
     ],
   },
+  {
+    name: "content-margin-notes",
+    type: "registry:block",
+    title: "Margin Notes Content",
+    description:
+      "An editorial passage with its annotations in the margin, aligned to the paragraph each one belongs to — the shape of a marked-up document rather than a marketing page. Nothing pops or reveals: the notes are simply there, beside the sentence they qualify, which is what makes a claim readable as argument instead of assertion.",
+    files: [
+      {
+        path: "registry/blocks/content-margin-notes/content-margin-notes.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["content-sections"],
+    meta: { serial: "KB-274" },
+    tagline: "Argument, not assertion.",
+    keywords: [
+      "content",
+      "editorial",
+      "annotations",
+      "margin",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "passages",
+        type: "MarginPassage[]",
+        description: "Paragraphs, each with an optional margin note.",
+      },
+      {
+        name: "standfirst / signature",
+        type: "string",
+        description: "The opening and the document's foot.",
+      },
+    ],
+    usageNotes: [
+      "Below the margin breakpoint notes fold in under their paragraph on a rule, still attached.",
+      "Notes warm on hover through the group only — no state, no reveal; the alignment is the device.",
+      "Leave paragraphs unannotated where there is nothing to qualify; a note on every line is a footnote habit, not an argument.",
+    ],
+  },
+  {
+    name: "proof-live-floor",
+    type: "registry:block",
+    title: "Live Floor Social Proof",
+    description:
+      "Proof as the floor itself, running: a live feed of what is happening across every yard right now, arriving on the conveyor with the standing counts above it. Where the evidence band assembles a case from logos, metrics, and a quote, this one makes the simpler and harder argument — that the thing is in use at this moment, and here is it happening.",
+    files: [
+      {
+        path: "registry/blocks/proof-live-floor/proof-live-floor.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "conveyor-list",
+      "readout",
+      "status-pip",
+    ],
+    categories: ["social-proof"],
+    meta: { serial: "KB-275" },
+    tagline: "Somewhere it is 06:40.",
+    keywords: [
+      "social proof",
+      "live feed",
+      "activity",
+      "conveyor",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "events",
+        type: "FloorEvent[]",
+        description: "The pool the feed cycles through; keep places coarse.",
+      },
+      {
+        name: "interval / visible",
+        type: "number",
+        description:
+          "Seconds between arrivals, and rows held before the overflow count.",
+      },
+      {
+        name: "counts",
+        type: "FloorCount[]",
+        description: "The standing numbers above the feed.",
+      },
+    ],
+    usageNotes: [
+      "Rotation is deterministic — the server renders tick 0 and the client walks the same pool, so there is no hydration drift and no clock.",
+      "Each arrival gets a fresh row key; reusing an event id would read to the conveyor as a reorder, not an arrival.",
+      "Never name customers in the feed. Coarse places are proof; a customer list is a leak.",
+      "Ages come from row position, not timestamps — nothing here needs to be true to the second to be honest.",
+    ],
+  },
+  {
+    name: "integrations-two-way",
+    type: "registry:block",
+    title: "Two-Way Integrations",
+    description:
+      "Integrations answered honestly: not which logos we have, but which direction the data actually moves, what is read, what is written, and how often. For the buyer who has been burned by an integration that turned out to be a nightly CSV, and who will ask the question in the second call if the page does not answer it in the first.",
+    files: [
+      {
+        path: "registry/blocks/integrations-two-way/integrations-two-way.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "status-seal"],
+    categories: ["integrations"],
+    meta: { serial: "KB-276" },
+    tagline: "Which way the data actually goes.",
+    keywords: [
+      "integrations",
+      "sync",
+      "direction",
+      "data flow",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "flows",
+        type: "IntegrationFlow[]",
+        description: "Each connection with its direction and both payloads.",
+      },
+      {
+        name: "caveat",
+        type: "string",
+        description: "The footnote most integration pages omit.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately unfiltered — browsing a catalogue belongs to the patch bay; this page answers one question.",
+      "Only claim two-way when both halves are live; the section's whole value is that the claim is checkable.",
+      "State sync intervals as floors, and mean it.",
+    ],
+  },
+  {
+    name: "datatable-run-history",
+    type: "registry:block",
+    title: "Run History Table",
+    description:
+      "A report grid where each row carries its own history: the latest number, the outcome, and the last eight runs plotted small beside them, so a row that is fine today but drifting is visible without opening anything. The ops desk is for working a dataset; this one is for reading a trend across rows at a glance.",
+    files: [
+      {
+        path: "registry/blocks/datatable-run-history/datatable-run-history.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "spark-chart",
+      "readout",
+      "status-seal",
+    ],
+    categories: ["data-tables"],
+    meta: { serial: "KB-277" },
+    tagline: "Where a row tells you it is in trouble.",
+    keywords: [
+      "data table",
+      "runs",
+      "history",
+      "sparkline",
+      "trend",
+      "section",
+      "app",
+    ],
+    props: [
+      {
+        name: "rows",
+        type: "RunRow[]",
+        description:
+          "Name, outcome, latest duration, and the run history behind it.",
+      },
+      {
+        name: "durationLabel / historyLabel",
+        type: "string",
+        description: "Column captions, reused as the mobile labels.",
+      },
+    ],
+    usageNotes: [
+      "Nothing sorts on purpose — the argument is the shape of each line, and sorting belongs to the ops desk.",
+      "Every sparkline is a real spark-chart, so each row carries its own sr-only summary sentence.",
+      "The drifting row is the point: seed a series that is fine today and clearly heading somewhere.",
+    ],
+  },
 ];
