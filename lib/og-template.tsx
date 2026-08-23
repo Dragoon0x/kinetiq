@@ -32,121 +32,133 @@ export async function ogCard({
   ]);
 
   return new ImageResponse(
-    (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        backgroundColor: "#10131a",
+        backgroundImage: `url("${gridDataUri}")`,
+        backgroundSize: "96px 96px",
+        padding: 72,
+      }}
+    >
       <div
         style={{
-          width: "100%",
-          height: "100%",
           display: "flex",
-          flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#10131a",
-          backgroundImage: `url("${gridDataUri}")`,
-          backgroundSize: "96px 96px",
-          padding: 72,
+          alignItems: "center",
         }}
       >
-        <div
+        <span
+          style={{
+            fontFamily: "MartianMono",
+            fontSize: 24,
+            letterSpacing: "0.1em",
+            color: "#8b93a7",
+          }}
+        >
+          {serial}
+        </span>
+        {/* The dot is drawn, not typed. MartianMono's fetched subset has no
+              U+25CF, so a literal ● rendered as a tofu box on every card the
+              site produced. */}
+        <span
           style={{
             display: "flex",
-            justifyContent: "space-between",
             alignItems: "center",
+            gap: 10,
+            fontFamily: "MartianMono",
+            fontSize: 20,
+            letterSpacing: "0.1em",
+            color: "#5865f2",
           }}
         >
           <span
             style={{
-              fontFamily: "MartianMono",
-              fontSize: 24,
-              letterSpacing: "0.1em",
-              color: "#8b93a7",
+              width: 10,
+              height: 10,
+              borderRadius: 999,
+              background: "#5865f2",
             }}
-          >
-            {serial}
-          </span>
-          <span
-            style={{
-              fontFamily: "MartianMono",
-              fontSize: 20,
-              letterSpacing: "0.1em",
-              color: "#5865f2",
-            }}
-          >
-            ● CALIBRATED
-          </span>
-        </div>
+          />
+          CALIBRATED
+        </span>
+      </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <span
-            style={{
-              fontFamily: "InstrumentSans",
-              fontSize: 84,
-              fontWeight: 600,
-              color: "#f2f4f9",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            {title}
-          </span>
-          <span
-            style={{
-              fontFamily: "InstrumentSans",
-              fontSize: 32,
-              color: "#a8afc0",
-            }}
-          >
-            {tagline}
-          </span>
-        </div>
-
-        <div
+      <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        <span
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderTop: "1px solid rgba(226,232,244,0.14)",
-            paddingTop: 28,
+            fontFamily: "InstrumentSans",
+            fontSize: 84,
+            fontWeight: 600,
+            color: "#f2f4f9",
+            letterSpacing: "-0.02em",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 40,
-                height: 40,
-                borderRadius: 4,
-                border: "1px solid rgba(226,232,244,0.2)",
-                color: "#6d7cff",
-                fontFamily: "MartianMono",
-                fontSize: 22,
-              }}
-            >
-              K
-            </div>
-            <span
-              style={{
-                fontFamily: "InstrumentSans",
-                fontSize: 28,
-                color: "#f2f4f9",
-              }}
-            >
-              Kinetiq
-            </span>
+          {title}
+        </span>
+        <span
+          style={{
+            fontFamily: "InstrumentSans",
+            fontSize: 32,
+            color: "#a8afc0",
+          }}
+        >
+          {tagline}
+        </span>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderTop: "1px solid rgba(226,232,244,0.14)",
+          paddingTop: 28,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 40,
+              height: 40,
+              borderRadius: 4,
+              border: "1px solid rgba(226,232,244,0.2)",
+              color: "#6d7cff",
+              fontFamily: "MartianMono",
+              fontSize: 22,
+            }}
+          >
+            K
           </div>
           <span
             style={{
-              fontFamily: "MartianMono",
-              fontSize: 20,
-              letterSpacing: "0.08em",
-              color: "#8b93a7",
+              fontFamily: "InstrumentSans",
+              fontSize: 28,
+              color: "#f2f4f9",
             }}
           >
-            MOTION, CALIBRATED.
+            Kinetiq
           </span>
         </div>
+        <span
+          style={{
+            fontFamily: "MartianMono",
+            fontSize: 20,
+            letterSpacing: "0.08em",
+            color: "#8b93a7",
+          }}
+        >
+          MOTION, CALIBRATED.
+        </span>
       </div>
-    ),
+    </div>,
     {
       ...OG_SIZE,
       fonts: [
