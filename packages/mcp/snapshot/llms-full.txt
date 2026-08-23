@@ -4658,6 +4658,70 @@ Notes:
 - Micro-terms are commitments — no card, no sequence — not feature bullets.
 - Two doors only; a third door is a pricing page.
 
+### Share Dial Stats (KB-246) — `stats-share-dial`
+Point at a slice; the centre follows.
+
+A share-of-everything stats section: the dial is the library's own donut — slices that pop out under the pointer, a centre readout that follows the active slice — beside two notes that say what the shares mean. Proportions carry this story better than counts, and the dial is built for exactly that reading.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stats-share-dial`
+
+Props:
+- `segments / totalLabel / format`: DonutSegment[] · string · (v) => string — The dial, straight into donut-breakdown.
+- `notes`: ShareNote[] — What the shares mean, in two short arguments.
+
+Notes:
+- All dial behaviour belongs to donut-breakdown — pop-out, centre follow, and its announcements.
+- Two notes on purpose: the biggest share and the one you are shrinking.
+- Feed raw counts, never pre-computed percentages — the dial derives shares, and doubling them up prints twice.
+
+### Heat Year Stats (KB-247) — `stats-heat-year`
+Not how much — when, and how steadily.
+
+Half a year of work as weather: the library's heat calendar draws the rhythm — weekday rows, a visible mid-season push, honest quiet weekends — with the summary numbers rolling in beside it. The grid answers the question a total can't: not how much, but when, and how steadily.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stats-heat-year`
+
+Props:
+- `days / unit`: HeatDay[] · string — The grid, straight into heat-calendar; the default half-year is deterministic.
+- `figures / attestation`: YearFigure[] · string — The rolling summary numbers and the provenance line.
+
+Notes:
+- Grid interaction — roving focus, per-cell readout — belongs to heat-calendar.
+- The default data keeps weekends honest; a grid with no quiet reads as invented.
+- Say where the numbers come from; the attestation line is part of the design.
+
+### Focus Turn Testimonials (KB-248) — `testimonial-focus-turn`
+Touch the dots and the clock stops.
+
+One sentence at a time, resolving from blur: each quote takes the whole stage and pulls into focus word by word on the library's focus instrument, holds long enough to land, then yields. Dots below give the reader the wheel — selecting one stops the clock, because a carousel that fights the reader loses the testimonial's whole point.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/testimonial-focus-turn`
+
+Props:
+- `quotes`: TurnQuote[] — Quote, name, role — one sentence each; the resolve carries longer ones badly.
+- `interval`: number — Seconds each quote holds before the next resolves.
+
+Notes:
+- The resolve belongs to focus-text; the section only rotates and keys it.
+- Any dot press stops the auto-advance for good — reader control is one-way by design.
+- Keep quotes to one sentence; the whole point is a line that lands whole.
+
+### First Light Strip (KB-249) — `announce-first-light-strip`
+The page pausing to say something once.
+
+A launch moment, not a notice: a full-bleed strip between sections where the announcement gets cinematic room — a drifting gradient behind one sealed line, one sentence, one arrow. Deliberately not dismissible and deliberately not sticky; the inline bar with a close belongs to the alert instrument. This is the page pausing to say something once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/announce-first-light-strip`
+
+Props:
+- `seal / headline / copy`: string — The moment — one seal, one line, one sentence.
+- `actionLabel / onAction`: string · () => void — The single arrowed path onward.
+
+Notes:
+- No dismissal by design — dismissible notices belong to alert-bar and the launch rail.
+- Place it between sections as a full-bleed pause, not at the page top.
+- The drift stays behind a horizontal gradient so the line reads at both edges.
+
 ### Utils — `utils`
 cn() — class composition.
 

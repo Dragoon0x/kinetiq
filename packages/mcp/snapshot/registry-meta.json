@@ -14,7 +14,7 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 212,
-      "blocks": 61,
+      "blocks": 65,
       "shared": 6
     }
   },
@@ -16725,6 +16725,228 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/cta-split-doors",
         "bun": "bunx --bun shadcn@latest add @kinetiq/cta-split-doors",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/cta-split-doors.json"
+      }
+    },
+    {
+      "slug": "stats-share-dial",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Share Dial Stats",
+      "serial": "KB-246",
+      "tagline": "Point at a slice; the centre follows.",
+      "description": "A share-of-everything stats section: the dial is the library's own donut — slices that pop out under the pointer, a centre readout that follows the active slice — beside two notes that say what the shares mean. Proportions carry this story better than counts, and the dial is built for exactly that reading.",
+      "categories": [
+        "stats"
+      ],
+      "keywords": [
+        "stats",
+        "share",
+        "donut",
+        "breakdown",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "segments / totalLabel / format",
+          "type": "DonutSegment[] · string · (v) => string",
+          "description": "The dial, straight into donut-breakdown."
+        },
+        {
+          "name": "notes",
+          "type": "ShareNote[]",
+          "description": "What the shares mean, in two short arguments."
+        }
+      ],
+      "usageNotes": [
+        "All dial behaviour belongs to donut-breakdown — pop-out, centre follow, and its announcements.",
+        "Two notes on purpose: the biggest share and the one you are shrinking.",
+        "Feed raw counts, never pre-computed percentages — the dial derives shares, and doubling them up prints twice."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/donut-breakdown.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/stats-share-dial",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/stats-share-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stats-share-dial",
+        "npm": "npx shadcn@latest add @kinetiq/stats-share-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stats-share-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stats-share-dial",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/stats-share-dial.json"
+      }
+    },
+    {
+      "slug": "stats-heat-year",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Heat Year Stats",
+      "serial": "KB-247",
+      "tagline": "Not how much — when, and how steadily.",
+      "description": "Half a year of work as weather: the library's heat calendar draws the rhythm — weekday rows, a visible mid-season push, honest quiet weekends — with the summary numbers rolling in beside it. The grid answers the question a total can't: not how much, but when, and how steadily.",
+      "categories": [
+        "stats"
+      ],
+      "keywords": [
+        "stats",
+        "heatmap",
+        "calendar",
+        "activity",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "days / unit",
+          "type": "HeatDay[] · string",
+          "description": "The grid, straight into heat-calendar; the default half-year is deterministic."
+        },
+        {
+          "name": "figures / attestation",
+          "type": "YearFigure[] · string",
+          "description": "The rolling summary numbers and the provenance line."
+        }
+      ],
+      "usageNotes": [
+        "Grid interaction — roving focus, per-cell readout — belongs to heat-calendar.",
+        "The default data keeps weekends honest; a grid with no quiet reads as invented.",
+        "Say where the numbers come from; the attestation line is part of the design."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/heat-calendar.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/stats-heat-year",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/stats-heat-year.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stats-heat-year",
+        "npm": "npx shadcn@latest add @kinetiq/stats-heat-year",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stats-heat-year",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stats-heat-year",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/stats-heat-year.json"
+      }
+    },
+    {
+      "slug": "testimonial-focus-turn",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Focus Turn Testimonials",
+      "serial": "KB-248",
+      "tagline": "Touch the dots and the clock stops.",
+      "description": "One sentence at a time, resolving from blur: each quote takes the whole stage and pulls into focus word by word on the library's focus instrument, holds long enough to land, then yields. Dots below give the reader the wheel — selecting one stops the clock, because a carousel that fights the reader loses the testimonial's whole point.",
+      "categories": [
+        "testimonials"
+      ],
+      "keywords": [
+        "testimonials",
+        "rotation",
+        "quotes",
+        "focus",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "quotes",
+          "type": "TurnQuote[]",
+          "description": "Quote, name, role — one sentence each; the resolve carries longer ones badly."
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "description": "Seconds each quote holds before the next resolves."
+        }
+      ],
+      "usageNotes": [
+        "The resolve belongs to focus-text; the section only rotates and keys it.",
+        "Any dot press stops the auto-advance for good — reader control is one-way by design.",
+        "Keep quotes to one sentence; the whole point is a line that lands whole."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/focus-text.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/testimonial-focus-turn",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/testimonial-focus-turn.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/testimonial-focus-turn",
+        "npm": "npx shadcn@latest add @kinetiq/testimonial-focus-turn",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/testimonial-focus-turn",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/testimonial-focus-turn",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/testimonial-focus-turn.json"
+      }
+    },
+    {
+      "slug": "announce-first-light-strip",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "First Light Strip",
+      "serial": "KB-249",
+      "tagline": "The page pausing to say something once.",
+      "description": "A launch moment, not a notice: a full-bleed strip between sections where the announcement gets cinematic room — a drifting gradient behind one sealed line, one sentence, one arrow. Deliberately not dismissible and deliberately not sticky; the inline bar with a close belongs to the alert instrument. This is the page pausing to say something once.",
+      "categories": [
+        "announcement"
+      ],
+      "keywords": [
+        "announcement",
+        "launch",
+        "strip",
+        "moment",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "seal / headline / copy",
+          "type": "string",
+          "description": "The moment — one seal, one line, one sentence."
+        },
+        {
+          "name": "actionLabel / onAction",
+          "type": "string · () => void",
+          "description": "The single arrowed path onward."
+        }
+      ],
+      "usageNotes": [
+        "No dismissal by design — dismissible notices belong to alert-bar and the launch rail.",
+        "Place it between sections as a full-bleed pause, not at the page top.",
+        "The drift stays behind a horizontal gradient so the line reads at both edges."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/gradient-drift.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/announce-first-light-strip",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/announce-first-light-strip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/announce-first-light-strip",
+        "npm": "npx shadcn@latest add @kinetiq/announce-first-light-strip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/announce-first-light-strip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/announce-first-light-strip",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/announce-first-light-strip.json"
       }
     },
     {

@@ -7566,6 +7566,120 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stats-share-dial",
+      "type": "registry:block",
+      "title": "Share Dial Stats",
+      "description": "A share-of-everything stats section: the dial is the library's own donut — slices that pop out under the pointer, a centre readout that follows the active slice — beside two notes that say what the shares mean. Proportions carry this story better than counts, and the dial is built for exactly that reading.",
+      "files": [
+        {
+          "path": "registry/blocks/stats-share-dial/stats-share-dial.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/donut-breakdown.json"
+      ],
+      "categories": [
+        "stats"
+      ],
+      "meta": {
+        "serial": "KB-246"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stats-heat-year",
+      "type": "registry:block",
+      "title": "Heat Year Stats",
+      "description": "Half a year of work as weather: the library's heat calendar draws the rhythm — weekday rows, a visible mid-season push, honest quiet weekends — with the summary numbers rolling in beside it. The grid answers the question a total can't: not how much, but when, and how steadily.",
+      "files": [
+        {
+          "path": "registry/blocks/stats-heat-year/stats-heat-year.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/heat-calendar.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "stats"
+      ],
+      "meta": {
+        "serial": "KB-247"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "testimonial-focus-turn",
+      "type": "registry:block",
+      "title": "Focus Turn Testimonials",
+      "description": "One sentence at a time, resolving from blur: each quote takes the whole stage and pulls into focus word by word on the library's focus instrument, holds long enough to land, then yields. Dots below give the reader the wheel — selecting one stops the clock, because a carousel that fights the reader loses the testimonial's whole point.",
+      "files": [
+        {
+          "path": "registry/blocks/testimonial-focus-turn/testimonial-focus-turn.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/focus-text.json"
+      ],
+      "categories": [
+        "testimonials"
+      ],
+      "meta": {
+        "serial": "KB-248"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "announce-first-light-strip",
+      "type": "registry:block",
+      "title": "First Light Strip",
+      "description": "A launch moment, not a notice: a full-bleed strip between sections where the announcement gets cinematic room — a drifting gradient behind one sealed line, one sentence, one arrow. Deliberately not dismissible and deliberately not sticky; the inline bar with a close belongs to the alert instrument. This is the page pausing to say something once.",
+      "files": [
+        {
+          "path": "registry/blocks/announce-first-light-strip/announce-first-light-strip.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/gradient-drift.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "announcement"
+      ],
+      "meta": {
+        "serial": "KB-249"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

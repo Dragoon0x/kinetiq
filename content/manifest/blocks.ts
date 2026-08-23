@@ -2891,4 +2891,188 @@ export const blocks: KinetiqItem[] = [
       "Two doors only; a third door is a pricing page.",
     ],
   },
+  {
+    name: "stats-share-dial",
+    type: "registry:block",
+    title: "Share Dial Stats",
+    description:
+      "A share-of-everything stats section: the dial is the library's own donut — slices that pop out under the pointer, a centre readout that follows the active slice — beside two notes that say what the shares mean. Proportions carry this story better than counts, and the dial is built for exactly that reading.",
+    files: [
+      {
+        path: "registry/blocks/stats-share-dial/stats-share-dial.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "donut-breakdown",
+    ],
+    categories: ["stats"],
+    meta: { serial: "KB-246" },
+    tagline: "Point at a slice; the centre follows.",
+    keywords: ["stats", "share", "donut", "breakdown", "section", "marketing"],
+    props: [
+      {
+        name: "segments / totalLabel / format",
+        type: "DonutSegment[] · string · (v) => string",
+        description: "The dial, straight into donut-breakdown.",
+      },
+      {
+        name: "notes",
+        type: "ShareNote[]",
+        description: "What the shares mean, in two short arguments.",
+      },
+    ],
+    usageNotes: [
+      "All dial behaviour belongs to donut-breakdown — pop-out, centre follow, and its announcements.",
+      "Two notes on purpose: the biggest share and the one you are shrinking.",
+      "Feed raw counts, never pre-computed percentages — the dial derives shares, and doubling them up prints twice.",
+    ],
+  },
+  {
+    name: "stats-heat-year",
+    type: "registry:block",
+    title: "Heat Year Stats",
+    description:
+      "Half a year of work as weather: the library's heat calendar draws the rhythm — weekday rows, a visible mid-season push, honest quiet weekends — with the summary numbers rolling in beside it. The grid answers the question a total can't: not how much, but when, and how steadily.",
+    files: [
+      {
+        path: "registry/blocks/stats-heat-year/stats-heat-year.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "heat-calendar",
+      "readout",
+    ],
+    categories: ["stats"],
+    meta: { serial: "KB-247" },
+    tagline: "Not how much — when, and how steadily.",
+    keywords: [
+      "stats",
+      "heatmap",
+      "calendar",
+      "activity",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "days / unit",
+        type: "HeatDay[] · string",
+        description:
+          "The grid, straight into heat-calendar; the default half-year is deterministic.",
+      },
+      {
+        name: "figures / attestation",
+        type: "YearFigure[] · string",
+        description: "The rolling summary numbers and the provenance line.",
+      },
+    ],
+    usageNotes: [
+      "Grid interaction — roving focus, per-cell readout — belongs to heat-calendar.",
+      "The default data keeps weekends honest; a grid with no quiet reads as invented.",
+      "Say where the numbers come from; the attestation line is part of the design.",
+    ],
+  },
+  {
+    name: "testimonial-focus-turn",
+    type: "registry:block",
+    title: "Focus Turn Testimonials",
+    description:
+      "One sentence at a time, resolving from blur: each quote takes the whole stage and pulls into focus word by word on the library's focus instrument, holds long enough to land, then yields. Dots below give the reader the wheel — selecting one stops the clock, because a carousel that fights the reader loses the testimonial's whole point.",
+    files: [
+      {
+        path: "registry/blocks/testimonial-focus-turn/testimonial-focus-turn.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "focus-text"],
+    categories: ["testimonials"],
+    meta: { serial: "KB-248" },
+    tagline: "Touch the dots and the clock stops.",
+    keywords: [
+      "testimonials",
+      "rotation",
+      "quotes",
+      "focus",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "quotes",
+        type: "TurnQuote[]",
+        description:
+          "Quote, name, role — one sentence each; the resolve carries longer ones badly.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        description: "Seconds each quote holds before the next resolves.",
+      },
+    ],
+    usageNotes: [
+      "The resolve belongs to focus-text; the section only rotates and keys it.",
+      "Any dot press stops the auto-advance for good — reader control is one-way by design.",
+      "Keep quotes to one sentence; the whole point is a line that lands whole.",
+    ],
+  },
+  {
+    name: "announce-first-light-strip",
+    type: "registry:block",
+    title: "First Light Strip",
+    description:
+      "A launch moment, not a notice: a full-bleed strip between sections where the announcement gets cinematic room — a drifting gradient behind one sealed line, one sentence, one arrow. Deliberately not dismissible and deliberately not sticky; the inline bar with a close belongs to the alert instrument. This is the page pausing to say something once.",
+    files: [
+      {
+        path: "registry/blocks/announce-first-light-strip/announce-first-light-strip.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "gradient-drift",
+      "status-seal",
+    ],
+    categories: ["announcement"],
+    meta: { serial: "KB-249" },
+    tagline: "The page pausing to say something once.",
+    keywords: [
+      "announcement",
+      "launch",
+      "strip",
+      "moment",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "seal / headline / copy",
+        type: "string",
+        description: "The moment — one seal, one line, one sentence.",
+      },
+      {
+        name: "actionLabel / onAction",
+        type: "string · () => void",
+        description: "The single arrowed path onward.",
+      },
+    ],
+    usageNotes: [
+      "No dismissal by design — dismissible notices belong to alert-bar and the launch rail.",
+      "Place it between sections as a full-bleed pause, not at the page top.",
+      "The drift stays behind a horizontal gradient so the line reads at both edges.",
+    ],
+  },
 ];

@@ -274,6 +274,10 @@ import { CtaLedgerCloseDemo } from "@/registry/demos/cta-ledger-close.demo";
 import { CtaSplitDoorsDemo } from "@/registry/demos/cta-split-doors.demo";
 import { PricingSingleLineDemo } from "@/registry/demos/pricing-single-line.demo";
 import { PricingUpgradeGateDemo } from "@/registry/demos/pricing-upgrade-gate.demo";
+import { AnnounceFirstLightStripDemo } from "@/registry/demos/announce-first-light-strip.demo";
+import { StatsHeatYearDemo } from "@/registry/demos/stats-heat-year.demo";
+import { StatsShareDialDemo } from "@/registry/demos/stats-share-dial.demo";
+import { TestimonialFocusTurnDemo } from "@/registry/demos/testimonial-focus-turn.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -546,6 +550,10 @@ export const demos: Record<string, ComponentType> = {
   "pricing-upgrade-gate": PricingUpgradeGateDemo,
   "cta-ledger-close": CtaLedgerCloseDemo,
   "cta-split-doors": CtaSplitDoorsDemo,
+  "stats-share-dial": StatsShareDialDemo,
+  "stats-heat-year": StatsHeatYearDemo,
+  "testimonial-focus-turn": TestimonialFocusTurnDemo,
+  "announce-first-light-strip": AnnounceFirstLightStripDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,
