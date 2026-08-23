@@ -336,6 +336,11 @@ import { StepformBranchingIntakeDemo } from "@/registry/demos/stepform-branching
 import { StepformResumeLaterDemo } from "@/registry/demos/stepform-resume-later.demo";
 import { TeamFoundersNoteDemo } from "@/registry/demos/team-founders-note.demo";
 import { TeamWhereWeAreDemo } from "@/registry/demos/team-where-we-are.demo";
+import { DatatableGroupedRollupDemo } from "@/registry/demos/datatable-grouped-rollup.demo";
+import { DatatableInlineEditDemo } from "@/registry/demos/datatable-inline-edit.demo";
+import { IntegrationsBuildYourOwnDemo } from "@/registry/demos/integrations-build-your-own.demo";
+import { IntegrationsConnectTimeDemo } from "@/registry/demos/integrations-connect-time.demo";
+import { TestimonialTwoDatesDemo } from "@/registry/demos/testimonial-two-dates.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -670,6 +675,11 @@ export const demos: Record<string, ComponentType> = {
   "team-where-we-are": TeamWhereWeAreDemo,
   "content-principles-list": ContentPrinciplesListDemo,
   "content-glossary": ContentGlossaryDemo,
+  "integrations-connect-time": IntegrationsConnectTimeDemo,
+  "integrations-build-your-own": IntegrationsBuildYourOwnDemo,
+  "datatable-grouped-rollup": DatatableGroupedRollupDemo,
+  "datatable-inline-edit": DatatableInlineEditDemo,
+  "testimonial-two-dates": TestimonialTwoDatesDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

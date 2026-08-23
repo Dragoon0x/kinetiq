@@ -5660,6 +5660,87 @@ Notes:
 - Define words whose familiar meaning would mislead. Defining obvious ones reads as padding.
 - Say why a word was chosen when the choice carries meaning; that is the definition doing real work.
 
+### Connect Time Integrations (KB-308) — `integrations-connect-time`
+Who has to be in the room.
+
+Integrations priced in the only currency that matters at setup: minutes, and whose minutes. Every row says how long it really takes, what you need in hand before starting, and which ones you cannot do yourself — the question that decides whether a rollout slips.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/integrations-connect-time`
+
+Props:
+- `connections`: ConnectStep[] — Minutes, prerequisites, owner, and whether it is reversible.
+- `needsLabel`: string — Caption over the prerequisites.
+
+Notes:
+- The total is summed from the rows, so it cannot drift from them.
+- Name the owner whenever it is not the reader — discovering that on the day is what slips a rollout.
+- Mark the one-way connections. A reversible-looking integration that is not is a support ticket waiting to happen.
+
+### Build Your Own Integrations (KB-309) — `integrations-build-your-own`
+Not yet — and here is the door.
+
+The honest answer to "do you integrate with X" when the answer is no: four surfaces, the exact shape of each, one command you can paste, and a versioning promise. Most integration pages end at the logo grid and leave anyone with an unlisted system guessing whether they are stuck.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/integrations-build-your-own`
+
+Props:
+- `surfaces`: Surface[] — Each endpoint or event with its purpose and exact shape.
+- `snippet / stabilityLine`: string — The pasteable command and the versioning promise.
+
+Notes:
+- The copy confirmation clears itself — a button stuck on "Copied" lies about the next press.
+- Clipboard access can be denied; the snippet stays selectable, so the failure is silent rather than broken.
+- State the deprecation window in months. "Stable" without a number is not a promise.
+
+### Grouped Rollup Table (KB-310) — `datatable-grouped-rollup`
+Subtotals survive the fold.
+
+A grid that adds up: rows grouped by site, every group carrying its own subtotal, and a grand total that is the sum of what is shown rather than a number typed in beside it. Folding a group keeps its subtotal visible, because the reason to fold is to compare groups.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/datatable-grouped-rollup`
+
+Props:
+- `groups`: RollupGroup[] — Each group and its rows; every total is derived.
+- `defaultOpen`: string[] — Groups open on load; omit to open all.
+
+Notes:
+- Never author a total. Subtotals and the grand total are both summed from the rows.
+- Keep subtotals visible while folded — hiding the number you folded down to defeats the fold.
+- Rows collapse on height, so a long group opens without the page jumping under the reader.
+
+### Inline Edit Table (KB-311) — `datatable-inline-edit`
+Notice a wrong number, fix it where it is.
+
+A grid you can correct in place: click a value, change it, Enter commits and Escape abandons — and the row stamps a seal so the save is visible without a toast crossing the screen. The third thing people do with a table is notice a wrong number and fix it without leaving.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/datatable-inline-edit`
+
+Props:
+- `rows`: EditableRow[] — Each row's editable value and the unit printed after it.
+- `onCommit / consequenceLine`: (id, value) => void · string — The commit hook and what a change actually does.
+
+Notes:
+- Escape abandons and Enter commits; blur commits too, because a click elsewhere is not an undo.
+- The saved seal clears itself, so a stale confirmation never sits beside a later edit.
+- Say what a change affects. An editable constraint with no stated consequence is a trap.
+- Units live outside the value, so an edit never has to re-type them.
+
+### Two Dates Testimonial (KB-312) — `testimonial-two-dates`
+A mind changing, not a mind made up.
+
+The same customer quoted twice, a year apart, with the sceptical early quote left in. A wall of enthusiasm reads as selection; a pair that starts with "I nearly stopped there" and ends somewhere else reads as a record. It is the only testimonial shape that can show a mind changing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/testimonial-two-dates`
+
+Props:
+- `quotes`: TwoDateQuote[] — One customer, two dated quotes.
+- `earlyLabel / laterLabel`: string — Captions over the two columns.
+
+Notes:
+- Leave the early quote unflattering. Softening it removes the only reason this shape works.
+- The early quote is set in the muted ink and the later one larger, so the eye travels the right way.
+- Two pairs is plenty — this shape asks for real reading.
+
 ### Utils — `utils`
 cn() — class composition.
 

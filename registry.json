@@ -9307,6 +9307,141 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "integrations-connect-time",
+      "type": "registry:block",
+      "title": "Connect Time Integrations",
+      "description": "Integrations priced in the only currency that matters at setup: minutes, and whose minutes. Every row says how long it really takes, what you need in hand before starting, and which ones you cannot do yourself — the question that decides whether a rollout slips.",
+      "files": [
+        {
+          "path": "registry/blocks/integrations-connect-time/integrations-connect-time.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "integrations"
+      ],
+      "meta": {
+        "serial": "KB-308"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "integrations-build-your-own",
+      "type": "registry:block",
+      "title": "Build Your Own Integrations",
+      "description": "The honest answer to \"do you integrate with X\" when the answer is no: four surfaces, the exact shape of each, one command you can paste, and a versioning promise. Most integration pages end at the logo grid and leave anyone with an unlisted system guessing whether they are stuck.",
+      "files": [
+        {
+          "path": "registry/blocks/integrations-build-your-own/integrations-build-your-own.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "integrations"
+      ],
+      "meta": {
+        "serial": "KB-309"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "datatable-grouped-rollup",
+      "type": "registry:block",
+      "title": "Grouped Rollup Table",
+      "description": "A grid that adds up: rows grouped by site, every group carrying its own subtotal, and a grand total that is the sum of what is shown rather than a number typed in beside it. Folding a group keeps its subtotal visible, because the reason to fold is to compare groups.",
+      "files": [
+        {
+          "path": "registry/blocks/datatable-grouped-rollup/datatable-grouped-rollup.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "data-tables"
+      ],
+      "meta": {
+        "serial": "KB-310"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "datatable-inline-edit",
+      "type": "registry:block",
+      "title": "Inline Edit Table",
+      "description": "A grid you can correct in place: click a value, change it, Enter commits and Escape abandons — and the row stamps a seal so the save is visible without a toast crossing the screen. The third thing people do with a table is notice a wrong number and fix it without leaving.",
+      "files": [
+        {
+          "path": "registry/blocks/datatable-inline-edit/datatable-inline-edit.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "data-tables"
+      ],
+      "meta": {
+        "serial": "KB-311"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "testimonial-two-dates",
+      "type": "registry:block",
+      "title": "Two Dates Testimonial",
+      "description": "The same customer quoted twice, a year apart, with the sceptical early quote left in. A wall of enthusiasm reads as selection; a pair that starts with \"I nearly stopped there\" and ends somewhere else reads as a record. It is the only testimonial shape that can show a mind changing.",
+      "files": [
+        {
+          "path": "registry/blocks/testimonial-two-dates/testimonial-two-dates.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "testimonials"
+      ],
+      "meta": {
+        "serial": "KB-312"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

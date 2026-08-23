@@ -5709,4 +5709,227 @@ export const blocks: KinetiqItem[] = [
       "Say why a word was chosen when the choice carries meaning; that is the definition doing real work.",
     ],
   },
+  {
+    name: "integrations-connect-time",
+    type: "registry:block",
+    title: "Connect Time Integrations",
+    description:
+      "Integrations priced in the only currency that matters at setup: minutes, and whose minutes. Every row says how long it really takes, what you need in hand before starting, and which ones you cannot do yourself — the question that decides whether a rollout slips.",
+    files: [
+      {
+        path: "registry/blocks/integrations-connect-time/integrations-connect-time.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "status-seal",
+    ],
+    categories: ["integrations"],
+    meta: { serial: "KB-308" },
+    tagline: "Who has to be in the room.",
+    keywords: [
+      "integrations",
+      "setup",
+      "onboarding",
+      "effort",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "connections",
+        type: "ConnectStep[]",
+        description:
+          "Minutes, prerequisites, owner, and whether it is reversible.",
+      },
+      {
+        name: "needsLabel",
+        type: "string",
+        description: "Caption over the prerequisites.",
+      },
+    ],
+    usageNotes: [
+      "The total is summed from the rows, so it cannot drift from them.",
+      "Name the owner whenever it is not the reader — discovering that on the day is what slips a rollout.",
+      "Mark the one-way connections. A reversible-looking integration that is not is a support ticket waiting to happen.",
+    ],
+  },
+  {
+    name: "integrations-build-your-own",
+    type: "registry:block",
+    title: "Build Your Own Integrations",
+    description:
+      'The honest answer to "do you integrate with X" when the answer is no: four surfaces, the exact shape of each, one command you can paste, and a versioning promise. Most integration pages end at the logo grid and leave anyone with an unlisted system guessing whether they are stuck.',
+    files: [
+      {
+        path: "registry/blocks/integrations-build-your-own/integrations-build-your-own.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["lucide-react"],
+    registryDependencies: ["utils", "status-seal"],
+    categories: ["integrations"],
+    meta: { serial: "KB-309" },
+    tagline: "Not yet — and here is the door.",
+    keywords: [
+      "integrations",
+      "api",
+      "webhooks",
+      "developers",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "surfaces",
+        type: "Surface[]",
+        description: "Each endpoint or event with its purpose and exact shape.",
+      },
+      {
+        name: "snippet / stabilityLine",
+        type: "string",
+        description: "The pasteable command and the versioning promise.",
+      },
+    ],
+    usageNotes: [
+      'The copy confirmation clears itself — a button stuck on "Copied" lies about the next press.',
+      "Clipboard access can be denied; the snippet stays selectable, so the failure is silent rather than broken.",
+      'State the deprecation window in months. "Stable" without a number is not a promise.',
+    ],
+  },
+  {
+    name: "datatable-grouped-rollup",
+    type: "registry:block",
+    title: "Grouped Rollup Table",
+    description:
+      "A grid that adds up: rows grouped by site, every group carrying its own subtotal, and a grand total that is the sum of what is shown rather than a number typed in beside it. Folding a group keeps its subtotal visible, because the reason to fold is to compare groups.",
+    files: [
+      {
+        path: "registry/blocks/datatable-grouped-rollup/datatable-grouped-rollup.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["data-tables"],
+    meta: { serial: "KB-310" },
+    tagline: "Subtotals survive the fold.",
+    keywords: [
+      "data table",
+      "grouping",
+      "subtotals",
+      "rollup",
+      "section",
+      "app",
+    ],
+    props: [
+      {
+        name: "groups",
+        type: "RollupGroup[]",
+        description: "Each group and its rows; every total is derived.",
+      },
+      {
+        name: "defaultOpen",
+        type: "string[]",
+        description: "Groups open on load; omit to open all.",
+      },
+    ],
+    usageNotes: [
+      "Never author a total. Subtotals and the grand total are both summed from the rows.",
+      "Keep subtotals visible while folded — hiding the number you folded down to defeats the fold.",
+      "Rows collapse on height, so a long group opens without the page jumping under the reader.",
+    ],
+  },
+  {
+    name: "datatable-inline-edit",
+    type: "registry:block",
+    title: "Inline Edit Table",
+    description:
+      "A grid you can correct in place: click a value, change it, Enter commits and Escape abandons — and the row stamps a seal so the save is visible without a toast crossing the screen. The third thing people do with a table is notice a wrong number and fix it without leaving.",
+    files: [
+      {
+        path: "registry/blocks/datatable-inline-edit/datatable-inline-edit.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "status-seal"],
+    categories: ["data-tables"],
+    meta: { serial: "KB-311" },
+    tagline: "Notice a wrong number, fix it where it is.",
+    keywords: [
+      "data table",
+      "inline edit",
+      "editable",
+      "constraints",
+      "section",
+      "app",
+    ],
+    props: [
+      {
+        name: "rows",
+        type: "EditableRow[]",
+        description: "Each row's editable value and the unit printed after it.",
+      },
+      {
+        name: "onCommit / consequenceLine",
+        type: "(id, value) => void · string",
+        description: "The commit hook and what a change actually does.",
+      },
+    ],
+    usageNotes: [
+      "Escape abandons and Enter commits; blur commits too, because a click elsewhere is not an undo.",
+      "The saved seal clears itself, so a stale confirmation never sits beside a later edit.",
+      "Say what a change affects. An editable constraint with no stated consequence is a trap.",
+      "Units live outside the value, so an edit never has to re-type them.",
+    ],
+  },
+  {
+    name: "testimonial-two-dates",
+    type: "registry:block",
+    title: "Two Dates Testimonial",
+    description:
+      'The same customer quoted twice, a year apart, with the sceptical early quote left in. A wall of enthusiasm reads as selection; a pair that starts with "I nearly stopped there" and ends somewhere else reads as a record. It is the only testimonial shape that can show a mind changing.',
+    files: [
+      {
+        path: "registry/blocks/testimonial-two-dates/testimonial-two-dates.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["testimonials"],
+    meta: { serial: "KB-312" },
+    tagline: "A mind changing, not a mind made up.",
+    keywords: [
+      "testimonial",
+      "before after",
+      "longitudinal",
+      "sceptical",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "quotes",
+        type: "TwoDateQuote[]",
+        description: "One customer, two dated quotes.",
+      },
+      {
+        name: "earlyLabel / laterLabel",
+        type: "string",
+        description: "Captions over the two columns.",
+      },
+    ],
+    usageNotes: [
+      "Leave the early quote unflattering. Softening it removes the only reason this shape works.",
+      "The early quote is set in the muted ink and the later one larger, so the eye travels the right way.",
+      "Two pairs is plenty — this shape asks for real reading.",
+    ],
+  },
 ];
