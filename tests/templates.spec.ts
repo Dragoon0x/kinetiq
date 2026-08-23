@@ -54,6 +54,17 @@ for (const slug of templates) {
         overflow,
         `${slug} overflows horizontally at ${width}px`,
       ).toBeLessThanOrEqual(0);
+
+      // Substance, not just silence: a template that renders blank passes an
+      // error-and-overflow check perfectly, which is how an empty stage
+      // shipped once before.
+      const height = await page.evaluate(
+        () => document.documentElement.scrollHeight,
+      );
+      expect(
+        height,
+        `${slug} rendered little or nothing at ${width}px`,
+      ).toBeGreaterThan(1200);
     }
 
     expect(errors, `${slug} logged errors: ${errors.join(" | ")}`).toEqual([]);

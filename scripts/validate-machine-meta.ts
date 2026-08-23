@@ -8,6 +8,7 @@ import path from "node:path";
 
 import { machineMetaSchema } from "../content/machine-meta";
 import {
+  allItems,
   catalogBlocks,
   catalogComponents,
   catalogPages,
@@ -55,18 +56,33 @@ async function main() {
     problems.push("counts.shared does not match the manifest");
   }
 
-  // Every non-draft catalog + shared slug is present.
+  // Every non-draft item is present — derived from allItems rather than a
+  // hand-written list of wings. Enumerating wings here is what let the whole
+  // pages wing ship invisible to the machine catalog: the manifest knew about
+  // them and this file did not.
   const emitted = new Set(meta.items.map((i) => i.slug));
-  for (const item of [
-    ...catalogComponents,
-    ...catalogBlocks,
-    ...catalogPages,
-    ...catalogTemplates,
-    ...shared,
-  ]) {
+  const expected = allItems.filter((item) => !item.draft);
+  for (const item of expected) {
     if (!emitted.has(item.name)) {
       problems.push(`missing item: ${item.name}`);
     }
+  }
+  if (meta.items.length !== expected.length) {
+    problems.push(
+      `registry-meta.json holds ${meta.items.length} item(s) but the manifest has ${expected.length} non-draft item(s) — a wing is likely missing from the builder.`,
+    );
+  }
+
+  // Counts must also sum to the whole, so a new wing cannot be counted
+  // nowhere while every per-wing count still agrees with itself.
+  const counted = Object.values(meta.registry.counts).reduce(
+    (sum, n) => sum + n,
+    0,
+  );
+  if (counted !== expected.length) {
+    problems.push(
+      `registry.counts sum to ${counted} but there are ${expected.length} non-draft items — a wing is missing from counts.`,
+    );
   }
 
   // Each item's registry artifact exists and deps are absolute URLs.

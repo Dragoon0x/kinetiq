@@ -58,6 +58,17 @@ for (const slug of pages) {
         overflow,
         `${slug} overflows horizontally at ${width}px`,
       ).toBeLessThanOrEqual(0);
+
+      // Substance, not just silence: a page that renders blank passes an
+      // error-and-overflow check perfectly, which is how an empty stage
+      // shipped once before.
+      const height = await page.evaluate(
+        () => document.documentElement.scrollHeight,
+      );
+      expect(
+        height,
+        `${slug} rendered little or nothing at ${width}px`,
+      ).toBeGreaterThan(400);
     }
 
     expect(errors, `${slug} logged errors: ${errors.join(" | ")}`).toEqual([]);

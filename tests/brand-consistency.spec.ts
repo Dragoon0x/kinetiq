@@ -41,7 +41,13 @@ test.describe.configure({ mode: "parallel" });
 for (const slug of templates) {
   test(`template ${slug} names exactly one product`, async ({ page }) => {
     const own = OWN[slug];
-    expect(own, `${slug} has no expected product name registered`).toBeTruthy();
+    // A template with no registered product would otherwise sail through
+    // this check, which would make the guard worse than useless.
+    if (!own) {
+      throw new Error(
+        `${slug} has no expected product name in OWN — register it, or this template goes unchecked.`,
+      );
+    }
 
     await page.setViewportSize({ width: 1280, height: 950 });
     await page.goto(`/preview/templates/${slug}`);
