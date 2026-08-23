@@ -38,7 +38,7 @@ export function SectionFrame({
 }: {
   slug: string;
   /** Which bare preview route to frame: a section, or a whole page. */
-  base?: "blocks" | "pages";
+  base?: "blocks" | "pages" | "templates";
   serial: string;
   label: string;
 }) {

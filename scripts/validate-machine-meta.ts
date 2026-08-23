@@ -11,6 +11,7 @@ import {
   catalogBlocks,
   catalogComponents,
   catalogPages,
+  catalogTemplates,
   shared,
 } from "../content/manifest";
 
@@ -47,6 +48,9 @@ async function main() {
   if (meta.registry.counts.pages !== catalogPages.length) {
     problems.push("counts.pages does not match the manifest");
   }
+  if (meta.registry.counts.templates !== catalogTemplates.length) {
+    problems.push("counts.templates does not match the manifest");
+  }
   if (meta.registry.counts.shared !== shared.length) {
     problems.push("counts.shared does not match the manifest");
   }
@@ -57,6 +61,7 @@ async function main() {
     ...catalogComponents,
     ...catalogBlocks,
     ...catalogPages,
+    ...catalogTemplates,
     ...shared,
   ]) {
     if (!emitted.has(item.name)) {

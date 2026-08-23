@@ -15,7 +15,8 @@
     "counts": {
       "components": 212,
       "blocks": 132,
-      "pages": 12,
+      "pages": 27,
+      "templates": 6,
       "shared": 6
     }
   },
@@ -21307,6 +21308,951 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/careers-role",
         "bun": "bunx --bun shadcn@latest add @kinetiq/careers-role",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/careers-role.json"
+      }
+    },
+    {
+      "slug": "changelog-timeline",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Changelog Timeline Page",
+      "serial": "KP-013",
+      "tagline": "Ask for the fixes alone.",
+      "description": "The changelog as a running record, filterable by what kind of change you came looking for. Most changelogs bury fixes under features; this one lets a reader ask for fixes alone, which is what someone chasing a bug they reported actually wants — and it means the fixes have to be written well enough to stand on their own.",
+      "categories": [
+        "changelog"
+      ],
+      "keywords": [
+        "changelog",
+        "releases",
+        "timeline",
+        "page"
+      ],
+      "props": [
+        {
+          "name": "releases",
+          "type": "Release[]",
+          "description": "Each release with its tagged lines."
+        }
+      ],
+      "usageNotes": [
+        "Releases with nothing matching the filter drop out entirely, so the page never shows an empty release card.",
+        "Write fixes to stand alone — under a fixes-only filter there is no feature copy to carry them.",
+        "Dates are pre-formatted strings; the page never touches a clock."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/segmented-control.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/changelog-timeline",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/changelog-timeline.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/changelog-timeline",
+        "npm": "npx shadcn@latest add @kinetiq/changelog-timeline",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/changelog-timeline",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/changelog-timeline",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/changelog-timeline.json"
+      }
+    },
+    {
+      "slug": "changelog-release",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Single Release Page",
+      "serial": "KP-014",
+      "tagline": "The migration note goes first.",
+      "description": "One release at length, with breaking changes given their own block at the top rather than a footnote at the bottom, and the fixes listed in full. Release notes that lead with features and bury the migration note are how integrations break quietly on a Tuesday.",
+      "categories": [
+        "changelog"
+      ],
+      "keywords": [
+        "changelog",
+        "release notes",
+        "breaking changes",
+        "page"
+      ],
+      "props": [
+        {
+          "name": "breaking",
+          "type": "BreakingChange[]",
+          "description": "What changed and what the reader must do — rendered at the top."
+        },
+        {
+          "name": "notes / fixes",
+          "type": "ReleaseNote[] · string[]",
+          "description": "The long-form notes and the plain fix list."
+        }
+      ],
+      "usageNotes": [
+        "Breaking changes render before the narrative. A migration note at the foot of a release is one nobody read.",
+        "Every breaking entry needs an action and a date, or it is an announcement rather than a warning.",
+        "List the fixes even when they are embarrassing; that is what makes the feature notes believable."
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/changelog-release",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/changelog-release.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/changelog-release",
+        "npm": "npx shadcn@latest add @kinetiq/changelog-release",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/changelog-release",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/changelog-release",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/changelog-release.json"
+      }
+    },
+    {
+      "slug": "changelog-compare",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Version Compare Page",
+      "serial": "KP-015",
+      "tagline": "See the size of the upgrade first.",
+      "description": "What changed between two versions, laid flat: the subject, what it was, what it is, and whether you have to do anything. Anyone upgrading across several releases has to read every note in between and hold the diff in their head; this page holds it for them, and counts the breaking rows so the size of the job is visible before they start.",
+      "categories": [
+        "changelog"
+      ],
+      "keywords": [
+        "changelog",
+        "compare",
+        "diff",
+        "upgrade",
+        "page"
+      ],
+      "props": [
+        {
+          "name": "rows",
+          "type": "VersionRow[]",
+          "description": "Subject, before, after, and whether it needs action."
+        },
+        {
+          "name": "versions / defaultFrom / defaultTo",
+          "type": "string[] · string",
+          "description": "The selectable versions and the opening pair."
+        }
+      ],
+      "usageNotes": [
+        "Picking a target at or behind the source is answered explicitly rather than silently showing an identical diff.",
+        "The breaking count is derived from the rows — it cannot disagree with the table.",
+        "Never remove a shape without a release that carries both; say so on the page."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/changelog-compare",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/changelog-compare.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/changelog-compare",
+        "npm": "npx shadcn@latest add @kinetiq/changelog-compare",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/changelog-compare",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/changelog-compare",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/changelog-compare.json"
+      }
+    },
+    {
+      "slug": "blog-index",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Blog Index Page",
+      "serial": "KP-016",
+      "tagline": "Lead on the post-mortem.",
+      "description": "The writing index, led by the post the company would rather not lead with. A blog that opens on a launch announcement tells the reader it exists to market; one that opens on a post-mortem tells them it exists to be read, and the second is the only reason anyone subscribes.",
+      "categories": [
+        "blog"
+      ],
+      "keywords": [
+        "blog",
+        "writing",
+        "index",
+        "page"
+      ],
+      "props": [
+        {
+          "name": "posts",
+          "type": "Post[]",
+          "description": "Mark exactly one as `lead`; it is set larger at the top."
+        }
+      ],
+      "usageNotes": [
+        "Lead on something that cost you something. An index that opens on a launch reads as a press page.",
+        "The signup at the foot is newsletter-back-issues, so the archive is proof rather than a promise.",
+        "Read times are part of the offer; publish them honestly."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/newsletter-back-issues.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/blog-index",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/blog-index.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/blog-index",
+        "npm": "npx shadcn@latest add @kinetiq/blog-index",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/blog-index",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/blog-index",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/blog-index.json"
+      }
+    },
+    {
+      "slug": "blog-post",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Blog Post Page",
+      "serial": "KP-017",
+      "tagline": "Corrections where the error was read.",
+      "description": "A long-form post with the correction notice at the top rather than appended as a footnote nobody scrolls to. Everything else is deliberately plain — the reading measure, the pull quote on the balance instrument, and nothing that moves while someone is trying to read.",
+      "categories": [
+        "blog"
+      ],
+      "keywords": [
+        "blog",
+        "post",
+        "article",
+        "long form",
+        "page"
+      ],
+      "props": [
+        {
+          "name": "blocks",
+          "type": "PostBlock[]",
+          "description": "Paragraphs, headings, lists, and quotes in reading order."
+        },
+        {
+          "name": "correction",
+          "type": "string",
+          "description": "Rendered at the top, not the foot."
+        }
+      ],
+      "usageNotes": [
+        "A correction at the foot is only seen by people who already finished — which is not who it is for.",
+        "Pull quotes belong to balance-quote; never re-set one as styled text.",
+        "Nothing animates during reading on purpose. The cascade belongs on index pages, not inside prose."
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/balance-quote.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/blog-post",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/blog-post.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/blog-post",
+        "npm": "npx shadcn@latest add @kinetiq/blog-post",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/blog-post",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/blog-post",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/blog-post.json"
+      }
+    },
+    {
+      "slug": "blog-archive",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Blog Archive Page",
+      "serial": "KP-018",
+      "tagline": "A finding tool, not a showcase.",
+      "description": "The whole archive, filterable by topic and grouped by year — the page for someone who has decided this is worth reading properly and wants the post they half-remember. Deliberately dense and deliberately still: an archive is a finding tool, and every animation between a reader and a list of titles is a tax on that.",
+      "categories": [
+        "blog"
+      ],
+      "keywords": [
+        "blog",
+        "archive",
+        "index",
+        "filter",
+        "page"
+      ],
+      "props": [
+        {
+          "name": "entries",
+          "type": "ArchiveEntry[]",
+          "description": "Every post with its year and topic."
+        }
+      ],
+      "usageNotes": [
+        "Topics and years are both derived from the entries, so filtering never strands an empty year heading.",
+        "Rows only reflow on layout — an archive that animates its list fights the person scanning it.",
+        "Keep everything. An archive with posts quietly removed is not an archive."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/segmented-control.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/blog-archive",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/blog-archive.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/blog-archive",
+        "npm": "npx shadcn@latest add @kinetiq/blog-archive",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/blog-archive",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/blog-archive",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/blog-archive.json"
+      }
+    },
+    {
+      "slug": "error-not-found",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Not Found Page",
+      "serial": "KP-019",
+      "tagline": "Three destinations beat one front door.",
+      "description": "The 404, built on the library's own radar sweep, with somewhere to go underneath it. A 404 offering only a way home sends people to the top of a site they were already deep inside — the three most likely destinations are worth more than the front door.",
+      "categories": [
+        "errors"
+      ],
+      "keywords": [
+        "404",
+        "not found",
+        "error",
+        "page"
+      ],
+      "usageNotes": [
+        "The sweep belongs to the not-found block; this page contributes the destinations under it.",
+        "Name real destinations. Generic links are the same dead end with more words."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/not-found.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/error-not-found",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/error-not-found.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/error-not-found",
+        "npm": "npx shadcn@latest add @kinetiq/error-not-found",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/error-not-found",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/error-not-found",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/error-not-found.json"
+      }
+    },
+    {
+      "slug": "error-server-fault",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Server Fault Page",
+      "serial": "KP-020",
+      "tagline": "Give them something to quote.",
+      "description": "The 500, written as a report rather than an apology: a reference code the reader can quote, a plain statement that we already know, and a link to the status page. A page that only says something went wrong tells the reader nothing they did not know and leaves them nothing to say when they write in.",
+      "categories": [
+        "errors"
+      ],
+      "keywords": [
+        "500",
+        "error",
+        "server",
+        "page"
+      ],
+      "usageNotes": [
+        "The reference is the point — without one, support conversations start with which page and roughly when.",
+        "Say you already know. Most people write in only because they assume nobody noticed.",
+        "Never claim data was lost or saved unless it is true; say only what you actually know."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/error-server-fault",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/error-server-fault.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/error-server-fault",
+        "npm": "npx shadcn@latest add @kinetiq/error-server-fault",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/error-server-fault",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/error-server-fault",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/error-server-fault.json"
+      }
+    },
+    {
+      "slug": "error-maintenance",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Maintenance Page",
+      "serial": "KP-021",
+      "tagline": "Planned, so it can promise an end.",
+      "description": "The maintenance page, which differs from an outage page in the one way that matters: this was planned, so it can say when it ends and what still works. No countdown — a ticking clock turns a scheduled ninety minutes into an emergency in the reader's head.",
+      "categories": [
+        "errors"
+      ],
+      "keywords": [
+        "maintenance",
+        "downtime",
+        "planned",
+        "page"
+      ],
+      "usageNotes": [
+        "Deliberately no countdown. A clock ticking down reads as an emergency rather than a schedule.",
+        "The still-working list is what decides whether anyone has to change their day.",
+        "The window is a pre-formatted string in one stated zone; the page never reads a clock."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/error-maintenance",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/error-maintenance.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/error-maintenance",
+        "npm": "npx shadcn@latest add @kinetiq/error-maintenance",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/error-maintenance",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/error-maintenance",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/error-maintenance.json"
+      }
+    },
+    {
+      "slug": "error-offline",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Offline Page",
+      "serial": "KP-022",
+      "tagline": "Lead with what they still have.",
+      "description": "Offline, told from the yard's point of view: a shed with no signal is a normal Tuesday, not an error. So this page leads with what is still readable from the cache and what is being held to send later, rather than with an apology for physics.",
+      "categories": [
+        "errors"
+      ],
+      "keywords": [
+        "offline",
+        "network",
+        "cache",
+        "page"
+      ],
+      "usageNotes": [
+        "Lead with the cache, not the apology. Losing signal is normal where this product lives.",
+        "Show the queue. People will not trust an offline write they cannot see.",
+        "Cache timestamps are pre-formatted; the page never reads a clock."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/error-offline",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/error-offline.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/error-offline",
+        "npm": "npx shadcn@latest add @kinetiq/error-offline",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/error-offline",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/error-offline",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/error-offline.json"
+      }
+    },
+    {
+      "slug": "error-rate-limited",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Rate Limited Page",
+      "serial": "KP-023",
+      "tagline": "Stop them seeing it twice.",
+      "description": "The 429, written as a diagnosis: which limit was hit, how far over, when it resets, and — the part that actually helps — the three things that stop it happening again. A rate limit page that only says too many requests is a page the same caller will see again in sixty seconds.",
+      "categories": [
+        "errors"
+      ],
+      "keywords": [
+        "429",
+        "rate limit",
+        "api",
+        "page"
+      ],
+      "usageNotes": [
+        "The remedies are the page. Without them the same caller returns in a minute.",
+        "State the exact limit and its scope — per token, per minute, which API.",
+        "Say plainly that nothing is penalised; most people read a 429 as a ban."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/error-rate-limited",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/error-rate-limited.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/error-rate-limited",
+        "npm": "npx shadcn@latest add @kinetiq/error-rate-limited",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/error-rate-limited",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/error-rate-limited",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/error-rate-limited.json"
+      }
+    },
+    {
+      "slug": "error-link-expired",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Expired Link Page",
+      "serial": "KP-024",
+      "tagline": "The link did its job.",
+      "description": "An expired one-time link, which is a success rather than a failure and should read like one: the link did exactly what it was built to do. The page says which kind of link it was, why it expires, and offers a new one in a single press.",
+      "categories": [
+        "errors"
+      ],
+      "keywords": [
+        "expired",
+        "token",
+        "magic link",
+        "page"
+      ],
+      "usageNotes": [
+        "Offer the replacement in one press. The reader is holding a dead link and wants another, not an explanation of tokens.",
+        "Explain the expiry — it turns a frustration into a reassurance about their account.",
+        "Name which kind of link it was, or the reader cannot tell what to ask for again."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/error-link-expired",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/error-link-expired.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/error-link-expired",
+        "npm": "npx shadcn@latest add @kinetiq/error-link-expired",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/error-link-expired",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/error-link-expired",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/error-link-expired.json"
+      }
+    },
+    {
+      "slug": "error-resource-deleted",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Deleted Resource Page",
+      "serial": "KP-025",
+      "tagline": "Not lost — removed, by someone, at a time.",
+      "description": "Gone, but accounted for: what it was, who removed it, when, and whether it can still come back. A deleted resource that 404s silently makes people think the system lost it — naming the person and the moment turns a suspected bug into a decision someone made.",
+      "categories": [
+        "errors"
+      ],
+      "keywords": [
+        "deleted",
+        "removed",
+        "restore",
+        "page"
+      ],
+      "usageNotes": [
+        "Name who and when. Anonymous deletion reads as data loss and generates a support ticket.",
+        "State the restore window explicitly, including what survives after it closes.",
+        "Only offer restore when it will actually work; a dead button here is worse than none."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/error-resource-deleted",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/error-resource-deleted.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/error-resource-deleted",
+        "npm": "npx shadcn@latest add @kinetiq/error-resource-deleted",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/error-resource-deleted",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/error-resource-deleted",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/error-resource-deleted.json"
+      }
+    },
+    {
+      "slug": "error-browser-unsupported",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Unsupported Browser Page",
+      "serial": "KP-026",
+      "tagline": "Name the capability, not the browser.",
+      "description": "The unsupported-browser page, which names the missing capability rather than the browser. Gate screens that sniff user agents are wrong within a year and insult anyone on a browser they did not choose — a yard PC is usually locked by an IT policy the reader cannot change.",
+      "categories": [
+        "errors"
+      ],
+      "keywords": [
+        "browser",
+        "unsupported",
+        "compatibility",
+        "page"
+      ],
+      "usageNotes": [
+        "Name the missing capability. User-agent sniffing is wrong within a year and blames the reader for an IT policy.",
+        "Always offer a fallback that works anywhere — a printable view, a plain list, something.",
+        "Version floors go beside each browser, or the list is not actionable."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/error-browser-unsupported",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/error-browser-unsupported.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/error-browser-unsupported",
+        "npm": "npx shadcn@latest add @kinetiq/error-browser-unsupported",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/error-browser-unsupported",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/error-browser-unsupported",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/error-browser-unsupported.json"
+      }
+    },
+    {
+      "slug": "error-region-blocked",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Region Blocked Page",
+      "serial": "KP-027",
+      "tagline": "Show the detection, and how to correct it.",
+      "description": "Region-blocked, with the two things such pages almost always omit: what region the request appeared to come from, and what to do when that is wrong. Geolocation is routinely mistaken — a VPN, a satellite link, a ship — and a page with no correction path strands the people most likely to be misidentified.",
+      "categories": [
+        "errors"
+      ],
+      "keywords": [
+        "region",
+        "geo",
+        "blocked",
+        "compliance",
+        "page"
+      ],
+      "usageNotes": [
+        "Show what was detected. Without it a false positive is unarguable.",
+        "The correction path is the important half — geolocation is wrong often enough to strand real customers.",
+        "State the reason as policy or law; unavailable in your region alone reads as arbitrary."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/error-region-blocked",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/error-region-blocked.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/error-region-blocked",
+        "npm": "npx shadcn@latest add @kinetiq/error-region-blocked",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/error-region-blocked",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/error-region-blocked",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/error-region-blocked.json"
+      }
+    },
+    {
+      "slug": "template-instrument",
+      "kind": "template",
+      "type": "registry:page",
+      "title": "Instrument Template",
+      "serial": "KT-001",
+      "tagline": "Eleven sections, one argument.",
+      "description": "The full argument, top to bottom, for a product that has to be believed before it is bought: claim, proof of who runs it, what it does, how a day goes, the same morning before and after, the numbers, one customer at length, price, the four honest questions, and two doors out.",
+      "categories": [
+        "saas"
+      ],
+      "keywords": [
+        "template",
+        "landing page",
+        "saas",
+        "marketing",
+        "site"
+      ],
+      "usageNotes": [
+        "Eleven shipped sections and no page-local markup — replace the narrative through each section's typed props, not the layout.",
+        "The order is the argument: claim, proof, mechanism, evidence, price, objections, close. Reordering weakens it.",
+        "Drop sections rather than adding markup. A page that needs new markup needs a new section."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-split-desk.json",
+        "https://kinetiqui.vercel.app/r/hero-split-ledger.json",
+        "https://kinetiqui.vercel.app/r/logo-segment-shelf.json",
+        "https://kinetiqui.vercel.app/r/features-bento-field.json",
+        "https://kinetiqui.vercel.app/r/how-day-clock.json",
+        "https://kinetiqui.vercel.app/r/usecase-two-mornings.json",
+        "https://kinetiqui.vercel.app/r/stats-signal-band.json",
+        "https://kinetiqui.vercel.app/r/testimonial-case-column.json",
+        "https://kinetiqui.vercel.app/r/pricing-meridian-tiers.json",
+        "https://kinetiqui.vercel.app/r/faq-last-word.json",
+        "https://kinetiqui.vercel.app/r/cta-split-doors.json",
+        "https://kinetiqui.vercel.app/r/footer-terrace.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/templates/template-instrument",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/template-instrument.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/template-instrument",
+        "npm": "npx shadcn@latest add @kinetiq/template-instrument",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/template-instrument",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/template-instrument",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/template-instrument.json"
+      }
+    },
+    {
+      "slug": "template-launch",
+      "kind": "template",
+      "type": "registry:page",
+      "title": "Launch Template",
+      "serial": "KT-002",
+      "tagline": "Short on purpose.",
+      "description": "One announcement, one ask, and as little else as the page can survive on. Deliberately short — for the weeks when there is not much to show, a long page mostly advertises how little there is, and the only conversion that matters is the address.",
+      "categories": [
+        "launch"
+      ],
+      "keywords": [
+        "template",
+        "launch",
+        "waitlist",
+        "landing page",
+        "site"
+      ],
+      "usageNotes": [
+        "Resist lengthening it. Before there is much to show, page length advertises the gap.",
+        "Two asks maximum — the newsletter and the close. A launch page with five conversion points has none.",
+        "The live floor needs real events; seed it with the shape of what actually happens or cut it."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/announce-launch-rail.json",
+        "https://kinetiqui.vercel.app/r/nav-dock-pill.json",
+        "https://kinetiqui.vercel.app/r/hero-launch-beacon.json",
+        "https://kinetiqui.vercel.app/r/features-proof-strip.json",
+        "https://kinetiqui.vercel.app/r/how-plain-steps.json",
+        "https://kinetiqui.vercel.app/r/proof-live-floor.json",
+        "https://kinetiqui.vercel.app/r/newsletter-pressroom.json",
+        "https://kinetiqui.vercel.app/r/cta-launch-window.json",
+        "https://kinetiqui.vercel.app/r/footer-quiet-close.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/templates/template-launch",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/template-launch.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/template-launch",
+        "npm": "npx shadcn@latest add @kinetiq/template-launch",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/template-launch",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/template-launch",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/template-launch.json"
+      }
+    },
+    {
+      "slug": "template-agent",
+      "kind": "template",
+      "type": "registry:page",
+      "title": "Agent Template",
+      "serial": "KT-003",
+      "tagline": "Demonstrated in its own medium.",
+      "description": "For products whose core act is a conversation: the hero is a live composer, how-it-works is a transcript the reader advances, and pricing is metered in work rather than seats. The incident log sits mid-page on purpose — anything acting on a customer's behalf has to answer for acting wrongly.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "template",
+        "agent",
+        "ai",
+        "landing page",
+        "site"
+      ],
+      "usageNotes": [
+        "The hero composer is live — wire it to something real or the page opens on a promise it immediately breaks.",
+        "Keep the incident log above pricing. Burying it is what makes buyers suspicious of the whole category.",
+        "Credits price work; swap to seats only if the product genuinely meters that way."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-glass-rail.json",
+        "https://kinetiqui.vercel.app/r/hero-agent-bench.json",
+        "https://kinetiqui.vercel.app/r/how-exchange-script.json",
+        "https://kinetiqui.vercel.app/r/features-persona-switch.json",
+        "https://kinetiqui.vercel.app/r/usecase-job-stories.json",
+        "https://kinetiqui.vercel.app/r/trust-incident-log.json",
+        "https://kinetiqui.vercel.app/r/pricing-credit-packs.json",
+        "https://kinetiqui.vercel.app/r/faq-counter-desk.json",
+        "https://kinetiqui.vercel.app/r/cta-book-slot.json",
+        "https://kinetiqui.vercel.app/r/footer-drift-mark.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/templates/template-agent",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/template-agent.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/template-agent",
+        "npm": "npx shadcn@latest add @kinetiq/template-agent",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/template-agent",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/template-agent",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/template-agent.json"
+      }
+    },
+    {
+      "slug": "template-studio",
+      "kind": "template",
+      "type": "registry:page",
+      "title": "Studio Template",
+      "serial": "KT-004",
+      "tagline": "The copy gets out of the way.",
+      "description": "Image-first, where the work has to carry the page: a bleeding wall, a contact sheet showing the frames nobody chose, and one written passage in between. On a page selling images, prose competing with the images is prose in the way.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "template",
+        "studio",
+        "portfolio",
+        "gallery",
+        "site"
+      ],
+      "usageNotes": [
+        "Swap every wash for real artwork; the aspect boxes are already sized for it.",
+        "One written passage, about the work rather than the studio. Two is one too many here.",
+        "The contact sheet earns its place by showing rejected frames — filling it with selects makes it a second portfolio."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-atlas-panel.json",
+        "https://kinetiqui.vercel.app/r/hero-gallery-wall.json",
+        "https://kinetiqui.vercel.app/r/gallery-contact-sheet.json",
+        "https://kinetiqui.vercel.app/r/content-margin-notes.json",
+        "https://kinetiqui.vercel.app/r/gallery-cover-shelf.json",
+        "https://kinetiqui.vercel.app/r/testimonial-two-dates.json",
+        "https://kinetiqui.vercel.app/r/contact-open-hours.json",
+        "https://kinetiqui.vercel.app/r/footer-quiet-close.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/templates/template-studio",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/template-studio.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/template-studio",
+        "npm": "npx shadcn@latest add @kinetiq/template-studio",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/template-studio",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/template-studio",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/template-studio.json"
+      }
+    },
+    {
+      "slug": "template-ledger",
+      "kind": "template",
+      "type": "registry:page",
+      "title": "Ledger Template",
+      "serial": "KT-005",
+      "tagline": "The table on the page actually sorts.",
+      "description": "For instruments rather than apps: the product is shown working — a real sortable grid, a trend per row, standings that re-rank — before it is described. Buyers of data tools have been shown too many screenshots, and the fastest way past that is a page where the table on it actually sorts.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "template",
+        "data",
+        "dashboard",
+        "analytics",
+        "site"
+      ],
+      "usageNotes": [
+        "Feed the grids real-shaped data. A working table with obviously fake rows is worse than a screenshot.",
+        "Two data tables is the ceiling — the ops desk operates, the run history reads a trend, and a third repeats one of them.",
+        "Data residency belongs on this page specifically; it is the question this buyer asks third."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-split-desk.json",
+        "https://kinetiqui.vercel.app/r/hero-signal-ridge.json",
+        "https://kinetiqui.vercel.app/r/logo-receipt-wall.json",
+        "https://kinetiqui.vercel.app/r/datatable-ops-desk.json",
+        "https://kinetiqui.vercel.app/r/datatable-run-history.json",
+        "https://kinetiqui.vercel.app/r/stats-rank-race.json",
+        "https://kinetiqui.vercel.app/r/integrations-two-way.json",
+        "https://kinetiqui.vercel.app/r/trust-data-residency.json",
+        "https://kinetiqui.vercel.app/r/pricing-usage-dial.json",
+        "https://kinetiqui.vercel.app/r/cta-last-objection.json",
+        "https://kinetiqui.vercel.app/r/footer-terrace.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/templates/template-ledger",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/template-ledger.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/template-ledger",
+        "npm": "npx shadcn@latest add @kinetiq/template-ledger",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/template-ledger",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/template-ledger",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/template-ledger.json"
+      }
+    },
+    {
+      "slug": "template-field",
+      "kind": "template",
+      "type": "registry:page",
+      "title": "Field Template",
+      "serial": "KT-006",
+      "tagline": "Everything given away, and the close still lands.",
+      "description": "The honest play, assembled: the price in the first screen, where that money goes in the second, who the product is not for in the third, and the failures published before anyone asks. The argument is cumulative — a page that has already told you the price, the margins, and the outages arrives at the close having earned it.",
+      "categories": [
+        "transparency"
+      ],
+      "keywords": [
+        "template",
+        "transparency",
+        "pricing",
+        "honest",
+        "site"
+      ],
+      "usageNotes": [
+        "Only use it if all of it is true. A transparency page with one evasion on it is worse than a conventional page.",
+        "The order is load-bearing: price, margins, misfits, then failures. Softening any step breaks the cumulative effect.",
+        "Keep the critical mention in proof-unprompted; a curated version of this page persuades nobody."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-glass-rail.json",
+        "https://kinetiqui.vercel.app/r/hero-price-forward.json",
+        "https://kinetiqui.vercel.app/r/pricing-where-it-goes.json",
+        "https://kinetiqui.vercel.app/r/usecase-not-for-you.json",
+        "https://kinetiqui.vercel.app/r/features-quiet-grid.json",
+        "https://kinetiqui.vercel.app/r/content-principles-list.json",
+        "https://kinetiqui.vercel.app/r/trust-incident-log.json",
+        "https://kinetiqui.vercel.app/r/proof-unprompted.json",
+        "https://kinetiqui.vercel.app/r/cta-postscript.json",
+        "https://kinetiqui.vercel.app/r/footer-quiet-close.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/templates/template-field",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/template-field.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/template-field",
+        "npm": "npx shadcn@latest add @kinetiq/template-field",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/template-field",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/template-field",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/template-field.json"
       }
     },
     {

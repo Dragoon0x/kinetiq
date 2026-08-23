@@ -21,7 +21,7 @@ export function ComponentDocPage({
   kind,
 }: {
   item: KinetiqItem;
-  kind: "components" | "blocks" | "pages";
+  kind: "components" | "blocks" | "pages" | "templates";
 }) {
   const Demo = demos[item.name];
   const plateLabel = item.name.replace(/-/g, "/").toUpperCase();
@@ -34,13 +34,16 @@ export function ComponentDocPage({
   // Sections and whole pages both need the frame: the doc column is 768px and
   // breakpoints answer to the window, so a plate can neither seat nor honestly
   // preview anything full-bleed.
-  const framed = kind === "pages" || (kind === "blocks" && isSection(item));
+  const framed =
+    kind === "pages" ||
+    kind === "templates" ||
+    (kind === "blocks" && isSection(item));
   const preview = framed ? (
     <SectionFrame
       serial={serial}
       label={plateLabel}
       slug={item.name}
-      base={kind === "pages" ? "pages" : "blocks"}
+      base={kind === "blocks" ? "blocks" : kind}
     />
   ) : (
     <SpecimenPlate serial={serial} label={plateLabel} minHeight={380}>

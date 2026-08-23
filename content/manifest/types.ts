@@ -62,9 +62,10 @@ const baseKinetiqItemSchema = z.object({
     .object({
       /**
        * Specimen serial, shown in docs, OG, and the registry.
-       * KQ-### components · KB-### blocks and sections · KP-### pages.
+       * KQ-### components · KB-### blocks and sections · KP-### pages ·
+       * KT-### templates.
        */
-      serial: z.string().regex(/^K[QBP]-\d{3}$/),
+      serial: z.string().regex(/^K[QBPT]-\d{3}$/),
     })
     .optional(),
 

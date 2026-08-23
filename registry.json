@@ -9907,6 +9907,633 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "changelog-timeline",
+      "type": "registry:page",
+      "title": "Changelog Timeline Page",
+      "description": "The changelog as a running record, filterable by what kind of change you came looking for. Most changelogs bury fixes under features; this one lets a reader ask for fixes alone, which is what someone chasing a bug they reported actually wants — and it means the fixes have to be written well enough to stand on their own.",
+      "files": [
+        {
+          "path": "registry/pages/changelog-timeline/changelog-timeline.tsx",
+          "type": "registry:page",
+          "target": "app/(marketing)/changelog/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/segmented-control.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "changelog"
+      ],
+      "meta": {
+        "serial": "KP-013"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "changelog-release",
+      "type": "registry:page",
+      "title": "Single Release Page",
+      "description": "One release at length, with breaking changes given their own block at the top rather than a footnote at the bottom, and the fixes listed in full. Release notes that lead with features and bury the migration note are how integrations break quietly on a Tuesday.",
+      "files": [
+        {
+          "path": "registry/pages/changelog-release/changelog-release.tsx",
+          "type": "registry:page",
+          "target": "app/(marketing)/changelog/[version]/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "changelog"
+      ],
+      "meta": {
+        "serial": "KP-014"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "changelog-compare",
+      "type": "registry:page",
+      "title": "Version Compare Page",
+      "description": "What changed between two versions, laid flat: the subject, what it was, what it is, and whether you have to do anything. Anyone upgrading across several releases has to read every note in between and hold the diff in their head; this page holds it for them, and counts the breaking rows so the size of the job is visible before they start.",
+      "files": [
+        {
+          "path": "registry/pages/changelog-compare/changelog-compare.tsx",
+          "type": "registry:page",
+          "target": "app/(marketing)/changelog/compare/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "changelog"
+      ],
+      "meta": {
+        "serial": "KP-015"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "blog-index",
+      "type": "registry:page",
+      "title": "Blog Index Page",
+      "description": "The writing index, led by the post the company would rather not lead with. A blog that opens on a launch announcement tells the reader it exists to market; one that opens on a post-mortem tells them it exists to be read, and the second is the only reason anyone subscribes.",
+      "files": [
+        {
+          "path": "registry/pages/blog-index/blog-index.tsx",
+          "type": "registry:page",
+          "target": "app/(marketing)/blog/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/newsletter-back-issues.json"
+      ],
+      "categories": [
+        "blog"
+      ],
+      "meta": {
+        "serial": "KP-016"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "blog-post",
+      "type": "registry:page",
+      "title": "Blog Post Page",
+      "description": "A long-form post with the correction notice at the top rather than appended as a footnote nobody scrolls to. Everything else is deliberately plain — the reading measure, the pull quote on the balance instrument, and nothing that moves while someone is trying to read.",
+      "files": [
+        {
+          "path": "registry/pages/blog-post/blog-post.tsx",
+          "type": "registry:page",
+          "target": "app/(marketing)/blog/[slug]/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/balance-quote.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "blog"
+      ],
+      "meta": {
+        "serial": "KP-017"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "blog-archive",
+      "type": "registry:page",
+      "title": "Blog Archive Page",
+      "description": "The whole archive, filterable by topic and grouped by year — the page for someone who has decided this is worth reading properly and wants the post they half-remember. Deliberately dense and deliberately still: an archive is a finding tool, and every animation between a reader and a list of titles is a tax on that.",
+      "files": [
+        {
+          "path": "registry/pages/blog-archive/blog-archive.tsx",
+          "type": "registry:page",
+          "target": "app/(marketing)/blog/archive/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/segmented-control.json"
+      ],
+      "categories": [
+        "blog"
+      ],
+      "meta": {
+        "serial": "KP-018"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-not-found",
+      "type": "registry:page",
+      "title": "Not Found Page",
+      "description": "The 404, built on the library's own radar sweep, with somewhere to go underneath it. A 404 offering only a way home sends people to the top of a site they were already deep inside — the three most likely destinations are worth more than the front door.",
+      "files": [
+        {
+          "path": "registry/pages/error-not-found/error-not-found.tsx",
+          "type": "registry:page",
+          "target": "app/not-found.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/not-found.json"
+      ],
+      "categories": [
+        "errors"
+      ],
+      "meta": {
+        "serial": "KP-019"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-server-fault",
+      "type": "registry:page",
+      "title": "Server Fault Page",
+      "description": "The 500, written as a report rather than an apology: a reference code the reader can quote, a plain statement that we already know, and a link to the status page. A page that only says something went wrong tells the reader nothing they did not know and leaves them nothing to say when they write in.",
+      "files": [
+        {
+          "path": "registry/pages/error-server-fault/error-server-fault.tsx",
+          "type": "registry:page",
+          "target": "app/(errors)/500/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "errors"
+      ],
+      "meta": {
+        "serial": "KP-020"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-maintenance",
+      "type": "registry:page",
+      "title": "Maintenance Page",
+      "description": "The maintenance page, which differs from an outage page in the one way that matters: this was planned, so it can say when it ends and what still works. No countdown — a ticking clock turns a scheduled ninety minutes into an emergency in the reader's head.",
+      "files": [
+        {
+          "path": "registry/pages/error-maintenance/error-maintenance.tsx",
+          "type": "registry:page",
+          "target": "app/(errors)/maintenance/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "categories": [
+        "errors"
+      ],
+      "meta": {
+        "serial": "KP-021"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-offline",
+      "type": "registry:page",
+      "title": "Offline Page",
+      "description": "Offline, told from the yard's point of view: a shed with no signal is a normal Tuesday, not an error. So this page leads with what is still readable from the cache and what is being held to send later, rather than with an apology for physics.",
+      "files": [
+        {
+          "path": "registry/pages/error-offline/error-offline.tsx",
+          "type": "registry:page",
+          "target": "app/(errors)/offline/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "errors"
+      ],
+      "meta": {
+        "serial": "KP-022"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-rate-limited",
+      "type": "registry:page",
+      "title": "Rate Limited Page",
+      "description": "The 429, written as a diagnosis: which limit was hit, how far over, when it resets, and — the part that actually helps — the three things that stop it happening again. A rate limit page that only says too many requests is a page the same caller will see again in sixty seconds.",
+      "files": [
+        {
+          "path": "registry/pages/error-rate-limited/error-rate-limited.tsx",
+          "type": "registry:page",
+          "target": "app/(errors)/rate-limited/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "errors"
+      ],
+      "meta": {
+        "serial": "KP-023"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-link-expired",
+      "type": "registry:page",
+      "title": "Expired Link Page",
+      "description": "An expired one-time link, which is a success rather than a failure and should read like one: the link did exactly what it was built to do. The page says which kind of link it was, why it expires, and offers a new one in a single press.",
+      "files": [
+        {
+          "path": "registry/pages/error-link-expired/error-link-expired.tsx",
+          "type": "registry:page",
+          "target": "app/(errors)/link-expired/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "errors"
+      ],
+      "meta": {
+        "serial": "KP-024"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-resource-deleted",
+      "type": "registry:page",
+      "title": "Deleted Resource Page",
+      "description": "Gone, but accounted for: what it was, who removed it, when, and whether it can still come back. A deleted resource that 404s silently makes people think the system lost it — naming the person and the moment turns a suspected bug into a decision someone made.",
+      "files": [
+        {
+          "path": "registry/pages/error-resource-deleted/error-resource-deleted.tsx",
+          "type": "registry:page",
+          "target": "app/(errors)/deleted/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "errors"
+      ],
+      "meta": {
+        "serial": "KP-025"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-browser-unsupported",
+      "type": "registry:page",
+      "title": "Unsupported Browser Page",
+      "description": "The unsupported-browser page, which names the missing capability rather than the browser. Gate screens that sniff user agents are wrong within a year and insult anyone on a browser they did not choose — a yard PC is usually locked by an IT policy the reader cannot change.",
+      "files": [
+        {
+          "path": "registry/pages/error-browser-unsupported/error-browser-unsupported.tsx",
+          "type": "registry:page",
+          "target": "app/(errors)/unsupported/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "errors"
+      ],
+      "meta": {
+        "serial": "KP-026"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-region-blocked",
+      "type": "registry:page",
+      "title": "Region Blocked Page",
+      "description": "Region-blocked, with the two things such pages almost always omit: what region the request appeared to come from, and what to do when that is wrong. Geolocation is routinely mistaken — a VPN, a satellite link, a ship — and a page with no correction path strands the people most likely to be misidentified.",
+      "files": [
+        {
+          "path": "registry/pages/error-region-blocked/error-region-blocked.tsx",
+          "type": "registry:page",
+          "target": "app/(errors)/unavailable/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "errors"
+      ],
+      "meta": {
+        "serial": "KP-027"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-instrument",
+      "type": "registry:page",
+      "title": "Instrument Template",
+      "description": "The full argument, top to bottom, for a product that has to be believed before it is bought: claim, proof of who runs it, what it does, how a day goes, the same morning before and after, the numbers, one customer at length, price, the four honest questions, and two doors out.",
+      "files": [
+        {
+          "path": "registry/templates/template-instrument/template-instrument.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-split-desk.json",
+        "https://kinetiqui.vercel.app/r/hero-split-ledger.json",
+        "https://kinetiqui.vercel.app/r/logo-segment-shelf.json",
+        "https://kinetiqui.vercel.app/r/features-bento-field.json",
+        "https://kinetiqui.vercel.app/r/how-day-clock.json",
+        "https://kinetiqui.vercel.app/r/usecase-two-mornings.json",
+        "https://kinetiqui.vercel.app/r/stats-signal-band.json",
+        "https://kinetiqui.vercel.app/r/testimonial-case-column.json",
+        "https://kinetiqui.vercel.app/r/pricing-meridian-tiers.json",
+        "https://kinetiqui.vercel.app/r/faq-last-word.json",
+        "https://kinetiqui.vercel.app/r/cta-split-doors.json",
+        "https://kinetiqui.vercel.app/r/footer-terrace.json"
+      ],
+      "categories": [
+        "saas"
+      ],
+      "meta": {
+        "serial": "KT-001"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-launch",
+      "type": "registry:page",
+      "title": "Launch Template",
+      "description": "One announcement, one ask, and as little else as the page can survive on. Deliberately short — for the weeks when there is not much to show, a long page mostly advertises how little there is, and the only conversion that matters is the address.",
+      "files": [
+        {
+          "path": "registry/templates/template-launch/template-launch.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/announce-launch-rail.json",
+        "https://kinetiqui.vercel.app/r/nav-dock-pill.json",
+        "https://kinetiqui.vercel.app/r/hero-launch-beacon.json",
+        "https://kinetiqui.vercel.app/r/features-proof-strip.json",
+        "https://kinetiqui.vercel.app/r/how-plain-steps.json",
+        "https://kinetiqui.vercel.app/r/proof-live-floor.json",
+        "https://kinetiqui.vercel.app/r/newsletter-pressroom.json",
+        "https://kinetiqui.vercel.app/r/cta-launch-window.json",
+        "https://kinetiqui.vercel.app/r/footer-quiet-close.json"
+      ],
+      "categories": [
+        "launch"
+      ],
+      "meta": {
+        "serial": "KT-002"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-agent",
+      "type": "registry:page",
+      "title": "Agent Template",
+      "description": "For products whose core act is a conversation: the hero is a live composer, how-it-works is a transcript the reader advances, and pricing is metered in work rather than seats. The incident log sits mid-page on purpose — anything acting on a customer's behalf has to answer for acting wrongly.",
+      "files": [
+        {
+          "path": "registry/templates/template-agent/template-agent.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-glass-rail.json",
+        "https://kinetiqui.vercel.app/r/hero-agent-bench.json",
+        "https://kinetiqui.vercel.app/r/how-exchange-script.json",
+        "https://kinetiqui.vercel.app/r/features-persona-switch.json",
+        "https://kinetiqui.vercel.app/r/usecase-job-stories.json",
+        "https://kinetiqui.vercel.app/r/trust-incident-log.json",
+        "https://kinetiqui.vercel.app/r/pricing-credit-packs.json",
+        "https://kinetiqui.vercel.app/r/faq-counter-desk.json",
+        "https://kinetiqui.vercel.app/r/cta-book-slot.json",
+        "https://kinetiqui.vercel.app/r/footer-drift-mark.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KT-003"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-studio",
+      "type": "registry:page",
+      "title": "Studio Template",
+      "description": "Image-first, where the work has to carry the page: a bleeding wall, a contact sheet showing the frames nobody chose, and one written passage in between. On a page selling images, prose competing with the images is prose in the way.",
+      "files": [
+        {
+          "path": "registry/templates/template-studio/template-studio.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-atlas-panel.json",
+        "https://kinetiqui.vercel.app/r/hero-gallery-wall.json",
+        "https://kinetiqui.vercel.app/r/gallery-contact-sheet.json",
+        "https://kinetiqui.vercel.app/r/content-margin-notes.json",
+        "https://kinetiqui.vercel.app/r/gallery-cover-shelf.json",
+        "https://kinetiqui.vercel.app/r/testimonial-two-dates.json",
+        "https://kinetiqui.vercel.app/r/contact-open-hours.json",
+        "https://kinetiqui.vercel.app/r/footer-quiet-close.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KT-004"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-ledger",
+      "type": "registry:page",
+      "title": "Ledger Template",
+      "description": "For instruments rather than apps: the product is shown working — a real sortable grid, a trend per row, standings that re-rank — before it is described. Buyers of data tools have been shown too many screenshots, and the fastest way past that is a page where the table on it actually sorts.",
+      "files": [
+        {
+          "path": "registry/templates/template-ledger/template-ledger.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-split-desk.json",
+        "https://kinetiqui.vercel.app/r/hero-signal-ridge.json",
+        "https://kinetiqui.vercel.app/r/logo-receipt-wall.json",
+        "https://kinetiqui.vercel.app/r/datatable-ops-desk.json",
+        "https://kinetiqui.vercel.app/r/datatable-run-history.json",
+        "https://kinetiqui.vercel.app/r/stats-rank-race.json",
+        "https://kinetiqui.vercel.app/r/integrations-two-way.json",
+        "https://kinetiqui.vercel.app/r/trust-data-residency.json",
+        "https://kinetiqui.vercel.app/r/pricing-usage-dial.json",
+        "https://kinetiqui.vercel.app/r/cta-last-objection.json",
+        "https://kinetiqui.vercel.app/r/footer-terrace.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KT-005"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-field",
+      "type": "registry:page",
+      "title": "Field Template",
+      "description": "The honest play, assembled: the price in the first screen, where that money goes in the second, who the product is not for in the third, and the failures published before anyone asks. The argument is cumulative — a page that has already told you the price, the margins, and the outages arrives at the close having earned it.",
+      "files": [
+        {
+          "path": "registry/templates/template-field/template-field.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-glass-rail.json",
+        "https://kinetiqui.vercel.app/r/hero-price-forward.json",
+        "https://kinetiqui.vercel.app/r/pricing-where-it-goes.json",
+        "https://kinetiqui.vercel.app/r/usecase-not-for-you.json",
+        "https://kinetiqui.vercel.app/r/features-quiet-grid.json",
+        "https://kinetiqui.vercel.app/r/content-principles-list.json",
+        "https://kinetiqui.vercel.app/r/trust-incident-log.json",
+        "https://kinetiqui.vercel.app/r/proof-unprompted.json",
+        "https://kinetiqui.vercel.app/r/cta-postscript.json",
+        "https://kinetiqui.vercel.app/r/footer-quiet-close.json"
+      ],
+      "categories": [
+        "transparency"
+      ],
+      "meta": {
+        "serial": "KT-006"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

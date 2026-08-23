@@ -2,6 +2,7 @@ import { blocks } from "./blocks";
 import { components } from "./components";
 import { pages } from "./pages";
 import { shared } from "./shared";
+import { templates } from "./templates";
 import { kinetiqItemSchema, type KinetiqItem } from "./types";
 
 /** Every distributable item, validated. Throws at import time on a bad entry. */
@@ -9,6 +10,7 @@ export const allItems: KinetiqItem[] = [
   ...components,
   ...blocks,
   ...pages,
+  ...templates,
   ...shared,
 ].map((item) => {
   const parsed = kinetiqItemSchema.safeParse(item);
@@ -37,6 +39,9 @@ export const catalogComponents = components
   .sort(bySerial);
 export const catalogBlocks = blocks.filter((b) => !b.draft).sort(bySerial);
 export const catalogPages = pages.filter((p) => !p.draft).sort(bySerial);
+export const catalogTemplates = templates
+  .filter((t) => !t.draft)
+  .sort(bySerial);
 
 export const itemBySlug = (slug: string): KinetiqItem | undefined =>
   allItems.find((item) => item.name === slug);

@@ -5992,6 +5992,278 @@ Notes:
 - The not-asking list is the differentiator — it is what makes the rest of the page believable.
 - The interview loop uses how-plain-steps, so the hiring process is described in the same shape as the product's.
 
+### Changelog Timeline Page (KP-013) — `changelog-timeline`
+Ask for the fixes alone.
+
+The changelog as a running record, filterable by what kind of change you came looking for. Most changelogs bury fixes under features; this one lets a reader ask for fixes alone, which is what someone chasing a bug they reported actually wants — and it means the fixes have to be written well enough to stand on their own.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/changelog-timeline`
+
+Props:
+- `releases`: Release[] — Each release with its tagged lines.
+
+Notes:
+- Releases with nothing matching the filter drop out entirely, so the page never shows an empty release card.
+- Write fixes to stand alone — under a fixes-only filter there is no feature copy to carry them.
+- Dates are pre-formatted strings; the page never touches a clock.
+
+### Single Release Page (KP-014) — `changelog-release`
+The migration note goes first.
+
+One release at length, with breaking changes given their own block at the top rather than a footnote at the bottom, and the fixes listed in full. Release notes that lead with features and bury the migration note are how integrations break quietly on a Tuesday.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/changelog-release`
+
+Props:
+- `breaking`: BreakingChange[] — What changed and what the reader must do — rendered at the top.
+- `notes / fixes`: ReleaseNote[] · string[] — The long-form notes and the plain fix list.
+
+Notes:
+- Breaking changes render before the narrative. A migration note at the foot of a release is one nobody read.
+- Every breaking entry needs an action and a date, or it is an announcement rather than a warning.
+- List the fixes even when they are embarrassing; that is what makes the feature notes believable.
+
+### Version Compare Page (KP-015) — `changelog-compare`
+See the size of the upgrade first.
+
+What changed between two versions, laid flat: the subject, what it was, what it is, and whether you have to do anything. Anyone upgrading across several releases has to read every note in between and hold the diff in their head; this page holds it for them, and counts the breaking rows so the size of the job is visible before they start.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/changelog-compare`
+
+Props:
+- `rows`: VersionRow[] — Subject, before, after, and whether it needs action.
+- `versions / defaultFrom / defaultTo`: string[] · string — The selectable versions and the opening pair.
+
+Notes:
+- Picking a target at or behind the source is answered explicitly rather than silently showing an identical diff.
+- The breaking count is derived from the rows — it cannot disagree with the table.
+- Never remove a shape without a release that carries both; say so on the page.
+
+### Blog Index Page (KP-016) — `blog-index`
+Lead on the post-mortem.
+
+The writing index, led by the post the company would rather not lead with. A blog that opens on a launch announcement tells the reader it exists to market; one that opens on a post-mortem tells them it exists to be read, and the second is the only reason anyone subscribes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/blog-index`
+
+Props:
+- `posts`: Post[] — Mark exactly one as `lead`; it is set larger at the top.
+
+Notes:
+- Lead on something that cost you something. An index that opens on a launch reads as a press page.
+- The signup at the foot is newsletter-back-issues, so the archive is proof rather than a promise.
+- Read times are part of the offer; publish them honestly.
+
+### Blog Post Page (KP-017) — `blog-post`
+Corrections where the error was read.
+
+A long-form post with the correction notice at the top rather than appended as a footnote nobody scrolls to. Everything else is deliberately plain — the reading measure, the pull quote on the balance instrument, and nothing that moves while someone is trying to read.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/blog-post`
+
+Props:
+- `blocks`: PostBlock[] — Paragraphs, headings, lists, and quotes in reading order.
+- `correction`: string — Rendered at the top, not the foot.
+
+Notes:
+- A correction at the foot is only seen by people who already finished — which is not who it is for.
+- Pull quotes belong to balance-quote; never re-set one as styled text.
+- Nothing animates during reading on purpose. The cascade belongs on index pages, not inside prose.
+
+### Blog Archive Page (KP-018) — `blog-archive`
+A finding tool, not a showcase.
+
+The whole archive, filterable by topic and grouped by year — the page for someone who has decided this is worth reading properly and wants the post they half-remember. Deliberately dense and deliberately still: an archive is a finding tool, and every animation between a reader and a list of titles is a tax on that.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/blog-archive`
+
+Props:
+- `entries`: ArchiveEntry[] — Every post with its year and topic.
+
+Notes:
+- Topics and years are both derived from the entries, so filtering never strands an empty year heading.
+- Rows only reflow on layout — an archive that animates its list fights the person scanning it.
+- Keep everything. An archive with posts quietly removed is not an archive.
+
+### Not Found Page (KP-019) — `error-not-found`
+Three destinations beat one front door.
+
+The 404, built on the library's own radar sweep, with somewhere to go underneath it. A 404 offering only a way home sends people to the top of a site they were already deep inside — the three most likely destinations are worth more than the front door.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-not-found`
+
+Notes:
+- The sweep belongs to the not-found block; this page contributes the destinations under it.
+- Name real destinations. Generic links are the same dead end with more words.
+
+### Server Fault Page (KP-020) — `error-server-fault`
+Give them something to quote.
+
+The 500, written as a report rather than an apology: a reference code the reader can quote, a plain statement that we already know, and a link to the status page. A page that only says something went wrong tells the reader nothing they did not know and leaves them nothing to say when they write in.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-server-fault`
+
+Notes:
+- The reference is the point — without one, support conversations start with which page and roughly when.
+- Say you already know. Most people write in only because they assume nobody noticed.
+- Never claim data was lost or saved unless it is true; say only what you actually know.
+
+### Maintenance Page (KP-021) — `error-maintenance`
+Planned, so it can promise an end.
+
+The maintenance page, which differs from an outage page in the one way that matters: this was planned, so it can say when it ends and what still works. No countdown — a ticking clock turns a scheduled ninety minutes into an emergency in the reader's head.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-maintenance`
+
+Notes:
+- Deliberately no countdown. A clock ticking down reads as an emergency rather than a schedule.
+- The still-working list is what decides whether anyone has to change their day.
+- The window is a pre-formatted string in one stated zone; the page never reads a clock.
+
+### Offline Page (KP-022) — `error-offline`
+Lead with what they still have.
+
+Offline, told from the yard's point of view: a shed with no signal is a normal Tuesday, not an error. So this page leads with what is still readable from the cache and what is being held to send later, rather than with an apology for physics.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-offline`
+
+Notes:
+- Lead with the cache, not the apology. Losing signal is normal where this product lives.
+- Show the queue. People will not trust an offline write they cannot see.
+- Cache timestamps are pre-formatted; the page never reads a clock.
+
+### Rate Limited Page (KP-023) — `error-rate-limited`
+Stop them seeing it twice.
+
+The 429, written as a diagnosis: which limit was hit, how far over, when it resets, and — the part that actually helps — the three things that stop it happening again. A rate limit page that only says too many requests is a page the same caller will see again in sixty seconds.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-rate-limited`
+
+Notes:
+- The remedies are the page. Without them the same caller returns in a minute.
+- State the exact limit and its scope — per token, per minute, which API.
+- Say plainly that nothing is penalised; most people read a 429 as a ban.
+
+### Expired Link Page (KP-024) — `error-link-expired`
+The link did its job.
+
+An expired one-time link, which is a success rather than a failure and should read like one: the link did exactly what it was built to do. The page says which kind of link it was, why it expires, and offers a new one in a single press.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-link-expired`
+
+Notes:
+- Offer the replacement in one press. The reader is holding a dead link and wants another, not an explanation of tokens.
+- Explain the expiry — it turns a frustration into a reassurance about their account.
+- Name which kind of link it was, or the reader cannot tell what to ask for again.
+
+### Deleted Resource Page (KP-025) — `error-resource-deleted`
+Not lost — removed, by someone, at a time.
+
+Gone, but accounted for: what it was, who removed it, when, and whether it can still come back. A deleted resource that 404s silently makes people think the system lost it — naming the person and the moment turns a suspected bug into a decision someone made.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-resource-deleted`
+
+Notes:
+- Name who and when. Anonymous deletion reads as data loss and generates a support ticket.
+- State the restore window explicitly, including what survives after it closes.
+- Only offer restore when it will actually work; a dead button here is worse than none.
+
+### Unsupported Browser Page (KP-026) — `error-browser-unsupported`
+Name the capability, not the browser.
+
+The unsupported-browser page, which names the missing capability rather than the browser. Gate screens that sniff user agents are wrong within a year and insult anyone on a browser they did not choose — a yard PC is usually locked by an IT policy the reader cannot change.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-browser-unsupported`
+
+Notes:
+- Name the missing capability. User-agent sniffing is wrong within a year and blames the reader for an IT policy.
+- Always offer a fallback that works anywhere — a printable view, a plain list, something.
+- Version floors go beside each browser, or the list is not actionable.
+
+### Region Blocked Page (KP-027) — `error-region-blocked`
+Show the detection, and how to correct it.
+
+Region-blocked, with the two things such pages almost always omit: what region the request appeared to come from, and what to do when that is wrong. Geolocation is routinely mistaken — a VPN, a satellite link, a ship — and a page with no correction path strands the people most likely to be misidentified.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-region-blocked`
+
+Notes:
+- Show what was detected. Without it a false positive is unarguable.
+- The correction path is the important half — geolocation is wrong often enough to strand real customers.
+- State the reason as policy or law; unavailable in your region alone reads as arbitrary.
+
+### Instrument Template (KT-001) — `template-instrument`
+Eleven sections, one argument.
+
+The full argument, top to bottom, for a product that has to be believed before it is bought: claim, proof of who runs it, what it does, how a day goes, the same morning before and after, the numbers, one customer at length, price, the four honest questions, and two doors out.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/template-instrument`
+
+Notes:
+- Eleven shipped sections and no page-local markup — replace the narrative through each section's typed props, not the layout.
+- The order is the argument: claim, proof, mechanism, evidence, price, objections, close. Reordering weakens it.
+- Drop sections rather than adding markup. A page that needs new markup needs a new section.
+
+### Launch Template (KT-002) — `template-launch`
+Short on purpose.
+
+One announcement, one ask, and as little else as the page can survive on. Deliberately short — for the weeks when there is not much to show, a long page mostly advertises how little there is, and the only conversion that matters is the address.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/template-launch`
+
+Notes:
+- Resist lengthening it. Before there is much to show, page length advertises the gap.
+- Two asks maximum — the newsletter and the close. A launch page with five conversion points has none.
+- The live floor needs real events; seed it with the shape of what actually happens or cut it.
+
+### Agent Template (KT-003) — `template-agent`
+Demonstrated in its own medium.
+
+For products whose core act is a conversation: the hero is a live composer, how-it-works is a transcript the reader advances, and pricing is metered in work rather than seats. The incident log sits mid-page on purpose — anything acting on a customer's behalf has to answer for acting wrongly.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/template-agent`
+
+Notes:
+- The hero composer is live — wire it to something real or the page opens on a promise it immediately breaks.
+- Keep the incident log above pricing. Burying it is what makes buyers suspicious of the whole category.
+- Credits price work; swap to seats only if the product genuinely meters that way.
+
+### Studio Template (KT-004) — `template-studio`
+The copy gets out of the way.
+
+Image-first, where the work has to carry the page: a bleeding wall, a contact sheet showing the frames nobody chose, and one written passage in between. On a page selling images, prose competing with the images is prose in the way.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/template-studio`
+
+Notes:
+- Swap every wash for real artwork; the aspect boxes are already sized for it.
+- One written passage, about the work rather than the studio. Two is one too many here.
+- The contact sheet earns its place by showing rejected frames — filling it with selects makes it a second portfolio.
+
+### Ledger Template (KT-005) — `template-ledger`
+The table on the page actually sorts.
+
+For instruments rather than apps: the product is shown working — a real sortable grid, a trend per row, standings that re-rank — before it is described. Buyers of data tools have been shown too many screenshots, and the fastest way past that is a page where the table on it actually sorts.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/template-ledger`
+
+Notes:
+- Feed the grids real-shaped data. A working table with obviously fake rows is worse than a screenshot.
+- Two data tables is the ceiling — the ops desk operates, the run history reads a trend, and a third repeats one of them.
+- Data residency belongs on this page specifically; it is the question this buyer asks third.
+
+### Field Template (KT-006) — `template-field`
+Everything given away, and the close still lands.
+
+The honest play, assembled: the price in the first screen, where that money goes in the second, who the product is not for in the third, and the failures published before anyone asks. The argument is cumulative — a page that has already told you the price, the margins, and the outages arrives at the close having earned it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/template-field`
+
+Notes:
+- Only use it if all of it is true. A transparency page with one evasion on it is worse than a conventional page.
+- The order is load-bearing: price, margins, misfits, then failures. Softening any step breaks the cumulative effect.
+- Keep the critical mention in proof-unprompted; a curated version of this page persuades nobody.
+
 ### Utils — `utils`
 cn() — class composition.
 

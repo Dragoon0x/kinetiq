@@ -15,6 +15,7 @@ const NAV = [
   { href: "/spatial", label: "Spatial" },
   { href: "/blocks", label: "Blocks" },
   { href: "/pages", label: "Pages" },
+  { href: "/templates", label: "Templates" },
   { href: "/playground", label: "Playground" },
   { href: "/guides", label: "Guides" },
 ] as const;

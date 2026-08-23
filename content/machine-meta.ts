@@ -12,6 +12,7 @@ import {
   catalogBlocks,
   catalogComponents,
   catalogPages,
+  catalogTemplates,
   shared,
   type KinetiqItem,
 } from "./manifest";
@@ -93,7 +94,7 @@ function expandDeps(item: KinetiqItem): string[] | undefined {
 
 function toMetaItem(
   item: KinetiqItem,
-  kind: "component" | "block" | "page" | "shared",
+  kind: "component" | "block" | "page" | "template" | "shared",
 ) {
   const docsUrl =
     kind === "component"
@@ -102,7 +103,9 @@ function toMetaItem(
         ? `${siteConfig.url}/blocks/${item.name}`
         : kind === "page"
           ? `${siteConfig.url}/pages/${item.name}`
-          : undefined;
+          : kind === "template"
+            ? `${siteConfig.url}/templates/${item.name}`
+            : undefined;
 
   return {
     slug: item.name,
@@ -150,6 +153,7 @@ export function buildMachineMeta(): MachineMeta {
     ...catalogComponents.map((c) => toMetaItem(c, "component")),
     ...catalogBlocks.map((b) => toMetaItem(b, "block")),
     ...catalogPages.map((p) => toMetaItem(p, "page")),
+    ...catalogTemplates.map((t) => toMetaItem(t, "template")),
     ...shared.map((s) => toMetaItem(s, "shared")),
   ];
 
@@ -171,6 +175,7 @@ export function buildMachineMeta(): MachineMeta {
         components: catalogComponents.length,
         blocks: catalogBlocks.length,
         pages: catalogPages.length,
+        templates: catalogTemplates.length,
         shared: shared.length,
       },
     },
@@ -275,7 +280,7 @@ const installSchema = z.object({
 
 const metaItemSchema = z.object({
   slug: z.string(),
-  kind: z.enum(["component", "block", "page", "shared"]),
+  kind: z.enum(["component", "block", "page", "template", "shared"]),
   type: z.string(),
   title: z.string(),
   serial: z.string().optional(),
@@ -319,6 +324,7 @@ export const machineMetaSchema = z.object({
       components: z.number(),
       blocks: z.number(),
       pages: z.number(),
+      templates: z.number(),
       shared: z.number(),
     }),
   }),

@@ -357,6 +357,27 @@ import { CareersRoleDemo } from "@/registry/demos/careers-role.demo";
 import { OnboardingFirstRunDemo } from "@/registry/demos/onboarding-first-run.demo";
 import { OnboardingImportOrStartDemo } from "@/registry/demos/onboarding-import-or-start.demo";
 import { OnboardingInviteCrewDemo } from "@/registry/demos/onboarding-invite-crew.demo";
+import { BlogArchiveDemo } from "@/registry/demos/blog-archive.demo";
+import { BlogIndexDemo } from "@/registry/demos/blog-index.demo";
+import { BlogPostDemo } from "@/registry/demos/blog-post.demo";
+import { ChangelogCompareDemo } from "@/registry/demos/changelog-compare.demo";
+import { ChangelogReleaseDemo } from "@/registry/demos/changelog-release.demo";
+import { ChangelogTimelineDemo } from "@/registry/demos/changelog-timeline.demo";
+import { ErrorBrowserUnsupportedDemo } from "@/registry/demos/error-browser-unsupported.demo";
+import { ErrorLinkExpiredDemo } from "@/registry/demos/error-link-expired.demo";
+import { ErrorMaintenanceDemo } from "@/registry/demos/error-maintenance.demo";
+import { ErrorNotFoundDemo } from "@/registry/demos/error-not-found.demo";
+import { ErrorOfflineDemo } from "@/registry/demos/error-offline.demo";
+import { ErrorRateLimitedDemo } from "@/registry/demos/error-rate-limited.demo";
+import { ErrorRegionBlockedDemo } from "@/registry/demos/error-region-blocked.demo";
+import { ErrorResourceDeletedDemo } from "@/registry/demos/error-resource-deleted.demo";
+import { ErrorServerFaultDemo } from "@/registry/demos/error-server-fault.demo";
+import { TemplateAgentDemo } from "@/registry/demos/template-agent.demo";
+import { TemplateFieldDemo } from "@/registry/demos/template-field.demo";
+import { TemplateInstrumentDemo } from "@/registry/demos/template-instrument.demo";
+import { TemplateLaunchDemo } from "@/registry/demos/template-launch.demo";
+import { TemplateLedgerDemo } from "@/registry/demos/template-ledger.demo";
+import { TemplateStudioDemo } from "@/registry/demos/template-studio.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -714,6 +735,29 @@ export const demos: Record<string, ComponentType> = {
   "about-how-we-work": AboutHowWeWorkDemo,
   "careers-index": CareersIndexDemo,
   "careers-role": CareersRoleDemo,
+  "changelog-timeline": ChangelogTimelineDemo,
+  "changelog-release": ChangelogReleaseDemo,
+  "changelog-compare": ChangelogCompareDemo,
+  "blog-index": BlogIndexDemo,
+  "blog-post": BlogPostDemo,
+  "blog-archive": BlogArchiveDemo,
+  "error-not-found": ErrorNotFoundDemo,
+  "error-server-fault": ErrorServerFaultDemo,
+  "error-maintenance": ErrorMaintenanceDemo,
+  "error-offline": ErrorOfflineDemo,
+  "error-rate-limited": ErrorRateLimitedDemo,
+  "error-link-expired": ErrorLinkExpiredDemo,
+  "error-resource-deleted": ErrorResourceDeletedDemo,
+  "error-browser-unsupported": ErrorBrowserUnsupportedDemo,
+  "error-region-blocked": ErrorRegionBlockedDemo,
+
+  // Templates (KT-###)
+  "template-instrument": TemplateInstrumentDemo,
+  "template-launch": TemplateLaunchDemo,
+  "template-agent": TemplateAgentDemo,
+  "template-studio": TemplateStudioDemo,
+  "template-ledger": TemplateLedgerDemo,
+  "template-field": TemplateFieldDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

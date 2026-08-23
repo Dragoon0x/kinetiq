@@ -12,6 +12,7 @@ const COLUMNS = [
       { href: "/spatial", label: "Spatial wing" },
       { href: "/blocks", label: "Blocks" },
       { href: "/pages", label: "Pages" },
+      { href: "/templates", label: "Templates" },
     ],
   },
   {
