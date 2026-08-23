@@ -8240,6 +8240,126 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "empty-cleared-desk",
+      "type": "registry:block",
+      "title": "Cleared Desk Empty State",
+      "description": "The empty state you earn rather than the one you arrive in: nothing is left, and the section says so calmly — a tally of what it took, the time it cleared, and one quiet way onward. Deliberately no celebration; the reward is the emptiness itself, and a desk that cheers every time it clears stops meaning anything by Thursday.",
+      "files": [
+        {
+          "path": "registry/blocks/empty-cleared-desk/empty-cleared-desk.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "empty-states"
+      ],
+      "meta": {
+        "serial": "KB-270"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stepform-one-question",
+      "type": "registry:block",
+      "title": "One Question Step Form",
+      "description": "The long ask, asked one question at a time: each prompt gets the whole frame, Enter carries you forward, and the rail keeps the length honest so nobody feels ambushed. A single question in flight, the answer held, the way back always open, and a summary of everything before it is sent.",
+      "files": [
+        {
+          "path": "registry/blocks/stepform-one-question/stepform-one-question.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/stage-progress.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/radio-group.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "step-form"
+      ],
+      "meta": {
+        "serial": "KB-271"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "team-open-bench",
+      "type": "registry:block",
+      "title": "Open Bench Team",
+      "description": "The bench as it actually stands: the people on it, and — in the same grid, in the same weight — the seats that are still empty. Most pages split these into a team section and a careers page, which quietly implies the team is finished. Showing both says the truer thing, and gives a small company one section where it needed two.",
+      "files": [
+        {
+          "path": "registry/blocks/team-open-bench/team-open-bench.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "team"
+      ],
+      "meta": {
+        "serial": "KB-272"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "testimonial-case-column",
+      "type": "registry:block",
+      "title": "Case Column Testimonial",
+      "description": "One customer, told at length: a single narrow column of narrative with the measured results pinned in the margin and one line lifted out onto the balance instrument. The wall variants prove breadth by counting voices; this one proves depth by staying with a single yard long enough to say what actually changed, and in what order.",
+      "files": [
+        {
+          "path": "registry/blocks/testimonial-case-column/testimonial-case-column.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/balance-quote.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "testimonials"
+      ],
+      "meta": {
+        "serial": "KB-273"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

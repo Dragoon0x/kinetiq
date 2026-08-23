@@ -3969,4 +3969,203 @@ export const blocks: KinetiqItem[] = [
       "The reader advances; nothing auto-plays.",
     ],
   },
+  {
+    name: "empty-cleared-desk",
+    type: "registry:block",
+    title: "Cleared Desk Empty State",
+    description:
+      "The empty state you earn rather than the one you arrive in: nothing is left, and the section says so calmly — a tally of what it took, the time it cleared, and one quiet way onward. Deliberately no celebration; the reward is the emptiness itself, and a desk that cheers every time it clears stops meaning anything by Thursday.",
+    files: [
+      {
+        path: "registry/blocks/empty-cleared-desk/empty-cleared-desk.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "status-seal",
+      "pressure-button",
+    ],
+    categories: ["empty-states"],
+    meta: { serial: "KB-270" },
+    tagline: "The emptiness is the reward.",
+    keywords: [
+      "empty state",
+      "cleared",
+      "inbox zero",
+      "done",
+      "section",
+      "app",
+    ],
+    props: [
+      {
+        name: "tally",
+        type: "DeskTally[]",
+        description:
+          "What the emptiness cost to earn; numerals roll on readout.",
+      },
+      {
+        name: "clearedAt",
+        type: "string",
+        description: "The stamp on the seal.",
+      },
+      {
+        name: "cta / altLabel",
+        type: "string",
+        description: "One action and one quieter one.",
+      },
+    ],
+    usageNotes: [
+      "No confetti on purpose — pair it with confetti-pop only for a genuinely once-a-quarter clear.",
+      "Keep a zero in the tally when there is one; a cleared desk with nothing waiting is the whole claim.",
+      "Counts roll rather than count up from zero; feed real numbers, not animations.",
+    ],
+  },
+  {
+    name: "stepform-one-question",
+    type: "registry:block",
+    title: "One Question Step Form",
+    description:
+      "The long ask, asked one question at a time: each prompt gets the whole frame, Enter carries you forward, and the rail keeps the length honest so nobody feels ambushed. A single question in flight, the answer held, the way back always open, and a summary of everything before it is sent.",
+    files: [
+      {
+        path: "registry/blocks/stepform-one-question/stepform-one-question.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "stage-progress",
+      "trace-input",
+      "radio-group",
+      "status-seal",
+      "pressure-button",
+    ],
+    categories: ["step-form"],
+    meta: { serial: "KB-271" },
+    tagline: "One question, the whole frame.",
+    keywords: [
+      "step form",
+      "onboarding",
+      "survey",
+      "one at a time",
+      "section",
+      "app",
+    ],
+    props: [
+      {
+        name: "questions",
+        type: "OneQuestion[]",
+        description: "Text or choice prompts; each carries a short rail label.",
+      },
+      {
+        name: "onSubmit",
+        type: "(answers) => void",
+        description: "Fired once, on the review stage.",
+      },
+      {
+        name: "summaryTitle / submitLabel / doneTitle / doneCopy",
+        type: "string",
+        description: "The last two frames.",
+      },
+    ],
+    usageNotes: [
+      "Selection never auto-advances — a form that moves by itself is a form you cannot review.",
+      "Length is delegated to stage-progress; the rail is the promise that this ends.",
+      "Focus follows the frame after the first move, never on first paint — landing on the page must not yank the viewport.",
+      "Questions slide from the direction of travel, so Back reads as going back.",
+    ],
+  },
+  {
+    name: "team-open-bench",
+    type: "registry:block",
+    title: "Open Bench Team",
+    description:
+      "The bench as it actually stands: the people on it, and — in the same grid, in the same weight — the seats that are still empty. Most pages split these into a team section and a careers page, which quietly implies the team is finished. Showing both says the truer thing, and gives a small company one section where it needed two.",
+    files: [
+      {
+        path: "registry/blocks/team-open-bench/team-open-bench.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "status-seal"],
+    categories: ["team"],
+    meta: { serial: "KB-272" },
+    tagline: "The seats you have not filled are also the team.",
+    keywords: ["team", "hiring", "careers", "roles", "section", "marketing"],
+    props: [
+      {
+        name: "people / seats",
+        type: "BenchPerson[] · OpenSeat[]",
+        description: "The bench and the openings, rendered at the same weight.",
+      },
+      {
+        name: "seatsTitle",
+        type: "string",
+        description: "Heading over the openings; the count seals itself.",
+      },
+    ],
+    usageNotes: [
+      "Seats carry a dashed border and a real href — an opening nobody can click is decoration.",
+      "Write forWhom as a person, not a requirements list; the seat is the pitch.",
+      "Initials derive from the name unless you pass them.",
+    ],
+  },
+  {
+    name: "testimonial-case-column",
+    type: "registry:block",
+    title: "Case Column Testimonial",
+    description:
+      "One customer, told at length: a single narrow column of narrative with the measured results pinned in the margin and one line lifted out onto the balance instrument. The wall variants prove breadth by counting voices; this one proves depth by staying with a single yard long enough to say what actually changed, and in what order.",
+    files: [
+      {
+        path: "registry/blocks/testimonial-case-column/testimonial-case-column.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "balance-quote",
+      "readout",
+    ],
+    categories: ["testimonials"],
+    meta: { serial: "KB-273" },
+    tagline: "Depth, where the wall proves breadth.",
+    keywords: [
+      "testimonial",
+      "case study",
+      "customer story",
+      "long form",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "paragraphs / pullQuote / pullAfter",
+        type: "string[] · string · number",
+        description: "The story and where the quote is lifted out of it.",
+      },
+      {
+        name: "results",
+        type: "CaseResult[]",
+        description: "The margin numerals, with optional prefix and suffix.",
+      },
+    ],
+    usageNotes: [
+      "The pull quote belongs to balance-quote — never re-set it as styled text.",
+      "Order the paragraphs by what changed first; a case study that lists benefits is an ad.",
+      "The margin stacks above the story below lg; keep results to three or four.",
+    ],
+  },
 ];

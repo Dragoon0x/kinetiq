@@ -5045,6 +5045,73 @@ Notes:
 - Notes under replies carry the trust: what was read, what was written.
 - The reader advances; nothing auto-plays.
 
+### Cleared Desk Empty State (KB-270) — `empty-cleared-desk`
+The emptiness is the reward.
+
+The empty state you earn rather than the one you arrive in: nothing is left, and the section says so calmly — a tally of what it took, the time it cleared, and one quiet way onward. Deliberately no celebration; the reward is the emptiness itself, and a desk that cheers every time it clears stops meaning anything by Thursday.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/empty-cleared-desk`
+
+Props:
+- `tally`: DeskTally[] — What the emptiness cost to earn; numerals roll on readout.
+- `clearedAt`: string — The stamp on the seal.
+- `cta / altLabel`: string — One action and one quieter one.
+
+Notes:
+- No confetti on purpose — pair it with confetti-pop only for a genuinely once-a-quarter clear.
+- Keep a zero in the tally when there is one; a cleared desk with nothing waiting is the whole claim.
+- Counts roll rather than count up from zero; feed real numbers, not animations.
+
+### One Question Step Form (KB-271) — `stepform-one-question`
+One question, the whole frame.
+
+The long ask, asked one question at a time: each prompt gets the whole frame, Enter carries you forward, and the rail keeps the length honest so nobody feels ambushed. A single question in flight, the answer held, the way back always open, and a summary of everything before it is sent.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stepform-one-question`
+
+Props:
+- `questions`: OneQuestion[] — Text or choice prompts; each carries a short rail label.
+- `onSubmit`: (answers) => void — Fired once, on the review stage.
+- `summaryTitle / submitLabel / doneTitle / doneCopy`: string — The last two frames.
+
+Notes:
+- Selection never auto-advances — a form that moves by itself is a form you cannot review.
+- Length is delegated to stage-progress; the rail is the promise that this ends.
+- Focus follows the frame after the first move, never on first paint — landing on the page must not yank the viewport.
+- Questions slide from the direction of travel, so Back reads as going back.
+
+### Open Bench Team (KB-272) — `team-open-bench`
+The seats you have not filled are also the team.
+
+The bench as it actually stands: the people on it, and — in the same grid, in the same weight — the seats that are still empty. Most pages split these into a team section and a careers page, which quietly implies the team is finished. Showing both says the truer thing, and gives a small company one section where it needed two.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/team-open-bench`
+
+Props:
+- `people / seats`: BenchPerson[] · OpenSeat[] — The bench and the openings, rendered at the same weight.
+- `seatsTitle`: string — Heading over the openings; the count seals itself.
+
+Notes:
+- Seats carry a dashed border and a real href — an opening nobody can click is decoration.
+- Write forWhom as a person, not a requirements list; the seat is the pitch.
+- Initials derive from the name unless you pass them.
+
+### Case Column Testimonial (KB-273) — `testimonial-case-column`
+Depth, where the wall proves breadth.
+
+One customer, told at length: a single narrow column of narrative with the measured results pinned in the margin and one line lifted out onto the balance instrument. The wall variants prove breadth by counting voices; this one proves depth by staying with a single yard long enough to say what actually changed, and in what order.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/testimonial-case-column`
+
+Props:
+- `paragraphs / pullQuote / pullAfter`: string[] · string · number — The story and where the quote is lifted out of it.
+- `results`: CaseResult[] — The margin numerals, with optional prefix and suffix.
+
+Notes:
+- The pull quote belongs to balance-quote — never re-set it as styled text.
+- Order the paragraphs by what changed first; a case study that lists benefits is an ad.
+- The margin stacks above the story below lg; keep results to three or four.
+
 ### Utils — `utils`
 cn() — class composition.
 

@@ -298,6 +298,10 @@ import { HowDayClockDemo } from "@/registry/demos/how-day-clock.demo";
 import { HowExchangeScriptDemo } from "@/registry/demos/how-exchange-script.demo";
 import { UsecaseScaleLadderDemo } from "@/registry/demos/usecase-scale-ladder.demo";
 import { UsecaseTwoMorningsDemo } from "@/registry/demos/usecase-two-mornings.demo";
+import { EmptyClearedDeskDemo } from "@/registry/demos/empty-cleared-desk.demo";
+import { StepformOneQuestionDemo } from "@/registry/demos/stepform-one-question.demo";
+import { TeamOpenBenchDemo } from "@/registry/demos/team-open-bench.demo";
+import { TestimonialCaseColumnDemo } from "@/registry/demos/testimonial-case-column.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -594,6 +598,10 @@ export const demos: Record<string, ComponentType> = {
   "usecase-scale-ladder": UsecaseScaleLadderDemo,
   "how-day-clock": HowDayClockDemo,
   "how-exchange-script": HowExchangeScriptDemo,
+  "empty-cleared-desk": EmptyClearedDeskDemo,
+  "stepform-one-question": StepformOneQuestionDemo,
+  "team-open-bench": TeamOpenBenchDemo,
+  "testimonial-case-column": TestimonialCaseColumnDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,
