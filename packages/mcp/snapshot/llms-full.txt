@@ -4787,6 +4787,70 @@ Notes:
 - The status line names the active cover politely as the shelf turns.
 - Swap the typeset plates for images if you must; the shelf carries either.
 
+### Split Desk Navbar (KB-254) — `nav-split-desk`
+The top row says it is running.
+
+A split desk header: the utility row above — small links, a live status pip, quiet on purpose — and the working row below with the brand, the primary links, and the one action. The two-level shape carries products with an operations story: the top row says the thing is running; the bottom row says what it is.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/nav-split-desk`
+
+Props:
+- `utilityLinks / statusLabel`: DeskLink[] · string — The quiet row — small links and the live pip.
+- `links / activeHref / cta / onCta`: DeskLink[] · string · () => void — The working row.
+
+Notes:
+- The status pip only belongs there if presence is measured; static text is honest, a fake pip is not.
+- The mobile fold merges both rows into one list, utility last.
+- Under reduced motion the fold switches states in place.
+
+### Atlas Panel Navbar (KB-255) — `nav-atlas-panel`
+One trigger, the whole atlas.
+
+A navbar with an atlas: one trigger opens a full-width panel below the bar — grouped destinations with a detail line each, and a closing note for the thing worth announcing. The panel glides open on the same height motion as a fold, closes on escape or any exit, and holds the trigger's expanded state honestly. Small screens get the whole atlas as a plain stacked fold.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/nav-atlas-panel`
+
+Props:
+- `panelLabel / panelGroups / panelNote`: string · groups · note — The atlas — grouped entries with detail lines and a closing note.
+- `links / cta / onCta`: links · string · () => void — Plain links beside the trigger, and the action.
+
+Notes:
+- Escape and any outside press close the atlas; the chevron reports the true state.
+- Every entry carries a detail line — an atlas of bare labels is just a long menu.
+- The same atlas serves both the panel and the mobile fold, so content never forks.
+
+### Ribbon Tabs FAQ (KB-256) — `faq-ribbon-tabs`
+Tabs pick the conversation; drawers answer.
+
+A FAQ on a ribbon: topic tabs ride the gantry — its indicator gliding between groups — and each panel is a drawer accordion. Two instruments, one seam: the tabs answer which conversation you are in; the drawers answer the question. For question sets too wide for one column and too shallow for a sidebar registry.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/faq-ribbon-tabs`
+
+Props:
+- `groups`: RibbonGroup[] — Tab value, label, and the question/answer entries per group.
+- `eyebrow / headline`: string — The centered standfirst.
+
+Notes:
+- Indicator travel belongs to gantry-tabs, disclosure to drawer-accordion — the section is only the seam.
+- Keep two to four groups; more belongs to the sidebar registry variant.
+- Open drawers keep their state per tab visit within the mount.
+
+### Proof Grid Logos (KB-257) — `logo-proof-grid`
+A plaque, not a parade.
+
+The still logo wall: typographic marks in a hairline grid, resolving one after another on the cascade and then holding — for pages where the moving tape would compete with the content around it. Stillness here is a choice, not a fallback; the grid reads like a plaque, and the attestation line says what earned a place on it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/logo-proof-grid`
+
+Props:
+- `marks`: ProofMark[] — Typographic wordmarks; mono switches the stack.
+- `claim / attestation`: string — The line above and the earned-a-place line below.
+
+Notes:
+- Deliberately still after the cascade — the moving rail is the marquee hall's job.
+- The attestation defines membership; a wall without criteria is decoration.
+- Cells share hairlines through a single bordered grid, two across on small screens.
+
 ### Utils — `utils`
 cn() — class composition.
 

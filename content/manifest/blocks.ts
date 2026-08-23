@@ -3239,4 +3239,188 @@ export const blocks: KinetiqItem[] = [
       "Swap the typeset plates for images if you must; the shelf carries either.",
     ],
   },
+  {
+    name: "nav-split-desk",
+    type: "registry:block",
+    title: "Split Desk Navbar",
+    description:
+      "A split desk header: the utility row above — small links, a live status pip, quiet on purpose — and the working row below with the brand, the primary links, and the one action. The two-level shape carries products with an operations story: the top row says the thing is running; the bottom row says what it is.",
+    files: [
+      {
+        path: "registry/blocks/nav-split-desk/nav-split-desk.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "status-pip",
+      "pressure-button",
+    ],
+    categories: ["navbar"],
+    meta: { serial: "KB-254" },
+    tagline: "The top row says it is running.",
+    keywords: [
+      "navbar",
+      "header",
+      "two-level",
+      "status",
+      "section",
+      "enterprise",
+    ],
+    props: [
+      {
+        name: "utilityLinks / statusLabel",
+        type: "DeskLink[] · string",
+        description: "The quiet row — small links and the live pip.",
+      },
+      {
+        name: "links / activeHref / cta / onCta",
+        type: "DeskLink[] · string · () => void",
+        description: "The working row.",
+      },
+    ],
+    usageNotes: [
+      "The status pip only belongs there if presence is measured; static text is honest, a fake pip is not.",
+      "The mobile fold merges both rows into one list, utility last.",
+      "Under reduced motion the fold switches states in place.",
+    ],
+  },
+  {
+    name: "nav-atlas-panel",
+    type: "registry:block",
+    title: "Atlas Panel Navbar",
+    description:
+      "A navbar with an atlas: one trigger opens a full-width panel below the bar — grouped destinations with a detail line each, and a closing note for the thing worth announcing. The panel glides open on the same height motion as a fold, closes on escape or any exit, and holds the trigger's expanded state honestly. Small screens get the whole atlas as a plain stacked fold.",
+    files: [
+      {
+        path: "registry/blocks/nav-atlas-panel/nav-atlas-panel.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "pressure-button",
+    ],
+    categories: ["navbar"],
+    meta: { serial: "KB-255" },
+    tagline: "One trigger, the whole atlas.",
+    keywords: [
+      "navbar",
+      "mega menu",
+      "panel",
+      "navigation",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "panelLabel / panelGroups / panelNote",
+        type: "string · groups · note",
+        description:
+          "The atlas — grouped entries with detail lines and a closing note.",
+      },
+      {
+        name: "links / cta / onCta",
+        type: "links · string · () => void",
+        description: "Plain links beside the trigger, and the action.",
+      },
+    ],
+    usageNotes: [
+      "Escape and any outside press close the atlas; the chevron reports the true state.",
+      "Every entry carries a detail line — an atlas of bare labels is just a long menu.",
+      "The same atlas serves both the panel and the mobile fold, so content never forks.",
+    ],
+  },
+  {
+    name: "faq-ribbon-tabs",
+    type: "registry:block",
+    title: "Ribbon Tabs FAQ",
+    description:
+      "A FAQ on a ribbon: topic tabs ride the gantry — its indicator gliding between groups — and each panel is a drawer accordion. Two instruments, one seam: the tabs answer which conversation you are in; the drawers answer the question. For question sets too wide for one column and too shallow for a sidebar registry.",
+    files: [
+      {
+        path: "registry/blocks/faq-ribbon-tabs/faq-ribbon-tabs.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "gantry-tabs",
+      "drawer-accordion",
+    ],
+    categories: ["faq"],
+    meta: { serial: "KB-256" },
+    tagline: "Tabs pick the conversation; drawers answer.",
+    keywords: ["faq", "tabs", "accordion", "topics", "section", "marketing"],
+    props: [
+      {
+        name: "groups",
+        type: "RibbonGroup[]",
+        description:
+          "Tab value, label, and the question/answer entries per group.",
+      },
+      {
+        name: "eyebrow / headline",
+        type: "string",
+        description: "The centered standfirst.",
+      },
+    ],
+    usageNotes: [
+      "Indicator travel belongs to gantry-tabs, disclosure to drawer-accordion — the section is only the seam.",
+      "Keep two to four groups; more belongs to the sidebar registry variant.",
+      "Open drawers keep their state per tab visit within the mount.",
+    ],
+  },
+  {
+    name: "logo-proof-grid",
+    type: "registry:block",
+    title: "Proof Grid Logos",
+    description:
+      "The still logo wall: typographic marks in a hairline grid, resolving one after another on the cascade and then holding — for pages where the moving tape would compete with the content around it. Stillness here is a choice, not a fallback; the grid reads like a plaque, and the attestation line says what earned a place on it.",
+    files: [
+      {
+        path: "registry/blocks/logo-proof-grid/logo-proof-grid.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["logo-cloud"],
+    meta: { serial: "KB-257" },
+    tagline: "A plaque, not a parade.",
+    keywords: [
+      "logos",
+      "grid",
+      "static",
+      "social proof",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "marks",
+        type: "ProofMark[]",
+        description: "Typographic wordmarks; mono switches the stack.",
+      },
+      {
+        name: "claim / attestation",
+        type: "string",
+        description: "The line above and the earned-a-place line below.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately still after the cascade — the moving rail is the marquee hall's job.",
+      "The attestation defines membership; a wall without criteria is decoration.",
+      "Cells share hairlines through a single bordered grid, two across on small screens.",
+    ],
+  },
 ];

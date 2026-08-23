@@ -282,6 +282,10 @@ import { ContactDirectLinesDemo } from "@/registry/demos/contact-direct-lines.de
 import { FooterQuietCloseDemo } from "@/registry/demos/footer-quiet-close.demo";
 import { GalleryCoverShelfDemo } from "@/registry/demos/gallery-cover-shelf.demo";
 import { NewsletterLedgerNoteDemo } from "@/registry/demos/newsletter-ledger-note.demo";
+import { FaqRibbonTabsDemo } from "@/registry/demos/faq-ribbon-tabs.demo";
+import { LogoProofGridDemo } from "@/registry/demos/logo-proof-grid.demo";
+import { NavAtlasPanelDemo } from "@/registry/demos/nav-atlas-panel.demo";
+import { NavSplitDeskDemo } from "@/registry/demos/nav-split-desk.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -562,6 +566,10 @@ export const demos: Record<string, ComponentType> = {
   "newsletter-ledger-note": NewsletterLedgerNoteDemo,
   "contact-direct-lines": ContactDirectLinesDemo,
   "gallery-cover-shelf": GalleryCoverShelfDemo,
+  "nav-split-desk": NavSplitDeskDemo,
+  "nav-atlas-panel": NavAtlasPanelDemo,
+  "faq-ribbon-tabs": FaqRibbonTabsDemo,
+  "logo-proof-grid": LogoProofGridDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,
