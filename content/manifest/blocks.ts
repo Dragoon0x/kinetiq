@@ -4645,4 +4645,263 @@ export const blocks: KinetiqItem[] = [
       "The control keeps its own scroll rail so long labels never widen the page at 360.",
     ],
   },
+  {
+    name: "pricing-credit-packs",
+    type: "registry:block",
+    title: "Credit Packs Pricing",
+    description:
+      "Prepaid credits, with the per-credit rate computed rather than claimed: every pack prints what it actually works out to, so the discount is checkable instead of asserted. The seat counter prices people and the usage dial prices continuous volume — this is for products metered in discrete work.",
+    files: [
+      {
+        path: "registry/blocks/pricing-credit-packs/pricing-credit-packs.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "status-seal",
+      "pressure-button",
+    ],
+    categories: ["pricing"],
+    meta: { serial: "KB-284" },
+    tagline: "The discount is checkable, not asserted.",
+    keywords: [
+      "pricing",
+      "credits",
+      "prepaid",
+      "packs",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "packs",
+        type: "CreditPack[]",
+        description:
+          "Credits and price per pack; the rate is derived, never authored.",
+      },
+      {
+        name: "unitLine / terms",
+        type: "string · string[]",
+        description: "What a credit buys, and what makes prepaid fair.",
+      },
+    ],
+    usageNotes: [
+      "Never author the per-credit rate — it is computed, so a pack cannot quietly disagree with its own arithmetic.",
+      "Say what one credit buys in the same breath, or the numbers mean nothing.",
+      "Expiry is the whole trust question for prepaid: answer it in the terms row.",
+    ],
+  },
+  {
+    name: "pricing-where-it-goes",
+    type: "registry:block",
+    title: "Where It Goes Pricing",
+    description:
+      "Not a plan chooser — a justification: where the price actually goes, one bar per line, adding to the whole. A page that only states a number invites the reader to guess what it pays for, and buyers who feel overcharged usually just mean uninformed.",
+    files: [
+      {
+        path: "registry/blocks/pricing-where-it-goes/pricing-where-it-goes.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["pricing"],
+    meta: { serial: "KB-285" },
+    tagline: "Show the split, don't defend the number.",
+    keywords: [
+      "pricing",
+      "transparency",
+      "breakdown",
+      "trust",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "slices",
+        type: "CostSlice[]",
+        description: "Each line's declared share and what it covers.",
+      },
+      {
+        name: "price / period",
+        type: "number · string",
+        description: "The number being accounted for.",
+      },
+    ],
+    usageNotes: [
+      "Shares are declared once; bar width and printed percentage both derive from them, so the section cannot disagree with itself.",
+      "Pair it with a pricing section that actually sells — this one explains, it does not close.",
+      "Own the rounding in the footnote rather than fudging the shares to hit a hundred.",
+    ],
+  },
+  {
+    name: "cta-book-slot",
+    type: "registry:block",
+    title: "Book a Slot CTA",
+    description:
+      'The close as a specific time: real slots on real days, taken ones visibly spent, and the promise of what the half hour actually contains printed beside them. A "book a demo" button asks the visitor to start a negotiation; a grid of times asks them to pick one, which is a far smaller thing to agree to.',
+    files: [
+      {
+        path: "registry/blocks/cta-book-slot/cta-book-slot.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "status-seal",
+      "pressure-button",
+    ],
+    categories: ["cta"],
+    meta: { serial: "KB-286" },
+    tagline: "Picking a time is smaller than starting a negotiation.",
+    keywords: ["cta", "booking", "demo", "calendar", "section", "marketing"],
+    props: [
+      {
+        name: "days",
+        type: "BookDay[]",
+        description:
+          "Pre-formatted day labels and their slots; taken ones strike through.",
+      },
+      {
+        name: "promise",
+        type: "string[]",
+        description: "What the half hour contains — the reason to pick at all.",
+      },
+    ],
+    usageNotes: [
+      "Labels are pre-formatted strings on purpose: the section never touches a clock, so it can never disagree with the server about today.",
+      "Leave some slots taken. A grid where everything is free reads as a grid nobody booked.",
+      "The promise list does the persuading; the times only lower the cost of saying yes.",
+    ],
+  },
+  {
+    name: "cta-last-objection",
+    type: "registry:block",
+    title: "Last Objection CTA",
+    description:
+      "The close that names the reason the reader has not acted, and answers it in their own words. By this point the argument is made and the only thing left is doubt — so the section says the doubts out loud, including the one about leaving. Answering the exit question honestly is what makes the other answers believable.",
+    files: [
+      {
+        path: "registry/blocks/cta-last-objection/cta-last-objection.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "pressure-button",
+    ],
+    categories: ["cta"],
+    meta: { serial: "KB-287" },
+    tagline: "Say the doubt out loud, then answer it.",
+    keywords: ["cta", "objections", "doubts", "close", "section", "marketing"],
+    props: [
+      {
+        name: "objections",
+        type: "Objection[]",
+        description: "The doubt in the reader's voice, and the answer.",
+      },
+      {
+        name: "cta / altLabel",
+        type: "string",
+        description: "The action and the softer path.",
+      },
+    ],
+    usageNotes: [
+      "Write doubts in the reader's voice, not a strawman you enjoy knocking down.",
+      "Always include the exit question; it is what makes the other three credible.",
+      "Four is the ceiling — past that it reads as a page arguing with itself.",
+    ],
+  },
+  {
+    name: "stats-rank-race",
+    type: "registry:block",
+    title: "Rank Race Stats",
+    description:
+      'Standings that re-rank in front of you: pick a year and the bars re-order themselves, so the story is the movement rather than the values. The band and the dial both answer "how much"; this one answers "who overtook whom", which is the only question a ranked list is actually good at.',
+    files: [
+      {
+        path: "registry/blocks/stats-rank-race/stats-rank-race.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "bar-race", "segmented-control"],
+    categories: ["stats"],
+    meta: { serial: "KB-288" },
+    tagline: "Who overtook whom.",
+    keywords: ["stats", "ranking", "race", "over time", "section", "marketing"],
+    props: [
+      {
+        name: "periods",
+        type: "RankPeriod[]",
+        description:
+          "Each period's standings and the line saying what changed.",
+      },
+      {
+        name: "unit",
+        type: "string",
+        description: "Trailing unit on each bar's readout.",
+      },
+    ],
+    usageNotes: [
+      "Re-ranking, bar travel, and the trailing readouts all belong to bar-race — the section only swaps the standings.",
+      "Keep item ids stable across periods or nothing can be seen to overtake anything.",
+      "Every period needs its note; a re-rank the reader has to interpret alone is a chart, not a claim.",
+    ],
+  },
+  {
+    name: "stats-ring-set",
+    type: "registry:block",
+    title: "Ring Set Stats",
+    description:
+      "Four proportions on one scale, read as wedges rather than numerals: the radial set makes shares comparable at a glance in a way four separate percentages never are, and every wedge carries a plain sentence saying what it counts. It wants values with real spread — four numbers inside a twenty point band are indistinguishable as wedges.",
+    files: [
+      {
+        path: "registry/blocks/stats-ring-set/stats-ring-set.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "radial-bars", "status-seal"],
+    categories: ["stats"],
+    meta: { serial: "KB-289" },
+    tagline: "Comparable at a glance, defined in plain words.",
+    keywords: [
+      "stats",
+      "radial",
+      "shares",
+      "percentages",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "data / max",
+        type: "RadialBar[] · number",
+        description: "The wedges and the value that reaches the outer radius.",
+      },
+      {
+        name: "notes",
+        type: "RingNote[]",
+        description: "One plain sentence per wedge saying what it counts.",
+      },
+    ],
+    usageNotes: [
+      "All four values must be shares of the same population, or the shared scale lies.",
+      "A percentage without a definition is decoration — the notes column is not optional.",
+      "Give it spread. Values inside a twenty point band render as four wedges of the same length, and the section stops making its own argument.",
+      "Let the weakest number in; four numbers above ninety persuade nobody.",
+    ],
+  },
 ];

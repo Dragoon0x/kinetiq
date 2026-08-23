@@ -5274,6 +5274,103 @@ Notes:
 - Write genuinely different claims per persona — if two personas share a point, the section is decoration.
 - The control keeps its own scroll rail so long labels never widen the page at 360.
 
+### Credit Packs Pricing (KB-284) — `pricing-credit-packs`
+The discount is checkable, not asserted.
+
+Prepaid credits, with the per-credit rate computed rather than claimed: every pack prints what it actually works out to, so the discount is checkable instead of asserted. The seat counter prices people and the usage dial prices continuous volume — this is for products metered in discrete work.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pricing-credit-packs`
+
+Props:
+- `packs`: CreditPack[] — Credits and price per pack; the rate is derived, never authored.
+- `unitLine / terms`: string · string[] — What a credit buys, and what makes prepaid fair.
+
+Notes:
+- Never author the per-credit rate — it is computed, so a pack cannot quietly disagree with its own arithmetic.
+- Say what one credit buys in the same breath, or the numbers mean nothing.
+- Expiry is the whole trust question for prepaid: answer it in the terms row.
+
+### Where It Goes Pricing (KB-285) — `pricing-where-it-goes`
+Show the split, don't defend the number.
+
+Not a plan chooser — a justification: where the price actually goes, one bar per line, adding to the whole. A page that only states a number invites the reader to guess what it pays for, and buyers who feel overcharged usually just mean uninformed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pricing-where-it-goes`
+
+Props:
+- `slices`: CostSlice[] — Each line's declared share and what it covers.
+- `price / period`: number · string — The number being accounted for.
+
+Notes:
+- Shares are declared once; bar width and printed percentage both derive from them, so the section cannot disagree with itself.
+- Pair it with a pricing section that actually sells — this one explains, it does not close.
+- Own the rounding in the footnote rather than fudging the shares to hit a hundred.
+
+### Book a Slot CTA (KB-286) — `cta-book-slot`
+Picking a time is smaller than starting a negotiation.
+
+The close as a specific time: real slots on real days, taken ones visibly spent, and the promise of what the half hour actually contains printed beside them. A "book a demo" button asks the visitor to start a negotiation; a grid of times asks them to pick one, which is a far smaller thing to agree to.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cta-book-slot`
+
+Props:
+- `days`: BookDay[] — Pre-formatted day labels and their slots; taken ones strike through.
+- `promise`: string[] — What the half hour contains — the reason to pick at all.
+
+Notes:
+- Labels are pre-formatted strings on purpose: the section never touches a clock, so it can never disagree with the server about today.
+- Leave some slots taken. A grid where everything is free reads as a grid nobody booked.
+- The promise list does the persuading; the times only lower the cost of saying yes.
+
+### Last Objection CTA (KB-287) — `cta-last-objection`
+Say the doubt out loud, then answer it.
+
+The close that names the reason the reader has not acted, and answers it in their own words. By this point the argument is made and the only thing left is doubt — so the section says the doubts out loud, including the one about leaving. Answering the exit question honestly is what makes the other answers believable.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cta-last-objection`
+
+Props:
+- `objections`: Objection[] — The doubt in the reader's voice, and the answer.
+- `cta / altLabel`: string — The action and the softer path.
+
+Notes:
+- Write doubts in the reader's voice, not a strawman you enjoy knocking down.
+- Always include the exit question; it is what makes the other three credible.
+- Four is the ceiling — past that it reads as a page arguing with itself.
+
+### Rank Race Stats (KB-288) — `stats-rank-race`
+Who overtook whom.
+
+Standings that re-rank in front of you: pick a year and the bars re-order themselves, so the story is the movement rather than the values. The band and the dial both answer "how much"; this one answers "who overtook whom", which is the only question a ranked list is actually good at.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stats-rank-race`
+
+Props:
+- `periods`: RankPeriod[] — Each period's standings and the line saying what changed.
+- `unit`: string — Trailing unit on each bar's readout.
+
+Notes:
+- Re-ranking, bar travel, and the trailing readouts all belong to bar-race — the section only swaps the standings.
+- Keep item ids stable across periods or nothing can be seen to overtake anything.
+- Every period needs its note; a re-rank the reader has to interpret alone is a chart, not a claim.
+
+### Ring Set Stats (KB-289) — `stats-ring-set`
+Comparable at a glance, defined in plain words.
+
+Four proportions on one scale, read as wedges rather than numerals: the radial set makes shares comparable at a glance in a way four separate percentages never are, and every wedge carries a plain sentence saying what it counts. It wants values with real spread — four numbers inside a twenty point band are indistinguishable as wedges.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stats-ring-set`
+
+Props:
+- `data / max`: RadialBar[] · number — The wedges and the value that reaches the outer radius.
+- `notes`: RingNote[] — One plain sentence per wedge saying what it counts.
+
+Notes:
+- All four values must be shares of the same population, or the shared scale lies.
+- A percentage without a definition is decoration — the notes column is not optional.
+- Give it spread. Values inside a twenty point band render as four wedges of the same length, and the section stops making its own argument.
+- Let the weakest number in; four numbers above ninety persuade nobody.
+
 ### Utils — `utils`
 cn() — class composition.
 

@@ -8645,6 +8645,172 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pricing-credit-packs",
+      "type": "registry:block",
+      "title": "Credit Packs Pricing",
+      "description": "Prepaid credits, with the per-credit rate computed rather than claimed: every pack prints what it actually works out to, so the discount is checkable instead of asserted. The seat counter prices people and the usage dial prices continuous volume — this is for products metered in discrete work.",
+      "files": [
+        {
+          "path": "registry/blocks/pricing-credit-packs/pricing-credit-packs.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "pricing"
+      ],
+      "meta": {
+        "serial": "KB-284"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pricing-where-it-goes",
+      "type": "registry:block",
+      "title": "Where It Goes Pricing",
+      "description": "Not a plan chooser — a justification: where the price actually goes, one bar per line, adding to the whole. A page that only states a number invites the reader to guess what it pays for, and buyers who feel overcharged usually just mean uninformed.",
+      "files": [
+        {
+          "path": "registry/blocks/pricing-where-it-goes/pricing-where-it-goes.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "pricing"
+      ],
+      "meta": {
+        "serial": "KB-285"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cta-book-slot",
+      "type": "registry:block",
+      "title": "Book a Slot CTA",
+      "description": "The close as a specific time: real slots on real days, taken ones visibly spent, and the promise of what the half hour actually contains printed beside them. A \"book a demo\" button asks the visitor to start a negotiation; a grid of times asks them to pick one, which is a far smaller thing to agree to.",
+      "files": [
+        {
+          "path": "registry/blocks/cta-book-slot/cta-book-slot.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "cta"
+      ],
+      "meta": {
+        "serial": "KB-286"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cta-last-objection",
+      "type": "registry:block",
+      "title": "Last Objection CTA",
+      "description": "The close that names the reason the reader has not acted, and answers it in their own words. By this point the argument is made and the only thing left is doubt — so the section says the doubts out loud, including the one about leaving. Answering the exit question honestly is what makes the other answers believable.",
+      "files": [
+        {
+          "path": "registry/blocks/cta-last-objection/cta-last-objection.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "cta"
+      ],
+      "meta": {
+        "serial": "KB-287"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stats-rank-race",
+      "type": "registry:block",
+      "title": "Rank Race Stats",
+      "description": "Standings that re-rank in front of you: pick a year and the bars re-order themselves, so the story is the movement rather than the values. The band and the dial both answer \"how much\"; this one answers \"who overtook whom\", which is the only question a ranked list is actually good at.",
+      "files": [
+        {
+          "path": "registry/blocks/stats-rank-race/stats-rank-race.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/bar-race.json",
+        "https://kinetiqui.vercel.app/r/segmented-control.json"
+      ],
+      "categories": [
+        "stats"
+      ],
+      "meta": {
+        "serial": "KB-288"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stats-ring-set",
+      "type": "registry:block",
+      "title": "Ring Set Stats",
+      "description": "Four proportions on one scale, read as wedges rather than numerals: the radial set makes shares comparable at a glance in a way four separate percentages never are, and every wedge carries a plain sentence saying what it counts. It wants values with real spread — four numbers inside a twenty point band are indistinguishable as wedges.",
+      "files": [
+        {
+          "path": "registry/blocks/stats-ring-set/stats-ring-set.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/radial-bars.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "stats"
+      ],
+      "meta": {
+        "serial": "KB-289"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

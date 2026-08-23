@@ -312,6 +312,12 @@ import { FeaturesQuietGridDemo } from "@/registry/demos/features-quiet-grid.demo
 import { HeroCompareWipeDemo } from "@/registry/demos/hero-compare-wipe.demo";
 import { HeroGalleryWallDemo } from "@/registry/demos/hero-gallery-wall.demo";
 import { HeroPriceForwardDemo } from "@/registry/demos/hero-price-forward.demo";
+import { CtaBookSlotDemo } from "@/registry/demos/cta-book-slot.demo";
+import { CtaLastObjectionDemo } from "@/registry/demos/cta-last-objection.demo";
+import { PricingCreditPacksDemo } from "@/registry/demos/pricing-credit-packs.demo";
+import { PricingWhereItGoesDemo } from "@/registry/demos/pricing-where-it-goes.demo";
+import { StatsRankRaceDemo } from "@/registry/demos/stats-rank-race.demo";
+import { StatsRingSetDemo } from "@/registry/demos/stats-ring-set.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -622,6 +628,12 @@ export const demos: Record<string, ComponentType> = {
   "features-pinned-scroll": FeaturesPinnedScrollDemo,
   "features-quiet-grid": FeaturesQuietGridDemo,
   "features-persona-switch": FeaturesPersonaSwitchDemo,
+  "pricing-credit-packs": PricingCreditPacksDemo,
+  "pricing-where-it-goes": PricingWhereItGoesDemo,
+  "cta-book-slot": CtaBookSlotDemo,
+  "cta-last-objection": CtaLastObjectionDemo,
+  "stats-rank-race": StatsRankRaceDemo,
+  "stats-ring-set": StatsRingSetDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,
