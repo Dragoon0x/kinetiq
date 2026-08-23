@@ -5172,4 +5172,271 @@ export const blocks: KinetiqItem[] = [
       "The standfirst copy is optional here; the headline and the steps are usually enough.",
     ],
   },
+  {
+    name: "logo-segment-shelf",
+    type: "registry:block",
+    title: "Segment Shelf Logo Cloud",
+    description:
+      'The logo wall organised by trade, with the count each mark stands in for. A grid of names answers "who", but a buyer is really asking "anyone like me" — so this one groups by segment and prints how many are behind each shelf, turning a dozen wordmarks into two hundred customers without claiming a single one it cannot name.',
+    files: [
+      {
+        path: "registry/blocks/logo-segment-shelf/logo-segment-shelf.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["logo-cloud"],
+    meta: { serial: "KB-296" },
+    tagline: "Anyone like me?",
+    keywords: [
+      "logo cloud",
+      "segments",
+      "industries",
+      "customers",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "segments",
+        type: "LogoSegment[]",
+        description:
+          "Each trade with its total count and the marks that agreed to be named.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The standfirst.",
+      },
+    ],
+    usageNotes: [
+      "The count is everyone; the marks are the ones who consented. Say so, or the gap looks like padding.",
+      "Wordmarks are set in mono with wide tracking, so no image files and no logo licensing.",
+      "Group by the buyer's own words for their trade, not by your internal segmentation.",
+    ],
+  },
+  {
+    name: "logo-receipt-wall",
+    type: "registry:block",
+    title: "Receipt Wall Logo Cloud",
+    description:
+      "A logo wall where every mark carries the number it earned. Bare wordmarks ask the reader to assume the relationship went well; a mark with a measured result attached makes the far stronger claim, and the customer had to agree to the number as well as the name.",
+    files: [
+      {
+        path: "registry/blocks/logo-receipt-wall/logo-receipt-wall.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["logo-cloud"],
+    meta: { serial: "KB-297" },
+    tagline: "Six with receipts beat thirty without.",
+    keywords: [
+      "logo cloud",
+      "proof",
+      "results",
+      "customers",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "receipts",
+        type: "LogoReceipt[]",
+        description:
+          "A mark, the measurement it published, and what that measurement is.",
+      },
+      {
+        name: "footnote",
+        type: "string",
+        description: "Who measured, and over what window.",
+      },
+    ],
+    usageNotes: [
+      "Use fewer, better marks — a wall of thirty logos cannot carry thirty numbers anyone will read.",
+      "Let the customer pick their own metric; the flat ones are what make the strong ones believable.",
+      "Every numeral is a readout, so a wall of results rolls in rather than printing cold.",
+    ],
+  },
+  {
+    name: "announce-ship-note",
+    type: "registry:block",
+    title: "Ship Note Announcement",
+    description:
+      "The week's shipping note as a strip between sections: a version, a date, and three lines that say what actually changed — tagged new, changed, or fixed, with the fix shown rather than hidden. A product that publishes its fixes in the same voice as its features makes a cheap and unusually convincing claim about how it is run.",
+    files: [
+      {
+        path: "registry/blocks/announce-ship-note/announce-ship-note.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "status-seal"],
+    categories: ["announcement"],
+    meta: { serial: "KB-298" },
+    tagline: "Publish the fixes in the same voice as the features.",
+    keywords: [
+      "announcement",
+      "changelog",
+      "release",
+      "shipped",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "lines",
+        type: "ShipLine[]",
+        description: "Three at most, each tagged added, changed, or fixed.",
+      },
+      {
+        name: "version / date",
+        type: "string",
+        description:
+          "Release name and a pre-formatted date — no clock is touched.",
+      },
+    ],
+    usageNotes: [
+      "Always include a fix. A ship note of pure features reads as marketing wearing a changelog's clothes.",
+      "Three lines. The full list belongs behind the link.",
+      "It is a strip, not a section — it sits between two sections and carries its own top and bottom rules.",
+    ],
+  },
+  {
+    name: "announce-scheduled-window",
+    type: "registry:block",
+    title: "Scheduled Window Announcement",
+    description:
+      "The announcement nobody wants to make, made well: a scheduled window with what will actually stop, what will keep working, and why — in that order, because the second list is the one that decides whether anyone has to change their morning.",
+    files: [
+      {
+        path: "registry/blocks/announce-scheduled-window/announce-scheduled-window.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "status-pip"],
+    categories: ["announcement"],
+    meta: { serial: "KB-299" },
+    tagline: "The unwelcome notice, done calmly.",
+    keywords: [
+      "announcement",
+      "maintenance",
+      "status",
+      "downtime",
+      "section",
+      "app",
+    ],
+    props: [
+      {
+        name: "affected / unaffected",
+        type: "string[]",
+        description: "What stops, and what keeps working.",
+      },
+      {
+        name: "window / reason",
+        type: "string",
+        description: "The pre-formatted window and why it is happening.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately no countdown — a ticking clock turns planned maintenance into an emergency.",
+      'The "keeps working" column is the one people read; make it specific and make it true.',
+      "Give the reason. A window without one reads as an outage you scheduled.",
+    ],
+  },
+  {
+    name: "empty-no-matches",
+    type: "registry:block",
+    title: "No Matches Empty State",
+    description:
+      "Nothing matched — said as a diagnosis rather than a shrug. Every active filter is listed with the number of rows that would come back if it alone were dropped, so the reader can see which one is doing the damage and remove exactly that one. The usual empty result leaves you to guess; this hands over the arithmetic.",
+    files: [
+      {
+        path: "registry/blocks/empty-no-matches/empty-no-matches.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "pressure-button",
+    ],
+    categories: ["empty-states"],
+    meta: { serial: "KB-300" },
+    tagline: "Hand over the arithmetic.",
+    keywords: [
+      "empty state",
+      "no results",
+      "filters",
+      "search",
+      "section",
+      "app",
+    ],
+    props: [
+      {
+        name: "filters",
+        type: "ActiveFilter[]",
+        description: "Each active filter with what would return without it.",
+      },
+      {
+        name: "onDrop / onClearAll",
+        type: "(id) => void · () => void",
+        description: "Removing one filter, or all of them.",
+      },
+    ],
+    usageNotes: [
+      "The culprit is derived, never authored: whichever filter alone returns nothing is the one marked.",
+      "wouldReturn must come from a real count. A guessed number here is worse than no number.",
+      "Filters exit leftward and the list reflows on layout, so removing one reads as a narrowing being undone.",
+    ],
+  },
+  {
+    name: "empty-needs-access",
+    type: "registry:block",
+    title: "Needs Access Empty State",
+    description:
+      "Locked out, without the dead end: it names the exact resource, the exact permission missing, and — the part almost every access screen omits — the people who can actually grant it, so the reader can act without opening a support ticket.",
+    files: [
+      {
+        path: "registry/blocks/empty-needs-access/empty-needs-access.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "status-seal", "pressure-button"],
+    categories: ["empty-states"],
+    meta: { serial: "KB-301" },
+    tagline: "Name the people who can say yes.",
+    keywords: [
+      "empty state",
+      "permissions",
+      "access",
+      "locked",
+      "section",
+      "app",
+    ],
+    props: [
+      {
+        name: "resource / permission",
+        type: "string",
+        description: "Named exactly, in the system's own words.",
+      },
+      {
+        name: "approvers / afterLine",
+        type: "Approver[] · string",
+        description: "Who can grant it, and what happens after asking.",
+      },
+    ],
+    usageNotes: [
+      "Naming approvers is the whole point — an access wall without them is a support ticket with extra steps.",
+      "Say the account is fine. Most people read a permission screen as an accusation.",
+      "The after-line is announced politely rather than assertively, so nobody is left refreshing.",
+    ],
+  },
 ];

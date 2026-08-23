@@ -324,6 +324,12 @@ import { TrustDataResidencyDemo } from "@/registry/demos/trust-data-residency.de
 import { TrustIncidentLogDemo } from "@/registry/demos/trust-incident-log.demo";
 import { UsecaseJobStoriesDemo } from "@/registry/demos/usecase-job-stories.demo";
 import { UsecaseNotForYouDemo } from "@/registry/demos/usecase-not-for-you.demo";
+import { AnnounceScheduledWindowDemo } from "@/registry/demos/announce-scheduled-window.demo";
+import { AnnounceShipNoteDemo } from "@/registry/demos/announce-ship-note.demo";
+import { EmptyNeedsAccessDemo } from "@/registry/demos/empty-needs-access.demo";
+import { EmptyNoMatchesDemo } from "@/registry/demos/empty-no-matches.demo";
+import { LogoReceiptWallDemo } from "@/registry/demos/logo-receipt-wall.demo";
+import { LogoSegmentShelfDemo } from "@/registry/demos/logo-segment-shelf.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -646,6 +652,12 @@ export const demos: Record<string, ComponentType> = {
   "usecase-job-stories": UsecaseJobStoriesDemo,
   "how-who-does-what": HowWhoDoesWhatDemo,
   "how-plain-steps": HowPlainStepsDemo,
+  "logo-segment-shelf": LogoSegmentShelfDemo,
+  "logo-receipt-wall": LogoReceiptWallDemo,
+  "announce-ship-note": AnnounceShipNoteDemo,
+  "announce-scheduled-window": AnnounceScheduledWindowDemo,
+  "empty-no-matches": EmptyNoMatchesDemo,
+  "empty-needs-access": EmptyNeedsAccessDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

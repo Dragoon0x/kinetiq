@@ -5468,6 +5468,102 @@ Notes:
 - Three steps. If the process genuinely needs five, it needs a different section.
 - The standfirst copy is optional here; the headline and the steps are usually enough.
 
+### Segment Shelf Logo Cloud (KB-296) — `logo-segment-shelf`
+Anyone like me?
+
+The logo wall organised by trade, with the count each mark stands in for. A grid of names answers "who", but a buyer is really asking "anyone like me" — so this one groups by segment and prints how many are behind each shelf, turning a dozen wordmarks into two hundred customers without claiming a single one it cannot name.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/logo-segment-shelf`
+
+Props:
+- `segments`: LogoSegment[] — Each trade with its total count and the marks that agreed to be named.
+- `eyebrow / headline / copy`: string — The standfirst.
+
+Notes:
+- The count is everyone; the marks are the ones who consented. Say so, or the gap looks like padding.
+- Wordmarks are set in mono with wide tracking, so no image files and no logo licensing.
+- Group by the buyer's own words for their trade, not by your internal segmentation.
+
+### Receipt Wall Logo Cloud (KB-297) — `logo-receipt-wall`
+Six with receipts beat thirty without.
+
+A logo wall where every mark carries the number it earned. Bare wordmarks ask the reader to assume the relationship went well; a mark with a measured result attached makes the far stronger claim, and the customer had to agree to the number as well as the name.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/logo-receipt-wall`
+
+Props:
+- `receipts`: LogoReceipt[] — A mark, the measurement it published, and what that measurement is.
+- `footnote`: string — Who measured, and over what window.
+
+Notes:
+- Use fewer, better marks — a wall of thirty logos cannot carry thirty numbers anyone will read.
+- Let the customer pick their own metric; the flat ones are what make the strong ones believable.
+- Every numeral is a readout, so a wall of results rolls in rather than printing cold.
+
+### Ship Note Announcement (KB-298) — `announce-ship-note`
+Publish the fixes in the same voice as the features.
+
+The week's shipping note as a strip between sections: a version, a date, and three lines that say what actually changed — tagged new, changed, or fixed, with the fix shown rather than hidden. A product that publishes its fixes in the same voice as its features makes a cheap and unusually convincing claim about how it is run.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/announce-ship-note`
+
+Props:
+- `lines`: ShipLine[] — Three at most, each tagged added, changed, or fixed.
+- `version / date`: string — Release name and a pre-formatted date — no clock is touched.
+
+Notes:
+- Always include a fix. A ship note of pure features reads as marketing wearing a changelog's clothes.
+- Three lines. The full list belongs behind the link.
+- It is a strip, not a section — it sits between two sections and carries its own top and bottom rules.
+
+### Scheduled Window Announcement (KB-299) — `announce-scheduled-window`
+The unwelcome notice, done calmly.
+
+The announcement nobody wants to make, made well: a scheduled window with what will actually stop, what will keep working, and why — in that order, because the second list is the one that decides whether anyone has to change their morning.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/announce-scheduled-window`
+
+Props:
+- `affected / unaffected`: string[] — What stops, and what keeps working.
+- `window / reason`: string — The pre-formatted window and why it is happening.
+
+Notes:
+- Deliberately no countdown — a ticking clock turns planned maintenance into an emergency.
+- The "keeps working" column is the one people read; make it specific and make it true.
+- Give the reason. A window without one reads as an outage you scheduled.
+
+### No Matches Empty State (KB-300) — `empty-no-matches`
+Hand over the arithmetic.
+
+Nothing matched — said as a diagnosis rather than a shrug. Every active filter is listed with the number of rows that would come back if it alone were dropped, so the reader can see which one is doing the damage and remove exactly that one. The usual empty result leaves you to guess; this hands over the arithmetic.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/empty-no-matches`
+
+Props:
+- `filters`: ActiveFilter[] — Each active filter with what would return without it.
+- `onDrop / onClearAll`: (id) => void · () => void — Removing one filter, or all of them.
+
+Notes:
+- The culprit is derived, never authored: whichever filter alone returns nothing is the one marked.
+- wouldReturn must come from a real count. A guessed number here is worse than no number.
+- Filters exit leftward and the list reflows on layout, so removing one reads as a narrowing being undone.
+
+### Needs Access Empty State (KB-301) — `empty-needs-access`
+Name the people who can say yes.
+
+Locked out, without the dead end: it names the exact resource, the exact permission missing, and — the part almost every access screen omits — the people who can actually grant it, so the reader can act without opening a support ticket.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/empty-needs-access`
+
+Props:
+- `resource / permission`: string — Named exactly, in the system's own words.
+- `approvers / afterLine`: Approver[] · string — Who can grant it, and what happens after asking.
+
+Notes:
+- Naming approvers is the whole point — an access wall without them is a support ticket with extra steps.
+- Say the account is fine. Most people read a permission screen as an accusation.
+- The after-line is announced politely rather than assertively, so nobody is left refreshing.
+
 ### Utils — `utils`
 cn() — class composition.
 
