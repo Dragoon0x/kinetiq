@@ -345,6 +345,11 @@ import { ContactOpenHoursDemo } from "@/registry/demos/contact-open-hours.demo";
 import { GalleryContactSheetDemo } from "@/registry/demos/gallery-contact-sheet.demo";
 import { NewsletterBackIssuesDemo } from "@/registry/demos/newsletter-back-issues.demo";
 import { ProofUnpromptedDemo } from "@/registry/demos/proof-unprompted.demo";
+import { AuthRecoverDemo } from "@/registry/demos/auth-recover.demo";
+import { AuthSecondFactorDemo } from "@/registry/demos/auth-second-factor.demo";
+import { AuthSignInDemo } from "@/registry/demos/auth-sign-in.demo";
+import { AuthSignUpDemo } from "@/registry/demos/auth-sign-up.demo";
+import { AuthWorkspacePickDemo } from "@/registry/demos/auth-workspace-pick.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -688,6 +693,13 @@ export const demos: Record<string, ComponentType> = {
   "newsletter-back-issues": NewsletterBackIssuesDemo,
   "contact-open-hours": ContactOpenHoursDemo,
   "gallery-contact-sheet": GalleryContactSheetDemo,
+
+  // Pages (KP-###)
+  "auth-sign-in": AuthSignInDemo,
+  "auth-sign-up": AuthSignUpDemo,
+  "auth-recover": AuthRecoverDemo,
+  "auth-second-factor": AuthSecondFactorDemo,
+  "auth-workspace-pick": AuthWorkspacePickDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

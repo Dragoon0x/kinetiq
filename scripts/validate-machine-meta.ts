@@ -7,7 +7,12 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import { machineMetaSchema } from "../content/machine-meta";
-import { catalogBlocks, catalogComponents, shared } from "../content/manifest";
+import {
+  catalogBlocks,
+  catalogComponents,
+  catalogPages,
+  shared,
+} from "../content/manifest";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const META_PATH = path.join(ROOT, "public", "registry-meta.json");
@@ -25,7 +30,9 @@ async function main() {
     JSON.parse(await readFile(META_PATH, "utf8")),
   );
   if (!parsed.success) {
-    console.error(`registry-meta.json schema invalid:\n${parsed.error.message}`);
+    console.error(
+      `registry-meta.json schema invalid:\n${parsed.error.message}`,
+    );
     process.exit(1);
   }
   const meta = parsed.data;
@@ -37,13 +44,21 @@ async function main() {
   if (meta.registry.counts.blocks !== catalogBlocks.length) {
     problems.push("counts.blocks does not match the manifest");
   }
+  if (meta.registry.counts.pages !== catalogPages.length) {
+    problems.push("counts.pages does not match the manifest");
+  }
   if (meta.registry.counts.shared !== shared.length) {
     problems.push("counts.shared does not match the manifest");
   }
 
   // Every non-draft catalog + shared slug is present.
   const emitted = new Set(meta.items.map((i) => i.slug));
-  for (const item of [...catalogComponents, ...catalogBlocks, ...shared]) {
+  for (const item of [
+    ...catalogComponents,
+    ...catalogBlocks,
+    ...catalogPages,
+    ...shared,
+  ]) {
     if (!emitted.has(item.name)) {
       problems.push(`missing item: ${item.name}`);
     }
@@ -52,7 +67,9 @@ async function main() {
   // Each item's registry artifact exists and deps are absolute URLs.
   for (const item of meta.items) {
     if (!existsSync(path.join(R_DIR, `${item.slug}.json`))) {
-      problems.push(`no registry artifact for ${item.slug} (r/${item.slug}.json)`);
+      problems.push(
+        `no registry artifact for ${item.slug} (r/${item.slug}.json)`,
+      );
     }
     for (const dep of item.registryDependencies ?? []) {
       if (!dep.startsWith("http")) {
@@ -66,7 +83,9 @@ async function main() {
   }
 
   if (problems.length > 0) {
-    console.error(`machine-meta validation failed:\n- ${problems.join("\n- ")}`);
+    console.error(
+      `machine-meta validation failed:\n- ${problems.join("\n- ")}`,
+    );
     process.exit(1);
   }
 

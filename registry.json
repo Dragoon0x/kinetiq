@@ -9555,6 +9555,143 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "auth-sign-in",
+      "type": "registry:page",
+      "title": "Sign In Page",
+      "description": "Sign in with the two things most sign-in pages get wrong put right: the workspace route sits above the password rather than behind a second click, and the page says plainly what to do if you have no account instead of leaving the reader to guess whether sign-up exists.",
+      "files": [
+        {
+          "path": "registry/pages/auth-sign-in/auth-sign-in.tsx",
+          "type": "registry:page",
+          "target": "app/(auth)/sign-in/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "auth"
+      ],
+      "meta": {
+        "serial": "KP-001"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "auth-sign-up",
+      "type": "registry:page",
+      "title": "Sign Up Page",
+      "description": "Sign up that says what it is about to create before it creates it: the three things this account gets you, the one email that will arrive, and no trial countdown — because a page that hides the terms until after the password has already spent the goodwill it needed.",
+      "files": [
+        {
+          "path": "registry/pages/auth-sign-up/auth-sign-up.tsx",
+          "type": "registry:page",
+          "target": "app/(auth)/sign-up/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "auth"
+      ],
+      "meta": {
+        "serial": "KP-002"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "auth-recover",
+      "type": "registry:page",
+      "title": "Password Recovery Page",
+      "description": "Password recovery that refuses to leak. The response is identical whether or not the address has an account, and — unusually — the page says so out loud, because a reader who does not understand why they got a vague answer assumes the form is broken and tries again.",
+      "files": [
+        {
+          "path": "registry/pages/auth-recover/auth-recover.tsx",
+          "type": "registry:page",
+          "target": "app/(auth)/recover/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "auth"
+      ],
+      "meta": {
+        "serial": "KP-003"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "auth-second-factor",
+      "type": "registry:page",
+      "title": "Second Factor Page",
+      "description": "The second factor, with the lost-device path given the same weight as the code field. Almost every 2FA screen buries recovery in small grey text at the bottom, which is precisely where nobody looks while holding a dead phone.",
+      "files": [
+        {
+          "path": "registry/pages/auth-second-factor/auth-second-factor.tsx",
+          "type": "registry:page",
+          "target": "app/(auth)/two-factor/page.tsx"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "auth"
+      ],
+      "meta": {
+        "serial": "KP-004"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "auth-workspace-pick",
+      "type": "registry:page",
+      "title": "Workspace Picker Page",
+      "description": "The workspace picker, which exists because \"you are in more than one organisation\" is a normal state most products treat as an edge case. Each row carries the role you hold there, and the account you are signed in as is stated at the top — because the commonest cause of an empty list is the wrong account.",
+      "files": [
+        {
+          "path": "registry/pages/auth-workspace-pick/auth-workspace-pick.tsx",
+          "type": "registry:page",
+          "target": "app/(auth)/workspaces/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "categories": [
+        "auth"
+      ],
+      "meta": {
+        "serial": "KP-005"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

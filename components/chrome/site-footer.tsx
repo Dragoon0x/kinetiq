@@ -11,6 +11,7 @@ const COLUMNS = [
       { href: "/explore", label: "Explore" },
       { href: "/spatial", label: "Spatial wing" },
       { href: "/blocks", label: "Blocks" },
+      { href: "/pages", label: "Pages" },
     ],
   },
   {
@@ -31,20 +32,20 @@ const COLUMNS = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-hairline border-t">
+    <footer className="border-t border-hairline">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-12 sm:flex-row sm:items-start sm:justify-between">
         <div className="max-w-xs">
           <Wordmark />
-          <p className="text-ink-3 mt-3 text-sm">
+          <p className="mt-3 text-sm text-ink-3">
             Motion, calibrated. Every component on the same five springs.
           </p>
-          <p className="text-ink-3 mt-4 text-sm">
+          <p className="mt-4 text-sm text-ink-3">
             {author.role} —{" "}
             <a
               href={author.url}
               target="_blank"
               rel="me noreferrer"
-              className="text-ink-2 hover:text-ink underline underline-offset-4 transition-colors"
+              className="text-ink-2 underline underline-offset-4 transition-colors hover:text-ink"
             >
               {author.name}
             </a>
@@ -59,7 +60,7 @@ export function SiteFooter() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-ink-2 hover:text-ink text-sm transition-colors"
+                      className="text-sm text-ink-2 transition-colors hover:text-ink"
                     >
                       {link.label}
                     </Link>
@@ -70,14 +71,14 @@ export function SiteFooter() {
           ))}
         </div>
       </div>
-      <div className="border-hairline border-t">
-        <div className="text-label text-ink-3 mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
+      <div className="border-t border-hairline">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 text-label text-ink-3">
           <span>KINETIQ · MOTION LABORATORY</span>
           <a
             href={author.url}
             target="_blank"
             rel="me noreferrer"
-            className="hover:text-ink-2 transition-colors"
+            className="transition-colors hover:text-ink-2"
           >
             BUILT BY {author.name.toUpperCase()} · {author.handle.toUpperCase()}
           </a>

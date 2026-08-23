@@ -32,10 +32,13 @@ const MAX_HEIGHT = 1400;
  */
 export function SectionFrame({
   slug,
+  base = "blocks",
   serial,
   label,
 }: {
   slug: string;
+  /** Which bare preview route to frame: a section, or a whole page. */
+  base?: "blocks" | "pages";
   serial: string;
   label: string;
 }) {
@@ -52,8 +55,11 @@ export function SectionFrame({
         height?: number;
       };
       if (data?.source !== "kinetiq-preview" || data.slug !== slug) return;
-      if (typeof data.height !== "number" || !Number.isFinite(data.height)) return;
-      setHeight(Math.round(Math.min(Math.max(data.height, MIN_HEIGHT), MAX_HEIGHT)));
+      if (typeof data.height !== "number" || !Number.isFinite(data.height))
+        return;
+      setHeight(
+        Math.round(Math.min(Math.max(data.height, MIN_HEIGHT), MAX_HEIGHT)),
+      );
     };
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
@@ -67,16 +73,16 @@ export function SectionFrame({
     // proven separately, at three widths, by sections.spec.ts.
     <figure
       data-specimen-stage=""
-      className="border-hairline bg-surface-1 rounded-3 overflow-hidden border"
+      className="overflow-hidden rounded-3 border border-hairline bg-surface-1"
     >
-      <figcaption className="border-hairline flex items-center justify-between gap-3 border-b px-4 py-2.5">
+      <figcaption className="flex items-center justify-between gap-3 border-b border-hairline px-4 py-2.5">
         <span className="text-label text-ink-3">
           {serial} · {label}
         </span>
         <div
           role="group"
           aria-label="Preview viewport"
-          className="border-hairline rounded-2 flex overflow-hidden border"
+          className="flex overflow-hidden rounded-2 border border-hairline"
         >
           {VIEWPORTS.map((option) => (
             <button
@@ -97,12 +103,12 @@ export function SectionFrame({
         </div>
       </figcaption>
 
-      <div className="bg-surface-0 overflow-x-auto">
+      <div className="overflow-x-auto bg-surface-0">
         <iframe
           // Theme lives on <html> in the frame; re-mounting on toggle lets its
           // pre-paint script restamp from the shared localStorage.
           key={theme}
-          src={`/preview/blocks/${slug}`}
+          src={`/preview/${base}/${slug}`}
           title={`${label} preview`}
           loading="lazy"
           style={{
@@ -112,7 +118,7 @@ export function SectionFrame({
             margin: active.width ? "0 auto" : undefined,
             border: "0",
           }}
-          className={cn(active.width && "border-hairline border-x")}
+          className={cn(active.width && "border-x border-hairline")}
         />
       </div>
     </figure>

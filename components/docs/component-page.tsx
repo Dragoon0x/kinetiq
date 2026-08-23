@@ -21,7 +21,7 @@ export function ComponentDocPage({
   kind,
 }: {
   item: KinetiqItem;
-  kind: "components" | "blocks";
+  kind: "components" | "blocks" | "pages";
 }) {
   const Demo = demos[item.name];
   const plateLabel = item.name.replace(/-/g, "/").toUpperCase();
@@ -31,21 +31,26 @@ export function ComponentDocPage({
   const demoPath = `registry/demos/${item.name}.demo.tsx`;
   const demoSource = sources[demoPath];
 
-  // Full-width sections render in an iframe onto their bare preview route —
-  // the doc column is 768px and breakpoints answer to the window, so a plate
-  // can neither seat nor honestly preview a landing section.
-  const preview =
-    kind === "blocks" && isSection(item) ? (
-      <SectionFrame serial={serial} label={plateLabel} slug={item.name} />
-    ) : (
-      <SpecimenPlate serial={serial} label={plateLabel} minHeight={380}>
-        {Demo ? (
-          <Demo />
-        ) : (
-          <p className="text-ink-3 font-mono text-xs">PREVIEW PENDING</p>
-        )}
-      </SpecimenPlate>
-    );
+  // Sections and whole pages both need the frame: the doc column is 768px and
+  // breakpoints answer to the window, so a plate can neither seat nor honestly
+  // preview anything full-bleed.
+  const framed = kind === "pages" || (kind === "blocks" && isSection(item));
+  const preview = framed ? (
+    <SectionFrame
+      serial={serial}
+      label={plateLabel}
+      slug={item.name}
+      base={kind === "pages" ? "pages" : "blocks"}
+    />
+  ) : (
+    <SpecimenPlate serial={serial} label={plateLabel} minHeight={380}>
+      {Demo ? (
+        <Demo />
+      ) : (
+        <p className="font-mono text-xs text-ink-3">PREVIEW PENDING</p>
+      )}
+    </SpecimenPlate>
+  );
 
   const usage = (
     <div className="space-y-6">
@@ -55,7 +60,7 @@ export function ComponentDocPage({
       {item.usageNotes && item.usageNotes.length > 0 ? (
         <ul className="space-y-2">
           {item.usageNotes.map((note) => (
-            <li key={note} className="text-ink-2 flex gap-2.5 text-sm">
+            <li key={note} className="flex gap-2.5 text-sm text-ink-2">
               <span aria-hidden className="text-cobalt-bright select-none">
                 —
               </span>
@@ -81,10 +86,10 @@ export function ComponentDocPage({
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-12">
-      <nav aria-label="Breadcrumb" className="text-ink-3 flex gap-2 text-sm">
+      <nav aria-label="Breadcrumb" className="flex gap-2 text-sm text-ink-3">
         <Link
           href={`/${kind}`}
-          className="hover:text-ink capitalize transition-colors"
+          className="capitalize transition-colors hover:text-ink"
         >
           {kind}
         </Link>
@@ -93,7 +98,7 @@ export function ComponentDocPage({
           <>
             <Link
               href={`/components/category/${category.slug}`}
-              className="hover:text-ink transition-colors"
+              className="transition-colors hover:text-ink"
             >
               {category.label}
             </Link>
@@ -103,13 +108,13 @@ export function ComponentDocPage({
         <span className="text-ink-2">{item.title}</span>
       </nav>
 
-      <p className="text-label text-ink-3 mt-8">
+      <p className="mt-8 text-label text-ink-3">
         {serial} · {plateLabel}
       </p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">
         {item.title}
       </h1>
-      <p className="text-ink-2 mt-3 max-w-xl text-base">{item.description}</p>
+      <p className="mt-3 max-w-xl text-base text-ink-2">{item.description}</p>
 
       <DocTabs
         className="mt-8"
@@ -122,9 +127,9 @@ export function ComponentDocPage({
 
       <section className="mt-12">
         <h2 className="text-xl font-semibold tracking-tight">Install</h2>
-        <p className="text-ink-2 mt-2 text-sm">
-          One command — the source lands in your repo. Or copy it from the
-          Code tab.
+        <p className="mt-2 text-sm text-ink-2">
+          One command — the source lands in your repo. Or copy it from the Code
+          tab.
         </p>
         <InstallCommand slug={item.name} className="mt-4" />
       </section>

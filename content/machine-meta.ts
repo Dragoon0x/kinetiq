@@ -11,6 +11,7 @@ import { REGISTRY_ITEM_URL, author, siteConfig } from "../lib/site-config";
 import {
   catalogBlocks,
   catalogComponents,
+  catalogPages,
   shared,
   type KinetiqItem,
 } from "./manifest";
@@ -90,13 +91,18 @@ function expandDeps(item: KinetiqItem): string[] | undefined {
   );
 }
 
-function toMetaItem(item: KinetiqItem, kind: "component" | "block" | "shared") {
+function toMetaItem(
+  item: KinetiqItem,
+  kind: "component" | "block" | "page" | "shared",
+) {
   const docsUrl =
     kind === "component"
       ? `${siteConfig.url}/components/${item.name}`
       : kind === "block"
         ? `${siteConfig.url}/blocks/${item.name}`
-        : undefined;
+        : kind === "page"
+          ? `${siteConfig.url}/pages/${item.name}`
+          : undefined;
 
   return {
     slug: item.name,
@@ -143,6 +149,7 @@ export function buildMachineMeta(): MachineMeta {
   const items = [
     ...catalogComponents.map((c) => toMetaItem(c, "component")),
     ...catalogBlocks.map((b) => toMetaItem(b, "block")),
+    ...catalogPages.map((p) => toMetaItem(p, "page")),
     ...shared.map((s) => toMetaItem(s, "shared")),
   ];
 
@@ -163,6 +170,7 @@ export function buildMachineMeta(): MachineMeta {
       counts: {
         components: catalogComponents.length,
         blocks: catalogBlocks.length,
+        pages: catalogPages.length,
         shared: shared.length,
       },
     },
@@ -267,7 +275,7 @@ const installSchema = z.object({
 
 const metaItemSchema = z.object({
   slug: z.string(),
-  kind: z.enum(["component", "block", "shared"]),
+  kind: z.enum(["component", "block", "page", "shared"]),
   type: z.string(),
   title: z.string(),
   serial: z.string().optional(),
@@ -310,6 +318,7 @@ export const machineMetaSchema = z.object({
     counts: z.object({
       components: z.number(),
       blocks: z.number(),
+      pages: z.number(),
       shared: z.number(),
     }),
   }),

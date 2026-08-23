@@ -5805,6 +5805,87 @@ Notes:
 - Show the frames that did not make it. A contact sheet of nothing but selects is a portfolio.
 - The select ring sits outside the frame, like a mark made on the sheet rather than on the image.
 
+### Sign In Page (KP-001) — `auth-sign-in`
+The workspace route above the password.
+
+Sign in with the two things most sign-in pages get wrong put right: the workspace route sits above the password rather than behind a second click, and the page says plainly what to do if you have no account instead of leaving the reader to guess whether sign-up exists.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/auth-sign-in`
+
+Props:
+- `sso / onSso`: SsoProvider[] · (id) => void — Workspace routes, offered before the password.
+- `onSubmit`: (email, password) => void — Wire it to your own auth; the shell authenticates nothing.
+- `noAccountLine`: string — What to do when sign-up is invite-only.
+
+Notes:
+- A shell, not an auth system — never post credentials from a client component without a server action or API route behind it.
+- Keep SSO above the fold. Hiding it costs every workspace user an extra click on every sign-in.
+- Say what happens when there is no account; silence there reads as a broken form.
+
+### Sign Up Page (KP-002) — `auth-sign-up`
+State the bargain before the button.
+
+Sign up that says what it is about to create before it creates it: the three things this account gets you, the one email that will arrive, and no trial countdown — because a page that hides the terms until after the password has already spent the goodwill it needed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/auth-sign-up`
+
+Props:
+- `creates`: string[] — Exactly what this account does and does not create.
+- `nextLine`: string — What lands in the inbox, said before the button is pressed.
+
+Notes:
+- A shell — wire onSubmit to your own auth and never handle credentials client-side.
+- The side panel is not decoration: it is where the bargain is stated, so it is read before the button rather than discovered after it.
+- If there is a trial clock, say so here. Discovering one later is what makes people distrust everything else on the page.
+
+### Password Recovery Page (KP-003) — `auth-recover`
+Identical answer, and it says why.
+
+Password recovery that refuses to leak. The response is identical whether or not the address has an account, and — unusually — the page says so out loud, because a reader who does not understand why they got a vague answer assumes the form is broken and tries again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/auth-recover`
+
+Props:
+- `privacyNote`: string — Why the response is the same either way.
+- `sentHeadline / sentCopy`: string — The confirmed state — deliberately never "we found your account".
+
+Notes:
+- Keep the identical response on the server too. A page careful in the UI and chatty in the API has leaked anyway.
+- Explaining the vagueness is the point — an unexplained non-answer reads as a bug and gets retried.
+- Never confirm or deny the address exists, including through timing or status codes.
+
+### Second Factor Page (KP-004) — `auth-second-factor`
+Recovery is not a footnote.
+
+The second factor, with the lost-device path given the same weight as the code field. Almost every 2FA screen buries recovery in small grey text at the bottom, which is precisely where nobody looks while holding a dead phone.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/auth-second-factor`
+
+Props:
+- `length`: number — Digits in the code; drives the pattern and the shape check.
+- `recoveryLabel / recoveryCopy / recoveryHref`: string — The lost-device path, at equal weight.
+
+Notes:
+- The shape check is digits and length only. It is not verification and must never be treated as any.
+- autoComplete="one-time-code" lets phones offer the code — dropping it costs real completions.
+- Give recovery its own heading and box. Grey small print at the bottom of a 2FA page is unreachable by design.
+
+### Workspace Picker Page (KP-005) — `auth-workspace-pick`
+Your role, before you click.
+
+The workspace picker, which exists because "you are in more than one organisation" is a normal state most products treat as an edge case. Each row carries the role you hold there, and the account you are signed in as is stated at the top — because the commonest cause of an empty list is the wrong account.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/auth-workspace-pick`
+
+Props:
+- `workspaces`: Workspace[] — Name, your role there, yard count, and whether it is live.
+- `signedInAs / missingLine`: string — Which account this is, and the path when the expected workspace is absent.
+
+Notes:
+- Print the role. Which workspace lets you do the thing you signed in for is the entire question this page answers.
+- State the signed-in address prominently — the wrong account is the commonest cause of a missing workspace.
+- Do not auto-forward on a single workspace without saying so; a page that vanishes is a page people cannot get back to.
+
 ### Utils — `utils`
 cn() — class composition.
 
