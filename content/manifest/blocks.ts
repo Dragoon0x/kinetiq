@@ -3798,4 +3798,175 @@ export const blocks: KinetiqItem[] = [
       "Four to six entries; more belongs in a drawer variant.",
     ],
   },
+  {
+    name: "usecase-two-mornings",
+    type: "registry:block",
+    title: "Two Mornings Use Case",
+    description:
+      "The same morning, twice: the old one and the new one as parallel timelines, hour marks aligned so the eye can travel across and compare beat for beat. No slider, no wipe — the two columns just sit there, because the argument is strongest when both are visible whole.",
+    files: [
+      {
+        path: "registry/blocks/usecase-two-mornings/usecase-two-mornings.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["use-cases"],
+    meta: { serial: "KB-266" },
+    tagline: "Both mornings, visible whole.",
+    keywords: [
+      "use case",
+      "before after",
+      "comparison",
+      "timeline",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "before / after / beforeTitle / afterTitle",
+        type: "MorningBeat[] · string",
+        description: "The two timelines; keep the hour marks aligned.",
+      },
+      {
+        name: "verdict",
+        type: "string",
+        description: "The one-line close under the columns.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately no wipe — the draggable comparison belongs to slice-compare.",
+      "Use identical times in both columns; the alignment is the argument.",
+      "Beats cascade in per column and then hold.",
+    ],
+  },
+  {
+    name: "usecase-scale-ladder",
+    type: "registry:block",
+    title: "Scale Ladder Use Case",
+    description:
+      "The product at three scales, set as a ladder: each rung names the size, the shape the product takes there, and — the line most pages hide — what it costs at that rung. Rungs climb in on the cascade with a rail connecting them, because the pitch is not any single rung; it is that the ladder holds all the way up.",
+    files: [
+      {
+        path: "registry/blocks/usecase-scale-ladder/usecase-scale-ladder.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["use-cases"],
+    meta: { serial: "KB-267" },
+    tagline: "The ladder holds all the way up.",
+    keywords: ["use case", "scale", "growth", "tiers", "section", "marketing"],
+    props: [
+      {
+        name: "rungs",
+        type: "LadderRung[]",
+        description: "Scale, title, copy, and the plain cost line per rung.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The standfirst.",
+      },
+    ],
+    usageNotes: [
+      "The cost line is the rung's honesty; a ladder without prices is a brochure.",
+      "Three rungs read as a ladder; five read as a pricing page.",
+      "Climbing never means migrating — say so in the copy if it is true.",
+    ],
+  },
+  {
+    name: "how-day-clock",
+    type: "registry:block",
+    title: "Day Clock How-It-Works",
+    description:
+      "How it works, told as a working day: four clock marks down a rail, each with what the product did at that hour and the artifact it left behind — sealed, because a claim with an artifact is a fact. The rail is plain and the entrance is a cascade; the day itself is the mechanism on display.",
+    files: [
+      {
+        path: "registry/blocks/how-day-clock/how-day-clock.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "status-seal"],
+    categories: ["how-it-works"],
+    meta: { serial: "KB-268" },
+    tagline: "A claim with an artifact is a fact.",
+    keywords: [
+      "how it works",
+      "timeline",
+      "day",
+      "hours",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "marks",
+        type: "ClockMark[]",
+        description: "Time, title, copy, and the sealed artifact per mark.",
+      },
+      {
+        name: "eyebrow / headline / copy",
+        type: "string",
+        description: "The standfirst.",
+      },
+    ],
+    usageNotes: [
+      "Deliberately not scroll-scrubbed — the playhead timeline belongs to timeline-spine.",
+      "Every mark should leave an artifact; a mark without one is a promise, not a mechanism.",
+      "Times set in mono against the rail; keep them plausible and ordered.",
+    ],
+  },
+  {
+    name: "how-exchange-script",
+    type: "registry:block",
+    title: "Exchange Script How-It-Works",
+    description:
+      "How it works, as the conversation it actually is: a scripted exchange on the library's own thread — the reader advances it turn by turn and watches the product answer, act, and file the result. The mechanism explains itself in its own medium, and the notes under each reply say what was read and what was written, which is the part worth trusting.",
+    files: [
+      {
+        path: "registry/blocks/how-exchange-script/how-exchange-script.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "volley-thread",
+      "pressure-button",
+    ],
+    categories: ["how-it-works"],
+    meta: { serial: "KB-269" },
+    tagline: "The mechanism, in its own medium.",
+    keywords: [
+      "how it works",
+      "conversation",
+      "script",
+      "agent",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "script / openingTurns",
+        type: "VolleyMessage[] · number",
+        description: "The exchange and how much of it starts visible.",
+      },
+      {
+        name: "advanceLabel / resetLabel",
+        type: "string",
+        description: "The reader's two controls.",
+      },
+    ],
+    usageNotes: [
+      "The thread is volley-thread — arrival weight, run labels, and live semantics come with it.",
+      "Notes under replies carry the trust: what was read, what was written.",
+      "The reader advances; nothing auto-plays.",
+    ],
+  },
 ];

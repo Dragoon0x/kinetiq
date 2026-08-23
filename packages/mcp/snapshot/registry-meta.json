@@ -14,7 +14,7 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 212,
-      "blocks": 81,
+      "blocks": 85,
       "shared": 6
     }
   },
@@ -17843,6 +17843,225 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/faq-last-word",
         "bun": "bunx --bun shadcn@latest add @kinetiq/faq-last-word",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/faq-last-word.json"
+      }
+    },
+    {
+      "slug": "usecase-two-mornings",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Two Mornings Use Case",
+      "serial": "KB-266",
+      "tagline": "Both mornings, visible whole.",
+      "description": "The same morning, twice: the old one and the new one as parallel timelines, hour marks aligned so the eye can travel across and compare beat for beat. No slider, no wipe — the two columns just sit there, because the argument is strongest when both are visible whole.",
+      "categories": [
+        "use-cases"
+      ],
+      "keywords": [
+        "use case",
+        "before after",
+        "comparison",
+        "timeline",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "before / after / beforeTitle / afterTitle",
+          "type": "MorningBeat[] · string",
+          "description": "The two timelines; keep the hour marks aligned."
+        },
+        {
+          "name": "verdict",
+          "type": "string",
+          "description": "The one-line close under the columns."
+        }
+      ],
+      "usageNotes": [
+        "Deliberately no wipe — the draggable comparison belongs to slice-compare.",
+        "Use identical times in both columns; the alignment is the argument.",
+        "Beats cascade in per column and then hold."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/usecase-two-mornings",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/usecase-two-mornings.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/usecase-two-mornings",
+        "npm": "npx shadcn@latest add @kinetiq/usecase-two-mornings",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/usecase-two-mornings",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/usecase-two-mornings",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/usecase-two-mornings.json"
+      }
+    },
+    {
+      "slug": "usecase-scale-ladder",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Scale Ladder Use Case",
+      "serial": "KB-267",
+      "tagline": "The ladder holds all the way up.",
+      "description": "The product at three scales, set as a ladder: each rung names the size, the shape the product takes there, and — the line most pages hide — what it costs at that rung. Rungs climb in on the cascade with a rail connecting them, because the pitch is not any single rung; it is that the ladder holds all the way up.",
+      "categories": [
+        "use-cases"
+      ],
+      "keywords": [
+        "use case",
+        "scale",
+        "growth",
+        "tiers",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "rungs",
+          "type": "LadderRung[]",
+          "description": "Scale, title, copy, and the plain cost line per rung."
+        },
+        {
+          "name": "eyebrow / headline / copy",
+          "type": "string",
+          "description": "The standfirst."
+        }
+      ],
+      "usageNotes": [
+        "The cost line is the rung's honesty; a ladder without prices is a brochure.",
+        "Three rungs read as a ladder; five read as a pricing page.",
+        "Climbing never means migrating — say so in the copy if it is true."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/usecase-scale-ladder",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/usecase-scale-ladder.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/usecase-scale-ladder",
+        "npm": "npx shadcn@latest add @kinetiq/usecase-scale-ladder",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/usecase-scale-ladder",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/usecase-scale-ladder",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/usecase-scale-ladder.json"
+      }
+    },
+    {
+      "slug": "how-day-clock",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Day Clock How-It-Works",
+      "serial": "KB-268",
+      "tagline": "A claim with an artifact is a fact.",
+      "description": "How it works, told as a working day: four clock marks down a rail, each with what the product did at that hour and the artifact it left behind — sealed, because a claim with an artifact is a fact. The rail is plain and the entrance is a cascade; the day itself is the mechanism on display.",
+      "categories": [
+        "how-it-works"
+      ],
+      "keywords": [
+        "how it works",
+        "timeline",
+        "day",
+        "hours",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "marks",
+          "type": "ClockMark[]",
+          "description": "Time, title, copy, and the sealed artifact per mark."
+        },
+        {
+          "name": "eyebrow / headline / copy",
+          "type": "string",
+          "description": "The standfirst."
+        }
+      ],
+      "usageNotes": [
+        "Deliberately not scroll-scrubbed — the playhead timeline belongs to timeline-spine.",
+        "Every mark should leave an artifact; a mark without one is a promise, not a mechanism.",
+        "Times set in mono against the rail; keep them plausible and ordered."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/how-day-clock",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/how-day-clock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/how-day-clock",
+        "npm": "npx shadcn@latest add @kinetiq/how-day-clock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/how-day-clock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/how-day-clock",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/how-day-clock.json"
+      }
+    },
+    {
+      "slug": "how-exchange-script",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Exchange Script How-It-Works",
+      "serial": "KB-269",
+      "tagline": "The mechanism, in its own medium.",
+      "description": "How it works, as the conversation it actually is: a scripted exchange on the library's own thread — the reader advances it turn by turn and watches the product answer, act, and file the result. The mechanism explains itself in its own medium, and the notes under each reply say what was read and what was written, which is the part worth trusting.",
+      "categories": [
+        "how-it-works"
+      ],
+      "keywords": [
+        "how it works",
+        "conversation",
+        "script",
+        "agent",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "script / openingTurns",
+          "type": "VolleyMessage[] · number",
+          "description": "The exchange and how much of it starts visible."
+        },
+        {
+          "name": "advanceLabel / resetLabel",
+          "type": "string",
+          "description": "The reader's two controls."
+        }
+      ],
+      "usageNotes": [
+        "The thread is volley-thread — arrival weight, run labels, and live semantics come with it.",
+        "Notes under replies carry the trust: what was read, what was written.",
+        "The reader advances; nothing auto-plays."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/volley-thread.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/how-exchange-script",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/how-exchange-script.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/how-exchange-script",
+        "npm": "npx shadcn@latest add @kinetiq/how-exchange-script",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/how-exchange-script",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/how-exchange-script",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/how-exchange-script.json"
       }
     },
     {

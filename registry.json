@@ -8129,6 +8129,117 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "usecase-two-mornings",
+      "type": "registry:block",
+      "title": "Two Mornings Use Case",
+      "description": "The same morning, twice: the old one and the new one as parallel timelines, hour marks aligned so the eye can travel across and compare beat for beat. No slider, no wipe — the two columns just sit there, because the argument is strongest when both are visible whole.",
+      "files": [
+        {
+          "path": "registry/blocks/usecase-two-mornings/usecase-two-mornings.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "use-cases"
+      ],
+      "meta": {
+        "serial": "KB-266"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "usecase-scale-ladder",
+      "type": "registry:block",
+      "title": "Scale Ladder Use Case",
+      "description": "The product at three scales, set as a ladder: each rung names the size, the shape the product takes there, and — the line most pages hide — what it costs at that rung. Rungs climb in on the cascade with a rail connecting them, because the pitch is not any single rung; it is that the ladder holds all the way up.",
+      "files": [
+        {
+          "path": "registry/blocks/usecase-scale-ladder/usecase-scale-ladder.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "use-cases"
+      ],
+      "meta": {
+        "serial": "KB-267"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "how-day-clock",
+      "type": "registry:block",
+      "title": "Day Clock How-It-Works",
+      "description": "How it works, told as a working day: four clock marks down a rail, each with what the product did at that hour and the artifact it left behind — sealed, because a claim with an artifact is a fact. The rail is plain and the entrance is a cascade; the day itself is the mechanism on display.",
+      "files": [
+        {
+          "path": "registry/blocks/how-day-clock/how-day-clock.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "how-it-works"
+      ],
+      "meta": {
+        "serial": "KB-268"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "how-exchange-script",
+      "type": "registry:block",
+      "title": "Exchange Script How-It-Works",
+      "description": "How it works, as the conversation it actually is: a scripted exchange on the library's own thread — the reader advances it turn by turn and watches the product answer, act, and file the result. The mechanism explains itself in its own medium, and the notes under each reply say what was read and what was written, which is the part worth trusting.",
+      "files": [
+        {
+          "path": "registry/blocks/how-exchange-script/how-exchange-script.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/volley-thread.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "how-it-works"
+      ],
+      "meta": {
+        "serial": "KB-269"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

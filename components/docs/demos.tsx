@@ -294,6 +294,10 @@ import { CtaPostscriptDemo } from "@/registry/demos/cta-postscript.demo";
 import { CtaSignatureLineDemo } from "@/registry/demos/cta-signature-line.demo";
 import { FaqLastWordDemo } from "@/registry/demos/faq-last-word.demo";
 import { PricingSeatCounterDemo } from "@/registry/demos/pricing-seat-counter.demo";
+import { HowDayClockDemo } from "@/registry/demos/how-day-clock.demo";
+import { HowExchangeScriptDemo } from "@/registry/demos/how-exchange-script.demo";
+import { UsecaseScaleLadderDemo } from "@/registry/demos/usecase-scale-ladder.demo";
+import { UsecaseTwoMorningsDemo } from "@/registry/demos/usecase-two-mornings.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -586,6 +590,10 @@ export const demos: Record<string, ComponentType> = {
   "cta-postscript": CtaPostscriptDemo,
   "pricing-seat-counter": PricingSeatCounterDemo,
   "faq-last-word": FaqLastWordDemo,
+  "usecase-two-mornings": UsecaseTwoMorningsDemo,
+  "usecase-scale-ladder": UsecaseScaleLadderDemo,
+  "how-day-clock": HowDayClockDemo,
+  "how-exchange-script": HowExchangeScriptDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,
