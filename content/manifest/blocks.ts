@@ -2707,4 +2707,188 @@ export const blocks: KinetiqItem[] = [
       "Keep links honest: weights should sum sensibly through every column.",
     ],
   },
+  {
+    name: "pricing-single-line",
+    type: "registry:block",
+    title: "Single Line Pricing",
+    description:
+      "One plan, stated whole: a single price on the rolling readout, everything included in one honest list, and the caveat printed with the price instead of buried in fine print. The anti-matrix — for products confident enough to have one answer to how much.",
+    files: [
+      {
+        path: "registry/blocks/pricing-single-line/pricing-single-line.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "pressure-button",
+    ],
+    categories: ["pricing"],
+    meta: { serial: "KB-242" },
+    tagline: "One answer to how much.",
+    keywords: ["pricing", "single", "flat", "simple", "section", "marketing"],
+    props: [
+      {
+        name: "price / per / caveat",
+        type: "number · string · string",
+        description:
+          "The price, its unit, and the one honest caveat sealed beside it.",
+      },
+      {
+        name: "included",
+        type: "string[]",
+        description: "Everything, in one list — two columns on wide screens.",
+      },
+      {
+        name: "cta / onCta",
+        type: "string · () => void",
+        description: "The one action.",
+      },
+    ],
+    usageNotes: [
+      "The caveat lives with the price on purpose — hiding it below the fold is the pattern this block exists to refuse.",
+      "The price is a readout, so a prop change rolls rather than blinks.",
+      "Keep the included list honest and flat; subgroups turn it back into tiers.",
+    ],
+  },
+  {
+    name: "pricing-upgrade-gate",
+    type: "registry:block",
+    title: "Upgrade Gate Pricing",
+    description:
+      "The upgrade stated as a diff, not a matrix: what you keep on one side — everything, in plain words — and what the next tier adds as plus-rows on the other, the way an honest changelog reads. Nothing about the current plan is dimmed or shamed; the gate sells the difference, not the doubt.",
+    files: [
+      {
+        path: "registry/blocks/pricing-upgrade-gate/pricing-upgrade-gate.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "status-seal",
+      "pressure-button",
+    ],
+    categories: ["pricing"],
+    meta: { serial: "KB-243" },
+    tagline: "The upgrade as an honest changelog.",
+    keywords: ["pricing", "upgrade", "diff", "plan", "section", "in-product"],
+    props: [
+      {
+        name: "currentName / currentKeeps",
+        type: "string · string[]",
+        description: "The kept side — stated plainly, never dimmed.",
+      },
+      {
+        name: "nextName / nextPrice / gains",
+        type: "string · string · string[]",
+        description: "The gained side as plus-rows, price sealed at the top.",
+      },
+      {
+        name: "cta / onCta / fineprint",
+        type: "string · () => void · string",
+        description: "The action and the proration truth beneath.",
+      },
+    ],
+    usageNotes: [
+      "Gains are plus-rows in the accent colour; keeps are ticks — the visual grammar of a diff.",
+      "The current plan keeps full-strength type; shame-dimming is the dark pattern this block refuses.",
+      "Works as an in-product panel as well as a page section.",
+    ],
+  },
+  {
+    name: "cta-ledger-close",
+    type: "registry:block",
+    title: "Ledger Close CTA",
+    description:
+      "A closing move that argues from the ledger: the day's counts roll in on the left — the same numbers the stats band carries, now doing sales duty — and the ask stands on the right with both doors open. Reads as a receipt with a signature line: here is what happened today; join it.",
+    files: [
+      {
+        path: "registry/blocks/cta-ledger-close/cta-ledger-close.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "pressure-button",
+    ],
+    categories: ["cta"],
+    meta: { serial: "KB-244" },
+    tagline: "A receipt with a signature line.",
+    keywords: ["cta", "closing", "stats", "proof", "section", "marketing"],
+    props: [
+      {
+        name: "counts",
+        type: "CloseCount[]",
+        description: "The day's numbers, rolling in on readouts.",
+      },
+      {
+        name: "headline / copy",
+        type: "[string, string] · string",
+        description: "The close, over two lines.",
+      },
+      {
+        name: "primaryCta / secondaryCta / onPrimary / onSecondary",
+        type: "string · () => void",
+        description: "Both doors, stacked on the right.",
+      },
+    ],
+    usageNotes: [
+      "Counts should be the same numbers your stats band carries — the section is honest reuse, not new claims.",
+      "Both buttons take equal width on large screens; hierarchy comes from variant alone.",
+      "The frame is one hairline box; place it near the page's end.",
+    ],
+  },
+  {
+    name: "cta-split-doors",
+    type: "registry:block",
+    title: "Split Doors CTA",
+    description:
+      "The close as two honest doors: self-serve and guided, given equal floor and equal typography — the primary door earns its weight through the button alone. Each door states its own micro-terms underneath, because the reader choosing a path deserves to know its cost before knocking.",
+    files: [
+      {
+        path: "registry/blocks/cta-split-doors/cta-split-doors.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "pressure-button",
+    ],
+    categories: ["cta"],
+    meta: { serial: "KB-245" },
+    tagline: "Two doors, terms on both.",
+    keywords: ["cta", "split", "sales", "self-serve", "section", "marketing"],
+    props: [
+      {
+        name: "doors",
+        type: "[Door, Door]",
+        description:
+          "Kicker, title, copy, action, and the mono micro-terms per door.",
+      },
+      {
+        name: "headline",
+        type: "string",
+        description: "The line above both doors.",
+      },
+    ],
+    usageNotes: [
+      "Doors get identical layout; only the button variant separates them.",
+      "Micro-terms are commitments — no card, no sequence — not feature bullets.",
+      "Two doors only; a third door is a pricing page.",
+    ],
+  },
 ];

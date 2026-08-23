@@ -7451,6 +7451,121 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pricing-single-line",
+      "type": "registry:block",
+      "title": "Single Line Pricing",
+      "description": "One plan, stated whole: a single price on the rolling readout, everything included in one honest list, and the caveat printed with the price instead of buried in fine print. The anti-matrix — for products confident enough to have one answer to how much.",
+      "files": [
+        {
+          "path": "registry/blocks/pricing-single-line/pricing-single-line.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "pricing"
+      ],
+      "meta": {
+        "serial": "KB-242"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pricing-upgrade-gate",
+      "type": "registry:block",
+      "title": "Upgrade Gate Pricing",
+      "description": "The upgrade stated as a diff, not a matrix: what you keep on one side — everything, in plain words — and what the next tier adds as plus-rows on the other, the way an honest changelog reads. Nothing about the current plan is dimmed or shamed; the gate sells the difference, not the doubt.",
+      "files": [
+        {
+          "path": "registry/blocks/pricing-upgrade-gate/pricing-upgrade-gate.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "pricing"
+      ],
+      "meta": {
+        "serial": "KB-243"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cta-ledger-close",
+      "type": "registry:block",
+      "title": "Ledger Close CTA",
+      "description": "A closing move that argues from the ledger: the day's counts roll in on the left — the same numbers the stats band carries, now doing sales duty — and the ask stands on the right with both doors open. Reads as a receipt with a signature line: here is what happened today; join it.",
+      "files": [
+        {
+          "path": "registry/blocks/cta-ledger-close/cta-ledger-close.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "cta"
+      ],
+      "meta": {
+        "serial": "KB-244"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cta-split-doors",
+      "type": "registry:block",
+      "title": "Split Doors CTA",
+      "description": "The close as two honest doors: self-serve and guided, given equal floor and equal typography — the primary door earns its weight through the button alone. Each door states its own micro-terms underneath, because the reader choosing a path deserves to know its cost before knocking.",
+      "files": [
+        {
+          "path": "registry/blocks/cta-split-doors/cta-split-doors.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "cta"
+      ],
+      "meta": {
+        "serial": "KB-245"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",

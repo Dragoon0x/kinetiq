@@ -270,6 +270,10 @@ import { FeaturesFlowAtlasDemo } from "@/registry/demos/features-flow-atlas.demo
 import { FeaturesProofStripDemo } from "@/registry/demos/features-proof-strip.demo";
 import { HeroFirstLightDemo } from "@/registry/demos/hero-first-light.demo";
 import { HeroSignalRidgeDemo } from "@/registry/demos/hero-signal-ridge.demo";
+import { CtaLedgerCloseDemo } from "@/registry/demos/cta-ledger-close.demo";
+import { CtaSplitDoorsDemo } from "@/registry/demos/cta-split-doors.demo";
+import { PricingSingleLineDemo } from "@/registry/demos/pricing-single-line.demo";
+import { PricingUpgradeGateDemo } from "@/registry/demos/pricing-upgrade-gate.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -538,6 +542,10 @@ export const demos: Record<string, ComponentType> = {
   "hero-first-light": HeroFirstLightDemo,
   "features-proof-strip": FeaturesProofStripDemo,
   "features-flow-atlas": FeaturesFlowAtlasDemo,
+  "pricing-single-line": PricingSingleLineDemo,
+  "pricing-upgrade-gate": PricingUpgradeGateDemo,
+  "cta-ledger-close": CtaLedgerCloseDemo,
+  "cta-split-doors": CtaSplitDoorsDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

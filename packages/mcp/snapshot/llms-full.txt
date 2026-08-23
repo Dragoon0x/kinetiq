@@ -4591,6 +4591,73 @@ Notes:
 - Callout numbers are typographic; they annotate reading order, not diagram positions.
 - Keep links honest: weights should sum sensibly through every column.
 
+### Single Line Pricing (KB-242) — `pricing-single-line`
+One answer to how much.
+
+One plan, stated whole: a single price on the rolling readout, everything included in one honest list, and the caveat printed with the price instead of buried in fine print. The anti-matrix — for products confident enough to have one answer to how much.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pricing-single-line`
+
+Props:
+- `price / per / caveat`: number · string · string — The price, its unit, and the one honest caveat sealed beside it.
+- `included`: string[] — Everything, in one list — two columns on wide screens.
+- `cta / onCta`: string · () => void — The one action.
+
+Notes:
+- The caveat lives with the price on purpose — hiding it below the fold is the pattern this block exists to refuse.
+- The price is a readout, so a prop change rolls rather than blinks.
+- Keep the included list honest and flat; subgroups turn it back into tiers.
+
+### Upgrade Gate Pricing (KB-243) — `pricing-upgrade-gate`
+The upgrade as an honest changelog.
+
+The upgrade stated as a diff, not a matrix: what you keep on one side — everything, in plain words — and what the next tier adds as plus-rows on the other, the way an honest changelog reads. Nothing about the current plan is dimmed or shamed; the gate sells the difference, not the doubt.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pricing-upgrade-gate`
+
+Props:
+- `currentName / currentKeeps`: string · string[] — The kept side — stated plainly, never dimmed.
+- `nextName / nextPrice / gains`: string · string · string[] — The gained side as plus-rows, price sealed at the top.
+- `cta / onCta / fineprint`: string · () => void · string — The action and the proration truth beneath.
+
+Notes:
+- Gains are plus-rows in the accent colour; keeps are ticks — the visual grammar of a diff.
+- The current plan keeps full-strength type; shame-dimming is the dark pattern this block refuses.
+- Works as an in-product panel as well as a page section.
+
+### Ledger Close CTA (KB-244) — `cta-ledger-close`
+A receipt with a signature line.
+
+A closing move that argues from the ledger: the day's counts roll in on the left — the same numbers the stats band carries, now doing sales duty — and the ask stands on the right with both doors open. Reads as a receipt with a signature line: here is what happened today; join it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cta-ledger-close`
+
+Props:
+- `counts`: CloseCount[] — The day's numbers, rolling in on readouts.
+- `headline / copy`: [string, string] · string — The close, over two lines.
+- `primaryCta / secondaryCta / onPrimary / onSecondary`: string · () => void — Both doors, stacked on the right.
+
+Notes:
+- Counts should be the same numbers your stats band carries — the section is honest reuse, not new claims.
+- Both buttons take equal width on large screens; hierarchy comes from variant alone.
+- The frame is one hairline box; place it near the page's end.
+
+### Split Doors CTA (KB-245) — `cta-split-doors`
+Two doors, terms on both.
+
+The close as two honest doors: self-serve and guided, given equal floor and equal typography — the primary door earns its weight through the button alone. Each door states its own micro-terms underneath, because the reader choosing a path deserves to know its cost before knocking.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cta-split-doors`
+
+Props:
+- `doors`: [Door, Door] — Kicker, title, copy, action, and the mono micro-terms per door.
+- `headline`: string — The line above both doors.
+
+Notes:
+- Doors get identical layout; only the button variant separates them.
+- Micro-terms are commitments — no card, no sequence — not feature bullets.
+- Two doors only; a third door is a pricing page.
+
 ### Utils — `utils`
 cn() — class composition.
 
