@@ -52,7 +52,7 @@ export function SiteFooter() {
             </a>
           </p>
         </div>
-        <div className="flex gap-16">
+        <div className="flex flex-wrap gap-x-10 gap-y-8 sm:gap-16">
           {COLUMNS.map((column) => (
             <nav key={column.heading} aria-label={column.heading}>
               <p className="text-label text-ink-3">{column.heading}</p>
