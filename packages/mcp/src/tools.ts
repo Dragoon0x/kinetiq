@@ -8,6 +8,7 @@ import { rankComponents } from "./search.js";
 const TYPE_ENUM = [
   "registry:ui",
   "registry:block",
+  "registry:page",
   "registry:lib",
   "registry:hook",
   "registry:file",
@@ -111,6 +112,8 @@ export function registerTools(server: McpServer): void {
         groups: {
           components: match("component"),
           blocks: match("block"),
+          pages: match("page"),
+          templates: match("template"),
           shared: match("shared"),
         },
       });

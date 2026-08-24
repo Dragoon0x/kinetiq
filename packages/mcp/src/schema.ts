@@ -25,7 +25,7 @@ const installSchema = z.object({
 
 export const metaItemSchema = z.object({
   slug: z.string(),
-  kind: z.enum(["component", "block", "shared"]),
+  kind: z.enum(["component", "block", "page", "template", "shared"]),
   type: z.string(),
   title: z.string(),
   serial: z.string().optional(),
@@ -62,6 +62,8 @@ export const machineMetaSchema = z.object({
     counts: z.object({
       components: z.number(),
       blocks: z.number(),
+      pages: z.number(),
+      templates: z.number(),
       shared: z.number(),
     }),
   }),

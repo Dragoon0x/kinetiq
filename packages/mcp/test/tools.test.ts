@@ -25,7 +25,11 @@ async function connect() {
   return client;
 }
 
-async function call(client: Client, name: string, args: Record<string, unknown>) {
+async function call(
+  client: Client,
+  name: string,
+  args: Record<string, unknown>,
+) {
   const res = await client.callTool({ name, arguments: args });
   const content = res.content as { type: string; text: string }[];
   return JSON.parse(content[0]!.text);
@@ -50,7 +54,9 @@ describe("kinetiq mcp tools", () => {
   it("search_components finds pressure-button with its serial", async () => {
     const client = await connect();
     const out = await call(client, "search_components", { query: "button" });
-    const hit = out.results.find((r: { slug: string }) => r.slug === "pressure-button");
+    const hit = out.results.find(
+      (r: { slug: string }) => r.slug === "pressure-button",
+    );
     expect(hit).toBeTruthy();
     expect(hit.serial).toBe("KQ-001");
   });
@@ -60,8 +66,12 @@ describe("kinetiq mcp tools", () => {
     const out = await call(client, "get_component", {
       slug: "pressure-button",
     });
-    expect(out.props.some((p: { name: string }) => p.name === "holdToConfirm")).toBe(true);
-    expect(out.registryDependencies.every((d: string) => d.startsWith("http"))).toBe(true);
+    expect(
+      out.props.some((p: { name: string }) => p.name === "holdToConfirm"),
+    ).toBe(true);
+    expect(
+      out.registryDependencies.every((d: string) => d.startsWith("http")),
+    ).toBe(true);
     // Source fetch is stubbed to fail → graceful null + note.
     expect(out.source).toBeNull();
     expect(out.sourceError).toBeTruthy();
@@ -101,6 +111,33 @@ describe("kinetiq mcp tools", () => {
     const out = await call(client, "list_catalog", { type: "registry:block" });
     expect(out.groups.blocks.length).toBeGreaterThan(0);
     expect(out.groups.components.length).toBe(0);
+  });
+
+  // The catalog gained pages and templates and this server did not: its kind
+  // enum still allowed only component/block/shared, so every page and
+  // template failed validation, the whole parse threw, and the published
+  // server silently fell back to a stale bundled snapshot.
+  it("list_catalog surfaces pages and templates", async () => {
+    const client = await connect();
+    const out = await call(client, "list_catalog", {});
+    expect(out.groups.pages.length).toBeGreaterThan(0);
+    expect(out.groups.templates.length).toBeGreaterThan(0);
+    expect(out.counts.pages).toBe(out.groups.pages.length);
+    expect(out.counts.templates).toBe(out.groups.templates.length);
+  });
+
+  it("get_component resolves a page and a template", async () => {
+    const client = await connect();
+    const page = await call(client, "get_component", {
+      slug: "auth-sign-in",
+      includeSource: false,
+    });
+    expect(page.slug).toBe("auth-sign-in");
+    const template = await call(client, "get_component", {
+      slug: "template-instrument",
+      includeSource: false,
+    });
+    expect(template.slug).toBe("template-instrument");
   });
 
   it("get_motion_system reports the calibration set", async () => {
