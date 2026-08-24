@@ -72,7 +72,7 @@ function catalogGroups(): SidebarGroup[] {
 /** Sidebar + content shell shared by the components and blocks sections. */
 export function DocsShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="mx-auto flex w-full max-w-7xl px-6">
+    <div className="mx-auto flex w-full max-w-7xl flex-col px-6 lg:flex-row">
       <DocsSidebar groups={catalogGroups()} />
       <div className="min-w-0 flex-1">{children}</div>
     </div>
