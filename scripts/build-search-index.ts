@@ -9,14 +9,26 @@ import { categoryBySlug, itemsByCategory } from "../content/categories";
 import { itemsByCollection } from "../content/collections";
 import { guides } from "../content/guides";
 import { labs } from "../content/labs";
-import { catalogBlocks, catalogComponents } from "../content/manifest";
+import {
+  catalogBlocks,
+  catalogComponents,
+  catalogPages,
+  catalogTemplates,
+} from "../content/manifest";
 import { SHOWCASES } from "../content/showcases";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT_DIR = path.join(ROOT, ".generated");
 
 type SearchEntry = {
-  section: "Components" | "Blocks" | "Playground" | "Guides" | "Pages";
+  section:
+    | "Components"
+    | "Blocks"
+    | "Pages"
+    | "Templates"
+    | "Playground"
+    | "Guides"
+    | "Site";
   title: string;
   tagline: string;
   keywords: string[];
@@ -25,58 +37,66 @@ type SearchEntry = {
 
 async function main() {
   const entries: SearchEntry[] = [
-    ...catalogComponents.map(
-      (c): SearchEntry => ({
-        section: "Components",
-        title: c.title,
-        tagline: c.tagline,
-        keywords: c.keywords,
-        href: `/components/${c.name}`,
-      }),
-    ),
-    ...catalogBlocks.map(
-      (b): SearchEntry => ({
-        section: "Blocks",
-        title: b.title,
-        tagline: b.tagline,
-        keywords: b.keywords,
-        href: `/blocks/${b.name}`,
-      }),
-    ),
-    ...labs.map(
-      (lab): SearchEntry => ({
-        section: "Playground",
-        title: lab.title,
-        tagline: lab.tagline,
-        keywords: [lab.serial, "playground", "lab", lab.slug],
-        href: `/playground/${lab.slug}`,
-      }),
-    ),
-    ...guides.map(
-      (guide): SearchEntry => ({
-        section: "Guides",
-        title: guide.title,
-        tagline: guide.tagline,
-        keywords: [guide.serial, "guide", "manual"],
-        href: `/guides/${guide.slug}`,
-      }),
-    ),
-    {
+    ...catalogComponents.map((c): SearchEntry => ({
+      section: "Components",
+      title: c.title,
+      tagline: c.tagline,
+      keywords: c.keywords,
+      href: `/components/${c.name}`,
+    })),
+    ...catalogBlocks.map((b): SearchEntry => ({
+      section: "Blocks",
+      title: b.title,
+      tagline: b.tagline,
+      keywords: b.keywords,
+      href: `/blocks/${b.name}`,
+    })),
+    // Pages and templates have docs routes like everything else; leaving them
+    // out made two whole wings unreachable from the command deck.
+    ...catalogPages.map((p): SearchEntry => ({
       section: "Pages",
+      title: p.title,
+      tagline: p.tagline,
+      keywords: p.keywords,
+      href: `/pages/${p.name}`,
+    })),
+    ...catalogTemplates.map((t): SearchEntry => ({
+      section: "Templates",
+      title: t.title,
+      tagline: t.tagline,
+      keywords: t.keywords,
+      href: `/templates/${t.name}`,
+    })),
+    ...labs.map((lab): SearchEntry => ({
+      section: "Playground",
+      title: lab.title,
+      tagline: lab.tagline,
+      keywords: [lab.serial, "playground", "lab", lab.slug],
+      href: `/playground/${lab.slug}`,
+    })),
+    ...guides.map((guide): SearchEntry => ({
+      section: "Guides",
+      title: guide.title,
+      tagline: guide.tagline,
+      keywords: [guide.serial, "guide", "manual"],
+      href: `/guides/${guide.slug}`,
+    })),
+    {
+      section: "Site",
       title: "Home",
       tagline: "Motion, calibrated.",
       keywords: ["kinetiq", "home"],
       href: "/",
     },
     {
-      section: "Pages",
+      section: "Site",
       title: "Explore",
       tagline: "The whole catalog, live and filterable.",
       keywords: ["explore", "gallery", "filter", "browse", "catalog"],
       href: "/explore",
     },
     {
-      section: "Pages",
+      section: "Site",
       title: "Spatial wing",
       tagline: "Depth as a material — the spatial collections, live.",
       keywords: ["spatial", "3d", "depth", "wing", "collections", "gallery"],
@@ -84,7 +104,7 @@ async function main() {
     },
     ...itemsByCollection(catalogComponents).map(
       ({ collection }): SearchEntry => ({
-        section: "Pages",
+        section: "Site",
         title: `${collection.label} — Spatial wing`,
         tagline: collection.blurb,
         keywords: [collection.slug, "spatial", "collection"],
@@ -94,7 +114,7 @@ async function main() {
     ...SHOWCASES.map((showcase): SearchEntry => {
       const label = categoryBySlug(showcase.slug)?.label ?? showcase.slug;
       return {
-        section: "Pages",
+        section: "Site",
         title: `${label} showcase`,
         tagline: showcase.deck,
         keywords: [
@@ -107,31 +127,29 @@ async function main() {
         href: `/showcase/${showcase.slug}`,
       };
     }),
-    ...itemsByCategory(catalogComponents).map(
-      ({ category }): SearchEntry => ({
-        section: "Pages",
-        title: `${category.label} components`,
-        tagline: category.blurb,
-        keywords: [category.slug, "category", category.label.toLowerCase()],
-        href: `/components/category/${category.slug}`,
-      }),
-    ),
+    ...itemsByCategory(catalogComponents).map(({ category }): SearchEntry => ({
+      section: "Site",
+      title: `${category.label} components`,
+      tagline: category.blurb,
+      keywords: [category.slug, "category", category.label.toLowerCase()],
+      href: `/components/category/${category.slug}`,
+    })),
     {
-      section: "Pages",
+      section: "Site",
       title: "Playground",
       tagline: "Learn motion by operating it.",
       keywords: ["labs", "benches", "learn"],
       href: "/playground",
     },
     {
-      section: "Pages",
+      section: "Site",
       title: "MCP server",
       tagline: "Connect any AI agent to Kinetiq.",
       keywords: ["mcp", "agents", "tools", "claude", "cursor", "ai"],
       href: "/mcp",
     },
     {
-      section: "Pages",
+      section: "Site",
       title: "For AI agents",
       tagline: "Programmatic registry access.",
       keywords: ["llms", "registry", "api", "agents"],
@@ -145,7 +163,9 @@ async function main() {
     `${JSON.stringify(entries, null, 2)}\n`,
   );
 
-  console.log(`search: ${entries.length} entries → .generated/search-index.json`);
+  console.log(
+    `search: ${entries.length} entries → .generated/search-index.json`,
+  );
 }
 
 main().catch((error) => {

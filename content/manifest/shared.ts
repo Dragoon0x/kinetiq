@@ -13,7 +13,14 @@ export const shared: KinetiqItem[] = [
     files: [{ path: "registry/lib/utils.ts", type: "registry:lib" }],
     dependencies: ["clsx", "tailwind-merge"],
     tagline: "cn() — class composition.",
-    keywords: [],
+    keywords: [
+      "utils",
+      "cn",
+      "clsx",
+      "tailwind-merge",
+      "class names",
+      "helper",
+    ],
   },
   {
     name: "motion",

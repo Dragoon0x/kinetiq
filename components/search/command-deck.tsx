@@ -26,7 +26,15 @@ type SearchEntry = {
 const ENTRIES = searchIndex as SearchEntry[];
 const RECENTS_KEY = "kinetiq-deck-recents";
 const RECENTS_EVENT = "kinetiq-deck-recents-change";
-const SECTION_ORDER = ["Components", "Blocks", "Playground", "Guides", "Pages"];
+const SECTION_ORDER = [
+  "Components",
+  "Blocks",
+  "Pages",
+  "Templates",
+  "Playground",
+  "Guides",
+  "Site",
+];
 const NO_RECENTS: string[] = [];
 
 /** localStorage-backed recents as an external store (cached snapshot). */
@@ -145,12 +153,12 @@ export function CommandDeck() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="border-hairline text-ink-3 hover:text-ink-2 hover:border-hairline-strong flex h-8 items-center gap-2 rounded-2 border px-2.5 text-sm transition-colors"
+        className="flex h-8 items-center gap-2 rounded-2 border border-hairline px-2.5 text-sm text-ink-3 transition-colors hover:border-hairline-strong hover:text-ink-2"
         aria-label="Search (Command K)"
       >
         <Search aria-hidden className="size-3.5" />
         <span className="hidden sm:inline">Search</span>
-        <kbd className="bg-surface-1 text-ink-3 hidden rounded-1 px-1 py-0.5 font-mono text-[10px] sm:inline">
+        <kbd className="hidden rounded-1 bg-surface-1 px-1 py-0.5 font-mono text-[10px] text-ink-3 sm:inline">
           ⌘K
         </kbd>
       </button>
@@ -160,7 +168,7 @@ export function CommandDeck() {
         onOpenChange={setOpen}
         label="Search Kinetiq"
         className={cn(
-          "border-hairline-strong bg-surface-1 fixed top-[18%] left-1/2 z-50 w-[min(560px,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-4 border shadow-2xl",
+          "fixed top-[18%] left-1/2 z-50 w-[min(560px,calc(100vw-2rem))] -translate-x-1/2 overflow-hidden rounded-4 border border-hairline-strong bg-surface-1 shadow-2xl",
         )}
       >
         <div
@@ -168,27 +176,27 @@ export function CommandDeck() {
           className="fixed inset-0 -z-10 bg-black/40 backdrop-blur-sm"
           onClick={() => setOpen(false)}
         />
-        <div className="border-hairline flex items-center gap-2.5 border-b px-4">
-          <Search aria-hidden className="text-ink-3 size-4 shrink-0" />
+        <div className="flex items-center gap-2.5 border-b border-hairline px-4">
+          <Search aria-hidden className="size-4 shrink-0 text-ink-3" />
           <Command.Input
             value={query}
             onValueChange={setQuery}
             placeholder="Search instruments, benches, pages…"
-            className="text-ink placeholder:text-ink-3 h-12 w-full bg-transparent text-sm outline-none"
+            className="h-12 w-full bg-transparent text-sm text-ink outline-none placeholder:text-ink-3"
           />
-          <kbd className="bg-surface-2 text-ink-3 rounded-1 px-1.5 py-0.5 font-mono text-[10px]">
+          <kbd className="rounded-1 bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-ink-3">
             ESC
           </kbd>
         </div>
         <Command.List className="max-h-[320px] overflow-y-auto p-2">
-          <Command.Empty className="text-ink-3 px-3 py-8 text-center font-mono text-xs tracking-wide uppercase">
+          <Command.Empty className="px-3 py-8 text-center font-mono text-xs tracking-wide text-ink-3 uppercase">
             No matching specimens
           </Command.Empty>
 
           {query === "" && recentEntries.length > 0 ? (
             <Command.Group
               heading="Recent"
-              className="text-ink-3 [&_[cmdk-group-heading]]:text-label [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5"
+              className="text-ink-3 [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-label"
             >
               {recentEntries.map((entry) => (
                 <DeckItem
@@ -204,7 +212,7 @@ export function CommandDeck() {
             <Command.Group
               key={section}
               heading={section}
-              className="text-ink-3 [&_[cmdk-group-heading]]:text-label [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5"
+              className="text-ink-3 [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-label"
             >
               {entries.map((entry) => (
                 <DeckItem key={entry.href} entry={entry} onSelect={go} />
@@ -228,19 +236,19 @@ function DeckItem({
     <Command.Item
       value={`${entry.title} ${entry.tagline} ${entry.keywords.join(" ")}`}
       onSelect={() => onSelect(entry.href)}
-      className="data-[selected=true]:bg-surface-2 group flex cursor-pointer items-center justify-between gap-3 rounded-2 px-3 py-2"
+      className="group flex cursor-pointer items-center justify-between gap-3 rounded-2 px-3 py-2 data-[selected=true]:bg-surface-2"
     >
       <span className="min-w-0">
-        <span className="text-ink block truncate text-sm font-medium">
+        <span className="block truncate text-sm font-medium text-ink">
           {entry.title}
         </span>
-        <span className="text-ink-3 block truncate text-xs">
+        <span className="block truncate text-xs text-ink-3">
           {entry.tagline}
         </span>
       </span>
       <ArrowRight
         aria-hidden
-        className="text-ink-3 size-3.5 shrink-0 opacity-0 transition-opacity group-data-[selected=true]:opacity-100"
+        className="size-3.5 shrink-0 text-ink-3 opacity-0 transition-opacity group-data-[selected=true]:opacity-100"
       />
     </Command.Item>
   );

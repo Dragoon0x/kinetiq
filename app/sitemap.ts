@@ -3,7 +3,12 @@ import type { MetadataRoute } from "next";
 import { itemsByCategory } from "@/content/categories";
 import { guides } from "@/content/guides";
 import { labs } from "@/content/labs";
-import { catalogBlocks, catalogComponents } from "@/content/manifest";
+import {
+  catalogBlocks,
+  catalogComponents,
+  catalogPages,
+  catalogTemplates,
+} from "@/content/manifest";
 import { SHOWCASES } from "@/content/showcases";
 import { siteConfig } from "@/lib/site-config";
 
@@ -14,6 +19,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/explore",
     "/spatial",
     "/blocks",
+    "/pages",
+    "/templates",
+    "/showcase",
     "/playground",
     "/guides",
     "/agents",
@@ -43,6 +51,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...catalogBlocks.map((b) => ({
       url: `${siteConfig.url}/blocks/${b.name}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    })),
+    ...catalogPages.map((p) => ({
+      url: `${siteConfig.url}/pages/${p.name}`,
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    })),
+    ...catalogTemplates.map((t) => ({
+      url: `${siteConfig.url}/templates/${t.name}`,
       changeFrequency: "weekly" as const,
       priority: 0.7,
     })),

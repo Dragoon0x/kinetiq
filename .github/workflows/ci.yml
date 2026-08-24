@@ -37,6 +37,9 @@ jobs:
       - name: Validate machine catalog
         run: pnpm validate:meta
 
+      - name: Validate catalog integrity
+        run: pnpm validate:integrity
+
       - name: Build
         run: pnpm build
 
@@ -45,6 +48,12 @@ jobs:
 
       - name: End-to-end tests
         run: pnpm test:e2e
+
+      # Reduced motion is a contract, not a preference: every component must
+      # still report state with the animation removed. Run locally since the
+      # wing began; it belongs here too.
+      - name: End-to-end tests (reduced motion)
+        run: RM=1 pnpm exec playwright test tests/exercise.spec.ts tests/sections.spec.ts tests/pages.spec.ts tests/templates.spec.ts
 
   mcp:
     runs-on: ubuntu-latest

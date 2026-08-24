@@ -22262,7 +22262,14 @@
       "title": "Utils",
       "tagline": "cn() — class composition.",
       "description": "Class-name composition helper shared by every component.",
-      "keywords": [],
+      "keywords": [
+        "utils",
+        "cn",
+        "clsx",
+        "tailwind-merge",
+        "class names",
+        "helper"
+      ],
       "dependencies": [
         "clsx",
         "tailwind-merge"

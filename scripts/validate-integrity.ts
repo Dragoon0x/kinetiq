@@ -15,7 +15,16 @@
  *   3. Every registry:page and registry:file needs a target, or the CLI has
  *      nowhere to write it. The schema enforces this too; asserting it here
  *      means a schema regression cannot pass silently.
+ *
+ *   4. Everything with a docs route must appear in BOTH the search index and
+ *      the sitemap. Adding a wing means updating several consumers, and three
+ *      were missed in a row: the machine catalog (pages invisible to the MCP
+ *      server), the search index (27 pages and 6 templates unreachable from
+ *      the command deck), and the sitemap. These are derived from the same
+ *      catalog the routes are, so the check is wing-agnostic by construction
+ *      — a future wing is covered the day it lands.
  */
+import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
@@ -78,6 +87,50 @@ async function main() {
     }
   }
 
+  // 4. Search and sitemap coverage for everything that has a docs route.
+  const searchPath = path.join(ROOT, ".generated", "search-index.json");
+  if (!existsSync(searchPath)) {
+    problems.push("search index missing — run `pnpm generate` first.");
+  } else {
+    const index = JSON.parse(await readFile(searchPath, "utf8")) as Array<{
+      href?: string;
+    }>;
+    const hrefs = new Set(index.map((entry) => entry.href));
+    for (const [kind, items] of [
+      ["components", catalogComponents],
+      ["blocks", catalogBlocks],
+      ["pages", catalogPages],
+      ["templates", catalogTemplates],
+    ] as const) {
+      for (const item of items) {
+        if (!hrefs.has(`/${kind}/${item.name}`)) {
+          problems.push(
+            `${item.name} has a docs route but is absent from the search index — the command deck cannot find it.`,
+          );
+        }
+      }
+    }
+  }
+
+  const { default: sitemap } = (await import("../app/sitemap")) as {
+    default: () => Array<{ url: string }>;
+  };
+  const urls = new Set(sitemap().map((entry) => entry.url));
+  for (const [kind, items] of [
+    ["components", catalogComponents],
+    ["blocks", catalogBlocks],
+    ["pages", catalogPages],
+    ["templates", catalogTemplates],
+  ] as const) {
+    for (const item of items) {
+      if (![...urls].some((u) => u.endsWith(`/${kind}/${item.name}`))) {
+        problems.push(
+          `${item.name} has a docs route but is absent from the sitemap.`,
+        );
+      }
+    }
+  }
+
   // 3. Targets on everything that has no default destination.
   for (const item of allItems) {
     for (const file of item.files) {
@@ -99,8 +152,8 @@ async function main() {
 
   console.log(
     `integrity: OK — ${OG_SOURCES.length} OG source(s) ASCII-safe, ` +
-      `${routed.length} routed item(s) have demos, ` +
-      `${allItems.length} item(s) have valid targets`,
+      `${routed.length} routed item(s) have demos, search entries, and ` +
+      `sitemap urls, ${allItems.length} item(s) have valid targets`,
   );
 }
 
