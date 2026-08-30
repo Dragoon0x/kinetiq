@@ -13,8 +13,8 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 212,
-      "blocks": 132,
+      "components": 227,
+      "blocks": 133,
       "pages": 27,
       "templates": 6,
       "shared": 6
@@ -13058,6 +13058,22 @@
           "name": "maxRows",
           "type": "number",
           "description": "Rows the well grows to before it scrolls."
+        },
+        {
+          "name": "models / model / onModelChange",
+          "type": "string[] · string · (model) => void",
+          "description": "A cycling model chip in the footer — the current choice is always printed, never hidden in a menu."
+        },
+        {
+          "name": "onDictate",
+          "type": "() => void",
+          "description": "Offers a dictation control beside send; the well never records audio itself."
+        },
+        {
+          "name": "shape",
+          "type": "\"well\" | \"pill\"",
+          "defaultValue": "\"well\"",
+          "description": "The container silhouette."
         }
       ],
       "usageNotes": [
@@ -13145,6 +13161,884 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/code-lathe",
         "bun": "bunx --bun shadcn@latest add @kinetiq/code-lathe",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/code-lathe.json"
+      }
+    },
+    {
+      "slug": "work-lamp",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Work Lamp",
+      "serial": "KQ-214",
+      "tagline": "A wait with a clock on it is a report.",
+      "description": "The lamp that says the bench is busy: one of four honest faces — a shimmering pixel grid, breathing dots, an orbiting pair, a sweeping bar — beside the work's name and a ticking elapsed readout. A wait with a clock on it is a report; a wait without one is a hope. Time starts at mount, never the wall clock at render, so server and client always agree.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "loading",
+        "agent",
+        "spinner",
+        "elapsed",
+        "busy",
+        "status"
+      ],
+      "props": [
+        {
+          "name": "face",
+          "type": "\"grid\" | \"orbit\" | \"dots\" | \"sweep\"",
+          "defaultValue": "\"grid\"",
+          "description": "Which lamp is lit."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What the bench is doing, in a word or two."
+        },
+        {
+          "name": "elapsed",
+          "type": "number",
+          "description": "Externally-owned seconds; omit and the lamp keeps time from mount."
+        },
+        {
+          "name": "showElapsed",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the ticking readout beside the label."
+        }
+      ],
+      "usageNotes": [
+        "The elapsed numeral is plain tabular figures, not a rolling readout — at ten ticks a second a carry-roll is noise.",
+        "Under reduced motion the faces hold still but the clock keeps ticking: elapsed time is information, not decoration.",
+        "aria-live is off by design; a loader that announces every tick talks over the answer it precedes."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/work-lamp",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/work-lamp.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/work-lamp",
+        "npm": "npx shadcn@latest add @kinetiq/work-lamp",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/work-lamp",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/work-lamp",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/work-lamp.json"
+      }
+    },
+    {
+      "slug": "train-of-thought",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Train of Thought",
+      "serial": "KQ-215",
+      "tagline": "Reasoning available, never performed.",
+      "description": "The agent's working shown as a trace: a quiet summary chip — Thought for 4 seconds — that opens into the steps it actually took, cascading in as plain clauses, searches with hit counts, and mono tool lines. The chip is the honest default: reasoning is available, never performed at the reader, and the active step carries a breathing marker so a live trace reads as live.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "thinking",
+        "reasoning",
+        "trace",
+        "agent",
+        "steps",
+        "disclosure"
+      ],
+      "props": [
+        {
+          "name": "summary",
+          "type": "string",
+          "description": "The chip line, e.g. \"Thought for 4 seconds\"."
+        },
+        {
+          "name": "steps",
+          "type": "ThoughtStep[]",
+          "description": "The trace: plain steps, searches with counts, mono code lines; one may be active."
+        },
+        {
+          "name": "open / defaultOpen / onOpenChange",
+          "type": "boolean · (open) => void",
+          "description": "Controlled or uncontrolled disclosure."
+        }
+      ],
+      "usageNotes": [
+        "Default closed on purpose — the trace is for the reader who asks, not a performance for everyone.",
+        "Mark at most one step active; its breathing dot is what makes a live trace read as live.",
+        "Under reduced motion the drawer opens instantly and steps print in place."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/train-of-thought",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/train-of-thought.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/train-of-thought",
+        "npm": "npx shadcn@latest add @kinetiq/train-of-thought",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/train-of-thought",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/train-of-thought",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/train-of-thought.json"
+      }
+    },
+    {
+      "slug": "source-stream",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Source Stream",
+      "serial": "KQ-216",
+      "tagline": "Provenance at the point of assertion.",
+      "description": "An answer that streams in with its sources landing inline: prose arrives word by word, and when a claim finishes, its citation chip drops into the sentence right where the claim was made — provenance at the point of assertion, not footnoted at the end. A sources tray sums the run, and follow-up asks appear only once the stream is done.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "streaming",
+        "citations",
+        "sources",
+        "agent",
+        "answer",
+        "follow-ups"
+      ],
+      "props": [
+        {
+          "name": "segments",
+          "type": "StreamSegment[]",
+          "description": "The answer in claim-sized pieces; a segment's source chip lands when its words finish."
+        },
+        {
+          "name": "followUps / onFollowUp",
+          "type": "string[] · (text) => void",
+          "description": "Suggested next asks, offered after completion."
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "Words per second while streaming."
+        },
+        {
+          "name": "immediate",
+          "type": "boolean",
+          "description": "Print whole at once (reduced motion forces this too)."
+        }
+      ],
+      "usageNotes": [
+        "The stream is a mount-driven tick, never the wall clock — a re-render never re-streams.",
+        "The live region announces once, at completion; a per-word live region reads the answer out dozens of times.",
+        "Segment at claim boundaries: the chip belongs to the sentence that needed it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/source-stream",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/source-stream.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/source-stream",
+        "npm": "npx shadcn@latest add @kinetiq/source-stream",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/source-stream",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/source-stream",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/source-stream.json"
+      }
+    },
+    {
+      "slug": "countersign",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Countersign",
+      "serial": "KQ-217",
+      "tagline": "Asked before acting, never after.",
+      "description": "The questions an agent asks before it acts, paged one at a time: pick an option, then press Continue — picking never advances on its own, because a card that moves the moment you touch it cannot be reconsidered, and these are precisely the decisions that deserve a second look. Skip is always offered; a human-in-the-loop card that cannot be declined is a form wearing a question's clothes.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "approval",
+        "human in the loop",
+        "agent",
+        "confirm",
+        "questions",
+        "pager"
+      ],
+      "props": [
+        {
+          "name": "questions",
+          "type": "CountersignQuestion[]",
+          "description": "Each with a prompt and its option pills; answered as a radiogroup."
+        },
+        {
+          "name": "onComplete",
+          "type": "(answers) => void",
+          "description": "Fired once at the end; skipped questions are absent from the record."
+        },
+        {
+          "name": "heading / skipLabel / continueLabel / doneLine",
+          "type": "string",
+          "description": "The card's fixed copy."
+        }
+      ],
+      "usageNotes": [
+        "Selection never auto-advances — Continue is the countersignature.",
+        "Skip is per-question and honest: a skipped answer is absent, not defaulted.",
+        "The finished card reads back every decision, so the sign-off is inspectable after the fact."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/countersign",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/countersign.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/countersign",
+        "npm": "npx shadcn@latest add @kinetiq/countersign",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/countersign",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/countersign",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/countersign.json"
+      }
+    },
+    {
+      "slug": "tool-trace",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tool Trace",
+      "serial": "KQ-218",
+      "tagline": "The run at chip height.",
+      "description": "A tool run folded into a chip: collapsed, one line says what happened — 4 tool calls, 2 messages — and open, the run replays as its parts: a thinking note, a code write on the lathe, a command with its checks printing, a read with what was seen. File-change chips close the run with +/− counts and an honest overflow. The point is proportion: agents work loudly, and a transcript that prints every tool call at full height buries the answer the run was for.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "tool calls",
+        "agent",
+        "trace",
+        "chips",
+        "diff",
+        "run"
+      ],
+      "props": [
+        {
+          "name": "calls",
+          "type": "ToolCall[]",
+          "description": "Thinking, write, run, and read parts, in order."
+        },
+        {
+          "name": "changes / maxChanges",
+          "type": "FileChange[] · number",
+          "description": "File chips with +/− counts; the rest fold into +N more."
+        },
+        {
+          "name": "summary / defaultOpen",
+          "type": "string · boolean",
+          "description": "The collapsed line, and whether the run starts open."
+        }
+      ],
+      "usageNotes": [
+        "The code write composes code-lathe (whole, diff gutters on), so the snippet is copyable and complete for assistive tech from first paint.",
+        "Collapsed is the honest default — the answer matters more than the machinery that fetched it.",
+        "The overflow count is real: chips beyond maxChanges are counted, never dropped silently."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/code-lathe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/tool-trace",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/tool-trace.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tool-trace",
+        "npm": "npx shadcn@latest add @kinetiq/tool-trace",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tool-trace",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tool-trace",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/tool-trace.json"
+      }
+    },
+    {
+      "slug": "run-sheet",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Run Sheet",
+      "serial": "KQ-219",
+      "tagline": "Failures shown, not folded in.",
+      "description": "The agent's task list as a working document: parent tasks carrying a rolling count, child rows carrying their own verdicts — done ticks, a breathing running dot, failures shown red rather than folded into a success number. Two faces: capsules for a panel, a flat list for a transcript. Statuses are carried by word and mark together, never by colour alone.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "tasks",
+        "agent",
+        "status",
+        "progress",
+        "live",
+        "checklist"
+      ],
+      "props": [
+        {
+          "name": "tasks",
+          "type": "RunTask[]",
+          "description": "Parents with counts and their child items, each with a status."
+        },
+        {
+          "name": "face",
+          "type": "\"capsule\" | \"list\"",
+          "defaultValue": "\"capsule\"",
+          "description": "Capsule cards for a panel, a flat rail for a transcript."
+        }
+      ],
+      "usageNotes": [
+        "Counts roll on the readout — they are the part that changes while you watch.",
+        "A failed child stays red under a done parent; hiding it inside an aggregate is how trust is lost.",
+        "Every status is announced by word for screen readers; the mark alone is never the message."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/run-sheet",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/run-sheet.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/run-sheet",
+        "npm": "npx shadcn@latest add @kinetiq/run-sheet",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/run-sheet",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/run-sheet",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/run-sheet.json"
+      }
+    },
+    {
+      "slug": "counsel-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Counsel Card",
+      "serial": "KQ-220",
+      "tagline": "Sureness stated, or nothing.",
+      "description": "One suggestion, offered rather than executed: the counsel in a sentence with its subject carried as a chip, an honest tri-state confidence meter — high, needs review, no signal — and the alternatives kept a fold away with their own confidence attached. The meter is the card's spine: a recommendation that cannot say how sure it is will be trusted exactly once.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "recommendation",
+        "suggestion",
+        "confidence",
+        "agent",
+        "accept",
+        "alternatives"
+      ],
+      "props": [
+        {
+          "name": "counsel / subject",
+          "type": "string",
+          "description": "The sentence and the entity chip carried inside it."
+        },
+        {
+          "name": "confidence",
+          "type": "\"high\" | \"review\" | \"none\"",
+          "description": "The tri-state meter — bars and words together."
+        },
+        {
+          "name": "alternatives",
+          "type": "CounselAlternative[]",
+          "description": "Each with its own confidence, kept a fold away."
+        },
+        {
+          "name": "onAccept",
+          "type": "() => void",
+          "description": "Fired once; accepting seals the card so nothing executes twice."
+        }
+      ],
+      "usageNotes": [
+        "Alternatives carry their own meters — a list of options without confidence is a menu, not counsel.",
+        "Accepting seals the card in place; the accepted state reads back what happened.",
+        "The meter pairs bars with words, so confidence is never carried by colour alone."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/counsel-card",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/counsel-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/counsel-card",
+        "npm": "npx shadcn@latest add @kinetiq/counsel-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/counsel-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/counsel-card",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/counsel-card.json"
+      }
+    },
+    {
+      "slug": "source-shelf",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Source Shelf",
+      "serial": "KQ-221",
+      "tagline": "What the model was given, on the shelf.",
+      "description": "The retrieved context, shelved in plain sight: each chunk carries its title, the excerpt itself, a character count, and the document it came from typed by kind — so what the model was given is inspectable, not implied. The count header admits how much of the working set is off-shelf. An answer's context is part of the answer; a system that hides its retrieval asks to be trusted twice.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "retrieval",
+        "context",
+        "chunks",
+        "sources",
+        "agent",
+        "provenance"
+      ],
+      "props": [
+        {
+          "name": "chunks",
+          "type": "ShelfChunk[]",
+          "description": "Title, excerpt, pre-counted characters, and a typed source document."
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "description": "The full working set, including chunks not shown."
+        }
+      ],
+      "usageNotes": [
+        "Character counts are pre-counted data, not derived from the excerpt — the excerpt is a cut, the count is the whole.",
+        "State the off-shelf remainder via total; a shelf that looks complete when it is not is a quiet lie.",
+        "Source kind chips are text, not icons, so a new file type needs no asset."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/source-shelf",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/source-shelf.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/source-shelf",
+        "npm": "npx shadcn@latest add @kinetiq/source-shelf",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/source-shelf",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/source-shelf",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/source-shelf.json"
+      }
+    },
+    {
+      "slug": "redline-table",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Redline Table",
+      "serial": "KQ-222",
+      "tagline": "A per-row veto on wholesale edits.",
+      "description": "An agent's proposed edits laid over the table itself: removals struck through, additions tinted in, changes shown as was and would-be — and every proposal is a toggle, so the reader accepts or declines row by row before anything is applied. The counts under the grid derive from what is currently accepted; the apply button never claims more than the toggles say.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "diff",
+        "table",
+        "proposed edits",
+        "agent",
+        "apply",
+        "review"
+      ],
+      "props": [
+        {
+          "name": "rows",
+          "type": "RedlineRow[]",
+          "description": "Cells plus a kind — keep, remove, add, or change with its next cells."
+        },
+        {
+          "name": "onApply",
+          "type": "(acceptedIds) => void",
+          "description": "Fired once with only the rows still accepted."
+        },
+        {
+          "name": "applyLabel",
+          "type": "(count) => string",
+          "description": "The button copy, given the live accepted count."
+        }
+      ],
+      "usageNotes": [
+        "Proposals start accepted; a click withdraws one. The counts and the button derive from the toggles, never from the proposal.",
+        "Changed rows show both readings — was struck through, would-be beneath — so a change is never a mystery diff.",
+        "Applying seals the table; nothing can be applied twice."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/redline-table",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/redline-table.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/redline-table",
+        "npm": "npx shadcn@latest add @kinetiq/redline-table",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/redline-table",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/redline-table",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/redline-table.json"
+      }
+    },
+    {
+      "slug": "sieve-table",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sieve Table",
+      "serial": "KQ-223",
+      "tagline": "Surviving rows glide; hidden ones are counted.",
+      "description": "A table sieved by status chips: pick a chip and the rows that survive glide to their new positions while the rest fold away — a layout move, never a reprint, because rows that teleport can't be followed and rows that reprint can't be trusted to be the same rows. Every chip carries its count, derived from the data, so the filter admits how much it hides.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "filter",
+        "table",
+        "status",
+        "chips",
+        "flip",
+        "layout"
+      ],
+      "props": [
+        {
+          "name": "statuses / rows",
+          "type": "SieveStatus[] · SieveRow[]",
+          "description": "The chip set and the rows, each carrying a statusId."
+        },
+        {
+          "name": "columns",
+          "type": "string[]",
+          "description": "Column captions; the status column is added for you."
+        }
+      ],
+      "usageNotes": [
+        "The chips are a real radiogroup; All is a first-class member, not an absence of filter.",
+        "Chip counts derive from the rows, so the filter admits what it hides.",
+        "Under reduced motion rows fade in place rather than travel."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/sieve-table",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/sieve-table.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sieve-table",
+        "npm": "npx shadcn@latest add @kinetiq/sieve-table",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sieve-table",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sieve-table",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/sieve-table.json"
+      }
+    },
+    {
+      "slug": "contact-ledger",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Contact Ledger",
+      "serial": "KQ-224",
+      "tagline": "The summary cannot disagree with the book.",
+      "description": "A relationship grid that reads like a book: records grouped under alphabetical rails, each row carrying its tags, a pre-formatted last-touch date, and a three-bar strength meter labelled in words. The footer aggregates — count, linked share, average strength — are derived from the rows on render, so the summary cannot quietly disagree with the book it sums.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "crm",
+        "records",
+        "grid",
+        "relationships",
+        "strength",
+        "tags"
+      ],
+      "props": [
+        {
+          "name": "records",
+          "type": "ContactRecord[]",
+          "description": "Name, place, tags, pre-formatted last touch, strength 0–3, optional link."
+        },
+        {
+          "name": "maxTags",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Tags shown per row before the +N overflow."
+        }
+      ],
+      "usageNotes": [
+        "For working ten thousand rows, reach for the ledger — this one is for reading a hundred relationships honestly.",
+        "Strength pairs bars with words; the meter is never colour alone.",
+        "Dates are pre-formatted strings, so the grid never reads a clock and cannot drift from the server."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/contact-ledger",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/contact-ledger.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/contact-ledger",
+        "npm": "npx shadcn@latest add @kinetiq/contact-ledger",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/contact-ledger",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/contact-ledger",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/contact-ledger.json"
+      }
+    },
+    {
+      "slug": "switchyard",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Switchyard",
+      "serial": "KQ-225",
+      "tagline": "A rule, read at rest.",
+      "description": "A workflow drawn as cards on a dotted yard: a trigger, then the switches — each condition a clause of words and chips, entities and values set apart from the prose so the rule reads as a rule. The cards hang off one drawn spine, arriving down it in order. This is the still, legible cousin of the flow instruments: nothing here simulates — it states, because a rule you are about to enable deserves to be read at rest.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "workflow",
+        "automation",
+        "trigger",
+        "condition",
+        "flowchart",
+        "nodes"
+      ],
+      "props": [
+        {
+          "name": "nodes",
+          "type": "YardNode[]",
+          "description": "Trigger and condition cards; conditions carry clauses of words and chips."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Accessible name for the drawn canvas."
+        }
+      ],
+      "usageNotes": [
+        "Chips separate entities from values from prose — a rule whose parts all look alike cannot be audited by eye.",
+        "Quantity flow belongs to flow-diagram; this instrument states logic, it never simulates it.",
+        "The spine draws once on entry; under reduced motion it is simply there."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/switchyard",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/switchyard.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/switchyard",
+        "npm": "npx shadcn@latest add @kinetiq/switchyard",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/switchyard",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/switchyard",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/switchyard.json"
+      }
+    },
+    {
+      "slug": "insight-reel",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Insight Reel",
+      "serial": "KQ-226",
+      "tagline": "The claim, with its evidence scrubable.",
+      "description": "Findings on a reel: one insight at a time — the claim as a sentence with its subject chipped, the deltas beside it pre-formatted and toned, and the series behind the claim drawn on the spark instrument so the reader can scrub the evidence themselves. Dots page the reel; each card offers one follow-up, because an insight worth surfacing is worth asking about.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "insights",
+        "findings",
+        "agent",
+        "chart",
+        "paged",
+        "deltas"
+      ],
+      "props": [
+        {
+          "name": "insights",
+          "type": "Insight[]",
+          "description": "Lead, subject chip, leadAfter, toned deltas, a series, one follow-up."
+        },
+        {
+          "name": "onFollowUp",
+          "type": "(text, insight) => void",
+          "description": "Fired when a card's offered ask is taken."
+        }
+      ],
+      "usageNotes": [
+        "Deltas are pre-formatted strings — the reel formats nothing, so it can never round a claim differently than the system that made it.",
+        "The chart is spark-chart, crosshair and all; the reel adds paging, never chart mechanics.",
+        "One follow-up per card. A finding with five suggested asks is a menu, not an insight."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spark-chart.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/insight-reel",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/insight-reel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/insight-reel",
+        "npm": "npx shadcn@latest add @kinetiq/insight-reel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/insight-reel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/insight-reel",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/insight-reel.json"
+      }
+    },
+    {
+      "slug": "trim-panel",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Trim Panel",
+      "serial": "KQ-227",
+      "tagline": "Adjustments narrated, never silent.",
+      "description": "The inspector with an agent's hands on it: width, height, radius, and opacity read out as rolling numerals while the stage element re-trims live on the glide spring — every adjustment narrated, because a tool that changes your design silently is indistinguishable from a bug. The fields are the record, the stage is the proof, and the two cannot disagree: both read from the same values.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "inspector",
+        "design",
+        "agent",
+        "properties",
+        "fine-tune",
+        "panel"
+      ],
+      "props": [
+        {
+          "name": "initial / steps",
+          "type": "TrimValues · TrimStep[]",
+          "description": "The starting reading and the narrated adjustments, one per interval."
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "defaultValue": "2.2",
+          "description": "Seconds between adjustments; the walk is mount-driven, never the wall clock."
+        }
+      ],
+      "usageNotes": [
+        "Stage and fields read from the same values, so the preview cannot disagree with the record.",
+        "Each step carries its narration; the note line is a polite live region.",
+        "Under reduced motion the stage re-trims without travel but the numerals still roll — a changing number is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/trim-panel",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/trim-panel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/trim-panel",
+        "npm": "npx shadcn@latest add @kinetiq/trim-panel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/trim-panel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/trim-panel",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/trim-panel.json"
+      }
+    },
+    {
+      "slug": "blue-pencil",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Blue Pencil",
+      "serial": "KQ-228",
+      "tagline": "The verbs hand the text back out.",
+      "description": "The editor's blue pencil: select a passage and a small toolbar of rewrite verbs springs up anchored to the selection — explain, improve, shorten, tone. The verbs hand the selected text back out; the pencil never rewrites anything itself, because the surface that edits and the model that edits must be separable for either to be trusted.",
+      "categories": [
+        "text"
+      ],
+      "keywords": [
+        "selection",
+        "toolbar",
+        "rewrite",
+        "editing",
+        "agent",
+        "text"
+      ],
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The passage the pencil works over."
+        },
+        {
+          "name": "verbs / onVerb",
+          "type": "PencilVerb[] · (verbId, selection) => void",
+          "description": "The rewrite verbs, and the hand-off carrying the selected text."
+        }
+      ],
+      "usageNotes": [
+        "The pencil never rewrites — it hands the selection out, so the surface and the model stay separable.",
+        "Anchored from the selection's own rectangle and clamped to the passage box, so it cannot escape its stage.",
+        "Collapsing the selection withdraws the toolbar; selectionchange catches keyboard, double-click, and drag alike."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/blue-pencil",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/blue-pencil.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/blue-pencil",
+        "npm": "npx shadcn@latest add @kinetiq/blue-pencil",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/blue-pencil",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/blue-pencil",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/blue-pencil.json"
       }
     },
     {
@@ -14120,6 +15014,63 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/exchange-panel",
         "bun": "bunx --bun shadcn@latest add @kinetiq/exchange-panel",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/exchange-panel.json"
+      }
+    },
+    {
+      "slug": "agent-desk",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Agent Desk",
+      "serial": "KB-117",
+      "tagline": "The chat, assembled from its instruments.",
+      "description": "The chat surface assembled from its instruments: tabbed threads, each a volley-thread whose agent turns can open a train-of-thought, with the prompt-well seated at the foot — models, @ sources, and / commands included. The desk contributes the tabs and the seating; every behaviour belongs to the primitive that owns it, which is the point of having primitives.",
+      "categories": [
+        "blocks"
+      ],
+      "keywords": [
+        "chat",
+        "agent",
+        "threads",
+        "tabs",
+        "composer",
+        "panel"
+      ],
+      "props": [
+        {
+          "name": "threads",
+          "type": "DeskThread[]",
+          "description": "Tabbed conversations; agent turns may embed a train-of-thought."
+        },
+        {
+          "name": "models / onSubmit",
+          "type": "string[] · (value, threadId) => void",
+          "description": "Passed to the composer; submissions carry their thread."
+        }
+      ],
+      "usageNotes": [
+        "Arrival weight, trace disclosure, and composer behaviour all belong to their primitives — the desk only seats them.",
+        "Thread swaps crossfade rather than slide: tabs are peers, not a journey.",
+        "Notes under agent turns carry the read/tool/duration line, the part worth trusting."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/volley-thread.json",
+        "https://kinetiqui.vercel.app/r/prompt-well.json",
+        "https://kinetiqui.vercel.app/r/train-of-thought.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/agent-desk",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/agent-desk.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/agent-desk",
+        "npm": "npx shadcn@latest add @kinetiq/agent-desk",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/agent-desk",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/agent-desk",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/agent-desk.json"
       }
     },
     {

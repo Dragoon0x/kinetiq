@@ -378,6 +378,22 @@ import { TemplateInstrumentDemo } from "@/registry/demos/template-instrument.dem
 import { TemplateLaunchDemo } from "@/registry/demos/template-launch.demo";
 import { TemplateLedgerDemo } from "@/registry/demos/template-ledger.demo";
 import { TemplateStudioDemo } from "@/registry/demos/template-studio.demo";
+import { CountersignDemo } from "@/registry/demos/countersign.demo";
+import { SourceStreamDemo } from "@/registry/demos/source-stream.demo";
+import { TrainOfThoughtDemo } from "@/registry/demos/train-of-thought.demo";
+import { WorkLampDemo } from "@/registry/demos/work-lamp.demo";
+import { CounselCardDemo } from "@/registry/demos/counsel-card.demo";
+import { RunSheetDemo } from "@/registry/demos/run-sheet.demo";
+import { SourceShelfDemo } from "@/registry/demos/source-shelf.demo";
+import { ToolTraceDemo } from "@/registry/demos/tool-trace.demo";
+import { ContactLedgerDemo } from "@/registry/demos/contact-ledger.demo";
+import { RedlineTableDemo } from "@/registry/demos/redline-table.demo";
+import { SieveTableDemo } from "@/registry/demos/sieve-table.demo";
+import { BluePencilDemo } from "@/registry/demos/blue-pencil.demo";
+import { InsightReelDemo } from "@/registry/demos/insight-reel.demo";
+import { SwitchyardDemo } from "@/registry/demos/switchyard.demo";
+import { TrimPanelDemo } from "@/registry/demos/trim-panel.demo";
+import { AgentDeskDemo } from "@/registry/demos/agent-desk.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -721,6 +737,24 @@ export const demos: Record<string, ComponentType> = {
   "newsletter-back-issues": NewsletterBackIssuesDemo,
   "contact-open-hours": ContactOpenHoursDemo,
   "gallery-contact-sheet": GalleryContactSheetDemo,
+
+  // Agent wing (KQ-214+)
+  "work-lamp": WorkLampDemo,
+  "train-of-thought": TrainOfThoughtDemo,
+  "source-stream": SourceStreamDemo,
+  countersign: CountersignDemo,
+  "tool-trace": ToolTraceDemo,
+  "run-sheet": RunSheetDemo,
+  "counsel-card": CounselCardDemo,
+  "source-shelf": SourceShelfDemo,
+  "redline-table": RedlineTableDemo,
+  "sieve-table": SieveTableDemo,
+  "contact-ledger": ContactLedgerDemo,
+  switchyard: SwitchyardDemo,
+  "insight-reel": InsightReelDemo,
+  "trim-panel": TrimPanelDemo,
+  "blue-pencil": BluePencilDemo,
+  "agent-desk": AgentDeskDemo,
 
   // Pages (KP-###)
   "auth-sign-in": AuthSignInDemo,

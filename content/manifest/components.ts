@@ -37,7 +37,8 @@ export const components: KinetiqItem[] = [
       {
         name: "onConfirm",
         type: "() => void",
-        description: "Fires when a hold completes. Hold buttons never fire onClick.",
+        description:
+          "Fires when a hold completes. Hold buttons never fire onClick.",
       },
     ],
     usageNotes: [
@@ -79,7 +80,8 @@ export const components: KinetiqItem[] = [
       {
         name: "…input props",
         type: 'Omit<InputProps, "prefix">',
-        description: "Standard input passthrough; controlled and uncontrolled both work.",
+        description:
+          "Standard input passthrough; controlled and uncontrolled both work.",
       },
     ],
     usageNotes: [
@@ -177,7 +179,7 @@ export const components: KinetiqItem[] = [
       },
     ],
     usageNotes: [
-      "A native button with role=\"switch\" — Space and Enter throw it, and Space arms the anticipation stretch.",
+      'A native button with role="switch" — Space and Enter throw it, and Space arms the anticipation stretch.',
       "Under reduced motion the thumb repositions instantly; only the color crossfade remains.",
     ],
   },
@@ -204,7 +206,8 @@ export const components: KinetiqItem[] = [
       {
         name: "value / defaultValue / onValueChange",
         type: "number | [number, number]",
-        description: "Single or range; live stepped values during drag, deduped.",
+        description:
+          "Single or range; live stepped values during drag, deduped.",
       },
       {
         name: "range",
@@ -216,7 +219,8 @@ export const components: KinetiqItem[] = [
         name: "marks",
         type: "number[] | boolean",
         defaultValue: "true",
-        description: "Every step when ≤ 40 steps, else quarters; or pinned positions.",
+        description:
+          "Every step when ≤ 40 steps, else quarters; or pinned positions.",
       },
       {
         name: "format / readout",
@@ -268,7 +272,8 @@ export const components: KinetiqItem[] = [
       {
         name: "Item.value / Item.disabled",
         type: "string / boolean",
-        description: "Unique drawer id; disabled items are skipped in arrow navigation.",
+        description:
+          "Unique drawer id; disabled items are skipped in arrow navigation.",
       },
       {
         name: "Trigger.icon",
@@ -347,7 +352,8 @@ export const components: KinetiqItem[] = [
       {
         name: "items",
         type: "(SelectOption | SelectGroup)[]",
-        description: "Flat options, labeled groups, or a mix; options take value, label, description, disabled.",
+        description:
+          "Flat options, labeled groups, or a mix; options take value, label, description, disabled.",
       },
       {
         name: "value / defaultValue / onValueChange",
@@ -363,7 +369,8 @@ export const components: KinetiqItem[] = [
       {
         name: "placeholder / label / name",
         type: "string",
-        description: "Empty-state text, wired visible label, and hidden form input.",
+        description:
+          "Empty-state text, wired visible label, and hidden form input.",
       },
     ],
     usageNotes: [
@@ -400,7 +407,8 @@ export const components: KinetiqItem[] = [
         name: "sheet",
         type: "boolean",
         defaultValue: "false",
-        description: "Bottom-sheet variant — full-width, pinned to the bottom edge.",
+        description:
+          "Bottom-sheet variant — full-width, pinned to the bottom edge.",
       },
       {
         name: "dismissible",
@@ -412,12 +420,14 @@ export const components: KinetiqItem[] = [
         name: "portal",
         type: "boolean",
         defaultValue: "true",
-        description: "Portal to body, or contain the overlay in a relative parent.",
+        description:
+          "Portal to body, or contain the overlay in a relative parent.",
       },
       {
         name: "Content.title / Content.description",
         type: "string",
-        description: "Wired to aria-labelledby and aria-describedby; title renders as h2.",
+        description:
+          "Wired to aria-labelledby and aria-describedby; title renders as h2.",
       },
     ],
     usageNotes: [
@@ -491,7 +501,8 @@ export const components: KinetiqItem[] = [
         name: "format",
         type: "(value: number) => string",
         defaultValue: "toLocaleString",
-        description: "Formats the value; non-digit characters render as static cells.",
+        description:
+          "Formats the value; non-digit characters render as static cells.",
       },
       {
         name: "size",
@@ -503,7 +514,8 @@ export const components: KinetiqItem[] = [
         name: "rollOn",
         type: '"any" | "increase"',
         defaultValue: '"any"',
-        description: "With \"increase\", decreases swap instantly — right for latency-style metrics.",
+        description:
+          'With "increase", decreases swap instantly — right for latency-style metrics.',
       },
       {
         name: "delta",
@@ -556,7 +568,8 @@ export const components: KinetiqItem[] = [
       {
         name: "stagger / startDelay",
         type: "number",
-        description: "Seconds between units (defaults to the cascade budget) and lead-in delay.",
+        description:
+          "Seconds between units (defaults to the cascade budget) and lead-in delay.",
       },
     ],
     usageNotes: [
@@ -592,7 +605,8 @@ export const components: KinetiqItem[] = [
         name: "settle",
         type: "SpringName",
         defaultValue: '"snap"',
-        description: "Which calibrated spring the value settles on — its personality shows on the trace.",
+        description:
+          "Which calibrated spring the value settles on — its personality shows on the trace.",
       },
       {
         name: "sensitivity",
@@ -603,7 +617,8 @@ export const components: KinetiqItem[] = [
       {
         name: "label / unit / format / trace",
         type: "string / string / (v)=>string / boolean",
-        description: "Labeling, suffix, numeral formatting, and the history trace toggle.",
+        description:
+          "Labeling, suffix, numeral formatting, and the history trace toggle.",
       },
     ],
     usageNotes: [
@@ -640,7 +655,8 @@ export const components: KinetiqItem[] = [
       {
         name: "GyroLayer.depth",
         type: "0 | 1 | 2",
-        description: "Parallax depth for child slots — pinned, ±4px, or ±8px counter-translation.",
+        description:
+          "Parallax depth for child slots — pinned, ±4px, or ±8px counter-translation.",
       },
     ],
     usageNotes: [
@@ -725,7 +741,8 @@ export const components: KinetiqItem[] = [
       {
         name: "value",
         type: "number",
-        description: "0–100; presence morphs the loader into a determinate arc gauge.",
+        description:
+          "0–100; presence morphs the loader into a determinate arc gauge.",
       },
       {
         name: "label / showLabel",
@@ -734,7 +751,7 @@ export const components: KinetiqItem[] = [
       },
     ],
     usageNotes: [
-      "role=\"progressbar\" throughout — indeterminate announces Loading, determinate reports its value.",
+      'role="progressbar" throughout — indeterminate announces Loading, determinate reports its value.',
       "Under reduced motion the loops freeze to a static glyph with a slow opacity pulse.",
     ],
   },
@@ -811,7 +828,8 @@ export const components: KinetiqItem[] = [
       {
         name: "containerRef",
         type: "RefObject<HTMLElement>",
-        description: "Scrollable ancestor for scroll-linking inside overflow containers.",
+        description:
+          "Scrollable ancestor for scroll-linking inside overflow containers.",
       },
     ],
     usageNotes: [
@@ -895,7 +913,8 @@ export const components: KinetiqItem[] = [
       {
         name: "error / errorMessage",
         type: "boolean / string",
-        description: "Destructive borders plus a row nudge and a role=alert line.",
+        description:
+          "Destructive borders plus a row nudge and a role=alert line.",
       },
       {
         name: "groups",
@@ -909,7 +928,7 @@ export const components: KinetiqItem[] = [
       },
     ],
     usageNotes: [
-      "The single hidden input with autocomplete=\"one-time-code\" is the accessibility-correct OTP pattern — cells are decorative.",
+      'The single hidden input with autocomplete="one-time-code" is the accessibility-correct OTP pattern — cells are decorative.',
       "Under reduced motion digits appear instantly and the nudge is skipped; the alert still announces.",
     ],
   },
@@ -942,12 +961,14 @@ export const components: KinetiqItem[] = [
       {
         name: "onSettled",
         type: "(state) => void",
-        description: "Fires when the incoming roll lands — chain done → idle off it.",
+        description:
+          "Fires when the incoming roll lands — chain done → idle off it.",
       },
       {
         name: "announcements",
         type: "Record<string, string>",
-        description: "Screen-reader text per state; plain-text nodes announce themselves.",
+        description:
+          "Screen-reader text per state; plain-text nodes announce themselves.",
       },
       {
         name: "variant / size",
@@ -984,12 +1005,14 @@ export const components: KinetiqItem[] = [
       {
         name: "children / icon",
         type: "ReactNode",
-        description: "Label and optional leading node (defaults to a status dot).",
+        description:
+          "Label and optional leading node (defaults to a status dot).",
       },
       {
         name: "count",
         type: "number",
-        description: "Embeds a small Readout so numbers carry-roll without re-stamping.",
+        description:
+          "Embeds a small Readout so numbers carry-roll without re-stamping.",
       },
       {
         name: "live",
@@ -999,7 +1022,7 @@ export const components: KinetiqItem[] = [
       },
     ],
     usageNotes: [
-      "role=\"status\" announces label and count once per change, debounced.",
+      'role="status" announces label and count once per change, debounced.',
       "Under reduced motion swaps are instant and the pulse ring holds static at mid-opacity.",
     ],
   },
@@ -1148,7 +1171,7 @@ export const components: KinetiqItem[] = [
         name: "columns / rows / rowId",
         type: "LedgerColumn<T>[] / readonly T[] / (row) => string",
         description:
-          "Column defs (width px | \"1fr\", align, sortable, cell, sortFn), the full data set, and stable row identity.",
+          'Column defs (width px | "1fr", align, sortable, cell, sortFn), the full data set, and stable row identity.',
       },
       {
         name: "rowHeight / height / overscan",
@@ -1159,17 +1182,20 @@ export const components: KinetiqItem[] = [
       {
         name: "sort / defaultSort / onSortChange",
         type: "LedgerSort | null",
-        description: "Controlled or uncontrolled; headers cycle asc → desc → none.",
+        description:
+          "Controlled or uncontrolled; headers cycle asc → desc → none.",
       },
       {
         name: "selectable / selected / onSelectedChange",
         type: "boolean / ReadonlySet<string> / (next) => void",
-        description: "Checkbox column; select-all targets every row, not just visible.",
+        description:
+          "Checkbox column; select-all targets every row, not just visible.",
       },
       {
         name: "onVisibleRangeChange",
         type: "({ from, to }) => void",
-        description: "1-based visible range, emitted from the rAF scroll flush.",
+        description:
+          "1-based visible range, emitted from the rAF scroll flush.",
       },
     ],
     usageNotes: [
@@ -1194,18 +1220,21 @@ export const components: KinetiqItem[] = [
       {
         name: "children",
         type: "ReactNode",
-        description: "Each direct child becomes a drum face (capped at twelve).",
+        description:
+          "Each direct child becomes a drum face (capped at twelve).",
       },
       {
         name: "index / defaultIndex / onIndexChange",
         type: "number / number / (index) => void",
-        description: "Controlled or uncontrolled front panel; fires on every settled detent.",
+        description:
+          "Controlled or uncontrolled front panel; fires on every settled detent.",
       },
       {
         name: "itemWidth / itemHeight / perspective",
         type: "number",
         defaultValue: "160 / 200 / 1000",
-        description: "Panel geometry; the ring radius derives from width and count.",
+        description:
+          "Panel geometry; the ring radius derives from width and count.",
       },
       {
         name: "sensitivity",
@@ -1250,7 +1279,8 @@ export const components: KinetiqItem[] = [
       {
         name: "speed / interactive / colorVars",
         type: "number / boolean / [string, string, string]",
-        description: "Clock rate, pointer displacement, and the three theme tokens sampled.",
+        description:
+          "Clock rate, pointer displacement, and the three theme tokens sampled.",
       },
       {
         name: "forceFallback",
@@ -1288,12 +1318,14 @@ export const components: KinetiqItem[] = [
         name: "speed / density / opacity",
         type: "number",
         defaultValue: "0.5 / 0.5 / 1",
-        description: "Clock rate, geometry density (capped), and canvas-layer opacity.",
+        description:
+          "Clock rate, geometry density (capped), and canvas-layer opacity.",
       },
       {
         name: "children",
         type: "ReactNode",
-        description: "Overlay slot above the canvas — it carries all the semantics.",
+        description:
+          "Overlay slot above the canvas — it carries all the semantics.",
       },
     ],
     usageNotes: [
@@ -1362,7 +1394,8 @@ export const components: KinetiqItem[] = [
         name: "order",
         type: '"ltr" | "random"',
         defaultValue: '"ltr"',
-        description: "Lock-in sequence; random is hash-shuffled, never Math.random.",
+        description:
+          "Lock-in sequence; random is hash-shuffled, never Math.random.",
       },
       {
         name: "charset / speed / as",
@@ -1399,7 +1432,8 @@ export const components: KinetiqItem[] = [
         name: "orientation",
         type: '"horizontal" | "vertical"',
         defaultValue: '"horizontal"',
-        description: "Dock axis — pointer tracking, tooltips, and arrows follow.",
+        description:
+          "Dock axis — pointer tracking, tooltips, and arrows follow.",
       },
       {
         name: "magnify",
@@ -1410,11 +1444,12 @@ export const components: KinetiqItem[] = [
       {
         name: "reorderable / onReorder",
         type: "boolean / (order: string[]) => void",
-        description: "Pointer drag plus Space-lift keyboard reordering, announced live.",
+        description:
+          "Pointer drag plus Space-lift keyboard reordering, announced live.",
       },
     ],
     usageNotes: [
-      "role=\"toolbar\" with roving tabindex; a focused icon magnifies without the pointer.",
+      'role="toolbar" with roving tabindex; a focused icon magnifies without the pointer.',
       "Under reduced motion magnification is replaced by a 2px raise; reordering still works, 1:1.",
     ],
   },
@@ -1435,7 +1470,8 @@ export const components: KinetiqItem[] = [
       {
         name: "items / keyFor / renderItem",
         type: "T[] / (item) => string / (item) => ReactNode",
-        description: "Generic queue contents with stable keys driving enter, exit, and reorder identity.",
+        description:
+          "Generic queue contents with stable keys driving enter, exit, and reorder identity.",
       },
       {
         name: "side",
@@ -1447,7 +1483,8 @@ export const components: KinetiqItem[] = [
         name: "maxVisible",
         type: "number",
         defaultValue: "6",
-        description: "Rows shown before the oldest overflow into a +N more count.",
+        description:
+          "Rows shown before the oldest overflow into a +N more count.",
       },
       {
         name: "announceItem",
@@ -1456,7 +1493,7 @@ export const components: KinetiqItem[] = [
       },
     ],
     usageNotes: [
-      "The list is a role=\"log\" live region — arrivals are announced politely.",
+      'The list is a role="log" live region — arrivals are announced politely.',
       "Under reduced motion rows crossfade in place and layout shifts are instant.",
     ],
   },
@@ -1495,7 +1532,8 @@ export const components: KinetiqItem[] = [
         name: "followCursor",
         type: "boolean",
         defaultValue: "false",
-        description: "Label trails the pointer with drift-damped lag; leader line omitted.",
+        description:
+          "Label trails the pointer with drift-damped lag; leader line omitted.",
       },
       {
         name: "disabled",
@@ -1564,12 +1602,20 @@ export const components: KinetiqItem[] = [
     categories: ["layout"],
     meta: { serial: "KQ-036" },
     tagline: "Drag a tile; the grid reflows around it.",
-    keywords: ["reorder", "drag and drop", "grid", "sortable", "flip", "layout"],
+    keywords: [
+      "reorder",
+      "drag and drop",
+      "grid",
+      "sortable",
+      "flip",
+      "layout",
+    ],
     props: [
       {
         name: "tiles",
         type: "{ id: string; content: ReactNode }[]",
-        description: "The tiles in their initial order; identity drives the FLIP.",
+        description:
+          "The tiles in their initial order; identity drives the FLIP.",
       },
       {
         name: "columns",
@@ -1580,7 +1626,8 @@ export const components: KinetiqItem[] = [
       {
         name: "onOrderChange",
         type: "(ids: string[]) => void",
-        description: "Fires with the new id order after a drop or keyboard move.",
+        description:
+          "Fires with the new id order after a drop or keyboard move.",
       },
       {
         name: "aria-label",
@@ -1599,9 +1646,7 @@ export const components: KinetiqItem[] = [
     title: "Segmented Control",
     description:
       "A compact value picker whose raised thumb glides between segments on snap — radio-group semantics, so it selects a value rather than switching panels.",
-    files: [
-      { path: "registry/ui/segmented-control.tsx", type: "registry:ui" },
-    ],
+    files: [{ path: "registry/ui/segmented-control.tsx", type: "registry:ui" }],
     dependencies: ["motion"],
     registryDependencies: ["utils", "motion", "use-motion-safe"],
     categories: ["selection"],
@@ -1780,7 +1825,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-041" },
     tagline: "Covers that bank away in perspective.",
-    keywords: ["coverflow", "carousel", "3d", "gallery", "perspective", "cards"],
+    keywords: [
+      "coverflow",
+      "carousel",
+      "3d",
+      "gallery",
+      "perspective",
+      "cards",
+    ],
     props: [
       {
         name: "children",
@@ -2318,7 +2370,14 @@ export const components: KinetiqItem[] = [
     categories: ["motion"],
     meta: { serial: "KQ-055" },
     tagline: "A playhead that rides your scroll.",
-    keywords: ["timeline", "scroll", "spine", "changelog", "reveal", "progress"],
+    keywords: [
+      "timeline",
+      "scroll",
+      "spine",
+      "changelog",
+      "reveal",
+      "progress",
+    ],
     props: [
       {
         name: "events",
@@ -2671,12 +2730,14 @@ export const components: KinetiqItem[] = [
       {
         name: "value / onRoll",
         type: "number / (value) => void",
-        description: "Controlled outcome for the next roll, and the landing callback.",
+        description:
+          "Controlled outcome for the next roll, and the landing callback.",
       },
       {
         name: "sequence",
         type: "number[]",
-        description: "Uncontrolled outcomes, cycled in order — deterministic by design.",
+        description:
+          "Uncontrolled outcomes, cycled in order — deterministic by design.",
       },
       {
         name: "size",
@@ -2702,12 +2763,21 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-075" },
     tagline: "Two rings, two channels, one hub.",
-    keywords: ["dial", "gimbal", "rings", "2-axis", "spatial", "picker", "knob"],
+    keywords: [
+      "dial",
+      "gimbal",
+      "rings",
+      "2-axis",
+      "spatial",
+      "picker",
+      "knob",
+    ],
     props: [
       {
         name: "value / defaultValue / onValueChange",
         type: "{ yaw, pitch } / same / (value) => void",
-        description: "Controlled or uncontrolled 0–100 per axis; fires once per settled detent.",
+        description:
+          "Controlled or uncontrolled 0–100 per axis; fires once per settled detent.",
       },
       {
         name: "step",
@@ -2744,7 +2814,15 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-076" },
     tagline: "A wheel of records with a crest.",
-    keywords: ["rolodex", "list", "wheel", "3d", "spatial", "listbox", "records"],
+    keywords: [
+      "rolodex",
+      "list",
+      "wheel",
+      "3d",
+      "spatial",
+      "listbox",
+      "records",
+    ],
     props: [
       {
         name: "items",
@@ -2754,12 +2832,14 @@ export const components: KinetiqItem[] = [
       {
         name: "index / defaultIndex / onIndexChange",
         type: "number / number / (index) => void",
-        description: "Controlled or uncontrolled front record; change fires on settle.",
+        description:
+          "Controlled or uncontrolled front record; change fires on settle.",
       },
       {
         name: "onSelect",
         type: "(id, index) => void",
-        description: "Explicit activation — Enter, Space, or a tap on the front card.",
+        description:
+          "Explicit activation — Enter, Space, or a tap on the front card.",
       },
       {
         name: "height / loop",
@@ -2785,7 +2865,15 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-077" },
     tagline: "Options on a drum, settled by detent.",
-    keywords: ["picker", "wheel", "drum", "form", "select", "spatial", "listbox"],
+    keywords: [
+      "picker",
+      "wheel",
+      "drum",
+      "form",
+      "select",
+      "spatial",
+      "listbox",
+    ],
     props: [
       {
         name: "options",
@@ -2795,7 +2883,8 @@ export const components: KinetiqItem[] = [
       {
         name: "value / defaultValue / onValueChange",
         type: "string / string / (value) => void",
-        description: "Controlled or uncontrolled selection; fires once per settle.",
+        description:
+          "Controlled or uncontrolled selection; fires once per settle.",
       },
       {
         name: "visibleRows / height",
@@ -2826,7 +2915,15 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-078" },
     tagline: "One grid, two boards, a traveling flip.",
-    keywords: ["mosaic", "tiles", "flip", "grid", "spatial", "cascade", "toggle"],
+    keywords: [
+      "mosaic",
+      "tiles",
+      "flip",
+      "grid",
+      "spatial",
+      "cascade",
+      "toggle",
+    ],
     props: [
       {
         name: "tiles",
@@ -2868,12 +2965,21 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-079" },
     tagline: "An orbital system with a focus slot.",
-    keywords: ["orbit", "orrery", "planets", "spatial", "3d", "ambient", "focus"],
+    keywords: [
+      "orbit",
+      "orrery",
+      "planets",
+      "spatial",
+      "3d",
+      "ambient",
+      "focus",
+    ],
     props: [
       {
         name: "items",
         type: "{ id, label, node? }[]",
-        description: "Up to eight orbiting bodies; default faces are minted discs.",
+        description:
+          "Up to eight orbiting bodies; default faces are minted discs.",
       },
       {
         name: "hub / detail",
@@ -2946,17 +3052,20 @@ export const components: KinetiqItem[] = [
         name: "min / max / detents / step",
         type: "number / number / number[] / number",
         defaultValue: "0 / 100 / — / 10",
-        description: "Range and stops; explicit detents win over the step grid.",
+        description:
+          "Range and stops; explicit detents win over the step grid.",
       },
       {
         name: "value / defaultValue / onValueChange / onInput",
         type: "number / number / (value) => void / (value) => void",
-        description: "Controlled or uncontrolled value; change fires per land, input streams live.",
+        description:
+          "Controlled or uncontrolled value; change fires per land, input streams live.",
       },
       {
         name: "format",
         type: "(value) => string",
-        description: "Formats the hub readout, band numerals, and aria-valuetext.",
+        description:
+          "Formats the hub readout, band numerals, and aria-valuetext.",
       },
       {
         name: "size",
@@ -2982,7 +3091,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-112" },
     tagline: "Sections that step back, not down.",
-    keywords: ["accordion", "sections", "depth", "spatial", "disclosure", "stack"],
+    keywords: [
+      "accordion",
+      "sections",
+      "depth",
+      "spatial",
+      "disclosure",
+      "stack",
+    ],
     props: [
       {
         name: "items",
@@ -2992,7 +3108,8 @@ export const components: KinetiqItem[] = [
       {
         name: "open / defaultOpen / onOpenChange",
         type: "string / string / (id) => void",
-        description: "Controlled or uncontrolled open sheet — exactly one at a time.",
+        description:
+          "Controlled or uncontrolled open sheet — exactly one at a time.",
       },
     ],
     usageNotes: [
@@ -3012,7 +3129,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-113" },
     tagline: "Branches recede; the trail hangs behind.",
-    keywords: ["menu", "submenu", "depth", "spatial", "navigation", "breadcrumb"],
+    keywords: [
+      "menu",
+      "submenu",
+      "depth",
+      "spatial",
+      "navigation",
+      "breadcrumb",
+    ],
     props: [
       {
         name: "items",
@@ -3125,7 +3249,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-116" },
     tagline: "Every stop looks down its own hallway.",
-    keywords: ["menu", "mega-menu", "hallway", "corridor", "spatial", "navigation"],
+    keywords: [
+      "menu",
+      "mega-menu",
+      "hallway",
+      "corridor",
+      "spatial",
+      "navigation",
+    ],
     props: [
       {
         name: "hallways",
@@ -3166,12 +3297,14 @@ export const components: KinetiqItem[] = [
       {
         name: "views",
         type: "{ id, title, content }[]",
-        description: "Two to six views; all stay mounted so their state survives switches.",
+        description:
+          "Two to six views; all stay mounted so their state survives switches.",
       },
       {
         name: "activeId / defaultActiveId / onActiveChange",
         type: "string / string / (id) => void",
-        description: "Controlled or uncontrolled active view; fires only when the commit changes it.",
+        description:
+          "Controlled or uncontrolled active view; fires only when the commit changes it.",
       },
       {
         name: "height",
@@ -3207,7 +3340,8 @@ export const components: KinetiqItem[] = [
       {
         name: "onArrive",
         type: "(id) => void",
-        description: "Fires when a flight lands or scrolling settles in a new section.",
+        description:
+          "Fires when a flight lands or scrolling settles in a new section.",
       },
       {
         name: "height",
@@ -3324,7 +3458,8 @@ export const components: KinetiqItem[] = [
       {
         name: "index / defaultIndex / onIndexChange",
         type: "number / number / (index) => void",
-        description: "Controlled or uncontrolled active layer; fires once per settle.",
+        description:
+          "Controlled or uncontrolled active layer; fires once per settle.",
       },
       {
         name: "height",
@@ -3366,7 +3501,8 @@ export const components: KinetiqItem[] = [
       {
         name: "scene / beyond",
         type: "ReactNode / ReactNode",
-        description: "What shows through the aperture, and the view you step into.",
+        description:
+          "What shows through the aperture, and the view you step into.",
       },
       {
         name: "depth",
@@ -3407,7 +3543,8 @@ export const components: KinetiqItem[] = [
       {
         name: "strata",
         type: "{ id, label, content, note? }[]",
-        description: "Three to six strata; each note hides in the seam below its stratum.",
+        description:
+          "Three to six strata; each note hides in the seam below its stratum.",
       },
       {
         name: "onFocusChange",
@@ -3444,7 +3581,15 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-064" },
     tagline: "The board rises to meet your hand.",
-    keywords: ["grid", "relief", "hover", "extrude", "spatial", "tiles", "cursor"],
+    keywords: [
+      "grid",
+      "relief",
+      "hover",
+      "extrude",
+      "spatial",
+      "tiles",
+      "cursor",
+    ],
     props: [
       {
         name: "tiles",
@@ -3455,7 +3600,8 @@ export const components: KinetiqItem[] = [
         name: "columns / maxLift / radius",
         type: "number / number / number",
         defaultValue: "4 / 16 / 1.6",
-        description: "Grid shape, peak extrusion in px, and falloff radius in tile units.",
+        description:
+          "Grid shape, peak extrusion in px, and falloff radius in tile units.",
       },
       {
         name: "onTileClick",
@@ -3558,7 +3704,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-067" },
     tagline: "A blade, not a wipe.",
-    keywords: ["compare", "before-after", "slider", "blade", "spatial", "split"],
+    keywords: [
+      "compare",
+      "before-after",
+      "slider",
+      "blade",
+      "spatial",
+      "split",
+    ],
     props: [
       {
         name: "before / after",
@@ -3765,7 +3918,8 @@ export const components: KinetiqItem[] = [
       {
         name: "children / emblem",
         type: "ReactNode / ReactNode",
-        description: "Card content, and foil-only artwork for the strongest sheen.",
+        description:
+          "Card content, and foil-only artwork for the strongest sheen.",
       },
       {
         name: "intensity",
@@ -3936,7 +4090,8 @@ export const components: KinetiqItem[] = [
         name: "copies / falloff / bend",
         type: "number / number / number",
         defaultValue: "5 / 0.86 / 14",
-        description: "Reflection count, scale step, and corridor bend per depth.",
+        description:
+          "Reflection count, scale step, and corridor bend per depth.",
       },
       {
         name: "height",
@@ -4311,7 +4466,8 @@ export const components: KinetiqItem[] = [
       {
         name: "words",
         type: "[string, string]",
-        description: "The two states; the shorter is padded with figure spaces.",
+        description:
+          "The two states; the shorter is padded with figure spaces.",
       },
       {
         name: "active / defaultActive / onTurn",
@@ -4388,7 +4544,8 @@ export const components: KinetiqItem[] = [
       {
         name: "text / secret",
         type: "string / string",
-        description: "The standing headline and the message hidden in its shadow.",
+        description:
+          "The standing headline and the message hidden in its shadow.",
       },
       {
         name: "defaultAngle",
@@ -4470,7 +4627,8 @@ export const components: KinetiqItem[] = [
       {
         name: "value / defaultValue / onSelect",
         type: "string | null / same / (id) => void",
-        description: "Controlled or uncontrolled selection; default also seats the coil.",
+        description:
+          "Controlled or uncontrolled selection; default also seats the coil.",
       },
       {
         name: "radius / pitch / stepDeg / height",
@@ -4573,12 +4731,20 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-153" },
     tagline: "Ratios you can feel.",
-    keywords: ["gears", "transmission", "mechanism", "spatial", "dial", "ratio"],
+    keywords: [
+      "gears",
+      "transmission",
+      "mechanism",
+      "spatial",
+      "dial",
+      "ratio",
+    ],
     props: [
       {
         name: "value / defaultValue / onValueChange",
         type: "number / number / (value) => void",
-        description: "Controlled or uncontrolled needle value, 0-100; fires once per settle.",
+        description:
+          "Controlled or uncontrolled needle value, 0-100; fires once per settle.",
       },
       {
         name: "teeth",
@@ -4718,7 +4884,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-157" },
     tagline: "Three dials, one agreement.",
-    keywords: ["combination", "dials", "lock", "digits", "spatial", "mechanism"],
+    keywords: [
+      "combination",
+      "dials",
+      "lock",
+      "digits",
+      "spatial",
+      "mechanism",
+    ],
     props: [
       {
         name: "length",
@@ -4729,12 +4902,14 @@ export const components: KinetiqItem[] = [
       {
         name: "value / defaultValue / onValueChange",
         type: "string / string / (value) => void",
-        description: "Controlled or uncontrolled digits; fires per settled digit.",
+        description:
+          "Controlled or uncontrolled digits; fires per settled digit.",
       },
       {
         name: "secret / onUnlock",
         type: "string / () => void",
-        description: "The setting to match and the single-fire unlock callback.",
+        description:
+          "The setting to match and the single-fire unlock callback.",
       },
     ],
     usageNotes: [
@@ -4764,7 +4939,8 @@ export const components: KinetiqItem[] = [
       {
         name: "progress / defaultProgress / onProgressChange",
         type: "number / number / (progress) => void",
-        description: "Controlled or uncontrolled 0-100 opening; fires on settle.",
+        description:
+          "Controlled or uncontrolled 0-100 opening; fires on settle.",
       },
       {
         name: "height",
@@ -4790,12 +4966,20 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-159" },
     tagline: "The long way down, on purpose.",
-    keywords: ["trapdoor", "drop", "dismiss", "confirm", "spatial", "mechanism"],
+    keywords: [
+      "trapdoor",
+      "drop",
+      "dismiss",
+      "confirm",
+      "spatial",
+      "mechanism",
+    ],
     props: [
       {
         name: "children / itemKey",
         type: "ReactNode / string",
-        description: "The item on the doors; change the key to lower in the next one.",
+        description:
+          "The item on the doors; change the key to lower in the next one.",
       },
       {
         name: "onDrop",
@@ -4831,12 +5015,20 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-160" },
     tagline: "Chains out, deck down, crossing proved.",
-    keywords: ["bridge", "drawbridge", "connect", "islands", "spatial", "mechanism"],
+    keywords: [
+      "bridge",
+      "drawbridge",
+      "connect",
+      "islands",
+      "spatial",
+      "mechanism",
+    ],
     props: [
       {
         name: "near / far",
         type: "ReactNode / ReactNode",
-        description: "The two banks; the far one is reachable only while bridged.",
+        description:
+          "The two banks; the far one is reachable only while bridged.",
       },
       {
         name: "bridged / defaultBridged / onBridgedChange",
@@ -4991,7 +5183,8 @@ export const components: KinetiqItem[] = [
       {
         name: "scene",
         type: "ReactNode",
-        description: "The diorama under the glass; defaults to a minted monument.",
+        description:
+          "The diorama under the glass; defaults to a minted monument.",
       },
       {
         name: "flakes",
@@ -5028,7 +5221,8 @@ export const components: KinetiqItem[] = [
       {
         name: "hour / defaultHour / onHourChange",
         type: "number / number / (hour) => void",
-        description: "Controlled or uncontrolled 0-24 clock; settles announce integers.",
+        description:
+          "Controlled or uncontrolled 0-24 clock; settles announce integers.",
       },
       {
         name: "height",
@@ -5174,7 +5368,8 @@ export const components: KinetiqItem[] = [
       {
         name: "books",
         type: "{ id, title, spineWidth?, height?, hue?, spread }[]",
-        description: "Four to eight volumes; geometry seeds deterministically per id.",
+        description:
+          "Four to eight volumes; geometry seeds deterministically per id.",
       },
       {
         name: "open / defaultOpen / onOpenChange",
@@ -5209,7 +5404,8 @@ export const components: KinetiqItem[] = [
       {
         name: "angle / defaultAngle / onAngleChange",
         type: "number / number / (angle) => void",
-        description: "Controlled or uncontrolled yaw; settles announce snapped degrees.",
+        description:
+          "Controlled or uncontrolled yaw; settles announce snapped degrees.",
       },
       {
         name: "size / elevationDeg",
@@ -5240,7 +5436,8 @@ export const components: KinetiqItem[] = [
       {
         name: "subject / backdrop",
         type: "ReactNode / ReactNode",
-        description: "The held plate, and the vista behind (defaults to the corridor).",
+        description:
+          "The held plate, and the vista behind (defaults to the corridor).",
       },
       {
         name: "onDolly",
@@ -5430,7 +5627,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-086" },
     tagline: "Scroll cranes the camera from plan to elevation.",
-    keywords: ["crane", "camera", "scroll", "ground-plane", "spatial", "survey"],
+    keywords: [
+      "crane",
+      "camera",
+      "scroll",
+      "ground-plane",
+      "spatial",
+      "survey",
+    ],
     props: [
       {
         name: "tiles",
@@ -5484,7 +5688,8 @@ export const components: KinetiqItem[] = [
       {
         name: "hotspots",
         type: "RoomHotspot[]",
-        description: "Plaques pinned to the front, left, or right wall by at (0..1).",
+        description:
+          "Plaques pinned to the front, left, or right wall by at (0..1).",
       },
       {
         name: "onLook",
@@ -5802,7 +6007,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-148" },
     tagline: "Scroll the plan up into a standing model.",
-    keywords: ["blueprint", "floor-plan", "extrude", "scroll", "spatial", "architecture"],
+    keywords: [
+      "blueprint",
+      "floor-plan",
+      "extrude",
+      "scroll",
+      "spatial",
+      "architecture",
+    ],
     props: [
       {
         name: "walls",
@@ -5844,7 +6056,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-149" },
     tagline: "Toggle to fan the assembly apart, labelled.",
-    keywords: ["explode", "assembly", "parts", "diagram", "spatial", "exploded-view"],
+    keywords: [
+      "explode",
+      "assembly",
+      "parts",
+      "diagram",
+      "spatial",
+      "exploded-view",
+    ],
     props: [
       {
         name: "parts",
@@ -5970,7 +6189,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-142" },
     tagline: "Spin the planet; a section curves up to the top.",
-    keywords: ["planet", "globe", "rim", "carousel", "spatial", "stereographic"],
+    keywords: [
+      "planet",
+      "globe",
+      "rim",
+      "carousel",
+      "spatial",
+      "stereographic",
+    ],
     props: [
       {
         name: "sections",
@@ -6168,7 +6394,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-134" },
     tagline: "Turn the sky; links form, click to pin a star.",
-    keywords: ["constellation", "stars", "canvas", "point-cloud", "spatial", "3d"],
+    keywords: [
+      "constellation",
+      "stars",
+      "canvas",
+      "point-cloud",
+      "spatial",
+      "3d",
+    ],
     props: [
       {
         name: "stars",
@@ -6249,7 +6482,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-136" },
     tagline: "Move through the beam; the motes swirl in your wake.",
-    keywords: ["sun-shaft", "light", "motes", "canvas", "spatial", "volumetric"],
+    keywords: [
+      "sun-shaft",
+      "light",
+      "motes",
+      "canvas",
+      "spatial",
+      "volumetric",
+    ],
     props: [
       {
         name: "count",
@@ -6287,7 +6527,14 @@ export const components: KinetiqItem[] = [
     categories: ["spatial"],
     meta: { serial: "KQ-137" },
     tagline: "Hold, and the fireflies gather to your hand.",
-    keywords: ["fireflies", "particles", "canvas", "gather", "spatial", "ambient"],
+    keywords: [
+      "fireflies",
+      "particles",
+      "canvas",
+      "gather",
+      "spatial",
+      "ambient",
+    ],
     props: [
       {
         name: "count",
@@ -6368,7 +6615,8 @@ export const components: KinetiqItem[] = [
       {
         name: "onFling",
         type: "(flung) => void",
-        description: "Fires when a fling slings bodies free and when it settles.",
+        description:
+          "Fires when a fling slings bodies free and when it settles.",
       },
       {
         name: "height",
@@ -6433,7 +6681,14 @@ export const components: KinetiqItem[] = [
     categories: ["selection"],
     meta: { serial: "KQ-161" },
     tagline: "Pick a chip; it flies to the tray.",
-    keywords: ["chips", "multi-select", "tags", "filter", "selection", "tokens"],
+    keywords: [
+      "chips",
+      "multi-select",
+      "tags",
+      "filter",
+      "selection",
+      "tokens",
+    ],
     props: [
       {
         name: "chips",
@@ -6490,7 +6745,8 @@ export const components: KinetiqItem[] = [
         name: "max / step",
         type: "number",
         defaultValue: "5 / 1",
-        description: "Top of the scale and its granularity; 0.5 gives half marks.",
+        description:
+          "Top of the scale and its granularity; 0.5 gives half marks.",
       },
       {
         name: "label / readout",
@@ -6532,7 +6788,8 @@ export const components: KinetiqItem[] = [
       {
         name: "name",
         type: "string",
-        description: "Renders a hidden native radio per swatch so forms post the pick.",
+        description:
+          "Renders a hidden native radio per swatch so forms post the pick.",
       },
       {
         name: "columns",
@@ -6642,7 +6899,8 @@ export const components: KinetiqItem[] = [
         name: "severity",
         type: '"info" | "success" | "warn" | "danger"',
         defaultValue: '"info"',
-        description: "Sets the stripe, the title tone, and how loudly it speaks.",
+        description:
+          "Sets the stripe, the title tone, and how loudly it speaks.",
       },
       {
         name: "title / children",
@@ -6673,12 +6931,14 @@ export const components: KinetiqItem[] = [
       {
         name: "status",
         type: '"online" | "away" | "busy" | "offline"',
-        description: "The current state; sets the colour and the announced name.",
+        description:
+          "The current state; sets the colour and the announced name.",
       },
       {
         name: "label",
         type: "ReactNode",
-        description: "Visible text beside the dot; omit and the status name is read.",
+        description:
+          "Visible text beside the dot; omit and the status name is read.",
       },
       {
         name: "pulse",
@@ -6811,7 +7071,14 @@ export const components: KinetiqItem[] = [
     categories: ["text"],
     meta: { serial: "KQ-173" },
     tagline: "A headline whose sheen tracks your pointer.",
-    keywords: ["gradient", "heading", "sheen", "title", "text", "variable-font"],
+    keywords: [
+      "gradient",
+      "heading",
+      "sheen",
+      "title",
+      "text",
+      "variable-font",
+    ],
     props: [
       {
         name: "children",
@@ -6953,7 +7220,8 @@ export const components: KinetiqItem[] = [
       {
         name: "items",
         type: "MasonryItem[]",
-        description: "Tiles keyed by a stable id so motion tracks them across reflows.",
+        description:
+          "Tiles keyed by a stable id so motion tracks them across reflows.",
       },
       {
         name: "minColumnWidth",
@@ -7022,7 +7290,8 @@ export const components: KinetiqItem[] = [
         name: "headerHeight / height",
         type: "number",
         defaultValue: "44 / 320",
-        description: "Header height (the stack step) and the viewport height, in px.",
+        description:
+          "Header height (the stack step) and the viewport height, in px.",
       },
     ],
     usageNotes: [
@@ -7126,7 +7395,8 @@ export const components: KinetiqItem[] = [
       {
         name: "name",
         type: "string",
-        description: "Renders a hidden native radio per stop so forms post the value.",
+        description:
+          "Renders a hidden native radio per stop so forms post the value.",
       },
     ],
     usageNotes: [
@@ -7143,7 +7413,12 @@ export const components: KinetiqItem[] = [
       "A cursor that says what a thing does. Inside the region it rides a small dot that trails the pointer; cross an element tagged with a verb and the dot morphs into a pill carrying that word, snapping back to a dot on the way out — the guidance lives with the element.",
     files: [{ path: "registry/ui/cursor-label.tsx", type: "registry:ui" }],
     dependencies: ["motion"],
-    registryDependencies: ["utils", "motion", "use-motion-safe", "use-pointer-tilt"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "use-pointer-tilt",
+    ],
     categories: ["cursor"],
     meta: { serial: "KQ-181" },
     tagline: "The cursor names what it is over.",
@@ -7152,7 +7427,7 @@ export const components: KinetiqItem[] = [
       {
         name: "children",
         type: "ReactNode",
-        description: "The region; tag any element with data-cursor=\"Verb\".",
+        description: 'The region; tag any element with data-cursor="Verb".',
       },
     ],
     usageNotes: [
@@ -7216,7 +7491,8 @@ export const components: KinetiqItem[] = [
       {
         name: "step",
         type: "number",
-        description: "Seconds between children; auto-tightens under the budget.",
+        description:
+          "Seconds between children; auto-tightens under the budget.",
       },
     ],
     usageNotes: [
@@ -7301,7 +7577,14 @@ export const components: KinetiqItem[] = [
     categories: ["motion"],
     meta: { serial: "KQ-186" },
     tagline: "The stage pins; scenes cross-fade on scroll.",
-    keywords: ["scroll", "scrollytelling", "pinned", "reveal", "sticky", "motion"],
+    keywords: [
+      "scroll",
+      "scrollytelling",
+      "pinned",
+      "reveal",
+      "sticky",
+      "motion",
+    ],
     props: [
       {
         name: "scenes",
@@ -7333,7 +7616,14 @@ export const components: KinetiqItem[] = [
     categories: ["delight"],
     meta: { serial: "KQ-187" },
     tagline: "A press throws confetti that rains back down.",
-    keywords: ["confetti", "burst", "celebrate", "canvas", "particles", "delight"],
+    keywords: [
+      "confetti",
+      "burst",
+      "celebrate",
+      "canvas",
+      "particles",
+      "delight",
+    ],
     props: [
       {
         name: "count",
@@ -7444,7 +7734,12 @@ export const components: KinetiqItem[] = [
       "A small face that reacts. Its eyes follow the pointer on a drift spring, and a click, tap, or Enter/Space boops it — the whole head squashes and springs back, the eyes pinch shut, the smile rounds into an open O, and the cheeks flush for a beat before it settles.",
     files: [{ path: "registry/ui/boop-mascot.tsx", type: "registry:ui" }],
     dependencies: ["motion"],
-    registryDependencies: ["utils", "motion", "use-motion-safe", "use-pointer-tilt"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "use-pointer-tilt",
+    ],
     categories: ["delight"],
     meta: { serial: "KQ-190" },
     tagline: "Boop it — the whole head squashes and springs back.",
@@ -7532,7 +7827,14 @@ export const components: KinetiqItem[] = [
     categories: ["overlays"],
     meta: { serial: "KQ-192" },
     tagline: "Springs from the right-click; cascades into submenus.",
-    keywords: ["context menu", "right-click", "menu", "submenu", "overlay", "overlays"],
+    keywords: [
+      "context menu",
+      "right-click",
+      "menu",
+      "submenu",
+      "overlay",
+      "overlays",
+    ],
     props: [
       {
         name: "items",
@@ -7570,7 +7872,14 @@ export const components: KinetiqItem[] = [
     categories: ["overlays"],
     meta: { serial: "KQ-193" },
     tagline: "A preview that floats up from an inline anchor.",
-    keywords: ["hover card", "preview", "popover", "tooltip", "overlay", "overlays"],
+    keywords: [
+      "hover card",
+      "preview",
+      "popover",
+      "tooltip",
+      "overlay",
+      "overlays",
+    ],
     props: [
       {
         name: "trigger",
@@ -7585,12 +7894,14 @@ export const components: KinetiqItem[] = [
       {
         name: "side / align",
         type: "top | bottom / start | center | end",
-        description: "Preferred placement; side flips when the viewport is tight.",
+        description:
+          "Preferred placement; side flips when the viewport is tight.",
       },
       {
         name: "openDelay / closeDelay",
         type: "number",
-        description: "Hover open delay and the grace period before closing, in ms.",
+        description:
+          "Hover open delay and the grace period before closing, in ms.",
       },
     ],
     usageNotes: [
@@ -7612,7 +7923,14 @@ export const components: KinetiqItem[] = [
     categories: ["overlays"],
     meta: { serial: "KQ-194" },
     tagline: "A moving spotlight walks the eye through each step.",
-    keywords: ["tour", "onboarding", "spotlight", "walkthrough", "coach mark", "overlays"],
+    keywords: [
+      "tour",
+      "onboarding",
+      "spotlight",
+      "walkthrough",
+      "coach mark",
+      "overlays",
+    ],
     props: [
       {
         name: "steps",
@@ -7632,7 +7950,8 @@ export const components: KinetiqItem[] = [
       {
         name: "onFinish",
         type: "() => void",
-        description: "Fires when the last step is completed, not merely dismissed.",
+        description:
+          "Fires when the last step is completed, not merely dismissed.",
       },
     ],
     usageNotes: [
@@ -7753,17 +8072,26 @@ export const components: KinetiqItem[] = [
     categories: ["data"],
     meta: { serial: "KQ-198" },
     tagline: "A year of days, warming cell by cell.",
-    keywords: ["heatmap", "calendar", "contributions", "grid", "activity", "data"],
+    keywords: [
+      "heatmap",
+      "calendar",
+      "contributions",
+      "grid",
+      "activity",
+      "data",
+    ],
     props: [
       {
         name: "days",
         type: "HeatDay[]",
-        description: "Chronological days — date and count — laid out in columns of seven.",
+        description:
+          "Chronological days — date and count — laid out in columns of seven.",
       },
       {
         name: "max",
         type: "number",
-        description: "Scale ceiling for the four levels; defaults to the busiest day.",
+        description:
+          "Scale ceiling for the four levels; defaults to the busiest day.",
       },
       {
         name: "unit",
@@ -7789,7 +8117,14 @@ export const components: KinetiqItem[] = [
     categories: ["navigation"],
     meta: { serial: "KQ-199" },
     tagline: "The trail draws itself; the middle folds away.",
-    keywords: ["breadcrumb", "trail", "navigation", "path", "overflow", "navigation"],
+    keywords: [
+      "breadcrumb",
+      "trail",
+      "navigation",
+      "path",
+      "overflow",
+      "navigation",
+    ],
     props: [
       {
         name: "items",
@@ -7799,12 +8134,14 @@ export const components: KinetiqItem[] = [
       {
         name: "maxVisible",
         type: "number",
-        description: "Crumbs shown before the middle collapses into an ellipsis.",
+        description:
+          "Crumbs shown before the middle collapses into an ellipsis.",
       },
       {
         name: "onNavigate",
         type: "(crumb) => void",
-        description: "Called on activation; prevents default navigation when set.",
+        description:
+          "Called on activation; prevents default navigation when set.",
       },
     ],
     usageNotes: [
@@ -7825,7 +8162,14 @@ export const components: KinetiqItem[] = [
     categories: ["navigation"],
     meta: { serial: "KQ-200" },
     tagline: "The active pill slides; each page previews on hover.",
-    keywords: ["pagination", "pager", "pages", "navigation", "indicator", "navigation"],
+    keywords: [
+      "pagination",
+      "pager",
+      "pages",
+      "navigation",
+      "indicator",
+      "navigation",
+    ],
     props: [
       {
         name: "total / page",
@@ -7840,7 +8184,8 @@ export const components: KinetiqItem[] = [
       {
         name: "siblingCount",
         type: "number",
-        description: "Pages kept either side of the current before an ellipsis.",
+        description:
+          "Pages kept either side of the current before an ellipsis.",
       },
       {
         name: "preview",
@@ -7866,7 +8211,14 @@ export const components: KinetiqItem[] = [
     categories: ["navigation"],
     meta: { serial: "KQ-201" },
     tagline: "Connectors fill, cleared steps stamp a check.",
-    keywords: ["stepper", "wizard", "steps", "progress", "navigation", "navigation"],
+    keywords: [
+      "stepper",
+      "wizard",
+      "steps",
+      "progress",
+      "navigation",
+      "navigation",
+    ],
     props: [
       {
         name: "steps",
@@ -7902,7 +8254,14 @@ export const components: KinetiqItem[] = [
     categories: ["physics"],
     meta: { serial: "KQ-202" },
     tagline: "The end ball pops out; the middle holds still.",
-    keywords: ["newton", "cradle", "pendulum", "momentum", "physics", "physics"],
+    keywords: [
+      "newton",
+      "cradle",
+      "pendulum",
+      "momentum",
+      "physics",
+      "physics",
+    ],
     props: [
       {
         name: "count",
@@ -8128,7 +8487,14 @@ export const components: KinetiqItem[] = [
     categories: ["backgrounds"],
     meta: { serial: "KQ-208" },
     tagline: "Soft blobs drift behind the content — no canvas.",
-    keywords: ["gradient", "background", "blobs", "ambient", "mesh", "backgrounds"],
+    keywords: [
+      "gradient",
+      "background",
+      "blobs",
+      "ambient",
+      "mesh",
+      "backgrounds",
+    ],
     props: [
       {
         name: "height",
@@ -8159,7 +8525,14 @@ export const components: KinetiqItem[] = [
     categories: ["backgrounds"],
     meta: { serial: "KQ-209" },
     tagline: "Nodes thread together; the pointer pulls the web in.",
-    keywords: ["particles", "network", "nodes", "canvas", "background", "backgrounds"],
+    keywords: [
+      "particles",
+      "network",
+      "nodes",
+      "canvas",
+      "background",
+      "backgrounds",
+    ],
     props: [
       {
         name: "count",
@@ -8195,7 +8568,14 @@ export const components: KinetiqItem[] = [
     categories: ["backgrounds"],
     meta: { serial: "KQ-210" },
     tagline: "Particles comb along an invisible current, trailing tails.",
-    keywords: ["flow field", "noise", "particles", "streaks", "canvas", "backgrounds"],
+    keywords: [
+      "flow field",
+      "noise",
+      "particles",
+      "streaks",
+      "canvas",
+      "backgrounds",
+    ],
     props: [
       {
         name: "count",
@@ -8231,7 +8611,14 @@ export const components: KinetiqItem[] = [
     categories: ["agent"],
     meta: { serial: "KQ-211" },
     tagline: "Each turn lands under its own weight.",
-    keywords: ["chat", "thread", "conversation", "message", "agent", "transcript"],
+    keywords: [
+      "chat",
+      "thread",
+      "conversation",
+      "message",
+      "agent",
+      "transcript",
+    ],
     props: [
       {
         name: "messages",
@@ -8289,6 +8676,24 @@ export const components: KinetiqItem[] = [
         type: "number",
         description: "Rows the well grows to before it scrolls.",
       },
+      {
+        name: "models / model / onModelChange",
+        type: "string[] · string · (model) => void",
+        description:
+          "A cycling model chip in the footer — the current choice is always printed, never hidden in a menu.",
+      },
+      {
+        name: "onDictate",
+        type: "() => void",
+        description:
+          "Offers a dictation control beside send; the well never records audio itself.",
+      },
+      {
+        name: "shape",
+        type: '"well" | "pill"',
+        defaultValue: '"well"',
+        description: "The container silhouette.",
+      },
     ],
     usageNotes: [
       "A trigger only counts at the start of a word and a space closes it, so prose never opens the list.",
@@ -8331,6 +8736,591 @@ export const components: KinetiqItem[] = [
       "Every line is in the DOM from the first frame and only dimmed while it waits, so copy and screen readers always see the whole source.",
       "Highlighting is regex-only and language-agnostic; it never ships a grammar or a worker.",
       "Under reduced motion the listing is simply there, complete and still.",
+    ],
+  },
+  {
+    name: "work-lamp",
+    type: "registry:ui",
+    title: "Work Lamp",
+    description:
+      "The lamp that says the bench is busy: one of four honest faces — a shimmering pixel grid, breathing dots, an orbiting pair, a sweeping bar — beside the work's name and a ticking elapsed readout. A wait with a clock on it is a report; a wait without one is a hope. Time starts at mount, never the wall clock at render, so server and client always agree.",
+    files: [{ path: "registry/ui/work-lamp.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: { serial: "KQ-214" },
+    tagline: "A wait with a clock on it is a report.",
+    keywords: ["loading", "agent", "spinner", "elapsed", "busy", "status"],
+    props: [
+      {
+        name: "face",
+        type: '"grid" | "orbit" | "dots" | "sweep"',
+        defaultValue: '"grid"',
+        description: "Which lamp is lit.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "What the bench is doing, in a word or two.",
+      },
+      {
+        name: "elapsed",
+        type: "number",
+        description:
+          "Externally-owned seconds; omit and the lamp keeps time from mount.",
+      },
+      {
+        name: "showElapsed",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Show the ticking readout beside the label.",
+      },
+    ],
+    usageNotes: [
+      "The elapsed numeral is plain tabular figures, not a rolling readout — at ten ticks a second a carry-roll is noise.",
+      "Under reduced motion the faces hold still but the clock keeps ticking: elapsed time is information, not decoration.",
+      "aria-live is off by design; a loader that announces every tick talks over the answer it precedes.",
+    ],
+  },
+  {
+    name: "train-of-thought",
+    type: "registry:ui",
+    title: "Train of Thought",
+    description:
+      "The agent's working shown as a trace: a quiet summary chip — Thought for 4 seconds — that opens into the steps it actually took, cascading in as plain clauses, searches with hit counts, and mono tool lines. The chip is the honest default: reasoning is available, never performed at the reader, and the active step carries a breathing marker so a live trace reads as live.",
+    files: [{ path: "registry/ui/train-of-thought.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: { serial: "KQ-215" },
+    tagline: "Reasoning available, never performed.",
+    keywords: [
+      "thinking",
+      "reasoning",
+      "trace",
+      "agent",
+      "steps",
+      "disclosure",
+    ],
+    props: [
+      {
+        name: "summary",
+        type: "string",
+        description: 'The chip line, e.g. "Thought for 4 seconds".',
+      },
+      {
+        name: "steps",
+        type: "ThoughtStep[]",
+        description:
+          "The trace: plain steps, searches with counts, mono code lines; one may be active.",
+      },
+      {
+        name: "open / defaultOpen / onOpenChange",
+        type: "boolean · (open) => void",
+        description: "Controlled or uncontrolled disclosure.",
+      },
+    ],
+    usageNotes: [
+      "Default closed on purpose — the trace is for the reader who asks, not a performance for everyone.",
+      "Mark at most one step active; its breathing dot is what makes a live trace read as live.",
+      "Under reduced motion the drawer opens instantly and steps print in place.",
+    ],
+  },
+  {
+    name: "source-stream",
+    type: "registry:ui",
+    title: "Source Stream",
+    description:
+      "An answer that streams in with its sources landing inline: prose arrives word by word, and when a claim finishes, its citation chip drops into the sentence right where the claim was made — provenance at the point of assertion, not footnoted at the end. A sources tray sums the run, and follow-up asks appear only once the stream is done.",
+    files: [{ path: "registry/ui/source-stream.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: { serial: "KQ-216" },
+    tagline: "Provenance at the point of assertion.",
+    keywords: [
+      "streaming",
+      "citations",
+      "sources",
+      "agent",
+      "answer",
+      "follow-ups",
+    ],
+    props: [
+      {
+        name: "segments",
+        type: "StreamSegment[]",
+        description:
+          "The answer in claim-sized pieces; a segment's source chip lands when its words finish.",
+      },
+      {
+        name: "followUps / onFollowUp",
+        type: "string[] · (text) => void",
+        description: "Suggested next asks, offered after completion.",
+      },
+      {
+        name: "rate",
+        type: "number",
+        defaultValue: "14",
+        description: "Words per second while streaming.",
+      },
+      {
+        name: "immediate",
+        type: "boolean",
+        description: "Print whole at once (reduced motion forces this too).",
+      },
+    ],
+    usageNotes: [
+      "The stream is a mount-driven tick, never the wall clock — a re-render never re-streams.",
+      "The live region announces once, at completion; a per-word live region reads the answer out dozens of times.",
+      "Segment at claim boundaries: the chip belongs to the sentence that needed it.",
+    ],
+  },
+  {
+    name: "countersign",
+    type: "registry:ui",
+    title: "Countersign",
+    description:
+      "The questions an agent asks before it acts, paged one at a time: pick an option, then press Continue — picking never advances on its own, because a card that moves the moment you touch it cannot be reconsidered, and these are precisely the decisions that deserve a second look. Skip is always offered; a human-in-the-loop card that cannot be declined is a form wearing a question's clothes.",
+    files: [{ path: "registry/ui/countersign.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "status-seal"],
+    categories: ["agent"],
+    meta: { serial: "KQ-217" },
+    tagline: "Asked before acting, never after.",
+    keywords: [
+      "approval",
+      "human in the loop",
+      "agent",
+      "confirm",
+      "questions",
+      "pager",
+    ],
+    props: [
+      {
+        name: "questions",
+        type: "CountersignQuestion[]",
+        description:
+          "Each with a prompt and its option pills; answered as a radiogroup.",
+      },
+      {
+        name: "onComplete",
+        type: "(answers) => void",
+        description:
+          "Fired once at the end; skipped questions are absent from the record.",
+      },
+      {
+        name: "heading / skipLabel / continueLabel / doneLine",
+        type: "string",
+        description: "The card's fixed copy.",
+      },
+    ],
+    usageNotes: [
+      "Selection never auto-advances — Continue is the countersignature.",
+      "Skip is per-question and honest: a skipped answer is absent, not defaulted.",
+      "The finished card reads back every decision, so the sign-off is inspectable after the fact.",
+    ],
+  },
+  {
+    name: "tool-trace",
+    type: "registry:ui",
+    title: "Tool Trace",
+    description:
+      "A tool run folded into a chip: collapsed, one line says what happened — 4 tool calls, 2 messages — and open, the run replays as its parts: a thinking note, a code write on the lathe, a command with its checks printing, a read with what was seen. File-change chips close the run with +/− counts and an honest overflow. The point is proportion: agents work loudly, and a transcript that prints every tool call at full height buries the answer the run was for.",
+    files: [{ path: "registry/ui/tool-trace.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "code-lathe"],
+    categories: ["agent"],
+    meta: { serial: "KQ-218" },
+    tagline: "The run at chip height.",
+    keywords: ["tool calls", "agent", "trace", "chips", "diff", "run"],
+    props: [
+      {
+        name: "calls",
+        type: "ToolCall[]",
+        description: "Thinking, write, run, and read parts, in order.",
+      },
+      {
+        name: "changes / maxChanges",
+        type: "FileChange[] · number",
+        description: "File chips with +/− counts; the rest fold into +N more.",
+      },
+      {
+        name: "summary / defaultOpen",
+        type: "string · boolean",
+        description: "The collapsed line, and whether the run starts open.",
+      },
+    ],
+    usageNotes: [
+      "The code write composes code-lathe (whole, diff gutters on), so the snippet is copyable and complete for assistive tech from first paint.",
+      "Collapsed is the honest default — the answer matters more than the machinery that fetched it.",
+      "The overflow count is real: chips beyond maxChanges are counted, never dropped silently.",
+    ],
+  },
+  {
+    name: "run-sheet",
+    type: "registry:ui",
+    title: "Run Sheet",
+    description:
+      "The agent's task list as a working document: parent tasks carrying a rolling count, child rows carrying their own verdicts — done ticks, a breathing running dot, failures shown red rather than folded into a success number. Two faces: capsules for a panel, a flat list for a transcript. Statuses are carried by word and mark together, never by colour alone.",
+    files: [{ path: "registry/ui/run-sheet.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["agent"],
+    meta: { serial: "KQ-219" },
+    tagline: "Failures shown, not folded in.",
+    keywords: ["tasks", "agent", "status", "progress", "live", "checklist"],
+    props: [
+      {
+        name: "tasks",
+        type: "RunTask[]",
+        description:
+          "Parents with counts and their child items, each with a status.",
+      },
+      {
+        name: "face",
+        type: '"capsule" | "list"',
+        defaultValue: '"capsule"',
+        description: "Capsule cards for a panel, a flat rail for a transcript.",
+      },
+    ],
+    usageNotes: [
+      "Counts roll on the readout — they are the part that changes while you watch.",
+      "A failed child stays red under a done parent; hiding it inside an aggregate is how trust is lost.",
+      "Every status is announced by word for screen readers; the mark alone is never the message.",
+    ],
+  },
+  {
+    name: "counsel-card",
+    type: "registry:ui",
+    title: "Counsel Card",
+    description:
+      "One suggestion, offered rather than executed: the counsel in a sentence with its subject carried as a chip, an honest tri-state confidence meter — high, needs review, no signal — and the alternatives kept a fold away with their own confidence attached. The meter is the card's spine: a recommendation that cannot say how sure it is will be trusted exactly once.",
+    files: [{ path: "registry/ui/counsel-card.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "status-seal"],
+    categories: ["agent"],
+    meta: { serial: "KQ-220" },
+    tagline: "Sureness stated, or nothing.",
+    keywords: [
+      "recommendation",
+      "suggestion",
+      "confidence",
+      "agent",
+      "accept",
+      "alternatives",
+    ],
+    props: [
+      {
+        name: "counsel / subject",
+        type: "string",
+        description: "The sentence and the entity chip carried inside it.",
+      },
+      {
+        name: "confidence",
+        type: '"high" | "review" | "none"',
+        description: "The tri-state meter — bars and words together.",
+      },
+      {
+        name: "alternatives",
+        type: "CounselAlternative[]",
+        description: "Each with its own confidence, kept a fold away.",
+      },
+      {
+        name: "onAccept",
+        type: "() => void",
+        description:
+          "Fired once; accepting seals the card so nothing executes twice.",
+      },
+    ],
+    usageNotes: [
+      "Alternatives carry their own meters — a list of options without confidence is a menu, not counsel.",
+      "Accepting seals the card in place; the accepted state reads back what happened.",
+      "The meter pairs bars with words, so confidence is never carried by colour alone.",
+    ],
+  },
+  {
+    name: "source-shelf",
+    type: "registry:ui",
+    title: "Source Shelf",
+    description:
+      "The retrieved context, shelved in plain sight: each chunk carries its title, the excerpt itself, a character count, and the document it came from typed by kind — so what the model was given is inspectable, not implied. The count header admits how much of the working set is off-shelf. An answer's context is part of the answer; a system that hides its retrieval asks to be trusted twice.",
+    files: [{ path: "registry/ui/source-shelf.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: { serial: "KQ-221" },
+    tagline: "What the model was given, on the shelf.",
+    keywords: [
+      "retrieval",
+      "context",
+      "chunks",
+      "sources",
+      "agent",
+      "provenance",
+    ],
+    props: [
+      {
+        name: "chunks",
+        type: "ShelfChunk[]",
+        description:
+          "Title, excerpt, pre-counted characters, and a typed source document.",
+      },
+      {
+        name: "total",
+        type: "number",
+        description: "The full working set, including chunks not shown.",
+      },
+    ],
+    usageNotes: [
+      "Character counts are pre-counted data, not derived from the excerpt — the excerpt is a cut, the count is the whole.",
+      "State the off-shelf remainder via total; a shelf that looks complete when it is not is a quiet lie.",
+      "Source kind chips are text, not icons, so a new file type needs no asset.",
+    ],
+  },
+  {
+    name: "redline-table",
+    type: "registry:ui",
+    title: "Redline Table",
+    description:
+      "An agent's proposed edits laid over the table itself: removals struck through, additions tinted in, changes shown as was and would-be — and every proposal is a toggle, so the reader accepts or declines row by row before anything is applied. The counts under the grid derive from what is currently accepted; the apply button never claims more than the toggles say.",
+    files: [{ path: "registry/ui/redline-table.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["data"],
+    meta: { serial: "KQ-222" },
+    tagline: "A per-row veto on wholesale edits.",
+    keywords: ["diff", "table", "proposed edits", "agent", "apply", "review"],
+    props: [
+      {
+        name: "rows",
+        type: "RedlineRow[]",
+        description:
+          "Cells plus a kind — keep, remove, add, or change with its next cells.",
+      },
+      {
+        name: "onApply",
+        type: "(acceptedIds) => void",
+        description: "Fired once with only the rows still accepted.",
+      },
+      {
+        name: "applyLabel",
+        type: "(count) => string",
+        description: "The button copy, given the live accepted count.",
+      },
+    ],
+    usageNotes: [
+      "Proposals start accepted; a click withdraws one. The counts and the button derive from the toggles, never from the proposal.",
+      "Changed rows show both readings — was struck through, would-be beneath — so a change is never a mystery diff.",
+      "Applying seals the table; nothing can be applied twice.",
+    ],
+  },
+  {
+    name: "sieve-table",
+    type: "registry:ui",
+    title: "Sieve Table",
+    description:
+      "A table sieved by status chips: pick a chip and the rows that survive glide to their new positions while the rest fold away — a layout move, never a reprint, because rows that teleport can't be followed and rows that reprint can't be trusted to be the same rows. Every chip carries its count, derived from the data, so the filter admits how much it hides.",
+    files: [{ path: "registry/ui/sieve-table.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["data"],
+    meta: { serial: "KQ-223" },
+    tagline: "Surviving rows glide; hidden ones are counted.",
+    keywords: ["filter", "table", "status", "chips", "flip", "layout"],
+    props: [
+      {
+        name: "statuses / rows",
+        type: "SieveStatus[] · SieveRow[]",
+        description: "The chip set and the rows, each carrying a statusId.",
+      },
+      {
+        name: "columns",
+        type: "string[]",
+        description: "Column captions; the status column is added for you.",
+      },
+    ],
+    usageNotes: [
+      "The chips are a real radiogroup; All is a first-class member, not an absence of filter.",
+      "Chip counts derive from the rows, so the filter admits what it hides.",
+      "Under reduced motion rows fade in place rather than travel.",
+    ],
+  },
+  {
+    name: "contact-ledger",
+    type: "registry:ui",
+    title: "Contact Ledger",
+    description:
+      "A relationship grid that reads like a book: records grouped under alphabetical rails, each row carrying its tags, a pre-formatted last-touch date, and a three-bar strength meter labelled in words. The footer aggregates — count, linked share, average strength — are derived from the rows on render, so the summary cannot quietly disagree with the book it sums.",
+    files: [{ path: "registry/ui/contact-ledger.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["data"],
+    meta: { serial: "KQ-224" },
+    tagline: "The summary cannot disagree with the book.",
+    keywords: ["crm", "records", "grid", "relationships", "strength", "tags"],
+    props: [
+      {
+        name: "records",
+        type: "ContactRecord[]",
+        description:
+          "Name, place, tags, pre-formatted last touch, strength 0–3, optional link.",
+      },
+      {
+        name: "maxTags",
+        type: "number",
+        defaultValue: "2",
+        description: "Tags shown per row before the +N overflow.",
+      },
+    ],
+    usageNotes: [
+      "For working ten thousand rows, reach for the ledger — this one is for reading a hundred relationships honestly.",
+      "Strength pairs bars with words; the meter is never colour alone.",
+      "Dates are pre-formatted strings, so the grid never reads a clock and cannot drift from the server.",
+    ],
+  },
+  {
+    name: "switchyard",
+    type: "registry:ui",
+    title: "Switchyard",
+    description:
+      "A workflow drawn as cards on a dotted yard: a trigger, then the switches — each condition a clause of words and chips, entities and values set apart from the prose so the rule reads as a rule. The cards hang off one drawn spine, arriving down it in order. This is the still, legible cousin of the flow instruments: nothing here simulates — it states, because a rule you are about to enable deserves to be read at rest.",
+    files: [{ path: "registry/ui/switchyard.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: { serial: "KQ-225" },
+    tagline: "A rule, read at rest.",
+    keywords: [
+      "workflow",
+      "automation",
+      "trigger",
+      "condition",
+      "flowchart",
+      "nodes",
+    ],
+    props: [
+      {
+        name: "nodes",
+        type: "YardNode[]",
+        description:
+          "Trigger and condition cards; conditions carry clauses of words and chips.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Accessible name for the drawn canvas.",
+      },
+    ],
+    usageNotes: [
+      "Chips separate entities from values from prose — a rule whose parts all look alike cannot be audited by eye.",
+      "Quantity flow belongs to flow-diagram; this instrument states logic, it never simulates it.",
+      "The spine draws once on entry; under reduced motion it is simply there.",
+    ],
+  },
+  {
+    name: "insight-reel",
+    type: "registry:ui",
+    title: "Insight Reel",
+    description:
+      "Findings on a reel: one insight at a time — the claim as a sentence with its subject chipped, the deltas beside it pre-formatted and toned, and the series behind the claim drawn on the spark instrument so the reader can scrub the evidence themselves. Dots page the reel; each card offers one follow-up, because an insight worth surfacing is worth asking about.",
+    files: [{ path: "registry/ui/insight-reel.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spark-chart"],
+    categories: ["agent"],
+    meta: { serial: "KQ-226" },
+    tagline: "The claim, with its evidence scrubable.",
+    keywords: ["insights", "findings", "agent", "chart", "paged", "deltas"],
+    props: [
+      {
+        name: "insights",
+        type: "Insight[]",
+        description:
+          "Lead, subject chip, leadAfter, toned deltas, a series, one follow-up.",
+      },
+      {
+        name: "onFollowUp",
+        type: "(text, insight) => void",
+        description: "Fired when a card's offered ask is taken.",
+      },
+    ],
+    usageNotes: [
+      "Deltas are pre-formatted strings — the reel formats nothing, so it can never round a claim differently than the system that made it.",
+      "The chart is spark-chart, crosshair and all; the reel adds paging, never chart mechanics.",
+      "One follow-up per card. A finding with five suggested asks is a menu, not an insight.",
+    ],
+  },
+  {
+    name: "trim-panel",
+    type: "registry:ui",
+    title: "Trim Panel",
+    description:
+      "The inspector with an agent's hands on it: width, height, radius, and opacity read out as rolling numerals while the stage element re-trims live on the glide spring — every adjustment narrated, because a tool that changes your design silently is indistinguishable from a bug. The fields are the record, the stage is the proof, and the two cannot disagree: both read from the same values.",
+    files: [{ path: "registry/ui/trim-panel.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["agent"],
+    meta: { serial: "KQ-227" },
+    tagline: "Adjustments narrated, never silent.",
+    keywords: [
+      "inspector",
+      "design",
+      "agent",
+      "properties",
+      "fine-tune",
+      "panel",
+    ],
+    props: [
+      {
+        name: "initial / steps",
+        type: "TrimValues · TrimStep[]",
+        description:
+          "The starting reading and the narrated adjustments, one per interval.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "2.2",
+        description:
+          "Seconds between adjustments; the walk is mount-driven, never the wall clock.",
+      },
+    ],
+    usageNotes: [
+      "Stage and fields read from the same values, so the preview cannot disagree with the record.",
+      "Each step carries its narration; the note line is a polite live region.",
+      "Under reduced motion the stage re-trims without travel but the numerals still roll — a changing number is information.",
+    ],
+  },
+  {
+    name: "blue-pencil",
+    type: "registry:ui",
+    title: "Blue Pencil",
+    description:
+      "The editor's blue pencil: select a passage and a small toolbar of rewrite verbs springs up anchored to the selection — explain, improve, shorten, tone. The verbs hand the selected text back out; the pencil never rewrites anything itself, because the surface that edits and the model that edits must be separable for either to be trusted.",
+    files: [{ path: "registry/ui/blue-pencil.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["text"],
+    meta: { serial: "KQ-228" },
+    tagline: "The verbs hand the text back out.",
+    keywords: ["selection", "toolbar", "rewrite", "editing", "agent", "text"],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The passage the pencil works over.",
+      },
+      {
+        name: "verbs / onVerb",
+        type: "PencilVerb[] · (verbId, selection) => void",
+        description:
+          "The rewrite verbs, and the hand-off carrying the selected text.",
+      },
+    ],
+    usageNotes: [
+      "The pencil never rewrites — it hands the selection out, so the surface and the model stay separable.",
+      "Anchored from the selection's own rectangle and clamped to the passage box, so it cannot escape its stage.",
+      "Collapsing the selection withdraws the toolbar; selectionchange catches keyboard, double-click, and drag alike.",
     ],
   },
 ];

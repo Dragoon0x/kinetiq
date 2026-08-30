@@ -5798,6 +5798,423 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "work-lamp",
+      "type": "registry:ui",
+      "title": "Work Lamp",
+      "description": "The lamp that says the bench is busy: one of four honest faces — a shimmering pixel grid, breathing dots, an orbiting pair, a sweeping bar — beside the work's name and a ticking elapsed readout. A wait with a clock on it is a report; a wait without one is a hope. Time starts at mount, never the wall clock at render, so server and client always agree.",
+      "files": [
+        {
+          "path": "registry/ui/work-lamp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-214"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "train-of-thought",
+      "type": "registry:ui",
+      "title": "Train of Thought",
+      "description": "The agent's working shown as a trace: a quiet summary chip — Thought for 4 seconds — that opens into the steps it actually took, cascading in as plain clauses, searches with hit counts, and mono tool lines. The chip is the honest default: reasoning is available, never performed at the reader, and the active step carries a breathing marker so a live trace reads as live.",
+      "files": [
+        {
+          "path": "registry/ui/train-of-thought.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-215"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "source-stream",
+      "type": "registry:ui",
+      "title": "Source Stream",
+      "description": "An answer that streams in with its sources landing inline: prose arrives word by word, and when a claim finishes, its citation chip drops into the sentence right where the claim was made — provenance at the point of assertion, not footnoted at the end. A sources tray sums the run, and follow-up asks appear only once the stream is done.",
+      "files": [
+        {
+          "path": "registry/ui/source-stream.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-216"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "countersign",
+      "type": "registry:ui",
+      "title": "Countersign",
+      "description": "The questions an agent asks before it acts, paged one at a time: pick an option, then press Continue — picking never advances on its own, because a card that moves the moment you touch it cannot be reconsidered, and these are precisely the decisions that deserve a second look. Skip is always offered; a human-in-the-loop card that cannot be declined is a form wearing a question's clothes.",
+      "files": [
+        {
+          "path": "registry/ui/countersign.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-217"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tool-trace",
+      "type": "registry:ui",
+      "title": "Tool Trace",
+      "description": "A tool run folded into a chip: collapsed, one line says what happened — 4 tool calls, 2 messages — and open, the run replays as its parts: a thinking note, a code write on the lathe, a command with its checks printing, a read with what was seen. File-change chips close the run with +/− counts and an honest overflow. The point is proportion: agents work loudly, and a transcript that prints every tool call at full height buries the answer the run was for.",
+      "files": [
+        {
+          "path": "registry/ui/tool-trace.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/code-lathe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-218"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "run-sheet",
+      "type": "registry:ui",
+      "title": "Run Sheet",
+      "description": "The agent's task list as a working document: parent tasks carrying a rolling count, child rows carrying their own verdicts — done ticks, a breathing running dot, failures shown red rather than folded into a success number. Two faces: capsules for a panel, a flat list for a transcript. Statuses are carried by word and mark together, never by colour alone.",
+      "files": [
+        {
+          "path": "registry/ui/run-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-219"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "counsel-card",
+      "type": "registry:ui",
+      "title": "Counsel Card",
+      "description": "One suggestion, offered rather than executed: the counsel in a sentence with its subject carried as a chip, an honest tri-state confidence meter — high, needs review, no signal — and the alternatives kept a fold away with their own confidence attached. The meter is the card's spine: a recommendation that cannot say how sure it is will be trusted exactly once.",
+      "files": [
+        {
+          "path": "registry/ui/counsel-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-220"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "source-shelf",
+      "type": "registry:ui",
+      "title": "Source Shelf",
+      "description": "The retrieved context, shelved in plain sight: each chunk carries its title, the excerpt itself, a character count, and the document it came from typed by kind — so what the model was given is inspectable, not implied. The count header admits how much of the working set is off-shelf. An answer's context is part of the answer; a system that hides its retrieval asks to be trusted twice.",
+      "files": [
+        {
+          "path": "registry/ui/source-shelf.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-221"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "redline-table",
+      "type": "registry:ui",
+      "title": "Redline Table",
+      "description": "An agent's proposed edits laid over the table itself: removals struck through, additions tinted in, changes shown as was and would-be — and every proposal is a toggle, so the reader accepts or declines row by row before anything is applied. The counts under the grid derive from what is currently accepted; the apply button never claims more than the toggles say.",
+      "files": [
+        {
+          "path": "registry/ui/redline-table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-222"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sieve-table",
+      "type": "registry:ui",
+      "title": "Sieve Table",
+      "description": "A table sieved by status chips: pick a chip and the rows that survive glide to their new positions while the rest fold away — a layout move, never a reprint, because rows that teleport can't be followed and rows that reprint can't be trusted to be the same rows. Every chip carries its count, derived from the data, so the filter admits how much it hides.",
+      "files": [
+        {
+          "path": "registry/ui/sieve-table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-223"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "contact-ledger",
+      "type": "registry:ui",
+      "title": "Contact Ledger",
+      "description": "A relationship grid that reads like a book: records grouped under alphabetical rails, each row carrying its tags, a pre-formatted last-touch date, and a three-bar strength meter labelled in words. The footer aggregates — count, linked share, average strength — are derived from the rows on render, so the summary cannot quietly disagree with the book it sums.",
+      "files": [
+        {
+          "path": "registry/ui/contact-ledger.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-224"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "switchyard",
+      "type": "registry:ui",
+      "title": "Switchyard",
+      "description": "A workflow drawn as cards on a dotted yard: a trigger, then the switches — each condition a clause of words and chips, entities and values set apart from the prose so the rule reads as a rule. The cards hang off one drawn spine, arriving down it in order. This is the still, legible cousin of the flow instruments: nothing here simulates — it states, because a rule you are about to enable deserves to be read at rest.",
+      "files": [
+        {
+          "path": "registry/ui/switchyard.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-225"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "insight-reel",
+      "type": "registry:ui",
+      "title": "Insight Reel",
+      "description": "Findings on a reel: one insight at a time — the claim as a sentence with its subject chipped, the deltas beside it pre-formatted and toned, and the series behind the claim drawn on the spark instrument so the reader can scrub the evidence themselves. Dots page the reel; each card offers one follow-up, because an insight worth surfacing is worth asking about.",
+      "files": [
+        {
+          "path": "registry/ui/insight-reel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spark-chart.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-226"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "trim-panel",
+      "type": "registry:ui",
+      "title": "Trim Panel",
+      "description": "The inspector with an agent's hands on it: width, height, radius, and opacity read out as rolling numerals while the stage element re-trims live on the glide spring — every adjustment narrated, because a tool that changes your design silently is indistinguishable from a bug. The fields are the record, the stage is the proof, and the two cannot disagree: both read from the same values.",
+      "files": [
+        {
+          "path": "registry/ui/trim-panel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-227"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "blue-pencil",
+      "type": "registry:ui",
+      "title": "Blue Pencil",
+      "description": "The editor's blue pencil: select a passage and a small toolbar of rewrite verbs springs up anchored to the selection — explain, improve, shorten, tone. The verbs hand the selected text back out; the pencil never rewrites anything itself, because the surface that edits and the model that edits must be separable for either to be trusted.",
+      "files": [
+        {
+          "path": "registry/ui/blue-pencil.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-228"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
@@ -9551,6 +9968,36 @@
       ],
       "meta": {
         "serial": "KB-316"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "agent-desk",
+      "type": "registry:block",
+      "title": "Agent Desk",
+      "description": "The chat surface assembled from its instruments: tabbed threads, each a volley-thread whose agent turns can open a train-of-thought, with the prompt-well seated at the foot — models, @ sources, and / commands included. The desk contributes the tabs and the seating; every behaviour belongs to the primitive that owns it, which is the point of having primitives.",
+      "files": [
+        {
+          "path": "registry/blocks/agent-desk/agent-desk.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/volley-thread.json",
+        "https://kinetiqui.vercel.app/r/prompt-well.json",
+        "https://kinetiqui.vercel.app/r/train-of-thought.json"
+      ],
+      "categories": [
+        "blocks"
+      ],
+      "meta": {
+        "serial": "KB-117"
       }
     },
     {

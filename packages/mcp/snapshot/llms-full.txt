@@ -3638,6 +3638,9 @@ Props:
 - `commands`: WellOption[] — Offered after /, and only when it leads the prompt.
 - `busy`: boolean — Swaps send for stop and blocks submission.
 - `maxRows`: number — Rows the well grows to before it scrolls.
+- `models / model / onModelChange`: string[] · string · (model) => void — A cycling model chip in the footer — the current choice is always printed, never hidden in a menu.
+- `onDictate`: () => void — Offers a dictation control beside send; the well never records audio itself.
+- `shape`: "well" | "pill" (default "well") — The container silhouette.
 
 Notes:
 - A trigger only counts at the start of a word and a space closes it, so prose never opens the list.
@@ -3661,6 +3664,256 @@ Notes:
 - Every line is in the DOM from the first frame and only dimmed while it waits, so copy and screen readers always see the whole source.
 - Highlighting is regex-only and language-agnostic; it never ships a grammar or a worker.
 - Under reduced motion the listing is simply there, complete and still.
+
+### Work Lamp (KQ-214) — `work-lamp`
+A wait with a clock on it is a report.
+
+The lamp that says the bench is busy: one of four honest faces — a shimmering pixel grid, breathing dots, an orbiting pair, a sweeping bar — beside the work's name and a ticking elapsed readout. A wait with a clock on it is a report; a wait without one is a hope. Time starts at mount, never the wall clock at render, so server and client always agree.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/work-lamp`
+
+Props:
+- `face`: "grid" | "orbit" | "dots" | "sweep" (default "grid") — Which lamp is lit.
+- `label`: string — What the bench is doing, in a word or two.
+- `elapsed`: number — Externally-owned seconds; omit and the lamp keeps time from mount.
+- `showElapsed`: boolean (default true) — Show the ticking readout beside the label.
+
+Notes:
+- The elapsed numeral is plain tabular figures, not a rolling readout — at ten ticks a second a carry-roll is noise.
+- Under reduced motion the faces hold still but the clock keeps ticking: elapsed time is information, not decoration.
+- aria-live is off by design; a loader that announces every tick talks over the answer it precedes.
+
+### Train of Thought (KQ-215) — `train-of-thought`
+Reasoning available, never performed.
+
+The agent's working shown as a trace: a quiet summary chip — Thought for 4 seconds — that opens into the steps it actually took, cascading in as plain clauses, searches with hit counts, and mono tool lines. The chip is the honest default: reasoning is available, never performed at the reader, and the active step carries a breathing marker so a live trace reads as live.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/train-of-thought`
+
+Props:
+- `summary`: string — The chip line, e.g. "Thought for 4 seconds".
+- `steps`: ThoughtStep[] — The trace: plain steps, searches with counts, mono code lines; one may be active.
+- `open / defaultOpen / onOpenChange`: boolean · (open) => void — Controlled or uncontrolled disclosure.
+
+Notes:
+- Default closed on purpose — the trace is for the reader who asks, not a performance for everyone.
+- Mark at most one step active; its breathing dot is what makes a live trace read as live.
+- Under reduced motion the drawer opens instantly and steps print in place.
+
+### Source Stream (KQ-216) — `source-stream`
+Provenance at the point of assertion.
+
+An answer that streams in with its sources landing inline: prose arrives word by word, and when a claim finishes, its citation chip drops into the sentence right where the claim was made — provenance at the point of assertion, not footnoted at the end. A sources tray sums the run, and follow-up asks appear only once the stream is done.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/source-stream`
+
+Props:
+- `segments`: StreamSegment[] — The answer in claim-sized pieces; a segment's source chip lands when its words finish.
+- `followUps / onFollowUp`: string[] · (text) => void — Suggested next asks, offered after completion.
+- `rate`: number (default 14) — Words per second while streaming.
+- `immediate`: boolean — Print whole at once (reduced motion forces this too).
+
+Notes:
+- The stream is a mount-driven tick, never the wall clock — a re-render never re-streams.
+- The live region announces once, at completion; a per-word live region reads the answer out dozens of times.
+- Segment at claim boundaries: the chip belongs to the sentence that needed it.
+
+### Countersign (KQ-217) — `countersign`
+Asked before acting, never after.
+
+The questions an agent asks before it acts, paged one at a time: pick an option, then press Continue — picking never advances on its own, because a card that moves the moment you touch it cannot be reconsidered, and these are precisely the decisions that deserve a second look. Skip is always offered; a human-in-the-loop card that cannot be declined is a form wearing a question's clothes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/countersign`
+
+Props:
+- `questions`: CountersignQuestion[] — Each with a prompt and its option pills; answered as a radiogroup.
+- `onComplete`: (answers) => void — Fired once at the end; skipped questions are absent from the record.
+- `heading / skipLabel / continueLabel / doneLine`: string — The card's fixed copy.
+
+Notes:
+- Selection never auto-advances — Continue is the countersignature.
+- Skip is per-question and honest: a skipped answer is absent, not defaulted.
+- The finished card reads back every decision, so the sign-off is inspectable after the fact.
+
+### Tool Trace (KQ-218) — `tool-trace`
+The run at chip height.
+
+A tool run folded into a chip: collapsed, one line says what happened — 4 tool calls, 2 messages — and open, the run replays as its parts: a thinking note, a code write on the lathe, a command with its checks printing, a read with what was seen. File-change chips close the run with +/− counts and an honest overflow. The point is proportion: agents work loudly, and a transcript that prints every tool call at full height buries the answer the run was for.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tool-trace`
+
+Props:
+- `calls`: ToolCall[] — Thinking, write, run, and read parts, in order.
+- `changes / maxChanges`: FileChange[] · number — File chips with +/− counts; the rest fold into +N more.
+- `summary / defaultOpen`: string · boolean — The collapsed line, and whether the run starts open.
+
+Notes:
+- The code write composes code-lathe (whole, diff gutters on), so the snippet is copyable and complete for assistive tech from first paint.
+- Collapsed is the honest default — the answer matters more than the machinery that fetched it.
+- The overflow count is real: chips beyond maxChanges are counted, never dropped silently.
+
+### Run Sheet (KQ-219) — `run-sheet`
+Failures shown, not folded in.
+
+The agent's task list as a working document: parent tasks carrying a rolling count, child rows carrying their own verdicts — done ticks, a breathing running dot, failures shown red rather than folded into a success number. Two faces: capsules for a panel, a flat list for a transcript. Statuses are carried by word and mark together, never by colour alone.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/run-sheet`
+
+Props:
+- `tasks`: RunTask[] — Parents with counts and their child items, each with a status.
+- `face`: "capsule" | "list" (default "capsule") — Capsule cards for a panel, a flat rail for a transcript.
+
+Notes:
+- Counts roll on the readout — they are the part that changes while you watch.
+- A failed child stays red under a done parent; hiding it inside an aggregate is how trust is lost.
+- Every status is announced by word for screen readers; the mark alone is never the message.
+
+### Counsel Card (KQ-220) — `counsel-card`
+Sureness stated, or nothing.
+
+One suggestion, offered rather than executed: the counsel in a sentence with its subject carried as a chip, an honest tri-state confidence meter — high, needs review, no signal — and the alternatives kept a fold away with their own confidence attached. The meter is the card's spine: a recommendation that cannot say how sure it is will be trusted exactly once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/counsel-card`
+
+Props:
+- `counsel / subject`: string — The sentence and the entity chip carried inside it.
+- `confidence`: "high" | "review" | "none" — The tri-state meter — bars and words together.
+- `alternatives`: CounselAlternative[] — Each with its own confidence, kept a fold away.
+- `onAccept`: () => void — Fired once; accepting seals the card so nothing executes twice.
+
+Notes:
+- Alternatives carry their own meters — a list of options without confidence is a menu, not counsel.
+- Accepting seals the card in place; the accepted state reads back what happened.
+- The meter pairs bars with words, so confidence is never carried by colour alone.
+
+### Source Shelf (KQ-221) — `source-shelf`
+What the model was given, on the shelf.
+
+The retrieved context, shelved in plain sight: each chunk carries its title, the excerpt itself, a character count, and the document it came from typed by kind — so what the model was given is inspectable, not implied. The count header admits how much of the working set is off-shelf. An answer's context is part of the answer; a system that hides its retrieval asks to be trusted twice.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/source-shelf`
+
+Props:
+- `chunks`: ShelfChunk[] — Title, excerpt, pre-counted characters, and a typed source document.
+- `total`: number — The full working set, including chunks not shown.
+
+Notes:
+- Character counts are pre-counted data, not derived from the excerpt — the excerpt is a cut, the count is the whole.
+- State the off-shelf remainder via total; a shelf that looks complete when it is not is a quiet lie.
+- Source kind chips are text, not icons, so a new file type needs no asset.
+
+### Redline Table (KQ-222) — `redline-table`
+A per-row veto on wholesale edits.
+
+An agent's proposed edits laid over the table itself: removals struck through, additions tinted in, changes shown as was and would-be — and every proposal is a toggle, so the reader accepts or declines row by row before anything is applied. The counts under the grid derive from what is currently accepted; the apply button never claims more than the toggles say.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/redline-table`
+
+Props:
+- `rows`: RedlineRow[] — Cells plus a kind — keep, remove, add, or change with its next cells.
+- `onApply`: (acceptedIds) => void — Fired once with only the rows still accepted.
+- `applyLabel`: (count) => string — The button copy, given the live accepted count.
+
+Notes:
+- Proposals start accepted; a click withdraws one. The counts and the button derive from the toggles, never from the proposal.
+- Changed rows show both readings — was struck through, would-be beneath — so a change is never a mystery diff.
+- Applying seals the table; nothing can be applied twice.
+
+### Sieve Table (KQ-223) — `sieve-table`
+Surviving rows glide; hidden ones are counted.
+
+A table sieved by status chips: pick a chip and the rows that survive glide to their new positions while the rest fold away — a layout move, never a reprint, because rows that teleport can't be followed and rows that reprint can't be trusted to be the same rows. Every chip carries its count, derived from the data, so the filter admits how much it hides.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sieve-table`
+
+Props:
+- `statuses / rows`: SieveStatus[] · SieveRow[] — The chip set and the rows, each carrying a statusId.
+- `columns`: string[] — Column captions; the status column is added for you.
+
+Notes:
+- The chips are a real radiogroup; All is a first-class member, not an absence of filter.
+- Chip counts derive from the rows, so the filter admits what it hides.
+- Under reduced motion rows fade in place rather than travel.
+
+### Contact Ledger (KQ-224) — `contact-ledger`
+The summary cannot disagree with the book.
+
+A relationship grid that reads like a book: records grouped under alphabetical rails, each row carrying its tags, a pre-formatted last-touch date, and a three-bar strength meter labelled in words. The footer aggregates — count, linked share, average strength — are derived from the rows on render, so the summary cannot quietly disagree with the book it sums.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/contact-ledger`
+
+Props:
+- `records`: ContactRecord[] — Name, place, tags, pre-formatted last touch, strength 0–3, optional link.
+- `maxTags`: number (default 2) — Tags shown per row before the +N overflow.
+
+Notes:
+- For working ten thousand rows, reach for the ledger — this one is for reading a hundred relationships honestly.
+- Strength pairs bars with words; the meter is never colour alone.
+- Dates are pre-formatted strings, so the grid never reads a clock and cannot drift from the server.
+
+### Switchyard (KQ-225) — `switchyard`
+A rule, read at rest.
+
+A workflow drawn as cards on a dotted yard: a trigger, then the switches — each condition a clause of words and chips, entities and values set apart from the prose so the rule reads as a rule. The cards hang off one drawn spine, arriving down it in order. This is the still, legible cousin of the flow instruments: nothing here simulates — it states, because a rule you are about to enable deserves to be read at rest.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/switchyard`
+
+Props:
+- `nodes`: YardNode[] — Trigger and condition cards; conditions carry clauses of words and chips.
+- `label`: string — Accessible name for the drawn canvas.
+
+Notes:
+- Chips separate entities from values from prose — a rule whose parts all look alike cannot be audited by eye.
+- Quantity flow belongs to flow-diagram; this instrument states logic, it never simulates it.
+- The spine draws once on entry; under reduced motion it is simply there.
+
+### Insight Reel (KQ-226) — `insight-reel`
+The claim, with its evidence scrubable.
+
+Findings on a reel: one insight at a time — the claim as a sentence with its subject chipped, the deltas beside it pre-formatted and toned, and the series behind the claim drawn on the spark instrument so the reader can scrub the evidence themselves. Dots page the reel; each card offers one follow-up, because an insight worth surfacing is worth asking about.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/insight-reel`
+
+Props:
+- `insights`: Insight[] — Lead, subject chip, leadAfter, toned deltas, a series, one follow-up.
+- `onFollowUp`: (text, insight) => void — Fired when a card's offered ask is taken.
+
+Notes:
+- Deltas are pre-formatted strings — the reel formats nothing, so it can never round a claim differently than the system that made it.
+- The chart is spark-chart, crosshair and all; the reel adds paging, never chart mechanics.
+- One follow-up per card. A finding with five suggested asks is a menu, not an insight.
+
+### Trim Panel (KQ-227) — `trim-panel`
+Adjustments narrated, never silent.
+
+The inspector with an agent's hands on it: width, height, radius, and opacity read out as rolling numerals while the stage element re-trims live on the glide spring — every adjustment narrated, because a tool that changes your design silently is indistinguishable from a bug. The fields are the record, the stage is the proof, and the two cannot disagree: both read from the same values.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trim-panel`
+
+Props:
+- `initial / steps`: TrimValues · TrimStep[] — The starting reading and the narrated adjustments, one per interval.
+- `interval`: number (default 2.2) — Seconds between adjustments; the walk is mount-driven, never the wall clock.
+
+Notes:
+- Stage and fields read from the same values, so the preview cannot disagree with the record.
+- Each step carries its narration; the note line is a polite live region.
+- Under reduced motion the stage re-trims without travel but the numerals still roll — a changing number is information.
+
+### Blue Pencil (KQ-228) — `blue-pencil`
+The verbs hand the text back out.
+
+The editor's blue pencil: select a passage and a small toolbar of rewrite verbs springs up anchored to the selection — explain, improve, shorten, tone. The verbs hand the selected text back out; the pencil never rewrites anything itself, because the surface that edits and the model that edits must be separable for either to be trusted.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/blue-pencil`
+
+Props:
+- `children`: ReactNode — The passage the pencil works over.
+- `verbs / onVerb`: PencilVerb[] · (verbId, selection) => void — The rewrite verbs, and the hand-off carrying the selected text.
+
+Notes:
+- The pencil never rewrites — it hands the selection out, so the surface and the model stay separable.
+- Anchored from the selection's own rectangle and clamped to the passage box, so it cannot escape its stage.
+- Collapsing the selection withdraws the toolbar; selectionchange catches keyboard, double-click, and drag alike.
 
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
@@ -3922,6 +4175,22 @@ Props:
 Notes:
 - One side holds authority; the other is always derived — swapping transfers authority with the gesture and refocuses the input.
 - Under reduced motion contents swap instantly and the readout uses its highlight fallback.
+
+### Agent Desk (KB-117) — `agent-desk`
+The chat, assembled from its instruments.
+
+The chat surface assembled from its instruments: tabbed threads, each a volley-thread whose agent turns can open a train-of-thought, with the prompt-well seated at the foot — models, @ sources, and / commands included. The desk contributes the tabs and the seating; every behaviour belongs to the primitive that owns it, which is the point of having primitives.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/agent-desk`
+
+Props:
+- `threads`: DeskThread[] — Tabbed conversations; agent turns may embed a train-of-thought.
+- `models / onSubmit`: string[] · (value, threadId) => void — Passed to the composer; submissions carry their thread.
+
+Notes:
+- Arrival weight, trace disclosure, and composer behaviour all belong to their primitives — the desk only seats them.
+- Thread swaps crossfade rather than slide: tabs are peers, not a journey.
+- Notes under agent turns carry the read/tool/duration line, the part worth trusting.
 
 ### Split Ledger Hero (KB-201) — `hero-split-ledger`
 The argument left, the product at work right.

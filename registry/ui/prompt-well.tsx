@@ -31,6 +31,19 @@ export type PromptWellProps = {
   placeholder?: string;
   /** Rows the well grows to before it starts scrolling. @default 6 */
   maxRows?: number;
+  /**
+   * Models the composer can address. With two or more, a picker chip joins
+   * the footer; clicking it cycles, so switching is one tap and the current
+   * choice is always printed rather than hidden in a menu.
+   */
+  models?: string[];
+  /** Controlled model selection. */
+  model?: string;
+  onModelChange?: (model: string) => void;
+  /** Offer a dictation control beside send; the well never records audio itself. */
+  onDictate?: () => void;
+  /** The container's silhouette. @default "well" */
+  shape?: "well" | "pill";
   label?: React.ReactNode;
   "aria-label"?: string;
   className?: string;
@@ -98,6 +111,11 @@ export function PromptWell({
   onStop,
   placeholder = "Ask anything…",
   maxRows = 6,
+  models,
+  model: modelProp,
+  onModelChange,
+  onDictate,
+  shape = "well",
   label,
   "aria-label": ariaLabel,
   className,
@@ -110,6 +128,16 @@ export function PromptWell({
   const value = controlledValue ?? uncontrolled;
 
   const [trigger, setTrigger] = React.useState<Trigger | null>(null);
+  const [ownModel, setOwnModel] = React.useState(models?.[0]);
+  const activeModel = modelProp ?? ownModel;
+
+  const cycleModel = () => {
+    if (!models || models.length < 2) return;
+    const at = Math.max(0, models.indexOf(activeModel ?? models[0]!));
+    const next = models[(at + 1) % models.length]!;
+    if (modelProp === undefined) setOwnModel(next);
+    onModelChange?.(next);
+  };
   const [active, setActive] = React.useState(0);
 
   const pool = trigger?.kind === "command" ? commands : sources;
@@ -230,14 +258,19 @@ export function PromptWell({
         </span>
       )}
 
-      <div className="border-hairline bg-surface-1 rounded-3 relative border">
+      <div
+        className={cn(
+          "relative border border-hairline bg-surface-1",
+          shape === "pill" ? "rounded-[26px]" : "rounded-3",
+        )}
+      >
         <AnimatePresence>
           {open && (
             <motion.ul
               id={listId}
               role="listbox"
               aria-label={trigger?.kind === "command" ? "Commands" : "Sources"}
-              className="border-hairline bg-surface-2 rounded-2 absolute bottom-[calc(100%+6px)] left-0 z-20 max-h-56 w-full overflow-y-auto border p-1 shadow-raised"
+              className="absolute bottom-[calc(100%+6px)] left-0 z-20 max-h-56 w-full overflow-y-auto rounded-2 border border-hairline bg-surface-2 p-1 shadow-raised"
               initial={
                 motionSafe
                   ? { opacity: 0, y: distances.nudge, scale: 0.98 }
@@ -268,7 +301,7 @@ export function PromptWell({
                   }}
                   onMouseEnter={() => setActive(index)}
                   className={cn(
-                    "rounded-1 flex cursor-pointer items-center justify-between gap-3 px-2 py-1.5 text-sm",
+                    "flex cursor-pointer items-center justify-between gap-3 rounded-1 px-2 py-1.5 text-sm",
                     index === active ? "text-ink" : "text-ink-2",
                   )}
                   style={
@@ -279,7 +312,7 @@ export function PromptWell({
                 >
                   <span className="truncate">{option.label}</span>
                   {option.hint && (
-                    <span className="text-label text-ink-3 shrink-0">
+                    <span className="shrink-0 text-label text-ink-3">
                       {option.hint}
                     </span>
                   )}
@@ -317,18 +350,51 @@ export function PromptWell({
           }}
           onBlur={() => setTrigger(null)}
           onKeyDown={handleKeyDown}
-          className="text-ink placeholder:text-ink-3 block w-full resize-none bg-transparent px-3 pt-3 pb-1 text-sm leading-relaxed outline-none"
+          className="block w-full resize-none bg-transparent px-3 pt-3 pb-1 text-sm leading-relaxed text-ink outline-none placeholder:text-ink-3"
         />
 
         <div className="flex items-center justify-between gap-2 px-2 pb-2">
-          <span className="text-label text-ink-3 px-1">
-            {trigger?.kind === "command"
-              ? "Enter to run"
-              : trigger
-                ? "Enter to attach"
-                : "@ sources · / commands"}
+          <span className="flex min-w-0 items-center gap-1.5">
+            <span className="truncate px-1 text-label text-ink-3">
+              {trigger?.kind === "command"
+                ? "Enter to run"
+                : trigger
+                  ? "Enter to attach"
+                  : "@ sources · / commands"}
+            </span>
+            {models && models.length > 0 && activeModel && (
+              <button
+                type="button"
+                onClick={cycleModel}
+                aria-label={`Model: ${activeModel}.${
+                  models.length > 1 ? " Click to switch." : ""
+                }`}
+                className="shrink-0 rounded-full border border-hairline px-2 py-0.5 font-mono text-[10px] tracking-[0.04em] text-ink-2 transition-colors hover:text-ink"
+              >
+                {activeModel}
+              </button>
+            )}
           </span>
 
+          {onDictate && !busy && (
+            <button
+              type="button"
+              onClick={onDictate}
+              aria-label="Dictate"
+              className="mr-1.5 rounded-2 border border-hairline px-2 py-1.5 text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
+            >
+              <svg
+                aria-hidden
+                viewBox="0 0 16 16"
+                className="size-3.5 fill-none stroke-current"
+                strokeWidth="1.4"
+                strokeLinecap="round"
+              >
+                <rect x="6" y="1.5" width="4" height="7.5" rx="2" />
+                <path d="M3.5 7.5a4.5 4.5 0 0 0 9 0M8 12v2.5" />
+              </svg>
+            </button>
+          )}
           {busy ? (
             <motion.button
               type="button"
@@ -336,7 +402,7 @@ export function PromptWell({
               initial={motionSafe ? { scale: 0.9 } : false}
               animate={{ scale: 1 }}
               transition={motionSafe ? springs.flick : { duration: 0 }}
-              className="border-hairline text-ink-2 hover:bg-surface-2 hover:text-ink rounded-2 border px-3 py-1.5 text-xs font-medium transition-colors"
+              className="rounded-2 border border-hairline px-3 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
             >
               Stop
             </motion.button>
@@ -345,9 +411,11 @@ export function PromptWell({
               type="button"
               onClick={send}
               disabled={!value.trim()}
-              whileTap={motionSafe && value.trim() ? { scale: 0.94 } : undefined}
+              whileTap={
+                motionSafe && value.trim() ? { scale: 0.94 } : undefined
+              }
               transition={motionSafe ? springs.flick : { duration: 0 }}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-2 px-3 py-1.5 text-xs font-semibold transition-colors disabled:pointer-events-none disabled:opacity-40"
+              className="rounded-2 bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-40"
             >
               Send
             </motion.button>

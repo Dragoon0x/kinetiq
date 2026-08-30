@@ -6113,4 +6113,48 @@ export const blocks: KinetiqItem[] = [
       "The select ring sits outside the frame, like a mark made on the sheet rather than on the image.",
     ],
   },
+  {
+    name: "agent-desk",
+    type: "registry:block",
+    title: "Agent Desk",
+    description:
+      "The chat surface assembled from its instruments: tabbed threads, each a volley-thread whose agent turns can open a train-of-thought, with the prompt-well seated at the foot — models, @ sources, and / commands included. The desk contributes the tabs and the seating; every behaviour belongs to the primitive that owns it, which is the point of having primitives.",
+    files: [
+      {
+        path: "registry/blocks/agent-desk/agent-desk.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "volley-thread",
+      "prompt-well",
+      "train-of-thought",
+    ],
+    categories: ["blocks"],
+    meta: { serial: "KB-117" },
+    tagline: "The chat, assembled from its instruments.",
+    keywords: ["chat", "agent", "threads", "tabs", "composer", "panel"],
+    props: [
+      {
+        name: "threads",
+        type: "DeskThread[]",
+        description:
+          "Tabbed conversations; agent turns may embed a train-of-thought.",
+      },
+      {
+        name: "models / onSubmit",
+        type: "string[] · (value, threadId) => void",
+        description: "Passed to the composer; submissions carry their thread.",
+      },
+    ],
+    usageNotes: [
+      "Arrival weight, trace disclosure, and composer behaviour all belong to their primitives — the desk only seats them.",
+      "Thread swaps crossfade rather than slide: tabs are peers, not a journey.",
+      "Notes under agent turns carry the read/tool/duration line, the part worth trusting.",
+    ],
+  },
 ];
