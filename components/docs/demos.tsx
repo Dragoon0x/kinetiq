@@ -394,6 +394,7 @@ import { InsightReelDemo } from "@/registry/demos/insight-reel.demo";
 import { SwitchyardDemo } from "@/registry/demos/switchyard.demo";
 import { TrimPanelDemo } from "@/registry/demos/trim-panel.demo";
 import { AgentDeskDemo } from "@/registry/demos/agent-desk.demo";
+import { WorkbenchRailDemo } from "@/registry/demos/workbench-rail.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -754,6 +755,7 @@ export const demos: Record<string, ComponentType> = {
   "insight-reel": InsightReelDemo,
   "trim-panel": TrimPanelDemo,
   "blue-pencil": BluePencilDemo,
+  "workbench-rail": WorkbenchRailDemo,
   "agent-desk": AgentDeskDemo,
 
   // Pages (KP-###)

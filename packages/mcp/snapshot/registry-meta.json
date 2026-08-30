@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 227,
+      "components": 228,
       "blocks": 133,
       "pages": 27,
       "templates": 6,
@@ -14039,6 +14039,72 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/blue-pencil",
         "bun": "bunx --bun shadcn@latest add @kinetiq/blue-pencil",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/blue-pencil.json"
+      }
+    },
+    {
+      "slug": "workbench-rail",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Workbench Rail",
+      "serial": "KQ-229",
+      "tagline": "One light that travels, not many that blink.",
+      "description": "The workspace rail: primary destinations, then the running conversations, with one gliding highlight that travels to whatever the pointer is over — a single shared element, so the hover reads as one light moving rather than many lighting up. The invite quota is a printed fraction, not a paywall surprise, and the whole rail folds to a spine when the work needs the width back.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "sidebar",
+        "workspace",
+        "navigation",
+        "chats",
+        "rail",
+        "collapse"
+      ],
+      "props": [
+        {
+          "name": "primary / threads",
+          "type": "RailItem[]",
+          "description": "Destinations, then the running conversations under their own heading."
+        },
+        {
+          "name": "activeId / onSelect",
+          "type": "string · (id) => void",
+          "description": "Controlled selection; uncontrolled falls back to the first destination."
+        },
+        {
+          "name": "quota",
+          "type": "RailQuota",
+          "description": "The printed seat fraction — used, limit, and what it counts."
+        },
+        {
+          "name": "defaultCollapsed",
+          "type": "boolean",
+          "description": "Start folded to the spine."
+        }
+      ],
+      "usageNotes": [
+        "The travelling highlight is one shared layout element on the snap spring — hover reads as a light moving, and it is hover only; selection is carried by state and aria-current.",
+        "Print the quota before anyone hits it; a seat limit discovered at the eleventh invite is a paywall surprise.",
+        "Collapsed is a real state with its own affordance, not a squashed layout."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/workbench-rail",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/workbench-rail.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/workbench-rail",
+        "npm": "npx shadcn@latest add @kinetiq/workbench-rail",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/workbench-rail",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/workbench-rail",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/workbench-rail.json"
       }
     },
     {

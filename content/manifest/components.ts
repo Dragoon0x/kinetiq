@@ -9323,4 +9323,55 @@ export const components: KinetiqItem[] = [
       "Collapsing the selection withdraws the toolbar; selectionchange catches keyboard, double-click, and drag alike.",
     ],
   },
+  {
+    name: "workbench-rail",
+    type: "registry:ui",
+    title: "Workbench Rail",
+    description:
+      "The workspace rail: primary destinations, then the running conversations, with one gliding highlight that travels to whatever the pointer is over — a single shared element, so the hover reads as one light moving rather than many lighting up. The invite quota is a printed fraction, not a paywall surprise, and the whole rail folds to a spine when the work needs the width back.",
+    files: [{ path: "registry/ui/workbench-rail.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["navigation"],
+    meta: { serial: "KQ-229" },
+    tagline: "One light that travels, not many that blink.",
+    keywords: [
+      "sidebar",
+      "workspace",
+      "navigation",
+      "chats",
+      "rail",
+      "collapse",
+    ],
+    props: [
+      {
+        name: "primary / threads",
+        type: "RailItem[]",
+        description:
+          "Destinations, then the running conversations under their own heading.",
+      },
+      {
+        name: "activeId / onSelect",
+        type: "string · (id) => void",
+        description:
+          "Controlled selection; uncontrolled falls back to the first destination.",
+      },
+      {
+        name: "quota",
+        type: "RailQuota",
+        description:
+          "The printed seat fraction — used, limit, and what it counts.",
+      },
+      {
+        name: "defaultCollapsed",
+        type: "boolean",
+        description: "Start folded to the spine.",
+      },
+    ],
+    usageNotes: [
+      "The travelling highlight is one shared layout element on the snap spring — hover reads as a light moving, and it is hover only; selection is carried by state and aria-current.",
+      "Print the quota before anyone hits it; a seat limit discovered at the eleventh invite is a paywall surprise.",
+      "Collapsed is a real state with its own affordance, not a squashed layout.",
+    ],
+  },
 ];

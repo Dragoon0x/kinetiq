@@ -3915,6 +3915,24 @@ Notes:
 - Anchored from the selection's own rectangle and clamped to the passage box, so it cannot escape its stage.
 - Collapsing the selection withdraws the toolbar; selectionchange catches keyboard, double-click, and drag alike.
 
+### Workbench Rail (KQ-229) — `workbench-rail`
+One light that travels, not many that blink.
+
+The workspace rail: primary destinations, then the running conversations, with one gliding highlight that travels to whatever the pointer is over — a single shared element, so the hover reads as one light moving rather than many lighting up. The invite quota is a printed fraction, not a paywall surprise, and the whole rail folds to a spine when the work needs the width back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/workbench-rail`
+
+Props:
+- `primary / threads`: RailItem[] — Destinations, then the running conversations under their own heading.
+- `activeId / onSelect`: string · (id) => void — Controlled selection; uncontrolled falls back to the first destination.
+- `quota`: RailQuota — The printed seat fraction — used, limit, and what it counts.
+- `defaultCollapsed`: boolean — Start folded to the spine.
+
+Notes:
+- The travelling highlight is one shared layout element on the snap spring — hover reads as a light moving, and it is hover only; selection is carried by state and aria-current.
+- Print the quota before anyone hits it; a seat limit discovered at the eleventh invite is a paywall surprise.
+- Collapsed is a real state with its own affordance, not a squashed layout.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

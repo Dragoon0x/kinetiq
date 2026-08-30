@@ -6215,6 +6215,35 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "workbench-rail",
+      "type": "registry:ui",
+      "title": "Workbench Rail",
+      "description": "The workspace rail: primary destinations, then the running conversations, with one gliding highlight that travels to whatever the pointer is over — a single shared element, so the hover reads as one light moving rather than many lighting up. The invite quota is a printed fraction, not a paywall surprise, and the whole rail folds to a spine when the work needs the width back.",
+      "files": [
+        {
+          "path": "registry/ui/workbench-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-229"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
