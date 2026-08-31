@@ -231,4 +231,83 @@ export const templates: KinetiqItem[] = [
       "Keep the critical mention in proof-unprompted; a curated version of this page persuades nobody.",
     ],
   },
+  {
+    name: "template-signature",
+    type: "registry:page",
+    title: "Signature Template",
+    description:
+      "The personal site as a signature: one column, monochrome, over in two scrolls. The name takes the sheen, the bio takes one rolling word, and everything else is rows — work that leads with the outcome instead of the logo, writing as titles and dates, and a footer that is an email and three elsewheres. On a personal page the person is the product, and rows read as confidence where cards read as effort.",
+    files: [
+      {
+        path: "registry/templates/template-signature/template-signature.tsx",
+        type: "registry:page",
+        target: "app/page.tsx",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "gradient-title",
+      "hover-swap",
+      "status-pip",
+    ],
+    categories: ["personal"],
+    meta: { serial: "KT-007" },
+    tagline: "One column, and the person is the product.",
+    keywords: ["template", "personal", "portfolio", "writing", "minimal"],
+    usageNotes: [
+      "Work rows lead with the outcome line, revealed under the hand — the sentence is the portfolio, so write those four sentences hardest.",
+      "Dates are pre-formatted strings; nothing on the page reads a clock.",
+      "Resist adding a nav. Four headings on one column do not need wayfinding, and the restraint is the design.",
+    ],
+  },
+  {
+    name: "template-causeway",
+    type: "registry:page",
+    title: "Causeway Template",
+    description:
+      "A whole small site in one install: three routed pages — the product, the changelog, the price — that already know each other through a shared nav with real hrefs. The argument is spread across routes the way real sites spread it, and the changelog is written in the same voice as the features, because a record kept differently from the marketing is an admission.",
+    files: [
+      {
+        path: "registry/templates/template-causeway/home.tsx",
+        type: "registry:page",
+        target: "app/page.tsx",
+      },
+      {
+        path: "registry/templates/template-causeway/changelog.tsx",
+        type: "registry:page",
+        target: "app/changelog/page.tsx",
+      },
+      {
+        path: "registry/templates/template-causeway/pricing.tsx",
+        type: "registry:page",
+        target: "app/pricing/page.tsx",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "nav-glass-rail",
+      "hero-compare-wipe",
+      "features-quiet-grid",
+      "proof-live-floor",
+      "cta-postscript",
+      "announce-ship-note",
+      "newsletter-ledger-note",
+      "pricing-meridian-tiers",
+      "faq-last-word",
+      "footer-quiet-close",
+    ],
+    categories: ["multipage"],
+    meta: { serial: "KT-008" },
+    tagline: "Three routes, one install, already acquainted.",
+    keywords: ["template", "multipage", "changelog", "pricing", "site"],
+    usageNotes: [
+      "The three files install to app/page.tsx, app/changelog/page.tsx, and app/pricing/page.tsx — a navigable site, not three orphans.",
+      "Keep the nav links identical across the pages; the shared rail is what makes three routes read as one site.",
+      "The docs demo flips routes with a switcher; the installed template navigates with real hrefs.",
+    ],
+  },
 ];

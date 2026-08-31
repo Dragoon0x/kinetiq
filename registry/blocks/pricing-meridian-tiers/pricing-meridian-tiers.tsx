@@ -30,6 +30,8 @@ export type PricingMeridianTiersProps = {
   headline?: string;
   copy?: string;
   tiers?: MeridianTier[];
+  /** What the price is per, e.g. "/ basin / month". @default "/ seat / month" */
+  unitLabel?: string;
   onSelect?: (tierId: string, billing: "monthly" | "annual") => void;
   className?: string;
 };
@@ -87,6 +89,7 @@ export function PricingMeridianTiers({
   headline = "Pay for the floor you actually run.",
   copy = "Every tier includes the full instrument set. The difference is scale, history, and who answers when you call.",
   tiers = DEFAULT_TIERS,
+  unitLabel = "/ seat / month",
   onSelect,
   className,
 }: PricingMeridianTiersProps) {
@@ -96,7 +99,7 @@ export function PricingMeridianTiers({
   return (
     <section
       aria-labelledby={headingId}
-      className={cn("bg-surface-0 relative", className)}
+      className={cn("relative bg-surface-0", className)}
     >
       <div className="mx-auto w-full max-w-7xl px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-2xl text-center">
@@ -107,7 +110,7 @@ export function PricingMeridianTiers({
           >
             {headline}
           </h2>
-          <p className="text-ink-2 mt-4 leading-relaxed">{copy}</p>
+          <p className="mt-4 leading-relaxed text-ink-2">{copy}</p>
 
           <div className="mt-8 flex justify-center">
             <SegmentedControl
@@ -115,7 +118,9 @@ export function PricingMeridianTiers({
               value={billing}
               onValueChange={(v) => setBilling(v as "monthly" | "annual")}
             >
-              <SegmentedControlItem value="monthly">Monthly</SegmentedControlItem>
+              <SegmentedControlItem value="monthly">
+                Monthly
+              </SegmentedControlItem>
               <SegmentedControlItem value="annual">
                 Annual · save 20%
               </SegmentedControlItem>
@@ -131,35 +136,36 @@ export function PricingMeridianTiers({
               <div
                 key={tier.id}
                 className={cn(
-                  "border-hairline bg-surface-1 rounded-4 relative flex flex-col border p-6",
-                  lead && "border-hairline-strong shadow-raised md:-my-3 md:py-9",
+                  "relative flex flex-col rounded-4 border border-hairline bg-surface-1 p-6",
+                  lead &&
+                    "border-hairline-strong shadow-raised md:-my-3 md:py-9",
                 )}
               >
                 {tier.sealed && (
-                  <StatusSeal
-                    variant="info"
-                    className="absolute -top-3 left-6"
-                  >
+                  <StatusSeal variant="info" className="absolute -top-3 left-6">
                     {tier.sealed}
                   </StatusSeal>
                 )}
                 <h3 className="font-semibold">{tier.name}</h3>
-                <p className="text-ink-3 mt-1 text-sm">{tier.blurb}</p>
+                <p className="mt-1 text-sm text-ink-3">{tier.blurb}</p>
 
                 <p className="mt-5 flex items-baseline gap-1.5">
-                  <span className="text-ink-3 text-lg">$</span>
+                  <span className="text-lg text-ink-3">$</span>
                   <Readout value={price} size="lg" />
-                  <span className="text-ink-3 text-sm">/ seat / month</span>
+                  <span className="text-sm text-ink-3">{unitLabel}</span>
                 </p>
-                <p className="text-label text-ink-3 mt-1 min-h-4">
+                <p className="mt-1 min-h-4 text-label text-ink-3">
                   {billing === "annual" && price > 0 ? "billed annually" : " "}
                 </p>
 
                 <ul className="mt-5 flex flex-1 flex-col gap-2.5">
                   {tier.features.map((feature) => (
-                    <li key={feature} className="text-ink-2 flex items-start gap-2.5 text-sm">
+                    <li
+                      key={feature}
+                      className="flex items-start gap-2.5 text-sm text-ink-2"
+                    >
                       <Check
-                        className="text-[var(--success,var(--primary))] mt-0.5 size-4 shrink-0"
+                        className="mt-0.5 size-4 shrink-0 text-[var(--success,var(--primary))]"
                         aria-hidden
                       />
                       {feature}

@@ -50,6 +50,18 @@ export const TEMPLATE_KINDS: TemplateKind[] = [
       "For instruments — grids, trends, and integrations that have to be shown working.",
   },
   {
+    slug: "personal",
+    label: "Personal",
+    blurb:
+      "One column, one person — for a site whose whole product is its author.",
+  },
+  {
+    slug: "multipage",
+    label: "Multi-page",
+    blurb:
+      "A whole small site in one install: several routed pages that already know each other.",
+  },
+  {
     slug: "transparency",
     label: "Transparency",
     blurb:
