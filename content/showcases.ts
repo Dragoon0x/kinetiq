@@ -40,9 +40,9 @@ export type Showcase = {
 };
 
 /** Spatial keeps /spatial; every other category gets a showcase. */
-export const SHOWCASE_SLUGS: CategorySlug[] = CATEGORIES.map((c) => c.slug).filter(
-  (slug) => slug !== "spatial",
-);
+export const SHOWCASE_SLUGS: CategorySlug[] = CATEGORIES.map(
+  (c) => c.slug,
+).filter((slug) => slug !== "spatial");
 
 /** Ordered to match CATEGORIES. */
 export const SHOWCASES: Showcase[] = [
@@ -67,7 +67,12 @@ export const SHOWCASES: Showcase[] = [
     headline: "Move without losing the thread.",
     deck: "Tabs, rails, docks, and dials that project your throw to the nearest detent.",
     hero: { slug: "orbit-menu", mode: "stage" },
-    leads: ["stepper-flow", "pagination-rail", "breadcrumb-trail", "gantry-tabs"],
+    leads: [
+      "stepper-flow",
+      "pagination-rail",
+      "breadcrumb-trail",
+      "gantry-tabs",
+    ],
     closing: "Every route lands where you aimed it.",
   },
   {
@@ -115,7 +120,12 @@ export const SHOWCASES: Showcase[] = [
     headline: "Motion as the material.",
     deck: "Tickers, reveals, and timelines tied to scroll and to time itself.",
     hero: { slug: "ticker-tape", mode: "stage" },
-    leads: ["marquee-swap", "reveal-stagger", "progress-scrub", "sticky-reveal"],
+    leads: [
+      "marquee-swap",
+      "reveal-stagger",
+      "progress-scrub",
+      "sticky-reveal",
+    ],
     closing: "Time is a control surface.",
   },
   {
@@ -131,7 +141,12 @@ export const SHOWCASES: Showcase[] = [
     headline: "Living surfaces.",
     deck: "Fields, lattices, and ribbons that answer the cursor and idle when ignored.",
     hero: { slug: "wavefield", mode: "backdrop" },
-    leads: ["particle-network", "flow-field", "gradient-drift", "aurora-ribbon"],
+    leads: [
+      "particle-network",
+      "flow-field",
+      "gradient-drift",
+      "aurora-ribbon",
+    ],
     closing: "Ambient, never expensive.",
   },
   {
@@ -158,6 +173,19 @@ export const SHOWCASES: Showcase[] = [
     leads: ["boop-mascot", "sticker-peel", "sound-toggle", "heart-tap"],
     closing: "Delight rations itself.",
   },
+  {
+    slug: "vignettes",
+    headline: "The product, already on stage.",
+    deck: "Self-running scenes — windows painting in, handsets scrolling, hubs pulsing — ready to seat inside a hero.",
+    hero: { slug: "vignette-app-window", mode: "stage" },
+    leads: [
+      "vignette-exchange",
+      "vignette-search-lens",
+      "vignette-voice-note",
+      "vignette-handset",
+    ],
+    closing: "A hero is a claim; a vignette is the claim happening.",
+  },
 ];
 
 export const showcaseBySlug = (slug: string): Showcase | undefined =>
@@ -179,7 +207,7 @@ export function assertShowcases(
     if (!covered.has(slug)) problems.push(`no showcase for category "${slug}"`);
   }
   if (SHOWCASES.some((s) => s.slug === "spatial")) {
-    problems.push('spatial must not have a showcase — it has /spatial');
+    problems.push("spatial must not have a showcase — it has /spatial");
   }
 
   for (const showcase of SHOWCASES) {

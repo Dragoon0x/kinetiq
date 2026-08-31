@@ -23,6 +23,7 @@ export type CategorySlug =
   | "motion"
   | "text"
   | "backgrounds"
+  | "vignettes"
   | "cursor"
   | "physics"
   | "spatial"
@@ -101,6 +102,12 @@ export const CATEGORIES: Category[] = [
     label: "Backgrounds",
     blurb:
       "Living surfaces — fields, lattices, and ribbons that answer the cursor.",
+  },
+  {
+    slug: "vignettes",
+    label: "Vignettes",
+    blurb:
+      "Product scenes that drop into heroes — self-running windows, handsets, and hubs.",
   },
   {
     slug: "cursor",
