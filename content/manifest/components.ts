@@ -7788,6 +7788,12 @@ export const components: KinetiqItem[] = [
           "The menu rows — id, label, optional icon, disabled, onSelect.",
       },
       {
+        name: "items[].children",
+        type: "PopoverMenuItem[]",
+        description:
+          "One flyout level. A row with children opens on hover, click, or ArrowRight; ArrowLeft steps back, and Escape steps out before it closes the menu.",
+      },
+      {
         name: "children",
         type: "ReactNode",
         description: "Trigger label / content.",
@@ -9727,6 +9733,108 @@ export const components: KinetiqItem[] = [
       "The route is authored, not pathfound — a vignette should never surprise its own page.",
       "The loop clears and re-runs with a short rest, so the route reads as a journey, not a flicker.",
       "Reduced motion holds the whole route lit.",
+    ],
+  },
+  {
+    name: "hover-swap",
+    type: "registry:ui",
+    title: "Hover Swap",
+    description:
+      "A label with two readings: at rest it says one thing, and under hover or focus it rolls to the alternate — the old line leaving as the new one arrives, both clipped to the label's own box. For links whose hover state has something to add, nav items, and buttons with a second thought. Both readings live in the accessible name, so the roll is presentation and never information.",
+    files: [{ path: "registry/ui/hover-swap.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["text"],
+    meta: { serial: "KQ-240" },
+    tagline: "Two readings, one label.",
+    keywords: ["hover", "label", "swap", "text", "roll", "link"],
+    props: [
+      {
+        name: "children / alternate",
+        type: "ReactNode",
+        description: "The resting reading and the one it rolls to.",
+      },
+      {
+        name: "direction",
+        type: '"up" | "down"',
+        defaultValue: '"up"',
+        description: "Roll direction.",
+      },
+    ],
+    usageNotes: [
+      "Both readings reserve the wider box, so the label never resizes mid-roll.",
+      "The accessible name carries both readings, always — the roll is never the only source.",
+      "Focus triggers the roll too; keyboard users get the second thought.",
+    ],
+  },
+  {
+    name: "relay-tip",
+    type: "registry:ui",
+    title: "Relay Tip",
+    description:
+      "One tip surface, relayed: instead of each trigger owning a tooltip that pops and dies, a single shared surface glides from trigger to trigger, morphing to fit each caption — so moving along a row of controls reads as one label travelling, not four labels blinking. Each trigger keeps a per-trigger description for assistive tech; the relay is presentation, the semantics stay stationary.",
+    files: [{ path: "registry/ui/relay-tip.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: { serial: "KQ-241" },
+    tagline: "One label travelling, not four blinking.",
+    keywords: ["tooltip", "shared layout", "morph", "hover", "hint", "overlay"],
+    props: [
+      {
+        name: "stops",
+        type: "RelayStop[]",
+        description: "Triggers and what the tip says over each.",
+      },
+      {
+        name: "offset",
+        type: "number",
+        defaultValue: "8",
+        description: "Gap between trigger and tip.",
+      },
+    ],
+    usageNotes: [
+      "The travel is a shared layout element on the snap spring; entering from nothing still pops, and leaving the last trigger withdraws it.",
+      "Every trigger keeps its own role=tooltip description — screen readers never depend on the travelling surface.",
+      "Reduced motion shows the tip over each trigger without travel.",
+    ],
+  },
+  {
+    name: "folio-table",
+    type: "registry:ui",
+    title: "Folio Table",
+    description:
+      "The paged edition of the working grid: a folio turns pages instead of scrolling ten thousand rows, columns can be re-picked from a rail of chips, and the page turn is a directional slide so going back reads as going back. Paging belongs to pagination-rail — this table seats it. For the virtualized firehose, the ledger remains the instrument; a folio is for datasets you leaf through, not pour.",
+    files: [{ path: "registry/ui/folio-table.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "pagination-rail",
+    ],
+    categories: ["data"],
+    meta: { serial: "KQ-242" },
+    tagline: "Leaf through it; pour it into the ledger.",
+    keywords: ["table", "pagination", "columns", "data", "paged", "grid"],
+    props: [
+      {
+        name: "columns / rows",
+        type: "FolioColumn[] · FolioRow[]",
+        description:
+          "Columns (re-pickable) and pre-formatted row cells by column id.",
+      },
+      {
+        name: "pageSize",
+        type: "number",
+        defaultValue: "5",
+        description: "Rows per page; the page count derives.",
+      },
+    ],
+    usageNotes: [
+      "Paging is pagination-rail's — keyboard, previews, and clamping come with it.",
+      "The last visible column cannot be hidden; a table with zero columns is a bug shipped as a feature.",
+      "Page turns slide from the direction of travel, so back reads as back.",
     ],
   },
 ];

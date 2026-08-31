@@ -23,6 +23,11 @@ export type PopoverMenuItem = {
   disabled?: boolean;
   /** Fires on activation; the menu then closes and returns focus to the trigger. */
   onSelect?: () => void;
+  /**
+   * One level of submenu. A row with children opens a flyout on hover,
+   * click, or ArrowRight instead of selecting; ArrowLeft returns.
+   */
+  children?: PopoverMenuItem[];
 };
 
 type Side = "top" | "bottom";
@@ -104,6 +109,10 @@ export function PopoverMenu({
     arrow: number;
   }>({ side, align, arrow: 18 });
 
+  const [subOpenId, setSubOpenId] = React.useState<string | null>(null);
+  const [subActive, setSubActive] = React.useState(0);
+  const subRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
+
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const triggerRef = React.useRef<HTMLButtonElement | null>(null);
   const panelRef = React.useRef<HTMLDivElement>(null);
@@ -119,6 +128,7 @@ export function PopoverMenu({
 
   const close = React.useCallback((focusTrigger: boolean) => {
     setOpen(false);
+    setSubOpenId(null);
     if (focusTrigger) triggerRef.current?.focus();
   }, []);
 
@@ -143,11 +153,7 @@ export function PopoverMenu({
     ) {
       nextSide = "top";
     }
-    if (
-      side === "top" &&
-      t.top < p.height + margin &&
-      vh - t.bottom > t.top
-    ) {
+    if (side === "top" && t.top < p.height + margin && vh - t.bottom > t.top) {
       nextSide = "bottom";
     }
 
@@ -178,6 +184,20 @@ export function PopoverMenu({
     return () => window.cancelAnimationFrame(frame);
   }, [open, items]);
 
+  // When a flyout opens, aim focus at its first enabled row.
+  React.useEffect(() => {
+    if (!subOpenId) return;
+    const parent = items.find((item) => item.id === subOpenId);
+    const rows = parent?.children ?? [];
+    const first = firstEnabled(rows);
+    const target = first === -1 ? 0 : first;
+    const frame = window.requestAnimationFrame(() => {
+      setSubActive(target);
+      subRefs.current[target]?.focus();
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [subOpenId, items]);
+
   // Outside-click and Escape dismissal while open.
   React.useEffect(() => {
     if (!open) return;
@@ -187,6 +207,13 @@ export function PopoverMenu({
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
+        if (subOpenId) {
+          // Step out of the flyout first; a second press closes the menu.
+          const parentIndex = items.findIndex((item) => item.id === subOpenId);
+          setSubOpenId(null);
+          if (parentIndex >= 0) itemRefs.current[parentIndex]?.focus();
+          return;
+        }
         close(true);
       }
     };
@@ -196,7 +223,7 @@ export function PopoverMenu({
       window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [open, close]);
+  }, [open, close, subOpenId, items]);
 
   const focusIndex = (index: number) => {
     if (index < 0) return;
@@ -205,7 +232,51 @@ export function PopoverMenu({
   };
 
   const onMenuKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (subOpenId) {
+      const parent = items.find((item) => item.id === subOpenId);
+      const rows = parent?.children ?? [];
+      switch (event.key) {
+        case "ArrowDown":
+          event.preventDefault();
+          {
+            const next = stepEnabled(rows, subActive, 1);
+            setSubActive(next);
+            subRefs.current[next]?.focus();
+          }
+          return;
+        case "ArrowUp":
+          event.preventDefault();
+          {
+            const next = stepEnabled(rows, subActive, -1);
+            setSubActive(next);
+            subRefs.current[next]?.focus();
+          }
+          return;
+        case "ArrowLeft":
+          event.preventDefault();
+          {
+            const parentIndex = items.findIndex((i) => i.id === subOpenId);
+            setSubOpenId(null);
+            if (parentIndex >= 0) focusIndex(parentIndex);
+          }
+          return;
+        case "Tab":
+          setOpen(false);
+          setSubOpenId(null);
+          return;
+        default:
+          return;
+      }
+    }
     switch (event.key) {
+      case "ArrowRight": {
+        const item = items[active];
+        if (item?.children?.length && !item.disabled) {
+          event.preventDefault();
+          setSubOpenId(item.id);
+        }
+        break;
+      }
       case "ArrowDown":
         event.preventDefault();
         focusIndex(stepEnabled(items, active, 1));
@@ -233,6 +304,10 @@ export function PopoverMenu({
 
   const activate = (item: PopoverMenuItem) => {
     if (item.disabled) return;
+    if (item.children?.length) {
+      setSubOpenId((current) => (current === item.id ? null : item.id));
+      return;
+    }
     item.onSelect?.();
     close(true);
   };
@@ -274,8 +349,8 @@ export function PopoverMenu({
           }
         }}
         className={cn(
-          "border-hairline bg-surface-1 text-ink inline-flex items-center gap-2 rounded-2 border px-3 py-2 text-sm font-medium",
-          "hover:bg-surface-2 focus-visible:ring-cobalt-bright/50 transition-colors focus-visible:ring-2 focus-visible:outline-none",
+          "inline-flex items-center gap-2 rounded-2 border border-hairline bg-surface-1 px-3 py-2 text-sm font-medium text-ink",
+          "transition-colors hover:bg-surface-2 focus-visible:ring-2 focus-visible:ring-cobalt-bright/50 focus-visible:outline-none",
           "disabled:cursor-not-allowed disabled:opacity-50",
           className,
         )}
@@ -332,7 +407,10 @@ export function PopoverMenu({
                     transition: {
                       scale: springs.snap,
                       y: springs.snap,
-                      opacity: { duration: durations.fast, ease: easings.enter },
+                      opacity: {
+                        duration: durations.fast,
+                        ease: easings.enter,
+                      },
                     },
                   }
                 : { opacity: 1, transition: { duration: durations.fast } }
@@ -343,7 +421,7 @@ export function PopoverMenu({
               transition: exitFor(durations.fast),
             }}
             className={cn(
-              "bg-popover text-popover-foreground border-border absolute z-50 min-w-[11rem] rounded-3 border p-1 shadow-lg",
+              "absolute z-50 min-w-[11rem] rounded-3 border border-border bg-popover p-1 text-popover-foreground shadow-lg",
               sideClass,
               alignClass,
               menuClassName,
@@ -353,56 +431,169 @@ export function PopoverMenu({
               aria-hidden
               style={arrowStyle}
               className={cn(
-                "bg-popover border-border absolute h-2.5 w-2.5 rotate-45",
+                "absolute h-2.5 w-2.5 rotate-45 border-border bg-popover",
                 arrowSideClass,
               )}
             />
             {items.map((item, index) => (
-              <motion.button
-                key={item.id}
-                ref={(node) => {
-                  itemRefs.current[index] = node;
-                }}
-                type="button"
-                role="menuitem"
-                tabIndex={active === index ? 0 : -1}
-                data-active={active === index}
-                disabled={item.disabled}
-                onClick={() => activate(item)}
-                onMouseEnter={() => {
-                  if (!item.disabled) setActive(index);
-                }}
-                initial={
-                  motionSafe
-                    ? { opacity: 0, x: placement.align === "start" ? -6 : 6 }
-                    : false
-                }
-                animate={
-                  motionSafe
-                    ? {
-                        opacity: 1,
-                        x: 0,
-                        transition: {
-                          delay: index * cascade(items.length),
-                          duration: durations.base,
-                          ease: easings.enter,
-                        },
+              <div key={item.id} role="none" className="relative">
+                <motion.button
+                  ref={(node) => {
+                    itemRefs.current[index] = node;
+                  }}
+                  type="button"
+                  role="menuitem"
+                  aria-haspopup={item.children?.length ? "menu" : undefined}
+                  aria-expanded={
+                    item.children?.length ? subOpenId === item.id : undefined
+                  }
+                  tabIndex={active === index ? 0 : -1}
+                  data-active={active === index}
+                  disabled={item.disabled}
+                  onClick={() => activate(item)}
+                  onMouseEnter={() => {
+                    if (!item.disabled) setActive(index);
+                    if (item.children?.length && !item.disabled) {
+                      setSubOpenId(item.id);
+                    } else if (subOpenId && !item.children?.length) {
+                      setSubOpenId(null);
+                    }
+                  }}
+                  initial={
+                    motionSafe
+                      ? { opacity: 0, x: placement.align === "start" ? -6 : 6 }
+                      : false
+                  }
+                  animate={
+                    motionSafe
+                      ? {
+                          opacity: 1,
+                          x: 0,
+                          transition: {
+                            delay: index * cascade(items.length),
+                            duration: durations.base,
+                            ease: easings.enter,
+                          },
+                        }
+                      : { opacity: 1 }
+                  }
+                  className={cn(
+                    "relative z-10 flex w-full items-center gap-2.5 rounded-2 px-2.5 py-2 text-left text-sm text-ink",
+                    "hover:bg-surface-2 focus-visible:outline-none data-[active=true]:bg-surface-2",
+                    "disabled:pointer-events-none disabled:opacity-40",
+                  )}
+                >
+                  {item.icon && (
+                    <span className="grid size-4 shrink-0 place-items-center text-ink-3 [&_svg]:size-4">
+                      {item.icon}
+                    </span>
+                  )}
+                  <span className="flex-1">{item.label}</span>
+                  {item.children?.length ? (
+                    <svg
+                      aria-hidden
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      className="shrink-0 text-ink-3"
+                    >
+                      <path
+                        d="M4.5 3 7.5 6 4.5 9"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ) : null}
+                </motion.button>
+
+                {/* One flyout level, anchored beside its row. Same surface
+                  grammar as the parent panel, opening toward the free side. */}
+                <AnimatePresence>
+                  {item.children?.length && subOpenId === item.id ? (
+                    <motion.div
+                      role="menu"
+                      aria-label={
+                        typeof item.label === "string" ? item.label : undefined
                       }
-                    : { opacity: 1 }
-                }
-                className={cn(
-                  "text-ink relative z-10 flex w-full items-center gap-2.5 rounded-2 px-2.5 py-2 text-left text-sm",
-                  "hover:bg-surface-2 data-[active=true]:bg-surface-2 focus-visible:outline-none",
-                  "disabled:pointer-events-none disabled:opacity-40",
-                )}
-              >
-                {item.icon && (
-                  <span className="text-ink-3 grid size-4 shrink-0 place-items-center [&_svg]:size-4">
-                    {item.icon}
-                  </span>
-                )}
-                <span className="flex-1">{item.label}</span>
-              </motion.button>
+                      aria-orientation="vertical"
+                      initial={
+                        motionSafe
+                          ? { opacity: 0, scale: 0.94, x: -4 }
+                          : { opacity: 0 }
+                      }
+                      animate={
+                        motionSafe
+                          ? {
+                              opacity: 1,
+                              scale: 1,
+                              x: 0,
+                              transition: {
+                                scale: springs.snap,
+                                x: springs.snap,
+                                opacity: {
+                                  duration: durations.fast,
+                                  ease: easings.enter,
+                                },
+                              },
+                            }
+                          : {
+                              opacity: 1,
+                              transition: { duration: durations.fast },
+                            }
+                      }
+                      exit={{
+                        opacity: 0,
+                        scale: motionSafe ? 0.97 : 1,
+                        transition: exitFor(durations.fast),
+                      }}
+                      style={{ transformOrigin: "0% 20%" }}
+                      className={cn(
+                        "absolute top-0 z-50 min-w-[10rem] rounded-3 border border-border bg-popover p-1 text-popover-foreground shadow-lg",
+                        placement.align === "end"
+                          ? "right-full mr-1"
+                          : "left-full ml-1",
+                      )}
+                    >
+                      {item.children.map((child, childIndex) => (
+                        <button
+                          key={child.id}
+                          ref={(node) => {
+                            subRefs.current[childIndex] = node;
+                          }}
+                          type="button"
+                          role="menuitem"
+                          tabIndex={subActive === childIndex ? 0 : -1}
+                          data-active={subActive === childIndex}
+                          disabled={child.disabled}
+                          onClick={() => {
+                            if (child.disabled) return;
+                            child.onSelect?.();
+                            close(true);
+                          }}
+                          onMouseEnter={() => {
+                            if (!child.disabled) setSubActive(childIndex);
+                          }}
+                          className={cn(
+                            "relative z-10 flex w-full items-center gap-2.5 rounded-2 px-2.5 py-2 text-left text-sm text-ink",
+                            "hover:bg-surface-2 focus-visible:outline-none data-[active=true]:bg-surface-2",
+                            "disabled:pointer-events-none disabled:opacity-40",
+                          )}
+                        >
+                          {child.icon && (
+                            <span className="grid size-4 shrink-0 place-items-center text-ink-3 [&_svg]:size-4">
+                              {child.icon}
+                            </span>
+                          )}
+                          <span className="flex-1">{child.label}</span>
+                        </button>
+                      ))}
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+              </div>
             ))}
           </motion.div>
         )}

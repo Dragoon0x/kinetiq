@@ -32,7 +32,23 @@ export function PopoverMenuDemo() {
       id: "share",
       label: "Share",
       icon: <Share2 />,
-      onSelect: () => setLast("Share"),
+      children: [
+        {
+          id: "share-link",
+          label: "Copy share link",
+          onSelect: () => setLast("Copy share link"),
+        },
+        {
+          id: "share-crew",
+          label: "Send to the crew",
+          onSelect: () => setLast("Send to the crew"),
+        },
+        {
+          id: "share-export",
+          label: "Attach to an export",
+          onSelect: () => setLast("Attach to an export"),
+        },
+      ],
     },
     {
       id: "remove",
@@ -51,7 +67,7 @@ export function PopoverMenuDemo() {
 
       <p
         role="status"
-        className="text-muted-foreground border-border border-t pt-3 font-mono text-[10px] tracking-[0.08em] uppercase"
+        className="border-t border-border pt-3 font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase"
       >
         Chose{" "}
         <span className="text-[var(--signal,var(--primary))]">{last}</span>
