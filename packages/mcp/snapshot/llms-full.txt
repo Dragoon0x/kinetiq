@@ -3933,6 +3933,167 @@ Notes:
 - Print the quota before anyone hits it; a seat limit discovered at the eleventh invite is a paywall surprise.
 - Collapsed is a real state with its own affordance, not a squashed layout.
 
+### App Window Vignette (KQ-230) — `vignette-app-window`
+Software working, without a screenshot.
+
+A product window that paints itself in: the chrome lands first, sidebar rows cascade, the spark line draws its series, and the headline number rolls up on the readout — the standard product-demo vignette for a hero that wants to show software working without shipping a screenshot. Purely presentational: the scene reads to assistive tech as one image with an honest label.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-app-window`
+
+Props:
+- `rows`: WindowRow[] — Sidebar rows that cascade in; the first reads active.
+- `metric`: { label, value, suffix } — The headline number the readout rolls to.
+- `series / seriesLabel`: number[] · string — The line the spark instrument draws.
+
+Notes:
+- Purely presentational — every interactive-looking part is decoration at this scale, marked aria-hidden behind one label.
+- Seat it in a hero's vignette slot; hero-split-ledger shows the seating.
+- The chart and numeral are the real instruments (spark-chart, readout), so the vignette inherits their reduced-motion behaviour.
+
+### Handset Vignette (KQ-231) — `vignette-handset`
+The phone view, without a video file.
+
+A handset with an app scene scrolling on a slow loop — the mobile-demo vignette for a hero that wants to show the phone view without a video file. The card list is doubled and translated by half, so the loop never jumps; hovering rests the scroll, because a reader leaning in deserves a still page.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-handset`
+
+Props:
+- `cards`: HandsetCard[] — The scene's cards, looped seamlessly.
+- `loopSeconds`: number (default 14) — One full scroll cycle.
+
+Notes:
+- The loop is a doubled list translated by half — it cannot jump, whatever the card count.
+- Hover rests the scroll; motion that ignores an attentive reader is motion working against the page.
+- Reduced motion holds the scene still at the top of the list.
+
+### Exchange Vignette (KQ-232) — `vignette-exchange`
+A conversation's shape, on a loop.
+
+A chat moment that loops politely: bubbles land one beat at a time, the finished exchange rests long enough to be read whole, then it clears and begins again. A vignette, not a chat — the beats are fixed, nothing is interactive, and the scene reads to assistive tech as one image with the transcript as its label. The working thread is volley-thread.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-exchange`
+
+Props:
+- `beats`: ExchangeBeat[] — Fixed ask/answer beats, landed in order.
+- `holdSeconds / restSeconds`: number — Beat spacing, and how long the finished exchange rests.
+
+Notes:
+- The rest matters: a loop that clears the moment it finishes is a loop nobody has read.
+- Fixed beats by design — a vignette that accepts input is a broken chat, not a scene.
+- Reduced motion prints the whole exchange at rest.
+
+### Voice Note Vignette (KQ-233) — `vignette-voice-note`
+The shape of a voice.
+
+A voice note as a scene: speaker, a fixed waveform, and a play head that sweeps the bars — each brightening as the head passes, the way a message app renders playback. The waveform is provided data, not audio analysis, and nothing plays; it is the shape of a voice for heroes about talking to software.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-voice-note`
+
+Props:
+- `waveform`: number[] — Bar heights 0–1 — a fixed shape, so SSR and client agree.
+- `speaker / duration`: string — Who left it and its pre-formatted length.
+- `sweepSeconds`: number (default 6) — One playback sweep.
+
+Notes:
+- Nothing plays — the vignette is playback's look, not an audio element.
+- The waveform is data, so the same note renders identically on server and client.
+- Reduced motion rests the head a third of the way in, bars behind it lit.
+
+### Search Lens Vignette (KQ-234) — `vignette-search-lens`
+Finding, staged.
+
+A search moment: the field focuses, the query types itself, three results settle in, the scene rests, then it clears and runs again. A vignette of finding — fixed beats, nothing interactive, one image to assistive tech — for heroes about products where the answer is a search away. The working palette is command-deck; this is its portrait.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-search-lens`
+
+Props:
+- `query / results`: string · LensResult[] — What types itself, and the three that settle.
+- `restSeconds`: number (default 5) — How long the settled scene holds before looping.
+
+Notes:
+- command-deck is the working instrument; this portrait must never grow keyboard handling.
+- Type speed is fixed and mount-driven, so the scene is deterministic under SSR.
+- Reduced motion prints the settled scene and stays.
+
+### Hub Vignette (KQ-235) — `vignette-hub`
+The product in the middle of everything.
+
+A centre node with its services arranged on a ring, links drawn from each to the core and a pulse travelling every line in turn — the integration scene, for heroes about products that sit in the middle of other tools. Positions are computed from index and count, so the layout is identical on server and client, and the pulse order is fixed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-hub`
+
+Props:
+- `core / nodes`: string · HubNode[] — The centre and the ring of services.
+- `radius`: number (default 96) — Ring radius in pixels.
+
+Notes:
+- Positions derive from index and count — no measurement, no randomness, identical SSR.
+- One pulse at a time, in roster order; six pulses at once is traffic, not a story.
+- Reduced motion draws every link complete and rests a lit dot at each node.
+
+### File Run Vignette (KQ-236) — `vignette-file-run`
+Ingestion with an honest tally.
+
+Files flowing a drawn path into a destination, one departing at a time, with the landed tally rolling on the readout — the ingestion scene, for heroes about pipelines and imports. Departures are a mount-driven cycle and the tally counts landings honestly: it only rolls when a chip arrives.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-file-run`
+
+Props:
+- `files / destination`: RunFile[] · string — What departs, and where it lands.
+- `cadence`: number (default 1.6) — Seconds between departures.
+
+Notes:
+- The tally is a readout fed by landings — it can never run ahead of the chips.
+- The rails are fixed curves; nothing about the path is measured at runtime.
+- Reduced motion rests the chips and reads the tally complete.
+
+### Wave Meter Vignette (KQ-237) — `vignette-wave-meter`
+A signal that reads live, honestly.
+
+A metering loop: bars breathe through a fixed pattern that rotates, with one peak marked and named — the live-signal scene, for heroes about telemetry and throughput. The pattern is data, the rotation is a mount-driven cycle, and nothing is random, so server and client always paint the same meter.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-wave-meter`
+
+Props:
+- `pattern / peakIndex`: number[] · number — Fixed heights 0–1 and which one is the marked peak.
+- `cycleSeconds`: number (default 5) — One full pattern rotation.
+
+Notes:
+- The pattern is provided data — a meter that invents its signal at render breaks SSR determinism.
+- The peak is marked and captioned; an unexplained tallest bar is decoration.
+- Reduced motion holds the pattern still with the peak lit.
+
+### Iso Stack Vignette (KQ-238) — `vignette-iso-stack`
+The system, in layers.
+
+An isometric stack rising into place, each layer labelled on its edge — the architecture scene, for heroes that want layers of a system without a diagramming tool. Plates are CSS-transformed divs, so they theme like everything else and cost nothing to load.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-iso-stack`
+
+Props:
+- `layers`: IsoLayer[] — Bottom-up; the top plate carries the accent.
+
+Notes:
+- Pure CSS transforms — no canvas, no 3D library, themes for free.
+- Label layers bottom-up the way the reader stacks them mentally.
+- Reduced motion stands the stack assembled.
+
+### Iso Floor Vignette (KQ-239) — `vignette-iso-floor`
+A route, tile by tile.
+
+An isometric tile floor with a route pulsing across it, one tile at a time — the infrastructure scene, for heroes about things moving through a system. The floor is a CSS-rotated grid, the route is fixed data, and the pulse is a mount-driven cycle: deterministic everywhere.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-iso-floor`
+
+Props:
+- `size / route`: number · number[] — Tiles per side, and the row-major route that lights.
+- `cadence`: number (default 0.9) — Seconds between pulses.
+
+Notes:
+- The route is authored, not pathfound — a vignette should never surprise its own page.
+- The loop clears and re-runs with a short rest, so the route reads as a journey, not a flicker.
+- Reduced motion holds the whole route lit.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

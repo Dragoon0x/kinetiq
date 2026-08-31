@@ -9374,4 +9374,359 @@ export const components: KinetiqItem[] = [
       "Collapsed is a real state with its own affordance, not a squashed layout.",
     ],
   },
+  {
+    name: "vignette-app-window",
+    type: "registry:ui",
+    title: "App Window Vignette",
+    description:
+      "A product window that paints itself in: the chrome lands first, sidebar rows cascade, the spark line draws its series, and the headline number rolls up on the readout — the standard product-demo vignette for a hero that wants to show software working without shipping a screenshot. Purely presentational: the scene reads to assistive tech as one image with an honest label.",
+    files: [
+      { path: "registry/ui/vignette-app-window.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "spark-chart",
+    ],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-230" },
+    tagline: "Software working, without a screenshot.",
+    keywords: [
+      "vignette",
+      "hero",
+      "product demo",
+      "window",
+      "illustration",
+      "scene",
+    ],
+    props: [
+      {
+        name: "rows",
+        type: "WindowRow[]",
+        description: "Sidebar rows that cascade in; the first reads active.",
+      },
+      {
+        name: "metric",
+        type: "{ label, value, suffix }",
+        description: "The headline number the readout rolls to.",
+      },
+      {
+        name: "series / seriesLabel",
+        type: "number[] · string",
+        description: "The line the spark instrument draws.",
+      },
+    ],
+    usageNotes: [
+      "Purely presentational — every interactive-looking part is decoration at this scale, marked aria-hidden behind one label.",
+      "Seat it in a hero's vignette slot; hero-split-ledger shows the seating.",
+      "The chart and numeral are the real instruments (spark-chart, readout), so the vignette inherits their reduced-motion behaviour.",
+    ],
+  },
+  {
+    name: "vignette-handset",
+    type: "registry:ui",
+    title: "Handset Vignette",
+    description:
+      "A handset with an app scene scrolling on a slow loop — the mobile-demo vignette for a hero that wants to show the phone view without a video file. The card list is doubled and translated by half, so the loop never jumps; hovering rests the scroll, because a reader leaning in deserves a still page.",
+    files: [{ path: "registry/ui/vignette-handset.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-231" },
+    tagline: "The phone view, without a video file.",
+    keywords: ["vignette", "mobile", "handset", "phone", "hero", "scene"],
+    props: [
+      {
+        name: "cards",
+        type: "HandsetCard[]",
+        description: "The scene's cards, looped seamlessly.",
+      },
+      {
+        name: "loopSeconds",
+        type: "number",
+        defaultValue: "14",
+        description: "One full scroll cycle.",
+      },
+    ],
+    usageNotes: [
+      "The loop is a doubled list translated by half — it cannot jump, whatever the card count.",
+      "Hover rests the scroll; motion that ignores an attentive reader is motion working against the page.",
+      "Reduced motion holds the scene still at the top of the list.",
+    ],
+  },
+  {
+    name: "vignette-exchange",
+    type: "registry:ui",
+    title: "Exchange Vignette",
+    description:
+      "A chat moment that loops politely: bubbles land one beat at a time, the finished exchange rests long enough to be read whole, then it clears and begins again. A vignette, not a chat — the beats are fixed, nothing is interactive, and the scene reads to assistive tech as one image with the transcript as its label. The working thread is volley-thread.",
+    files: [{ path: "registry/ui/vignette-exchange.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-232" },
+    tagline: "A conversation's shape, on a loop.",
+    keywords: ["vignette", "chat", "conversation", "hero", "loop", "scene"],
+    props: [
+      {
+        name: "beats",
+        type: "ExchangeBeat[]",
+        description: "Fixed ask/answer beats, landed in order.",
+      },
+      {
+        name: "holdSeconds / restSeconds",
+        type: "number",
+        description: "Beat spacing, and how long the finished exchange rests.",
+      },
+    ],
+    usageNotes: [
+      "The rest matters: a loop that clears the moment it finishes is a loop nobody has read.",
+      "Fixed beats by design — a vignette that accepts input is a broken chat, not a scene.",
+      "Reduced motion prints the whole exchange at rest.",
+    ],
+  },
+  {
+    name: "vignette-voice-note",
+    type: "registry:ui",
+    title: "Voice Note Vignette",
+    description:
+      "A voice note as a scene: speaker, a fixed waveform, and a play head that sweeps the bars — each brightening as the head passes, the way a message app renders playback. The waveform is provided data, not audio analysis, and nothing plays; it is the shape of a voice for heroes about talking to software.",
+    files: [
+      { path: "registry/ui/vignette-voice-note.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-233" },
+    tagline: "The shape of a voice.",
+    keywords: ["vignette", "voice", "audio", "waveform", "hero", "scene"],
+    props: [
+      {
+        name: "waveform",
+        type: "number[]",
+        description:
+          "Bar heights 0–1 — a fixed shape, so SSR and client agree.",
+      },
+      {
+        name: "speaker / duration",
+        type: "string",
+        description: "Who left it and its pre-formatted length.",
+      },
+      {
+        name: "sweepSeconds",
+        type: "number",
+        defaultValue: "6",
+        description: "One playback sweep.",
+      },
+    ],
+    usageNotes: [
+      "Nothing plays — the vignette is playback's look, not an audio element.",
+      "The waveform is data, so the same note renders identically on server and client.",
+      "Reduced motion rests the head a third of the way in, bars behind it lit.",
+    ],
+  },
+  {
+    name: "vignette-search-lens",
+    type: "registry:ui",
+    title: "Search Lens Vignette",
+    description:
+      "A search moment: the field focuses, the query types itself, three results settle in, the scene rests, then it clears and runs again. A vignette of finding — fixed beats, nothing interactive, one image to assistive tech — for heroes about products where the answer is a search away. The working palette is command-deck; this is its portrait.",
+    files: [
+      { path: "registry/ui/vignette-search-lens.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-234" },
+    tagline: "Finding, staged.",
+    keywords: ["vignette", "search", "command", "hero", "loop", "scene"],
+    props: [
+      {
+        name: "query / results",
+        type: "string · LensResult[]",
+        description: "What types itself, and the three that settle.",
+      },
+      {
+        name: "restSeconds",
+        type: "number",
+        defaultValue: "5",
+        description: "How long the settled scene holds before looping.",
+      },
+    ],
+    usageNotes: [
+      "command-deck is the working instrument; this portrait must never grow keyboard handling.",
+      "Type speed is fixed and mount-driven, so the scene is deterministic under SSR.",
+      "Reduced motion prints the settled scene and stays.",
+    ],
+  },
+  {
+    name: "vignette-hub",
+    type: "registry:ui",
+    title: "Hub Vignette",
+    description:
+      "A centre node with its services arranged on a ring, links drawn from each to the core and a pulse travelling every line in turn — the integration scene, for heroes about products that sit in the middle of other tools. Positions are computed from index and count, so the layout is identical on server and client, and the pulse order is fixed.",
+    files: [{ path: "registry/ui/vignette-hub.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-235" },
+    tagline: "The product in the middle of everything.",
+    keywords: ["vignette", "integrations", "hub", "network", "hero", "scene"],
+    props: [
+      {
+        name: "core / nodes",
+        type: "string · HubNode[]",
+        description: "The centre and the ring of services.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "96",
+        description: "Ring radius in pixels.",
+      },
+    ],
+    usageNotes: [
+      "Positions derive from index and count — no measurement, no randomness, identical SSR.",
+      "One pulse at a time, in roster order; six pulses at once is traffic, not a story.",
+      "Reduced motion draws every link complete and rests a lit dot at each node.",
+    ],
+  },
+  {
+    name: "vignette-file-run",
+    type: "registry:ui",
+    title: "File Run Vignette",
+    description:
+      "Files flowing a drawn path into a destination, one departing at a time, with the landed tally rolling on the readout — the ingestion scene, for heroes about pipelines and imports. Departures are a mount-driven cycle and the tally counts landings honestly: it only rolls when a chip arrives.",
+    files: [{ path: "registry/ui/vignette-file-run.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-236" },
+    tagline: "Ingestion with an honest tally.",
+    keywords: ["vignette", "pipeline", "import", "files", "hero", "scene"],
+    props: [
+      {
+        name: "files / destination",
+        type: "RunFile[] · string",
+        description: "What departs, and where it lands.",
+      },
+      {
+        name: "cadence",
+        type: "number",
+        defaultValue: "1.6",
+        description: "Seconds between departures.",
+      },
+    ],
+    usageNotes: [
+      "The tally is a readout fed by landings — it can never run ahead of the chips.",
+      "The rails are fixed curves; nothing about the path is measured at runtime.",
+      "Reduced motion rests the chips and reads the tally complete.",
+    ],
+  },
+  {
+    name: "vignette-wave-meter",
+    type: "registry:ui",
+    title: "Wave Meter Vignette",
+    description:
+      "A metering loop: bars breathe through a fixed pattern that rotates, with one peak marked and named — the live-signal scene, for heroes about telemetry and throughput. The pattern is data, the rotation is a mount-driven cycle, and nothing is random, so server and client always paint the same meter.",
+    files: [
+      { path: "registry/ui/vignette-wave-meter.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-237" },
+    tagline: "A signal that reads live, honestly.",
+    keywords: ["vignette", "meter", "telemetry", "bars", "hero", "scene"],
+    props: [
+      {
+        name: "pattern / peakIndex",
+        type: "number[] · number",
+        description: "Fixed heights 0–1 and which one is the marked peak.",
+      },
+      {
+        name: "cycleSeconds",
+        type: "number",
+        defaultValue: "5",
+        description: "One full pattern rotation.",
+      },
+    ],
+    usageNotes: [
+      "The pattern is provided data — a meter that invents its signal at render breaks SSR determinism.",
+      "The peak is marked and captioned; an unexplained tallest bar is decoration.",
+      "Reduced motion holds the pattern still with the peak lit.",
+    ],
+  },
+  {
+    name: "vignette-iso-stack",
+    type: "registry:ui",
+    title: "Iso Stack Vignette",
+    description:
+      "An isometric stack rising into place, each layer labelled on its edge — the architecture scene, for heroes that want layers of a system without a diagramming tool. Plates are CSS-transformed divs, so they theme like everything else and cost nothing to load.",
+    files: [
+      { path: "registry/ui/vignette-iso-stack.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-238" },
+    tagline: "The system, in layers.",
+    keywords: [
+      "vignette",
+      "isometric",
+      "stack",
+      "architecture",
+      "hero",
+      "scene",
+    ],
+    props: [
+      {
+        name: "layers",
+        type: "IsoLayer[]",
+        description: "Bottom-up; the top plate carries the accent.",
+      },
+    ],
+    usageNotes: [
+      "Pure CSS transforms — no canvas, no 3D library, themes for free.",
+      "Label layers bottom-up the way the reader stacks them mentally.",
+      "Reduced motion stands the stack assembled.",
+    ],
+  },
+  {
+    name: "vignette-iso-floor",
+    type: "registry:ui",
+    title: "Iso Floor Vignette",
+    description:
+      "An isometric tile floor with a route pulsing across it, one tile at a time — the infrastructure scene, for heroes about things moving through a system. The floor is a CSS-rotated grid, the route is fixed data, and the pulse is a mount-driven cycle: deterministic everywhere.",
+    files: [
+      { path: "registry/ui/vignette-iso-floor.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-239" },
+    tagline: "A route, tile by tile.",
+    keywords: ["vignette", "isometric", "grid", "route", "hero", "scene"],
+    props: [
+      {
+        name: "size / route",
+        type: "number · number[]",
+        description: "Tiles per side, and the row-major route that lights.",
+      },
+      {
+        name: "cadence",
+        type: "number",
+        defaultValue: "0.9",
+        description: "Seconds between pulses.",
+      },
+    ],
+    usageNotes: [
+      "The route is authored, not pathfound — a vignette should never surprise its own page.",
+      "The loop clears and re-runs with a short rest, so the route reads as a journey, not a flicker.",
+      "Reduced motion holds the whole route lit.",
+    ],
+  },
 ];

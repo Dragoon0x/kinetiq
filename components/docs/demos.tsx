@@ -395,6 +395,16 @@ import { SwitchyardDemo } from "@/registry/demos/switchyard.demo";
 import { TrimPanelDemo } from "@/registry/demos/trim-panel.demo";
 import { AgentDeskDemo } from "@/registry/demos/agent-desk.demo";
 import { WorkbenchRailDemo } from "@/registry/demos/workbench-rail.demo";
+import { VignetteAppWindowDemo } from "@/registry/demos/vignette-app-window.demo";
+import { VignetteExchangeDemo } from "@/registry/demos/vignette-exchange.demo";
+import { VignetteHandsetDemo } from "@/registry/demos/vignette-handset.demo";
+import { VignetteSearchLensDemo } from "@/registry/demos/vignette-search-lens.demo";
+import { VignetteVoiceNoteDemo } from "@/registry/demos/vignette-voice-note.demo";
+import { VignetteFileRunDemo } from "@/registry/demos/vignette-file-run.demo";
+import { VignetteHubDemo } from "@/registry/demos/vignette-hub.demo";
+import { VignetteIsoFloorDemo } from "@/registry/demos/vignette-iso-floor.demo";
+import { VignetteIsoStackDemo } from "@/registry/demos/vignette-iso-stack.demo";
+import { VignetteWaveMeterDemo } from "@/registry/demos/vignette-wave-meter.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -756,6 +766,18 @@ export const demos: Record<string, ComponentType> = {
   "trim-panel": TrimPanelDemo,
   "blue-pencil": BluePencilDemo,
   "workbench-rail": WorkbenchRailDemo,
+
+  // Vignettes (KQ-230+)
+  "vignette-app-window": VignetteAppWindowDemo,
+  "vignette-handset": VignetteHandsetDemo,
+  "vignette-exchange": VignetteExchangeDemo,
+  "vignette-voice-note": VignetteVoiceNoteDemo,
+  "vignette-search-lens": VignetteSearchLensDemo,
+  "vignette-hub": VignetteHubDemo,
+  "vignette-file-run": VignetteFileRunDemo,
+  "vignette-wave-meter": VignetteWaveMeterDemo,
+  "vignette-iso-stack": VignetteIsoStackDemo,
+  "vignette-iso-floor": VignetteIsoFloorDemo,
   "agent-desk": AgentDeskDemo,
 
   // Pages (KP-###)
