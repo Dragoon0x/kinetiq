@@ -4420,6 +4420,55 @@ Notes:
 - Thread swaps crossfade rather than slide: tabs are peers, not a journey.
 - Notes under agent turns carry the read/tool/duration line, the part worth trusting.
 
+### Calendar Workroom (KB-118) — `calendar-workroom`
+A month with a working surface under it.
+
+The production calendar as a workroom, not a widget: a month face for shape and a week face for the coming days, category chips whose counts are derived from the events they filter, a peek panel for any event, and inline create on the chosen day. The anchor month is a prop — the grid is computed from it, never read from the clock, so the same calendar renders on the server and on every visit.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/calendar-workroom`
+
+Props:
+- `anchor`: { year: number; month: number } (default { year: 2026, month: 5 }) — The month shown. Computed into a grid — the block never reads the wall clock.
+- `categories / events`: WorkroomCategory[] · WorkroomEvent[] — The chips and the entries; chip counts derive from the events, so they cannot drift.
+- `weekAnchorDay`: number (default 12) — The day whose Monday-aligned run the week face shows.
+
+Notes:
+- Month and week crossfade rather than slide — two faces of one room, not a journey.
+- Inline create ends with a named commitment (“Put it on the board”), never a bare check mark.
+- Peek and compose share the desk below the grid, one at a time; Escape abandons a draft.
+
+### Workroom Shell (KB-119) — `workroom-shell`
+The rail, given a room to run.
+
+The workbench rail composed into a room: rail on one side, a content pane on the other, and a crossfade between panes as the selection moves. The rail keeps every behaviour it already owns — the travelling highlight, the fold to a spine, the printed quota — and the shell contributes only the seating and the handoff of selection, which is the point of having primitives.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/workroom-shell`
+
+Props:
+- `panes`: WorkroomPane[] — One pane per primary destination; the ids line up with the rail's items.
+- `workspace / threads`: string · { id, label }[] — Handed to the rail untouched.
+
+Notes:
+- Pane swaps crossfade — destinations are peers, not steps.
+- On narrow surfaces the rail steps out entirely; that edition is the workroom drawer.
+- The rail's own fold-to-spine keeps working inside the shell, so the width is always recoverable.
+
+### Workroom Drawer (KB-120) — `workroom-drawer`
+The rail steps out; the work keeps the width.
+
+The workroom for narrow surfaces: the rail steps off-canvas into a drawer and the content keeps the full width. The drawer primitive owns everything hard — focus trap, Escape, backdrop, the edge drag — and the rail owns its furniture; this block contributes the bar, the contained stage, and the rule that picking a destination closes the drawer, because on a phone the menu is a hallway, not a room you stay in.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/workroom-drawer`
+
+Props:
+- `panes`: DrawerPane[] — The content behind each destination.
+- `workspace / threads`: string · { id, label }[] — Handed to the rail untouched.
+
+Notes:
+- Selection closes the drawer — a deliberate rule of the block, not of the primitive.
+- The drawer is contained (portal={false}) so the block owns its stage in docs and previews alike.
+- Focus trapping, Escape, and the drag-to-dismiss all belong to the drawer primitive.
+
 ### Split Ledger Hero (KB-201) — `hero-split-ledger`
 The argument left, the product at work right.
 
@@ -4592,6 +4641,7 @@ Install: `pnpm dlx shadcn@latest add @kinetiq/pricing-meridian-tiers`
 
 Props:
 - `tiers`: MeridianTier[] — Name, blurb, monthly and annual prices, features, and an optional seal.
+- `unitLabel`: string (default "/ seat / month") — What the price is per. A product that sells basins or projects should not price in seats.
 - `onSelect`: (tierId, billing) => void — Fired with the tier and the active billing mode.
 
 Notes:
@@ -6824,6 +6874,30 @@ Notes:
 - The order is load-bearing: price, margins, misfits, then failures. Softening any step breaks the cumulative effect.
 - Keep the critical mention in proof-unprompted; a curated version of this page persuades nobody.
 
+### Signature Template (KT-007) — `template-signature`
+One column, and the person is the product.
+
+The personal site as a signature: one column, monochrome, over in two scrolls. The name takes the sheen, the bio takes one rolling word, and everything else is rows — work that leads with the outcome instead of the logo, writing as titles and dates, and a footer that is an email and three elsewheres. On a personal page the person is the product, and rows read as confidence where cards read as effort.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/template-signature`
+
+Notes:
+- Work rows lead with the outcome line, revealed under the hand — the sentence is the portfolio, so write those four sentences hardest.
+- Dates are pre-formatted strings; nothing on the page reads a clock.
+- Resist adding a nav. Four headings on one column do not need wayfinding, and the restraint is the design.
+
+### Causeway Template (KT-008) — `template-causeway`
+Three routes, one install, already acquainted.
+
+A whole small site in one install: three routed pages — the product, the changelog, the price — that already know each other through a shared nav with real hrefs. The argument is spread across routes the way real sites spread it, and the changelog is written in the same voice as the features, because a record kept differently from the marketing is an admission.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/template-causeway`
+
+Notes:
+- The three files install to app/page.tsx, app/changelog/page.tsx, and app/pricing/page.tsx — a navigable site, not three orphans.
+- Keep the nav links identical across the pages; the shared rail is what makes three routes read as one site.
+- The docs demo flips routes with a switcher; the installed template navigates with real hrefs.
+
 ### Utils — `utils`
 cn() — class composition.
 
@@ -6865,3 +6939,10 @@ The design-system operating rules for agents.
 Kinetiq's operating rules for coding agents: the five-spring motion language, the tween scale, the 600ms cascade budget, the reduced-motion policy, token usage, and composition guidance. Installs as AGENTS.md at your repo root so your agent stays on the system's vocabulary.
 
 Install: `pnpm dlx shadcn@latest add @kinetiq/agents-rules`
+
+### Agent Skill — `agent-skill`
+The library, taught to your agent.
+
+A packaged skill that teaches a coding agent the whole system in one install: discovering the catalog through MCP or the machine metadata, picking components by the verb their spring performs, installing by serial or slug, and composing under the five-spring doctrine. Installs to .claude/skills/kinetiq/SKILL.md; pairs with the agents-rules item, which carries the full operating rules.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/agent-skill`

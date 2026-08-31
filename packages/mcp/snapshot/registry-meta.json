@@ -14,10 +14,10 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 241,
-      "blocks": 137,
+      "blocks": 140,
       "pages": 27,
-      "templates": 6,
-      "shared": 6
+      "templates": 8,
+      "shared": 7
     }
   },
   "motion": {
@@ -15867,6 +15867,182 @@
       }
     },
     {
+      "slug": "calendar-workroom",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Calendar Workroom",
+      "serial": "KB-118",
+      "tagline": "A month with a working surface under it.",
+      "description": "The production calendar as a workroom, not a widget: a month face for shape and a week face for the coming days, category chips whose counts are derived from the events they filter, a peek panel for any event, and inline create on the chosen day. The anchor month is a prop — the grid is computed from it, never read from the clock, so the same calendar renders on the server and on every visit.",
+      "categories": [
+        "blocks"
+      ],
+      "keywords": [
+        "calendar",
+        "schedule",
+        "events",
+        "month",
+        "week",
+        "workspace"
+      ],
+      "props": [
+        {
+          "name": "anchor",
+          "type": "{ year: number; month: number }",
+          "defaultValue": "{ year: 2026, month: 5 }",
+          "description": "The month shown. Computed into a grid — the block never reads the wall clock."
+        },
+        {
+          "name": "categories / events",
+          "type": "WorkroomCategory[] · WorkroomEvent[]",
+          "description": "The chips and the entries; chip counts derive from the events, so they cannot drift."
+        },
+        {
+          "name": "weekAnchorDay",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "The day whose Monday-aligned run the week face shows."
+        }
+      ],
+      "usageNotes": [
+        "Month and week crossfade rather than slide — two faces of one room, not a journey.",
+        "Inline create ends with a named commitment (“Put it on the board”), never a bare check mark.",
+        "Peek and compose share the desk below the grid, one at a time; Escape abandons a draft."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/calendar-workroom",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/calendar-workroom.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/calendar-workroom",
+        "npm": "npx shadcn@latest add @kinetiq/calendar-workroom",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/calendar-workroom",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/calendar-workroom",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/calendar-workroom.json"
+      }
+    },
+    {
+      "slug": "workroom-shell",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Workroom Shell",
+      "serial": "KB-119",
+      "tagline": "The rail, given a room to run.",
+      "description": "The workbench rail composed into a room: rail on one side, a content pane on the other, and a crossfade between panes as the selection moves. The rail keeps every behaviour it already owns — the travelling highlight, the fold to a spine, the printed quota — and the shell contributes only the seating and the handoff of selection, which is the point of having primitives.",
+      "categories": [
+        "blocks"
+      ],
+      "keywords": [
+        "workspace",
+        "sidebar",
+        "shell",
+        "layout",
+        "panes",
+        "rail"
+      ],
+      "props": [
+        {
+          "name": "panes",
+          "type": "WorkroomPane[]",
+          "description": "One pane per primary destination; the ids line up with the rail's items."
+        },
+        {
+          "name": "workspace / threads",
+          "type": "string · { id, label }[]",
+          "description": "Handed to the rail untouched."
+        }
+      ],
+      "usageNotes": [
+        "Pane swaps crossfade — destinations are peers, not steps.",
+        "On narrow surfaces the rail steps out entirely; that edition is the workroom drawer.",
+        "The rail's own fold-to-spine keeps working inside the shell, so the width is always recoverable."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/workbench-rail.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/workroom-shell",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/workroom-shell.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/workroom-shell",
+        "npm": "npx shadcn@latest add @kinetiq/workroom-shell",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/workroom-shell",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/workroom-shell",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/workroom-shell.json"
+      }
+    },
+    {
+      "slug": "workroom-drawer",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Workroom Drawer",
+      "serial": "KB-120",
+      "tagline": "The rail steps out; the work keeps the width.",
+      "description": "The workroom for narrow surfaces: the rail steps off-canvas into a drawer and the content keeps the full width. The drawer primitive owns everything hard — focus trap, Escape, backdrop, the edge drag — and the rail owns its furniture; this block contributes the bar, the contained stage, and the rule that picking a destination closes the drawer, because on a phone the menu is a hallway, not a room you stay in.",
+      "categories": [
+        "blocks"
+      ],
+      "keywords": [
+        "drawer",
+        "sidebar",
+        "mobile",
+        "off-canvas",
+        "workspace",
+        "menu"
+      ],
+      "props": [
+        {
+          "name": "panes",
+          "type": "DrawerPane[]",
+          "description": "The content behind each destination."
+        },
+        {
+          "name": "workspace / threads",
+          "type": "string · { id, label }[]",
+          "description": "Handed to the rail untouched."
+        }
+      ],
+      "usageNotes": [
+        "Selection closes the drawer — a deliberate rule of the block, not of the primitive.",
+        "The drawer is contained (portal={false}) so the block owns its stage in docs and previews alike.",
+        "Focus trapping, Escape, and the drag-to-dismiss all belong to the drawer primitive."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/drawer.json",
+        "https://kinetiqui.vercel.app/r/workbench-rail.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/workroom-drawer",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/workroom-drawer.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/workroom-drawer",
+        "npm": "npx shadcn@latest add @kinetiq/workroom-drawer",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/workroom-drawer",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/workroom-drawer",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/workroom-drawer.json"
+      }
+    },
+    {
       "slug": "hero-split-ledger",
       "kind": "block",
       "type": "registry:block",
@@ -16473,6 +16649,12 @@
           "name": "tiers",
           "type": "MeridianTier[]",
           "description": "Name, blurb, monthly and annual prices, features, and an optional seal."
+        },
+        {
+          "name": "unitLabel",
+          "type": "string",
+          "defaultValue": "\"/ seat / month\"",
+          "description": "What the price is per. A product that sells basins or projects should not price in seats."
         },
         {
           "name": "onSelect",
@@ -24213,6 +24395,101 @@
       }
     },
     {
+      "slug": "template-signature",
+      "kind": "template",
+      "type": "registry:page",
+      "title": "Signature Template",
+      "serial": "KT-007",
+      "tagline": "One column, and the person is the product.",
+      "description": "The personal site as a signature: one column, monochrome, over in two scrolls. The name takes the sheen, the bio takes one rolling word, and everything else is rows — work that leads with the outcome instead of the logo, writing as titles and dates, and a footer that is an email and three elsewheres. On a personal page the person is the product, and rows read as confidence where cards read as effort.",
+      "categories": [
+        "personal"
+      ],
+      "keywords": [
+        "template",
+        "personal",
+        "portfolio",
+        "writing",
+        "minimal"
+      ],
+      "usageNotes": [
+        "Work rows lead with the outcome line, revealed under the hand — the sentence is the portfolio, so write those four sentences hardest.",
+        "Dates are pre-formatted strings; nothing on the page reads a clock.",
+        "Resist adding a nav. Four headings on one column do not need wayfinding, and the restraint is the design."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/gradient-title.json",
+        "https://kinetiqui.vercel.app/r/hover-swap.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/templates/template-signature",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/template-signature.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/template-signature",
+        "npm": "npx shadcn@latest add @kinetiq/template-signature",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/template-signature",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/template-signature",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/template-signature.json"
+      }
+    },
+    {
+      "slug": "template-causeway",
+      "kind": "template",
+      "type": "registry:page",
+      "title": "Causeway Template",
+      "serial": "KT-008",
+      "tagline": "Three routes, one install, already acquainted.",
+      "description": "A whole small site in one install: three routed pages — the product, the changelog, the price — that already know each other through a shared nav with real hrefs. The argument is spread across routes the way real sites spread it, and the changelog is written in the same voice as the features, because a record kept differently from the marketing is an admission.",
+      "categories": [
+        "multipage"
+      ],
+      "keywords": [
+        "template",
+        "multipage",
+        "changelog",
+        "pricing",
+        "site"
+      ],
+      "usageNotes": [
+        "The three files install to app/page.tsx, app/changelog/page.tsx, and app/pricing/page.tsx — a navigable site, not three orphans.",
+        "Keep the nav links identical across the pages; the shared rail is what makes three routes read as one site.",
+        "The docs demo flips routes with a switcher; the installed template navigates with real hrefs."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-glass-rail.json",
+        "https://kinetiqui.vercel.app/r/hero-compare-wipe.json",
+        "https://kinetiqui.vercel.app/r/features-quiet-grid.json",
+        "https://kinetiqui.vercel.app/r/proof-live-floor.json",
+        "https://kinetiqui.vercel.app/r/cta-postscript.json",
+        "https://kinetiqui.vercel.app/r/announce-ship-note.json",
+        "https://kinetiqui.vercel.app/r/newsletter-ledger-note.json",
+        "https://kinetiqui.vercel.app/r/pricing-meridian-tiers.json",
+        "https://kinetiqui.vercel.app/r/faq-last-word.json",
+        "https://kinetiqui.vercel.app/r/footer-quiet-close.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/templates/template-causeway",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/template-causeway.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/template-causeway",
+        "npm": "npx shadcn@latest add @kinetiq/template-causeway",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/template-causeway",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/template-causeway",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/template-causeway.json"
+      }
+    },
+    {
       "slug": "utils",
       "kind": "shared",
       "type": "registry:lib",
@@ -24361,6 +24638,30 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/agents-rules",
         "bun": "bunx --bun shadcn@latest add @kinetiq/agents-rules",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/agents-rules.json"
+      }
+    },
+    {
+      "slug": "agent-skill",
+      "kind": "shared",
+      "type": "registry:file",
+      "title": "Agent Skill",
+      "tagline": "The library, taught to your agent.",
+      "description": "A packaged skill that teaches a coding agent the whole system in one install: discovering the catalog through MCP or the machine metadata, picking components by the verb their spring performs, installing by serial or slug, and composing under the five-spring doctrine. Installs to .claude/skills/kinetiq/SKILL.md; pairs with the agents-rules item, which carries the full operating rules.",
+      "keywords": [
+        "skill",
+        "agent",
+        "mcp",
+        "claude",
+        "distribution",
+        "install"
+      ],
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/agent-skill.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/agent-skill",
+        "npm": "npx shadcn@latest add @kinetiq/agent-skill",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/agent-skill",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/agent-skill",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/agent-skill.json"
       }
     }
   ]

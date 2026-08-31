@@ -374,6 +374,8 @@ import { ErrorResourceDeletedDemo } from "@/registry/demos/error-resource-delete
 import { ErrorServerFaultDemo } from "@/registry/demos/error-server-fault.demo";
 import { TemplateAgentDemo } from "@/registry/demos/template-agent.demo";
 import { TemplateFieldDemo } from "@/registry/demos/template-field.demo";
+import { TemplateSignatureDemo } from "@/registry/demos/template-signature.demo";
+import { TemplateCausewayDemo } from "@/registry/demos/template-causeway.demo";
 import { TemplateInstrumentDemo } from "@/registry/demos/template-instrument.demo";
 import { TemplateLaunchDemo } from "@/registry/demos/template-launch.demo";
 import { TemplateLedgerDemo } from "@/registry/demos/template-ledger.demo";
@@ -394,6 +396,9 @@ import { InsightReelDemo } from "@/registry/demos/insight-reel.demo";
 import { SwitchyardDemo } from "@/registry/demos/switchyard.demo";
 import { TrimPanelDemo } from "@/registry/demos/trim-panel.demo";
 import { AgentDeskDemo } from "@/registry/demos/agent-desk.demo";
+import { CalendarWorkroomDemo } from "@/registry/demos/calendar-workroom.demo";
+import { WorkroomShellDemo } from "@/registry/demos/workroom-shell.demo";
+import { WorkroomDrawerDemo } from "@/registry/demos/workroom-drawer.demo";
 import { WorkbenchRailDemo } from "@/registry/demos/workbench-rail.demo";
 import { VignetteAppWindowDemo } from "@/registry/demos/vignette-app-window.demo";
 import { VignetteExchangeDemo } from "@/registry/demos/vignette-exchange.demo";
@@ -793,6 +798,9 @@ export const demos: Record<string, ComponentType> = {
   "relay-tip": RelayTipDemo,
   "folio-table": FolioTableDemo,
   "agent-desk": AgentDeskDemo,
+  "workroom-drawer": WorkroomDrawerDemo,
+  "workroom-shell": WorkroomShellDemo,
+  "calendar-workroom": CalendarWorkroomDemo,
 
   // Pages (KP-###)
   "auth-sign-in": AuthSignInDemo,
@@ -830,6 +838,8 @@ export const demos: Record<string, ComponentType> = {
   "template-studio": TemplateStudioDemo,
   "template-ledger": TemplateLedgerDemo,
   "template-field": TemplateFieldDemo,
+  "template-signature": TemplateSignatureDemo,
+  "template-causeway": TemplateCausewayDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

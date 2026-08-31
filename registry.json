@@ -10387,6 +10387,94 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "calendar-workroom",
+      "type": "registry:block",
+      "title": "Calendar Workroom",
+      "description": "The production calendar as a workroom, not a widget: a month face for shape and a week face for the coming days, category chips whose counts are derived from the events they filter, a peek panel for any event, and inline create on the chosen day. The anchor month is a prop — the grid is computed from it, never read from the clock, so the same calendar renders on the server and on every visit.",
+      "files": [
+        {
+          "path": "registry/blocks/calendar-workroom/calendar-workroom.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "blocks"
+      ],
+      "meta": {
+        "serial": "KB-118"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "workroom-shell",
+      "type": "registry:block",
+      "title": "Workroom Shell",
+      "description": "The workbench rail composed into a room: rail on one side, a content pane on the other, and a crossfade between panes as the selection moves. The rail keeps every behaviour it already owns — the travelling highlight, the fold to a spine, the printed quota — and the shell contributes only the seating and the handoff of selection, which is the point of having primitives.",
+      "files": [
+        {
+          "path": "registry/blocks/workroom-shell/workroom-shell.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/workbench-rail.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "categories": [
+        "blocks"
+      ],
+      "meta": {
+        "serial": "KB-119"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "workroom-drawer",
+      "type": "registry:block",
+      "title": "Workroom Drawer",
+      "description": "The workroom for narrow surfaces: the rail steps off-canvas into a drawer and the content keeps the full width. The drawer primitive owns everything hard — focus trap, Escape, backdrop, the edge drag — and the rail owns its furniture; this block contributes the bar, the contained stage, and the rule that picking a destination closes the drawer, because on a phone the menu is a hallway, not a room you stay in.",
+      "files": [
+        {
+          "path": "registry/blocks/workroom-drawer/workroom-drawer.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/drawer.json",
+        "https://kinetiqui.vercel.app/r/workbench-rail.json"
+      ],
+      "categories": [
+        "blocks"
+      ],
+      "meta": {
+        "serial": "KB-120"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "offer-window",
       "type": "registry:block",
       "title": "Offer Window",
@@ -11477,6 +11565,85 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-signature",
+      "type": "registry:page",
+      "title": "Signature Template",
+      "description": "The personal site as a signature: one column, monochrome, over in two scrolls. The name takes the sheen, the bio takes one rolling word, and everything else is rows — work that leads with the outcome instead of the logo, writing as titles and dates, and a footer that is an email and three elsewheres. On a personal page the person is the product, and rows read as confidence where cards read as effort.",
+      "files": [
+        {
+          "path": "registry/templates/template-signature/template-signature.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/gradient-title.json",
+        "https://kinetiqui.vercel.app/r/hover-swap.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "categories": [
+        "personal"
+      ],
+      "meta": {
+        "serial": "KT-007"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-causeway",
+      "type": "registry:page",
+      "title": "Causeway Template",
+      "description": "A whole small site in one install: three routed pages — the product, the changelog, the price — that already know each other through a shared nav with real hrefs. The argument is spread across routes the way real sites spread it, and the changelog is written in the same voice as the features, because a record kept differently from the marketing is an admission.",
+      "files": [
+        {
+          "path": "registry/templates/template-causeway/home.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        },
+        {
+          "path": "registry/templates/template-causeway/changelog.tsx",
+          "type": "registry:page",
+          "target": "app/changelog/page.tsx"
+        },
+        {
+          "path": "registry/templates/template-causeway/pricing.tsx",
+          "type": "registry:page",
+          "target": "app/pricing/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/nav-glass-rail.json",
+        "https://kinetiqui.vercel.app/r/hero-compare-wipe.json",
+        "https://kinetiqui.vercel.app/r/features-quiet-grid.json",
+        "https://kinetiqui.vercel.app/r/proof-live-floor.json",
+        "https://kinetiqui.vercel.app/r/cta-postscript.json",
+        "https://kinetiqui.vercel.app/r/announce-ship-note.json",
+        "https://kinetiqui.vercel.app/r/newsletter-ledger-note.json",
+        "https://kinetiqui.vercel.app/r/pricing-meridian-tiers.json",
+        "https://kinetiqui.vercel.app/r/faq-last-word.json",
+        "https://kinetiqui.vercel.app/r/footer-quiet-close.json"
+      ],
+      "categories": [
+        "multipage"
+      ],
+      "meta": {
+        "serial": "KT-008"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
@@ -11567,6 +11734,20 @@
           "path": "registry/files/agents-rules.md",
           "type": "registry:file",
           "target": "AGENTS.md"
+        }
+      ]
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "agent-skill",
+      "type": "registry:file",
+      "title": "Agent Skill",
+      "description": "A packaged skill that teaches a coding agent the whole system in one install: discovering the catalog through MCP or the machine metadata, picking components by the verb their spring performs, installing by serial or slug, and composing under the five-spring doctrine. Installs to .claude/skills/kinetiq/SKILL.md; pairs with the agents-rules item, which carries the full operating rules.",
+      "files": [
+        {
+          "path": "registry/files/kinetiq-skill/SKILL.md",
+          "type": "registry:file",
+          "target": ".claude/skills/kinetiq/SKILL.md"
         }
       ]
     }

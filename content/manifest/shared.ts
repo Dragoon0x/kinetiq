@@ -86,4 +86,20 @@ export const shared: KinetiqItem[] = [
     tagline: "The design-system operating rules for agents.",
     keywords: ["agents", "conventions", "rules", "motion language", "mcp"],
   },
+  {
+    name: "agent-skill",
+    type: "registry:file",
+    title: "Agent Skill",
+    description:
+      "A packaged skill that teaches a coding agent the whole system in one install: discovering the catalog through MCP or the machine metadata, picking components by the verb their spring performs, installing by serial or slug, and composing under the five-spring doctrine. Installs to .claude/skills/kinetiq/SKILL.md; pairs with the agents-rules item, which carries the full operating rules.",
+    files: [
+      {
+        path: "registry/files/kinetiq-skill/SKILL.md",
+        type: "registry:file",
+        target: ".claude/skills/kinetiq/SKILL.md",
+      },
+    ],
+    tagline: "The library, taught to your agent.",
+    keywords: ["skill", "agent", "mcp", "claude", "distribution", "install"],
+  },
 ];

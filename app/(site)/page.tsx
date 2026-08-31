@@ -3,19 +3,46 @@ import Link from "next/link";
 import { InstallCommand } from "@/components/docs/install-command";
 import { CalibrationStrip } from "@/components/home/calibration-strip";
 import { DemoWall } from "@/components/home/demo-wall";
+import { InventoryCounters } from "@/components/home/inventory-counters";
+import { SelfDemoStrip } from "@/components/home/self-demo-strip";
 import { itemsByCategory } from "@/content/categories";
-import { catalogBlocks, catalogComponents } from "@/content/manifest";
+import {
+  catalogBlocks,
+  catalogComponents,
+  catalogPages,
+  catalogTemplates,
+} from "@/content/manifest";
 import { Wavefield } from "@/registry/ui/wavefield";
 
-const STATS = (categories: number) => [
-  { value: catalogComponents.length, unit: "", label: "Instruments" },
-  { value: catalogBlocks.length, unit: "", label: "Assemblies" },
-  { value: categories, unit: "", label: "Categories" },
-  { value: 5, unit: "", label: "Springs" },
+const AGENT_CHANNELS = [
+  {
+    title: "The registry",
+    copy: "Every item is a public shadcn-compatible artifact. One command and the source lands in your repo, dependencies resolved.",
+    href: "/components",
+    linkLabel: "Browse the catalog",
+  },
+  {
+    title: "The MCP server",
+    copy: "Your coding agent can search the catalog, read props and usage notes, and pick by serial — live from the registry or offline from the snapshot.",
+    href: "/mcp",
+    linkLabel: "Connect an agent",
+  },
+  {
+    title: "The skill",
+    copy: "A packaged skill that teaches your agent the whole system — discovery, picking by verb, and the five-spring doctrine — in one install.",
+    href: "/agents",
+    linkLabel: "Read the agent rules",
+  },
 ];
 
 export default function HomePage() {
   const categoryCount = itemsByCategory(catalogComponents).length;
+  const stats = [
+    { value: catalogComponents.length, label: "Instruments" },
+    { value: catalogBlocks.length, label: "Assemblies" },
+    { value: catalogPages.length + catalogTemplates.length, label: "Pages & templates" },
+    { value: categoryCount, label: "Categories" },
+  ];
 
   return (
     <main>
@@ -88,23 +115,81 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* the numbers */}
+      {/* the numbers — real counts, rolled by the same instrument they count */}
       <section className="border-hairline border-t">
         <div className="mx-auto w-full max-w-7xl px-6 py-20">
           <p className="text-label text-ink-3">THE INVENTORY</p>
           <h2 className="mt-2 max-w-lg text-3xl font-semibold tracking-tight">
             One system, machined from one piece.
           </h2>
-          <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4">
-            {STATS(categoryCount).map((stat) => (
-              <div key={stat.label}>
-                <dd className="text-ink text-5xl font-semibold tracking-tight tabular-nums">
-                  {stat.value}
-                </dd>
-                <dt className="text-label text-ink-3 mt-2">{stat.label}</dt>
+          <p className="text-ink-2 mt-3 max-w-xl">
+            Counted from the catalog at build time and rolled by the readout —
+            the same instrument you can install.
+          </p>
+          <div className="mt-12">
+            <InventoryCounters stats={stats} />
+          </div>
+        </div>
+      </section>
+
+      {/* the library demonstrates itself */}
+      <section className="border-hairline border-t">
+        <div className="mx-auto w-full max-w-7xl px-6 py-20">
+          <p className="text-label text-ink-3">SELF-DEMONSTRATION</p>
+          <h2 className="mt-2 max-w-lg text-3xl font-semibold tracking-tight">
+            Nothing here is a screenshot.
+          </h2>
+          <p className="text-ink-2 mt-3 max-w-xl">
+            Two vignettes and the agent desk, running live with their default
+            props. Hover the scenes; type in the desk. If the home page needed
+            special versions, the components would be the problem.
+          </p>
+          <div className="mt-10">
+            <SelfDemoStrip />
+          </div>
+        </div>
+      </section>
+
+      {/* agent-native distribution */}
+      <section className="border-hairline border-t">
+        <div className="mx-auto w-full max-w-7xl px-6 py-20">
+          <p className="text-label text-ink-3">AGENT-NATIVE</p>
+          <h2 className="mt-2 max-w-lg text-3xl font-semibold tracking-tight">
+            Your agent already knows this library.
+          </h2>
+          <p className="text-ink-2 mt-3 max-w-xl">
+            Three channels, all free: the registry your tools install from, an
+            MCP server your agent searches, and a packaged skill that teaches
+            it the doctrine.
+          </p>
+          <div className="mt-10 grid gap-4 lg:grid-cols-3">
+            {AGENT_CHANNELS.map((channel) => (
+              <div
+                key={channel.title}
+                className="border-hairline rounded-4 bg-surface-1 flex flex-col border p-6"
+              >
+                <h3 className="text-ink font-semibold tracking-tight">
+                  {channel.title}
+                </h3>
+                <p className="text-ink-2 mt-2 flex-1 text-sm leading-relaxed">
+                  {channel.copy}
+                </p>
+                <Link
+                  href={channel.href}
+                  className="text-ink-2 hover:text-ink mt-4 text-sm font-medium transition-colors"
+                >
+                  {channel.linkLabel} →
+                </Link>
               </div>
             ))}
-          </dl>
+          </div>
+          <div className="mx-auto mt-8 w-full max-w-xl">
+            <InstallCommand slug="agent-skill" />
+            <p className="text-ink-3 mt-3 text-center text-xs">
+              Installs to .claude/skills/kinetiq — your agent takes it from
+              there.
+            </p>
+          </div>
         </div>
       </section>
 
