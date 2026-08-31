@@ -405,6 +405,13 @@ import { VignetteHubDemo } from "@/registry/demos/vignette-hub.demo";
 import { VignetteIsoFloorDemo } from "@/registry/demos/vignette-iso-floor.demo";
 import { VignetteIsoStackDemo } from "@/registry/demos/vignette-iso-stack.demo";
 import { VignetteWaveMeterDemo } from "@/registry/demos/vignette-wave-meter.demo";
+import { FolioTableDemo } from "@/registry/demos/folio-table.demo";
+import { HoverSwapDemo } from "@/registry/demos/hover-swap.demo";
+import { RelayTipDemo } from "@/registry/demos/relay-tip.demo";
+import { FaqHelpDeskDemo } from "@/registry/demos/faq-help-desk.demo";
+import { OfferLedgerDemo } from "@/registry/demos/offer-ledger.demo";
+import { OfferTriptychDemo } from "@/registry/demos/offer-triptych.demo";
+import { OfferWindowDemo } from "@/registry/demos/offer-window.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -778,6 +785,13 @@ export const demos: Record<string, ComponentType> = {
   "vignette-wave-meter": VignetteWaveMeterDemo,
   "vignette-iso-stack": VignetteIsoStackDemo,
   "vignette-iso-floor": VignetteIsoFloorDemo,
+  "offer-window": OfferWindowDemo,
+  "offer-ledger": OfferLedgerDemo,
+  "offer-triptych": OfferTriptychDemo,
+  "faq-help-desk": FaqHelpDeskDemo,
+  "hover-swap": HoverSwapDemo,
+  "relay-tip": RelayTipDemo,
+  "folio-table": FolioTableDemo,
   "agent-desk": AgentDeskDemo,
 
   // Pages (KP-###)

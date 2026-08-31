@@ -3270,6 +3270,7 @@ Install: `pnpm dlx shadcn@latest add @kinetiq/popover-menu`
 
 Props:
 - `items`: PopoverMenuItem[] — The menu rows — id, label, optional icon, disabled, onSelect.
+- `items[].children`: PopoverMenuItem[] — One flyout level. A row with children opens on hover, click, or ArrowRight; ArrowLeft steps back, and Escape steps out before it closes the menu.
 - `children`: ReactNode — Trigger label / content.
 - `side`: top | bottom — Preferred side; flips when the viewport is tight.
 - `align`: start | end — Preferred horizontal edge; flips on overflow.
@@ -4093,6 +4094,54 @@ Notes:
 - The route is authored, not pathfound — a vignette should never surprise its own page.
 - The loop clears and re-runs with a short rest, so the route reads as a journey, not a flicker.
 - Reduced motion holds the whole route lit.
+
+### Hover Swap (KQ-240) — `hover-swap`
+Two readings, one label.
+
+A label with two readings: at rest it says one thing, and under hover or focus it rolls to the alternate — the old line leaving as the new one arrives, both clipped to the label's own box. For links whose hover state has something to add, nav items, and buttons with a second thought. Both readings live in the accessible name, so the roll is presentation and never information.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hover-swap`
+
+Props:
+- `children / alternate`: ReactNode — The resting reading and the one it rolls to.
+- `direction`: "up" | "down" (default "up") — Roll direction.
+
+Notes:
+- Both readings reserve the wider box, so the label never resizes mid-roll.
+- The accessible name carries both readings, always — the roll is never the only source.
+- Focus triggers the roll too; keyboard users get the second thought.
+
+### Relay Tip (KQ-241) — `relay-tip`
+One label travelling, not four blinking.
+
+One tip surface, relayed: instead of each trigger owning a tooltip that pops and dies, a single shared surface glides from trigger to trigger, morphing to fit each caption — so moving along a row of controls reads as one label travelling, not four labels blinking. Each trigger keeps a per-trigger description for assistive tech; the relay is presentation, the semantics stay stationary.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/relay-tip`
+
+Props:
+- `stops`: RelayStop[] — Triggers and what the tip says over each.
+- `offset`: number (default 8) — Gap between trigger and tip.
+
+Notes:
+- The travel is a shared layout element on the snap spring; entering from nothing still pops, and leaving the last trigger withdraws it.
+- Every trigger keeps its own role=tooltip description — screen readers never depend on the travelling surface.
+- Reduced motion shows the tip over each trigger without travel.
+
+### Folio Table (KQ-242) — `folio-table`
+Leaf through it; pour it into the ledger.
+
+The paged edition of the working grid: a folio turns pages instead of scrolling ten thousand rows, columns can be re-picked from a rail of chips, and the page turn is a directional slide so going back reads as going back. Paging belongs to pagination-rail — this table seats it. For the virtualized firehose, the ledger remains the instrument; a folio is for datasets you leaf through, not pour.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/folio-table`
+
+Props:
+- `columns / rows`: FolioColumn[] · FolioRow[] — Columns (re-pickable) and pre-formatted row cells by column id.
+- `pageSize`: number (default 5) — Rows per page; the page count derives.
+
+Notes:
+- Paging is pagination-rail's — keyboard, previews, and clamping come with it.
+- The last visible column cannot be hidden; a table with zero columns is a bug shipped as a feature.
+- Page turns slide from the direction of travel, so back reads as back.
 
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
@@ -6252,6 +6301,69 @@ Notes:
 - Deliberately motionless past the cascade — the moving gallery variants already exist twice.
 - Show the frames that did not make it. A contact sheet of nothing but selects is a portfolio.
 - The select ring sits outside the frame, like a mark made on the sheet rather than on the image.
+
+### Offer Window (KB-317) — `offer-window`
+One paragraph, one proof, one action.
+
+The offer stated beside the product doing it: value proposition on the left, a live app-window vignette on the right, and the capability cards beneath — the what-we-actually-sell section for pages that need one clear paragraph, one visible proof, and one action. The vignette is the proof; a claims list beside a screenshot is just two kinds of assertion.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/offer-window`
+
+Props:
+- `cards`: OfferCard[] — The capability cards under the fold.
+- `cta / onCta`: string · () => void — The single action.
+
+Notes:
+- The vignette is the proof — swap its props, never replace it with a screenshot.
+- One CTA on purpose; an offer with three buttons is a navigation problem wearing a pitch.
+- Three cards is the ceiling — this section states the offer, features sections argue it.
+
+### Offer Ledger (KB-318) — `offer-ledger`
+Every service completes three columns.
+
+The offer as a ledger: one row per service, and every row forced to complete three honest columns — what we do, what you concretely get, and what it costs to start. The discipline is the section: an offer that cannot fill its own outcome column is a feature looking for a buyer, and this layout makes that visible before a customer does.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/offer-ledger`
+
+Props:
+- `rows`: OfferRow[] — Service, concrete outcome, and what starting costs.
+
+Notes:
+- The outcome column is the test — if a row cannot fill it concretely, cut the row, not the standard.
+- To-start is stated per row; a table with one shared asterisk is a price hidden three times.
+- Below sm each row stacks with its column captions inlined, so nothing depends on the header.
+
+### Offer Triptych (KB-319) — `offer-triptych`
+The focused offer takes the room.
+
+Three offers as panels sharing one rail, the focused one growing to tell its story while the others hold their titles — a spatial answer to which of these am I: hover or focus a panel and it takes the room it needs. Every panel ends in its concrete first step, because an offer without a first step is a category, not an invitation.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/offer-triptych`
+
+Props:
+- `panels`: OfferPanel[] — Kicker, title, copy, and the concrete first step.
+- `defaultId`: string — Which panel starts grown.
+
+Notes:
+- Growth follows hover and focus alike, so keyboard users get the same reading.
+- Exactly three panels — the device is a triptych, not an accordion.
+- Under reduced motion panels share the row evenly and focus is carried by border.
+
+### Help Desk FAQ (KB-320) — `faq-help-desk`
+Search, and the answer is already open.
+
+The FAQ as a help desk: a search field over categorised questions, matches narrowing live with the hit highlighted in place, and every question open — because someone searching has a problem, and a drawer between them and the answer is friction at the worst moment. When nothing matches, the empty state routes to a person rather than shrugging.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/faq-help-desk`
+
+Props:
+- `entries`: HelpEntry[] — Categorised questions; search covers question, answer, and category.
+- `fallbackLine / fallbackHref`: string — The route to a person when nothing matches.
+
+Notes:
+- Everything stays open — the drawer variants already exist three ways; search plus drawers is friction squared.
+- Matches highlight in place with <mark>, so the reader sees why a row survived.
+- The answer count is a readout beside the field; empty results route to contact, never to a shrug.
 
 ### Sign In Page (KP-001) — `auth-sign-in`
 The workspace route above the password.

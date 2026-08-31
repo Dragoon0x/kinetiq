@@ -6157,4 +6157,177 @@ export const blocks: KinetiqItem[] = [
       "Notes under agent turns carry the read/tool/duration line, the part worth trusting.",
     ],
   },
+  {
+    name: "offer-window",
+    type: "registry:block",
+    title: "Offer Window",
+    description:
+      "The offer stated beside the product doing it: value proposition on the left, a live app-window vignette on the right, and the capability cards beneath — the what-we-actually-sell section for pages that need one clear paragraph, one visible proof, and one action. The vignette is the proof; a claims list beside a screenshot is just two kinds of assertion.",
+    files: [
+      {
+        path: "registry/blocks/offer-window/offer-window.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "vignette-app-window",
+      "pressure-button",
+    ],
+    categories: ["offer"],
+    meta: { serial: "KB-317" },
+    tagline: "One paragraph, one proof, one action.",
+    keywords: [
+      "offer",
+      "value proposition",
+      "services",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "cards",
+        type: "OfferCard[]",
+        description: "The capability cards under the fold.",
+      },
+      {
+        name: "cta / onCta",
+        type: "string · () => void",
+        description: "The single action.",
+      },
+    ],
+    usageNotes: [
+      "The vignette is the proof — swap its props, never replace it with a screenshot.",
+      "One CTA on purpose; an offer with three buttons is a navigation problem wearing a pitch.",
+      "Three cards is the ceiling — this section states the offer, features sections argue it.",
+    ],
+  },
+  {
+    name: "offer-ledger",
+    type: "registry:block",
+    title: "Offer Ledger",
+    description:
+      "The offer as a ledger: one row per service, and every row forced to complete three honest columns — what we do, what you concretely get, and what it costs to start. The discipline is the section: an offer that cannot fill its own outcome column is a feature looking for a buyer, and this layout makes that visible before a customer does.",
+    files: [
+      {
+        path: "registry/blocks/offer-ledger/offer-ledger.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["offer"],
+    meta: { serial: "KB-318" },
+    tagline: "Every service completes three columns.",
+    keywords: [
+      "offer",
+      "services",
+      "table",
+      "outcomes",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "rows",
+        type: "OfferRow[]",
+        description: "Service, concrete outcome, and what starting costs.",
+      },
+    ],
+    usageNotes: [
+      "The outcome column is the test — if a row cannot fill it concretely, cut the row, not the standard.",
+      "To-start is stated per row; a table with one shared asterisk is a price hidden three times.",
+      "Below sm each row stacks with its column captions inlined, so nothing depends on the header.",
+    ],
+  },
+  {
+    name: "offer-triptych",
+    type: "registry:block",
+    title: "Offer Triptych",
+    description:
+      "Three offers as panels sharing one rail, the focused one growing to tell its story while the others hold their titles — a spatial answer to which of these am I: hover or focus a panel and it takes the room it needs. Every panel ends in its concrete first step, because an offer without a first step is a category, not an invitation.",
+    files: [
+      {
+        path: "registry/blocks/offer-triptych/offer-triptych.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["offer"],
+    meta: { serial: "KB-319" },
+    tagline: "The focused offer takes the room.",
+    keywords: [
+      "offer",
+      "panels",
+      "segments",
+      "expanding",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "panels",
+        type: "OfferPanel[]",
+        description: "Kicker, title, copy, and the concrete first step.",
+      },
+      {
+        name: "defaultId",
+        type: "string",
+        description: "Which panel starts grown.",
+      },
+    ],
+    usageNotes: [
+      "Growth follows hover and focus alike, so keyboard users get the same reading.",
+      "Exactly three panels — the device is a triptych, not an accordion.",
+      "Under reduced motion panels share the row evenly and focus is carried by border.",
+    ],
+  },
+  {
+    name: "faq-help-desk",
+    type: "registry:block",
+    title: "Help Desk FAQ",
+    description:
+      "The FAQ as a help desk: a search field over categorised questions, matches narrowing live with the hit highlighted in place, and every question open — because someone searching has a problem, and a drawer between them and the answer is friction at the worst moment. When nothing matches, the empty state routes to a person rather than shrugging.",
+    files: [
+      {
+        path: "registry/blocks/faq-help-desk/faq-help-desk.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["faq"],
+    meta: { serial: "KB-320" },
+    tagline: "Search, and the answer is already open.",
+    keywords: [
+      "faq",
+      "help center",
+      "search",
+      "support",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "entries",
+        type: "HelpEntry[]",
+        description:
+          "Categorised questions; search covers question, answer, and category.",
+      },
+      {
+        name: "fallbackLine / fallbackHref",
+        type: "string",
+        description: "The route to a person when nothing matches.",
+      },
+    ],
+    usageNotes: [
+      "Everything stays open — the drawer variants already exist three ways; search plus drawers is friction squared.",
+      "Matches highlight in place with <mark>, so the reader sees why a row survived.",
+      "The answer count is a readout beside the field; empty results route to contact, never to a shrug.",
+    ],
+  },
 ];

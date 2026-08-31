@@ -31,6 +31,7 @@ export type SectionFamilySlug =
   | "team"
   | "use-cases"
   | "how-it-works"
+  | "offer"
   | "content-sections"
   | "integrations"
   | "data-tables"
@@ -50,12 +51,14 @@ export const SECTION_FAMILIES: SectionFamily[] = [
   {
     slug: "announcement",
     label: "Announcements",
-    blurb: "The line above the fold — launches, releases, and standing notices.",
+    blurb:
+      "The line above the fold — launches, releases, and standing notices.",
   },
   {
     slug: "navbar",
     label: "Navbars",
-    blurb: "The header that holds the page — navigation, actions, and the mobile fold.",
+    blurb:
+      "The header that holds the page — navigation, actions, and the mobile fold.",
   },
   {
     slug: "hero",
@@ -76,6 +79,12 @@ export const SECTION_FAMILIES: SectionFamily[] = [
     slug: "use-cases",
     label: "Use Cases",
     blurb: "Who it is for — roles, days, and outcomes people recognise.",
+  },
+  {
+    slug: "offer",
+    label: "What We Offer",
+    blurb:
+      "The offer stated plainly — services, outcomes, and the first step in.",
   },
   {
     slug: "how-it-works",

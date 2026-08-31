@@ -6517,6 +6517,89 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hover-swap",
+      "type": "registry:ui",
+      "title": "Hover Swap",
+      "description": "A label with two readings: at rest it says one thing, and under hover or focus it rolls to the alternate — the old line leaving as the new one arrives, both clipped to the label's own box. For links whose hover state has something to add, nav items, and buttons with a second thought. Both readings live in the accessible name, so the roll is presentation and never information.",
+      "files": [
+        {
+          "path": "registry/ui/hover-swap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-240"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "relay-tip",
+      "type": "registry:ui",
+      "title": "Relay Tip",
+      "description": "One tip surface, relayed: instead of each trigger owning a tooltip that pops and dies, a single shared surface glides from trigger to trigger, morphing to fit each caption — so moving along a row of controls reads as one label travelling, not four labels blinking. Each trigger keeps a per-trigger description for assistive tech; the relay is presentation, the semantics stay stationary.",
+      "files": [
+        {
+          "path": "registry/ui/relay-tip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-241"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "folio-table",
+      "type": "registry:ui",
+      "title": "Folio Table",
+      "description": "The paged edition of the working grid: a folio turns pages instead of scrolling ten thousand rows, columns can be re-picked from a rail of chips, and the page turn is a directional slide so going back reads as going back. Paging belongs to pagination-rail — this table seats it. For the virtualized firehose, the ledger remains the instrument; a folio is for datasets you leaf through, not pour.",
+      "files": [
+        {
+          "path": "registry/ui/folio-table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/pagination-rail.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-242"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
@@ -10300,6 +10383,117 @@
       ],
       "meta": {
         "serial": "KB-117"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "offer-window",
+      "type": "registry:block",
+      "title": "Offer Window",
+      "description": "The offer stated beside the product doing it: value proposition on the left, a live app-window vignette on the right, and the capability cards beneath — the what-we-actually-sell section for pages that need one clear paragraph, one visible proof, and one action. The vignette is the proof; a claims list beside a screenshot is just two kinds of assertion.",
+      "files": [
+        {
+          "path": "registry/blocks/offer-window/offer-window.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/vignette-app-window.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json"
+      ],
+      "categories": [
+        "offer"
+      ],
+      "meta": {
+        "serial": "KB-317"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "offer-ledger",
+      "type": "registry:block",
+      "title": "Offer Ledger",
+      "description": "The offer as a ledger: one row per service, and every row forced to complete three honest columns — what we do, what you concretely get, and what it costs to start. The discipline is the section: an offer that cannot fill its own outcome column is a feature looking for a buyer, and this layout makes that visible before a customer does.",
+      "files": [
+        {
+          "path": "registry/blocks/offer-ledger/offer-ledger.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "offer"
+      ],
+      "meta": {
+        "serial": "KB-318"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "offer-triptych",
+      "type": "registry:block",
+      "title": "Offer Triptych",
+      "description": "Three offers as panels sharing one rail, the focused one growing to tell its story while the others hold their titles — a spatial answer to which of these am I: hover or focus a panel and it takes the room it needs. Every panel ends in its concrete first step, because an offer without a first step is a category, not an invitation.",
+      "files": [
+        {
+          "path": "registry/blocks/offer-triptych/offer-triptych.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "offer"
+      ],
+      "meta": {
+        "serial": "KB-319"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "faq-help-desk",
+      "type": "registry:block",
+      "title": "Help Desk FAQ",
+      "description": "The FAQ as a help desk: a search field over categorised questions, matches narrowing live with the hit highlighted in place, and every question open — because someone searching has a problem, and a drawer between them and the answer is friction at the worst moment. When nothing matches, the empty state routes to a person rather than shrugging.",
+      "files": [
+        {
+          "path": "registry/blocks/faq-help-desk/faq-help-desk.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "faq"
+      ],
+      "meta": {
+        "serial": "KB-320"
       }
     },
     {
