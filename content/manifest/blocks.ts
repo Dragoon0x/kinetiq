@@ -1244,6 +1244,13 @@ export const blocks: KinetiqItem[] = [
           "Name, blurb, monthly and annual prices, features, and an optional seal.",
       },
       {
+        name: "unitLabel",
+        type: "string",
+        defaultValue: '"/ seat / month"',
+        description:
+          "What the price is per. A product that sells basins or projects should not price in seats.",
+      },
+      {
         name: "onSelect",
         type: "(tierId, billing) => void",
         description: "Fired with the tier and the active billing mode.",
@@ -6155,6 +6162,143 @@ export const blocks: KinetiqItem[] = [
       "Arrival weight, trace disclosure, and composer behaviour all belong to their primitives — the desk only seats them.",
       "Thread swaps crossfade rather than slide: tabs are peers, not a journey.",
       "Notes under agent turns carry the read/tool/duration line, the part worth trusting.",
+    ],
+  },
+  {
+    name: "calendar-workroom",
+    type: "registry:block",
+    title: "Calendar Workroom",
+    description:
+      "The production calendar as a workroom, not a widget: a month face for shape and a week face for the coming days, category chips whose counts are derived from the events they filter, a peek panel for any event, and inline create on the chosen day. The anchor month is a prop — the grid is computed from it, never read from the clock, so the same calendar renders on the server and on every visit.",
+    files: [
+      {
+        path: "registry/blocks/calendar-workroom/calendar-workroom.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["blocks"],
+    meta: { serial: "KB-118" },
+    tagline: "A month with a working surface under it.",
+    keywords: ["calendar", "schedule", "events", "month", "week", "workspace"],
+    props: [
+      {
+        name: "anchor",
+        type: "{ year: number; month: number }",
+        defaultValue: "{ year: 2026, month: 5 }",
+        description:
+          "The month shown. Computed into a grid — the block never reads the wall clock.",
+      },
+      {
+        name: "categories / events",
+        type: "WorkroomCategory[] · WorkroomEvent[]",
+        description:
+          "The chips and the entries; chip counts derive from the events, so they cannot drift.",
+      },
+      {
+        name: "weekAnchorDay",
+        type: "number",
+        defaultValue: "12",
+        description: "The day whose Monday-aligned run the week face shows.",
+      },
+    ],
+    usageNotes: [
+      "Month and week crossfade rather than slide — two faces of one room, not a journey.",
+      "Inline create ends with a named commitment (\u201cPut it on the board\u201d), never a bare check mark.",
+      "Peek and compose share the desk below the grid, one at a time; Escape abandons a draft.",
+    ],
+  },
+  {
+    name: "workroom-shell",
+    type: "registry:block",
+    title: "Workroom Shell",
+    description:
+      "The workbench rail composed into a room: rail on one side, a content pane on the other, and a crossfade between panes as the selection moves. The rail keeps every behaviour it already owns — the travelling highlight, the fold to a spine, the printed quota — and the shell contributes only the seating and the handoff of selection, which is the point of having primitives.",
+    files: [
+      {
+        path: "registry/blocks/workroom-shell/workroom-shell.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "workbench-rail",
+      "status-pip",
+    ],
+    categories: ["blocks"],
+    meta: { serial: "KB-119" },
+    tagline: "The rail, given a room to run.",
+    keywords: ["workspace", "sidebar", "shell", "layout", "panes", "rail"],
+    props: [
+      {
+        name: "panes",
+        type: "WorkroomPane[]",
+        description:
+          "One pane per primary destination; the ids line up with the rail's items.",
+      },
+      {
+        name: "workspace / threads",
+        type: "string \u00b7 { id, label }[]",
+        description: "Handed to the rail untouched.",
+      },
+    ],
+    usageNotes: [
+      "Pane swaps crossfade — destinations are peers, not steps.",
+      "On narrow surfaces the rail steps out entirely; that edition is the workroom drawer.",
+      "The rail's own fold-to-spine keeps working inside the shell, so the width is always recoverable.",
+    ],
+  },
+  {
+    name: "workroom-drawer",
+    type: "registry:block",
+    title: "Workroom Drawer",
+    description:
+      "The workroom for narrow surfaces: the rail steps off-canvas into a drawer and the content keeps the full width. The drawer primitive owns everything hard — focus trap, Escape, backdrop, the edge drag — and the rail owns its furniture; this block contributes the bar, the contained stage, and the rule that picking a destination closes the drawer, because on a phone the menu is a hallway, not a room you stay in.",
+    files: [
+      {
+        path: "registry/blocks/workroom-drawer/workroom-drawer.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "drawer",
+      "workbench-rail",
+    ],
+    categories: ["blocks"],
+    meta: { serial: "KB-120" },
+    tagline: "The rail steps out; the work keeps the width.",
+    keywords: [
+      "drawer",
+      "sidebar",
+      "mobile",
+      "off-canvas",
+      "workspace",
+      "menu",
+    ],
+    props: [
+      {
+        name: "panes",
+        type: "DrawerPane[]",
+        description: "The content behind each destination.",
+      },
+      {
+        name: "workspace / threads",
+        type: "string \u00b7 { id, label }[]",
+        description: "Handed to the rail untouched.",
+      },
+    ],
+    usageNotes: [
+      "Selection closes the drawer — a deliberate rule of the block, not of the primitive.",
+      "The drawer is contained (portal={false}) so the block owns its stage in docs and previews alike.",
+      "Focus trapping, Escape, and the drag-to-dismiss all belong to the drawer primitive.",
     ],
   },
   {
