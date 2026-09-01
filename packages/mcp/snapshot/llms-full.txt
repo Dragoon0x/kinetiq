@@ -4773,6 +4773,83 @@ Notes:
 - Every stage is click-driven and reversible by completing the cycle — nothing here is on a timer you must outwait.
 - Reduced motion swaps directly between fully-formed stage stills.
 
+### Dodge Button (KQ-283) — `dodge-button`
+Two dodges, then it gives up.
+
+A button that plays hard to get exactly twice, then relents — approach it with a pointer and it springs to the next seat in a fixed cycle, and after two dodges it returns to centre and lets you click it. Keyboard users are never dodged, and neither are touch devices, because a button that runs away from a thumb is not a joke, it is a bug.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/dodge-button`
+
+Props:
+- `label`: string (default "Delete everything") — What the button claims it will do.
+- `dodges`: number (default 2) — Evasions before it relents (0–4).
+
+Notes:
+- Keyboard focus and Enter or Space never trigger a dodge — the bit is pointer-only, by design.
+- Coarse pointers are exempt entirely; the button simply works on touch.
+- Reduced motion skips the bit and presents a normal button from the start.
+
+### Oracle Orb (KQ-284) — `oracle-orb`
+Ask again Monday.
+
+A fortune-telling orb with the mysticism removed: shake it and the fluid clouds, the die surfaces, and an answer fades in that sounds like it came from a colleague rather than a spirit. Answers cycle in fixed order, so a demo tells everyone the same fortunes in the same sequence — which is the only honest way to run an oracle.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/oracle-orb`
+
+Props:
+- `answers`: string[] — Override the built-in eight; they cycle in order.
+- `onAnswer`: (answer: string) => void — Fires with each surfaced answer.
+
+Notes:
+- Re-shaking mid-answer restarts the sequence rather than queueing — that is how the real object behaves.
+- The mist is layered translucent gradients, not a blur filter, so it stays cheap.
+- Reduced motion swaps straight to the next answer with the die at rest.
+
+### Mood Gem (KQ-285) — `mood-gem`
+It can tell how you are moving.
+
+A faceted gem that reads the room from how you move: quick passes make it restless, slow ones calm it, sitting still turns it content, and leaving makes it still. It rotates almost imperceptibly so the facets keep catching differently, and clicking sets the current mood for a few seconds regardless of what your hands do next.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mood-gem`
+
+Props:
+- `onMood`: (mood: string) => void — Fires when the mood changes.
+
+Notes:
+- Mood is bucketed from speed and dwell, and state only changes when the bucket does — never per pointer move.
+- The idle rotation is deliberately too slow to notice directly; you only see that the light has changed.
+- Reduced motion drops the rotation and pulse, keeping instant colour changes and the caption.
+
+### Disco Floor (KQ-286) — `disco-floor`
+It dances when you look away.
+
+A small dance floor that lights under your cursor with a soft falloff and, left alone for a moment, starts dancing on its own through authored patterns — sweeps, checkers, a pulse from the centre. Move back in and it yields to you immediately. Clicking drops a beat: everything flashes, then falls back in a cascade.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/disco-floor`
+
+Props:
+- `onBeat`: () => void — Fires on the beat drop.
+
+Notes:
+- This is a lighting toy on a fixed grid, not a layout — reach for the tile grid when you need to arrange content.
+- Idle frames are an authored table, so the floor performs the same routine everywhere.
+- Reduced motion leaves the floor dark until hovered and drops the idle routine entirely.
+
+### Drum Pads (KQ-287) — `drum-pads`
+Visual instruments. Loud anyway.
+
+Four squashy pads that hit like the real thing: each squashes under the strike and throws a burst matched to its voice — a thick ring for the kick, sharp lines for the snare, a fine spray for the hat, staggered arcs for the clap. Hit one repeatedly and the bursts grow. A strip beneath keeps the last eight hits, so you can see the groove you just played.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/drum-pads`
+
+Props:
+- `onHit`: (pad: string) => void — Fires with the struck pad's name.
+
+Notes:
+- A, S, D, F play the pads when the group has focus, so a rhythm can be played with both hands.
+- Repeat hits build a streak that grows the burst, decaying after a short pause — velocity you can see.
+- Reduced motion flashes the pad and still records the mark, with no squash or burst.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

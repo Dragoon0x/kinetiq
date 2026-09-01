@@ -10792,6 +10792,148 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "dodge-button",
+    type: "registry:ui",
+    title: "Dodge Button",
+    description:
+      "A button that plays hard to get exactly twice, then relents \u2014 approach it with a pointer and it springs to the next seat in a fixed cycle, and after two dodges it returns to centre and lets you click it. Keyboard users are never dodged, and neither are touch devices, because a button that runs away from a thumb is not a joke, it is a bug.",
+    files: [{ path: "registry/ui/dodge-button.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-283" },
+    tagline: "Two dodges, then it gives up.",
+    keywords: ["delight", "button", "dodge", "playful", "pointer", "control"],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Delete everything"',
+        description: "What the button claims it will do.",
+      },
+      {
+        name: "dodges",
+        type: "number",
+        defaultValue: "2",
+        description: "Evasions before it relents (0\u20134).",
+      },
+    ],
+    usageNotes: [
+      "Keyboard focus and Enter or Space never trigger a dodge \u2014 the bit is pointer-only, by design.",
+      "Coarse pointers are exempt entirely; the button simply works on touch.",
+      "Reduced motion skips the bit and presents a normal button from the start.",
+    ],
+  },
+  {
+    name: "oracle-orb",
+    type: "registry:ui",
+    title: "Oracle Orb",
+    description:
+      "A fortune-telling orb with the mysticism removed: shake it and the fluid clouds, the die surfaces, and an answer fades in that sounds like it came from a colleague rather than a spirit. Answers cycle in fixed order, so a demo tells everyone the same fortunes in the same sequence \u2014 which is the only honest way to run an oracle.",
+    files: [{ path: "registry/ui/oracle-orb.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-284" },
+    tagline: "Ask again Monday.",
+    keywords: ["delight", "oracle", "shake", "answer", "fortune", "control"],
+    props: [
+      {
+        name: "answers",
+        type: "string[]",
+        description: "Override the built-in eight; they cycle in order.",
+      },
+      {
+        name: "onAnswer",
+        type: "(answer: string) => void",
+        description: "Fires with each surfaced answer.",
+      },
+    ],
+    usageNotes: [
+      "Re-shaking mid-answer restarts the sequence rather than queueing \u2014 that is how the real object behaves.",
+      "The mist is layered translucent gradients, not a blur filter, so it stays cheap.",
+      "Reduced motion swaps straight to the next answer with the die at rest.",
+    ],
+  },
+  {
+    name: "mood-gem",
+    type: "registry:ui",
+    title: "Mood Gem",
+    description:
+      "A faceted gem that reads the room from how you move: quick passes make it restless, slow ones calm it, sitting still turns it content, and leaving makes it still. It rotates almost imperceptibly so the facets keep catching differently, and clicking sets the current mood for a few seconds regardless of what your hands do next.",
+    files: [{ path: "registry/ui/mood-gem.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-285" },
+    tagline: "It can tell how you are moving.",
+    keywords: ["delight", "gem", "mood", "pointer", "ambient", "control"],
+    props: [
+      {
+        name: "onMood",
+        type: "(mood: string) => void",
+        description: "Fires when the mood changes.",
+      },
+    ],
+    usageNotes: [
+      "Mood is bucketed from speed and dwell, and state only changes when the bucket does \u2014 never per pointer move.",
+      "The idle rotation is deliberately too slow to notice directly; you only see that the light has changed.",
+      "Reduced motion drops the rotation and pulse, keeping instant colour changes and the caption.",
+    ],
+  },
+  {
+    name: "disco-floor",
+    type: "registry:ui",
+    title: "Disco Floor",
+    description:
+      "A small dance floor that lights under your cursor with a soft falloff and, left alone for a moment, starts dancing on its own through authored patterns \u2014 sweeps, checkers, a pulse from the centre. Move back in and it yields to you immediately. Clicking drops a beat: everything flashes, then falls back in a cascade.",
+    files: [{ path: "registry/ui/disco-floor.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-286" },
+    tagline: "It dances when you look away.",
+    keywords: ["delight", "disco", "grid", "lights", "pattern", "control"],
+    props: [
+      {
+        name: "onBeat",
+        type: "() => void",
+        description: "Fires on the beat drop.",
+      },
+    ],
+    usageNotes: [
+      "This is a lighting toy on a fixed grid, not a layout \u2014 reach for the tile grid when you need to arrange content.",
+      "Idle frames are an authored table, so the floor performs the same routine everywhere.",
+      "Reduced motion leaves the floor dark until hovered and drops the idle routine entirely.",
+    ],
+  },
+  {
+    name: "drum-pads",
+    type: "registry:ui",
+    title: "Drum Pads",
+    description:
+      "Four squashy pads that hit like the real thing: each squashes under the strike and throws a burst matched to its voice \u2014 a thick ring for the kick, sharp lines for the snare, a fine spray for the hat, staggered arcs for the clap. Hit one repeatedly and the bursts grow. A strip beneath keeps the last eight hits, so you can see the groove you just played.",
+    files: [{ path: "registry/ui/drum-pads.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-287" },
+    tagline: "Visual instruments. Loud anyway.",
+    keywords: ["delight", "drums", "pads", "rhythm", "keyboard", "control"],
+    props: [
+      {
+        name: "onHit",
+        type: "(pad: string) => void",
+        description: "Fires with the struck pad's name.",
+      },
+    ],
+    usageNotes: [
+      "A, S, D, F play the pads when the group has focus, so a rhythm can be played with both hands.",
+      "Repeat hits build a streak that grows the burst, decaying after a short pause \u2014 velocity you can see.",
+      "Reduced motion flashes the pad and still records the mark, with no squash or burst.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

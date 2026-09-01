@@ -7472,6 +7472,141 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dodge-button",
+      "type": "registry:ui",
+      "title": "Dodge Button",
+      "description": "A button that plays hard to get exactly twice, then relents — approach it with a pointer and it springs to the next seat in a fixed cycle, and after two dodges it returns to centre and lets you click it. Keyboard users are never dodged, and neither are touch devices, because a button that runs away from a thumb is not a joke, it is a bug.",
+      "files": [
+        {
+          "path": "registry/ui/dodge-button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-283"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "oracle-orb",
+      "type": "registry:ui",
+      "title": "Oracle Orb",
+      "description": "A fortune-telling orb with the mysticism removed: shake it and the fluid clouds, the die surfaces, and an answer fades in that sounds like it came from a colleague rather than a spirit. Answers cycle in fixed order, so a demo tells everyone the same fortunes in the same sequence — which is the only honest way to run an oracle.",
+      "files": [
+        {
+          "path": "registry/ui/oracle-orb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-284"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mood-gem",
+      "type": "registry:ui",
+      "title": "Mood Gem",
+      "description": "A faceted gem that reads the room from how you move: quick passes make it restless, slow ones calm it, sitting still turns it content, and leaving makes it still. It rotates almost imperceptibly so the facets keep catching differently, and clicking sets the current mood for a few seconds regardless of what your hands do next.",
+      "files": [
+        {
+          "path": "registry/ui/mood-gem.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-285"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "disco-floor",
+      "type": "registry:ui",
+      "title": "Disco Floor",
+      "description": "A small dance floor that lights under your cursor with a soft falloff and, left alone for a moment, starts dancing on its own through authored patterns — sweeps, checkers, a pulse from the centre. Move back in and it yields to you immediately. Clicking drops a beat: everything flashes, then falls back in a cascade.",
+      "files": [
+        {
+          "path": "registry/ui/disco-floor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-286"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "drum-pads",
+      "type": "registry:ui",
+      "title": "Drum Pads",
+      "description": "Four squashy pads that hit like the real thing: each squashes under the strike and throws a burst matched to its voice — a thick ring for the kick, sharp lines for the snare, a fine spray for the hat, staggered arcs for the clap. Hit one repeatedly and the bursts grow. A strip beneath keeps the last eight hits, so you can see the groove you just played.",
+      "files": [
+        {
+          "path": "registry/ui/drum-pads.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-287"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
