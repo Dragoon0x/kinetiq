@@ -6653,6 +6653,143 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "yo-yo-drop",
+      "type": "registry:ui",
+      "title": "Yo-yo Drop",
+      "description": "A yo-yo that sleeps while you hold and rewinds when you let go: press and the disc drops the string's length and spins in place, string faintly humming; release and it climbs home on a crisp spring with one small settle bounce. Hold too long and it wobbles — it has somewhere to be. The caption keeps score in three words or fewer.",
+      "files": [
+        {
+          "path": "registry/ui/yo-yo-drop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-253"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "soap-bubble",
+      "type": "registry:ui",
+      "title": "Soap Bubble",
+      "description": "A wand you blow through by holding: the film grows from the ring with an iridescent sheen and a nervous wobble, and on release the bubble detaches, drifts up a gentle S, and pops into droplets at the top of its rise. Release too early and it just wisps out — bubbles have standards. Two in flight at most; patience is part of the toy.",
+      "files": [
+        {
+          "path": "registry/ui/soap-bubble.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-254"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "applause-hold",
+      "type": "registry:ui",
+      "title": "Applause Hold",
+      "description": "Press-and-hold applause that builds: the hands clap faster the longer you hold, the meter fills, and at four seconds it tips into a standing ovation — glow, flecks, the works. Release and the ovation drains politely. Where the heart tap is a single thank-you, this is the whole room getting to its feet.",
+      "files": [
+        {
+          "path": "registry/ui/applause-hold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-255"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tea-dunk",
+      "type": "registry:ui",
+      "title": "Tea Dunk",
+      "description": "A mug and a teabag on a string: drag it under and ripples ring the entry, lift it out and it drips, and the water deepens toward amber as it steeps. Park it and wait, or dunk like you mean it — full dunks steep faster, which is the toy quietly rewarding enthusiasm. At full steep the surface steams and the caption declares it done.",
+      "files": [
+        {
+          "path": "registry/ui/tea-dunk.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-256"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "balloon-pump",
+      "type": "registry:ui",
+      "title": "Balloon Pump",
+      "description": "A hand pump, a balloon, and the outcome everyone is waiting for: each press drives the plunger, sends a puff down the hose, and stretches the balloon one stage larger — trembling faintly at stage five, gone at six in a fling of rubber scraps. A beat later the next colour is on the nozzle, deflated and optimistic. The pop is anticipated, earned, and immediately forgiven.",
+      "files": [
+        {
+          "path": "registry/ui/balloon-pump.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-257"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

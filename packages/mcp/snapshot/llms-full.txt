@@ -4304,6 +4304,85 @@ Notes:
 - The look-left-look-right-wink is authored keyframes on one clock — the same performance every hatch.
 - Reduced motion steps through four still states: whole, cracked, chipped, hatched.
 
+### Yo-yo Drop (KQ-253) — `yo-yo-drop`
+Hold to sleep. Release to come home.
+
+A yo-yo that sleeps while you hold and rewinds when you let go: press and the disc drops the string's length and spins in place, string faintly humming; release and it climbs home on a crisp spring with one small settle bounce. Hold too long and it wobbles — it has somewhere to be. The caption keeps score in three words or fewer.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/yo-yo-drop`
+
+Props:
+- `stringLength`: number (default 140) — How far it drops, in pixels.
+- `onReturn`: () => void — Fires on a clean rewind.
+
+Notes:
+- Space and Enter hold it down too — the toy is fully keyboard-playable.
+- The sleep spin is a linear tween on the painted edge stripe; the rewind is the only theatrical spring.
+- Reduced motion swaps between parked and dropped instantly, no spin.
+
+### Soap Bubble (KQ-254) — `soap-bubble`
+Hold to blow. Let go to let go.
+
+A wand you blow through by holding: the film grows from the ring with an iridescent sheen and a nervous wobble, and on release the bubble detaches, drifts up a gentle S, and pops into droplets at the top of its rise. Release too early and it just wisps out — bubbles have standards. Two in flight at most; patience is part of the toy.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/soap-bubble`
+
+Props:
+- `onPop`: () => void — Fires when a bubble completes its rise.
+
+Notes:
+- The flight path is authored keyframes — every bubble takes the same S, which is somehow funnier.
+- The sheen is two gradient layers color-mixed from tokens, so it recolours with the theme.
+- Reduced motion shows the film at a fixed size and lets released bubbles fade in place.
+
+### Applause Hold (KQ-255) — `applause-hold`
+Hold for the ovation you meant.
+
+Press-and-hold applause that builds: the hands clap faster the longer you hold, the meter fills, and at four seconds it tips into a standing ovation — glow, flecks, the works. Release and the ovation drains politely. Where the heart tap is a single thank-you, this is the whole room getting to its feet.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/applause-hold`
+
+Props:
+- `ovationAfter`: number (default 4) — Seconds of hold before the room stands.
+- `onOvation`: () => void — Fires when the ovation lands.
+
+Notes:
+- Clap tempo steps through a fixed table — the crescendo is authored, not random.
+- All timers are cleaned up on release and unmount; rapid re-holds resume from the drained meter.
+- Reduced motion swaps the clapping for a stepped meter and a mono clap count.
+
+### Tea Dunk (KQ-256) — `tea-dunk`
+Steeped, with enthusiasm bonuses.
+
+A mug and a teabag on a string: drag it under and ripples ring the entry, lift it out and it drips, and the water deepens toward amber as it steeps. Park it and wait, or dunk like you mean it — full dunks steep faster, which is the toy quietly rewarding enthusiasm. At full steep the surface steams and the caption declares it done.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tea-dunk`
+
+Props:
+- `steepRate`: number (default 14) — Steep per second while submerged.
+- `onReady`: () => void — Fires when the tea is done.
+
+Notes:
+- Arrow keys dunk in steps — the drag is never the only way in.
+- Water colour interpolates by color-mix percentage, so the amber tracks the theme's warmth token.
+- Reduced motion keeps 1:1 dragging but stills the ripples, drips, and steam.
+
+### Balloon Pump (KQ-257) — `balloon-pump`
+Six stages. You know how this ends.
+
+A hand pump, a balloon, and the outcome everyone is waiting for: each press drives the plunger, sends a puff down the hose, and stretches the balloon one stage larger — trembling faintly at stage five, gone at six in a fling of rubber scraps. A beat later the next colour is on the nozzle, deflated and optimistic. The pop is anticipated, earned, and immediately forgiven.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/balloon-pump`
+
+Props:
+- `stages`: number (default 6) — Pumps the balloon survives (4–8).
+- `onPop`: (color: string) => void — Fires with the departed balloon's colour.
+
+Notes:
+- Balloon colours cycle a fixed token palette; scrap vectors are a fixed table.
+- The stage-five tremble is the anticipation — do not remove it, it is most of the joke.
+- Reduced motion swaps sizes instantly and skips scraps; the caption still says POP.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

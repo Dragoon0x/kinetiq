@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 251,
+      "components": 256,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -15391,6 +15391,277 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/hatchling",
         "bun": "bunx --bun shadcn@latest add @kinetiq/hatchling",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hatchling.json"
+      }
+    },
+    {
+      "slug": "yo-yo-drop",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Yo-yo Drop",
+      "serial": "KQ-253",
+      "tagline": "Hold to sleep. Release to come home.",
+      "description": "A yo-yo that sleeps while you hold and rewinds when you let go: press and the disc drops the string's length and spins in place, string faintly humming; release and it climbs home on a crisp spring with one small settle bounce. Hold too long and it wobbles — it has somewhere to be. The caption keeps score in three words or fewer.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "yo-yo",
+        "hold",
+        "toy",
+        "spin",
+        "string"
+      ],
+      "props": [
+        {
+          "name": "stringLength",
+          "type": "number",
+          "defaultValue": "140",
+          "description": "How far it drops, in pixels."
+        },
+        {
+          "name": "onReturn",
+          "type": "() => void",
+          "description": "Fires on a clean rewind."
+        }
+      ],
+      "usageNotes": [
+        "Space and Enter hold it down too — the toy is fully keyboard-playable.",
+        "The sleep spin is a linear tween on the painted edge stripe; the rewind is the only theatrical spring.",
+        "Reduced motion swaps between parked and dropped instantly, no spin."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/yo-yo-drop",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/yo-yo-drop.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/yo-yo-drop",
+        "npm": "npx shadcn@latest add @kinetiq/yo-yo-drop",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/yo-yo-drop",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/yo-yo-drop",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/yo-yo-drop.json"
+      }
+    },
+    {
+      "slug": "soap-bubble",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Soap Bubble",
+      "serial": "KQ-254",
+      "tagline": "Hold to blow. Let go to let go.",
+      "description": "A wand you blow through by holding: the film grows from the ring with an iridescent sheen and a nervous wobble, and on release the bubble detaches, drifts up a gentle S, and pops into droplets at the top of its rise. Release too early and it just wisps out — bubbles have standards. Two in flight at most; patience is part of the toy.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "bubble",
+        "wand",
+        "hold",
+        "float",
+        "pop"
+      ],
+      "props": [
+        {
+          "name": "onPop",
+          "type": "() => void",
+          "description": "Fires when a bubble completes its rise."
+        }
+      ],
+      "usageNotes": [
+        "The flight path is authored keyframes — every bubble takes the same S, which is somehow funnier.",
+        "The sheen is two gradient layers color-mixed from tokens, so it recolours with the theme.",
+        "Reduced motion shows the film at a fixed size and lets released bubbles fade in place."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/soap-bubble",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/soap-bubble.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/soap-bubble",
+        "npm": "npx shadcn@latest add @kinetiq/soap-bubble",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/soap-bubble",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/soap-bubble",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/soap-bubble.json"
+      }
+    },
+    {
+      "slug": "applause-hold",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Applause Hold",
+      "serial": "KQ-255",
+      "tagline": "Hold for the ovation you meant.",
+      "description": "Press-and-hold applause that builds: the hands clap faster the longer you hold, the meter fills, and at four seconds it tips into a standing ovation — glow, flecks, the works. Release and the ovation drains politely. Where the heart tap is a single thank-you, this is the whole room getting to its feet.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "applause",
+        "clap",
+        "hold",
+        "ovation",
+        "reaction"
+      ],
+      "props": [
+        {
+          "name": "ovationAfter",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Seconds of hold before the room stands."
+        },
+        {
+          "name": "onOvation",
+          "type": "() => void",
+          "description": "Fires when the ovation lands."
+        }
+      ],
+      "usageNotes": [
+        "Clap tempo steps through a fixed table — the crescendo is authored, not random.",
+        "All timers are cleaned up on release and unmount; rapid re-holds resume from the drained meter.",
+        "Reduced motion swaps the clapping for a stepped meter and a mono clap count."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/applause-hold",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/applause-hold.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/applause-hold",
+        "npm": "npx shadcn@latest add @kinetiq/applause-hold",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/applause-hold",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/applause-hold",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/applause-hold.json"
+      }
+    },
+    {
+      "slug": "tea-dunk",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tea Dunk",
+      "serial": "KQ-256",
+      "tagline": "Steeped, with enthusiasm bonuses.",
+      "description": "A mug and a teabag on a string: drag it under and ripples ring the entry, lift it out and it drips, and the water deepens toward amber as it steeps. Park it and wait, or dunk like you mean it — full dunks steep faster, which is the toy quietly rewarding enthusiasm. At full steep the surface steams and the caption declares it done.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "tea",
+        "dunk",
+        "drag",
+        "steep",
+        "cozy"
+      ],
+      "props": [
+        {
+          "name": "steepRate",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "Steep per second while submerged."
+        },
+        {
+          "name": "onReady",
+          "type": "() => void",
+          "description": "Fires when the tea is done."
+        }
+      ],
+      "usageNotes": [
+        "Arrow keys dunk in steps — the drag is never the only way in.",
+        "Water colour interpolates by color-mix percentage, so the amber tracks the theme's warmth token.",
+        "Reduced motion keeps 1:1 dragging but stills the ripples, drips, and steam."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/tea-dunk",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/tea-dunk.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tea-dunk",
+        "npm": "npx shadcn@latest add @kinetiq/tea-dunk",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tea-dunk",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tea-dunk",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/tea-dunk.json"
+      }
+    },
+    {
+      "slug": "balloon-pump",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Balloon Pump",
+      "serial": "KQ-257",
+      "tagline": "Six stages. You know how this ends.",
+      "description": "A hand pump, a balloon, and the outcome everyone is waiting for: each press drives the plunger, sends a puff down the hose, and stretches the balloon one stage larger — trembling faintly at stage five, gone at six in a fling of rubber scraps. A beat later the next colour is on the nozzle, deflated and optimistic. The pop is anticipated, earned, and immediately forgiven.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "balloon",
+        "pump",
+        "pop",
+        "inflate",
+        "toy"
+      ],
+      "props": [
+        {
+          "name": "stages",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Pumps the balloon survives (4–8)."
+        },
+        {
+          "name": "onPop",
+          "type": "(color: string) => void",
+          "description": "Fires with the departed balloon's colour."
+        }
+      ],
+      "usageNotes": [
+        "Balloon colours cycle a fixed token palette; scrap vectors are a fixed table.",
+        "The stage-five tremble is the anticipation — do not remove it, it is most of the joke.",
+        "Reduced motion swaps sizes instantly and skips scraps; the caption still says POP."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/balloon-pump",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/balloon-pump.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/balloon-pump",
+        "npm": "npx shadcn@latest add @kinetiq/balloon-pump",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/balloon-pump",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/balloon-pump",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/balloon-pump.json"
       }
     },
     {
