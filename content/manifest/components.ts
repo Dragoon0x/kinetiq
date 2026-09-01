@@ -9736,6 +9736,202 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "vignette-stage-rail",
+    type: "registry:ui",
+    title: "Stage Rail Vignette",
+    description:
+      "A pipeline as a scene, in either orientation: a row of icon tiles with one light roving along them and a caption naming whoever holds it, or a column rolling the stages through a lit focus band — each stage sliding to its next seat, so the edges wrap instead of jumping. For feature cards about systems that do things in order.",
+    files: [
+      { path: "registry/ui/vignette-stage-rail.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-243" },
+    tagline: "The pipeline, one light at a time.",
+    keywords: ["vignette", "pipeline", "stages", "rail", "marquee", "scene"],
+    props: [
+      {
+        name: "orient",
+        type: '"row" | "column"',
+        defaultValue: '"row"',
+        description:
+          "Tiles with a roving light and caption, or rows rolling through a focus band.",
+      },
+      {
+        name: "stages / holdSeconds",
+        type: "RailStage[] \u00b7 number",
+        description: "The stages, and how long each holds the light.",
+      },
+    ],
+    usageNotes: [
+      "The column wraps circularly \u2014 each row springs to its next seat rather than the list scrolling past a window.",
+      "Hover rests the march; a reader leaning in deserves a still page.",
+      "Reduced motion stops on the middle stage with every label legible.",
+    ],
+  },
+  {
+    name: "vignette-icon-reel",
+    type: "registry:ui",
+    title: "Icon Reel Vignette",
+    description:
+      "A reel of icon tiles drifting past behind edge fades \u2014 the everything-it-touches scene at card scale, where the marquee hall is a whole section. The track is doubled and translated by half so the loop never jumps, and hovering rests the reel. Purely presentational, marked as one image.",
+    files: [
+      { path: "registry/ui/vignette-icon-reel.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-244" },
+    tagline: "Everything it touches, drifting past.",
+    keywords: ["vignette", "icons", "marquee", "reel", "loop", "scene"],
+    props: [
+      {
+        name: "icons",
+        type: "ReelIcon[]",
+        description:
+          "The tiles \u2014 each names what it stands for, for screen readers.",
+      },
+      {
+        name: "reelSeconds",
+        type: "number",
+        defaultValue: "18",
+        description: "Seconds for one full pass.",
+      },
+    ],
+    usageNotes: [
+      "Card-scale by design \u2014 for a full-width band of logos, reach for the marquee hall section instead.",
+      "The doubled track makes the loop seamless; never halve the list to save renders.",
+      "Reduced motion holds the reel still from its start.",
+    ],
+  },
+  {
+    name: "vignette-arc-gallery",
+    type: "registry:ui",
+    title: "Arc Gallery Vignette",
+    description:
+      "Cards fanned along an arc, each taking a turn at the front: every advance sends the whole fan one seat around, so a card leaves the lead by swinging to the wing rather than vanishing. The washes are gradients, not images \u2014 the scene stays theme-aware and weightless. For heroes about places, projects, or portfolios.",
+    files: [
+      { path: "registry/ui/vignette-arc-gallery.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-245" },
+    tagline: "A fan of cards, taking turns.",
+    keywords: ["vignette", "gallery", "arc", "fan", "carousel", "scene"],
+    props: [
+      {
+        name: "arc",
+        type: '"over" | "under"',
+        defaultValue: '"over"',
+        description: "Bow the fan upward, or hang it downward.",
+      },
+      {
+        name: "cards / holdSeconds",
+        type: "ArcCard[] \u00b7 number",
+        description: "The fan, and how long each card leads.",
+      },
+    ],
+    usageNotes: [
+      "Positions are circular offsets from the lead \u2014 computed, deterministic, identical SSR.",
+      "Washes are gradient pairs, so the cards recolour with the theme instead of shipping images.",
+      "Hover rests the turn; reduced motion holds the fan with the first card leading.",
+    ],
+  },
+  {
+    name: "vignette-copresence",
+    type: "registry:ui",
+    title: "Copresence Vignette",
+    description:
+      "Two hands on the same surface: named cursors gliding their own errands, a live selection with its measurements printed \u2014 or a work card walked between columns \u2014 and a remark that arrives, holds, and clears. Everything runs on one shared clock of authored keyframes, so the loop reads as a morning's minute, not a screensaver. The multiplayer moment as a scene rather than a claim.",
+    files: [
+      { path: "registry/ui/vignette-copresence.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-246" },
+    tagline: "Two hands, one surface, no claim.",
+    keywords: [
+      "vignette",
+      "presence",
+      "cursors",
+      "collaboration",
+      "multiplayer",
+      "scene",
+    ],
+    props: [
+      {
+        name: "scene",
+        type: '"canvas" | "board"',
+        defaultValue: '"canvas"',
+        description:
+          "A headline under live selection, or a card being walked between columns.",
+      },
+      {
+        name: "hands / remark",
+        type: "[CopresenceHand, CopresenceHand] \u00b7 string",
+        description: "Who is here, and the comment one of them leaves.",
+      },
+      {
+        name: "loopSeconds",
+        type: "number",
+        defaultValue: "12",
+        description: "One full loop of the shared clock.",
+      },
+    ],
+    usageNotes: [
+      "All movement is authored keyframes on one clock \u2014 cursors, card, and remark stay in step at any loop length.",
+      "Tones come in as CSS colors, so the cast recolours per deployment without touching the scene.",
+      "Reduced motion parks the hands mid-errand and keeps the remark shown.",
+    ],
+  },
+  {
+    name: "vignette-distill",
+    type: "registry:ui",
+    title: "Distill Vignette",
+    description:
+      "Many inputs, one product: two columns of sources fold into the centre one by one \u2014 each chip lights, leans toward the middle, and dims as spent \u2014 and when the last is in, the product stamps itself finished. The scene is the argument for anything that reads a mess and returns a plan.",
+    files: [{ path: "registry/ui/vignette-distill.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-247" },
+    tagline: "A mess on both sides, a plan in the middle.",
+    keywords: [
+      "vignette",
+      "synthesis",
+      "context",
+      "sources",
+      "refine",
+      "scene",
+    ],
+    props: [
+      {
+        name: "left / right",
+        type: "DistillSource[] \u00b7 DistillSource[]",
+        description: "The raw material, one column per side.",
+      },
+      {
+        name: "product / stamped",
+        type: "string \u00b7 string",
+        description: "What it becomes, and the line stamped when finished.",
+      },
+      {
+        name: "stepSeconds / restSeconds",
+        type: "number \u00b7 number",
+        description:
+          "Seconds between folds, and the hold before the loop resets.",
+      },
+    ],
+    usageNotes: [
+      "Sources fold alternating left and right so the columns drain evenly \u2014 the order is fixed, never random.",
+      "The centre counts folds honestly and only stamps when every source is in.",
+      "Reduced motion shows the finished state: everything folded, the stamp standing.",
+    ],
+  },
+  {
     name: "hover-swap",
     type: "registry:ui",
     title: "Hover Swap",

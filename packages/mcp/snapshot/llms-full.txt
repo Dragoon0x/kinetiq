@@ -4143,6 +4143,88 @@ Notes:
 - The last visible column cannot be hidden; a table with zero columns is a bug shipped as a feature.
 - Page turns slide from the direction of travel, so back reads as back.
 
+### Stage Rail Vignette (KQ-243) — `vignette-stage-rail`
+The pipeline, one light at a time.
+
+A pipeline as a scene, in either orientation: a row of icon tiles with one light roving along them and a caption naming whoever holds it, or a column rolling the stages through a lit focus band — each stage sliding to its next seat, so the edges wrap instead of jumping. For feature cards about systems that do things in order.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-stage-rail`
+
+Props:
+- `orient`: "row" | "column" (default "row") — Tiles with a roving light and caption, or rows rolling through a focus band.
+- `stages / holdSeconds`: RailStage[] · number — The stages, and how long each holds the light.
+
+Notes:
+- The column wraps circularly — each row springs to its next seat rather than the list scrolling past a window.
+- Hover rests the march; a reader leaning in deserves a still page.
+- Reduced motion stops on the middle stage with every label legible.
+
+### Icon Reel Vignette (KQ-244) — `vignette-icon-reel`
+Everything it touches, drifting past.
+
+A reel of icon tiles drifting past behind edge fades — the everything-it-touches scene at card scale, where the marquee hall is a whole section. The track is doubled and translated by half so the loop never jumps, and hovering rests the reel. Purely presentational, marked as one image.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-icon-reel`
+
+Props:
+- `icons`: ReelIcon[] — The tiles — each names what it stands for, for screen readers.
+- `reelSeconds`: number (default 18) — Seconds for one full pass.
+
+Notes:
+- Card-scale by design — for a full-width band of logos, reach for the marquee hall section instead.
+- The doubled track makes the loop seamless; never halve the list to save renders.
+- Reduced motion holds the reel still from its start.
+
+### Arc Gallery Vignette (KQ-245) — `vignette-arc-gallery`
+A fan of cards, taking turns.
+
+Cards fanned along an arc, each taking a turn at the front: every advance sends the whole fan one seat around, so a card leaves the lead by swinging to the wing rather than vanishing. The washes are gradients, not images — the scene stays theme-aware and weightless. For heroes about places, projects, or portfolios.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-arc-gallery`
+
+Props:
+- `arc`: "over" | "under" (default "over") — Bow the fan upward, or hang it downward.
+- `cards / holdSeconds`: ArcCard[] · number — The fan, and how long each card leads.
+
+Notes:
+- Positions are circular offsets from the lead — computed, deterministic, identical SSR.
+- Washes are gradient pairs, so the cards recolour with the theme instead of shipping images.
+- Hover rests the turn; reduced motion holds the fan with the first card leading.
+
+### Copresence Vignette (KQ-246) — `vignette-copresence`
+Two hands, one surface, no claim.
+
+Two hands on the same surface: named cursors gliding their own errands, a live selection with its measurements printed — or a work card walked between columns — and a remark that arrives, holds, and clears. Everything runs on one shared clock of authored keyframes, so the loop reads as a morning's minute, not a screensaver. The multiplayer moment as a scene rather than a claim.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-copresence`
+
+Props:
+- `scene`: "canvas" | "board" (default "canvas") — A headline under live selection, or a card being walked between columns.
+- `hands / remark`: [CopresenceHand, CopresenceHand] · string — Who is here, and the comment one of them leaves.
+- `loopSeconds`: number (default 12) — One full loop of the shared clock.
+
+Notes:
+- All movement is authored keyframes on one clock — cursors, card, and remark stay in step at any loop length.
+- Tones come in as CSS colors, so the cast recolours per deployment without touching the scene.
+- Reduced motion parks the hands mid-errand and keeps the remark shown.
+
+### Distill Vignette (KQ-247) — `vignette-distill`
+A mess on both sides, a plan in the middle.
+
+Many inputs, one product: two columns of sources fold into the centre one by one — each chip lights, leans toward the middle, and dims as spent — and when the last is in, the product stamps itself finished. The scene is the argument for anything that reads a mess and returns a plan.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-distill`
+
+Props:
+- `left / right`: DistillSource[] · DistillSource[] — The raw material, one column per side.
+- `product / stamped`: string · string — What it becomes, and the line stamped when finished.
+- `stepSeconds / restSeconds`: number · number — Seconds between folds, and the hold before the loop resets.
+
+Notes:
+- Sources fold alternating left and right so the columns drain evenly — the order is fixed, never random.
+- The centre counts folds honestly and only stamps when every source is in.
+- Reduced motion shows the finished state: everything folded, the stamp standing.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

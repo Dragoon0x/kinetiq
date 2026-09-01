@@ -407,6 +407,11 @@ import { VignetteSearchLensDemo } from "@/registry/demos/vignette-search-lens.de
 import { VignetteVoiceNoteDemo } from "@/registry/demos/vignette-voice-note.demo";
 import { VignetteFileRunDemo } from "@/registry/demos/vignette-file-run.demo";
 import { VignetteHubDemo } from "@/registry/demos/vignette-hub.demo";
+import { VignetteStageRailDemo } from "@/registry/demos/vignette-stage-rail.demo";
+import { VignetteIconReelDemo } from "@/registry/demos/vignette-icon-reel.demo";
+import { VignetteArcGalleryDemo } from "@/registry/demos/vignette-arc-gallery.demo";
+import { VignetteCopresenceDemo } from "@/registry/demos/vignette-copresence.demo";
+import { VignetteDistillDemo } from "@/registry/demos/vignette-distill.demo";
 import { VignetteIsoFloorDemo } from "@/registry/demos/vignette-iso-floor.demo";
 import { VignetteIsoStackDemo } from "@/registry/demos/vignette-iso-stack.demo";
 import { VignetteWaveMeterDemo } from "@/registry/demos/vignette-wave-meter.demo";
@@ -786,6 +791,11 @@ export const demos: Record<string, ComponentType> = {
   "vignette-voice-note": VignetteVoiceNoteDemo,
   "vignette-search-lens": VignetteSearchLensDemo,
   "vignette-hub": VignetteHubDemo,
+  "vignette-stage-rail": VignetteStageRailDemo,
+  "vignette-icon-reel": VignetteIconReelDemo,
+  "vignette-arc-gallery": VignetteArcGalleryDemo,
+  "vignette-copresence": VignetteCopresenceDemo,
+  "vignette-distill": VignetteDistillDemo,
   "vignette-file-run": VignetteFileRunDemo,
   "vignette-wave-meter": VignetteWaveMeterDemo,
   "vignette-iso-stack": VignetteIsoStackDemo,

@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 241,
+      "components": 246,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -14832,6 +14832,295 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/folio-table",
         "bun": "bunx --bun shadcn@latest add @kinetiq/folio-table",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/folio-table.json"
+      }
+    },
+    {
+      "slug": "vignette-stage-rail",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Stage Rail Vignette",
+      "serial": "KQ-243",
+      "tagline": "The pipeline, one light at a time.",
+      "description": "A pipeline as a scene, in either orientation: a row of icon tiles with one light roving along them and a caption naming whoever holds it, or a column rolling the stages through a lit focus band — each stage sliding to its next seat, so the edges wrap instead of jumping. For feature cards about systems that do things in order.",
+      "categories": [
+        "vignettes"
+      ],
+      "keywords": [
+        "vignette",
+        "pipeline",
+        "stages",
+        "rail",
+        "marquee",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "orient",
+          "type": "\"row\" | \"column\"",
+          "defaultValue": "\"row\"",
+          "description": "Tiles with a roving light and caption, or rows rolling through a focus band."
+        },
+        {
+          "name": "stages / holdSeconds",
+          "type": "RailStage[] · number",
+          "description": "The stages, and how long each holds the light."
+        }
+      ],
+      "usageNotes": [
+        "The column wraps circularly — each row springs to its next seat rather than the list scrolling past a window.",
+        "Hover rests the march; a reader leaning in deserves a still page.",
+        "Reduced motion stops on the middle stage with every label legible."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/vignette-stage-rail",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/vignette-stage-rail.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/vignette-stage-rail",
+        "npm": "npx shadcn@latest add @kinetiq/vignette-stage-rail",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/vignette-stage-rail",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/vignette-stage-rail",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/vignette-stage-rail.json"
+      }
+    },
+    {
+      "slug": "vignette-icon-reel",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Icon Reel Vignette",
+      "serial": "KQ-244",
+      "tagline": "Everything it touches, drifting past.",
+      "description": "A reel of icon tiles drifting past behind edge fades — the everything-it-touches scene at card scale, where the marquee hall is a whole section. The track is doubled and translated by half so the loop never jumps, and hovering rests the reel. Purely presentational, marked as one image.",
+      "categories": [
+        "vignettes"
+      ],
+      "keywords": [
+        "vignette",
+        "icons",
+        "marquee",
+        "reel",
+        "loop",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "icons",
+          "type": "ReelIcon[]",
+          "description": "The tiles — each names what it stands for, for screen readers."
+        },
+        {
+          "name": "reelSeconds",
+          "type": "number",
+          "defaultValue": "18",
+          "description": "Seconds for one full pass."
+        }
+      ],
+      "usageNotes": [
+        "Card-scale by design — for a full-width band of logos, reach for the marquee hall section instead.",
+        "The doubled track makes the loop seamless; never halve the list to save renders.",
+        "Reduced motion holds the reel still from its start."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/vignette-icon-reel",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/vignette-icon-reel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/vignette-icon-reel",
+        "npm": "npx shadcn@latest add @kinetiq/vignette-icon-reel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/vignette-icon-reel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/vignette-icon-reel",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/vignette-icon-reel.json"
+      }
+    },
+    {
+      "slug": "vignette-arc-gallery",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Arc Gallery Vignette",
+      "serial": "KQ-245",
+      "tagline": "A fan of cards, taking turns.",
+      "description": "Cards fanned along an arc, each taking a turn at the front: every advance sends the whole fan one seat around, so a card leaves the lead by swinging to the wing rather than vanishing. The washes are gradients, not images — the scene stays theme-aware and weightless. For heroes about places, projects, or portfolios.",
+      "categories": [
+        "vignettes"
+      ],
+      "keywords": [
+        "vignette",
+        "gallery",
+        "arc",
+        "fan",
+        "carousel",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "arc",
+          "type": "\"over\" | \"under\"",
+          "defaultValue": "\"over\"",
+          "description": "Bow the fan upward, or hang it downward."
+        },
+        {
+          "name": "cards / holdSeconds",
+          "type": "ArcCard[] · number",
+          "description": "The fan, and how long each card leads."
+        }
+      ],
+      "usageNotes": [
+        "Positions are circular offsets from the lead — computed, deterministic, identical SSR.",
+        "Washes are gradient pairs, so the cards recolour with the theme instead of shipping images.",
+        "Hover rests the turn; reduced motion holds the fan with the first card leading."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/vignette-arc-gallery",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/vignette-arc-gallery.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/vignette-arc-gallery",
+        "npm": "npx shadcn@latest add @kinetiq/vignette-arc-gallery",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/vignette-arc-gallery",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/vignette-arc-gallery",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/vignette-arc-gallery.json"
+      }
+    },
+    {
+      "slug": "vignette-copresence",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Copresence Vignette",
+      "serial": "KQ-246",
+      "tagline": "Two hands, one surface, no claim.",
+      "description": "Two hands on the same surface: named cursors gliding their own errands, a live selection with its measurements printed — or a work card walked between columns — and a remark that arrives, holds, and clears. Everything runs on one shared clock of authored keyframes, so the loop reads as a morning's minute, not a screensaver. The multiplayer moment as a scene rather than a claim.",
+      "categories": [
+        "vignettes"
+      ],
+      "keywords": [
+        "vignette",
+        "presence",
+        "cursors",
+        "collaboration",
+        "multiplayer",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "scene",
+          "type": "\"canvas\" | \"board\"",
+          "defaultValue": "\"canvas\"",
+          "description": "A headline under live selection, or a card being walked between columns."
+        },
+        {
+          "name": "hands / remark",
+          "type": "[CopresenceHand, CopresenceHand] · string",
+          "description": "Who is here, and the comment one of them leaves."
+        },
+        {
+          "name": "loopSeconds",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "One full loop of the shared clock."
+        }
+      ],
+      "usageNotes": [
+        "All movement is authored keyframes on one clock — cursors, card, and remark stay in step at any loop length.",
+        "Tones come in as CSS colors, so the cast recolours per deployment without touching the scene.",
+        "Reduced motion parks the hands mid-errand and keeps the remark shown."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/vignette-copresence",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/vignette-copresence.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/vignette-copresence",
+        "npm": "npx shadcn@latest add @kinetiq/vignette-copresence",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/vignette-copresence",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/vignette-copresence",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/vignette-copresence.json"
+      }
+    },
+    {
+      "slug": "vignette-distill",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Distill Vignette",
+      "serial": "KQ-247",
+      "tagline": "A mess on both sides, a plan in the middle.",
+      "description": "Many inputs, one product: two columns of sources fold into the centre one by one — each chip lights, leans toward the middle, and dims as spent — and when the last is in, the product stamps itself finished. The scene is the argument for anything that reads a mess and returns a plan.",
+      "categories": [
+        "vignettes"
+      ],
+      "keywords": [
+        "vignette",
+        "synthesis",
+        "context",
+        "sources",
+        "refine",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "left / right",
+          "type": "DistillSource[] · DistillSource[]",
+          "description": "The raw material, one column per side."
+        },
+        {
+          "name": "product / stamped",
+          "type": "string · string",
+          "description": "What it becomes, and the line stamped when finished."
+        },
+        {
+          "name": "stepSeconds / restSeconds",
+          "type": "number · number",
+          "description": "Seconds between folds, and the hold before the loop resets."
+        }
+      ],
+      "usageNotes": [
+        "Sources fold alternating left and right so the columns drain evenly — the order is fixed, never random.",
+        "The centre counts folds honestly and only stamps when every source is in.",
+        "Reduced motion shows the finished state: everything folded, the stamp standing."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/vignette-distill",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/vignette-distill.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/vignette-distill",
+        "npm": "npx shadcn@latest add @kinetiq/vignette-distill",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/vignette-distill",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/vignette-distill",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/vignette-distill.json"
       }
     },
     {

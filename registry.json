@@ -6517,6 +6517,145 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vignette-stage-rail",
+      "type": "registry:ui",
+      "title": "Stage Rail Vignette",
+      "description": "A pipeline as a scene, in either orientation: a row of icon tiles with one light roving along them and a caption naming whoever holds it, or a column rolling the stages through a lit focus band — each stage sliding to its next seat, so the edges wrap instead of jumping. For feature cards about systems that do things in order.",
+      "files": [
+        {
+          "path": "registry/ui/vignette-stage-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "vignettes"
+      ],
+      "meta": {
+        "serial": "KQ-243"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vignette-icon-reel",
+      "type": "registry:ui",
+      "title": "Icon Reel Vignette",
+      "description": "A reel of icon tiles drifting past behind edge fades — the everything-it-touches scene at card scale, where the marquee hall is a whole section. The track is doubled and translated by half so the loop never jumps, and hovering rests the reel. Purely presentational, marked as one image.",
+      "files": [
+        {
+          "path": "registry/ui/vignette-icon-reel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "vignettes"
+      ],
+      "meta": {
+        "serial": "KQ-244"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vignette-arc-gallery",
+      "type": "registry:ui",
+      "title": "Arc Gallery Vignette",
+      "description": "Cards fanned along an arc, each taking a turn at the front: every advance sends the whole fan one seat around, so a card leaves the lead by swinging to the wing rather than vanishing. The washes are gradients, not images — the scene stays theme-aware and weightless. For heroes about places, projects, or portfolios.",
+      "files": [
+        {
+          "path": "registry/ui/vignette-arc-gallery.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "vignettes"
+      ],
+      "meta": {
+        "serial": "KQ-245"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vignette-copresence",
+      "type": "registry:ui",
+      "title": "Copresence Vignette",
+      "description": "Two hands on the same surface: named cursors gliding their own errands, a live selection with its measurements printed — or a work card walked between columns — and a remark that arrives, holds, and clears. Everything runs on one shared clock of authored keyframes, so the loop reads as a morning's minute, not a screensaver. The multiplayer moment as a scene rather than a claim.",
+      "files": [
+        {
+          "path": "registry/ui/vignette-copresence.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "vignettes"
+      ],
+      "meta": {
+        "serial": "KQ-246"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vignette-distill",
+      "type": "registry:ui",
+      "title": "Distill Vignette",
+      "description": "Many inputs, one product: two columns of sources fold into the centre one by one — each chip lights, leans toward the middle, and dims as spent — and when the last is in, the product stamps itself finished. The scene is the argument for anything that reads a mess and returns a plan.",
+      "files": [
+        {
+          "path": "registry/ui/vignette-distill.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "vignettes"
+      ],
+      "meta": {
+        "serial": "KQ-247"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "hover-swap",
       "type": "registry:ui",
       "title": "Hover Swap",

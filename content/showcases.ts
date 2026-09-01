@@ -179,9 +179,9 @@ export const SHOWCASES: Showcase[] = [
     deck: "Self-running scenes — windows painting in, handsets scrolling, hubs pulsing — ready to seat inside a hero.",
     hero: { slug: "vignette-app-window", mode: "stage" },
     leads: [
-      "vignette-exchange",
-      "vignette-search-lens",
-      "vignette-voice-note",
+      "vignette-copresence",
+      "vignette-distill",
+      "vignette-arc-gallery",
       "vignette-handset",
     ],
     closing: "A hero is a claim; a vignette is the claim happening.",
