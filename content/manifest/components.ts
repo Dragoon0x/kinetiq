@@ -10044,6 +10044,148 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "top-spin",
+    type: "registry:ui",
+    title: "Top Spin",
+    description:
+      "A spinning top with honest physics feel: flick it and it spins with your velocity, coasts down on fixed friction, enters the death wobble every top owes its audience, and tips over with one rock. Click a fallen top and it stands back up, ready to go again. The caption narrates in four states and never oversells.",
+    files: [{ path: "registry/ui/top-spin.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-258" },
+    tagline: "Spin, wobble, fall, forgive.",
+    keywords: ["delight", "top", "spin", "flick", "momentum", "toy"],
+    props: [
+      {
+        name: "onFall",
+        type: "() => void",
+        description: "Fires when the wobble wins.",
+      },
+    ],
+    usageNotes: [
+      "The flick reads real pointer velocity, clamped into an authored range \u2014 physical feel, deterministic bounds.",
+      "A plain click or Enter gives the standard spin, so the toy needs no drag to enjoy.",
+      "Reduced motion steps through standing, spinning, and fallen stills.",
+    ],
+  },
+  {
+    name: "clack-beads",
+    type: "registry:ui",
+    title: "Clack Beads",
+    description:
+      "Five beads on a rod: flick the free one into the cluster and the impact travels \u2014 the struck bead compresses, a clack tick flashes at contact, and the far bead shoots out, coasts, and wanders lazily back. Not a physics engine; an authored choreography tuned until it feels like one, which is cheaper and never misses. The pendulum cousin lives elsewhere \u2014 these slide.",
+    files: [{ path: "registry/ui/clack-beads.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-259" },
+    tagline: "Momentum, conserved theatrically.",
+    keywords: ["delight", "beads", "clack", "flick", "impact", "fidget"],
+    props: [
+      {
+        name: "beads",
+        type: "number",
+        defaultValue: "5",
+        description: "Beads on the rod (3\u20137).",
+      },
+      {
+        name: "onClack",
+        type: "() => void",
+        description: "Fires at contact.",
+      },
+    ],
+    usageNotes: [
+      "The transfer is one authored sequence \u2014 flick, travel, squash, eject, wander home \u2014 identical every time.",
+      "Mid-sequence flicks restart from current positions rather than queueing; the toy always answers the hand.",
+      "Reduced motion swaps positions instantly and keeps the clack caption.",
+    ],
+  },
+  {
+    name: "pinwheel-breeze",
+    type: "registry:ui",
+    title: "Pinwheel Breeze",
+    description:
+      "A paper pinwheel that spins from the breeze your cursor makes: pointer speed becomes angular velocity, friction takes it back, and at rest it sways like something waiting outside a shop. Fast enough and the vanes blend into a blur disc. A click gives it a push, so the breeze is never the only way to play.",
+    files: [{ path: "registry/ui/pinwheel-breeze.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-260" },
+    tagline: "Your cursor is the weather.",
+    keywords: ["delight", "pinwheel", "breeze", "cursor", "spin", "ambient"],
+    props: [
+      {
+        name: "onSpin",
+        type: "() => void",
+        description: "Fires when a push takes it past brisk.",
+      },
+    ],
+    usageNotes: [
+      "Velocity is clamped, friction is fixed \u2014 the weather is yours but the physics are the house's.",
+      "The blur disc is layered opacity, not a filter, so it stays cheap.",
+      "Reduced motion steps the wheel a quarter turn per click, no coasting.",
+    ],
+  },
+  {
+    name: "kite-tug",
+    type: "registry:ui",
+    title: "Kite Tug",
+    description:
+      "A diamond kite bobbing on a sagging line \u2014 tug it and the line snaps taut, the kite dives, swoops a loop with its tail streaming, and settles back into the idle sky. The line is one quadratic path whose sag breathes with the kite; the rope simulation lives elsewhere in the catalog, and this scene does not need it. The caption says \u201cwheee\u201d exactly once per swoop.",
+    files: [{ path: "registry/ui/kite-tug.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-261" },
+    tagline: "One tug. One loop. Wheee.",
+    keywords: ["delight", "kite", "tug", "swoop", "sky", "scene"],
+    props: [
+      {
+        name: "onSwoop",
+        type: "() => void",
+        description: "Fires as the loop begins.",
+      },
+    ],
+    usageNotes: [
+      "The swoop is authored keyframes with the nose leading via synced rotate times \u2014 the same aerobatics every tug.",
+      "Double tugs during a swoop are ignored; the kite finishes its sentence.",
+      "Reduced motion holds a fixed pose and swaps briefly to a swooped still.",
+    ],
+  },
+  {
+    name: "paper-plane",
+    type: "registry:ui",
+    title: "Paper Plane",
+    description:
+      "A folded dart that launches from its pad, climbs, banks, dips, loops once, and glides home to stick the landing \u2014 with a dashed trail drawing in behind it and fading after touchdown. The whole lap is one authored flight; a second loop is a prop away. For empty states, sent-confirmations, and anyone who misses classrooms.",
+    files: [{ path: "registry/ui/paper-plane.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-262" },
+    tagline: "Fold. Aim. Launch. Stick it.",
+    keywords: ["delight", "paper plane", "launch", "flight", "trail", "toy"],
+    props: [
+      {
+        name: "loops",
+        type: "1 | 2",
+        defaultValue: "1",
+        description: "Mid-air loops per lap.",
+      },
+      {
+        name: "onLand",
+        type: "() => void",
+        description: "Fires at touchdown.",
+      },
+    ],
+    usageNotes: [
+      "Rotation keyframes share the flight's times so the nose always leads \u2014 the banking is the craft.",
+      "The trail is the flight path itself, dash-drawn behind the plane and faded after landing.",
+      "Reduced motion steps pad, apex, and pad stills with the trail shown static.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

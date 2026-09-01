@@ -216,6 +216,11 @@ import { SoapBubbleDemo } from "@/registry/demos/soap-bubble.demo";
 import { ApplauseHoldDemo } from "@/registry/demos/applause-hold.demo";
 import { TeaDunkDemo } from "@/registry/demos/tea-dunk.demo";
 import { BalloonPumpDemo } from "@/registry/demos/balloon-pump.demo";
+import { TopSpinDemo } from "@/registry/demos/top-spin.demo";
+import { ClackBeadsDemo } from "@/registry/demos/clack-beads.demo";
+import { PinwheelBreezeDemo } from "@/registry/demos/pinwheel-breeze.demo";
+import { KiteTugDemo } from "@/registry/demos/kite-tug.demo";
+import { PaperPlaneDemo } from "@/registry/demos/paper-plane.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -654,6 +659,11 @@ export const demos: Record<string, ComponentType> = {
   "applause-hold": ApplauseHoldDemo,
   "tea-dunk": TeaDunkDemo,
   "balloon-pump": BalloonPumpDemo,
+  "top-spin": TopSpinDemo,
+  "clack-beads": ClackBeadsDemo,
+  "pinwheel-breeze": PinwheelBreezeDemo,
+  "kite-tug": KiteTugDemo,
+  "paper-plane": PaperPlaneDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

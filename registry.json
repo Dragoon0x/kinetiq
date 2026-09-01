@@ -6790,6 +6790,141 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "top-spin",
+      "type": "registry:ui",
+      "title": "Top Spin",
+      "description": "A spinning top with honest physics feel: flick it and it spins with your velocity, coasts down on fixed friction, enters the death wobble every top owes its audience, and tips over with one rock. Click a fallen top and it stands back up, ready to go again. The caption narrates in four states and never oversells.",
+      "files": [
+        {
+          "path": "registry/ui/top-spin.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-258"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "clack-beads",
+      "type": "registry:ui",
+      "title": "Clack Beads",
+      "description": "Five beads on a rod: flick the free one into the cluster and the impact travels — the struck bead compresses, a clack tick flashes at contact, and the far bead shoots out, coasts, and wanders lazily back. Not a physics engine; an authored choreography tuned until it feels like one, which is cheaper and never misses. The pendulum cousin lives elsewhere — these slide.",
+      "files": [
+        {
+          "path": "registry/ui/clack-beads.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-259"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pinwheel-breeze",
+      "type": "registry:ui",
+      "title": "Pinwheel Breeze",
+      "description": "A paper pinwheel that spins from the breeze your cursor makes: pointer speed becomes angular velocity, friction takes it back, and at rest it sways like something waiting outside a shop. Fast enough and the vanes blend into a blur disc. A click gives it a push, so the breeze is never the only way to play.",
+      "files": [
+        {
+          "path": "registry/ui/pinwheel-breeze.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-260"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "kite-tug",
+      "type": "registry:ui",
+      "title": "Kite Tug",
+      "description": "A diamond kite bobbing on a sagging line — tug it and the line snaps taut, the kite dives, swoops a loop with its tail streaming, and settles back into the idle sky. The line is one quadratic path whose sag breathes with the kite; the rope simulation lives elsewhere in the catalog, and this scene does not need it. The caption says “wheee” exactly once per swoop.",
+      "files": [
+        {
+          "path": "registry/ui/kite-tug.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-261"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "paper-plane",
+      "type": "registry:ui",
+      "title": "Paper Plane",
+      "description": "A folded dart that launches from its pad, climbs, banks, dips, loops once, and glides home to stick the landing — with a dashed trail drawing in behind it and fading after touchdown. The whole lap is one authored flight; a second loop is a prop away. For empty states, sent-confirmations, and anyone who misses classrooms.",
+      "files": [
+        {
+          "path": "registry/ui/paper-plane.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-262"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
