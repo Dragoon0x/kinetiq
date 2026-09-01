@@ -4616,6 +4616,85 @@ Notes:
 - The whole bit resets itself after the slam, so the toy is always ready to be rude again.
 - Reduced motion swaps closed and open stills with the resident shown, and skips the dust.
 
+### Piñata Tap (KQ-273) — `pinata-tap`
+Five swings, then candy everywhere.
+
+A piñata on a rope that takes five swings: each hit sends it swinging harder, tears another fringe strip loose, and moves the caption one word closer to inevitable. The fifth splits it open and a dozen candies arc out on authored gravity to land scattered on the floor. A beat later a fresh one drops in, because the only correct number of piñatas is another one.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pinata-tap`
+
+Props:
+- `hits`: number (default 5) — Swings it survives (3–7).
+- `onBurst`: () => void — Fires when it finally goes.
+
+Notes:
+- Damage is cumulative and visible — fringe tears in fixed order, so the state is always readable.
+- Candy vectors are a fixed table arcing under an authored gravity curve; the same party every time.
+- Reduced motion swaps damage stills and shows the candy already landed.
+
+### Gift Unwrap (KQ-274) — `gift-unwrap`
+Ribbon first. Always ribbon first.
+
+A wrapped present that opens in two beats: the first click pulls the ribbon loose and slides the bands off, the second pops the lid tumbling away as the gift rises on a glow. A third re-wraps it with the next gift queued. Making the ribbon its own beat is the whole trick — unwrapping in one click is a reveal, unwrapping in two is a gift.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gift-unwrap`
+
+Props:
+- `onOpen`: (gift: string) => void — Fires with the revealed gift.
+
+Notes:
+- Gifts cycle a fixed set of three, each with its own dry caption — no randomness, so a demo replays identically.
+- Clicks during a transition are ignored; the box always finishes its sentence.
+- Reduced motion steps the four stills: wrapped, unwrapped, open, wrapped again.
+
+### Medal Swing (KQ-275) — `medal-swing`
+It lands, it swings, it shines.
+
+A medal that drops in on its lanyard, swings itself to rest on a decaying tween, and then keeps catching the light on a slow glint cycle. Hover for an extra flash; click because nobody can leave a hanging medal alone. Three tiers, each tinted from the palette rather than painted gold, so it belongs to whatever theme it lands in.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/medal-swing`
+
+Props:
+- `tier`: "gold" | "silver" | "bronze" (default "gold") — Which metal, tinted from tokens.
+- `label`: string (default "first place") — The caption's right half.
+
+Notes:
+- The settle is a decaying keyframe tween, never a spring — a spring cannot hold four diminishing swings.
+- The glint re-triggers on hover only when one is not already running, so hover-spam cannot stack sheens.
+- Reduced motion presents the medal already hung, with a single static highlight on click.
+
+### High Five (KQ-276) — `high-five`
+Leave one hanging. See what happens.
+
+An open palm waiting to be met: click and a second hand swings in, the two connect with a shockwave ring and a scatter of impact flecks, then part again. Double-tap too fast and the incoming hand whiffs straight past — the caption calls it, which is funnier than landing it. At rest the palm just breathes and invites.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/high-five`
+
+Props:
+- `onFive`: () => void — Fires on a connected five, not on a whiff.
+
+Notes:
+- The whiff is a separate authored path, not a failed version of the hit — the miss has to look intentional.
+- Timing comes from event timestamps in handlers; nothing reads the clock during render.
+- Reduced motion swaps a met still (or a missed one) for a beat with the ring shown static.
+
+### Level Chime (KQ-277) — `level-chime`
+The bar fills, the number carries.
+
+An experience bar that levels up properly: each tap adds XP with a floating chip, and on filling, a shine sweeps the track, the bar drains, the readout carries the level up, a badge flips, and sparks ring out. Taps during the ceremony queue rather than drop — a progress toy that loses your taps is a bug wearing a costume.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/level-chime`
+
+Props:
+- `perClick / levelUpAt`: number · number (default 18 · 100) — XP per tap, and the threshold.
+- `startLevel`: number (default 3) — Where the readout begins.
+- `onLevelUp`: (level: number) => void — Fires with the new level.
+
+Notes:
+- The level numeral is the house readout, so the carry from 9 to 10 rolls exactly like every other number in the system.
+- Taps during the level-up sequence accumulate and apply after — never dropped.
+- Reduced motion swaps bar, level, and badge instantly and keeps the caption flash.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

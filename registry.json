@@ -7198,6 +7198,144 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pinata-tap",
+      "type": "registry:ui",
+      "title": "Piñata Tap",
+      "description": "A piñata on a rope that takes five swings: each hit sends it swinging harder, tears another fringe strip loose, and moves the caption one word closer to inevitable. The fifth splits it open and a dozen candies arc out on authored gravity to land scattered on the floor. A beat later a fresh one drops in, because the only correct number of piñatas is another one.",
+      "files": [
+        {
+          "path": "registry/ui/pinata-tap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-273"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gift-unwrap",
+      "type": "registry:ui",
+      "title": "Gift Unwrap",
+      "description": "A wrapped present that opens in two beats: the first click pulls the ribbon loose and slides the bands off, the second pops the lid tumbling away as the gift rises on a glow. A third re-wraps it with the next gift queued. Making the ribbon its own beat is the whole trick — unwrapping in one click is a reveal, unwrapping in two is a gift.",
+      "files": [
+        {
+          "path": "registry/ui/gift-unwrap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-274"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "medal-swing",
+      "type": "registry:ui",
+      "title": "Medal Swing",
+      "description": "A medal that drops in on its lanyard, swings itself to rest on a decaying tween, and then keeps catching the light on a slow glint cycle. Hover for an extra flash; click because nobody can leave a hanging medal alone. Three tiers, each tinted from the palette rather than painted gold, so it belongs to whatever theme it lands in.",
+      "files": [
+        {
+          "path": "registry/ui/medal-swing.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-275"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "high-five",
+      "type": "registry:ui",
+      "title": "High Five",
+      "description": "An open palm waiting to be met: click and a second hand swings in, the two connect with a shockwave ring and a scatter of impact flecks, then part again. Double-tap too fast and the incoming hand whiffs straight past — the caption calls it, which is funnier than landing it. At rest the palm just breathes and invites.",
+      "files": [
+        {
+          "path": "registry/ui/high-five.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-276"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "level-chime",
+      "type": "registry:ui",
+      "title": "Level Chime",
+      "description": "An experience bar that levels up properly: each tap adds XP with a floating chip, and on filling, a shine sweeps the track, the bar drains, the readout carries the level up, a badge flips, and sparks ring out. Taps during the ceremony queue rather than drop — a progress toy that loses your taps is a bug wearing a costume.",
+      "files": [
+        {
+          "path": "registry/ui/level-chime.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-277"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

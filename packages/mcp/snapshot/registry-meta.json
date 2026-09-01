@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 271,
+      "components": 276,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -16449,6 +16449,279 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/little-door",
         "bun": "bunx --bun shadcn@latest add @kinetiq/little-door",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/little-door.json"
+      }
+    },
+    {
+      "slug": "pinata-tap",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Piñata Tap",
+      "serial": "KQ-273",
+      "tagline": "Five swings, then candy everywhere.",
+      "description": "A piñata on a rope that takes five swings: each hit sends it swinging harder, tears another fringe strip loose, and moves the caption one word closer to inevitable. The fifth splits it open and a dozen candies arc out on authored gravity to land scattered on the floor. A beat later a fresh one drops in, because the only correct number of piñatas is another one.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "pinata",
+        "celebration",
+        "burst",
+        "candy",
+        "toy"
+      ],
+      "props": [
+        {
+          "name": "hits",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Swings it survives (3–7)."
+        },
+        {
+          "name": "onBurst",
+          "type": "() => void",
+          "description": "Fires when it finally goes."
+        }
+      ],
+      "usageNotes": [
+        "Damage is cumulative and visible — fringe tears in fixed order, so the state is always readable.",
+        "Candy vectors are a fixed table arcing under an authored gravity curve; the same party every time.",
+        "Reduced motion swaps damage stills and shows the candy already landed."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/pinata-tap",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/pinata-tap.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pinata-tap",
+        "npm": "npx shadcn@latest add @kinetiq/pinata-tap",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pinata-tap",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pinata-tap",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/pinata-tap.json"
+      }
+    },
+    {
+      "slug": "gift-unwrap",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gift Unwrap",
+      "serial": "KQ-274",
+      "tagline": "Ribbon first. Always ribbon first.",
+      "description": "A wrapped present that opens in two beats: the first click pulls the ribbon loose and slides the bands off, the second pops the lid tumbling away as the gift rises on a glow. A third re-wraps it with the next gift queued. Making the ribbon its own beat is the whole trick — unwrapping in one click is a reveal, unwrapping in two is a gift.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "gift",
+        "unwrap",
+        "reveal",
+        "present",
+        "celebration"
+      ],
+      "props": [
+        {
+          "name": "onOpen",
+          "type": "(gift: string) => void",
+          "description": "Fires with the revealed gift."
+        }
+      ],
+      "usageNotes": [
+        "Gifts cycle a fixed set of three, each with its own dry caption — no randomness, so a demo replays identically.",
+        "Clicks during a transition are ignored; the box always finishes its sentence.",
+        "Reduced motion steps the four stills: wrapped, unwrapped, open, wrapped again."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/gift-unwrap",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gift-unwrap.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gift-unwrap",
+        "npm": "npx shadcn@latest add @kinetiq/gift-unwrap",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gift-unwrap",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gift-unwrap",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gift-unwrap.json"
+      }
+    },
+    {
+      "slug": "medal-swing",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Medal Swing",
+      "serial": "KQ-275",
+      "tagline": "It lands, it swings, it shines.",
+      "description": "A medal that drops in on its lanyard, swings itself to rest on a decaying tween, and then keeps catching the light on a slow glint cycle. Hover for an extra flash; click because nobody can leave a hanging medal alone. Three tiers, each tinted from the palette rather than painted gold, so it belongs to whatever theme it lands in.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "medal",
+        "award",
+        "swing",
+        "glint",
+        "celebration"
+      ],
+      "props": [
+        {
+          "name": "tier",
+          "type": "\"gold\" | \"silver\" | \"bronze\"",
+          "defaultValue": "\"gold\"",
+          "description": "Which metal, tinted from tokens."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"first place\"",
+          "description": "The caption's right half."
+        }
+      ],
+      "usageNotes": [
+        "The settle is a decaying keyframe tween, never a spring — a spring cannot hold four diminishing swings.",
+        "The glint re-triggers on hover only when one is not already running, so hover-spam cannot stack sheens.",
+        "Reduced motion presents the medal already hung, with a single static highlight on click."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/medal-swing",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/medal-swing.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/medal-swing",
+        "npm": "npx shadcn@latest add @kinetiq/medal-swing",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/medal-swing",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/medal-swing",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/medal-swing.json"
+      }
+    },
+    {
+      "slug": "high-five",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "High Five",
+      "serial": "KQ-276",
+      "tagline": "Leave one hanging. See what happens.",
+      "description": "An open palm waiting to be met: click and a second hand swings in, the two connect with a shockwave ring and a scatter of impact flecks, then part again. Double-tap too fast and the incoming hand whiffs straight past — the caption calls it, which is funnier than landing it. At rest the palm just breathes and invites.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "high five",
+        "hands",
+        "impact",
+        "reaction",
+        "celebration"
+      ],
+      "props": [
+        {
+          "name": "onFive",
+          "type": "() => void",
+          "description": "Fires on a connected five, not on a whiff."
+        }
+      ],
+      "usageNotes": [
+        "The whiff is a separate authored path, not a failed version of the hit — the miss has to look intentional.",
+        "Timing comes from event timestamps in handlers; nothing reads the clock during render.",
+        "Reduced motion swaps a met still (or a missed one) for a beat with the ring shown static."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/high-five",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/high-five.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/high-five",
+        "npm": "npx shadcn@latest add @kinetiq/high-five",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/high-five",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/high-five",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/high-five.json"
+      }
+    },
+    {
+      "slug": "level-chime",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Level Chime",
+      "serial": "KQ-277",
+      "tagline": "The bar fills, the number carries.",
+      "description": "An experience bar that levels up properly: each tap adds XP with a floating chip, and on filling, a shine sweeps the track, the bar drains, the readout carries the level up, a badge flips, and sparks ring out. Taps during the ceremony queue rather than drop — a progress toy that loses your taps is a bug wearing a costume.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "level",
+        "xp",
+        "progress",
+        "reward",
+        "celebration"
+      ],
+      "props": [
+        {
+          "name": "perClick / levelUpAt",
+          "type": "number · number",
+          "defaultValue": "18 · 100",
+          "description": "XP per tap, and the threshold."
+        },
+        {
+          "name": "startLevel",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Where the readout begins."
+        },
+        {
+          "name": "onLevelUp",
+          "type": "(level: number) => void",
+          "description": "Fires with the new level."
+        }
+      ],
+      "usageNotes": [
+        "The level numeral is the house readout, so the carry from 9 to 10 rolls exactly like every other number in the system.",
+        "Taps during the level-up sequence accumulate and apply after — never dropped.",
+        "Reduced motion swaps bar, level, and badge instantly and keeps the caption flash."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/level-chime",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/level-chime.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/level-chime",
+        "npm": "npx shadcn@latest add @kinetiq/level-chime",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/level-chime",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/level-chime",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/level-chime.json"
       }
     },
     {
