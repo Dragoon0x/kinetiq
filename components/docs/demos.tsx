@@ -286,6 +286,11 @@ import { BadgeCaseDemo } from "@/registry/demos/badge-case.demo";
 import { PassportStampsDemo } from "@/registry/demos/passport-stamps.demo";
 import { SetCompleteDemo } from "@/registry/demos/set-complete.demo";
 import { PetCompanionDemo } from "@/registry/demos/pet-companion.demo";
+import { JourneyMapDemo } from "@/registry/demos/journey-map.demo";
+import { SeasonTrackDemo } from "@/registry/demos/season-track.demo";
+import { TerritoryGridDemo } from "@/registry/demos/territory-grid.demo";
+import { LadderClimbDemo } from "@/registry/demos/ladder-climb.demo";
+import { CheckpointRunDemo } from "@/registry/demos/checkpoint-run.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -794,6 +799,11 @@ export const demos: Record<string, ComponentType> = {
   "passport-stamps": PassportStampsDemo,
   "set-complete": SetCompleteDemo,
   "pet-companion": PetCompanionDemo,
+  "journey-map": JourneyMapDemo,
+  "season-track": SeasonTrackDemo,
+  "territory-grid": TerritoryGridDemo,
+  "ladder-climb": LadderClimbDemo,
+  "checkpoint-run": CheckpointRunDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

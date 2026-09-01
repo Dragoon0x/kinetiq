@@ -12194,6 +12194,169 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "journey-map",
+    type: "registry:ui",
+    title: "Journey Map",
+    description:
+      "A winding campaign path where the road lights up behind you: the avatar travels an authored waypoint route while a dash-clipped overlay follows it exactly, so progress reads as ground covered rather than a bar filling. Each arrival pops its milestone, hands the pulse to the next, and names what was reached.",
+    files: [{ path: "registry/ui/journey-map.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-328" },
+    tagline: "The road lights up behind you.",
+    keywords: ["game", "journey", "map", "milestones", "path", "progress"],
+    props: [
+      {
+        name: "milestones",
+        type: "Milestone[]",
+        description:
+          "Label and hint per node; positions are authored, never measured.",
+      },
+      {
+        name: "at",
+        type: "number",
+        defaultValue: "2",
+        description: "Which milestone the avatar starts on.",
+      },
+    ],
+    usageNotes: [
+      "Path geometry and node positions are fixed constants \u2014 identical on server and client.",
+      "The lit trail and the avatar share one duration so the road never leads or lags the traveller.",
+      "Reduced motion jumps the avatar and steps the trail to length.",
+    ],
+  },
+  {
+    name: "season-track",
+    type: "registry:ui",
+    title: "Season Track",
+    description:
+      "A two-lane season pass with a closing window: free and premium rows across eight tiers, an unclaimed counter that nags, and a retroactive payout when premium unlocks \u2014 which is exactly why the pattern works, shown honestly. Ending the season expires everything unclaimed, in view, because the expiry is the whole point of a season.",
+    files: [{ path: "registry/ui/season-track.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-329" },
+    tagline: "The window closes. That is the point.",
+    keywords: ["game", "season", "battle pass", "tiers", "claim", "expiry"],
+    props: [
+      {
+        name: "tiers / perClick",
+        type: "number \u00b7 number",
+        defaultValue: "8 \u00b7 40",
+        description: "Track length and progress per earn, at 100 per tier.",
+      },
+      {
+        name: "daysLeft",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "Shown in the header; a prop, never computed from a clock.",
+      },
+    ],
+    usageNotes: [
+      "Unlocking premium pays out every passed tier at once \u2014 the retroactive drop is the mechanic, not a bug.",
+      "Expiry greys and strikes unclaimed rewards rather than quietly removing them.",
+      "The track scrolls inside its own container; the page never scrolls sideways.",
+    ],
+  },
+  {
+    name: "territory-grid",
+    type: "registry:ui",
+    title: "Territory Grid",
+    description:
+      "A board two sides expand across, where you may only claim tiles touching what you already hold \u2014 so the frontier, not the whole grid, is the decision. Claims ripple into their neighbours, surrounding an enemy tile captures it, and the opponent answers from a fixed sequence so the same board plays the same way for everyone.",
+    files: [{ path: "registry/ui/territory-grid.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-330" },
+    tagline: "You can only grow from what you hold.",
+    keywords: ["game", "territory", "grid", "claim", "control", "board"],
+    props: [
+      {
+        name: "cols / rows",
+        type: "number \u00b7 number",
+        defaultValue: "7 \u00b7 5",
+        description: "Board size.",
+      },
+      {
+        name: "onCapture",
+        type: "(count: number) => void",
+        description: "Fires when a surround flips a tile.",
+      },
+    ],
+    usageNotes: [
+      "Adjacency gating is the strategy \u2014 non-bordering neutrals are inert and look it.",
+      "The opponent replays a fixed sequence; a demo whose rival improvises cannot be reasoned about.",
+      "Reduced motion swaps tile colours instantly and keeps captures and captions.",
+    ],
+  },
+  {
+    name: "ladder-climb",
+    type: "registry:ui",
+    title: "Ladder Climb",
+    description:
+      "A competitive ladder you can fall down, which is the only reason climbing it matters: promotions light the band and unfurl a banner, demotions dim it and say so plainly with no sparks and no ceremony. A demotion shield absorbs the first loss at the bottom of a division, so the fall reads as fair rather than arbitrary.",
+    files: [{ path: "registry/ui/ladder-climb.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-331" },
+    tagline: "Falling is faster than climbing.",
+    keywords: ["game", "ladder", "rank", "division", "promotion", "demotion"],
+    props: [
+      {
+        name: "divisions",
+        type: "string[]",
+        description: "Bottom to top; six by default.",
+      },
+      {
+        name: "perWin / perLoss",
+        type: "number \u00b7 number",
+        defaultValue: "34 \u00b7 28",
+        description: "Progress gained and lost per match.",
+      },
+    ],
+    usageNotes: [
+      "Demotion is deliberately unglamorous \u2014 legible, but never celebrated.",
+      "The shield absorbs one loss at a division floor and regenerates after two wins.",
+      "Reduced motion jumps the marker and keeps both captions.",
+    ],
+  },
+  {
+    name: "checkpoint-run",
+    type: "registry:ui",
+    title: "Checkpoint Run",
+    description:
+      "A run measured in ground covered, with flags that plant as you pass them and a stumble that throws you back to the last one \u2014 quickly, and a little ugly, because losing ground should not look graceful. Progress that cannot be lost is not progress, it is a countdown; the best distance persists so you always have your own mark to beat.",
+    files: [{ path: "registry/ui/checkpoint-run.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-332" },
+    tagline: "Progress you cannot lose is a countdown.",
+    keywords: ["game", "run", "checkpoint", "progress", "setback", "best"],
+    props: [
+      {
+        name: "checkpoints / segmentsPerLeg",
+        type: "number \u00b7 number",
+        defaultValue: "5 \u00b7 4",
+        description: "Flags on the route and steps between them.",
+      },
+      {
+        name: "onCheckpoint / onFinish",
+        type: "(index) => void \u00b7 () => void",
+        description: "Fires per flag planted, and at the line.",
+      },
+    ],
+    usageNotes: [
+      "The stumble is faster than the crawl forward \u2014 asymmetry is what makes checkpoints valuable.",
+      "The best distance survives resets; chasing your own mark is the loop.",
+      "Reduced motion snaps the runner back with the caption and no tumble.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

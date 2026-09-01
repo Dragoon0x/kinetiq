@@ -8720,6 +8720,150 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "journey-map",
+      "type": "registry:ui",
+      "title": "Journey Map",
+      "description": "A winding campaign path where the road lights up behind you: the avatar travels an authored waypoint route while a dash-clipped overlay follows it exactly, so progress reads as ground covered rather than a bar filling. Each arrival pops its milestone, hands the pulse to the next, and names what was reached.",
+      "files": [
+        {
+          "path": "registry/ui/journey-map.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-328"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "season-track",
+      "type": "registry:ui",
+      "title": "Season Track",
+      "description": "A two-lane season pass with a closing window: free and premium rows across eight tiers, an unclaimed counter that nags, and a retroactive payout when premium unlocks — which is exactly why the pattern works, shown honestly. Ending the season expires everything unclaimed, in view, because the expiry is the whole point of a season.",
+      "files": [
+        {
+          "path": "registry/ui/season-track.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-329"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "territory-grid",
+      "type": "registry:ui",
+      "title": "Territory Grid",
+      "description": "A board two sides expand across, where you may only claim tiles touching what you already hold — so the frontier, not the whole grid, is the decision. Claims ripple into their neighbours, surrounding an enemy tile captures it, and the opponent answers from a fixed sequence so the same board plays the same way for everyone.",
+      "files": [
+        {
+          "path": "registry/ui/territory-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-330"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ladder-climb",
+      "type": "registry:ui",
+      "title": "Ladder Climb",
+      "description": "A competitive ladder you can fall down, which is the only reason climbing it matters: promotions light the band and unfurl a banner, demotions dim it and say so plainly with no sparks and no ceremony. A demotion shield absorbs the first loss at the bottom of a division, so the fall reads as fair rather than arbitrary.",
+      "files": [
+        {
+          "path": "registry/ui/ladder-climb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-331"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "checkpoint-run",
+      "type": "registry:ui",
+      "title": "Checkpoint Run",
+      "description": "A run measured in ground covered, with flags that plant as you pass them and a stumble that throws you back to the last one — quickly, and a little ugly, because losing ground should not look graceful. Progress that cannot be lost is not progress, it is a countdown; the best distance persists so you always have your own mark to beat.",
+      "files": [
+        {
+          "path": "registry/ui/checkpoint-run.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-332"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

@@ -5482,6 +5482,86 @@ Notes:
 - Blinking is the cheapest aliveness cue in the component and worth every line of it.
 - Reduced motion swaps poses for feeding, playing, and stage-ups without bounces or sparks.
 
+### Journey Map (KQ-328) — `journey-map`
+The road lights up behind you.
+
+A winding campaign path where the road lights up behind you: the avatar travels an authored waypoint route while a dash-clipped overlay follows it exactly, so progress reads as ground covered rather than a bar filling. Each arrival pops its milestone, hands the pulse to the next, and names what was reached.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/journey-map`
+
+Props:
+- `milestones`: Milestone[] — Label and hint per node; positions are authored, never measured.
+- `at`: number (default 2) — Which milestone the avatar starts on.
+
+Notes:
+- Path geometry and node positions are fixed constants — identical on server and client.
+- The lit trail and the avatar share one duration so the road never leads or lags the traveller.
+- Reduced motion jumps the avatar and steps the trail to length.
+
+### Season Track (KQ-329) — `season-track`
+The window closes. That is the point.
+
+A two-lane season pass with a closing window: free and premium rows across eight tiers, an unclaimed counter that nags, and a retroactive payout when premium unlocks — which is exactly why the pattern works, shown honestly. Ending the season expires everything unclaimed, in view, because the expiry is the whole point of a season.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/season-track`
+
+Props:
+- `tiers / perClick`: number · number (default 8 · 40) — Track length and progress per earn, at 100 per tier.
+- `daysLeft`: number (default 12) — Shown in the header; a prop, never computed from a clock.
+
+Notes:
+- Unlocking premium pays out every passed tier at once — the retroactive drop is the mechanic, not a bug.
+- Expiry greys and strikes unclaimed rewards rather than quietly removing them.
+- The track scrolls inside its own container; the page never scrolls sideways.
+
+### Territory Grid (KQ-330) — `territory-grid`
+You can only grow from what you hold.
+
+A board two sides expand across, where you may only claim tiles touching what you already hold — so the frontier, not the whole grid, is the decision. Claims ripple into their neighbours, surrounding an enemy tile captures it, and the opponent answers from a fixed sequence so the same board plays the same way for everyone.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/territory-grid`
+
+Props:
+- `cols / rows`: number · number (default 7 · 5) — Board size.
+- `onCapture`: (count: number) => void — Fires when a surround flips a tile.
+
+Notes:
+- Adjacency gating is the strategy — non-bordering neutrals are inert and look it.
+- The opponent replays a fixed sequence; a demo whose rival improvises cannot be reasoned about.
+- Reduced motion swaps tile colours instantly and keeps captures and captions.
+
+### Ladder Climb (KQ-331) — `ladder-climb`
+Falling is faster than climbing.
+
+A competitive ladder you can fall down, which is the only reason climbing it matters: promotions light the band and unfurl a banner, demotions dim it and say so plainly with no sparks and no ceremony. A demotion shield absorbs the first loss at the bottom of a division, so the fall reads as fair rather than arbitrary.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ladder-climb`
+
+Props:
+- `divisions`: string[] — Bottom to top; six by default.
+- `perWin / perLoss`: number · number (default 34 · 28) — Progress gained and lost per match.
+
+Notes:
+- Demotion is deliberately unglamorous — legible, but never celebrated.
+- The shield absorbs one loss at a division floor and regenerates after two wins.
+- Reduced motion jumps the marker and keeps both captions.
+
+### Checkpoint Run (KQ-332) — `checkpoint-run`
+Progress you cannot lose is a countdown.
+
+A run measured in ground covered, with flags that plant as you pass them and a stumble that throws you back to the last one — quickly, and a little ugly, because losing ground should not look graceful. Progress that cannot be lost is not progress, it is a countdown; the best distance persists so you always have your own mark to beat.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/checkpoint-run`
+
+Props:
+- `checkpoints / segmentsPerLeg`: number · number (default 5 · 4) — Flags on the route and steps between them.
+- `onCheckpoint / onFinish`: (index) => void · () => void — Fires per flag planted, and at the line.
+
+Notes:
+- The stumble is faster than the crawl forward — asymmetry is what makes checkpoints valuable.
+- The best distance survives resets; chasing your own mark is the loop.
+- Reduced motion snaps the runner back with the caption and no tumble.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

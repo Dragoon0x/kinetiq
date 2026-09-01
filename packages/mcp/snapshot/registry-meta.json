@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 326,
+      "components": 331,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -19422,6 +19422,291 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/pet-companion",
         "bun": "bunx --bun shadcn@latest add @kinetiq/pet-companion",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/pet-companion.json"
+      }
+    },
+    {
+      "slug": "journey-map",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Journey Map",
+      "serial": "KQ-328",
+      "tagline": "The road lights up behind you.",
+      "description": "A winding campaign path where the road lights up behind you: the avatar travels an authored waypoint route while a dash-clipped overlay follows it exactly, so progress reads as ground covered rather than a bar filling. Each arrival pops its milestone, hands the pulse to the next, and names what was reached.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "journey",
+        "map",
+        "milestones",
+        "path",
+        "progress"
+      ],
+      "props": [
+        {
+          "name": "milestones",
+          "type": "Milestone[]",
+          "description": "Label and hint per node; positions are authored, never measured."
+        },
+        {
+          "name": "at",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Which milestone the avatar starts on."
+        }
+      ],
+      "usageNotes": [
+        "Path geometry and node positions are fixed constants — identical on server and client.",
+        "The lit trail and the avatar share one duration so the road never leads or lags the traveller.",
+        "Reduced motion jumps the avatar and steps the trail to length."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/journey-map",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/journey-map.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/journey-map",
+        "npm": "npx shadcn@latest add @kinetiq/journey-map",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/journey-map",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/journey-map",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/journey-map.json"
+      }
+    },
+    {
+      "slug": "season-track",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Season Track",
+      "serial": "KQ-329",
+      "tagline": "The window closes. That is the point.",
+      "description": "A two-lane season pass with a closing window: free and premium rows across eight tiers, an unclaimed counter that nags, and a retroactive payout when premium unlocks — which is exactly why the pattern works, shown honestly. Ending the season expires everything unclaimed, in view, because the expiry is the whole point of a season.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "season",
+        "battle pass",
+        "tiers",
+        "claim",
+        "expiry"
+      ],
+      "props": [
+        {
+          "name": "tiers / perClick",
+          "type": "number · number",
+          "defaultValue": "8 · 40",
+          "description": "Track length and progress per earn, at 100 per tier."
+        },
+        {
+          "name": "daysLeft",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "Shown in the header; a prop, never computed from a clock."
+        }
+      ],
+      "usageNotes": [
+        "Unlocking premium pays out every passed tier at once — the retroactive drop is the mechanic, not a bug.",
+        "Expiry greys and strikes unclaimed rewards rather than quietly removing them.",
+        "The track scrolls inside its own container; the page never scrolls sideways."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/season-track",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/season-track.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/season-track",
+        "npm": "npx shadcn@latest add @kinetiq/season-track",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/season-track",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/season-track",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/season-track.json"
+      }
+    },
+    {
+      "slug": "territory-grid",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Territory Grid",
+      "serial": "KQ-330",
+      "tagline": "You can only grow from what you hold.",
+      "description": "A board two sides expand across, where you may only claim tiles touching what you already hold — so the frontier, not the whole grid, is the decision. Claims ripple into their neighbours, surrounding an enemy tile captures it, and the opponent answers from a fixed sequence so the same board plays the same way for everyone.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "territory",
+        "grid",
+        "claim",
+        "control",
+        "board"
+      ],
+      "props": [
+        {
+          "name": "cols / rows",
+          "type": "number · number",
+          "defaultValue": "7 · 5",
+          "description": "Board size."
+        },
+        {
+          "name": "onCapture",
+          "type": "(count: number) => void",
+          "description": "Fires when a surround flips a tile."
+        }
+      ],
+      "usageNotes": [
+        "Adjacency gating is the strategy — non-bordering neutrals are inert and look it.",
+        "The opponent replays a fixed sequence; a demo whose rival improvises cannot be reasoned about.",
+        "Reduced motion swaps tile colours instantly and keeps captures and captions."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/territory-grid",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/territory-grid.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/territory-grid",
+        "npm": "npx shadcn@latest add @kinetiq/territory-grid",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/territory-grid",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/territory-grid",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/territory-grid.json"
+      }
+    },
+    {
+      "slug": "ladder-climb",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ladder Climb",
+      "serial": "KQ-331",
+      "tagline": "Falling is faster than climbing.",
+      "description": "A competitive ladder you can fall down, which is the only reason climbing it matters: promotions light the band and unfurl a banner, demotions dim it and say so plainly with no sparks and no ceremony. A demotion shield absorbs the first loss at the bottom of a division, so the fall reads as fair rather than arbitrary.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "ladder",
+        "rank",
+        "division",
+        "promotion",
+        "demotion"
+      ],
+      "props": [
+        {
+          "name": "divisions",
+          "type": "string[]",
+          "description": "Bottom to top; six by default."
+        },
+        {
+          "name": "perWin / perLoss",
+          "type": "number · number",
+          "defaultValue": "34 · 28",
+          "description": "Progress gained and lost per match."
+        }
+      ],
+      "usageNotes": [
+        "Demotion is deliberately unglamorous — legible, but never celebrated.",
+        "The shield absorbs one loss at a division floor and regenerates after two wins.",
+        "Reduced motion jumps the marker and keeps both captions."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/ladder-climb",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/ladder-climb.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ladder-climb",
+        "npm": "npx shadcn@latest add @kinetiq/ladder-climb",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ladder-climb",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ladder-climb",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/ladder-climb.json"
+      }
+    },
+    {
+      "slug": "checkpoint-run",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Checkpoint Run",
+      "serial": "KQ-332",
+      "tagline": "Progress you cannot lose is a countdown.",
+      "description": "A run measured in ground covered, with flags that plant as you pass them and a stumble that throws you back to the last one — quickly, and a little ugly, because losing ground should not look graceful. Progress that cannot be lost is not progress, it is a countdown; the best distance persists so you always have your own mark to beat.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "run",
+        "checkpoint",
+        "progress",
+        "setback",
+        "best"
+      ],
+      "props": [
+        {
+          "name": "checkpoints / segmentsPerLeg",
+          "type": "number · number",
+          "defaultValue": "5 · 4",
+          "description": "Flags on the route and steps between them."
+        },
+        {
+          "name": "onCheckpoint / onFinish",
+          "type": "(index) => void · () => void",
+          "description": "Fires per flag planted, and at the line."
+        }
+      ],
+      "usageNotes": [
+        "The stumble is faster than the crawl forward — asymmetry is what makes checkpoints valuable.",
+        "The best distance survives resets; chasing your own mark is the loop.",
+        "Reduced motion snaps the runner back with the caption and no tumble."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/checkpoint-run",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/checkpoint-run.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/checkpoint-run",
+        "npm": "npx shadcn@latest add @kinetiq/checkpoint-run",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/checkpoint-run",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/checkpoint-run",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/checkpoint-run.json"
       }
     },
     {
