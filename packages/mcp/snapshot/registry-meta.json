@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 246,
+      "components": 251,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -15121,6 +15121,276 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/vignette-distill",
         "bun": "bunx --bun shadcn@latest add @kinetiq/vignette-distill",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/vignette-distill.json"
+      }
+    },
+    {
+      "slug": "bubble-pop",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Bubble Pop",
+      "serial": "KQ-248",
+      "tagline": "The sheet everyone fights over, shipped.",
+      "description": "A sheet of bubble wrap you actually get to pop: every bubble is a real button, each press squashes it flat with a crisp snap and a four-fleck puff, and the counter underneath keeps honest score. Pop them all and the sheet takes a breath, then re-inflates in a cascade — because the only thing better than bubble wrap is more bubble wrap.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "bubble wrap",
+        "pop",
+        "fidget",
+        "toy",
+        "grid"
+      ],
+      "props": [
+        {
+          "name": "columns / rows",
+          "type": "number · number",
+          "defaultValue": "6 · 4",
+          "description": "The sheet's dimensions."
+        },
+        {
+          "name": "onAllPopped",
+          "type": "() => void",
+          "description": "Fires when the last bubble goes."
+        }
+      ],
+      "usageNotes": [
+        "Every bubble is a focusable button with its own label — the toy is fully keyboard-playable.",
+        "Puff angles come from a fixed table; two visitors popping the same bubble see the same puff.",
+        "Reduced motion swaps pops instantly — flat is flat, no squash, no puff."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/bubble-pop",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/bubble-pop.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/bubble-pop",
+        "npm": "npx shadcn@latest add @kinetiq/bubble-pop",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/bubble-pop",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/bubble-pop",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/bubble-pop.json"
+      }
+    },
+    {
+      "slug": "poke-pudding",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Poke Pudding",
+      "serial": "KQ-249",
+      "tagline": "It jiggles. It judges. It forgives.",
+      "description": "A pudding with a face and opinions about being poked. Press and it squashes; release and it jiggles back on a real spring; poke it three times fast and it goes briefly dizzy before composing itself. Not a physics simulation — a character, which is why the eyes matter more than the wobble.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "pudding",
+        "wobble",
+        "poke",
+        "mascot",
+        "toy"
+      ],
+      "props": [
+        {
+          "name": "flavor",
+          "type": "\"caramel\" | \"berry\" | \"matcha\"",
+          "defaultValue": "\"caramel\"",
+          "description": "The top layer's tint."
+        },
+        {
+          "name": "onPoke",
+          "type": "(count: number) => void",
+          "description": "Fires per poke with the running count."
+        }
+      ],
+      "usageNotes": [
+        "Rapid pokes re-squash from wherever the jiggle currently is — the spring is interruptible by design.",
+        "The blink runs on a fixed interval; the dizzy face needs three pokes inside a second and a half.",
+        "Reduced motion swaps between two still poses and keeps the face."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/poke-pudding",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/poke-pudding.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/poke-pudding",
+        "npm": "npx shadcn@latest add @kinetiq/poke-pudding",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/poke-pudding",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/poke-pudding",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/poke-pudding.json"
+      }
+    },
+    {
+      "slug": "stamp-pad",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Stamp Pad",
+      "serial": "KQ-250",
+      "tagline": "Approval, applied liberally.",
+      "description": "A blank sheet and a tray of stamps: click anywhere and the next stamp slams down at that exact spot — oversized, slightly rotated, thunking to rest with an impact ring. Rotations and colors cycle from fixed tables, the sheet holds two dozen before it clears itself, and keyboard users stamp a tidy grid of their own.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "stamp",
+        "click",
+        "sheet",
+        "toy",
+        "collect"
+      ],
+      "props": [
+        {
+          "name": "stamps",
+          "type": "{ id, icon, color }[]",
+          "description": "The rotation of stamps; defaults to six joyful glyphs."
+        },
+        {
+          "name": "cap",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "Stamps held before the sheet clears itself."
+        }
+      ],
+      "usageNotes": [
+        "Stamp order, rotation, and color all cycle from fixed arrays — no randomness, identical replay.",
+        "Clear fades the sheet with a cascade stagger; the cap clear happens before the next stamp lands.",
+        "Reduced motion places stamps at rest instantly, no ring, instant clear."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/stamp-pad",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/stamp-pad.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stamp-pad",
+        "npm": "npx shadcn@latest add @kinetiq/stamp-pad",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stamp-pad",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stamp-pad",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/stamp-pad.json"
+      }
+    },
+    {
+      "slug": "cookie-bite",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cookie Bite",
+      "serial": "KQ-251",
+      "tagline": "Five bites, no regrets, free refills.",
+      "description": "A cookie you eat one click at a time: five bites disappear from the rim in a fixed order through an SVG mask, each with a startle squash and three crumbs arcing to the plate. When it is gone, the plate admits “worth it” — and a fresh one springs in, because grief should be brief.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "cookie",
+        "bite",
+        "snack",
+        "click",
+        "toy"
+      ],
+      "props": [
+        {
+          "name": "bites",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "How many bites the cookie survives (3–6)."
+        },
+        {
+          "name": "onBite / onFinish",
+          "type": "(n) => void · () => void",
+          "description": "Per bite, and when only crumbs remain."
+        }
+      ],
+      "usageNotes": [
+        "Bite positions are a precomputed table — the same cookie every time, which is how cookies should work.",
+        "A polite live region counts the bites for screen readers.",
+        "Reduced motion swaps the mask instantly — no crumbs, no squash, instant refill."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/cookie-bite",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/cookie-bite.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cookie-bite",
+        "npm": "npx shadcn@latest add @kinetiq/cookie-bite",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cookie-bite",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cookie-bite",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/cookie-bite.json"
+      }
+    },
+    {
+      "slug": "hatchling",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Hatchling",
+      "serial": "KQ-252",
+      "tagline": "Three taps. One wink. No omelette.",
+      "description": "An egg that hatches in three taps: the first jolts a crack into it, the second chips the shell, and the third pops the top so a chick can rise, look both ways, and wink. A fourth tap tucks everything back in for the next visitor. The caption underplays the whole thing, which is the correct amount of ceremony.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "egg",
+        "hatch",
+        "chick",
+        "surprise",
+        "toy"
+      ],
+      "props": [
+        {
+          "name": "onHatch",
+          "type": "() => void",
+          "description": "Fires when the chick appears."
+        }
+      ],
+      "usageNotes": [
+        "Cracks draw in with pathLength tweens; the shell pop is the only spring with real theatre.",
+        "The look-left-look-right-wink is authored keyframes on one clock — the same performance every hatch.",
+        "Reduced motion steps through four still states: whole, cracked, chipped, hatched."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/hatchling",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hatchling.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hatchling",
+        "npm": "npx shadcn@latest add @kinetiq/hatchling",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hatchling",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hatchling",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hatchling.json"
       }
     },
     {

@@ -206,6 +206,11 @@ import { ConfettiPopDemo } from "@/registry/demos/confetti-pop.demo";
 import { SoundToggleDemo } from "@/registry/demos/sound-toggle.demo";
 import { StickerPeelDemo } from "@/registry/demos/sticker-peel.demo";
 import { BoopMascotDemo } from "@/registry/demos/boop-mascot.demo";
+import { BubblePopDemo } from "@/registry/demos/bubble-pop.demo";
+import { PokePuddingDemo } from "@/registry/demos/poke-pudding.demo";
+import { StampPadDemo } from "@/registry/demos/stamp-pad.demo";
+import { CookieBiteDemo } from "@/registry/demos/cookie-bite.demo";
+import { HatchlingDemo } from "@/registry/demos/hatchling.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -634,6 +639,11 @@ export const demos: Record<string, ComponentType> = {
   "sound-toggle": SoundToggleDemo,
   "sticker-peel": StickerPeelDemo,
   "boop-mascot": BoopMascotDemo,
+  "bubble-pop": BubblePopDemo,
+  "poke-pudding": PokePuddingDemo,
+  "stamp-pad": StampPadDemo,
+  "cookie-bite": CookieBiteDemo,
+  hatchling: HatchlingDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

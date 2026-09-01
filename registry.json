@@ -6517,6 +6517,142 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bubble-pop",
+      "type": "registry:ui",
+      "title": "Bubble Pop",
+      "description": "A sheet of bubble wrap you actually get to pop: every bubble is a real button, each press squashes it flat with a crisp snap and a four-fleck puff, and the counter underneath keeps honest score. Pop them all and the sheet takes a breath, then re-inflates in a cascade — because the only thing better than bubble wrap is more bubble wrap.",
+      "files": [
+        {
+          "path": "registry/ui/bubble-pop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-248"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "poke-pudding",
+      "type": "registry:ui",
+      "title": "Poke Pudding",
+      "description": "A pudding with a face and opinions about being poked. Press and it squashes; release and it jiggles back on a real spring; poke it three times fast and it goes briefly dizzy before composing itself. Not a physics simulation — a character, which is why the eyes matter more than the wobble.",
+      "files": [
+        {
+          "path": "registry/ui/poke-pudding.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-249"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stamp-pad",
+      "type": "registry:ui",
+      "title": "Stamp Pad",
+      "description": "A blank sheet and a tray of stamps: click anywhere and the next stamp slams down at that exact spot — oversized, slightly rotated, thunking to rest with an impact ring. Rotations and colors cycle from fixed tables, the sheet holds two dozen before it clears itself, and keyboard users stamp a tidy grid of their own.",
+      "files": [
+        {
+          "path": "registry/ui/stamp-pad.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-250"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cookie-bite",
+      "type": "registry:ui",
+      "title": "Cookie Bite",
+      "description": "A cookie you eat one click at a time: five bites disappear from the rim in a fixed order through an SVG mask, each with a startle squash and three crumbs arcing to the plate. When it is gone, the plate admits “worth it” — and a fresh one springs in, because grief should be brief.",
+      "files": [
+        {
+          "path": "registry/ui/cookie-bite.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-251"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hatchling",
+      "type": "registry:ui",
+      "title": "Hatchling",
+      "description": "An egg that hatches in three taps: the first jolts a crack into it, the second chips the shell, and the third pops the top so a chick can rise, look both ways, and wink. A fourth tap tucks everything back in for the next visitor. The caption underplays the whole thing, which is the correct amount of ceremony.",
+      "files": [
+        {
+          "path": "registry/ui/hatchling.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-252"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
