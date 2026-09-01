@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 341,
+      "components": 346,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -20252,6 +20252,297 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/emote-wheel",
         "bun": "bunx --bun shadcn@latest add @kinetiq/emote-wheel",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/emote-wheel.json"
+      }
+    },
+    {
+      "slug": "unlock-gate",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Unlock Gate",
+      "serial": "KQ-343",
+      "tagline": "A gate that never refuses is a door.",
+      "description": "The feature that stayed greyed out for a week, finally opening: the requirement meter fills, the padlock lifts and falls away, the plate splits down the middle, and the blur drops off something that was genuinely there the whole time. Short of the threshold the plate refuses — a shake, a rattle, and a caption — because a gate that never says no has taught nobody anything.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "unlock",
+        "gate",
+        "locked",
+        "reveal",
+        "progression"
+      ],
+      "props": [
+        {
+          "name": "requirement",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "Steps needed before the gate opens."
+        },
+        {
+          "name": "onUnlock",
+          "type": "() => void",
+          "description": "Fires once the plate clears."
+        }
+      ],
+      "usageNotes": [
+        "What is revealed is a working panel with a real control, not a grey rectangle — the reveal only lands if something is behind it.",
+        "The refusal below the threshold is the design; it is what makes the opening mean anything.",
+        "Reduced motion removes the plate in one step and turns the refusal into a caption."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/unlock-gate",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/unlock-gate.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/unlock-gate",
+        "npm": "npx shadcn@latest add @kinetiq/unlock-gate",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/unlock-gate",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/unlock-gate",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/unlock-gate.json"
+      }
+    },
+    {
+      "slug": "prestige-reset",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Prestige Reset",
+      "serial": "KQ-344",
+      "tagline": "The pause before the star.",
+      "description": "Trading everything you built for a mark that says you did it. The stats drain one row at a time, the level counts itself down, and then the whole panel goes quiet for a beat before the new star ignites — that held pause is the most important frame in the sequence. It confirms before it commits, which is not friction but the acknowledgement the ceremony runs on.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "prestige",
+        "rebirth",
+        "reset",
+        "ceremony",
+        "meta"
+      ],
+      "props": [
+        {
+          "name": "startLevel",
+          "type": "number",
+          "defaultValue": "50",
+          "description": "The level a prestige trades away."
+        },
+        {
+          "name": "maxStars",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Stars available before the button retires."
+        },
+        {
+          "name": "onPrestige",
+          "type": "(stars: number) => void",
+          "description": "Fires with the new star count."
+        }
+      ],
+      "usageNotes": [
+        "The two-step confirm is deliberate — a destructive ceremony with a one-click trigger is a bug report waiting to happen.",
+        "The countdown steps off an interval tick counter, never a clock, so it behaves identically everywhere.",
+        "Reduced motion swaps every value in one step and still requires the confirm."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/prestige-reset",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/prestige-reset.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/prestige-reset",
+        "npm": "npx shadcn@latest add @kinetiq/prestige-reset",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/prestige-reset",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/prestige-reset",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/prestige-reset.json"
+      }
+    },
+    {
+      "slug": "tier-upgrade",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tier Upgrade",
+      "serial": "KQ-345",
+      "tagline": "The reveal happens mid-flip.",
+      "description": "Status made physical: a membership card that flips into its next self, where the new face only ever comes around mid-flip and is never visible early. Each rung changes the material, the perk, and the figure, because a flip that lands on the card you already had is the exact failure this component exists to avoid. Stepping back flips the other way, so the direction of travel reads.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "tier",
+        "upgrade",
+        "card",
+        "flip",
+        "status"
+      ],
+      "props": [
+        {
+          "name": "holder",
+          "type": "string",
+          "description": "Name carried on the card."
+        },
+        {
+          "name": "startTier",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Starting rung on the five-tier ladder."
+        },
+        {
+          "name": "onUpgrade",
+          "type": "(tier: string) => void",
+          "description": "Fires with the tier just reached."
+        }
+      ],
+      "usageNotes": [
+        "Sparks are held back for the top tier alone — spending them on every rung is what makes a ladder feel flat.",
+        "Both faces set backfaceVisibility, so the incoming tier cannot be read before the card turns.",
+        "Reduced motion swaps the card in place and sets the figure without rolling it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/tier-upgrade",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/tier-upgrade.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tier-upgrade",
+        "npm": "npx shadcn@latest add @kinetiq/tier-upgrade",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tier-upgrade",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tier-upgrade",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/tier-upgrade.json"
+      }
+    },
+    {
+      "slug": "mission-board",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mission Board",
+      "serial": "KQ-346",
+      "tagline": "Scarcity is what makes a choice a choice.",
+      "description": "A board you take work FROM, which is a different instrument from a list of what you already hold: postings are pinned and unclaimed, the slots that hold them are few, and accepting one lifts it off its pin and carries it into a slot, leaving the hole behind so the board reads as depleted. With every slot full the board refuses — the card tugs against its pin and springs back.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "missions",
+        "board",
+        "assignments",
+        "claim",
+        "meta"
+      ],
+      "props": [
+        {
+          "name": "slots",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Active missions you may hold at once."
+        },
+        {
+          "name": "onTurnIn",
+          "type": "(reward: number) => void",
+          "description": "Fires with the reward as a mission is turned in."
+        }
+      ],
+      "usageNotes": [
+        "Pin angles and the refresh rotation come from fixed tables, so a board looks the same on every render.",
+        "The limited slots are the whole device — without them this is a quest log, and the catalog already has one.",
+        "Reduced motion moves cards in one step and turns the refusal into a caption."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/mission-board",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/mission-board.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mission-board",
+        "npm": "npx shadcn@latest add @kinetiq/mission-board",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mission-board",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mission-board",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/mission-board.json"
+      }
+    },
+    {
+      "slug": "return-gift",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Return Gift",
+      "serial": "KQ-347",
+      "tagline": "Glad you are back, never guilt.",
+      "description": "The loop reaching back out: a parcel waiting because you were gone, whose box visibly grows richer with the length of the absence, so the reward is legible before it is ever opened. The ribbon unties, the lid tips away, and the gifts rise one at a time with the best one held back for last — the order of a reveal is most of the reward. The greeting is glad you are back and never once mentions how long it took.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "return",
+        "gift",
+        "welcome back",
+        "retention",
+        "reward"
+      ],
+      "props": [
+        {
+          "name": "absenceOptions",
+          "type": "Absence[]",
+          "description": "Selectable absences; each carries the tier it unwraps."
+        },
+        {
+          "name": "onCollect",
+          "type": "(total: number) => void",
+          "description": "Fires with the collected total."
+        }
+      ],
+      "usageNotes": [
+        "Gift contents come from a fixed per-tier table rather than a roll, so any tier can be demonstrated on demand.",
+        "The tone is a constraint, not decoration — a welcome-back that scolds is worse than no welcome at all.",
+        "Reduced motion presents the gifts in place at once and still rolls the collected total as a stepped figure."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/return-gift",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/return-gift.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/return-gift",
+        "npm": "npx shadcn@latest add @kinetiq/return-gift",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/return-gift",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/return-gift",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/return-gift.json"
       }
     },
     {

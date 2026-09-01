@@ -5721,6 +5721,88 @@ Notes:
 - Arrow keys move the highlight and the number row selects directly — a radial control still has to answer a keyboard.
 - Reduced motion opens the wheel already fanned, plays the emote at its end position, and steps the cooldown as a numeral.
 
+### Unlock Gate (KQ-343) — `unlock-gate`
+A gate that never refuses is a door.
+
+The feature that stayed greyed out for a week, finally opening: the requirement meter fills, the padlock lifts and falls away, the plate splits down the middle, and the blur drops off something that was genuinely there the whole time. Short of the threshold the plate refuses — a shake, a rattle, and a caption — because a gate that never says no has taught nobody anything.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/unlock-gate`
+
+Props:
+- `requirement`: number (default 8) — Steps needed before the gate opens.
+- `onUnlock`: () => void — Fires once the plate clears.
+
+Notes:
+- What is revealed is a working panel with a real control, not a grey rectangle — the reveal only lands if something is behind it.
+- The refusal below the threshold is the design; it is what makes the opening mean anything.
+- Reduced motion removes the plate in one step and turns the refusal into a caption.
+
+### Prestige Reset (KQ-344) — `prestige-reset`
+The pause before the star.
+
+Trading everything you built for a mark that says you did it. The stats drain one row at a time, the level counts itself down, and then the whole panel goes quiet for a beat before the new star ignites — that held pause is the most important frame in the sequence. It confirms before it commits, which is not friction but the acknowledgement the ceremony runs on.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/prestige-reset`
+
+Props:
+- `startLevel`: number (default 50) — The level a prestige trades away.
+- `maxStars`: number (default 5) — Stars available before the button retires.
+- `onPrestige`: (stars: number) => void — Fires with the new star count.
+
+Notes:
+- The two-step confirm is deliberate — a destructive ceremony with a one-click trigger is a bug report waiting to happen.
+- The countdown steps off an interval tick counter, never a clock, so it behaves identically everywhere.
+- Reduced motion swaps every value in one step and still requires the confirm.
+
+### Tier Upgrade (KQ-345) — `tier-upgrade`
+The reveal happens mid-flip.
+
+Status made physical: a membership card that flips into its next self, where the new face only ever comes around mid-flip and is never visible early. Each rung changes the material, the perk, and the figure, because a flip that lands on the card you already had is the exact failure this component exists to avoid. Stepping back flips the other way, so the direction of travel reads.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tier-upgrade`
+
+Props:
+- `holder`: string — Name carried on the card.
+- `startTier`: number (default 0) — Starting rung on the five-tier ladder.
+- `onUpgrade`: (tier: string) => void — Fires with the tier just reached.
+
+Notes:
+- Sparks are held back for the top tier alone — spending them on every rung is what makes a ladder feel flat.
+- Both faces set backfaceVisibility, so the incoming tier cannot be read before the card turns.
+- Reduced motion swaps the card in place and sets the figure without rolling it.
+
+### Mission Board (KQ-346) — `mission-board`
+Scarcity is what makes a choice a choice.
+
+A board you take work FROM, which is a different instrument from a list of what you already hold: postings are pinned and unclaimed, the slots that hold them are few, and accepting one lifts it off its pin and carries it into a slot, leaving the hole behind so the board reads as depleted. With every slot full the board refuses — the card tugs against its pin and springs back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mission-board`
+
+Props:
+- `slots`: number (default 3) — Active missions you may hold at once.
+- `onTurnIn`: (reward: number) => void — Fires with the reward as a mission is turned in.
+
+Notes:
+- Pin angles and the refresh rotation come from fixed tables, so a board looks the same on every render.
+- The limited slots are the whole device — without them this is a quest log, and the catalog already has one.
+- Reduced motion moves cards in one step and turns the refusal into a caption.
+
+### Return Gift (KQ-347) — `return-gift`
+Glad you are back, never guilt.
+
+The loop reaching back out: a parcel waiting because you were gone, whose box visibly grows richer with the length of the absence, so the reward is legible before it is ever opened. The ribbon unties, the lid tips away, and the gifts rise one at a time with the best one held back for last — the order of a reveal is most of the reward. The greeting is glad you are back and never once mentions how long it took.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/return-gift`
+
+Props:
+- `absenceOptions`: Absence[] — Selectable absences; each carries the tier it unwraps.
+- `onCollect`: (total: number) => void — Fires with the collected total.
+
+Notes:
+- Gift contents come from a fixed per-tier table rather than a roll, so any tier can be demonstrated on demand.
+- The tone is a constraint, not decoration — a welcome-back that scolds is worse than no welcome at all.
+- Reduced motion presents the gifts in place at once and still rolls the collected total as a stepped figure.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

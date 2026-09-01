@@ -9140,6 +9140,147 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "unlock-gate",
+      "type": "registry:ui",
+      "title": "Unlock Gate",
+      "description": "The feature that stayed greyed out for a week, finally opening: the requirement meter fills, the padlock lifts and falls away, the plate splits down the middle, and the blur drops off something that was genuinely there the whole time. Short of the threshold the plate refuses — a shake, a rattle, and a caption — because a gate that never says no has taught nobody anything.",
+      "files": [
+        {
+          "path": "registry/ui/unlock-gate.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-343"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "prestige-reset",
+      "type": "registry:ui",
+      "title": "Prestige Reset",
+      "description": "Trading everything you built for a mark that says you did it. The stats drain one row at a time, the level counts itself down, and then the whole panel goes quiet for a beat before the new star ignites — that held pause is the most important frame in the sequence. It confirms before it commits, which is not friction but the acknowledgement the ceremony runs on.",
+      "files": [
+        {
+          "path": "registry/ui/prestige-reset.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-344"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tier-upgrade",
+      "type": "registry:ui",
+      "title": "Tier Upgrade",
+      "description": "Status made physical: a membership card that flips into its next self, where the new face only ever comes around mid-flip and is never visible early. Each rung changes the material, the perk, and the figure, because a flip that lands on the card you already had is the exact failure this component exists to avoid. Stepping back flips the other way, so the direction of travel reads.",
+      "files": [
+        {
+          "path": "registry/ui/tier-upgrade.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-345"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mission-board",
+      "type": "registry:ui",
+      "title": "Mission Board",
+      "description": "A board you take work FROM, which is a different instrument from a list of what you already hold: postings are pinned and unclaimed, the slots that hold them are few, and accepting one lifts it off its pin and carries it into a slot, leaving the hole behind so the board reads as depleted. With every slot full the board refuses — the card tugs against its pin and springs back.",
+      "files": [
+        {
+          "path": "registry/ui/mission-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-346"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "return-gift",
+      "type": "registry:ui",
+      "title": "Return Gift",
+      "description": "The loop reaching back out: a parcel waiting because you were gone, whose box visibly grows richer with the length of the absence, so the reward is legible before it is ever opened. The ribbon unties, the lid tips away, and the gifts rise one at a time with the best one held back for last — the order of a reveal is most of the reward. The greeting is glad you are back and never once mentions how long it took.",
+      "files": [
+        {
+          "path": "registry/ui/return-gift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-347"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

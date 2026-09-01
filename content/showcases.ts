@@ -178,7 +178,9 @@ export const SHOWCASES: Showcase[] = [
     headline: "The loop, not the moment.",
     deck: "Quests that unlock the next quest, ranks that promote with ceremony, combos that decay while you watch \u2014 the systems that make an interface worth returning to.",
     hero: { slug: "quest-log", mode: "stage" },
-    leads: ["skill-tree", "rank-insignia", "combo-meter", "daily-check"],
+    // One lead per limb of the loop — earn, progress, compete, come back —
+    // rather than four neighbours from the same corner of the wing.
+    leads: ["loot-chest", "skill-tree", "duel-ready", "prestige-reset"],
     closing: "A loop earns the next session.",
   },
   {

@@ -301,6 +301,11 @@ import { GuildCrestDemo } from "@/registry/demos/guild-crest.demo";
 import { TeamRosterDemo } from "@/registry/demos/team-roster.demo";
 import { DuelReadyDemo } from "@/registry/demos/duel-ready.demo";
 import { EmoteWheelDemo } from "@/registry/demos/emote-wheel.demo";
+import { UnlockGateDemo } from "@/registry/demos/unlock-gate.demo";
+import { PrestigeResetDemo } from "@/registry/demos/prestige-reset.demo";
+import { TierUpgradeDemo } from "@/registry/demos/tier-upgrade.demo";
+import { MissionBoardDemo } from "@/registry/demos/mission-board.demo";
+import { ReturnGiftDemo } from "@/registry/demos/return-gift.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -824,6 +829,11 @@ export const demos: Record<string, ComponentType> = {
   "team-roster": TeamRosterDemo,
   "duel-ready": DuelReadyDemo,
   "emote-wheel": EmoteWheelDemo,
+  "unlock-gate": UnlockGateDemo,
+  "prestige-reset": PrestigeResetDemo,
+  "tier-upgrade": TierUpgradeDemo,
+  "mission-board": MissionBoardDemo,
+  "return-gift": ReturnGiftDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,
