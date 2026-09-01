@@ -251,6 +251,11 @@ import { ZenRakeDemo } from "@/registry/demos/zen-rake.demo";
 import { WindChimesDemo } from "@/registry/demos/wind-chimes.demo";
 import { FerrisGlowDemo } from "@/registry/demos/ferris-glow.demo";
 import { SkyBloomDemo } from "@/registry/demos/sky-bloom.demo";
+import { MailFoldDemo } from "@/registry/demos/mail-fold.demo";
+import { FridgePoetryDemo } from "@/registry/demos/fridge-poetry.demo";
+import { JuggleLoopDemo } from "@/registry/demos/juggle-loop.demo";
+import { RocketDrillDemo } from "@/registry/demos/rocket-drill.demo";
+import { ClawDropDemo } from "@/registry/demos/claw-drop.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -724,6 +729,11 @@ export const demos: Record<string, ComponentType> = {
   "wind-chimes": WindChimesDemo,
   "ferris-glow": FerrisGlowDemo,
   "sky-bloom": SkyBloomDemo,
+  "mail-fold": MailFoldDemo,
+  "fridge-poetry": FridgePoetryDemo,
+  "juggle-loop": JuggleLoopDemo,
+  "rocket-drill": RocketDrillDemo,
+  "claw-drop": ClawDropDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

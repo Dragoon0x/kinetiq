@@ -167,10 +167,10 @@ export const SHOWCASES: Showcase[] = [
   },
   {
     slug: "delight",
-    headline: "Small celebrations, calibrated.",
-    deck: "Taps, bursts, and reactions tuned to the millisecond — restraint is the point.",
-    hero: { slug: "confetti-pop", mode: "stage" },
-    leads: ["boop-mascot", "sticker-peel", "sound-toggle", "heart-tap"],
+    headline: "Toys, and the restraint to ration them.",
+    deck: "Bubble wrap that pops, a pudding that judges you, a claw machine that always catches — fifty small machines, every one deterministic and every one honest under reduced motion.",
+    hero: { slug: "bubble-pop", mode: "stage" },
+    leads: ["poke-pudding", "claw-drop", "snow-shake", "hatchling"],
     closing: "Delight rations itself.",
   },
   {

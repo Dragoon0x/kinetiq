@@ -4927,6 +4927,83 @@ Notes:
 - Three concurrent fireworks is the cap; further clicks wait rather than piling up.
 - Reduced motion paints the bloom at the click point with its sparks already landed, then fades it.
 
+### Mail Fold (KQ-293) — `mail-fold`
+It folds, it seals, it goes.
+
+A letter that folds itself into an envelope and leaves: the bottom third comes up, the top third comes down, a flap sweeps over, a seal presses on, and the whole thing tilts off the top-right corner trailing a dash of its own path. A fresh sheet drops in behind it. For sent-confirmations that deserve more than a checkmark.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mail-fold`
+
+Props:
+- `onSent`: () => void — Fires as the envelope leaves.
+
+Notes:
+- Folds scale from their own hinge edges — plain HTML transform origins, no 3D and no Safari surprises.
+- Clicks during the sequence are ignored; the letter always finishes leaving.
+- Reduced motion steps three stills: flat, sealed, gone.
+
+### Fridge Poetry (KQ-294) — `fridge-poetry`
+Ten words. No wrong answers.
+
+Word magnets on a fridge door, draggable into whatever sentence you like — each lands on a loose grid with a small jiggle that sells the weight of the magnet, and the one you touched last sits on top. Arrow keys move them a cell at a time, because a drag-only toy quietly excludes half its audience.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fridge-poetry`
+
+Props:
+- `words`: string[] — Override the built-in ten.
+- `onArrange`: (word: string) => void — Fires with each moved word.
+
+Notes:
+- Positions live in one state array; only the dragged magnet rides motion values, so hook count never varies.
+- Landing snaps to a 12px grid — loose enough to feel hand-placed, tight enough to line up.
+- Reduced motion keeps 1:1 dragging with instant snaps and no jiggle.
+
+### Juggle Loop (KQ-295) — `juggle-loop`
+Three, then four, then dropped.
+
+Three balls in a proper cascade, each on the same authored arc offset by a third of the cycle, with hands that dip as they catch. Click to add a ball up to five — the tempo tightens to keep it plausible — and one more click drops the lot before starting over. Hovering runs it in slow motion, which is when you can see the pattern.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/juggle-loop`
+
+Props:
+- `balls`: number (default 3) — Starting count (3–5).
+- `onDrop`: () => void — Fires when the pattern collapses.
+
+Notes:
+- Every ball runs the same keyframe arc with a phase delay — no per-ball hooks, so the count is free to change.
+- Hover scales the durations rather than restarting the loop, so slow motion never resets the pattern.
+- Reduced motion arranges the balls in a still tableau and keeps the counting.
+
+### Rocket Drill (KQ-296) — `rocket-drill`
+Three, two, one, and back again.
+
+A launch with a countdown and, unusually, a recovery: three numerals pop while the rocket trembles harder, the gantry swings clear, it climbs out of frame on smoke, and then a parachute drifts the capsule back down to the pad. Most launch animations forget the coming-back part, which is the half that makes it a drill.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rocket-drill`
+
+Props:
+- `onLaunch / onRecover`: () => void · () => void — Fires at liftoff, and again on landing.
+
+Notes:
+- The tremble escalates per count — the suspense is built from the same jitter at three amplitudes.
+- Every chained beat is a tracked timer, so an unmount mid-drill leaves nothing running.
+- Reduced motion steps the stills: pad, countdown, empty sky, parachute, landed.
+
+### Claw Drop (KQ-297) — `claw-drop`
+It always catches. That is the joke.
+
+A claw machine that always catches — the honesty is the joke. The trolley sweeps the rail so you still have to time it, but wherever you stop, the claw takes the nearest plush, lifts it, and delivers it down the chute to the tray. Clear the bed and it restocks. No odds, no coins, no disappointment.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/claw-drop`
+
+Props:
+- `onCatch`: (index: number) => void — Fires with the caught plush's index.
+
+Notes:
+- The catch is a nearest-index lookup against the frozen trolley position — deterministic, and the machine never cheats.
+- The bed empties as you win and restocks in a cascade once cleared.
+- Reduced motion parks the trolley and cycles through the remaining plushes so the toy still progresses.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

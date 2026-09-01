@@ -7743,6 +7743,141 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mail-fold",
+      "type": "registry:ui",
+      "title": "Mail Fold",
+      "description": "A letter that folds itself into an envelope and leaves: the bottom third comes up, the top third comes down, a flap sweeps over, a seal presses on, and the whole thing tilts off the top-right corner trailing a dash of its own path. A fresh sheet drops in behind it. For sent-confirmations that deserve more than a checkmark.",
+      "files": [
+        {
+          "path": "registry/ui/mail-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-293"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fridge-poetry",
+      "type": "registry:ui",
+      "title": "Fridge Poetry",
+      "description": "Word magnets on a fridge door, draggable into whatever sentence you like — each lands on a loose grid with a small jiggle that sells the weight of the magnet, and the one you touched last sits on top. Arrow keys move them a cell at a time, because a drag-only toy quietly excludes half its audience.",
+      "files": [
+        {
+          "path": "registry/ui/fridge-poetry.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-294"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "juggle-loop",
+      "type": "registry:ui",
+      "title": "Juggle Loop",
+      "description": "Three balls in a proper cascade, each on the same authored arc offset by a third of the cycle, with hands that dip as they catch. Click to add a ball up to five — the tempo tightens to keep it plausible — and one more click drops the lot before starting over. Hovering runs it in slow motion, which is when you can see the pattern.",
+      "files": [
+        {
+          "path": "registry/ui/juggle-loop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-295"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rocket-drill",
+      "type": "registry:ui",
+      "title": "Rocket Drill",
+      "description": "A launch with a countdown and, unusually, a recovery: three numerals pop while the rocket trembles harder, the gantry swings clear, it climbs out of frame on smoke, and then a parachute drifts the capsule back down to the pad. Most launch animations forget the coming-back part, which is the half that makes it a drill.",
+      "files": [
+        {
+          "path": "registry/ui/rocket-drill.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-296"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "claw-drop",
+      "type": "registry:ui",
+      "title": "Claw Drop",
+      "description": "A claw machine that always catches — the honesty is the joke. The trolley sweeps the rail so you still have to time it, but wherever you stop, the claw takes the nearest plush, lifts it, and delivers it down the chute to the tray. Clear the bed and it restocks. No odds, no coins, no disappointment.",
+      "files": [
+        {
+          "path": "registry/ui/claw-drop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-297"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

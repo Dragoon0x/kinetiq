@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 291,
+      "components": 296,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -17500,6 +17500,262 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/sky-bloom",
         "bun": "bunx --bun shadcn@latest add @kinetiq/sky-bloom",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/sky-bloom.json"
+      }
+    },
+    {
+      "slug": "mail-fold",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mail Fold",
+      "serial": "KQ-293",
+      "tagline": "It folds, it seals, it goes.",
+      "description": "A letter that folds itself into an envelope and leaves: the bottom third comes up, the top third comes down, a flap sweeps over, a seal presses on, and the whole thing tilts off the top-right corner trailing a dash of its own path. A fresh sheet drops in behind it. For sent-confirmations that deserve more than a checkmark.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "letter",
+        "fold",
+        "envelope",
+        "send",
+        "craft"
+      ],
+      "props": [
+        {
+          "name": "onSent",
+          "type": "() => void",
+          "description": "Fires as the envelope leaves."
+        }
+      ],
+      "usageNotes": [
+        "Folds scale from their own hinge edges — plain HTML transform origins, no 3D and no Safari surprises.",
+        "Clicks during the sequence are ignored; the letter always finishes leaving.",
+        "Reduced motion steps three stills: flat, sealed, gone."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/mail-fold",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/mail-fold.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mail-fold",
+        "npm": "npx shadcn@latest add @kinetiq/mail-fold",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mail-fold",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mail-fold",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/mail-fold.json"
+      }
+    },
+    {
+      "slug": "fridge-poetry",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Fridge Poetry",
+      "serial": "KQ-294",
+      "tagline": "Ten words. No wrong answers.",
+      "description": "Word magnets on a fridge door, draggable into whatever sentence you like — each lands on a loose grid with a small jiggle that sells the weight of the magnet, and the one you touched last sits on top. Arrow keys move them a cell at a time, because a drag-only toy quietly excludes half its audience.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "magnets",
+        "words",
+        "drag",
+        "keyboard",
+        "craft"
+      ],
+      "props": [
+        {
+          "name": "words",
+          "type": "string[]",
+          "description": "Override the built-in ten."
+        },
+        {
+          "name": "onArrange",
+          "type": "(word: string) => void",
+          "description": "Fires with each moved word."
+        }
+      ],
+      "usageNotes": [
+        "Positions live in one state array; only the dragged magnet rides motion values, so hook count never varies.",
+        "Landing snaps to a 12px grid — loose enough to feel hand-placed, tight enough to line up.",
+        "Reduced motion keeps 1:1 dragging with instant snaps and no jiggle."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/fridge-poetry",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/fridge-poetry.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/fridge-poetry",
+        "npm": "npx shadcn@latest add @kinetiq/fridge-poetry",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/fridge-poetry",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/fridge-poetry",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/fridge-poetry.json"
+      }
+    },
+    {
+      "slug": "juggle-loop",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Juggle Loop",
+      "serial": "KQ-295",
+      "tagline": "Three, then four, then dropped.",
+      "description": "Three balls in a proper cascade, each on the same authored arc offset by a third of the cycle, with hands that dip as they catch. Click to add a ball up to five — the tempo tightens to keep it plausible — and one more click drops the lot before starting over. Hovering runs it in slow motion, which is when you can see the pattern.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "juggle",
+        "cascade",
+        "loop",
+        "rhythm",
+        "craft"
+      ],
+      "props": [
+        {
+          "name": "balls",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Starting count (3–5)."
+        },
+        {
+          "name": "onDrop",
+          "type": "() => void",
+          "description": "Fires when the pattern collapses."
+        }
+      ],
+      "usageNotes": [
+        "Every ball runs the same keyframe arc with a phase delay — no per-ball hooks, so the count is free to change.",
+        "Hover scales the durations rather than restarting the loop, so slow motion never resets the pattern.",
+        "Reduced motion arranges the balls in a still tableau and keeps the counting."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/juggle-loop",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/juggle-loop.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/juggle-loop",
+        "npm": "npx shadcn@latest add @kinetiq/juggle-loop",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/juggle-loop",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/juggle-loop",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/juggle-loop.json"
+      }
+    },
+    {
+      "slug": "rocket-drill",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rocket Drill",
+      "serial": "KQ-296",
+      "tagline": "Three, two, one, and back again.",
+      "description": "A launch with a countdown and, unusually, a recovery: three numerals pop while the rocket trembles harder, the gantry swings clear, it climbs out of frame on smoke, and then a parachute drifts the capsule back down to the pad. Most launch animations forget the coming-back part, which is the half that makes it a drill.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "rocket",
+        "countdown",
+        "launch",
+        "parachute",
+        "craft"
+      ],
+      "props": [
+        {
+          "name": "onLaunch / onRecover",
+          "type": "() => void · () => void",
+          "description": "Fires at liftoff, and again on landing."
+        }
+      ],
+      "usageNotes": [
+        "The tremble escalates per count — the suspense is built from the same jitter at three amplitudes.",
+        "Every chained beat is a tracked timer, so an unmount mid-drill leaves nothing running.",
+        "Reduced motion steps the stills: pad, countdown, empty sky, parachute, landed."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/rocket-drill",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/rocket-drill.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rocket-drill",
+        "npm": "npx shadcn@latest add @kinetiq/rocket-drill",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rocket-drill",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rocket-drill",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/rocket-drill.json"
+      }
+    },
+    {
+      "slug": "claw-drop",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Claw Drop",
+      "serial": "KQ-297",
+      "tagline": "It always catches. That is the joke.",
+      "description": "A claw machine that always catches — the honesty is the joke. The trolley sweeps the rail so you still have to time it, but wherever you stop, the claw takes the nearest plush, lifts it, and delivers it down the chute to the tray. Clear the bed and it restocks. No odds, no coins, no disappointment.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "claw",
+        "machine",
+        "prize",
+        "timing",
+        "craft"
+      ],
+      "props": [
+        {
+          "name": "onCatch",
+          "type": "(index: number) => void",
+          "description": "Fires with the caught plush's index."
+        }
+      ],
+      "usageNotes": [
+        "The catch is a nearest-index lookup against the frozen trolley position — deterministic, and the machine never cheats.",
+        "The bed empties as you win and restocks in a cascade once cleared.",
+        "Reduced motion parks the trolley and cycles through the remaining plushes so the toy still progresses."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/claw-drop",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/claw-drop.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/claw-drop",
+        "npm": "npx shadcn@latest add @kinetiq/claw-drop",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/claw-drop",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/claw-drop",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/claw-drop.json"
       }
     },
     {
