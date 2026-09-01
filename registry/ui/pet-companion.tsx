@@ -519,7 +519,11 @@ export function PetCompanion({
                     fill={PET_BODY_SHADE}
                     stroke="var(--hairline-strong)"
                     strokeWidth={1}
-                    initial={popInitial}
+                    initial={
+                      motionSafe
+                        ? { scale: 0, opacity: 0, cx: tailCx, cy: tailCy }
+                        : { cx: tailCx, cy: tailCy }
+                    }
                     animate={{ cx: tailCx, cy: tailCy, scale: 1, opacity: 1 }}
                     exit={popExit}
                     transition={{
@@ -541,6 +545,11 @@ export function PetCompanion({
                 fill={PET_BODY}
                 stroke="var(--hairline-strong)"
                 strokeWidth={1}
+                // Geometry driven through `animate` has to be seeded in
+                // `initial` as well: Motion only writes those attributes once
+                // it has mounted, so without this the very first paint emits
+                // cy/rx/ry as "undefined" and the browser rejects them.
+                initial={{ cy: bodyCy, rx: shape.bodyRx, ry: shape.bodyRy }}
                 animate={{ cy: bodyCy, rx: shape.bodyRx, ry: shape.bodyRy }}
                 transition={stageTransition}
               />
@@ -653,6 +662,14 @@ export function PetCompanion({
               >
                 <motion.circle
                   fill="var(--ink)"
+                  // Seeded for the same reason as the body ellipse — animated
+                  // SVG geometry is undefined until Motion mounts.
+                  initial={{
+                    cx: eyeLx,
+                    cy: eyeY,
+                    r: shape.eyeR,
+                    opacity: happyPose ? 0 : 1,
+                  }}
                   animate={{
                     cx: eyeLx,
                     cy: eyeY,
@@ -668,6 +685,12 @@ export function PetCompanion({
                 />
                 <motion.circle
                   fill="var(--ink)"
+                  initial={{
+                    cx: eyeRx,
+                    cy: eyeY,
+                    r: shape.eyeR,
+                    opacity: happyPose ? 0 : 1,
+                  }}
                   animate={{
                     cx: eyeRx,
                     cy: eyeY,

@@ -56,7 +56,11 @@ export function CausewayHome({
             { id: "b4", time: "05:55", text: "linesmen idle, cause unknown" },
           ]}
           after={[
-            { id: "a1", time: "04:50", text: "ledger r3 posted — berth 4 to Fernworks" },
+            {
+              id: "a1",
+              time: "04:50",
+              text: "ledger r3 posted — berth 4 to Kestrel",
+            },
             { id: "a2", time: "05:05", text: "linesmen ack, second slot" },
             { id: "a3", time: "05:30", text: "no change" },
             { id: "a4", time: "05:55", text: "no change" },

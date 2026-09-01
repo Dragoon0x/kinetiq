@@ -32,6 +32,23 @@ const OWN: Record<string, string> = {
   "template-studio": "Fernworks",
   "template-ledger": "Gaugeworks",
   "template-field": "Fieldline",
+  "template-causeway": "Basinworks",
+  // A personal site has no product wordmark of its own — its identity is a
+  // person. See ALSO_NAMES below for why it still gets checked.
+  "template-signature": "Waylight",
+};
+
+/**
+ * Products a template may name besides its own, and the only ones it may.
+ *
+ * The one-product rule is right for a product site and wrong for exactly one
+ * archetype: a portfolio, whose selected-work list is a client list by
+ * definition. Exempting the archetype outright would let a genuine stray from
+ * another template ride in unnoticed, so the allowance is spelled out per
+ * slug instead — anything outside this set still fails.
+ */
+const ALSO_NAMES: Record<string, readonly string[]> = {
+  "template-signature": ["Gaugeworks", "Fernworks", "Basinworks"],
 };
 
 const templates = catalogTemplates.filter(isTemplate).map((t) => t.name);
@@ -79,8 +96,11 @@ for (const slug of templates) {
       return hits;
     }, PRODUCT_NAMES);
 
+    const allowed = new Set(
+      [own, ...(ALSO_NAMES[slug] ?? [])].map((n) => n.toLowerCase()),
+    );
     const strays = Object.entries(found).filter(
-      ([name]) => name.toLowerCase() !== own.toLowerCase(),
+      ([name]) => !allowed.has(name.toLowerCase()),
     );
     expect(
       strays,
