@@ -246,6 +246,11 @@ import { OracleOrbDemo } from "@/registry/demos/oracle-orb.demo";
 import { MoodGemDemo } from "@/registry/demos/mood-gem.demo";
 import { DiscoFloorDemo } from "@/registry/demos/disco-floor.demo";
 import { DrumPadsDemo } from "@/registry/demos/drum-pads.demo";
+import { SnowShakeDemo } from "@/registry/demos/snow-shake.demo";
+import { ZenRakeDemo } from "@/registry/demos/zen-rake.demo";
+import { WindChimesDemo } from "@/registry/demos/wind-chimes.demo";
+import { FerrisGlowDemo } from "@/registry/demos/ferris-glow.demo";
+import { SkyBloomDemo } from "@/registry/demos/sky-bloom.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -714,6 +719,11 @@ export const demos: Record<string, ComponentType> = {
   "mood-gem": MoodGemDemo,
   "disco-floor": DiscoFloorDemo,
   "drum-pads": DrumPadsDemo,
+  "snow-shake": SnowShakeDemo,
+  "zen-rake": ZenRakeDemo,
+  "wind-chimes": WindChimesDemo,
+  "ferris-glow": FerrisGlowDemo,
+  "sky-bloom": SkyBloomDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

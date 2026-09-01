@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 286,
+      "components": 291,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -17242,6 +17242,264 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/drum-pads",
         "bun": "bunx --bun shadcn@latest add @kinetiq/drum-pads",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/drum-pads.json"
+      }
+    },
+    {
+      "slug": "snow-shake",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Snow Shake",
+      "serial": "KQ-288",
+      "tagline": "Shake it. Then watch it settle.",
+      "description": "A snow globe you shake by click or by drag, where the settling is the point: flakes lift off the drift, swirl on seeded paths, and come down staggered until the last one lands and the caption says so. Every flake's path is derived from its index, so the same shake happens for everyone — a snow globe with no randomness in it at all.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "snow globe",
+        "shake",
+        "settle",
+        "scene",
+        "seeded"
+      ],
+      "props": [
+        {
+          "name": "flakes",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "Flakes in the dome (6–24)."
+        },
+        {
+          "name": "onSettle",
+          "type": "() => void",
+          "description": "Fires when the last flake lands."
+        }
+      ],
+      "usageNotes": [
+        "Drag energy scales the rock and the swirl duration — a hard shake really does snow longer.",
+        "Flake paths come from seeded per-index constants, never a random source.",
+        "Reduced motion redistributes the flakes and settles them in two instant steps."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/snow-shake",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/snow-shake.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/snow-shake",
+        "npm": "npx shadcn@latest add @kinetiq/snow-shake",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/snow-shake",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/snow-shake",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/snow-shake.json"
+      }
+    },
+    {
+      "slug": "zen-rake",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Zen Rake",
+      "serial": "KQ-289",
+      "tagline": "Three grooves that heal themselves.",
+      "description": "A sand garden and a three-tooth comb: drag and three parallel grooves follow your hand, offset along the path normal so the rake reads as a rake. Strokes rest for a few seconds and then heal, the bed holding only its last six so it never silts up. Arrow keys rake too, for anyone gardening from the keyboard.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "sand",
+        "rake",
+        "drag",
+        "calm",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "onStroke",
+          "type": "(count: number) => void",
+          "description": "Fires per completed stroke."
+        }
+      ],
+      "usageNotes": [
+        "Points are only recorded every few pixels, so a long drag stays cheap and the curve stays smooth.",
+        "Strokes cap at six and heal on a timer — the bed is self-cleaning by design.",
+        "Reduced motion draws grooves at full opacity and removes them outright instead of fading."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/zen-rake",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/zen-rake.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/zen-rake",
+        "npm": "npx shadcn@latest add @kinetiq/zen-rake",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/zen-rake",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/zen-rake",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/zen-rake.json"
+      }
+    },
+    {
+      "slug": "wind-chimes",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Wind Chimes",
+      "serial": "KQ-290",
+      "tagline": "Still, breath, gust, squall.",
+      "description": "Five graduated tubes that sway from the breeze your cursor makes, each on its own natural period so they never move in unison — that desync is the entire effect. Contacts with the clapper flash in sequence rather than at once, and a click plays a full run down the scale. The caption names the weather you are making.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "chimes",
+        "breeze",
+        "cursor",
+        "sway",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "onRing",
+          "type": "() => void",
+          "description": "Fires on a full run."
+        }
+      ],
+      "usageNotes": [
+        "Breeze is bucketed into four states; only a bucket change restarts the sways, never a pointer move.",
+        "Contacts come from fixed per-tube phases rather than collision maths — cheaper, and it reads better.",
+        "Reduced motion hangs the tubes still, keeps the weather caption, and brightens them in sequence on click."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/wind-chimes",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/wind-chimes.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/wind-chimes",
+        "npm": "npx shadcn@latest add @kinetiq/wind-chimes",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/wind-chimes",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/wind-chimes",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/wind-chimes.json"
+      }
+    },
+    {
+      "slug": "ferris-glow",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ferris Glow",
+      "serial": "KQ-291",
+      "tagline": "The cabins stay level. That is the trick.",
+      "description": "A little ferris wheel turning at dusk, with the detail that matters: the cabins counter-rotate so they stay level however far the wheel has come around. Cabin and rim lights pulse on offset phases so the whole thing twinkles instead of blinking, hovering speeds the turn, and a click lights every bulb at once before they settle back in a cascade.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "ferris wheel",
+        "dusk",
+        "lights",
+        "rotation",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "cabins",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "Cabins on the rim (6–12)."
+        },
+        {
+          "name": "onLight",
+          "type": "() => void",
+          "description": "Fires when every bulb lights."
+        }
+      ],
+      "usageNotes": [
+        "One shared transform counter-rotates every cabin — one hook, reused, regardless of cabin count.",
+        "Rim positions are index maths, so the wheel is identical on server and client.",
+        "Reduced motion parks the wheel at a pleasing angle with lights at mid brightness."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/ferris-glow",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/ferris-glow.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ferris-glow",
+        "npm": "npx shadcn@latest add @kinetiq/ferris-glow",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ferris-glow",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ferris-glow",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/ferris-glow.json"
+      }
+    },
+    {
+      "slug": "sky-bloom",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sky Bloom",
+      "serial": "KQ-292",
+      "tagline": "Tap the sky. Mind the gravity.",
+      "description": "Fireworks you set off yourself: click anywhere in the night sky and a rocket rises from the skyline beneath your finger, decelerating to apex before blooming into twelve sparks that arc and droop under authored gravity. Three may be in the air at once, palettes cycle so consecutive shots differ, and the sky brightens a touch with each one.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "fireworks",
+        "night",
+        "burst",
+        "click",
+        "scene"
+      ],
+      "props": [
+        {
+          "name": "onBloom",
+          "type": "(count: number) => void",
+          "description": "Fires per firework with the running total."
+        }
+      ],
+      "usageNotes": [
+        "The rocket launches from the skyline at your click's x — the shot always comes from the ground, not the cursor.",
+        "Three concurrent fireworks is the cap; further clicks wait rather than piling up.",
+        "Reduced motion paints the bloom at the click point with its sparks already landed, then fades it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/sky-bloom",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/sky-bloom.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sky-bloom",
+        "npm": "npx shadcn@latest add @kinetiq/sky-bloom",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sky-bloom",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sky-bloom",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/sky-bloom.json"
       }
     },
     {
