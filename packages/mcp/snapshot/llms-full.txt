@@ -5004,6 +5004,87 @@ Notes:
 - The bed empties as you win and restocks in a cascade once cleared.
 - Reduced motion parks the trolley and cycles through the remaining plushes so the toy still progresses.
 
+### Quest Log (KQ-298) — `quest-log`
+Finishing one opens the next.
+
+A quest list built to be finished: each advance rolls its counter and fills its bar, and completing one sweeps the row, flies its reward to the running total, and unlocks the next quest in the chain. The unlock is the hook — a log that opens its own next line is harder to close than one that simply ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/quest-log`
+
+Props:
+- `quests`: QuestItem[] — The log; each carries a target and an XP reward. Defaults to five work-flavoured quests.
+- `onComplete`: (id: string) => void — Fires as a quest closes.
+
+Notes:
+- Rewards fly to the header total, which carries on the house readout — the same roll every number in the system uses.
+- Locked rows are genuinely inert; the chain only opens as its predecessor closes.
+- Reduced motion drops the sweeps and flights but keeps every state legible.
+
+### Skill Tree (KQ-299) — `skill-tree`
+Spend a point, open two doors.
+
+A talent tree you spend points into: available nodes pulse for attention, spending one fills the node, draws the link from its parent, and cascades any newly-eligible node into reach. The capstone sweeps the whole tree. Respec drains it all back in reverse, because a build you cannot undo is a build nobody experiments with.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/skill-tree`
+
+Props:
+- `points`: number (default 3) — Points available to spend.
+- `onUnlock`: (id: string) => void — Fires per node owned.
+
+Notes:
+- The layout is an authored table in a fixed viewBox — nothing is measured, so the tree is identical on server and client.
+- Links draw with pathLength as the tree grows and undraw on respec.
+- Reduced motion swaps node states and shows links complete, with no pulses or draws.
+
+### Rank Insignia (KQ-300) — `rank-insignia`
+Five tiers, and a real ceiling.
+
+A rank badge that promotes with the ceremony a promotion deserves: the old insignia clears in a flash, the new one lands on a spring, a chevron stamps on, light sweeps the plate, and the name rolls over. Five tiers, and an honest ceiling at the top instead of invented infinite ranks.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rank-insignia`
+
+Props:
+- `tier`: number (default 1) — Starting tier, 0 to 4.
+- `onPromote`: (tier: number, name: string) => void — Fires with the new tier and its name.
+
+Notes:
+- Chevron count equals the tier, so the rank is readable without the label.
+- The top tier fills a bar that never completes and says so — no fake progression.
+- Reduced motion swaps the insignia and keeps the caption flash.
+
+### Combo Meter (KQ-301) — `combo-meter`
+The bar is always draining.
+
+A combo counter that drains while you watch, so every hit is relief as much as reward: landing one refills the bar, pops the numeral, and steps the multiplier at fixed thresholds — which shortens the fuse. Let it empty and the combo shatters, the panel cools, and your best score stays on screen as the reason to go again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/combo-meter`
+
+Props:
+- `thresholds`: number[] (default [5, 12, 25]) — Combo counts at which the multiplier steps up.
+- `onBreak`: (combo: number) => void — Fires with the combo that was lost.
+
+Notes:
+- Higher multipliers drain faster — the reward and the pressure are the same dial.
+- The best-combo line is the retention device; do not remove it to save space.
+- Reduced motion steps the bar in visible increments instead of draining continuously.
+
+### Daily Check (KQ-302) — `daily-check`
+The reason to open it tomorrow.
+
+The seven-day check-in strip, built as a chain: claiming a day fills it, stamps it, flies its reward to the total, draws a connector to tomorrow, and hands the pulse to the next tile. Day seven pays out and the week rolls over with the streak intact. It never reads the clock — days are indexes, so the strip renders identically on the server and every visit.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/daily-check`
+
+Props:
+- `rewards`: number[] (default [10,10,15,15,20,20,100]) — Per-day rewards; the length drives the strip (5–7).
+- `startDay`: number (default 3) — Which day reads as today, so history is visible.
+- `onClaim`: (day: number, reward: number) => void — Fires per claim.
+
+Notes:
+- No clock is read anywhere — days are indexes, which keeps SSR deterministic and demos reproducible.
+- Breaking the streak is a visible, legible loss; that is what makes the chain worth keeping.
+- Reduced motion claims instantly and keeps the totals and captions.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

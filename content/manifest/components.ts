@@ -11231,6 +11231,172 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "quest-log",
+    type: "registry:ui",
+    title: "Quest Log",
+    description:
+      "A quest list built to be finished: each advance rolls its counter and fills its bar, and completing one sweeps the row, flies its reward to the running total, and unlocks the next quest in the chain. The unlock is the hook \u2014 a log that opens its own next line is harder to close than one that simply ends.",
+    files: [{ path: "registry/ui/quest-log.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-298" },
+    tagline: "Finishing one opens the next.",
+    keywords: ["game", "quests", "objectives", "progress", "rewards", "loop"],
+    props: [
+      {
+        name: "quests",
+        type: "QuestItem[]",
+        description:
+          "The log; each carries a target and an XP reward. Defaults to five work-flavoured quests.",
+      },
+      {
+        name: "onComplete",
+        type: "(id: string) => void",
+        description: "Fires as a quest closes.",
+      },
+    ],
+    usageNotes: [
+      "Rewards fly to the header total, which carries on the house readout \u2014 the same roll every number in the system uses.",
+      "Locked rows are genuinely inert; the chain only opens as its predecessor closes.",
+      "Reduced motion drops the sweeps and flights but keeps every state legible.",
+    ],
+  },
+  {
+    name: "skill-tree",
+    type: "registry:ui",
+    title: "Skill Tree",
+    description:
+      "A talent tree you spend points into: available nodes pulse for attention, spending one fills the node, draws the link from its parent, and cascades any newly-eligible node into reach. The capstone sweeps the whole tree. Respec drains it all back in reverse, because a build you cannot undo is a build nobody experiments with.",
+    files: [{ path: "registry/ui/skill-tree.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-299" },
+    tagline: "Spend a point, open two doors.",
+    keywords: ["game", "skills", "talents", "unlock", "tree", "progression"],
+    props: [
+      {
+        name: "points",
+        type: "number",
+        defaultValue: "3",
+        description: "Points available to spend.",
+      },
+      {
+        name: "onUnlock",
+        type: "(id: string) => void",
+        description: "Fires per node owned.",
+      },
+    ],
+    usageNotes: [
+      "The layout is an authored table in a fixed viewBox \u2014 nothing is measured, so the tree is identical on server and client.",
+      "Links draw with pathLength as the tree grows and undraw on respec.",
+      "Reduced motion swaps node states and shows links complete, with no pulses or draws.",
+    ],
+  },
+  {
+    name: "rank-insignia",
+    type: "registry:ui",
+    title: "Rank Insignia",
+    description:
+      "A rank badge that promotes with the ceremony a promotion deserves: the old insignia clears in a flash, the new one lands on a spring, a chevron stamps on, light sweeps the plate, and the name rolls over. Five tiers, and an honest ceiling at the top instead of invented infinite ranks.",
+    files: [{ path: "registry/ui/rank-insignia.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-300" },
+    tagline: "Five tiers, and a real ceiling.",
+    keywords: ["game", "rank", "promotion", "tier", "badge", "status"],
+    props: [
+      {
+        name: "tier",
+        type: "number",
+        defaultValue: "1",
+        description: "Starting tier, 0 to 4.",
+      },
+      {
+        name: "onPromote",
+        type: "(tier: number, name: string) => void",
+        description: "Fires with the new tier and its name.",
+      },
+    ],
+    usageNotes: [
+      "Chevron count equals the tier, so the rank is readable without the label.",
+      "The top tier fills a bar that never completes and says so \u2014 no fake progression.",
+      "Reduced motion swaps the insignia and keeps the caption flash.",
+    ],
+  },
+  {
+    name: "combo-meter",
+    type: "registry:ui",
+    title: "Combo Meter",
+    description:
+      "A combo counter that drains while you watch, so every hit is relief as much as reward: landing one refills the bar, pops the numeral, and steps the multiplier at fixed thresholds \u2014 which shortens the fuse. Let it empty and the combo shatters, the panel cools, and your best score stays on screen as the reason to go again.",
+    files: [{ path: "registry/ui/combo-meter.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-301" },
+    tagline: "The bar is always draining.",
+    keywords: ["game", "combo", "multiplier", "decay", "momentum", "score"],
+    props: [
+      {
+        name: "thresholds",
+        type: "number[]",
+        defaultValue: "[5, 12, 25]",
+        description: "Combo counts at which the multiplier steps up.",
+      },
+      {
+        name: "onBreak",
+        type: "(combo: number) => void",
+        description: "Fires with the combo that was lost.",
+      },
+    ],
+    usageNotes: [
+      "Higher multipliers drain faster \u2014 the reward and the pressure are the same dial.",
+      "The best-combo line is the retention device; do not remove it to save space.",
+      "Reduced motion steps the bar in visible increments instead of draining continuously.",
+    ],
+  },
+  {
+    name: "daily-check",
+    type: "registry:ui",
+    title: "Daily Check",
+    description:
+      "The seven-day check-in strip, built as a chain: claiming a day fills it, stamps it, flies its reward to the total, draws a connector to tomorrow, and hands the pulse to the next tile. Day seven pays out and the week rolls over with the streak intact. It never reads the clock \u2014 days are indexes, so the strip renders identically on the server and every visit.",
+    files: [{ path: "registry/ui/daily-check.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-302" },
+    tagline: "The reason to open it tomorrow.",
+    keywords: ["game", "streak", "check-in", "daily", "retention", "reward"],
+    props: [
+      {
+        name: "rewards",
+        type: "number[]",
+        defaultValue: "[10,10,15,15,20,20,100]",
+        description: "Per-day rewards; the length drives the strip (5\u20137).",
+      },
+      {
+        name: "startDay",
+        type: "number",
+        defaultValue: "3",
+        description: "Which day reads as today, so history is visible.",
+      },
+      {
+        name: "onClaim",
+        type: "(day: number, reward: number) => void",
+        description: "Fires per claim.",
+      },
+    ],
+    usageNotes: [
+      "No clock is read anywhere \u2014 days are indexes, which keeps SSR deterministic and demos reproducible.",
+      "Breaking the streak is a visible, legible loss; that is what makes the chain worth keeping.",
+      "Reduced motion claims instantly and keeps the totals and captions.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

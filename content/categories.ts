@@ -27,7 +27,8 @@ export type CategorySlug =
   | "cursor"
   | "physics"
   | "spatial"
-  | "delight";
+  | "delight"
+  | "game";
 
 export type Category = {
   slug: CategorySlug;
@@ -132,6 +133,12 @@ export const CATEGORIES: Category[] = [
     label: "Delight",
     blurb:
       "Small celebrations — taps, bursts, and reactions calibrated to the millisecond.",
+  },
+  {
+    slug: "game",
+    label: "Game",
+    blurb:
+      "Loops that make an interface worth coming back to \u2014 quests, ranks, streaks, and the meters that carry them.",
   },
 ];
 

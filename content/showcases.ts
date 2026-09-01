@@ -174,6 +174,14 @@ export const SHOWCASES: Showcase[] = [
     closing: "Delight rations itself.",
   },
   {
+    slug: "game",
+    headline: "The loop, not the moment.",
+    deck: "Quests that unlock the next quest, ranks that promote with ceremony, combos that decay while you watch \u2014 the systems that make an interface worth returning to.",
+    hero: { slug: "quest-log", mode: "stage" },
+    leads: ["skill-tree", "rank-insignia", "combo-meter", "daily-check"],
+    closing: "A loop earns the next session.",
+  },
+  {
     slug: "vignettes",
     headline: "The product, already on stage.",
     deck: "Self-running scenes — windows painting in, handsets scrolling, hubs pulsing — ready to seat inside a hero.",

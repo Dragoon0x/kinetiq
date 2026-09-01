@@ -256,6 +256,11 @@ import { FridgePoetryDemo } from "@/registry/demos/fridge-poetry.demo";
 import { JuggleLoopDemo } from "@/registry/demos/juggle-loop.demo";
 import { RocketDrillDemo } from "@/registry/demos/rocket-drill.demo";
 import { ClawDropDemo } from "@/registry/demos/claw-drop.demo";
+import { QuestLogDemo } from "@/registry/demos/quest-log.demo";
+import { SkillTreeDemo } from "@/registry/demos/skill-tree.demo";
+import { RankInsigniaDemo } from "@/registry/demos/rank-insignia.demo";
+import { ComboMeterDemo } from "@/registry/demos/combo-meter.demo";
+import { DailyCheckDemo } from "@/registry/demos/daily-check.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -734,6 +739,11 @@ export const demos: Record<string, ComponentType> = {
   "juggle-loop": JuggleLoopDemo,
   "rocket-drill": RocketDrillDemo,
   "claw-drop": ClawDropDemo,
+  "quest-log": QuestLogDemo,
+  "skill-tree": SkillTreeDemo,
+  "rank-insignia": RankInsigniaDemo,
+  "combo-meter": ComboMeterDemo,
+  "daily-check": DailyCheckDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

@@ -7878,6 +7878,146 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "quest-log",
+      "type": "registry:ui",
+      "title": "Quest Log",
+      "description": "A quest list built to be finished: each advance rolls its counter and fills its bar, and completing one sweeps the row, flies its reward to the running total, and unlocks the next quest in the chain. The unlock is the hook — a log that opens its own next line is harder to close than one that simply ends.",
+      "files": [
+        {
+          "path": "registry/ui/quest-log.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-298"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "skill-tree",
+      "type": "registry:ui",
+      "title": "Skill Tree",
+      "description": "A talent tree you spend points into: available nodes pulse for attention, spending one fills the node, draws the link from its parent, and cascades any newly-eligible node into reach. The capstone sweeps the whole tree. Respec drains it all back in reverse, because a build you cannot undo is a build nobody experiments with.",
+      "files": [
+        {
+          "path": "registry/ui/skill-tree.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-299"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rank-insignia",
+      "type": "registry:ui",
+      "title": "Rank Insignia",
+      "description": "A rank badge that promotes with the ceremony a promotion deserves: the old insignia clears in a flash, the new one lands on a spring, a chevron stamps on, light sweeps the plate, and the name rolls over. Five tiers, and an honest ceiling at the top instead of invented infinite ranks.",
+      "files": [
+        {
+          "path": "registry/ui/rank-insignia.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-300"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "combo-meter",
+      "type": "registry:ui",
+      "title": "Combo Meter",
+      "description": "A combo counter that drains while you watch, so every hit is relief as much as reward: landing one refills the bar, pops the numeral, and steps the multiplier at fixed thresholds — which shortens the fuse. Let it empty and the combo shatters, the panel cools, and your best score stays on screen as the reason to go again.",
+      "files": [
+        {
+          "path": "registry/ui/combo-meter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-301"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "daily-check",
+      "type": "registry:ui",
+      "title": "Daily Check",
+      "description": "The seven-day check-in strip, built as a chain: claiming a day fills it, stamps it, flies its reward to the total, draws a connector to tomorrow, and hands the pulse to the next tile. Day seven pays out and the week rolls over with the streak intact. It never reads the clock — days are indexes, so the strip renders identically on the server and every visit.",
+      "files": [
+        {
+          "path": "registry/ui/daily-check.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-302"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
