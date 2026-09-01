@@ -5402,6 +5402,86 @@ Notes:
 - Chip damage lingers here too, at boss scale, so a long fight still reads hit by hit.
 - Reduced motion keeps the tint step and stamp but drops the shudder, sweeps, and shatter.
 
+### Sticker Album (KQ-323) — `sticker-album`
+The gaps are the ask.
+
+An album page whose empty slots do the asking: each collect flies a sticker to its place, presses it down at a slightly crooked angle, and solidifies the outline. Every fourth pull is a duplicate that slides off to the spares tray — a set you complete without ever pulling a double is not a collection, it is a checklist.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sticker-album`
+
+Props:
+- `slots`: number (default 9) — Slots on the page (6–12).
+- `onComplete`: () => void — Fires when the page fills.
+
+Notes:
+- Sticker order is fixed, so the same page fills the same way for everyone.
+- Duplicates are deliberate: the spares tray is what makes the set feel collected rather than ticked off.
+- Reduced motion places stickers instantly and keeps the completion state.
+
+### Badge Case (KQ-324) — `badge-case`
+Locked, but never unreadable.
+
+A case of achievements where the locked ones still say what they are: a silhouette, a lock, and the hint that would earn it — because a hidden name teaches nothing about what to chase. One secret badge is the right number. Each unlock fills the medallion, flips the glyph, and prints the share of players who hold it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/badge-case`
+
+Props:
+- `badges`: Badge[] — Name, hint, rarity share, and an optional secret flag.
+- `unlocked`: number (default 3) — How many start earned.
+
+Notes:
+- Locked names and hints stay legible on purpose — the ask is the point of an achievement case.
+- Rarer badges get a warmer tint and a larger unlock reaction; the percentage is the social proof.
+- Reduced motion swaps badge states instantly and keeps the caption.
+
+### Passport Stamps (KQ-325) — `passport-stamps`
+A perfectly aligned stamp looks printed.
+
+A passport leaf that takes a stamp per destination: the head descends, the page shudders, the mark presses in a degree or two off true, and ink spreads at the edges. A filled page turns to a fresh one. Dates are pre-formatted strings and nothing reads a clock, so the page renders identically everywhere.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/passport-stamps`
+
+Props:
+- `destinations`: Destination[] — Name, a pre-formatted date string, and a stamp shape.
+- `onPageComplete`: (page: number) => void — Fires when a page fills and turns.
+
+Notes:
+- Stamps land deliberately imperfect — the slight misalignment is what makes them read as stamped.
+- Dates are strings in the data; the component never touches a Date object.
+- Reduced motion places marks at their final angle with no descent or page turn.
+
+### Set Complete (KQ-326) — `set-complete`
+The fifth card changes everything.
+
+Five cards and a bonus that stays locked until the last one lands. Empty frames show exactly what is missing, connectors draw between placed cards so the set visibly links up, and completion lights the chain, sheens every card, and breaks the lock off the bonus. Pulling a card back re-locks it just as clearly — the loss has to read or the set means nothing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/set-complete`
+
+Props:
+- `cards / bonus`: SetCard[] · string — The five slots and the reward the set grants.
+- `start`: number (default 3) — How many begin placed.
+
+Notes:
+- Empty frames name the missing card; a set you cannot see the shape of is not a goal.
+- Breaking the set re-locks the bonus visibly — completion only matters if it can be lost.
+- Reduced motion fills frames instantly and swaps the bonus panel to active.
+
+### Pet Companion (KQ-327) — `pet-companion`
+It notices when you stop.
+
+A companion that grows through four stages as your bond rises — and droops, curls up, and dims when it falls, because a pet that cannot be neglected is a toy rather than a companion. Feeding and playing restore it visibly, it blinks on its own, and the mood line always says plainly where you stand.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pet-companion`
+
+Props:
+- `bond`: number (default 46) — Opening bond, 0 to 100, which drives the growth stage.
+- `decayPerTick`: number (default 1) — Bond lost per idle tick.
+
+Notes:
+- Neglect is a designed state with its own poses — removing the decay removes the attachment.
+- Blinking is the cheapest aliveness cue in the component and worth every line of it.
+- Reduced motion swaps poses for feeding, playing, and stage-ups without bounces or sparks.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

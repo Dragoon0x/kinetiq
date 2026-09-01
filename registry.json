@@ -8578,6 +8578,148 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sticker-album",
+      "type": "registry:ui",
+      "title": "Sticker Album",
+      "description": "An album page whose empty slots do the asking: each collect flies a sticker to its place, presses it down at a slightly crooked angle, and solidifies the outline. Every fourth pull is a duplicate that slides off to the spares tray — a set you complete without ever pulling a double is not a collection, it is a checklist.",
+      "files": [
+        {
+          "path": "registry/ui/sticker-album.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-323"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "badge-case",
+      "type": "registry:ui",
+      "title": "Badge Case",
+      "description": "A case of achievements where the locked ones still say what they are: a silhouette, a lock, and the hint that would earn it — because a hidden name teaches nothing about what to chase. One secret badge is the right number. Each unlock fills the medallion, flips the glyph, and prints the share of players who hold it.",
+      "files": [
+        {
+          "path": "registry/ui/badge-case.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-324"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "passport-stamps",
+      "type": "registry:ui",
+      "title": "Passport Stamps",
+      "description": "A passport leaf that takes a stamp per destination: the head descends, the page shudders, the mark presses in a degree or two off true, and ink spreads at the edges. A filled page turns to a fresh one. Dates are pre-formatted strings and nothing reads a clock, so the page renders identically everywhere.",
+      "files": [
+        {
+          "path": "registry/ui/passport-stamps.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-325"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "set-complete",
+      "type": "registry:ui",
+      "title": "Set Complete",
+      "description": "Five cards and a bonus that stays locked until the last one lands. Empty frames show exactly what is missing, connectors draw between placed cards so the set visibly links up, and completion lights the chain, sheens every card, and breaks the lock off the bonus. Pulling a card back re-locks it just as clearly — the loss has to read or the set means nothing.",
+      "files": [
+        {
+          "path": "registry/ui/set-complete.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-326"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pet-companion",
+      "type": "registry:ui",
+      "title": "Pet Companion",
+      "description": "A companion that grows through four stages as your bond rises — and droops, curls up, and dims when it falls, because a pet that cannot be neglected is a toy rather than a companion. Feeding and playing restore it visibly, it blinks on its own, and the mood line always says plainly where you stand.",
+      "files": [
+        {
+          "path": "registry/ui/pet-companion.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-327"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

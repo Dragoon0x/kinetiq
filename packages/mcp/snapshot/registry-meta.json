@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 321,
+      "components": 326,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -19140,6 +19140,288 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/boss-meter",
         "bun": "bunx --bun shadcn@latest add @kinetiq/boss-meter",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/boss-meter.json"
+      }
+    },
+    {
+      "slug": "sticker-album",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sticker Album",
+      "serial": "KQ-323",
+      "tagline": "The gaps are the ask.",
+      "description": "An album page whose empty slots do the asking: each collect flies a sticker to its place, presses it down at a slightly crooked angle, and solidifies the outline. Every fourth pull is a duplicate that slides off to the spares tray — a set you complete without ever pulling a double is not a collection, it is a checklist.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "collection",
+        "stickers",
+        "album",
+        "set",
+        "duplicates"
+      ],
+      "props": [
+        {
+          "name": "slots",
+          "type": "number",
+          "defaultValue": "9",
+          "description": "Slots on the page (6–12)."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "description": "Fires when the page fills."
+        }
+      ],
+      "usageNotes": [
+        "Sticker order is fixed, so the same page fills the same way for everyone.",
+        "Duplicates are deliberate: the spares tray is what makes the set feel collected rather than ticked off.",
+        "Reduced motion places stickers instantly and keeps the completion state."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/sticker-album",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/sticker-album.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sticker-album",
+        "npm": "npx shadcn@latest add @kinetiq/sticker-album",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sticker-album",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sticker-album",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/sticker-album.json"
+      }
+    },
+    {
+      "slug": "badge-case",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Badge Case",
+      "serial": "KQ-324",
+      "tagline": "Locked, but never unreadable.",
+      "description": "A case of achievements where the locked ones still say what they are: a silhouette, a lock, and the hint that would earn it — because a hidden name teaches nothing about what to chase. One secret badge is the right number. Each unlock fills the medallion, flips the glyph, and prints the share of players who hold it.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "achievements",
+        "badges",
+        "unlock",
+        "collection",
+        "rarity"
+      ],
+      "props": [
+        {
+          "name": "badges",
+          "type": "Badge[]",
+          "description": "Name, hint, rarity share, and an optional secret flag."
+        },
+        {
+          "name": "unlocked",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "How many start earned."
+        }
+      ],
+      "usageNotes": [
+        "Locked names and hints stay legible on purpose — the ask is the point of an achievement case.",
+        "Rarer badges get a warmer tint and a larger unlock reaction; the percentage is the social proof.",
+        "Reduced motion swaps badge states instantly and keeps the caption."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/badge-case",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/badge-case.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/badge-case",
+        "npm": "npx shadcn@latest add @kinetiq/badge-case",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/badge-case",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/badge-case",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/badge-case.json"
+      }
+    },
+    {
+      "slug": "passport-stamps",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Passport Stamps",
+      "serial": "KQ-325",
+      "tagline": "A perfectly aligned stamp looks printed.",
+      "description": "A passport leaf that takes a stamp per destination: the head descends, the page shudders, the mark presses in a degree or two off true, and ink spreads at the edges. A filled page turns to a fresh one. Dates are pre-formatted strings and nothing reads a clock, so the page renders identically everywhere.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "passport",
+        "stamps",
+        "travel",
+        "collection",
+        "log"
+      ],
+      "props": [
+        {
+          "name": "destinations",
+          "type": "Destination[]",
+          "description": "Name, a pre-formatted date string, and a stamp shape."
+        },
+        {
+          "name": "onPageComplete",
+          "type": "(page: number) => void",
+          "description": "Fires when a page fills and turns."
+        }
+      ],
+      "usageNotes": [
+        "Stamps land deliberately imperfect — the slight misalignment is what makes them read as stamped.",
+        "Dates are strings in the data; the component never touches a Date object.",
+        "Reduced motion places marks at their final angle with no descent or page turn."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/passport-stamps",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/passport-stamps.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/passport-stamps",
+        "npm": "npx shadcn@latest add @kinetiq/passport-stamps",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/passport-stamps",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/passport-stamps",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/passport-stamps.json"
+      }
+    },
+    {
+      "slug": "set-complete",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Set Complete",
+      "serial": "KQ-326",
+      "tagline": "The fifth card changes everything.",
+      "description": "Five cards and a bonus that stays locked until the last one lands. Empty frames show exactly what is missing, connectors draw between placed cards so the set visibly links up, and completion lights the chain, sheens every card, and breaks the lock off the bonus. Pulling a card back re-locks it just as clearly — the loss has to read or the set means nothing.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "set",
+        "cards",
+        "bonus",
+        "collection",
+        "completion"
+      ],
+      "props": [
+        {
+          "name": "cards / bonus",
+          "type": "SetCard[] · string",
+          "description": "The five slots and the reward the set grants."
+        },
+        {
+          "name": "start",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "How many begin placed."
+        }
+      ],
+      "usageNotes": [
+        "Empty frames name the missing card; a set you cannot see the shape of is not a goal.",
+        "Breaking the set re-locks the bonus visibly — completion only matters if it can be lost.",
+        "Reduced motion fills frames instantly and swaps the bonus panel to active."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/set-complete",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/set-complete.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/set-complete",
+        "npm": "npx shadcn@latest add @kinetiq/set-complete",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/set-complete",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/set-complete",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/set-complete.json"
+      }
+    },
+    {
+      "slug": "pet-companion",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pet Companion",
+      "serial": "KQ-327",
+      "tagline": "It notices when you stop.",
+      "description": "A companion that grows through four stages as your bond rises — and droops, curls up, and dims when it falls, because a pet that cannot be neglected is a toy rather than a companion. Feeding and playing restore it visibly, it blinks on its own, and the mood line always says plainly where you stand.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "pet",
+        "companion",
+        "bond",
+        "retention",
+        "creature"
+      ],
+      "props": [
+        {
+          "name": "bond",
+          "type": "number",
+          "defaultValue": "46",
+          "description": "Opening bond, 0 to 100, which drives the growth stage."
+        },
+        {
+          "name": "decayPerTick",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Bond lost per idle tick."
+        }
+      ],
+      "usageNotes": [
+        "Neglect is a designed state with its own poses — removing the decay removes the attachment.",
+        "Blinking is the cheapest aliveness cue in the component and worth every line of it.",
+        "Reduced motion swaps poses for feeding, playing, and stage-ups without bounces or sparks."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/pet-companion",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/pet-companion.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pet-companion",
+        "npm": "npx shadcn@latest add @kinetiq/pet-companion",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pet-companion",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pet-companion",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/pet-companion.json"
       }
     },
     {

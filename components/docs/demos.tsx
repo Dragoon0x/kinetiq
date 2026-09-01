@@ -281,6 +281,11 @@ import { HealthShieldDemo } from "@/registry/demos/health-shield.demo";
 import { ManaOrbDemo } from "@/registry/demos/mana-orb.demo";
 import { CooldownDialDemo } from "@/registry/demos/cooldown-dial.demo";
 import { BossMeterDemo } from "@/registry/demos/boss-meter.demo";
+import { StickerAlbumDemo } from "@/registry/demos/sticker-album.demo";
+import { BadgeCaseDemo } from "@/registry/demos/badge-case.demo";
+import { PassportStampsDemo } from "@/registry/demos/passport-stamps.demo";
+import { SetCompleteDemo } from "@/registry/demos/set-complete.demo";
+import { PetCompanionDemo } from "@/registry/demos/pet-companion.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -784,6 +789,11 @@ export const demos: Record<string, ComponentType> = {
   "mana-orb": ManaOrbDemo,
   "cooldown-dial": CooldownDialDemo,
   "boss-meter": BossMeterDemo,
+  "sticker-album": StickerAlbumDemo,
+  "badge-case": BadgeCaseDemo,
+  "passport-stamps": PassportStampsDemo,
+  "set-complete": SetCompleteDemo,
+  "pet-companion": PetCompanionDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,
