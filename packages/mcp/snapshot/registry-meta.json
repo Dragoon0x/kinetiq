@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 316,
+      "components": 321,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -18857,6 +18857,289 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/reflex-light",
         "bun": "bunx --bun shadcn@latest add @kinetiq/reflex-light",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/reflex-light.json"
+      }
+    },
+    {
+      "slug": "energy-pips",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Energy Pips",
+      "serial": "KQ-318",
+      "tagline": "The wait is the mechanic. Say so.",
+      "description": "The energy economy that decides when someone comes back: pips drain as they are spent and refill on a timer that only runs while the bank is below full. At zero the wait is stated plainly rather than hidden, because an honest countdown is the mechanic. Nothing here reads the wall clock — the countdown is an interval tick counter, so it renders the same on the server.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "energy",
+        "resource",
+        "refill",
+        "timer",
+        "economy"
+      ],
+      "props": [
+        {
+          "name": "max / start",
+          "type": "number · number",
+          "defaultValue": "6 · 4",
+          "description": "Bank size and opening balance."
+        },
+        {
+          "name": "refillSeconds",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Seconds per regenerated pip."
+        }
+      ],
+      "usageNotes": [
+        "The refill timer stops at full — a topped-up bank should not keep ticking.",
+        "The empty state names the wait instead of just disabling the button.",
+        "Reduced motion swaps pip states instantly and steps the refill bar."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/energy-pips",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/energy-pips.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/energy-pips",
+        "npm": "npx shadcn@latest add @kinetiq/energy-pips",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/energy-pips",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/energy-pips",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/energy-pips.json"
+      }
+    },
+    {
+      "slug": "health-shield",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Health Shield",
+      "serial": "KQ-319",
+      "tagline": "The chip ghost shows what it cost.",
+      "description": "A damage model built for legibility: shield absorbs first and shatters when it breaks, then health takes the rest — leaving a chip ghost at the old value that drains a beat later, so you can see exactly what the hit cost. Low health warms the fill and adds a pulse; healing refuses to overfill with a visible bounce at the cap.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "health",
+        "shield",
+        "damage",
+        "meter",
+        "combat"
+      ],
+      "props": [
+        {
+          "name": "max / start / shield",
+          "type": "number · number · number",
+          "defaultValue": "100 · 78 · 30",
+          "description": "The two pools and the opening health."
+        },
+        {
+          "name": "hit",
+          "type": "number",
+          "defaultValue": "22",
+          "description": "Damage per strike."
+        }
+      ],
+      "usageNotes": [
+        "The lingering chip ghost is the single most important tell — without it a hit is just a smaller bar.",
+        "Overhealing is refused visibly; a silent cap teaches nothing.",
+        "Reduced motion snaps the bars and shows the ghost as a static beat."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/health-shield",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/health-shield.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/health-shield",
+        "npm": "npx shadcn@latest add @kinetiq/health-shield",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/health-shield",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/health-shield",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/health-shield.json"
+      }
+    },
+    {
+      "slug": "mana-orb",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mana Orb",
+      "serial": "KQ-320",
+      "tagline": "Two waves, never in step.",
+      "description": "A glass orb of liquid mana whose surface actually moves: two wave layers at different periods, deliberately desynced, because a single sine reads as a machine and two read as liquid. Casting drops the level and sloshes it, an empty cast is refused as clearly as a successful one lands, and regen shimmers until full and then stops.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "mana",
+        "resource",
+        "liquid",
+        "orb",
+        "regen"
+      ],
+      "props": [
+        {
+          "name": "max / start / cost",
+          "type": "number · number · number",
+          "defaultValue": "100 · 62 · 25",
+          "description": "The pool, its opening level, and the spell cost."
+        },
+        {
+          "name": "regenPerSecond",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Refill rate, driven by a tick counter."
+        }
+      ],
+      "usageNotes": [
+        "The desynced wave layers are the whole illusion — matching their periods kills it.",
+        "A full orb stops animating; an idle resource should not burn frames.",
+        "Reduced motion flattens the surface entirely and snaps the level."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/mana-orb",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/mana-orb.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mana-orb",
+        "npm": "npx shadcn@latest add @kinetiq/mana-orb",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mana-orb",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mana-orb",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/mana-orb.json"
+      }
+    },
+    {
+      "slug": "cooldown-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cooldown Dial",
+      "serial": "KQ-321",
+      "tagline": "Four timers, one polyrhythm.",
+      "description": "Four abilities with four different cooldowns, which is what gives an ability bar its polyrhythm: each casts, dims, and unwinds its own radial sweep back to ready, with a brief shared lockout after any cast so mashing gains nothing. The return to ready gets its own pop, because the wait is only worth it if the reward is felt.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "cooldown",
+        "abilities",
+        "hotkeys",
+        "radial",
+        "timer"
+      ],
+      "props": [
+        {
+          "name": "abilities",
+          "type": "Ability[]",
+          "description": "Name, hotkey, and cooldown seconds per slot."
+        },
+        {
+          "name": "onCast",
+          "type": "(id: string) => void",
+          "description": "Fires per successful cast."
+        }
+      ],
+      "usageNotes": [
+        "Q, W, E, and R cast from the keyboard when the group has focus.",
+        "Remaining time comes from an interval tick counter, never the wall clock.",
+        "Reduced motion shows a stepped numeral instead of an unwinding sweep."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/cooldown-dial",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/cooldown-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cooldown-dial",
+        "npm": "npx shadcn@latest add @kinetiq/cooldown-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cooldown-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cooldown-dial",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/cooldown-dial.json"
+      }
+    },
+    {
+      "slug": "boss-meter",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Boss Meter",
+      "serial": "KQ-322",
+      "tagline": "The pause is what makes it a phase.",
+      "description": "A long fight made legible by its thresholds: the bar carries phase markers, and crossing one stops everything for a beat, stamps the numeral, warms the tint, and names what just changed. That pause is the device — without it a boss bar is just a slow health bar. The last phase enrages, and defeat shatters it.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "boss",
+        "health",
+        "phases",
+        "fight",
+        "meter"
+      ],
+      "props": [
+        {
+          "name": "max / hit",
+          "type": "number · number",
+          "defaultValue": "1000 · 85",
+          "description": "The pool and the damage per strike."
+        },
+        {
+          "name": "phases",
+          "type": "number[]",
+          "defaultValue": "[75, 50, 25]",
+          "description": "Threshold percentages that trigger a transition."
+        }
+      ],
+      "usageNotes": [
+        "The phase pause is deliberate dead time — it is what turns a threshold into an event.",
+        "Chip damage lingers here too, at boss scale, so a long fight still reads hit by hit.",
+        "Reduced motion keeps the tint step and stamp but drops the shudder, sweeps, and shatter."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/boss-meter",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/boss-meter.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/boss-meter",
+        "npm": "npx shadcn@latest add @kinetiq/boss-meter",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/boss-meter",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/boss-meter",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/boss-meter.json"
       }
     },
     {

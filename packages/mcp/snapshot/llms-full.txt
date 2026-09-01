@@ -5322,6 +5322,86 @@ Notes:
 - Every pending timer is cleared on a jump start, a reset, and unmount.
 - Reduced motion keeps the sequence — it is discrete state — and drops only the sparks and flashes.
 
+### Energy Pips (KQ-318) — `energy-pips`
+The wait is the mechanic. Say so.
+
+The energy economy that decides when someone comes back: pips drain as they are spent and refill on a timer that only runs while the bank is below full. At zero the wait is stated plainly rather than hidden, because an honest countdown is the mechanic. Nothing here reads the wall clock — the countdown is an interval tick counter, so it renders the same on the server.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/energy-pips`
+
+Props:
+- `max / start`: number · number (default 6 · 4) — Bank size and opening balance.
+- `refillSeconds`: number (default 6) — Seconds per regenerated pip.
+
+Notes:
+- The refill timer stops at full — a topped-up bank should not keep ticking.
+- The empty state names the wait instead of just disabling the button.
+- Reduced motion swaps pip states instantly and steps the refill bar.
+
+### Health Shield (KQ-319) — `health-shield`
+The chip ghost shows what it cost.
+
+A damage model built for legibility: shield absorbs first and shatters when it breaks, then health takes the rest — leaving a chip ghost at the old value that drains a beat later, so you can see exactly what the hit cost. Low health warms the fill and adds a pulse; healing refuses to overfill with a visible bounce at the cap.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/health-shield`
+
+Props:
+- `max / start / shield`: number · number · number (default 100 · 78 · 30) — The two pools and the opening health.
+- `hit`: number (default 22) — Damage per strike.
+
+Notes:
+- The lingering chip ghost is the single most important tell — without it a hit is just a smaller bar.
+- Overhealing is refused visibly; a silent cap teaches nothing.
+- Reduced motion snaps the bars and shows the ghost as a static beat.
+
+### Mana Orb (KQ-320) — `mana-orb`
+Two waves, never in step.
+
+A glass orb of liquid mana whose surface actually moves: two wave layers at different periods, deliberately desynced, because a single sine reads as a machine and two read as liquid. Casting drops the level and sloshes it, an empty cast is refused as clearly as a successful one lands, and regen shimmers until full and then stops.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mana-orb`
+
+Props:
+- `max / start / cost`: number · number · number (default 100 · 62 · 25) — The pool, its opening level, and the spell cost.
+- `regenPerSecond`: number (default 3) — Refill rate, driven by a tick counter.
+
+Notes:
+- The desynced wave layers are the whole illusion — matching their periods kills it.
+- A full orb stops animating; an idle resource should not burn frames.
+- Reduced motion flattens the surface entirely and snaps the level.
+
+### Cooldown Dial (KQ-321) — `cooldown-dial`
+Four timers, one polyrhythm.
+
+Four abilities with four different cooldowns, which is what gives an ability bar its polyrhythm: each casts, dims, and unwinds its own radial sweep back to ready, with a brief shared lockout after any cast so mashing gains nothing. The return to ready gets its own pop, because the wait is only worth it if the reward is felt.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cooldown-dial`
+
+Props:
+- `abilities`: Ability[] — Name, hotkey, and cooldown seconds per slot.
+- `onCast`: (id: string) => void — Fires per successful cast.
+
+Notes:
+- Q, W, E, and R cast from the keyboard when the group has focus.
+- Remaining time comes from an interval tick counter, never the wall clock.
+- Reduced motion shows a stepped numeral instead of an unwinding sweep.
+
+### Boss Meter (KQ-322) — `boss-meter`
+The pause is what makes it a phase.
+
+A long fight made legible by its thresholds: the bar carries phase markers, and crossing one stops everything for a beat, stamps the numeral, warms the tint, and names what just changed. That pause is the device — without it a boss bar is just a slow health bar. The last phase enrages, and defeat shatters it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/boss-meter`
+
+Props:
+- `max / hit`: number · number (default 1000 · 85) — The pool and the damage per strike.
+- `phases`: number[] (default [75, 50, 25]) — Threshold percentages that trigger a transition.
+
+Notes:
+- The phase pause is deliberate dead time — it is what turns a threshold into an event.
+- Chip damage lingers here too, at boss scale, so a long fight still reads hit by hit.
+- Reduced motion keeps the tint step and stamp but drops the shudder, sweeps, and shatter.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

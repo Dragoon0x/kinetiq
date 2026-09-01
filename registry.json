@@ -8438,6 +8438,146 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "energy-pips",
+      "type": "registry:ui",
+      "title": "Energy Pips",
+      "description": "The energy economy that decides when someone comes back: pips drain as they are spent and refill on a timer that only runs while the bank is below full. At zero the wait is stated plainly rather than hidden, because an honest countdown is the mechanic. Nothing here reads the wall clock — the countdown is an interval tick counter, so it renders the same on the server.",
+      "files": [
+        {
+          "path": "registry/ui/energy-pips.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-318"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "health-shield",
+      "type": "registry:ui",
+      "title": "Health Shield",
+      "description": "A damage model built for legibility: shield absorbs first and shatters when it breaks, then health takes the rest — leaving a chip ghost at the old value that drains a beat later, so you can see exactly what the hit cost. Low health warms the fill and adds a pulse; healing refuses to overfill with a visible bounce at the cap.",
+      "files": [
+        {
+          "path": "registry/ui/health-shield.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-319"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mana-orb",
+      "type": "registry:ui",
+      "title": "Mana Orb",
+      "description": "A glass orb of liquid mana whose surface actually moves: two wave layers at different periods, deliberately desynced, because a single sine reads as a machine and two read as liquid. Casting drops the level and sloshes it, an empty cast is refused as clearly as a successful one lands, and regen shimmers until full and then stops.",
+      "files": [
+        {
+          "path": "registry/ui/mana-orb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-320"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cooldown-dial",
+      "type": "registry:ui",
+      "title": "Cooldown Dial",
+      "description": "Four abilities with four different cooldowns, which is what gives an ability bar its polyrhythm: each casts, dims, and unwinds its own radial sweep back to ready, with a brief shared lockout after any cast so mashing gains nothing. The return to ready gets its own pop, because the wait is only worth it if the reward is felt.",
+      "files": [
+        {
+          "path": "registry/ui/cooldown-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-321"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "boss-meter",
+      "type": "registry:ui",
+      "title": "Boss Meter",
+      "description": "A long fight made legible by its thresholds: the bar carries phase markers, and crossing one stops everything for a beat, stamps the numeral, warms the tint, and names what just changed. That pause is the device — without it a boss bar is just a slow health bar. The last phase enrages, and defeat shatters it.",
+      "files": [
+        {
+          "path": "registry/ui/boss-meter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-322"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

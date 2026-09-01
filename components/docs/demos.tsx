@@ -276,6 +276,11 @@ import { RhythmTapDemo } from "@/registry/demos/rhythm-tap.demo";
 import { AccuracyRingDemo } from "@/registry/demos/accuracy-ring.demo";
 import { PowerGaugeDemo } from "@/registry/demos/power-gauge.demo";
 import { ReflexLightDemo } from "@/registry/demos/reflex-light.demo";
+import { EnergyPipsDemo } from "@/registry/demos/energy-pips.demo";
+import { HealthShieldDemo } from "@/registry/demos/health-shield.demo";
+import { ManaOrbDemo } from "@/registry/demos/mana-orb.demo";
+import { CooldownDialDemo } from "@/registry/demos/cooldown-dial.demo";
+import { BossMeterDemo } from "@/registry/demos/boss-meter.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -774,6 +779,11 @@ export const demos: Record<string, ComponentType> = {
   "accuracy-ring": AccuracyRingDemo,
   "power-gauge": PowerGaugeDemo,
   "reflex-light": ReflexLightDemo,
+  "energy-pips": EnergyPipsDemo,
+  "health-shield": HealthShieldDemo,
+  "mana-orb": ManaOrbDemo,
+  "cooldown-dial": CooldownDialDemo,
+  "boss-meter": BossMeterDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,
