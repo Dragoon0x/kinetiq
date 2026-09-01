@@ -7061,6 +7061,143 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "googly-eyes",
+      "type": "registry:ui",
+      "title": "Googly Eyes",
+      "description": "A pair of stick-on plastic eyes that follow your cursor with a slight spring lag, blink on their own schedule (every third one a double), and go cross-eyed when you get too close to the bridge of their nose. Boop them and the pupils rattle loose before settling back to work. Nothing here re-renders — tracking rides motion values from a document listener.",
+      "files": [
+        {
+          "path": "registry/ui/googly-eyes.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-268"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "duckling-trail",
+      "type": "registry:ui",
+      "title": "Duckling Trail",
+      "description": "A pond where a mother duck follows your pointer and her ducklings conga behind her, each one springing off the last so the line bunches at rest and stretches when she moves. Leave the pond and the family drifts to the bank to wait. Arrow keys and Enter walk her between waypoints, because the toy should not need a mouse.",
+      "files": [
+        {
+          "path": "registry/ui/duckling-trail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-269"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tail-wag",
+      "type": "registry:ui",
+      "title": "Tail Wag",
+      "description": "A dog behind a button whose tail wags faster the closer your cursor gets — a lazy sway across the room, a blur of enthusiasm up close. Press the button and the whole body joins in: rump shimmy, ears up, one heart. The caption escalates from “good dog” to “GOOD DOG”, which is the entire joke and it lands every time.",
+      "files": [
+        {
+          "path": "registry/ui/tail-wag.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-270"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "critter-choir",
+      "type": "registry:ui",
+      "title": "Critter Choir",
+      "description": "Four round critters in a row, each with its own pitch: tap one and it inflates, opens its mouth, and sends a note glyph rising — higher and lighter as you move up the scale. Tap all four inside a second and a half and they harmonize, notes fanning out over a glow. At rest they breathe slightly out of sync, which is most of the charm.",
+      "files": [
+        {
+          "path": "registry/ui/critter-choir.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-271"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "little-door",
+      "type": "registry:ui",
+      "title": "Little Door",
+      "description": "A tiny door in the baseboard and whoever lives behind it. Two knocks rattle the frame and move the caption along; the third cracks it open on its hinge, a pair of eyes blinks out, and a beat later it slams — shaking dust from the frame and leaving one word of review. Swap the resident for a flower if you would rather be greeted than judged.",
+      "files": [
+        {
+          "path": "registry/ui/little-door.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-272"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

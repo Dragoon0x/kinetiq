@@ -226,6 +226,11 @@ import { GumballRunDemo } from "@/registry/demos/gumball-run.demo";
 import { ToastPopDemo } from "@/registry/demos/toast-pop.demo";
 import { PullCordDemo } from "@/registry/demos/pull-cord.demo";
 import { DominoRunDemo } from "@/registry/demos/domino-run.demo";
+import { GooglyEyesDemo } from "@/registry/demos/googly-eyes.demo";
+import { DucklingTrailDemo } from "@/registry/demos/duckling-trail.demo";
+import { TailWagDemo } from "@/registry/demos/tail-wag.demo";
+import { CritterChoirDemo } from "@/registry/demos/critter-choir.demo";
+import { LittleDoorDemo } from "@/registry/demos/little-door.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -674,6 +679,11 @@ export const demos: Record<string, ComponentType> = {
   "toast-pop": ToastPopDemo,
   "pull-cord": PullCordDemo,
   "domino-run": DominoRunDemo,
+  "googly-eyes": GooglyEyesDemo,
+  "duckling-trail": DucklingTrailDemo,
+  "tail-wag": TailWagDemo,
+  "critter-choir": CritterChoirDemo,
+  "little-door": LittleDoorDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 266,
+      "components": 271,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -16189,6 +16189,266 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/domino-run",
         "bun": "bunx --bun shadcn@latest add @kinetiq/domino-run",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/domino-run.json"
+      }
+    },
+    {
+      "slug": "googly-eyes",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Googly Eyes",
+      "serial": "KQ-268",
+      "tagline": "They are watching. Politely.",
+      "description": "A pair of stick-on plastic eyes that follow your cursor with a slight spring lag, blink on their own schedule (every third one a double), and go cross-eyed when you get too close to the bridge of their nose. Boop them and the pupils rattle loose before settling back to work. Nothing here re-renders — tracking rides motion values from a document listener.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "eyes",
+        "cursor",
+        "tracking",
+        "blink",
+        "toy"
+      ],
+      "props": [
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "44",
+          "description": "Eye diameter in pixels; everything scales off it."
+        },
+        {
+          "name": "onBoop",
+          "type": "() => void",
+          "description": "Fires on each boop."
+        }
+      ],
+      "usageNotes": [
+        "Pupil offsets are clamped inside each socket, so the eyes never look like they escaped.",
+        "The jiggle rides on top of live tracking as a summed overlay — a boop never pauses the watching.",
+        "Reduced motion keeps the tracking (it is the point) but drops the lag, blinking, and jiggle."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/googly-eyes",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/googly-eyes.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/googly-eyes",
+        "npm": "npx shadcn@latest add @kinetiq/googly-eyes",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/googly-eyes",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/googly-eyes",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/googly-eyes.json"
+      }
+    },
+    {
+      "slug": "duckling-trail",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Duckling Trail",
+      "serial": "KQ-269",
+      "tagline": "A conga line with feathers.",
+      "description": "A pond where a mother duck follows your pointer and her ducklings conga behind her, each one springing off the last so the line bunches at rest and stretches when she moves. Leave the pond and the family drifts to the bank to wait. Arrow keys and Enter walk her between waypoints, because the toy should not need a mouse.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "ducks",
+        "follow",
+        "pointer",
+        "pond",
+        "creature"
+      ],
+      "props": [
+        {
+          "name": "ducklings",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "How many follow (1–5)."
+        }
+      ],
+      "usageNotes": [
+        "The chain is springs of springs — no animation loop, and the lag is the physics.",
+        "Hook count is fixed at the maximum and sliced by the prop, so changing the family size never breaks the rules of hooks.",
+        "Reduced motion snaps the family to fixed offsets with no bobbing or ripples."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/duckling-trail",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/duckling-trail.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/duckling-trail",
+        "npm": "npx shadcn@latest add @kinetiq/duckling-trail",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/duckling-trail",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/duckling-trail",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/duckling-trail.json"
+      }
+    },
+    {
+      "slug": "tail-wag",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tail Wag",
+      "serial": "KQ-270",
+      "tagline": "Wag rate is a function of distance.",
+      "description": "A dog behind a button whose tail wags faster the closer your cursor gets — a lazy sway across the room, a blur of enthusiasm up close. Press the button and the whole body joins in: rump shimmy, ears up, one heart. The caption escalates from “good dog” to “GOOD DOG”, which is the entire joke and it lands every time.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "dog",
+        "tail",
+        "proximity",
+        "cursor",
+        "creature"
+      ],
+      "props": [
+        {
+          "name": "onPet",
+          "type": "() => void",
+          "description": "Fires when the button is pressed."
+        }
+      ],
+      "usageNotes": [
+        "Distance maps to four rate buckets, and only a bucket change restarts the tween — never the pointer move itself.",
+        "The tail pivots at its base; it is an HTML element, so transform-origin behaves normally.",
+        "Reduced motion swaps four fixed tail angles by bucket, with no loop."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/tail-wag",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/tail-wag.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tail-wag",
+        "npm": "npx shadcn@latest add @kinetiq/tail-wag",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tail-wag",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tail-wag",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/tail-wag.json"
+      }
+    },
+    {
+      "slug": "critter-choir",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Critter Choir",
+      "serial": "KQ-271",
+      "tagline": "Four voices, one accidental chord.",
+      "description": "Four round critters in a row, each with its own pitch: tap one and it inflates, opens its mouth, and sends a note glyph rising — higher and lighter as you move up the scale. Tap all four inside a second and a half and they harmonize, notes fanning out over a glow. At rest they breathe slightly out of sync, which is most of the charm.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "critters",
+        "choir",
+        "chord",
+        "notes",
+        "creature"
+      ],
+      "props": [
+        {
+          "name": "onChord",
+          "type": "() => void",
+          "description": "Fires when all four sing inside the window."
+        }
+      ],
+      "usageNotes": [
+        "Pitch reads visually: higher critters rise their notes further and inflate less, so the row scans as a scale.",
+        "The chord window is a rolling ledger of tap timestamps kept in a ref — checked in the handler, never in render.",
+        "Reduced motion holds an inflated still with the note shown, and the chord glow appears as a state."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/critter-choir",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/critter-choir.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/critter-choir",
+        "npm": "npx shadcn@latest add @kinetiq/critter-choir",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/critter-choir",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/critter-choir",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/critter-choir.json"
+      }
+    },
+    {
+      "slug": "little-door",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Little Door",
+      "serial": "KQ-272",
+      "tagline": "Knock three times. Regret it.",
+      "description": "A tiny door in the baseboard and whoever lives behind it. Two knocks rattle the frame and move the caption along; the third cracks it open on its hinge, a pair of eyes blinks out, and a beat later it slams — shaking dust from the frame and leaving one word of review. Swap the resident for a flower if you would rather be greeted than judged.",
+      "categories": [
+        "delight"
+      ],
+      "keywords": [
+        "delight",
+        "door",
+        "knock",
+        "peek",
+        "surprise",
+        "creature"
+      ],
+      "props": [
+        {
+          "name": "resident",
+          "type": "\"eyes\" | \"flower\"",
+          "defaultValue": "\"eyes\"",
+          "description": "Who answers on the third knock."
+        },
+        {
+          "name": "onOpen",
+          "type": "() => void",
+          "description": "Fires when the door cracks open."
+        }
+      ],
+      "usageNotes": [
+        "The door opens by scaling from its hinge edge rather than rotating in 3D — no perspective, no Safari surprises.",
+        "The whole bit resets itself after the slam, so the toy is always ready to be rude again.",
+        "Reduced motion swaps closed and open stills with the resident shown, and skips the dust."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/little-door",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/little-door.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/little-door",
+        "npm": "npx shadcn@latest add @kinetiq/little-door",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/little-door",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/little-door",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/little-door.json"
       }
     },
     {
