@@ -5562,6 +5562,85 @@ Notes:
 - The best distance survives resets; chasing your own mark is the loop.
 - Reduced motion snaps the runner back with the caption and no tumble.
 
+### Crit Hit (KQ-333) — `crit-hit`
+A crush should not look like a graze.
+
+Damage numbers that scale their weight with what they mean: a graze drifts, a hit rises, a crit punches in with a starburst and a shake, and a crush brings the whole card with it. Numbers fan out along a cycled vector table so a flurry stays readable instead of stacking into a smear. The tier order is fixed, so the same strikes always read the same.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crit-hit`
+
+Props:
+- `tiers`: DamageTier[] — Label, amount, and weight per tier; cycled in fixed order.
+- `onCrit`: (amount: number) => void — Fires on the heavier tiers.
+
+Notes:
+- Outcomes cycle a fixed table — random crits make a component impossible to reason about or test.
+- The fan-out vector table is what keeps a fast flurry legible.
+- Reduced motion keeps tier differences in size, weight, and tint, and drops every arc and shake.
+
+### Streak Heat (KQ-334) — `streak-heat`
+Cooling is slower than heating.
+
+Escalation you can feel: each multiplier tier warms the panel, grows the numeral, and adds one more ambient layer on top of the last — a pulse, then a shimmer, then a rotating glow, then heat haze. Breaking the streak cools everything down over a slower tween than it took to heat, because a loss should take its time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/streak-heat`
+
+Props:
+- `thresholds`: number[] (default [3, 7, 12, 18]) — Streak counts at which the multiplier steps up.
+- `onLevel`: (level: number) => void — Fires on each new tier.
+
+Notes:
+- The ambient layers are cumulative, not swapped — that stacking is what reads as heat rather than a state change.
+- Colour, size, and weight carry the escalation on their own, which is why the reduced-motion fallback still works.
+- Reduced motion drops every ambient layer and keeps the ladder legible.
+
+### Perfect Stamp (KQ-335) — `perfect-stamp`
+Failure gets a thud, not a party.
+
+The verdict, slammed onto the results card: it arrives fast and oversized, lands hard at a slight angle, throws a shockwave and dust, and shudders the card by an amount scaled to the grade. A perfect run earns a sweep and a glow. A failed one gets a dull thud and no celebration, because a results screen that congratulates failure teaches nothing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/perfect-stamp`
+
+Props:
+- `grades`: Grade[] — Label, tint, fleck count, and landing angle per grade.
+- `onGrade`: (label: string) => void — Fires with the stamped verdict.
+
+Notes:
+- Grades cycle a fixed order so the demo is reproducible and testable.
+- The stamp never lands perfectly straight — a true angle reads as printed rather than stamped.
+- Reduced motion places the verdict at rest with its tint and caption, and nothing else.
+
+### Impact Frame (KQ-336) — `impact-frame`
+The freeze is the feeling.
+
+Hit-stop, demonstrated and measured: an impact freezes the scene for a set number of milliseconds, flashes, jolts within its own bounds, and prints the freeze duration so the effect can be studied rather than just felt. A compare toggle runs the same strike without the freeze, which is the fastest way to understand why it matters.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/impact-frame`
+
+Props:
+- `onImpact`: (intensity: "tap" | "hit" | "slam") => void — Fires with the chosen intensity.
+
+Notes:
+- The jolt is contained inside the card — it never moves the page and cannot cause layout jank.
+- Reduced motion removes the freeze, flash, jolt, and lines entirely; there is no reduced-but-still-flashing middle ground.
+- The printed freeze duration makes this a teaching component as much as an effect.
+
+### XP Shower (KQ-337) — `xp-shower`
+The total climbs as they land.
+
+Reward that arrives as objects: orbs burst from the source, hang for a beat, then stream to the counter on staggered arcs — and the total climbs in steps as each one lands, which is the entire reason to do this instead of animating a number. The big orbs are saved for last, because pacing is most of the payoff.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/xp-shower`
+
+Props:
+- `orbs`: number (default 12) — Orbs per claim (6–20).
+- `onClaim`: (total: number) => void — Fires with the batch total.
+
+Notes:
+- Each orb owns its own arrival, so overlapping claims keep counting correctly.
+- The hold before the flight is what makes the collection feel deliberate rather than instant.
+- Reduced motion ticks the counter once by the batch total and never renders an orb.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

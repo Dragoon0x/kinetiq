@@ -291,6 +291,11 @@ import { SeasonTrackDemo } from "@/registry/demos/season-track.demo";
 import { TerritoryGridDemo } from "@/registry/demos/territory-grid.demo";
 import { LadderClimbDemo } from "@/registry/demos/ladder-climb.demo";
 import { CheckpointRunDemo } from "@/registry/demos/checkpoint-run.demo";
+import { CritHitDemo } from "@/registry/demos/crit-hit.demo";
+import { StreakHeatDemo } from "@/registry/demos/streak-heat.demo";
+import { PerfectStampDemo } from "@/registry/demos/perfect-stamp.demo";
+import { ImpactFrameDemo } from "@/registry/demos/impact-frame.demo";
+import { XpShowerDemo } from "@/registry/demos/xp-shower.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -804,6 +809,11 @@ export const demos: Record<string, ComponentType> = {
   "territory-grid": TerritoryGridDemo,
   "ladder-climb": LadderClimbDemo,
   "checkpoint-run": CheckpointRunDemo,
+  "crit-hit": CritHitDemo,
+  "streak-heat": StreakHeatDemo,
+  "perfect-stamp": PerfectStampDemo,
+  "impact-frame": ImpactFrameDemo,
+  "xp-shower": XpShowerDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

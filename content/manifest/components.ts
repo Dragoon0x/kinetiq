@@ -12357,6 +12357,159 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "crit-hit",
+    type: "registry:ui",
+    title: "Crit Hit",
+    description:
+      "Damage numbers that scale their weight with what they mean: a graze drifts, a hit rises, a crit punches in with a starburst and a shake, and a crush brings the whole card with it. Numbers fan out along a cycled vector table so a flurry stays readable instead of stacking into a smear. The tier order is fixed, so the same strikes always read the same.",
+    files: [{ path: "registry/ui/crit-hit.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-333" },
+    tagline: "A crush should not look like a graze.",
+    keywords: ["game", "damage", "crit", "juice", "feedback", "numbers"],
+    props: [
+      {
+        name: "tiers",
+        type: "DamageTier[]",
+        description:
+          "Label, amount, and weight per tier; cycled in fixed order.",
+      },
+      {
+        name: "onCrit",
+        type: "(amount: number) => void",
+        description: "Fires on the heavier tiers.",
+      },
+    ],
+    usageNotes: [
+      "Outcomes cycle a fixed table \u2014 random crits make a component impossible to reason about or test.",
+      "The fan-out vector table is what keeps a fast flurry legible.",
+      "Reduced motion keeps tier differences in size, weight, and tint, and drops every arc and shake.",
+    ],
+  },
+  {
+    name: "streak-heat",
+    type: "registry:ui",
+    title: "Streak Heat",
+    description:
+      "Escalation you can feel: each multiplier tier warms the panel, grows the numeral, and adds one more ambient layer on top of the last \u2014 a pulse, then a shimmer, then a rotating glow, then heat haze. Breaking the streak cools everything down over a slower tween than it took to heat, because a loss should take its time.",
+    files: [{ path: "registry/ui/streak-heat.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-334" },
+    tagline: "Cooling is slower than heating.",
+    keywords: ["game", "streak", "multiplier", "heat", "escalation", "juice"],
+    props: [
+      {
+        name: "thresholds",
+        type: "number[]",
+        defaultValue: "[3, 7, 12, 18]",
+        description: "Streak counts at which the multiplier steps up.",
+      },
+      {
+        name: "onLevel",
+        type: "(level: number) => void",
+        description: "Fires on each new tier.",
+      },
+    ],
+    usageNotes: [
+      "The ambient layers are cumulative, not swapped \u2014 that stacking is what reads as heat rather than a state change.",
+      "Colour, size, and weight carry the escalation on their own, which is why the reduced-motion fallback still works.",
+      "Reduced motion drops every ambient layer and keeps the ladder legible.",
+    ],
+  },
+  {
+    name: "perfect-stamp",
+    type: "registry:ui",
+    title: "Perfect Stamp",
+    description:
+      "The verdict, slammed onto the results card: it arrives fast and oversized, lands hard at a slight angle, throws a shockwave and dust, and shudders the card by an amount scaled to the grade. A perfect run earns a sweep and a glow. A failed one gets a dull thud and no celebration, because a results screen that congratulates failure teaches nothing.",
+    files: [{ path: "registry/ui/perfect-stamp.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-335" },
+    tagline: "Failure gets a thud, not a party.",
+    keywords: ["game", "verdict", "grade", "stamp", "results", "juice"],
+    props: [
+      {
+        name: "grades",
+        type: "Grade[]",
+        description: "Label, tint, fleck count, and landing angle per grade.",
+      },
+      {
+        name: "onGrade",
+        type: "(label: string) => void",
+        description: "Fires with the stamped verdict.",
+      },
+    ],
+    usageNotes: [
+      "Grades cycle a fixed order so the demo is reproducible and testable.",
+      "The stamp never lands perfectly straight \u2014 a true angle reads as printed rather than stamped.",
+      "Reduced motion places the verdict at rest with its tint and caption, and nothing else.",
+    ],
+  },
+  {
+    name: "impact-frame",
+    type: "registry:ui",
+    title: "Impact Frame",
+    description:
+      "Hit-stop, demonstrated and measured: an impact freezes the scene for a set number of milliseconds, flashes, jolts within its own bounds, and prints the freeze duration so the effect can be studied rather than just felt. A compare toggle runs the same strike without the freeze, which is the fastest way to understand why it matters.",
+    files: [{ path: "registry/ui/impact-frame.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-336" },
+    tagline: "The freeze is the feeling.",
+    keywords: ["game", "hit stop", "impact", "juice", "feedback", "feel"],
+    props: [
+      {
+        name: "onImpact",
+        type: '(intensity: "tap" | "hit" | "slam") => void',
+        description: "Fires with the chosen intensity.",
+      },
+    ],
+    usageNotes: [
+      "The jolt is contained inside the card \u2014 it never moves the page and cannot cause layout jank.",
+      "Reduced motion removes the freeze, flash, jolt, and lines entirely; there is no reduced-but-still-flashing middle ground.",
+      "The printed freeze duration makes this a teaching component as much as an effect.",
+    ],
+  },
+  {
+    name: "xp-shower",
+    type: "registry:ui",
+    title: "XP Shower",
+    description:
+      "Reward that arrives as objects: orbs burst from the source, hang for a beat, then stream to the counter on staggered arcs \u2014 and the total climbs in steps as each one lands, which is the entire reason to do this instead of animating a number. The big orbs are saved for last, because pacing is most of the payoff.",
+    files: [{ path: "registry/ui/xp-shower.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-337" },
+    tagline: "The total climbs as they land.",
+    keywords: ["game", "xp", "reward", "orbs", "payout", "juice"],
+    props: [
+      {
+        name: "orbs",
+        type: "number",
+        defaultValue: "12",
+        description: "Orbs per claim (6\u201320).",
+      },
+      {
+        name: "onClaim",
+        type: "(total: number) => void",
+        description: "Fires with the batch total.",
+      },
+    ],
+    usageNotes: [
+      "Each orb owns its own arrival, so overlapping claims keep counting correctly.",
+      "The hold before the flight is what makes the collection feel deliberate rather than instant.",
+      "Reduced motion ticks the counter once by the batch total and never renders an orb.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

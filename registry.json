@@ -8864,6 +8864,144 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crit-hit",
+      "type": "registry:ui",
+      "title": "Crit Hit",
+      "description": "Damage numbers that scale their weight with what they mean: a graze drifts, a hit rises, a crit punches in with a starburst and a shake, and a crush brings the whole card with it. Numbers fan out along a cycled vector table so a flurry stays readable instead of stacking into a smear. The tier order is fixed, so the same strikes always read the same.",
+      "files": [
+        {
+          "path": "registry/ui/crit-hit.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-333"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "streak-heat",
+      "type": "registry:ui",
+      "title": "Streak Heat",
+      "description": "Escalation you can feel: each multiplier tier warms the panel, grows the numeral, and adds one more ambient layer on top of the last — a pulse, then a shimmer, then a rotating glow, then heat haze. Breaking the streak cools everything down over a slower tween than it took to heat, because a loss should take its time.",
+      "files": [
+        {
+          "path": "registry/ui/streak-heat.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-334"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "perfect-stamp",
+      "type": "registry:ui",
+      "title": "Perfect Stamp",
+      "description": "The verdict, slammed onto the results card: it arrives fast and oversized, lands hard at a slight angle, throws a shockwave and dust, and shudders the card by an amount scaled to the grade. A perfect run earns a sweep and a glow. A failed one gets a dull thud and no celebration, because a results screen that congratulates failure teaches nothing.",
+      "files": [
+        {
+          "path": "registry/ui/perfect-stamp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-335"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "impact-frame",
+      "type": "registry:ui",
+      "title": "Impact Frame",
+      "description": "Hit-stop, demonstrated and measured: an impact freezes the scene for a set number of milliseconds, flashes, jolts within its own bounds, and prints the freeze duration so the effect can be studied rather than just felt. A compare toggle runs the same strike without the freeze, which is the fastest way to understand why it matters.",
+      "files": [
+        {
+          "path": "registry/ui/impact-frame.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-336"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "xp-shower",
+      "type": "registry:ui",
+      "title": "XP Shower",
+      "description": "Reward that arrives as objects: orbs burst from the source, hang for a beat, then stream to the counter on staggered arcs — and the total climbs in steps as each one lands, which is the entire reason to do this instead of animating a number. The big orbs are saved for last, because pacing is most of the payoff.",
+      "files": [
+        {
+          "path": "registry/ui/xp-shower.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-337"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
