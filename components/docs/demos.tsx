@@ -261,6 +261,11 @@ import { SkillTreeDemo } from "@/registry/demos/skill-tree.demo";
 import { RankInsigniaDemo } from "@/registry/demos/rank-insignia.demo";
 import { ComboMeterDemo } from "@/registry/demos/combo-meter.demo";
 import { DailyCheckDemo } from "@/registry/demos/daily-check.demo";
+import { LootChestDemo } from "@/registry/demos/loot-chest.demo";
+import { PrizeWheelDemo } from "@/registry/demos/prize-wheel.demo";
+import { PackTearDemo } from "@/registry/demos/pack-tear.demo";
+import { GachaCapsuleDemo } from "@/registry/demos/gacha-capsule.demo";
+import { RewardTrackDemo } from "@/registry/demos/reward-track.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -744,6 +749,11 @@ export const demos: Record<string, ComponentType> = {
   "rank-insignia": RankInsigniaDemo,
   "combo-meter": ComboMeterDemo,
   "daily-check": DailyCheckDemo,
+  "loot-chest": LootChestDemo,
+  "prize-wheel": PrizeWheelDemo,
+  "pack-tear": PackTearDemo,
+  "gacha-capsule": GachaCapsuleDemo,
+  "reward-track": RewardTrackDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

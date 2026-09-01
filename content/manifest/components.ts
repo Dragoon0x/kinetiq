@@ -11397,6 +11397,165 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "loot-chest",
+    type: "registry:ui",
+    title: "Loot Chest",
+    description:
+      "A chest that spends longer on the anticipation than the payoff: it shudders three times with rising amplitude, the clasp pops, light leaks from the seam, and only then does the lid swing and the beam erupt. The card that rises carries a rarity, and the reaction scales with it \u2014 legendary earns the sweep, common earns a settle and nothing more.",
+    files: [{ path: "registry/ui/loot-chest.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-303" },
+    tagline: "The shudder before the lid.",
+    keywords: ["game", "loot", "chest", "rarity", "reward", "reveal"],
+    props: [
+      {
+        name: "rarities",
+        type: "Rarity[]",
+        description:
+          "The tier table \u2014 name, tint, pip count. Cycled in fixed order, never rolled.",
+      },
+      {
+        name: "onOpen",
+        type: "(rarity: string) => void",
+        description: "Fires with the revealed tier.",
+      },
+    ],
+    usageNotes: [
+      "Rarity is a fixed cycle, not a random roll \u2014 a demo that rolls differently for every visitor cannot be reasoned about.",
+      "Reaction intensity is tiered on purpose; celebrating every outcome equally teaches nothing.",
+      "Reduced motion opens straight to the card with its rarity styling intact.",
+    ],
+  },
+  {
+    name: "prize-wheel",
+    type: "registry:ui",
+    title: "Prize Wheel",
+    description:
+      "A segmented wheel whose last half-second is the whole experience: a wind-up counter-rotation, several turns, then a hard deceleration onto the segment with the pointer ticking slower as it goes. The blank segment lands flat on purpose \u2014 muted caption, no sparks \u2014 because a wheel that celebrates nothing is a wheel nobody reads.",
+    files: [{ path: "registry/ui/prize-wheel.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-304" },
+    tagline: "The deceleration is the ride.",
+    keywords: ["game", "wheel", "spin", "prize", "reward", "chance"],
+    props: [
+      {
+        name: "segments",
+        type: "Segment[]",
+        description:
+          "The wedges; wedge angles derive from the count. Outcomes cycle in fixed order.",
+      },
+      {
+        name: "onLand",
+        type: "(label: string) => void",
+        description: "Fires with the winning label.",
+      },
+    ],
+    usageNotes: [
+      "Outcomes are a fixed cycle \u2014 the wheel never rolls, so demos and tests are reproducible.",
+      "The distinct cousin in Selection is wheel-picker, a scrolling input; this is a reward device.",
+      "Reduced motion jumps to the result angle and highlights the winner without spinning.",
+    ],
+  },
+  {
+    name: "pack-tear",
+    type: "registry:ui",
+    title: "Pack Tear",
+    description:
+      "A foil pack you actually tear: the rip tracks your drag one-to-one, shedding flecks, and commits past two thirds. Five cards fan out face-down, and each flip is its own verdict with rarity-scaled reaction. The haul line totals what you pulled, then a fresh pack reseals with the next set queued.",
+    files: [{ path: "registry/ui/pack-tear.tsx", type: "registry:ui" }],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-305" },
+    tagline: "Tear it. Fan it. Flip it.",
+    keywords: ["game", "pack", "cards", "rarity", "collect", "reveal"],
+    props: [
+      {
+        name: "cards",
+        type: "number",
+        defaultValue: "5",
+        description: "Cards in the pack (3\u20137).",
+      },
+      {
+        name: "onReveal",
+        type: "(rarity: string) => void",
+        description: "Fires per card flipped.",
+      },
+    ],
+    usageNotes: [
+      "Flips scale to zero and back rather than rotating in 3D \u2014 Safari-proof, no perspective needed.",
+      "Enter, Space, or arrow keys tear in steps; the ritual is never drag-only.",
+      "Rarities cycle in fixed order, so a pack opens the same way for everyone.",
+    ],
+  },
+  {
+    name: "gacha-capsule",
+    type: "registry:ui",
+    title: "Gacha Capsule",
+    description:
+      "A capsule machine with the full ritual: crank it round, watch the capsule bounce down the chute, wobble to rest, crack along its seam, and present what is inside. Tiers cycle in fixed order and the top one is deliberately infrequent \u2014 a machine that hands out rainbows every turn is not a machine anyone remembers.",
+    files: [{ path: "registry/ui/gacha-capsule.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["game"],
+    meta: { serial: "KQ-306" },
+    tagline: "Crank, drop, crack, collect.",
+    keywords: ["game", "gacha", "capsule", "crank", "prize", "collection"],
+    props: [
+      {
+        name: "onPrize",
+        type: "(tier: string) => void",
+        description: "Fires with the revealed tier.",
+      },
+    ],
+    usageNotes: [
+      "The crank is 1:1 direct manipulation with unwrapped angle accumulation; a full turn dispenses.",
+      "The rare tier is rationed by the cycle, not by odds \u2014 honest pacing beats fake probability.",
+      "Reduced motion presents the opened capsule and updates the shelf instantly.",
+    ],
+  },
+  {
+    name: "reward-track",
+    type: "registry:ui",
+    title: "Reward Track",
+    description:
+      "The season track, built around its real mechanic: the unclaimed counter. Progress advances a head along the ribbon, nodes it passes start pulsing, and the nag ticks up until you claim them. Milestones every fifth node pay bigger, and finishing the track offers the next season rather than pretending the run goes on forever.",
+    files: [{ path: "registry/ui/reward-track.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-307" },
+    tagline: "The unclaimed count is the mechanic.",
+    keywords: ["game", "track", "season", "rewards", "claim", "progression"],
+    props: [
+      {
+        name: "nodes",
+        type: "TrackNode[]",
+        description: "The ribbon of rewards; every fifth reads as a milestone.",
+      },
+      {
+        name: "perClick",
+        type: "number",
+        defaultValue: "34",
+        description: "Progress per earn, with nodes spaced 100 apart.",
+      },
+      {
+        name: "onClaim",
+        type: "(id: string) => void",
+        description: "Fires per claimed node.",
+      },
+    ],
+    usageNotes: [
+      "The track scrolls inside its own container at narrow widths \u2014 the page never scrolls sideways.",
+      "Claim-all runs a cascade so a backlog clears as one satisfying sweep.",
+      "Reduced motion jumps the head and claims instantly, keeping every count legible.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

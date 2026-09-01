@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 301,
+      "components": 306,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -18041,6 +18041,282 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/daily-check",
         "bun": "bunx --bun shadcn@latest add @kinetiq/daily-check",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/daily-check.json"
+      }
+    },
+    {
+      "slug": "loot-chest",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Loot Chest",
+      "serial": "KQ-303",
+      "tagline": "The shudder before the lid.",
+      "description": "A chest that spends longer on the anticipation than the payoff: it shudders three times with rising amplitude, the clasp pops, light leaks from the seam, and only then does the lid swing and the beam erupt. The card that rises carries a rarity, and the reaction scales with it — legendary earns the sweep, common earns a settle and nothing more.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "loot",
+        "chest",
+        "rarity",
+        "reward",
+        "reveal"
+      ],
+      "props": [
+        {
+          "name": "rarities",
+          "type": "Rarity[]",
+          "description": "The tier table — name, tint, pip count. Cycled in fixed order, never rolled."
+        },
+        {
+          "name": "onOpen",
+          "type": "(rarity: string) => void",
+          "description": "Fires with the revealed tier."
+        }
+      ],
+      "usageNotes": [
+        "Rarity is a fixed cycle, not a random roll — a demo that rolls differently for every visitor cannot be reasoned about.",
+        "Reaction intensity is tiered on purpose; celebrating every outcome equally teaches nothing.",
+        "Reduced motion opens straight to the card with its rarity styling intact."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/loot-chest",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/loot-chest.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/loot-chest",
+        "npm": "npx shadcn@latest add @kinetiq/loot-chest",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/loot-chest",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/loot-chest",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/loot-chest.json"
+      }
+    },
+    {
+      "slug": "prize-wheel",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Prize Wheel",
+      "serial": "KQ-304",
+      "tagline": "The deceleration is the ride.",
+      "description": "A segmented wheel whose last half-second is the whole experience: a wind-up counter-rotation, several turns, then a hard deceleration onto the segment with the pointer ticking slower as it goes. The blank segment lands flat on purpose — muted caption, no sparks — because a wheel that celebrates nothing is a wheel nobody reads.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "wheel",
+        "spin",
+        "prize",
+        "reward",
+        "chance"
+      ],
+      "props": [
+        {
+          "name": "segments",
+          "type": "Segment[]",
+          "description": "The wedges; wedge angles derive from the count. Outcomes cycle in fixed order."
+        },
+        {
+          "name": "onLand",
+          "type": "(label: string) => void",
+          "description": "Fires with the winning label."
+        }
+      ],
+      "usageNotes": [
+        "Outcomes are a fixed cycle — the wheel never rolls, so demos and tests are reproducible.",
+        "The distinct cousin in Selection is wheel-picker, a scrolling input; this is a reward device.",
+        "Reduced motion jumps to the result angle and highlights the winner without spinning."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/prize-wheel",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/prize-wheel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/prize-wheel",
+        "npm": "npx shadcn@latest add @kinetiq/prize-wheel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/prize-wheel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/prize-wheel",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/prize-wheel.json"
+      }
+    },
+    {
+      "slug": "pack-tear",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pack Tear",
+      "serial": "KQ-305",
+      "tagline": "Tear it. Fan it. Flip it.",
+      "description": "A foil pack you actually tear: the rip tracks your drag one-to-one, shedding flecks, and commits past two thirds. Five cards fan out face-down, and each flip is its own verdict with rarity-scaled reaction. The haul line totals what you pulled, then a fresh pack reseals with the next set queued.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "pack",
+        "cards",
+        "rarity",
+        "collect",
+        "reveal"
+      ],
+      "props": [
+        {
+          "name": "cards",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Cards in the pack (3–7)."
+        },
+        {
+          "name": "onReveal",
+          "type": "(rarity: string) => void",
+          "description": "Fires per card flipped."
+        }
+      ],
+      "usageNotes": [
+        "Flips scale to zero and back rather than rotating in 3D — Safari-proof, no perspective needed.",
+        "Enter, Space, or arrow keys tear in steps; the ritual is never drag-only.",
+        "Rarities cycle in fixed order, so a pack opens the same way for everyone."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/pack-tear",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/pack-tear.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pack-tear",
+        "npm": "npx shadcn@latest add @kinetiq/pack-tear",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pack-tear",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pack-tear",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/pack-tear.json"
+      }
+    },
+    {
+      "slug": "gacha-capsule",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gacha Capsule",
+      "serial": "KQ-306",
+      "tagline": "Crank, drop, crack, collect.",
+      "description": "A capsule machine with the full ritual: crank it round, watch the capsule bounce down the chute, wobble to rest, crack along its seam, and present what is inside. Tiers cycle in fixed order and the top one is deliberately infrequent — a machine that hands out rainbows every turn is not a machine anyone remembers.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "gacha",
+        "capsule",
+        "crank",
+        "prize",
+        "collection"
+      ],
+      "props": [
+        {
+          "name": "onPrize",
+          "type": "(tier: string) => void",
+          "description": "Fires with the revealed tier."
+        }
+      ],
+      "usageNotes": [
+        "The crank is 1:1 direct manipulation with unwrapped angle accumulation; a full turn dispenses.",
+        "The rare tier is rationed by the cycle, not by odds — honest pacing beats fake probability.",
+        "Reduced motion presents the opened capsule and updates the shelf instantly."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/gacha-capsule",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gacha-capsule.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gacha-capsule",
+        "npm": "npx shadcn@latest add @kinetiq/gacha-capsule",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gacha-capsule",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gacha-capsule",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gacha-capsule.json"
+      }
+    },
+    {
+      "slug": "reward-track",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Reward Track",
+      "serial": "KQ-307",
+      "tagline": "The unclaimed count is the mechanic.",
+      "description": "The season track, built around its real mechanic: the unclaimed counter. Progress advances a head along the ribbon, nodes it passes start pulsing, and the nag ticks up until you claim them. Milestones every fifth node pay bigger, and finishing the track offers the next season rather than pretending the run goes on forever.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "track",
+        "season",
+        "rewards",
+        "claim",
+        "progression"
+      ],
+      "props": [
+        {
+          "name": "nodes",
+          "type": "TrackNode[]",
+          "description": "The ribbon of rewards; every fifth reads as a milestone."
+        },
+        {
+          "name": "perClick",
+          "type": "number",
+          "defaultValue": "34",
+          "description": "Progress per earn, with nodes spaced 100 apart."
+        },
+        {
+          "name": "onClaim",
+          "type": "(id: string) => void",
+          "description": "Fires per claimed node."
+        }
+      ],
+      "usageNotes": [
+        "The track scrolls inside its own container at narrow widths — the page never scrolls sideways.",
+        "Claim-all runs a cascade so a backlog clears as one satisfying sweep.",
+        "Reduced motion jumps the head and claims instantly, keeping every count legible."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/reward-track",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/reward-track.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/reward-track",
+        "npm": "npx shadcn@latest add @kinetiq/reward-track",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/reward-track",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/reward-track",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/reward-track.json"
       }
     },
     {

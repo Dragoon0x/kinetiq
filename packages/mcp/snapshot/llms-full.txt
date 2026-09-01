@@ -5085,6 +5085,86 @@ Notes:
 - Breaking the streak is a visible, legible loss; that is what makes the chain worth keeping.
 - Reduced motion claims instantly and keeps the totals and captions.
 
+### Loot Chest (KQ-303) — `loot-chest`
+The shudder before the lid.
+
+A chest that spends longer on the anticipation than the payoff: it shudders three times with rising amplitude, the clasp pops, light leaks from the seam, and only then does the lid swing and the beam erupt. The card that rises carries a rarity, and the reaction scales with it — legendary earns the sweep, common earns a settle and nothing more.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/loot-chest`
+
+Props:
+- `rarities`: Rarity[] — The tier table — name, tint, pip count. Cycled in fixed order, never rolled.
+- `onOpen`: (rarity: string) => void — Fires with the revealed tier.
+
+Notes:
+- Rarity is a fixed cycle, not a random roll — a demo that rolls differently for every visitor cannot be reasoned about.
+- Reaction intensity is tiered on purpose; celebrating every outcome equally teaches nothing.
+- Reduced motion opens straight to the card with its rarity styling intact.
+
+### Prize Wheel (KQ-304) — `prize-wheel`
+The deceleration is the ride.
+
+A segmented wheel whose last half-second is the whole experience: a wind-up counter-rotation, several turns, then a hard deceleration onto the segment with the pointer ticking slower as it goes. The blank segment lands flat on purpose — muted caption, no sparks — because a wheel that celebrates nothing is a wheel nobody reads.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/prize-wheel`
+
+Props:
+- `segments`: Segment[] — The wedges; wedge angles derive from the count. Outcomes cycle in fixed order.
+- `onLand`: (label: string) => void — Fires with the winning label.
+
+Notes:
+- Outcomes are a fixed cycle — the wheel never rolls, so demos and tests are reproducible.
+- The distinct cousin in Selection is wheel-picker, a scrolling input; this is a reward device.
+- Reduced motion jumps to the result angle and highlights the winner without spinning.
+
+### Pack Tear (KQ-305) — `pack-tear`
+Tear it. Fan it. Flip it.
+
+A foil pack you actually tear: the rip tracks your drag one-to-one, shedding flecks, and commits past two thirds. Five cards fan out face-down, and each flip is its own verdict with rarity-scaled reaction. The haul line totals what you pulled, then a fresh pack reseals with the next set queued.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pack-tear`
+
+Props:
+- `cards`: number (default 5) — Cards in the pack (3–7).
+- `onReveal`: (rarity: string) => void — Fires per card flipped.
+
+Notes:
+- Flips scale to zero and back rather than rotating in 3D — Safari-proof, no perspective needed.
+- Enter, Space, or arrow keys tear in steps; the ritual is never drag-only.
+- Rarities cycle in fixed order, so a pack opens the same way for everyone.
+
+### Gacha Capsule (KQ-306) — `gacha-capsule`
+Crank, drop, crack, collect.
+
+A capsule machine with the full ritual: crank it round, watch the capsule bounce down the chute, wobble to rest, crack along its seam, and present what is inside. Tiers cycle in fixed order and the top one is deliberately infrequent — a machine that hands out rainbows every turn is not a machine anyone remembers.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gacha-capsule`
+
+Props:
+- `onPrize`: (tier: string) => void — Fires with the revealed tier.
+
+Notes:
+- The crank is 1:1 direct manipulation with unwrapped angle accumulation; a full turn dispenses.
+- The rare tier is rationed by the cycle, not by odds — honest pacing beats fake probability.
+- Reduced motion presents the opened capsule and updates the shelf instantly.
+
+### Reward Track (KQ-307) — `reward-track`
+The unclaimed count is the mechanic.
+
+The season track, built around its real mechanic: the unclaimed counter. Progress advances a head along the ribbon, nodes it passes start pulsing, and the nag ticks up until you claim them. Milestones every fifth node pay bigger, and finishing the track offers the next season rather than pretending the run goes on forever.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/reward-track`
+
+Props:
+- `nodes`: TrackNode[] — The ribbon of rewards; every fifth reads as a milestone.
+- `perClick`: number (default 34) — Progress per earn, with nodes spaced 100 apart.
+- `onClaim`: (id: string) => void — Fires per claimed node.
+
+Notes:
+- The track scrolls inside its own container at narrow widths — the page never scrolls sideways.
+- Claim-all runs a cascade so a backlog clears as one satisfying sweep.
+- Reduced motion jumps the head and claims instantly, keeping every count legible.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

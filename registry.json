@@ -8018,6 +8018,145 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "loot-chest",
+      "type": "registry:ui",
+      "title": "Loot Chest",
+      "description": "A chest that spends longer on the anticipation than the payoff: it shudders three times with rising amplitude, the clasp pops, light leaks from the seam, and only then does the lid swing and the beam erupt. The card that rises carries a rarity, and the reaction scales with it — legendary earns the sweep, common earns a settle and nothing more.",
+      "files": [
+        {
+          "path": "registry/ui/loot-chest.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-303"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "prize-wheel",
+      "type": "registry:ui",
+      "title": "Prize Wheel",
+      "description": "A segmented wheel whose last half-second is the whole experience: a wind-up counter-rotation, several turns, then a hard deceleration onto the segment with the pointer ticking slower as it goes. The blank segment lands flat on purpose — muted caption, no sparks — because a wheel that celebrates nothing is a wheel nobody reads.",
+      "files": [
+        {
+          "path": "registry/ui/prize-wheel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-304"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pack-tear",
+      "type": "registry:ui",
+      "title": "Pack Tear",
+      "description": "A foil pack you actually tear: the rip tracks your drag one-to-one, shedding flecks, and commits past two thirds. Five cards fan out face-down, and each flip is its own verdict with rarity-scaled reaction. The haul line totals what you pulled, then a fresh pack reseals with the next set queued.",
+      "files": [
+        {
+          "path": "registry/ui/pack-tear.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-305"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gacha-capsule",
+      "type": "registry:ui",
+      "title": "Gacha Capsule",
+      "description": "A capsule machine with the full ritual: crank it round, watch the capsule bounce down the chute, wobble to rest, crack along its seam, and present what is inside. Tiers cycle in fixed order and the top one is deliberately infrequent — a machine that hands out rainbows every turn is not a machine anyone remembers.",
+      "files": [
+        {
+          "path": "registry/ui/gacha-capsule.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-306"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reward-track",
+      "type": "registry:ui",
+      "title": "Reward Track",
+      "description": "The season track, built around its real mechanic: the unclaimed counter. Progress advances a head along the ribbon, nodes it passes start pulsing, and the nag ticks up until you claim them. Milestones every fifth node pay bigger, and finishing the track offers the next season rather than pretending the run goes on forever.",
+      "files": [
+        {
+          "path": "registry/ui/reward-track.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-307"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
