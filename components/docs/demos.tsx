@@ -296,6 +296,11 @@ import { StreakHeatDemo } from "@/registry/demos/streak-heat.demo";
 import { PerfectStampDemo } from "@/registry/demos/perfect-stamp.demo";
 import { ImpactFrameDemo } from "@/registry/demos/impact-frame.demo";
 import { XpShowerDemo } from "@/registry/demos/xp-shower.demo";
+import { AvatarForgeDemo } from "@/registry/demos/avatar-forge.demo";
+import { GuildCrestDemo } from "@/registry/demos/guild-crest.demo";
+import { TeamRosterDemo } from "@/registry/demos/team-roster.demo";
+import { DuelReadyDemo } from "@/registry/demos/duel-ready.demo";
+import { EmoteWheelDemo } from "@/registry/demos/emote-wheel.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -814,6 +819,11 @@ export const demos: Record<string, ComponentType> = {
   "perfect-stamp": PerfectStampDemo,
   "impact-frame": ImpactFrameDemo,
   "xp-shower": XpShowerDemo,
+  "avatar-forge": AvatarForgeDemo,
+  "guild-crest": GuildCrestDemo,
+  "team-roster": TeamRosterDemo,
+  "duel-ready": DuelReadyDemo,
+  "emote-wheel": EmoteWheelDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

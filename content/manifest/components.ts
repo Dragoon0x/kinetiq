@@ -12510,6 +12510,171 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "avatar-forge",
+    type: "registry:ui",
+    title: "Avatar Forge",
+    description:
+      "A character maker where only the layer you changed moves \u2014 cycle a head, and the head pops while everything else holds, so the eye lands on the edit instead of hunting for it. A handle is derived from the current combination and rewrites itself as parts change, which is the small thing that turns a shape stack into someone. Saving stamps it into a roster of the last three busts.",
+    files: [{ path: "registry/ui/avatar-forge.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "swatch-lock"],
+    categories: ["game"],
+    meta: { serial: "KQ-338" },
+    tagline: "Only the changed layer moves.",
+    keywords: ["game", "avatar", "character", "identity", "customise", "forge"],
+    props: [
+      {
+        name: "onSave",
+        type: "(handle: string) => void",
+        description: "Fires with the derived handle when a bust is saved.",
+      },
+    ],
+    usageNotes: [
+      "Surprise me steps every slot by a fixed offset table \u2014 a randomiser nobody can reproduce makes bug reports impossible.",
+      "The handle is hashed from the slot indices, so the same avatar always carries the same name.",
+      "Reduced motion swaps parts instantly and keeps the handle, the roster, and the caption.",
+    ],
+  },
+  {
+    name: "guild-crest",
+    type: "registry:ui",
+    title: "Guild Crest",
+    description:
+      "Heraldry, assembled in order: the shield drops and settles, the field wipes across it, the charge stamps on with a ring, and the ribbon unfurls from the centre carrying the name. Each layer waits for the one before it, because a crest that arrives all at once is only an image \u2014 the sequence is the ceremony. Cycling a part re-runs that layer alone, and a mock blazon reads the whole device back in shorthand.",
+    files: [{ path: "registry/ui/guild-crest.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-339" },
+    tagline: "The order is the ceremony.",
+    keywords: ["game", "crest", "guild", "heraldry", "emblem", "identity"],
+    props: [
+      {
+        name: "name",
+        type: "string",
+        description: "Guild name carried on the ribbon.",
+      },
+      {
+        name: "onStrike",
+        type: "(blazon: string) => void",
+        description:
+          "Fires with the blazon once the crest finishes assembling.",
+      },
+    ],
+    usageNotes: [
+      "Shape, field, charge, and colour come from fixed tables, so a given crest is always reproducible.",
+      "Colour changes ride CSS transitions rather than motion interpolation, which cannot cross token values.",
+      "Reduced motion presents the finished crest with its caption and swaps parts instantly.",
+    ],
+  },
+  {
+    name: "team-roster",
+    type: "registry:ui",
+    title: "Team Roster",
+    description:
+      "The lobby before the match, where the interesting state is always the person you are waiting on. Teammates ready themselves on a fixed schedule, one of them deliberately slow, one of them drifting away partway through \u2014 because readiness that ignores presence is a lie. When the last ring fills, the countdown runs and the rows pulse together.",
+    files: [{ path: "registry/ui/team-roster.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "status-pip",
+    ],
+    categories: ["game"],
+    meta: { serial: "KQ-340" },
+    tagline: "Someone is always the slow one.",
+    keywords: ["game", "lobby", "party", "roster", "presence", "ready"],
+    props: [
+      {
+        name: "members",
+        type: "Member[]",
+        description:
+          "Party members; one may be flagged as you and is pinned to the top.",
+      },
+      {
+        name: "onLaunch",
+        type: "() => void",
+        description: "Fires when the countdown reaches zero.",
+      },
+    ],
+    usageNotes: [
+      "Teammate readiness runs off a fixed delay table, so the lobby behaves identically on every mount.",
+      "The slow teammate and the away drift are deliberate \u2014 a lobby where everyone is instantly ready teaches nothing.",
+      "Reduced motion keeps the countdown stepping on its timer and drops the pops, pulses, and sweep.",
+    ],
+  },
+  {
+    name: "duel-ready",
+    type: "registry:ui",
+    title: "Duel Ready",
+    description:
+      "The face-off screen, which people remember better than the match. Two sides slide in from opposite edges, a divider wipes between them, and the versus mark stamps in the centre; locking in lights your frame and leans your fighter toward the middle, the physical tell that you are committed. When both sides are in, they lunge, the mark flares, and the count runs down to the word.",
+    files: [{ path: "registry/ui/duel-ready.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-341" },
+    tagline: "The lean is the tell.",
+    keywords: ["game", "versus", "duel", "face off", "match", "ready"],
+    props: [
+      {
+        name: "foeDelayMs",
+        type: "number",
+        defaultValue: "1400",
+        description: "Fixed delay before the opponent locks in.",
+      },
+      {
+        name: "onFight",
+        type: "() => void",
+        description: "Fires when the countdown reaches zero.",
+      },
+    ],
+    usageNotes: [
+      "The opponent answers on a fixed delay rather than a random one, so the sequence is testable.",
+      "Neither side can lock in twice; the button disables the moment it lands.",
+      "Reduced motion presents the panel assembled, steps the countdown on its timer, and drops every slide, lunge, and flare.",
+    ],
+  },
+  {
+    name: "emote-wheel",
+    type: "registry:ui",
+    title: "Emote Wheel",
+    description:
+      "Hold to bloom eight emotes out of the centre, sweep toward one, release to play it \u2014 and release near the middle to back out with nothing, because a wheel you cannot cancel is a trap. A cooldown unwinds on the trigger afterwards, which is not a limitation but the design that keeps the thing charming instead of turning it into a spam device.",
+    files: [{ path: "registry/ui/emote-wheel.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-342" },
+    tagline: "The centre is the way out.",
+    keywords: ["game", "emote", "radial", "wheel", "expression", "cooldown"],
+    props: [
+      {
+        name: "emotes",
+        type: "Emote[]",
+        description: "Wedge labels; glyphs come from a fixed table by index.",
+      },
+      {
+        name: "cooldownMs",
+        type: "number",
+        defaultValue: "2500",
+        description: "Trigger lockout after an emote plays.",
+      },
+      {
+        name: "onEmote",
+        type: "(id: string) => void",
+        description: "Fires with the played emote.",
+      },
+    ],
+    usageNotes: [
+      "Wedge positions come from index maths, never measurement, so the wheel is correct on first paint.",
+      "Arrow keys move the highlight and the number row selects directly \u2014 a radial control still has to answer a keyboard.",
+      "Reduced motion opens the wheel already fanned, plays the emote at its end position, and steps the cooldown as a numeral.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

@@ -9002,6 +9002,144 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "avatar-forge",
+      "type": "registry:ui",
+      "title": "Avatar Forge",
+      "description": "A character maker where only the layer you changed moves — cycle a head, and the head pops while everything else holds, so the eye lands on the edit instead of hunting for it. A handle is derived from the current combination and rewrites itself as parts change, which is the small thing that turns a shape stack into someone. Saving stamps it into a roster of the last three busts.",
+      "files": [
+        {
+          "path": "registry/ui/avatar-forge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/swatch-lock.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-338"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "guild-crest",
+      "type": "registry:ui",
+      "title": "Guild Crest",
+      "description": "Heraldry, assembled in order: the shield drops and settles, the field wipes across it, the charge stamps on with a ring, and the ribbon unfurls from the centre carrying the name. Each layer waits for the one before it, because a crest that arrives all at once is only an image — the sequence is the ceremony. Cycling a part re-runs that layer alone, and a mock blazon reads the whole device back in shorthand.",
+      "files": [
+        {
+          "path": "registry/ui/guild-crest.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-339"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "team-roster",
+      "type": "registry:ui",
+      "title": "Team Roster",
+      "description": "The lobby before the match, where the interesting state is always the person you are waiting on. Teammates ready themselves on a fixed schedule, one of them deliberately slow, one of them drifting away partway through — because readiness that ignores presence is a lie. When the last ring fills, the countdown runs and the rows pulse together.",
+      "files": [
+        {
+          "path": "registry/ui/team-roster.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-340"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "duel-ready",
+      "type": "registry:ui",
+      "title": "Duel Ready",
+      "description": "The face-off screen, which people remember better than the match. Two sides slide in from opposite edges, a divider wipes between them, and the versus mark stamps in the centre; locking in lights your frame and leans your fighter toward the middle, the physical tell that you are committed. When both sides are in, they lunge, the mark flares, and the count runs down to the word.",
+      "files": [
+        {
+          "path": "registry/ui/duel-ready.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-341"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "emote-wheel",
+      "type": "registry:ui",
+      "title": "Emote Wheel",
+      "description": "Hold to bloom eight emotes out of the centre, sweep toward one, release to play it — and release near the middle to back out with nothing, because a wheel you cannot cancel is a trap. A cooldown unwinds on the trigger afterwards, which is not a limitation but the design that keeps the thing charming instead of turning it into a spam device.",
+      "files": [
+        {
+          "path": "registry/ui/emote-wheel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-342"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

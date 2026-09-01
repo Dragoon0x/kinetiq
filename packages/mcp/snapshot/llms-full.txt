@@ -5641,6 +5641,86 @@ Notes:
 - The hold before the flight is what makes the collection feel deliberate rather than instant.
 - Reduced motion ticks the counter once by the batch total and never renders an orb.
 
+### Avatar Forge (KQ-338) — `avatar-forge`
+Only the changed layer moves.
+
+A character maker where only the layer you changed moves — cycle a head, and the head pops while everything else holds, so the eye lands on the edit instead of hunting for it. A handle is derived from the current combination and rewrites itself as parts change, which is the small thing that turns a shape stack into someone. Saving stamps it into a roster of the last three busts.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/avatar-forge`
+
+Props:
+- `onSave`: (handle: string) => void — Fires with the derived handle when a bust is saved.
+
+Notes:
+- Surprise me steps every slot by a fixed offset table — a randomiser nobody can reproduce makes bug reports impossible.
+- The handle is hashed from the slot indices, so the same avatar always carries the same name.
+- Reduced motion swaps parts instantly and keeps the handle, the roster, and the caption.
+
+### Guild Crest (KQ-339) — `guild-crest`
+The order is the ceremony.
+
+Heraldry, assembled in order: the shield drops and settles, the field wipes across it, the charge stamps on with a ring, and the ribbon unfurls from the centre carrying the name. Each layer waits for the one before it, because a crest that arrives all at once is only an image — the sequence is the ceremony. Cycling a part re-runs that layer alone, and a mock blazon reads the whole device back in shorthand.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/guild-crest`
+
+Props:
+- `name`: string — Guild name carried on the ribbon.
+- `onStrike`: (blazon: string) => void — Fires with the blazon once the crest finishes assembling.
+
+Notes:
+- Shape, field, charge, and colour come from fixed tables, so a given crest is always reproducible.
+- Colour changes ride CSS transitions rather than motion interpolation, which cannot cross token values.
+- Reduced motion presents the finished crest with its caption and swaps parts instantly.
+
+### Team Roster (KQ-340) — `team-roster`
+Someone is always the slow one.
+
+The lobby before the match, where the interesting state is always the person you are waiting on. Teammates ready themselves on a fixed schedule, one of them deliberately slow, one of them drifting away partway through — because readiness that ignores presence is a lie. When the last ring fills, the countdown runs and the rows pulse together.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/team-roster`
+
+Props:
+- `members`: Member[] — Party members; one may be flagged as you and is pinned to the top.
+- `onLaunch`: () => void — Fires when the countdown reaches zero.
+
+Notes:
+- Teammate readiness runs off a fixed delay table, so the lobby behaves identically on every mount.
+- The slow teammate and the away drift are deliberate — a lobby where everyone is instantly ready teaches nothing.
+- Reduced motion keeps the countdown stepping on its timer and drops the pops, pulses, and sweep.
+
+### Duel Ready (KQ-341) — `duel-ready`
+The lean is the tell.
+
+The face-off screen, which people remember better than the match. Two sides slide in from opposite edges, a divider wipes between them, and the versus mark stamps in the centre; locking in lights your frame and leans your fighter toward the middle, the physical tell that you are committed. When both sides are in, they lunge, the mark flares, and the count runs down to the word.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/duel-ready`
+
+Props:
+- `foeDelayMs`: number (default 1400) — Fixed delay before the opponent locks in.
+- `onFight`: () => void — Fires when the countdown reaches zero.
+
+Notes:
+- The opponent answers on a fixed delay rather than a random one, so the sequence is testable.
+- Neither side can lock in twice; the button disables the moment it lands.
+- Reduced motion presents the panel assembled, steps the countdown on its timer, and drops every slide, lunge, and flare.
+
+### Emote Wheel (KQ-342) — `emote-wheel`
+The centre is the way out.
+
+Hold to bloom eight emotes out of the centre, sweep toward one, release to play it — and release near the middle to back out with nothing, because a wheel you cannot cancel is a trap. A cooldown unwinds on the trigger afterwards, which is not a limitation but the design that keeps the thing charming instead of turning it into a spam device.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/emote-wheel`
+
+Props:
+- `emotes`: Emote[] — Wedge labels; glyphs come from a fixed table by index.
+- `cooldownMs`: number (default 2500) — Trigger lockout after an emote plays.
+- `onEmote`: (id: string) => void — Fires with the played emote.
+
+Notes:
+- Wedge positions come from index maths, never measurement, so the wheel is correct on first paint.
+- Arrow keys move the highlight and the number row selects directly — a radial control still has to answer a keyboard.
+- Reduced motion opens the wheel already fanned, plays the emote at its end position, and steps the cooldown as a numeral.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
