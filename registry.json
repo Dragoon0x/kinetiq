@@ -8299,6 +8299,145 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "timing-bar",
+      "type": "registry:ui",
+      "title": "Timing Bar",
+      "description": "The bar every crafting game teaches you to hit: a marker sweeps, you stop it, and the hit-test reads the marker's live motion value rather than any state — which is what makes the judgement honest. The perfect zone sits deliberately off-centre so it has to be learned, and every success speeds the next sweep while narrowing the target.",
+      "files": [
+        {
+          "path": "registry/ui/timing-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-313"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rhythm-tap",
+      "type": "registry:ui",
+      "title": "Rhythm Tap",
+      "description": "A single lane, an authored sixteen-step pattern, and a hit zone: notes arrive on the beat and you tap them, judged perfect, good, or missed against a step clock rather than any DOM position. Combo, best, and a rolling accuracy figure sit above it. It starts paused, so nothing moves until someone asks it to.",
+      "files": [
+        {
+          "path": "registry/ui/rhythm-tap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-314"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "accuracy-ring",
+      "type": "registry:ui",
+      "title": "Accuracy Ring",
+      "description": "A ring shrinking toward a target you tap when they match — and then it tells you the signed error in pixels, so you learn whether you are early or late. That readout is the whole teaching device. Success speeds the next ring and narrows the band; a miss resets both.",
+      "files": [
+        {
+          "path": "registry/ui/accuracy-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-315"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "power-gauge",
+      "type": "registry:ui",
+      "title": "Power Gauge",
+      "description": "Hold to charge, release to commit — and the needle does not stop at full, it oscillates, so overcharging is a real risk and waiting for the second pass is a real strategy. The sweet spot sits below maximum on purpose: max power is a trap, and the overcharge result is visibly worse than a good one.",
+      "files": [
+        {
+          "path": "registry/ui/power-gauge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-316"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reflex-light",
+      "type": "registry:ui",
+      "title": "Reflex Light",
+      "description": "Five lights arm one at a time, hold, and go out together — that blackout is the signal. Timing comes from event timestamps, never the wall clock, and a click before the lights drop is a jump start that voids the attempt. The penalty is what makes the wait tense.",
+      "files": [
+        {
+          "path": "registry/ui/reflex-light.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-317"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

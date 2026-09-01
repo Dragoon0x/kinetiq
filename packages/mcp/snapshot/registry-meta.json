@@ -13,7 +13,7 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 311,
+      "components": 316,
       "blocks": 140,
       "pages": 27,
       "templates": 8,
@@ -18597,6 +18597,266 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/podium-rise",
         "bun": "bunx --bun shadcn@latest add @kinetiq/podium-rise",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/podium-rise.json"
+      }
+    },
+    {
+      "slug": "timing-bar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Timing Bar",
+      "serial": "KQ-313",
+      "tagline": "Stop it in the narrow band.",
+      "description": "The bar every crafting game teaches you to hit: a marker sweeps, you stop it, and the hit-test reads the marker's live motion value rather than any state — which is what makes the judgement honest. The perfect zone sits deliberately off-centre so it has to be learned, and every success speeds the next sweep while narrowing the target.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "timing",
+        "skill",
+        "precision",
+        "streak",
+        "meter"
+      ],
+      "props": [
+        {
+          "name": "onResult",
+          "type": "(result: \"perfect\" | \"good\" | \"miss\") => void",
+          "description": "Fires per attempt with the judgement."
+        }
+      ],
+      "usageNotes": [
+        "The judgement reads the live motion value in the handler — never state, which would lag a frame and lie.",
+        "A miss resets both the streak and the difficulty; the loss has to be legible or the streak means nothing.",
+        "Reduced motion steps the marker in discrete positions so the skill check survives without continuous motion."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/timing-bar",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/timing-bar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/timing-bar",
+        "npm": "npx shadcn@latest add @kinetiq/timing-bar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/timing-bar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/timing-bar",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/timing-bar.json"
+      }
+    },
+    {
+      "slug": "rhythm-tap",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rhythm Tap",
+      "serial": "KQ-314",
+      "tagline": "Sixteen steps, and your timing.",
+      "description": "A single lane, an authored sixteen-step pattern, and a hit zone: notes arrive on the beat and you tap them, judged perfect, good, or missed against a step clock rather than any DOM position. Combo, best, and a rolling accuracy figure sit above it. It starts paused, so nothing moves until someone asks it to.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "rhythm",
+        "beat",
+        "accuracy",
+        "combo",
+        "timing"
+      ],
+      "props": [
+        {
+          "name": "pattern",
+          "type": "boolean[]",
+          "description": "Which steps carry a note; a fixed authored table by default."
+        },
+        {
+          "name": "tempo",
+          "type": "number",
+          "defaultValue": "500",
+          "description": "Milliseconds per step."
+        }
+      ],
+      "usageNotes": [
+        "Judgement is step arithmetic off an interval counter — no wall clock, no DOM measurement.",
+        "It starts paused by design; an autoplaying rhythm lane in a docs page is a nuisance.",
+        "Reduced motion pulses the hit zone on the beat instead of travelling notes."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/rhythm-tap",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/rhythm-tap.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rhythm-tap",
+        "npm": "npx shadcn@latest add @kinetiq/rhythm-tap",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rhythm-tap",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rhythm-tap",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/rhythm-tap.json"
+      }
+    },
+    {
+      "slug": "accuracy-ring",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Accuracy Ring",
+      "serial": "KQ-315",
+      "tagline": "It tells you how wrong you were.",
+      "description": "A ring shrinking toward a target you tap when they match — and then it tells you the signed error in pixels, so you learn whether you are early or late. That readout is the whole teaching device. Success speeds the next ring and narrows the band; a miss resets both.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "accuracy",
+        "precision",
+        "ring",
+        "skill",
+        "timing"
+      ],
+      "props": [
+        {
+          "name": "onResult",
+          "type": "(result: \"perfect\" | \"close\" | \"miss\", errorPx: number) => void",
+          "description": "Fires with the judgement and the signed error."
+        }
+      ],
+      "usageNotes": [
+        "The signed error is the point — a bare hit or miss teaches nothing about which way to adjust.",
+        "The hit-test reads the ring's live motion value, never state.",
+        "Reduced motion steps the ring through fixed radii so the check still exists."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/accuracy-ring",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/accuracy-ring.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/accuracy-ring",
+        "npm": "npx shadcn@latest add @kinetiq/accuracy-ring",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/accuracy-ring",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/accuracy-ring",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/accuracy-ring.json"
+      }
+    },
+    {
+      "slug": "power-gauge",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Power Gauge",
+      "serial": "KQ-316",
+      "tagline": "Max power is the trap.",
+      "description": "Hold to charge, release to commit — and the needle does not stop at full, it oscillates, so overcharging is a real risk and waiting for the second pass is a real strategy. The sweet spot sits below maximum on purpose: max power is a trap, and the overcharge result is visibly worse than a good one.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "power",
+        "charge",
+        "hold",
+        "sweet spot",
+        "skill"
+      ],
+      "props": [
+        {
+          "name": "onShot",
+          "type": "(result: \"weak\" | \"good\" | \"sweet\" | \"over\", value: number) => void",
+          "description": "Fires on release with the band and the value."
+        }
+      ],
+      "usageNotes": [
+        "The release reads the needle's live motion value; a release always lands even if the pointer left the button.",
+        "The best marker stays pinned on the result bar — chasing your own best is the loop.",
+        "Reduced motion steps the needle on an interval while held, judging identically."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/power-gauge",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/power-gauge.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/power-gauge",
+        "npm": "npx shadcn@latest add @kinetiq/power-gauge",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/power-gauge",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/power-gauge",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/power-gauge.json"
+      }
+    },
+    {
+      "slug": "reflex-light",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Reflex Light",
+      "serial": "KQ-317",
+      "tagline": "Jump the start and it does not count.",
+      "description": "Five lights arm one at a time, hold, and go out together — that blackout is the signal. Timing comes from event timestamps, never the wall clock, and a click before the lights drop is a jump start that voids the attempt. The penalty is what makes the wait tense.",
+      "categories": [
+        "game"
+      ],
+      "keywords": [
+        "game",
+        "reflex",
+        "reaction",
+        "timing",
+        "start",
+        "skill"
+      ],
+      "props": [
+        {
+          "name": "delays",
+          "type": "number[]",
+          "description": "The hold before the lights drop, cycled in fixed order — reproducible, and learnable."
+        },
+        {
+          "name": "onReaction",
+          "type": "(ms: number) => void",
+          "description": "Fires with the measured reaction."
+        }
+      ],
+      "usageNotes": [
+        "Delays cycle a fixed table rather than rolling — a practised user can learn it, which is the fair price of reproducibility.",
+        "Every pending timer is cleared on a jump start, a reset, and unmount.",
+        "Reduced motion keeps the sequence — it is discrete state — and drops only the sparks and flashes."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/reflex-light",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/reflex-light.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/reflex-light",
+        "npm": "npx shadcn@latest add @kinetiq/reflex-light",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/reflex-light",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/reflex-light",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/reflex-light.json"
       }
     },
     {

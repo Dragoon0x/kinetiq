@@ -11721,6 +11721,149 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "timing-bar",
+    type: "registry:ui",
+    title: "Timing Bar",
+    description:
+      "The bar every crafting game teaches you to hit: a marker sweeps, you stop it, and the hit-test reads the marker's live motion value rather than any state \u2014 which is what makes the judgement honest. The perfect zone sits deliberately off-centre so it has to be learned, and every success speeds the next sweep while narrowing the target.",
+    files: [{ path: "registry/ui/timing-bar.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["game"],
+    meta: { serial: "KQ-313" },
+    tagline: "Stop it in the narrow band.",
+    keywords: ["game", "timing", "skill", "precision", "streak", "meter"],
+    props: [
+      {
+        name: "onResult",
+        type: '(result: "perfect" | "good" | "miss") => void',
+        description: "Fires per attempt with the judgement.",
+      },
+    ],
+    usageNotes: [
+      "The judgement reads the live motion value in the handler \u2014 never state, which would lag a frame and lie.",
+      "A miss resets both the streak and the difficulty; the loss has to be legible or the streak means nothing.",
+      "Reduced motion steps the marker in discrete positions so the skill check survives without continuous motion.",
+    ],
+  },
+  {
+    name: "rhythm-tap",
+    type: "registry:ui",
+    title: "Rhythm Tap",
+    description:
+      "A single lane, an authored sixteen-step pattern, and a hit zone: notes arrive on the beat and you tap them, judged perfect, good, or missed against a step clock rather than any DOM position. Combo, best, and a rolling accuracy figure sit above it. It starts paused, so nothing moves until someone asks it to.",
+    files: [{ path: "registry/ui/rhythm-tap.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-314" },
+    tagline: "Sixteen steps, and your timing.",
+    keywords: ["game", "rhythm", "beat", "accuracy", "combo", "timing"],
+    props: [
+      {
+        name: "pattern",
+        type: "boolean[]",
+        description:
+          "Which steps carry a note; a fixed authored table by default.",
+      },
+      {
+        name: "tempo",
+        type: "number",
+        defaultValue: "500",
+        description: "Milliseconds per step.",
+      },
+    ],
+    usageNotes: [
+      "Judgement is step arithmetic off an interval counter \u2014 no wall clock, no DOM measurement.",
+      "It starts paused by design; an autoplaying rhythm lane in a docs page is a nuisance.",
+      "Reduced motion pulses the hit zone on the beat instead of travelling notes.",
+    ],
+  },
+  {
+    name: "accuracy-ring",
+    type: "registry:ui",
+    title: "Accuracy Ring",
+    description:
+      "A ring shrinking toward a target you tap when they match \u2014 and then it tells you the signed error in pixels, so you learn whether you are early or late. That readout is the whole teaching device. Success speeds the next ring and narrows the band; a miss resets both.",
+    files: [{ path: "registry/ui/accuracy-ring.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-315" },
+    tagline: "It tells you how wrong you were.",
+    keywords: ["game", "accuracy", "precision", "ring", "skill", "timing"],
+    props: [
+      {
+        name: "onResult",
+        type: '(result: "perfect" | "close" | "miss", errorPx: number) => void',
+        description: "Fires with the judgement and the signed error.",
+      },
+    ],
+    usageNotes: [
+      "The signed error is the point \u2014 a bare hit or miss teaches nothing about which way to adjust.",
+      "The hit-test reads the ring's live motion value, never state.",
+      "Reduced motion steps the ring through fixed radii so the check still exists.",
+    ],
+  },
+  {
+    name: "power-gauge",
+    type: "registry:ui",
+    title: "Power Gauge",
+    description:
+      "Hold to charge, release to commit \u2014 and the needle does not stop at full, it oscillates, so overcharging is a real risk and waiting for the second pass is a real strategy. The sweet spot sits below maximum on purpose: max power is a trap, and the overcharge result is visibly worse than a good one.",
+    files: [{ path: "registry/ui/power-gauge.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-316" },
+    tagline: "Max power is the trap.",
+    keywords: ["game", "power", "charge", "hold", "sweet spot", "skill"],
+    props: [
+      {
+        name: "onShot",
+        type: '(result: "weak" | "good" | "sweet" | "over", value: number) => void',
+        description: "Fires on release with the band and the value.",
+      },
+    ],
+    usageNotes: [
+      "The release reads the needle's live motion value; a release always lands even if the pointer left the button.",
+      "The best marker stays pinned on the result bar \u2014 chasing your own best is the loop.",
+      "Reduced motion steps the needle on an interval while held, judging identically.",
+    ],
+  },
+  {
+    name: "reflex-light",
+    type: "registry:ui",
+    title: "Reflex Light",
+    description:
+      "Five lights arm one at a time, hold, and go out together \u2014 that blackout is the signal. Timing comes from event timestamps, never the wall clock, and a click before the lights drop is a jump start that voids the attempt. The penalty is what makes the wait tense.",
+    files: [{ path: "registry/ui/reflex-light.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["game"],
+    meta: { serial: "KQ-317" },
+    tagline: "Jump the start and it does not count.",
+    keywords: ["game", "reflex", "reaction", "timing", "start", "skill"],
+    props: [
+      {
+        name: "delays",
+        type: "number[]",
+        description:
+          "The hold before the lights drop, cycled in fixed order \u2014 reproducible, and learnable.",
+      },
+      {
+        name: "onReaction",
+        type: "(ms: number) => void",
+        description: "Fires with the measured reaction.",
+      },
+    ],
+    usageNotes: [
+      "Delays cycle a fixed table rather than rolling \u2014 a practised user can learn it, which is the fair price of reproducibility.",
+      "Every pending timer is cleared on a jump start, a reset, and unmount.",
+      "Reduced motion keeps the sequence \u2014 it is discrete state \u2014 and drops only the sparks and flashes.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

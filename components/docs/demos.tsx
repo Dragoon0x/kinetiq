@@ -271,6 +271,11 @@ import { VersusBarDemo } from "@/registry/demos/versus-bar.demo";
 import { BracketRunDemo } from "@/registry/demos/bracket-run.demo";
 import { ScoreTickDemo } from "@/registry/demos/score-tick.demo";
 import { PodiumRiseDemo } from "@/registry/demos/podium-rise.demo";
+import { TimingBarDemo } from "@/registry/demos/timing-bar.demo";
+import { RhythmTapDemo } from "@/registry/demos/rhythm-tap.demo";
+import { AccuracyRingDemo } from "@/registry/demos/accuracy-ring.demo";
+import { PowerGaugeDemo } from "@/registry/demos/power-gauge.demo";
+import { ReflexLightDemo } from "@/registry/demos/reflex-light.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -764,6 +769,11 @@ export const demos: Record<string, ComponentType> = {
   "bracket-run": BracketRunDemo,
   "score-tick": ScoreTickDemo,
   "podium-rise": PodiumRiseDemo,
+  "timing-bar": TimingBarDemo,
+  "rhythm-tap": RhythmTapDemo,
+  "accuracy-ring": AccuracyRingDemo,
+  "power-gauge": PowerGaugeDemo,
+  "reflex-light": ReflexLightDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,
