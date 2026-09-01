@@ -4695,6 +4695,84 @@ Notes:
 - Taps during the level-up sequence accumulate and apply after — never dropped.
 - Reduced motion swaps bar, level, and badge instantly and keeps the caption flash.
 
+### Streak Flame (KQ-278) — `streak-flame`
+It grows. It flares. It goes out.
+
+A streak counter whose flame grows with the number: body and core flicker on the same period but different phases, so the two never sync and the whole thing reads alive. Extending it surges the flame and lifts embers; milestones flare. Break the streak and it gutters out to a wisp of smoke, which is exactly as unpleasant as it should be.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/streak-flame`
+
+Props:
+- `streak`: number (default 6) — The starting count.
+- `onMilestone`: (streak: number) => void — Fires at 7, 30, and every 30 after.
+
+Notes:
+- Flame size steps through fixed brackets, so the growth is legible rather than continuous creep.
+- The desynced core is the whole illusion — same duration, offset delay; do not sync them.
+- Reduced motion holds a still flame at its bracket and shows milestone rings as a state.
+
+### Glint Trophy (KQ-279) — `glint-trophy`
+The shelf remembers your favourites.
+
+A shelf of four trophies that slide up on arrival and then take turns catching the light — one glint at a time, on a calm cycle, never two at once. Polish one and it wiggles, sparkles, and stays permanently a little brighter, so the shelf quietly records what you have fussed over. Dusting resets the whole thing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/glint-trophy`
+
+Props:
+- `onPolish`: (name: string) => void — Fires with the polished trophy's name.
+
+Notes:
+- One shared glint slot makes overlapping sweeps structurally impossible, not merely unlikely.
+- Brightness caps after three polishes so the shelf cannot be bleached white.
+- Reduced motion presents the shelf filled, flashes a static highlight on click, and still brightens.
+
+### Fortune Crack (KQ-280) — `fortune-crack`
+Snap it. Read it. Get back to work.
+
+A fortune cookie that squeezes, snaps into two settled halves, drops three crumbs, and unfurls a paper slip with a dry line printed on it. Click again and it re-fuses with the next fortune queued. The fortunes are workplace-plain rather than mystical, which makes them land.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fortune-crack`
+
+Props:
+- `fortunes`: string[] — Override the built-in six; they cycle in order.
+- `onCrack`: (fortune: string) => void — Fires with the revealed line.
+
+Notes:
+- Fortunes cycle from a counter, never at random — a demo replays identically for everyone.
+- The slip unfurls by scaling its height from a sliver, which reads as paper rather than a fade-in.
+- Reduced motion swaps straight to the cracked still with the slip and its text shown.
+
+### Spark Jar (KQ-281) — `spark-jar`
+Catch ten, then let them go.
+
+Fireflies drifting across a dark card and a jar to catch them in: click one and it breaks from its drift, flies to the jar mouth, and settles inside bobbing while the glass glows one step warmer. Fill it and the lid taps shut, the jar blooms, and a moment later everything streams back out — the toy is a loop, not a wall.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spark-jar`
+
+Props:
+- `capacity`: number (default 10) — Sparks before the jar is full (4–16).
+- `onFull`: () => void — Fires once when the jar fills.
+
+Notes:
+- The drifting field is a fixed five — capacity changes the counter, never the hook count.
+- Simultaneous landings are guarded against overshooting capacity or double-firing the callback.
+- Reduced motion parks the sparks, pockets catches instantly, and shows the full-jar bloom as a state.
+
+### Grow Sprout (KQ-282) — `grow-sprout`
+Water it four times. Then again.
+
+A seed you water into a flower, one click at a time: droplets fall, a stem draws upward, leaves unfurl, and a bud swells and blooms six petals in a cascade. A fifth click drops a seed back into the soil and the plant fades, leaving the cycle ready to run again. Growth staged as clicks rather than time, so nobody has to wait to see the bloom.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/grow-sprout`
+
+Props:
+- `onBloom`: () => void — Fires when the flower opens.
+
+Notes:
+- The stem draws with pathLength; petals rotate on plain wrappers and only scale on the motion child, sidestepping SVG origin trouble.
+- Every stage is click-driven and reversible by completing the cycle — nothing here is on a timer you must outwait.
+- Reduced motion swaps directly between fully-formed stage stills.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

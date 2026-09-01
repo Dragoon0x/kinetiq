@@ -10645,6 +10645,153 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "streak-flame",
+    type: "registry:ui",
+    title: "Streak Flame",
+    description:
+      "A streak counter whose flame grows with the number: body and core flicker on the same period but different phases, so the two never sync and the whole thing reads alive. Extending it surges the flame and lifts embers; milestones flare. Break the streak and it gutters out to a wisp of smoke, which is exactly as unpleasant as it should be.",
+    files: [{ path: "registry/ui/streak-flame.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
+    categories: ["delight"],
+    meta: { serial: "KQ-278" },
+    tagline: "It grows. It flares. It goes out.",
+    keywords: ["delight", "streak", "flame", "milestone", "counter", "reward"],
+    props: [
+      {
+        name: "streak",
+        type: "number",
+        defaultValue: "6",
+        description: "The starting count.",
+      },
+      {
+        name: "onMilestone",
+        type: "(streak: number) => void",
+        description: "Fires at 7, 30, and every 30 after.",
+      },
+    ],
+    usageNotes: [
+      "Flame size steps through fixed brackets, so the growth is legible rather than continuous creep.",
+      "The desynced core is the whole illusion \u2014 same duration, offset delay; do not sync them.",
+      "Reduced motion holds a still flame at its bracket and shows milestone rings as a state.",
+    ],
+  },
+  {
+    name: "glint-trophy",
+    type: "registry:ui",
+    title: "Glint Trophy",
+    description:
+      "A shelf of four trophies that slide up on arrival and then take turns catching the light \u2014 one glint at a time, on a calm cycle, never two at once. Polish one and it wiggles, sparkles, and stays permanently a little brighter, so the shelf quietly records what you have fussed over. Dusting resets the whole thing.",
+    files: [{ path: "registry/ui/glint-trophy.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-279" },
+    tagline: "The shelf remembers your favourites.",
+    keywords: ["delight", "trophy", "shelf", "glint", "collection", "reward"],
+    props: [
+      {
+        name: "onPolish",
+        type: "(name: string) => void",
+        description: "Fires with the polished trophy's name.",
+      },
+    ],
+    usageNotes: [
+      "One shared glint slot makes overlapping sweeps structurally impossible, not merely unlikely.",
+      "Brightness caps after three polishes so the shelf cannot be bleached white.",
+      "Reduced motion presents the shelf filled, flashes a static highlight on click, and still brightens.",
+    ],
+  },
+  {
+    name: "fortune-crack",
+    type: "registry:ui",
+    title: "Fortune Crack",
+    description:
+      "A fortune cookie that squeezes, snaps into two settled halves, drops three crumbs, and unfurls a paper slip with a dry line printed on it. Click again and it re-fuses with the next fortune queued. The fortunes are workplace-plain rather than mystical, which makes them land.",
+    files: [{ path: "registry/ui/fortune-crack.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-280" },
+    tagline: "Snap it. Read it. Get back to work.",
+    keywords: ["delight", "fortune", "cookie", "reveal", "slip", "reward"],
+    props: [
+      {
+        name: "fortunes",
+        type: "string[]",
+        description: "Override the built-in six; they cycle in order.",
+      },
+      {
+        name: "onCrack",
+        type: "(fortune: string) => void",
+        description: "Fires with the revealed line.",
+      },
+    ],
+    usageNotes: [
+      "Fortunes cycle from a counter, never at random \u2014 a demo replays identically for everyone.",
+      "The slip unfurls by scaling its height from a sliver, which reads as paper rather than a fade-in.",
+      "Reduced motion swaps straight to the cracked still with the slip and its text shown.",
+    ],
+  },
+  {
+    name: "spark-jar",
+    type: "registry:ui",
+    title: "Spark Jar",
+    description:
+      "Fireflies drifting across a dark card and a jar to catch them in: click one and it breaks from its drift, flies to the jar mouth, and settles inside bobbing while the glass glows one step warmer. Fill it and the lid taps shut, the jar blooms, and a moment later everything streams back out \u2014 the toy is a loop, not a wall.",
+    files: [{ path: "registry/ui/spark-jar.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-281" },
+    tagline: "Catch ten, then let them go.",
+    keywords: ["delight", "fireflies", "jar", "catch", "collect", "reward"],
+    props: [
+      {
+        name: "capacity",
+        type: "number",
+        defaultValue: "10",
+        description: "Sparks before the jar is full (4\u201316).",
+      },
+      {
+        name: "onFull",
+        type: "() => void",
+        description: "Fires once when the jar fills.",
+      },
+    ],
+    usageNotes: [
+      "The drifting field is a fixed five \u2014 capacity changes the counter, never the hook count.",
+      "Simultaneous landings are guarded against overshooting capacity or double-firing the callback.",
+      "Reduced motion parks the sparks, pockets catches instantly, and shows the full-jar bloom as a state.",
+    ],
+  },
+  {
+    name: "grow-sprout",
+    type: "registry:ui",
+    title: "Grow Sprout",
+    description:
+      "A seed you water into a flower, one click at a time: droplets fall, a stem draws upward, leaves unfurl, and a bud swells and blooms six petals in a cascade. A fifth click drops a seed back into the soil and the plant fades, leaving the cycle ready to run again. Growth staged as clicks rather than time, so nobody has to wait to see the bloom.",
+    files: [{ path: "registry/ui/grow-sprout.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["delight"],
+    meta: { serial: "KQ-282" },
+    tagline: "Water it four times. Then again.",
+    keywords: ["delight", "plant", "grow", "bloom", "stages", "reward"],
+    props: [
+      {
+        name: "onBloom",
+        type: "() => void",
+        description: "Fires when the flower opens.",
+      },
+    ],
+    usageNotes: [
+      "The stem draws with pathLength; petals rotate on plain wrappers and only scale on the motion child, sidestepping SVG origin trouble.",
+      "Every stage is click-driven and reversible by completing the cycle \u2014 nothing here is on a timer you must outwait.",
+      "Reduced motion swaps directly between fully-formed stage stills.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

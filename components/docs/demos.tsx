@@ -236,6 +236,11 @@ import { GiftUnwrapDemo } from "@/registry/demos/gift-unwrap.demo";
 import { MedalSwingDemo } from "@/registry/demos/medal-swing.demo";
 import { HighFiveDemo } from "@/registry/demos/high-five.demo";
 import { LevelChimeDemo } from "@/registry/demos/level-chime.demo";
+import { StreakFlameDemo } from "@/registry/demos/streak-flame.demo";
+import { GlintTrophyDemo } from "@/registry/demos/glint-trophy.demo";
+import { FortuneCrackDemo } from "@/registry/demos/fortune-crack.demo";
+import { SparkJarDemo } from "@/registry/demos/spark-jar.demo";
+import { GrowSproutDemo } from "@/registry/demos/grow-sprout.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -694,6 +699,11 @@ export const demos: Record<string, ComponentType> = {
   "medal-swing": MedalSwingDemo,
   "high-five": HighFiveDemo,
   "level-chime": LevelChimeDemo,
+  "streak-flame": StreakFlameDemo,
+  "glint-trophy": GlintTrophyDemo,
+  "fortune-crack": FortuneCrackDemo,
+  "spark-jar": SparkJarDemo,
+  "grow-sprout": GrowSproutDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

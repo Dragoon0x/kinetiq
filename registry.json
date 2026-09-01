@@ -7336,6 +7336,142 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "streak-flame",
+      "type": "registry:ui",
+      "title": "Streak Flame",
+      "description": "A streak counter whose flame grows with the number: body and core flicker on the same period but different phases, so the two never sync and the whole thing reads alive. Extending it surges the flame and lifts embers; milestones flare. Break the streak and it gutters out to a wisp of smoke, which is exactly as unpleasant as it should be.",
+      "files": [
+        {
+          "path": "registry/ui/streak-flame.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-278"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "glint-trophy",
+      "type": "registry:ui",
+      "title": "Glint Trophy",
+      "description": "A shelf of four trophies that slide up on arrival and then take turns catching the light — one glint at a time, on a calm cycle, never two at once. Polish one and it wiggles, sparkles, and stays permanently a little brighter, so the shelf quietly records what you have fussed over. Dusting resets the whole thing.",
+      "files": [
+        {
+          "path": "registry/ui/glint-trophy.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-279"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fortune-crack",
+      "type": "registry:ui",
+      "title": "Fortune Crack",
+      "description": "A fortune cookie that squeezes, snaps into two settled halves, drops three crumbs, and unfurls a paper slip with a dry line printed on it. Click again and it re-fuses with the next fortune queued. The fortunes are workplace-plain rather than mystical, which makes them land.",
+      "files": [
+        {
+          "path": "registry/ui/fortune-crack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-280"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spark-jar",
+      "type": "registry:ui",
+      "title": "Spark Jar",
+      "description": "Fireflies drifting across a dark card and a jar to catch them in: click one and it breaks from its drift, flies to the jar mouth, and settles inside bobbing while the glass glows one step warmer. Fill it and the lid taps shut, the jar blooms, and a moment later everything streams back out — the toy is a loop, not a wall.",
+      "files": [
+        {
+          "path": "registry/ui/spark-jar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-281"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "grow-sprout",
+      "type": "registry:ui",
+      "title": "Grow Sprout",
+      "description": "A seed you water into a flower, one click at a time: droplets fall, a stem draws upward, leaves unfurl, and a bud swells and blooms six petals in a cascade. A fifth click drops a seed back into the soil and the plant fades, leaving the cycle ready to run again. Growth staged as clicks rather than time, so nobody has to wait to see the bloom.",
+      "files": [
+        {
+          "path": "registry/ui/grow-sprout.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-282"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
