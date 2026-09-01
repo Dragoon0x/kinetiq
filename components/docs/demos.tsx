@@ -221,6 +221,11 @@ import { ClackBeadsDemo } from "@/registry/demos/clack-beads.demo";
 import { PinwheelBreezeDemo } from "@/registry/demos/pinwheel-breeze.demo";
 import { KiteTugDemo } from "@/registry/demos/kite-tug.demo";
 import { PaperPlaneDemo } from "@/registry/demos/paper-plane.demo";
+import { CrankTuneDemo } from "@/registry/demos/crank-tune.demo";
+import { GumballRunDemo } from "@/registry/demos/gumball-run.demo";
+import { ToastPopDemo } from "@/registry/demos/toast-pop.demo";
+import { PullCordDemo } from "@/registry/demos/pull-cord.demo";
+import { DominoRunDemo } from "@/registry/demos/domino-run.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -664,6 +669,11 @@ export const demos: Record<string, ComponentType> = {
   "pinwheel-breeze": PinwheelBreezeDemo,
   "kite-tug": KiteTugDemo,
   "paper-plane": PaperPlaneDemo,
+  "crank-tune": CrankTuneDemo,
+  "gumball-run": GumballRunDemo,
+  "toast-pop": ToastPopDemo,
+  "pull-cord": PullCordDemo,
+  "domino-run": DominoRunDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

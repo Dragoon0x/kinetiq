@@ -4460,6 +4460,85 @@ Notes:
 - The trail is the flight path itself, dash-drawn behind the plane and faded after landing.
 - Reduced motion steps pad, apex, and pad stills with the trail shown static.
 
+### Crank Tune (KQ-263) — `crank-tune`
+Every quarter turn earns a note.
+
+A music box you crank by hand: drag the knob in circles and the arm tracks your pointer exactly, emitting a note glyph every quarter turn that floats up and away. Crank backwards and it plays nothing — the box is honest about which direction music comes from. Enter turns it a quarter turn for anyone playing by keyboard.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crank-tune`
+
+Props:
+- `onNote`: (index: number) => void — Fires per note, with its position in the cycle.
+
+Notes:
+- The crank is 1:1 direct manipulation — angle unwrapping accumulates full turns rather than snapping at the seam.
+- Notes only emit on forward cranking; reversing moves the arm and plays nothing.
+- Reduced motion keeps the 1:1 crank and lands notes at their end position without the float.
+
+### Gumball Run (KQ-264) — `gumball-run`
+Turn the knob, watch it ride.
+
+A gumball machine that actually delivers: turn the knob and a ball leaves the globe, rides the chute on an authored path, and bounces into the tray where the count ticks up. Colours cycle in fixed order, the globe visibly empties, and when it runs dry it restocks in a cascade. Three balls may be in transit before the machine asks you to wait.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gumball-run`
+
+Props:
+- `capacity`: number (default 12) — Gumballs served before the globe restocks.
+- `onServe`: (color: string) => void — Fires with each served colour.
+
+Notes:
+- The chute travel is an authored keyframe path matching the drawn SVG — the ball never leaves its pipe.
+- The globe's cluster is a fixed table that empties as balls are served, so the machine cannot lie about its stock.
+- Reduced motion drops the ball straight into the tray and restocks at once.
+
+### Toast Pop (KQ-265) — `toast-pop`
+The shudder before the leap.
+
+A toaster that makes you wait for it: push the lever, the bread sinks, the slot glows, the crust browns, and just before the end the whole machine gives one small shudder of anticipation. Then it leaps, lands askew, sheds crumbs, and takes a topping stamp. The suspense is the feature — a toaster that popped instantly would be a notification, and the catalog has those.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/toast-pop`
+
+Props:
+- `toastSeconds`: number (default 2.4) — How long the wait lasts (1–6).
+- `onPop`: (topping: string) => void — Fires with the topping that lands.
+
+Notes:
+- Browning is a color-mix ramp over the toasting duration — the bread is never a sprite swap.
+- Toppings cycle a fixed set; the stamp thunks down on `flick` after the leap settles.
+- Reduced motion skips the glow ramp, shudder, and leap; the toast simply arrives topped.
+
+### Pull Cord (KQ-266) — `pull-cord`
+Past the threshold, let there be light.
+
+A pendant lamp with a cord you actually pull: drag the bead down and the cord stretches under your hand, release past the threshold and the room floods warm — the cord snapping back into a couple of swings while dust motes drift up through the light. Let go short of the threshold and nothing happens, which is exactly what a real cord does.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pull-cord`
+
+Props:
+- `defaultOn`: boolean (default false) — Whether the room starts lit.
+- `onToggle`: (on: boolean) => void — Fires with the new state.
+
+Notes:
+- The near-miss is deliberate — a short pull snaps back without toggling, which is most of the tactility.
+- The cord swing is a multi-keyframe tween, not a spring, because a spring cannot hold three positions.
+- Reduced motion keeps 1:1 dragging, swaps the light instantly, and omits the motes.
+
+### Domino Run (KQ-267) — `domino-run`
+One push, nine falls, one flag.
+
+A row of dominoes and one honest click: the first tile goes over, the topple propagates down the line on a cascade stagger with a dust puff at each base, and the last one raises a little flag. A beat later they all stand back up in reverse, ready to go again. The whole run is index math — no physics, no randomness, and it never fails to finish.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/domino-run`
+
+Props:
+- `tiles`: number (default 9) — Tiles in the run (5–14).
+- `onFinish`: () => void — Fires when the flag goes up.
+
+Notes:
+- Fall delays come from cascade(count), so longer runs tighten their stagger instead of dragging.
+- Tiles pivot on their bottom edge — the transform-origin is the whole illusion.
+- Reduced motion swaps the whole row to fallen at once, raises the flag, and stands them back up after the beat.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

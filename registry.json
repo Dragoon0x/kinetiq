@@ -6925,6 +6925,142 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crank-tune",
+      "type": "registry:ui",
+      "title": "Crank Tune",
+      "description": "A music box you crank by hand: drag the knob in circles and the arm tracks your pointer exactly, emitting a note glyph every quarter turn that floats up and away. Crank backwards and it plays nothing — the box is honest about which direction music comes from. Enter turns it a quarter turn for anyone playing by keyboard.",
+      "files": [
+        {
+          "path": "registry/ui/crank-tune.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-263"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gumball-run",
+      "type": "registry:ui",
+      "title": "Gumball Run",
+      "description": "A gumball machine that actually delivers: turn the knob and a ball leaves the globe, rides the chute on an authored path, and bounces into the tray where the count ticks up. Colours cycle in fixed order, the globe visibly empties, and when it runs dry it restocks in a cascade. Three balls may be in transit before the machine asks you to wait.",
+      "files": [
+        {
+          "path": "registry/ui/gumball-run.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-264"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "toast-pop",
+      "type": "registry:ui",
+      "title": "Toast Pop",
+      "description": "A toaster that makes you wait for it: push the lever, the bread sinks, the slot glows, the crust browns, and just before the end the whole machine gives one small shudder of anticipation. Then it leaps, lands askew, sheds crumbs, and takes a topping stamp. The suspense is the feature — a toaster that popped instantly would be a notification, and the catalog has those.",
+      "files": [
+        {
+          "path": "registry/ui/toast-pop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-265"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pull-cord",
+      "type": "registry:ui",
+      "title": "Pull Cord",
+      "description": "A pendant lamp with a cord you actually pull: drag the bead down and the cord stretches under your hand, release past the threshold and the room floods warm — the cord snapping back into a couple of swings while dust motes drift up through the light. Let go short of the threshold and nothing happens, which is exactly what a real cord does.",
+      "files": [
+        {
+          "path": "registry/ui/pull-cord.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-266"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "domino-run",
+      "type": "registry:ui",
+      "title": "Domino Run",
+      "description": "A row of dominoes and one honest click: the first tile goes over, the topple propagates down the line on a cascade stagger with a dust puff at each base, and the last one raises a little flag. A beat later they all stand back up in reverse, ready to go again. The whole run is index math — no physics, no randomness, and it never fails to finish.",
+      "files": [
+        {
+          "path": "registry/ui/domino-run.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "delight"
+      ],
+      "meta": {
+        "serial": "KQ-267"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
