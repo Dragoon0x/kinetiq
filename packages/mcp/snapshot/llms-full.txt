@@ -5165,6 +5165,86 @@ Notes:
 - Claim-all runs a cascade so a backlog clears as one satisfying sweep.
 - Reduced motion jumps the head and claims instantly, keeping every count legible.
 
+### Leaderboard Climb (KQ-308) — `leaderboard-climb`
+The row above yours has a name.
+
+A leaderboard whose whole point is the row with your name on it: score a round and the list resorts, your row physically travelling past the ones it overtook and nudging each on the way. The rival directly above you is named and marked, because a target you can read is worth more than a rank you cannot.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/leaderboard-climb`
+
+Props:
+- `players`: Player[] — The board; exactly one entry carries the `you` flag.
+- `gains`: number[] — The fixed cycle of per-round scores. Never random.
+
+Notes:
+- Reordering rides motion layout, so rows travel rather than teleport — the travel is the component.
+- The gap line and the next-rival mark are the retention devices; keep them.
+- Reduced motion reorders instantly and drops the nudges and flights.
+
+### Versus Bar (KQ-309) — `versus-bar`
+The lead keeps changing hands.
+
+A tug-of-war between two sides on a single bar: each push moves the seam, consecutive pushes build a surge that pushes further, and a push the other way resets it — which is where the drama lives. Crossing the centre names the new leader, and past eighty percent the losing side starts showing the brink.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/versus-bar`
+
+Props:
+- `left / right`: Team · Team — The two sides, each with a name and tint.
+- `step`: number (default 6) — Percent the seam moves per push, before surge.
+
+Notes:
+- Surge multiplies the step by streak length from a fixed table — momentum is legible, not simulated.
+- The brink marker past eighty percent is what makes a comeback readable.
+- Reduced motion jumps the seam and keeps every caption.
+
+### Bracket Run (KQ-310) — `bracket-run`
+Eight enter. The table decides.
+
+An eight-entrant elimination bracket that plays out one match at a time: both slots tense, the loser dims and strikes through, and the winner's name travels the connector into the next round as the line draws in behind it. Outcomes come from a fixed table — a bracket that reseeds itself every visit cannot be reasoned about.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bracket-run`
+
+Props:
+- `entrants`: string[] — Eight names; short lists pad from the defaults.
+- `onChampion`: (name: string) => void — Fires when the final resolves.
+
+Notes:
+- The layout and every outcome are authored constants — nothing is measured and nothing is rolled.
+- Eliminations are as legible as advances; the strike-through is not decoration.
+- The bracket scrolls inside its own container at narrow widths.
+
+### Score Tick (KQ-311) — `score-tick`
+A thousand should hit harder than fifty.
+
+An arcade scoreboard with tiered juice: bigger points pop harder, throw more flecks, and float a larger chip, so a thousand lands differently from fifty. Consecutive presses build a chain that decays on its own. Passing the high score is the beat the whole component is built around, and it gets the room it deserves.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/score-tick`
+
+Props:
+- `values`: number[] (default [50, 250, 1000]) — The three award buttons.
+- `startHigh`: number (default 12400) — The score to beat.
+
+Notes:
+- Numerals are the house readout — the carry from 999 to 1000 is the same roll as everywhere else in the system.
+- Reset zeroes the score but keeps the best; the standing record is the reason to play again.
+- Reduced motion keeps the rolls and captions, drops the pops and flecks.
+
+### Podium Rise (KQ-312) — `podium-rise`
+Third, second, first. Always that order.
+
+A results podium that reveals in reverse — third, second, first — because saving the winner is the entire dramaturgy. Plinths rise, cards land, scores roll up from zero, and first place takes an overshoot, a crown, and a sweep. Clicking mid-ceremony skips to the finish: a results screen that traps you is a bad results screen.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/podium-rise`
+
+Props:
+- `places`: Place[] — First, second, third — in that order.
+- `onReveal`: () => void — Fires when the ceremony starts.
+
+Notes:
+- The pause before first place is longer than the others on purpose; that gap is the anticipation.
+- The ceremony is skippable and the skip clears every pending timer.
+- Reduced motion shows all three places at once in their final state.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -8157,6 +8157,148 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "leaderboard-climb",
+      "type": "registry:ui",
+      "title": "Leaderboard Climb",
+      "description": "A leaderboard whose whole point is the row with your name on it: score a round and the list resorts, your row physically travelling past the ones it overtook and nudging each on the way. The rival directly above you is named and marked, because a target you can read is worth more than a rank you cannot.",
+      "files": [
+        {
+          "path": "registry/ui/leaderboard-climb.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-308"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "versus-bar",
+      "type": "registry:ui",
+      "title": "Versus Bar",
+      "description": "A tug-of-war between two sides on a single bar: each push moves the seam, consecutive pushes build a surge that pushes further, and a push the other way resets it — which is where the drama lives. Crossing the centre names the new leader, and past eighty percent the losing side starts showing the brink.",
+      "files": [
+        {
+          "path": "registry/ui/versus-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-309"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bracket-run",
+      "type": "registry:ui",
+      "title": "Bracket Run",
+      "description": "An eight-entrant elimination bracket that plays out one match at a time: both slots tense, the loser dims and strikes through, and the winner's name travels the connector into the next round as the line draws in behind it. Outcomes come from a fixed table — a bracket that reseeds itself every visit cannot be reasoned about.",
+      "files": [
+        {
+          "path": "registry/ui/bracket-run.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-310"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "score-tick",
+      "type": "registry:ui",
+      "title": "Score Tick",
+      "description": "An arcade scoreboard with tiered juice: bigger points pop harder, throw more flecks, and float a larger chip, so a thousand lands differently from fifty. Consecutive presses build a chain that decays on its own. Passing the high score is the beat the whole component is built around, and it gets the room it deserves.",
+      "files": [
+        {
+          "path": "registry/ui/score-tick.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-311"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "podium-rise",
+      "type": "registry:ui",
+      "title": "Podium Rise",
+      "description": "A results podium that reveals in reverse — third, second, first — because saving the winner is the entire dramaturgy. Plinths rise, cards land, scores roll up from zero, and first place takes an overshoot, a crown, and a sweep. Clicking mid-ceremony skips to the finish: a results screen that traps you is a bad results screen.",
+      "files": [
+        {
+          "path": "registry/ui/podium-rise.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json"
+      ],
+      "categories": [
+        "game"
+      ],
+      "meta": {
+        "serial": "KQ-312"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
