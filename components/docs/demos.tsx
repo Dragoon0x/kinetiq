@@ -498,6 +498,8 @@ import { TemplateAgentDemo } from "@/registry/demos/template-agent.demo";
 import { TemplateFieldDemo } from "@/registry/demos/template-field.demo";
 import { TemplateSignatureDemo } from "@/registry/demos/template-signature.demo";
 import { TemplateCausewayDemo } from "@/registry/demos/template-causeway.demo";
+import { TemplateColdbrookDemo } from "@/registry/demos/template-coldbrook.demo";
+import { TemplateColdbrookMobileDemo } from "@/registry/demos/template-coldbrook-mobile.demo";
 import { TemplateInstrumentDemo } from "@/registry/demos/template-instrument.demo";
 import { TemplateLaunchDemo } from "@/registry/demos/template-launch.demo";
 import { TemplateLedgerDemo } from "@/registry/demos/template-ledger.demo";
@@ -1094,6 +1096,8 @@ export const demos: Record<string, ComponentType> = {
   "template-field": TemplateFieldDemo,
   "template-signature": TemplateSignatureDemo,
   "template-causeway": TemplateCausewayDemo,
+  "template-coldbrook": TemplateColdbrookDemo,
+  "template-coldbrook-mobile": TemplateColdbrookMobileDemo,
   "gooey-blob": GooeyBlobDemo,
   "plinko-drop": PlinkoDropDemo,
   "range-dual": RangeDualDemo,

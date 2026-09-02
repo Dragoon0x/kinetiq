@@ -22,6 +22,7 @@ const PRODUCT_NAMES = [
   "Basinworks",
   "Gaugeworks",
   "Ovenword",
+  "Coldbrook",
 ] as const;
 
 /** Each template's own product, taken from its rendered wordmark. */
@@ -33,6 +34,8 @@ const OWN: Record<string, string> = {
   "template-ledger": "Gaugeworks",
   "template-field": "Fieldline",
   "template-causeway": "Basinworks",
+  "template-coldbrook": "Coldbrook",
+  "template-coldbrook-mobile": "Coldbrook",
   // A personal site has no product wordmark of its own — its identity is a
   // person. See ALSO_NAMES below for why it still gets checked.
   "template-signature": "Waylight",

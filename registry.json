@@ -15111,6 +15111,93 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-coldbrook",
+      "type": "registry:page",
+      "title": "Coldbrook Template",
+      "description": "A product site for a wallet people hold the keys to: the balance card settles a transaction in front of the reader before a word of copy is believed, the networks shelf counts vaults rather than logos, custody is stated as safeguards and residency instead of certificates, and the price says where it goes. Trust-first without becoming a trading dashboard — the whole page is calm on purpose, because the product is asking to hold something that matters.",
+      "files": [
+        {
+          "path": "registry/templates/template-coldbrook/template-coldbrook.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/cta-ledger-close.json",
+        "https://kinetiqui.vercel.app/r/faq-last-word.json",
+        "https://kinetiqui.vercel.app/r/features-proof-strip.json",
+        "https://kinetiqui.vercel.app/r/footer-drift-mark.json",
+        "https://kinetiqui.vercel.app/r/hero-balance-desk.json",
+        "https://kinetiqui.vercel.app/r/logo-segment-shelf.json",
+        "https://kinetiqui.vercel.app/r/nav-glass-rail.json",
+        "https://kinetiqui.vercel.app/r/pricing-where-it-goes.json",
+        "https://kinetiqui.vercel.app/r/proof-live-floor.json",
+        "https://kinetiqui.vercel.app/r/trust-vault-brief.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KT-009"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-coldbrook-mobile",
+      "type": "registry:page",
+      "title": "Coldbrook Mobile Template",
+      "description": "The mobile-first edition of the wallet site as four routed pages — home, networks, security, download — sharing one nav with real hrefs, so they install as a site rather than four orphans. The product leads every page as the thing in your hand: the handset hero on home and download, the networks hub made selectable, and a security page that states residency alongside safeguards.",
+      "files": [
+        {
+          "path": "registry/templates/template-coldbrook-mobile/home.tsx",
+          "type": "registry:page",
+          "target": "app/page.tsx"
+        },
+        {
+          "path": "registry/templates/template-coldbrook-mobile/networks.tsx",
+          "type": "registry:page",
+          "target": "app/networks/page.tsx"
+        },
+        {
+          "path": "registry/templates/template-coldbrook-mobile/security.tsx",
+          "type": "registry:page",
+          "target": "app/security/page.tsx"
+        },
+        {
+          "path": "registry/templates/template-coldbrook-mobile/download.tsx",
+          "type": "registry:page",
+          "target": "app/download/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/cta-split-doors.json",
+        "https://kinetiqui.vercel.app/r/faq-last-word.json",
+        "https://kinetiqui.vercel.app/r/footer-quiet-close.json",
+        "https://kinetiqui.vercel.app/r/hero-handset-stage.json",
+        "https://kinetiqui.vercel.app/r/how-station-line.json",
+        "https://kinetiqui.vercel.app/r/integrations-orbit-hub.json",
+        "https://kinetiqui.vercel.app/r/logo-segment-shelf.json",
+        "https://kinetiqui.vercel.app/r/nav-glass-rail.json",
+        "https://kinetiqui.vercel.app/r/trust-data-residency.json",
+        "https://kinetiqui.vercel.app/r/trust-vault-brief.json"
+      ],
+      "categories": [
+        "multipage"
+      ],
+      "meta": {
+        "serial": "KT-010"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "template-causeway",
       "type": "registry:page",
       "title": "Causeway Template",

@@ -50,6 +50,12 @@ export const TEMPLATE_KINDS: TemplateKind[] = [
       "For instruments — grids, trends, and integrations that have to be shown working.",
   },
   {
+    slug: "finance",
+    label: "Finance",
+    blurb:
+      "Wallets, exchanges, and custody \u2014 sites that have to earn trust before they can ask for anything, and stay calm while they do.",
+  },
+  {
     slug: "personal",
     label: "Personal",
     blurb:

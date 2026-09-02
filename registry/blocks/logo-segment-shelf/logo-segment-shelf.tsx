@@ -24,6 +24,8 @@ export type LogoSegmentShelfProps = {
   headline?: string;
   copy?: string;
   segments?: LogoSegment[];
+  /** The unit each segment counts. @default "yards" */
+  unitLabel?: string;
   className?: string;
 };
 
@@ -66,6 +68,7 @@ export function LogoSegmentShelf({
   headline = "Two hundred and fourteen yards, by trade.",
   copy = "The named ones agreed to be named. The counts are everyone, including the ones who would rather not appear on a marketing page.",
   segments = DEFAULT_SEGMENTS,
+  unitLabel = "yards",
   className,
 }: LogoSegmentShelfProps) {
   const headingId = React.useId();
@@ -111,7 +114,7 @@ export function LogoSegmentShelf({
                 <h3 className="font-medium text-ink">{segment.name}</h3>
                 <p className="flex items-baseline gap-1.5 text-sm text-ink-3">
                   <Readout value={segment.count} />
-                  <span>yards</span>
+                  <span>{unitLabel}</span>
                 </p>
               </div>
               <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">

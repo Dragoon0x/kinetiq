@@ -7835,6 +7835,7 @@ The logo wall organised by trade, with the count each mark stands in for. A grid
 Install: `pnpm dlx shadcn@latest add @kinetiq/logo-segment-shelf`
 
 Props:
+- `unitLabel`: string (default "yards") — The unit each segment counts.
 - `segments`: LogoSegment[] — Each trade with its total count and the marks that agreed to be named.
 - `eyebrow / headline / copy`: string — The standfirst.
 
@@ -8930,6 +8931,30 @@ Install: `pnpm dlx shadcn@latest add @kinetiq/template-causeway`
 Notes:
 - The three files install to app/page.tsx, app/changelog/page.tsx, and app/pricing/page.tsx — a navigable site, not three orphans.
 - Keep the nav links identical across the pages; the shared rail is what makes three routes read as one site.
+- The docs demo flips routes with a switcher; the installed template navigates with real hrefs.
+
+### Coldbrook Template (KT-009) — `template-coldbrook`
+Calm on purpose, because it holds something that matters.
+
+A product site for a wallet people hold the keys to: the balance card settles a transaction in front of the reader before a word of copy is believed, the networks shelf counts vaults rather than logos, custody is stated as safeguards and residency instead of certificates, and the price says where it goes. Trust-first without becoming a trading dashboard — the whole page is calm on purpose, because the product is asking to hold something that matters.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/template-coldbrook`
+
+Notes:
+- Every section names the product through the brand prop; the custody brief overrides its own default eyebrow, which would otherwise name a different one.
+- Networks, assets, and amounts are invented and unitless — nothing here names a real chain, coin, or exchange.
+- Reduced motion defers to each composed section; the template adds no motion of its own.
+
+### Coldbrook Mobile Template (KT-010) — `template-coldbrook-mobile`
+Four routes, one nav, the product in your hand.
+
+The mobile-first edition of the wallet site as four routed pages — home, networks, security, download — sharing one nav with real hrefs, so they install as a site rather than four orphans. The product leads every page as the thing in your hand: the handset hero on home and download, the networks hub made selectable, and a security page that states residency alongside safeguards.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/template-coldbrook-mobile`
+
+Notes:
+- The four files install to app/page.tsx, app/networks/page.tsx, app/security/page.tsx, and app/download/page.tsx.
+- Keep the nav links identical across the pages; the shared rail is what makes four routes read as one site.
 - The docs demo flips routes with a switcher; the installed template navigates with real hrefs.
 
 ### Utils — `utils`

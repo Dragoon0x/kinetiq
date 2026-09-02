@@ -247,3 +247,32 @@ test("auth-atlas validates and submits; onboarding preview mirrors typing", asyn
   await field.fill("North Basin");
   await expect(page.getByText("North Basin").nth(1)).toBeVisible();
 });
+
+test("workbench-rail filters and switches workspaces; the mobile template routes", async ({
+  page,
+}) => {
+  await gotoHydrated(page, "/components/workbench-rail");
+  const field = page.getByRole("textbox", { name: /filter/i }).first();
+  await field.scrollIntoViewIfNeeded();
+  const rail = field.locator("xpath=ancestor::*[self::nav or self::aside or @role='navigation'][1]");
+  const before = await rail.getByRole("button").count();
+  await field.fill("zzzz-no-such-item");
+  await expect(page.getByText(/nothing matches/i)).toBeVisible();
+  await page.keyboard.press("Escape");
+  expect(await rail.getByRole("button").count()).toBeGreaterThanOrEqual(before - 1);
+  const switcher = page.getByRole("button", { expanded: false }).filter({ has: page.locator("[aria-haspopup='menu']") }).first();
+  const trigger = page.locator("button[aria-haspopup='menu']").first();
+  await trigger.click();
+  const items = page.getByRole("menuitemradio");
+  await expect(items.first()).toBeVisible();
+  const label = (await items.nth(1).textContent())?.trim() ?? "";
+  await items.nth(1).click();
+  await expect(trigger).toContainText(label.split("\n")[0]?.slice(0, 6) ?? "");
+  void switcher;
+
+  await gotoHydrated(page, "/preview/templates/template-coldbrook-mobile");
+  await page.getByRole("tab", { name: "/security" }).click();
+  await expect(page.getByText(/custody/i).first()).toBeVisible({ timeout: 5000 });
+  await page.getByRole("tab", { name: "/networks" }).click();
+  await expect(page.locator("button[aria-pressed]").first()).toBeVisible({ timeout: 5000 });
+});

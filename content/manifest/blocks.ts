@@ -5691,6 +5691,12 @@ export const blocks: KinetiqItem[] = [
     ],
     props: [
       {
+        name: "unitLabel",
+        type: "string",
+        defaultValue: '"yards"',
+        description: "The unit each segment counts.",
+      },
+      {
         name: "segments",
         type: "LogoSegment[]",
         description:
