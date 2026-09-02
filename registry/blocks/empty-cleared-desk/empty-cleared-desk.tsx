@@ -25,6 +25,8 @@ export type EmptyClearedDeskProps = {
   /** The quieter option, as an inline text link. */
   altLabel?: string;
   onAlt?: () => void;
+  /** Optional illustration seated above the copy. Decorative — keep it aria-hidden. */
+  art?: React.ReactNode;
   className?: string;
 };
 
@@ -50,6 +52,7 @@ export function EmptyClearedDesk({
   onCta,
   altLabel = "or leave it",
   onAlt,
+  art,
   className,
 }: EmptyClearedDeskProps) {
   const headingId = React.useId();
@@ -62,6 +65,11 @@ export function EmptyClearedDesk({
       className={cn("relative bg-surface-0", className)}
     >
       <div className="mx-auto w-full max-w-xl px-6 py-24 text-center sm:py-32">
+        {art ? (
+          <div aria-hidden className="mb-6 flex justify-center">
+            {art}
+          </div>
+        ) : null}
         <StatusSeal variant="success">{clearedAt}</StatusSeal>
 
         <h2

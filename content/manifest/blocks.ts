@@ -1044,6 +1044,55 @@ export const blocks: KinetiqItem[] = [
     ],
   },
   {
+    name: "footer-spotlight-mark",
+    type: "registry:block",
+    title: "Spotlight Mark Footer",
+    description:
+      "A closing footer built around a giant hollow wordmark that fills only where the pointer is: a circular spotlight follows the cursor on a spring and reveals the solid mark beneath the outline, then collapses to nothing when the pointer leaves. The hollow mark is the resting state and reads on its own \u2014 the spotlight is a reward for arriving, not a requirement for reading. Link columns and the fine print sit above and below it, doing the footer's actual job.",
+    files: [
+      {
+        path: "registry/blocks/footer-spotlight-mark/footer-spotlight-mark.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["footer"],
+    meta: { serial: "KB-321" },
+    tagline: "Filled only where you are.",
+    keywords: [
+      "footer",
+      "wordmark",
+      "spotlight",
+      "cursor",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "brand / mark / tagline / status",
+        type: "string",
+        description: "The brand column and the giant word beneath it.",
+      },
+      {
+        name: "columns / fineprint",
+        type: "SpotlightColumn[] \u00b7 string",
+        description: "The link columns and the last word.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "160",
+        description: "Spotlight radius in pixels.",
+      },
+    ],
+    usageNotes: [
+      "The clip-path-follows-pointer idiom is cursor-lens reimplemented locally, not wrapped \u2014 a lens magnifies; this one reveals.",
+      "The mark row is decorative and hidden from assistive tech; the brand column carries the name.",
+      "Reduced motion drops the spotlight and renders the mark solid at low opacity.",
+    ],
+  },
+  {
     name: "footer-drift-mark",
     type: "registry:block",
     title: "Drift Mark Footer",
@@ -1864,6 +1913,11 @@ export const blocks: KinetiqItem[] = [
       "section",
     ],
     props: [
+      {
+        name: "art",
+        type: "React.ReactNode",
+        description: "Optional illustration seated above the copy; decorative.",
+      },
       {
         name: "actions",
         type: "FirstAction[]",
@@ -4010,6 +4064,11 @@ export const blocks: KinetiqItem[] = [
     ],
     props: [
       {
+        name: "art",
+        type: "React.ReactNode",
+        description: "Optional illustration seated above the copy; decorative.",
+      },
+      {
         name: "tally",
         type: "DeskTally[]",
         description:
@@ -5387,6 +5446,11 @@ export const blocks: KinetiqItem[] = [
     ],
     props: [
       {
+        name: "art",
+        type: "React.ReactNode",
+        description: "Optional illustration seated above the copy; decorative.",
+      },
+      {
         name: "filters",
         type: "ActiveFilter[]",
         description: "Each active filter with what would return without it.",
@@ -5429,6 +5493,11 @@ export const blocks: KinetiqItem[] = [
       "app",
     ],
     props: [
+      {
+        name: "art",
+        type: "React.ReactNode",
+        description: "Optional illustration seated above the copy; decorative.",
+      },
       {
         name: "resource / permission",
         type: "string",

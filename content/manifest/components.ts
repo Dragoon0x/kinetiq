@@ -12851,6 +12851,345 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "focus-rail",
+    type: "registry:ui",
+    title: "Focus Rail",
+    description:
+      "The primitive behind expanding galleries and team panels: a row of panels where the one under the pointer, or holding focus, grows on a spring while its siblings contract in place. Leaving the rail always restores an expanded panel, because a rail with nothing open reads as broken. Hover expands by default; a press mode waits for a click or Enter, and the keyboard roves either way.",
+    files: [{ path: "registry/ui/focus-rail.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["layout"],
+    meta: { serial: "KQ-348" },
+    tagline: "One panel is always open.",
+    keywords: ["layout", "accordion", "panels", "expand", "focus", "rail"],
+    props: [
+      {
+        name: "items",
+        type: "FocusRailItem[]",
+        description:
+          "Panels in order; each carries an id, a label, and optional detail content.",
+      },
+      {
+        name: "activeId",
+        type: "string",
+        description: "Controlled active panel; omit to let the rail manage it.",
+      },
+      {
+        name: "grow",
+        type: "number",
+        defaultValue: "2.4",
+        description: "Flex weight of the expanded panel.",
+      },
+      {
+        name: "expandOn",
+        type: '"hover" | "press"',
+        defaultValue: '"hover"',
+        description: "Whether hovering expands, or only a press.",
+      },
+    ],
+    usageNotes: [
+      "Galleries and team sections compose this rather than re-deriving the flex spring.",
+      "Focus always expands the focused panel regardless of mode \u2014 keyboard intent is intent.",
+      "Reduced motion resizes panels instantly and swaps detail without fades.",
+    ],
+  },
+  {
+    name: "turn-modal",
+    type: "registry:ui",
+    title: "Turn Modal",
+    description:
+      "A card that lifts, travels to the centre, and turns over on Y into a focus-trapped dialog \u2014 the flip and the travel are one motion, so the dialog face comes around mid-flight and is never visible early. Closing reverses the same path back to the card. Where morph-dialog reshapes the trigger into the dialog, this one turns it over, which is the right device when the card and the dialog are two faces of the same object.",
+    files: [{ path: "registry/ui/turn-modal.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["overlays"],
+    meta: { serial: "KQ-349" },
+    tagline: "Two faces of one object.",
+    keywords: ["overlay", "dialog", "modal", "flip", "card", "3d"],
+    props: [
+      {
+        name: "front",
+        type: "React.ReactNode",
+        description: "The card face at rest.",
+      },
+      {
+        name: "title",
+        type: "string",
+        description: "Accessible name of the dialog face.",
+      },
+      {
+        name: "open",
+        type: "boolean",
+        description: "Controlled open state; pair with onOpenChange.",
+      },
+    ],
+    usageNotes: [
+      "Focus moves into the dialog once the flight lands and returns to the card on close.",
+      "Both faces hide their backface, so the dialog cannot be read before the turn passes ninety degrees.",
+      "Reduced motion drops the flight and the turn; the dialog fades in centred with the trap intact.",
+    ],
+  },
+  {
+    name: "elastic-type",
+    type: "registry:ui",
+    title: "Elastic Type",
+    description:
+      "Display text whose glyphs compress under the cursor and rebound when it leaves \u2014 each letter its own spring, so a word behaves like a row of rubber blocks. The rebound overshoot on the way back is the signature; without it the effect reads as a squash, not an elastic. Built for 404 numerals and one-word headlines.",
+    files: [{ path: "registry/ui/elastic-type.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["text"],
+    meta: { serial: "KQ-350" },
+    tagline: "Every letter its own spring.",
+    keywords: ["text", "type", "elastic", "cursor", "404", "display"],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "The word or numeral to render.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "120",
+        description: "Pixel radius of the cursor's influence.",
+      },
+      {
+        name: "squash",
+        type: "number",
+        defaultValue: "0.55",
+        description: "Maximum horizontal compression at the cursor.",
+      },
+    ],
+    usageNotes: [
+      "The text stays one accessible string; glyph spans are hidden from assistive tech.",
+      "Squash conserves volume \u2014 a letter gets taller as it gets narrower \u2014 which is what makes it read as material.",
+      "Reduced motion renders the text plainly with no deformation.",
+    ],
+  },
+  {
+    name: "echo-type",
+    type: "registry:ui",
+    title: "Echo Type",
+    description:
+      "Display text with echo layers stacked behind it that fan apart on hover and re-stack when the pointer leaves \u2014 fanning staggers outward from the lead, and closing reverses the stagger so the layers fold back like a deck. An always-on mode holds the fan open and breathes it. Built for 404 numerals and single-word headlines that need presence without a backdrop.",
+    files: [{ path: "registry/ui/echo-type.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe", "spatial"],
+    categories: ["text"],
+    meta: { serial: "KQ-351" },
+    tagline: "Closes like a deck.",
+    keywords: ["text", "type", "echo", "layers", "404", "display"],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "The word or numeral to render.",
+      },
+      {
+        name: "echoes",
+        type: "number",
+        defaultValue: "5",
+        description: "Echo layers behind the lead.",
+      },
+      {
+        name: "mode",
+        type: '"hover" | "always"',
+        defaultValue: '"hover"',
+        description:
+          "Fan on hover and focus, or hold the fan open and breathe it.",
+      },
+    ],
+    usageNotes: [
+      "Echoes inherit the text colour at falling opacity; nothing animates colour.",
+      "The wrapper is focusable, so a keyboard user fans it too.",
+      "Reduced motion renders the echoes at their fanned positions and holds still.",
+    ],
+  },
+  {
+    name: "band-type",
+    type: "registry:ui",
+    title: "Band Type",
+    description:
+      "Display text sliced into horizontal bands that slip sideways under the cursor \u2014 the bands nearest the pointer travel furthest, and they alternate direction, which is what makes the word read as slipping rather than leaning. Leave, and the bands settle back top-down on a spring. Built for 404 numerals and one-word headlines.",
+    files: [{ path: "registry/ui/band-type.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["text"],
+    meta: { serial: "KQ-352" },
+    tagline: "Slipping, not leaning.",
+    keywords: ["text", "type", "bands", "slice", "cursor", "404"],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "The word or numeral to render.",
+      },
+      {
+        name: "bands",
+        type: "number",
+        defaultValue: "7",
+        description: "Horizontal slices.",
+      },
+      {
+        name: "slip",
+        type: "number",
+        defaultValue: "28",
+        description: "Maximum sideways travel in pixels at the cursor.",
+      },
+    ],
+    usageNotes: [
+      "Bands are clipped copies of one word sized by a hidden reference, so they tile with no seams.",
+      "Touch behaves as a hover at the press point and settles on release.",
+      "Reduced motion renders the word whole and never slices it.",
+    ],
+  },
+  {
+    name: "vignette-empty-drawer",
+    type: "registry:ui",
+    title: "Vignette \u00b7 Empty Drawer",
+    description:
+      "The illustration for an empty archive: a quiet isometric filing cabinet whose top drawer springs open on a loop to show there is nothing in it, and extends a little further under the pointer. Built from clipped faces rather than 3D transforms, so it holds in every browser, and it pauses the moment it scrolls out of view.",
+    files: [
+      { path: "registry/ui/vignette-empty-drawer.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-353" },
+    tagline: "Open, and nothing in it.",
+    keywords: [
+      "vignette",
+      "illustration",
+      "empty state",
+      "drawer",
+      "archive",
+      "isometric",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Accessible name for the scene; everything inside is decorative.",
+      },
+    ],
+    usageNotes: [
+      "Seat it in an empty-state block through its art slot; the block keeps the copy honest and the vignette keeps it warm.",
+      "The loop pauses off-screen and when the tab is hidden, and rebases its clock on resume.",
+      "Reduced motion holds the drawer open with the empty tag visible.",
+    ],
+  },
+  {
+    name: "vignette-search-sweep",
+    type: "registry:ui",
+    title: "Vignette \u00b7 Search Sweep",
+    description:
+      "The illustration for no results: a lens roams down a short stack of result lines, and the lines part as it passes \u2014 the parting is the picture of nothing being there \u2014 before a small zero settles at the end. Every element rides one clock of authored keyframes, so the scene cannot drift apart the way independently timed loops do.",
+    files: [
+      { path: "registry/ui/vignette-search-sweep.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-354" },
+    tagline: "The lines part for nothing.",
+    keywords: [
+      "vignette",
+      "illustration",
+      "empty state",
+      "search",
+      "no results",
+      "lens",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Accessible name for the scene; everything inside is decorative.",
+      },
+    ],
+    usageNotes: [
+      "Pairs with the no-matches empty state, which does the diagnosis while this does the mood.",
+      "Pauses off-screen and when the tab is hidden.",
+      "Reduced motion renders the final frame with the lines parted and the zero in place.",
+    ],
+  },
+  {
+    name: "vignette-inbox-zero",
+    type: "registry:ui",
+    title: "Vignette \u00b7 Inbox Zero",
+    description:
+      "The illustration for a cleared inbox: the flap opens, the last message lifts out and away, the badge counts down as each one leaves, and a check settles when it reads zero. The countdown is what makes the zero mean something \u2014 an envelope that is simply empty tells you nothing about the work that emptied it.",
+    files: [
+      { path: "registry/ui/vignette-inbox-zero.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-355" },
+    tagline: "The last one leaving.",
+    keywords: [
+      "vignette",
+      "illustration",
+      "empty state",
+      "inbox",
+      "envelope",
+      "zero",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Accessible name for the scene; everything inside is decorative.",
+      },
+    ],
+    usageNotes: [
+      "Pairs with the cleared-desk empty state.",
+      "The badge is state stepped on a tick counter aligned to the clock, so it pauses and resumes with the scene.",
+      "Reduced motion renders the closed envelope, the zero badge, and the check.",
+    ],
+  },
+  {
+    name: "vignette-blank-board",
+    type: "registry:ui",
+    title: "Vignette \u00b7 Blank Board",
+    description:
+      "The illustration for a first run: three empty columns, one starter card, and a cursor that picks it up and carries it across the board, dropping it into the last column where a dashed slot fills to receive it. The cursor and the card share one set of keyframes, so they travel as one thing rather than two things pretending to.",
+    files: [
+      { path: "registry/ui/vignette-blank-board.tsx", type: "registry:ui" },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["vignettes"],
+    meta: { serial: "KQ-356" },
+    tagline: "The first card, carried across.",
+    keywords: [
+      "vignette",
+      "illustration",
+      "empty state",
+      "board",
+      "kanban",
+      "first run",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Accessible name for the scene; everything inside is decorative.",
+      },
+    ],
+    usageNotes: [
+      "Pairs with the first-light empty state.",
+      "Pauses off-screen and when the tab is hidden.",
+      "Reduced motion renders the card seated in the last column with the cursor gone.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

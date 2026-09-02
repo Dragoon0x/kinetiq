@@ -23,6 +23,8 @@ export type EmptyFirstLightProps = {
   actions?: FirstAction[];
   primaryCta?: string;
   onPrimary?: () => void;
+  /** Optional illustration seated above the copy. Decorative — keep it aria-hidden. */
+  art?: React.ReactNode;
   className?: string;
 };
 
@@ -57,6 +59,7 @@ export function EmptyFirstLight({
   actions = DEFAULT_ACTIONS,
   primaryCta = "Create a recipe",
   onPrimary,
+  art,
   className,
 }: EmptyFirstLightProps) {
   const motionSafe = useMotionSafe();
@@ -65,14 +68,19 @@ export function EmptyFirstLight({
   return (
     <section
       aria-label="Getting started"
-      className={cn("bg-surface-0 relative", className)}
+      className={cn("relative bg-surface-0", className)}
     >
       <div className="mx-auto w-full max-w-3xl px-6 py-20 sm:py-24">
-        <div className="border-hairline-strong rounded-4 border-2 border-dashed px-6 py-12 text-center sm:px-12">
+        <div className="rounded-4 border-2 border-dashed border-hairline-strong px-6 py-12 text-center sm:px-12">
+          {art ? (
+            <div aria-hidden className="mb-6 flex justify-center">
+              {art}
+            </div>
+          ) : null}
           <h2 className="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">
             {headline}
           </h2>
-          <p className="text-ink-2 mx-auto mt-3 max-w-md leading-relaxed">
+          <p className="mx-auto mt-3 max-w-md leading-relaxed text-ink-2">
             {copy}
           </p>
 
@@ -97,12 +105,12 @@ export function EmptyFirstLight({
                       }
                     : { duration: 0 }
                 }
-                className="border-hairline bg-surface-1 hover:border-hairline-strong rounded-3 border p-4 text-left transition-colors"
+                className="rounded-3 border border-hairline bg-surface-1 p-4 text-left transition-colors hover:border-hairline-strong"
               >
-                <span className="text-ink block text-sm font-medium">
+                <span className="block text-sm font-medium text-ink">
                   {action.title}
                 </span>
-                <span className="text-ink-3 mt-1 block text-xs leading-relaxed">
+                <span className="mt-1 block text-xs leading-relaxed text-ink-3">
                   {action.detail}
                 </span>
               </motion.button>

@@ -5803,6 +5803,152 @@ Notes:
 - The tone is a constraint, not decoration — a welcome-back that scolds is worse than no welcome at all.
 - Reduced motion presents the gifts in place at once and still rolls the collected total as a stepped figure.
 
+### Focus Rail (KQ-348) — `focus-rail`
+One panel is always open.
+
+The primitive behind expanding galleries and team panels: a row of panels where the one under the pointer, or holding focus, grows on a spring while its siblings contract in place. Leaving the rail always restores an expanded panel, because a rail with nothing open reads as broken. Hover expands by default; a press mode waits for a click or Enter, and the keyboard roves either way.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/focus-rail`
+
+Props:
+- `items`: FocusRailItem[] — Panels in order; each carries an id, a label, and optional detail content.
+- `activeId`: string — Controlled active panel; omit to let the rail manage it.
+- `grow`: number (default 2.4) — Flex weight of the expanded panel.
+- `expandOn`: "hover" | "press" (default "hover") — Whether hovering expands, or only a press.
+
+Notes:
+- Galleries and team sections compose this rather than re-deriving the flex spring.
+- Focus always expands the focused panel regardless of mode — keyboard intent is intent.
+- Reduced motion resizes panels instantly and swaps detail without fades.
+
+### Turn Modal (KQ-349) — `turn-modal`
+Two faces of one object.
+
+A card that lifts, travels to the centre, and turns over on Y into a focus-trapped dialog — the flip and the travel are one motion, so the dialog face comes around mid-flight and is never visible early. Closing reverses the same path back to the card. Where morph-dialog reshapes the trigger into the dialog, this one turns it over, which is the right device when the card and the dialog are two faces of the same object.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/turn-modal`
+
+Props:
+- `front`: React.ReactNode — The card face at rest.
+- `title`: string — Accessible name of the dialog face.
+- `open`: boolean — Controlled open state; pair with onOpenChange.
+
+Notes:
+- Focus moves into the dialog once the flight lands and returns to the card on close.
+- Both faces hide their backface, so the dialog cannot be read before the turn passes ninety degrees.
+- Reduced motion drops the flight and the turn; the dialog fades in centred with the trap intact.
+
+### Elastic Type (KQ-350) — `elastic-type`
+Every letter its own spring.
+
+Display text whose glyphs compress under the cursor and rebound when it leaves — each letter its own spring, so a word behaves like a row of rubber blocks. The rebound overshoot on the way back is the signature; without it the effect reads as a squash, not an elastic. Built for 404 numerals and one-word headlines.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/elastic-type`
+
+Props:
+- `text`: string — The word or numeral to render.
+- `radius`: number (default 120) — Pixel radius of the cursor's influence.
+- `squash`: number (default 0.55) — Maximum horizontal compression at the cursor.
+
+Notes:
+- The text stays one accessible string; glyph spans are hidden from assistive tech.
+- Squash conserves volume — a letter gets taller as it gets narrower — which is what makes it read as material.
+- Reduced motion renders the text plainly with no deformation.
+
+### Echo Type (KQ-351) — `echo-type`
+Closes like a deck.
+
+Display text with echo layers stacked behind it that fan apart on hover and re-stack when the pointer leaves — fanning staggers outward from the lead, and closing reverses the stagger so the layers fold back like a deck. An always-on mode holds the fan open and breathes it. Built for 404 numerals and single-word headlines that need presence without a backdrop.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/echo-type`
+
+Props:
+- `text`: string — The word or numeral to render.
+- `echoes`: number (default 5) — Echo layers behind the lead.
+- `mode`: "hover" | "always" (default "hover") — Fan on hover and focus, or hold the fan open and breathe it.
+
+Notes:
+- Echoes inherit the text colour at falling opacity; nothing animates colour.
+- The wrapper is focusable, so a keyboard user fans it too.
+- Reduced motion renders the echoes at their fanned positions and holds still.
+
+### Band Type (KQ-352) — `band-type`
+Slipping, not leaning.
+
+Display text sliced into horizontal bands that slip sideways under the cursor — the bands nearest the pointer travel furthest, and they alternate direction, which is what makes the word read as slipping rather than leaning. Leave, and the bands settle back top-down on a spring. Built for 404 numerals and one-word headlines.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/band-type`
+
+Props:
+- `text`: string — The word or numeral to render.
+- `bands`: number (default 7) — Horizontal slices.
+- `slip`: number (default 28) — Maximum sideways travel in pixels at the cursor.
+
+Notes:
+- Bands are clipped copies of one word sized by a hidden reference, so they tile with no seams.
+- Touch behaves as a hover at the press point and settles on release.
+- Reduced motion renders the word whole and never slices it.
+
+### Vignette · Empty Drawer (KQ-353) — `vignette-empty-drawer`
+Open, and nothing in it.
+
+The illustration for an empty archive: a quiet isometric filing cabinet whose top drawer springs open on a loop to show there is nothing in it, and extends a little further under the pointer. Built from clipped faces rather than 3D transforms, so it holds in every browser, and it pauses the moment it scrolls out of view.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-empty-drawer`
+
+Props:
+- `label`: string — Accessible name for the scene; everything inside is decorative.
+
+Notes:
+- Seat it in an empty-state block through its art slot; the block keeps the copy honest and the vignette keeps it warm.
+- The loop pauses off-screen and when the tab is hidden, and rebases its clock on resume.
+- Reduced motion holds the drawer open with the empty tag visible.
+
+### Vignette · Search Sweep (KQ-354) — `vignette-search-sweep`
+The lines part for nothing.
+
+The illustration for no results: a lens roams down a short stack of result lines, and the lines part as it passes — the parting is the picture of nothing being there — before a small zero settles at the end. Every element rides one clock of authored keyframes, so the scene cannot drift apart the way independently timed loops do.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-search-sweep`
+
+Props:
+- `label`: string — Accessible name for the scene; everything inside is decorative.
+
+Notes:
+- Pairs with the no-matches empty state, which does the diagnosis while this does the mood.
+- Pauses off-screen and when the tab is hidden.
+- Reduced motion renders the final frame with the lines parted and the zero in place.
+
+### Vignette · Inbox Zero (KQ-355) — `vignette-inbox-zero`
+The last one leaving.
+
+The illustration for a cleared inbox: the flap opens, the last message lifts out and away, the badge counts down as each one leaves, and a check settles when it reads zero. The countdown is what makes the zero mean something — an envelope that is simply empty tells you nothing about the work that emptied it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-inbox-zero`
+
+Props:
+- `label`: string — Accessible name for the scene; everything inside is decorative.
+
+Notes:
+- Pairs with the cleared-desk empty state.
+- The badge is state stepped on a tick counter aligned to the clock, so it pauses and resumes with the scene.
+- Reduced motion renders the closed envelope, the zero badge, and the check.
+
+### Vignette · Blank Board (KQ-356) — `vignette-blank-board`
+The first card, carried across.
+
+The illustration for a first run: three empty columns, one starter card, and a cursor that picks it up and carries it across the board, dropping it into the last column where a dashed slot fills to receive it. The cursor and the card share one set of keyframes, so they travel as one thing rather than two things pretending to.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vignette-blank-board`
+
+Props:
+- `label`: string — Accessible name for the scene; everything inside is decorative.
+
+Notes:
+- Pairs with the first-light empty state.
+- Pauses off-screen and when the tab is hidden.
+- Reduced motion renders the card seated in the last column with the cursor gone.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
@@ -6513,6 +6659,7 @@ The first minute of a product, treated as a moment rather than an apology: a das
 Install: `pnpm dlx shadcn@latest add @kinetiq/empty-first-light`
 
 Props:
+- `art`: React.ReactNode — Optional illustration seated above the copy; decorative.
 - `actions`: FirstAction[] — Three concrete first moves, each a real button.
 - `headline / copy / primaryCta`: string — What this place becomes, and the main way in.
 
@@ -7260,6 +7407,7 @@ The empty state you earn rather than the one you arrive in: nothing is left, and
 Install: `pnpm dlx shadcn@latest add @kinetiq/empty-cleared-desk`
 
 Props:
+- `art`: React.ReactNode — Optional illustration seated above the copy; decorative.
 - `tally`: DeskTally[] — What the emptiness cost to earn; numerals roll on readout.
 - `clearedAt`: string — The stamp on the seal.
 - `cta / altLabel`: string — One action and one quieter one.
@@ -7747,6 +7895,7 @@ Nothing matched — said as a diagnosis rather than a shrug. Every active filter
 Install: `pnpm dlx shadcn@latest add @kinetiq/empty-no-matches`
 
 Props:
+- `art`: React.ReactNode — Optional illustration seated above the copy; decorative.
 - `filters`: ActiveFilter[] — Each active filter with what would return without it.
 - `onDrop / onClearAll`: (id) => void · () => void — Removing one filter, or all of them.
 
@@ -7763,6 +7912,7 @@ Locked out, without the dead end: it names the exact resource, the exact permiss
 Install: `pnpm dlx shadcn@latest add @kinetiq/empty-needs-access`
 
 Props:
+- `art`: React.ReactNode — Optional illustration seated above the copy; decorative.
 - `resource / permission`: string — Named exactly, in the system's own words.
 - `approvers / afterLine`: Approver[] · string — Who can grant it, and what happens after asking.
 
@@ -8074,6 +8224,23 @@ Notes:
 - Everything stays open — the drawer variants already exist three ways; search plus drawers is friction squared.
 - Matches highlight in place with <mark>, so the reader sees why a row survived.
 - The answer count is a readout beside the field; empty results route to contact, never to a shrug.
+
+### Spotlight Mark Footer (KB-321) — `footer-spotlight-mark`
+Filled only where you are.
+
+A closing footer built around a giant hollow wordmark that fills only where the pointer is: a circular spotlight follows the cursor on a spring and reveals the solid mark beneath the outline, then collapses to nothing when the pointer leaves. The hollow mark is the resting state and reads on its own — the spotlight is a reward for arriving, not a requirement for reading. Link columns and the fine print sit above and below it, doing the footer's actual job.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/footer-spotlight-mark`
+
+Props:
+- `brand / mark / tagline / status`: string — The brand column and the giant word beneath it.
+- `columns / fineprint`: SpotlightColumn[] · string — The link columns and the last word.
+- `radius`: number (default 160) — Spotlight radius in pixels.
+
+Notes:
+- The clip-path-follows-pointer idiom is cursor-lens reimplemented locally, not wrapped — a lens magnifies; this one reveals.
+- The mark row is decorative and hidden from assistive tech; the brand column carries the name.
+- Reduced motion drops the spotlight and renders the mark solid at low opacity.
 
 ### Sign In Page (KP-001) — `auth-sign-in`
 The workspace route above the password.

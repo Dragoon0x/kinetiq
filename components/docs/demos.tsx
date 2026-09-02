@@ -306,6 +306,16 @@ import { PrestigeResetDemo } from "@/registry/demos/prestige-reset.demo";
 import { TierUpgradeDemo } from "@/registry/demos/tier-upgrade.demo";
 import { MissionBoardDemo } from "@/registry/demos/mission-board.demo";
 import { ReturnGiftDemo } from "@/registry/demos/return-gift.demo";
+import { FocusRailDemo } from "@/registry/demos/focus-rail.demo";
+import { TurnModalDemo } from "@/registry/demos/turn-modal.demo";
+import { ElasticTypeDemo } from "@/registry/demos/elastic-type.demo";
+import { EchoTypeDemo } from "@/registry/demos/echo-type.demo";
+import { BandTypeDemo } from "@/registry/demos/band-type.demo";
+import { VignetteEmptyDrawerDemo } from "@/registry/demos/vignette-empty-drawer.demo";
+import { VignetteSearchSweepDemo } from "@/registry/demos/vignette-search-sweep.demo";
+import { VignetteInboxZeroDemo } from "@/registry/demos/vignette-inbox-zero.demo";
+import { VignetteBlankBoardDemo } from "@/registry/demos/vignette-blank-board.demo";
+import { FooterSpotlightMarkDemo } from "@/registry/demos/footer-spotlight-mark.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -834,6 +844,16 @@ export const demos: Record<string, ComponentType> = {
   "tier-upgrade": TierUpgradeDemo,
   "mission-board": MissionBoardDemo,
   "return-gift": ReturnGiftDemo,
+  "focus-rail": FocusRailDemo,
+  "turn-modal": TurnModalDemo,
+  "elastic-type": ElasticTypeDemo,
+  "echo-type": EchoTypeDemo,
+  "band-type": BandTypeDemo,
+  "vignette-empty-drawer": VignetteEmptyDrawerDemo,
+  "vignette-search-sweep": VignetteSearchSweepDemo,
+  "vignette-inbox-zero": VignetteInboxZeroDemo,
+  "vignette-blank-board": VignetteBlankBoardDemo,
+  "footer-spotlight-mark": FooterSpotlightMarkDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,

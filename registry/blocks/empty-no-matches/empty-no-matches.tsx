@@ -28,6 +28,8 @@ export type EmptyNoMatchesProps = {
   clearLabel?: string;
   onClearAll?: () => void;
   onDrop?: (id: string) => void;
+  /** Optional illustration seated above the copy. Decorative — keep it aria-hidden. */
+  art?: React.ReactNode;
   className?: string;
 };
 
@@ -52,6 +54,7 @@ export function EmptyNoMatches({
   clearLabel = "Clear all filters",
   onClearAll,
   onDrop,
+  art,
   className,
 }: EmptyNoMatchesProps) {
   const headingId = React.useId();
@@ -77,6 +80,11 @@ export function EmptyNoMatches({
       className={cn("relative bg-surface-0", className)}
     >
       <div className="mx-auto w-full max-w-xl px-6 py-20 text-center sm:py-28">
+        {art ? (
+          <div aria-hidden className="mb-6 flex justify-center">
+            {art}
+          </div>
+        ) : null}
         <p className="flex items-baseline justify-center gap-1.5">
           <Readout value={0} size="lg" />
           <span className="text-sm text-ink-3">of</span>

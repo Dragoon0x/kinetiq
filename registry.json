@@ -9281,6 +9281,251 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "focus-rail",
+      "type": "registry:ui",
+      "title": "Focus Rail",
+      "description": "The primitive behind expanding galleries and team panels: a row of panels where the one under the pointer, or holding focus, grows on a spring while its siblings contract in place. Leaving the rail always restores an expanded panel, because a rail with nothing open reads as broken. Hover expands by default; a press mode waits for a click or Enter, and the keyboard roves either way.",
+      "files": [
+        {
+          "path": "registry/ui/focus-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-348"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "turn-modal",
+      "type": "registry:ui",
+      "title": "Turn Modal",
+      "description": "A card that lifts, travels to the centre, and turns over on Y into a focus-trapped dialog — the flip and the travel are one motion, so the dialog face comes around mid-flight and is never visible early. Closing reverses the same path back to the card. Where morph-dialog reshapes the trigger into the dialog, this one turns it over, which is the right device when the card and the dialog are two faces of the same object.",
+      "files": [
+        {
+          "path": "registry/ui/turn-modal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-349"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "elastic-type",
+      "type": "registry:ui",
+      "title": "Elastic Type",
+      "description": "Display text whose glyphs compress under the cursor and rebound when it leaves — each letter its own spring, so a word behaves like a row of rubber blocks. The rebound overshoot on the way back is the signature; without it the effect reads as a squash, not an elastic. Built for 404 numerals and one-word headlines.",
+      "files": [
+        {
+          "path": "registry/ui/elastic-type.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-350"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "echo-type",
+      "type": "registry:ui",
+      "title": "Echo Type",
+      "description": "Display text with echo layers stacked behind it that fan apart on hover and re-stack when the pointer leaves — fanning staggers outward from the lead, and closing reverses the stagger so the layers fold back like a deck. An always-on mode holds the fan open and breathes it. Built for 404 numerals and single-word headlines that need presence without a backdrop.",
+      "files": [
+        {
+          "path": "registry/ui/echo-type.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/spatial.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-351"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "band-type",
+      "type": "registry:ui",
+      "title": "Band Type",
+      "description": "Display text sliced into horizontal bands that slip sideways under the cursor — the bands nearest the pointer travel furthest, and they alternate direction, which is what makes the word read as slipping rather than leaning. Leave, and the bands settle back top-down on a spring. Built for 404 numerals and one-word headlines.",
+      "files": [
+        {
+          "path": "registry/ui/band-type.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-352"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vignette-empty-drawer",
+      "type": "registry:ui",
+      "title": "Vignette · Empty Drawer",
+      "description": "The illustration for an empty archive: a quiet isometric filing cabinet whose top drawer springs open on a loop to show there is nothing in it, and extends a little further under the pointer. Built from clipped faces rather than 3D transforms, so it holds in every browser, and it pauses the moment it scrolls out of view.",
+      "files": [
+        {
+          "path": "registry/ui/vignette-empty-drawer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "vignettes"
+      ],
+      "meta": {
+        "serial": "KQ-353"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vignette-search-sweep",
+      "type": "registry:ui",
+      "title": "Vignette · Search Sweep",
+      "description": "The illustration for no results: a lens roams down a short stack of result lines, and the lines part as it passes — the parting is the picture of nothing being there — before a small zero settles at the end. Every element rides one clock of authored keyframes, so the scene cannot drift apart the way independently timed loops do.",
+      "files": [
+        {
+          "path": "registry/ui/vignette-search-sweep.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "vignettes"
+      ],
+      "meta": {
+        "serial": "KQ-354"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vignette-inbox-zero",
+      "type": "registry:ui",
+      "title": "Vignette · Inbox Zero",
+      "description": "The illustration for a cleared inbox: the flap opens, the last message lifts out and away, the badge counts down as each one leaves, and a check settles when it reads zero. The countdown is what makes the zero mean something — an envelope that is simply empty tells you nothing about the work that emptied it.",
+      "files": [
+        {
+          "path": "registry/ui/vignette-inbox-zero.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "vignettes"
+      ],
+      "meta": {
+        "serial": "KQ-355"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vignette-blank-board",
+      "type": "registry:ui",
+      "title": "Vignette · Blank Board",
+      "description": "The illustration for a first run: three empty columns, one starter card, and a cursor that picks it up and carries it across the board, dropping it into the last column where a dashed slot fills to receive it. The cursor and the card share one set of keyframes, so they travel as one thing rather than two things pretending to.",
+      "files": [
+        {
+          "path": "registry/ui/vignette-blank-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "vignettes"
+      ],
+      "meta": {
+        "serial": "KQ-356"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
@@ -10132,6 +10377,33 @@
       ],
       "meta": {
         "serial": "KB-206"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "footer-spotlight-mark",
+      "type": "registry:block",
+      "title": "Spotlight Mark Footer",
+      "description": "A closing footer built around a giant hollow wordmark that fills only where the pointer is: a circular spotlight follows the cursor on a spring and reveals the solid mark beneath the outline, then collapses to nothing when the pointer leaves. The hollow mark is the resting state and reads on its own — the spotlight is a reward for arriving, not a requirement for reading. Link columns and the fine print sit above and below it, doing the footer's actual job.",
+      "files": [
+        {
+          "path": "registry/blocks/footer-spotlight-mark/footer-spotlight-mark.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "footer"
+      ],
+      "meta": {
+        "serial": "KB-321"
       }
     },
     {

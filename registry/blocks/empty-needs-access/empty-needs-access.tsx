@@ -21,6 +21,8 @@ export type EmptyNeedsAccessProps = {
   onRequest?: () => void;
   /** What happens after the request, so nobody is left waiting blind. */
   afterLine?: string;
+  /** Optional illustration seated above the copy. Decorative — keep it aria-hidden. */
+  art?: React.ReactNode;
   className?: string;
 };
 
@@ -45,6 +47,7 @@ export function EmptyNeedsAccess({
   cta = "Ask for access",
   onRequest,
   afterLine = "They get one notification, not a daily reminder. Most requests are answered inside a shift.",
+  art,
   className,
 }: EmptyNeedsAccessProps) {
   const headingId = React.useId();
@@ -57,6 +60,11 @@ export function EmptyNeedsAccess({
     >
       <div className="mx-auto w-full max-w-lg px-6 py-20 sm:py-28">
         <div className="rounded-4 border border-hairline p-8">
+          {art ? (
+            <div aria-hidden className="mb-6 flex justify-center">
+              {art}
+            </div>
+          ) : null}
           <StatusSeal variant="warn">no access</StatusSeal>
 
           <h2
