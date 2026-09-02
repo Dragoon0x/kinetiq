@@ -8663,6 +8663,18 @@ export const components: KinetiqItem[] = [
     keywords: ["prompt", "composer", "textarea", "mention", "command", "agent"],
     props: [
       {
+        name: "attachments / onAttach / onRemoveAttachment",
+        type: "WellAttachment[] \u00b7 () => void \u00b7 (id: string) => void",
+        description:
+          "A chip row above the field and a paperclip in the tool row; all optional.",
+      },
+      {
+        name: "queued / credits",
+        type: "string[] \u00b7 { used: number; limit: number; label?: string }",
+        description:
+          "Messages waiting while busy, and a small usage pill in the tool row.",
+      },
+      {
         name: "sources",
         type: "WellOption[]",
         description: "Offered after @, anywhere a word can start.",

@@ -33,11 +33,16 @@ test("turn-modal: opens into a trapped dialog and closes on Escape", async ({
   page,
 }) => {
   await gotoHydrated(page, "/components/turn-modal");
-  await page.getByRole("button", { name: /berth 4/i }).first().click();
+  await page
+    .getByRole("button", { name: /berth 4/i })
+    .first()
+    .click();
   const dialog = page.getByRole("dialog");
   await expect(dialog).toBeVisible({ timeout: 5000 });
   await page.waitForTimeout(900);
-  await expect(dialog.getByRole("button", { name: /confirm berth/i })).toBeVisible();
+  await expect(
+    dialog.getByRole("button", { name: /confirm berth/i }),
+  ).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(dialog).toHaveCount(0, { timeout: 5000 });
 });
@@ -53,13 +58,19 @@ test("type treatments: glyphs deform under the cursor and settle", async ({
     expect(box).not.toBeNull();
     if (!box) continue;
     const before = await stage.evaluate((el) =>
-      [...el.querySelectorAll("span")].map((s) => getComputedStyle(s).transform).join("|"),
+      [...el.querySelectorAll("span")]
+        .map((s) => getComputedStyle(s).transform)
+        .join("|"),
     );
     await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5);
-    await page.mouse.move(box.x + box.width * 0.55, box.y + box.height * 0.5, { steps: 6 });
+    await page.mouse.move(box.x + box.width * 0.55, box.y + box.height * 0.5, {
+      steps: 6,
+    });
     await page.waitForTimeout(250);
     const during = await stage.evaluate((el) =>
-      [...el.querySelectorAll("span")].map((s) => getComputedStyle(s).transform).join("|"),
+      [...el.querySelectorAll("span")]
+        .map((s) => getComputedStyle(s).transform)
+        .join("|"),
     );
     expect(during, `${slug} did not move under the cursor`).not.toBe(before);
   }
@@ -96,7 +107,9 @@ test("vignettes: render, loop, and seat in the empty states", async ({
   }
   for (const slug of ["empty-no-matches", "empty-needs-access"]) {
     await gotoHydrated(page, `/preview/blocks/${slug}`);
-    await expect(page.locator("div[aria-hidden] [aria-label]").first()).toBeAttached();
+    await expect(
+      page.locator("div[aria-hidden] [aria-label]").first(),
+    ).toBeAttached();
   }
   expect(errors).toEqual([]);
 });
@@ -118,4 +131,119 @@ test("footer-spotlight-mark: the spotlight follows and collapses", async ({
   await page.waitForTimeout(900);
   const after = await solid.evaluate((el) => getComputedStyle(el).clipPath);
   expect(after).toMatch(/circle\(0px/);
+});
+
+test("gallery and team rails expand under hover and the mosaic morphs", async ({
+  page,
+}) => {
+  for (const slug of ["gallery-focus-rail", "team-focus-panels"]) {
+    await gotoHydrated(page, `/preview/blocks/${slug}`);
+    const panels = page.getByRole("group").first().getByRole("button");
+    const count = await panels.count();
+    expect(count).toBeGreaterThanOrEqual(5);
+    const last = count - 1;
+    const wFirst = (await panels.nth(0).boundingBox())?.width ?? 0;
+    const wLast = (await panels.nth(last).boundingBox())?.width ?? 0;
+    expect(wFirst, `${slug} first panel should lead`).toBeGreaterThan(wLast);
+    await panels.nth(last).hover();
+    await page.waitForTimeout(800);
+    const wLastAfter = (await panels.nth(last).boundingBox())?.width ?? 0;
+    expect(wLastAfter, `${slug} hovered panel should grow`).toBeGreaterThan(
+      wFirst * 0.9,
+    );
+  }
+  await gotoHydrated(page, "/preview/blocks/gallery-mosaic-morph");
+  const tiles = page.getByRole("button", { pressed: true });
+  await expect(tiles).toHaveCount(1);
+  const leadBefore = await tiles.first().boundingBox();
+  const others = page.getByRole("button", { pressed: false });
+  const target = others.nth(2);
+  const targetBefore = await target.boundingBox();
+  await target.click();
+  await page.waitForTimeout(900);
+  const targetAfter = await page
+    .getByRole("button", { pressed: true })
+    .first()
+    .boundingBox();
+  expect(
+    (targetAfter?.width ?? 0) * (targetAfter?.height ?? 0),
+  ).toBeGreaterThan(
+    (targetBefore?.width ?? 1) * (targetBefore?.height ?? 1) * 2,
+  );
+  expect(leadBefore).not.toBeNull();
+});
+
+test("tape wall runs two rows, notice stack advances, launch sheet opens", async ({
+  page,
+}) => {
+  await gotoHydrated(page, "/preview/blocks/testimonial-tape-wall");
+  const rows = page.locator(
+    "[aria-hidden] [style*='mask'], [style*='mask-image']",
+  );
+  expect(await rows.count()).toBeGreaterThanOrEqual(2);
+
+  await gotoHydrated(page, "/preview/blocks/announce-notice-stack");
+  await page.waitForTimeout(1500);
+  const stackedNow =
+    (await page.getByRole("status").count()) +
+    (await page.locator("[role='alert'], [data-toast]").count());
+  expect(stackedNow).toBeGreaterThan(0);
+  await expect(page.getByRole("button", { name: /replay/i })).toBeAttached();
+
+  await gotoHydrated(page, "/preview/blocks/announce-launch-sheet");
+  await page.getByRole("button", { name: /open the note/i }).click();
+  const sheet = page.getByRole("dialog");
+  await expect(sheet).toBeVisible({ timeout: 5000 });
+  await page.keyboard.press("Escape");
+  await expect(sheet).toHaveCount(0, { timeout: 5000 });
+  await expect(
+    page.getByRole("button", { name: /read it again/i }),
+  ).toBeVisible();
+});
+
+test("orbit hub selects and connects; card deck advances; heroes settle", async ({
+  page,
+}) => {
+  await gotoHydrated(page, "/preview/blocks/integrations-orbit-hub");
+  const nodes = page.getByRole("button", { pressed: false });
+  await nodes.nth(1).click();
+  await page.waitForTimeout(500);
+  await page
+    .getByRole("button", { name: /^connect/i })
+    .first()
+    .click();
+  await expect(page.getByText(/connected/i).first()).toBeVisible();
+
+  await gotoHydrated(page, "/preview/blocks/how-card-deck");
+  await expect(page.getByText(/1 \/ 5/)).toBeVisible();
+  await page.getByRole("button", { name: /^next/i }).click();
+  await expect(page.getByText(/2 \/ 5/)).toBeVisible();
+  await page.keyboard.press("ArrowRight");
+
+  await gotoHydrated(page, "/preview/blocks/hero-balance-desk");
+  await expect(page.getByText(/pending/i).first()).toBeVisible();
+  await expect(page.getByText(/pending/i)).toHaveCount(0, { timeout: 8000 });
+
+  await gotoHydrated(page, "/preview/blocks/hero-handset-stage");
+  await expect(page.getByRole("link", { name: /ios/i })).toBeVisible();
+});
+
+test("auth-atlas validates and submits; onboarding preview mirrors typing", async ({
+  page,
+}) => {
+  await gotoHydrated(page, "/preview/pages/auth-atlas");
+  const email = page.getByLabel(/email/i).first();
+  await email.fill("not-an-email");
+  await email.blur();
+  await expect(
+    page
+      .getByText(/email/i)
+      .filter({ hasText: /look|valid|shape|address/i })
+      .first(),
+  ).toBeVisible();
+
+  await gotoHydrated(page, "/preview/pages/onboarding-first-run");
+  const field = page.getByRole("textbox").first();
+  await field.fill("North Basin");
+  await expect(page.getByText("North Basin").nth(1)).toBeVisible();
 });

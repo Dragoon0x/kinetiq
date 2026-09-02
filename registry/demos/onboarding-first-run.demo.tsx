@@ -4,5 +4,5 @@ import { OnboardingFirstRun } from "@/registry/pages/onboarding-first-run/onboar
 
 /** The whole page, at its own scale. */
 export function OnboardingFirstRunDemo() {
-  return <OnboardingFirstRun />;
+  return <OnboardingFirstRun showPreview />;
 }

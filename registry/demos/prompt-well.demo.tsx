@@ -2,7 +2,11 @@
 
 import * as React from "react";
 
-import { PromptWell, type WellOption } from "@/registry/ui/prompt-well";
+import {
+  PromptWell,
+  type WellAttachment,
+  type WellOption,
+} from "@/registry/ui/prompt-well";
 
 const SOURCES: WellOption[] = [
   { id: "s1", label: "scoop-data", hint: "metrics" },
@@ -15,6 +19,23 @@ const COMMANDS: WellOption[] = [
   { id: "c1", label: "summarise", hint: "⌘1" },
   { id: "c2", label: "compare", hint: "⌘2" },
   { id: "c3", label: "reorder", hint: "⌘3" },
+];
+
+const INITIAL_ATTACHMENTS: WellAttachment[] = [
+  { id: "a1", name: "flavour-photo.jpg", kind: "image", size: "2.1 MB" },
+  { id: "a2", name: "supplier-ledger.csv", kind: "file", size: "48 KB" },
+];
+
+const EXTRA_ATTACHMENT: WellAttachment = {
+  id: "a3",
+  name: "cold-chain-sop.pdf",
+  kind: "file",
+  size: "180 KB",
+};
+
+const QUEUED = [
+  "Chart the pour rates for the west line",
+  "Draft a reorder list for cold storage",
 ];
 
 export function PromptWellDemo() {
@@ -36,6 +57,21 @@ export function PromptWellDemo() {
     timer.current = window.setTimeout(() => setBusy(false), 1600);
   };
 
+  const [attachments, setAttachments] = React.useState(INITIAL_ATTACHMENTS);
+  const [loadedBusy, setLoadedBusy] = React.useState(true);
+
+  const removeAttachment = (id: string) => {
+    setAttachments((current) => current.filter((a) => a.id !== id));
+  };
+
+  const addAttachment = () => {
+    setAttachments((current) =>
+      current.some((a) => a.id === EXTRA_ATTACHMENT.id)
+        ? current
+        : [...current, EXTRA_ATTACHMENT],
+    );
+  };
+
   return (
     <div className="flex w-full max-w-lg flex-col gap-4">
       <PromptWell
@@ -50,13 +86,31 @@ export function PromptWellDemo() {
 
       <p
         role="status"
-        className="text-muted-foreground border-border border-t pt-3 font-mono text-[10px] tracking-[0.08em] uppercase"
+        className="border-t border-border pt-3 font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase"
       >
         {busy ? "Working" : "Last sent"}{" "}
         <span className="text-[var(--signal,var(--primary))]">
           {sent ? `“${sent}”` : "nothing yet"}
         </span>
       </p>
+
+      <p className="border-t border-border pt-3 font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase">
+        Loaded composer — attachments, queue, credits
+      </p>
+
+      <PromptWell
+        sources={SOURCES}
+        commands={COMMANDS}
+        busy={loadedBusy}
+        onStop={() => setLoadedBusy(false)}
+        queued={QUEUED}
+        attachments={attachments}
+        onAttach={addAttachment}
+        onRemoveAttachment={removeAttachment}
+        credits={{ used: 41, limit: 60 }}
+        placeholder="Ask, or type @ for a source and / for a command…"
+        aria-label="Ask the loaded bench"
+      />
     </div>
   );
 }

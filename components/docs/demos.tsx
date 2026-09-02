@@ -316,6 +316,17 @@ import { VignetteSearchSweepDemo } from "@/registry/demos/vignette-search-sweep.
 import { VignetteInboxZeroDemo } from "@/registry/demos/vignette-inbox-zero.demo";
 import { VignetteBlankBoardDemo } from "@/registry/demos/vignette-blank-board.demo";
 import { FooterSpotlightMarkDemo } from "@/registry/demos/footer-spotlight-mark.demo";
+import { GalleryFocusRailDemo } from "@/registry/demos/gallery-focus-rail.demo";
+import { TeamFocusPanelsDemo } from "@/registry/demos/team-focus-panels.demo";
+import { TestimonialTapeWallDemo } from "@/registry/demos/testimonial-tape-wall.demo";
+import { GalleryMosaicMorphDemo } from "@/registry/demos/gallery-mosaic-morph.demo";
+import { AnnounceNoticeStackDemo } from "@/registry/demos/announce-notice-stack.demo";
+import { AnnounceLaunchSheetDemo } from "@/registry/demos/announce-launch-sheet.demo";
+import { IntegrationsOrbitHubDemo } from "@/registry/demos/integrations-orbit-hub.demo";
+import { HowCardDeckDemo } from "@/registry/demos/how-card-deck.demo";
+import { HeroHandsetStageDemo } from "@/registry/demos/hero-handset-stage.demo";
+import { HeroBalanceDeskDemo } from "@/registry/demos/hero-balance-desk.demo";
+import { ContentChapterReelDemo } from "@/registry/demos/content-chapter-reel.demo";
 import { PopoverMenuDemo } from "@/registry/demos/popover-menu.demo";
 import { ContextMenuDemo } from "@/registry/demos/context-menu.demo";
 import { HoverCardDemo } from "@/registry/demos/hover-card.demo";
@@ -459,6 +470,7 @@ import { AuthRecoverDemo } from "@/registry/demos/auth-recover.demo";
 import { AuthSecondFactorDemo } from "@/registry/demos/auth-second-factor.demo";
 import { AuthSignInDemo } from "@/registry/demos/auth-sign-in.demo";
 import { AuthSignUpDemo } from "@/registry/demos/auth-sign-up.demo";
+import { AuthAtlasDemo } from "@/registry/demos/auth-atlas.demo";
 import { AuthWorkspacePickDemo } from "@/registry/demos/auth-workspace-pick.demo";
 import { AboutHowWeWorkDemo } from "@/registry/demos/about-how-we-work.demo";
 import { AboutStoryDemo } from "@/registry/demos/about-story.demo";
@@ -854,6 +866,17 @@ export const demos: Record<string, ComponentType> = {
   "vignette-inbox-zero": VignetteInboxZeroDemo,
   "vignette-blank-board": VignetteBlankBoardDemo,
   "footer-spotlight-mark": FooterSpotlightMarkDemo,
+  "gallery-focus-rail": GalleryFocusRailDemo,
+  "team-focus-panels": TeamFocusPanelsDemo,
+  "testimonial-tape-wall": TestimonialTapeWallDemo,
+  "gallery-mosaic-morph": GalleryMosaicMorphDemo,
+  "announce-notice-stack": AnnounceNoticeStackDemo,
+  "announce-launch-sheet": AnnounceLaunchSheetDemo,
+  "integrations-orbit-hub": IntegrationsOrbitHubDemo,
+  "how-card-deck": HowCardDeckDemo,
+  "hero-handset-stage": HeroHandsetStageDemo,
+  "hero-balance-desk": HeroBalanceDeskDemo,
+  "content-chapter-reel": ContentChapterReelDemo,
   "popover-menu": PopoverMenuDemo,
   "context-menu": ContextMenuDemo,
   "hover-card": HoverCardDemo,
@@ -1035,6 +1058,7 @@ export const demos: Record<string, ComponentType> = {
   // Pages (KP-###)
   "auth-sign-in": AuthSignInDemo,
   "auth-sign-up": AuthSignUpDemo,
+  "auth-atlas": AuthAtlasDemo,
   "auth-recover": AuthRecoverDemo,
   "auth-second-factor": AuthSecondFactorDemo,
   "auth-workspace-pick": AuthWorkspacePickDemo,

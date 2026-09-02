@@ -3635,6 +3635,8 @@ A composer that deepens as the thought gets longer, growing line by line to a ro
 Install: `pnpm dlx shadcn@latest add @kinetiq/prompt-well`
 
 Props:
+- `attachments / onAttach / onRemoveAttachment`: WellAttachment[] · () => void · (id: string) => void — A chip row above the field and a paperclip in the tool row; all optional.
+- `queued / credits`: string[] · { used: number; limit: number; label?: string } — Messages waiting while busy, and a small usage pill in the tool row.
 - `sources`: WellOption[] — Offered after @, anywhere a word can start.
 - `commands`: WellOption[] — Offered after /, and only when it leads the prompt.
 - `busy`: boolean — Swaps send for stop and blocks submission.
@@ -6151,6 +6153,7 @@ Sweep complete, sector empty — a radar arc scans a quiet grid while the 404 nu
 Install: `pnpm dlx shadcn@latest add @kinetiq/not-found`
 
 Props:
+- `face`: "radar" | "shatter" | "elastic" | "echo" | "bands" | "spotlight" — The numeral treatment; radar is the default and unchanged.
 - `homeHref`: string (default "/") — Return-to-base link target.
 - `onCommandDeck`: () => void — Renders the ghost command-deck action when provided.
 - `code / message`: string (default "404" / sector message) — The cipher numeral and the rising subline.
@@ -7425,6 +7428,7 @@ The long ask, asked one question at a time: each prompt gets the whole frame, En
 Install: `pnpm dlx shadcn@latest add @kinetiq/stepform-one-question`
 
 Props:
+- `onAnswerChange`: (id: string, value: string) => void — Fires on every keystroke and choice, so a page can mirror answers live.
 - `questions`: OneQuestion[] — Text or choice prompts; each carries a short rail label.
 - `onSubmit`: (answers) => void — Fired once, on the review stage.
 - `summaryTitle / submitLabel / doneTitle / doneCopy`: string — The last two frames.
@@ -8242,6 +8246,189 @@ Notes:
 - The mark row is decorative and hidden from assistive tech; the brand column carries the name.
 - Reduced motion drops the spotlight and renders the mark solid at low opacity.
 
+### Focus Rail Gallery (KB-322) — `gallery-focus-rail`
+One plate always open.
+
+A gallery on the expanding rail: five typographic plates in a row, and the one under the pointer grows to tell its whole story while the others contract to their titles. The rail physics — the spring, the roving keyboard, the rule that something is always open — belong to focus-rail; the section contributes the plates and the standfirst. Typographic on purpose, so it reads in both themes at any density.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gallery-focus-rail`
+
+Props:
+- `plates`: FocusPlate[] — Kicker, title, body, and figure per plate.
+- `eyebrow / headline / deck`: string — The standfirst above the rail.
+
+Notes:
+- All expand and contract behaviour comes from focus-rail; the section never re-derives the flex spring.
+- Below the small breakpoint the rail turns vertical and stacks.
+- Reduced motion resizes plates instantly with no fades.
+
+### Focus Panels Team (KB-323) — `team-focus-panels`
+Open one, and the others make room.
+
+The team as expanding panels: six members in a row, and the one under the pointer opens to show what they actually tend, a short bio, and where to find them, while the rest close to an initials plate and a name. Links sit in a row beneath the rail that follows the open panel, because a link inside a button is not a link. The rail is focus-rail doing team duty.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/team-focus-panels`
+
+Props:
+- `members`: FocusMember[] — Name, role, what they tend, bio, and links per member.
+- `eyebrow / headline / deck`: string — The standfirst above the rail.
+
+Notes:
+- Initials plates instead of headshots, as the whole team family does.
+- The active member's links live in a live region beneath the rail, so keyboard users reach them in order.
+- Reduced motion resizes panels instantly with no fades.
+
+### Tape Wall Testimonials (KB-324) — `testimonial-tape-wall`
+Volume that never stops arriving.
+
+Two rows of testimonial cards running in opposite directions and pausing independently under the pointer. Where the dispatch wall proves a pattern with a cascade, this one proves it with volume that never stops arriving — and the two rows carry different sets, so the wall does not rhyme with itself. The tape physics, the hover drag, and the reduced-motion park all belong to ticker-tape.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/testimonial-tape-wall`
+
+Props:
+- `rows`: [TapeQuote[], TapeQuote[]] — Two card sets, one per row; each quote carries a measured figure.
+- `eyebrow / headline / deck`: string — The standfirst above the wall.
+
+Notes:
+- The tape rows are decorative for assistive tech; an sr-only list carries every quote.
+- Rows run at slightly different speeds so they drift out of phase rather than marching.
+- Reduced motion parks both tapes; the cards stay readable in place.
+
+### Mosaic Morph Gallery (KB-325) — `gallery-mosaic-morph`
+Everything moves to make room.
+
+A five-plate mosaic where selecting one grows it to a two-by-two frame and every other tile changes both its position and its footprint to make room — a true layout morph on the glide spring, not a scale. Five hand-authored arrangements keep the grid full with no holes whichever plate leads. Hover does not select, because a mosaic that reflows under a passing cursor cannot be read.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gallery-mosaic-morph`
+
+Props:
+- `plates`: MosaicPlate[] — Kicker, title, body, and figure per plate; the layout table is for five.
+- `defaultActiveId`: string — The plate that leads on first paint.
+- `eyebrow / headline / deck`: string — The standfirst above the mosaic.
+
+Notes:
+- Arrow keys move the lead plate; click, Enter, and Space select.
+- Inner text is layout-pinned so nothing stretches mid-morph.
+- Reduced motion swaps arrangements instantly with no fades.
+
+### Notice Stack Announcements (KB-326) — `announce-notice-stack`
+The next one is always in reach.
+
+Launch notices as a stack that advances itself: complete stories stacked with depth, the front one holding for a beat and leaving so the next comes forward on a spring, the ones behind always visibly within reach. The stack is telemetry-toast doing announcement duty inside the section rather than a new device; the notices arrive on a fixed schedule, which is why the demo behaves identically on every mount.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/announce-notice-stack`
+
+Props:
+- `notices`: LaunchNotice[] — Title, description, variant, and action label per notice.
+- `onAction`: (id: string) => void — Fires with the notice whose action was pressed.
+- `eyebrow / headline / deck`: string — The standfirst beside the stack.
+
+Notes:
+- Stacking, depth, dismissal, and promotion of the next notice all come from telemetry-toast.
+- Replay clears the stack and re-runs the same schedule.
+- Reduced motion keeps the schedule and drops the provider's motion.
+
+### Launch Sheet Announcement (KB-327) — `announce-launch-sheet`
+A release earns a sheet.
+
+A launch presented as a sheet rather than a strip: the section is a quiet band with the launch line and one button, and pressing it raises the library's own bottom sheet — a drifting header carrying the version mark, three rows saying what is new, changed, and fixed, and one action. A notice earns a strip; a release earns a sheet, because it has more to say than one line and the reader chose to open it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/announce-launch-sheet`
+
+Props:
+- `line / version / title / changes`: string · string · string · LaunchChange[] — The band copy and the sheet's contents.
+- `defaultOpen`: boolean — Present the launch on arrival instead of waiting for the press.
+
+Notes:
+- Dismissal, the backdrop, Escape, and the return of focus all belong to bottom-sheet.
+- Once dismissed, the band marks itself seen and offers to open the note again.
+- Reduced motion drops the header drift; the sheet keeps its own fallback.
+
+### Orbit Hub Integrations (KB-328) — `integrations-orbit-hub`
+Direction and cadence, not logos.
+
+Integrations as a connected workspace: the library's hub scene made selectable, so choosing a tool pulses its path to the core and opens its story — which direction the data moves, how often, and a connect control that stamps a seal when pressed. Logos say a relationship exists; direction and cadence say what it is worth, which is the question a buyer actually has.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/integrations-orbit-hub`
+
+Props:
+- `apps`: OrbitApp[] — Label, direction, cadence, and note per tool.
+- `onConnect`: (id: string) => void — Fires when a tool is connected.
+- `eyebrow / headline / deck`: string — The standfirst beside the hub.
+
+Notes:
+- The hub is vignette-hub with its new selectable nodes; the scene stays decorative when no handler is passed.
+- The story panel is a polite live region, so keyboard selection reads out.
+- Reduced motion keeps the hub's own fallback and swaps the panel instantly.
+
+### Card Deck How-It-Works (KB-329) — `how-card-deck`
+The row shortens as the stack grows.
+
+A process as a row of full cards that runs past the viewport edge, and as the reader advances each passed card is pulled into a layered stack at the left while the next takes focus. The row visibly shortens as the stack grows, which is the device: the reader can see how much is done and how much is waiting, and every passed step stays reachable in the stack.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/how-card-deck`
+
+Props:
+- `steps`: DeckStep[] — Title, note, and the artifact each step leaves behind.
+- `defaultIndex`: number — The step in focus on first paint.
+- `eyebrow / headline / deck`: string — The standfirst above the deck.
+
+Notes:
+- Next, back, arrow keys, and clicking a card all move the same index.
+- Cards retarget on the glide spring; nothing mounts or unmounts as the deck advances.
+- Reduced motion applies positions instantly.
+
+### Handset Stage Hero (KB-330) — `hero-handset-stage`
+The screenshot is the pitch.
+
+A device-led hero for a mobile app: the copy yields the right half to the product itself — the library's handset vignette rising onto a plinth on mount, two proof chips drifting beside it on clocks that never move in step. For products whose whole argument is the thing in your hand, the screenshot is the pitch and the copy is the caption.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hero-handset-stage`
+
+Props:
+- `cards / appName`: HandsetCard[] · string — The scene the handset scrolls through.
+- `proofs`: { value, label, suffix? }[] — Rolling figures on the chips.
+- `headline / copy / cta / secondary`: string — The copy column.
+
+Notes:
+- The handset's loop, pause, and fallback all belong to vignette-handset.
+- Store links are plain platform labels, not trademarked badges.
+- Reduced motion seats the handset in place and holds the chips still.
+
+### Balance Desk Hero (KB-331) — `hero-balance-desk`
+Something settles while you watch.
+
+A hero for a wallet or exchange product: the library's balance card seated on a desk with a short settlement list beneath it, and the pending row settles in front of the reader on a fixed timer — because a wallet that never settles anything is a picture. Three rolling proofs under the copy carry the scale; the card carries the trust.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hero-balance-desk`
+
+Props:
+- `balance / series / rows`: number · number[] · SettlementRow[] — The card's figure and sparkline, and the settlement list.
+- `brand`: string — Threaded into the eyebrow so a template can rename it.
+- `headline / copy / cta / secondary / proofs`: string · … — The copy column and its proof row.
+
+Notes:
+- Privacy blur, the sparkline, and the activity face all belong to balance-card.
+- Network and asset names are invented; nothing here names a real chain or coin.
+- Reduced motion drops the cascade; the settlement still flips as a state change.
+
+### Chapter Reel Content (KB-332) — `content-chapter-reel`
+Timed, selectable, and paused when unwatched.
+
+A customer story told in chapters over one animated canvas: each chapter plays a short scene on a timer, the list beside it names the chapters and lets the reader jump, and a rule under the active one fills as its time runs. The reel pauses when it scrolls out of view and when the tab is hidden, because a story nobody is watching should not keep spending the battery.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/content-chapter-reel`
+
+Props:
+- `chapters`: ReelChapter[] — Title and note per chapter; scenes map by index.
+- `chapterMs`: number — How long each chapter plays before advancing.
+- `eyebrow / headline / deck`: string — The standfirst above the reel.
+
+Notes:
+- The clock is a tick counter on an interval, never a wall clock, so it pauses and resumes cleanly.
+- Selecting a chapter restarts its scene; hovering the stage holds it.
+- Reduced motion shows each chapter's end frame and hides the progress rule.
+
 ### Sign In Page (KP-001) — `auth-sign-in`
 The workspace route above the password.
 
@@ -8331,6 +8518,7 @@ The first session, asked one question at a time, with a way out at the top. The 
 Install: `pnpm dlx shadcn@latest add @kinetiq/onboarding-first-run`
 
 Props:
+- `showPreview`: boolean — Render the live-bound preview card beside the questions.
 - `skipLabel / skipHref`: string — The escape hatch, kept at the top rather than the bottom.
 - `onDone`: (answers) => void — Fired with everything gathered.
 
@@ -8529,6 +8717,9 @@ The 404, built on the library's own radar sweep, with somewhere to go underneath
 
 Install: `pnpm dlx shadcn@latest add @kinetiq/error-not-found`
 
+Props:
+- `face`: "radar" | "shatter" | "elastic" | "echo" | "bands" | "spotlight" — Threaded to the not-found block; radar is the default.
+
 Notes:
 - The sweep belongs to the not-found block; this page contributes the destinations under it.
 - Name real destinations. Generic links are the same dead end with more words.
@@ -8628,6 +8819,22 @@ Notes:
 - Show what was detected. Without it a false positive is unarguable.
 - The correction path is the important half — geolocation is wrong often enough to strand real customers.
 - State the reason as policy or law; unavailable in your region alone reads as arbitrary.
+
+### Atlas Sign-Up Page (KP-028) — `auth-atlas`
+Other people are already here.
+
+Account creation beside a live activity map: the form says what the account creates before it creates it, and the atlas beside it — the library's point globe with a few pips and a count of crews online — says the quieter thing, that other people are already here. Validation is inline and plain, the strength line describes rather than scores, and a passkey path is offered as text instead of a wall of provider buttons.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/auth-atlas`
+
+Props:
+- `pips / crews`: AtlasPip[] · number — The yards shown on the atlas and the online count it steps toward.
+- `onSubmit`: (values) => void — Receives the name and email; the page never handles a password itself.
+
+Notes:
+- A shell — wire onSubmit to your own auth and never handle credentials client-side.
+- The globe is point-globe doing reassurance duty; it is decorative and hidden from assistive tech.
+- Reduced motion keeps the globe's own fallback; the count still steps.
 
 ### Instrument Template (KT-001) — `template-instrument`
 Eleven sections, one argument.

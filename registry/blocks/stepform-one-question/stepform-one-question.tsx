@@ -43,6 +43,8 @@ export type StepformOneQuestionProps = {
   doneTitle?: string;
   doneCopy?: string;
   onSubmit?: (answers: Record<string, string>) => void;
+  /** Fires on every keystroke and choice, so a page can mirror answers live. */
+  onAnswerChange?: (id: string, value: string) => void;
   className?: string;
 };
 
@@ -102,6 +104,7 @@ export function StepformOneQuestion({
   doneTitle = "That is everything.",
   doneCopy = "Your first board is being cut now. It lands in your inbox before the next shift.",
   onSubmit,
+  onAnswerChange,
   className,
 }: StepformOneQuestionProps) {
   const headingId = React.useId();
@@ -175,6 +178,7 @@ export function StepformOneQuestion({
   const answer = (id: string, value: string) => {
     setError(null);
     setAnswers((prev) => ({ ...prev, [id]: value }));
+    onAnswerChange?.(id, value);
   };
 
   const enter = motionSafe

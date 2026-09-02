@@ -514,14 +514,24 @@ export const blocks: KinetiqItem[] = [
       "utils",
       "motion",
       "use-motion-safe",
+      "band-type",
       "cipher-text",
+      "echo-type",
+      "elastic-type",
       "pressure-button",
+      "voronoi-shatter",
     ],
     categories: ["pages"],
     meta: { serial: "KB-113" },
     tagline: "Sweep complete. Sector empty.",
     keywords: ["404", "not found", "error page", "radar", "empty state"],
     props: [
+      {
+        name: "face",
+        type: '"radar" | "shatter" | "elastic" | "echo" | "bands" | "spotlight"',
+        description:
+          "The numeral treatment; radar is the default and unchanged.",
+      },
       {
         name: "homeHref",
         type: "string",
@@ -2087,6 +2097,49 @@ export const blocks: KinetiqItem[] = [
     ],
   },
   {
+    name: "team-focus-panels",
+    type: "registry:block",
+    title: "Focus Panels Team",
+    description:
+      "The team as expanding panels: six members in a row, and the one under the pointer opens to show what they actually tend, a short bio, and where to find them, while the rest close to an initials plate and a name. Links sit in a row beneath the rail that follows the open panel, because a link inside a button is not a link. The rail is focus-rail doing team duty.",
+    files: [
+      {
+        path: "registry/blocks/team-focus-panels/team-focus-panels.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "focus-rail"],
+    categories: ["team"],
+    meta: { serial: "KB-323" },
+    tagline: "Open one, and the others make room.",
+    keywords: [
+      "team",
+      "expanding",
+      "panels",
+      "members",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "members",
+        type: "FocusMember[]",
+        description: "Name, role, what they tend, bio, and links per member.",
+      },
+      {
+        name: "eyebrow / headline / deck",
+        type: "string",
+        description: "The standfirst above the rail.",
+      },
+    ],
+    usageNotes: [
+      "Initials plates instead of headshots, as the whole team family does.",
+      "The active member's links live in a live region beneath the rail, so keyboard users reach them in order.",
+      "Reduced motion resizes panels instantly with no fades.",
+    ],
+  },
+  {
     name: "team-bench-roster",
     type: "registry:block",
     title: "Bench Roster Team",
@@ -2213,6 +2266,61 @@ export const blocks: KinetiqItem[] = [
       "The line is stepper-flow — filling connectors, stamped checks, and keyboard travel come from it.",
       "Scenes slide from the direction of travel; reduced motion crossfades in place.",
       "Artifacts are the proof layer: name what the product holds, not what it intends.",
+    ],
+  },
+  {
+    name: "content-chapter-reel",
+    type: "registry:block",
+    title: "Chapter Reel Content",
+    description:
+      "A customer story told in chapters over one animated canvas: each chapter plays a short scene on a timer, the list beside it names the chapters and lets the reader jump, and a rule under the active one fills as its time runs. The reel pauses when it scrolls out of view and when the tab is hidden, because a story nobody is watching should not keep spending the battery.",
+    files: [
+      {
+        path: "registry/blocks/content-chapter-reel/content-chapter-reel.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "readout",
+      "status-seal",
+    ],
+    categories: ["content-sections"],
+    meta: { serial: "KB-332" },
+    tagline: "Timed, selectable, and paused when unwatched.",
+    keywords: [
+      "content",
+      "story",
+      "chapters",
+      "reel",
+      "canvas",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "chapters",
+        type: "ReelChapter[]",
+        description: "Title and note per chapter; scenes map by index.",
+      },
+      {
+        name: "chapterMs",
+        type: "number",
+        description: "How long each chapter plays before advancing.",
+      },
+      {
+        name: "eyebrow / headline / deck",
+        type: "string",
+        description: "The standfirst above the reel.",
+      },
+    ],
+    usageNotes: [
+      "The clock is a tick counter on an interval, never a wall clock, so it pauses and resumes cleanly.",
+      "Selecting a chapter restarts its scene; hovering the stage holds it.",
+      "Reduced motion shows each chapter's end frame and hides the progress rule.",
     ],
   },
   {
@@ -3088,6 +3196,105 @@ export const blocks: KinetiqItem[] = [
     ],
   },
   {
+    name: "announce-notice-stack",
+    type: "registry:block",
+    title: "Notice Stack Announcements",
+    description:
+      "Launch notices as a stack that advances itself: complete stories stacked with depth, the front one holding for a beat and leaving so the next comes forward on a spring, the ones behind always visibly within reach. The stack is telemetry-toast doing announcement duty inside the section rather than a new device; the notices arrive on a fixed schedule, which is why the demo behaves identically on every mount.",
+    files: [
+      {
+        path: "registry/blocks/announce-notice-stack/announce-notice-stack.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "telemetry-toast"],
+    categories: ["announcement"],
+    meta: { serial: "KB-326" },
+    tagline: "The next one is always in reach.",
+    keywords: [
+      "announcement",
+      "notices",
+      "stack",
+      "launch",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "notices",
+        type: "LaunchNotice[]",
+        description:
+          "Title, description, variant, and action label per notice.",
+      },
+      {
+        name: "onAction",
+        type: "(id: string) => void",
+        description: "Fires with the notice whose action was pressed.",
+      },
+      {
+        name: "eyebrow / headline / deck",
+        type: "string",
+        description: "The standfirst beside the stack.",
+      },
+    ],
+    usageNotes: [
+      "Stacking, depth, dismissal, and promotion of the next notice all come from telemetry-toast.",
+      "Replay clears the stack and re-runs the same schedule.",
+      "Reduced motion keeps the schedule and drops the provider's motion.",
+    ],
+  },
+  {
+    name: "announce-launch-sheet",
+    type: "registry:block",
+    title: "Launch Sheet Announcement",
+    description:
+      "A launch presented as a sheet rather than a strip: the section is a quiet band with the launch line and one button, and pressing it raises the library's own bottom sheet \u2014 a drifting header carrying the version mark, three rows saying what is new, changed, and fixed, and one action. A notice earns a strip; a release earns a sheet, because it has more to say than one line and the reader chose to open it.",
+    files: [
+      {
+        path: "registry/blocks/announce-launch-sheet/announce-launch-sheet.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["lucide-react"],
+    registryDependencies: [
+      "utils",
+      "bottom-sheet",
+      "gradient-drift",
+      "pressure-button",
+      "status-seal",
+    ],
+    categories: ["announcement"],
+    meta: { serial: "KB-327" },
+    tagline: "A release earns a sheet.",
+    keywords: [
+      "announcement",
+      "launch",
+      "sheet",
+      "release",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "line / version / title / changes",
+        type: "string \u00b7 string \u00b7 string \u00b7 LaunchChange[]",
+        description: "The band copy and the sheet's contents.",
+      },
+      {
+        name: "defaultOpen",
+        type: "boolean",
+        description:
+          "Present the launch on arrival instead of waiting for the press.",
+      },
+    ],
+    usageNotes: [
+      "Dismissal, the backdrop, Escape, and the return of focus all belong to bottom-sheet.",
+      "Once dismissed, the band marks itself seen and offers to open the note again.",
+      "Reduced motion drops the header drift; the sheet keeps its own fallback.",
+    ],
+  },
+  {
     name: "announce-first-light-strip",
     type: "registry:block",
     title: "First Light Strip",
@@ -3537,6 +3744,121 @@ export const blocks: KinetiqItem[] = [
     ],
   },
   {
+    name: "hero-handset-stage",
+    type: "registry:block",
+    title: "Handset Stage Hero",
+    description:
+      "A device-led hero for a mobile app: the copy yields the right half to the product itself \u2014 the library's handset vignette rising onto a plinth on mount, two proof chips drifting beside it on clocks that never move in step. For products whose whole argument is the thing in your hand, the screenshot is the pitch and the copy is the caption.",
+    files: [
+      {
+        path: "registry/blocks/hero-handset-stage/hero-handset-stage.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "pressure-button",
+      "readout",
+      "vignette-handset",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-330" },
+    tagline: "The screenshot is the pitch.",
+    keywords: [
+      "hero",
+      "mobile",
+      "app",
+      "handset",
+      "device",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "cards / appName",
+        type: "HandsetCard[] \u00b7 string",
+        description: "The scene the handset scrolls through.",
+      },
+      {
+        name: "proofs",
+        type: "{ value, label, suffix? }[]",
+        description: "Rolling figures on the chips.",
+      },
+      {
+        name: "headline / copy / cta / secondary",
+        type: "string",
+        description: "The copy column.",
+      },
+    ],
+    usageNotes: [
+      "The handset's loop, pause, and fallback all belong to vignette-handset.",
+      "Store links are plain platform labels, not trademarked badges.",
+      "Reduced motion seats the handset in place and holds the chips still.",
+    ],
+  },
+  {
+    name: "hero-balance-desk",
+    type: "registry:block",
+    title: "Balance Desk Hero",
+    description:
+      "A hero for a wallet or exchange product: the library's balance card seated on a desk with a short settlement list beneath it, and the pending row settles in front of the reader on a fixed timer \u2014 because a wallet that never settles anything is a picture. Three rolling proofs under the copy carry the scale; the card carries the trust.",
+    files: [
+      {
+        path: "registry/blocks/hero-balance-desk/hero-balance-desk.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion", "lucide-react"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "balance-card",
+      "pressure-button",
+      "readout",
+      "reveal-stagger",
+      "status-seal",
+    ],
+    categories: ["hero"],
+    meta: { serial: "KB-331" },
+    tagline: "Something settles while you watch.",
+    keywords: [
+      "hero",
+      "wallet",
+      "balance",
+      "fintech",
+      "custody",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "balance / series / rows",
+        type: "number \u00b7 number[] \u00b7 SettlementRow[]",
+        description:
+          "The card's figure and sparkline, and the settlement list.",
+      },
+      {
+        name: "brand",
+        type: "string",
+        description: "Threaded into the eyebrow so a template can rename it.",
+      },
+      {
+        name: "headline / copy / cta / secondary / proofs",
+        type: "string \u00b7 …",
+        description: "The copy column and its proof row.",
+      },
+    ],
+    usageNotes: [
+      "Privacy blur, the sparkline, and the activity face all belong to balance-card.",
+      "Network and asset names are invented; nothing here names a real chain or coin.",
+      "Reduced motion drops the cascade; the settlement still flips as a state change.",
+    ],
+  },
+  {
     name: "hero-agent-bench",
     type: "registry:block",
     title: "Agent Bench Hero",
@@ -3939,6 +4261,60 @@ export const blocks: KinetiqItem[] = [
     ],
   },
   {
+    name: "how-card-deck",
+    type: "registry:block",
+    title: "Card Deck How-It-Works",
+    description:
+      "A process as a row of full cards that runs past the viewport edge, and as the reader advances each passed card is pulled into a layered stack at the left while the next takes focus. The row visibly shortens as the stack grows, which is the device: the reader can see how much is done and how much is waiting, and every passed step stays reachable in the stack.",
+    files: [
+      {
+        path: "registry/blocks/how-card-deck/how-card-deck.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "pressure-button",
+      "status-seal",
+    ],
+    categories: ["how-it-works"],
+    meta: { serial: "KB-329" },
+    tagline: "The row shortens as the stack grows.",
+    keywords: [
+      "how it works",
+      "process",
+      "cards",
+      "stack",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "steps",
+        type: "DeckStep[]",
+        description: "Title, note, and the artifact each step leaves behind.",
+      },
+      {
+        name: "defaultIndex",
+        type: "number",
+        description: "The step in focus on first paint.",
+      },
+      {
+        name: "eyebrow / headline / deck",
+        type: "string",
+        description: "The standfirst above the deck.",
+      },
+    ],
+    usageNotes: [
+      "Next, back, arrow keys, and clicking a card all move the same index.",
+      "Cards retarget on the glide spring; nothing mounts or unmounts as the deck advances.",
+      "Reduced motion applies positions instantly.",
+    ],
+  },
+  {
     name: "how-day-clock",
     type: "registry:block",
     title: "Day Clock How-It-Works",
@@ -4127,6 +4503,12 @@ export const blocks: KinetiqItem[] = [
     ],
     props: [
       {
+        name: "onAnswerChange",
+        type: "(id: string, value: string) => void",
+        description:
+          "Fires on every keystroke and choice, so a page can mirror answers live.",
+      },
+      {
         name: "questions",
         type: "OneQuestion[]",
         description: "Text or choice prompts; each carries a short rail label.",
@@ -4183,6 +4565,50 @@ export const blocks: KinetiqItem[] = [
       "Seats carry a dashed border and a real href — an opening nobody can click is decoration.",
       "Write forWhom as a person, not a requirements list; the seat is the pitch.",
       "Initials derive from the name unless you pass them.",
+    ],
+  },
+  {
+    name: "testimonial-tape-wall",
+    type: "registry:block",
+    title: "Tape Wall Testimonials",
+    description:
+      "Two rows of testimonial cards running in opposite directions and pausing independently under the pointer. Where the dispatch wall proves a pattern with a cascade, this one proves it with volume that never stops arriving \u2014 and the two rows carry different sets, so the wall does not rhyme with itself. The tape physics, the hover drag, and the reduced-motion park all belong to ticker-tape.",
+    files: [
+      {
+        path: "registry/blocks/testimonial-tape-wall/testimonial-tape-wall.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "ticker-tape"],
+    categories: ["testimonials"],
+    meta: { serial: "KB-324" },
+    tagline: "Volume that never stops arriving.",
+    keywords: [
+      "testimonials",
+      "marquee",
+      "tape",
+      "wall",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "rows",
+        type: "[TapeQuote[], TapeQuote[]]",
+        description:
+          "Two card sets, one per row; each quote carries a measured figure.",
+      },
+      {
+        name: "eyebrow / headline / deck",
+        type: "string",
+        description: "The standfirst above the wall.",
+      },
+    ],
+    usageNotes: [
+      "The tape rows are decorative for assistive tech; an sr-only list carries every quote.",
+      "Rows run at slightly different speeds so they drift out of phase rather than marching.",
+      "Reduced motion parks both tapes; the cards stay readable in place.",
     ],
   },
   {
@@ -5836,6 +6262,61 @@ export const blocks: KinetiqItem[] = [
     ],
   },
   {
+    name: "integrations-orbit-hub",
+    type: "registry:block",
+    title: "Orbit Hub Integrations",
+    description:
+      "Integrations as a connected workspace: the library's hub scene made selectable, so choosing a tool pulses its path to the core and opens its story \u2014 which direction the data moves, how often, and a connect control that stamps a seal when pressed. Logos say a relationship exists; direction and cadence say what it is worth, which is the question a buyer actually has.",
+    files: [
+      {
+        path: "registry/blocks/integrations-orbit-hub/integrations-orbit-hub.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "pressure-button",
+      "status-seal",
+      "vignette-hub",
+    ],
+    categories: ["integrations"],
+    meta: { serial: "KB-328" },
+    tagline: "Direction and cadence, not logos.",
+    keywords: [
+      "integrations",
+      "orbit",
+      "hub",
+      "connect",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "apps",
+        type: "OrbitApp[]",
+        description: "Label, direction, cadence, and note per tool.",
+      },
+      {
+        name: "onConnect",
+        type: "(id: string) => void",
+        description: "Fires when a tool is connected.",
+      },
+      {
+        name: "eyebrow / headline / deck",
+        type: "string",
+        description: "The standfirst beside the hub.",
+      },
+    ],
+    usageNotes: [
+      "The hub is vignette-hub with its new selectable nodes; the scene stays decorative when no handler is passed.",
+      "The story panel is a polite live region, so keyboard selection reads out.",
+      "Reduced motion keeps the hub's own fallback and swaps the panel instantly.",
+    ],
+  },
+  {
     name: "integrations-build-your-own",
     type: "registry:block",
     title: "Build Your Own Integrations",
@@ -6144,6 +6625,100 @@ export const blocks: KinetiqItem[] = [
       'Name the host. "Someone from the team" is a form with extra steps.',
       "Times are pre-formatted in one stated zone; the section never reads a clock, so it cannot drift from the server.",
       "The fallback line is not optional — three fixed times exclude most of the world.",
+    ],
+  },
+  {
+    name: "gallery-focus-rail",
+    type: "registry:block",
+    title: "Focus Rail Gallery",
+    description:
+      "A gallery on the expanding rail: five typographic plates in a row, and the one under the pointer grows to tell its whole story while the others contract to their titles. The rail physics \u2014 the spring, the roving keyboard, the rule that something is always open \u2014 belong to focus-rail; the section contributes the plates and the standfirst. Typographic on purpose, so it reads in both themes at any density.",
+    files: [
+      {
+        path: "registry/blocks/gallery-focus-rail/gallery-focus-rail.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: [],
+    registryDependencies: ["utils", "focus-rail"],
+    categories: ["galleries"],
+    meta: { serial: "KB-322" },
+    tagline: "One plate always open.",
+    keywords: [
+      "gallery",
+      "expanding",
+      "panels",
+      "plates",
+      "editorial",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "plates",
+        type: "FocusPlate[]",
+        description: "Kicker, title, body, and figure per plate.",
+      },
+      {
+        name: "eyebrow / headline / deck",
+        type: "string",
+        description: "The standfirst above the rail.",
+      },
+    ],
+    usageNotes: [
+      "All expand and contract behaviour comes from focus-rail; the section never re-derives the flex spring.",
+      "Below the small breakpoint the rail turns vertical and stacks.",
+      "Reduced motion resizes plates instantly with no fades.",
+    ],
+  },
+  {
+    name: "gallery-mosaic-morph",
+    type: "registry:block",
+    title: "Mosaic Morph Gallery",
+    description:
+      "A five-plate mosaic where selecting one grows it to a two-by-two frame and every other tile changes both its position and its footprint to make room \u2014 a true layout morph on the glide spring, not a scale. Five hand-authored arrangements keep the grid full with no holes whichever plate leads. Hover does not select, because a mosaic that reflows under a passing cursor cannot be read.",
+    files: [
+      {
+        path: "registry/blocks/gallery-mosaic-morph/gallery-mosaic-morph.tsx",
+        type: "registry:block",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["galleries"],
+    meta: { serial: "KB-325" },
+    tagline: "Everything moves to make room.",
+    keywords: [
+      "gallery",
+      "mosaic",
+      "layout",
+      "morph",
+      "editorial",
+      "section",
+      "marketing",
+    ],
+    props: [
+      {
+        name: "plates",
+        type: "MosaicPlate[]",
+        description:
+          "Kicker, title, body, and figure per plate; the layout table is for five.",
+      },
+      {
+        name: "defaultActiveId",
+        type: "string",
+        description: "The plate that leads on first paint.",
+      },
+      {
+        name: "eyebrow / headline / deck",
+        type: "string",
+        description: "The standfirst above the mosaic.",
+      },
+    ],
+    usageNotes: [
+      "Arrow keys move the lead plate; click, Enter, and Space select.",
+      "Inner text is layout-pinned so nothing stretches mid-morph.",
+      "Reduced motion swaps arrangements instantly with no fades.",
     ],
   },
   {

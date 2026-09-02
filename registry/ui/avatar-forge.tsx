@@ -63,7 +63,7 @@ const COLOR_SWATCHES: readonly Swatch[] = [
   {
     id: "neutral",
     label: "Mixed neutral",
-    color: "color-mix(in oklab, var(--ink-2) 45%, var(--surface-2))",
+    color: "color-mix(in oklab, var(--ink-2) 45%, var(--color-surface-2))",
   },
 ];
 const DEFAULT_SWATCH = COLOR_SWATCHES[0] ?? {

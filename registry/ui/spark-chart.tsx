@@ -108,7 +108,9 @@ export function SparkChart({
   const linePath = React.useMemo(() => {
     if (plotted.length === 0) return "";
     return plotted
-      .map((p, i) => `${i === 0 ? "M" : "L"}${p.cx.toFixed(2)} ${p.cy.toFixed(2)}`)
+      .map(
+        (p, i) => `${i === 0 ? "M" : "L"}${p.cx.toFixed(2)} ${p.cy.toFixed(2)}`,
+      )
       .join(" ");
   }, [plotted]);
 
@@ -173,7 +175,7 @@ export function SparkChart({
     return (
       <div
         className={cn(
-          "bg-surface-1 border-hairline text-muted-foreground grid place-items-center rounded-2 border text-xs",
+          "grid place-items-center rounded-2 border border-hairline bg-surface-1 text-xs text-muted-foreground",
           className,
         )}
         style={{ height }}
@@ -267,11 +269,13 @@ export function SparkChart({
           }}
           onPointerUp={(event) => {
             const drag = dragRef.current;
-            if (drag && event.pointerId === drag.pointerId) dragRef.current = null;
+            if (drag && event.pointerId === drag.pointerId)
+              dragRef.current = null;
           }}
           onPointerCancel={(event) => {
             const drag = dragRef.current;
-            if (drag && event.pointerId === drag.pointerId) dragRef.current = null;
+            if (drag && event.pointerId === drag.pointerId)
+              dragRef.current = null;
             setActive(null);
           }}
           onPointerLeave={() => {
@@ -303,7 +307,11 @@ export function SparkChart({
                 animate={{ opacity: 1 }}
                 transition={
                   motionSafe
-                    ? { duration: durations.slow, ease: easings.enter, delay: durations.page * 0.35 }
+                    ? {
+                        duration: durations.slow,
+                        ease: easings.enter,
+                        delay: durations.page * 0.35,
+                      }
                     : { duration: 0 }
                 }
               />
@@ -345,7 +353,7 @@ export function SparkChart({
                 cy={activePoint.cy}
                 r={3.5}
                 fill="var(--signal, var(--primary))"
-                stroke="var(--surface-1, var(--card))"
+                stroke="var(--color-surface-1, var(--card))"
                 strokeWidth={1.5}
                 vectorEffect="non-scaling-stroke"
               />
@@ -366,11 +374,11 @@ export function SparkChart({
               transform: `translate(${tooltipFlipped ? "calc(-100% - 8px)" : "8px"}, calc(-100% - 6px))`,
             }}
           >
-            <div className="bg-surface-1 border-hairline rounded-1 border px-2 py-1 shadow-raised">
-              <div className="text-label text-ink-3 leading-none">
+            <div className="rounded-1 border border-hairline bg-surface-1 px-2 py-1 shadow-raised">
+              <div className="text-label leading-none text-ink-3">
                 {xLabelOf(activePoint.point)}
               </div>
-              <div className="text-foreground mt-0.5 font-mono text-xs leading-none tabular-nums">
+              <div className="mt-0.5 font-mono text-xs leading-none text-foreground tabular-nums">
                 {format(activePoint.point.y)}
               </div>
             </div>

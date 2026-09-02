@@ -22,6 +22,8 @@ export type FocusRailProps = {
   defaultActiveId?: string;
   /** Fires when a press or a keyboard move commits a new panel — a hover preview never fires it. */
   onActiveChange?: (id: string) => void;
+  /** Fires as a hover preview begins (the id) and ends (null); never on commits. Lets a composer follow the expanded panel without treating hover as intent. */
+  onPreviewChange?: (id: string | null) => void;
   /** Flex-grow the active panel reaches for. @default 2.4 */
   grow?: number;
   /** Row that grows in width, or stack that grows in height. @default "horizontal" */
@@ -61,6 +63,7 @@ export function FocusRail({
   activeId: activeIdProp,
   defaultActiveId,
   onActiveChange,
+  onPreviewChange,
   grow = 2.4,
   orientation = "horizontal",
   expandOn = "hover",
@@ -87,10 +90,12 @@ export function FocusRail({
   };
 
   const preview = (id: string) => {
+    onPreviewChange?.(id);
     setHoverPreview((prev) => (prev === id ? prev : id));
   };
 
   const clearPreview = () => {
+    onPreviewChange?.(null);
     setHoverPreview((prev) => (prev === null ? prev : null));
   };
 

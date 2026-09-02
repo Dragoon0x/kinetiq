@@ -69,7 +69,7 @@ const CAPTION_HOLD_MS = 520;
 
 const WARM_LIGHT = "color-mix(in oklab, var(--warning, #b45309) 75%, white)";
 const DUSK_GRADIENT =
-  "linear-gradient(180deg, var(--surface-2) 0%, color-mix(in oklab, var(--warning, #b45309) 24%, var(--surface-1)) 100%)";
+  "linear-gradient(180deg, var(--color-surface-2) 0%, color-mix(in oklab, var(--warning, #b45309) 24%, var(--color-surface-1)) 100%)";
 
 type GlowPhase = "none" | "bright" | "falling";
 
@@ -341,7 +341,7 @@ export function FerrisGlow({
               cx={ROTOR_CENTER}
               cy={ROTOR_CENTER}
               r={HUB_R}
-              fill="var(--surface-2)"
+              fill="var(--color-surface-2)"
               stroke="var(--hairline-strong)"
               strokeWidth={1.5}
             />

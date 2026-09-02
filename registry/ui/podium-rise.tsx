@@ -207,7 +207,7 @@ function PlinthColumn({
       : { duration: 0 };
 
   const numeralColor = `color-mix(in oklab, var(--card) 82%, ${meta.tint} 18%)`;
-  const avatarBg = `color-mix(in oklab, ${meta.tint} 30%, var(--surface-1))`;
+  const avatarBg = `color-mix(in oklab, ${meta.tint} 30%, var(--color-surface-1))`;
   const avatarColor = `color-mix(in oklab, ${meta.tint} 70%, var(--ink))`;
 
   return (

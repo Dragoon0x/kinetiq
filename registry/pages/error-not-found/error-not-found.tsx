@@ -2,13 +2,18 @@
 
 import * as React from "react";
 
-import { NotFound } from "@/registry/blocks/not-found/not-found";
+import {
+  NotFound,
+  type NotFoundFace,
+} from "@/registry/blocks/not-found/not-found";
 import { cn } from "@/registry/lib/utils";
 
 export type ErrorNotFoundProps = {
   /** Where the reader most likely meant to go. */
   suggestions?: { id: string; label: string; href: string }[];
   homeHref?: string;
+  /** Which treatment renders the block's numeral stage. @default "radar" */
+  face?: NotFoundFace;
   className?: string;
 };
 
@@ -27,6 +32,7 @@ const DEFAULT_SUGGESTIONS = [
 export function ErrorNotFound({
   suggestions = DEFAULT_SUGGESTIONS,
   homeHref = "/",
+  face = "radar",
   className,
 }: ErrorNotFoundProps) {
   return (
@@ -36,7 +42,7 @@ export function ErrorNotFound({
         className,
       )}
     >
-      <NotFound />
+      <NotFound face={face} />
       <nav aria-label="Where you might have meant" className="mt-10">
         <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           {suggestions.map((item) => (

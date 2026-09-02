@@ -255,7 +255,7 @@ function AlbumSticker({
         }
         className="relative flex size-full flex-col items-center justify-center gap-1 rounded-2 border"
         style={{
-          background: `color-mix(in oklab, ${tint} 16%, var(--surface-2))`,
+          background: `color-mix(in oklab, ${tint} 16%, var(--color-surface-2))`,
           borderColor: `color-mix(in oklab, ${tint} 42%, transparent)`,
         }}
       >
@@ -384,7 +384,7 @@ function DuplicateSticker({
         top,
         width: SLOT_SIZE,
         height: SLOT_SIZE,
-        background: `color-mix(in oklab, ${flight.tint} 20%, var(--surface-2))`,
+        background: `color-mix(in oklab, ${flight.tint} 20%, var(--color-surface-2))`,
         borderColor: `color-mix(in oklab, ${flight.tint} 55%, transparent)`,
       }}
       initial={{ x: dx, y: dy, opacity: 0 }}

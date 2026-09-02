@@ -415,7 +415,7 @@ export function XpShower({
             className="size-3 rotate-45 rounded-[3px]"
             style={{
               background:
-                "color-mix(in oklab, var(--primary) 55%, var(--surface-2))",
+                "color-mix(in oklab, var(--primary) 55%, var(--color-surface-2))",
             }}
           />
         </div>

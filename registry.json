@@ -10074,8 +10074,12 @@
         "https://kinetiqui.vercel.app/r/utils.json",
         "https://kinetiqui.vercel.app/r/motion.json",
         "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/band-type.json",
         "https://kinetiqui.vercel.app/r/cipher-text.json",
-        "https://kinetiqui.vercel.app/r/pressure-button.json"
+        "https://kinetiqui.vercel.app/r/echo-type.json",
+        "https://kinetiqui.vercel.app/r/elastic-type.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/voronoi-shatter.json"
       ],
       "categories": [
         "pages"
@@ -11024,6 +11028,30 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "team-focus-panels",
+      "type": "registry:block",
+      "title": "Focus Panels Team",
+      "description": "The team as expanding panels: six members in a row, and the one under the pointer opens to show what they actually tend, a short bio, and where to find them, while the rest close to an initials plate and a name. Links sit in a row beneath the rail that follows the open panel, because a link inside a button is not a link. The rail is focus-rail doing team duty.",
+      "files": [
+        {
+          "path": "registry/blocks/team-focus-panels/team-focus-panels.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/focus-rail.json"
+      ],
+      "categories": [
+        "team"
+      ],
+      "meta": {
+        "serial": "KB-323"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "team-bench-roster",
       "type": "registry:block",
       "title": "Bench Roster Team",
@@ -11103,6 +11131,35 @@
       ],
       "meta": {
         "serial": "KB-230"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "content-chapter-reel",
+      "type": "registry:block",
+      "title": "Chapter Reel Content",
+      "description": "A customer story told in chapters over one animated canvas: each chapter plays a short scene on a timer, the list beside it names the chapters and lets the reader jump, and a rule under the active one fills as its time runs. The reel pauses when it scrolls out of view and when the tab is hidden, because a story nobody is watching should not keep spending the battery.",
+      "files": [
+        {
+          "path": "registry/blocks/content-chapter-reel/content-chapter-reel.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "content-sections"
+      ],
+      "meta": {
+        "serial": "KB-332"
       }
     },
     {
@@ -11628,6 +11685,59 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "announce-notice-stack",
+      "type": "registry:block",
+      "title": "Notice Stack Announcements",
+      "description": "Launch notices as a stack that advances itself: complete stories stacked with depth, the front one holding for a beat and leaving so the next comes forward on a spring, the ones behind always visibly within reach. The stack is telemetry-toast doing announcement duty inside the section rather than a new device; the notices arrive on a fixed schedule, which is why the demo behaves identically on every mount.",
+      "files": [
+        {
+          "path": "registry/blocks/announce-notice-stack/announce-notice-stack.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/telemetry-toast.json"
+      ],
+      "categories": [
+        "announcement"
+      ],
+      "meta": {
+        "serial": "KB-326"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "announce-launch-sheet",
+      "type": "registry:block",
+      "title": "Launch Sheet Announcement",
+      "description": "A launch presented as a sheet rather than a strip: the section is a quiet band with the launch line and one button, and pressing it raises the library's own bottom sheet — a drifting header carrying the version mark, three rows saying what is new, changed, and fixed, and one action. A notice earns a strip; a release earns a sheet, because it has more to say than one line and the reader chose to open it.",
+      "files": [
+        {
+          "path": "registry/blocks/announce-launch-sheet/announce-launch-sheet.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/bottom-sheet.json",
+        "https://kinetiqui.vercel.app/r/gradient-drift.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "announcement"
+      ],
+      "meta": {
+        "serial": "KB-327"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "announce-first-light-strip",
       "type": "registry:block",
       "title": "First Light Strip",
@@ -11909,6 +12019,70 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-handset-stage",
+      "type": "registry:block",
+      "title": "Handset Stage Hero",
+      "description": "A device-led hero for a mobile app: the copy yields the right half to the product itself — the library's handset vignette rising onto a plinth on mount, two proof chips drifting beside it on clocks that never move in step. For products whose whole argument is the thing in your hand, the screenshot is the pitch and the copy is the caption.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-handset-stage/hero-handset-stage.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/vignette-handset.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-330"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hero-balance-desk",
+      "type": "registry:block",
+      "title": "Balance Desk Hero",
+      "description": "A hero for a wallet or exchange product: the library's balance card seated on a desk with a short settlement list beneath it, and the pending row settles in front of the reader on a fixed timer — because a wallet that never settles anything is a picture. Three rolling proofs under the copy carry the scale; the card carries the trust.",
+      "files": [
+        {
+          "path": "registry/blocks/hero-balance-desk/hero-balance-desk.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/balance-card.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "hero"
+      ],
+      "meta": {
+        "serial": "KB-331"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "hero-agent-bench",
       "type": "registry:block",
       "title": "Agent Bench Hero",
@@ -12160,6 +12334,35 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "how-card-deck",
+      "type": "registry:block",
+      "title": "Card Deck How-It-Works",
+      "description": "A process as a row of full cards that runs past the viewport edge, and as the reader advances each passed card is pulled into a layered stack at the left while the next takes focus. The row visibly shortens as the stack grows, which is the device: the reader can see how much is done and how much is waiting, and every passed step stays reachable in the stack.",
+      "files": [
+        {
+          "path": "registry/blocks/how-card-deck/how-card-deck.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "categories": [
+        "how-it-works"
+      ],
+      "meta": {
+        "serial": "KB-329"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "how-day-clock",
       "type": "registry:block",
       "title": "Day Clock How-It-Works",
@@ -12304,6 +12507,30 @@
       ],
       "meta": {
         "serial": "KB-272"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "testimonial-tape-wall",
+      "type": "registry:block",
+      "title": "Tape Wall Testimonials",
+      "description": "Two rows of testimonial cards running in opposite directions and pausing independently under the pointer. Where the dispatch wall proves a pattern with a cascade, this one proves it with volume that never stops arriving — and the two rows carry different sets, so the wall does not rhyme with itself. The tape physics, the hover drag, and the reduced-motion park all belong to ticker-tape.",
+      "files": [
+        {
+          "path": "registry/blocks/testimonial-tape-wall/testimonial-tape-wall.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/ticker-tape.json"
+      ],
+      "categories": [
+        "testimonials"
+      ],
+      "meta": {
+        "serial": "KB-324"
       }
     },
     {
@@ -13313,6 +13540,36 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "integrations-orbit-hub",
+      "type": "registry:block",
+      "title": "Orbit Hub Integrations",
+      "description": "Integrations as a connected workspace: the library's hub scene made selectable, so choosing a tool pulses its path to the core and opens its story — which direction the data moves, how often, and a connect control that stamps a seal when pressed. Logos say a relationship exists; direction and cadence say what it is worth, which is the question a buyer actually has.",
+      "files": [
+        {
+          "path": "registry/blocks/integrations-orbit-hub/integrations-orbit-hub.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/vignette-hub.json"
+      ],
+      "categories": [
+        "integrations"
+      ],
+      "meta": {
+        "serial": "KB-328"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "integrations-build-your-own",
       "type": "registry:block",
       "title": "Build Your Own Integrations",
@@ -13501,6 +13758,57 @@
       ],
       "meta": {
         "serial": "KB-315"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gallery-focus-rail",
+      "type": "registry:block",
+      "title": "Focus Rail Gallery",
+      "description": "A gallery on the expanding rail: five typographic plates in a row, and the one under the pointer grows to tell its whole story while the others contract to their titles. The rail physics — the spring, the roving keyboard, the rule that something is always open — belong to focus-rail; the section contributes the plates and the standfirst. Typographic on purpose, so it reads in both themes at any density.",
+      "files": [
+        {
+          "path": "registry/blocks/gallery-focus-rail/gallery-focus-rail.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/focus-rail.json"
+      ],
+      "categories": [
+        "galleries"
+      ],
+      "meta": {
+        "serial": "KB-322"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gallery-mosaic-morph",
+      "type": "registry:block",
+      "title": "Mosaic Morph Gallery",
+      "description": "A five-plate mosaic where selecting one grows it to a two-by-two frame and every other tile changes both its position and its footprint to make room — a true layout morph on the glide spring, not a scale. Five hand-authored arrangements keep the grid full with no holes whichever plate leads. Hover does not select, because a mosaic that reflows under a passing cursor cannot be read.",
+      "files": [
+        {
+          "path": "registry/blocks/gallery-mosaic-morph/gallery-mosaic-morph.tsx",
+          "type": "registry:block"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "galleries"
+      ],
+      "meta": {
+        "serial": "KB-325"
       }
     },
     {
@@ -13783,6 +14091,39 @@
       ],
       "meta": {
         "serial": "KP-001"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "auth-atlas",
+      "type": "registry:page",
+      "title": "Atlas Sign-Up Page",
+      "description": "Account creation beside a live activity map: the form says what the account creates before it creates it, and the atlas beside it — the library's point globe with a few pips and a count of crews online — says the quieter thing, that other people are already here. Validation is inline and plain, the strength line describes rather than scores, and a passkey path is offered as text instead of a wall of provider buttons.",
+      "files": [
+        {
+          "path": "registry/pages/auth-atlas/auth-atlas.tsx",
+          "type": "registry:page",
+          "target": "app/(auth)/atlas/page.tsx"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/point-globe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json"
+      ],
+      "categories": [
+        "auth"
+      ],
+      "meta": {
+        "serial": "KP-028"
       }
     },
     {
@@ -14297,9 +14638,7 @@
           "target": "app/not-found.tsx"
         }
       ],
-      "dependencies": [
-        "motion"
-      ],
+      "dependencies": [],
       "registryDependencies": [
         "https://kinetiqui.vercel.app/r/utils.json",
         "https://kinetiqui.vercel.app/r/not-found.json"

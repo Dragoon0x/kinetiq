@@ -347,7 +347,7 @@ export function PrizeWheel({
 
     const fillPct =
       i === winningIndex && !seg.blank ? FILL_MIX_WIN : FILL_MIX_BASE;
-    const fill = `color-mix(in oklab, ${seg.tint} ${fillPct}%, var(--surface-1))`;
+    const fill = `color-mix(in oklab, ${seg.tint} ${fillPct}%, var(--color-surface-1))`;
 
     return { seg, path, lx, ly, rotate: midDeg + 90, fill };
   });
@@ -395,7 +395,7 @@ export function PrizeWheel({
               >
                 <path
                   d={path}
-                  stroke="var(--surface-1)"
+                  stroke="var(--color-surface-1)"
                   strokeWidth={2}
                   style={{ fill, transition: "fill 300ms ease" }}
                 />
@@ -431,7 +431,7 @@ export function PrizeWheel({
               cx={CX}
               cy={CY}
               r={HUB_BACK_R}
-              fill="var(--surface-1)"
+              fill="var(--color-surface-1)"
               stroke="var(--hairline-strong)"
               strokeWidth={2}
             />
@@ -529,7 +529,7 @@ export function PrizeWheel({
                 style={{
                   background: seg.blank
                     ? "transparent"
-                    : `color-mix(in oklab, ${seg.tint} 70%, var(--surface-1))`,
+                    : `color-mix(in oklab, ${seg.tint} 70%, var(--color-surface-1))`,
                 }}
               />
             );

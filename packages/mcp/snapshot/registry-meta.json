@@ -14,8 +14,8 @@
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
       "components": 355,
-      "blocks": 141,
-      "pages": 27,
+      "blocks": 152,
+      "pages": 28,
       "templates": 8,
       "shared": 7
     }
@@ -13045,6 +13045,16 @@
       ],
       "props": [
         {
+          "name": "attachments / onAttach / onRemoveAttachment",
+          "type": "WellAttachment[] · () => void · (id: string) => void",
+          "description": "A chip row above the field and a paperclip in the tool row; all optional."
+        },
+        {
+          "name": "queued / credits",
+          "type": "string[] · { used: number; limit: number; label?: string }",
+          "description": "Messages waiting while busy, and a small usage pill in the tool row."
+        },
+        {
           "name": "sources",
           "type": "WellOption[]",
           "description": "Offered after @, anywhere a word can start."
@@ -21790,6 +21800,11 @@
       ],
       "props": [
         {
+          "name": "face",
+          "type": "\"radar\" | \"shatter\" | \"elastic\" | \"echo\" | \"bands\" | \"spotlight\"",
+          "description": "The numeral treatment; radar is the default and unchanged."
+        },
+        {
           "name": "homeHref",
           "type": "string",
           "defaultValue": "\"/\"",
@@ -21818,8 +21833,12 @@
         "https://kinetiqui.vercel.app/r/utils.json",
         "https://kinetiqui.vercel.app/r/motion.json",
         "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/band-type.json",
         "https://kinetiqui.vercel.app/r/cipher-text.json",
-        "https://kinetiqui.vercel.app/r/pressure-button.json"
+        "https://kinetiqui.vercel.app/r/echo-type.json",
+        "https://kinetiqui.vercel.app/r/elastic-type.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/voronoi-shatter.json"
       ],
       "docsUrl": "https://kinetiqui.vercel.app/blocks/not-found",
       "registryItemUrl": "https://kinetiqui.vercel.app/r/not-found.json",
@@ -26302,6 +26321,11 @@
       ],
       "props": [
         {
+          "name": "onAnswerChange",
+          "type": "(id: string, value: string) => void",
+          "description": "Fires on every keystroke and choice, so a page can mirror answers live."
+        },
+        {
           "name": "questions",
           "type": "OneQuestion[]",
           "description": "Text or choice prompts; each carries a short rail label."
@@ -29109,6 +29133,647 @@
       }
     },
     {
+      "slug": "gallery-focus-rail",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Focus Rail Gallery",
+      "serial": "KB-322",
+      "tagline": "One plate always open.",
+      "description": "A gallery on the expanding rail: five typographic plates in a row, and the one under the pointer grows to tell its whole story while the others contract to their titles. The rail physics — the spring, the roving keyboard, the rule that something is always open — belong to focus-rail; the section contributes the plates and the standfirst. Typographic on purpose, so it reads in both themes at any density.",
+      "categories": [
+        "galleries"
+      ],
+      "keywords": [
+        "gallery",
+        "expanding",
+        "panels",
+        "plates",
+        "editorial",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "plates",
+          "type": "FocusPlate[]",
+          "description": "Kicker, title, body, and figure per plate."
+        },
+        {
+          "name": "eyebrow / headline / deck",
+          "type": "string",
+          "description": "The standfirst above the rail."
+        }
+      ],
+      "usageNotes": [
+        "All expand and contract behaviour comes from focus-rail; the section never re-derives the flex spring.",
+        "Below the small breakpoint the rail turns vertical and stacks.",
+        "Reduced motion resizes plates instantly with no fades."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/focus-rail.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/gallery-focus-rail",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gallery-focus-rail.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gallery-focus-rail",
+        "npm": "npx shadcn@latest add @kinetiq/gallery-focus-rail",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gallery-focus-rail",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gallery-focus-rail",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gallery-focus-rail.json"
+      }
+    },
+    {
+      "slug": "team-focus-panels",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Focus Panels Team",
+      "serial": "KB-323",
+      "tagline": "Open one, and the others make room.",
+      "description": "The team as expanding panels: six members in a row, and the one under the pointer opens to show what they actually tend, a short bio, and where to find them, while the rest close to an initials plate and a name. Links sit in a row beneath the rail that follows the open panel, because a link inside a button is not a link. The rail is focus-rail doing team duty.",
+      "categories": [
+        "team"
+      ],
+      "keywords": [
+        "team",
+        "expanding",
+        "panels",
+        "members",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "members",
+          "type": "FocusMember[]",
+          "description": "Name, role, what they tend, bio, and links per member."
+        },
+        {
+          "name": "eyebrow / headline / deck",
+          "type": "string",
+          "description": "The standfirst above the rail."
+        }
+      ],
+      "usageNotes": [
+        "Initials plates instead of headshots, as the whole team family does.",
+        "The active member's links live in a live region beneath the rail, so keyboard users reach them in order.",
+        "Reduced motion resizes panels instantly with no fades."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/focus-rail.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/team-focus-panels",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/team-focus-panels.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/team-focus-panels",
+        "npm": "npx shadcn@latest add @kinetiq/team-focus-panels",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/team-focus-panels",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/team-focus-panels",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/team-focus-panels.json"
+      }
+    },
+    {
+      "slug": "testimonial-tape-wall",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Tape Wall Testimonials",
+      "serial": "KB-324",
+      "tagline": "Volume that never stops arriving.",
+      "description": "Two rows of testimonial cards running in opposite directions and pausing independently under the pointer. Where the dispatch wall proves a pattern with a cascade, this one proves it with volume that never stops arriving — and the two rows carry different sets, so the wall does not rhyme with itself. The tape physics, the hover drag, and the reduced-motion park all belong to ticker-tape.",
+      "categories": [
+        "testimonials"
+      ],
+      "keywords": [
+        "testimonials",
+        "marquee",
+        "tape",
+        "wall",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "rows",
+          "type": "[TapeQuote[], TapeQuote[]]",
+          "description": "Two card sets, one per row; each quote carries a measured figure."
+        },
+        {
+          "name": "eyebrow / headline / deck",
+          "type": "string",
+          "description": "The standfirst above the wall."
+        }
+      ],
+      "usageNotes": [
+        "The tape rows are decorative for assistive tech; an sr-only list carries every quote.",
+        "Rows run at slightly different speeds so they drift out of phase rather than marching.",
+        "Reduced motion parks both tapes; the cards stay readable in place."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/ticker-tape.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/testimonial-tape-wall",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/testimonial-tape-wall.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/testimonial-tape-wall",
+        "npm": "npx shadcn@latest add @kinetiq/testimonial-tape-wall",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/testimonial-tape-wall",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/testimonial-tape-wall",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/testimonial-tape-wall.json"
+      }
+    },
+    {
+      "slug": "gallery-mosaic-morph",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Mosaic Morph Gallery",
+      "serial": "KB-325",
+      "tagline": "Everything moves to make room.",
+      "description": "A five-plate mosaic where selecting one grows it to a two-by-two frame and every other tile changes both its position and its footprint to make room — a true layout morph on the glide spring, not a scale. Five hand-authored arrangements keep the grid full with no holes whichever plate leads. Hover does not select, because a mosaic that reflows under a passing cursor cannot be read.",
+      "categories": [
+        "galleries"
+      ],
+      "keywords": [
+        "gallery",
+        "mosaic",
+        "layout",
+        "morph",
+        "editorial",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "plates",
+          "type": "MosaicPlate[]",
+          "description": "Kicker, title, body, and figure per plate; the layout table is for five."
+        },
+        {
+          "name": "defaultActiveId",
+          "type": "string",
+          "description": "The plate that leads on first paint."
+        },
+        {
+          "name": "eyebrow / headline / deck",
+          "type": "string",
+          "description": "The standfirst above the mosaic."
+        }
+      ],
+      "usageNotes": [
+        "Arrow keys move the lead plate; click, Enter, and Space select.",
+        "Inner text is layout-pinned so nothing stretches mid-morph.",
+        "Reduced motion swaps arrangements instantly with no fades."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/gallery-mosaic-morph",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/gallery-mosaic-morph.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gallery-mosaic-morph",
+        "npm": "npx shadcn@latest add @kinetiq/gallery-mosaic-morph",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gallery-mosaic-morph",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gallery-mosaic-morph",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/gallery-mosaic-morph.json"
+      }
+    },
+    {
+      "slug": "announce-notice-stack",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Notice Stack Announcements",
+      "serial": "KB-326",
+      "tagline": "The next one is always in reach.",
+      "description": "Launch notices as a stack that advances itself: complete stories stacked with depth, the front one holding for a beat and leaving so the next comes forward on a spring, the ones behind always visibly within reach. The stack is telemetry-toast doing announcement duty inside the section rather than a new device; the notices arrive on a fixed schedule, which is why the demo behaves identically on every mount.",
+      "categories": [
+        "announcement"
+      ],
+      "keywords": [
+        "announcement",
+        "notices",
+        "stack",
+        "launch",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "LaunchNotice[]",
+          "description": "Title, description, variant, and action label per notice."
+        },
+        {
+          "name": "onAction",
+          "type": "(id: string) => void",
+          "description": "Fires with the notice whose action was pressed."
+        },
+        {
+          "name": "eyebrow / headline / deck",
+          "type": "string",
+          "description": "The standfirst beside the stack."
+        }
+      ],
+      "usageNotes": [
+        "Stacking, depth, dismissal, and promotion of the next notice all come from telemetry-toast.",
+        "Replay clears the stack and re-runs the same schedule.",
+        "Reduced motion keeps the schedule and drops the provider's motion."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/telemetry-toast.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/announce-notice-stack",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/announce-notice-stack.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/announce-notice-stack",
+        "npm": "npx shadcn@latest add @kinetiq/announce-notice-stack",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/announce-notice-stack",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/announce-notice-stack",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/announce-notice-stack.json"
+      }
+    },
+    {
+      "slug": "announce-launch-sheet",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Launch Sheet Announcement",
+      "serial": "KB-327",
+      "tagline": "A release earns a sheet.",
+      "description": "A launch presented as a sheet rather than a strip: the section is a quiet band with the launch line and one button, and pressing it raises the library's own bottom sheet — a drifting header carrying the version mark, three rows saying what is new, changed, and fixed, and one action. A notice earns a strip; a release earns a sheet, because it has more to say than one line and the reader chose to open it.",
+      "categories": [
+        "announcement"
+      ],
+      "keywords": [
+        "announcement",
+        "launch",
+        "sheet",
+        "release",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "line / version / title / changes",
+          "type": "string · string · string · LaunchChange[]",
+          "description": "The band copy and the sheet's contents."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "description": "Present the launch on arrival instead of waiting for the press."
+        }
+      ],
+      "usageNotes": [
+        "Dismissal, the backdrop, Escape, and the return of focus all belong to bottom-sheet.",
+        "Once dismissed, the band marks itself seen and offers to open the note again.",
+        "Reduced motion drops the header drift; the sheet keeps its own fallback."
+      ],
+      "dependencies": [
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/bottom-sheet.json",
+        "https://kinetiqui.vercel.app/r/gradient-drift.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/announce-launch-sheet",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/announce-launch-sheet.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/announce-launch-sheet",
+        "npm": "npx shadcn@latest add @kinetiq/announce-launch-sheet",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/announce-launch-sheet",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/announce-launch-sheet",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/announce-launch-sheet.json"
+      }
+    },
+    {
+      "slug": "integrations-orbit-hub",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Orbit Hub Integrations",
+      "serial": "KB-328",
+      "tagline": "Direction and cadence, not logos.",
+      "description": "Integrations as a connected workspace: the library's hub scene made selectable, so choosing a tool pulses its path to the core and opens its story — which direction the data moves, how often, and a connect control that stamps a seal when pressed. Logos say a relationship exists; direction and cadence say what it is worth, which is the question a buyer actually has.",
+      "categories": [
+        "integrations"
+      ],
+      "keywords": [
+        "integrations",
+        "orbit",
+        "hub",
+        "connect",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "apps",
+          "type": "OrbitApp[]",
+          "description": "Label, direction, cadence, and note per tool."
+        },
+        {
+          "name": "onConnect",
+          "type": "(id: string) => void",
+          "description": "Fires when a tool is connected."
+        },
+        {
+          "name": "eyebrow / headline / deck",
+          "type": "string",
+          "description": "The standfirst beside the hub."
+        }
+      ],
+      "usageNotes": [
+        "The hub is vignette-hub with its new selectable nodes; the scene stays decorative when no handler is passed.",
+        "The story panel is a polite live region, so keyboard selection reads out.",
+        "Reduced motion keeps the hub's own fallback and swaps the panel instantly."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json",
+        "https://kinetiqui.vercel.app/r/vignette-hub.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/integrations-orbit-hub",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/integrations-orbit-hub.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/integrations-orbit-hub",
+        "npm": "npx shadcn@latest add @kinetiq/integrations-orbit-hub",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/integrations-orbit-hub",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/integrations-orbit-hub",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/integrations-orbit-hub.json"
+      }
+    },
+    {
+      "slug": "how-card-deck",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Card Deck How-It-Works",
+      "serial": "KB-329",
+      "tagline": "The row shortens as the stack grows.",
+      "description": "A process as a row of full cards that runs past the viewport edge, and as the reader advances each passed card is pulled into a layered stack at the left while the next takes focus. The row visibly shortens as the stack grows, which is the device: the reader can see how much is done and how much is waiting, and every passed step stays reachable in the stack.",
+      "categories": [
+        "how-it-works"
+      ],
+      "keywords": [
+        "how it works",
+        "process",
+        "cards",
+        "stack",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "DeckStep[]",
+          "description": "Title, note, and the artifact each step leaves behind."
+        },
+        {
+          "name": "defaultIndex",
+          "type": "number",
+          "description": "The step in focus on first paint."
+        },
+        {
+          "name": "eyebrow / headline / deck",
+          "type": "string",
+          "description": "The standfirst above the deck."
+        }
+      ],
+      "usageNotes": [
+        "Next, back, arrow keys, and clicking a card all move the same index.",
+        "Cards retarget on the glide spring; nothing mounts or unmounts as the deck advances.",
+        "Reduced motion applies positions instantly."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/how-card-deck",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/how-card-deck.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/how-card-deck",
+        "npm": "npx shadcn@latest add @kinetiq/how-card-deck",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/how-card-deck",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/how-card-deck",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/how-card-deck.json"
+      }
+    },
+    {
+      "slug": "hero-handset-stage",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Handset Stage Hero",
+      "serial": "KB-330",
+      "tagline": "The screenshot is the pitch.",
+      "description": "A device-led hero for a mobile app: the copy yields the right half to the product itself — the library's handset vignette rising onto a plinth on mount, two proof chips drifting beside it on clocks that never move in step. For products whose whole argument is the thing in your hand, the screenshot is the pitch and the copy is the caption.",
+      "categories": [
+        "hero"
+      ],
+      "keywords": [
+        "hero",
+        "mobile",
+        "app",
+        "handset",
+        "device",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "cards / appName",
+          "type": "HandsetCard[] · string",
+          "description": "The scene the handset scrolls through."
+        },
+        {
+          "name": "proofs",
+          "type": "{ value, label, suffix? }[]",
+          "description": "Rolling figures on the chips."
+        },
+        {
+          "name": "headline / copy / cta / secondary",
+          "type": "string",
+          "description": "The copy column."
+        }
+      ],
+      "usageNotes": [
+        "The handset's loop, pause, and fallback all belong to vignette-handset.",
+        "Store links are plain platform labels, not trademarked badges.",
+        "Reduced motion seats the handset in place and holds the chips still."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/vignette-handset.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/hero-handset-stage",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hero-handset-stage.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hero-handset-stage",
+        "npm": "npx shadcn@latest add @kinetiq/hero-handset-stage",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hero-handset-stage",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hero-handset-stage",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hero-handset-stage.json"
+      }
+    },
+    {
+      "slug": "hero-balance-desk",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Balance Desk Hero",
+      "serial": "KB-331",
+      "tagline": "Something settles while you watch.",
+      "description": "A hero for a wallet or exchange product: the library's balance card seated on a desk with a short settlement list beneath it, and the pending row settles in front of the reader on a fixed timer — because a wallet that never settles anything is a picture. Three rolling proofs under the copy carry the scale; the card carries the trust.",
+      "categories": [
+        "hero"
+      ],
+      "keywords": [
+        "hero",
+        "wallet",
+        "balance",
+        "fintech",
+        "custody",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "balance / series / rows",
+          "type": "number · number[] · SettlementRow[]",
+          "description": "The card's figure and sparkline, and the settlement list."
+        },
+        {
+          "name": "brand",
+          "type": "string",
+          "description": "Threaded into the eyebrow so a template can rename it."
+        },
+        {
+          "name": "headline / copy / cta / secondary / proofs",
+          "type": "string · …",
+          "description": "The copy column and its proof row."
+        }
+      ],
+      "usageNotes": [
+        "Privacy blur, the sparkline, and the activity face all belong to balance-card.",
+        "Network and asset names are invented; nothing here names a real chain or coin.",
+        "Reduced motion drops the cascade; the settlement still flips as a state change."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/balance-card.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/reveal-stagger.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/hero-balance-desk",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/hero-balance-desk.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hero-balance-desk",
+        "npm": "npx shadcn@latest add @kinetiq/hero-balance-desk",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hero-balance-desk",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hero-balance-desk",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/hero-balance-desk.json"
+      }
+    },
+    {
+      "slug": "content-chapter-reel",
+      "kind": "block",
+      "type": "registry:block",
+      "title": "Chapter Reel Content",
+      "serial": "KB-332",
+      "tagline": "Timed, selectable, and paused when unwatched.",
+      "description": "A customer story told in chapters over one animated canvas: each chapter plays a short scene on a timer, the list beside it names the chapters and lets the reader jump, and a rule under the active one fills as its time runs. The reel pauses when it scrolls out of view and when the tab is hidden, because a story nobody is watching should not keep spending the battery.",
+      "categories": [
+        "content-sections"
+      ],
+      "keywords": [
+        "content",
+        "story",
+        "chapters",
+        "reel",
+        "canvas",
+        "section",
+        "marketing"
+      ],
+      "props": [
+        {
+          "name": "chapters",
+          "type": "ReelChapter[]",
+          "description": "Title and note per chapter; scenes map by index."
+        },
+        {
+          "name": "chapterMs",
+          "type": "number",
+          "description": "How long each chapter plays before advancing."
+        },
+        {
+          "name": "eyebrow / headline / deck",
+          "type": "string",
+          "description": "The standfirst above the reel."
+        }
+      ],
+      "usageNotes": [
+        "The clock is a tick counter on an interval, never a wall clock, so it pauses and resumes cleanly.",
+        "Selecting a chapter restarts its scene; hovering the stage holds it.",
+        "Reduced motion shows each chapter's end frame and hides the progress rule."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-seal.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/blocks/content-chapter-reel",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/content-chapter-reel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/content-chapter-reel",
+        "npm": "npx shadcn@latest add @kinetiq/content-chapter-reel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/content-chapter-reel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/content-chapter-reel",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/content-chapter-reel.json"
+      }
+    },
+    {
       "slug": "auth-sign-in",
       "kind": "page",
       "type": "registry:page",
@@ -29394,6 +30059,11 @@
         "page"
       ],
       "props": [
+        {
+          "name": "showPreview",
+          "type": "boolean",
+          "description": "Render the live-bound preview card beside the questions."
+        },
         {
           "name": "skipLabel / skipHref",
           "type": "string",
@@ -30068,13 +30738,18 @@
         "error",
         "page"
       ],
+      "props": [
+        {
+          "name": "face",
+          "type": "\"radar\" | \"shatter\" | \"elastic\" | \"echo\" | \"bands\" | \"spotlight\"",
+          "description": "Threaded to the not-found block; radar is the default."
+        }
+      ],
       "usageNotes": [
         "The sweep belongs to the not-found block; this page contributes the destinations under it.",
         "Name real destinations. Generic links are the same dead end with more words."
       ],
-      "dependencies": [
-        "motion"
-      ],
+      "dependencies": [],
       "registryDependencies": [
         "https://kinetiqui.vercel.app/r/utils.json",
         "https://kinetiqui.vercel.app/r/not-found.json"
@@ -30389,6 +31064,65 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/error-region-blocked",
         "bun": "bunx --bun shadcn@latest add @kinetiq/error-region-blocked",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/error-region-blocked.json"
+      }
+    },
+    {
+      "slug": "auth-atlas",
+      "kind": "page",
+      "type": "registry:page",
+      "title": "Atlas Sign-Up Page",
+      "serial": "KP-028",
+      "tagline": "Other people are already here.",
+      "description": "Account creation beside a live activity map: the form says what the account creates before it creates it, and the atlas beside it — the library's point globe with a few pips and a count of crews online — says the quieter thing, that other people are already here. Validation is inline and plain, the strength line describes rather than scores, and a passkey path is offered as text instead of a wall of provider buttons.",
+      "categories": [
+        "auth"
+      ],
+      "keywords": [
+        "auth",
+        "sign up",
+        "register",
+        "globe",
+        "atlas",
+        "page"
+      ],
+      "props": [
+        {
+          "name": "pips / crews",
+          "type": "AtlasPip[] · number",
+          "description": "The yards shown on the atlas and the online count it steps toward."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(values) => void",
+          "description": "Receives the name and email; the page never handles a password itself."
+        }
+      ],
+      "usageNotes": [
+        "A shell — wire onSubmit to your own auth and never handle credentials client-side.",
+        "The globe is point-globe doing reassurance duty; it is decorative and hidden from assistive tech.",
+        "Reduced motion keeps the globe's own fallback; the count still steps."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/point-globe.json",
+        "https://kinetiqui.vercel.app/r/pressure-button.json",
+        "https://kinetiqui.vercel.app/r/readout.json",
+        "https://kinetiqui.vercel.app/r/status-pip.json",
+        "https://kinetiqui.vercel.app/r/trace-input.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/pages/auth-atlas",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/auth-atlas.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/auth-atlas",
+        "npm": "npx shadcn@latest add @kinetiq/auth-atlas",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/auth-atlas",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/auth-atlas",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/auth-atlas.json"
       }
     },
     {

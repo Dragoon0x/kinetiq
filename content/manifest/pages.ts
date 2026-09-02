@@ -54,6 +54,54 @@ export const pages: KinetiqItem[] = [
     ],
   },
   {
+    name: "auth-atlas",
+    type: "registry:page",
+    title: "Atlas Sign-Up Page",
+    description:
+      "Account creation beside a live activity map: the form says what the account creates before it creates it, and the atlas beside it \u2014 the library's point globe with a few pips and a count of crews online \u2014 says the quieter thing, that other people are already here. Validation is inline and plain, the strength line describes rather than scores, and a passkey path is offered as text instead of a wall of provider buttons.",
+    files: [
+      {
+        path: "registry/pages/auth-atlas/auth-atlas.tsx",
+        type: "registry:page",
+        target: "app/(auth)/atlas/page.tsx",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "point-globe",
+      "pressure-button",
+      "readout",
+      "status-pip",
+      "trace-input",
+    ],
+    categories: ["auth"],
+    meta: { serial: "KP-028" },
+    tagline: "Other people are already here.",
+    keywords: ["auth", "sign up", "register", "globe", "atlas", "page"],
+    props: [
+      {
+        name: "pips / crews",
+        type: "AtlasPip[] \u00b7 number",
+        description:
+          "The yards shown on the atlas and the online count it steps toward.",
+      },
+      {
+        name: "onSubmit",
+        type: "(values) => void",
+        description:
+          "Receives the name and email; the page never handles a password itself.",
+      },
+    ],
+    usageNotes: [
+      "A shell \u2014 wire onSubmit to your own auth and never handle credentials client-side.",
+      "The globe is point-globe doing reassurance duty; it is decorative and hidden from assistive tech.",
+      "Reduced motion keeps the globe's own fallback; the count still steps.",
+    ],
+  },
+  {
     name: "auth-sign-up",
     type: "registry:page",
     title: "Sign Up Page",
@@ -231,6 +279,11 @@ export const pages: KinetiqItem[] = [
     tagline: "Always leave the door open.",
     keywords: ["onboarding", "first run", "setup", "welcome", "page"],
     props: [
+      {
+        name: "showPreview",
+        type: "boolean",
+        description: "Render the live-bound preview card beside the questions.",
+      },
       {
         name: "skipLabel / skipHref",
         type: "string",
@@ -734,12 +787,19 @@ export const pages: KinetiqItem[] = [
         target: "app/not-found.tsx",
       },
     ],
-    dependencies: ["motion"],
+    dependencies: [],
     registryDependencies: ["utils", "not-found"],
     categories: ["errors"],
     meta: { serial: "KP-019" },
     tagline: "Three destinations beat one front door.",
     keywords: ["404", "not found", "error", "page"],
+    props: [
+      {
+        name: "face",
+        type: '"radar" | "shatter" | "elastic" | "echo" | "bands" | "spotlight"',
+        description: "Threaded to the not-found block; radar is the default.",
+      },
+    ],
     usageNotes: [
       "The sweep belongs to the not-found block; this page contributes the destinations under it.",
       "Name real destinations. Generic links are the same dead end with more words.",

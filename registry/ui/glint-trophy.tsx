@@ -420,7 +420,7 @@ export function GlintTrophy({
             bottom: SHELF_BOTTOM,
             height: SHELF_THICKNESS,
             background:
-              "linear-gradient(180deg, color-mix(in oklab, var(--ink-2) 32%, var(--surface-2)) 0%, color-mix(in oklab, var(--ink-2) 52%, var(--surface-2)) 100%)",
+              "linear-gradient(180deg, color-mix(in oklab, var(--ink-2) 32%, var(--color-surface-2)) 0%, color-mix(in oklab, var(--ink-2) 52%, var(--color-surface-2)) 100%)",
           }}
         />
 

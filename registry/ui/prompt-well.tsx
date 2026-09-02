@@ -2,10 +2,18 @@
 
 import * as React from "react";
 
+import { Image as ImageIcon, Paperclip, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
-import { distances, durations, easings, springs } from "@/registry/lib/motion";
+import {
+  cascade,
+  distances,
+  durations,
+  easings,
+  exitFor,
+  springs,
+} from "@/registry/lib/motion";
 import { cn } from "@/registry/lib/utils";
 
 export type WellOption = {
@@ -13,6 +21,13 @@ export type WellOption = {
   label: string;
   /** Mono aside on the right of the row — a path, a type, a shortcut. */
   hint?: string;
+};
+
+export type WellAttachment = {
+  id: string;
+  name: string;
+  kind: "image" | "file";
+  size?: string;
 };
 
 export type PromptWellProps = {
@@ -42,6 +57,15 @@ export type PromptWellProps = {
   onModelChange?: (model: string) => void;
   /** Offer a dictation control beside send; the well never records audio itself. */
   onDictate?: () => void;
+  /** Chips rendered above the field. */
+  attachments?: WellAttachment[];
+  /** Renders a paperclip trigger in the tool row when provided. */
+  onAttach?: () => void;
+  onRemoveAttachment?: (id: string) => void;
+  /** Messages waiting to send while `busy`; previewed in a line under the well. */
+  queued?: string[];
+  /** A segmented usage pill in the tool row; warns near the limit. */
+  credits?: { used: number; limit: number; label?: string };
   /** The container's silhouette. @default "well" */
   shape?: "well" | "pill";
   label?: React.ReactNode;
@@ -84,6 +108,27 @@ const matches = (options: WellOption[], query: string): WellOption[] => {
   return options.filter((o) => o.label.toLowerCase().includes(needle));
 };
 
+/** An attachment chip's leading glyph, by kind. */
+function attachmentGlyph(kind: WellAttachment["kind"]): React.ReactNode {
+  switch (kind) {
+    case "image":
+      return <ImageIcon aria-hidden className="size-3.5 shrink-0 text-ink-3" />;
+    case "file":
+      return <Paperclip aria-hidden className="size-3.5 shrink-0 text-ink-3" />;
+  }
+}
+
+const CREDIT_SEGMENTS = 6;
+
+/** Which of the six credit segments are filled, given used/limit as a ratio. */
+function segmentsFor(ratio: number): boolean[] {
+  const filled = Math.min(
+    CREDIT_SEGMENTS,
+    Math.max(0, Math.round(ratio * CREDIT_SEGMENTS)),
+  );
+  return Array.from({ length: CREDIT_SEGMENTS }, (_, i) => i < filled);
+}
+
 /**
  * A composer that deepens as the thought gets longer. The field grows line by
  * line to `maxRows` and then holds and scrolls, so the send control never walks
@@ -98,6 +143,10 @@ const matches = (options: WellOption[], query: string): WellOption[] => {
  * The field is a combobox over that list with an active-descendant, so the
  * highlighted row is announced without the caret ever leaving the text. Under
  * reduced motion the list appears in place and the control swaps without travel.
+ *
+ * Three more pieces are optional and additive: attachment chips above the
+ * field, a queued-message line under it while busy, and a credits pill in the
+ * tool row — reduced motion drops the chip cascade and the queue dot pulse.
  */
 export function PromptWell({
   ref,
@@ -115,6 +164,11 @@ export function PromptWell({
   model: modelProp,
   onModelChange,
   onDictate,
+  attachments = [],
+  onAttach,
+  onRemoveAttachment,
+  queued = [],
+  credits,
   shape = "well",
   label,
   "aria-label": ariaLabel,
@@ -145,6 +199,16 @@ export function PromptWell({
   const open = trigger !== null && options.length > 0;
   const listId = `${baseId}-list`;
   const labelId = label ? `${baseId}-label` : undefined;
+
+  const creditsRatio =
+    credits && credits.limit > 0 ? credits.used / credits.limit : 0;
+  const creditsWarn = creditsRatio >= 0.9;
+  const creditSegments = credits ? segmentsFor(creditsRatio) : null;
+
+  const queueLabel =
+    queued.length === 1
+      ? `1 queued · ${(queued[0] ?? "").slice(0, 40)}…`
+      : `${queued.length} queued`;
 
   // Grow to fit, then hold. Height is written straight to the node so no render
   // depends on a measurement — the DOM carries it.
@@ -322,6 +386,64 @@ export function PromptWell({
           )}
         </AnimatePresence>
 
+        {attachments.length > 0 && (
+          <div
+            role="group"
+            aria-label="Attachments"
+            className="flex flex-wrap items-center gap-1.5 px-2 pt-2"
+          >
+            <AnimatePresence initial={false}>
+              {attachments.map((attachment, index) => (
+                <motion.span
+                  key={attachment.id}
+                  initial={
+                    motionSafe
+                      ? { opacity: 0, scale: 0.9, y: distances.nudge }
+                      : false
+                  }
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={
+                    motionSafe
+                      ? {
+                          opacity: 0,
+                          scale: 0.9,
+                          transition: exitFor(durations.fast),
+                        }
+                      : { opacity: 0 }
+                  }
+                  transition={
+                    motionSafe
+                      ? {
+                          ...springs.snap,
+                          delay: index * cascade(attachments.length),
+                        }
+                      : { duration: 0 }
+                  }
+                  className="inline-flex max-w-[10rem] items-center gap-1.5 rounded-2 border border-hairline bg-surface-2 py-1 pr-1.5 pl-2 text-xs text-ink-2"
+                >
+                  {attachmentGlyph(attachment.kind)}
+                  <span className="truncate">{attachment.name}</span>
+                  {attachment.size && (
+                    <span className="shrink-0 font-mono text-[10px] text-ink-3">
+                      {attachment.size}
+                    </span>
+                  )}
+                  {onRemoveAttachment && (
+                    <button
+                      type="button"
+                      aria-label={`Remove ${attachment.name}`}
+                      onClick={() => onRemoveAttachment(attachment.id)}
+                      className="grid size-4 shrink-0 place-items-center rounded-full text-ink-3 transition-colors hover:bg-surface-1 hover:text-ink"
+                    >
+                      <X aria-hidden className="size-2.5" />
+                    </button>
+                  )}
+                </motion.span>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
+
         <textarea
           ref={areaRef}
           rows={1}
@@ -374,7 +496,53 @@ export function PromptWell({
                 {activeModel}
               </button>
             )}
+            {credits && creditSegments && (
+              <span
+                className={cn(
+                  "flex shrink-0 items-center gap-1.5 rounded-full border px-1.5 py-0.5 transition-colors",
+                  creditsWarn ? "border-warn" : "border-hairline",
+                )}
+                style={{ transitionDuration: `${durations.base}s` }}
+              >
+                <span aria-hidden className="flex items-center gap-0.5">
+                  {creditSegments.map((filled, index) => (
+                    <span
+                      key={index}
+                      className={cn(
+                        "h-2 w-0.5 rounded-full transition-colors",
+                        filled
+                          ? creditsWarn
+                            ? "bg-warn"
+                            : "bg-ink-2"
+                          : "bg-hairline-strong",
+                      )}
+                      style={{ transitionDuration: `${durations.base}s` }}
+                    />
+                  ))}
+                </span>
+                <span
+                  className={cn(
+                    "font-mono text-[10px] tracking-[0.04em] transition-colors",
+                    creditsWarn ? "text-warn" : "text-ink-3",
+                  )}
+                  style={{ transitionDuration: `${durations.base}s` }}
+                >
+                  {credits.label ?? `${credits.used}/${credits.limit}`}
+                </span>
+              </span>
+            )}
           </span>
+
+          {onAttach && (
+            <button
+              type="button"
+              onClick={onAttach}
+              aria-label="Attach"
+              className="mr-1.5 rounded-2 border border-hairline px-2 py-1.5 text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
+            >
+              <Paperclip aria-hidden className="size-3.5" />
+            </button>
+          )}
 
           {onDictate && !busy && (
             <button
@@ -422,6 +590,34 @@ export function PromptWell({
           )}
         </div>
       </div>
+
+      {busy && queued.length > 0 && (
+        <div
+          aria-live="polite"
+          className="flex items-center gap-1.5 px-1 font-mono text-[10px] tracking-[0.04em] text-ink-3"
+        >
+          <span className="relative inline-flex size-1.5 shrink-0 items-center justify-center">
+            {motionSafe && (
+              <motion.span
+                aria-hidden
+                className="absolute inset-0 rounded-full bg-ink-3"
+                animate={{ opacity: [0.35, 1] }}
+                transition={{
+                  duration: durations.slow,
+                  ease: easings.move,
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                }}
+              />
+            )}
+            <span
+              aria-hidden
+              className="relative inline-block size-1.5 rounded-full bg-ink-3"
+            />
+          </span>
+          {queueLabel}
+        </div>
+      )}
     </div>
   );
 }

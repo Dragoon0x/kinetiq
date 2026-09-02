@@ -56,14 +56,20 @@ const HOLD_OPEN_MS = 2700;
 const ROOF_CLIP = `polygon(0 100%, ${SIDE_D}px 0, 100% 0, ${CASE_W}px 100%)`;
 const SIDE_CLIP = `polygon(0 ${SIDE_D}px, 100% 0, 100% ${CASE_H}px, 0 100%)`;
 
-const FRONT_TINT = "color-mix(in oklab, var(--surface-2) 76%, var(--ink) 24%)";
-const ROOF_TINT = "color-mix(in oklab, var(--surface-2) 92%, var(--ink) 8%)";
-const SIDE_TINT = "color-mix(in oklab, var(--surface-2) 52%, var(--ink) 48%)";
-const DRAWER_TINT = "color-mix(in oklab, var(--surface-2) 86%, var(--ink) 14%)";
+const FRONT_TINT =
+  "color-mix(in oklab, var(--color-surface-2) 76%, var(--ink) 24%)";
+const ROOF_TINT =
+  "color-mix(in oklab, var(--color-surface-2) 92%, var(--ink) 8%)";
+const SIDE_TINT =
+  "color-mix(in oklab, var(--color-surface-2) 52%, var(--ink) 48%)";
+const DRAWER_TINT =
+  "color-mix(in oklab, var(--color-surface-2) 86%, var(--ink) 14%)";
 const TOEKICK_TINT =
-  "color-mix(in oklab, var(--surface-2) 58%, var(--ink) 42%)";
-const CAVITY_TINT = "color-mix(in oklab, var(--surface-2) 38%, var(--ink) 62%)";
-const HANDLE_TINT = "color-mix(in oklab, var(--ink) 58%, var(--surface-2) 42%)";
+  "color-mix(in oklab, var(--color-surface-2) 58%, var(--ink) 42%)";
+const CAVITY_TINT =
+  "color-mix(in oklab, var(--color-surface-2) 38%, var(--ink) 62%)";
+const HANDLE_TINT =
+  "color-mix(in oklab, var(--ink) 58%, var(--color-surface-2) 42%)";
 const FLOOR_TINT = "color-mix(in oklab, var(--ink) 35%, transparent)";
 
 type DrawerPhase = "closed" | "open";
