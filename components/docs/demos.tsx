@@ -313,6 +313,32 @@ import { EchoTypeDemo } from "@/registry/demos/echo-type.demo";
 import { BandTypeDemo } from "@/registry/demos/band-type.demo";
 import { SurfacePaintDemo } from "@/registry/demos/surface-paint.demo";
 import { CrystalLensDemo } from "@/registry/demos/crystal-lens.demo";
+import { SandScrollDemo } from "@/registry/demos/sand-scroll.demo";
+import { ClothDrapeDemo } from "@/registry/demos/cloth-drape.demo";
+import { CubeFoldDemo } from "@/registry/demos/cube-fold.demo";
+import { TileWaveDemo } from "@/registry/demos/tile-wave.demo";
+import { HexFloorDemo } from "@/registry/demos/hex-floor.demo";
+import { GlassShardsDemo } from "@/registry/demos/glass-shards.demo";
+import { BonfireEdgeDemo } from "@/registry/demos/bonfire-edge.demo";
+import { FlameBorderDemo } from "@/registry/demos/flame-border.demo";
+import { FluidWashDemo } from "@/registry/demos/fluid-wash.demo";
+import { GlyphSweepDemo } from "@/registry/demos/glyph-sweep.demo";
+import { TypeRainDemo } from "@/registry/demos/type-rain.demo";
+import { ShieldFieldDemo } from "@/registry/demos/shield-field.demo";
+import { SignalGlitchDemo } from "@/registry/demos/signal-glitch.demo";
+import { TapeWearDemo } from "@/registry/demos/tape-wear.demo";
+import { LaserPrintDemo } from "@/registry/demos/laser-print.demo";
+import { WetCanvasDemo } from "@/registry/demos/wet-canvas.demo";
+import { PondGlassDemo } from "@/registry/demos/pond-glass.demo";
+import { RainGlassDemo } from "@/registry/demos/rain-glass.demo";
+import { IcePaneDemo } from "@/registry/demos/ice-pane.demo";
+import { WarpGridDemo } from "@/registry/demos/warp-grid.demo";
+import { DropletCursorDemo } from "@/registry/demos/droplet-cursor.demo";
+import { AsciiLensDemo } from "@/registry/demos/ascii-lens.demo";
+import { DitherLensDemo } from "@/registry/demos/dither-lens.demo";
+import { CipherSurfaceDemo } from "@/registry/demos/cipher-surface.demo";
+import { ScannerLensDemo } from "@/registry/demos/scanner-lens.demo";
+import { DustRevealDemo } from "@/registry/demos/dust-reveal.demo";
 import { VignetteEmptyDrawerDemo } from "@/registry/demos/vignette-empty-drawer.demo";
 import { VignetteSearchSweepDemo } from "@/registry/demos/vignette-search-sweep.demo";
 import { VignetteInboxZeroDemo } from "@/registry/demos/vignette-inbox-zero.demo";
@@ -867,6 +893,32 @@ export const demos: Record<string, ComponentType> = {
   "band-type": BandTypeDemo,
   "surface-paint": SurfacePaintDemo,
   "crystal-lens": CrystalLensDemo,
+  "sand-scroll": SandScrollDemo,
+  "cloth-drape": ClothDrapeDemo,
+  "cube-fold": CubeFoldDemo,
+  "tile-wave": TileWaveDemo,
+  "hex-floor": HexFloorDemo,
+  "glass-shards": GlassShardsDemo,
+  "bonfire-edge": BonfireEdgeDemo,
+  "flame-border": FlameBorderDemo,
+  "fluid-wash": FluidWashDemo,
+  "glyph-sweep": GlyphSweepDemo,
+  "type-rain": TypeRainDemo,
+  "shield-field": ShieldFieldDemo,
+  "signal-glitch": SignalGlitchDemo,
+  "tape-wear": TapeWearDemo,
+  "laser-print": LaserPrintDemo,
+  "wet-canvas": WetCanvasDemo,
+  "pond-glass": PondGlassDemo,
+  "rain-glass": RainGlassDemo,
+  "ice-pane": IcePaneDemo,
+  "warp-grid": WarpGridDemo,
+  "droplet-cursor": DropletCursorDemo,
+  "ascii-lens": AsciiLensDemo,
+  "dither-lens": DitherLensDemo,
+  "cipher-surface": CipherSurfaceDemo,
+  "scanner-lens": ScannerLensDemo,
+  "dust-reveal": DustRevealDemo,
   "vignette-empty-drawer": VignetteEmptyDrawerDemo,
   "vignette-search-sweep": VignetteSearchSweepDemo,
   "vignette-inbox-zero": VignetteInboxZeroDemo,

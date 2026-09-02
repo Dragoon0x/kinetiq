@@ -162,7 +162,7 @@ export const SHOWCASES: Showcase[] = [
     headline: "The interface, as a texture.",
     deck: "Your real, interactive UI painted onto a canvas and handed to a shader \u2014 refracted, redrawn, folded, worn \u2014 with nothing borrowed from an experimental browser flag.",
     hero: { slug: "crystal-lens", mode: "stage" },
-    leads: [],
+    leads: ["pond-glass", "cipher-surface", "tile-wave", "tape-wear"],
     closing: "Every effect here works in every browser today.",
   },
   {

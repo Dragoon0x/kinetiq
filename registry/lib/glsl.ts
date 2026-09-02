@@ -63,7 +63,13 @@ export type Program = {
   /** Attribute locations by name. */
   attributes: Record<string, number>;
   use(): void;
-  /** Sets by inferred arity/type: number→1f, boolean→1i, [x,y]→2fv, [x,y,z]→3fv, [4]→4fv, 9→matrix3fv, 16→matrix4fv, Int32Array→1iv/2iv/3iv/4iv; unknown names are ignored silently (effects share shader fragments). */
+  /**
+   * Sets uniforms by their declared GLSL type, introspected at link time:
+   * a number lands as float or int as the shader declares it; an array
+   * lands as vec2/3/4, a matrix, or a uniform ARRAY of those (pass the
+   * flat values — 24 floats for `vec4 u_waves[6]`). Unknown names are
+   * ignored silently (effects share shader fragments).
+   */
   set(values: Record<string, UniformValue>): void;
   /** Bind a texture to a unit and set the sampler uniform. */
   texture(name: string, texture: WebGLTexture, unit: number): void;
@@ -152,19 +158,96 @@ function setIntUniform(
   }
 }
 
+type UniformInfo = { type: number; size: number };
+
+function isIntegerType(gl: GLContext, type: number): boolean {
+  return (
+    type === gl.INT ||
+    type === gl.BOOL ||
+    type === gl.SAMPLER_2D ||
+    type === gl.SAMPLER_CUBE ||
+    type === gl.INT_VEC2 ||
+    type === gl.INT_VEC3 ||
+    type === gl.INT_VEC4 ||
+    type === gl.BOOL_VEC2 ||
+    type === gl.BOOL_VEC3 ||
+    type === gl.BOOL_VEC4 ||
+    type === gl.UNSIGNED_INT
+  );
+}
+
+/** Dispatch by the uniform's declared type; returns false when the type is not one this kit knows. */
+function setByType(
+  gl: GLContext,
+  location: WebGLUniformLocation,
+  info: UniformInfo,
+  value: number[] | Float32Array | Int32Array,
+): boolean {
+  const floats = value instanceof Int32Array ? Float32Array.from(value) : value;
+  const ints = value instanceof Int32Array ? value : Int32Array.from(value);
+  switch (info.type) {
+    case gl.FLOAT:
+      gl.uniform1fv(location, floats);
+      return true;
+    case gl.FLOAT_VEC2:
+      gl.uniform2fv(location, floats);
+      return true;
+    case gl.FLOAT_VEC3:
+      gl.uniform3fv(location, floats);
+      return true;
+    case gl.FLOAT_VEC4:
+      gl.uniform4fv(location, floats);
+      return true;
+    case gl.FLOAT_MAT2:
+      gl.uniformMatrix2fv(location, false, floats);
+      return true;
+    case gl.FLOAT_MAT3:
+      gl.uniformMatrix3fv(location, false, floats);
+      return true;
+    case gl.FLOAT_MAT4:
+      gl.uniformMatrix4fv(location, false, floats);
+      return true;
+    case gl.INT:
+    case gl.BOOL:
+    case gl.SAMPLER_2D:
+    case gl.SAMPLER_CUBE:
+      gl.uniform1iv(location, ints);
+      return true;
+    case gl.INT_VEC2:
+    case gl.BOOL_VEC2:
+      gl.uniform2iv(location, ints);
+      return true;
+    case gl.INT_VEC3:
+    case gl.BOOL_VEC3:
+      gl.uniform3iv(location, ints);
+      return true;
+    case gl.INT_VEC4:
+    case gl.BOOL_VEC4:
+      gl.uniform4iv(location, ints);
+      return true;
+    default:
+      return false;
+  }
+}
+
 function applyUniform(
   gl: GLContext,
   location: WebGLUniformLocation,
   value: UniformValue,
+  info?: UniformInfo,
 ): void {
   if (typeof value === "boolean") {
     gl.uniform1i(location, value ? 1 : 0);
     return;
   }
   if (typeof value === "number") {
-    gl.uniform1f(location, value);
+    // A float sent to an int or sampler uniform is INVALID_OPERATION —
+    // the declared type decides.
+    if (info && isIntegerType(gl, info.type)) gl.uniform1i(location, value);
+    else gl.uniform1f(location, value);
     return;
   }
+  if (info && setByType(gl, location, info, value)) return;
   if (value instanceof Int32Array) {
     setIntUniform(gl, location, value);
     return;
@@ -220,6 +303,7 @@ export function createProgram(
   }
 
   const uniforms: Record<string, WebGLUniformLocation> = {};
+  const uniformInfo: Record<string, UniformInfo> = {};
   const uniformCount = gl.getProgramParameter(
     program,
     gl.ACTIVE_UNIFORMS,
@@ -229,7 +313,10 @@ export function createProgram(
     if (!info) continue;
     const name = info.name.replace(/\[0\]$/, "");
     const location = gl.getUniformLocation(program, name);
-    if (location) uniforms[name] = location;
+    if (location) {
+      uniforms[name] = location;
+      uniformInfo[name] = { type: info.type, size: info.size };
+    }
   }
   const attributes: Record<string, number> = {};
   const attributeCount = gl.getProgramParameter(
@@ -252,7 +339,8 @@ export function createProgram(
       gl.useProgram(program);
       for (const [name, value] of Object.entries(values)) {
         const location = uniforms[name];
-        if (location) applyUniform(gl, location, value); // unknown uniform — effects share shader fragments, silently skip
+        // Unknown uniform: effects share shader fragments, silently skip.
+        if (location) applyUniform(gl, location, value, uniformInfo[name]);
       }
     },
     texture(name, tex, unit) {

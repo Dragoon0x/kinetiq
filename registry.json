@@ -9580,6 +9580,812 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ascii-lens",
+      "type": "registry:ui",
+      "title": "ASCII Lens",
+      "description": "A soft lens that follows the cursor and redraws the live interface beneath it as characters — glyphs chosen by the shape of what they cover, not just its brightness, so an edge reads as a slash and a fill as a block. Outside the lens the page is itself; inside it, the page is type. The DOM stays real and clickable throughout.",
+      "files": [
+        {
+          "path": "registry/ui/ascii-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-359"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dither-lens",
+      "type": "registry:ui",
+      "title": "Dither Lens",
+      "description": "A lens that pixelates the live interface into an ordered dither — Bayer, halftone, hatch, or dash — with a two-colour palette and a click that sends a degauss ripple through it. Retro on purpose and exact about it: the pattern is a fixed matrix, so the same page always dithers the same way.",
+      "files": [
+        {
+          "path": "registry/ui/dither-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-360"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cipher-surface",
+      "type": "registry:ui",
+      "title": "Cipher Surface",
+      "description": "The interface renders as scrambled cipher glyphs until the cursor comes close, and decodes back into crisp, coloured UI behind a flickering wavefront. Idle glyphs reroll on a fixed cadence from a seeded table, so the scramble looks alive without ever being random. The real DOM is underneath the whole time.",
+      "files": [
+        {
+          "path": "registry/ui/cipher-surface.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-361"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "scanner-lens",
+      "type": "registry:ui",
+      "title": "Scanner Lens",
+      "description": "A scanner that follows the cursor and magnifies the live interface inside a HUD reticle — ring, crosshair, ticks, corner brackets, and a mono readout of what it is over — with clicks that send a ripple bending across the page. Where the crystal lens is optics, this one is instrumentation.",
+      "files": [
+        {
+          "path": "registry/ui/scanner-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-362"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dust-reveal",
+      "type": "registry:ui",
+      "title": "Dust Reveal",
+      "description": "The interface renders as fine grey dust — grains wandering from their home pixels, the brightest content scattering furthest — and coalesces into crisp, coloured UI where the cursor comes near, with a chromatic edge at the reveal. Idle grains drift on a seeded field, so the dust breathes without a single random number.",
+      "files": [
+        {
+          "path": "registry/ui/dust-reveal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-363"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pond-glass",
+      "type": "registry:ui",
+      "title": "Pond Glass",
+      "description": "The interface under still water. A click drops a stone: rings spread across the page, refracting and highlighting everything they cross, then settle. The waves are a real height-field simulation on the GPU with a byte-precision fallback, so it runs where half-float buffers are missing, and the page beneath stays clickable.",
+      "files": [
+        {
+          "path": "registry/ui/pond-glass.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-364"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rain-glass",
+      "type": "registry:ui",
+      "title": "Rain Glass",
+      "description": "Rain on a window, with the interface behind it. Droplets bead on the pane and run in trails that bend the view, a haze softens what they do not cover, and the cursor wipes a clear patch that fogs back over. Every droplet is seeded from its cell, so the same pane always rains the same way.",
+      "files": [
+        {
+          "path": "registry/ui/rain-glass.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-365"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ice-pane",
+      "type": "registry:ui",
+      "title": "Ice Pane",
+      "description": "Frost across the interface that melts where the cursor rests and creeps back when it leaves. The frost is a crystalline field that blurs and refracts the view with a cold tint and a few glints; the melt is a persistent map that the pointer warms and time refreezes, with a wet rim at the boundary. The DOM stays live under the ice.",
+      "files": [
+        {
+          "path": "registry/ui/ice-pane.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-366"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "warp-grid",
+      "type": "registry:ui",
+      "title": "Warp Grid",
+      "description": "The interface as a grid of cells on springs. Move slowly and nothing happens; move fast and the cells you pass shear in the direction of travel, edges splitting into colour, then spring back into place. The field is simulated on the CPU at grid resolution and read by the shader as a texture, so it costs almost nothing.",
+      "files": [
+        {
+          "path": "registry/ui/warp-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-367"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "droplet-cursor",
+      "type": "registry:ui",
+      "title": "Droplet Cursor",
+      "description": "A chain of droplets that trails the cursor and refracts the interface behind it. Each drop follows the one ahead, shrinking along the chain, and the drops merge as one liquid surface where they touch; light bends through them, catches on a highlight, and tints the rim. Draws only where the drops are, so the page is itself everywhere else.",
+      "files": [
+        {
+          "path": "registry/ui/droplet-cursor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-368"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shield-field",
+      "type": "registry:ui",
+      "title": "Shield Field",
+      "description": "A faint lattice over the interface that rings out when clicked: a shockwave travels from the point of impact, lighting each cell as it passes and bending the page a little under the front, then fades. Cells near the pointer glow softly. Draws only the lattice and the waves, so the page is itself everywhere else.",
+      "files": [
+        {
+          "path": "registry/ui/shield-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-369"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "signal-glitch",
+      "type": "registry:ui",
+      "title": "Signal Glitch",
+      "description": "The interface as a weak signal. Bursts of interference tear it into shifted bands, split its colour channels, and speckle it with noise, then it reassembles — clean between bursts. The bursts are scheduled from a seeded clock, so the pattern is deterministic; a click forces one. Underneath, the page is live the whole time.",
+      "files": [
+        {
+          "path": "registry/ui/signal-glitch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-370"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tape-wear",
+      "type": "registry:ui",
+      "title": "Tape Wear",
+      "description": "The interface played back from a worn cassette: chroma bleeding sideways, a faint vertical jitter, a tracking band that drifts up the frame tearing what it crosses, dropout streaks, scanlines, and a soft vignette. Every flaw is seeded from the frame clock and the pixel, so the wear is the same on every play.",
+      "files": [
+        {
+          "path": "registry/ui/tape-wear.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-371"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "laser-print",
+      "type": "registry:ui",
+      "title": "Laser Print",
+      "description": "A beam that prints the interface in as you scroll. Above the line the page is set; at the line a hot glow, sparks, and a heat shimmer; below it, blank stock. Progress follows the surface's position in the viewport by default, plays once on entry with `mode=\"auto\"`, or takes a `progress` value directly.",
+      "files": [
+        {
+          "path": "registry/ui/laser-print.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-372"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wet-canvas",
+      "type": "registry:ui",
+      "title": "Wet Canvas",
+      "description": "The interface as wet paint on a woven ground. A weave and a paper grain sit under the page with their own lighting; moving the pointer drags the paint along the direction of travel, raising glossy ridges that catch the light and slowly dry back flat. The drag lives in a small map warmed by the pointer, so the shader stays one pass.",
+      "files": [
+        {
+          "path": "registry/ui/wet-canvas.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-373"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bonfire-edge",
+      "type": "registry:ui",
+      "title": "Bonfire Edge",
+      "description": "Fire along the bottom edge of the interface: flames that rise and lick, sparks that climb and die, and a heat shimmer that bends the page just above them. The flames lean with the pointer and grow where it comes near. Draws only the fire and the shimmer, so the rest of the page is itself.",
+      "files": [
+        {
+          "path": "registry/ui/bonfire-edge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-374"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "flame-border",
+      "type": "registry:ui",
+      "title": "Flame Border",
+      "description": "A ring of fire around an element, following its rounded corners. Flames lick inward from every edge with a warm glow on the interior; the middle of the page stays untouched. The border reads the host's corner radius, so it fits whatever shape it wraps.",
+      "files": [
+        {
+          "path": "registry/ui/flame-border.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-375"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fluid-wash",
+      "type": "registry:ui",
+      "title": "Fluid Wash",
+      "description": "The interface under a sheet of fluid that the pointer stirs. A real velocity field on the GPU — advected, pressure-solved, dissipating — bends the page where it flows and washes a tint of colour along the current. Runs in half-float where the browser offers it and drops to byte buffers with fewer iterations where it does not.",
+      "files": [
+        {
+          "path": "registry/ui/fluid-wash.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-376"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "glyph-sweep",
+      "type": "registry:ui",
+      "title": "Glyph Sweep",
+      "description": "A transition between panels: change the index and a band of glyphs sweeps across the surface, dissolving the old panel into characters at its leading edge and setting the new one in crisp behind it. Both panels are painted textures, so the sweep is one shader pass; between sweeps the surface is the live panel.",
+      "files": [
+        {
+          "path": "registry/ui/glyph-sweep.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-377"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "type-rain",
+      "type": "registry:ui",
+      "title": "Type Rain",
+      "description": "Streams of glyphs fall over the interface and light it as they pass: the page is held dim, and where a stream crosses, the real colour and type show through around a bright head glyph. Every stream is seeded by its column, so the rain falls the same way each visit. The pointer parts the streams.",
+      "files": [
+        {
+          "path": "registry/ui/type-rain.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-378"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sand-scroll",
+      "type": "registry:ui",
+      "title": "Sand Scroll",
+      "description": "The interface dissolves into sand below a line and reassembles as you scroll. Grains stream down and drift from their home pixels, further the deeper they sit below the line, and settle back into crisp type as the line passes. Progress follows the surface's place in the viewport, plays once, or takes a value directly.",
+      "files": [
+        {
+          "path": "registry/ui/sand-scroll.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-379"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cloth-drape",
+      "type": "registry:ui",
+      "title": "Cloth Drape",
+      "description": "The interface as a hanging cloth. A grid mesh carries the painted page; wind rolls slow waves through it, the cursor pushes a dent that springs back, and the shading follows the folds. The mesh is a few thousand vertices, so the drape costs almost nothing.",
+      "files": [
+        {
+          "path": "registry/ui/cloth-drape.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-380"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cube-fold",
+      "type": "registry:ui",
+      "title": "Cube Fold",
+      "description": "The interface folds over cube edges as it scrolls. The top and bottom bands of the page hinge away in perspective as the surface enters and leaves the viewport, meeting flat in the middle of the scroll. One mesh, two hinges, real perspective.",
+      "files": [
+        {
+          "path": "registry/ui/cube-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-381"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tile-wave",
+      "type": "registry:ui",
+      "title": "Tile Wave",
+      "description": "The interface cut into tiles that tilt and lift as the cursor passes, a wave rolling out from the pointer and settling on springs. Each tile is a quad on a grid mesh with its own centre, so it rotates about itself; gaps between tiles show the ground behind. A click sends a ring through the whole grid.",
+      "files": [
+        {
+          "path": "registry/ui/tile-wave.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-382"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hex-floor",
+      "type": "registry:ui",
+      "title": "Hex Floor",
+      "description": "The interface laid over a floor of hexagonal prisms seen from a slight angle. Each prism stands at a seeded height and breathes with a slow wave; near the cursor they flatten, so the page reads clearly wherever you look and stands in relief everywhere else.",
+      "files": [
+        {
+          "path": "registry/ui/hex-floor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-383"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "glass-shards",
+      "type": "registry:ui",
+      "title": "Glass Shards",
+      "description": "The interface as a pane broken into shards. Each shard tilts toward the cursor and refracts what is behind it a little differently from its neighbours, with a bright edge along every crack; near the pointer, shards lift and part, and the ground shows through the gaps. The fracture is a seeded cell pattern, so the pane breaks the same way every time.",
+      "files": [
+        {
+          "path": "registry/ui/glass-shards.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-384"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

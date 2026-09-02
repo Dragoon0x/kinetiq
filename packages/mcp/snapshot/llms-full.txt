@@ -5985,6 +5985,448 @@ Notes:
 - The optics are one fragment shader over the painted texture; the lens position is a spring on the wrapper's pointer, never the canvas.
 - Reduced motion shows the undistorted page with a still lens outline.
 
+### ASCII Lens (KQ-359) — `ascii-lens`
+The page, set in type.
+
+A soft lens that follows the cursor and redraws the live interface beneath it as characters — glyphs chosen by the shape of what they cover, not just its brightness, so an edge reads as a slash and a fill as a block. Outside the lens the page is itself; inside it, the page is type. The DOM stays real and clickable throughout.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ascii-lens`
+
+Props:
+- `radius / softness`: number — Lens radius in CSS pixels and the feather of its edge.
+- `cell / charset`: number · "ascii" | "blocks" | "binary" — Glyph cell size and the character ramp.
+- `color / tint`: string · number — Glyph colour and how far it replaces the page's own colour.
+
+Notes:
+- The glyph atlas is drawn once from the character ramp; the shader matches cells by luminance and edge direction.
+- Everything under the lens is the real DOM — links click and fields focus.
+- Reduced motion renders the whole surface as still glyphs with no lens motion.
+
+### Dither Lens (KQ-360) — `dither-lens`
+Retro, and exact about it.
+
+A lens that pixelates the live interface into an ordered dither — Bayer, halftone, hatch, or dash — with a two-colour palette and a click that sends a degauss ripple through it. Retro on purpose and exact about it: the pattern is a fixed matrix, so the same page always dithers the same way.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/dither-lens`
+
+Props:
+- `radius / softness / pixelSize / levels`: number — Lens size, edge feather, pixel size, and brightness quantisation.
+- `pattern`: "bayer" | "halftone" | "hatch" | "dash" — The dither matrix.
+- `darkColor / lightColor / colorize`: string · string · number — The palette ends and how much of the page's own colour survives.
+
+Notes:
+- The dither matrix is a constant; nothing about the pattern is random.
+- A click fires a degauss ripple that fades on its own.
+- Reduced motion shows one dithered frame with no lens motion and no ripple.
+
+### Cipher Surface (KQ-361) — `cipher-surface`
+Decoded where you look.
+
+The interface renders as scrambled cipher glyphs until the cursor comes close, and decodes back into crisp, coloured UI behind a flickering wavefront. Idle glyphs reroll on a fixed cadence from a seeded table, so the scramble looks alive without ever being random. The real DOM is underneath the whole time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cipher-surface`
+
+Props:
+- `radius / softness / edgeWidth`: number — Decode radius, its feather, and the wavefront's thickness.
+- `cell / charset / color`: number · string · string — Glyph cell size, the cipher alphabet, and its colour.
+- `scramble / scrambleSpeed`: number — Fraction of idle glyphs rerolling, and how often.
+
+Notes:
+- Rerolls come from a seeded sequence keyed by cell, so a page decodes the same way every visit.
+- Passthrough lets a little of the real UI show through the cipher so structure still reads.
+- Reduced motion shows the surface fully decoded with no wavefront.
+
+### Scanner Lens (KQ-362) — `scanner-lens`
+Instrumentation, not optics.
+
+A scanner that follows the cursor and magnifies the live interface inside a HUD reticle — ring, crosshair, ticks, corner brackets, and a mono readout of what it is over — with clicks that send a ripple bending across the page. Where the crystal lens is optics, this one is instrumentation.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/scanner-lens`
+
+Props:
+- `size / zoom / follow`: number — Lens radius, magnification, and how tightly it tracks the pointer.
+- `ring / crosshair / ticks / brackets / readout`: boolean — Which HUD elements draw.
+- `ripples / rippleSpeed / rippleBend`: boolean · number · number — Click ripples and their travel and bend.
+
+Notes:
+- The readout names the element under the reticle from the real DOM, not from the texture.
+- Ripples are a ring of bend travelling outward; they never move the DOM.
+- Reduced motion snaps the reticle to the pointer and disables ripples.
+
+### Dust Reveal (KQ-363) — `dust-reveal`
+It settles where you look.
+
+The interface renders as fine grey dust — grains wandering from their home pixels, the brightest content scattering furthest — and coalesces into crisp, coloured UI where the cursor comes near, with a chromatic edge at the reveal. Idle grains drift on a seeded field, so the dust breathes without a single random number.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/dust-reveal`
+
+Props:
+- `radius / softness / smoothing`: number — Reveal radius, its feather, and how damped the cursor following is.
+- `size / scatter / drift`: number — Grain size, wander distance, and idle shimmer speed.
+- `aberration / bend / fade`: number — Chromatic edge, smear at the reveal edge, and grain contrast.
+
+Notes:
+- Grain offsets come from a seeded noise field keyed by pixel, so the dust is deterministic.
+- Pixels near the background colour are left alone; only content becomes dust.
+- Reduced motion renders the surface fully settled and crisp.
+
+### Pond Glass (KQ-364) — `pond-glass`
+Click, and the page ripples.
+
+The interface under still water. A click drops a stone: rings spread across the page, refracting and highlighting everything they cross, then settle. The waves are a real height-field simulation on the GPU with a byte-precision fallback, so it runs where half-float buffers are missing, and the page beneath stays clickable.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pond-glass`
+
+Props:
+- `refraction / highlight`: number — How far a wave bends the view, in pixels, and the strength of its specular sheen.
+- `damping / speed / settle`: number — How quickly rings fade, how fast they travel, and how long the loop runs after the last drop.
+- `dropRadius / dropStrength / hoverDrops`: number · number · boolean — The stone: its size, its force, and whether moving the pointer drips as well.
+
+Notes:
+- The simulation runs at a fraction of the canvas resolution and stops on its own once the water is still.
+- Clicks reach the real DOM underneath — a button under the water still works.
+- Reduced motion shows the real, unrippled DOM.
+
+### Rain Glass (KQ-365) — `rain-glass`
+Wipe the pane to see.
+
+Rain on a window, with the interface behind it. Droplets bead on the pane and run in trails that bend the view, a haze softens what they do not cover, and the cursor wipes a clear patch that fogs back over. Every droplet is seeded from its cell, so the same pane always rains the same way.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rain-glass`
+
+Props:
+- `density / size / speed`: number — How many droplets, how large, and how fast the running ones travel.
+- `refraction / blur / fog`: number — How far a droplet bends the view, how soft the un-wiped pane is, and how heavy the haze.
+- `wipeRadius / refog`: number — The clear patch the cursor leaves and how many seconds it takes to fog back.
+
+Notes:
+- Droplets and trails are procedural in the shader; nothing is random and nothing is stored.
+- The wipe is the last few pointer positions, aged in the shader, so it needs no extra texture.
+- Reduced motion shows the real, dry DOM.
+
+### Ice Pane (KQ-366) — `ice-pane`
+It melts where you rest.
+
+Frost across the interface that melts where the cursor rests and creeps back when it leaves. The frost is a crystalline field that blurs and refracts the view with a cold tint and a few glints; the melt is a persistent map that the pointer warms and time refreezes, with a wet rim at the boundary. The DOM stays live under the ice.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ice-pane`
+
+Props:
+- `frost / refraction / blur`: number — How much of the pane starts frozen, how far the crystals bend the view, and how soft it is.
+- `melt / meltSpeed / refreeze`: number — The warm radius around the pointer, how fast it clears, and how fast the frost returns per second.
+- `color / tint / sparkle`: string · number · number — The cold cast and how strong it is, and the glints in the crystals.
+
+Notes:
+- The melt map is a small canvas, warmed by the pointer and faded every frame; the loop stops once the pane has refrozen.
+- Clicks reach the real DOM through the frost.
+- Reduced motion shows the real, clear DOM.
+
+### Warp Grid (KQ-367) — `warp-grid`
+Move fast and it shears.
+
+The interface as a grid of cells on springs. Move slowly and nothing happens; move fast and the cells you pass shear in the direction of travel, edges splitting into colour, then spring back into place. The field is simulated on the CPU at grid resolution and read by the shader as a texture, so it costs almost nothing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/warp-grid`
+
+Props:
+- `cols / rows / lines`: number — The grid, and the opacity of the cell lines drawn with it.
+- `strength / radius / maxShift`: number — How hard pointer velocity pushes, how far its influence reaches, and the largest shift a cell may take.
+- `stiffness / damping / aberration`: number — The springs cells return on, and how far the colour channels split while sheared.
+
+Notes:
+- Push comes from pointer velocity between frames, never from position alone — a slow sweep leaves the page still.
+- The loop runs only while any cell has energy left.
+- Reduced motion shows the real, unwarped DOM.
+
+### Droplet Cursor (KQ-368) — `droplet-cursor`
+Liquid, behind the cursor.
+
+A chain of droplets that trails the cursor and refracts the interface behind it. Each drop follows the one ahead, shrinking along the chain, and the drops merge as one liquid surface where they touch; light bends through them, catches on a highlight, and tints the rim. Draws only where the drops are, so the page is itself everywhere else.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/droplet-cursor`
+
+Props:
+- `count / size / taper`: number — How many drops, the lead drop's radius, and how much each successive drop shrinks.
+- `follow`: number — How tightly each drop tracks the one ahead — lower is more liquid.
+- `refraction / dispersion / color / tint / highlight`: number · number · string · number · number — How far the drops bend the view, the colour split at their edges, and the rim tint and specular strength.
+
+Notes:
+- Drops are a metaball field in one fragment shader; merging is what the field does, not a special case.
+- The loop stops once the chain has caught up with the cursor.
+- Reduced motion shows a single still drop at the pointer with no trail.
+
+### Shield Field (KQ-369) — `shield-field`
+Click, and it rings.
+
+A faint lattice over the interface that rings out when clicked: a shockwave travels from the point of impact, lighting each cell as it passes and bending the page a little under the front, then fades. Cells near the pointer glow softly. Draws only the lattice and the waves, so the page is itself everywhere else.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/shield-field`
+
+Props:
+- `cell / lattice / lineOpacity`: number · "hex" | "tri" | "grid" · number — The lattice geometry and how visible it is at rest.
+- `waveSpeed / waveWidth / waveLife / maxWaves`: number — How fast a shockwave travels in px/s, how thick its front is, how long it lives, and how many may run at once.
+- `color / glow / refraction / hover`: string · number · number · number — The field colour, the brightness of a lit cell, how far the front bends the page, and the pointer's glow radius.
+
+Notes:
+- Waves are ages in the shader, driven by a frame tick; the loop stops once the last one has faded.
+- Clicks reach the real DOM under the field — the button you ping still fires.
+- Reduced motion draws the still lattice with no waves and no pointer glow.
+
+### Signal Glitch (KQ-370) — `signal-glitch`
+It tears, and comes back.
+
+The interface as a weak signal. Bursts of interference tear it into shifted bands, split its colour channels, and speckle it with noise, then it reassembles — clean between bursts. The bursts are scheduled from a seeded clock, so the pattern is deterministic; a click forces one. Underneath, the page is live the whole time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/signal-glitch`
+
+Props:
+- `rate / duration / intensity`: number — How often bursts come per second, how long each lasts, and how violent they are.
+- `bands / shift / split`: number — How many horizontal bands tear, how far they shift in px, and the colour-channel offset.
+- `scanlines / noise / clickBurst`: number · number · boolean — The resting scanline weight, the speckle during a burst, and whether a click forces one.
+
+Notes:
+- Burst timing comes from a hash of the frame clock, never from a random number.
+- Between bursts the shader passes the texture through untouched, so a still page costs almost nothing.
+- Reduced motion shows the real, clean DOM.
+
+### Tape Wear (KQ-371) — `tape-wear`
+Played back, worn.
+
+The interface played back from a worn cassette: chroma bleeding sideways, a faint vertical jitter, a tracking band that drifts up the frame tearing what it crosses, dropout streaks, scanlines, and a soft vignette. Every flaw is seeded from the frame clock and the pixel, so the wear is the same on every play.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tape-wear`
+
+Props:
+- `wear / bleed / jitter`: number — Overall degradation, how far chroma bleeds in px, and the vertical shake.
+- `tracking / trackingSpeed / dropouts`: number — The tracking band's strength, how fast it climbs the frame, and how many dropout streaks appear.
+- `scanlines / vignette / tint`: number — Scanline weight, edge darkening, and the warm cast.
+
+Notes:
+- The tracking band is a function of the frame clock; the loop runs while the surface is on screen.
+- Clicks reach the real DOM through the playback.
+- Reduced motion shows the real, clean DOM.
+
+### Laser Print (KQ-372) — `laser-print`
+Printed in, as you scroll.
+
+A beam that prints the interface in as you scroll. Above the line the page is set; at the line a hot glow, sparks, and a heat shimmer; below it, blank stock. Progress follows the surface's position in the viewport by default, plays once on entry with `mode="auto"`, or takes a `progress` value directly.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/laser-print`
+
+Props:
+- `mode / progress / duration`: "scroll" | "auto" | "manual" · number · number — What drives the beam: the viewport, a one-shot play of `duration` seconds, or the `progress` prop.
+- `color / beamWidth / glow / sparks`: string · number · number · number — The beam's colour, thickness, glow radius, and spark density.
+- `shimmer / scorch / direction`: number · number · "down" | "up" — The heat band below the line, the faint burn above it, and which way the print runs.
+
+Notes:
+- Scroll progress is read from the host's bounding box on passive scroll events; the loop runs only while the beam is inside the surface.
+- The unprinted part still holds the real DOM — a link below the beam is clickable.
+- Reduced motion shows the real DOM fully printed.
+
+### Wet Canvas (KQ-373) — `wet-canvas`
+Drag the paint.
+
+The interface as wet paint on a woven ground. A weave and a paper grain sit under the page with their own lighting; moving the pointer drags the paint along the direction of travel, raising glossy ridges that catch the light and slowly dry back flat. The drag lives in a small map warmed by the pointer, so the shader stays one pass.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/wet-canvas`
+
+Props:
+- `weave / grain / light`: number — The woven ground's relief, the paper speckle, and the light angle in degrees.
+- `brush / strength / dry`: number — The smear's radius, how far it drags the paint in px, and how many seconds it takes to dry flat.
+- `gloss / ridge`: number — The specular sheen of wet paint and how strongly the smear raises ridges.
+
+Notes:
+- Smear direction is the pointer's velocity, so a slow drag pulls gently and a flick pulls hard.
+- Clicks reach the real DOM through the paint.
+- Reduced motion shows the real, dry DOM.
+
+### Bonfire Edge (KQ-374) — `bonfire-edge`
+Warm at the edge.
+
+Fire along the bottom edge of the interface: flames that rise and lick, sparks that climb and die, and a heat shimmer that bends the page just above them. The flames lean with the pointer and grow where it comes near. Draws only the fire and the shimmer, so the rest of the page is itself.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bonfire-edge`
+
+Props:
+- `height / intensity / speed`: number — How tall the flames reach in px, how fierce, and how fast they move.
+- `color / sparks / shimmer`: string · number · number — The base colour of the fire, the spark density, and how far the heat bends the page above it.
+- `wind / heat / edge`: number · number · "bottom" | "top" — How far the flames lean with the pointer, how much they grow under it, and which edge burns.
+
+Notes:
+- Flames, sparks, and shimmer are one fragment shader on the frame clock; nothing is random.
+- The page under the shimmer is the real DOM — a control near the edge still works.
+- Reduced motion draws one still frame of the fire with no shimmer.
+
+### Flame Border (KQ-375) — `flame-border`
+Wrapped in fire.
+
+A ring of fire around an element, following its rounded corners. Flames lick inward from every edge with a warm glow on the interior; the middle of the page stays untouched. The border reads the host's corner radius, so it fits whatever shape it wraps.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/flame-border`
+
+Props:
+- `width / intensity / speed`: number — How far the flames reach inward in px, how fierce, and how fast.
+- `color / glow`: string · number — The fire's base colour and the warmth cast onto the interior.
+- `corner`: number — Corner radius override in px; by default the host's computed radius.
+
+Notes:
+- The flame band is a signed distance to the rounded rectangle, so corners burn as evenly as edges.
+- Draws only the border and the glow; the page inside is the real DOM.
+- Reduced motion draws one still ring of fire.
+
+### Fluid Wash (KQ-376) — `fluid-wash`
+Stir it.
+
+The interface under a sheet of fluid that the pointer stirs. A real velocity field on the GPU — advected, pressure-solved, dissipating — bends the page where it flows and washes a tint of colour along the current. Runs in half-float where the browser offers it and drops to byte buffers with fewer iterations where it does not.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fluid-wash`
+
+Props:
+- `resolution / pressureIterations`: number — The simulation grid as a fraction of the canvas, and the pressure solver's iterations (halved on byte buffers).
+- `viscosity / dissipation / force / splatRadius`: number — How velocity persists, how the tint fades, how hard the pointer pushes, and how wide its stroke is.
+- `refraction / color / tint`: number · string · number — How far the flow bends the page, the colour it carries, and how strongly.
+
+Notes:
+- The loop runs while the field has energy and stops once the fluid is still.
+- Clicks reach the real DOM through the fluid.
+- Reduced motion shows the real, still DOM.
+
+### Glyph Sweep (KQ-377) — `glyph-sweep`
+Set the next one in type.
+
+A transition between panels: change the index and a band of glyphs sweeps across the surface, dissolving the old panel into characters at its leading edge and setting the new one in crisp behind it. Both panels are painted textures, so the sweep is one shader pass; between sweeps the surface is the live panel.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/glyph-sweep`
+
+Props:
+- `index / children`: number · ReactNode[] — Which panel shows; the children are the panels.
+- `direction / duration / band`: "right" | "left" | "down" | "up" · number · number — Which way the sweep travels, how long it takes in seconds, and how wide the glyph band is in px.
+- `cell / charset / color`: number · string · string — Glyph cell size, the character ramp, and the glyph colour.
+
+Notes:
+- The outgoing panel's texture is retained at the moment the index changes, so the sweep never waits on a paint.
+- Between sweeps the loop is off and the canvas shows the live panel.
+- Reduced motion switches panels instantly with the real DOM visible.
+
+### Type Rain (KQ-378) — `type-rain`
+Lit by the rain.
+
+Streams of glyphs fall over the interface and light it as they pass: the page is held dim, and where a stream crosses, the real colour and type show through around a bright head glyph. Every stream is seeded by its column, so the rain falls the same way each visit. The pointer parts the streams.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/type-rain`
+
+Props:
+- `cell / density / speed / length`: number — Glyph cell size, how many columns rain, how fast they fall, and how long each stream is in cells.
+- `color / glow / dim`: string · number · number — The glyph colour, the head's brightness, and how far the page is dimmed between streams.
+- `charset / repel`: string · number — The characters that fall, and the radius the pointer clears.
+
+Notes:
+- Streams are functions of column, time, and a seed; nothing is stored between frames.
+- The dim page is the real DOM underneath; its controls still work.
+- Reduced motion shows the real, undimmed DOM.
+
+### Sand Scroll (KQ-379) — `sand-scroll`
+It settles as you scroll.
+
+The interface dissolves into sand below a line and reassembles as you scroll. Grains stream down and drift from their home pixels, further the deeper they sit below the line, and settle back into crisp type as the line passes. Progress follows the surface's place in the viewport, plays once, or takes a value directly.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sand-scroll`
+
+Props:
+- `mode / progress / duration`: "scroll" | "auto" | "manual" · number · number — What drives the line: the viewport, a one-shot play, or the progress prop.
+- `grain / scatter / fall`: number — Grain size in px, how far grains drift sideways, and how fast they stream down.
+- `softness / fade / direction`: number · number · "down" | "up" — How wide the settling band is, how much loose sand fades, and which way the line runs.
+
+Notes:
+- Grain offsets come from a seeded field keyed by pixel and time; nothing is stored between frames.
+- The loose part still holds the real DOM underneath.
+- Reduced motion shows the real DOM fully settled.
+
+### Cloth Drape (KQ-380) — `cloth-drape`
+Hung like cloth.
+
+The interface as a hanging cloth. A grid mesh carries the painted page; wind rolls slow waves through it, the cursor pushes a dent that springs back, and the shading follows the folds. The mesh is a few thousand vertices, so the drape costs almost nothing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cloth-drape`
+
+Props:
+- `cols / rows`: number — The mesh resolution.
+- `wind / speed / amplitude`: number — How much the cloth moves at rest, how fast the waves travel, and how deep they are in px.
+- `push / radius / shading`: number — How deep the cursor dents the cloth, how wide the dent is, and how strongly folds are lit.
+
+Notes:
+- Displacement happens in the vertex shader; the fragment shader only samples and shades.
+- Clicks reach the real DOM through the cloth.
+- Reduced motion shows the real, flat DOM.
+
+### Cube Fold (KQ-381) — `cube-fold`
+Folds as it passes.
+
+The interface folds over cube edges as it scrolls. The top and bottom bands of the page hinge away in perspective as the surface enters and leaves the viewport, meeting flat in the middle of the scroll. One mesh, two hinges, real perspective.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cube-fold`
+
+Props:
+- `mode / progress`: "scroll" | "manual" · number — What drives the fold: the viewport, or the progress prop.
+- `band / angle / perspective`: number — How tall each folding band is as a fraction of the height, the largest fold angle in degrees, and the camera distance.
+- `shading`: number — How much a folded face darkens.
+
+Notes:
+- Progress is read from the host's bounding box on passive scroll events; frames are requested only when it changes.
+- The folded bands still hold the real DOM underneath.
+- Reduced motion shows the real, flat DOM.
+
+### Tile Wave (KQ-382) — `tile-wave`
+Tiles, on springs.
+
+The interface cut into tiles that tilt and lift as the cursor passes, a wave rolling out from the pointer and settling on springs. Each tile is a quad on a grid mesh with its own centre, so it rotates about itself; gaps between tiles show the ground behind. A click sends a ring through the whole grid.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tile-wave`
+
+Props:
+- `cols / rows / gap`: number — The tile grid and the gap between tiles in px.
+- `tilt / lift / radius`: number — The largest tilt in degrees, the largest lift in px, and how far the cursor's influence reaches.
+- `stiffness / damping / ring`: number — The springs tiles settle on, and the strength of the click ring.
+
+Notes:
+- Tilt and lift are simulated per tile on the CPU and read by the vertex shader from a small texture.
+- Clicks reach the real DOM through the tiles.
+- Reduced motion shows the real, flat DOM.
+
+### Hex Floor (KQ-383) — `hex-floor`
+Flat where you look.
+
+The interface laid over a floor of hexagonal prisms seen from a slight angle. Each prism stands at a seeded height and breathes with a slow wave; near the cursor they flatten, so the page reads clearly wherever you look and stands in relief everywhere else.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hex-floor`
+
+Props:
+- `cell / height / idle`: number — Hex size in px, the largest prism height in px, and how much the floor breathes at rest.
+- `radius / softness`: number — How far around the cursor the floor flattens, and how gradually.
+- `tilt / shading`: number — The viewing angle in degrees and how strongly prism faces are shaded.
+
+Notes:
+- Extrusion is a parallax offset per hex in one fragment shader; there is no mesh.
+- Clicks reach the real DOM through the floor.
+- Reduced motion shows the real, flat DOM.
+
+### Glass Shards (KQ-384) — `glass-shards`
+Broken, and beautiful.
+
+The interface as a pane broken into shards. Each shard tilts toward the cursor and refracts what is behind it a little differently from its neighbours, with a bright edge along every crack; near the pointer, shards lift and part, and the ground shows through the gaps. The fracture is a seeded cell pattern, so the pane breaks the same way every time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/glass-shards`
+
+Props:
+- `shards / seed`: number — How many shards the pane breaks into, and which break.
+- `tilt / lift / radius`: number — How far a shard tilts toward the cursor in degrees, how far the nearest lift in px, and how far the cursor reaches.
+- `refraction / edge / color`: number · number · string — How much a tilted shard bends the page, the brightness of the cracks, and their colour.
+
+Notes:
+- Shards settle on springs; the loop stops once every shard is at rest.
+- Clicks reach the real DOM through the pane.
+- Reduced motion shows the real, whole DOM.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

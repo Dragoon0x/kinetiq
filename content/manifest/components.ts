@@ -13299,6 +13299,1248 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "ascii-lens",
+    type: "registry:ui",
+    title: "ASCII Lens",
+    description:
+      "A soft lens that follows the cursor and redraws the live interface beneath it as characters \u2014 glyphs chosen by the shape of what they cover, not just its brightness, so an edge reads as a slash and a fill as a block. Outside the lens the page is itself; inside it, the page is type. The DOM stays real and clickable throughout.",
+    files: [{ path: "registry/ui/ascii-lens.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-359" },
+    tagline: "The page, set in type.",
+    keywords: ["effects", "ascii", "lens", "glyphs", "cursor", "redraw"],
+    props: [
+      {
+        name: "radius / softness",
+        type: "number",
+        description: "Lens radius in CSS pixels and the feather of its edge.",
+      },
+      {
+        name: "cell / charset",
+        type: "number \u00b7 \u0022ascii\u0022 | \u0022blocks\u0022 | \u0022binary\u0022",
+        description: "Glyph cell size and the character ramp.",
+      },
+      {
+        name: "color / tint",
+        type: "string \u00b7 number",
+        description:
+          "Glyph colour and how far it replaces the page's own colour.",
+      },
+    ],
+    usageNotes: [
+      "The glyph atlas is drawn once from the character ramp; the shader matches cells by luminance and edge direction.",
+      "Everything under the lens is the real DOM \u2014 links click and fields focus.",
+      "Reduced motion renders the whole surface as still glyphs with no lens motion.",
+    ],
+  },
+  {
+    name: "dither-lens",
+    type: "registry:ui",
+    title: "Dither Lens",
+    description:
+      "A lens that pixelates the live interface into an ordered dither \u2014 Bayer, halftone, hatch, or dash \u2014 with a two-colour palette and a click that sends a degauss ripple through it. Retro on purpose and exact about it: the pattern is a fixed matrix, so the same page always dithers the same way.",
+    files: [{ path: "registry/ui/dither-lens.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-360" },
+    tagline: "Retro, and exact about it.",
+    keywords: ["effects", "dither", "pixel", "retro", "lens", "cursor"],
+    props: [
+      {
+        name: "radius / softness / pixelSize / levels",
+        type: "number",
+        description:
+          "Lens size, edge feather, pixel size, and brightness quantisation.",
+      },
+      {
+        name: "pattern",
+        type: "\u0022bayer\u0022 | \u0022halftone\u0022 | \u0022hatch\u0022 | \u0022dash\u0022",
+        description: "The dither matrix.",
+      },
+      {
+        name: "darkColor / lightColor / colorize",
+        type: "string \u00b7 string \u00b7 number",
+        description:
+          "The palette ends and how much of the page's own colour survives.",
+      },
+    ],
+    usageNotes: [
+      "The dither matrix is a constant; nothing about the pattern is random.",
+      "A click fires a degauss ripple that fades on its own.",
+      "Reduced motion shows one dithered frame with no lens motion and no ripple.",
+    ],
+  },
+  {
+    name: "cipher-surface",
+    type: "registry:ui",
+    title: "Cipher Surface",
+    description:
+      "The interface renders as scrambled cipher glyphs until the cursor comes close, and decodes back into crisp, coloured UI behind a flickering wavefront. Idle glyphs reroll on a fixed cadence from a seeded table, so the scramble looks alive without ever being random. The real DOM is underneath the whole time.",
+    files: [{ path: "registry/ui/cipher-surface.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-361" },
+    tagline: "Decoded where you look.",
+    keywords: ["effects", "cipher", "decrypt", "reveal", "glyphs", "cursor"],
+    props: [
+      {
+        name: "radius / softness / edgeWidth",
+        type: "number",
+        description:
+          "Decode radius, its feather, and the wavefront's thickness.",
+      },
+      {
+        name: "cell / charset / color",
+        type: "number \u00b7 string \u00b7 string",
+        description: "Glyph cell size, the cipher alphabet, and its colour.",
+      },
+      {
+        name: "scramble / scrambleSpeed",
+        type: "number",
+        description: "Fraction of idle glyphs rerolling, and how often.",
+      },
+    ],
+    usageNotes: [
+      "Rerolls come from a seeded sequence keyed by cell, so a page decodes the same way every visit.",
+      "Passthrough lets a little of the real UI show through the cipher so structure still reads.",
+      "Reduced motion shows the surface fully decoded with no wavefront.",
+    ],
+  },
+  {
+    name: "scanner-lens",
+    type: "registry:ui",
+    title: "Scanner Lens",
+    description:
+      "A scanner that follows the cursor and magnifies the live interface inside a HUD reticle \u2014 ring, crosshair, ticks, corner brackets, and a mono readout of what it is over \u2014 with clicks that send a ripple bending across the page. Where the crystal lens is optics, this one is instrumentation.",
+    files: [{ path: "registry/ui/scanner-lens.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-362" },
+    tagline: "Instrumentation, not optics.",
+    keywords: ["effects", "magnify", "hud", "reticle", "scanner", "cursor"],
+    props: [
+      {
+        name: "size / zoom / follow",
+        type: "number",
+        description:
+          "Lens radius, magnification, and how tightly it tracks the pointer.",
+      },
+      {
+        name: "ring / crosshair / ticks / brackets / readout",
+        type: "boolean",
+        description: "Which HUD elements draw.",
+      },
+      {
+        name: "ripples / rippleSpeed / rippleBend",
+        type: "boolean \u00b7 number \u00b7 number",
+        description: "Click ripples and their travel and bend.",
+      },
+    ],
+    usageNotes: [
+      "The readout names the element under the reticle from the real DOM, not from the texture.",
+      "Ripples are a ring of bend travelling outward; they never move the DOM.",
+      "Reduced motion snaps the reticle to the pointer and disables ripples.",
+    ],
+  },
+  {
+    name: "dust-reveal",
+    type: "registry:ui",
+    title: "Dust Reveal",
+    description:
+      "The interface renders as fine grey dust \u2014 grains wandering from their home pixels, the brightest content scattering furthest \u2014 and coalesces into crisp, coloured UI where the cursor comes near, with a chromatic edge at the reveal. Idle grains drift on a seeded field, so the dust breathes without a single random number.",
+    files: [{ path: "registry/ui/dust-reveal.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-363" },
+    tagline: "It settles where you look.",
+    keywords: ["effects", "particles", "dust", "reveal", "cursor", "redraw"],
+    props: [
+      {
+        name: "radius / softness / smoothing",
+        type: "number",
+        description:
+          "Reveal radius, its feather, and how damped the cursor following is.",
+      },
+      {
+        name: "size / scatter / drift",
+        type: "number",
+        description: "Grain size, wander distance, and idle shimmer speed.",
+      },
+      {
+        name: "aberration / bend / fade",
+        type: "number",
+        description:
+          "Chromatic edge, smear at the reveal edge, and grain contrast.",
+      },
+    ],
+    usageNotes: [
+      "Grain offsets come from a seeded noise field keyed by pixel, so the dust is deterministic.",
+      "Pixels near the background colour are left alone; only content becomes dust.",
+      "Reduced motion renders the surface fully settled and crisp.",
+    ],
+  },
+  {
+    name: "pond-glass",
+    type: "registry:ui",
+    title: "Pond Glass",
+    description:
+      "The interface under still water. A click drops a stone: rings spread across the page, refracting and highlighting everything they cross, then settle. The waves are a real height-field simulation on the GPU with a byte-precision fallback, so it runs where half-float buffers are missing, and the page beneath stays clickable.",
+    files: [{ path: "registry/ui/pond-glass.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-364" },
+    tagline: "Click, and the page ripples.",
+    keywords: [
+      "effects",
+      "ripple",
+      "water",
+      "refraction",
+      "click",
+      "simulation",
+    ],
+    props: [
+      {
+        name: "refraction / highlight",
+        type: "number",
+        description:
+          "How far a wave bends the view, in pixels, and the strength of its specular sheen.",
+      },
+      {
+        name: "damping / speed / settle",
+        type: "number",
+        description:
+          "How quickly rings fade, how fast they travel, and how long the loop runs after the last drop.",
+      },
+      {
+        name: "dropRadius / dropStrength / hoverDrops",
+        type: "number \u00b7 number \u00b7 boolean",
+        description:
+          "The stone: its size, its force, and whether moving the pointer drips as well.",
+      },
+    ],
+    usageNotes: [
+      "The simulation runs at a fraction of the canvas resolution and stops on its own once the water is still.",
+      "Clicks reach the real DOM underneath \u2014 a button under the water still works.",
+      "Reduced motion shows the real, unrippled DOM.",
+    ],
+  },
+  {
+    name: "rain-glass",
+    type: "registry:ui",
+    title: "Rain Glass",
+    description:
+      "Rain on a window, with the interface behind it. Droplets bead on the pane and run in trails that bend the view, a haze softens what they do not cover, and the cursor wipes a clear patch that fogs back over. Every droplet is seeded from its cell, so the same pane always rains the same way.",
+    files: [{ path: "registry/ui/rain-glass.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-365" },
+    tagline: "Wipe the pane to see.",
+    keywords: ["effects", "rain", "droplets", "refraction", "wipe", "weather"],
+    props: [
+      {
+        name: "density / size / speed",
+        type: "number",
+        description:
+          "How many droplets, how large, and how fast the running ones travel.",
+      },
+      {
+        name: "refraction / blur / fog",
+        type: "number",
+        description:
+          "How far a droplet bends the view, how soft the un-wiped pane is, and how heavy the haze.",
+      },
+      {
+        name: "wipeRadius / refog",
+        type: "number",
+        description:
+          "The clear patch the cursor leaves and how many seconds it takes to fog back.",
+      },
+    ],
+    usageNotes: [
+      "Droplets and trails are procedural in the shader; nothing is random and nothing is stored.",
+      "The wipe is the last few pointer positions, aged in the shader, so it needs no extra texture.",
+      "Reduced motion shows the real, dry DOM.",
+    ],
+  },
+  {
+    name: "ice-pane",
+    type: "registry:ui",
+    title: "Ice Pane",
+    description:
+      "Frost across the interface that melts where the cursor rests and creeps back when it leaves. The frost is a crystalline field that blurs and refracts the view with a cold tint and a few glints; the melt is a persistent map that the pointer warms and time refreezes, with a wet rim at the boundary. The DOM stays live under the ice.",
+    files: [{ path: "registry/ui/ice-pane.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-366" },
+    tagline: "It melts where you rest.",
+    keywords: ["effects", "frost", "ice", "melt", "refraction", "cursor"],
+    props: [
+      {
+        name: "frost / refraction / blur",
+        type: "number",
+        description:
+          "How much of the pane starts frozen, how far the crystals bend the view, and how soft it is.",
+      },
+      {
+        name: "melt / meltSpeed / refreeze",
+        type: "number",
+        description:
+          "The warm radius around the pointer, how fast it clears, and how fast the frost returns per second.",
+      },
+      {
+        name: "color / tint / sparkle",
+        type: "string \u00b7 number \u00b7 number",
+        description:
+          "The cold cast and how strong it is, and the glints in the crystals.",
+      },
+    ],
+    usageNotes: [
+      "The melt map is a small canvas, warmed by the pointer and faded every frame; the loop stops once the pane has refrozen.",
+      "Clicks reach the real DOM through the frost.",
+      "Reduced motion shows the real, clear DOM.",
+    ],
+  },
+  {
+    name: "warp-grid",
+    type: "registry:ui",
+    title: "Warp Grid",
+    description:
+      "The interface as a grid of cells on springs. Move slowly and nothing happens; move fast and the cells you pass shear in the direction of travel, edges splitting into colour, then spring back into place. The field is simulated on the CPU at grid resolution and read by the shader as a texture, so it costs almost nothing.",
+    files: [{ path: "registry/ui/warp-grid.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-367" },
+    tagline: "Move fast and it shears.",
+    keywords: [
+      "effects",
+      "grid",
+      "displacement",
+      "velocity",
+      "chromatic",
+      "cursor",
+    ],
+    props: [
+      {
+        name: "cols / rows / lines",
+        type: "number",
+        description:
+          "The grid, and the opacity of the cell lines drawn with it.",
+      },
+      {
+        name: "strength / radius / maxShift",
+        type: "number",
+        description:
+          "How hard pointer velocity pushes, how far its influence reaches, and the largest shift a cell may take.",
+      },
+      {
+        name: "stiffness / damping / aberration",
+        type: "number",
+        description:
+          "The springs cells return on, and how far the colour channels split while sheared.",
+      },
+    ],
+    usageNotes: [
+      "Push comes from pointer velocity between frames, never from position alone \u2014 a slow sweep leaves the page still.",
+      "The loop runs only while any cell has energy left.",
+      "Reduced motion shows the real, unwarped DOM.",
+    ],
+  },
+  {
+    name: "droplet-cursor",
+    type: "registry:ui",
+    title: "Droplet Cursor",
+    description:
+      "A chain of droplets that trails the cursor and refracts the interface behind it. Each drop follows the one ahead, shrinking along the chain, and the drops merge as one liquid surface where they touch; light bends through them, catches on a highlight, and tints the rim. Draws only where the drops are, so the page is itself everywhere else.",
+    files: [{ path: "registry/ui/droplet-cursor.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-368" },
+    tagline: "Liquid, behind the cursor.",
+    keywords: [
+      "effects",
+      "metaball",
+      "droplet",
+      "trail",
+      "refraction",
+      "cursor",
+    ],
+    props: [
+      {
+        name: "count / size / taper",
+        type: "number",
+        description:
+          "How many drops, the lead drop's radius, and how much each successive drop shrinks.",
+      },
+      {
+        name: "follow",
+        type: "number",
+        description:
+          "How tightly each drop tracks the one ahead \u2014 lower is more liquid.",
+      },
+      {
+        name: "refraction / dispersion / color / tint / highlight",
+        type: "number \u00b7 number \u00b7 string \u00b7 number \u00b7 number",
+        description:
+          "How far the drops bend the view, the colour split at their edges, and the rim tint and specular strength.",
+      },
+    ],
+    usageNotes: [
+      "Drops are a metaball field in one fragment shader; merging is what the field does, not a special case.",
+      "The loop stops once the chain has caught up with the cursor.",
+      "Reduced motion shows a single still drop at the pointer with no trail.",
+    ],
+  },
+  {
+    name: "shield-field",
+    type: "registry:ui",
+    title: "Shield Field",
+    description:
+      "A faint lattice over the interface that rings out when clicked: a shockwave travels from the point of impact, lighting each cell as it passes and bending the page a little under the front, then fades. Cells near the pointer glow softly. Draws only the lattice and the waves, so the page is itself everywhere else.",
+    files: [{ path: "registry/ui/shield-field.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-369" },
+    tagline: "Click, and it rings.",
+    keywords: ["effects", "lattice", "shockwave", "hex", "click", "overlay"],
+    props: [
+      {
+        name: "cell / lattice / lineOpacity",
+        type: "number \u00b7 \u0022hex\u0022 | \u0022tri\u0022 | \u0022grid\u0022 \u00b7 number",
+        description: "The lattice geometry and how visible it is at rest.",
+      },
+      {
+        name: "waveSpeed / waveWidth / waveLife / maxWaves",
+        type: "number",
+        description:
+          "How fast a shockwave travels in px/s, how thick its front is, how long it lives, and how many may run at once.",
+      },
+      {
+        name: "color / glow / refraction / hover",
+        type: "string \u00b7 number \u00b7 number \u00b7 number",
+        description:
+          "The field colour, the brightness of a lit cell, how far the front bends the page, and the pointer's glow radius.",
+      },
+    ],
+    usageNotes: [
+      "Waves are ages in the shader, driven by a frame tick; the loop stops once the last one has faded.",
+      "Clicks reach the real DOM under the field \u2014 the button you ping still fires.",
+      "Reduced motion draws the still lattice with no waves and no pointer glow.",
+    ],
+  },
+  {
+    name: "signal-glitch",
+    type: "registry:ui",
+    title: "Signal Glitch",
+    description:
+      "The interface as a weak signal. Bursts of interference tear it into shifted bands, split its colour channels, and speckle it with noise, then it reassembles \u2014 clean between bursts. The bursts are scheduled from a seeded clock, so the pattern is deterministic; a click forces one. Underneath, the page is live the whole time.",
+    files: [{ path: "registry/ui/signal-glitch.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-370" },
+    tagline: "It tears, and comes back.",
+    keywords: [
+      "effects",
+      "glitch",
+      "interference",
+      "scanlines",
+      "bands",
+      "post",
+    ],
+    props: [
+      {
+        name: "rate / duration / intensity",
+        type: "number",
+        description:
+          "How often bursts come per second, how long each lasts, and how violent they are.",
+      },
+      {
+        name: "bands / shift / split",
+        type: "number",
+        description:
+          "How many horizontal bands tear, how far they shift in px, and the colour-channel offset.",
+      },
+      {
+        name: "scanlines / noise / clickBurst",
+        type: "number \u00b7 number \u00b7 boolean",
+        description:
+          "The resting scanline weight, the speckle during a burst, and whether a click forces one.",
+      },
+    ],
+    usageNotes: [
+      "Burst timing comes from a hash of the frame clock, never from a random number.",
+      "Between bursts the shader passes the texture through untouched, so a still page costs almost nothing.",
+      "Reduced motion shows the real, clean DOM.",
+    ],
+  },
+  {
+    name: "tape-wear",
+    type: "registry:ui",
+    title: "Tape Wear",
+    description:
+      "The interface played back from a worn cassette: chroma bleeding sideways, a faint vertical jitter, a tracking band that drifts up the frame tearing what it crosses, dropout streaks, scanlines, and a soft vignette. Every flaw is seeded from the frame clock and the pixel, so the wear is the same on every play.",
+    files: [{ path: "registry/ui/tape-wear.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-371" },
+    tagline: "Played back, worn.",
+    keywords: ["effects", "vhs", "tape", "analog", "tracking", "post"],
+    props: [
+      {
+        name: "wear / bleed / jitter",
+        type: "number",
+        description:
+          "Overall degradation, how far chroma bleeds in px, and the vertical shake.",
+      },
+      {
+        name: "tracking / trackingSpeed / dropouts",
+        type: "number",
+        description:
+          "The tracking band's strength, how fast it climbs the frame, and how many dropout streaks appear.",
+      },
+      {
+        name: "scanlines / vignette / tint",
+        type: "number",
+        description: "Scanline weight, edge darkening, and the warm cast.",
+      },
+    ],
+    usageNotes: [
+      "The tracking band is a function of the frame clock; the loop runs while the surface is on screen.",
+      "Clicks reach the real DOM through the playback.",
+      "Reduced motion shows the real, clean DOM.",
+    ],
+  },
+  {
+    name: "laser-print",
+    type: "registry:ui",
+    title: "Laser Print",
+    description:
+      "A beam that prints the interface in as you scroll. Above the line the page is set; at the line a hot glow, sparks, and a heat shimmer; below it, blank stock. Progress follows the surface's position in the viewport by default, plays once on entry with `mode=\u0022auto\u0022`, or takes a `progress` value directly.",
+    files: [{ path: "registry/ui/laser-print.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-372" },
+    tagline: "Printed in, as you scroll.",
+    keywords: ["effects", "scroll", "reveal", "beam", "print", "progress"],
+    props: [
+      {
+        name: "mode / progress / duration",
+        type: "\u0022scroll\u0022 | \u0022auto\u0022 | \u0022manual\u0022 \u00b7 number \u00b7 number",
+        description:
+          "What drives the beam: the viewport, a one-shot play of `duration` seconds, or the `progress` prop.",
+      },
+      {
+        name: "color / beamWidth / glow / sparks",
+        type: "string \u00b7 number \u00b7 number \u00b7 number",
+        description:
+          "The beam's colour, thickness, glow radius, and spark density.",
+      },
+      {
+        name: "shimmer / scorch / direction",
+        type: "number \u00b7 number \u00b7 \u0022down\u0022 | \u0022up\u0022",
+        description:
+          "The heat band below the line, the faint burn above it, and which way the print runs.",
+      },
+    ],
+    usageNotes: [
+      "Scroll progress is read from the host's bounding box on passive scroll events; the loop runs only while the beam is inside the surface.",
+      "The unprinted part still holds the real DOM \u2014 a link below the beam is clickable.",
+      "Reduced motion shows the real DOM fully printed.",
+    ],
+  },
+  {
+    name: "wet-canvas",
+    type: "registry:ui",
+    title: "Wet Canvas",
+    description:
+      "The interface as wet paint on a woven ground. A weave and a paper grain sit under the page with their own lighting; moving the pointer drags the paint along the direction of travel, raising glossy ridges that catch the light and slowly dry back flat. The drag lives in a small map warmed by the pointer, so the shader stays one pass.",
+    files: [{ path: "registry/ui/wet-canvas.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-373" },
+    tagline: "Drag the paint.",
+    keywords: ["effects", "paint", "smear", "canvas", "texture", "cursor"],
+    props: [
+      {
+        name: "weave / grain / light",
+        type: "number",
+        description:
+          "The woven ground's relief, the paper speckle, and the light angle in degrees.",
+      },
+      {
+        name: "brush / strength / dry",
+        type: "number",
+        description:
+          "The smear's radius, how far it drags the paint in px, and how many seconds it takes to dry flat.",
+      },
+      {
+        name: "gloss / ridge",
+        type: "number",
+        description:
+          "The specular sheen of wet paint and how strongly the smear raises ridges.",
+      },
+    ],
+    usageNotes: [
+      "Smear direction is the pointer's velocity, so a slow drag pulls gently and a flick pulls hard.",
+      "Clicks reach the real DOM through the paint.",
+      "Reduced motion shows the real, dry DOM.",
+    ],
+  },
+  {
+    name: "bonfire-edge",
+    type: "registry:ui",
+    title: "Bonfire Edge",
+    description:
+      "Fire along the bottom edge of the interface: flames that rise and lick, sparks that climb and die, and a heat shimmer that bends the page just above them. The flames lean with the pointer and grow where it comes near. Draws only the fire and the shimmer, so the rest of the page is itself.",
+    files: [{ path: "registry/ui/bonfire-edge.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-374" },
+    tagline: "Warm at the edge.",
+    keywords: ["effects", "fire", "flames", "sparks", "heat", "edge"],
+    props: [
+      {
+        name: "height / intensity / speed",
+        type: "number",
+        description:
+          "How tall the flames reach in px, how fierce, and how fast they move.",
+      },
+      {
+        name: "color / sparks / shimmer",
+        type: "string \u00b7 number \u00b7 number",
+        description:
+          "The base colour of the fire, the spark density, and how far the heat bends the page above it.",
+      },
+      {
+        name: "wind / heat / edge",
+        type: "number \u00b7 number \u00b7 \u0022bottom\u0022 | \u0022top\u0022",
+        description:
+          "How far the flames lean with the pointer, how much they grow under it, and which edge burns.",
+      },
+    ],
+    usageNotes: [
+      "Flames, sparks, and shimmer are one fragment shader on the frame clock; nothing is random.",
+      "The page under the shimmer is the real DOM \u2014 a control near the edge still works.",
+      "Reduced motion draws one still frame of the fire with no shimmer.",
+    ],
+  },
+  {
+    name: "flame-border",
+    type: "registry:ui",
+    title: "Flame Border",
+    description:
+      "A ring of fire around an element, following its rounded corners. Flames lick inward from every edge with a warm glow on the interior; the middle of the page stays untouched. The border reads the host's corner radius, so it fits whatever shape it wraps.",
+    files: [{ path: "registry/ui/flame-border.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-375" },
+    tagline: "Wrapped in fire.",
+    keywords: ["effects", "fire", "border", "frame", "glow", "overlay"],
+    props: [
+      {
+        name: "width / intensity / speed",
+        type: "number",
+        description:
+          "How far the flames reach inward in px, how fierce, and how fast.",
+      },
+      {
+        name: "color / glow",
+        type: "string \u00b7 number",
+        description:
+          "The fire's base colour and the warmth cast onto the interior.",
+      },
+      {
+        name: "corner",
+        type: "number",
+        description:
+          "Corner radius override in px; by default the host's computed radius.",
+      },
+    ],
+    usageNotes: [
+      "The flame band is a signed distance to the rounded rectangle, so corners burn as evenly as edges.",
+      "Draws only the border and the glow; the page inside is the real DOM.",
+      "Reduced motion draws one still ring of fire.",
+    ],
+  },
+  {
+    name: "fluid-wash",
+    type: "registry:ui",
+    title: "Fluid Wash",
+    description:
+      "The interface under a sheet of fluid that the pointer stirs. A real velocity field on the GPU \u2014 advected, pressure-solved, dissipating \u2014 bends the page where it flows and washes a tint of colour along the current. Runs in half-float where the browser offers it and drops to byte buffers with fewer iterations where it does not.",
+    files: [{ path: "registry/ui/fluid-wash.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-376" },
+    tagline: "Stir it.",
+    keywords: [
+      "effects",
+      "fluid",
+      "simulation",
+      "navier-stokes",
+      "refraction",
+      "cursor",
+    ],
+    props: [
+      {
+        name: "resolution / pressureIterations",
+        type: "number",
+        description:
+          "The simulation grid as a fraction of the canvas, and the pressure solver's iterations (halved on byte buffers).",
+      },
+      {
+        name: "viscosity / dissipation / force / splatRadius",
+        type: "number",
+        description:
+          "How velocity persists, how the tint fades, how hard the pointer pushes, and how wide its stroke is.",
+      },
+      {
+        name: "refraction / color / tint",
+        type: "number \u00b7 string \u00b7 number",
+        description:
+          "How far the flow bends the page, the colour it carries, and how strongly.",
+      },
+    ],
+    usageNotes: [
+      "The loop runs while the field has energy and stops once the fluid is still.",
+      "Clicks reach the real DOM through the fluid.",
+      "Reduced motion shows the real, still DOM.",
+    ],
+  },
+  {
+    name: "glyph-sweep",
+    type: "registry:ui",
+    title: "Glyph Sweep",
+    description:
+      "A transition between panels: change the index and a band of glyphs sweeps across the surface, dissolving the old panel into characters at its leading edge and setting the new one in crisp behind it. Both panels are painted textures, so the sweep is one shader pass; between sweeps the surface is the live panel.",
+    files: [{ path: "registry/ui/glyph-sweep.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-377" },
+    tagline: "Set the next one in type.",
+    keywords: ["effects", "transition", "ascii", "panels", "sweep", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number \u00b7 ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "direction / duration / band",
+        type: "\u0022right\u0022 | \u0022left\u0022 | \u0022down\u0022 | \u0022up\u0022 \u00b7 number \u00b7 number",
+        description:
+          "Which way the sweep travels, how long it takes in seconds, and how wide the glyph band is in px.",
+      },
+      {
+        name: "cell / charset / color",
+        type: "number \u00b7 string \u00b7 string",
+        description:
+          "Glyph cell size, the character ramp, and the glyph colour.",
+      },
+    ],
+    usageNotes: [
+      "The outgoing panel's texture is retained at the moment the index changes, so the sweep never waits on a paint.",
+      "Between sweeps the loop is off and the canvas shows the live panel.",
+      "Reduced motion switches panels instantly with the real DOM visible.",
+    ],
+  },
+  {
+    name: "type-rain",
+    type: "registry:ui",
+    title: "Type Rain",
+    description:
+      "Streams of glyphs fall over the interface and light it as they pass: the page is held dim, and where a stream crosses, the real colour and type show through around a bright head glyph. Every stream is seeded by its column, so the rain falls the same way each visit. The pointer parts the streams.",
+    files: [{ path: "registry/ui/type-rain.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-378" },
+    tagline: "Lit by the rain.",
+    keywords: ["effects", "glyphs", "rain", "streams", "reveal", "matrix"],
+    props: [
+      {
+        name: "cell / density / speed / length",
+        type: "number",
+        description:
+          "Glyph cell size, how many columns rain, how fast they fall, and how long each stream is in cells.",
+      },
+      {
+        name: "color / glow / dim",
+        type: "string \u00b7 number \u00b7 number",
+        description:
+          "The glyph colour, the head's brightness, and how far the page is dimmed between streams.",
+      },
+      {
+        name: "charset / repel",
+        type: "string \u00b7 number",
+        description:
+          "The characters that fall, and the radius the pointer clears.",
+      },
+    ],
+    usageNotes: [
+      "Streams are functions of column, time, and a seed; nothing is stored between frames.",
+      "The dim page is the real DOM underneath; its controls still work.",
+      "Reduced motion shows the real, undimmed DOM.",
+    ],
+  },
+  {
+    name: "sand-scroll",
+    type: "registry:ui",
+    title: "Sand Scroll",
+    description:
+      "The interface dissolves into sand below a line and reassembles as you scroll. Grains stream down and drift from their home pixels, further the deeper they sit below the line, and settle back into crisp type as the line passes. Progress follows the surface's place in the viewport, plays once, or takes a value directly.",
+    files: [{ path: "registry/ui/sand-scroll.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-379" },
+    tagline: "It settles as you scroll.",
+    keywords: ["effects", "scroll", "sand", "dissolve", "particles", "reveal"],
+    props: [
+      {
+        name: "mode / progress / duration",
+        type: "\u0022scroll\u0022 | \u0022auto\u0022 | \u0022manual\u0022 \u00b7 number \u00b7 number",
+        description:
+          "What drives the line: the viewport, a one-shot play, or the progress prop.",
+      },
+      {
+        name: "grain / scatter / fall",
+        type: "number",
+        description:
+          "Grain size in px, how far grains drift sideways, and how fast they stream down.",
+      },
+      {
+        name: "softness / fade / direction",
+        type: "number \u00b7 number \u00b7 \u0022down\u0022 | \u0022up\u0022",
+        description:
+          "How wide the settling band is, how much loose sand fades, and which way the line runs.",
+      },
+    ],
+    usageNotes: [
+      "Grain offsets come from a seeded field keyed by pixel and time; nothing is stored between frames.",
+      "The loose part still holds the real DOM underneath.",
+      "Reduced motion shows the real DOM fully settled.",
+    ],
+  },
+  {
+    name: "cloth-drape",
+    type: "registry:ui",
+    title: "Cloth Drape",
+    description:
+      "The interface as a hanging cloth. A grid mesh carries the painted page; wind rolls slow waves through it, the cursor pushes a dent that springs back, and the shading follows the folds. The mesh is a few thousand vertices, so the drape costs almost nothing.",
+    files: [{ path: "registry/ui/cloth-drape.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-380" },
+    tagline: "Hung like cloth.",
+    keywords: ["effects", "cloth", "mesh", "wind", "drape", "cursor"],
+    props: [
+      {
+        name: "cols / rows",
+        type: "number",
+        description: "The mesh resolution.",
+      },
+      {
+        name: "wind / speed / amplitude",
+        type: "number",
+        description:
+          "How much the cloth moves at rest, how fast the waves travel, and how deep they are in px.",
+      },
+      {
+        name: "push / radius / shading",
+        type: "number",
+        description:
+          "How deep the cursor dents the cloth, how wide the dent is, and how strongly folds are lit.",
+      },
+    ],
+    usageNotes: [
+      "Displacement happens in the vertex shader; the fragment shader only samples and shades.",
+      "Clicks reach the real DOM through the cloth.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "cube-fold",
+    type: "registry:ui",
+    title: "Cube Fold",
+    description:
+      "The interface folds over cube edges as it scrolls. The top and bottom bands of the page hinge away in perspective as the surface enters and leaves the viewport, meeting flat in the middle of the scroll. One mesh, two hinges, real perspective.",
+    files: [{ path: "registry/ui/cube-fold.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-381" },
+    tagline: "Folds as it passes.",
+    keywords: ["effects", "scroll", "fold", "cube", "3d", "perspective"],
+    props: [
+      {
+        name: "mode / progress",
+        type: "\u0022scroll\u0022 | \u0022manual\u0022 \u00b7 number",
+        description:
+          "What drives the fold: the viewport, or the progress prop.",
+      },
+      {
+        name: "band / angle / perspective",
+        type: "number",
+        description:
+          "How tall each folding band is as a fraction of the height, the largest fold angle in degrees, and the camera distance.",
+      },
+      {
+        name: "shading",
+        type: "number",
+        description: "How much a folded face darkens.",
+      },
+    ],
+    usageNotes: [
+      "Progress is read from the host's bounding box on passive scroll events; frames are requested only when it changes.",
+      "The folded bands still hold the real DOM underneath.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "tile-wave",
+    type: "registry:ui",
+    title: "Tile Wave",
+    description:
+      "The interface cut into tiles that tilt and lift as the cursor passes, a wave rolling out from the pointer and settling on springs. Each tile is a quad on a grid mesh with its own centre, so it rotates about itself; gaps between tiles show the ground behind. A click sends a ring through the whole grid.",
+    files: [{ path: "registry/ui/tile-wave.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-382" },
+    tagline: "Tiles, on springs.",
+    keywords: ["effects", "tiles", "3d", "wave", "mesh", "cursor"],
+    props: [
+      {
+        name: "cols / rows / gap",
+        type: "number",
+        description: "The tile grid and the gap between tiles in px.",
+      },
+      {
+        name: "tilt / lift / radius",
+        type: "number",
+        description:
+          "The largest tilt in degrees, the largest lift in px, and how far the cursor's influence reaches.",
+      },
+      {
+        name: "stiffness / damping / ring",
+        type: "number",
+        description:
+          "The springs tiles settle on, and the strength of the click ring.",
+      },
+    ],
+    usageNotes: [
+      "Tilt and lift are simulated per tile on the CPU and read by the vertex shader from a small texture.",
+      "Clicks reach the real DOM through the tiles.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "hex-floor",
+    type: "registry:ui",
+    title: "Hex Floor",
+    description:
+      "The interface laid over a floor of hexagonal prisms seen from a slight angle. Each prism stands at a seeded height and breathes with a slow wave; near the cursor they flatten, so the page reads clearly wherever you look and stands in relief everywhere else.",
+    files: [{ path: "registry/ui/hex-floor.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-383" },
+    tagline: "Flat where you look.",
+    keywords: ["effects", "hex", "prisms", "relief", "floor", "cursor"],
+    props: [
+      {
+        name: "cell / height / idle",
+        type: "number",
+        description:
+          "Hex size in px, the largest prism height in px, and how much the floor breathes at rest.",
+      },
+      {
+        name: "radius / softness",
+        type: "number",
+        description:
+          "How far around the cursor the floor flattens, and how gradually.",
+      },
+      {
+        name: "tilt / shading",
+        type: "number",
+        description:
+          "The viewing angle in degrees and how strongly prism faces are shaded.",
+      },
+    ],
+    usageNotes: [
+      "Extrusion is a parallax offset per hex in one fragment shader; there is no mesh.",
+      "Clicks reach the real DOM through the floor.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "glass-shards",
+    type: "registry:ui",
+    title: "Glass Shards",
+    description:
+      "The interface as a pane broken into shards. Each shard tilts toward the cursor and refracts what is behind it a little differently from its neighbours, with a bright edge along every crack; near the pointer, shards lift and part, and the ground shows through the gaps. The fracture is a seeded cell pattern, so the pane breaks the same way every time.",
+    files: [{ path: "registry/ui/glass-shards.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-384" },
+    tagline: "Broken, and beautiful.",
+    keywords: ["effects", "shards", "voronoi", "refraction", "glass", "cursor"],
+    props: [
+      {
+        name: "shards / seed",
+        type: "number",
+        description: "How many shards the pane breaks into, and which break.",
+      },
+      {
+        name: "tilt / lift / radius",
+        type: "number",
+        description:
+          "How far a shard tilts toward the cursor in degrees, how far the nearest lift in px, and how far the cursor reaches.",
+      },
+      {
+        name: "refraction / edge / color",
+        type: "number \u00b7 number \u00b7 string",
+        description:
+          "How much a tilted shard bends the page, the brightness of the cracks, and their colour.",
+      },
+    ],
+    usageNotes: [
+      "Shards settle on springs; the loop stops once every shard is at rest.",
+      "Clicks reach the real DOM through the pane.",
+      "Reduced motion shows the real, whole DOM.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

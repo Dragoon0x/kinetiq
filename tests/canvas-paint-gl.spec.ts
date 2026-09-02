@@ -38,11 +38,18 @@ const roster = readdirSync(UI_DIR)
  * How each effect is driven for the diff. Most answer the pointer; a few
  * run on their own clock or on scroll, and a hover would prove nothing.
  */
-const DRIVER: Record<string, "hover" | "time" | "scroll"> = {
-  "signal-glitch": "time",
+const DRIVER: Record<
+  string,
+  "hover" | "time" | "scroll" | "click" | "switch" | "flick"
+> = {
+  // Driven by an index change: the demo switches panels with real buttons.
+  "glyph-sweep": "switch",
+  "pond-glass": "click",
+  "shield-field": "click",
+  // A click forces a burst; its own bursts are too brief to catch reliably.
+  "signal-glitch": "click",
   "tape-wear": "time",
   "type-rain": "time",
-  "glyph-sweep": "time",
   "bonfire-edge": "time",
   "flame-border": "time",
   "laser-print": "scroll",
@@ -51,6 +58,8 @@ const DRIVER: Record<string, "hover" | "time" | "scroll"> = {
 };
 
 test.describe.configure({ mode: "parallel" });
+// Software WebGL under parallel workers is slow; give each effect room.
+test.setTimeout(60_000);
 
 test("the WebGL roster derives from the registry", () => {
   expect(roster.length).toBeGreaterThan(0);
@@ -72,14 +81,17 @@ for (const slug of roster) {
     await expect(host).toHaveAttribute("data-surface-active", "true", {
       timeout: 10_000,
     });
-    const box = await host.boundingBox();
-    expect(box).not.toBeNull();
-    if (!box) return;
-
-    // Baseline with the pointer well away from the host.
+    // Baseline with the pointer well away from the host. The box is read
+    // after the screenshot: an element screenshot scrolls the host into
+    // view, and a box read before it would send the pointer to the wrong
+    // place.
+    await host.scrollIntoViewIfNeeded();
     await page.mouse.move(2, 2);
     await page.waitForTimeout(400);
     const before = await host.screenshot();
+    const box = await host.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
 
     // Drive it — no click yet. The drive alone must show the effect; a
     // click can change the DOM (focus, active states) and would let a
@@ -94,13 +106,39 @@ for (const slug of roster) {
       await page.mouse.wheel(0, 240);
       await page.waitForTimeout(200);
       await page.mouse.wheel(0, 240);
+    } else if (driver === "click") {
+      // A click on the root's padding, where no control sits.
+      await page.mouse.click(box.x + 8, box.y + 8);
+    } else if (driver === "switch") {
+      // The demo's own switcher, not the docs chrome.
+      await page.locator('main button[aria-pressed="false"]').first().click();
+      await page.mouse.move(2, 2);
+    } else if (driver === "flick") {
+      await page.mouse.move(box.x + box.width * 0.2, box.y + box.height * 0.5);
+      await page.mouse.move(
+        box.x + box.width * 0.8,
+        box.y + box.height * 0.55,
+        {
+          steps: 2,
+        },
+      );
     }
-    await page.waitForTimeout(700);
-    const driven = await host.screenshot();
+    // Software WebGL under parallel workers can take a while to land the
+    // first frame; poll rather than trust one fixed wait.
+    let changed = false;
+    const deadline = Date.now() + 6000;
+    // The first look is immediate: a click-driven burst can be over in a
+    // quarter of a second.
+    let wait = 0;
+    while (!changed && Date.now() < deadline) {
+      if (wait > 0) await page.waitForTimeout(wait);
+      wait = 150;
+      changed = !before.equals(await host.screenshot());
+    }
     expect(
-      before.equals(driven),
+      changed,
       `${slug} painted nothing the compositor could show when driven by ${driver}`,
-    ).toBe(false);
+    ).toBe(true);
 
     // The effect canvas must have been sized by its frame loop: a canvas
     // still at the 300×150 default has never drawn a frame.

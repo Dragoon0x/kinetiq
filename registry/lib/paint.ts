@@ -1206,8 +1206,9 @@ const openScope = (
   el: Element,
   style: CSSStyleDeclaration,
   state: PassState,
+  ignoreOpacity = false,
 ): boolean => {
-  const opacityRaw = parseFloat(style.opacity);
+  const opacityRaw = ignoreOpacity ? 1 : parseFloat(style.opacity);
   const opacityValue = Number.isFinite(opacityRaw)
     ? clamp(opacityRaw, 0, 1)
     : 1;
@@ -1319,7 +1320,10 @@ const paintTree = (
   paintElementBox(ctx, subtreeRoot, state, rootStyle);
   if (state.paintPseudo)
     paintPseudoElements(ctx, subtreeRoot, rootStyle, state);
-  const rootSaved = openScope(ctx, subtreeRoot, rootStyle, state);
+  // The root's own opacity is ignored: a host that composites the texture
+  // in place of the DOM hides the root at opacity 0, and the painter must
+  // still see everything inside it.
+  const rootSaved = openScope(ctx, subtreeRoot, rootStyle, state, true);
   const stack: { el: Element; saved: boolean }[] = [
     { el: subtreeRoot, saved: rootSaved },
   ];

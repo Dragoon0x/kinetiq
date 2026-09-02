@@ -110,7 +110,7 @@ export function SurfacePaint({
         <div
           aria-hidden
           data-surface-effect
-          className="pointer-events-none absolute inset-0 overflow-hidden"
+          className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
         >
           {effect}
         </div>
