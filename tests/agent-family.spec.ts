@@ -15,7 +15,9 @@ test.describe("prompt-well", () => {
   }) => {
     await gotoHydrated(page, "/components/prompt-well");
     const stage = page.locator("[data-specimen-stage]").first();
-    const field = stage.getByRole("combobox");
+    // The demo now seats two composers (a plain one and a loaded one); the
+    // behaviour under test lives in the first.
+    const field = stage.getByRole("combobox").first();
     await field.click();
 
     // Idle: no list.
@@ -44,7 +46,9 @@ test.describe("prompt-well", () => {
   test("/ only leads the prompt, and Enter sends", async ({ page }) => {
     await gotoHydrated(page, "/components/prompt-well");
     const stage = page.locator("[data-specimen-stage]").first();
-    const field = stage.getByRole("combobox");
+    // The demo now seats two composers (a plain one and a loaded one); the
+    // behaviour under test lives in the first.
+    const field = stage.getByRole("combobox").first();
     await field.click();
 
     await page.keyboard.type("compare ");
