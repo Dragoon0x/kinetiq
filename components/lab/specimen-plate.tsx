@@ -54,18 +54,18 @@ export function SpecimenPlate({
         }
       }}
       className={cn(
-        "group border-hairline bg-surface-1 relative rounded-3 border",
+        "group relative rounded-3 border border-hairline bg-surface-1",
         className,
       )}
     >
       {/* header rail */}
-      <div className="flex items-center justify-between px-4 pt-3">
-        <span className="text-label text-ink-3 select-none">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 pt-3">
+        <span className="min-w-0 text-label text-ink-3 select-none">
           {serial} · {label}
         </span>
         <span
           className={cn(
-            "text-label flex items-center gap-1.5 transition-colors select-none",
+            "ml-auto flex items-center gap-1.5 text-label transition-colors select-none",
             live ? "text-signal" : "text-ink-3",
           )}
           aria-hidden
@@ -94,12 +94,12 @@ export function SpecimenPlate({
 
       {/* dimension rail */}
       <div
-        className="text-label text-ink-3 flex items-center gap-2 px-4 pb-3 select-none"
+        className="flex items-center gap-2 px-4 pb-3 text-label text-ink-3 select-none"
         aria-hidden
       >
-        <span className="bg-hairline h-px flex-1" />
+        <span className="h-px flex-1 bg-hairline" />
         <span className="tabular-nums">↔ {width ?? "—"}</span>
-        <span className="bg-hairline h-px flex-1" />
+        <span className="h-px flex-1 bg-hairline" />
       </div>
     </div>
   );

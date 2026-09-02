@@ -618,15 +618,36 @@ const buildFontShorthand = (style: CSSStyleDeclaration): string => {
   return `${fontStyle} ${fontWeight} ${fontSize}${lineHeight} ${fontFamily}`;
 };
 
-/** `ctx.font` must already be set to the text's own font before calling. */
-const measureAscent = (
+/** Cap height above the baseline — what centres a single line of text in a
+ * box optically. `ctx.font` must already be set to the text's own font. */
+const measureCapAscent = (
   ctx: CanvasRenderingContext2D,
   fontSizePx: number,
 ): number => {
   const metrics = ctx.measureText("Hg");
   return metrics.actualBoundingBoxAscent > 0
     ? metrics.actualBoundingBoxAscent
-    : fontSizePx * 0.8;
+    : fontSizePx * 0.72;
+};
+
+/** The font's own ascent above the baseline — the distance from a line
+ * fragment's content box top (what a Range's client rect reports) down to
+ * where the glyphs actually sit. Using the cap height here instead draws
+ * every run a quarter-em too high, which is exactly the kind of misalignment
+ * a button label or a seal's dot shows at once. `ctx.font` must already be
+ * set. */
+const measureFontAscent = (
+  ctx: CanvasRenderingContext2D,
+  fontSizePx: number,
+  contentHeight?: number,
+): number => {
+  const metrics = ctx.measureText("Hg");
+  const ascent = metrics.fontBoundingBoxAscent;
+  if (typeof ascent === "number" && ascent > 0) return ascent;
+  // Without font metrics, split the content box the way Latin fonts do:
+  // roughly four parts ascent to one part descent.
+  if (contentHeight && contentHeight > 0) return contentHeight * 0.8;
+  return fontSizePx * 0.95;
 };
 
 const paintTextDecoration = (
@@ -695,7 +716,7 @@ const paintTextNode = (
 
   ctx.save();
   ctx.font = buildFontShorthand(style);
-  const ascent = measureAscent(ctx, parseFloat(style.fontSize) || 16);
+  const fontSizePx = parseFloat(style.fontSize) || 16;
   const letterSpacingPx =
     style.letterSpacing === "normal" ? 0 : parseFloat(style.letterSpacing) || 0;
   ctx.fillStyle = style.color;
@@ -717,13 +738,17 @@ const paintTextNode = (
     }
     const relTop = first.rect.top - state.rootRect.top;
     const relLeft = first.rect.left - state.rootRect.left;
+    const ascent = measureFontAscent(ctx, fontSizePx, first.rect.height);
     const baseline = relTop + ascent;
     if (letterSpacingPx !== 0 && !state.supportsLetterSpacing) {
       for (const cluster of run) {
         const text = transformed.slice(cluster.start, cluster.end);
         if (!text) continue;
         const cx = cluster.rect.left - state.rootRect.left;
-        const cy = cluster.rect.top - state.rootRect.top + ascent;
+        const cy =
+          cluster.rect.top -
+          state.rootRect.top +
+          measureFontAscent(ctx, fontSizePx, cluster.rect.height);
         ctx.fillText(text, cx, cy);
       }
     } else {
@@ -961,9 +986,11 @@ const drawFieldText = (
   ctx.rect(box.x, box.y, box.w, box.h);
   ctx.clip();
   ctx.font = buildFontShorthand(style);
-  const ascent = measureAscent(ctx, parseFloat(style.fontSize) || 16);
+  const fontSizePx = parseFloat(style.fontSize) || 16;
   const baseline =
-    align === "center" ? box.y + (box.h + ascent) / 2 : box.y + ascent;
+    align === "center"
+      ? box.y + (box.h + measureCapAscent(ctx, fontSizePx)) / 2
+      : box.y + measureFontAscent(ctx, fontSizePx);
   ctx.fillStyle = (placeholderPaint && placeholderPaint.color) || style.color;
   if (placeholderPaint)
     ctx.globalAlpha *= clamp(placeholderPaint.opacity, 0, 1);
@@ -1056,7 +1083,7 @@ const paintPseudoContent = (
   if (!text) return;
   ctx.save();
   ctx.font = buildFontShorthand(ps);
-  const ascent = measureAscent(ctx, parseFloat(ps.fontSize) || 16);
+  const ascent = measureFontAscent(ctx, parseFloat(ps.fontSize) || 16);
   ctx.fillStyle = ps.color;
   ctx.fillText(
     applyTextTransform(text, ps.textTransform),
@@ -1105,7 +1132,7 @@ const paintMarker = (
   ctx.save();
   ctx.font = buildFontShorthand(elStyle);
   ctx.fillStyle = ms.color || elStyle.color;
-  const ascent = measureAscent(ctx, parseFloat(elStyle.fontSize) || 16);
+  const ascent = measureFontAscent(ctx, parseFloat(elStyle.fontSize) || 16);
   ctx.fillText(glyph, origin.x - 16, origin.y + ascent);
   ctx.restore();
 };

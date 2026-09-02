@@ -991,7 +991,7 @@ export const components: KinetiqItem[] = [
     files: [{ path: "registry/ui/status-seal.tsx", type: "registry:ui" }],
     dependencies: ["motion"],
     registryDependencies: ["utils", "motion", "use-motion-safe", "readout"],
-    categories: ["display", "feedback"],
+    categories: ["feedback", "display"],
     meta: { serial: "KQ-025" },
     tagline: "Status, re-stamped on every change.",
     keywords: ["badge", "status", "pill", "live", "count"],

@@ -74,11 +74,11 @@ export function InstallCommand({
   return (
     <div
       className={cn(
-        "border-hairline bg-surface-1 overflow-hidden rounded-3 border",
+        "overflow-hidden rounded-3 border border-hairline bg-surface-1",
         className,
       )}
     >
-      <div className="border-hairline flex h-10 items-center justify-between border-b pr-1.5 pl-2">
+      <div className="flex h-10 items-center justify-between border-b border-hairline pr-1.5 pl-2">
         <div role="group" aria-label="Package manager" className="flex gap-1">
           {PACKAGE_MANAGERS.map((manager) => (
             <button
@@ -99,7 +99,7 @@ export function InstallCommand({
         </div>
         <CopyButton value={command} label="Copy install command" />
       </div>
-      <p className="overflow-x-auto px-4 py-3.5 font-mono text-[13px] whitespace-nowrap">
+      <p className="px-4 py-3.5 font-mono text-[13px] break-words whitespace-normal sm:overflow-x-auto sm:whitespace-nowrap">
         <span className="text-ink-3 select-none">$ </span>
         <span className="text-ink-2">{RUNNERS[pm]} </span>
         <span className="text-ink">shadcn@latest add </span>

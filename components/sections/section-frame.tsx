@@ -75,8 +75,8 @@ export function SectionFrame({
       data-specimen-stage=""
       className="overflow-hidden rounded-3 border border-hairline bg-surface-1"
     >
-      <figcaption className="flex items-center justify-between gap-3 border-b border-hairline px-4 py-2.5">
-        <span className="text-label text-ink-3">
+      <figcaption className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-hairline px-4 py-2.5">
+        <span className="min-w-0 text-label text-ink-3">
           {serial} · {label}
         </span>
         <div
