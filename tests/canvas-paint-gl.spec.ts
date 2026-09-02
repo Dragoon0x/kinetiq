@@ -65,23 +65,48 @@ for (const slug of roster) {
     await page.waitForTimeout(400);
     const before = await host.screenshot();
 
-    // Drive it: enter, sweep, click, dwell.
+    // Enter and sweep — no click yet. A hover alone must show the effect;
+    // a click can change the DOM (focus, active states) and would let a
+    // dead effect pass on the strength of the page underneath it.
     await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.4);
     await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.5, {
       steps: 12,
     });
+    await page.waitForTimeout(700);
+    const hovered = await host.screenshot();
+    expect(
+      before.equals(hovered),
+      `${slug} painted nothing the compositor could show on hover`,
+    ).toBe(false);
+
+    // The effect canvas must have been sized by its frame loop: a canvas
+    // still at the 300×150 default has never drawn a frame.
+    const canvas = host.locator("[data-effect-canvas]").first();
+    await expect(canvas).toBeAttached();
+    const sized = await canvas.evaluate((el) => {
+      const c = el as HTMLCanvasElement;
+      return {
+        width: c.width,
+        height: c.height,
+        clientWidth: c.clientWidth,
+        clientHeight: c.clientHeight,
+      };
+    });
+    expect(
+      sized.width,
+      `${slug} canvas backing store ${sized.width}×${sized.height} for a ${sized.clientWidth}×${sized.clientHeight} box`,
+    ).toBeGreaterThanOrEqual(Math.floor(sized.clientWidth * 0.5));
+    expect(sized.height).toBeGreaterThanOrEqual(
+      Math.floor(sized.clientHeight * 0.5),
+    );
+
+    // Then click and dwell: the effect must survive a real interaction.
     await page.mouse.down();
     await page.mouse.up();
     await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.6, {
       steps: 8,
     });
-    await page.waitForTimeout(700);
-    const after = await host.screenshot();
-
-    expect(
-      before.equals(after),
-      `${slug} painted nothing the compositor could show`,
-    ).toBe(false);
+    await page.waitForTimeout(500);
     expect(errors, `${slug} logged errors: ${errors.join(" | ")}`).toEqual([]);
   });
 }

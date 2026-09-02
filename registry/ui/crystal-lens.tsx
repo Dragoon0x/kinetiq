@@ -236,8 +236,11 @@ function LensLayer({
     frameRef.current = requestAnimationFrame(drawFrame);
   }, [drawFrame]);
 
-  // GL setup and teardown.
+  // GL setup and teardown. The canvas only mounts once the surface is
+  // active (after the first paint), so this is keyed on `surface.active`,
+  // not on mount: a mount-only effect would run against no canvas at all.
   React.useEffect(() => {
+    if (!surface.active) return;
     const canvas = canvasRef.current;
     if (!canvas || failedRef.current) return;
     const gl = createGL(canvas, { alpha: true, premultipliedAlpha: false });
@@ -263,6 +266,9 @@ function LensLayer({
       frameRef.current = null;
       failedRef.current = true;
     });
+    // A paint may already be waiting: draw it now rather than on the next
+    // pointer move.
+    if (surfaceRef.current.version > 0) requestFrame();
 
     return () => {
       detach();
@@ -270,13 +276,14 @@ function LensLayer({
       frameRef.current = null;
       if (textureRef.current) gl.deleteTexture(textureRef.current);
       textureRef.current = null;
+      uploadedVersionRef.current = 0;
       tri.dispose();
       program.dispose();
       glRef.current = null;
       programRef.current = null;
       triRef.current = null;
     };
-  }, []);
+  }, [surface.active, requestFrame]);
 
   // Every motion-value change and every completed paint asks for a frame.
   React.useEffect(() => {
