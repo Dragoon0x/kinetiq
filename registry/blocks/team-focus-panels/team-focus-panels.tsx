@@ -252,7 +252,7 @@ export function TeamFocusPanels({
                       active={active}
                     />
                     <div className="max-w-full min-w-[6.5rem] overflow-hidden">
-                      <p className="truncate font-medium text-ink">
+                      <p className="line-clamp-2 leading-tight font-medium text-ink">
                         {entry.name}
                       </p>
                       <p className="mt-0.5 truncate text-label text-ink-3">

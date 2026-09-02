@@ -57,10 +57,34 @@ const DEFAULT_ACTIVITY: BalanceActivity[] = [
 ];
 
 const DEFAULT_ROWS: SettlementRow[] = [
-  { id: "r1", asset: "TDW", label: "Tideway settlement", amount: "1,240.00 units", state: "settled" },
-  { id: "r2", asset: "NWR", label: "Northwater transfer", amount: "86.50 units", state: "pending" },
-  { id: "r3", asset: "TDW", label: "Vault rebalance", amount: "512.00 units", state: "signing" },
-  { id: "r4", asset: "NWR", label: "Cold storage sweep", amount: "3,004.10 units", state: "settled" },
+  {
+    id: "r1",
+    asset: "TDW",
+    label: "Tideway settlement",
+    amount: "1,240.00 units",
+    state: "settled",
+  },
+  {
+    id: "r2",
+    asset: "NWR",
+    label: "Northwater transfer",
+    amount: "86.50 units",
+    state: "pending",
+  },
+  {
+    id: "r3",
+    asset: "TDW",
+    label: "Vault rebalance",
+    amount: "512.00 units",
+    state: "signing",
+  },
+  {
+    id: "r4",
+    asset: "NWR",
+    label: "Cold storage sweep",
+    amount: "3,004.10 units",
+    state: "settled",
+  },
 ];
 
 const DEFAULT_PROOFS: ProofFigure[] = [
@@ -69,7 +93,10 @@ const DEFAULT_PROOFS: ProofFigure[] = [
   { value: 1.8, label: "avg settlement time", suffix: "s" },
 ];
 
-const ROW_SEAL: Record<SettlementRow["state"], { variant: StatusSealVariant; label: string }> = {
+const ROW_SEAL: Record<
+  SettlementRow["state"],
+  { variant: StatusSealVariant; label: string }
+> = {
   settled: { variant: "success", label: "Settled" },
   pending: { variant: "warn", label: "Pending" },
   signing: { variant: "info", label: "Signing" },
@@ -113,7 +140,8 @@ export function HeroBalanceDesk({
 }: HeroBalanceDeskProps) {
   const motionSafe = useMotionSafe();
   const headingId = React.useId();
-  const [settlementRows, setSettlementRows] = React.useState<SettlementRow[]>(rows);
+  const [settlementRows, setSettlementRows] =
+    React.useState<SettlementRow[]>(rows);
   const [actionStatus, setActionStatus] = React.useState<string | null>(null);
   const actionTimer = React.useRef<number | null>(null);
 
@@ -121,7 +149,9 @@ export function HeroBalanceDesk({
   React.useEffect(() => {
     const settleTimer = window.setTimeout(() => {
       setSettlementRows((current) => {
-        const pendingIndex = current.findIndex((row) => row.state === "pending");
+        const pendingIndex = current.findIndex(
+          (row) => row.state === "pending",
+        );
         if (pendingIndex === -1) return current;
         return current.map((row, index) =>
           index === pendingIndex ? { ...row, state: "settled" as const } : row,
@@ -133,7 +163,8 @@ export function HeroBalanceDesk({
 
   React.useEffect(
     () => () => {
-      if (actionTimer.current !== null) window.clearTimeout(actionTimer.current);
+      if (actionTimer.current !== null)
+        window.clearTimeout(actionTimer.current);
     },
     [],
   );
@@ -149,11 +180,11 @@ export function HeroBalanceDesk({
   return (
     <section
       aria-labelledby={headingId}
-      className={cn("bg-surface-0 relative overflow-hidden", className)}
+      className={cn("relative overflow-hidden bg-surface-0", className)}
     >
-      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-6 py-20 sm:py-28 lg:grid-cols-2 lg:gap-16">
-        <RevealStagger className="flex max-w-xl flex-col items-start gap-5">
-          <p className="text-label text-ink-3 flex items-center gap-2">
+      <div className="relative mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-6 py-20 sm:py-28 lg:grid-cols-2 lg:gap-16">
+        <RevealStagger className="flex max-w-xl min-w-0 flex-col items-start gap-5">
+          <p className="flex items-center gap-2 text-label text-ink-3">
             <KeyRound className="size-3.5" aria-hidden />
             {eyebrow}
           </p>
@@ -165,7 +196,7 @@ export function HeroBalanceDesk({
             <br />
             {headline[1]}
           </h1>
-          <p className="text-ink-2 max-w-md text-base leading-relaxed sm:text-lg">
+          <p className="max-w-md text-base leading-relaxed text-ink-2 sm:text-lg">
             {copy}
           </p>
           <div className="mt-2 flex flex-wrap items-center gap-3">
@@ -194,7 +225,7 @@ export function HeroBalanceDesk({
         </RevealStagger>
 
         {/* The vignette: balance-card seated on a desk, settling for real. */}
-        <div className="relative w-full max-w-lg justify-self-center lg:justify-self-end">
+        <div className="relative -mx-3 w-[calc(100%+1.5rem)] max-w-lg min-w-0 justify-self-center sm:mx-0 sm:w-full lg:justify-self-end">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-[-15%] bottom-[-20%] -z-10 h-3/4 blur-3xl"
@@ -203,54 +234,65 @@ export function HeroBalanceDesk({
                 "radial-gradient(60% 60% at 50% 100%, color-mix(in oklch, var(--primary) 32%, transparent), transparent 72%)",
             }}
           />
-          <div className="border-hairline bg-surface-1 rounded-4 relative border p-5 shadow-raised">
+          <div className="relative rounded-4 border border-hairline bg-surface-1 p-3 shadow-raised sm:p-5">
             <BalanceCard
               balance={balance}
+              // The unit lives in the card's title rather than beside the
+              // numeral, so the readout keeps its full size on a phone instead
+              // of being clipped by a suffix it cannot wrap.
               format={(v) =>
-                `${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} units`
+                v.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })
               }
+              title={`${brand} vault · units`}
               series={series}
               delta={{ value: "+3.1%", direction: "up" }}
               activity={DEFAULT_ACTIVITY}
               onAction={handleAction}
-              title={`${brand} vault`}
               className="max-w-none"
             />
             <p
               role="status"
               aria-live="polite"
-              className="text-ink-3 mt-3 h-4 font-mono text-[10px] tracking-[0.08em] uppercase"
+              className="mt-3 h-4 font-mono text-[10px] tracking-[0.08em] text-ink-3 uppercase"
             >
               {actionStatus ?? ""}
             </p>
 
-            <div className="border-hairline mt-4 border-t pt-4">
-              <p className="text-label text-ink-3 mb-3">{brand} · settlement</p>
+            <div className="mt-4 border-t border-hairline pt-4">
+              <p className="mb-3 text-label text-ink-3">{brand} · settlement</p>
               <ul className="flex flex-col gap-2">
                 {settlementRows.map((row, index) => {
                   const seal = ROW_SEAL[row.state];
                   return (
                     <motion.li
                       key={row.id}
-                      initial={motionSafe ? { opacity: 0, y: 8 } : { opacity: 0 }}
+                      initial={
+                        motionSafe ? { opacity: 0, y: 8 } : { opacity: 0 }
+                      }
                       animate={{ opacity: 1, y: 0 }}
                       transition={
                         motionSafe
-                          ? { ...springs.glide, delay: index * cascade(settlementRows.length) }
+                          ? {
+                              ...springs.glide,
+                              delay: index * cascade(settlementRows.length),
+                            }
                           : { duration: durations.fast, ease: easings.move }
                       }
-                      className="border-hairline bg-surface-0 rounded-2 flex items-center justify-between gap-3 border px-3 py-2.5"
+                      className="flex items-center justify-between gap-3 rounded-2 border border-hairline bg-surface-0 px-3 py-2.5"
                     >
                       <div className="flex min-w-0 items-center gap-2.5">
-                        <span className="border-hairline-strong text-ink-2 rounded-1 shrink-0 border px-1.5 py-0.5 font-mono text-[10px] tracking-[0.08em] uppercase">
+                        <span className="hidden shrink-0 rounded-1 border border-hairline-strong px-1.5 py-0.5 font-mono text-[10px] tracking-[0.08em] text-ink-2 uppercase sm:inline-block">
                           {row.asset}
                         </span>
-                        <span className="text-ink truncate text-sm font-medium">
+                        <span className="truncate text-sm font-medium text-ink">
                           {row.label}
                         </span>
                       </div>
                       <div className="flex shrink-0 items-center gap-3">
-                        <span className="text-ink-2 font-mono text-xs tabular-nums">
+                        <span className="font-mono text-xs text-ink-2 tabular-nums">
                           {row.amount}
                         </span>
                         <StatusSeal

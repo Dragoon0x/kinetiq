@@ -25,6 +25,24 @@ export type GalleryMosaicMorphProps = {
   className?: string;
 };
 
+const WIDE_QUERY = "(min-width: 640px)";
+const subscribeWide = (onChange: () => void) => {
+  const media = window.matchMedia(WIDE_QUERY);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+};
+const getWideSnapshot = () => window.matchMedia(WIDE_QUERY).matches;
+// The server has no viewport; assume the wide layout and let the client
+// correct it after hydration, which is the cheaper mismatch on a phone.
+const getWideServerSnapshot = () => true;
+function useWide(): boolean {
+  return React.useSyncExternalStore(
+    subscribeWide,
+    getWideSnapshot,
+    getWideServerSnapshot,
+  );
+}
+
 const DEFAULT_PLATES: MosaicPlate[] = [
   {
     id: "gate",
@@ -84,7 +102,10 @@ const FALLBACK_WASH = WASHES[0];
 
 type PlatePlacement = { column: string; row: string };
 
-const FALLBACK_PLACEMENT: PlatePlacement = { column: "1 / span 1", row: "1 / span 1" };
+const FALLBACK_PLACEMENT: PlatePlacement = {
+  column: "1 / span 1",
+  row: "1 / span 1",
+};
 
 /**
  * Five hand-authored layouts for the 4×2 grid, indexed by which plate slot
@@ -198,6 +219,11 @@ export function GalleryMosaicMorph({
     normalized.findIndex((plate) => plate.id === effectiveActiveId),
   );
   const layout = LAYOUTS[activeIndex] ?? [];
+  // Below the small breakpoint the four-column table cannot hold a title,
+  // so the mosaic becomes two columns: the active plate spans both and the
+  // rest flow beneath it. The layout morph still runs; only the target
+  // arrangement changes.
+  const wide = useWide();
 
   const plateButtonId = (id: string) => `${baseId}-plate-${id}`;
 
@@ -242,12 +268,13 @@ export function GalleryMosaicMorph({
             just passing through would make the whole grid unusable; only a
             committed action (click, Enter, Space, or an arrow key) may move
             the active plate. */}
-        <div className="mt-10 grid grid-cols-4 grid-rows-[repeat(2,8rem)] gap-3 sm:mt-12 sm:grid-rows-[repeat(2,11rem)] sm:gap-4">
+        <div className="mt-10 grid grid-cols-2 gap-3 sm:mt-12 sm:grid-cols-4 sm:grid-rows-[repeat(2,11rem)] sm:gap-4">
           {normalized.map((plate, index) => {
             const isActive = plate.id === effectiveActiveId;
             return (
               <MosaicTile
                 key={plate.id}
+                wide={wide}
                 buttonId={plateButtonId(plate.id)}
                 plate={plate}
                 placement={layout[index] ?? FALLBACK_PLACEMENT}
@@ -267,6 +294,7 @@ export function GalleryMosaicMorph({
 }
 
 type MosaicTileProps = {
+  wide: boolean;
   buttonId: string;
   plate: MosaicPlate;
   placement: PlatePlacement;
@@ -297,6 +325,7 @@ function MosaicTile({
   motionSafe,
   onSelect,
   onKeyDown,
+  wide,
 }: MosaicTileProps) {
   return (
     <motion.button
@@ -308,9 +337,14 @@ function MosaicTile({
       tabIndex={tabIndex}
       onClick={onSelect}
       onKeyDown={onKeyDown}
-      style={{ gridColumn: placement.column, gridRow: placement.row, background: wash }}
+      style={{
+        gridColumn: wide ? placement.column : isActive ? "1 / span 2" : "auto",
+        gridRow: wide ? placement.row : "auto",
+        background: wash,
+      }}
       className={cn(
         "relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-3 border border-hairline p-4 text-left select-none sm:p-5",
+        isActive ? "min-h-[13rem] sm:min-h-0" : "min-h-[7.5rem] sm:min-h-0",
         "transition-colors hover:border-hairline-strong",
         isActive && "border-hairline-strong",
       )}

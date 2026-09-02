@@ -57,7 +57,10 @@ function sparklinePath(series: number[], width: number, height: number) {
 export function BalanceCard({
   balance,
   format = (v) =>
-    v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+    v.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }),
   series,
   delta,
   activity = [],
@@ -98,7 +101,7 @@ export function BalanceCard({
           inert={flipped ? "" : undefined}
         >
           <div className="flex items-start justify-between">
-            <p className="text-muted-foreground font-mono text-[10px] tracking-[0.08em] uppercase">
+            <p className="font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase">
               {title}
             </p>
             <button
@@ -106,7 +109,7 @@ export function BalanceCard({
               aria-pressed={hidden}
               aria-label={hidden ? "Show balance" : "Hide balance"}
               onClick={() => setHidden((h) => !h)}
-              className="text-muted-foreground hover:text-foreground rounded-1 p-1 transition-colors"
+              className="rounded-1 p-1 text-muted-foreground transition-colors hover:text-foreground"
             >
               {hidden ? (
                 <EyeOff aria-hidden className="size-4" />
@@ -122,7 +125,12 @@ export function BalanceCard({
               transition={{ duration: durations.base, ease: easings.move }}
               aria-hidden={hidden}
             >
-              <Readout value={balance} format={format} size="xl" delta={delta} />
+              <Readout
+                value={balance}
+                format={format}
+                size="xl"
+                delta={delta}
+              />
             </motion.div>
             {hidden ? <span className="sr-only">Balance hidden</span> : null}
           </div>
@@ -146,16 +154,18 @@ export function BalanceCard({
             </svg>
           ) : null}
 
-          <div className="mt-auto flex items-center justify-between gap-2">
+          <div className="mt-auto flex flex-wrap items-center justify-between gap-2">
             <div className="flex gap-2">
               {ACTIONS.map((action) => (
                 <motion.button
                   key={action.id}
                   type="button"
                   onClick={() => onAction?.(action.id)}
-                  whileTap={motionSafe ? { scaleY: 0.94, scaleX: 1.03 } : undefined}
+                  whileTap={
+                    motionSafe ? { scaleY: 0.94, scaleX: 1.03 } : undefined
+                  }
                   transition={springs.flick}
-                  className="border-input hover:bg-accent flex items-center gap-1.5 rounded-2 border px-2.5 py-1.5 text-xs font-medium transition-colors"
+                  className="flex items-center gap-1.5 rounded-2 border border-input px-2.5 py-1.5 text-xs font-medium transition-colors hover:bg-accent"
                 >
                   <action.icon aria-hidden className="size-3.5" />
                   {action.label}
@@ -166,7 +176,7 @@ export function BalanceCard({
               type="button"
               aria-expanded={flipped}
               onClick={() => setFlipped(true)}
-              className="text-muted-foreground hover:text-foreground text-xs font-medium transition-colors"
+              className="text-xs font-medium whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground"
             >
               Details →
             </button>
@@ -185,13 +195,13 @@ export function BalanceCard({
           inert={flipped ? undefined : ""}
         >
           <div className="flex items-start justify-between">
-            <p className="text-muted-foreground font-mono text-[10px] tracking-[0.08em] uppercase">
+            <p className="font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase">
               Last activity
             </p>
             <button
               type="button"
               onClick={() => setFlipped(false)}
-              className="text-muted-foreground hover:text-foreground text-xs font-medium transition-colors"
+              className="text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               ← Back
             </button>
@@ -203,9 +213,7 @@ export function BalanceCard({
                     <motion.li
                       key={entry.id}
                       initial={
-                        motionSafe
-                          ? { opacity: 0, y: 8 }
-                          : { opacity: 0 }
+                        motionSafe ? { opacity: 0, y: 8 } : { opacity: 0 }
                       }
                       animate={{
                         opacity: 1,
@@ -214,18 +222,22 @@ export function BalanceCard({
                           ? {
                               ...springs.glide,
                               delay:
-                                0.15 + index * cascade(Math.min(activity.length, 4)),
+                                0.15 +
+                                index * cascade(Math.min(activity.length, 4)),
                             }
                           : { duration: durations.fast },
                       }}
-                      exit={{ opacity: 0, transition: { duration: durations.fast } }}
-                      className="border-border flex items-baseline justify-between border-b pb-1.5 text-sm last:border-0"
+                      exit={{
+                        opacity: 0,
+                        transition: { duration: durations.fast },
+                      }}
+                      className="flex items-baseline justify-between border-b border-border pb-1.5 text-sm last:border-0"
                     >
                       <span className="min-w-0">
                         <span className="block truncate font-medium">
                           {entry.label}
                         </span>
-                        <span className="text-muted-foreground font-mono text-[10px]">
+                        <span className="font-mono text-[10px] text-muted-foreground">
                           {entry.time}
                         </span>
                       </span>

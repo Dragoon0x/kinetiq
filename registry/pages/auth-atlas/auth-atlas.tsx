@@ -57,24 +57,30 @@ const subscribeLg = (onChange: () => void): (() => void) => {
   list.addEventListener("change", onChange);
   return () => list.removeEventListener("change", onChange);
 };
-const getLgSnapshot = (): boolean => canMatchLg() && window.matchMedia(LG_QUERY).matches;
+const getLgSnapshot = (): boolean =>
+  canMatchLg() && window.matchMedia(LG_QUERY).matches;
 /** Prerender has no viewport — report narrow, same rationale as useMotionSafe. */
 const getLgServerSnapshot = (): boolean => false;
 
 function emailError(value: string): string | undefined {
   if (!value) return undefined;
-  return EMAIL_PATTERN.test(value) ? undefined : "That does not look like a work email.";
+  return EMAIL_PATTERN.test(value)
+    ? undefined
+    : "That does not look like a work email.";
 }
 
 function passwordError(length: number): string | undefined {
   if (length === 0) return undefined;
-  return length < MIN_PASSWORD_LENGTH ? "Needs ten characters or more." : undefined;
+  return length < MIN_PASSWORD_LENGTH
+    ? "Needs ten characters or more."
+    : undefined;
 }
 
 /** Encouraging, never a meter — describes the password, does not grade it. */
 function strengthLine(length: number): string {
   if (length === 0) return "Ten characters minimum. Longer beats clever.";
-  if (length < MIN_PASSWORD_LENGTH) return "A few more characters and it is done.";
+  if (length < MIN_PASSWORD_LENGTH)
+    return "A few more characters and it is done.";
   if (length < 16) return "That clears the bar.";
   return "Long enough that we stop worrying about it.";
 }
@@ -248,8 +254,8 @@ export function AuthAtlas({
                         Password
                       </p>
                       <div className="flex h-11 items-center rounded-2 border border-input bg-transparent px-3 text-sm text-ink-2">
-                        A passkey will be requested the first time you sign
-                        in. Nothing to type here, nothing to leak.
+                        A passkey will be requested the first time you sign in.
+                        Nothing to type here, nothing to leak.
                       </div>
                       <button
                         type="button"
@@ -272,7 +278,11 @@ export function AuthAtlas({
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         onBlur={() => setPasswordTouched(true)}
-                        error={passwordTouched ? passwordError(password.length) : undefined}
+                        error={
+                          passwordTouched
+                            ? passwordError(password.length)
+                            : undefined
+                        }
                         required
                       />
                       <button
@@ -294,7 +304,9 @@ export function AuthAtlas({
                     disabled={submitting}
                     className="mt-2 w-full"
                   >
-                    {submitting ? "Creating the account…" : "Create the account"}
+                    {submitting
+                      ? "Creating the account…"
+                      : "Create the account"}
                   </PressureButton>
                 </form>
 
@@ -334,13 +346,12 @@ export function AuthAtlas({
             <Readout
               value={crewCount}
               size="sm"
-              className="normal-case tracking-normal text-ink-2"
+              className="tracking-normal text-ink-2 normal-case"
             />
           </p>
           <p className="mt-2 text-xs leading-relaxed text-ink-3">
-            The map is live activity, not a promise. It moves the way
-            point-globe always does — a slow drift you can grab and spin,
-            with other people visibly here while you sign up.
+            The map is live activity, not a promise — a slow drift you can grab
+            and spin, with other people visibly here while you sign up.
           </p>
         </div>
       </aside>

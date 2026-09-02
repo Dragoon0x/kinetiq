@@ -28,11 +28,33 @@ export type HowCardDeckProps = {
 };
 
 /** Card width, px — 22rem at the house 16px root. */
+
+const WIDE_QUERY = "(min-width: 640px)";
+const subscribeWide = (onChange: () => void) => {
+  const media = window.matchMedia(WIDE_QUERY);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+};
+const getWideSnapshot = () => window.matchMedia(WIDE_QUERY).matches;
+// The server has no viewport; assume the wide layout and let the client
+// correct it after hydration, which is the cheaper mismatch on a phone.
+const getWideServerSnapshot = () => true;
+function useWide(): boolean {
+  return React.useSyncExternalStore(
+    subscribeWide,
+    getWideSnapshot,
+    getWideServerSnapshot,
+  );
+}
+
 const CARD_W = 352;
+/** Card width below the small breakpoint, so the lead card stays readable. */
+const CARD_W_NARROW = 272;
 /** Fixed card height, px. */
 const CARD_H = 320;
 /** Left inset of the stage — the room the stack pulls into. */
 const STAGE_INSET = 72;
+const STAGE_INSET_NARROW = 20;
 /** Gap between waiting cards, px. */
 const GAP = 20;
 /** px a stacked card is pulled left per step of stack depth. */
@@ -87,14 +109,19 @@ type CardLayout = { x: number; scale: number; opacity: number; zIndex: number };
  * always keeps the current card above every waiting card, and every waiting
  * card above every stacked one.
  */
-function layoutFor(index: number, current: number, count: number): CardLayout {
+function layoutFor(
+  index: number,
+  current: number,
+  count: number,
+  cardW: number,
+): CardLayout {
   const delta = index - current;
   if (delta === 0) {
     return { x: 0, scale: 1, opacity: 1, zIndex: count * 3 };
   }
   if (delta > 0) {
     return {
-      x: CARD_W * delta + GAP * delta,
+      x: cardW * delta + GAP * delta,
       scale: 1,
       opacity: 1,
       zIndex: count * 2 - delta,
@@ -134,6 +161,11 @@ export function HowCardDeck({
 }: HowCardDeckProps) {
   const headingId = React.useId();
   const motionSafe = useMotionSafe();
+  // Below the small breakpoint a 22rem card would run off a phone before
+  // its own copy finished, so the lead narrows and the stack inset tightens.
+  const wide = useWide();
+  const cardW = wide ? CARD_W : CARD_W_NARROW;
+  const inset = wide ? STAGE_INSET : STAGE_INSET_NARROW;
   const count = steps.length;
   const lastIndex = Math.max(0, count - 1);
   const [current, setCurrent] = React.useState(() =>
@@ -157,7 +189,7 @@ export function HowCardDeck({
   return (
     <section
       aria-labelledby={headingId}
-      className={cn("bg-surface-0 relative", className)}
+      className={cn("relative bg-surface-0", className)}
     >
       <div className="mx-auto w-full max-w-6xl px-6 py-20 sm:py-24">
         <div className="max-w-2xl">
@@ -168,7 +200,7 @@ export function HowCardDeck({
           >
             {headline}
           </h2>
-          <p className="text-ink-2 mt-4 leading-relaxed">{deck}</p>
+          <p className="mt-4 leading-relaxed text-ink-2">{deck}</p>
         </div>
 
         <div
@@ -184,9 +216,11 @@ export function HowCardDeck({
           style={{ height: CARD_H }}
         >
           {steps.map((step, index) => {
-            const layout = layoutFor(index, current, count);
+            const layout = layoutFor(index, current, count, cardW);
             return (
               <DeckCard
+                cardW={cardW}
+                inset={inset}
                 key={step.id}
                 step={step}
                 index={index}
@@ -216,7 +250,7 @@ export function HowCardDeck({
               Next
             </PressureButton>
           </div>
-          <p className="text-ink-3 font-mono text-[11px] tracking-[0.08em] tabular-nums uppercase">
+          <p className="font-mono text-[11px] tracking-[0.08em] text-ink-3 uppercase tabular-nums">
             {count === 0 ? 0 : current + 1} / {count}
           </p>
         </div>
@@ -226,6 +260,8 @@ export function HowCardDeck({
 }
 
 type DeckCardProps = {
+  cardW: number;
+  inset: number;
   step: DeckStep;
   index: number;
   isCurrent: boolean;
@@ -247,6 +283,8 @@ function DeckCard({
   layout,
   motionSafe,
   onSelect,
+  cardW,
+  inset,
 }: DeckCardProps) {
   return (
     <motion.button
@@ -265,26 +303,26 @@ function DeckCard({
           : "border-hairline bg-surface-1",
       )}
       style={{
-        left: STAGE_INSET,
-        width: CARD_W,
+        left: inset,
+        width: cardW,
         height: CARD_H,
         zIndex: layout.zIndex,
         willChange: "transform",
       }}
     >
       <div className="flex items-center justify-between gap-2">
-        <span className="text-ink-3 font-mono text-[11px] tracking-[0.08em] tabular-nums">
+        <span className="font-mono text-[11px] tracking-[0.08em] text-ink-3 tabular-nums">
           {String(index + 1).padStart(2, "0")}
         </span>
         {isCurrent && (
-          <span aria-hidden className="bg-cobalt size-1.5 rounded-full" />
+          <span aria-hidden className="size-1.5 rounded-full bg-cobalt" />
         )}
       </div>
       <div className="mt-3 min-w-0 flex-1">
-        <h3 className="text-ink text-base font-semibold tracking-tight">
+        <h3 className="text-base font-semibold tracking-tight text-ink">
           {step.title}
         </h3>
-        <p className="text-ink-2 mt-2 line-clamp-2 text-sm leading-relaxed">
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-2">
           {step.note}
         </p>
       </div>
