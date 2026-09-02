@@ -16886,6 +16886,1670 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "page-curl",
+    type: "registry:ui",
+    title: "Page Curl",
+    description:
+      "The interface as a sheet whose corner curls: hover the corner and it lifts, drag and the curl follows, showing the back of the page and the ground beneath, with a shadow under the curl. Let go and it settles back on a spring.",
+    files: [{ path: "registry/ui/page-curl.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-441" },
+    tagline: "Lift the corner.",
+    keywords: ["effects", "curl", "page", "paper", "drag", "3d"],
+    props: [
+      {
+        name: "corner / radius",
+        type: '"tl" | "tr" | "bl" | "br" · number',
+        description: "Which corner curls and the curl's cylinder radius in px.",
+      },
+      {
+        name: "hoverLift / back / shadow",
+        type: "number · string · number",
+        description:
+          "How far a hover lifts the corner, the back-of-page colour, and shadow strength.",
+      },
+    ],
+    usageNotes: [
+      "The curl is an analytic cylinder fold in the shader; the fold line follows the drag.",
+      "Clicks reach the real DOM through the sheet.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "accordion-pleat",
+    type: "registry:ui",
+    title: "Accordion Pleat",
+    description:
+      "The interface pleated like an accordion: as the surface scrolls into view the pleats open from folded to flat, each fold lit by its angle, and they fold back as it leaves. A mesh with many hinges, driven by the viewport.",
+    files: [{ path: "registry/ui/accordion-pleat.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-442" },
+    tagline: "Pleated, and opening as you scroll.",
+    keywords: ["effects", "accordion", "pleats", "fold", "scroll", "3d"],
+    props: [
+      {
+        name: "mode / progress",
+        type: '"scroll" | "manual" · number',
+        description: "What drives the pleats.",
+      },
+      {
+        name: "pleats / angle / shading",
+        type: "number",
+        description:
+          "How many pleats, the largest fold angle in degrees, and how much a face darkens.",
+      },
+    ],
+    usageNotes: [
+      "Progress is the host's place in the viewport; frames are requested only when it changes.",
+      "The folded faces still hold the real DOM.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "ribbon-twist",
+    type: "registry:ui",
+    title: "Ribbon Twist",
+    description:
+      "The interface as a ribbon that twists about its vertical axis as you scroll: the top and bottom turn opposite ways, the middle stays flat, and the back of the ribbon is a darker face. Scroll past and it twists the other way.",
+    files: [{ path: "registry/ui/ribbon-twist.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-443" },
+    tagline: "A ribbon, turning with the page.",
+    keywords: ["effects", "ribbon", "twist", "scroll", "3d", "mesh"],
+    props: [
+      {
+        name: "mode / progress",
+        type: '"scroll" | "manual" · number',
+        description: "What drives the twist.",
+      },
+      {
+        name: "turns / shading / back",
+        type: "number · number · string",
+        description:
+          "How many quarter-turns across the height, face shading, and the back face's colour.",
+      },
+    ],
+    usageNotes: [
+      "The twist is a vertex shader on a grid mesh; the back face is culled by sign.",
+      "The turned parts still hold the real DOM.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "cylinder-roll",
+    type: "registry:ui",
+    title: "Cylinder Roll",
+    description:
+      "The interface wrapped on a horizontal cylinder that rolls as you scroll: lines of the page curve over the drum's near edge, foreshortened toward the top and bottom, with a highlight along the drum. Scroll, and the drum turns.",
+    files: [{ path: "registry/ui/cylinder-roll.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-444" },
+    tagline: "Wrapped on a drum, rolling.",
+    keywords: ["effects", "cylinder", "drum", "roll", "scroll", "3d"],
+    props: [
+      {
+        name: "mode / progress",
+        type: '"scroll" | "manual" · number',
+        description: "What drives the roll.",
+      },
+      {
+        name: "radius / highlight",
+        type: "number",
+        description:
+          "The drum's radius as a fraction of the height and the highlight strength.",
+      },
+    ],
+    usageNotes: [
+      "The mapping is analytic: each row's y is projected onto the drum's surface.",
+      "The curved page still holds the real DOM.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "globe-wrap",
+    type: "registry:ui",
+    title: "Globe Wrap",
+    description:
+      "The interface wrapped onto a globe you can spin: drag to rotate, and the page curves around the sphere with lighting from the upper left and a thin atmosphere at the rim. Let go and it keeps turning a little, then rests.",
+    files: [{ path: "registry/ui/globe-wrap.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-445" },
+    tagline: "The page, as a planet.",
+    keywords: ["effects", "globe", "sphere", "drag", "3d", "wrap"],
+    props: [
+      {
+        name: "radius / tilt",
+        type: "number",
+        description:
+          "The globe's radius as a fraction of the height and its axial tilt in degrees.",
+      },
+      {
+        name: "inertia / atmosphere",
+        type: "number",
+        description: "How long a spin carries after release and the rim glow.",
+      },
+    ],
+    usageNotes: [
+      "The sphere is analytic in the fragment shader: a ray hits the sphere and its UV samples the texture.",
+      "The wrapped page still holds the real DOM.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "tilt-plate",
+    type: "registry:ui",
+    title: "Tilt Plate",
+    description:
+      "The interface as a plate that tilts toward the pointer with real perspective — the near edge grows, the far edge shrinks — and a specular sheen slides across it as it turns. Leave, and it levels on a spring.",
+    files: [{ path: "registry/ui/tilt-plate.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-447" },
+    tagline: "It leans toward you.",
+    keywords: ["effects", "tilt", "perspective", "plate", "sheen", "cursor"],
+    props: [
+      {
+        name: "angle / perspective",
+        type: "number",
+        description:
+          "The largest tilt in degrees and the camera distance in px.",
+      },
+      {
+        name: "sheen / shadow",
+        type: "number",
+        description:
+          "The sliding highlight's strength and the drop shadow under the raised edge.",
+      },
+    ],
+    usageNotes: [
+      "The tilt is a perspective transform in the shader; the sheen follows the plate's normal.",
+      "Clicks reach the real DOM through the plate.",
+      "Reduced motion shows the real, level DOM.",
+    ],
+  },
+  {
+    name: "wobble-jelly",
+    type: "registry:ui",
+    title: "Wobble Jelly",
+    description:
+      "The interface as a slab of jelly: click and it wobbles — a springy deformation spreads from the point in damped waves, the page stretching and squashing with it — then settles. A grid mesh with a spring at every vertex.",
+    files: [{ path: "registry/ui/wobble-jelly.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-448" },
+    tagline: "Poke it.",
+    keywords: ["effects", "jelly", "wobble", "spring", "click", "mesh"],
+    props: [
+      {
+        name: "cols / rows",
+        type: "number",
+        description: "The mesh resolution.",
+      },
+      {
+        name: "stiffness / damping / poke",
+        type: "number",
+        description: "The vertex springs, and how hard a click pushes.",
+      },
+    ],
+    usageNotes: [
+      "Every vertex is a spring simulated on the CPU and uploaded as a texture; the loop stops when the slab is still.",
+      "Clicks reach the real DOM and also poke the jelly.",
+      "Reduced motion shows the real, still DOM.",
+    ],
+  },
+  {
+    name: "flag-wave",
+    type: "registry:ui",
+    title: "Flag Wave",
+    description:
+      "The interface as a flag pinned along its left edge and flying in a wind: waves travel across it growing toward the free edge, the cloth shades with its folds, and the wind gusts on the clock. Hover, and your hand stills it.",
+    files: [{ path: "registry/ui/flag-wave.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-449" },
+    tagline: "Pinned on the left, flying.",
+    keywords: ["effects", "flag", "wind", "cloth", "waves", "ambient"],
+    props: [
+      {
+        name: "wind / gust / amplitude",
+        type: "number",
+        description: "Wind strength, gusting, and the largest wave in px.",
+      },
+      {
+        name: "shading / calm",
+        type: "number",
+        description: "Fold shading and how much a hover calms the cloth.",
+      },
+    ],
+    usageNotes: [
+      "The wave is a vertex shader on a grid mesh, amplitude growing from the pinned edge.",
+      "Clicks reach the real DOM through the flag.",
+      "Reduced motion shows the real, still DOM.",
+    ],
+  },
+  {
+    name: "map-fold",
+    type: "registry:ui",
+    title: "Map Fold",
+    description:
+      "The interface folded like a road map: a grid of creases folds the sheet both ways as it leaves the viewport and opens it flat as it arrives, with the alternating faces lit and the creases marked. A mesh with a lattice of hinges.",
+    files: [{ path: "registry/ui/map-fold.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-450" },
+    tagline: "Folds like a paper map.",
+    keywords: ["effects", "map", "fold", "creases", "scroll", "3d"],
+    props: [
+      {
+        name: "mode / progress",
+        type: '"scroll" | "manual" · number',
+        description: "What drives the fold.",
+      },
+      {
+        name: "cols / rows / angle / shading",
+        type: "number",
+        description:
+          "The crease grid, the largest fold in degrees, and face shading.",
+      },
+    ],
+    usageNotes: [
+      "Both fold axes are simulated as alternating hinges in the vertex shader.",
+      "The folded faces still hold the real DOM.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "leaf-turn",
+    type: "registry:ui",
+    title: "Leaf Turn",
+    description:
+      "A transition between panels as a page turning in a book: the old leaf lifts from the right, curls over the spine with a moving highlight and shadow, and lands as the new panel. A drag can turn it by hand.",
+    files: [{ path: "registry/ui/leaf-turn.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-446" },
+    tagline: "Turn the leaf.",
+    keywords: ["effects", "transition", "book", "page-turn", "panels", "drag"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "duration / curl / shadow",
+        type: "number",
+        description:
+          "The turn's length in seconds, the leaf's curl radius in px, and shadow strength.",
+      },
+    ],
+    usageNotes: [
+      "The leaf is a cylinder fold whose axis sweeps across the page with progress.",
+      "The outgoing texture is retained at the switch.",
+      "Reduced motion switches panels instantly.",
+    ],
+  },
+  {
+    name: "letter-fold",
+    type: "registry:ui",
+    title: "Letter Fold",
+    description:
+      "A transition between panels: the old panel folds in thirds like a letter, turns over, and unfolds as the new one — each panel of the fold lit by its angle, with the crease lines showing. One mesh, two creases.",
+    files: [{ path: "registry/ui/letter-fold.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-440" },
+    tagline: "Folded, turned, unfolded.",
+    keywords: ["effects", "transition", "fold", "letter", "panels", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "duration / shading",
+        type: "number",
+        description:
+          "The fold-turn-unfold in seconds and how much a folded face darkens.",
+      },
+    ],
+    usageNotes: [
+      "The fold is a vertex shader on a grid mesh with two hinges; the turn swaps textures mid-way.",
+      "The outgoing texture is retained at the switch.",
+      "Reduced motion switches panels instantly.",
+    ],
+  },
+  {
+    name: "torchlight",
+    type: "registry:ui",
+    title: "Torchlight",
+    description:
+      "The interface in the dark, lit only by a torch at the pointer: a warm cone with a soft edge and a faint flicker, the page bright inside it and near-black outside. Leave, and the torch dims down rather than snapping off.",
+    files: [{ path: "registry/ui/torchlight.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-451" },
+    tagline: "Dark, until you look.",
+    keywords: ["effects", "torch", "spotlight", "dark", "light", "cursor"],
+    props: [
+      {
+        name: "radius / softness / darkness",
+        type: "number",
+        description:
+          "The beam's radius in px, its edge feather, and how dark the unlit page is.",
+      },
+      {
+        name: "warmth / flicker",
+        type: "string · number",
+        description: "The light's tint and its flicker.",
+      },
+    ],
+    usageNotes: [
+      "Overlay: draws darkness with a hole, so the page under the beam is the real DOM at full colour.",
+      "The torch dims on leave over a few hundred milliseconds.",
+      "Reduced motion keeps a still torch at the pointer with no flicker.",
+    ],
+  },
+  {
+    name: "sonar-ping",
+    type: "registry:ui",
+    title: "Sonar Ping",
+    description:
+      "The interface in the dark, revealed by sonar: click and a ring expands from the point, and the page lights where the ring passes, fading back to dark behind it — the edges of things flaring brightest, like returns on a scope. A quiet way to find what is on a page.",
+    files: [{ path: "registry/ui/sonar-ping.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-454" },
+    tagline: "Ping, and the shapes come back.",
+    keywords: ["effects", "sonar", "ping", "ring", "reveal", "click"],
+    props: [
+      {
+        name: "speed / width / decay",
+        type: "number",
+        description:
+          "How fast a ring expands in px/s, its thickness, and how fast the lit page fades behind it.",
+      },
+      {
+        name: "darkness / edges / color",
+        type: "number · number · string",
+        description:
+          "How dark the resting page is, how much edges flare, and the ring's colour.",
+      },
+    ],
+    usageNotes: [
+      "Rings are ages on the clock; the page under a ring is lit by its distance to the ring.",
+      "Overlay: draws darkness with lit bands; the DOM stays real.",
+      "Reduced motion draws the resting darkness and no ping.",
+    ],
+  },
+  {
+    name: "ink-pull",
+    type: "registry:ui",
+    title: "Ink Pull",
+    description:
+      "The interface's ink pulled toward the pointer like filings to a magnet: within reach, the dark of the page streaks toward the cursor, gathering into a bright edge at the near side and thinning on the far side, then springs back when the pointer leaves. Only the ink moves; the ground stays.",
+    files: [{ path: "registry/ui/ink-pull.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-456" },
+    tagline: "The ink leans toward you.",
+    keywords: ["effects", "magnet", "ink", "pull", "streak", "cursor"],
+    props: [
+      {
+        name: "radius / pull / spring",
+        type: "number",
+        description:
+          "The reach in px, how far ink is pulled at the edge of reach, and how fast it returns.",
+      },
+      {
+        name: "gather",
+        type: "number",
+        description: "How much ink brightens where it gathers.",
+      },
+    ],
+    usageNotes: [
+      "The pull is a radial sample offset applied only to the ink mask, over the page's own ground.",
+      "Overlay: draws only inside the reach; the DOM stays real.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "glare-sweep",
+    type: "registry:ui",
+    title: "Glare Sweep",
+    description:
+      "A glare on the interface as if it were behind glass under a lamp: a bright band sweeps across the page at an angle set by the pointer, with a soft secondary reflection, and it slides away as the pointer moves. Draws only the glare.",
+    files: [{ path: "registry/ui/glare-sweep.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-457" },
+    tagline: "A glare, angled by your hand.",
+    keywords: ["effects", "glare", "reflection", "glass", "band", "cursor"],
+    props: [
+      {
+        name: "width / intensity / angle",
+        type: "number",
+        description:
+          "The band's width in px, its brightness, and its base angle in degrees.",
+      },
+      {
+        name: "secondary",
+        type: "number",
+        description: "The strength of the softer second reflection.",
+      },
+    ],
+    usageNotes: [
+      "The band's position is a spring on the pointer projected onto the band's normal.",
+      "Overlay: draws only the glare; the DOM stays real.",
+      "Reduced motion draws a still glare.",
+    ],
+  },
+  {
+    name: "spark-scribe",
+    type: "registry:ui",
+    title: "Spark Scribe",
+    description:
+      "Drag to write in sparks: the stroke burns bright and throws small sparks off its tip, then the line cools from white through orange to a dark trace that fades. Writing that behaves like a sparkler.",
+    files: [{ path: "registry/ui/spark-scribe.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-458" },
+    tagline: "Write in sparks.",
+    keywords: ["effects", "sparks", "write", "trail", "drag", "fire"],
+    props: [
+      {
+        name: "width / life / sparks",
+        type: "number",
+        description:
+          "The stroke's width in px, how long it glows in seconds, and sparks per second at the tip.",
+      },
+      {
+        name: "color",
+        type: "string",
+        description: "The hot colour the stroke cools from.",
+      },
+    ],
+    usageNotes: [
+      "Strokes are a CPU list of segments with ages; sparks are particles from the tip.",
+      "Overlay: draws only the strokes and sparks; the DOM stays real.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "lightning-strike",
+    type: "registry:ui",
+    title: "Lightning Strike",
+    description:
+      "Click anywhere and lightning strikes the point: a branching bolt from the top edge, a flash that whitens the page, a scorch that lingers at the strike, and a low afterglow that fades over a second. The bolt's shape is hashed from the click, so a click strikes the same way twice.",
+    files: [{ path: "registry/ui/lightning-strike.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-453" },
+    tagline: "Click, and it comes down.",
+    keywords: ["effects", "lightning", "bolt", "strike", "flash", "click"],
+    props: [
+      {
+        name: "branches / jitter / width",
+        type: "number",
+        description:
+          "How many branches, how jagged, and the bolt's core width.",
+      },
+      {
+        name: "flash / scorch / color",
+        type: "number · number · string",
+        description:
+          "Flash strength, how long the scorch lasts, and the bolt colour.",
+      },
+    ],
+    usageNotes: [
+      "The bolt is a polyline built on the CPU from the click's hash and drawn as distance glow.",
+      "Overlay: draws only the bolt, the flash, and the scorch.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "edge-halo",
+    type: "registry:ui",
+    title: "Edge Halo",
+    description:
+      "The element under the pointer outlined in light: a halo traced from the painted texture's edges inside the element's box, breathing softly, with a faint fill so the whole thing reads as chosen. It follows the real DOM, so it always finds a real edge.",
+    files: [{ path: "registry/ui/edge-halo.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-460" },
+    tagline: "What you point at, outlined in light.",
+    keywords: ["effects", "halo", "outline", "hover", "glow", "focus"],
+    props: [
+      {
+        name: "selector / padding",
+        type: "string · number",
+        description:
+          "Which elements can be haloed and how far the halo extends beyond their box.",
+      },
+      {
+        name: "color / breath / fill",
+        type: "string · number · number",
+        description:
+          "The halo colour, its breathing amplitude, and the inner fill's strength.",
+      },
+    ],
+    usageNotes: [
+      "The box comes from elementFromPoint; the outline comes from the texture's edges inside it.",
+      "Overlay: draws only the halo; the DOM stays real.",
+      "Reduced motion draws a still halo.",
+    ],
+  },
+  {
+    name: "vortex-pull",
+    type: "registry:ui",
+    title: "Vortex Pull",
+    description:
+      "Press and hold, and the interface spirals into the pointer: a vortex that winds the page around the point, tighter the longer you hold, then unwinds on release with a little overshoot. Draws only where the pull reaches.",
+    files: [{ path: "registry/ui/vortex-pull.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-455" },
+    tagline: "Hold, and it turns.",
+    keywords: ["effects", "vortex", "spiral", "twist", "hold", "cursor"],
+    props: [
+      {
+        name: "radius / strength / windup",
+        type: "number",
+        description:
+          "The vortex's reach in px, the largest twist in turns, and how fast it winds while held.",
+      },
+      {
+        name: "release",
+        type: "number",
+        description: "How fast it unwinds after release.",
+      },
+    ],
+    usageNotes: [
+      "The twist angle is a spring driven by hold time; the shader rotates samples about the point by a radial profile.",
+      "Overlay: draws only inside the reach; the DOM stays real.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "slow-breath",
+    type: "registry:ui",
+    title: "Slow Breath",
+    description:
+      "The interface breathing: a slow, barely visible swell and settle — a fraction of a percent of scale, a shade of warmth on the inhale — on a six-second cycle. The kind of motion you feel before you see.",
+    files: [{ path: "registry/ui/slow-breath.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-461" },
+    tagline: "In, and out.",
+    keywords: ["effects", "breath", "ambient", "calm", "subtle", "alive"],
+    props: [
+      {
+        name: "period / scale / warmth",
+        type: "number",
+        description:
+          "Seconds per breath, the largest scale change, and the warmth on the inhale.",
+      },
+      {
+        name: "hold",
+        type: "number",
+        description: "Seconds held at the top of the breath.",
+      },
+    ],
+    usageNotes: [
+      "The cycle is a shaped sine on the clock; nothing is random.",
+      "Clicks reach the real DOM through the breath.",
+      "Reduced motion shows the real, still DOM.",
+    ],
+  },
+  {
+    name: "candle-glow",
+    type: "registry:ui",
+    title: "Candle Glow",
+    description:
+      "The interface by candlelight: a warm light from a point near the bottom that flickers the way a flame does — slow wander, quick shivers — with the page falling into shadow toward the far corners. Move the pointer, and the candle is where you put it.",
+    files: [{ path: "registry/ui/candle-glow.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-463" },
+    tagline: "Lit by one small flame.",
+    keywords: ["effects", "candle", "flicker", "warm", "light", "ambient"],
+    props: [
+      {
+        name: "position / radius",
+        type: "[number, number] · number",
+        description:
+          "Where the flame sits as a fraction and how far its light reaches in px.",
+      },
+      {
+        name: "warmth / flicker / darkness",
+        type: "string · number · number",
+        description:
+          "The light's tint, flicker amount, and how dark the far page is.",
+      },
+    ],
+    usageNotes: [
+      "Flicker is a sum of two noises on the clock: slow wander and fast shiver.",
+      "Overlay: draws the shadow and the warm cast; the DOM stays real.",
+      "Reduced motion draws a still, steady light.",
+    ],
+  },
+  {
+    name: "neon-buzz",
+    type: "registry:ui",
+    title: "Neon Buzz",
+    description:
+      "The interface's brightest ink turned into neon: type and rules glow as coloured tubes with a halo, one tube buzzing and dropping out now and then, over a page dimmed to night. The dropouts are seeded, so the sign misbehaves the same way every visit.",
+    files: [{ path: "registry/ui/neon-buzz.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-464" },
+    tagline: "The bright parts, as tubes.",
+    keywords: ["effects", "neon", "glow", "sign", "buzz", "night"],
+    props: [
+      {
+        name: "threshold / color / halo",
+        type: "number · string · number",
+        description:
+          "The ink density that becomes tube, the tube colour, and the halo's spread.",
+      },
+      {
+        name: "dim / buzz",
+        type: "number",
+        description:
+          "How dark the rest of the page goes and how often a tube drops out.",
+      },
+    ],
+    usageNotes: [
+      "Tubes are the ink mask blurred into a halo; dropouts are hashed from the clock per region.",
+      "Clicks reach the real DOM through the sign.",
+      "Reduced motion shows the real DOM with a steady glow.",
+    ],
+  },
+  {
+    name: "heat-brand",
+    type: "registry:ui",
+    title: "Heat Brand",
+    description:
+      "Press and hold, and the interface scorches under the pointer: the paper darkens, browns, then blackens outward from the point, with a glowing edge while you hold and a char that stays. Release, and the glow dies; the mark remains until the page repaints.",
+    files: [{ path: "registry/ui/heat-brand.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-459" },
+    tagline: "Hold, and it scorches.",
+    keywords: ["effects", "scorch", "burn", "brand", "hold", "cursor"],
+    props: [
+      {
+        name: "rate / radius / char",
+        type: "number",
+        description:
+          "How fast the scorch grows while held, its largest radius in px, and how dark the char is.",
+      },
+      {
+        name: "glow / color",
+        type: "number · string",
+        description: "The live edge's brightness and colour.",
+      },
+    ],
+    usageNotes: [
+      "The scorch lives in an offscreen map warmed while held; it never fades on its own.",
+      "Overlay: draws only the scorch; the DOM stays real.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "chalk-dust",
+    type: "registry:ui",
+    title: "Chalk Dust",
+    description:
+      "A chalkboard over the interface: drag to write in chalk — a grainy, pressure-less line with dust that falls as you write — and the page shows through the board as if drawn on glass. Double-click wipes it, leaving a smear.",
+    files: [{ path: "registry/ui/chalk-dust.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-452" },
+    tagline: "Write on it.",
+    keywords: ["effects", "chalk", "draw", "board", "dust", "drag"],
+    props: [
+      {
+        name: "width / color / grain",
+        type: "number · string · number",
+        description: "Line width in px, chalk colour, and grain.",
+      },
+      {
+        name: "dust / wipe",
+        type: "number · boolean",
+        description:
+          "Falling dust density and whether double-click wipes the board.",
+      },
+    ],
+    usageNotes: [
+      "Strokes accumulate in an offscreen 2D canvas uploaded as a texture; dust is spawned along the stroke.",
+      "Overlay: draws only the chalk and the dust; the DOM stays real.",
+      "Reduced motion draws strokes without dust.",
+    ],
+  },
+  {
+    name: "tide-line",
+    type: "registry:ui",
+    title: "Tide Line",
+    description:
+      "A tide over the interface: a waterline rises slowly up the page and falls back, the part under water tinted and gently refracted, with foam at the line and wet darkening just above where it has been. A minute per tide.",
+    files: [{ path: "registry/ui/tide-line.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-462" },
+    tagline: "The water comes, and goes.",
+    keywords: ["effects", "tide", "water", "waterline", "slow", "ambient"],
+    props: [
+      {
+        name: "period / high / low",
+        type: "number",
+        description:
+          "Seconds per tide and the high and low lines as fractions of the height.",
+      },
+      {
+        name: "tint / foam / refraction",
+        type: "string · number · number",
+        description:
+          "The water's tint, foam strength, and how far the water bends the page.",
+      },
+    ],
+    usageNotes: [
+      "The waterline is a slow sine on the clock with a small wave on top.",
+      "Overlay: draws the water and the foam; the DOM stays real.",
+      "Reduced motion draws a still tide at mid height.",
+    ],
+  },
+  {
+    name: "day-arc",
+    type: "registry:ui",
+    title: "Day Arc",
+    description:
+      "The interface through a day: the light warms from a blue dawn to a white noon and back through amber to a cool dusk, with a soft sun highlight crossing the page and the shadows of the ink swinging with it. A whole day, slow enough to ignore.",
+    files: [{ path: "registry/ui/day-arc.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-469" },
+    tagline: "Dawn to dusk, in a minute.",
+    keywords: [
+      "effects",
+      "daylight",
+      "colour-temperature",
+      "sun",
+      "slow",
+      "ambient",
+    ],
+    props: [
+      {
+        name: "period / start",
+        type: "number",
+        description:
+          "Seconds per day and where in the day it starts as a fraction.",
+      },
+      {
+        name: "intensity / shadow",
+        type: "number",
+        description:
+          "How strongly the light colours the page and how long the shadows are.",
+      },
+    ],
+    usageNotes: [
+      "The light is a colour-temperature ramp on the clock; the sun's angle drives the shadows.",
+      "Clicks reach the real DOM through the day.",
+      "Reduced motion shows the real DOM at noon.",
+    ],
+  },
+  {
+    name: "lantern-sway",
+    type: "registry:ui",
+    title: "Lantern Sway",
+    description:
+      "A lantern swinging above the interface: its light sways slowly, and the shadows of the page's own elements — cast from the texture's ink — stretch and swing the other way. The page never moves; only its light does.",
+    files: [{ path: "registry/ui/lantern-sway.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-468" },
+    tagline: "The shadows move with the lamp.",
+    keywords: ["effects", "lantern", "shadow", "sway", "light", "ambient"],
+    props: [
+      {
+        name: "period / swing / height",
+        type: "number",
+        description:
+          "Seconds per sway, the swing's width in px, and the lamp's height in px.",
+      },
+      {
+        name: "shadow / warmth",
+        type: "number · string",
+        description: "Shadow strength and the light's tint.",
+      },
+    ],
+    usageNotes: [
+      "Shadows are the ink mask offset away from the lamp and blurred; the offset follows the lamp's swing.",
+      "Overlay: draws the shadows and the cast; the DOM stays real.",
+      "Reduced motion draws a still lamp.",
+    ],
+  },
+  {
+    name: "static-settle",
+    type: "registry:ui",
+    title: "Static Settle",
+    description:
+      "The interface under television static that settles where the pointer rests: a hiss of grain and rolling bands over the page, clearing into a sharp circle around the cursor after a moment, and closing back over when it moves on. Rest, and you can read.",
+    files: [{ path: "registry/ui/static-settle.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-470" },
+    tagline: "Noise, until you rest.",
+    keywords: ["effects", "static", "noise", "tv", "settle", "cursor"],
+    props: [
+      {
+        name: "grain / bands / speed",
+        type: "number",
+        description: "Static strength, rolling band contrast, and their speed.",
+      },
+      {
+        name: "radius / settle",
+        type: "number",
+        description:
+          "How wide the clear circle is and how long the pointer must rest before it opens.",
+      },
+    ],
+    usageNotes: [
+      "Static is a hash of the pixel and the frame; the clear circle is a timer on pointer rest.",
+      "Clicks reach the real DOM through the static.",
+      "Reduced motion shows the real, clear DOM.",
+    ],
+  },
+  {
+    name: "pulse-beat",
+    type: "registry:ui",
+    title: "Pulse Beat",
+    description:
+      "A pulse through the interface: a ring of warmth spreads from a point on every beat — a double thump, the way a heart does — and fades before the next. Rest a pointer on the page and the beats come from there.",
+    files: [{ path: "registry/ui/pulse-beat.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-465" },
+    tagline: "Sixty a minute.",
+    keywords: ["effects", "pulse", "heartbeat", "rings", "rhythm", "ambient"],
+    props: [
+      {
+        name: "bpm / origin",
+        type: "number · [number, number]",
+        description: "Beats per minute and where they start as a fraction.",
+      },
+      {
+        name: "color / reach / strength",
+        type: "string · number · number",
+        description:
+          "The ring's colour, how far it travels in px, and its intensity.",
+      },
+    ],
+    usageNotes: [
+      "Beats are scheduled on the clock; each is two rings a tenth of a second apart.",
+      "Overlay: draws only the rings; the DOM stays real.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "ocean-swell",
+    type: "registry:ui",
+    title: "Ocean Swell",
+    description:
+      "The interface rolling on a swell: the whole page rises, tilts, and falls with the slow rhythm of open water, a soft highlight moving with the roll. Nothing sharp; the motion is a few pixels and a few degrees.",
+    files: [{ path: "registry/ui/ocean-swell.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-467" },
+    tagline: "Gently, on the water.",
+    keywords: ["effects", "swell", "ocean", "roll", "slow", "ambient"],
+    props: [
+      {
+        name: "period / heave / roll",
+        type: "number",
+        description:
+          "Seconds per swell, the rise in px, and the tilt in degrees.",
+      },
+      {
+        name: "sheen",
+        type: "number",
+        description: "The moving highlight's strength.",
+      },
+    ],
+    usageNotes: [
+      "The swell is two sines on the clock; the tilt is a small perspective transform.",
+      "Clicks reach the real DOM through the swell.",
+      "Reduced motion shows the real, still DOM.",
+    ],
+  },
+  {
+    name: "letterpress",
+    type: "registry:ui",
+    title: "Letterpress",
+    description:
+      "The interface letterpressed: the ink sits in a deboss with a lit edge on one side and a shadow on the other, on a paper with a faint tooth, and the light that reveals the press follows the pointer. Move, and the impression turns.",
+    files: [{ path: "registry/ui/letterpress.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-471" },
+    tagline: "Pressed into the paper.",
+    keywords: ["effects", "letterpress", "deboss", "paper", "print", "cursor"],
+    props: [
+      {
+        name: "depth / tooth",
+        type: "number",
+        description: "How deep the press reads and the paper's grain.",
+      },
+      {
+        name: "paper / ink",
+        type: "string",
+        description: "Paper and ink colours.",
+      },
+      {
+        name: "lightRadius",
+        type: "number",
+        description: "How the pointer's light falls.",
+      },
+    ],
+    usageNotes: [
+      "The deboss is the ink mask's gradient lit by the pointer's direction.",
+      "Clicks reach the real DOM through the press.",
+      "Reduced motion shows the real DOM lit from the upper left.",
+    ],
+  },
+  {
+    name: "foil-stamp",
+    type: "registry:ui",
+    title: "Foil Stamp",
+    description:
+      "The interface's brightest ink stamped in metallic foil: headings and seals become a reflective foil that shifts from gold to white as the pointer moves the light, with sparkle at the edges. The rest of the page prints flat.",
+    files: [{ path: "registry/ui/foil-stamp.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-472" },
+    tagline: "Stamped in foil, catching the light.",
+    keywords: ["effects", "foil", "gold", "metallic", "stamp", "cursor"],
+    props: [
+      {
+        name: "threshold / foil",
+        type: "number · string",
+        description:
+          "Which ink density becomes foil and the foil's base colour.",
+      },
+      {
+        name: "shine / sparkle",
+        type: "number",
+        description: "The reflection's strength and edge sparkle.",
+      },
+    ],
+    usageNotes: [
+      "Foil is the ink mask shaded with a reflection model; the light is the pointer.",
+      "Clicks reach the real DOM through the foil.",
+      "Reduced motion shows the real DOM with a still foil.",
+    ],
+  },
+  {
+    name: "chrome-ink",
+    type: "registry:ui",
+    title: "Chrome Ink",
+    description:
+      "The interface's ink as chrome: every letter and rule becomes a strip of polished metal reflecting a sky-and-ground environment, the reflection sliding as the pointer moves. Flat page, mirror type.",
+    files: [{ path: "registry/ui/chrome-ink.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-473" },
+    tagline: "Ink like polished steel.",
+    keywords: ["effects", "chrome", "metal", "reflection", "type", "cursor"],
+    props: [
+      {
+        name: "threshold / bevel",
+        type: "number",
+        description:
+          "Which ink density becomes chrome and how rounded the strips read.",
+      },
+      {
+        name: "sky / ground",
+        type: "string",
+        description: "The two environment colours reflected in the metal.",
+      },
+    ],
+    usageNotes: [
+      "The chrome reflects a two-tone environment by the bevelled mask's normal.",
+      "Clicks reach the real DOM through the chrome.",
+      "Reduced motion shows the real DOM with a still reflection.",
+    ],
+  },
+  {
+    name: "holo-seal",
+    type: "registry:ui",
+    title: "Holo Seal",
+    description:
+      "A holographic seal over the interface's marked areas: the seals and buttons carry a rainbow diffraction pattern that shifts with the pointer's angle, with fine engraved lines under it. The rest of the page is unchanged.",
+    files: [{ path: "registry/ui/holo-seal.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-474" },
+    tagline: "A rainbow that moves when you do.",
+    keywords: [
+      "effects",
+      "hologram",
+      "rainbow",
+      "diffraction",
+      "seal",
+      "cursor",
+    ],
+    props: [
+      {
+        name: "selector / lines",
+        type: "string · number",
+        description:
+          "Which elements carry the hologram (by DOM rect) and the engraved line pitch.",
+      },
+      {
+        name: "strength / speed",
+        type: "number",
+        description:
+          "The rainbow's strength and how fast it shifts per pointer movement.",
+      },
+    ],
+    usageNotes: [
+      "Regions come from real DOM rects; the pattern is a diffraction ramp by pointer angle.",
+      "Clicks reach the real DOM through the seal.",
+      "Reduced motion shows a still hologram.",
+    ],
+  },
+  {
+    name: "stencil-spray",
+    type: "registry:ui",
+    title: "Stencil Spray",
+    description:
+      "The interface as a stencil: click and paint sprays from the point through the page's ink, building up a speckled coat where the stencil is open and leaving the ink clean, with overspray at the edges. Each click adds a coat.",
+    files: [{ path: "registry/ui/stencil-spray.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-475" },
+    tagline: "Sprayed through the page.",
+    keywords: ["effects", "stencil", "spray", "paint", "speckle", "click"],
+    props: [
+      {
+        name: "color / spread / grain",
+        type: "string · number · number",
+        description:
+          "The paint colour, the spray's radius in px, and speckle grain.",
+      },
+      {
+        name: "coats",
+        type: "number",
+        description: "How many coats a click adds.",
+      },
+    ],
+    usageNotes: [
+      "Spray accumulates in an offscreen map; the page's ink masks it.",
+      "Clicks reach the real DOM and add a coat.",
+      "Reduced motion shows the real, unsprayed DOM.",
+    ],
+  },
+  {
+    name: "copperplate",
+    type: "registry:ui",
+    title: "Copperplate",
+    description:
+      "The interface as a copperplate engraving: tone becomes fine parallel lines whose thickness follows the darkness, crossing at two angles in the shadows, on cream paper. The pointer's light raises a faint plate sheen.",
+    files: [{ path: "registry/ui/copperplate.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-476" },
+    tagline: "Engraved, line by line.",
+    keywords: ["effects", "engraving", "hatching", "lines", "print", "cursor"],
+    props: [
+      {
+        name: "pitch / angle / cross",
+        type: "number",
+        description:
+          "Line pitch in px, the primary angle in degrees, and the darkness at which cross-hatching starts.",
+      },
+      {
+        name: "paper / ink / sheen",
+        type: "string · string · number",
+        description: "Paper and ink colours and the plate sheen's strength.",
+      },
+    ],
+    usageNotes: [
+      "Line thickness is the local tone; the lines are fixed in screen space.",
+      "Clicks reach the real DOM through the engraving.",
+      "Reduced motion shows a still engraving.",
+    ],
+  },
+  {
+    name: "stamp-ink",
+    type: "registry:ui",
+    title: "Stamp Ink",
+    description:
+      "The interface as a rubber stamp impression: uneven ink, heavier on one side, a little smudged, on paper with a faint edge of the stamp's block. Click to stamp again — a slightly different press each time, always the same for the same click.",
+    files: [{ path: "registry/ui/stamp-ink.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-477" },
+    tagline: "Stamped, unevenly.",
+    keywords: ["effects", "stamp", "rubber", "ink", "impression", "click"],
+    props: [
+      {
+        name: "color / unevenness / smudge",
+        type: "string · number · number",
+        description:
+          "Ink colour, how uneven the pressure reads, and the smudge in px.",
+      },
+      {
+        name: "block",
+        type: "boolean",
+        description: "Whether the stamp block's edge shows.",
+      },
+    ],
+    usageNotes: [
+      "Pressure is a low-frequency noise seeded by the click count; the ink mask is the page's ink.",
+      "Clicks reach the real DOM and re-stamp.",
+      "Reduced motion shows the real DOM.",
+    ],
+  },
+  {
+    name: "ink-feather",
+    type: "registry:ui",
+    title: "Ink Feather",
+    description:
+      "The interface as wet ink on absorbent paper: over a few seconds after each paint the ink feathers outward along the paper's fibres and darkens where it pools, then dries and stops. Type stays readable; its edges just remember the pen.",
+    files: [{ path: "registry/ui/ink-feather.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-478" },
+    tagline: "Fresh ink, still spreading.",
+    keywords: ["effects", "ink", "feather", "bleed", "paper", "wet"],
+    props: [
+      {
+        name: "spread / fibres / dry",
+        type: "number",
+        description:
+          "How far the ink feathers in px, the fibre anisotropy, and seconds until it dries.",
+      },
+      {
+        name: "paper",
+        type: "string",
+        description: "The paper colour.",
+      },
+    ],
+    usageNotes: [
+      "Feathering is the ink mask dilated along a fibre field; the amount is a timer since the last paint.",
+      "Clicks reach the real DOM through the ink.",
+      "Reduced motion shows the real, dry DOM.",
+    ],
+  },
+  {
+    name: "carbon-ghost",
+    type: "registry:ui",
+    title: "Carbon Ghost",
+    description:
+      "The interface with its carbon copy showing through: a faint purple ghost of the page offset beneath it, drifting a little with the pointer as if the sheets were not quite aligned, with the carbon's characteristic smudge in the heavy areas.",
+    files: [{ path: "registry/ui/carbon-ghost.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-479" },
+    tagline: "The copy underneath.",
+    keywords: ["effects", "carbon", "copy", "ghost", "offset", "cursor"],
+    props: [
+      {
+        name: "color / offset / strength",
+        type: "string · number · number",
+        description:
+          "The carbon colour, the ghost's base offset in px, and its strength.",
+      },
+      {
+        name: "drift",
+        type: "number",
+        description: "How far the pointer shifts the sheets.",
+      },
+    ],
+    usageNotes: [
+      "The ghost is the ink mask sampled at an offset; the offset follows the pointer a little.",
+      "Clicks reach the real DOM through the sheets.",
+      "Reduced motion shows a still ghost.",
+    ],
+  },
+  {
+    name: "cross-stitch",
+    type: "registry:ui",
+    title: "Cross Stitch",
+    description:
+      "The interface embroidered: every cell of the page becomes a cross stitch in thread the colour of what was there, on an aida cloth with visible holes, and the threads shimmer faintly as the light shifts. A patient way to render a page.",
+    files: [{ path: "registry/ui/cross-stitch.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-480" },
+    tagline: "Stitched, thread by thread.",
+    keywords: ["effects", "embroidery", "stitch", "thread", "cloth", "ambient"],
+    props: [
+      {
+        name: "cell / thread",
+        type: "number",
+        description: "Stitch cell size in px and the thread's thickness.",
+      },
+      {
+        name: "cloth / shimmer",
+        type: "string · number",
+        description: "The cloth colour and the thread's sheen movement.",
+      },
+    ],
+    usageNotes: [
+      "Each cell is two diagonal thread strokes shaded as cylinders in the colour of the cell's sample.",
+      "Clicks reach the real DOM through the cloth.",
+      "Reduced motion shows a still stitch.",
+    ],
+  },
+  {
+    name: "clock-sweep",
+    type: "registry:ui",
+    title: "Clock Sweep",
+    description:
+      "A sweep of light turns across the interface like a second hand: a bright radial edge with a fading wake behind it, one turn a minute, lighting each part of the page as it passes. Click to set the centre.",
+    files: [{ path: "registry/ui/clock-sweep.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-466" },
+    tagline: "A hand of light, once a minute.",
+    keywords: ["effects", "sweep", "radar", "clock", "wake", "ambient"],
+    props: [
+      {
+        name: "period / center",
+        type: "number · [number, number]",
+        description: "Seconds per turn and the hub as a fraction.",
+      },
+      {
+        name: "color / wake / width",
+        type: "string · number · number",
+        description:
+          "The edge's colour, how long the wake lasts as a fraction of a turn, and the edge's width in degrees.",
+      },
+    ],
+    usageNotes: [
+      "The sweep angle is the clock; the wake is the angular distance behind the edge.",
+      "Overlay: draws only the light; the DOM stays real.",
+      "Reduced motion draws a still edge.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

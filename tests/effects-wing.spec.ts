@@ -62,6 +62,18 @@ const CONTINUOUS = new Set([
   "rain-ledge",
   "sand-wind",
   "leaf-fall",
+  "flag-wave",
+  "slow-breath",
+  "tide-line",
+  "candle-glow",
+  "neon-buzz",
+  "pulse-beat",
+  "clock-sweep",
+  "ocean-swell",
+  "lantern-sway",
+  "day-arc",
+  "static-settle",
+  "cross-stitch",
   // </wing2-continuous>
 ]);
 
@@ -80,6 +92,15 @@ const SETTLE_MS: Record<string, number> = {
   "thunder-shade": 3500,
   "smoke-wisp": 3500,
   "frost-breath": 6000,
+  torchlight: 3500,
+  "chalk-dust": 3500,
+  "lightning-strike": 3500,
+  "sonar-ping": 4000,
+  "vortex-pull": 4000,
+  "spark-scribe": 4000,
+  "heat-brand": 3500,
+  "edge-halo": 3500,
+  "ink-feather": 6000,
   // </wing2-settle>
 };
 

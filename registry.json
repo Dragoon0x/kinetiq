@@ -12073,6 +12073,1277 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "page-curl",
+      "type": "registry:ui",
+      "title": "Page Curl",
+      "description": "The interface as a sheet whose corner curls: hover the corner and it lifts, drag and the curl follows, showing the back of the page and the ground beneath, with a shadow under the curl. Let go and it settles back on a spring.",
+      "files": [
+        {
+          "path": "registry/ui/page-curl.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-441"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "accordion-pleat",
+      "type": "registry:ui",
+      "title": "Accordion Pleat",
+      "description": "The interface pleated like an accordion: as the surface scrolls into view the pleats open from folded to flat, each fold lit by its angle, and they fold back as it leaves. A mesh with many hinges, driven by the viewport.",
+      "files": [
+        {
+          "path": "registry/ui/accordion-pleat.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-442"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ribbon-twist",
+      "type": "registry:ui",
+      "title": "Ribbon Twist",
+      "description": "The interface as a ribbon that twists about its vertical axis as you scroll: the top and bottom turn opposite ways, the middle stays flat, and the back of the ribbon is a darker face. Scroll past and it twists the other way.",
+      "files": [
+        {
+          "path": "registry/ui/ribbon-twist.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-443"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cylinder-roll",
+      "type": "registry:ui",
+      "title": "Cylinder Roll",
+      "description": "The interface wrapped on a horizontal cylinder that rolls as you scroll: lines of the page curve over the drum's near edge, foreshortened toward the top and bottom, with a highlight along the drum. Scroll, and the drum turns.",
+      "files": [
+        {
+          "path": "registry/ui/cylinder-roll.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-444"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "globe-wrap",
+      "type": "registry:ui",
+      "title": "Globe Wrap",
+      "description": "The interface wrapped onto a globe you can spin: drag to rotate, and the page curves around the sphere with lighting from the upper left and a thin atmosphere at the rim. Let go and it keeps turning a little, then rests.",
+      "files": [
+        {
+          "path": "registry/ui/globe-wrap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-445"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tilt-plate",
+      "type": "registry:ui",
+      "title": "Tilt Plate",
+      "description": "The interface as a plate that tilts toward the pointer with real perspective — the near edge grows, the far edge shrinks — and a specular sheen slides across it as it turns. Leave, and it levels on a spring.",
+      "files": [
+        {
+          "path": "registry/ui/tilt-plate.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-447"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wobble-jelly",
+      "type": "registry:ui",
+      "title": "Wobble Jelly",
+      "description": "The interface as a slab of jelly: click and it wobbles — a springy deformation spreads from the point in damped waves, the page stretching and squashing with it — then settles. A grid mesh with a spring at every vertex.",
+      "files": [
+        {
+          "path": "registry/ui/wobble-jelly.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-448"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "flag-wave",
+      "type": "registry:ui",
+      "title": "Flag Wave",
+      "description": "The interface as a flag pinned along its left edge and flying in a wind: waves travel across it growing toward the free edge, the cloth shades with its folds, and the wind gusts on the clock. Hover, and your hand stills it.",
+      "files": [
+        {
+          "path": "registry/ui/flag-wave.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-449"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "map-fold",
+      "type": "registry:ui",
+      "title": "Map Fold",
+      "description": "The interface folded like a road map: a grid of creases folds the sheet both ways as it leaves the viewport and opens it flat as it arrives, with the alternating faces lit and the creases marked. A mesh with a lattice of hinges.",
+      "files": [
+        {
+          "path": "registry/ui/map-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-450"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "leaf-turn",
+      "type": "registry:ui",
+      "title": "Leaf Turn",
+      "description": "A transition between panels as a page turning in a book: the old leaf lifts from the right, curls over the spine with a moving highlight and shadow, and lands as the new panel. A drag can turn it by hand.",
+      "files": [
+        {
+          "path": "registry/ui/leaf-turn.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-446"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "letter-fold",
+      "type": "registry:ui",
+      "title": "Letter Fold",
+      "description": "A transition between panels: the old panel folds in thirds like a letter, turns over, and unfolds as the new one — each panel of the fold lit by its angle, with the crease lines showing. One mesh, two creases.",
+      "files": [
+        {
+          "path": "registry/ui/letter-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-440"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "torchlight",
+      "type": "registry:ui",
+      "title": "Torchlight",
+      "description": "The interface in the dark, lit only by a torch at the pointer: a warm cone with a soft edge and a faint flicker, the page bright inside it and near-black outside. Leave, and the torch dims down rather than snapping off.",
+      "files": [
+        {
+          "path": "registry/ui/torchlight.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-451"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sonar-ping",
+      "type": "registry:ui",
+      "title": "Sonar Ping",
+      "description": "The interface in the dark, revealed by sonar: click and a ring expands from the point, and the page lights where the ring passes, fading back to dark behind it — the edges of things flaring brightest, like returns on a scope. A quiet way to find what is on a page.",
+      "files": [
+        {
+          "path": "registry/ui/sonar-ping.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-454"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ink-pull",
+      "type": "registry:ui",
+      "title": "Ink Pull",
+      "description": "The interface's ink pulled toward the pointer like filings to a magnet: within reach, the dark of the page streaks toward the cursor, gathering into a bright edge at the near side and thinning on the far side, then springs back when the pointer leaves. Only the ink moves; the ground stays.",
+      "files": [
+        {
+          "path": "registry/ui/ink-pull.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-456"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "glare-sweep",
+      "type": "registry:ui",
+      "title": "Glare Sweep",
+      "description": "A glare on the interface as if it were behind glass under a lamp: a bright band sweeps across the page at an angle set by the pointer, with a soft secondary reflection, and it slides away as the pointer moves. Draws only the glare.",
+      "files": [
+        {
+          "path": "registry/ui/glare-sweep.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-457"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spark-scribe",
+      "type": "registry:ui",
+      "title": "Spark Scribe",
+      "description": "Drag to write in sparks: the stroke burns bright and throws small sparks off its tip, then the line cools from white through orange to a dark trace that fades. Writing that behaves like a sparkler.",
+      "files": [
+        {
+          "path": "registry/ui/spark-scribe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-458"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lightning-strike",
+      "type": "registry:ui",
+      "title": "Lightning Strike",
+      "description": "Click anywhere and lightning strikes the point: a branching bolt from the top edge, a flash that whitens the page, a scorch that lingers at the strike, and a low afterglow that fades over a second. The bolt's shape is hashed from the click, so a click strikes the same way twice.",
+      "files": [
+        {
+          "path": "registry/ui/lightning-strike.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-453"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "edge-halo",
+      "type": "registry:ui",
+      "title": "Edge Halo",
+      "description": "The element under the pointer outlined in light: a halo traced from the painted texture's edges inside the element's box, breathing softly, with a faint fill so the whole thing reads as chosen. It follows the real DOM, so it always finds a real edge.",
+      "files": [
+        {
+          "path": "registry/ui/edge-halo.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-460"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vortex-pull",
+      "type": "registry:ui",
+      "title": "Vortex Pull",
+      "description": "Press and hold, and the interface spirals into the pointer: a vortex that winds the page around the point, tighter the longer you hold, then unwinds on release with a little overshoot. Draws only where the pull reaches.",
+      "files": [
+        {
+          "path": "registry/ui/vortex-pull.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-455"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slow-breath",
+      "type": "registry:ui",
+      "title": "Slow Breath",
+      "description": "The interface breathing: a slow, barely visible swell and settle — a fraction of a percent of scale, a shade of warmth on the inhale — on a six-second cycle. The kind of motion you feel before you see.",
+      "files": [
+        {
+          "path": "registry/ui/slow-breath.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-461"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "candle-glow",
+      "type": "registry:ui",
+      "title": "Candle Glow",
+      "description": "The interface by candlelight: a warm light from a point near the bottom that flickers the way a flame does — slow wander, quick shivers — with the page falling into shadow toward the far corners. Move the pointer, and the candle is where you put it.",
+      "files": [
+        {
+          "path": "registry/ui/candle-glow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-463"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "neon-buzz",
+      "type": "registry:ui",
+      "title": "Neon Buzz",
+      "description": "The interface's brightest ink turned into neon: type and rules glow as coloured tubes with a halo, one tube buzzing and dropping out now and then, over a page dimmed to night. The dropouts are seeded, so the sign misbehaves the same way every visit.",
+      "files": [
+        {
+          "path": "registry/ui/neon-buzz.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-464"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "heat-brand",
+      "type": "registry:ui",
+      "title": "Heat Brand",
+      "description": "Press and hold, and the interface scorches under the pointer: the paper darkens, browns, then blackens outward from the point, with a glowing edge while you hold and a char that stays. Release, and the glow dies; the mark remains until the page repaints.",
+      "files": [
+        {
+          "path": "registry/ui/heat-brand.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-459"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "chalk-dust",
+      "type": "registry:ui",
+      "title": "Chalk Dust",
+      "description": "A chalkboard over the interface: drag to write in chalk — a grainy, pressure-less line with dust that falls as you write — and the page shows through the board as if drawn on glass. Double-click wipes it, leaving a smear.",
+      "files": [
+        {
+          "path": "registry/ui/chalk-dust.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-452"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tide-line",
+      "type": "registry:ui",
+      "title": "Tide Line",
+      "description": "A tide over the interface: a waterline rises slowly up the page and falls back, the part under water tinted and gently refracted, with foam at the line and wet darkening just above where it has been. A minute per tide.",
+      "files": [
+        {
+          "path": "registry/ui/tide-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-462"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "day-arc",
+      "type": "registry:ui",
+      "title": "Day Arc",
+      "description": "The interface through a day: the light warms from a blue dawn to a white noon and back through amber to a cool dusk, with a soft sun highlight crossing the page and the shadows of the ink swinging with it. A whole day, slow enough to ignore.",
+      "files": [
+        {
+          "path": "registry/ui/day-arc.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-469"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lantern-sway",
+      "type": "registry:ui",
+      "title": "Lantern Sway",
+      "description": "A lantern swinging above the interface: its light sways slowly, and the shadows of the page's own elements — cast from the texture's ink — stretch and swing the other way. The page never moves; only its light does.",
+      "files": [
+        {
+          "path": "registry/ui/lantern-sway.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-468"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "static-settle",
+      "type": "registry:ui",
+      "title": "Static Settle",
+      "description": "The interface under television static that settles where the pointer rests: a hiss of grain and rolling bands over the page, clearing into a sharp circle around the cursor after a moment, and closing back over when it moves on. Rest, and you can read.",
+      "files": [
+        {
+          "path": "registry/ui/static-settle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-470"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pulse-beat",
+      "type": "registry:ui",
+      "title": "Pulse Beat",
+      "description": "A pulse through the interface: a ring of warmth spreads from a point on every beat — a double thump, the way a heart does — and fades before the next. Rest a pointer on the page and the beats come from there.",
+      "files": [
+        {
+          "path": "registry/ui/pulse-beat.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-465"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ocean-swell",
+      "type": "registry:ui",
+      "title": "Ocean Swell",
+      "description": "The interface rolling on a swell: the whole page rises, tilts, and falls with the slow rhythm of open water, a soft highlight moving with the roll. Nothing sharp; the motion is a few pixels and a few degrees.",
+      "files": [
+        {
+          "path": "registry/ui/ocean-swell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-467"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "letterpress",
+      "type": "registry:ui",
+      "title": "Letterpress",
+      "description": "The interface letterpressed: the ink sits in a deboss with a lit edge on one side and a shadow on the other, on a paper with a faint tooth, and the light that reveals the press follows the pointer. Move, and the impression turns.",
+      "files": [
+        {
+          "path": "registry/ui/letterpress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-471"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "foil-stamp",
+      "type": "registry:ui",
+      "title": "Foil Stamp",
+      "description": "The interface's brightest ink stamped in metallic foil: headings and seals become a reflective foil that shifts from gold to white as the pointer moves the light, with sparkle at the edges. The rest of the page prints flat.",
+      "files": [
+        {
+          "path": "registry/ui/foil-stamp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-472"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "chrome-ink",
+      "type": "registry:ui",
+      "title": "Chrome Ink",
+      "description": "The interface's ink as chrome: every letter and rule becomes a strip of polished metal reflecting a sky-and-ground environment, the reflection sliding as the pointer moves. Flat page, mirror type.",
+      "files": [
+        {
+          "path": "registry/ui/chrome-ink.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-473"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "holo-seal",
+      "type": "registry:ui",
+      "title": "Holo Seal",
+      "description": "A holographic seal over the interface's marked areas: the seals and buttons carry a rainbow diffraction pattern that shifts with the pointer's angle, with fine engraved lines under it. The rest of the page is unchanged.",
+      "files": [
+        {
+          "path": "registry/ui/holo-seal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-474"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stencil-spray",
+      "type": "registry:ui",
+      "title": "Stencil Spray",
+      "description": "The interface as a stencil: click and paint sprays from the point through the page's ink, building up a speckled coat where the stencil is open and leaving the ink clean, with overspray at the edges. Each click adds a coat.",
+      "files": [
+        {
+          "path": "registry/ui/stencil-spray.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-475"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "copperplate",
+      "type": "registry:ui",
+      "title": "Copperplate",
+      "description": "The interface as a copperplate engraving: tone becomes fine parallel lines whose thickness follows the darkness, crossing at two angles in the shadows, on cream paper. The pointer's light raises a faint plate sheen.",
+      "files": [
+        {
+          "path": "registry/ui/copperplate.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-476"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stamp-ink",
+      "type": "registry:ui",
+      "title": "Stamp Ink",
+      "description": "The interface as a rubber stamp impression: uneven ink, heavier on one side, a little smudged, on paper with a faint edge of the stamp's block. Click to stamp again — a slightly different press each time, always the same for the same click.",
+      "files": [
+        {
+          "path": "registry/ui/stamp-ink.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-477"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ink-feather",
+      "type": "registry:ui",
+      "title": "Ink Feather",
+      "description": "The interface as wet ink on absorbent paper: over a few seconds after each paint the ink feathers outward along the paper's fibres and darkens where it pools, then dries and stops. Type stays readable; its edges just remember the pen.",
+      "files": [
+        {
+          "path": "registry/ui/ink-feather.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-478"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "carbon-ghost",
+      "type": "registry:ui",
+      "title": "Carbon Ghost",
+      "description": "The interface with its carbon copy showing through: a faint purple ghost of the page offset beneath it, drifting a little with the pointer as if the sheets were not quite aligned, with the carbon's characteristic smudge in the heavy areas.",
+      "files": [
+        {
+          "path": "registry/ui/carbon-ghost.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-479"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cross-stitch",
+      "type": "registry:ui",
+      "title": "Cross Stitch",
+      "description": "The interface embroidered: every cell of the page becomes a cross stitch in thread the colour of what was there, on an aida cloth with visible holes, and the threads shimmer faintly as the light shifts. A patient way to render a page.",
+      "files": [
+        {
+          "path": "registry/ui/cross-stitch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-480"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "clock-sweep",
+      "type": "registry:ui",
+      "title": "Clock Sweep",
+      "description": "A sweep of light turns across the interface like a second hand: a bright radial edge with a fading wake behind it, one turn a minute, lighting each part of the page as it passes. Click to set the centre.",
+      "files": [
+        {
+          "path": "registry/ui/clock-sweep.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-466"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

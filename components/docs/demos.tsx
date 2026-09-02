@@ -313,6 +313,47 @@ import { EchoTypeDemo } from "@/registry/demos/echo-type.demo";
 import { BandTypeDemo } from "@/registry/demos/band-type.demo";
 import { SurfacePaintDemo } from "@/registry/demos/surface-paint.demo";
 import { CrystalLensDemo } from "@/registry/demos/crystal-lens.demo";
+import { LetterpressDemo } from "@/registry/demos/letterpress.demo";
+import { FoilStampDemo } from "@/registry/demos/foil-stamp.demo";
+import { ChromeInkDemo } from "@/registry/demos/chrome-ink.demo";
+import { HoloSealDemo } from "@/registry/demos/holo-seal.demo";
+import { StencilSprayDemo } from "@/registry/demos/stencil-spray.demo";
+import { CopperplateDemo } from "@/registry/demos/copperplate.demo";
+import { StampInkDemo } from "@/registry/demos/stamp-ink.demo";
+import { InkFeatherDemo } from "@/registry/demos/ink-feather.demo";
+import { CarbonGhostDemo } from "@/registry/demos/carbon-ghost.demo";
+import { CrossStitchDemo } from "@/registry/demos/cross-stitch.demo";
+import { ClockSweepDemo } from "@/registry/demos/clock-sweep.demo";
+import { HeatBrandDemo } from "@/registry/demos/heat-brand.demo";
+import { ChalkDustDemo } from "@/registry/demos/chalk-dust.demo";
+import { TideLineDemo } from "@/registry/demos/tide-line.demo";
+import { DayArcDemo } from "@/registry/demos/day-arc.demo";
+import { LanternSwayDemo } from "@/registry/demos/lantern-sway.demo";
+import { StaticSettleDemo } from "@/registry/demos/static-settle.demo";
+import { PulseBeatDemo } from "@/registry/demos/pulse-beat.demo";
+import { OceanSwellDemo } from "@/registry/demos/ocean-swell.demo";
+import { LightningStrikeDemo } from "@/registry/demos/lightning-strike.demo";
+import { EdgeHaloDemo } from "@/registry/demos/edge-halo.demo";
+import { VortexPullDemo } from "@/registry/demos/vortex-pull.demo";
+import { SlowBreathDemo } from "@/registry/demos/slow-breath.demo";
+import { CandleGlowDemo } from "@/registry/demos/candle-glow.demo";
+import { NeonBuzzDemo } from "@/registry/demos/neon-buzz.demo";
+import { LeafTurnDemo } from "@/registry/demos/leaf-turn.demo";
+import { LetterFoldDemo } from "@/registry/demos/letter-fold.demo";
+import { TorchlightDemo } from "@/registry/demos/torchlight.demo";
+import { SonarPingDemo } from "@/registry/demos/sonar-ping.demo";
+import { InkPullDemo } from "@/registry/demos/ink-pull.demo";
+import { GlareSweepDemo } from "@/registry/demos/glare-sweep.demo";
+import { SparkScribeDemo } from "@/registry/demos/spark-scribe.demo";
+import { PageCurlDemo } from "@/registry/demos/page-curl.demo";
+import { AccordionPleatDemo } from "@/registry/demos/accordion-pleat.demo";
+import { RibbonTwistDemo } from "@/registry/demos/ribbon-twist.demo";
+import { CylinderRollDemo } from "@/registry/demos/cylinder-roll.demo";
+import { GlobeWrapDemo } from "@/registry/demos/globe-wrap.demo";
+import { TiltPlateDemo } from "@/registry/demos/tilt-plate.demo";
+import { WobbleJellyDemo } from "@/registry/demos/wobble-jelly.demo";
+import { FlagWaveDemo } from "@/registry/demos/flag-wave.demo";
+import { MapFoldDemo } from "@/registry/demos/map-fold.demo";
 import { SnowSettleDemo } from "@/registry/demos/snow-settle.demo";
 import { RainLedgeDemo } from "@/registry/demos/rain-ledge.demo";
 import { LeafFallDemo } from "@/registry/demos/leaf-fall.demo";
@@ -948,6 +989,47 @@ export const demos: Record<string, ComponentType> = {
   "band-type": BandTypeDemo,
   "surface-paint": SurfacePaintDemo,
   "crystal-lens": CrystalLensDemo,
+  letterpress: LetterpressDemo,
+  "foil-stamp": FoilStampDemo,
+  "chrome-ink": ChromeInkDemo,
+  "holo-seal": HoloSealDemo,
+  "stencil-spray": StencilSprayDemo,
+  copperplate: CopperplateDemo,
+  "stamp-ink": StampInkDemo,
+  "ink-feather": InkFeatherDemo,
+  "carbon-ghost": CarbonGhostDemo,
+  "cross-stitch": CrossStitchDemo,
+  "clock-sweep": ClockSweepDemo,
+  "heat-brand": HeatBrandDemo,
+  "chalk-dust": ChalkDustDemo,
+  "tide-line": TideLineDemo,
+  "day-arc": DayArcDemo,
+  "lantern-sway": LanternSwayDemo,
+  "static-settle": StaticSettleDemo,
+  "pulse-beat": PulseBeatDemo,
+  "ocean-swell": OceanSwellDemo,
+  "lightning-strike": LightningStrikeDemo,
+  "edge-halo": EdgeHaloDemo,
+  "vortex-pull": VortexPullDemo,
+  "slow-breath": SlowBreathDemo,
+  "candle-glow": CandleGlowDemo,
+  "neon-buzz": NeonBuzzDemo,
+  "leaf-turn": LeafTurnDemo,
+  "letter-fold": LetterFoldDemo,
+  torchlight: TorchlightDemo,
+  "sonar-ping": SonarPingDemo,
+  "ink-pull": InkPullDemo,
+  "glare-sweep": GlareSweepDemo,
+  "spark-scribe": SparkScribeDemo,
+  "page-curl": PageCurlDemo,
+  "accordion-pleat": AccordionPleatDemo,
+  "ribbon-twist": RibbonTwistDemo,
+  "cylinder-roll": CylinderRollDemo,
+  "globe-wrap": GlobeWrapDemo,
+  "tilt-plate": TiltPlateDemo,
+  "wobble-jelly": WobbleJellyDemo,
+  "flag-wave": FlagWaveDemo,
+  "map-fold": MapFoldDemo,
   "snow-settle": SnowSettleDemo,
   "rain-ledge": RainLedgeDemo,
   "leaf-fall": LeafFallDemo,
