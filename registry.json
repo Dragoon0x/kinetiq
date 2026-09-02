@@ -9526,6 +9526,60 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "surface-paint",
+      "type": "registry:ui",
+      "title": "Surface Paint",
+      "description": "The stage every effect in this wing stands on: your interface renders real and interactive, the painter keeps a texture of it current, and an effect layer draws over it. Overlay mode keeps the DOM visible and draws only where the effect differs; replace mode holds the DOM at zero opacity — still in flow, still focusable, still in the accessibility tree — and shows the transformed texture in its place, with clicks passing straight through.",
+      "files": [
+        {
+          "path": "registry/ui/surface-paint.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-357"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crystal-lens",
+      "type": "registry:ui",
+      "title": "Crystal Lens",
+      "description": "A lens that follows the cursor and refracts the live interface like a crystal ball: the texture bends toward the centre, the edge disperses into colour fringes, and a touch of frost softens the rim. Hover a heading or a control and the lens zooms on it. The proving effect of the wing — the DOM stays real and clickable underneath while a shader does the optics.",
+      "files": [
+        {
+          "path": "registry/ui/crystal-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-358"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
@@ -15350,6 +15404,48 @@
           "type": "registry:file",
           "target": ".claude/skills/kinetiq/SKILL.md"
         }
+      ]
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "paint",
+      "type": "registry:lib",
+      "title": "Paint",
+      "description": "The DOM painter behind the effects wing: rasterises a live subtree — backgrounds, borders, text laid out by the browser itself, images, inline SVG — onto a canvas so a shader can sample the interface as a texture. Every browser, no experimental flag; what it will and will not paint is a stated contract.",
+      "files": [
+        {
+          "path": "registry/lib/paint.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "glsl",
+      "type": "registry:lib",
+      "title": "GLSL Helper",
+      "description": "The WebGL2 vocabulary every effect composes: programs with useful error output, uniform setting by arity, a fullscreen pass with DOM-oriented texture coordinates, indexed grid meshes for cloth and tiles, framebuffers that fall back from half-float to bytes and say so, resize, context loss, and disposal that deletes exactly what it made.",
+      "files": [
+        {
+          "path": "registry/lib/glsl.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "use-painted-surface",
+      "type": "registry:hook",
+      "title": "usePaintedSurface",
+      "description": "Owns a painter for a ref and mirrors its version into React, so an effect uploads a texture only after a completed paint and never samples a half-drawn one.",
+      "files": [
+        {
+          "path": "registry/hooks/use-painted-surface.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/paint.json"
       ]
     }
   ]

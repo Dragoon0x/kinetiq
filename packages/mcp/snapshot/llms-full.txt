@@ -5951,6 +5951,40 @@ Notes:
 - Pauses off-screen and when the tab is hidden.
 - Reduced motion renders the card seated in the last column with the cursor gone.
 
+### Surface Paint (KQ-357) — `surface-paint`
+Real underneath, painted on top.
+
+The stage every effect in this wing stands on: your interface renders real and interactive, the painter keeps a texture of it current, and an effect layer draws over it. Overlay mode keeps the DOM visible and draws only where the effect differs; replace mode holds the DOM at zero opacity — still in flow, still focusable, still in the accessibility tree — and shows the transformed texture in its place, with clicks passing straight through.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/surface-paint`
+
+Props:
+- `mode`: "overlay" | "replace" (default "overlay") — Whether the DOM stays visible under the effect or is shown only through the texture.
+- `effect`: React.ReactNode — The effect layer, rendered above the painted root with pointer events off.
+- `paint`: PaintOptions — Painter options: DPR cap, node budget, pseudo-element painting, focus ring, backdrop.
+
+Notes:
+- The DOM is never visibility-hidden: that drops it from assistive technology. Replace mode uses opacity, so focus, selection, and screen readers keep working.
+- A focus-visible ring is painted into the texture beneath the effect, so glass bends the ring like everything else.
+- Reduced motion in replace mode shows the real DOM and skips the canvas — show the real thing rather than freeze the fake one.
+
+### Crystal Lens (KQ-358) — `crystal-lens`
+Optics over a live page.
+
+A lens that follows the cursor and refracts the live interface like a crystal ball: the texture bends toward the centre, the edge disperses into colour fringes, and a touch of frost softens the rim. Hover a heading or a control and the lens zooms on it. The proving effect of the wing — the DOM stays real and clickable underneath while a shader does the optics.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crystal-lens`
+
+Props:
+- `radius`: number (default 140) — Lens radius in CSS pixels.
+- `zoom / refraction / dispersion / frost`: number — Magnification at the centre, bend strength, colour-fringe strength, and rim blur.
+- `targets`: string — A selector for elements the lens zooms on when hovered.
+
+Notes:
+- Everything under the lens is the real DOM: links click, fields focus, and the painted ring follows focus.
+- The optics are one fragment shader over the painted texture; the lens position is a spring on the wrapper's pointer, never the canvas.
+- Reduced motion shows the undistorted page with a still lens outline.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
@@ -9005,3 +9039,24 @@ The library, taught to your agent.
 A packaged skill that teaches a coding agent the whole system in one install: discovering the catalog through MCP or the machine metadata, picking components by the verb their spring performs, installing by serial or slug, and composing under the five-spring doctrine. Installs to .claude/skills/kinetiq/SKILL.md; pairs with the agents-rules item, which carries the full operating rules.
 
 Install: `pnpm dlx shadcn@latest add @kinetiq/agent-skill`
+
+### Paint — `paint`
+The interface, painted so a shader can hold it.
+
+The DOM painter behind the effects wing: rasterises a live subtree — backgrounds, borders, text laid out by the browser itself, images, inline SVG — onto a canvas so a shader can sample the interface as a texture. Every browser, no experimental flag; what it will and will not paint is a stated contract.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/paint`
+
+### GLSL Helper — `glsl`
+A shader is the whole effect; this is the rest.
+
+The WebGL2 vocabulary every effect composes: programs with useful error output, uniform setting by arity, a fullscreen pass with DOM-oriented texture coordinates, indexed grid meshes for cloth and tiles, framebuffers that fall back from half-float to bytes and say so, resize, context loss, and disposal that deletes exactly what it made.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/glsl`
+
+### usePaintedSurface — `use-painted-surface`
+A texture you can trust the version of.
+
+Owns a painter for a ref and mirrors its version into React, so an effect uploads a texture only after a completed paint and never samples a half-drawn one.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/use-painted-surface`

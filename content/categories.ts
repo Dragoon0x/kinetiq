@@ -25,6 +25,7 @@ export type CategorySlug =
   | "backgrounds"
   | "vignettes"
   | "cursor"
+  | "effects"
   | "physics"
   | "spatial"
   | "delight"
@@ -115,6 +116,12 @@ export const CATEGORIES: Category[] = [
     label: "Cursor",
     blurb:
       "The pointer as an instrument — trails, magnets, and spotlights that track your hand.",
+  },
+  {
+    slug: "effects",
+    label: "Effects",
+    blurb:
+      "Effects that run over a live interface \u2014 refracted, redrawn, distorted, decayed \u2014 every one of them working in every browser today.",
   },
   {
     slug: "physics",

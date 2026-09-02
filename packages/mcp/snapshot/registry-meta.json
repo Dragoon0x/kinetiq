@@ -13,11 +13,11 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 355,
+      "components": 357,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
-      "shared": 7
+      "shared": 10
     }
   },
   "motion": {
@@ -21062,6 +21062,126 @@
       }
     },
     {
+      "slug": "surface-paint",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Surface Paint",
+      "serial": "KQ-357",
+      "tagline": "Real underneath, painted on top.",
+      "description": "The stage every effect in this wing stands on: your interface renders real and interactive, the painter keeps a texture of it current, and an effect layer draws over it. Overlay mode keeps the DOM visible and draws only where the effect differs; replace mode holds the DOM at zero opacity — still in flow, still focusable, still in the accessibility tree — and shows the transformed texture in its place, with clicks passing straight through.",
+      "categories": [
+        "effects"
+      ],
+      "keywords": [
+        "effects",
+        "surface",
+        "texture",
+        "canvas",
+        "stage",
+        "paint"
+      ],
+      "props": [
+        {
+          "name": "mode",
+          "type": "\"overlay\" | \"replace\"",
+          "defaultValue": "\"overlay\"",
+          "description": "Whether the DOM stays visible under the effect or is shown only through the texture."
+        },
+        {
+          "name": "effect",
+          "type": "React.ReactNode",
+          "description": "The effect layer, rendered above the painted root with pointer events off."
+        },
+        {
+          "name": "paint",
+          "type": "PaintOptions",
+          "description": "Painter options: DPR cap, node budget, pseudo-element painting, focus ring, backdrop."
+        }
+      ],
+      "usageNotes": [
+        "The DOM is never visibility-hidden: that drops it from assistive technology. Replace mode uses opacity, so focus, selection, and screen readers keep working.",
+        "A focus-visible ring is painted into the texture beneath the effect, so glass bends the ring like everything else.",
+        "Reduced motion in replace mode shows the real DOM and skips the canvas — show the real thing rather than freeze the fake one."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/surface-paint",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/surface-paint.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/surface-paint",
+        "npm": "npx shadcn@latest add @kinetiq/surface-paint",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/surface-paint",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/surface-paint",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/surface-paint.json"
+      }
+    },
+    {
+      "slug": "crystal-lens",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Crystal Lens",
+      "serial": "KQ-358",
+      "tagline": "Optics over a live page.",
+      "description": "A lens that follows the cursor and refracts the live interface like a crystal ball: the texture bends toward the centre, the edge disperses into colour fringes, and a touch of frost softens the rim. Hover a heading or a control and the lens zooms on it. The proving effect of the wing — the DOM stays real and clickable underneath while a shader does the optics.",
+      "categories": [
+        "effects"
+      ],
+      "keywords": [
+        "effects",
+        "lens",
+        "glass",
+        "refraction",
+        "dispersion",
+        "cursor"
+      ],
+      "props": [
+        {
+          "name": "radius",
+          "type": "number",
+          "defaultValue": "140",
+          "description": "Lens radius in CSS pixels."
+        },
+        {
+          "name": "zoom / refraction / dispersion / frost",
+          "type": "number",
+          "description": "Magnification at the centre, bend strength, colour-fringe strength, and rim blur."
+        },
+        {
+          "name": "targets",
+          "type": "string",
+          "description": "A selector for elements the lens zooms on when hovered."
+        }
+      ],
+      "usageNotes": [
+        "Everything under the lens is the real DOM: links click, fields focus, and the painted ring follows focus.",
+        "The optics are one fragment shader over the painted texture; the lens position is a spring on the wrapper's pointer, never the canvas.",
+        "Reduced motion shows the undistorted page with a still lens outline."
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/crystal-lens",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/crystal-lens.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/crystal-lens",
+        "npm": "npx shadcn@latest add @kinetiq/crystal-lens",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/crystal-lens",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/crystal-lens",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/crystal-lens.json"
+      }
+    },
+    {
       "slug": "command-deck",
       "kind": "block",
       "type": "registry:block",
@@ -31799,6 +31919,79 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/agent-skill",
         "bun": "bunx --bun shadcn@latest add @kinetiq/agent-skill",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/agent-skill.json"
+      }
+    },
+    {
+      "slug": "paint",
+      "kind": "shared",
+      "type": "registry:lib",
+      "title": "Paint",
+      "tagline": "The interface, painted so a shader can hold it.",
+      "description": "The DOM painter behind the effects wing: rasterises a live subtree — backgrounds, borders, text laid out by the browser itself, images, inline SVG — onto a canvas so a shader can sample the interface as a texture. Every browser, no experimental flag; what it will and will not paint is a stated contract.",
+      "keywords": [
+        "effects",
+        "paint",
+        "canvas",
+        "texture",
+        "rasterise",
+        "dom"
+      ],
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/paint.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/paint",
+        "npm": "npx shadcn@latest add @kinetiq/paint",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/paint",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/paint",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/paint.json"
+      }
+    },
+    {
+      "slug": "glsl",
+      "kind": "shared",
+      "type": "registry:lib",
+      "title": "GLSL Helper",
+      "tagline": "A shader is the whole effect; this is the rest.",
+      "description": "The WebGL2 vocabulary every effect composes: programs with useful error output, uniform setting by arity, a fullscreen pass with DOM-oriented texture coordinates, indexed grid meshes for cloth and tiles, framebuffers that fall back from half-float to bytes and say so, resize, context loss, and disposal that deletes exactly what it made.",
+      "keywords": [
+        "effects",
+        "webgl",
+        "glsl",
+        "shader",
+        "framebuffer",
+        "mesh"
+      ],
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/glsl.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/glsl",
+        "npm": "npx shadcn@latest add @kinetiq/glsl",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/glsl",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/glsl",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/glsl.json"
+      }
+    },
+    {
+      "slug": "use-painted-surface",
+      "kind": "shared",
+      "type": "registry:hook",
+      "title": "usePaintedSurface",
+      "tagline": "A texture you can trust the version of.",
+      "description": "Owns a painter for a ref and mirrors its version into React, so an effect uploads a texture only after a completed paint and never samples a half-drawn one.",
+      "keywords": [
+        "effects",
+        "paint",
+        "hook",
+        "texture"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/use-painted-surface.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/use-painted-surface",
+        "npm": "npx shadcn@latest add @kinetiq/use-painted-surface",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/use-painted-surface",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/use-painted-surface",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/use-painted-surface.json"
       }
     }
   ]

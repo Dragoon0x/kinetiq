@@ -13202,6 +13202,103 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "surface-paint",
+    type: "registry:ui",
+    title: "Surface Paint",
+    description:
+      "The stage every effect in this wing stands on: your interface renders real and interactive, the painter keeps a texture of it current, and an effect layer draws over it. Overlay mode keeps the DOM visible and draws only where the effect differs; replace mode holds the DOM at zero opacity \u2014 still in flow, still focusable, still in the accessibility tree \u2014 and shows the transformed texture in its place, with clicks passing straight through.",
+    files: [{ path: "registry/ui/surface-paint.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: [
+      "utils",
+      "use-motion-safe",
+      "paint",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-357" },
+    tagline: "Real underneath, painted on top.",
+    keywords: ["effects", "surface", "texture", "canvas", "stage", "paint"],
+    props: [
+      {
+        name: "mode",
+        type: '"overlay" | "replace"',
+        defaultValue: '"overlay"',
+        description:
+          "Whether the DOM stays visible under the effect or is shown only through the texture.",
+      },
+      {
+        name: "effect",
+        type: "React.ReactNode",
+        description:
+          "The effect layer, rendered above the painted root with pointer events off.",
+      },
+      {
+        name: "paint",
+        type: "PaintOptions",
+        description:
+          "Painter options: DPR cap, node budget, pseudo-element painting, focus ring, backdrop.",
+      },
+    ],
+    usageNotes: [
+      "The DOM is never visibility-hidden: that drops it from assistive technology. Replace mode uses opacity, so focus, selection, and screen readers keep working.",
+      "A focus-visible ring is painted into the texture beneath the effect, so glass bends the ring like everything else.",
+      "Reduced motion in replace mode shows the real DOM and skips the canvas \u2014 show the real thing rather than freeze the fake one.",
+    ],
+  },
+  {
+    name: "crystal-lens",
+    type: "registry:ui",
+    title: "Crystal Lens",
+    description:
+      "A lens that follows the cursor and refracts the live interface like a crystal ball: the texture bends toward the centre, the edge disperses into colour fringes, and a touch of frost softens the rim. Hover a heading or a control and the lens zooms on it. The proving effect of the wing \u2014 the DOM stays real and clickable underneath while a shader does the optics.",
+    files: [{ path: "registry/ui/crystal-lens.tsx", type: "registry:ui" }],
+    dependencies: [],
+    registryDependencies: [
+      "utils",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-358" },
+    tagline: "Optics over a live page.",
+    keywords: [
+      "effects",
+      "lens",
+      "glass",
+      "refraction",
+      "dispersion",
+      "cursor",
+    ],
+    props: [
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "140",
+        description: "Lens radius in CSS pixels.",
+      },
+      {
+        name: "zoom / refraction / dispersion / frost",
+        type: "number",
+        description:
+          "Magnification at the centre, bend strength, colour-fringe strength, and rim blur.",
+      },
+      {
+        name: "targets",
+        type: "string",
+        description: "A selector for elements the lens zooms on when hovered.",
+      },
+    ],
+    usageNotes: [
+      "Everything under the lens is the real DOM: links click, fields focus, and the painted ring follows focus.",
+      "The optics are one fragment shader over the painted texture; the lens position is a spring on the wrapper's pointer, never the canvas.",
+      "Reduced motion shows the undistorted page with a still lens outline.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

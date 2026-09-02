@@ -311,6 +311,8 @@ import { TurnModalDemo } from "@/registry/demos/turn-modal.demo";
 import { ElasticTypeDemo } from "@/registry/demos/elastic-type.demo";
 import { EchoTypeDemo } from "@/registry/demos/echo-type.demo";
 import { BandTypeDemo } from "@/registry/demos/band-type.demo";
+import { SurfacePaintDemo } from "@/registry/demos/surface-paint.demo";
+import { CrystalLensDemo } from "@/registry/demos/crystal-lens.demo";
 import { VignetteEmptyDrawerDemo } from "@/registry/demos/vignette-empty-drawer.demo";
 import { VignetteSearchSweepDemo } from "@/registry/demos/vignette-search-sweep.demo";
 import { VignetteInboxZeroDemo } from "@/registry/demos/vignette-inbox-zero.demo";
@@ -863,6 +865,8 @@ export const demos: Record<string, ComponentType> = {
   "elastic-type": ElasticTypeDemo,
   "echo-type": EchoTypeDemo,
   "band-type": BandTypeDemo,
+  "surface-paint": SurfacePaintDemo,
+  "crystal-lens": CrystalLensDemo,
   "vignette-empty-drawer": VignetteEmptyDrawerDemo,
   "vignette-search-sweep": VignetteSearchSweepDemo,
   "vignette-inbox-zero": VignetteInboxZeroDemo,

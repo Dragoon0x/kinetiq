@@ -158,6 +158,14 @@ export const SHOWCASES: Showcase[] = [
     closing: "The cursor is the one control everyone already holds.",
   },
   {
+    slug: "effects",
+    headline: "The interface, as a texture.",
+    deck: "Your real, interactive UI painted onto a canvas and handed to a shader \u2014 refracted, redrawn, folded, worn \u2014 with nothing borrowed from an experimental browser flag.",
+    hero: { slug: "crystal-lens", mode: "stage" },
+    leads: [],
+    closing: "Every effect here works in every browser today.",
+  },
+  {
     slug: "physics",
     headline: "Mass, spring, and momentum.",
     deck: "Sheets, ropes, and decks with real weight — throw them and they answer.",

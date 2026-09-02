@@ -102,4 +102,37 @@ export const shared: KinetiqItem[] = [
     tagline: "The library, taught to your agent.",
     keywords: ["skill", "agent", "mcp", "claude", "distribution", "install"],
   },
+  {
+    name: "paint",
+    type: "registry:lib",
+    title: "Paint",
+    description:
+      "The DOM painter behind the effects wing: rasterises a live subtree \u2014 backgrounds, borders, text laid out by the browser itself, images, inline SVG \u2014 onto a canvas so a shader can sample the interface as a texture. Every browser, no experimental flag; what it will and will not paint is a stated contract.",
+    files: [{ path: "registry/lib/paint.ts", type: "registry:lib" }],
+    tagline: "The interface, painted so a shader can hold it.",
+    keywords: ["effects", "paint", "canvas", "texture", "rasterise", "dom"],
+  },
+  {
+    name: "glsl",
+    type: "registry:lib",
+    title: "GLSL Helper",
+    description:
+      "The WebGL2 vocabulary every effect composes: programs with useful error output, uniform setting by arity, a fullscreen pass with DOM-oriented texture coordinates, indexed grid meshes for cloth and tiles, framebuffers that fall back from half-float to bytes and say so, resize, context loss, and disposal that deletes exactly what it made.",
+    files: [{ path: "registry/lib/glsl.ts", type: "registry:lib" }],
+    tagline: "A shader is the whole effect; this is the rest.",
+    keywords: ["effects", "webgl", "glsl", "shader", "framebuffer", "mesh"],
+  },
+  {
+    name: "use-painted-surface",
+    type: "registry:hook",
+    title: "usePaintedSurface",
+    description:
+      "Owns a painter for a ref and mirrors its version into React, so an effect uploads a texture only after a completed paint and never samples a half-drawn one.",
+    files: [
+      { path: "registry/hooks/use-painted-surface.ts", type: "registry:hook" },
+    ],
+    registryDependencies: ["paint"],
+    tagline: "A texture you can trust the version of.",
+    keywords: ["effects", "paint", "hook", "texture"],
+  },
 ];
