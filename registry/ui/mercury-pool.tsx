@@ -377,7 +377,12 @@ function PoolLayer({
     // environment and refracts the page's own ink into the metal.
     bindScreen(gl);
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.blendFuncSeparate(
+      gl.SRC_ALPHA,
+      gl.ONE_MINUS_SRC_ALPHA,
+      gl.ONE,
+      gl.ONE_MINUS_SRC_ALPHA,
+    );
     const bg = bgRef.current;
     gl.clearColor(bg[0], bg[1], bg[2], 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
@@ -408,7 +413,7 @@ function PoolLayer({
     if (!surface.active) return;
     const canvas = canvasRef.current;
     if (!canvas || failedRef.current) return;
-    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: false });
+    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: true });
     if (!gl) {
       failedRef.current = true;
       return;

@@ -101,6 +101,8 @@ const SETTLE_MS: Record<string, number> = {
   "heat-brand": 3500,
   "edge-halo": 3500,
   "ink-feather": 6000,
+  "attention-trail": 8000,
+  "touch-echo": 3500,
   // </wing2-settle>
 };
 

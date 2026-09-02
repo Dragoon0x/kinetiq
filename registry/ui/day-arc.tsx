@@ -30,7 +30,7 @@ export type DayArcProps = {
   start?: number;
   /** How strongly the light ramp tints the sampled page, 0..1. @default 0.55 */
   intensity?: number;
-  /** Ink-shadow length and strength multiplier, 0..1. @default 0.6 */
+  /** Ink-shadow length and strength multiplier, 0..1. @default 0.35 */
   shadow?: number;
   /** Fill colour where the sampled texture is transparent; defaults to the host's own effective background. */
   background?: string;
@@ -106,7 +106,7 @@ void main() {
   }
   inkMask /= 3.0;
   float selfInk = smoothstep(0.0, 0.35, bgLuma - kx_luma(home));
-  vec3 shaded = lit * (1.0 - inkMask * (1.0 - selfInk) * 0.28);
+  vec3 shaded = lit * (1.0 - inkMask * (1.0 - selfInk) * 0.22);
 
   // A soft highlight riding the sun's own position near the top of the
   // frame, brightest at zenith and gone at the horizon.
@@ -233,7 +233,7 @@ function DayArcLayer({
     if (!surface.active) return;
     const canvas = canvasRef.current;
     if (!canvas || failedRef.current) return;
-    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: false });
+    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: true });
     if (!gl) {
       failedRef.current = true;
       return;
@@ -249,7 +249,12 @@ function DayArcLayer({
     triRef.current = tri;
     uploadedVersionRef.current = 0;
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.blendFuncSeparate(
+      gl.SRC_ALPHA,
+      gl.ONE_MINUS_SRC_ALPHA,
+      gl.ONE,
+      gl.ONE_MINUS_SRC_ALPHA,
+    );
 
     const detach = onContextLoss(canvas, () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
@@ -377,7 +382,7 @@ export function DayArc({
   period = 90,
   start = 0.15,
   intensity = 0.55,
-  shadow = 0.6,
+  shadow = 0.35,
   background,
   paint,
   className,

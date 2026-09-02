@@ -131,9 +131,9 @@ function stampChalk(
   const baseAlpha = colorRgba[3];
   // A soft core first, so the line reads as a chalk stroke and not only as
   // its grain; the specks then roughen its edge.
-  ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${(0.42 * baseAlpha).toFixed(3)})`;
+  ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${(0.7 * baseAlpha).toFixed(3)})`;
   ctx.beginPath();
-  ctx.arc(x, y, Math.max(radius * 0.9, 0.75), 0, Math.PI * 2);
+  ctx.arc(x, y, Math.max(radius * 1.1, 1), 0, Math.PI * 2);
   ctx.fill();
   for (let s = 0; s < SPECKS_PER_STAMP; s += 1) {
     const angle = hash2(stampIndex, s + 0.25) * Math.PI * 2;
@@ -401,7 +401,7 @@ function ChalkDustLayer({
     if (!surface.active) return;
     const canvas = canvasRef.current;
     if (!canvas || failedRef.current) return;
-    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: false });
+    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: true });
     if (!gl) {
       failedRef.current = true;
       return;
@@ -417,7 +417,12 @@ function ChalkDustLayer({
     triRef.current = tri;
     strokeUploadedVersionRef.current = 0;
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.blendFuncSeparate(
+      gl.SRC_ALPHA,
+      gl.ONE_MINUS_SRC_ALPHA,
+      gl.ONE,
+      gl.ONE_MINUS_SRC_ALPHA,
+    );
 
     const detach = onContextLoss(canvas, () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);

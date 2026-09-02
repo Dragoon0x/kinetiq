@@ -28,7 +28,7 @@ export type ShieldFieldProps = {
   cell?: number;
   /** Cell shape. @default "hex" */
   lattice?: ShieldLattice;
-  /** Resting line opacity (0..1). @default 0.35 */
+  /** Resting line opacity (0..1). @default 0.14 */
   lineOpacity?: number;
   /** Lattice and wave colour. @default "var(--primary)" */
   color?: string;
@@ -420,7 +420,7 @@ function ShieldFieldLayer({
     if (!surface.active) return;
     const canvas = canvasRef.current;
     if (!canvas || failedRef.current) return;
-    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: false });
+    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: true });
     if (!gl) {
       failedRef.current = true;
       return;
@@ -436,7 +436,12 @@ function ShieldFieldLayer({
     triRef.current = tri;
     uploadedVersionRef.current = 0;
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.blendFuncSeparate(
+      gl.SRC_ALPHA,
+      gl.ONE_MINUS_SRC_ALPHA,
+      gl.ONE,
+      gl.ONE_MINUS_SRC_ALPHA,
+    );
 
     const detach = onContextLoss(canvas, () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
@@ -555,7 +560,7 @@ function ShieldFieldLayer({
 export function ShieldField({
   cell = 28,
   lattice = "hex",
-  lineOpacity = 0.35,
+  lineOpacity = 0.14,
   color = "var(--primary)",
   glow = 1.4,
   waveSpeed = 700,

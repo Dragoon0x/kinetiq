@@ -627,7 +627,7 @@ function TileLayer({
     if (!surface.active) return;
     const canvas = canvasRef.current;
     if (!canvas || failedRef.current) return;
-    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: false });
+    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: true });
     if (!gl) {
       failedRef.current = true;
       return;
@@ -641,7 +641,12 @@ function TileLayer({
     programRef.current = program;
     uploadedVersionRef.current = 0;
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.blendFuncSeparate(
+      gl.SRC_ALPHA,
+      gl.ONE_MINUS_SRC_ALPHA,
+      gl.ONE,
+      gl.ONE_MINUS_SRC_ALPHA,
+    );
 
     const detach = onContextLoss(canvas, () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);

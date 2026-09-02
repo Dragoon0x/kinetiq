@@ -30,7 +30,7 @@ export type LanternSwayProps = {
   swing?: number;
   /** How far above the plane the lamp hangs, in CSS pixels — sets how far a shadow stretches as the lamp swings past it. @default 320 */
   height?: number;
-  /** Shadow darkness (0..1), before the type-preserving cutout. @default 0.5 */
+  /** Shadow darkness (0..1), before the type-preserving cutout. @default 0.28 */
   shadow?: number;
   /** Warm cast colour pooled where the lamp's light lands, any CSS colour. @default "#ffd9a3" */
   warmth?: string;
@@ -240,7 +240,7 @@ function LanternLayer({
     if (!surface.active) return;
     const canvas = canvasRef.current;
     if (!canvas || failedRef.current) return;
-    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: false });
+    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: true });
     if (!gl) {
       failedRef.current = true;
       return;
@@ -256,7 +256,12 @@ function LanternLayer({
     triRef.current = tri;
     uploadedVersionRef.current = 0;
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.blendFuncSeparate(
+      gl.SRC_ALPHA,
+      gl.ONE_MINUS_SRC_ALPHA,
+      gl.ONE,
+      gl.ONE_MINUS_SRC_ALPHA,
+    );
 
     const detach = onContextLoss(canvas, () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
@@ -388,7 +393,7 @@ export function LanternSway({
   period = 5,
   swing = 90,
   height = 320,
-  shadow = 0.5,
+  shadow = 0.28,
   warmth = "#ffd9a3",
   paint,
   className,

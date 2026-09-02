@@ -29,7 +29,7 @@ export type SonarPingProps = {
   width?: number;
   /** Trailing-decay rate behind the front (per 100px of wake). @default 1 */
   decay?: number;
-  /** Resting overlay darkness (0..1). @default 0.82 */
+  /** Resting overlay darkness (0..1). @default 0.7 */
   darkness?: number;
   /** Edge "return" flare strength. @default 1 */
   edges?: number;
@@ -288,7 +288,7 @@ function SonarPingLayer({
     if (!surface.active) return;
     const canvas = canvasRef.current;
     if (!canvas || failedRef.current) return;
-    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: false });
+    const gl = createGL(canvas, { alpha: true, premultipliedAlpha: true });
     if (!gl) {
       failedRef.current = true;
       return;
@@ -304,7 +304,12 @@ function SonarPingLayer({
     triRef.current = tri;
     uploadedVersionRef.current = 0;
     gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.blendFuncSeparate(
+      gl.SRC_ALPHA,
+      gl.ONE_MINUS_SRC_ALPHA,
+      gl.ONE,
+      gl.ONE_MINUS_SRC_ALPHA,
+    );
 
     const detach = onContextLoss(canvas, () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
@@ -400,7 +405,7 @@ export function SonarPing({
   speed = 380,
   width = 26,
   decay = 1,
-  darkness = 0.82,
+  darkness = 0.7,
   edges = 1,
   color = "#7cf2c4",
   paint,

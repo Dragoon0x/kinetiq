@@ -313,6 +313,16 @@ import { EchoTypeDemo } from "@/registry/demos/echo-type.demo";
 import { BandTypeDemo } from "@/registry/demos/band-type.demo";
 import { SurfacePaintDemo } from "@/registry/demos/surface-paint.demo";
 import { CrystalLensDemo } from "@/registry/demos/crystal-lens.demo";
+import { FocusDimDemo } from "@/registry/demos/focus-dim.demo";
+import { AttentionTrailDemo } from "@/registry/demos/attention-trail.demo";
+import { PrivacyVeilDemo } from "@/registry/demos/privacy-veil.demo";
+import { FocusPullDemo } from "@/registry/demos/focus-pull.demo";
+import { MarkerDragDemo } from "@/registry/demos/marker-drag.demo";
+import { ParallaxInkDemo } from "@/registry/demos/parallax-ink.demo";
+import { LiftShadowDemo } from "@/registry/demos/lift-shadow.demo";
+import { ReadTideDemo } from "@/registry/demos/read-tide.demo";
+import { IdleGlintDemo } from "@/registry/demos/idle-glint.demo";
+import { TouchEchoDemo } from "@/registry/demos/touch-echo.demo";
 import { LetterpressDemo } from "@/registry/demos/letterpress.demo";
 import { FoilStampDemo } from "@/registry/demos/foil-stamp.demo";
 import { ChromeInkDemo } from "@/registry/demos/chrome-ink.demo";
@@ -989,6 +999,16 @@ export const demos: Record<string, ComponentType> = {
   "band-type": BandTypeDemo,
   "surface-paint": SurfacePaintDemo,
   "crystal-lens": CrystalLensDemo,
+  "focus-dim": FocusDimDemo,
+  "attention-trail": AttentionTrailDemo,
+  "privacy-veil": PrivacyVeilDemo,
+  "focus-pull": FocusPullDemo,
+  "marker-drag": MarkerDragDemo,
+  "parallax-ink": ParallaxInkDemo,
+  "lift-shadow": LiftShadowDemo,
+  "read-tide": ReadTideDemo,
+  "idle-glint": IdleGlintDemo,
+  "touch-echo": TouchEchoDemo,
   letterpress: LetterpressDemo,
   "foil-stamp": FoilStampDemo,
   "chrome-ink": ChromeInkDemo,

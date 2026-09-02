@@ -18550,6 +18550,412 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "focus-dim",
+    type: "registry:ui",
+    title: "Focus Dim",
+    description:
+      "The interface steps back around what you point at: the element under the pointer stays at full strength while the rest dims and softens, the boundary a rounded rectangle from the real DOM that moves on a spring. The page is still all there; one part is just closer.",
+    files: [{ path: "registry/ui/focus-dim.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-481" },
+    tagline: "Everything else, a step back.",
+    keywords: [
+      "effects",
+      "focus",
+      "dim",
+      "attention",
+      "hover",
+      "accessibility",
+    ],
+    props: [
+      {
+        name: "selector / padding",
+        type: "string · number",
+        description:
+          "Which elements can take focus and how far the clear area extends past their box.",
+      },
+      {
+        name: "dim / blur / spring",
+        type: "number",
+        description:
+          "How much the rest dims, how much it softens, and how quickly the box moves.",
+      },
+    ],
+    usageNotes: [
+      "The box comes from elementFromPoint; the veil is the page's own softened copy.",
+      "Overlay: the dimmed page is drawn over the DOM; the focused box is a hole.",
+      "Reduced motion moves the box without a spring.",
+    ],
+  },
+  {
+    name: "attention-trail",
+    type: "registry:ui",
+    title: "Attention Trail",
+    description:
+      "A heat map of where the pointer has been: a warm tint gathers where it lingers and fades where it has not returned, so a page shows its own reading. Rest on a heading and it warms; sweep past and it barely notices.",
+    files: [{ path: "registry/ui/attention-trail.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-482" },
+    tagline: "Where you have looked.",
+    keywords: ["effects", "heatmap", "attention", "trail", "warmth", "cursor"],
+    props: [
+      {
+        name: "radius / warm / cool",
+        type: "number",
+        description:
+          "How wide the pointer warms, how fast, and how fast the heat fades.",
+      },
+      {
+        name: "palette / max",
+        type: '"warm" | "cool" | "mono" · number',
+        description: "The heat ramp and the strongest tint.",
+      },
+    ],
+    usageNotes: [
+      "Heat is an offscreen map warmed by the pointer and faded by time.",
+      "Overlay: draws only the tint; the DOM stays real.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "privacy-veil",
+    type: "registry:ui",
+    title: "Privacy Veil",
+    description:
+      "A privacy screen over the interface: everything is frosted except a circle around the pointer, so the page is readable only where you are looking, and a person beside you sees a blur. Leave, and the whole page frosts.",
+    files: [{ path: "registry/ui/privacy-veil.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-483" },
+    tagline: "Only what you are reading.",
+    keywords: ["effects", "privacy", "frost", "blur", "screen", "cursor"],
+    props: [
+      {
+        name: "radius / softness",
+        type: "number",
+        description: "The clear circle's radius in px and its feather.",
+      },
+      {
+        name: "blur / frost",
+        type: "number",
+        description: "How strong the blur is and how much the frost whitens.",
+      },
+    ],
+    usageNotes: [
+      "Overlay: the frosted page is drawn over the DOM with a clear hole at the pointer.",
+      "The DOM under the frost stays live; clicks land.",
+      "Reduced motion keeps the hole still at the pointer.",
+    ],
+  },
+  {
+    name: "focus-pull",
+    type: "registry:ui",
+    title: "Focus Pull",
+    description:
+      "Depth of field on a flat page: the interface is sharp near the pointer and blurs with distance, the blur growing smoothly like a lens racking focus, with a little bloom in the soft areas. Move, and the focus pulls with you.",
+    files: [{ path: "registry/ui/focus-pull.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-484" },
+    tagline: "Sharp where you look, soft beyond.",
+    keywords: ["effects", "depth-of-field", "blur", "focus", "lens", "cursor"],
+    props: [
+      {
+        name: "radius / falloff / maxBlur",
+        type: "number",
+        description:
+          "The sharp radius in px, how fast blur grows past it, and the largest blur in px.",
+      },
+      {
+        name: "bloom",
+        type: "number",
+        description: "Glow in the soft areas.",
+      },
+    ],
+    usageNotes: [
+      "Blur radius is a function of distance to the pointer; the pointer is sprung so the pull is smooth.",
+      "Clicks reach the real DOM through the blur.",
+      "Reduced motion shows the real, sharp DOM.",
+    ],
+  },
+  {
+    name: "marker-drag",
+    type: "registry:ui",
+    title: "Marker Drag",
+    description:
+      "A highlighter over the interface: drag across a line and it takes a translucent marker stroke — slightly uneven, darker where strokes overlap, in a yellow that multiplies with the ink — and the strokes stay. Double-click clears them.",
+    files: [{ path: "registry/ui/marker-drag.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-485" },
+    tagline: "Highlight it.",
+    keywords: ["effects", "highlighter", "marker", "annotate", "drag", "ink"],
+    props: [
+      {
+        name: "color / width / opacity",
+        type: "string · number · number",
+        description: "Marker colour, stroke width in px, and stroke opacity.",
+      },
+      {
+        name: "snap",
+        type: "boolean",
+        description: "Snap strokes to the line box under the pointer.",
+      },
+    ],
+    usageNotes: [
+      "Strokes accumulate in an offscreen canvas uploaded as a texture and multiply over the page.",
+      "Overlay: draws only the marker; the DOM stays real and clickable.",
+      "Reduced motion draws strokes without the wobble.",
+    ],
+  },
+  {
+    name: "parallax-ink",
+    type: "registry:ui",
+    title: "Parallax Ink",
+    description:
+      "The interface with depth from its own type: large, heavy type sits nearer and small text sits farther, and the pointer shifts the layers by their depth, so the page has parallax without a single 3D element. The depth comes from the ink's scale.",
+    files: [{ path: "registry/ui/parallax-ink.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-486" },
+    tagline: "Nearer things move more.",
+    keywords: ["effects", "parallax", "depth", "type", "layers", "cursor"],
+    props: [
+      {
+        name: "shift / layers",
+        type: "number",
+        description:
+          "The largest parallax shift in px and how many depth layers the ink is split into.",
+      },
+      {
+        name: "shadow",
+        type: "number",
+        description: "A soft shadow under the nearest layer.",
+      },
+    ],
+    usageNotes: [
+      "Depth is estimated from ink density at three blur scales: bold, large ink reads as near.",
+      "Clicks reach the real DOM through the layers.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "lift-shadow",
+    type: "registry:ui",
+    title: "Lift Shadow",
+    description:
+      "The element under the pointer lifts off the page: its painted image rises a few pixels toward the cursor, scales a hair, and casts a soft shadow that spreads as it lifts, then settles back when the pointer leaves. The box is the real DOM's.",
+    files: [{ path: "registry/ui/lift-shadow.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-487" },
+    tagline: "It rises to meet you.",
+    keywords: ["effects", "lift", "shadow", "hover", "elevation", "cursor"],
+    props: [
+      {
+        name: "selector / lift / scale",
+        type: "string · number · number",
+        description:
+          "Which elements lift, how far in px, and how much they grow.",
+      },
+      {
+        name: "shadow / spring",
+        type: "number",
+        description: "Shadow strength and how quickly the lift settles.",
+      },
+    ],
+    usageNotes: [
+      "The lifted copy is the texture inside the element's box, drawn over the page with a shadow.",
+      "Overlay: the DOM stays real and clickable under the lifted copy.",
+      "Reduced motion lifts without a spring.",
+    ],
+  },
+  {
+    name: "read-tide",
+    type: "registry:ui",
+    title: "Read Tide",
+    description:
+      "A warm wash that follows how far you have read: the part of the interface above your reading line is tinted as read, the line itself is a soft edge that moves with the scroll, and below it the page is untouched. A gentle progress you can see on the page itself.",
+    files: [{ path: "registry/ui/read-tide.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-488" },
+    tagline: "As far as you have read.",
+    keywords: ["effects", "reading", "progress", "scroll", "wash", "tide"],
+    props: [
+      {
+        name: "line / softness",
+        type: "number",
+        description:
+          "Where the reading line sits in the viewport as a fraction and its feather in px.",
+      },
+      {
+        name: "tint / strength",
+        type: "string · number",
+        description: "The read wash's colour and strength.",
+      },
+    ],
+    usageNotes: [
+      "The line is the host's position relative to the viewport's reading line, sprung.",
+      "Overlay: draws only the wash; the DOM stays real.",
+      "Reduced motion moves the line without a spring.",
+    ],
+  },
+  {
+    name: "idle-glint",
+    type: "registry:ui",
+    title: "Idle Glint",
+    description:
+      "After a few seconds without input, a glint walks across the interface's controls — a sliver of light crossing each button and link in turn — as an invitation, then rests again. Any input resets the timer.",
+    files: [{ path: "registry/ui/idle-glint.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-489" },
+    tagline: "A glint, when nothing has happened.",
+    keywords: ["effects", "idle", "glint", "invite", "controls", "ambient"],
+    props: [
+      {
+        name: "idle / period / selector",
+        type: "number · number · string",
+        description:
+          "Seconds of quiet before the glint, seconds between glints, and which controls it visits.",
+      },
+      {
+        name: "color / width",
+        type: "string · number",
+        description: "The glint's colour and its width in px.",
+      },
+    ],
+    usageNotes: [
+      "Control rects come from the real DOM; the glint is a moving band clipped to each rect in sequence.",
+      "Overlay: draws only the glint; the DOM stays real.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "touch-echo",
+    type: "registry:ui",
+    title: "Touch Echo",
+    description:
+      "A click leaves an echo on the thing you clicked: the element's painted image flashes and a ring expands from its outline — the real shape of the button or row, not a circle — fading over half a second. Feedback that fits what you pressed.",
+    files: [{ path: "registry/ui/touch-echo.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-490" },
+    tagline: "It heard you.",
+    keywords: ["effects", "click", "echo", "ring", "feedback", "outline"],
+    props: [
+      {
+        name: "selector / spread",
+        type: "string · number",
+        description: "Which elements echo and how far the ring expands in px.",
+      },
+      {
+        name: "color / flash / duration",
+        type: "string · number · number",
+        description:
+          "The ring's colour, the flash strength, and the echo's length in seconds.",
+      },
+    ],
+    usageNotes: [
+      "The ring is the element's rounded rect, from the real DOM, expanded on the clock.",
+      "Overlay: draws only the echo; the click reaches the DOM.",
+      "Reduced motion draws a brief flash with no ring.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

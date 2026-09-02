@@ -110,6 +110,10 @@ const DRIVER: Record<
   "stamp-ink": "click",
   "ink-feather": "time",
   "cross-stitch": "time",
+  "marker-drag": "drag",
+  "read-tide": "scroll",
+  "idle-glint": "time",
+  "touch-echo": "click",
   // </wing2-drivers>
 };
 
