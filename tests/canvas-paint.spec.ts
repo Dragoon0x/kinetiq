@@ -24,9 +24,14 @@ const uiDir = path.join(__dirname, "..", "registry", "ui");
 const canvasSlugs = fs
   .readdirSync(uiDir)
   .filter((file) => file.endsWith(".tsx"))
-  .filter((file) =>
-    /getContext\(\s*["']2d["']/.test(fs.readFileSync(path.join(uiDir, file), "utf8")),
-  )
+  .filter((file) => {
+    const source = fs.readFileSync(path.join(uiDir, file), "utf8");
+    // The effects wing and the figures use 2D canvases offscreen — glyph
+    // atlases, melt and smear maps, sprites — and are proven by the WebGL
+    // and figure sweeps instead.
+    if (/data-effect-canvas|data-figure-host/.test(source)) return false;
+    return /getContext\(\s*["']2d["']/.test(source);
+  })
   .map((file) => file.replace(/\.tsx$/, ""))
   .filter((slug) => catalogComponents.some((c) => c.name === slug));
 

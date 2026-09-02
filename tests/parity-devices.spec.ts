@@ -138,6 +138,11 @@ test("gallery and team rails expand under hover and the mosaic morphs", async ({
 }) => {
   for (const slug of ["gallery-focus-rail", "team-focus-panels"]) {
     await gotoHydrated(page, `/preview/blocks/${slug}`);
+    // The pointer is wherever the previous iteration left it; Chromium
+    // re-evaluates hover after layout, so park it before reading the
+    // resting widths.
+    await page.mouse.move(2, 2);
+    await page.waitForTimeout(300);
     const panels = page.getByRole("group").first().getByRole("button");
     const count = await panels.count();
     expect(count).toBeGreaterThanOrEqual(5);
@@ -254,13 +259,20 @@ test("workbench-rail filters and switches workspaces; the mobile template routes
   await gotoHydrated(page, "/components/workbench-rail");
   const field = page.getByRole("textbox", { name: /filter/i }).first();
   await field.scrollIntoViewIfNeeded();
-  const rail = field.locator("xpath=ancestor::*[self::nav or self::aside or @role='navigation'][1]");
+  const rail = field.locator(
+    "xpath=ancestor::*[self::nav or self::aside or @role='navigation'][1]",
+  );
   const before = await rail.getByRole("button").count();
   await field.fill("zzzz-no-such-item");
   await expect(page.getByText(/nothing matches/i)).toBeVisible();
   await page.keyboard.press("Escape");
-  expect(await rail.getByRole("button").count()).toBeGreaterThanOrEqual(before - 1);
-  const switcher = page.getByRole("button", { expanded: false }).filter({ has: page.locator("[aria-haspopup='menu']") }).first();
+  expect(await rail.getByRole("button").count()).toBeGreaterThanOrEqual(
+    before - 1,
+  );
+  const switcher = page
+    .getByRole("button", { expanded: false })
+    .filter({ has: page.locator("[aria-haspopup='menu']") })
+    .first();
   const trigger = page.locator("button[aria-haspopup='menu']").first();
   await trigger.click();
   const items = page.getByRole("menuitemradio");
@@ -272,7 +284,11 @@ test("workbench-rail filters and switches workspaces; the mobile template routes
 
   await gotoHydrated(page, "/preview/templates/template-coldbrook-mobile");
   await page.getByRole("tab", { name: "/security" }).click();
-  await expect(page.getByText(/custody/i).first()).toBeVisible({ timeout: 5000 });
+  await expect(page.getByText(/custody/i).first()).toBeVisible({
+    timeout: 5000,
+  });
   await page.getByRole("tab", { name: "/networks" }).click();
-  await expect(page.locator("button[aria-pressed]").first()).toBeVisible({ timeout: 5000 });
+  await expect(page.locator("button[aria-pressed]").first()).toBeVisible({
+    timeout: 5000,
+  });
 });
