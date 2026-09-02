@@ -113,20 +113,27 @@ vec3 dl_sampleOver(vec2 uv) {
   return mix(u_bg.rgb, t.rgb, t.a);
 }
 
-// A fixed 8x8 Bayer threshold from the classic bit-interleaving closed form
-// (Bayer2 -> Bayer4 -> Bayer8) rather than a lookup table, so there is never
-// a non-constant array index. The matrix never moves, so the same screen
-// cell always dithers to the same threshold.
-float dl_bayer2(vec2 a) {
-  vec2 f = floor(a);
-  return fract(f.x * 0.5 + f.y * f.y * 0.75);
+// The 2x2 base cell every Bayer level nests: bit-pair (bx,by) -> its 0..3
+// rung. Bit-interleaving this per bit-plane (weight 16 for the least
+// significant bit down to weight 1 for the most significant) reproduces the
+// classic 8x8 matrix exactly — bounded to [0, 63/64], mean 31.5/64 — so
+// there is never a lookup table, a non-constant array index, or a threshold
+// that can exceed 1.0 and force a cell dark regardless of luminance.
+int dl_bayer2(int bx, int by) {
+  if (bx == 0 && by == 0) return 0;
+  if (bx == 1 && by == 0) return 2;
+  if (bx == 0 && by == 1) return 3;
+  return 1;
 }
 float dl_bayerThreshold(vec2 cell) {
-  vec2 c = mod(cell, 8.0);
-  float b2 = dl_bayer2(c);
-  float b4 = dl_bayer2(c * 0.5) * 0.25 + b2;
-  float b8 = dl_bayer2(c * 0.25) * 0.25 + b4;
-  return b8;
+  ivec2 c = ivec2(mod(cell, 8.0));
+  int total = 0;
+  int weight = 16;
+  for (int bit = 0; bit < 3; bit += 1) {
+    total += dl_bayer2((c.x >> bit) & 1, (c.y >> bit) & 1) * weight;
+    weight /= 4;
+  }
+  return float(total) / 64.0;
 }
 
 float dl_tri(float x) {

@@ -51,6 +51,17 @@ const CONTINUOUS = new Set([
   "hex-floor",
   // <wing2-continuous>
   "soap-film",
+  "oil-slick",
+  "amber-set",
+  "crt-screen",
+  "film-reel",
+  "fax-feed",
+  "snow-settle",
+  "mote-beam",
+  "polar-veil",
+  "rain-ledge",
+  "sand-wind",
+  "leaf-fall",
   // </wing2-continuous>
 ]);
 
@@ -63,6 +74,12 @@ const SETTLE_MS: Record<string, number> = {
   "wet-canvas": 11000,
   "scanner-lens": 4000,
   // <wing2-settle>
+  "mercury-pool": 7500,
+  "pixel-melt": 6000,
+  "cinder-trail": 3500,
+  "thunder-shade": 3500,
+  "smoke-wisp": 3500,
+  "frost-breath": 6000,
   // </wing2-settle>
 };
 
@@ -128,6 +145,13 @@ for (const slug of roster) {
     // focus starting point there, so the next Tab lands inside — through
     // the effect canvas, which has pointer events off.
     await root.scrollIntoViewIfNeeded();
+    // A tall root scrolls with its top under the sticky header; put the
+    // top a little below it so the click lands on the root's own padding.
+    await root.evaluate((el) => {
+      const top = el.getBoundingClientRect().top;
+      if (top < 96) window.scrollBy(0, top - 96);
+    });
+    await page.waitForTimeout(150);
     const rootBox = await root.boundingBox();
     expect(rootBox).not.toBeNull();
     if (!rootBox) return;

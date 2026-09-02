@@ -313,6 +313,40 @@ import { EchoTypeDemo } from "@/registry/demos/echo-type.demo";
 import { BandTypeDemo } from "@/registry/demos/band-type.demo";
 import { SurfacePaintDemo } from "@/registry/demos/surface-paint.demo";
 import { CrystalLensDemo } from "@/registry/demos/crystal-lens.demo";
+import { SnowSettleDemo } from "@/registry/demos/snow-settle.demo";
+import { RainLedgeDemo } from "@/registry/demos/rain-ledge.demo";
+import { LeafFallDemo } from "@/registry/demos/leaf-fall.demo";
+import { InkBloomDemo } from "@/registry/demos/ink-bloom.demo";
+import { VelvetDrawDemo } from "@/registry/demos/velvet-draw.demo";
+import { IrisBladesDemo } from "@/registry/demos/iris-blades.demo";
+import { LouvreFlipDemo } from "@/registry/demos/louvre-flip.demo";
+import { BurnThroughDemo } from "@/registry/demos/burn-through.demo";
+import { LiquidWipeDemo } from "@/registry/demos/liquid-wipe.demo";
+import { TileAssembleDemo } from "@/registry/demos/tile-assemble.demo";
+import { TearStripDemo } from "@/registry/demos/tear-strip.demo";
+import { PolarVeilDemo } from "@/registry/demos/polar-veil.demo";
+import { MoteBeamDemo } from "@/registry/demos/mote-beam.demo";
+import { SandWindDemo } from "@/registry/demos/sand-wind.demo";
+import { ThunderShadeDemo } from "@/registry/demos/thunder-shade.demo";
+import { CinderTrailDemo } from "@/registry/demos/cinder-trail.demo";
+import { FrostBreathDemo } from "@/registry/demos/frost-breath.demo";
+import { SmokeWispDemo } from "@/registry/demos/smoke-wisp.demo";
+import { PixelDissolveDemo } from "@/registry/demos/pixel-dissolve.demo";
+import { ReededGlassDemo } from "@/registry/demos/reeded-glass.demo";
+import { MercuryPoolDemo } from "@/registry/demos/mercury-pool.demo";
+import { LensFlareDemo } from "@/registry/demos/lens-flare.demo";
+import { OilSlickDemo } from "@/registry/demos/oil-slick.demo";
+import { AmberSetDemo } from "@/registry/demos/amber-set.demo";
+import { CrtScreenDemo } from "@/registry/demos/crt-screen.demo";
+import { FilmReelDemo } from "@/registry/demos/film-reel.demo";
+import { PhotocopyDemo } from "@/registry/demos/photocopy.demo";
+import { ThermalReceiptDemo } from "@/registry/demos/thermal-receipt.demo";
+import { FaxFeedDemo } from "@/registry/demos/fax-feed.demo";
+import { RisoPrintDemo } from "@/registry/demos/riso-print.demo";
+import { DuotoneWashDemo } from "@/registry/demos/duotone-wash.demo";
+import { BloomHaloDemo } from "@/registry/demos/bloom-halo.demo";
+import { ScrollSmearDemo } from "@/registry/demos/scroll-smear.demo";
+import { PixelMeltDemo } from "@/registry/demos/pixel-melt.demo";
 import { HoneyGlassDemo } from "@/registry/demos/honey-glass.demo";
 import { ThermalLensDemo } from "@/registry/demos/thermal-lens.demo";
 import { NegativeLensDemo } from "@/registry/demos/negative-lens.demo";
@@ -914,6 +948,40 @@ export const demos: Record<string, ComponentType> = {
   "band-type": BandTypeDemo,
   "surface-paint": SurfacePaintDemo,
   "crystal-lens": CrystalLensDemo,
+  "snow-settle": SnowSettleDemo,
+  "rain-ledge": RainLedgeDemo,
+  "leaf-fall": LeafFallDemo,
+  "ink-bloom": InkBloomDemo,
+  "velvet-draw": VelvetDrawDemo,
+  "iris-blades": IrisBladesDemo,
+  "louvre-flip": LouvreFlipDemo,
+  "burn-through": BurnThroughDemo,
+  "liquid-wipe": LiquidWipeDemo,
+  "tile-assemble": TileAssembleDemo,
+  "tear-strip": TearStripDemo,
+  "polar-veil": PolarVeilDemo,
+  "mote-beam": MoteBeamDemo,
+  "sand-wind": SandWindDemo,
+  "thunder-shade": ThunderShadeDemo,
+  "cinder-trail": CinderTrailDemo,
+  "frost-breath": FrostBreathDemo,
+  "smoke-wisp": SmokeWispDemo,
+  "pixel-dissolve": PixelDissolveDemo,
+  "reeded-glass": ReededGlassDemo,
+  "mercury-pool": MercuryPoolDemo,
+  "lens-flare": LensFlareDemo,
+  "oil-slick": OilSlickDemo,
+  "amber-set": AmberSetDemo,
+  "crt-screen": CrtScreenDemo,
+  "film-reel": FilmReelDemo,
+  photocopy: PhotocopyDemo,
+  "thermal-receipt": ThermalReceiptDemo,
+  "fax-feed": FaxFeedDemo,
+  "riso-print": RisoPrintDemo,
+  "duotone-wash": DuotoneWashDemo,
+  "bloom-halo": BloomHaloDemo,
+  "scroll-smear": ScrollSmearDemo,
+  "pixel-melt": PixelMeltDemo,
   "honey-glass": HoneyGlassDemo,
   "thermal-lens": ThermalLensDemo,
   "negative-lens": NegativeLensDemo,

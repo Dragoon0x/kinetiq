@@ -6781,6 +6781,558 @@ Notes:
 - Clicks reach the real DOM through the prism.
 - Reduced motion shows the real, sharp DOM.
 
+### Reeded Glass (KQ-406) — `reeded-glass`
+Fluted, and honest about it.
+
+The interface behind reeded glass: vertical flutes refract the page into repeating slivers, a highlight runs down each rib, and the pointer shifts the phase so the slivers slide as you move. A privacy glass that still shows the shape of things.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/reeded-glass`
+
+Props:
+- `pitch / depth`: number — Flute width in px and how far a flute bends the view.
+- `orientation`: "vertical" | "horizontal" — Which way the flutes run.
+- `highlight / clarity`: number — The rib highlight and how much of the page stays legible.
+
+Notes:
+- Each flute is a half-cylinder: the refraction offset is the cylinder's normal, so slivers repeat with true optics.
+- Clicks reach the real DOM through the glass.
+- Reduced motion shows the real DOM.
+
+### Mercury Pool (KQ-407) — `mercury-pool`
+Liquid metal, and the page in it.
+
+The interface reflected in a pool of mercury: a chrome surface with a sky-to-ground reflection gradient, ripples that spread from the pointer, and the page floating on it as ink in the metal. The ripples are a real height-field wave; the metal is a reflection model.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mercury-pool`
+
+Props:
+- `metal / reflection`: number · number — How chrome the surface reads and how strong the environment reflection is.
+- `ripple / damping`: number — Ripple strength from the pointer and how fast it fades.
+- `ink`: number — How much of the page shows in the metal.
+
+Notes:
+- Ripples run on a GPU height field like pond-glass; the metal shades from the field's normal.
+- Clicks reach the real DOM through the pool.
+- Reduced motion shows the real, still DOM.
+
+### Lens Flare (KQ-408) — `lens-flare`
+Light leaks toward the cursor.
+
+An anamorphic flare drawn from the brightest parts of the interface toward the cursor: horizontal streaks, a few ghost discs along the line, and a soft bloom, all sourced from the page's own highlights. Draws only the light, so the page stays itself.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lens-flare`
+
+Props:
+- `threshold / streak / ghosts`: number — The luminance that counts as a light source, the streak length in px, and how many ghost discs.
+- `color / intensity`: string · number — The flare tint and overall strength.
+
+Notes:
+- Sources are bright pixels of the painted texture, so a white heading flares and a grey one does not.
+- Overlay: draws only the light; the DOM underneath stays real.
+- Reduced motion draws one still flare with no motion.
+
+### Oil Slick (KQ-409) — `oil-slick`
+A film on water, slowly turning.
+
+The interface under an oil slick: iridescent bands drift over the page with the slow swirl of oil on water, colour ordered by thickness, and a faint reflection of light on the surface. It never repeats and never randomises; the swirl is a flow field on the clock.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/oil-slick`
+
+Props:
+- `strength / speed / scale`: number — How strong the colour is, how fast the slick turns, and how large its swirls.
+- `sheen`: number — The surface reflection strength.
+
+Notes:
+- Colour is an interference approximation over a swirling thickness field.
+- Clicks reach the real DOM through the slick.
+- Reduced motion shows the real, still DOM.
+
+### Amber Set (KQ-410) — `amber-set`
+Kept, in amber.
+
+The interface set in amber: a warm translucent block with inclusions — tiny bubbles and flecks — that drift very slowly, a refraction that thickens toward the edges, and a glow where light enters from above. Everything is preserved; nothing moves fast.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/amber-set`
+
+Props:
+- `tint / depth`: string · number — The amber colour and how thick the block reads.
+- `inclusions / drift`: number — How many bubbles and flecks, and how slowly they drift.
+- `glow`: number — Light entering from the top edge.
+
+Notes:
+- Inclusions are seeded points that drift on the clock; nothing is random.
+- Clicks reach the real DOM through the amber.
+- Reduced motion shows the real, still DOM.
+
+### CRT Screen (KQ-411) — `crt-screen`
+Curved glass, warm phosphor.
+
+The interface on a cathode-ray tube: the page curves toward the corners, scanlines and a phosphor triad sit over it, bright type blooms, and the picture breathes with a faint flicker and a slow rolling bar. A click powers it off and on again with the collapse to a line.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crt-screen`
+
+Props:
+- `curvature / scanlines / triad`: number — Barrel curvature, scanline weight, and phosphor triad visibility.
+- `bloom / flicker / roll`: number — Glow on bright tones, brightness flicker, and the rolling bar's strength.
+- `powerCycle`: boolean — Whether a click powers the tube off and on.
+
+Notes:
+- The curvature is a barrel transform of the sample coordinate; the corners fall to black outside the tube.
+- Clicks reach the real DOM through the glass.
+- Reduced motion shows the real, flat DOM.
+
+### Film Reel (KQ-412) — `film-reel`
+Projected, with the gate weave.
+
+The interface projected from 35mm film: a gentle gate weave, dust and hairs that flicker in for a frame, a soft vignette, warm faded colour, and a sprocket-edge flicker at the frame's side. Every flaw is seeded from the frame count, so the reel plays the same each time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/film-reel`
+
+Props:
+- `weave / grain / dust`: number — Gate weave amplitude in px, grain strength, and how often dust and hairs appear.
+- `fade / vignette / fps`: number — Colour fade toward warm, edge darkening, and the projected frame rate.
+
+Notes:
+- Frames tick at the projector rate; dust and hairs are hashed from the frame number.
+- Clicks reach the real DOM through the projection.
+- Reduced motion shows the real, clean DOM.
+
+### Photocopy (KQ-413) — `photocopy`
+A copy of a copy.
+
+The interface as a photocopy: contrast crushed to near black-and-white, toner speckle in the greys, a faint skew and offset from the glass, and a streak where the drum was dirty. Each click makes a copy of the copy — one generation worse.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/photocopy`
+
+Props:
+- `generation / contrast`: number — How many generations deep the copy starts and the contrast crush per generation.
+- `speckle / skew / streak`: number — Toner speckle, glass skew in degrees, and the drum streak strength.
+
+Notes:
+- Each generation is the same transform applied again, seeded by the generation count.
+- Clicks reach the real DOM and also make another copy.
+- Reduced motion shows the real, first-generation DOM.
+
+### Thermal Receipt (KQ-414) — `thermal-receipt`
+Printed on the way down.
+
+The interface printed by a thermal receipt printer as you scroll: dots burn in row by row behind a print head that moves down the page, the paper is warm and faintly ribbed, and where the head moved fast the print comes out light. Scroll back and the paper is blank again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/thermal-receipt`
+
+Props:
+- `mode / progress`: "scroll" | "auto" | "manual" · number — What drives the head.
+- `dot / fade / paper`: number · number · string — Dot pitch in px, how light fast printing comes out, and the paper colour.
+
+Notes:
+- The head's position is the scroll progress; rows above it are printed, rows below are paper.
+- The unprinted part still holds the real DOM.
+- Reduced motion shows the real DOM fully printed.
+
+### Fax Feed (KQ-415) — `fax-feed`
+Coming through, line by line.
+
+The interface arriving by fax: a scan line moves down the page and everything above it is the received copy — dithered to black and white with the odd dropped line and a horizontal smear — while below it the page waits. When the sheet is done it feeds out and a new one starts.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fax-feed`
+
+Props:
+- `speed / dither`: number — Lines per second and dither strength.
+- `dropouts / smear`: number — How often a line drops, and horizontal smear in px.
+- `loop`: boolean — Whether the sheet feeds out and restarts.
+
+Notes:
+- The scan position is the clock; each received line is dithered from the texture with a seeded dropout.
+- Clicks reach the real DOM through the fax.
+- Reduced motion shows the real, complete DOM.
+
+### Riso Print (KQ-416) — `riso-print`
+Two inks, slightly off.
+
+The interface printed on a risograph: two spot inks separated from the page by luminance, misregistered by a few pixels, with paper grain and the soft edges of the stencil. Each click re-registers the plates — a little differently every time, but always the same for the same click.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/riso-print`
+
+Props:
+- `ink1 / ink2 / paper`: string — The two spot inks and the paper colour.
+- `offset / grain / soft`: number — Misregistration in px, paper grain, and stencil softness.
+
+Notes:
+- Registration offsets are hashed from the click count, so a print is reproducible.
+- Clicks reach the real DOM and re-register the plates.
+- Reduced motion shows the real DOM.
+
+### Duotone Wash (KQ-417) — `duotone-wash`
+Two colours, one angle.
+
+The interface mapped to a duotone: shadows to one colour, lights to another, with the gradient's angle following the pointer so the wash turns as you move. A poster's palette on a live page.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/duotone-wash`
+
+Props:
+- `shadow / light`: string — The two ends of the map.
+- `angle / mix / contrast`: number — The gradient's rotation offset, how much of the original colour survives, and the tone contrast.
+
+Notes:
+- The map is applied per pixel by luminance; the angle adds a second axis so the wash has direction.
+- Clicks reach the real DOM through the wash.
+- Reduced motion shows the real DOM in a still duotone.
+
+### Bloom Halo (KQ-418) — `bloom-halo`
+Light spills from the bright parts.
+
+A soft bloom on the interface's brightest tones: white type and pale seals glow into their surroundings, and the glow swells where the pointer comes near, as if the page were lit from within. The rest stays exact.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bloom-halo`
+
+Props:
+- `threshold / radius / intensity`: number — The luminance that blooms, the blur radius in px, and the glow strength.
+- `swell / reach`: number — How much the pointer swells the bloom and how far its reach.
+
+Notes:
+- Bloom is a thresholded, blurred copy of the page added back — nothing invented.
+- Clicks reach the real DOM through the glow.
+- Reduced motion shows one still bloom.
+
+### Scroll Smear (KQ-419) — `scroll-smear`
+Faster than the eye.
+
+The interface smears with scroll velocity: scroll quickly and the page streaks vertically like a long exposure, stop and it snaps back sharp. The blur length is the measured velocity, decayed on the clock, so a flick leaves a tail and a slow scroll leaves none.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/scroll-smear`
+
+Props:
+- `strength / decay`: number — Blur length per px/s of scroll and how fast it decays.
+- `taps / axis`: number · "y" | "x" — Blur quality and direction.
+
+Notes:
+- Velocity is measured from scroll events and decays each frame; no blur remains once still.
+- Clicks reach the real DOM through the smear.
+- Reduced motion shows the real, sharp DOM.
+
+### Pixel Melt (KQ-420) — `pixel-melt`
+It drips where you rest.
+
+The interface melts under the pointer: pixels near the cursor stretch downward into drips that lengthen the longer you rest, then set again once you leave. The drip lengths live in a small map that the pointer heats and time cools.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pixel-melt`
+
+Props:
+- `radius / rate / cool`: number — How wide the heat is, how fast drips grow per second, and how fast they set.
+- `maxDrip / columns`: number — The longest drip in px and the drip column width in px.
+
+Notes:
+- Heat is an offscreen map warmed by the pointer and faded by time, like ice-pane's melt.
+- Clicks reach the real DOM through the melt.
+- Reduced motion shows the real, solid DOM.
+
+### Snow Settle (KQ-421) — `snow-settle`
+It lands on what is there.
+
+Snow that knows the page: flakes fall over the interface and settle on the top edges of the things beneath — a heading, a button, a table rule — building small drifts where the texture has a ledge. The pointer brushes drifts away. Draws only the snow.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/snow-settle`
+
+Props:
+- `density / speed / size`: number — How many flakes, how fast they fall, and their size.
+- `drift / brush`: number — How tall drifts grow on ledges and how wide the pointer brushes them off.
+- `color`: string — Snow colour.
+
+Notes:
+- Ledges are found from the painted texture: a dark pixel above a light one is a top edge, so drifts form on real elements.
+- Overlay: draws only the snow; the DOM stays real.
+- Reduced motion draws one still snowfall.
+
+### Cinder Trail (KQ-422) — `cinder-trail`
+Sparks from where you have been.
+
+Cinders rise from the pointer's path: small glowing embers that lift, drift on a warm draught, and die in a second, brighter the faster you move. Draws only the embers; the page beneath stays cool.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cinder-trail`
+
+Props:
+- `rate / life / lift`: number — Embers per second while moving, their life in seconds, and how fast they rise.
+- `heat / color`: number · string — Glow strength and the ember colour.
+
+Notes:
+- Embers are spawned from pointer motion into a small CPU list and drawn as glowing points.
+- Overlay: draws only the embers; the DOM stays real.
+- Reduced motion draws none.
+
+### Mote Beam (KQ-423) — `mote-beam`
+A shaft of light, and the dust in it.
+
+A shaft of light falls across the interface at an angle, and dust motes drift through it, bright only where the beam is; the pointer stirs the motes as it passes. The page under the beam warms slightly; outside it, nothing changes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mote-beam`
+
+Props:
+- `angle / width / warmth`: number — The beam's angle in degrees, its width in px, and how much it warms the page.
+- `motes / stir`: number — How many motes and how much the pointer stirs them.
+
+Notes:
+- Motes are seeded points drifting on the clock; they are lit only inside the beam.
+- Overlay: draws only the light and the motes.
+- Reduced motion draws one still beam.
+
+### Polar Veil (KQ-424) — `polar-veil`
+Curtains of light over the page.
+
+An aurora over the top of the interface: curtains of green and violet light ripple down from the top edge, folding slowly, and fade before they reach the content. The curtains are a flowing noise field; nothing is random.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/polar-veil`
+
+Props:
+- `height / speed / fold`: number — How far the curtains reach in px, how fast they move, and how folded they are.
+- `green / violet / intensity`: string · string · number — The two aurora colours and overall strength.
+
+Notes:
+- Curtains are vertical rays of a folded noise field, brightest at their base.
+- Overlay: draws only the light.
+- Reduced motion draws one still aurora.
+
+### Thunder Shade (KQ-425) — `thunder-shade`
+A cloud passes; click, and it strikes.
+
+A storm over the interface: a cloud shadow drifts slowly across the page darkening what it covers, and a click strikes lightning — a branching bolt from the top to the click point, a flash that lights the whole page, and a rumble of afterglow. Draws only the weather.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/thunder-shade`
+
+Props:
+- `shade / drift`: number — How dark the cloud shadow is and how fast it drifts.
+- `bolt / flash / branches`: number — Bolt brightness, flash strength, and how many branches a strike grows.
+
+Notes:
+- The bolt is a seeded polyline per strike, hashed from the click count, so the same click strikes the same way.
+- Overlay: draws only the shadow and the bolt; the DOM stays real.
+- Reduced motion draws the still shadow and no strike.
+
+### Rain Ledge (KQ-426) — `rain-ledge`
+It hits what is there.
+
+Rain that lands on the page's ledges: drops fall over the interface, and where the texture has a top edge — a button, a heading, a rule — they splash into a ring and run off. Draws only the rain and the splashes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rain-ledge`
+
+Props:
+- `density / speed / length`: number — How many drops, how fast they fall, and how long the streaks are.
+- `splash / color`: number · string — Splash size and the water colour.
+
+Notes:
+- Ledges come from the painted texture, so drops splash on real elements.
+- Overlay: draws only the rain.
+- Reduced motion draws one still rainfall.
+
+### Smoke Wisp (KQ-427) — `smoke-wisp`
+A thread of smoke from the cursor.
+
+A wisp of smoke rises from the pointer: a thin thread that curls, widens, and thins out over a second, following a flowing field so no two wisps curl the same way, yet none is random. Rest, and it thickens; move, and it trails.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/smoke-wisp`
+
+Props:
+- `width / rise / life`: number — Wisp thickness in px, rise speed, and life in seconds.
+- `curl / color`: number · string — How much the wisp curls and its colour.
+
+Notes:
+- The wisp is a chain of points advected through a noise field; the field is on the clock.
+- Overlay: draws only the smoke.
+- Reduced motion draws none.
+
+### Frost Breath (KQ-428) — `frost-breath`
+Cold enough to see your breath.
+
+Breath on cold glass: a cloud of fog blooms from the pointer when it rests, spreads, and clears over a few seconds, softening the page under it. Draws only the fog; where it clears, the page is exact.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/frost-breath`
+
+Props:
+- `radius / bloom / clear`: number — How wide a breath spreads, how fast it blooms, and how fast it clears.
+- `blur / tint`: number · string — How much the fog softens the page and its tint.
+
+Notes:
+- The fog is an offscreen map warmed by the pointer and faded by time.
+- Overlay: draws the softened page only where fog lies.
+- Reduced motion draws none.
+
+### Sand Wind (KQ-429) — `sand-wind`
+Wind, and the grit in it.
+
+A sandstorm across the interface: grains stream sideways in gusts, the page behind them abrades — softened where the stream is thickest — and a haze rises and falls with the wind. The gusts are a flow field on the clock.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sand-wind`
+
+Props:
+- `density / speed / gust`: number — How thick the stream, how fast, and how strongly it gusts.
+- `abrade / haze / color`: number · number · string — How much the page softens under the stream, the haze strength, and the sand colour.
+
+Notes:
+- Grains are streaked noise moving with a gust field; abrasion is a blur weighted by the stream.
+- Clicks reach the real DOM through the storm.
+- Reduced motion shows the real, calm DOM.
+
+### Leaf Fall (KQ-430) — `leaf-fall`
+They land, and they stay.
+
+Leaves drift down over the interface, tumbling on a gentle wind, and settle where the page has a ledge — on a heading, a rule, a button — until the pointer sweeps them off. A slow, seasonal way to remind a page that time passes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/leaf-fall`
+
+Props:
+- `count / wind / tumble`: number — How many leaves are in the air, wind strength, and tumble rate.
+- `palette / sweep`: string[] · number — Leaf colours and how wide the pointer sweeps.
+
+Notes:
+- Ledges come from the painted texture; leaves stack where they land.
+- Overlay: draws only the leaves.
+- Reduced motion draws leaves already settled.
+
+### Pixel Dissolve (KQ-431) — `pixel-dissolve`
+Block by block, the next one.
+
+A transition between panels: change the index and the old panel dissolves in seeded pixel blocks — each block flips at its own hashed moment — while the new panel appears in the same blocks. Between transitions the surface is the live panel.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pixel-dissolve`
+
+Props:
+- `index / children`: number · ReactNode[] — Which panel shows; the children are the panels.
+- `block / duration / seed`: number · number · number — Block size in px, the dissolve's length in seconds, and which order the blocks flip in.
+
+Notes:
+- The outgoing panel's texture is retained at the moment the index changes.
+- Between sweeps the loop is off.
+- Reduced motion switches panels instantly with the real DOM visible.
+
+### Ink Bloom (KQ-432) — `ink-bloom`
+It spreads from where you pressed.
+
+A transition between panels: the new panel blooms outward from the switcher's button like ink dropped in water — a ragged, feathered front that carries a dark edge — and the old panel dissolves behind it. The origin is the button you pressed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ink-bloom`
+
+Props:
+- `index / children`: number · ReactNode[] — Which panel shows; the children are the panels.
+- `duration / feather / edge`: number — The bloom's length in seconds, its edge raggedness, and the dark rim's strength.
+- `origin`: [number, number] — Where the bloom starts as a fraction of the surface; defaults to the last pointer position.
+
+Notes:
+- The front is a distance field warped by noise, so it blooms unevenly like ink.
+- The outgoing texture is retained at the switch.
+- Reduced motion switches panels instantly.
+
+### Velvet Draw (KQ-433) — `velvet-draw`
+Curtains, and the next act.
+
+A transition between panels: two velvet curtains draw closed over the old panel, folds swaying, and open on the new one. The folds are lit as cloth, and the timing has the hesitation of a real stage.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/velvet-draw`
+
+Props:
+- `index / children`: number · ReactNode[] — Which panel shows; the children are the panels.
+- `duration / color / folds`: number · string · number — The full close-and-open in seconds, the velvet colour, and how many folds each curtain carries.
+
+Notes:
+- The curtains are shaded folds drawn in the shader; the page behind is the retained or the new texture.
+- The outgoing texture is retained at the switch.
+- Reduced motion switches panels instantly.
+
+### Iris Blades (KQ-434) — `iris-blades`
+An aperture between panels.
+
+A transition between panels: an iris of overlapping blades closes on the old panel and opens on the new, like a camera's aperture, with a bright edge on each blade. The blade count and the centre are yours.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/iris-blades`
+
+Props:
+- `index / children`: number · ReactNode[] — Which panel shows; the children are the panels.
+- `blades / duration / center`: number · number · [number, number] — How many blades, the full close-and-open in seconds, and the iris centre as a fraction.
+
+Notes:
+- The iris is a polygonal aperture in the shader; each blade's edge catches a highlight.
+- The outgoing texture is retained at the switch.
+- Reduced motion switches panels instantly.
+
+### Louvre Flip (KQ-435) — `louvre-flip`
+Slats turn, and the view changes.
+
+A transition between panels: horizontal slats flip like a louvre, each one turning a little after the one above, showing the old panel on the front face and the new one on the back. Perspective shades each slat as it turns.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/louvre-flip`
+
+Props:
+- `index / children`: number · ReactNode[] — Which panel shows; the children are the panels.
+- `slats / duration / stagger`: number — How many slats, the flip's length in seconds, and the delay between slats.
+
+Notes:
+- Each slat is a strip of the texture rotated about its centre line with perspective in the shader.
+- The outgoing texture is retained at the switch.
+- Reduced motion switches panels instantly.
+
+### Burn Through (KQ-436) — `burn-through`
+It burns away to the next.
+
+A transition between panels: the old panel burns from a seeded point — a glowing, ragged front eats it, leaving char and a few floating flakes — and the new panel is what was underneath. Every burn front is a noise field, so it never looks stamped.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/burn-through`
+
+Props:
+- `index / children`: number · ReactNode[] — Which panel shows; the children are the panels.
+- `duration / glow / char`: number — The burn's length in seconds, the ember edge's brightness, and how wide the char band is.
+
+Notes:
+- The front is a thresholded noise field; char and glow are bands behind it.
+- The outgoing texture is retained at the switch.
+- Reduced motion switches panels instantly.
+
+### Liquid Wipe (KQ-437) — `liquid-wipe`
+Poured over, and it is the next.
+
+A transition between panels: a liquid pours from the top and runs down the old panel, and where it has passed the new panel shows, wet and refracted at the running edge. The edge is a wave, not a line.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/liquid-wipe`
+
+Props:
+- `index / children`: number · ReactNode[] — Which panel shows; the children are the panels.
+- `duration / wave / refraction`: number — The pour's length in seconds, the edge's waviness, and how far the wet edge bends the page.
+- `color`: string — The liquid's tint.
+
+Notes:
+- The running edge is a noise-modulated line; the wet band refracts the new texture.
+- The outgoing texture is retained at the switch.
+- Reduced motion switches panels instantly.
+
+### Tile Assemble (KQ-438) — `tile-assemble`
+It arrives in pieces.
+
+A transition between panels: the new panel arrives as tiles that fly in from the edges, each rotating into place on its own spring, while the old panel's tiles fly out the other way. Tiles are real quads on a grid mesh with perspective.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tile-assemble`
+
+Props:
+- `index / children`: number · ReactNode[] — Which panel shows; the children are the panels.
+- `cols / rows / duration / spread`: number — The tile grid, the assembly's length in seconds, and how far tiles start from home.
+
+Notes:
+- Tiles are quads on a mesh with a per-tile offset and rotation driven by a staggered progress.
+- The outgoing texture is retained at the switch.
+- Reduced motion switches panels instantly.
+
+### Tear Strip (KQ-439) — `tear-strip`
+Torn open, along the perforation.
+
+A transition between panels: a strip tears across the old panel along a perforated line, the torn edge ragged and slightly lifted with a shadow, and the new panel is under it. Tear direction and the perforation's row are yours.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tear-strip`
+
+Props:
+- `index / children`: number · ReactNode[] — Which panel shows; the children are the panels.
+- `duration / row / rough`: number — The tear's length in seconds, where the perforation sits as a fraction of the height, and edge roughness.
+
+Notes:
+- The tear edge is a noise line advancing with progress; the lifted flap casts a soft shadow.
+- The outgoing texture is retained at the switch.
+- Reduced motion switches panels instantly.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

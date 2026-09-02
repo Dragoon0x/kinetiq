@@ -15463,6 +15463,1429 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "reeded-glass",
+    type: "registry:ui",
+    title: "Reeded Glass",
+    description:
+      "The interface behind reeded glass: vertical flutes refract the page into repeating slivers, a highlight runs down each rib, and the pointer shifts the phase so the slivers slide as you move. A privacy glass that still shows the shape of things.",
+    files: [{ path: "registry/ui/reeded-glass.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-406" },
+    tagline: "Fluted, and honest about it.",
+    keywords: ["effects", "glass", "reeded", "fluted", "refraction", "privacy"],
+    props: [
+      {
+        name: "pitch / depth",
+        type: "number",
+        description: "Flute width in px and how far a flute bends the view.",
+      },
+      {
+        name: "orientation",
+        type: '"vertical" | "horizontal"',
+        description: "Which way the flutes run.",
+      },
+      {
+        name: "highlight / clarity",
+        type: "number",
+        description:
+          "The rib highlight and how much of the page stays legible.",
+      },
+    ],
+    usageNotes: [
+      "Each flute is a half-cylinder: the refraction offset is the cylinder's normal, so slivers repeat with true optics.",
+      "Clicks reach the real DOM through the glass.",
+      "Reduced motion shows the real DOM.",
+    ],
+  },
+  {
+    name: "mercury-pool",
+    type: "registry:ui",
+    title: "Mercury Pool",
+    description:
+      "The interface reflected in a pool of mercury: a chrome surface with a sky-to-ground reflection gradient, ripples that spread from the pointer, and the page floating on it as ink in the metal. The ripples are a real height-field wave; the metal is a reflection model.",
+    files: [{ path: "registry/ui/mercury-pool.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-407" },
+    tagline: "Liquid metal, and the page in it.",
+    keywords: ["effects", "mercury", "chrome", "liquid", "ripples", "cursor"],
+    props: [
+      {
+        name: "metal / reflection",
+        type: "number · number",
+        description:
+          "How chrome the surface reads and how strong the environment reflection is.",
+      },
+      {
+        name: "ripple / damping",
+        type: "number",
+        description: "Ripple strength from the pointer and how fast it fades.",
+      },
+      {
+        name: "ink",
+        type: "number",
+        description: "How much of the page shows in the metal.",
+      },
+    ],
+    usageNotes: [
+      "Ripples run on a GPU height field like pond-glass; the metal shades from the field's normal.",
+      "Clicks reach the real DOM through the pool.",
+      "Reduced motion shows the real, still DOM.",
+    ],
+  },
+  {
+    name: "lens-flare",
+    type: "registry:ui",
+    title: "Lens Flare",
+    description:
+      "An anamorphic flare drawn from the brightest parts of the interface toward the cursor: horizontal streaks, a few ghost discs along the line, and a soft bloom, all sourced from the page's own highlights. Draws only the light, so the page stays itself.",
+    files: [{ path: "registry/ui/lens-flare.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-408" },
+    tagline: "Light leaks toward the cursor.",
+    keywords: ["effects", "flare", "anamorphic", "bloom", "light", "cursor"],
+    props: [
+      {
+        name: "threshold / streak / ghosts",
+        type: "number",
+        description:
+          "The luminance that counts as a light source, the streak length in px, and how many ghost discs.",
+      },
+      {
+        name: "color / intensity",
+        type: "string · number",
+        description: "The flare tint and overall strength.",
+      },
+    ],
+    usageNotes: [
+      "Sources are bright pixels of the painted texture, so a white heading flares and a grey one does not.",
+      "Overlay: draws only the light; the DOM underneath stays real.",
+      "Reduced motion draws one still flare with no motion.",
+    ],
+  },
+  {
+    name: "oil-slick",
+    type: "registry:ui",
+    title: "Oil Slick",
+    description:
+      "The interface under an oil slick: iridescent bands drift over the page with the slow swirl of oil on water, colour ordered by thickness, and a faint reflection of light on the surface. It never repeats and never randomises; the swirl is a flow field on the clock.",
+    files: [{ path: "registry/ui/oil-slick.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-409" },
+    tagline: "A film on water, slowly turning.",
+    keywords: ["effects", "oil", "iridescent", "swirl", "flow", "ambient"],
+    props: [
+      {
+        name: "strength / speed / scale",
+        type: "number",
+        description:
+          "How strong the colour is, how fast the slick turns, and how large its swirls.",
+      },
+      {
+        name: "sheen",
+        type: "number",
+        description: "The surface reflection strength.",
+      },
+    ],
+    usageNotes: [
+      "Colour is an interference approximation over a swirling thickness field.",
+      "Clicks reach the real DOM through the slick.",
+      "Reduced motion shows the real, still DOM.",
+    ],
+  },
+  {
+    name: "amber-set",
+    type: "registry:ui",
+    title: "Amber Set",
+    description:
+      "The interface set in amber: a warm translucent block with inclusions — tiny bubbles and flecks — that drift very slowly, a refraction that thickens toward the edges, and a glow where light enters from above. Everything is preserved; nothing moves fast.",
+    files: [{ path: "registry/ui/amber-set.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-410" },
+    tagline: "Kept, in amber.",
+    keywords: ["effects", "amber", "resin", "inclusions", "warm", "ambient"],
+    props: [
+      {
+        name: "tint / depth",
+        type: "string · number",
+        description: "The amber colour and how thick the block reads.",
+      },
+      {
+        name: "inclusions / drift",
+        type: "number",
+        description: "How many bubbles and flecks, and how slowly they drift.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        description: "Light entering from the top edge.",
+      },
+    ],
+    usageNotes: [
+      "Inclusions are seeded points that drift on the clock; nothing is random.",
+      "Clicks reach the real DOM through the amber.",
+      "Reduced motion shows the real, still DOM.",
+    ],
+  },
+  {
+    name: "crt-screen",
+    type: "registry:ui",
+    title: "CRT Screen",
+    description:
+      "The interface on a cathode-ray tube: the page curves toward the corners, scanlines and a phosphor triad sit over it, bright type blooms, and the picture breathes with a faint flicker and a slow rolling bar. A click powers it off and on again with the collapse to a line.",
+    files: [{ path: "registry/ui/crt-screen.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-411" },
+    tagline: "Curved glass, warm phosphor.",
+    keywords: ["effects", "crt", "scanlines", "phosphor", "retro", "bloom"],
+    props: [
+      {
+        name: "curvature / scanlines / triad",
+        type: "number",
+        description:
+          "Barrel curvature, scanline weight, and phosphor triad visibility.",
+      },
+      {
+        name: "bloom / flicker / roll",
+        type: "number",
+        description:
+          "Glow on bright tones, brightness flicker, and the rolling bar's strength.",
+      },
+      {
+        name: "powerCycle",
+        type: "boolean",
+        description: "Whether a click powers the tube off and on.",
+      },
+    ],
+    usageNotes: [
+      "The curvature is a barrel transform of the sample coordinate; the corners fall to black outside the tube.",
+      "Clicks reach the real DOM through the glass.",
+      "Reduced motion shows the real, flat DOM.",
+    ],
+  },
+  {
+    name: "film-reel",
+    type: "registry:ui",
+    title: "Film Reel",
+    description:
+      "The interface projected from 35mm film: a gentle gate weave, dust and hairs that flicker in for a frame, a soft vignette, warm faded colour, and a sprocket-edge flicker at the frame's side. Every flaw is seeded from the frame count, so the reel plays the same each time.",
+    files: [{ path: "registry/ui/film-reel.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-412" },
+    tagline: "Projected, with the gate weave.",
+    keywords: ["effects", "film", "projector", "grain", "vignette", "retro"],
+    props: [
+      {
+        name: "weave / grain / dust",
+        type: "number",
+        description:
+          "Gate weave amplitude in px, grain strength, and how often dust and hairs appear.",
+      },
+      {
+        name: "fade / vignette / fps",
+        type: "number",
+        description:
+          "Colour fade toward warm, edge darkening, and the projected frame rate.",
+      },
+    ],
+    usageNotes: [
+      "Frames tick at the projector rate; dust and hairs are hashed from the frame number.",
+      "Clicks reach the real DOM through the projection.",
+      "Reduced motion shows the real, clean DOM.",
+    ],
+  },
+  {
+    name: "photocopy",
+    type: "registry:ui",
+    title: "Photocopy",
+    description:
+      "The interface as a photocopy: contrast crushed to near black-and-white, toner speckle in the greys, a faint skew and offset from the glass, and a streak where the drum was dirty. Each click makes a copy of the copy — one generation worse.",
+    files: [{ path: "registry/ui/photocopy.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-413" },
+    tagline: "A copy of a copy.",
+    keywords: ["effects", "photocopy", "xerox", "toner", "generation", "click"],
+    props: [
+      {
+        name: "generation / contrast",
+        type: "number",
+        description:
+          "How many generations deep the copy starts and the contrast crush per generation.",
+      },
+      {
+        name: "speckle / skew / streak",
+        type: "number",
+        description:
+          "Toner speckle, glass skew in degrees, and the drum streak strength.",
+      },
+    ],
+    usageNotes: [
+      "Each generation is the same transform applied again, seeded by the generation count.",
+      "Clicks reach the real DOM and also make another copy.",
+      "Reduced motion shows the real, first-generation DOM.",
+    ],
+  },
+  {
+    name: "thermal-receipt",
+    type: "registry:ui",
+    title: "Thermal Receipt",
+    description:
+      "The interface printed by a thermal receipt printer as you scroll: dots burn in row by row behind a print head that moves down the page, the paper is warm and faintly ribbed, and where the head moved fast the print comes out light. Scroll back and the paper is blank again.",
+    files: [{ path: "registry/ui/thermal-receipt.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-414" },
+    tagline: "Printed on the way down.",
+    keywords: ["effects", "receipt", "thermal", "print", "scroll", "dots"],
+    props: [
+      {
+        name: "mode / progress",
+        type: '"scroll" | "auto" | "manual" · number',
+        description: "What drives the head.",
+      },
+      {
+        name: "dot / fade / paper",
+        type: "number · number · string",
+        description:
+          "Dot pitch in px, how light fast printing comes out, and the paper colour.",
+      },
+    ],
+    usageNotes: [
+      "The head's position is the scroll progress; rows above it are printed, rows below are paper.",
+      "The unprinted part still holds the real DOM.",
+      "Reduced motion shows the real DOM fully printed.",
+    ],
+  },
+  {
+    name: "fax-feed",
+    type: "registry:ui",
+    title: "Fax Feed",
+    description:
+      "The interface arriving by fax: a scan line moves down the page and everything above it is the received copy — dithered to black and white with the odd dropped line and a horizontal smear — while below it the page waits. When the sheet is done it feeds out and a new one starts.",
+    files: [{ path: "registry/ui/fax-feed.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-415" },
+    tagline: "Coming through, line by line.",
+    keywords: ["effects", "fax", "scan", "dither", "feed", "ambient"],
+    props: [
+      {
+        name: "speed / dither",
+        type: "number",
+        description: "Lines per second and dither strength.",
+      },
+      {
+        name: "dropouts / smear",
+        type: "number",
+        description: "How often a line drops, and horizontal smear in px.",
+      },
+      {
+        name: "loop",
+        type: "boolean",
+        description: "Whether the sheet feeds out and restarts.",
+      },
+    ],
+    usageNotes: [
+      "The scan position is the clock; each received line is dithered from the texture with a seeded dropout.",
+      "Clicks reach the real DOM through the fax.",
+      "Reduced motion shows the real, complete DOM.",
+    ],
+  },
+  {
+    name: "riso-print",
+    type: "registry:ui",
+    title: "Riso Print",
+    description:
+      "The interface printed on a risograph: two spot inks separated from the page by luminance, misregistered by a few pixels, with paper grain and the soft edges of the stencil. Each click re-registers the plates — a little differently every time, but always the same for the same click.",
+    files: [{ path: "registry/ui/riso-print.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-416" },
+    tagline: "Two inks, slightly off.",
+    keywords: [
+      "effects",
+      "risograph",
+      "print",
+      "spot-colour",
+      "misregistration",
+      "click",
+    ],
+    props: [
+      {
+        name: "ink1 / ink2 / paper",
+        type: "string",
+        description: "The two spot inks and the paper colour.",
+      },
+      {
+        name: "offset / grain / soft",
+        type: "number",
+        description:
+          "Misregistration in px, paper grain, and stencil softness.",
+      },
+    ],
+    usageNotes: [
+      "Registration offsets are hashed from the click count, so a print is reproducible.",
+      "Clicks reach the real DOM and re-register the plates.",
+      "Reduced motion shows the real DOM.",
+    ],
+  },
+  {
+    name: "duotone-wash",
+    type: "registry:ui",
+    title: "Duotone Wash",
+    description:
+      "The interface mapped to a duotone: shadows to one colour, lights to another, with the gradient's angle following the pointer so the wash turns as you move. A poster's palette on a live page.",
+    files: [{ path: "registry/ui/duotone-wash.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-417" },
+    tagline: "Two colours, one angle.",
+    keywords: [
+      "effects",
+      "duotone",
+      "gradient-map",
+      "poster",
+      "palette",
+      "cursor",
+    ],
+    props: [
+      {
+        name: "shadow / light",
+        type: "string",
+        description: "The two ends of the map.",
+      },
+      {
+        name: "angle / mix / contrast",
+        type: "number",
+        description:
+          "The gradient's rotation offset, how much of the original colour survives, and the tone contrast.",
+      },
+    ],
+    usageNotes: [
+      "The map is applied per pixel by luminance; the angle adds a second axis so the wash has direction.",
+      "Clicks reach the real DOM through the wash.",
+      "Reduced motion shows the real DOM in a still duotone.",
+    ],
+  },
+  {
+    name: "bloom-halo",
+    type: "registry:ui",
+    title: "Bloom Halo",
+    description:
+      "A soft bloom on the interface's brightest tones: white type and pale seals glow into their surroundings, and the glow swells where the pointer comes near, as if the page were lit from within. The rest stays exact.",
+    files: [{ path: "registry/ui/bloom-halo.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-418" },
+    tagline: "Light spills from the bright parts.",
+    keywords: ["effects", "bloom", "glow", "light", "soft", "cursor"],
+    props: [
+      {
+        name: "threshold / radius / intensity",
+        type: "number",
+        description:
+          "The luminance that blooms, the blur radius in px, and the glow strength.",
+      },
+      {
+        name: "swell / reach",
+        type: "number",
+        description:
+          "How much the pointer swells the bloom and how far its reach.",
+      },
+    ],
+    usageNotes: [
+      "Bloom is a thresholded, blurred copy of the page added back — nothing invented.",
+      "Clicks reach the real DOM through the glow.",
+      "Reduced motion shows one still bloom.",
+    ],
+  },
+  {
+    name: "scroll-smear",
+    type: "registry:ui",
+    title: "Scroll Smear",
+    description:
+      "The interface smears with scroll velocity: scroll quickly and the page streaks vertically like a long exposure, stop and it snaps back sharp. The blur length is the measured velocity, decayed on the clock, so a flick leaves a tail and a slow scroll leaves none.",
+    files: [{ path: "registry/ui/scroll-smear.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-419" },
+    tagline: "Faster than the eye.",
+    keywords: [
+      "effects",
+      "motion-blur",
+      "scroll",
+      "velocity",
+      "streak",
+      "speed",
+    ],
+    props: [
+      {
+        name: "strength / decay",
+        type: "number",
+        description: "Blur length per px/s of scroll and how fast it decays.",
+      },
+      {
+        name: "taps / axis",
+        type: 'number · "y" | "x"',
+        description: "Blur quality and direction.",
+      },
+    ],
+    usageNotes: [
+      "Velocity is measured from scroll events and decays each frame; no blur remains once still.",
+      "Clicks reach the real DOM through the smear.",
+      "Reduced motion shows the real, sharp DOM.",
+    ],
+  },
+  {
+    name: "pixel-melt",
+    type: "registry:ui",
+    title: "Pixel Melt",
+    description:
+      "The interface melts under the pointer: pixels near the cursor stretch downward into drips that lengthen the longer you rest, then set again once you leave. The drip lengths live in a small map that the pointer heats and time cools.",
+    files: [{ path: "registry/ui/pixel-melt.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-420" },
+    tagline: "It drips where you rest.",
+    keywords: ["effects", "melt", "drip", "distortion", "heat", "cursor"],
+    props: [
+      {
+        name: "radius / rate / cool",
+        type: "number",
+        description:
+          "How wide the heat is, how fast drips grow per second, and how fast they set.",
+      },
+      {
+        name: "maxDrip / columns",
+        type: "number",
+        description: "The longest drip in px and the drip column width in px.",
+      },
+    ],
+    usageNotes: [
+      "Heat is an offscreen map warmed by the pointer and faded by time, like ice-pane's melt.",
+      "Clicks reach the real DOM through the melt.",
+      "Reduced motion shows the real, solid DOM.",
+    ],
+  },
+  {
+    name: "polar-veil",
+    type: "registry:ui",
+    title: "Polar Veil",
+    description:
+      "An aurora over the top of the interface: curtains of green and violet light ripple down from the top edge, folding slowly, and fade before they reach the content. The curtains are a flowing noise field; nothing is random.",
+    files: [{ path: "registry/ui/polar-veil.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-424" },
+    tagline: "Curtains of light over the page.",
+    keywords: ["effects", "aurora", "curtains", "light", "night", "ambient"],
+    props: [
+      {
+        name: "height / speed / fold",
+        type: "number",
+        description:
+          "How far the curtains reach in px, how fast they move, and how folded they are.",
+      },
+      {
+        name: "green / violet / intensity",
+        type: "string · string · number",
+        description: "The two aurora colours and overall strength.",
+      },
+    ],
+    usageNotes: [
+      "Curtains are vertical rays of a folded noise field, brightest at their base.",
+      "Overlay: draws only the light.",
+      "Reduced motion draws one still aurora.",
+    ],
+  },
+  {
+    name: "mote-beam",
+    type: "registry:ui",
+    title: "Mote Beam",
+    description:
+      "A shaft of light falls across the interface at an angle, and dust motes drift through it, bright only where the beam is; the pointer stirs the motes as it passes. The page under the beam warms slightly; outside it, nothing changes.",
+    files: [{ path: "registry/ui/mote-beam.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-423" },
+    tagline: "A shaft of light, and the dust in it.",
+    keywords: ["effects", "light", "dust", "motes", "beam", "ambient"],
+    props: [
+      {
+        name: "angle / width / warmth",
+        type: "number",
+        description:
+          "The beam's angle in degrees, its width in px, and how much it warms the page.",
+      },
+      {
+        name: "motes / stir",
+        type: "number",
+        description: "How many motes and how much the pointer stirs them.",
+      },
+    ],
+    usageNotes: [
+      "Motes are seeded points drifting on the clock; they are lit only inside the beam.",
+      "Overlay: draws only the light and the motes.",
+      "Reduced motion draws one still beam.",
+    ],
+  },
+  {
+    name: "sand-wind",
+    type: "registry:ui",
+    title: "Sand Wind",
+    description:
+      "A sandstorm across the interface: grains stream sideways in gusts, the page behind them abrades — softened where the stream is thickest — and a haze rises and falls with the wind. The gusts are a flow field on the clock.",
+    files: [{ path: "registry/ui/sand-wind.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-429" },
+    tagline: "Wind, and the grit in it.",
+    keywords: ["effects", "sand", "wind", "storm", "grit", "ambient"],
+    props: [
+      {
+        name: "density / speed / gust",
+        type: "number",
+        description:
+          "How thick the stream, how fast, and how strongly it gusts.",
+      },
+      {
+        name: "abrade / haze / color",
+        type: "number · number · string",
+        description:
+          "How much the page softens under the stream, the haze strength, and the sand colour.",
+      },
+    ],
+    usageNotes: [
+      "Grains are streaked noise moving with a gust field; abrasion is a blur weighted by the stream.",
+      "Clicks reach the real DOM through the storm.",
+      "Reduced motion shows the real, calm DOM.",
+    ],
+  },
+  {
+    name: "thunder-shade",
+    type: "registry:ui",
+    title: "Thunder Shade",
+    description:
+      "A storm over the interface: a cloud shadow drifts slowly across the page darkening what it covers, and a click strikes lightning — a branching bolt from the top to the click point, a flash that lights the whole page, and a rumble of afterglow. Draws only the weather.",
+    files: [{ path: "registry/ui/thunder-shade.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-425" },
+    tagline: "A cloud passes; click, and it strikes.",
+    keywords: ["effects", "storm", "cloud", "lightning", "shadow", "click"],
+    props: [
+      {
+        name: "shade / drift",
+        type: "number",
+        description: "How dark the cloud shadow is and how fast it drifts.",
+      },
+      {
+        name: "bolt / flash / branches",
+        type: "number",
+        description:
+          "Bolt brightness, flash strength, and how many branches a strike grows.",
+      },
+    ],
+    usageNotes: [
+      "The bolt is a seeded polyline per strike, hashed from the click count, so the same click strikes the same way.",
+      "Overlay: draws only the shadow and the bolt; the DOM stays real.",
+      "Reduced motion draws the still shadow and no strike.",
+    ],
+  },
+  {
+    name: "cinder-trail",
+    type: "registry:ui",
+    title: "Cinder Trail",
+    description:
+      "Cinders rise from the pointer's path: small glowing embers that lift, drift on a warm draught, and die in a second, brighter the faster you move. Draws only the embers; the page beneath stays cool.",
+    files: [{ path: "registry/ui/cinder-trail.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-422" },
+    tagline: "Sparks from where you have been.",
+    keywords: ["effects", "embers", "sparks", "trail", "particles", "cursor"],
+    props: [
+      {
+        name: "rate / life / lift",
+        type: "number",
+        description:
+          "Embers per second while moving, their life in seconds, and how fast they rise.",
+      },
+      {
+        name: "heat / color",
+        type: "number · string",
+        description: "Glow strength and the ember colour.",
+      },
+    ],
+    usageNotes: [
+      "Embers are spawned from pointer motion into a small CPU list and drawn as glowing points.",
+      "Overlay: draws only the embers; the DOM stays real.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "frost-breath",
+    type: "registry:ui",
+    title: "Frost Breath",
+    description:
+      "Breath on cold glass: a cloud of fog blooms from the pointer when it rests, spreads, and clears over a few seconds, softening the page under it. Draws only the fog; where it clears, the page is exact.",
+    files: [{ path: "registry/ui/frost-breath.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-428" },
+    tagline: "Cold enough to see your breath.",
+    keywords: ["effects", "fog", "breath", "cold", "bloom", "cursor"],
+    props: [
+      {
+        name: "radius / bloom / clear",
+        type: "number",
+        description:
+          "How wide a breath spreads, how fast it blooms, and how fast it clears.",
+      },
+      {
+        name: "blur / tint",
+        type: "number · string",
+        description: "How much the fog softens the page and its tint.",
+      },
+    ],
+    usageNotes: [
+      "The fog is an offscreen map warmed by the pointer and faded by time.",
+      "Overlay: draws the softened page only where fog lies.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "smoke-wisp",
+    type: "registry:ui",
+    title: "Smoke Wisp",
+    description:
+      "A wisp of smoke rises from the pointer: a thin thread that curls, widens, and thins out over a second, following a flowing field so no two wisps curl the same way, yet none is random. Rest, and it thickens; move, and it trails.",
+    files: [{ path: "registry/ui/smoke-wisp.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-427" },
+    tagline: "A thread of smoke from the cursor.",
+    keywords: ["effects", "smoke", "wisp", "curl", "trail", "cursor"],
+    props: [
+      {
+        name: "width / rise / life",
+        type: "number",
+        description: "Wisp thickness in px, rise speed, and life in seconds.",
+      },
+      {
+        name: "curl / color",
+        type: "number · string",
+        description: "How much the wisp curls and its colour.",
+      },
+    ],
+    usageNotes: [
+      "The wisp is a chain of points advected through a noise field; the field is on the clock.",
+      "Overlay: draws only the smoke.",
+      "Reduced motion draws none.",
+    ],
+  },
+  {
+    name: "pixel-dissolve",
+    type: "registry:ui",
+    title: "Pixel Dissolve",
+    description:
+      "A transition between panels: change the index and the old panel dissolves in seeded pixel blocks — each block flips at its own hashed moment — while the new panel appears in the same blocks. Between transitions the surface is the live panel.",
+    files: [{ path: "registry/ui/pixel-dissolve.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-431" },
+    tagline: "Block by block, the next one.",
+    keywords: ["effects", "transition", "dissolve", "pixels", "panels", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "block / duration / seed",
+        type: "number · number · number",
+        description:
+          "Block size in px, the dissolve's length in seconds, and which order the blocks flip in.",
+      },
+    ],
+    usageNotes: [
+      "The outgoing panel's texture is retained at the moment the index changes.",
+      "Between sweeps the loop is off.",
+      "Reduced motion switches panels instantly with the real DOM visible.",
+    ],
+  },
+  {
+    name: "snow-settle",
+    type: "registry:ui",
+    title: "Snow Settle",
+    description:
+      "Snow that knows the page: flakes fall over the interface and settle on the top edges of the things beneath — a heading, a button, a table rule — building small drifts where the texture has a ledge. The pointer brushes drifts away. Draws only the snow.",
+    files: [{ path: "registry/ui/snow-settle.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-421" },
+    tagline: "It lands on what is there.",
+    keywords: ["effects", "snow", "weather", "ledges", "particles", "ambient"],
+    props: [
+      {
+        name: "density / speed / size",
+        type: "number",
+        description: "How many flakes, how fast they fall, and their size.",
+      },
+      {
+        name: "drift / brush",
+        type: "number",
+        description:
+          "How tall drifts grow on ledges and how wide the pointer brushes them off.",
+      },
+      {
+        name: "color",
+        type: "string",
+        description: "Snow colour.",
+      },
+    ],
+    usageNotes: [
+      "Ledges are found from the painted texture: a dark pixel above a light one is a top edge, so drifts form on real elements.",
+      "Overlay: draws only the snow; the DOM stays real.",
+      "Reduced motion draws one still snowfall.",
+    ],
+  },
+  {
+    name: "rain-ledge",
+    type: "registry:ui",
+    title: "Rain Ledge",
+    description:
+      "Rain that lands on the page's ledges: drops fall over the interface, and where the texture has a top edge — a button, a heading, a rule — they splash into a ring and run off. Draws only the rain and the splashes.",
+    files: [{ path: "registry/ui/rain-ledge.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-426" },
+    tagline: "It hits what is there.",
+    keywords: ["effects", "rain", "splash", "ledges", "weather", "ambient"],
+    props: [
+      {
+        name: "density / speed / length",
+        type: "number",
+        description:
+          "How many drops, how fast they fall, and how long the streaks are.",
+      },
+      {
+        name: "splash / color",
+        type: "number · string",
+        description: "Splash size and the water colour.",
+      },
+    ],
+    usageNotes: [
+      "Ledges come from the painted texture, so drops splash on real elements.",
+      "Overlay: draws only the rain.",
+      "Reduced motion draws one still rainfall.",
+    ],
+  },
+  {
+    name: "leaf-fall",
+    type: "registry:ui",
+    title: "Leaf Fall",
+    description:
+      "Leaves drift down over the interface, tumbling on a gentle wind, and settle where the page has a ledge — on a heading, a rule, a button — until the pointer sweeps them off. A slow, seasonal way to remind a page that time passes.",
+    files: [{ path: "registry/ui/leaf-fall.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-430" },
+    tagline: "They land, and they stay.",
+    keywords: ["effects", "leaves", "autumn", "drift", "ledges", "ambient"],
+    props: [
+      {
+        name: "count / wind / tumble",
+        type: "number",
+        description:
+          "How many leaves are in the air, wind strength, and tumble rate.",
+      },
+      {
+        name: "palette / sweep",
+        type: "string[] · number",
+        description: "Leaf colours and how wide the pointer sweeps.",
+      },
+    ],
+    usageNotes: [
+      "Ledges come from the painted texture; leaves stack where they land.",
+      "Overlay: draws only the leaves.",
+      "Reduced motion draws leaves already settled.",
+    ],
+  },
+  {
+    name: "ink-bloom",
+    type: "registry:ui",
+    title: "Ink Bloom",
+    description:
+      "A transition between panels: the new panel blooms outward from the switcher's button like ink dropped in water — a ragged, feathered front that carries a dark edge — and the old panel dissolves behind it. The origin is the button you pressed.",
+    files: [{ path: "registry/ui/ink-bloom.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-432" },
+    tagline: "It spreads from where you pressed.",
+    keywords: ["effects", "transition", "ink", "bloom", "panels", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "duration / feather / edge",
+        type: "number",
+        description:
+          "The bloom's length in seconds, its edge raggedness, and the dark rim's strength.",
+      },
+      {
+        name: "origin",
+        type: "[number, number]",
+        description:
+          "Where the bloom starts as a fraction of the surface; defaults to the last pointer position.",
+      },
+    ],
+    usageNotes: [
+      "The front is a distance field warped by noise, so it blooms unevenly like ink.",
+      "The outgoing texture is retained at the switch.",
+      "Reduced motion switches panels instantly.",
+    ],
+  },
+  {
+    name: "velvet-draw",
+    type: "registry:ui",
+    title: "Velvet Draw",
+    description:
+      "A transition between panels: two velvet curtains draw closed over the old panel, folds swaying, and open on the new one. The folds are lit as cloth, and the timing has the hesitation of a real stage.",
+    files: [{ path: "registry/ui/velvet-draw.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-433" },
+    tagline: "Curtains, and the next act.",
+    keywords: ["effects", "transition", "curtain", "stage", "panels", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "duration / color / folds",
+        type: "number · string · number",
+        description:
+          "The full close-and-open in seconds, the velvet colour, and how many folds each curtain carries.",
+      },
+    ],
+    usageNotes: [
+      "The curtains are shaded folds drawn in the shader; the page behind is the retained or the new texture.",
+      "The outgoing texture is retained at the switch.",
+      "Reduced motion switches panels instantly.",
+    ],
+  },
+  {
+    name: "iris-blades",
+    type: "registry:ui",
+    title: "Iris Blades",
+    description:
+      "A transition between panels: an iris of overlapping blades closes on the old panel and opens on the new, like a camera's aperture, with a bright edge on each blade. The blade count and the centre are yours.",
+    files: [{ path: "registry/ui/iris-blades.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-434" },
+    tagline: "An aperture between panels.",
+    keywords: ["effects", "transition", "iris", "aperture", "panels", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "blades / duration / center",
+        type: "number · number · [number, number]",
+        description:
+          "How many blades, the full close-and-open in seconds, and the iris centre as a fraction.",
+      },
+    ],
+    usageNotes: [
+      "The iris is a polygonal aperture in the shader; each blade's edge catches a highlight.",
+      "The outgoing texture is retained at the switch.",
+      "Reduced motion switches panels instantly.",
+    ],
+  },
+  {
+    name: "louvre-flip",
+    type: "registry:ui",
+    title: "Louvre Flip",
+    description:
+      "A transition between panels: horizontal slats flip like a louvre, each one turning a little after the one above, showing the old panel on the front face and the new one on the back. Perspective shades each slat as it turns.",
+    files: [{ path: "registry/ui/louvre-flip.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-435" },
+    tagline: "Slats turn, and the view changes.",
+    keywords: ["effects", "transition", "louvre", "slats", "panels", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "slats / duration / stagger",
+        type: "number",
+        description:
+          "How many slats, the flip's length in seconds, and the delay between slats.",
+      },
+    ],
+    usageNotes: [
+      "Each slat is a strip of the texture rotated about its centre line with perspective in the shader.",
+      "The outgoing texture is retained at the switch.",
+      "Reduced motion switches panels instantly.",
+    ],
+  },
+  {
+    name: "burn-through",
+    type: "registry:ui",
+    title: "Burn Through",
+    description:
+      "A transition between panels: the old panel burns from a seeded point — a glowing, ragged front eats it, leaving char and a few floating flakes — and the new panel is what was underneath. Every burn front is a noise field, so it never looks stamped.",
+    files: [{ path: "registry/ui/burn-through.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-436" },
+    tagline: "It burns away to the next.",
+    keywords: ["effects", "transition", "burn", "fire", "panels", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "duration / glow / char",
+        type: "number",
+        description:
+          "The burn's length in seconds, the ember edge's brightness, and how wide the char band is.",
+      },
+    ],
+    usageNotes: [
+      "The front is a thresholded noise field; char and glow are bands behind it.",
+      "The outgoing texture is retained at the switch.",
+      "Reduced motion switches panels instantly.",
+    ],
+  },
+  {
+    name: "liquid-wipe",
+    type: "registry:ui",
+    title: "Liquid Wipe",
+    description:
+      "A transition between panels: a liquid pours from the top and runs down the old panel, and where it has passed the new panel shows, wet and refracted at the running edge. The edge is a wave, not a line.",
+    files: [{ path: "registry/ui/liquid-wipe.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-437" },
+    tagline: "Poured over, and it is the next.",
+    keywords: ["effects", "transition", "liquid", "pour", "panels", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "duration / wave / refraction",
+        type: "number",
+        description:
+          "The pour's length in seconds, the edge's waviness, and how far the wet edge bends the page.",
+      },
+      {
+        name: "color",
+        type: "string",
+        description: "The liquid's tint.",
+      },
+    ],
+    usageNotes: [
+      "The running edge is a noise-modulated line; the wet band refracts the new texture.",
+      "The outgoing texture is retained at the switch.",
+      "Reduced motion switches panels instantly.",
+    ],
+  },
+  {
+    name: "tile-assemble",
+    type: "registry:ui",
+    title: "Tile Assemble",
+    description:
+      "A transition between panels: the new panel arrives as tiles that fly in from the edges, each rotating into place on its own spring, while the old panel's tiles fly out the other way. Tiles are real quads on a grid mesh with perspective.",
+    files: [{ path: "registry/ui/tile-assemble.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-438" },
+    tagline: "It arrives in pieces.",
+    keywords: ["effects", "transition", "tiles", "assemble", "panels", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "cols / rows / duration / spread",
+        type: "number",
+        description:
+          "The tile grid, the assembly's length in seconds, and how far tiles start from home.",
+      },
+    ],
+    usageNotes: [
+      "Tiles are quads on a mesh with a per-tile offset and rotation driven by a staggered progress.",
+      "The outgoing texture is retained at the switch.",
+      "Reduced motion switches panels instantly.",
+    ],
+  },
+  {
+    name: "tear-strip",
+    type: "registry:ui",
+    title: "Tear Strip",
+    description:
+      "A transition between panels: a strip tears across the old panel along a perforated line, the torn edge ragged and slightly lifted with a shadow, and the new panel is under it. Tear direction and the perforation's row are yours.",
+    files: [{ path: "registry/ui/tear-strip.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "surface-paint",
+      "paint",
+      "glsl",
+      "use-painted-surface",
+    ],
+    categories: ["effects"],
+    meta: { serial: "KQ-439" },
+    tagline: "Torn open, along the perforation.",
+    keywords: ["effects", "transition", "tear", "paper", "panels", "tabs"],
+    props: [
+      {
+        name: "index / children",
+        type: "number · ReactNode[]",
+        description: "Which panel shows; the children are the panels.",
+      },
+      {
+        name: "duration / row / rough",
+        type: "number",
+        description:
+          "The tear's length in seconds, where the perforation sits as a fraction of the height, and edge roughness.",
+      },
+    ],
+    usageNotes: [
+      "The tear edge is a noise line advancing with progress; the lifted flap casts a soft shadow.",
+      "The outgoing texture is retained at the switch.",
+      "Reduced motion switches panels instantly.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",
