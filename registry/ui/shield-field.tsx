@@ -85,25 +85,36 @@ vec3 gridCell(vec2 p, float size) {
   return vec3(center, edge);
 }
 
-// Exact signed distance to a regular hexagon (negative inside), circumradius r.
-float sdHexagon(vec2 p, float r) {
-  const vec3 k = vec3(-0.8660254, 0.5, 0.5773503);
-  vec2 q = abs(p);
-  q -= 2.0 * min(dot(k.xy, q), 0.0) * k.xy;
-  q -= vec2(clamp(q.x, -k.z * r, k.z * r), r);
-  return length(q) * sign(q.y);
-}
-
-// Hex lattice: nearest centre via two offset square grids (the standard
-// two-grid trick — a hex tiling is the overlap of two rectangular ones),
-// then the exact hexagon SDF for the distance to the cell edge.
+// Hex lattice: nearest centre via two offset square grids. A pointy-top hex
+// tiling (flat sides left/right, points up/down — matched to the r*sqrt3
+// column spacing and 1.5r row spacing used below) is the union of two
+// rectangular lattices a full row-pair apart (period 3r vertically, one
+// row-spacing of 1.5r each) and offset from one another by half a period in
+// both axes — not a single grid at row-spacing 1.5r, which only degenerates
+// into a rhombic (diamond) tiling. Nearest-centre under Euclidean distance
+// is then exact for this lattice: the hex tiling IS the Voronoi diagram of
+// this exact point set, so whichever of the two grids' nearest points is
+// closer overall is the true containing cell.
+//
+// The edge distance is the direct hexagon distance (max of three
+// projections onto this orientation's edge normals, at 0/60/120 degrees —
+// (1,0), (0.5, 0.866), (-0.5, 0.866)), not an SDF built for a flat-top
+// hexagon rotated 30 degrees off this tiling: that mismatch left slivers
+// near every vertex that were outside the (wrong-orientation) SDF shape,
+// so they clamped to edge 0 and rendered fully "on the line" instead of
+// far from one — the small filled triangles at each cell corner.
 vec3 hexCell(vec2 p, float r) {
-  vec2 c = vec2(r * 1.7320508, r * 1.5);
+  vec2 c = vec2(r * 1.7320508, r * 3.0);
   vec2 a = mod(p, c) - c * 0.5;
   vec2 b = mod(p - c * 0.5, c) - c * 0.5;
   vec2 gv = dot(a, a) < dot(b, b) ? a : b;
   vec2 center = p - gv;
-  float edge = max(0.0, -sdHexagon(gv, r));
+  float apothem = r * 0.8660254;
+  float dist = max(
+    abs(gv.x),
+    max(abs(0.5 * gv.x + 0.8660254 * gv.y), abs(0.5 * gv.x - 0.8660254 * gv.y))
+  );
+  float edge = max(0.0, apothem - dist);
   return vec3(center, edge);
 }
 

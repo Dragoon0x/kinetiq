@@ -103,6 +103,18 @@ export const shared: KinetiqItem[] = [
     keywords: ["skill", "agent", "mcp", "claude", "distribution", "install"],
   },
   {
+    name: "figure",
+    type: "registry:lib",
+    title: "Figure runtime",
+    description:
+      "The lazy 3D runtime behind the figures: loads three and its loaders after mount, builds preset shapes or sniffs a GLB, glTF, SVG, or image by its bytes, and stages the object under studio light with orbit and idle motion.",
+    files: [{ path: "registry/lib/figure.ts", type: "registry:lib" }],
+    dependencies: ["three"],
+    registryDependencies: [],
+    tagline: "Three, loaded only when a figure asks for it.",
+    keywords: ["3d", "three", "gltf", "glb", "svg", "figure", "runtime"],
+  },
+  {
     name: "paint",
     type: "registry:lib",
     title: "Paint",

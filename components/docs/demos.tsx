@@ -313,6 +313,12 @@ import { EchoTypeDemo } from "@/registry/demos/echo-type.demo";
 import { BandTypeDemo } from "@/registry/demos/band-type.demo";
 import { SurfacePaintDemo } from "@/registry/demos/surface-paint.demo";
 import { CrystalLensDemo } from "@/registry/demos/crystal-lens.demo";
+import { AsciiFigureDemo } from "@/registry/demos/ascii-figure.demo";
+import { ParticleFigureDemo } from "@/registry/demos/particle-figure.demo";
+import { DitherFigureDemo } from "@/registry/demos/dither-figure.demo";
+import { InkFigureDemo } from "@/registry/demos/ink-figure.demo";
+import { GlassFigureDemo } from "@/registry/demos/glass-figure.demo";
+import { LiquidFigureDemo } from "@/registry/demos/liquid-figure.demo";
 import { SandScrollDemo } from "@/registry/demos/sand-scroll.demo";
 import { ClothDrapeDemo } from "@/registry/demos/cloth-drape.demo";
 import { CubeFoldDemo } from "@/registry/demos/cube-fold.demo";
@@ -893,6 +899,12 @@ export const demos: Record<string, ComponentType> = {
   "band-type": BandTypeDemo,
   "surface-paint": SurfacePaintDemo,
   "crystal-lens": CrystalLensDemo,
+  "ascii-figure": AsciiFigureDemo,
+  "particle-figure": ParticleFigureDemo,
+  "dither-figure": DitherFigureDemo,
+  "ink-figure": InkFigureDemo,
+  "glass-figure": GlassFigureDemo,
+  "liquid-figure": LiquidFigureDemo,
   "sand-scroll": SandScrollDemo,
   "cloth-drape": ClothDrapeDemo,
   "cube-fold": CubeFoldDemo,

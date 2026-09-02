@@ -14541,6 +14541,239 @@ export const components: KinetiqItem[] = [
     ],
   },
   {
+    name: "ascii-figure",
+    type: "registry:ui",
+    title: "ASCII Figure",
+    description:
+      "A 3D figure set in type: the lit render becomes a grid of glyphs chosen by luminance, in one colour, floating and rocking, and yours to orbit by dragging. A torus knot by default; any GLB, glTF, SVG, or image by URL. The 3D runtime loads lazily after mount.",
+    files: [{ path: "registry/ui/ascii-figure.tsx", type: "registry:ui" }],
+    dependencies: ["three"],
+    registryDependencies: ["utils", "use-motion-safe", "figure", "paint"],
+    categories: ["effects"],
+    meta: { serial: "KQ-385" },
+    tagline: "A figure, set in type.",
+    keywords: ["effects", "3d", "ascii", "figure", "glyphs", "model"],
+    props: [
+      {
+        name: "preset / src / scale",
+        type: "\u0022knot\u0022 | \u0022sphere\u0022 | \u0022capsule\u0022 | \u0022mark\u0022 \u00b7 string \u00b7 number",
+        description:
+          "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits.",
+      },
+      {
+        name: "orbit / idle",
+        type: "boolean",
+        description: "Drag to orbit, and the resting float and rock.",
+      },
+      {
+        name: "cell / charset / color",
+        type: "number \u00b7 string \u00b7 string",
+        description: "Glyph cell size, the character ramp, and the ink colour.",
+      },
+    ],
+    usageNotes: [
+      "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+      "Presets ship no asset; a URL source is fetched and sniffed, never trusted by extension.",
+      "Reduced motion renders one still frame at the default camera with orbit and idle off.",
+    ],
+  },
+  {
+    name: "dither-figure",
+    type: "registry:ui",
+    title: "Dither Figure",
+    description:
+      "A 3D figure in ordered dither: the lit render quantised through a Bayer matrix into a two-colour palette at a chosen pixel size, floating and rocking, yours to orbit. Retro on purpose and exact about it. The 3D runtime loads lazily after mount.",
+    files: [{ path: "registry/ui/dither-figure.tsx", type: "registry:ui" }],
+    dependencies: ["three"],
+    registryDependencies: ["utils", "use-motion-safe", "figure", "paint"],
+    categories: ["effects"],
+    meta: { serial: "KQ-386" },
+    tagline: "Lit, then dithered.",
+    keywords: ["effects", "3d", "dither", "figure", "retro", "model"],
+    props: [
+      {
+        name: "preset / src / scale",
+        type: "\u0022knot\u0022 | \u0022sphere\u0022 | \u0022capsule\u0022 | \u0022mark\u0022 \u00b7 string \u00b7 number",
+        description:
+          "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits.",
+      },
+      {
+        name: "orbit / idle",
+        type: "boolean",
+        description: "Drag to orbit, and the resting float and rock.",
+      },
+      {
+        name: "pixelSize / levels / darkColor / lightColor",
+        type: "number \u00b7 number \u00b7 string \u00b7 string",
+        description:
+          "The dither cell, its brightness steps, and the palette ends.",
+      },
+    ],
+    usageNotes: [
+      "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+      "The matrix is fixed; the same figure always dithers the same way.",
+      "Reduced motion renders one still frame at the default camera with orbit and idle off.",
+    ],
+  },
+  {
+    name: "ink-figure",
+    type: "registry:ui",
+    title: "Ink Figure",
+    description:
+      "A 3D figure drawn in ink: silhouette and crease lines from the depth and normal buffers, hatching that darkens with shade, on paper. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+    files: [{ path: "registry/ui/ink-figure.tsx", type: "registry:ui" }],
+    dependencies: ["three"],
+    registryDependencies: ["utils", "use-motion-safe", "figure", "paint"],
+    categories: ["effects"],
+    meta: { serial: "KQ-387" },
+    tagline: "Drawn, not rendered.",
+    keywords: ["effects", "3d", "ink", "hatching", "figure", "model"],
+    props: [
+      {
+        name: "preset / src / scale",
+        type: "\u0022knot\u0022 | \u0022sphere\u0022 | \u0022capsule\u0022 | \u0022mark\u0022 \u00b7 string \u00b7 number",
+        description:
+          "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits.",
+      },
+      {
+        name: "orbit / idle",
+        type: "boolean",
+        description: "Drag to orbit, and the resting float and rock.",
+      },
+      {
+        name: "lineWeight / hatch / color / paper",
+        type: "number \u00b7 number \u00b7 string \u00b7 string",
+        description:
+          "Outline thickness, hatch density, ink colour, and the paper colour.",
+      },
+    ],
+    usageNotes: [
+      "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+      "Lines come from depth and normal discontinuities, so they hold at any angle.",
+      "Reduced motion renders one still frame at the default camera with orbit and idle off.",
+    ],
+  },
+  {
+    name: "glass-figure",
+    type: "registry:ui",
+    title: "Glass Figure",
+    description:
+      "A 3D figure in glass: transmission, refraction, and dispersion through a physical material over a studio backdrop, so the figure bends what sits behind it. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+    files: [{ path: "registry/ui/glass-figure.tsx", type: "registry:ui" }],
+    dependencies: ["three"],
+    registryDependencies: ["utils", "use-motion-safe", "figure", "paint"],
+    categories: ["effects"],
+    meta: { serial: "KQ-388" },
+    tagline: "Bends what is behind it.",
+    keywords: ["effects", "3d", "glass", "refraction", "figure", "model"],
+    props: [
+      {
+        name: "preset / src / scale",
+        type: "\u0022knot\u0022 | \u0022sphere\u0022 | \u0022capsule\u0022 | \u0022mark\u0022 \u00b7 string \u00b7 number",
+        description:
+          "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits.",
+      },
+      {
+        name: "orbit / idle",
+        type: "boolean",
+        description: "Drag to orbit, and the resting float and rock.",
+      },
+      {
+        name: "ior / dispersion / thickness / tint",
+        type: "number \u00b7 number \u00b7 number \u00b7 string",
+        description:
+          "Refractive index, colour split, apparent thickness, and the glass tint.",
+      },
+    ],
+    usageNotes: [
+      "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+      "A backdrop with type behind the figure makes the refraction legible.",
+      "Reduced motion renders one still frame at the default camera with orbit and idle off.",
+    ],
+  },
+  {
+    name: "liquid-figure",
+    type: "registry:ui",
+    title: "Liquid Figure",
+    description:
+      "A 3D figure seen through liquid: the render is distorted by a flowing field that the cursor stirs, with a specular sheen on the ripples. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+    files: [{ path: "registry/ui/liquid-figure.tsx", type: "registry:ui" }],
+    dependencies: ["three"],
+    registryDependencies: ["utils", "use-motion-safe", "figure", "paint"],
+    categories: ["effects"],
+    meta: { serial: "KQ-390" },
+    tagline: "Seen through water.",
+    keywords: ["effects", "3d", "liquid", "figure", "distortion", "model"],
+    props: [
+      {
+        name: "preset / src / scale",
+        type: "\u0022knot\u0022 | \u0022sphere\u0022 | \u0022capsule\u0022 | \u0022mark\u0022 \u00b7 string \u00b7 number",
+        description:
+          "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits.",
+      },
+      {
+        name: "orbit / idle",
+        type: "boolean",
+        description: "Drag to orbit, and the resting float and rock.",
+      },
+      {
+        name: "strength / speed / stir / sheen",
+        type: "number",
+        description:
+          "How far the liquid bends the render, how fast it flows, how hard the cursor stirs it, and the highlight strength.",
+      },
+    ],
+    usageNotes: [
+      "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+      "The distortion field is procedural; nothing is stored between frames.",
+      "Reduced motion renders one still frame at the default camera with orbit and idle off.",
+    ],
+  },
+  {
+    name: "particle-figure",
+    type: "registry:ui",
+    title: "Particle Figure",
+    description:
+      "A 3D figure as points on its surface: thousands of particles that hold the shape, scatter from the cursor, swirl, and spring home. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+    files: [{ path: "registry/ui/particle-figure.tsx", type: "registry:ui" }],
+    dependencies: ["three"],
+    registryDependencies: ["utils", "use-motion-safe", "figure", "paint"],
+    categories: ["effects"],
+    meta: { serial: "KQ-389" },
+    tagline: "Held together, barely.",
+    keywords: ["effects", "3d", "particles", "figure", "points", "model"],
+    props: [
+      {
+        name: "preset / src / scale",
+        type: "\u0022knot\u0022 | \u0022sphere\u0022 | \u0022capsule\u0022 | \u0022mark\u0022 \u00b7 string \u00b7 number",
+        description:
+          "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits.",
+      },
+      {
+        name: "orbit / idle",
+        type: "boolean",
+        description: "Drag to orbit, and the resting float and rock.",
+      },
+      {
+        name: "count / size / color",
+        type: "number \u00b7 number \u00b7 string",
+        description:
+          "How many points sample the surface, their size, and their colour.",
+      },
+      {
+        name: "push / swirl / spring",
+        type: "number",
+        description:
+          "How far the cursor scatters them, the swirl around it, and how fast they return.",
+      },
+    ],
+    usageNotes: [
+      "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+      "Points are sampled from the surface once, seeded, so the figure is the same on every visit.",
+      "Reduced motion renders one still frame at the default camera with orbit and idle off.",
+    ],
+  },
+  {
     name: "vignette-stage-rail",
     type: "registry:ui",
     title: "Stage Rail Vignette",

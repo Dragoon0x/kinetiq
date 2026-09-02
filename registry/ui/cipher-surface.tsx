@@ -148,18 +148,20 @@ void main() {
   vec2 cellLocal = fract(px / vec2(cellW, cellH));
   vec2 cellCenterUV = (cellIndex + 0.5) * vec2(cellW, cellH) / u_res;
 
-  // The cell takes the darkest of five taps, not its centre: a cell that
-  // holds any ink at all reads as ink, so the cipher keeps the weight of
-  // the type it replaces instead of thinning to the anti-aliased average.
+  // The cell takes the tap that differs most from the ground, not its
+  // centre: a cell that holds any ink at all reads as ink, in either theme,
+  // so the cipher keeps the weight of the type it replaces instead of
+  // thinning to the anti-aliased average.
   vec2 tap = vec2(cellW, cellH) * 0.28 / u_res;
   vec3 pageColor = kx_sampleOver(cellCenterUV);
-  float luma = kx_luma(pageColor);
+  float contrast = length(pageColor - u_bg.rgb);
   for (int i = 0; i < 4; i++) {
     vec2 o = i == 0 ? vec2(tap.x, 0.0) : i == 1 ? vec2(-tap.x, 0.0) : i == 2 ? vec2(0.0, tap.y) : vec2(0.0, -tap.y);
     vec3 c = kx_sampleOver(cellCenterUV + o);
-    float l = kx_luma(c);
-    if (l < luma) { luma = l; pageColor = c; }
+    float k = length(c - u_bg.rgb);
+    if (k > contrast) { contrast = k; pageColor = c; }
   }
+  float luma = kx_luma(pageColor);
   bool isBg = length(pageColor - u_bg.rgb) < u_threshold;
 
   float dist = length(px - u_cursor);
@@ -192,7 +194,7 @@ void main() {
   vec3 glyphColor = mix(u_color, pageColorAb, u_colored);
   // Ink is strongest where the page is darkest: the cipher keeps the
   // weight of the type it replaces.
-  glyphColor *= mix(1.0, 0.45, luma) * u_brightness;
+  glyphColor *= mix(0.45, 1.0, clamp(contrast * 1.6, 0.0, 1.0)) * u_brightness;
   glyphColor = mix(glyphColor, u_color, u_edgeTint * edgeBand);
   glyphColor += u_color * u_edgeGlow * edgeBand * mask;
 

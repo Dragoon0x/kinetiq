@@ -10386,6 +10386,174 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ascii-figure",
+      "type": "registry:ui",
+      "title": "ASCII Figure",
+      "description": "A 3D figure set in type: the lit render becomes a grid of glyphs chosen by luminance, in one colour, floating and rocking, and yours to orbit by dragging. A torus knot by default; any GLB, glTF, SVG, or image by URL. The 3D runtime loads lazily after mount.",
+      "files": [
+        {
+          "path": "registry/ui/ascii-figure.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-385"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dither-figure",
+      "type": "registry:ui",
+      "title": "Dither Figure",
+      "description": "A 3D figure in ordered dither: the lit render quantised through a Bayer matrix into a two-colour palette at a chosen pixel size, floating and rocking, yours to orbit. Retro on purpose and exact about it. The 3D runtime loads lazily after mount.",
+      "files": [
+        {
+          "path": "registry/ui/dither-figure.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-386"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ink-figure",
+      "type": "registry:ui",
+      "title": "Ink Figure",
+      "description": "A 3D figure drawn in ink: silhouette and crease lines from the depth and normal buffers, hatching that darkens with shade, on paper. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+      "files": [
+        {
+          "path": "registry/ui/ink-figure.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-387"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "glass-figure",
+      "type": "registry:ui",
+      "title": "Glass Figure",
+      "description": "A 3D figure in glass: transmission, refraction, and dispersion through a physical material over a studio backdrop, so the figure bends what sits behind it. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+      "files": [
+        {
+          "path": "registry/ui/glass-figure.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-388"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "liquid-figure",
+      "type": "registry:ui",
+      "title": "Liquid Figure",
+      "description": "A 3D figure seen through liquid: the render is distorted by a flowing field that the cursor stirs, with a specular sheen on the ripples. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+      "files": [
+        {
+          "path": "registry/ui/liquid-figure.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-390"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "particle-figure",
+      "type": "registry:ui",
+      "title": "Particle Figure",
+      "description": "A 3D figure as points on its surface: thousands of particles that hold the shape, scatter from the cursor, swirl, and spring home. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+      "files": [
+        {
+          "path": "registry/ui/particle-figure.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-389"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",
@@ -16211,6 +16379,23 @@
           "target": ".claude/skills/kinetiq/SKILL.md"
         }
       ]
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "figure",
+      "type": "registry:lib",
+      "title": "Figure runtime",
+      "description": "The lazy 3D runtime behind the figures: loads three and its loaders after mount, builds preset shapes or sniffs a GLB, glTF, SVG, or image by its bytes, and stages the object under studio light with orbit and idle motion.",
+      "files": [
+        {
+          "path": "registry/lib/figure.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": []
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",

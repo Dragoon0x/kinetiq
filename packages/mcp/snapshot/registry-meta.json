@@ -13,11 +13,11 @@
     "indexUrl": "https://kinetiqui.vercel.app/r/registry.json",
     "docsUrl": "https://kinetiqui.vercel.app",
     "counts": {
-      "components": 383,
+      "components": 389,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
-      "shared": 10
+      "shared": 11
     }
   },
   "motion": {
@@ -22820,6 +22820,371 @@
       }
     },
     {
+      "slug": "ascii-figure",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "ASCII Figure",
+      "serial": "KQ-385",
+      "tagline": "A figure, set in type.",
+      "description": "A 3D figure set in type: the lit render becomes a grid of glyphs chosen by luminance, in one colour, floating and rocking, and yours to orbit by dragging. A torus knot by default; any GLB, glTF, SVG, or image by URL. The 3D runtime loads lazily after mount.",
+      "categories": [
+        "effects"
+      ],
+      "keywords": [
+        "effects",
+        "3d",
+        "ascii",
+        "figure",
+        "glyphs",
+        "model"
+      ],
+      "props": [
+        {
+          "name": "preset / src / scale",
+          "type": "\"knot\" | \"sphere\" | \"capsule\" | \"mark\" · string · number",
+          "description": "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits."
+        },
+        {
+          "name": "orbit / idle",
+          "type": "boolean",
+          "description": "Drag to orbit, and the resting float and rock."
+        },
+        {
+          "name": "cell / charset / color",
+          "type": "number · string · string",
+          "description": "Glyph cell size, the character ramp, and the ink colour."
+        }
+      ],
+      "usageNotes": [
+        "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+        "Presets ship no asset; a URL source is fetched and sniffed, never trusted by extension.",
+        "Reduced motion renders one still frame at the default camera with orbit and idle off."
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/ascii-figure",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/ascii-figure.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ascii-figure",
+        "npm": "npx shadcn@latest add @kinetiq/ascii-figure",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ascii-figure",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ascii-figure",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/ascii-figure.json"
+      }
+    },
+    {
+      "slug": "dither-figure",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Dither Figure",
+      "serial": "KQ-386",
+      "tagline": "Lit, then dithered.",
+      "description": "A 3D figure in ordered dither: the lit render quantised through a Bayer matrix into a two-colour palette at a chosen pixel size, floating and rocking, yours to orbit. Retro on purpose and exact about it. The 3D runtime loads lazily after mount.",
+      "categories": [
+        "effects"
+      ],
+      "keywords": [
+        "effects",
+        "3d",
+        "dither",
+        "figure",
+        "retro",
+        "model"
+      ],
+      "props": [
+        {
+          "name": "preset / src / scale",
+          "type": "\"knot\" | \"sphere\" | \"capsule\" | \"mark\" · string · number",
+          "description": "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits."
+        },
+        {
+          "name": "orbit / idle",
+          "type": "boolean",
+          "description": "Drag to orbit, and the resting float and rock."
+        },
+        {
+          "name": "pixelSize / levels / darkColor / lightColor",
+          "type": "number · number · string · string",
+          "description": "The dither cell, its brightness steps, and the palette ends."
+        }
+      ],
+      "usageNotes": [
+        "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+        "The matrix is fixed; the same figure always dithers the same way.",
+        "Reduced motion renders one still frame at the default camera with orbit and idle off."
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/dither-figure",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/dither-figure.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/dither-figure",
+        "npm": "npx shadcn@latest add @kinetiq/dither-figure",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/dither-figure",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/dither-figure",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/dither-figure.json"
+      }
+    },
+    {
+      "slug": "ink-figure",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ink Figure",
+      "serial": "KQ-387",
+      "tagline": "Drawn, not rendered.",
+      "description": "A 3D figure drawn in ink: silhouette and crease lines from the depth and normal buffers, hatching that darkens with shade, on paper. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+      "categories": [
+        "effects"
+      ],
+      "keywords": [
+        "effects",
+        "3d",
+        "ink",
+        "hatching",
+        "figure",
+        "model"
+      ],
+      "props": [
+        {
+          "name": "preset / src / scale",
+          "type": "\"knot\" | \"sphere\" | \"capsule\" | \"mark\" · string · number",
+          "description": "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits."
+        },
+        {
+          "name": "orbit / idle",
+          "type": "boolean",
+          "description": "Drag to orbit, and the resting float and rock."
+        },
+        {
+          "name": "lineWeight / hatch / color / paper",
+          "type": "number · number · string · string",
+          "description": "Outline thickness, hatch density, ink colour, and the paper colour."
+        }
+      ],
+      "usageNotes": [
+        "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+        "Lines come from depth and normal discontinuities, so they hold at any angle.",
+        "Reduced motion renders one still frame at the default camera with orbit and idle off."
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/ink-figure",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/ink-figure.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ink-figure",
+        "npm": "npx shadcn@latest add @kinetiq/ink-figure",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ink-figure",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ink-figure",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/ink-figure.json"
+      }
+    },
+    {
+      "slug": "glass-figure",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Glass Figure",
+      "serial": "KQ-388",
+      "tagline": "Bends what is behind it.",
+      "description": "A 3D figure in glass: transmission, refraction, and dispersion through a physical material over a studio backdrop, so the figure bends what sits behind it. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+      "categories": [
+        "effects"
+      ],
+      "keywords": [
+        "effects",
+        "3d",
+        "glass",
+        "refraction",
+        "figure",
+        "model"
+      ],
+      "props": [
+        {
+          "name": "preset / src / scale",
+          "type": "\"knot\" | \"sphere\" | \"capsule\" | \"mark\" · string · number",
+          "description": "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits."
+        },
+        {
+          "name": "orbit / idle",
+          "type": "boolean",
+          "description": "Drag to orbit, and the resting float and rock."
+        },
+        {
+          "name": "ior / dispersion / thickness / tint",
+          "type": "number · number · number · string",
+          "description": "Refractive index, colour split, apparent thickness, and the glass tint."
+        }
+      ],
+      "usageNotes": [
+        "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+        "A backdrop with type behind the figure makes the refraction legible.",
+        "Reduced motion renders one still frame at the default camera with orbit and idle off."
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/glass-figure",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/glass-figure.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/glass-figure",
+        "npm": "npx shadcn@latest add @kinetiq/glass-figure",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/glass-figure",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/glass-figure",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/glass-figure.json"
+      }
+    },
+    {
+      "slug": "particle-figure",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Particle Figure",
+      "serial": "KQ-389",
+      "tagline": "Held together, barely.",
+      "description": "A 3D figure as points on its surface: thousands of particles that hold the shape, scatter from the cursor, swirl, and spring home. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+      "categories": [
+        "effects"
+      ],
+      "keywords": [
+        "effects",
+        "3d",
+        "particles",
+        "figure",
+        "points",
+        "model"
+      ],
+      "props": [
+        {
+          "name": "preset / src / scale",
+          "type": "\"knot\" | \"sphere\" | \"capsule\" | \"mark\" · string · number",
+          "description": "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits."
+        },
+        {
+          "name": "orbit / idle",
+          "type": "boolean",
+          "description": "Drag to orbit, and the resting float and rock."
+        },
+        {
+          "name": "count / size / color",
+          "type": "number · number · string",
+          "description": "How many points sample the surface, their size, and their colour."
+        },
+        {
+          "name": "push / swirl / spring",
+          "type": "number",
+          "description": "How far the cursor scatters them, the swirl around it, and how fast they return."
+        }
+      ],
+      "usageNotes": [
+        "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+        "Points are sampled from the surface once, seeded, so the figure is the same on every visit.",
+        "Reduced motion renders one still frame at the default camera with orbit and idle off."
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/particle-figure",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/particle-figure.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/particle-figure",
+        "npm": "npx shadcn@latest add @kinetiq/particle-figure",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/particle-figure",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/particle-figure",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/particle-figure.json"
+      }
+    },
+    {
+      "slug": "liquid-figure",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Liquid Figure",
+      "serial": "KQ-390",
+      "tagline": "Seen through water.",
+      "description": "A 3D figure seen through liquid: the render is distorted by a flowing field that the cursor stirs, with a specular sheen on the ripples. Floats and rocks, yours to orbit. The 3D runtime loads lazily after mount.",
+      "categories": [
+        "effects"
+      ],
+      "keywords": [
+        "effects",
+        "3d",
+        "liquid",
+        "figure",
+        "distortion",
+        "model"
+      ],
+      "props": [
+        {
+          "name": "preset / src / scale",
+          "type": "\"knot\" | \"sphere\" | \"capsule\" | \"mark\" · string · number",
+          "description": "A built-in shape, or a GLB, glTF, SVG, or image URL sniffed by its bytes, and how large it sits."
+        },
+        {
+          "name": "orbit / idle",
+          "type": "boolean",
+          "description": "Drag to orbit, and the resting float and rock."
+        },
+        {
+          "name": "strength / speed / stir / sheen",
+          "type": "number",
+          "description": "How far the liquid bends the render, how fast it flows, how hard the cursor stirs it, and the highlight strength."
+        }
+      ],
+      "usageNotes": [
+        "The 3D runtime loads after mount, on demand; no page pays for it until a figure renders.",
+        "The distortion field is procedural; nothing is stored between frames.",
+        "Reduced motion renders one still frame at the default camera with orbit and idle off."
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/figure.json",
+        "https://kinetiqui.vercel.app/r/paint.json"
+      ],
+      "docsUrl": "https://kinetiqui.vercel.app/components/liquid-figure",
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/liquid-figure.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/liquid-figure",
+        "npm": "npx shadcn@latest add @kinetiq/liquid-figure",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/liquid-figure",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/liquid-figure",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/liquid-figure.json"
+      }
+    },
+    {
       "slug": "command-deck",
       "kind": "block",
       "type": "registry:block",
@@ -33557,6 +33922,35 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/agent-skill",
         "bun": "bunx --bun shadcn@latest add @kinetiq/agent-skill",
         "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/agent-skill.json"
+      }
+    },
+    {
+      "slug": "figure",
+      "kind": "shared",
+      "type": "registry:lib",
+      "title": "Figure runtime",
+      "tagline": "Three, loaded only when a figure asks for it.",
+      "description": "The lazy 3D runtime behind the figures: loads three and its loaders after mount, builds preset shapes or sniffs a GLB, glTF, SVG, or image by its bytes, and stages the object under studio light with orbit and idle motion.",
+      "keywords": [
+        "3d",
+        "three",
+        "gltf",
+        "glb",
+        "svg",
+        "figure",
+        "runtime"
+      ],
+      "dependencies": [
+        "three"
+      ],
+      "registryDependencies": [],
+      "registryItemUrl": "https://kinetiqui.vercel.app/r/figure.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/figure",
+        "npm": "npx shadcn@latest add @kinetiq/figure",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/figure",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/figure",
+        "direct": "npx shadcn@latest add https://kinetiqui.vercel.app/r/figure.json"
       }
     },
     {
