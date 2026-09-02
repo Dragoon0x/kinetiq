@@ -684,7 +684,7 @@ export function StreakHeat({
             aria-label="Advance the streak"
             onClick={handleAdvance}
             className={cn(
-              "flex-1 rounded-2 bg-primary py-1.5 text-xs font-semibold text-primary-foreground shadow-raised transition-[filter] outline-none",
+              "flex-1 rounded-2 border border-transparent bg-primary py-1.5 text-xs font-semibold text-primary-foreground shadow-raised transition-[filter] outline-none",
               "hover:brightness-110 active:brightness-95",
               "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-1",
             )}

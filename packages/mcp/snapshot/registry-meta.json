@@ -1732,8 +1732,8 @@
       "tagline": "Status, re-stamped on every change.",
       "description": "Status, re-stamped on every change — variant swaps stamp in on recoil, a live pulse ring breathes at drift tempo, and counts carry-roll.",
       "categories": [
-        "display",
-        "feedback"
+        "feedback",
+        "display"
       ],
       "keywords": [
         "badge",

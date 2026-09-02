@@ -776,7 +776,7 @@ export function CheckpointRun({
             onClick={handleAdvance}
             disabled={!canAdvance}
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-2 bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-raised transition-[filter] outline-none",
+              "inline-flex items-center gap-1.5 rounded-2 border border-transparent bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-raised transition-[filter] outline-none",
               "hover:brightness-110 active:brightness-95",
               "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-1",
               "disabled:pointer-events-none disabled:opacity-40",

@@ -111,7 +111,9 @@ export function SpotlightTour({
   // Keep focus on the primary control as steps advance.
   React.useEffect(() => {
     if (!open || !rect) return;
-    const frame = window.requestAnimationFrame(() => primaryRef.current?.focus());
+    const frame = window.requestAnimationFrame(() =>
+      primaryRef.current?.focus(),
+    );
     return () => window.cancelAnimationFrame(frame);
   }, [open, index, rect]);
 
@@ -220,7 +222,7 @@ export function SpotlightTour({
           aria-labelledby={titleId}
           aria-describedby={bodyId}
           onKeyDown={onPopoverKeyDown}
-          className="border-border bg-popover text-popover-foreground fixed z-[72] w-[19rem] max-w-[calc(100vw-16px)] rounded-3 border p-4 shadow-xl"
+          className="fixed z-[72] w-[19rem] max-w-[calc(100vw-16px)] rounded-3 border border-border bg-popover p-4 text-popover-foreground shadow-xl"
           initial={
             motionSafe
               ? { opacity: 0, y: 8, top: popTop, left: popLeft }
@@ -247,7 +249,7 @@ export function SpotlightTour({
               type="button"
               onClick={() => onOpenChange(false)}
               aria-label="End tour"
-              className="text-ink-3 hover:text-ink hover:bg-surface-2 focus-visible:ring-cobalt-bright/50 -mr-1 grid size-6 place-items-center rounded-2 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+              className="-mr-1 grid size-6 place-items-center rounded-2 text-ink-3 transition-colors hover:bg-surface-2 hover:text-ink focus-visible:ring-2 focus-visible:ring-cobalt-bright/50 focus-visible:outline-none"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
                 <path
@@ -261,10 +263,10 @@ export function SpotlightTour({
             </button>
           </div>
 
-          <p id={titleId} className="text-ink mt-2 text-base font-semibold">
+          <p id={titleId} className="mt-2 text-base font-semibold text-ink">
             {step.title}
           </p>
-          <p id={bodyId} className="text-ink-2 mt-1 text-sm">
+          <p id={bodyId} className="mt-1 text-sm text-ink-2">
             {step.body}
           </p>
 
@@ -276,8 +278,8 @@ export function SpotlightTour({
                   className={cn(
                     "h-1.5 rounded-full transition-all duration-300",
                     dotIndex === index
-                      ? "bg-cobalt w-4"
-                      : "bg-hairline-strong w-1.5",
+                      ? "w-4 bg-cobalt"
+                      : "w-1.5 bg-hairline-strong",
                   )}
                 />
               ))}
@@ -287,7 +289,7 @@ export function SpotlightTour({
                 type="button"
                 onClick={back}
                 disabled={index === 0}
-                className="border-hairline text-ink-2 hover:bg-surface-2 hover:text-ink focus-visible:ring-cobalt-bright/50 rounded-2 border px-2.5 py-1.5 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
+                className="rounded-2 border border-hairline px-2.5 py-1.5 text-xs font-medium text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink focus-visible:ring-2 focus-visible:ring-cobalt-bright/50 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-40"
               >
                 Back
               </button>
@@ -295,7 +297,7 @@ export function SpotlightTour({
                 ref={primaryRef}
                 type="button"
                 onClick={next}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-cobalt-bright/50 rounded-2 px-3 py-1.5 text-xs font-semibold transition-colors focus-visible:ring-2 focus-visible:outline-none"
+                className="rounded-2 border border-transparent bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-cobalt-bright/50 focus-visible:outline-none"
               >
                 {isLast ? "Done" : "Next"}
               </button>

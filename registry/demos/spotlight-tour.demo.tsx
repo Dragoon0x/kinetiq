@@ -38,17 +38,17 @@ export function SpotlightTourDemo() {
 
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
-      <div className="border-hairline bg-surface-1 flex items-center gap-2 rounded-3 border p-2">
+      <div className="flex items-center gap-2 rounded-3 border border-hairline bg-surface-1 p-2">
         <div
           ref={searchRef}
-          className="border-hairline bg-surface-0 text-ink-3 flex-1 rounded-2 border px-3 py-2 text-xs"
+          className="flex-1 rounded-2 border border-hairline bg-surface-0 px-3 py-2 text-xs text-ink-3"
         >
           Search…
         </div>
         <button
           ref={composeRef}
           type="button"
-          className="bg-primary text-primary-foreground rounded-2 px-3 py-2 text-xs font-semibold"
+          className="inline-flex h-9 items-center rounded-2 bg-primary px-3 text-xs font-semibold text-primary-foreground"
         >
           Compose
         </button>
@@ -56,7 +56,7 @@ export function SpotlightTourDemo() {
           ref={bellRef}
           type="button"
           aria-label="Alerts"
-          className="border-hairline bg-surface-0 text-ink-2 relative grid size-9 place-items-center rounded-2 border"
+          className="relative grid size-9 place-items-center rounded-2 border border-hairline bg-surface-0 text-ink-2"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
             <path
@@ -74,7 +74,7 @@ export function SpotlightTourDemo() {
               strokeLinecap="round"
             />
           </svg>
-          <span className="bg-signal absolute top-1.5 right-1.5 size-1.5 rounded-full" />
+          <span className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-signal" />
         </button>
       </div>
 
@@ -84,7 +84,7 @@ export function SpotlightTourDemo() {
           setDone(false);
           setOpen(true);
         }}
-        className="border-hairline bg-surface-1 hover:bg-surface-2 text-ink self-start rounded-2 border px-3 py-1.5 text-xs font-medium transition-colors"
+        className="self-start rounded-2 border border-hairline bg-surface-1 px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-surface-2"
       >
         {done ? "Replay tour" : "Start tour"}
       </button>
@@ -98,7 +98,7 @@ export function SpotlightTourDemo() {
 
       <p
         role="status"
-        className="text-muted-foreground border-border border-t pt-3 font-mono text-[10px] tracking-[0.08em] uppercase"
+        className="border-t border-border pt-3 font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase"
       >
         Tour{" "}
         <span className="text-[var(--signal,var(--primary))]">

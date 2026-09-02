@@ -538,7 +538,7 @@ export function PromptWell({
               type="button"
               onClick={onAttach}
               aria-label="Attach"
-              className="mr-1.5 rounded-2 border border-hairline px-2 py-1.5 text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
+              className="mr-1.5 rounded-2 border border-hairline px-2 py-[7px] text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
             >
               <Paperclip aria-hidden className="size-3.5" />
             </button>
@@ -549,7 +549,7 @@ export function PromptWell({
               type="button"
               onClick={onDictate}
               aria-label="Dictate"
-              className="mr-1.5 rounded-2 border border-hairline px-2 py-1.5 text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
+              className="mr-1.5 rounded-2 border border-hairline px-2 py-[7px] text-ink-2 transition-colors hover:bg-surface-2 hover:text-ink"
             >
               <svg
                 aria-hidden
@@ -583,7 +583,7 @@ export function PromptWell({
                 motionSafe && value.trim() ? { scale: 0.94 } : undefined
               }
               transition={motionSafe ? springs.flick : { duration: 0 }}
-              className="rounded-2 bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-40"
+              className="rounded-2 border border-transparent bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-40"
             >
               Send
             </motion.button>

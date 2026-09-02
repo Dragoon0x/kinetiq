@@ -167,7 +167,7 @@ function LockPlate({
           onClick={onAdvance}
           disabled={disabled}
           className={cn(
-            "mt-1 rounded-2 bg-primary px-3 py-1.5 font-mono text-xs font-semibold tracking-wide text-primary-foreground uppercase shadow-raised transition-[filter] outline-none",
+            "mt-1 rounded-2 border border-transparent bg-primary px-3 py-1.5 font-mono text-xs font-semibold tracking-wide text-primary-foreground uppercase shadow-raised transition-[filter] outline-none",
             "hover:brightness-110 active:brightness-95",
             "disabled:pointer-events-none disabled:opacity-50",
             "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-surface-1",

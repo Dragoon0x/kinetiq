@@ -597,8 +597,8 @@
         "https://kinetiqui.vercel.app/r/readout.json"
       ],
       "categories": [
-        "display",
-        "feedback"
+        "feedback",
+        "display"
       ],
       "meta": {
         "serial": "KQ-025"
