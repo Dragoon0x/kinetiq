@@ -10554,6 +10554,471 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "thermal-lens",
+      "type": "registry:ui",
+      "title": "Thermal Lens",
+      "description": "A lens that reads the interface as heat: luminance becomes an ironbow palette — black through purple, red, orange, to white-hot — with a soft bloom on the hottest type and a cold blue ground, inside a feathered circle that follows the cursor. Outside it the page is itself.",
+      "files": [
+        {
+          "path": "registry/ui/thermal-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-391"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "negative-lens",
+      "type": "registry:ui",
+      "title": "Negative Lens",
+      "description": "An x-ray lens: inside the circle the interface inverts to a negative with bone-white edges lifted from the texture, a faint radiograph grain, and a soft blue cast; the rest of the page stays positive. The edges come from the painted texture, so type reads as structure rather than as a smear.",
+      "files": [
+        {
+          "path": "registry/ui/negative-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-392"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "blueprint-lens",
+      "type": "registry:ui",
+      "title": "Blueprint Lens",
+      "description": "A lens that turns the interface into a cyanotype blueprint: a Prussian-blue ground with the page's edges drawn as fine white lines, a drafting grid behind, and dimension ticks along the rim. Inside the circle the page is a drawing of itself; outside it is the page.",
+      "files": [
+        {
+          "path": "registry/ui/blueprint-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-393"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "halftone-lens",
+      "type": "registry:ui",
+      "title": "Halftone Lens",
+      "description": "A lens that prints the interface as a four-colour halftone: cyan, magenta, yellow, and black dot screens at their classic angles, so overlaps form the rosette you see in a magazine under a loupe. Dot size follows each channel's density; the paper shows between dots.",
+      "files": [
+        {
+          "path": "registry/ui/halftone-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-394"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "nightscope-lens",
+      "type": "registry:ui",
+      "title": "Nightscope Lens",
+      "description": "A night-vision lens: inside the circle the interface is amplified into a green phosphor image with intensifier noise, a soft bloom on bright type, a faint scanline, and a dark vignette at the rim; a mono readout on the rim shows the pointer position. Outside it, daylight.",
+      "files": [
+        {
+          "path": "registry/ui/nightscope-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-395"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "comic-lens",
+      "type": "registry:ui",
+      "title": "Comic Lens",
+      "description": "A lens that redraws the interface as a comic panel: colours posterised to a few flat tones, black ink outlines lifted from the texture's edges, and Ben-Day dots in the mid tones. Inside the circle the page is drawn; outside it is the page.",
+      "files": [
+        {
+          "path": "registry/ui/comic-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-396"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "kaleido-lens",
+      "type": "registry:ui",
+      "title": "Kaleido Lens",
+      "description": "A kaleidoscope on the cursor: inside the circle the interface is mirrored into six wedges around the pointer, rotating slowly, so a heading becomes a mandala of itself. The mirror geometry is exact, so seams meet without a gap.",
+      "files": [
+        {
+          "path": "registry/ui/kaleido-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-397"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pixel-sort-lens",
+      "type": "registry:ui",
+      "title": "Pixel Sort Lens",
+      "description": "A lens that pixel-sorts the interface: within the circle, runs of pixels along the sort axis are dragged into luminance order, so type streaks into bright-to-dark ribbons. The streak length follows the local contrast, and the sort is a deterministic approximation done in one pass.",
+      "files": [
+        {
+          "path": "registry/ui/pixel-sort-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-398"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reading-ruler",
+      "type": "registry:ui",
+      "title": "Reading Ruler",
+      "description": "A reading aid: a horizontal band follows the cursor and keeps the current line crisp and warm while everything above and below softens and dims. The band snaps to the line height under the pointer, read from the real DOM, so it always frames a whole line of type.",
+      "files": [
+        {
+          "path": "registry/ui/reading-ruler.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-399"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "braille-lens",
+      "type": "registry:ui",
+      "title": "Braille Lens",
+      "description": "A lens that embosses the interface into raised dots: the page is sampled in six-dot cells and each dot rises where there is ink, lit from the upper left so the dome reads as relief on paper. A quiet, tactile way to see the page as texture.",
+      "files": [
+        {
+          "path": "registry/ui/braille-lens.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-400"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "soap-film",
+      "type": "registry:ui",
+      "title": "Soap Film",
+      "description": "A soap film stretched over the interface: thin-film interference colours drift across the page as the film's thickness flows, and the pointer thins it where it pushes. The colour is computed from the simulated thickness, so it has the true rainbow order of a real film.",
+      "files": [
+        {
+          "path": "registry/ui/soap-film.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-402"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "marble-vein",
+      "type": "registry:ui",
+      "title": "Marble Vein",
+      "description": "The interface set into polished marble: a seeded vein pattern runs under the page, a soft polish sheen follows the pointer, and the ink sits in the stone as if inlaid. The veins are fixed; the sheen moves.",
+      "files": [
+        {
+          "path": "registry/ui/marble-vein.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-404"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crushed-foil",
+      "type": "registry:ui",
+      "title": "Crushed Foil",
+      "description": "The interface printed on crushed foil: a seeded crease field gives the surface facets that catch a light that follows the pointer, so highlights sweep across the page as you move. The creases never change; the light does.",
+      "files": [
+        {
+          "path": "registry/ui/crushed-foil.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-403"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "prism-split",
+      "type": "registry:ui",
+      "title": "Prism Split",
+      "description": "The interface split into a spectrum along the direction from the pointer: red leads, violet trails, and the fan widens with distance so the far side of the page smears into rainbow while the near side stays sharp. Move, and the fan swings with you.",
+      "files": [
+        {
+          "path": "registry/ui/prism-split.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-405"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "honey-glass",
+      "type": "registry:ui",
+      "title": "Honey Glass",
+      "description": "The interface under a sheet of honey: the refraction lags the pointer, pools where it rests, and relaxes slowly after it leaves, with a warm amber tint and a specular sheen on the bulge. The lag is a spring with heavy damping — viscosity as motion, not as a filter.",
+      "files": [
+        {
+          "path": "registry/ui/honey-glass.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://kinetiqui.vercel.app/r/utils.json",
+        "https://kinetiqui.vercel.app/r/motion.json",
+        "https://kinetiqui.vercel.app/r/use-motion-safe.json",
+        "https://kinetiqui.vercel.app/r/surface-paint.json",
+        "https://kinetiqui.vercel.app/r/paint.json",
+        "https://kinetiqui.vercel.app/r/glsl.json",
+        "https://kinetiqui.vercel.app/r/use-painted-surface.json"
+      ],
+      "categories": [
+        "effects"
+      ],
+      "meta": {
+        "serial": "KQ-401"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "vignette-stage-rail",
       "type": "registry:ui",
       "title": "Stage Rail Vignette",

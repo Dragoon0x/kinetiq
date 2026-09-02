@@ -40,7 +40,7 @@ const roster = readdirSync(UI_DIR)
  */
 const DRIVER: Record<
   string,
-  "hover" | "time" | "scroll" | "click" | "switch" | "flick"
+  "hover" | "time" | "scroll" | "click" | "switch" | "flick" | "drag" | "hold"
 > = {
   // Driven by an index change: the demo switches panels with real buttons.
   "glyph-sweep": "switch",
@@ -55,6 +55,8 @@ const DRIVER: Record<
   "laser-print": "scroll",
   "sand-scroll": "scroll",
   "cube-fold": "scroll",
+  // <wing2-drivers>
+  // </wing2-drivers>
 };
 
 test.describe.configure({ mode: "parallel" });
@@ -97,6 +99,7 @@ for (const slug of roster) {
     // click can change the DOM (focus, active states) and would let a
     // dead effect pass on the strength of the page underneath it.
     const driver = DRIVER[slug] ?? "hover";
+    let held = false;
     if (driver === "hover") {
       await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.4);
       await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.5, {
@@ -122,6 +125,23 @@ for (const slug of roster) {
           steps: 2,
         },
       );
+    } else if (driver === "drag") {
+      // Held through the diff: a drag effect may spring back on release.
+      await page.mouse.move(box.x + box.width * 0.8, box.y + box.height * 0.5);
+      await page.mouse.down();
+      held = true;
+      await page.mouse.move(
+        box.x + box.width * 0.35,
+        box.y + box.height * 0.55,
+        {
+          steps: 10,
+        },
+      );
+    } else if (driver === "hold") {
+      await page.mouse.move(box.x + box.width * 0.5, box.y + box.height * 0.5);
+      await page.mouse.down();
+      held = true;
+      await page.waitForTimeout(900);
     }
     // Software WebGL under parallel workers can take a while to land the
     // first frame; poll rather than trust one fixed wait.
@@ -160,6 +180,8 @@ for (const slug of roster) {
     expect(sized.height).toBeGreaterThanOrEqual(
       Math.floor(sized.clientHeight * 0.5),
     );
+
+    if (held) await page.mouse.up();
 
     // Then click and dwell: the effect must survive a real interaction.
     await page.mouse.down();

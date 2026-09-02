@@ -49,6 +49,9 @@ const CONTINUOUS = new Set([
   // Wind and a breathing floor never rest.
   "cloth-drape",
   "hex-floor",
+  // <wing2-continuous>
+  "soap-film",
+  // </wing2-continuous>
 ]);
 
 /** How long an effect may keep settling after the pointer leaves. */
@@ -59,6 +62,8 @@ const SETTLE_MS: Record<string, number> = {
   "pond-glass": 7500,
   "wet-canvas": 11000,
   "scanner-lens": 4000,
+  // <wing2-settle>
+  // </wing2-settle>
 };
 
 test.describe.configure({ mode: "parallel" });

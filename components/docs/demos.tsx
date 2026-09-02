@@ -313,6 +313,21 @@ import { EchoTypeDemo } from "@/registry/demos/echo-type.demo";
 import { BandTypeDemo } from "@/registry/demos/band-type.demo";
 import { SurfacePaintDemo } from "@/registry/demos/surface-paint.demo";
 import { CrystalLensDemo } from "@/registry/demos/crystal-lens.demo";
+import { HoneyGlassDemo } from "@/registry/demos/honey-glass.demo";
+import { ThermalLensDemo } from "@/registry/demos/thermal-lens.demo";
+import { NegativeLensDemo } from "@/registry/demos/negative-lens.demo";
+import { BlueprintLensDemo } from "@/registry/demos/blueprint-lens.demo";
+import { HalftoneLensDemo } from "@/registry/demos/halftone-lens.demo";
+import { NightscopeLensDemo } from "@/registry/demos/nightscope-lens.demo";
+import { ComicLensDemo } from "@/registry/demos/comic-lens.demo";
+import { KaleidoLensDemo } from "@/registry/demos/kaleido-lens.demo";
+import { PixelSortLensDemo } from "@/registry/demos/pixel-sort-lens.demo";
+import { ReadingRulerDemo } from "@/registry/demos/reading-ruler.demo";
+import { BrailleLensDemo } from "@/registry/demos/braille-lens.demo";
+import { SoapFilmDemo } from "@/registry/demos/soap-film.demo";
+import { MarbleVeinDemo } from "@/registry/demos/marble-vein.demo";
+import { CrushedFoilDemo } from "@/registry/demos/crushed-foil.demo";
+import { PrismSplitDemo } from "@/registry/demos/prism-split.demo";
 import { AsciiFigureDemo } from "@/registry/demos/ascii-figure.demo";
 import { ParticleFigureDemo } from "@/registry/demos/particle-figure.demo";
 import { DitherFigureDemo } from "@/registry/demos/dither-figure.demo";
@@ -899,6 +914,21 @@ export const demos: Record<string, ComponentType> = {
   "band-type": BandTypeDemo,
   "surface-paint": SurfacePaintDemo,
   "crystal-lens": CrystalLensDemo,
+  "honey-glass": HoneyGlassDemo,
+  "thermal-lens": ThermalLensDemo,
+  "negative-lens": NegativeLensDemo,
+  "blueprint-lens": BlueprintLensDemo,
+  "halftone-lens": HalftoneLensDemo,
+  "nightscope-lens": NightscopeLensDemo,
+  "comic-lens": ComicLensDemo,
+  "kaleido-lens": KaleidoLensDemo,
+  "pixel-sort-lens": PixelSortLensDemo,
+  "reading-ruler": ReadingRulerDemo,
+  "braille-lens": BrailleLensDemo,
+  "soap-film": SoapFilmDemo,
+  "marble-vein": MarbleVeinDemo,
+  "crushed-foil": CrushedFoilDemo,
+  "prism-split": PrismSplitDemo,
   "ascii-figure": AsciiFigureDemo,
   "particle-figure": ParticleFigureDemo,
   "dither-figure": DitherFigureDemo,

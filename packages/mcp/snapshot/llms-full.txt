@@ -6530,6 +6530,257 @@ Notes:
 - The distortion field is procedural; nothing is stored between frames.
 - Reduced motion renders one still frame at the default camera with orbit and idle off.
 
+### Thermal Lens (KQ-391) — `thermal-lens`
+Warm where the page is dense.
+
+A lens that reads the interface as heat: luminance becomes an ironbow palette — black through purple, red, orange, to white-hot — with a soft bloom on the hottest type and a cold blue ground, inside a feathered circle that follows the cursor. Outside it the page is itself.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/thermal-lens`
+
+Props:
+- `radius / softness`: number — Lens radius in CSS px and the feather of its edge.
+- `palette`: "ironbow" | "arctic" | "plasma" — The heat ramp.
+- `bloom / contrast / invert`: number · number · boolean — Glow on the hottest tones, tone contrast, and whether ink or ground reads as hot.
+
+Notes:
+- The palette is a fixed ramp evaluated per pixel; nothing is stored between frames.
+- The DOM under the lens stays real — a link under the heat still clicks.
+- Reduced motion draws one still lens outline with no motion.
+
+### Negative Lens (KQ-392) — `negative-lens`
+The page, in negative.
+
+An x-ray lens: inside the circle the interface inverts to a negative with bone-white edges lifted from the texture, a faint radiograph grain, and a soft blue cast; the rest of the page stays positive. The edges come from the painted texture, so type reads as structure rather than as a smear.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/negative-lens`
+
+Props:
+- `radius / softness`: number — Lens radius in CSS px and the feather of its edge.
+- `edge / cast / grain`: number · string · number — Edge lift strength, the cast colour, and radiograph grain.
+- `targets / targetZoom`: string · number — A selector for elements the lens zooms on when hovered.
+
+Notes:
+- Edges are a Sobel over the texture's luminance, drawn additively over the inverted page.
+- The DOM under the lens stays real.
+- Reduced motion draws one still lens outline.
+
+### Blueprint Lens (KQ-393) — `blueprint-lens`
+Drafted, not printed.
+
+A lens that turns the interface into a cyanotype blueprint: a Prussian-blue ground with the page's edges drawn as fine white lines, a drafting grid behind, and dimension ticks along the rim. Inside the circle the page is a drawing of itself; outside it is the page.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/blueprint-lens`
+
+Props:
+- `radius / softness`: number — Lens radius in CSS px and the feather of its edge.
+- `grid / lineWeight`: number · number — Drafting grid pitch in px, and the line weight.
+- `blue / paper`: string · string — The ground colour and the line colour.
+
+Notes:
+- Lines are edges of the painted texture, so headings, borders, and seals all draft cleanly.
+- The DOM under the lens stays real.
+- Reduced motion draws one still lens outline.
+
+### Halftone Lens (KQ-394) — `halftone-lens`
+Four screens, one rosette.
+
+A lens that prints the interface as a four-colour halftone: cyan, magenta, yellow, and black dot screens at their classic angles, so overlaps form the rosette you see in a magazine under a loupe. Dot size follows each channel's density; the paper shows between dots.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/halftone-lens`
+
+Props:
+- `radius / softness`: number — Lens radius in CSS px and the feather of its edge.
+- `pitch / gain`: number — Dot screen pitch in px and dot gain.
+- `angles / paper`: number[] · string — The four screen angles and the paper colour.
+
+Notes:
+- Each channel is a rotated dot grid; dot radius is the channel's coverage at the cell centre.
+- The DOM under the lens stays real.
+- Reduced motion draws one still lens outline.
+
+### Nightscope Lens (KQ-395) — `nightscope-lens`
+Green, grainy, and awake.
+
+A night-vision lens: inside the circle the interface is amplified into a green phosphor image with intensifier noise, a soft bloom on bright type, a faint scanline, and a dark vignette at the rim; a mono readout on the rim shows the pointer position. Outside it, daylight.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/nightscope-lens`
+
+Props:
+- `radius / softness`: number — Lens radius in CSS px and the feather of its edge.
+- `gain / noise / bloom`: number — Amplification, intensifier noise, and glow on bright tones.
+- `phosphor / readout`: string · boolean — The phosphor colour and whether the rim readout draws.
+
+Notes:
+- Noise is a hash of the pixel and the frame clock; the image is the texture's luminance amplified into the phosphor.
+- The DOM under the lens stays real.
+- Reduced motion draws one still lens with no noise.
+
+### Comic Lens (KQ-396) — `comic-lens`
+Inked, dotted, done.
+
+A lens that redraws the interface as a comic panel: colours posterised to a few flat tones, black ink outlines lifted from the texture's edges, and Ben-Day dots in the mid tones. Inside the circle the page is drawn; outside it is the page.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/comic-lens`
+
+Props:
+- `radius / softness`: number — Lens radius in CSS px and the feather of its edge.
+- `levels / outline / dots`: number — Posterise steps, outline weight in px, and Ben-Day dot density.
+- `ink`: string — The outline colour.
+
+Notes:
+- Outlines are edges of the painted texture, so type and borders ink cleanly.
+- The DOM under the lens stays real.
+- Reduced motion draws one still lens outline.
+
+### Kaleido Lens (KQ-397) — `kaleido-lens`
+Six of everything.
+
+A kaleidoscope on the cursor: inside the circle the interface is mirrored into six wedges around the pointer, rotating slowly, so a heading becomes a mandala of itself. The mirror geometry is exact, so seams meet without a gap.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/kaleido-lens`
+
+Props:
+- `radius / softness`: number — Lens radius in CSS px and the feather of its edge.
+- `wedges / spin`: number — How many mirrored wedges and how fast they turn in rad/s.
+- `zoom`: number — Magnification of the source wedge.
+
+Notes:
+- The lens samples one wedge of the texture and mirrors it around the pointer; the DOM under it stays real.
+- Spin comes from the frame clock and stops under reduced motion.
+- Reduced motion draws one still kaleidoscope.
+
+### Pixel Sort Lens (KQ-398) — `pixel-sort-lens`
+Sorted by light.
+
+A lens that pixel-sorts the interface: within the circle, runs of pixels along the sort axis are dragged into luminance order, so type streaks into bright-to-dark ribbons. The streak length follows the local contrast, and the sort is a deterministic approximation done in one pass.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pixel-sort-lens`
+
+Props:
+- `radius / softness`: number — Lens radius in CSS px and the feather of its edge.
+- `axis / length / threshold`: "x" | "y" · number · number — Sort direction, the longest streak in px, and the luminance threshold that starts a run.
+
+Notes:
+- The streaks are an approximation: each pixel takes the extreme of a window along the axis weighted by its position, which reads as sorting at a fraction of the cost.
+- The DOM under the lens stays real.
+- Reduced motion draws one still lens outline.
+
+### Reading Ruler (KQ-399) — `reading-ruler`
+One line at a time.
+
+A reading aid: a horizontal band follows the cursor and keeps the current line crisp and warm while everything above and below softens and dims. The band snaps to the line height under the pointer, read from the real DOM, so it always frames a whole line of type.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/reading-ruler`
+
+Props:
+- `height / softness`: number — Band height in px (auto from the line under the pointer when 0) and the feather above and below.
+- `dim / blur / tint`: number · number · string — How much the rest dims, how much it softens, and the band's warm tint.
+- `snap`: boolean — Snap the band to the line box under the pointer.
+
+Notes:
+- The band's height and position come from the element under the pointer via elementFromPoint, so it frames real lines.
+- The rest of the page stays live under the veil.
+- Reduced motion keeps the band still at the pointer with no spring.
+
+### Braille Lens (KQ-400) — `braille-lens`
+Raised, cell by cell.
+
+A lens that embosses the interface into raised dots: the page is sampled in six-dot cells and each dot rises where there is ink, lit from the upper left so the dome reads as relief on paper. A quiet, tactile way to see the page as texture.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/braille-lens`
+
+Props:
+- `radius / softness`: number — Lens radius in CSS px and the feather of its edge.
+- `cell / dot / relief`: number — Cell pitch in px, dot radius in px, and how strongly the dots are lit.
+- `paper`: string — The paper colour under the dots.
+
+Notes:
+- Dots are placed on a 2×3 cell grid and raised by the texture's ink coverage at each dot.
+- The DOM under the lens stays real.
+- Reduced motion draws one still lens outline.
+
+### Honey Glass (KQ-401) — `honey-glass`
+Slow to follow, slow to let go.
+
+The interface under a sheet of honey: the refraction lags the pointer, pools where it rests, and relaxes slowly after it leaves, with a warm amber tint and a specular sheen on the bulge. The lag is a spring with heavy damping — viscosity as motion, not as a filter.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/honey-glass`
+
+Props:
+- `viscosity / bulge / radius`: number — How slowly the bulge follows and relaxes, its height in px of refraction, and its width.
+- `tint / sheen`: string · number — The amber cast and the specular strength.
+
+Notes:
+- The bulge centre is a heavily damped spring on the pointer; the loop stops once it has settled.
+- Clicks reach the real DOM through the honey.
+- Reduced motion shows the real, still DOM.
+
+### Soap Film (KQ-402) — `soap-film`
+Thin as a film, coloured by it.
+
+A soap film stretched over the interface: thin-film interference colours drift across the page as the film's thickness flows, and the pointer thins it where it pushes. The colour is computed from the simulated thickness, so it has the true rainbow order of a real film.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/soap-film`
+
+Props:
+- `strength / flow / speed`: number — How strong the colour is, how much the thickness varies, and how fast it drifts.
+- `push / radius`: number — How much the pointer thins the film and how wide.
+
+Notes:
+- Colour comes from an interference approximation over a flowing thickness field, never from a random hue.
+- Clicks reach the real DOM through the film.
+- Reduced motion shows the real, still DOM.
+
+### Crushed Foil (KQ-403) — `crushed-foil`
+Creased, and catching the light.
+
+The interface printed on crushed foil: a seeded crease field gives the surface facets that catch a light that follows the pointer, so highlights sweep across the page as you move. The creases never change; the light does.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crushed-foil`
+
+Props:
+- `crease / facet`: number — How deep the creases are and how large the facets.
+- `metal / tint`: number · string — How metallic the ground reads and its tint.
+- `lightRadius`: number — How wide the pointer's light falls.
+
+Notes:
+- The crease normal map is a seeded cellular field; only the light moves.
+- Clicks reach the real DOM through the foil.
+- Reduced motion shows the real, flat DOM.
+
+### Marble Vein (KQ-404) — `marble-vein`
+Polished, veined, lit.
+
+The interface set into polished marble: a seeded vein pattern runs under the page, a soft polish sheen follows the pointer, and the ink sits in the stone as if inlaid. The veins are fixed; the sheen moves.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/marble-vein`
+
+Props:
+- `vein / scale / contrast`: number — How strong the veins are, how large the pattern, and the stone's contrast.
+- `sheen / radius`: number — The polish highlight strength and its width around the pointer.
+- `stone`: string — The base stone colour.
+
+Notes:
+- Veins are a folded fbm field seeded once; the pointer only moves the polish.
+- Clicks reach the real DOM through the stone.
+- Reduced motion shows the real, still DOM.
+
+### Prism Split (KQ-405) — `prism-split`
+The page, through a prism.
+
+The interface split into a spectrum along the direction from the pointer: red leads, violet trails, and the fan widens with distance so the far side of the page smears into rainbow while the near side stays sharp. Move, and the fan swings with you.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/prism-split`
+
+Props:
+- `spread / falloff`: number — How far the spectrum fans in px at the far edge and how quickly it tightens toward the pointer.
+- `bands`: number — How many spectral samples (6–12) build the fan.
+
+Notes:
+- The fan is N samples of the texture along the pointer direction, each tinted by its wavelength, summed.
+- Clicks reach the real DOM through the prism.
+- Reduced motion shows the real, sharp DOM.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
