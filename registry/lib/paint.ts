@@ -214,19 +214,46 @@ const getColorProbe = (): CanvasRenderingContext2D | null => {
   return colorProbe;
 };
 
+const VAR_PATTERN =
+  /var\(\s*(--[\w-]+)\s*(?:,\s*([^()]*(?:\([^()]*\)[^()]*)*))?\)/;
+
 /**
- * Resolves any CSS colour string (oklch, hex, named, rgb, ...) to
- * `[r, g, b, a]` in 0..1, by filling a 1x1 canvas and reading the pixel back
- * — the same probe idiom `sun-shaft.tsx` uses for its beam/core colours.
- * An unparsable string resolves to opaque black rather than throwing.
+ * Substitutes `var(--token)` references from the computed style of `within`
+ * (or the document root), so a token string resolves the way it would in a
+ * stylesheet — including the theme in force on that subtree — before the
+ * canvas probe parses it. A canvas `fillStyle` knows nothing of custom
+ * properties; without this a token would resolve to black.
  */
-export function resolveColor(css: string): [number, number, number, number] {
+function substituteTokens(css: string, within: Element | null): string {
+  if (!css.includes("var(") || typeof window === "undefined") return css;
+  const scope = within ?? document.documentElement;
+  const style = getComputedStyle(scope);
+  let out = css;
+  for (let hop = 0; hop < 8 && out.includes("var("); hop += 1) {
+    const match = VAR_PATTERN.exec(out);
+    if (!match) break;
+    const value = style.getPropertyValue(match[1] ?? "").trim();
+    const fallback = (match[2] ?? "").trim();
+    out = out.replace(match[0], value || fallback);
+  }
+  return out;
+}
+
+/**
+ * A CSS colour — any syntax the browser accepts, tokens included — as
+ * linear-range RGBA in 0..1, for a shader uniform. Pass the host as `within`
+ * so `var(--token)` reads the theme that applies to it.
+ */
+export function resolveColor(
+  css: string,
+  within?: Element | null,
+): [number, number, number, number] {
   const probe = getColorProbe();
   if (!probe) return [0, 0, 0, 1];
   try {
     probe.clearRect(0, 0, 1, 1);
     probe.fillStyle = "#000";
-    probe.fillStyle = css;
+    probe.fillStyle = substituteTokens(css, within ?? null);
     probe.fillRect(0, 0, 1, 1);
     const data = probe.getImageData(0, 0, 1, 1).data;
     const r = data[0] ?? 0;

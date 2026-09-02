@@ -34,6 +34,22 @@ const roster = readdirSync(UI_DIR)
   // flux-canvas predates the effects wing and keeps its own draft contract.
   .filter((slug) => slug !== "flux-canvas");
 
+/**
+ * How each effect is driven for the diff. Most answer the pointer; a few
+ * run on their own clock or on scroll, and a hover would prove nothing.
+ */
+const DRIVER: Record<string, "hover" | "time" | "scroll"> = {
+  "signal-glitch": "time",
+  "tape-wear": "time",
+  "type-rain": "time",
+  "glyph-sweep": "time",
+  "bonfire-edge": "time",
+  "flame-border": "time",
+  "laser-print": "scroll",
+  "sand-scroll": "scroll",
+  "cube-fold": "scroll",
+};
+
 test.describe.configure({ mode: "parallel" });
 
 test("the WebGL roster derives from the registry", () => {
@@ -65,18 +81,25 @@ for (const slug of roster) {
     await page.waitForTimeout(400);
     const before = await host.screenshot();
 
-    // Enter and sweep — no click yet. A hover alone must show the effect;
-    // a click can change the DOM (focus, active states) and would let a
+    // Drive it — no click yet. The drive alone must show the effect; a
+    // click can change the DOM (focus, active states) and would let a
     // dead effect pass on the strength of the page underneath it.
-    await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.4);
-    await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.5, {
-      steps: 12,
-    });
+    const driver = DRIVER[slug] ?? "hover";
+    if (driver === "hover") {
+      await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.4);
+      await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.5, {
+        steps: 12,
+      });
+    } else if (driver === "scroll") {
+      await page.mouse.wheel(0, 240);
+      await page.waitForTimeout(200);
+      await page.mouse.wheel(0, 240);
+    }
     await page.waitForTimeout(700);
-    const hovered = await host.screenshot();
+    const driven = await host.screenshot();
     expect(
-      before.equals(hovered),
-      `${slug} painted nothing the compositor could show on hover`,
+      before.equals(driven),
+      `${slug} painted nothing the compositor could show when driven by ${driver}`,
     ).toBe(false);
 
     // The effect canvas must have been sized by its frame loop: a canvas
