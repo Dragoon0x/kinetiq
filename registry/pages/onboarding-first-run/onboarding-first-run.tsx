@@ -69,15 +69,31 @@ export function OnboardingFirstRun({
       </header>
 
       {showPreview ? (
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-start gap-2 lg:grid-cols-2 lg:gap-6">
-          <StepformOneQuestion
-            onSubmit={handleDone}
-            onAnswerChange={handleAnswerChange}
-          />
-          <div className="px-6 pb-16 lg:sticky lg:top-16 lg:py-20">
-            <LivePreview wordmark={wordmark} answers={answers} done={done} />
+        // With a preview standing beside it, the header comes out of the
+        // block and sits above both columns. Left inside, it would push the
+        // card down by its own height and leave the two boxes on different
+        // lines — by 108px here, and by 148px once the headline wraps, so no
+        // fixed offset on the preview could have squared them.
+        <>
+          <div className="mx-auto w-full max-w-6xl px-6 pt-20 sm:pt-24">
+            <p className="text-label text-ink-3">{SETUP_EYEBROW}</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+              {SETUP_HEADLINE}
+            </h2>
           </div>
-        </div>
+          <div className="mx-auto mt-10 grid w-full max-w-6xl grid-cols-1 items-start gap-2 lg:grid-cols-2 lg:gap-6">
+            <StepformOneQuestion
+              showHeader={false}
+              eyebrow={SETUP_EYEBROW}
+              headline={SETUP_HEADLINE}
+              onSubmit={handleDone}
+              onAnswerChange={handleAnswerChange}
+            />
+            <div className="px-6 pb-16 lg:sticky lg:top-16">
+              <LivePreview wordmark={wordmark} answers={answers} done={done} />
+            </div>
+          </div>
+        </>
       ) : (
         <StepformOneQuestion
           onSubmit={handleDone}
@@ -94,6 +110,12 @@ export function OnboardingFirstRun({
  * the page always composes the defaults and these ids/labels can be
  * hardcoded rather than threaded through.
  */
+/** The setup header's copy, mirrored from stepform-one-question's defaults:
+ * the page draws it so the card and the preview can share a top edge, and
+ * hands it back to the block as the section's accessible name. */
+const SETUP_EYEBROW = "Waylight · getting set up";
+const SETUP_HEADLINE = "Three questions, one at a time.";
+
 const CREW_OPTIONS = [
   { value: "one", label: "one crew" },
   { value: "two", label: "two or three crews" },

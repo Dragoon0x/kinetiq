@@ -4514,6 +4514,13 @@ export const blocks: KinetiqItem[] = [
         description: "Text or choice prompts; each carries a short rail label.",
       },
       {
+        name: "showHeader",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw the eyebrow and headline above the card. Pass false when the page composes its own header — a card standing beside a preview shares its top edge only once the header is lifted out of the column.",
+      },
+      {
         name: "onSubmit",
         type: "(answers) => void",
         description: "Fired once, on the review stage.",

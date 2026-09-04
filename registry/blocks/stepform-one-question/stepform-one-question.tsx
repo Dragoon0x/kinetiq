@@ -42,6 +42,13 @@ export type OneQuestion = {
 export type StepformOneQuestionProps = {
   eyebrow?: string;
   headline?: string;
+  /**
+   * Render the eyebrow and headline above the card. A page that stands
+   * something beside the card — a live preview, say — composes its own
+   * header instead, so the two boxes can share a top edge; the block then
+   * leaves the space above it to that page.
+   */
+  showHeader?: boolean;
   questions?: OneQuestion[];
   /** Heading over the final summary. */
   summaryTitle?: string;
@@ -104,6 +111,7 @@ const DEFAULT_QUESTIONS: OneQuestion[] = [
 export function StepformOneQuestion({
   eyebrow = "Waylight · getting set up",
   headline = "Three questions, one at a time.",
+  showHeader = true,
   questions = DEFAULT_QUESTIONS,
   summaryTitle = "Before we send it",
   submitLabel = "Send it",
@@ -219,19 +227,37 @@ export function StepformOneQuestion({
 
   return (
     <section
-      aria-labelledby={headingId}
+      aria-labelledby={showHeader ? headingId : undefined}
+      aria-label={showHeader ? undefined : headline}
       className={cn("relative bg-surface-0", className)}
     >
-      <div className="mx-auto w-full max-w-2xl px-6 py-20 sm:py-24">
-        <p className="text-label text-ink-3">{eyebrow}</p>
-        <h2
-          id={headingId}
-          className="mt-3 text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
-        >
-          {headline}
-        </h2>
+      <div
+        className={cn(
+          "mx-auto w-full max-w-2xl px-6 pb-20 sm:pb-24",
+          // Without its header the block no longer owns the space above it:
+          // the page that composed the header sets that, so the card starts
+          // level with whatever stands beside it.
+          showHeader && "pt-20 sm:pt-24",
+        )}
+      >
+        {showHeader ? (
+          <>
+            <p className="text-label text-ink-3">{eyebrow}</p>
+            <h2
+              id={headingId}
+              className="mt-3 text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
+            >
+              {headline}
+            </h2>
+          </>
+        ) : null}
 
-        <div className="mt-10 rounded-4 border border-hairline bg-surface-1 p-6 shadow-raised sm:p-8">
+        <div
+          className={cn(
+            "rounded-4 border border-hairline bg-surface-1 p-6 shadow-raised sm:p-8",
+            showHeader && "mt-10",
+          )}
+        >
           <StageProgress
             stages={stages}
             current={Math.min(index, stages.length - 1)}

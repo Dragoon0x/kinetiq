@@ -9629,6 +9629,7 @@ Install: `pnpm dlx shadcn@latest add @kinetiq/stepform-one-question`
 Props:
 - `onAnswerChange`: (id: string, value: string) => void — Fires on every keystroke and choice, so a page can mirror answers live.
 - `questions`: OneQuestion[] — Text or choice prompts; each carries a short rail label.
+- `showHeader`: boolean (default true) — Draw the eyebrow and headline above the card. Pass false when the page composes its own header — a card standing beside a preview shares its top edge only once the header is lifted out of the column.
 - `onSubmit`: (answers) => void — Fired once, on the review stage.
 - `summaryTitle / submitLabel / doneTitle / doneCopy`: string — The last two frames.
 
