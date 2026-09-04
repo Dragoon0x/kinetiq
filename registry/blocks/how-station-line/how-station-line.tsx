@@ -91,7 +91,7 @@ export function HowStationLine({
   return (
     <section
       aria-labelledby={headingId}
-      className={cn("bg-surface-0 relative", className)}
+      className={cn("relative bg-surface-0", className)}
     >
       <div className="mx-auto w-full max-w-4xl px-6 py-20 sm:py-24">
         <div className="mx-auto max-w-2xl text-center">
@@ -102,7 +102,7 @@ export function HowStationLine({
           >
             {headline}
           </h2>
-          <p className="text-ink-2 mt-4 leading-relaxed">{copy}</p>
+          <p className="mt-4 leading-relaxed text-ink-2">{copy}</p>
         </div>
 
         <div className="mt-10">
@@ -113,7 +113,11 @@ export function HowStationLine({
           />
         </div>
 
-        <div className="relative mt-8 min-h-64 overflow-hidden">
+        {/* The reserve only bridges the swap — mode="wait" empties the frame
+            between stations. Sized to the tallest station rather than
+            generously: at 256px it stood open under every one of them on a
+            wide screen, and on a narrow one the content outgrows it anyway. */}
+        <div className="relative mt-8 min-h-44 overflow-hidden">
           <AnimatePresence mode="wait" initial={false}>
             {station && (
               <motion.div
@@ -136,18 +140,23 @@ export function HowStationLine({
                   <h3 className="text-xl font-semibold tracking-tight">
                     {station.title}
                   </h3>
-                  <p className="text-ink-2 mt-3 leading-relaxed">{station.copy}</p>
+                  <p className="mt-3 leading-relaxed text-ink-2">
+                    {station.copy}
+                  </p>
                 </div>
-                <ul className="border-hairline bg-surface-1 rounded-4 min-w-0 border p-4 shadow-raised">
+                <ul className="min-w-0 rounded-4 border border-hairline bg-surface-1 p-4 shadow-raised">
                   {station.artifacts.map((artifact) => (
                     <li
                       key={artifact.name}
-                      className="border-hairline flex items-center justify-between gap-3 border-b px-1 py-2.5 last:border-b-0"
+                      className="flex items-center justify-between gap-3 border-b border-hairline px-1 py-2.5 last:border-b-0"
                     >
-                      <span className="text-ink min-w-0 flex-1 truncate text-sm">
+                      <span className="min-w-0 flex-1 truncate text-sm text-ink">
                         {artifact.name}
                       </span>
-                      <StatusSeal variant="info" className="shrink-0 text-[10px]">
+                      <StatusSeal
+                        variant="info"
+                        className="shrink-0 text-[10px]"
+                      >
                         {artifact.state}
                       </StatusSeal>
                     </li>
@@ -158,7 +167,7 @@ export function HowStationLine({
           </AnimatePresence>
         </div>
 
-        <p className="text-ink-3 mt-6 text-center font-mono text-[11px] tracking-[0.08em] uppercase">
+        <p className="mt-6 text-center font-mono text-[11px] tracking-[0.08em] text-ink-3 uppercase">
           Station {current + 1} of {stations.length}
         </p>
       </div>

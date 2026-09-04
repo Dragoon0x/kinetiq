@@ -75,11 +75,11 @@ export function StageProgress({
         {stages.map((item, index) => (
           <div
             key={item.id}
-            className="bg-surface-2 relative h-1.5 flex-1 overflow-hidden rounded-full"
+            className="relative h-1.5 flex-1 overflow-hidden rounded-full bg-surface-2"
           >
             <motion.span
               aria-hidden
-              className="bg-primary absolute inset-0 origin-left rounded-full"
+              className="absolute inset-0 origin-left rounded-full bg-primary"
               initial={false}
               animate={{ scaleX: fillOf(index) }}
               transition={motionSafe ? springs.glide : { duration: 0 }}
@@ -87,7 +87,7 @@ export function StageProgress({
             {index === current && indeterminate && motionSafe && (
               <motion.span
                 aria-hidden
-                className="bg-primary absolute inset-0 rounded-full"
+                className="absolute inset-0 rounded-full bg-primary"
                 animate={{ opacity: [0.15, 0.5, 0.15] }}
                 transition={{
                   duration: 1.2,
@@ -100,12 +100,16 @@ export function StageProgress({
         ))}
       </div>
 
-      <div className="flex justify-between gap-2">
+      {/* The labels carry the bars' own segmentation — same gap, same flex-1
+          share — so each one starts where its bar does. Spreading them with
+          justify-between instead let the middle labels drift away from the
+          segments they name. */}
+      <div className="flex gap-1.5">
         {stages.map((item, index) => (
           <span
             key={item.id}
             className={cn(
-              "flex min-w-0 items-center gap-1 font-mono text-[10px] tracking-[0.08em] uppercase",
+              "flex min-w-0 flex-1 items-center gap-1 font-mono text-[10px] tracking-[0.08em] uppercase",
               index < current
                 ? "text-ink-2"
                 : index === current
@@ -125,7 +129,12 @@ export function StageProgress({
 /** The stamp a landed stage earns. */
 function StageTick({ motionSafe }: { motionSafe: boolean }) {
   return (
-    <svg viewBox="0 0 12 12" className="size-3 shrink-0" fill="none" aria-hidden>
+    <svg
+      viewBox="0 0 12 12"
+      className="size-3 shrink-0"
+      fill="none"
+      aria-hidden
+    >
       <motion.path
         d="M2.5 6.4 L4.9 8.8 L9.5 3.4"
         stroke="currentColor"

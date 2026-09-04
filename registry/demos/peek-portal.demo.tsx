@@ -25,6 +25,9 @@ const READOUTS = [
  * What the port sees: a machine-room vista built from three gradient bands
  * (haze, gantry line, floor glow) and four fixed set pieces, with the bay
  * placard riveted bottom-left. Spans only — this layer lives inside a button.
+ * The placard is inset in percentages because the portal overscans its scene
+ * to give the counter-shift somewhere to travel: anything within about 6% of
+ * an edge is outside the aperture and gets cropped.
  */
 function BayVista() {
   return (
@@ -90,7 +93,7 @@ function BayVista() {
       )}
 
       {/* The bay placard — mono, riveted to the near rail. */}
-      <span className="absolute bottom-3 left-3 block rounded-1 border border-white/15 bg-[oklch(0.15_0.02_258/0.8)] px-2 py-1 font-mono text-[10px] tracking-[0.15em] text-[oklch(0.88_0.02_195)] uppercase">
+      <span className="absolute bottom-[7%] left-[7%] block rounded-1 border border-white/15 bg-[oklch(0.15_0.02_258/0.8)] px-2 py-1 font-mono text-[10px] tracking-[0.15em] text-[oklch(0.88_0.02_195)] uppercase">
         Bay 7
       </span>
     </span>
@@ -104,10 +107,7 @@ function BayBoard() {
       <div className="flex items-center justify-between gap-2">
         <span className="text-label text-ink">Bay 7 &middot; Turbine Hall</span>
         <span className="flex items-center gap-1.5">
-          <span
-            aria-hidden
-            className="block size-1.5 rounded-full bg-signal"
-          />
+          <span aria-hidden className="block size-1.5 rounded-full bg-signal" />
           <span className="text-label text-ink-3">Live</span>
         </span>
       </div>

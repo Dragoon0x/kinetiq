@@ -592,7 +592,7 @@ export function TeamRoster({
 
       <div
         aria-hidden
-        className="mt-3 flex h-4 items-center justify-center overflow-hidden font-mono text-[11px] text-ink-2"
+        className="mt-3 flex min-h-4 items-center justify-center overflow-hidden text-center font-mono text-[11px] text-ink-2"
       >
         <AnimatePresence mode="wait" initial={false}>
           {statusText && (

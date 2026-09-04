@@ -208,10 +208,13 @@ export function StepformOneQuestion({
           />
 
           <form onSubmit={advance} className="mt-8">
-            {/* One question holds the frame; the reserve keeps the card from
-                jumping as answers swap in and out. The finished frame drops it
-                — that settle is the form being over. */}
-            <div ref={stageRef} className={cn(!sent && "min-h-52")}>
+            {/* One question holds the frame. The reserve exists only to bridge
+                the swap — mode="wait" unmounts the outgoing answer before the
+                next one mounts — so it is sized to the tallest step rather
+                than generously, which otherwise leaves the card standing open
+                under a single field. The finished frame drops it entirely;
+                that settle is the form being over. */}
+            <div ref={stageRef} className={cn(!sent && "min-h-40")}>
               <AnimatePresence initial={false} mode="wait">
                 <motion.div
                   key={

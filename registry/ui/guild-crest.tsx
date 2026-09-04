@@ -640,8 +640,11 @@ export function GuildCrest({
         </div>
       </div>
 
+      {/* The caption boxes reserve one line so the crest never jumps as the
+          blazon swaps, but only as a floor — on a narrow card the blazon wraps,
+          and a fixed height would cut the second line off. */}
       <div className="flex flex-col items-center gap-1">
-        <div className="relative h-4 overflow-hidden">
+        <div className="relative min-h-4 overflow-hidden">
           <AnimatePresence mode="wait" initial={false}>
             <motion.span
               key={blazon}
@@ -664,7 +667,7 @@ export function GuildCrest({
           </AnimatePresence>
         </div>
 
-        <div className="relative h-4 overflow-hidden">
+        <div className="relative min-h-4 overflow-hidden">
           <AnimatePresence mode="wait" initial={false}>
             {struckCaption ? (
               <motion.span

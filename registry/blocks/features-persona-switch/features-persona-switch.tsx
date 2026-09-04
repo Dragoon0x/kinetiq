@@ -153,7 +153,9 @@ export function FeaturesPersonaSwitch({
           </SegmentedControl>
         </div>
 
-        <div className="mt-8 min-h-64">
+        {/* Sized to the tallest reader's panel, so the frame bridges the swap
+            without standing open under the shortest one. */}
+        <div className="mt-8 min-h-44">
           <AnimatePresence initial={false} mode="wait">
             <motion.div
               key={current?.id ?? "none"}

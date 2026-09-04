@@ -98,6 +98,12 @@ function defaultCompare<T>(a: T, b: T, key: string): number {
   return String(av ?? "").localeCompare(String(bv ?? ""));
 }
 
+/** The narrowest a flexible column may be drawn before the table scrolls. */
+const FLEX_MIN_WIDTH = 140;
+
+/** The selection column's fixed width, mirrored in the grid template. */
+const SELECT_COLUMN_WIDTH = 40;
+
 type LedgerRowProps<T> = {
   row: T;
   id: string;
@@ -149,7 +155,7 @@ function LedgerRowBase<T>({
       <motion.div
         role="presentation"
         className={cn(
-          "border-border grid h-full items-center border-b transition-colors",
+          "grid h-full items-center border-b border-border transition-colors",
           checked ? "bg-accent" : "hover:bg-secondary/60",
         )}
         style={{ gridTemplateColumns: gridTemplate }}
@@ -295,12 +301,33 @@ export function Ledger<T>({
   }, [rows, columns, sort]);
 
   // One template string shared by the header row and every body row.
+  //
+  // Flexible columns get a floor rather than minmax(0, 1fr): with a zero
+  // minimum, a table whose fixed columns already outgrow their container
+  // collapses the flexible track to nothing, and the cell's own padding
+  // then sits on top of the next column. A floor keeps every column legible
+  // and lets the table scroll sideways instead, which is what the width
+  // shortage actually calls for.
   const gridTemplate = React.useMemo(() => {
     const widths = columns.map((column) =>
-      typeof column.width === "number" ? `${column.width}px` : "minmax(0, 1fr)",
+      typeof column.width === "number"
+        ? `${column.width}px`
+        : `minmax(${FLEX_MIN_WIDTH}px, 1fr)`,
     );
     return (selectable ? ["40px", ...widths] : widths).join(" ");
   }, [columns, selectable]);
+
+  /** The narrowest the table can be drawn before it has to scroll. */
+  const minTableWidth = React.useMemo(
+    () =>
+      columns.reduce(
+        (total, column) =>
+          total +
+          (typeof column.width === "number" ? column.width : FLEX_MIN_WIDTH),
+        selectable ? SELECT_COLUMN_WIDTH : 0,
+      ),
+    [columns, selectable],
+  );
 
   const first = Math.max(0, Math.floor(scrollTop / rowHeight) - overscan);
   const last = Math.min(
@@ -435,16 +462,19 @@ export function Ledger<T>({
   const someSelected = selected.size > 0;
 
   return (
-    <div className={cn("w-full", className)}>
+    // The horizontal scroller sits outside role="table" so the table keeps
+    // its required row/rowgroup children.
+    <div className={cn("w-full overflow-x-auto", className)}>
       <div
         role="table"
         aria-label={label}
         aria-rowcount={total}
-        className="border-border bg-card overflow-hidden rounded-3 border"
+        style={{ minWidth: minTableWidth }}
+        className="overflow-hidden rounded-3 border border-border bg-card"
       >
         <div
           role="row"
-          className="border-border bg-card sticky top-0 z-10 grid h-9 items-center border-b"
+          className="sticky top-0 z-10 grid h-9 items-center border-b border-border bg-card"
           style={{ gridTemplateColumns: gridTemplate }}
         >
           {selectable && (
@@ -489,7 +519,7 @@ export function Ledger<T>({
                     type="button"
                     onClick={() => cycleSort(column)}
                     className={cn(
-                      "text-muted-foreground hover:text-foreground -mx-1 flex items-center gap-1 rounded-1 px-1 transition-colors",
+                      "-mx-1 flex items-center gap-1 rounded-1 px-1 text-muted-foreground transition-colors hover:text-foreground",
                       HEADER_TEXT,
                       direction !== null && "text-foreground",
                     )}

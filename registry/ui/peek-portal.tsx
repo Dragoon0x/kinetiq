@@ -15,6 +15,10 @@ import { cn } from "@/registry/lib/utils";
 
 /** Resting overscan of the framed scene, so counter-shifts never expose edges. */
 const SCENE_SCALE = 1.12;
+// The scene is drawn 12% larger than its aperture so the counter-shift never
+// exposes an edge — which also means the outer ~6% of the scene on every side
+// sits outside the frame. Scene content that must stay visible belongs inside
+// that margin.
 /** Where the scene zooms to as you step through the portal. */
 const SCENE_ZOOM = 1.22;
 /** The mat expands outward as it fades — the frame gives way, not shrinks. */
@@ -218,8 +222,8 @@ export function PeekPortal({
               type="button"
               onClick={stepBack}
               className={cn(
-                "absolute left-3 top-3 z-10 cursor-pointer rounded-2 border border-hairline-strong bg-surface-1/90 px-2.5 py-1.5 backdrop-blur-sm",
-                "font-mono text-[10px] tracking-[0.15em] uppercase text-ink-2 hover:text-ink",
+                "absolute top-3 left-3 z-10 cursor-pointer rounded-2 border border-hairline-strong bg-surface-1/90 px-2.5 py-1.5 backdrop-blur-sm",
+                "font-mono text-[10px] tracking-[0.15em] text-ink-2 uppercase hover:text-ink",
                 "outline-none focus-visible:ring-2 focus-visible:ring-ring",
               )}
             >
