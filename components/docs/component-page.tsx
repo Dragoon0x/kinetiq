@@ -138,7 +138,9 @@ export function ComponentDocPage({
       </section>
 
       {item.props && item.props.length > 0 ? (
-        <section className="mt-12">
+        // Anchored: the command deck sends a prop-name match straight here,
+        // rather than to the top of a page the reader then has to scan.
+        <section id="props" className="mt-12 scroll-mt-24">
           <h2 className="text-xl font-semibold tracking-tight">Props</h2>
           <div className="mt-4">
             <PropTable props={item.props} />

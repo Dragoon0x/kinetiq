@@ -88,14 +88,14 @@ async function main() {
   }
 
   // 4. Search and sitemap coverage for everything that has a docs route.
-  const searchPath = path.join(ROOT, ".generated", "search-index.json");
+  const searchPath = path.join(ROOT, "public", "search-index.json");
   if (!existsSync(searchPath)) {
     problems.push("search index missing — run `pnpm generate` first.");
   } else {
     const index = JSON.parse(await readFile(searchPath, "utf8")) as Array<{
-      href?: string;
+      h?: string;
     }>;
-    const hrefs = new Set(index.map((entry) => entry.href));
+    const hrefs = new Set(index.map((entry) => entry.h));
     for (const [kind, items] of [
       ["components", catalogComponents],
       ["blocks", catalogBlocks],

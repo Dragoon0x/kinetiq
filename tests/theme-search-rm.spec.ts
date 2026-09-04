@@ -32,9 +32,16 @@ test.describe("command deck", () => {
   test("⌘K opens, filters, and navigates", async ({ page }) => {
     await gotoHydrated(page, "/");
     await page.keyboard.press("ControlOrMeta+k");
-    const input = page.getByPlaceholder("Search instruments, benches, pages…");
+    const input = page.getByPlaceholder(
+      "Search the library — names, props, serials, anything…",
+    );
     await expect(input).toBeVisible();
     await input.fill("caliper");
+    // The index is fetched rather than bundled, so wait for the match the
+    // way a reader does — look, then press Enter.
+    await expect(page.locator("[cmdk-item]").first()).toContainText(
+      "Caliper Slider",
+    );
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\/components\/caliper-slider/);
     await expect(
@@ -42,10 +49,100 @@ test.describe("command deck", () => {
     ).toBeVisible();
   });
 
+  test("a prop name finds the component that takes it", async ({ page }) => {
+    await gotoHydrated(page, "/");
+    await page.keyboard.press("ControlOrMeta+k");
+    const input = page.getByPlaceholder(
+      "Search the library — names, props, serials, anything…",
+    );
+    await input.fill("holdToConfirm");
+    const first = page.locator("[cmdk-item]").first();
+    await expect(first).toContainText("Pressure Button");
+    // The row says which field it matched on, so the hit is never a mystery.
+    await expect(first).toContainText("prop");
+    await page.keyboard.press("Enter");
+    // Straight to the props table, not the top of the page.
+    await expect(page).toHaveURL(/\/components\/pressure-button#props/);
+    await expect(page.locator("#props")).toBeInViewport();
+  });
+
+  test("a serial goes straight to its specimen", async ({ page }) => {
+    await gotoHydrated(page, "/");
+    await page.keyboard.press("ControlOrMeta+k");
+    await page
+      .getByPlaceholder("Search the library — names, props, serials, anything…")
+      .fill("KQ-001");
+    await expect(page.locator("[cmdk-item]").first()).toContainText(
+      "Pressure Button",
+    );
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(/\/components\/pressure-button/);
+  });
+
+  test("prose from a description is searchable once the bodies land", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/");
+    await page.keyboard.press("ControlOrMeta+k");
+    const input = page.getByPlaceholder(
+      "Search the library — names, props, serials, anything…",
+    );
+    await input.fill("damping");
+    // "damping" appears in no title or keyword — only in prop docs and
+    // descriptions, which arrive with the second index file.
+    await expect
+      .poll(async () => page.locator("[cmdk-item]").count(), {
+        timeout: 10_000,
+      })
+      .toBeGreaterThan(2);
+    await expect(page.locator("[cmdk-item]").first()).toContainText(
+      "Pond Glass",
+    );
+  });
+
+  test("scope chips narrow the results to one section", async ({ page }) => {
+    await gotoHydrated(page, "/");
+    await page.keyboard.press("ControlOrMeta+k");
+    await page
+      .getByPlaceholder("Search the library — names, props, serials, anything…")
+      .fill("button");
+    const blocks = page.getByRole("button", { name: /^Blocks/ });
+    await expect(blocks).toBeVisible();
+    await blocks.click();
+    await expect(page.getByText("COMPONENTS", { exact: true })).toHaveCount(0);
+    // Scoping must leave a row selected, or Enter would have nothing to open.
+    await expect(page.locator('[cmdk-item][aria-selected="true"]')).toHaveCount(
+      1,
+    );
+  });
+
+  test("⌘↵ copies the install command without leaving the page", async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await gotoHydrated(page, "/");
+    await page.keyboard.press("ControlOrMeta+k");
+    const input = page.getByPlaceholder(
+      "Search the library — names, props, serials, anything…",
+    );
+    await input.fill("pressure button");
+    await expect(page.locator("[cmdk-item]").first()).toContainText(
+      "Pressure Button",
+    );
+    await page.keyboard.press("ControlOrMeta+Enter");
+    await expect
+      .poll(() => page.evaluate(() => navigator.clipboard.readText()))
+      .toBe("pnpm dlx shadcn@latest add @kinetiq/pressure-button");
+    await expect(input).toBeVisible();
+  });
+
   test("escape closes the deck", async ({ page }) => {
     await gotoHydrated(page, "/");
     await page.keyboard.press("ControlOrMeta+k");
-    const input = page.getByPlaceholder("Search instruments, benches, pages…");
+    const input = page.getByPlaceholder(
+      "Search the library — names, props, serials, anything…",
+    );
     await expect(input).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(input).toHaveCount(0);
@@ -58,9 +155,7 @@ test.describe("reduced motion", () => {
   }) => {
     await gotoHydrated(page, "/components/pressure-button");
     await page.getByRole("button", { name: "Test reduced motion" }).click();
-    await expect(
-      page.getByText(/Reduced motion · test active/i),
-    ).toBeVisible();
+    await expect(page.getByText(/Reduced motion · test active/i)).toBeVisible();
 
     const button = page.getByRole("button", { name: "Promote to production" });
     const box = await button.boundingBox();

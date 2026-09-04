@@ -1,11 +1,26 @@
 /**
- * Flattens the manifest plus static pages into .generated/search-index.json
- * for the command deck (⌘K). A few KB, statically imported — no service.
+ * Flattens the whole library into public/search-index.json for the command
+ * deck (⌘K).
+ *
+ * Everything an item knows about itself goes in: title, tagline, serial,
+ * category, keywords, prop names, prop types and docs, usage notes, and the
+ * full description. Searching a prop name, a serial, or a phrase from a
+ * paragraph should land on the item that owns it, so the index has to carry
+ * all three.
+ *
+ * It ships as a fetched file rather than an import: at this size an import
+ * would ride in every page's bundle, and the deck needs it only once the
+ * reader opens it.
  */
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { categoryBySlug, itemsByCategory } from "../content/categories";
+import { sectionFamilyOf } from "../content/block-categories";
+import {
+  categoryBySlug,
+  categoryOf,
+  itemsByCategory,
+} from "../content/categories";
 import { itemsByCollection } from "../content/collections";
 import { guides } from "../content/guides";
 import { labs } from "../content/labs";
@@ -15,156 +30,229 @@ import {
   catalogPages,
   catalogTemplates,
 } from "../content/manifest";
+import type { KinetiqItem } from "../content/manifest/types";
+import { pageFamilyOf } from "../content/page-categories";
 import { SHOWCASES } from "../content/showcases";
+import { templateKindOf } from "../content/template-categories";
+import type { SearchDoc } from "../lib/search-doc";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
-const OUT_DIR = path.join(ROOT, ".generated");
+const OUT_DIR = path.join(ROOT, "public");
 
-type SearchEntry = {
-  section:
-    | "Components"
-    | "Blocks"
-    | "Pages"
-    | "Templates"
-    | "Playground"
-    | "Guides"
-    | "Site";
-  title: string;
-  tagline: string;
-  keywords: string[];
-  href: string;
-};
+/** Collapses whitespace so the payload carries no formatting artefacts. */
+const squash = (text: string): string => text.replace(/\s+/g, " ").trim();
+
+/**
+ * The body blob: everything matchable that is not already a field of its
+ * own. Prop types go in beside their descriptions, so a search for
+ * "() => void" or "boolean" finds the components that take one.
+ */
+function bodyOf(item: KinetiqItem): string {
+  const parts = [
+    item.description,
+    ...(item.usageNotes ?? []),
+    ...(item.props ?? []).map(
+      (prop) =>
+        `${prop.name} ${prop.type} ${prop.defaultValue ?? ""} ${prop.description}`,
+    ),
+    ...(item.dependencies ?? []),
+    ...(item.registryDependencies ?? []),
+  ];
+  return squash(parts.join(" "));
+}
+
+function docFor(
+  item: KinetiqItem,
+  section: SearchDoc["s"],
+  routeBase: string,
+  category: string | undefined,
+): SearchDoc {
+  const doc: SearchDoc = {
+    s: section,
+    t: item.title,
+    d: item.tagline,
+    h: `/${routeBase}/${item.name}`,
+    g: item.name,
+  };
+  if (item.meta?.serial) doc.n = item.meta.serial;
+  if (category) doc.c = category;
+  if (item.keywords.length) doc.k = item.keywords;
+  const props = (item.props ?? []).map((prop) => prop.name);
+  if (props.length) doc.p = props;
+  const body = bodyOf(item);
+  if (body) doc.b = body;
+  return doc;
+}
 
 async function main() {
-  const entries: SearchEntry[] = [
-    ...catalogComponents.map((c): SearchEntry => ({
-      section: "Components",
-      title: c.title,
-      tagline: c.tagline,
-      keywords: c.keywords,
-      href: `/components/${c.name}`,
-    })),
-    ...catalogBlocks.map((b): SearchEntry => ({
-      section: "Blocks",
-      title: b.title,
-      tagline: b.tagline,
-      keywords: b.keywords,
-      href: `/blocks/${b.name}`,
-    })),
-    // Pages and templates have docs routes like everything else; leaving them
-    // out made two whole wings unreachable from the command deck.
-    ...catalogPages.map((p): SearchEntry => ({
-      section: "Pages",
-      title: p.title,
-      tagline: p.tagline,
-      keywords: p.keywords,
-      href: `/pages/${p.name}`,
-    })),
-    ...catalogTemplates.map((t): SearchEntry => ({
-      section: "Templates",
-      title: t.title,
-      tagline: t.tagline,
-      keywords: t.keywords,
-      href: `/templates/${t.name}`,
-    })),
-    ...labs.map((lab): SearchEntry => ({
-      section: "Playground",
-      title: lab.title,
-      tagline: lab.tagline,
-      keywords: [lab.serial, "playground", "lab", lab.slug],
-      href: `/playground/${lab.slug}`,
-    })),
-    ...guides.map((guide): SearchEntry => ({
-      section: "Guides",
-      title: guide.title,
-      tagline: guide.tagline,
-      keywords: [guide.serial, "guide", "manual"],
-      href: `/guides/${guide.slug}`,
-    })),
-    {
-      section: "Site",
-      title: "Home",
-      tagline: "Motion, calibrated.",
-      keywords: ["kinetiq", "home"],
-      href: "/",
-    },
-    {
-      section: "Site",
-      title: "Explore",
-      tagline: "The whole catalog, live and filterable.",
-      keywords: ["explore", "gallery", "filter", "browse", "catalog"],
-      href: "/explore",
-    },
-    {
-      section: "Site",
-      title: "Spatial wing",
-      tagline: "Depth as a material — the spatial collections, live.",
-      keywords: ["spatial", "3d", "depth", "wing", "collections", "gallery"],
-      href: "/spatial",
-    },
-    ...itemsByCollection(catalogComponents).map(
-      ({ collection }): SearchEntry => ({
-        section: "Site",
-        title: `${collection.label} — Spatial wing`,
-        tagline: collection.blurb,
-        keywords: [collection.slug, "spatial", "collection"],
-        href: `/components/category/spatial#${collection.slug}`,
-      }),
+  const docs: SearchDoc[] = [
+    ...catalogComponents.map((component) =>
+      docFor(
+        component,
+        "c",
+        "components",
+        categoryBySlug(categoryOf(component))?.label,
+      ),
     ),
-    ...SHOWCASES.map((showcase): SearchEntry => {
+    ...catalogBlocks.map((block) =>
+      docFor(block, "b", "blocks", sectionFamilyOf(block)?.label),
+    ),
+    ...catalogPages.map((page) =>
+      docFor(page, "p", "pages", pageFamilyOf(page)?.label),
+    ),
+    ...catalogTemplates.map((template) =>
+      docFor(template, "t", "templates", templateKindOf(template)?.label),
+    ),
+    ...labs.map((lab): SearchDoc => ({
+      s: "l",
+      t: lab.title,
+      d: lab.tagline,
+      h: `/playground/${lab.slug}`,
+      n: lab.serial,
+      k: ["playground", "lab", "bench", lab.slug],
+    })),
+    ...guides.map((guide): SearchDoc => ({
+      s: "g",
+      t: guide.title,
+      d: guide.tagline,
+      h: `/guides/${guide.slug}`,
+      n: guide.serial,
+      k: ["guide", "manual", "learn", guide.slug],
+    })),
+
+    // ── the site's own rooms ───────────────────────────────────────────────
+    {
+      s: "x",
+      t: "Home",
+      d: "Motion, calibrated.",
+      h: "/",
+      k: ["kinetiq", "home", "start"],
+    },
+    {
+      s: "x",
+      t: "Explore",
+      d: "The whole catalog, live and filterable.",
+      h: "/explore",
+      k: ["explore", "gallery", "filter", "browse", "catalog", "all"],
+    },
+    {
+      s: "x",
+      t: "Spatial wing",
+      d: "Depth as a material — the spatial collections, live.",
+      h: "/spatial",
+      k: ["spatial", "3d", "depth", "wing", "collections", "gallery"],
+    },
+    {
+      s: "x",
+      t: "Blocks",
+      d: "Larger assemblies — complete, product-ready sections.",
+      h: "/blocks",
+      k: ["blocks", "sections", "assemblies", "index"],
+    },
+    {
+      s: "x",
+      t: "Pages",
+      d: "Whole pages, assembled from shipped sections.",
+      h: "/pages",
+      k: ["pages", "routes", "index"],
+    },
+    {
+      s: "x",
+      t: "Templates",
+      d: "Complete sites, assembled.",
+      h: "/templates",
+      k: ["templates", "sites", "index"],
+    },
+    {
+      s: "x",
+      t: "Showcases",
+      d: "Each category, staged as a scene.",
+      h: "/showcase",
+      k: ["showcase", "scenes", "rooms", "index"],
+    },
+    {
+      s: "x",
+      t: "Playground",
+      d: "Learn motion by operating it.",
+      h: "/playground",
+      k: ["labs", "benches", "learn", "playground"],
+    },
+    {
+      s: "x",
+      t: "Guides",
+      d: "The field manuals behind the doctrine.",
+      h: "/guides",
+      k: ["guides", "manuals", "docs", "learn"],
+    },
+    {
+      s: "x",
+      t: "MCP server",
+      d: "Connect any AI agent to Kinetiq.",
+      h: "/mcp",
+      k: ["mcp", "agents", "tools", "claude", "cursor", "ai", "server"],
+    },
+    {
+      s: "x",
+      t: "For AI agents",
+      d: "Programmatic registry access.",
+      h: "/agents",
+      k: ["llms", "registry", "api", "agents", "json", "machine"],
+    },
+    ...itemsByCategory(catalogComponents).map(({ category }): SearchDoc => ({
+      s: "x",
+      t: `${category.label} components`,
+      d: category.blurb,
+      h: `/components/category/${category.slug}`,
+      c: category.label,
+      k: [category.slug, "category", category.label.toLowerCase()],
+    })),
+    ...SHOWCASES.map((showcase): SearchDoc => {
       const label = categoryBySlug(showcase.slug)?.label ?? showcase.slug;
       return {
-        section: "Site",
-        title: `${label} showcase`,
-        tagline: showcase.deck,
-        keywords: [
-          showcase.slug,
-          "showcase",
-          "gallery",
-          "room",
-          label.toLowerCase(),
-        ],
-        href: `/showcase/${showcase.slug}`,
+        s: "x",
+        t: `${label} showcase`,
+        d: showcase.deck,
+        h: `/showcase/${showcase.slug}`,
+        c: label,
+        k: [showcase.slug, "showcase", "gallery", "room", label.toLowerCase()],
       };
     }),
-    ...itemsByCategory(catalogComponents).map(({ category }): SearchEntry => ({
-      section: "Site",
-      title: `${category.label} components`,
-      tagline: category.blurb,
-      keywords: [category.slug, "category", category.label.toLowerCase()],
-      href: `/components/category/${category.slug}`,
-    })),
-    {
-      section: "Site",
-      title: "Playground",
-      tagline: "Learn motion by operating it.",
-      keywords: ["labs", "benches", "learn"],
-      href: "/playground",
-    },
-    {
-      section: "Site",
-      title: "MCP server",
-      tagline: "Connect any AI agent to Kinetiq.",
-      keywords: ["mcp", "agents", "tools", "claude", "cursor", "ai"],
-      href: "/mcp",
-    },
-    {
-      section: "Site",
-      title: "For AI agents",
-      tagline: "Programmatic registry access.",
-      keywords: ["llms", "registry", "api", "agents"],
-      href: "/agents",
-    },
+    ...itemsByCollection(catalogComponents).map(
+      ({ collection }): SearchDoc => ({
+        s: "x",
+        t: `${collection.label} — Spatial wing`,
+        d: collection.blurb,
+        h: `/components/category/spatial#${collection.slug}`,
+        k: [collection.slug, "spatial", "collection", "hall"],
+      }),
+    ),
   ];
 
   await mkdir(OUT_DIR, { recursive: true });
-  await writeFile(
-    path.join(OUT_DIR, "search-index.json"),
-    `${JSON.stringify(entries, null, 2)}\n`,
-  );
 
+  // Two files, because the prose is three times the weight of everything
+  // else. The head alone answers most searches — names, serials, keywords,
+  // props, categories — so the deck fetches it first and is usable at once;
+  // the bodies follow and quietly deepen the same results.
+  const head = docs.map((doc) => {
+    const record: SearchDoc = { ...doc };
+    delete record.b;
+    return record;
+  });
+  const bodies = docs.map((doc) => doc.b ?? "");
+
+  const headJson = JSON.stringify(head);
+  const bodyJson = JSON.stringify(bodies);
+  await writeFile(path.join(OUT_DIR, "search-index.json"), `${headJson}\n`);
+  await writeFile(path.join(OUT_DIR, "search-body.json"), `${bodyJson}\n`);
+
+  const propCount = docs.reduce(
+    (total, doc) => total + (doc.p?.length ?? 0),
+    0,
+  );
+  const kb = (json: string) => Math.round(json.length / 1024);
   console.log(
-    `search: ${entries.length} entries → .generated/search-index.json`,
+    `search: ${docs.length} records, ${propCount} props → public/search-index.json (${kb(headJson)}KB) + search-body.json (${kb(bodyJson)}KB)`,
   );
 }
 

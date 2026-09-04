@@ -10,6 +10,8 @@ next-env.d.ts
 .generated/
 public/r/
 public/registry-meta.json
+public/search-index.json
+public/search-body.json
 
 # testing
 test-results/
