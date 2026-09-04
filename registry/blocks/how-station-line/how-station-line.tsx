@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { StepperFlow } from "@/registry/ui/stepper-flow";
 import { StatusSeal } from "@/registry/ui/status-seal";
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
-import { distances, durations, easings } from "@/registry/lib/motion";
+import { distances, durations, easings, springs } from "@/registry/lib/motion";
 import { cn } from "@/registry/lib/utils";
 
 export type Station = {
@@ -80,6 +80,30 @@ export function HowStationLine({
   const headingId = React.useId();
   const motionSafe = useMotionSafe();
   const [current, setCurrent] = React.useState(0);
+
+  // The frame takes the height of the panel standing in it. A fixed reserve
+  // is wrong for every panel but one — too tall and the section stands open
+  // under the shortest, too short and it jumps — so it is measured. The last
+  // measured height holds while mode="wait" empties the frame between swaps.
+  const [panelHeight, setPanelHeight] = React.useState<number | null>(null);
+  const panelObserver = React.useRef<ResizeObserver | null>(null);
+  const measurePanel = React.useCallback((node: HTMLDivElement | null) => {
+    panelObserver.current?.disconnect();
+    panelObserver.current = null;
+    if (!node) return;
+    const observer = new ResizeObserver(() => {
+      const next = node.offsetHeight;
+      if (next > 0) setPanelHeight(next);
+    });
+    observer.observe(node);
+    panelObserver.current = observer;
+  }, []);
+  React.useEffect(
+    () => () => {
+      panelObserver.current?.disconnect();
+    },
+    [],
+  );
   const [direction, setDirection] = React.useState(1);
   const station = stations[current];
 
@@ -113,59 +137,66 @@ export function HowStationLine({
           />
         </div>
 
-        {/* The reserve only bridges the swap — mode="wait" empties the frame
-            between stations. Sized to the tallest station rather than
-            generously: at 256px it stood open under every one of them on a
-            wide screen, and on a narrow one the content outgrows it anyway. */}
-        <div className="relative mt-8 min-h-44 overflow-hidden">
-          <AnimatePresence mode="wait" initial={false}>
-            {station && (
-              <motion.div
-                key={station.id}
-                initial={
-                  motionSafe
-                    ? { opacity: 0, x: direction * distances.shift }
-                    : { opacity: 0 }
-                }
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, transition: { duration: durations.fast } }}
-                transition={
-                  motionSafe
-                    ? { duration: durations.base, ease: easings.enter }
-                    : { duration: durations.fast }
-                }
-                className="grid items-start gap-6 md:grid-cols-2"
-              >
-                <div className="min-w-0">
-                  <h3 className="text-xl font-semibold tracking-tight">
-                    {station.title}
-                  </h3>
-                  <p className="mt-3 leading-relaxed text-ink-2">
-                    {station.copy}
-                  </p>
-                </div>
-                <ul className="min-w-0 rounded-4 border border-hairline bg-surface-1 p-4 shadow-raised">
-                  {station.artifacts.map((artifact) => (
-                    <li
-                      key={artifact.name}
-                      className="flex items-center justify-between gap-3 border-b border-hairline px-1 py-2.5 last:border-b-0"
-                    >
-                      <span className="min-w-0 flex-1 truncate text-sm text-ink">
-                        {artifact.name}
-                      </span>
-                      <StatusSeal
-                        variant="info"
-                        className="shrink-0 text-[10px]"
+        <motion.div
+          className="relative mt-8 overflow-hidden"
+          animate={{ height: panelHeight ?? "auto" }}
+          transition={
+            motionSafe && panelHeight !== null ? springs.glide : { duration: 0 }
+          }
+        >
+          <div ref={measurePanel}>
+            <AnimatePresence mode="wait" initial={false}>
+              {station && (
+                <motion.div
+                  key={station.id}
+                  initial={
+                    motionSafe
+                      ? { opacity: 0, x: direction * distances.shift }
+                      : { opacity: 0 }
+                  }
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{
+                    opacity: 0,
+                    transition: { duration: durations.fast },
+                  }}
+                  transition={
+                    motionSafe
+                      ? { duration: durations.base, ease: easings.enter }
+                      : { duration: durations.fast }
+                  }
+                  className="grid items-start gap-6 md:grid-cols-2"
+                >
+                  <div className="min-w-0">
+                    <h3 className="text-xl font-semibold tracking-tight">
+                      {station.title}
+                    </h3>
+                    <p className="mt-3 leading-relaxed text-ink-2">
+                      {station.copy}
+                    </p>
+                  </div>
+                  <ul className="min-w-0 rounded-4 border border-hairline bg-surface-1 p-4 shadow-raised">
+                    {station.artifacts.map((artifact) => (
+                      <li
+                        key={artifact.name}
+                        className="flex items-center justify-between gap-3 border-b border-hairline px-1 py-2.5 last:border-b-0"
                       >
-                        {artifact.state}
-                      </StatusSeal>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+                        <span className="min-w-0 flex-1 truncate text-sm text-ink">
+                          {artifact.name}
+                        </span>
+                        <StatusSeal
+                          variant="info"
+                          className="shrink-0 text-[10px]"
+                        >
+                          {artifact.state}
+                        </StatusSeal>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
 
         <p className="mt-6 text-center font-mono text-[11px] tracking-[0.08em] text-ink-3 uppercase">
           Station {current + 1} of {stations.length}

@@ -9,7 +9,13 @@ import {
   SegmentedControlItem,
 } from "@/registry/ui/segmented-control";
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
-import { distances, durations, easings, exitFor } from "@/registry/lib/motion";
+import {
+  distances,
+  durations,
+  easings,
+  exitFor,
+  springs,
+} from "@/registry/lib/motion";
 import { cn } from "@/registry/lib/utils";
 
 export type Persona = {
@@ -116,6 +122,30 @@ export function FeaturesPersonaSwitch({
   const motionSafe = useMotionSafe();
   const [active, setActive] = React.useState(personas[0]?.id ?? "");
 
+  // The frame takes the height of the panel standing in it. A fixed reserve
+  // is wrong for every panel but one — too tall and the section stands open
+  // under the shortest, too short and it jumps — so it is measured. The last
+  // measured height holds while mode="wait" empties the frame between swaps.
+  const [panelHeight, setPanelHeight] = React.useState<number | null>(null);
+  const panelObserver = React.useRef<ResizeObserver | null>(null);
+  const measurePanel = React.useCallback((node: HTMLDivElement | null) => {
+    panelObserver.current?.disconnect();
+    panelObserver.current = null;
+    if (!node) return;
+    const observer = new ResizeObserver(() => {
+      const next = node.offsetHeight;
+      if (next > 0) setPanelHeight(next);
+    });
+    observer.observe(node);
+    panelObserver.current = observer;
+  }, []);
+  React.useEffect(
+    () => () => {
+      panelObserver.current?.disconnect();
+    },
+    [],
+  );
+
   const current =
     personas.find((persona) => persona.id === active) ?? personas[0];
 
@@ -153,50 +183,56 @@ export function FeaturesPersonaSwitch({
           </SegmentedControl>
         </div>
 
-        {/* Sized to the tallest reader's panel, so the frame bridges the swap
-            without standing open under the shortest one. */}
-        <div className="mt-8 min-h-44">
-          <AnimatePresence initial={false} mode="wait">
-            <motion.div
-              key={current?.id ?? "none"}
-              initial={{
-                opacity: 0,
-                y: motionSafe ? distances.nudge : 0,
-              }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{
-                opacity: 0,
-                transition: exitFor(
-                  motionSafe ? durations.base : durations.fast,
-                ),
-              }}
-              transition={
-                motionSafe
-                  ? { duration: durations.base, ease: easings.enter }
-                  : { duration: 0 }
-              }
-            >
-              <p className="text-xl font-medium tracking-tight text-balance text-ink">
-                {current?.lede}
-              </p>
-              <ul className="mt-6 grid gap-6 sm:grid-cols-3">
-                {(current?.points ?? []).map((point) => (
-                  <li
-                    key={point.id}
-                    className="min-w-0 border-t border-hairline pt-4"
-                  >
-                    <h3 className="font-semibold tracking-tight text-ink">
-                      {point.title}
-                    </h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-ink-2">
-                      {point.copy}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+        <motion.div
+          className="mt-8 overflow-hidden"
+          animate={{ height: panelHeight ?? "auto" }}
+          transition={
+            motionSafe && panelHeight !== null ? springs.glide : { duration: 0 }
+          }
+        >
+          <div ref={measurePanel}>
+            <AnimatePresence initial={false} mode="wait">
+              <motion.div
+                key={current?.id ?? "none"}
+                initial={{
+                  opacity: 0,
+                  y: motionSafe ? distances.nudge : 0,
+                }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{
+                  opacity: 0,
+                  transition: exitFor(
+                    motionSafe ? durations.base : durations.fast,
+                  ),
+                }}
+                transition={
+                  motionSafe
+                    ? { duration: durations.base, ease: easings.enter }
+                    : { duration: 0 }
+                }
+              >
+                <p className="text-xl font-medium tracking-tight text-balance text-ink">
+                  {current?.lede}
+                </p>
+                <ul className="mt-6 grid gap-6 sm:grid-cols-3">
+                  {(current?.points ?? []).map((point) => (
+                    <li
+                      key={point.id}
+                      className="min-w-0 border-t border-hairline pt-4"
+                    >
+                      <h3 className="font-semibold tracking-tight text-ink">
+                        {point.title}
+                      </h3>
+                      <p className="mt-1.5 text-sm leading-relaxed text-ink-2">
+                        {point.copy}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

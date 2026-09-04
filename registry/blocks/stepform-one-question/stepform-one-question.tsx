@@ -10,7 +10,13 @@ import { StageProgress } from "@/registry/ui/stage-progress";
 import { StatusSeal } from "@/registry/ui/status-seal";
 import { TraceInput } from "@/registry/ui/trace-input";
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
-import { distances, durations, easings, exitFor } from "@/registry/lib/motion";
+import {
+  distances,
+  durations,
+  easings,
+  exitFor,
+  springs,
+} from "@/registry/lib/motion";
 import { cn } from "@/registry/lib/utils";
 
 export type OneQuestionChoice = {
@@ -120,6 +126,32 @@ export function StepformOneQuestion({
   const promptRef = React.useRef<HTMLParagraphElement>(null);
   const movedRef = React.useRef(false);
 
+  // The frame takes the height of the answer standing in it. A fixed reserve
+  // cannot be right for every step: sized to the tallest it leaves the card
+  // standing open under the shortest, and sized to the shortest it jumps.
+  // Measuring instead means no step is ever surrounded by space it does not
+  // use, and the frame still bridges the swap — mode="wait" empties it, and
+  // the last measured height holds until the next answer arrives.
+  const [stageHeight, setStageHeight] = React.useState<number | null>(null);
+  const stageObserver = React.useRef<ResizeObserver | null>(null);
+  const measureStage = React.useCallback((node: HTMLDivElement | null) => {
+    stageObserver.current?.disconnect();
+    stageObserver.current = null;
+    if (!node) return;
+    const observer = new ResizeObserver(() => {
+      const next = node.offsetHeight;
+      if (next > 0) setStageHeight(next);
+    });
+    observer.observe(node);
+    stageObserver.current = observer;
+  }, []);
+  React.useEffect(
+    () => () => {
+      stageObserver.current?.disconnect();
+    },
+    [],
+  );
+
   const total = questions.length;
   const reviewing = index === total;
   const current = reviewing ? undefined : questions[index];
@@ -208,135 +240,141 @@ export function StepformOneQuestion({
           />
 
           <form onSubmit={advance} className="mt-8">
-            {/* One question holds the frame. The reserve exists only to bridge
-                the swap — mode="wait" unmounts the outgoing answer before the
-                next one mounts — so it is sized to the tallest step rather
-                than generously, which otherwise leaves the card standing open
-                under a single field. The finished frame drops it entirely;
-                that settle is the form being over. */}
-            <div ref={stageRef} className={cn(!sent && "min-h-40")}>
-              <AnimatePresence initial={false} mode="wait">
-                <motion.div
-                  key={
-                    sent
-                      ? "__sent"
-                      : reviewing
-                        ? "__review"
-                        : (current?.id ?? "")
-                  }
-                  initial={{
-                    opacity: 0,
-                    x: motionSafe ? direction * distances.shift : 0,
-                  }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{
-                    opacity: 0,
-                    x: motionSafe ? -direction * distances.shift : 0,
-                    transition: exitFor(
-                      motionSafe ? durations.base : durations.fast,
-                    ),
-                  }}
-                  transition={enter}
-                >
-                  {sent ? (
-                    <div>
-                      <StatusSeal variant="success">sent</StatusSeal>
-                      <p className="mt-4 text-2xl font-semibold tracking-tight text-balance text-ink">
-                        {doneTitle}
-                      </p>
-                      <p className="mt-2 leading-relaxed text-ink-2">
-                        {doneCopy}
-                      </p>
-                    </div>
-                  ) : reviewing ? (
-                    <div>
-                      <p
-                        ref={promptRef}
-                        tabIndex={-1}
-                        className="text-2xl font-semibold tracking-tight text-balance text-ink outline-none"
-                      >
-                        {summaryTitle}
-                      </p>
-                      <dl className="mt-5 flex flex-col gap-3">
-                        {questions.map((question) => (
-                          <div
-                            key={question.id}
-                            className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-hairline pb-3"
-                          >
-                            <dt className="text-sm text-ink-3">
-                              {question.label}
-                            </dt>
-                            <dd className="min-w-0 font-mono text-sm break-words text-ink">
-                              {labelFor(question, answers[question.id]) || "—"}
-                            </dd>
-                          </div>
-                        ))}
-                      </dl>
-                    </div>
-                  ) : current ? (
-                    <div>
-                      <p
-                        ref={promptRef}
-                        tabIndex={-1}
-                        className="text-2xl font-semibold tracking-tight text-balance text-ink outline-none sm:text-3xl"
-                      >
-                        {current.prompt}
-                      </p>
-                      {current.help && (
-                        <p className="mt-2 text-sm leading-relaxed text-ink-3">
-                          {current.help}
+            <motion.div
+              ref={stageRef}
+              className="overflow-hidden"
+              animate={{ height: stageHeight ?? "auto" }}
+              transition={
+                motionSafe && stageHeight !== null
+                  ? springs.glide
+                  : { duration: 0 }
+              }
+            >
+              <div ref={measureStage}>
+                <AnimatePresence initial={false} mode="wait">
+                  <motion.div
+                    key={
+                      sent
+                        ? "__sent"
+                        : reviewing
+                          ? "__review"
+                          : (current?.id ?? "")
+                    }
+                    initial={{
+                      opacity: 0,
+                      x: motionSafe ? direction * distances.shift : 0,
+                    }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{
+                      opacity: 0,
+                      x: motionSafe ? -direction * distances.shift : 0,
+                      transition: exitFor(
+                        motionSafe ? durations.base : durations.fast,
+                      ),
+                    }}
+                    transition={enter}
+                  >
+                    {sent ? (
+                      <div>
+                        <StatusSeal variant="success">sent</StatusSeal>
+                        <p className="mt-4 text-2xl font-semibold tracking-tight text-balance text-ink">
+                          {doneTitle}
                         </p>
-                      )}
-                      <div className="mt-6">
-                        {current.kind === "text" ? (
-                          <div data-question-field>
-                            <TraceInput
-                              label={current.prompt}
-                              labelHidden
-                              placeholder={current.placeholder}
-                              value={answers[current.id] ?? ""}
-                              onChange={(event) =>
-                                answer(current.id, event.target.value)
-                              }
-                              error={error ?? undefined}
-                            />
-                          </div>
-                        ) : (
-                          <>
-                            <RadioGroup
-                              aria-label={current.prompt}
-                              value={answers[current.id] ?? ""}
-                              onValueChange={(value) =>
-                                answer(current.id, value)
-                              }
-                            >
-                              {(current.options ?? []).map((option) => (
-                                <RadioGroupItem
-                                  key={option.value}
-                                  value={option.value}
-                                  description={option.description}
-                                >
-                                  {option.label}
-                                </RadioGroupItem>
-                              ))}
-                            </RadioGroup>
-                            {error && (
-                              <p className="mt-2 flex items-center gap-2 text-xs text-destructive">
-                                <span
-                                  aria-hidden
-                                  className="h-px w-3 shrink-0 bg-destructive"
-                                />
-                                {error}
-                              </p>
-                            )}
-                          </>
-                        )}
+                        <p className="mt-2 leading-relaxed text-ink-2">
+                          {doneCopy}
+                        </p>
                       </div>
-                    </div>
-                  ) : null}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+                    ) : reviewing ? (
+                      <div>
+                        <p
+                          ref={promptRef}
+                          tabIndex={-1}
+                          className="text-2xl font-semibold tracking-tight text-balance text-ink outline-none"
+                        >
+                          {summaryTitle}
+                        </p>
+                        <dl className="mt-5 flex flex-col gap-3">
+                          {questions.map((question) => (
+                            <div
+                              key={question.id}
+                              className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-hairline pb-3"
+                            >
+                              <dt className="text-sm text-ink-3">
+                                {question.label}
+                              </dt>
+                              <dd className="min-w-0 font-mono text-sm break-words text-ink">
+                                {labelFor(question, answers[question.id]) ||
+                                  "—"}
+                              </dd>
+                            </div>
+                          ))}
+                        </dl>
+                      </div>
+                    ) : current ? (
+                      <div>
+                        <p
+                          ref={promptRef}
+                          tabIndex={-1}
+                          className="text-2xl font-semibold tracking-tight text-balance text-ink outline-none sm:text-3xl"
+                        >
+                          {current.prompt}
+                        </p>
+                        {current.help && (
+                          <p className="mt-2 text-sm leading-relaxed text-ink-3">
+                            {current.help}
+                          </p>
+                        )}
+                        <div className="mt-6">
+                          {current.kind === "text" ? (
+                            <div data-question-field>
+                              <TraceInput
+                                label={current.prompt}
+                                labelHidden
+                                placeholder={current.placeholder}
+                                value={answers[current.id] ?? ""}
+                                onChange={(event) =>
+                                  answer(current.id, event.target.value)
+                                }
+                                error={error ?? undefined}
+                              />
+                            </div>
+                          ) : (
+                            <>
+                              <RadioGroup
+                                aria-label={current.prompt}
+                                value={answers[current.id] ?? ""}
+                                onValueChange={(value) =>
+                                  answer(current.id, value)
+                                }
+                              >
+                                {(current.options ?? []).map((option) => (
+                                  <RadioGroupItem
+                                    key={option.value}
+                                    value={option.value}
+                                    description={option.description}
+                                  >
+                                    {option.label}
+                                  </RadioGroupItem>
+                                ))}
+                              </RadioGroup>
+                              {error && (
+                                <p className="mt-2 flex items-center gap-2 text-xs text-destructive">
+                                  <span
+                                    aria-hidden
+                                    className="h-px w-3 shrink-0 bg-destructive"
+                                  />
+                                  {error}
+                                </p>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    ) : null}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </motion.div>
 
             {!sent && (
               <div className="mt-6 flex items-center justify-between gap-3 border-t border-hairline pt-5">
