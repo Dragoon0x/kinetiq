@@ -73,7 +73,14 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="border-t border-hairline">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 text-label text-ink-3">
+        {/*
+          Three equal tracks, not `justify-between`: between two neighbours of
+          unequal width the credit would sit where the gaps happen to balance,
+          well right of the page's centre. On a phone the bar stacks — the
+          three lines do not fit across, and squeezed together they read as
+          one sentence.
+        */}
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-start gap-2 px-6 py-4 text-label text-ink-3 sm:grid sm:grid-cols-[1fr_auto_1fr] sm:items-center sm:gap-x-6">
           <span>KINETIQ · MOTION LABORATORY</span>
           <a
             href={author.url}
@@ -83,7 +90,7 @@ export function SiteFooter() {
           >
             BUILT BY {author.name.toUpperCase()} · {author.handle.toUpperCase()}
           </a>
-          <span>EST. 2026</span>
+          <span className="sm:justify-self-end">EST. 2026</span>
         </div>
       </div>
     </footer>

@@ -182,3 +182,49 @@ test("mobile browse opens and navigates", async ({ page }) => {
       .getAttribute("aria-expanded"),
   ).toBe("false");
 });
+
+/**
+ * The footer's bottom bar carries three segments — the house name, the
+ * builder's credit, the year. On a wide screen the credit belongs at the
+ * page's centre, not at the point where the gaps to its unequal neighbours
+ * happen to balance; on a phone the three stack rather than sharing a line
+ * with no space between them.
+ */
+test("the footer bar sits on its centre", async ({ page }) => {
+  for (const w of [1440, 1280, 1024, 768, 640, 390, 320]) {
+    await page.setViewportSize({ width: w, height: 800 });
+    await page.goto("/");
+    await page.waitForSelector("body[data-hydrated]", { timeout: 20000 });
+    await page.waitForTimeout(250);
+    const r = await page.evaluate(() => {
+      const bar = [...document.querySelectorAll("footer > div")].at(-1)!;
+      const row = bar.firstElementChild!;
+      const rowBox = row.getBoundingClientRect();
+      const boxes = [...row.children].map((el) => el.getBoundingClientRect());
+      const credit = boxes[1]!;
+      const gaps = [];
+      for (let i = 1; i < boxes.length; i += 1) {
+        const a = boxes[i - 1]!;
+        const b = boxes[i]!;
+        const sameLine = a.top < b.bottom && b.top < a.bottom;
+        gaps.push(sameLine ? b.left - a.right : b.top - a.bottom);
+      }
+      return {
+        offCentre:
+          (credit.left + credit.right) / 2 - (rowBox.left + rowBox.right) / 2,
+        minGap: Math.min(...gaps),
+        overflow:
+          document.documentElement.scrollWidth -
+          document.documentElement.clientWidth,
+      };
+    });
+    if (w >= 640) {
+      expect(
+        Math.abs(r.offCentre),
+        `credit off the footer's centre at ${w}`,
+      ).toBeLessThanOrEqual(1);
+    }
+    expect(r.minGap, `footer segments touch at ${w}`).toBeGreaterThanOrEqual(4);
+    expect(r.overflow, `page overflows at ${w}`).toBeLessThanOrEqual(0);
+  }
+});
