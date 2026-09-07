@@ -1796,3 +1796,489 @@ test.describe("feedback", () => {
     await expect(status).toContainText("Connection Back online");
   });
 });
+
+/**
+ * The data wing draws numbers, so its outcomes are numbers: a percentage a ring
+ * crossed, the day a bar was nudged onto, the row that rose to the top. Each
+ * test drives the mechanic the component advertises and reads the result off
+ * the demo's status line and the ARIA the component publishes about itself.
+ */
+
+/** A laid-out box's width, measured rather than assumed. */
+const widthOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => element.getBoundingClientRect().width);
+
+/**
+ * How far a node has been turned, in degrees, read off the transform its
+ * spring settled on — the sign is dropped, so a half turn is 180 either way.
+ */
+const turnOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 0;
+    const matrix = new DOMMatrix(transform);
+    return Math.round(
+      Math.abs((Math.atan2(matrix.b, matrix.a) * 180) / Math.PI),
+    );
+  });
+
+test.describe("data", () => {
+  test("uptime-strip: the strip opens on today and the arrows walk back through it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/uptime-strip");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const strip = stage.getByRole("listbox", {
+      name: "Gaugeworks API daily status, oldest first",
+    });
+
+    await expect(status).toContainText("Hover or focus a strip to read a day");
+
+    // Focus lands on today, the day the strip is actually about.
+    await strip.focus();
+    await expect(strip).toHaveAttribute("aria-activedescendant", /-day-89$/);
+    await expect(status).toContainText("Gaugeworks API · Jun 30 · up");
+    const today = strip.getByRole("option", { name: "Jun 30, Operational" });
+    await expect(today).toHaveAttribute("aria-selected", "true");
+
+    // Left walks back a day at a time, and the reading names the new date.
+    await strip.press("ArrowLeft");
+    await expect(strip).toHaveAttribute("aria-activedescendant", /-day-88$/);
+    await expect(status).toContainText("Gaugeworks API · Jun 29 · up");
+    await expect(today).toHaveAttribute("aria-selected", "false");
+
+    // Home is the oldest day the strip holds — ninety days back.
+    await strip.press("Home");
+    await expect(strip).toHaveAttribute("aria-activedescendant", /-day-0$/);
+    await expect(status).toContainText("Gaugeworks API · Apr 2 · up");
+
+    // Escape drops the reading rather than leaving a stale day selected.
+    await strip.press("Escape");
+    await expect(status).toContainText("Hover or focus a strip to read a day");
+    await expect(strip).not.toHaveAttribute("aria-activedescendant", /-day-/);
+  });
+
+  test("poll-bars: a vote reveals the bars, and the vote can be moved", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/poll-bars");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const poll = stage.getByRole("radiogroup", {
+      name: "Which Fernworks feature should ship first?",
+    });
+    const gear = poll.getByRole("radio", { name: /^Gear checklists/ });
+    const trails = poll.getByRole("radio", { name: /^Offline trail maps/ });
+    // Each row draws its own share inside itself, so the bar is the row's.
+    const gearBar = widthOf(gear.locator("span.origin-left"));
+
+    // Before the vote the options are bare labels and no bar is drawn.
+    await expect(status).toContainText("No vote yet · 1,184 votes");
+    await expect(gear).toHaveAttribute("aria-label", "Gear checklists");
+    expect(await gearBar()).toBeLessThan(1);
+
+    await gear.click();
+    await expect(gear).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("Gear checklists · 1,185 votes");
+    // The reader's own vote is counted into the share the row now reports.
+    await expect(gear).toHaveAttribute(
+      "aria-label",
+      "Gear checklists, 27 percent, 319 votes",
+    );
+    await expect(trails).toHaveAttribute(
+      "aria-label",
+      "Offline trail maps, 35 percent, 412 votes",
+    );
+    await expect.poll(gearBar, { timeout: 5000 }).toBeGreaterThan(20);
+
+    // Moving the vote moves the one extra ballot; the total does not climb.
+    await trails.click();
+    await expect(trails).toHaveAttribute("aria-checked", "true");
+    await expect(gear).toHaveAttribute("aria-checked", "false");
+    await expect(status).toContainText("Offline trail maps · 1,185 votes");
+    await expect(trails).toHaveAttribute(
+      "aria-label",
+      "Offline trail maps, 35 percent, 413 votes",
+    );
+    await expect(gear).toHaveAttribute(
+      "aria-label",
+      "Gear checklists, 27 percent, 318 votes",
+    );
+  });
+
+  test("delta-tile: the next month rolls the values and turns the arrow over", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/delta-tile");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const revenue = stage.getByRole("button", { name: /^Revenue,/ });
+    // The badge is the tile's one round-cornered pill: arrow, then delta.
+    const badge = revenue.locator("span.rounded-full");
+    const arrow = revenue.locator('svg[viewBox="0 0 12 12"]').locator("..");
+
+    await expect(status).toContainText(
+      "April · Revenue -1.6% · Active users +8.7% · Churn +9.1%",
+    );
+    await expect(revenue).toHaveAttribute(
+      "aria-label",
+      "Revenue, $48,157, down 1.6 percent from $48,957 last period. Trend over 12 points, low $41,114, high $49,651.",
+    );
+    // April's revenue fell, so the arrow stands on its head in the danger tone.
+    await expect.poll(turnOf(arrow), { timeout: 5000 }).toBe(180);
+    await expect(badge).toHaveClass(/text-danger/);
+
+    await stage.getByRole("button", { name: "Load next month" }).click();
+
+    await expect(status).toContainText(
+      "May · Revenue +8.4% · Active users -1.9% · Churn +8.3%",
+    );
+    // The whole tile rolls: value, prior period, and the range under the trace.
+    await expect(revenue).toHaveAttribute(
+      "aria-label",
+      "Revenue, $52,204, up 8.4 percent from $48,157 last period. Trend over 12 points, low $42,325, high $52,204.",
+    );
+    // Up, and the tone turns with it.
+    await expect.poll(turnOf(arrow), { timeout: 5000 }).toBe(0);
+    await expect(badge).toHaveClass(/text-success/);
+    await expect(badge).not.toHaveClass(/text-danger/);
+
+    // Its neighbour turned the other way in the same press.
+    const users = stage.getByRole("button", { name: /^Active users,/ });
+    await expect(users).toHaveAttribute(
+      "aria-label",
+      "Active users, 15,799, down 1.9 percent from 16,112 last period. Trend over 12 points, low 13,862, high 16,609.",
+    );
+    await expect(users.locator("span.rounded-full")).toHaveClass(/text-danger/);
+  });
+
+  test("activity-rings: a press takes the Move ring past its goal and onto a second lap", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/activity-rings");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const figure = stage.getByRole("img", {
+      name: /^Coldbrook daily activity\./,
+    });
+    // Outer group carries the twelve-o'clock turn; each ring is a group in it.
+    const moveRing = figure.locator("g > g").first();
+
+    await expect(status).toContainText("Move 92% · Exercise 73% · Stand 67%");
+    await expect(figure).toHaveAttribute(
+      "aria-label",
+      "Coldbrook daily activity. Move: 480 of 520, 92 percent. Exercise: 22 of 30, 73 percent. Stand: 8 of 12, 67 percent.",
+    );
+    // A ring under its goal is one track and one arc.
+    await expect(moveRing.locator("circle")).toHaveCount(2);
+
+    await stage.getByRole("button", { name: "+60 kcal" }).click();
+
+    // 540 of 520: the ring closes and keeps going rather than pinning at 100.
+    await expect(status).toContainText("Move 104%");
+    await expect(figure).toHaveAttribute(
+      "aria-label",
+      /Move: 540 of 520, 104 percent\./,
+    );
+    // The surplus is drawn as a second lap laid over the first.
+    await expect(moveRing.locator("circle")).toHaveCount(3, { timeout: 5000 });
+    // The rings it did not touch are untouched.
+    await expect(status).toContainText("Exercise 73% · Stand 67%");
+
+    // The legend reports the raw figure beside the ring it belongs to.
+    await expect(
+      stage.getByRole("button", { name: "Move 540 / 520" }),
+    ).toBeVisible();
+  });
+
+  test("budget-bar: the keyboard reads a segment, and a chip drops one out of the bar", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/budget-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const bar = stage.getByRole("group", { name: "Gaugeworks · June" });
+    const salaries = bar.getByRole("button", { name: /^Salaries,/ });
+    const cloud = bar.getByRole("button", { name: /^Cloud,/ });
+    const tooling = bar.getByRole("button", { name: /^Tooling,/ });
+
+    await expect(status).toContainText(
+      "Read a segment with the pointer or the arrow keys",
+    );
+    await expect(salaries).toHaveAttribute(
+      "aria-label",
+      "Salaries, $18,400, 54 percent",
+    );
+
+    // Focus is a reading, and the arrows walk the bar left to right.
+    await salaries.focus();
+    await expect(status).toContainText("Salaries · $18,400");
+    await page.keyboard.press("ArrowRight");
+    await expect(cloud).toBeFocused();
+    await expect(status).toContainText("Cloud · $7,350");
+
+    // The pointer outranks focus: it reads whichever segment it is over.
+    await bar.getByRole("button", { name: /^Travel,/ }).hover();
+    await expect(status).toContainText("Travel · $2,480");
+    // Off the bar, the reading falls back to the segment focus is holding.
+    await page.mouse.move(0, 0);
+    await expect(status).toContainText("Cloud · $7,350");
+
+    // Enter pins that reading, so it outlives both the pointer and focus.
+    await cloud.press("Enter");
+    await expect(cloud).toHaveAttribute("aria-pressed", "true");
+    await expect(status).toContainText("Cloud · $7,350");
+
+    // The legend chip is a toggle: turning Cloud off takes it out of the bar.
+    const chip = stage.getByRole("button", {
+      name: "Cloud, $7,350",
+      exact: true,
+    });
+    await expect(chip).toHaveAttribute("aria-pressed", "true");
+    await chip.click();
+    await expect(chip).toHaveAttribute("aria-pressed", "false");
+    await expect(cloud).toHaveAttribute("aria-label", "Cloud, $7,350, hidden");
+    await expect(cloud).toBeDisabled();
+    await expect.poll(widthOf(cloud), { timeout: 5000 }).toBeLessThan(1);
+    // A category that leaves the bar takes its pinned reading with it, rather
+    // than leaving the demo holding a segment that is no longer drawn.
+    await expect(status).toContainText(
+      "Read a segment with the pointer or the arrow keys",
+    );
+
+    // The rest of the bar re-flows into the room it left: the shares are
+    // recut against the smaller total, and the arrows skip the empty seat.
+    await expect(salaries).toHaveAttribute(
+      "aria-label",
+      "Salaries, $18,400, 69 percent",
+    );
+    await expect(tooling).toHaveAttribute(
+      "aria-label",
+      "Tooling, $3,120, 12 percent",
+    );
+    await salaries.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(tooling).toBeFocused();
+    await expect(status).toContainText("Tooling · $3,120");
+  });
+
+  test("crosshair-chart: the crosshair opens on the last sample and the arrows scrub it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/crosshair-chart");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const plot = stage.getByRole("slider", { name: "Fernworks sessions" });
+
+    await expect(status).toContainText("Hover or arrow-key the trace");
+    // Unread, the slider speaks the series rather than a point.
+    await expect(plot).toHaveAttribute(
+      "aria-valuetext",
+      "Fernworks sessions: 30 points, 2,487 to 4,464",
+    );
+
+    await plot.focus();
+    await expect(plot).toHaveAttribute("aria-valuenow", "29");
+    await expect(plot).toHaveAttribute("aria-valuetext", "Apr 30, 4,464");
+    await expect(status).toContainText("Apr 30 · 4,464 sessions");
+
+    await plot.press("ArrowLeft");
+    await expect(plot).toHaveAttribute("aria-valuenow", "28");
+    await expect(status).toContainText("Apr 29 · 4,383 sessions");
+
+    await plot.press("Home");
+    await expect(plot).toHaveAttribute("aria-valuenow", "0");
+    await expect(plot).toHaveAttribute("aria-valuetext", "Apr 1, 2,487");
+    await expect(status).toContainText("Apr 1 · 2,487 sessions");
+
+    // The pointer snaps to the nearest sample rather than reading between two.
+    const box = await plot.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
+    await page.mouse.move(box.x + box.width - 4, box.y + box.height / 2);
+    await expect(plot).toHaveAttribute("aria-valuenow", "29");
+    await expect(status).toContainText("Apr 30 · 4,464 sessions");
+
+    // Escape gives the reading up rather than latching the last point.
+    await plot.press("Escape");
+    await expect(status).toContainText("Hover or arrow-key the trace");
+  });
+
+  test("gantt-lane: nudging a bar moves its dates and pushes what waits on it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/gantt-lane");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The chart keeps its own live readout; the demo's line is the one after.
+    const moved = stage.locator("[role='status']").first();
+    const build = stage.getByRole("button", { name: "Build", exact: true });
+    // Each bar's dates are the sr-only text its aria-describedby points at.
+    const buildDates = stage.locator('[id$="-dates-build"]');
+    const reviewDates = stage.locator('[id$="-dates-review"]');
+
+    await expect(status).toContainText("Hover a bar, or drag it to a new day");
+    await expect(buildDates).toHaveText("Apr 9 to Apr 15");
+    await expect(reviewDates).toHaveText("Apr 15 to Apr 18");
+    // Nothing has been moved, so the chart has nothing to announce.
+    await expect(moved).toHaveText("");
+
+    // Focusing a bar reads it out; the demo names it and its window.
+    await build.focus();
+    await expect(status).toContainText("Build · Apr 9 – Apr 15");
+
+    await build.press("ArrowRight");
+    await expect(buildDates).toHaveText("Apr 10 to Apr 16", { timeout: 5000 });
+    await expect(status).toContainText("Build · Apr 10 – Apr 16");
+    await expect(moved).toHaveText("Build moved to Apr 10 through Apr 16");
+
+    // Review cannot start before Build ends, so it is pushed along with it —
+    // and says so in its own description, not just in the picture.
+    await expect(reviewDates).toHaveText("Apr 16 to Apr 19");
+    // Copy runs beside Build rather than after it, so it does not move.
+    await expect(stage.locator('[id$="-dates-copy"]')).toHaveText(
+      "Apr 10 to Apr 14",
+    );
+
+    // The bar itself steps back, but the push is one-way: a dependency that
+    // has been given room keeps it, so a re-planned chain does not silently
+    // re-compress under the bar that moved it.
+    await build.press("ArrowLeft");
+    await expect(buildDates).toHaveText("Apr 9 to Apr 15", { timeout: 5000 });
+    await expect(status).toContainText("Build · Apr 9 – Apr 15");
+    await expect(moved).toHaveText("Build moved to Apr 9 through Apr 15");
+    await expect(reviewDates).toHaveText("Apr 16 to Apr 19");
+
+    // Down walks the lanes without moving anything.
+    await build.press("ArrowDown");
+    await expect(
+      stage.getByRole("button", { name: "Copy pass", exact: true }),
+    ).toBeFocused();
+    await expect(status).toContainText("Copy pass · Apr 10 – Apr 14");
+  });
+
+  test("sort-table: a header sorts, reverses, and hands the table back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/sort-table");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const table = stage.getByRole("table", { name: "Basinworks properties" });
+    const property = table.getByRole("columnheader", { name: "Property" });
+    const rent = table.getByRole("columnheader", { name: "Rent" });
+    /** Row 0 is the header; the first body row is the one that answers. */
+    const topRow = table.getByRole("row").nth(1);
+
+    // The table opens sorted by rent, dearest first.
+    await expect(status).toContainText("Sorted by Rent · descending");
+    await expect(rent).toHaveAttribute("aria-sort", "descending");
+    await expect(property).toHaveAttribute("aria-sort", "none");
+    await expect(topRow).toContainText("Salt Yard");
+
+    await property.getByRole("button", { name: "Property" }).click();
+    await expect(property).toHaveAttribute("aria-sort", "ascending");
+    await expect(rent).toHaveAttribute("aria-sort", "none");
+    await expect(status).toContainText("Sorted by Property · ascending");
+    await expect(topRow).toContainText("Alder Court", { timeout: 5000 });
+
+    // A second press reverses the same column rather than starting over.
+    await property.getByRole("button", { name: "Property" }).click();
+    await expect(property).toHaveAttribute("aria-sort", "descending");
+    await expect(status).toContainText("Sorted by Property · descending");
+    await expect(topRow).toContainText("Verge House", { timeout: 5000 });
+
+    // A third gives the table back in the order it was handed.
+    await property.getByRole("button", { name: "Property" }).click();
+    await expect(property).toHaveAttribute("aria-sort", "none");
+    await expect(status).toContainText("Source order");
+    await expect(topRow).toContainText("Alder Court", { timeout: 5000 });
+    await expect(table.getByRole("row").nth(2)).toContainText("Kiln Row");
+  });
+
+  test("waterfall-steps: a column reads its own delta and the total it lands on", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/waterfall-steps");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const receipts = stage.getByRole("button", {
+      name: "Receipts, up $18,400, running total $60,400",
+    });
+    const payroll = stage.getByRole("button", {
+      name: "Payroll, down $9,600, running total $50,800",
+    });
+
+    await expect(status).toContainText("Hover or arrow-key a column");
+
+    // The pointer reads a column: what it added, and where it left the balance.
+    await receipts.hover();
+    await expect(status).toContainText("Receipts · +$18,400 · $60,400");
+
+    // The arrows walk the same columns, and a fall is read as a fall.
+    await payroll.focus();
+    await expect(status).toContainText("Payroll · −$9,600 · $50,800");
+    await payroll.press("ArrowRight");
+    await expect(
+      stage.getByRole("button", {
+        name: "Grants, up $6,200, running total $57,000",
+      }),
+    ).toBeFocused();
+    await expect(status).toContainText("Grants · +$6,200 · $57,000");
+
+    // End is the closing balance — a total, so it has no delta of its own.
+    await page.keyboard.press("End");
+    await expect(
+      stage.getByRole("button", { name: "Closing, $45,200" }),
+    ).toBeFocused();
+    await expect(status).toContainText("Closing · $45,200");
+
+    await page.keyboard.press("Home");
+    await expect(
+      stage.getByRole("button", { name: "Opening, $42,000" }),
+    ).toBeFocused();
+    await expect(status).toContainText("Opening · $42,000");
+  });
+
+  test("range-histogram: the thumbs narrow the band and push rather than cross", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/range-histogram");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const low = stage.getByRole("slider", { name: "Basinworks rent minimum" });
+    const high = stage.getByRole("slider", { name: "Basinworks rent maximum" });
+
+    await expect(status).toContainText("$1,200 – $2,400 · 1405 of 1841 homes");
+    await expect(low).toHaveAttribute("aria-valuenow", "1200");
+    await expect(high).toHaveAttribute("aria-valuenow", "2400");
+
+    // A quarter-bin a press: three of them clear the $1,200 band entirely.
+    await low.focus();
+    for (let i = 0; i < 3; i += 1) await low.press("ArrowRight");
+    await expect(low).toHaveAttribute("aria-valuenow", "1275");
+    await expect(low).toHaveAttribute("aria-valuetext", "$1,275");
+    await expect(status).toContainText("$1,275 – $2,400 · 1299 of 1841 homes");
+
+    await high.focus();
+    for (let i = 0; i < 3; i += 1) await high.press("ArrowLeft");
+    await expect(high).toHaveAttribute("aria-valuenow", "2325");
+    await expect(status).toContainText("$1,275 – $2,325 · 1214 of 1841 homes");
+
+    // Shift takes ten steps at a time — enough to run the low thumb into the
+    // high one, which it pushes along rather than passing through.
+    await low.focus();
+    for (let i = 0; i < 5; i += 1) await low.press("Shift+ArrowRight");
+    await expect(low).toHaveAttribute("aria-valuenow", "2525");
+    await expect(high).toHaveAttribute("aria-valuenow", "2525");
+    await expect(status).toContainText("$2,525 – $2,525 · 0 of 1841 homes");
+    // The low thumb's ceiling is its partner, so the pair can never invert.
+    await expect(low).toHaveAttribute("aria-valuemax", "2525");
+
+    // Backing off moves only the thumb that was pressed.
+    await low.press("ArrowLeft");
+    await expect(low).toHaveAttribute("aria-valuenow", "2500");
+    await expect(high).toHaveAttribute("aria-valuenow", "2525");
+    await expect(status).toContainText("$2,500 – $2,525 · 0 of 1841 homes");
+  });
+});
