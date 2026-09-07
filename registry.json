@@ -16441,6 +16441,141 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tip-pick",
+      "type": "registry:ui",
+      "title": "Tip Pick",
+      "description": "A tip selector that keeps the arithmetic visible. Choosing a chip slides one shared fill across to it on snap and rolls the tip and total digits in the direction the money moved. Custom unfolds an amount field on glide at a height a ResizeObserver measured, then moves focus into it; the chips are a radio group where arrows wrap, Home and End jump, and Enter or Space commits.",
+      "files": [
+        {
+          "path": "registry/ui/tip-pick.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-586"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "flip-card-form",
+      "type": "registry:ui",
+      "title": "Flip Card Form",
+      "description": "A card form whose preview is the feedback. Typing the number, name and expiry writes them onto the face and the brand mark cross-fades as the prefix resolves; focusing the security code turns the card over on snap — a real rotateY with backface-visibility hidden inline on both faces — and blurring turns it home. The inputs are real and carry cc-number, cc-name, cc-exp and cc-csc, the preview is aria-hidden, and under reduced motion the card swaps faces instead of turning.",
+      "files": [
+        {
+          "path": "registry/ui/flip-card-form.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-587"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shop-card",
+      "type": "registry:ui",
+      "title": "Shop Card",
+      "description": "A product card that keeps its second thought below the fold. Hover or focus inside cross-fades the picture to its alternate view and raises the quick-add bar from under the frame on glide, at a height a ResizeObserver measured so nothing reserves space for it; the heart pops on two chained springs, out on flick and back on recoil, and choosing a variant rolls the price. It is an article with a real link for a title, the heart carries aria-pressed, and the variants are a radio group with a roving tabindex, so Tab alone raises the bar.",
+      "files": [
+        {
+          "path": "registry/ui/shop-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-588"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "record-hold",
+      "type": "registry:ui",
+      "title": "Record Hold",
+      "description": "A hold-to-record button that puts the discard where the thumb already is. Pressing grows a ring around the mic on snap and opens a pill carrying a live procedural waveform and a rolling timer; dragging left slides the mic with the pointer, tilts it toward a bin that swaps in for the record dot, and past cancelDistance the lid lifts so releasing discards on the exit ease. Releasing in place throws the pill clear on recoil as Sent lands behind it; Space or Enter toggles recording and Escape cancels.",
+      "files": [
+        {
+          "path": "registry/ui/record-hold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-589"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crop-frame",
+      "type": "registry:ui",
+      "title": "Crop Frame",
+      "description": "A crop frame that argues with its bounds. Dragging the frame or a corner fades in the rule-of-thirds grid and deepens the dim outside while the rect tracks the pointer 1:1; pushed past an edge the frame follows only a third of the way and springs home on glide. An aspect lock keeps the ratio, arrow keys nudge the frame and Shift and an arrow resize it, and x, y, width and height are four real sliders under the picture.",
+      "files": [
+        {
+          "path": "registry/ui/crop-frame.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-590"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

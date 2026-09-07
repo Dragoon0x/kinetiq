@@ -9995,6 +9995,100 @@ Notes:
 - Stops wrap into a second row at phone width and the parcel follows, because its position comes from measured dot centres rather than a percentage of the track.
 - Under reduced motion the parcel jumps to its stop and nothing breathes; the fills, the labels, and the ETA still change.
 
+### Tip Pick (KQ-586) — `tip-pick`
+Pick a tip; the total keeps up.
+
+A tip selector that keeps the arithmetic visible. Choosing a chip slides one shared fill across to it on snap and rolls the tip and total digits in the direction the money moved. Custom unfolds an amount field on glide at a height a ResizeObserver measured, then moves focus into it; the chips are a radio group where arrows wrap, Home and End jump, and Enter or Space commits.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tip-pick`
+
+Props:
+- `subtotal`: number — Bill before tip; percentages are taken from it.
+- `presets`: number[] (default [10, 15, 20]) — Percentages offered as chips, before Custom and No tip.
+- `value / defaultValue`: { kind: "percent"; value: number } | { kind: "amount"; value: number } | { kind: "none" } — Controlled or initial tip; defaults to the middle preset.
+- `onValueChange`: (value: TipValue) => void — Fires on every chip change and on every keystroke in the custom field.
+- `format`: (value: number) => string (default (value) => value.toFixed(2)) — Money formatter — the control never invents a currency.
+- `label`: string (default Tip) — Visible group label, which also names the radio group.
+
+Notes:
+- A radio group with a roving tabindex: Left and Right wrap around the chips, Home and End jump to the ends, and Enter or Space commits. Committing Custom moves focus into the amount field; arrowing onto it only unfolds, so the arrow keys keep working.
+- Under reduced motion the fill swaps instantly and the digits cross-fade in place — the tip and total still change, because the figures are information rather than flourish.
+- The custom panel's height is measured by a ResizeObserver, so nothing reserves dead space while it is shut; the panel is inert when closed so Tab never lands in a hidden field.
+
+### Flip Card Form (KQ-587) — `flip-card-form`
+Focus the security code; the card turns over.
+
+A card form whose preview is the feedback. Typing the number, name and expiry writes them onto the face and the brand mark cross-fades as the prefix resolves; focusing the security code turns the card over on snap — a real rotateY with backface-visibility hidden inline on both faces — and blurring turns it home. The inputs are real and carry cc-number, cc-name, cc-exp and cc-csc, the preview is aria-hidden, and under reduced motion the card swaps faces instead of turning.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/flip-card-form`
+
+Props:
+- `value / defaultValue`: { number: string; name: string; expiry: string; cvc: string } — Controlled or initial values; number, expiry and cvc are held as digits and grouped for display.
+- `onValueChange`: (value: CardFormValue) => void — Fires on every keystroke with the sanitised values.
+- `onSubmit`: (value: CardFormValue) => void — Fires on submit with the current values.
+- `onSideChange`: (side: "front" | "back") => void — Fires when the preview turns over, so a page can narrate the side.
+- `submitLabel`: string (default Save card) — Submit button copy.
+
+Notes:
+- Four real inputs in tab order, each with its own label and autocomplete token, so a password manager fills the form; focusing the security code flips the card and blurring flips it home, which makes Tab the whole keyboard gesture.
+- Under reduced motion nothing rotates — the two faces swap on a short opacity tween, because which side you are on is information.
+- The preview is aria-hidden since it only repeats the fields; a polite live region announces which side is showing.
+
+### Shop Card (KQ-588) — `shop-card`
+Hover shows the other angle; the add bar rises.
+
+A product card that keeps its second thought below the fold. Hover or focus inside cross-fades the picture to its alternate view and raises the quick-add bar from under the frame on glide, at a height a ResizeObserver measured so nothing reserves space for it; the heart pops on two chained springs, out on flick and back on recoil, and choosing a variant rolls the price. It is an article with a real link for a title, the heart carries aria-pressed, and the variants are a radio group with a roving tabindex, so Tab alone raises the bar.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/shop-card`
+
+Props:
+- `product`: { id: string; title: string; price: number; variants: { id: string; label: string; price?: number }[]; art: [React.ReactNode, React.ReactNode] } — The product and its two views; a variant's own price overrides the product's.
+- `onAdd`: (variantId: string) => void — Fires from the quick-add bar with the chosen variant.
+- `liked / defaultLiked`: boolean (default false) — Controlled or initial wishlist state for the heart.
+- `onLikedChange`: (liked: boolean) => void — Fires when the heart toggles.
+- `href`: string (default #) — Where the title link goes.
+- `format`: (value: number) => string (default (value) => value.toFixed(2)) — Money formatter — the card never invents a currency.
+
+Notes:
+- Tab into the card and the bar rises on focus-within: the variants are a radio group where arrows wrap and Home and End jump, the heart is a toggle button with aria-pressed, and quick add announces itself through a polite live region.
+- Under reduced motion the bar fades in where it sits and the heart never pops — the picture still cross-fades and the price still changes, because both are information.
+- A tap raises the bar on touch, where there is no hover; the bar is pointer-inert while it is down, so it never intercepts a click on the picture.
+
+### Record Hold (KQ-589) — `record-hold`
+Hold to record; slide away to cancel.
+
+A hold-to-record button that puts the discard where the thumb already is. Pressing grows a ring around the mic on snap and opens a pill carrying a live procedural waveform and a rolling timer; dragging left slides the mic with the pointer, tilts it toward a bin that swaps in for the record dot, and past cancelDistance the lid lifts so releasing discards on the exit ease. Releasing in place throws the pill clear on recoil as Sent lands behind it; Space or Enter toggles recording and Escape cancels.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/record-hold`
+
+Props:
+- `onRecord`: (event: "start" | "stop" | "cancel", seconds: number) => void — Lifecycle callback; seconds is the whole seconds held when the take ended.
+- `maxSeconds`: number (default 60) — The take stops itself here, from inside the tick that crossed it.
+- `cancelDistance`: number (default 96) — Pixels of leftward travel that arm the cancel and open the bin.
+
+Notes:
+- Space or Enter toggles recording and Escape cancels from anywhere while a take is live; the mic is a button with aria-pressed, and start, send and discard are announced through a polite live region.
+- Under reduced motion the waveform holds its profile instead of pulsing and the states swap without travel — the timer still counts, because elapsed time is information.
+- Pointer capture waits for 4px of travel so a plain press is never swallowed, and a release before the first tick is read as a tap rather than a one-frame take.
+
+### Crop Frame (KQ-590) — `crop-frame`
+Drag the frame; the thirds appear.
+
+A crop frame that argues with its bounds. Dragging the frame or a corner fades in the rule-of-thirds grid and deepens the dim outside while the rect tracks the pointer 1:1; pushed past an edge the frame follows only a third of the way and springs home on glide. An aspect lock keeps the ratio, arrow keys nudge the frame and Shift and an arrow resize it, and x, y, width and height are four real sliders under the picture.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crop-frame`
+
+Props:
+- `image`: { width: number; height: number; art: React.ReactNode } — The picture in its own pixels; art fills the stage, which takes the same ratio.
+- `aspect`: number — Width over height. Omit for a free crop; set, it survives every drag, key and slider.
+- `value / defaultValue`: { x: number; y: number; w: number; h: number } — Controlled or initial crop rect in image pixels; defaults to a centred 70% crop.
+- `onValueChange`: (rect: CropRect) => void — Fires with a rect that is always legal — clamped, on ratio, and inside the picture.
+
+Notes:
+- The frame takes focus: arrow keys move it, Shift and an arrow resize it, and Alt steps a single pixel. Below the picture the same rect is four sliders — crop left, top, width and height — each with arrows, Home and End.
+- Under reduced motion there is no rubber band: the frame stops at the edge and the grid and dim still change, because where the crop is remains information.
+- Pointer capture waits for 4px of travel so a plain click is never swallowed, and the rubber band is a visual offset only — the committed rect never leaves the picture.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

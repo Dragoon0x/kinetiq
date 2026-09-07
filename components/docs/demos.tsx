@@ -775,6 +775,11 @@ import { TapRippleDemo } from "@/registry/demos/tap-ripple.demo";
 import { BadgeBumpDemo } from "@/registry/demos/badge-bump.demo";
 import { MorphIconDemo } from "@/registry/demos/morph-icon.demo";
 import { ScrollFramesDemo } from "@/registry/demos/scroll-frames.demo";
+import { TipPickDemo } from "@/registry/demos/tip-pick.demo";
+import { FlipCardFormDemo } from "@/registry/demos/flip-card-form.demo";
+import { ShopCardDemo } from "@/registry/demos/shop-card.demo";
+import { RecordHoldDemo } from "@/registry/demos/record-hold.demo";
+import { CropFrameDemo } from "@/registry/demos/crop-frame.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1564,4 +1569,9 @@ export const demos: Record<string, ComponentType> = {
   "badge-bump": BadgeBumpDemo,
   "morph-icon": MorphIconDemo,
   "scroll-frames": ScrollFramesDemo,
+  "tip-pick": TipPickDemo,
+  "flip-card-form": FlipCardFormDemo,
+  "shop-card": ShopCardDemo,
+  "record-hold": RecordHoldDemo,
+  "crop-frame": CropFrameDemo,
 };
