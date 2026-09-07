@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { motion } from "motion/react";
+import { animate, motion, useMotionValue } from "motion/react";
 
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
 import { durations, easings, springs } from "@/registry/lib/motion";
@@ -104,15 +104,34 @@ export function FoldText({
   // calc() string is not something a spring can interpolate.
   const height = measured ? (isOpen || !foldable ? box.full : folded) : null;
 
+  // The height lives in a motion value so the handoff from CSS to numbers is
+  // explicit. The first measured number is written outright: given its first
+  // target after mounting with nothing, motion would treat it as already
+  // current and write no style, and the clamp the server painted would fall
+  // away at hydration. Every later change animates.
+  const heightValue = useMotionValue<number | string>(`calc(${lines} * 1lh)`);
+  const seeded = React.useRef(false);
+  React.useEffect(() => {
+    if (height === null) return;
+    if (!seeded.current) {
+      seeded.current = true;
+      heightValue.set(height);
+      return;
+    }
+    const controls = animate(
+      heightValue,
+      height,
+      motionSafe ? springs.glide : { duration: 0 },
+    );
+    return () => controls.stop();
+  }, [height, heightValue, motionSafe]);
+
   return (
     <div className={cn("flex w-full flex-col items-start gap-2", className)}>
       <motion.div
         id={regionId}
         className="relative w-full overflow-hidden text-sm leading-relaxed text-ink-2"
-        style={height === null ? { height: `calc(${lines} * 1lh)` } : undefined}
-        initial={false}
-        animate={height === null ? undefined : { height }}
-        transition={motionSafe ? springs.glide : { duration: 0 }}
+        style={{ height: heightValue }}
       >
         <div ref={innerRef}>{children}</div>
         {foldable && (
