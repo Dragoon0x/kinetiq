@@ -24302,4 +24302,334 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the progress snaps at the halfway mark: the bar switches between its two states rather than tracking the scroll.",
     ],
   },
+  {
+    name: "side-scroll",
+    type: "registry:ui",
+    title: "Side Scroll",
+    description:
+      "A section that pins itself while the track inside it moves sideways. The container's vertical travel maps linearly onto the track's horizontal travel — deliberately no spring, because a scroll-linked value that springs lags the finger and reads as jank — and the section reserves exactly its frame height plus the track's travel, so the pin lasts as long as there is track left. Native scroll means Page Down and the arrow keys already work, and a skip control at the top of the pin jumps a keyboard past the run and lands focus on the far side.",
+    files: [
+      {
+        path: "registry/ui/side-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: {
+      serial: "KQ-571",
+    },
+    tagline: "Scroll down; the track moves across.",
+    keywords: ["pinned", "horizontal", "scroll", "track", "panels", "sticky"],
+    props: [
+      {
+        name: "panels",
+        type: "React.ReactNode[]",
+        description: "The panels, left to right.",
+      },
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description: "The scrolling element whose travel drives the track.",
+      },
+      {
+        name: "panelWidth",
+        type: "number",
+        defaultValue: "280",
+        description: "Width of one panel, px.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(percent: number) => void",
+        description:
+          "Fires with whole-percent progress, 0–100, when the percent changes.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Pinned track",
+        description: "Names the pinned section.",
+      },
+      {
+        name: "skipLabel",
+        type: "string",
+        defaultValue: "Skip the track",
+        description: "Text of the control that jumps past the pinned run.",
+      },
+    ],
+    usageNotes: [
+      "The track rides native scroll, so Page Down, Space and the arrow keys move it with no key handling of its own; a skip control, visible once focused, scrolls past the pin and moves focus to a target on the far side of it.",
+      "Under reduced motion the panels stack into a column and scroll the ordinary way — the progress rail still fills, because progress is information rather than flourish.",
+      "The section reserves frame height plus track travel, so give the container enough room after it; the track clips inside its own frame and never overflows the page.",
+    ],
+  },
+  {
+    name: "snap-carousel",
+    type: "registry:ui",
+    title: "Snap Carousel",
+    description:
+      "A carousel on native scroll-snap, so the gesture is the browser's own and the component only decides where it lands. The dot for the settled slide stretches into a pill on snap — a layout animation, so one shape travels and widens rather than a second dot blinking on elsewhere — while the next slide peeks past the edge. Autoplay is a chain of timeouts keyed to the settled index, standing down on hover, on focus inside the carousel and whenever the tab is hidden; the scroller is focusable, Left and Right move a slide, Home and End jump, and the dots carry a roving tabindex.",
+    files: [
+      {
+        path: "registry/ui/snap-carousel.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: {
+      serial: "KQ-572",
+    },
+    tagline: "Snaps to the slide; the dot becomes a pill.",
+    keywords: ["carousel", "slides", "scroll-snap", "autoplay", "dots", "peek"],
+    props: [
+      {
+        name: "slides",
+        type: "{ id: string; content: React.ReactNode }[]",
+        description: "Slides, left to right.",
+      },
+      {
+        name: "autoplay",
+        type: "number",
+        description: "Milliseconds between advances; omit to disable autoplay.",
+      },
+      {
+        name: "loop",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Wrap past the ends.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Carousel",
+        description: "Names the carousel.",
+      },
+      {
+        name: "onIndexChange",
+        type: "(index: number) => void",
+        description: "Fires when the settled slide changes.",
+      },
+    ],
+    usageNotes: [
+      "The scroller is focusable: Left and Right move one slide, Home and End jump to the ends. The dots are a roving tabindex — arrows move and select, and the settled dot carries aria-current.",
+      "Autoplay pauses on hover, on focus inside the carousel and while the tab is hidden, and a visible toggle stops it outright; the live slide count falls silent while it is rotating so it never talks over the reader.",
+      "Under reduced motion autoplay never starts, the dots swap rather than stretching, and moving between slides jumps instead of scrolling.",
+    ],
+  },
+  {
+    name: "hover-preview",
+    type: "registry:ui",
+    title: "Hover Preview",
+    description:
+      "A card that plays its own frames while you are looking at it. One linear driver runs from zero to the frame count and back on a loop: its floor picks the frame, so the card re-renders once per frame rather than once per tick, and the same value feeds the hairline under the art, which is why the bar and the picture can never disagree. Hovering with a mouse or reaching the card with the keyboard starts a pass and leaving falls back to the poster on the exit ease; a press pins playback, which is what a tap does on touch, so it is a real toggle button with aria-pressed that Enter and Space operate.",
+    files: [
+      {
+        path: "registry/ui/hover-preview.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: {
+      serial: "KQ-573",
+    },
+    tagline: "Hover the card; it plays its frames.",
+    keywords: ["preview", "hover", "frames", "playback", "card", "poster"],
+    props: [
+      {
+        name: "frames",
+        type: "number",
+        description: "How many frames the sequence has.",
+      },
+      {
+        name: "renderFrame",
+        type: "(index: number) => React.ReactNode",
+        description: "Draws frame index; index 0 is the poster.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "2400",
+        description: "Length of one pass through the sequence, ms.",
+      },
+      {
+        name: "title",
+        type: "string",
+        description: "Card title, and the control's accessible name.",
+      },
+      {
+        name: "onPlayingChange",
+        type: "(playing: boolean) => void",
+        description: "Fires when this card starts or stops playing.",
+      },
+    ],
+    usageNotes: [
+      "A toggle button: Tab reaches it, keyboard focus starts a pass, Enter and Space pin playback, and aria-pressed reports whether it is pinned — which is also what a tap does on touch.",
+      "Playback stops while the tab is hidden and resumes when it comes back, so a grid of cards costs nothing behind another window.",
+      "Under reduced motion the card is a still: the poster, a Preview badge and no playback — and no control either, since there is no longer a gesture the keyboard would need to match.",
+    ],
+  },
+  {
+    name: "grab-pan",
+    type: "registry:ui",
+    title: "Grab Pan",
+    description:
+      "A board you grab and throw. The drag is one-to-one with the pointer and follows at a third of the travel past an edge, so the end of the board is felt rather than announced; release hands the offset to a requestAnimationFrame loop that decays the release velocity against elapsed time, and the moment it touches a bound it hands over to glide for the last pixels back. Pointer capture waits for 4px so a click on the board is never swallowed, and every gesture has a keyboard equal: the viewport is focusable, arrows pan a fifth of the view on glide, and Home re-centres.",
+    files: [
+      {
+        path: "registry/ui/grab-pan.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: {
+      serial: "KQ-574",
+    },
+    tagline: "Grab the board; throw it; it bounces at the edges.",
+    keywords: ["pan", "inertia", "momentum", "drag", "minimap", "board"],
+    props: [
+      {
+        name: "width / height",
+        type: "number",
+        description: "Board size in px.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description: "What sits on the board.",
+      },
+      {
+        name: "minimap",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Show the minimap.",
+      },
+      {
+        name: "viewportHeight",
+        type: "number",
+        defaultValue: "280",
+        description: "Height of the viewport the board is seen through, px.",
+      },
+      {
+        name: "onOffsetChange",
+        type: "(offset: { x: number; y: number }) => void",
+        description: "Fires with the whole-pixel offset whenever it changes.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Board",
+        description: "Names the pannable region.",
+      },
+      {
+        name: "resetLabel",
+        type: "string",
+        defaultValue: "Reset",
+        description: "Label of the re-centre control.",
+      },
+    ],
+    usageNotes: [
+      "The viewport is focusable: arrow keys pan a fifth of the view on glide, Home re-centres, and a visible Reset control does the same with the mouse. The wheel pans, and declines the page's scroll only when the board still has somewhere to go.",
+      "Pointer capture is taken after 4px of travel, so a click on something sitting on the board is never swallowed, and a gesture that ends without capture leaves the board untouched.",
+      "Under reduced motion nothing is thrown and nothing rubber-bands: the board tracks the pointer, stops dead at the edges, and jumps to its keyboard steps.",
+    ],
+  },
+  {
+    name: "path-rider",
+    type: "registry:ui",
+    title: "Path Rider",
+    description:
+      "Something that rides a path. One value between zero and one places the rider at that fraction of the path's length using the browser's own geometry — a point plus the two either side of it, which give the tangent it turns to — and the travelled part of the route draws in behind it from the same value through pathLength, so the line and the rider cannot disagree. Scroll-linked progress is mapped linearly from the container and never sprung, play runs the same value on a linear tween that pauses with the tab and resumes where it stopped, and the rider is hidden from assistive technology while the caption carries the position as text.",
+    files: [
+      {
+        path: "registry/ui/path-rider.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: {
+      serial: "KQ-575",
+    },
+    tagline: "It rides the path as you scroll.",
+    keywords: [
+      "path",
+      "svg",
+      "scroll",
+      "tangent",
+      "route",
+      "rider",
+      "pathLength",
+    ],
+    props: [
+      {
+        name: "path",
+        type: "string",
+        description: "SVG path data the rider follows.",
+      },
+      {
+        name: "viewBox",
+        type: "string",
+        defaultValue: "0 0 320 180",
+        description: "The coordinate space the path is drawn in.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "Controlled position along the path, 0–1. Omit to follow the container.",
+      },
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description: "Scroll-link source; used when progress is omitted.",
+      },
+      {
+        name: "rider",
+        type: "React.ReactNode",
+        description: "What travels. Defaults to a chevron badge.",
+      },
+      {
+        name: "playing",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Runs progress to the end on a linear tween.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "4000",
+        description: "Length of a full run, ms.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(progress: number) => void",
+        description:
+          "Fires with progress, 0–1, whenever the whole percent changes.",
+      },
+      {
+        name: "onPlayEnd",
+        type: "() => void",
+        description: "Fires when a run reaches the end.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Route",
+        description: "Names the route in the caption.",
+      },
+    ],
+    usageNotes: [
+      "The rider is decorative and aria-hidden; position is exposed as text in the caption, so drive it from a control that carries its own semantics — a native range input, or the container's scroll.",
+      "Progress has one source at a time: playing wins, then a controlled progress prop, then the container's scroll. Scroll mapping is linear on purpose — a spring on a scroll-linked value lags the finger.",
+      "Under reduced motion a run advances in eight jumps instead of gliding, so the trip still finishes and still reports; scrubbed and scroll-linked progress place the rider without travel either way.",
+    ],
+  },
 ];

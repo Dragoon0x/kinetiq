@@ -16036,6 +16036,141 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "side-scroll",
+      "type": "registry:ui",
+      "title": "Side Scroll",
+      "description": "A section that pins itself while the track inside it moves sideways. The container's vertical travel maps linearly onto the track's horizontal travel — deliberately no spring, because a scroll-linked value that springs lags the finger and reads as jank — and the section reserves exactly its frame height plus the track's travel, so the pin lasts as long as there is track left. Native scroll means Page Down and the arrow keys already work, and a skip control at the top of the pin jumps a keyboard past the run and lands focus on the far side.",
+      "files": [
+        {
+          "path": "registry/ui/side-scroll.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-571"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "snap-carousel",
+      "type": "registry:ui",
+      "title": "Snap Carousel",
+      "description": "A carousel on native scroll-snap, so the gesture is the browser's own and the component only decides where it lands. The dot for the settled slide stretches into a pill on snap — a layout animation, so one shape travels and widens rather than a second dot blinking on elsewhere — while the next slide peeks past the edge. Autoplay is a chain of timeouts keyed to the settled index, standing down on hover, on focus inside the carousel and whenever the tab is hidden; the scroller is focusable, Left and Right move a slide, Home and End jump, and the dots carry a roving tabindex.",
+      "files": [
+        {
+          "path": "registry/ui/snap-carousel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-572"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hover-preview",
+      "type": "registry:ui",
+      "title": "Hover Preview",
+      "description": "A card that plays its own frames while you are looking at it. One linear driver runs from zero to the frame count and back on a loop: its floor picks the frame, so the card re-renders once per frame rather than once per tick, and the same value feeds the hairline under the art, which is why the bar and the picture can never disagree. Hovering with a mouse or reaching the card with the keyboard starts a pass and leaving falls back to the poster on the exit ease; a press pins playback, which is what a tap does on touch, so it is a real toggle button with aria-pressed that Enter and Space operate.",
+      "files": [
+        {
+          "path": "registry/ui/hover-preview.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-573"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "grab-pan",
+      "type": "registry:ui",
+      "title": "Grab Pan",
+      "description": "A board you grab and throw. The drag is one-to-one with the pointer and follows at a third of the travel past an edge, so the end of the board is felt rather than announced; release hands the offset to a requestAnimationFrame loop that decays the release velocity against elapsed time, and the moment it touches a bound it hands over to glide for the last pixels back. Pointer capture waits for 4px so a click on the board is never swallowed, and every gesture has a keyboard equal: the viewport is focusable, arrows pan a fifth of the view on glide, and Home re-centres.",
+      "files": [
+        {
+          "path": "registry/ui/grab-pan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-574"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "path-rider",
+      "type": "registry:ui",
+      "title": "Path Rider",
+      "description": "Something that rides a path. One value between zero and one places the rider at that fraction of the path's length using the browser's own geometry — a point plus the two either side of it, which give the tangent it turns to — and the travelled part of the route draws in behind it from the same value through pathLength, so the line and the rider cannot disagree. Scroll-linked progress is mapped linearly from the container and never sprung, play runs the same value on a linear tween that pauses with the tab and resumes where it stopped, and the rider is hidden from assistive technology while the caption carries the position as text.",
+      "files": [
+        {
+          "path": "registry/ui/path-rider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-575"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

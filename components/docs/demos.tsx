@@ -760,6 +760,11 @@ import { SummaryHemDemo } from "@/registry/demos/summary-hem.demo";
 import { StepSlideDemo } from "@/registry/demos/step-slide.demo";
 import { SwipeRowDemo } from "@/registry/demos/swipe-row.demo";
 import { ShrinkBarDemo } from "@/registry/demos/shrink-bar.demo";
+import { SideScrollDemo } from "@/registry/demos/side-scroll.demo";
+import { SnapCarouselDemo } from "@/registry/demos/snap-carousel.demo";
+import { HoverPreviewDemo } from "@/registry/demos/hover-preview.demo";
+import { GrabPanDemo } from "@/registry/demos/grab-pan.demo";
+import { PathRiderDemo } from "@/registry/demos/path-rider.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1534,4 +1539,9 @@ export const demos: Record<string, ComponentType> = {
   "step-slide": StepSlideDemo,
   "swipe-row": SwipeRowDemo,
   "shrink-bar": ShrinkBarDemo,
+  "side-scroll": SideScrollDemo,
+  "snap-carousel": SnapCarouselDemo,
+  "hover-preview": HoverPreviewDemo,
+  "grab-pan": GrabPanDemo,
+  "path-rider": PathRiderDemo,
 };
