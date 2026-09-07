@@ -2282,3 +2282,979 @@ test.describe("data", () => {
     await expect(status).toContainText("$2,500 – $2,525 · 0 of 1841 homes");
   });
 });
+
+/**
+ * The text wing works on the words themselves — a passage that folds, a term
+ * that explains itself, a diff a reader applies in place — so its outcomes are
+ * what the passage now says, the count it is down to, or the height it moved
+ * to. Each test drives the mechanic and reads the result off the demo's status
+ * line, the component's own reading of itself, or a measured box.
+ */
+
+/** A laid-out box's height, measured rather than assumed. */
+const heightOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => element.getBoundingClientRect().height);
+
+/**
+ * An inline term wraps across lines, and the union of its fragments has a
+ * centre that lands on neither — so the pointer is put inside its first line
+ * box rather than at the middle of a rectangle the word does not occupy.
+ */
+const hoverInline = async (page: Page, target: Locator): Promise<void> => {
+  await target.scrollIntoViewIfNeeded();
+  const spot = await target.evaluate((element) => {
+    const rect = element.getClientRects()[0];
+    if (!rect) return null;
+    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+  });
+  expect(spot).not.toBeNull();
+  if (!spot) return;
+  await page.mouse.move(spot.x, spot.y);
+};
+
+test.describe("text", () => {
+  test("diff-lines: accepting a hunk drops the count, and Result shows the edit", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/diff-lines");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The passage keeps its own reading of the review, ahead of the demo's.
+    const left = stage.locator("[role='status']").first();
+    const ghosts = stage.locator("del");
+
+    await expect(status).toContainText("2 of 2 changes to review");
+    await expect(left).toHaveText("2 of 2 changes left to review");
+    // Two hunks, each still showing the wording it would replace.
+    await expect(ghosts).toHaveCount(2);
+
+    const accept = stage.getByRole("button", { name: "Accept change 1" });
+    await expect(accept).toHaveAttribute("aria-pressed", "false");
+    await accept.click();
+
+    await expect(status).toContainText("1 of 2 changes to review");
+    await expect(left).toHaveText("1 of 2 changes left to review");
+    // Applying a hunk drops its ghost and leaves the new wording behind.
+    await expect(ghosts).toHaveCount(1, { timeout: 5000 });
+    // The same control reverses itself, so a mistaken accept is not final.
+    await expect(
+      stage.getByRole("button", { name: "Restore change 1" }),
+    ).toHaveAttribute("aria-pressed", "true");
+
+    const result = stage.getByRole("switch", { name: "Result" });
+    await expect(result).toHaveAttribute("aria-checked", "false");
+    await result.click();
+    await expect(result).toHaveAttribute("aria-checked", "true");
+    await expect(left).toHaveText("Showing the result");
+    // The result is the edit as it would read: no ghosts, nothing left to press.
+    await expect(ghosts).toHaveCount(0, { timeout: 5000 });
+    await expect(stage.getByRole("button", { name: /change \d$/ })).toHaveCount(
+      0,
+    );
+    // The demo counts decisions, not views: the accepted hunk still stands.
+    await expect(status).toContainText("1 of 2 changes to review");
+  });
+
+  test("fold-text: Read more grows the passage and Show less folds it back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/fold-text");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const more = stage.getByRole("button", { name: "Read more" });
+
+    await expect(status).toContainText("Description folded");
+    await expect(more).toHaveAttribute("aria-expanded", "false");
+
+    // The clamp is a height rather than a line-clamp, so the fold is a
+    // measurement: the region the button controls is three line boxes tall
+    // while the passage inside it runs to eight.
+    const regionId = await more.getAttribute("aria-controls");
+    expect(regionId).toBeTruthy();
+    if (!regionId) return;
+    const region = stage.locator(`[id="${regionId}"]`);
+    const line = await region.evaluate((element) =>
+      Number.parseFloat(window.getComputedStyle(element).lineHeight),
+    );
+    expect(line).toBeGreaterThan(10);
+    const full = await heightOf(region.locator("div").first())();
+    expect(full).toBeGreaterThan(line * 5);
+    // Folded is what the button, the ARIA and the demo's line all claim.
+    expect(await heightOf(region)()).toBeLessThan(line * 4);
+
+    await more.click();
+    await expect(status).toContainText("Description open");
+    const less = stage.getByRole("button", { name: "Show less" });
+    await expect(less).toHaveAttribute("aria-expanded", "true");
+    // Open is the passage's own measured height, not a guess at it.
+    await expect
+      .poll(heightOf(region), { timeout: 5000 })
+      .toBeGreaterThan(full - 2);
+
+    await less.click();
+    await expect(status).toContainText("Description folded");
+    await expect(more).toHaveAttribute("aria-expanded", "false");
+    await expect
+      .poll(heightOf(region), { timeout: 5000 })
+      .toBeLessThan(line * 4);
+  });
+
+  test("gloss-word: hover unfolds a gloss, focus opens the next, Escape closes it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/gloss-word");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const duty = stage.getByRole("button", { name: "duty cycle" });
+    const settling = stage.getByRole("button", { name: "settling window" });
+    // A shut gloss is out of the accessibility tree, so it is reached by label.
+    const dutyGloss = stage.locator('[role="region"][aria-label="duty cycle"]');
+
+    await expect(status).toContainText("No gloss open");
+    await expect(duty).toHaveAttribute("aria-expanded", "false");
+    // Nothing is reserved: a closed gloss costs the paragraph no height.
+    expect(await heightOf(dutyGloss)()).toBeLessThan(1);
+
+    await hoverInline(page, duty);
+    await expect(duty).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("Gloss duty cycle");
+    await expect(dutyGloss).toContainText(
+      "The share of each hour a pump actually runs.",
+    );
+    await expect
+      .poll(heightOf(dutyGloss), { timeout: 5000 })
+      .toBeGreaterThan(20);
+
+    // The pointer leaving takes the gloss with it.
+    await page.mouse.move(0, 0);
+    await expect(duty).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("No gloss open");
+    await expect.poll(heightOf(dutyGloss), { timeout: 5000 }).toBeLessThan(1);
+
+    // The keyboard opens it too: arriving on the term is a reading.
+    await settling.focus();
+    await expect(settling).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("Gloss settling window");
+    await expect(
+      stage.getByRole("region", { name: "settling window" }),
+    ).toContainText("Ninety seconds after a valve moves");
+
+    await settling.press("Escape");
+    await expect(settling).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("No gloss open");
+    // Escape closes the gloss without taking the caret off the term.
+    await expect(settling).toBeFocused();
+  });
+
+  test("find-marks: a query marks the passage and Enter walks the matches", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/find-marks");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const field = stage.getByRole("searchbox", { name: "Find in passage" });
+    const marks = stage.locator("mark");
+    /** One ring marks the current match, and it is the ring that travels. */
+    const ringOn = (position: number) =>
+      marks.nth(position).locator("span.border-cobalt-bright");
+
+    // The passage opens on a search that has already run.
+    await expect(field).toHaveValue("flow");
+    await expect(marks).toHaveCount(6);
+    await expect(status).toContainText("Match 1 of 6");
+
+    await field.fill("weir");
+    await expect(marks).toHaveCount(3, { timeout: 5000 });
+    // A new search starts at its first match rather than keeping the old place.
+    await expect(status).toContainText("Match 1 of 3");
+    await expect(ringOn(0)).toHaveCount(1, { timeout: 5000 });
+
+    await field.press("Enter");
+    await expect(status).toContainText("Match 2 of 3");
+    await expect(ringOn(1)).toHaveCount(1, { timeout: 5000 });
+    await expect(ringOn(0)).toHaveCount(0);
+
+    await field.press("Shift+Enter");
+    await expect(status).toContainText("Match 1 of 3");
+    await expect(ringOn(0)).toHaveCount(1, { timeout: 5000 });
+
+    // The walk wraps rather than stopping at either end.
+    await field.press("Shift+Enter");
+    await expect(status).toContainText("Match 3 of 3");
+    await expect(ringOn(2)).toHaveCount(1, { timeout: 5000 });
+
+    await field.fill("kestrel");
+    await expect(marks).toHaveCount(0, { timeout: 5000 });
+    await expect(status).toContainText("No matches");
+  });
+
+  test("select-bar: a selection raises the bar and Bold wraps the words", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/select-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const editor = stage.getByRole("textbox", {
+      name: "Gaugeworks release note",
+    });
+    const bar = stage.getByRole("toolbar", { name: "Format selection" });
+
+    await expect(status).toContainText("Select words to raise the bar");
+    await expect(bar).toHaveCount(0);
+
+    // The caret goes into the first line and the keyboard takes eight
+    // characters with it: the bar reads the selection, not the pointer.
+    await editor.click({ position: { x: 8, y: 12 } });
+    for (let i = 0; i < 8; i += 1) {
+      await page.keyboard.press("Shift+ArrowRight");
+    }
+    await expect(bar).toBeVisible();
+
+    const bold = bar.getByRole("button", { name: "Bold" });
+    await expect(bold).toHaveAttribute("aria-pressed", "false");
+    await bold.click();
+
+    await expect(status).toContainText("Applied bold");
+    // The bar re-reads the range it just wrapped, so it knows what it did.
+    await expect(bold).toHaveAttribute("aria-pressed", "true");
+    // Formatting is real range wrapping, not a class on a span.
+    const strong = editor.locator("strong");
+    await expect(strong).toHaveCount(1);
+    await expect(strong).not.toBeEmpty();
+
+    // Letting the selection go lowers the bar.
+    await page.keyboard.press("ArrowRight");
+    await expect(bar).toHaveCount(0, { timeout: 5000 });
+    await expect(status).toContainText("Applied bold");
+  });
+
+  test("mention-chip: @ picks a name into a chip, and Backspace takes it back out", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/mention-chip");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const field = stage.getByLabel("Fernworks survey · comment");
+    // The composer says how many people the query matched, ahead of the demo.
+    const matched = stage.locator("[role='status']").first();
+
+    await expect(status).toHaveText("Mentioned rae");
+
+    // Select-all then a step right is the deterministic way to the end of a
+    // textarea that already holds a sentence.
+    await field.press("ControlOrMeta+a");
+    await field.press("ArrowRight");
+    await field.pressSequentially(" @ivo");
+
+    const list = stage.getByRole("listbox", { name: "People to mention" });
+    await expect(list).toBeVisible();
+    await expect(list.getByRole("option")).toHaveCount(1);
+    await expect(matched).toHaveText("1 people match");
+    // Focus never leaves the text: the list is driven from the field.
+    await expect(field).toBeFocused();
+    await expect(field).toHaveAttribute("aria-activedescendant", /-list-0$/);
+
+    await field.press("Enter");
+    // The space inside a mentioned name is stored non-breaking, which is
+    // what keeps a chip sitting on its own glyphs when the line wraps.
+    await expect(field).toHaveValue(/@Ivo\u00A0Marsh $/);
+    await expect(status).toHaveText("Mentioned rae, ivo");
+    await expect(list).toHaveCount(0, { timeout: 5000 });
+
+    // The caret sits past the chip's trailing space: one press takes the
+    // space, the next takes the whole mention rather than a letter of it.
+    await field.press("Backspace");
+    await expect(status).toHaveText("Mentioned rae, ivo");
+    await field.press("Backspace");
+    await expect(status).toHaveText("Mentioned rae", { timeout: 5000 });
+    await expect(field).not.toHaveValue(/Ivo/);
+  });
+
+  test("squiggle-mark: Accept swaps the word, Ignore leaves it and drops the mark", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/squiggle-mark");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The proofreader announces each decision ahead of the demo's tally.
+    const said = stage.locator("[role='status']").first();
+    // Exact: once a bubble is up, its Accept and Ignore both carry the
+    // flagged word in their own names.
+    const flagged = stage.getByRole("button", {
+      name: "cordinate",
+      exact: true,
+    });
+    const next = stage.getByRole("button", { name: "resurvey", exact: true });
+
+    await expect(status).toContainText("3 of 3 still flagged");
+    await expect(said).toHaveText("");
+
+    // Focus raises the suggestion, so the fix is reachable by Tab alone.
+    await flagged.focus();
+    await expect(flagged).toHaveAttribute("aria-expanded", "true");
+    const bubble = stage.getByRole("group", {
+      name: "Suggestion for cordinate",
+    });
+    await expect(bubble).toBeVisible();
+    await expect(bubble).toContainText("coordinate");
+
+    await bubble
+      .getByRole("button", { name: "Replace cordinate with coordinate" })
+      .click();
+    await expect(said).toHaveText("cordinate replaced with coordinate");
+    await expect(status).toContainText("2 of 3 still flagged");
+    await expect(flagged).toHaveCount(0, { timeout: 5000 });
+    // Resolving hands focus to the next open word rather than dropping the
+    // reader back at the top of the note — and that arrival opens its bubble.
+    await expect(next).toBeFocused();
+    await expect(next).toHaveAttribute("aria-expanded", "true");
+
+    await stage
+      .getByRole("group", { name: "Suggestion for resurvey" })
+      .getByRole("button", { name: "Ignore resurvey" })
+      .click();
+    await expect(said).toHaveText("resurvey ignored");
+    await expect(status).toContainText("1 of 3 still flagged");
+    // Ignored, the word keeps its spelling and loses only its mark.
+    await expect(next).toHaveCount(0, { timeout: 5000 });
+    await expect(stage.getByText("resurvey").last()).toBeVisible();
+    // The word nobody ruled on is still flagged.
+    await expect(
+      stage.getByRole("button", { name: "Wether", exact: true }),
+    ).toHaveCount(1);
+  });
+
+  test("karaoke-line: Play runs the playhead, Pause holds it, a word seeks", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/karaoke-line");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const transport = stage.getByRole("button", { name: /^(Play|Pause)$/ });
+    const head = async (): Promise<number> =>
+      Number(
+        /Playhead ([\d.]+)s/.exec((await status.textContent()) ?? "")?.[1] ??
+          -1,
+      );
+
+    const hold = stage.getByRole("button", { name: "Hold, at 0.0 seconds" });
+
+    await expect(status).toContainText("Playhead 0.00s of 5.60s");
+    await expect(transport).toHaveText("Play");
+    // Nothing runs on mount, and at the top of the line the first word is the
+    // one the playhead is standing on.
+    await expect(hold).toHaveAttribute("aria-current", "true");
+
+    await transport.click();
+    await expect(transport).toHaveText("Pause");
+    // Past 0.45s the first word's window has closed.
+    await expect.poll(head, { timeout: 5000 }).toBeGreaterThan(0.5);
+    await expect(hold).not.toHaveAttribute("aria-current", "true");
+    // The line lights in time, so one word owns the playhead.
+    await expect(stage.locator('[aria-current="true"]')).toHaveCount(1);
+
+    await transport.click();
+    await expect(transport).toHaveText("Play");
+    // The clock is cleared, not ignored: nothing moves at all while it is off.
+    await page.waitForTimeout(300);
+    const held = await head();
+    expect(held).toBeGreaterThan(0.5);
+    await page.waitForTimeout(700);
+    expect(await head()).toBe(held);
+
+    // A word is a seek: the playhead lands on its start, not near it.
+    const north = stage.getByRole("button", { name: "north, at 2.5 seconds" });
+    await north.click();
+    await expect(status).toContainText("Playhead 2.50s");
+    await expect(north).toHaveAttribute("aria-current", "true");
+
+    await stage.getByRole("button", { name: "Restart" }).click();
+    await expect(status).toContainText("Playhead 0.00s");
+    await expect(north).not.toHaveAttribute("aria-current", "true");
+  });
+
+  test("transcript-flow: Start brings segments in and firms them, Reset winds it back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/transcript-flow");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const log = stage.getByRole("log", { name: "Fieldline dictation" });
+    // The flow keeps two lines of its own: the last sentence the recogniser
+    // committed, then whether the microphone is open.
+    const settled = stage.locator("[role='status']").first();
+    const mic = stage.locator("[role='status']").nth(1);
+    const transport = stage.getByRole("button", { name: /^(Start|Pause)$/ });
+    /** The tone of the second sentence, which is how firm it is. */
+    const secondTone = async (): Promise<string> =>
+      log.evaluate(
+        (element) => element.querySelectorAll("p")[1]?.className ?? "",
+      );
+
+    await expect(status).toContainText("Paused · 1 segments");
+    await expect(mic).toHaveText("Not listening");
+    await expect(settled).toHaveText("Bay four is reading two degrees long.");
+    await expect(log.locator("p")).toHaveCount(1);
+
+    await transport.click();
+    await expect(mic).toHaveText("Listening");
+    await expect(status).toContainText("Listening", { timeout: 5000 });
+    // A sentence arrives tentative in muted ink — a state that lives for about
+    // two seconds, so it is polled for rather than asserted after the fact.
+    await expect.poll(secondTone, { timeout: 8000 }).toContain("text-ink-3");
+    await expect(status).toContainText("2 segments");
+
+    // It firms when the recogniser commits it, and the committed line is what
+    // the flow announces.
+    await expect(settled).toHaveText(
+      "Re-torque to eighteen newton metres and log the drift.",
+      { timeout: 8000 },
+    );
+    await expect
+      .poll(secondTone, { timeout: 5000 })
+      .toContain("text-foreground");
+
+    // The script runs itself out and stands the microphone down.
+    await expect(status).toContainText("Paused · 3 segments", {
+      timeout: 8000,
+    });
+    await expect(mic).toHaveText("Not listening");
+    await expect(settled).toHaveText("Hand the bay over at shift change.");
+    await expect(log.locator("p")).toHaveCount(3);
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toContainText("Paused · 1 segments");
+    await expect(log.locator("p")).toHaveCount(1, { timeout: 5000 });
+    await expect(settled).toHaveText("Bay four is reading two degrees long.");
+  });
+
+  test("unit-flip: pressing a unit turns the card and re-measures the reading", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/unit-flip");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // Each readout speaks its own digits; the demo's line is the one after.
+    // The digit stack itself is mid-roll DOM — two glyphs to a slot — so the
+    // component's own reading is the honest way to read what it shows.
+    const readings = stage.locator("[role='status']");
+    const celsius = stage.getByRole("button", {
+      name: "Unit °C, switch to °F",
+    });
+
+    await expect(status).toContainText("Reading in °C · km · lb");
+    await expect(readings.nth(0)).toHaveText("21.4 °C");
+    await expect(celsius).toHaveAttribute("aria-pressed", "false");
+
+    await celsius.click();
+    const fahrenheit = stage.getByRole("button", {
+      name: "Unit °F, switch to °C",
+    });
+    await expect(fahrenheit).toHaveAttribute("aria-pressed", "true");
+    await expect(readings.nth(0)).toHaveText("70.5 °F");
+    await expect(status).toContainText("Reading in °F · km · lb");
+
+    // Space flips it too, and precision follows the unit: miles are read to
+    // two decimals where kilometres are read to one.
+    const kilometres = stage.getByRole("button", {
+      name: "Unit km, switch to mi",
+    });
+    await kilometres.press(" ");
+    await expect(readings.nth(1)).toHaveText("7.83 mi");
+    await expect(status).toContainText("Reading in °F · mi · lb");
+    // The pair nobody pressed is untouched.
+    await expect(readings.nth(2)).toHaveText("163.6 lb");
+
+    await fahrenheit.press(" ");
+    await expect(celsius).toHaveAttribute("aria-pressed", "false");
+    await expect(readings.nth(0)).toHaveText("21.4 °C");
+    await expect(status).toContainText("Reading in °C · mi · lb");
+  });
+});
+
+/**
+ * The layout wing rearranges space itself — an order, a day, a board, a height
+ * that is measured rather than reserved — so its outcomes are the order the
+ * demo now reads, the time an event now carries, the lane a card now sits in,
+ * or a box whose size a test measured for itself. Each test drives the
+ * mechanic by the path the component advertises, preferring the keyboard where
+ * there is one, and reads the result off the demo's status line, the
+ * component's own announcement, or the geometry.
+ */
+test.describe("layout", () => {
+  test("reorder-list: Space lifts a row, Down moves it, Space commits the order", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/reorder-list");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The list narrates each step of a lift itself, ahead of the demo's order.
+    const said = stage.locator("[role='status']").first();
+    const rows = stage.getByRole("listitem");
+    const intake = stage.getByRole("button", { name: /^Intake/ });
+
+    await expect(status).toContainText(
+      "Intake / Triage / Fit check / Quote / Handover",
+    );
+    await expect(rows.first()).toContainText("Intake");
+
+    await intake.press(" ");
+    await expect(intake).toHaveAttribute("aria-pressed", "true");
+    await expect(said).toHaveText("Intake lifted at position 1 of 5.");
+
+    await intake.press("ArrowDown");
+    await expect(said).toHaveText("Intake moved to position 2 of 5.");
+    // Moving is not committing: the demo hears nothing until the row is down.
+    await expect(status).toContainText("Intake / Triage / Fit check");
+
+    await intake.press(" ");
+    await expect(intake).toHaveAttribute("aria-pressed", "false");
+    await expect(said).toHaveText("Intake dropped at position 2 of 5.");
+    await expect(status).toContainText(
+      "Triage / Intake / Fit check / Quote / Handover",
+    );
+    await expect(rows.nth(1)).toContainText("Intake");
+
+    // Escape is the way out that keeps nothing: the lift is wound back to the
+    // order it started from, not to the row's original slot.
+    await intake.press(" ");
+    await expect(said).toHaveText("Intake lifted at position 2 of 5.");
+    await intake.press("ArrowUp");
+    await expect(said).toHaveText("Intake moved to position 1 of 5.");
+    await expect(rows.first()).toContainText("Intake");
+
+    await intake.press("Escape");
+    await expect(said).toHaveText(
+      "Move cancelled. Intake back at position 2 of 5.",
+    );
+    await expect(intake).toHaveAttribute("aria-pressed", "false");
+    await expect(rows.nth(1)).toContainText("Intake");
+    await expect(status).toContainText("Triage / Intake / Fit check");
+  });
+
+  test("agenda-day: the arrows nudge the focused event a quarter hour at a time", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/agenda-day");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The day announces each landing itself, ahead of the demo's readout.
+    const said = stage.locator("[role='status']").first();
+    const yard = stage.getByRole("button", { name: /^Yard check,/ });
+
+    await expect(status).toContainText("Focus an event, then drag it");
+    await expect(yard).toHaveAttribute(
+      "aria-label",
+      "Yard check, 08:30 to 09:15",
+    );
+
+    // Arriving on an event is what puts it in the demo's readout.
+    await yard.focus();
+    await expect(status).toContainText("Yard check · 08:30–09:15");
+
+    await yard.press("ArrowDown");
+    await expect(yard).toHaveAttribute(
+      "aria-label",
+      "Yard check, 08:45 to 09:30",
+    );
+    await expect(said).toHaveText("Yard check 08:45 to 09:30.");
+    await expect(status).toContainText("Yard check · 08:45–09:30");
+
+    // The block keeps its span while it moves: a nudge is a time, not a resize.
+    await yard.press("PageDown");
+    await expect(yard).toHaveAttribute(
+      "aria-label",
+      "Yard check, 09:45 to 10:30",
+    );
+    await expect(status).toContainText("Yard check · 09:45–10:30");
+
+    await yard.press("ArrowUp");
+    await expect(status).toContainText("Yard check · 09:30–10:15");
+    // The event nobody moved is where it was.
+    await expect(
+      stage.getByRole("button", { name: "Route brief, 09:30 to 11:00" }),
+    ).toHaveCount(1);
+  });
+
+  test("lane-board: a card's menu moves it a lane over and both counts roll", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/lane-board");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The board announces each landing itself, ahead of the demo's line.
+    const said = stage.locator("[role='status']").first();
+    const todo = stage.getByRole("list", { name: "Todo" });
+    const doing = stage.getByRole("list", { name: "Doing" });
+    const seal = stage.getByRole("button", { name: /^Seal the intake port,/ });
+    /** The badge beside a lane's title, which is the lane's own count. */
+    const countOf = (lane: string) =>
+      stage
+        .getByTitle(lane, { exact: true })
+        .locator("xpath=following-sibling::span");
+
+    await expect(status).toContainText(
+      "Drag a card, or open one for its moves",
+    );
+    await expect(todo.getByRole("button")).toHaveCount(3);
+    await expect(doing.getByRole("button")).toHaveCount(2);
+    await expect(countOf("Todo")).toHaveText("3");
+    await expect(seal).toHaveAttribute(
+      "aria-label",
+      "Seal the intake port, M, Todo, position 1 of 3",
+    );
+
+    await seal.click();
+    const menu = stage.getByRole("menu", {
+      name: "Move Seal the intake port",
+    });
+    await expect(menu).toBeVisible();
+    await expect(seal).toHaveAttribute("aria-expanded", "true");
+    // The first lane has nothing to its left, and the top card nothing above
+    // it, so those two moves stand down rather than being offered.
+    await expect(
+      menu.getByRole("menuitem", { name: "Lane left" }),
+    ).toBeDisabled();
+    await expect(
+      menu.getByRole("menuitem", { name: "Move up" }),
+    ).toBeDisabled();
+
+    await menu.getByRole("menuitem", { name: "Lane right" }).click();
+    await expect(said).toHaveText(
+      "Seal the intake port moved to Doing, position 1 of 3.",
+    );
+    await expect(status).toContainText("Seal the intake port · Doing 1");
+    await expect(todo.getByRole("button")).toHaveCount(2);
+    await expect(doing.getByRole("button")).toHaveCount(3);
+    await expect(countOf("Todo")).toHaveText("2");
+    await expect(countOf("Doing")).toHaveText("3");
+    // The same card, re-labelled where it landed — and the move hands focus
+    // back to it rather than dropping the reader at the top of the board.
+    await expect(seal).toHaveAttribute(
+      "aria-label",
+      "Seal the intake port, M, Doing, position 1 of 3",
+    );
+    await expect(seal).toBeFocused();
+    await expect(menu).toHaveCount(0, { timeout: 5000 });
+  });
+
+  test("unfold-card: a card opens where it stands and folds the one that was open", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/unfold-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const mill = stage.getByRole("button", { name: /^Mill Row 4/ });
+    const kiln = stage.getByRole("button", { name: /^Kiln Yard 12/ });
+    // A folded panel is inert and out of the accessibility tree, so the panels
+    // are reached by their place in the list rather than by name.
+    const panels = stage.locator("[role='region']");
+    const millPanel = panels.nth(0);
+    const kilnPanel = panels.nth(1);
+
+    await expect(panels).toHaveCount(3);
+    await expect(status).toContainText("Open · Mill Row 4");
+    await expect(mill).toHaveAttribute("aria-expanded", "true");
+    // Nothing is reserved: a folded card costs the list no height.
+    await expect
+      .poll(heightOf(millPanel), { timeout: 5000 })
+      .toBeGreaterThan(40);
+    expect(await heightOf(kilnPanel)()).toBeLessThan(1);
+
+    await kiln.click();
+    await expect(kiln).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("Open · Kiln Yard 12");
+    await expect
+      .poll(heightOf(kilnPanel), { timeout: 5000 })
+      .toBeGreaterThan(40);
+    await expect(kilnPanel).toContainText("1974");
+    // Opening one folds the other in the same beat.
+    await expect(mill).toHaveAttribute("aria-expanded", "false");
+    await expect.poll(heightOf(millPanel), { timeout: 5000 }).toBeLessThan(1);
+
+    await kiln.press("Escape");
+    await expect(status).toContainText("All folded");
+    await expect(kiln).toHaveAttribute("aria-expanded", "false");
+    await expect.poll(heightOf(kilnPanel), { timeout: 5000 }).toBeLessThan(1);
+    // The summary is where the card came from, so that is where focus belongs.
+    await expect(kiln).toBeFocused();
+  });
+
+  test("fit-panel: a new tab is measured and the box glides to what it measured", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/fit-panel");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const tabs = stage.getByRole("tablist", { name: "Gaugeworks R2" });
+    // The panel is the only clipping box on the plate, and it is the box the
+    // demo is reporting the measurement of.
+    const box = stage.locator("div.overflow-hidden").first();
+    const measured = async (): Promise<number> =>
+      Number(
+        /Measured (\d+) px/.exec((await status.textContent()) ?? "")?.[1] ?? -1,
+      );
+    /** How far the box is from the height it just reported. */
+    const drift = async (): Promise<number> =>
+      Math.abs((await heightOf(box)()) - (await measured()));
+
+    await expect.poll(measured, { timeout: 5000 }).toBeGreaterThan(0);
+    const spec = await measured();
+    await expect.poll(drift, { timeout: 5000 }).toBeLessThanOrEqual(1);
+
+    // Notes is two paragraphs where Spec is one line: the box has to grow.
+    await tabs.getByRole("tab", { name: "Notes" }).click();
+    await expect(tabs.getByRole("tab", { name: "Notes" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await expect.poll(measured, { timeout: 5000 }).toBeGreaterThan(spec);
+    const notes = await measured();
+    await expect.poll(drift, { timeout: 5000 }).toBeLessThanOrEqual(1);
+    await expect(stage.getByRole("tabpanel")).toContainText("dial vertical");
+
+    // The arrows walk the strip, and the box follows them back down.
+    await tabs.getByRole("tab", { name: "Notes" }).press("ArrowLeft");
+    const fit = tabs.getByRole("tab", { name: "Fit" });
+    await expect(fit).toHaveAttribute("aria-selected", "true");
+    await expect(fit).toBeFocused();
+    await expect.poll(measured, { timeout: 5000 }).toBeLessThan(notes);
+    await expect.poll(drift, { timeout: 5000 }).toBeLessThanOrEqual(1);
+    await expect(stage.getByRole("tabpanel")).toContainText("G1/4 B");
+  });
+
+  test("density-grid: Compact tightens every row and the card comes down with them", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/density-grid");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const density = stage.getByRole("radiogroup", { name: "Row density" });
+    const comfortable = density.getByRole("radio", { name: "Comfortable" });
+    const compact = density.getByRole("radio", { name: "Compact" });
+    const row = stage.getByRole("row").filter({ hasText: "Rosa Amberlink" });
+    // offsetHeight, not the rect: the card carries a layout transform mid-glide
+    // and the rect would report the animated size rather than the laid-out one.
+    const rowHeight = async (): Promise<number> =>
+      row.evaluate((element) => (element as HTMLElement).offsetHeight);
+    /** The card's own height, as the demo's observer measured it. */
+    const cardHeight = async (): Promise<number> =>
+      Number(
+        /(\d+)px tall/.exec((await status.textContent()) ?? "")?.[1] ?? -1,
+      );
+
+    await expect(status).toContainText("comfortable");
+    await expect(comfortable).toHaveAttribute("aria-checked", "true");
+    await expect.poll(cardHeight, { timeout: 5000 }).toBeGreaterThan(0);
+    const roomy = await cardHeight();
+    expect(await rowHeight()).toBe(48);
+
+    await compact.click();
+    await expect(compact).toHaveAttribute("aria-checked", "true");
+    await expect(comfortable).toHaveAttribute("aria-checked", "false");
+    await expect(status).toContainText("compact");
+    await expect.poll(rowHeight, { timeout: 5000 }).toBe(32);
+    // Eight rows, sixteen pixels each: the card gives up exactly what the rows
+    // did, and nothing else on the card changed size.
+    await expect.poll(cardHeight, { timeout: 5000 }).toBe(roomy - 8 * 16);
+
+    // The type holds at every density — shrinking it would be a legibility
+    // decision, not a density one.
+    await expect(
+      stage.getByRole("cell", { name: "Rosa Amberlink" }),
+    ).toBeVisible();
+  });
+
+  test("summary-hem: the cart scrolling down condenses the hem, and it opens again", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/summary-hem");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const frame = frameOf(stage);
+    const hem = stage.getByRole("region", { name: "Coldbrook order" });
+    const disclosure = hem.getByRole("button", { name: "Coldbrook order" });
+    // The itemised lines are the part the condensed bar gives up.
+    const lines = hem.getByText("Delivery, north basin");
+    const hemHeight = heightOf(hem);
+
+    await expect(status).toContainText("Hem expanded");
+    await expect(disclosure).toHaveAttribute("aria-expanded", "true");
+    await expect(lines).toBeVisible();
+    const open = await hemHeight();
+    expect(open).toBeGreaterThan(80);
+
+    await scrollFrameTo(frame, 220);
+    await expect(status).toContainText("Hem condensed");
+    await expect(disclosure).toHaveAttribute("aria-expanded", "false");
+    await expect(lines).toHaveCount(0, { timeout: 5000 });
+    await expect.poll(hemHeight, { timeout: 5000 }).toBeLessThan(open - 40);
+    // The total and the action are kept in both states.
+    await expect(hem.getByText("90.50")).toBeVisible();
+    await expect(hem.getByRole("button", { name: "Checkout" })).toBeVisible();
+
+    // Direction, not position: scrolling back up hands the lines over again
+    // without the reader having to reach the top.
+    await scrollFrameTo(frame, 120);
+    await expect(status).toContainText("Hem expanded");
+    await expect(lines).toBeVisible({ timeout: 5000 });
+    await expect.poll(hemHeight, { timeout: 5000 }).toBeGreaterThan(open - 5);
+
+    // The heading is also a disclosure, and it works the same both ways.
+    await disclosure.click();
+    await expect(status).toContainText("Hem condensed");
+    await expect(lines).toHaveCount(0, { timeout: 5000 });
+    await disclosure.click();
+    await expect(status).toContainText("Hem expanded");
+    await expect(disclosure).toHaveAttribute("aria-expanded", "true");
+    await expect(lines).toBeVisible({ timeout: 5000 });
+  });
+
+  test("step-slide: Next walks the steps, Back comes home, the last Next files it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/step-slide");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const next = stage.getByRole("button", { name: /^(Next|Finish)$/ });
+    const back = stage.getByRole("button", { name: "Back" });
+    // The dots are decoration the reader can see, so they are read as marks.
+    const dots = stage.locator("ol li span");
+
+    await expect(status).toContainText("Step Workspace");
+    await expect(stage.getByText("Step 1 of 3", { exact: true })).toBeVisible();
+    await expect(dots).toHaveCount(3);
+    await expect(dots.nth(0)).toHaveClass(/w-5/);
+    await expect(back).toBeDisabled();
+
+    await next.click();
+    await expect(status).toContainText("Step Team");
+    await expect(stage.getByText("Step 2 of 3", { exact: true })).toBeVisible();
+    await expect(stage.getByText("rosa@waylight.test")).toBeVisible();
+    // The pill is the same mark travelling; the step behind it is filled in.
+    await expect(dots.nth(1)).toHaveClass(/w-5/);
+    await expect(dots.nth(0)).toHaveClass(/bg-primary\/50/);
+    await expect(back).toBeEnabled();
+
+    await back.click();
+    await expect(status).toContainText("Step Workspace");
+    await expect(dots.nth(0)).toHaveClass(/w-5/);
+    await expect(back).toBeDisabled({ timeout: 5000 });
+
+    await next.click();
+    await next.click();
+    await expect(status).toContainText("Step Notifications");
+    await expect(stage.getByText("Step 3 of 3", { exact: true })).toBeVisible();
+    // The forward button says what it will do at the end of the line.
+    await expect(next).toHaveText("Finish");
+    await expect(status).not.toContainText("setup filed");
+
+    await next.click();
+    await expect(status).toContainText("Step Notifications · setup filed");
+    // Finishing is not a fourth step: the wizard stays where it is.
+    await expect(dots.nth(2)).toHaveClass(/w-5/);
+  });
+
+  test("swipe-row: the menu archives a row, and a drag parks one on its action", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/swipe-row");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const rows = stage.getByRole("listitem");
+    const depot = stage.getByRole("button", {
+      name: "Actions for Sweep sheet for run 118",
+    });
+
+    await expect(status).toContainText("Last none");
+    await expect(rows).toHaveCount(3);
+
+    // The swipe is a shortcut, never the only way in: every action is in the
+    // row's own menu, which the keyboard opens and lands inside.
+    await depot.press("Enter");
+    const menu = stage.getByRole("menu", {
+      name: "Actions for Sweep sheet for run 118",
+    });
+    await expect(menu).toBeVisible();
+    await expect(depot).toHaveAttribute("aria-expanded", "true");
+    await expect(menu.getByRole("menuitem")).toHaveCount(2);
+    const archive = menu.getByRole("menuitem", { name: "Archive" });
+    await expect(archive).toBeFocused();
+
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Last archived · Fieldline depot");
+    await expect(menu).toHaveCount(0, { timeout: 5000 });
+    await expect(depot).toBeFocused();
+    await expect(rows.first()).toContainText("archived");
+
+    // By hand: the row travels with the pointer and settles on the open stop,
+    // with its trailing action standing in the strip it gave up.
+    const surface = rows.nth(1).locator("div.touch-pan-y");
+    const shift = async (): Promise<number> =>
+      surface.evaluate((element) => {
+        const transform = getComputedStyle(element).transform;
+        if (!transform || transform === "none") return 0;
+        return new DOMMatrixReadOnly(transform).m41;
+      });
+    const box = await surface.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
+    const midY = box.y + box.height / 2;
+
+    // Starting clear of the menu button, and travelling well short of the
+    // overswipe threshold, so this opens the row rather than firing anything.
+    await page.mouse.move(box.x + box.width - 90, midY);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width - 190, midY, { steps: 10 });
+    await page.mouse.up();
+    await expect.poll(shift, { timeout: 5000 }).toBeLessThan(-60);
+    await expect(status).toContainText("Last archived · Fieldline depot");
+
+    // The revealed slab is a real control, and running it closes the row.
+    await rows.nth(1).locator("div[aria-hidden] > button").last().click();
+    await expect(status).toContainText("Last deleted · Rosa Amberlink");
+    await expect(rows.nth(1)).toContainText("deleted");
+    await expect.poll(shift, { timeout: 5000 }).toBeGreaterThan(-1);
+  });
+
+  test("shrink-bar: scrolling spends the bar's height, scrolling back buys it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/shrink-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const frame = frameOf(stage);
+    const bar = stage.locator("header");
+    const subtitle = stage.getByText("North basin · since 2019");
+    const percent = async (): Promise<number> =>
+      Number(
+        /Compaction (\d+)%/.exec((await status.textContent()) ?? "")?.[1] ?? -1,
+      );
+    const barHeight = heightOf(bar);
+
+    await expect(status).toContainText("Compaction 0%");
+    await expect(subtitle).toBeVisible();
+    expect(await barHeight()).toBeCloseTo(88, 0);
+
+    // Scroll-linked and nothing else: half the range is half the compaction,
+    // and half the height the bar has to give.
+    await scrollFrameTo(frame, 40);
+    await expect.poll(percent, { timeout: 5000 }).toBe(50);
+    await expect.poll(barHeight, { timeout: 5000 }).toBeCloseTo(70, 0);
+
+    await scrollFrameTo(frame, 200);
+    await expect.poll(percent, { timeout: 5000 }).toBe(100);
+    await expect.poll(barHeight, { timeout: 5000 }).toBeCloseTo(52, 0);
+    // The subtitle gives up its line rather than merely fading.
+    await expect(subtitle).not.toBeVisible();
+    // One heading throughout, whatever height it is wearing.
+    await expect(
+      stage.getByRole("heading", { name: "Fernworks" }),
+    ).toBeVisible();
+
+    await scrollFrameTo(frame, 0);
+    await expect.poll(percent, { timeout: 5000 }).toBe(0);
+    await expect.poll(barHeight, { timeout: 5000 }).toBeCloseTo(88, 0);
+    await expect(subtitle).toBeVisible();
+  });
+});
