@@ -49,7 +49,9 @@ const CARDS = [
 ];
 
 export function HoverPreviewDemo() {
-  const [playing, setPlaying] = React.useState<string | null>(null);
+  // Every card that is playing, not just the last one to change: a pinned
+  // card keeps playing after the pointer wanders over its neighbours.
+  const [playing, setPlaying] = React.useState<string[]>([]);
 
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
@@ -62,9 +64,10 @@ export function HoverPreviewDemo() {
             duration={2400}
             renderFrame={card.render}
             onPlayingChange={(on) =>
-              setPlaying((prev) =>
-                on ? card.title : prev === card.title ? null : prev,
-              )
+              setPlaying((prev) => {
+                const rest = prev.filter((title) => title !== card.title);
+                return on ? [...rest, card.title] : rest;
+              })
             }
           />
         ))}
@@ -74,7 +77,10 @@ export function HoverPreviewDemo() {
         role="status"
         className="border-t border-border pt-3 font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase"
       >
-        Playing <span className="text-signal">{playing ?? "nothing"}</span>
+        Playing{" "}
+        <span className="text-signal">
+          {playing.length ? playing.join(", ") : "nothing"}
+        </span>
       </p>
     </div>
   );

@@ -3258,3 +3258,868 @@ test.describe("layout", () => {
     await expect(subtitle).toBeVisible();
   });
 });
+
+/**
+ * The motion wing is all mechanism: a track that runs sideways under a
+ * vertical scroll, a card that plays while it is looked at, a feed that holds
+ * while it is read. Each test drives the gesture the component advertises —
+ * preferring the keyboard where there is one — and reads the outcome off the
+ * demo's status line, the ARIA the control publishes about itself, or the
+ * transform its own paint settled on.
+ */
+
+/** How far a node has been carried sideways by its transform, px. */
+const slideOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 0;
+    return new DOMMatrixReadOnly(transform).m41;
+  });
+
+/** How far a scaleX-driven bar has filled, 0–1. */
+const fillOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 1;
+    return new DOMMatrixReadOnly(transform).a;
+  });
+
+test.describe("motion", () => {
+  test("side-scroll: the frame's travel runs the track sideways and lights each panel", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/side-scroll");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const frame = frameOf(stage);
+    const panels = stage.locator("ol > li");
+    const lit = stage.locator("ol > li[aria-current='true']");
+    const track = slideOf(stage.locator("ol").first());
+    const percent = async (): Promise<number> =>
+      Number(
+        /Progress (\d+)%/.exec((await status.textContent()) ?? "")?.[1] ?? -1,
+      );
+
+    await expect(status).toContainText("Progress 0%");
+    await expect(panels).toHaveCount(4);
+    await expect(panels.nth(0)).toHaveAttribute("aria-current", "true");
+    expect(await track()).toBeCloseTo(0, 0);
+
+    // The mapping is linear and unsprung, so vertical travel is horizontal
+    // travel: a third of the way down the frame is a third of the way across.
+    await scrollFrameTo(frame, 300);
+    await expect.poll(percent, { timeout: 5000 }).toBeGreaterThan(25);
+    await expect.poll(track, { timeout: 5000 }).toBeLessThan(-150);
+    await expect(panels.nth(1)).toHaveAttribute("aria-current", "true");
+    await expect(panels.nth(0)).not.toHaveAttribute("aria-current", "true");
+
+    // To the end of the run the frame has. The pin reserves frame height plus
+    // travel, so how much of the track a reader can reach depends on what
+    // follows it: here the trailing paragraph is shorter than the frame, and
+    // the last of the track stays out of reach at 89% on panel 03.
+    await scrollFrameTo(frame, 5000);
+    await expect.poll(percent, { timeout: 5000 }).toBeGreaterThan(80);
+    await expect(lit).toHaveCount(1);
+    await expect(panels.nth(0)).not.toHaveAttribute("aria-current", "true");
+    await expect(panels.nth(1)).not.toHaveAttribute("aria-current", "true");
+    await expect(stage.getByText(/0[34] \/ 04/)).toBeVisible();
+
+    // The track is a reading of the scroll, not a latch: scrolling home
+    // rewinds it to the first panel.
+    await scrollFrameTo(frame, 0);
+    await expect.poll(percent, { timeout: 5000 }).toBe(0);
+    await expect.poll(track, { timeout: 5000 }).toBeCloseTo(0, 0);
+    await expect(panels.nth(0)).toHaveAttribute("aria-current", "true");
+  });
+
+  test("snap-carousel: autoplay advances it, the toggle stops it, the controls still move it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/snap-carousel");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const scroller = stage.getByRole("group", {
+      name: "Fernworks season kit slides",
+    });
+
+    await expect(status).toContainText("Slide 1 / 4");
+
+    // Untouched, on its own four-second clock.
+    await expect(status).toContainText("Slide 2 / 4", { timeout: 9000 });
+
+    await stage.getByRole("button", { name: "Pause autoplay" }).click();
+    const start = stage.getByRole("button", { name: "Start autoplay" });
+    await expect(start).toBeVisible();
+    // A hover and a focus inside the carousel hold autoplay too, so both are
+    // taken away: what keeps the clock stopped from here is the toggle alone.
+    await page.mouse.move(0, 0);
+    await page.evaluate(() => {
+      const focused = document.activeElement;
+      if (focused instanceof HTMLElement) focused.blur();
+    });
+    for (let i = 0; i < 5; i += 1) {
+      await page.waitForTimeout(900);
+      await expect(status).toContainText("Slide 2 / 4");
+    }
+
+    // Stopped is not stuck: the arrows still work the strip.
+    await stage.getByRole("button", { name: "Next slide" }).click();
+    await expect(status).toContainText("Slide 3 / 4", { timeout: 5000 });
+
+    // The scroller carries the keyboard path itself.
+    await scroller.press("ArrowLeft");
+    await expect(status).toContainText("Slide 2 / 4", { timeout: 5000 });
+    await expect(start).toBeVisible();
+  });
+
+  test("hover-preview: a hover plays the card, leaving stops it, a press pins it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/hover-preview");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const rig = stage.getByRole("button", { name: "Fernworks rig" });
+    const bay = stage.getByRole("button", { name: "Basinworks bay" });
+    // The hairline under the art rides the same value the frames do, so it is
+    // the playback itself rather than a second opinion about it.
+    const played = fillOf(rig.locator("span.origin-left"));
+
+    await expect(status).toContainText("Playing nothing");
+    await expect(rig).toHaveAttribute("aria-pressed", "false");
+    expect(await played()).toBeCloseTo(0, 1);
+
+    await bay.hover();
+    await expect(status).toContainText("Playing Basinworks bay");
+    await page.mouse.move(0, 0);
+    await expect(status).toContainText("Playing nothing");
+
+    await rig.hover();
+    await expect(status).toContainText("Playing Fernworks rig");
+    await expect.poll(played, { timeout: 5000 }).toBeGreaterThan(0.05);
+
+    // Leaving is a stop, not a pause: the card falls back to its poster.
+    await page.mouse.move(0, 0);
+    await expect(status).toContainText("Playing nothing");
+    await expect.poll(played, { timeout: 5000 }).toBeLessThan(0.05);
+
+    // A press pins the pass — what a tap does on a touch screen — so the card
+    // keeps playing once the pointer has gone.
+    await rig.click();
+    await expect(rig).toHaveAttribute("aria-pressed", "true");
+    await page.mouse.move(0, 0);
+    await expect(status).toContainText("Playing Fernworks rig");
+    await expect.poll(played, { timeout: 5000 }).toBeGreaterThan(0.05);
+
+    await rig.click();
+    await expect(rig).toHaveAttribute("aria-pressed", "false");
+    await page.mouse.move(0, 0);
+    await expect(status).toContainText("Playing nothing");
+  });
+
+  test("grab-pan: the arrows pan the board, Reset re-centres it, a drag throws it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/grab-pan");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const board = stage.getByRole("group", { name: "Basinworks depot floor" });
+    const offset = async (): Promise<[number, number]> => {
+      const read = /Offset (-?\d+) \/ (-?\d+)/.exec(
+        (await status.textContent()) ?? "",
+      );
+      return [Number(read?.[1] ?? NaN), Number(read?.[2] ?? NaN)];
+    };
+    const offsetX = async (): Promise<number> => (await offset())[0];
+    const offsetY = async (): Promise<number> => (await offset())[1];
+
+    // It opens on the middle of a board far larger than its viewport, which is
+    // the place Reset returns to.
+    const [homeX, homeY] = await offset();
+    expect(homeX).toBeLessThan(-300);
+    expect(homeY).toBeLessThan(-200);
+
+    // A fifth of the view per press, and the view moves the way the key
+    // points, so the board underneath goes the other way.
+    await board.press("ArrowRight");
+    await expect.poll(offsetX, { timeout: 5000 }).toBeLessThan(homeX - 60);
+    await board.press("ArrowDown");
+    await expect.poll(offsetY, { timeout: 5000 }).toBeLessThan(homeY - 40);
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect.poll(offsetX, { timeout: 5000 }).toBe(homeX);
+    await expect.poll(offsetY, { timeout: 5000 }).toBe(homeY);
+
+    // By hand: the surface stays under the pointer, and the release is thrown,
+    // so the board ends up further along than the drag itself went.
+    await board.scrollIntoViewIfNeeded();
+    const box = await board.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
+    const fromX = box.x + box.width / 2 + 60;
+    const midY = box.y + box.height / 2;
+    await page.mouse.move(fromX, midY);
+    await page.mouse.down();
+    for (let i = 1; i <= 12; i += 1) {
+      await page.mouse.move(fromX - i * 10, midY - i * 5);
+      await page.waitForTimeout(16);
+    }
+    await page.mouse.up();
+    await expect.poll(offsetX, { timeout: 5000 }).toBeLessThan(homeX - 100);
+    await expect.poll(offsetY, { timeout: 5000 }).toBeLessThan(homeY - 40);
+  });
+
+  test("path-rider: Play runs the route and the scrub puts the rider where it says", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/path-rider");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const caption = stage.locator("figcaption");
+    const rider = stage.locator("figure div[aria-hidden]");
+    const percent = async (): Promise<number> =>
+      Number(
+        /Progress (\d+)%/.exec((await status.textContent()) ?? "")?.[1] ?? -1,
+      );
+    const riderX = async (): Promise<number> =>
+      (await rider.boundingBox())?.x ?? -1;
+
+    await expect(status).toContainText("Progress 0%");
+    await expect(caption).toContainText("0%");
+    const parked = await riderX();
+
+    // A five-second run on a linear tween: a second in, it is well under way.
+    await stage.getByRole("button", { name: "Play" }).click();
+    await expect(stage.getByRole("button", { name: "Pause" })).toBeVisible();
+    await expect.poll(percent, { timeout: 5000 }).toBeGreaterThan(15);
+
+    // The scrub is the authority: it takes the run off Play and puts the rider
+    // exactly where it was set, which the route's own caption then reads back.
+    await stage.getByRole("slider", { name: "Scrub the route" }).fill("40");
+    await expect(status).toContainText("Progress 40%");
+    await expect(caption).toContainText("40%");
+    await expect(stage.getByRole("button", { name: "Play" })).toBeVisible();
+    expect(await riderX()).toBeGreaterThan(parked + 20);
+
+    // Set, not merely passed through: nothing is still running underneath.
+    await page.waitForTimeout(1000);
+    await expect(status).toContainText("Progress 40%");
+  });
+
+  test("live-rows: the feed fills to its cap, a hover holds it, and Clear empties it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/live-rows");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const feed = stage.getByRole("log", { name: "Coldbrook tape" });
+    const rows = feed.getByRole("listitem");
+    const empty = stage.getByText("No trades yet. Start the feed.");
+
+    await expect(status).toContainText("Rows 0 · Stopped");
+    await expect(empty).toBeVisible();
+
+    // Started from the keyboard: a pointer left lying over the list would hold
+    // the very feed it was meant to be filling.
+    await stage.getByRole("button", { name: "Start feed" }).press("Enter");
+    await expect(rows).toHaveCount(6, { timeout: 12000 });
+    await expect(status).toContainText("Rows 6 · Live");
+
+    // A reader's pointer holds the list: arrivals queue behind it rather than
+    // sliding the row out from under them.
+    await feed.hover();
+    await expect(status).toContainText("Rows 6 · Held");
+    const top = await rows.first().innerText();
+    for (let i = 0; i < 3; i += 1) {
+      await page.waitForTimeout(1000);
+      expect(await rows.first().innerText()).toBe(top);
+    }
+    await expect(rows).toHaveCount(6);
+
+    // The held arrivals land together the moment the pointer leaves.
+    await page.mouse.move(0, 0);
+    await expect(status).toContainText("Rows 6 · Live");
+    await expect
+      .poll(async () => rows.first().innerText(), { timeout: 5000 })
+      .not.toBe(top);
+
+    await stage.getByRole("button", { name: "Pause feed" }).press("Enter");
+    await expect(status).toContainText("Rows 6 · Stopped");
+
+    await stage.getByRole("button", { name: "Clear" }).press("Enter");
+    await expect(rows).toHaveCount(0, { timeout: 5000 });
+    await expect(status).toContainText("Rows 0 · Stopped");
+    await expect(empty).toBeVisible();
+  });
+
+  test("tap-ripple: a press raises a disc under the finger and the surface reports it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tap-ripple");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const dispatch = stage.getByRole("button", { name: "Dispatch run" });
+    const discs = dispatch.locator("span[aria-hidden] > span");
+
+    await expect(status).toContainText("Pressed None");
+    await expect(discs).toHaveCount(0);
+
+    await dispatch.scrollIntoViewIfNeeded();
+    const box = await dispatch.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
+    // Well off centre: the disc is placed by the press, so it must exist
+    // before the click that follows it.
+    await page.mouse.move(box.x + 24, box.y + box.height / 2);
+    await page.mouse.down();
+    await expect(discs).toHaveCount(1);
+    await page.mouse.up();
+    await expect(status).toContainText("Pressed Dispatch");
+    // Released, the disc fades and then collects itself.
+    await expect(discs).toHaveCount(0, { timeout: 5000 });
+
+    // The keyboard presses the same surface, from the centre, and the wrapper
+    // leaves the button's own click alone.
+    const card = stage.getByRole("button", { name: /Sweep sheet, week 31/ });
+    const cardDiscs = card.locator("span[aria-hidden] > span");
+    await card.focus();
+    await page.keyboard.down("Enter");
+    await expect(cardDiscs).toHaveCount(1);
+    await page.keyboard.up("Enter");
+    await expect(status).toContainText("Pressed Basinworks");
+    await expect(cardDiscs).toHaveCount(0, { timeout: 5000 });
+  });
+
+  test("badge-bump: the count bumps the badge, the cap reads 99+, and zero collapses it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/badge-bump");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The badge speaks for itself before the demo does, so the sr-only count
+    // is the first status on the stage and the demo's ledger is the last.
+    const spoken = stage.locator("[role='status']").first();
+    const badge = stage.locator("span[aria-hidden].absolute");
+
+    await expect(status).toContainText("Count 3");
+    await expect(spoken).toHaveText("3 held messages");
+    await expect(badge).toHaveText("3");
+
+    await stage.getByRole("button", { name: "Add one" }).click();
+    await expect(status).toContainText("Count 4");
+    await expect(badge).toHaveText("4", { timeout: 5000 });
+    await expect(spoken).toHaveText("4 held messages");
+
+    // Past the cap the badge stops counting and starts saying so.
+    for (let i = 0; i < 4; i += 1) {
+      await stage.getByRole("button", { name: "Add 25" }).click();
+    }
+    await expect(status).toContainText("Count 104");
+    await expect(badge).toHaveText("99+", { timeout: 5000 });
+    await expect(spoken).toHaveText("99+ held messages");
+
+    // Nothing celebrates an empty inbox: the badge leaves rather than bumps.
+    const clear = stage.getByRole("button", { name: "Clear" });
+    await clear.click();
+    await expect(status).toContainText("Count 0");
+    await expect(spoken).toHaveText("No held messages");
+    await expect(badge).toHaveCount(0, { timeout: 5000 });
+    await expect(clear).toBeDisabled();
+  });
+
+  test("morph-icon: each toggle flips its state and swaps the name it answers to", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/morph-icon");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const pairs: [string, string][] = [
+      ["Play", "Pause"],
+      ["Open menu", "Close menu"],
+      ["Add", "Cancel"],
+      ["Light", "Dark"],
+    ];
+
+    // The heart opens pressed, so the deck starts with one control held down.
+    await expect(status).toContainText("Pressed 1 of 5 — Saved");
+    await expect(
+      stage.getByRole("button", { name: "Saved", exact: true }),
+    ).toHaveAttribute("aria-pressed", "true");
+
+    for (const [off, on] of pairs) {
+      const before = stage.getByRole("button", { name: off, exact: true });
+      await expect(before).toHaveAttribute("aria-pressed", "false");
+      await before.click();
+      // One control in two states rather than two controls: the same button
+      // now answers to the other name, and the old one is gone.
+      await expect(
+        stage.getByRole("button", { name: on, exact: true }),
+      ).toHaveAttribute("aria-pressed", "true");
+      await expect(before).toHaveCount(0);
+      await expect(status).toContainText(on);
+    }
+    await expect(status).toContainText(
+      "Pressed 5 of 5 — Pause, Close menu, Cancel, Saved, Dark",
+    );
+
+    // The one that started pressed goes the other way, and only it.
+    await stage.getByRole("button", { name: "Saved", exact: true }).click();
+    await expect(
+      stage.getByRole("button", { name: "Save", exact: true }),
+    ).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toContainText(
+      "Pressed 4 of 5 — Pause, Close menu, Cancel, Dark",
+    );
+  });
+
+  test("scroll-frames: the frame's travel scrubs the sequence, and unscrubs it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/scroll-frames");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const frame = frameOf(stage);
+    const shown = async (): Promise<number> =>
+      Number(
+        /Frame (\d+) of 32/.exec((await status.textContent()) ?? "")?.[1] ?? -1,
+      );
+
+    await expect(status).toContainText("Frame 1 of 32");
+    await expect(
+      stage.getByRole("img", { name: "Gaugeworks rotor, one turn" }),
+    ).toBeVisible();
+
+    // The scrub is linear in the scroll and nothing else: the reader's hand is
+    // the animation, so half the spacer is half the turn.
+    await scrollFrameTo(frame, 300);
+    await expect.poll(shown, { timeout: 5000 }).toBeGreaterThan(10);
+    const middle = await shown();
+
+    // The last frame owns the final sliver, so a fully scrolled stage lands on
+    // the end of the turn rather than one frame short of it.
+    await scrollFrameTo(frame, 5000);
+    await expect.poll(shown, { timeout: 5000 }).toBe(32);
+    await expect(stage.getByText("32 / 32")).toBeVisible();
+
+    // Scrolling back walks the turn the other way.
+    await scrollFrameTo(frame, 150);
+    await expect.poll(shown, { timeout: 5000 }).toBeLessThan(middle);
+    await scrollFrameTo(frame, 0);
+    await expect.poll(shown, { timeout: 5000 }).toBe(1);
+  });
+});
+
+/**
+ * The commerce wing handles money and goods, so its outcomes are the ones a
+ * shopper would check for themselves: the count the cart actually caught, the
+ * total left after a coupon, the stop a parcel is standing at, the crop that
+ * refuses to hang off the picture. Each test drives the mechanic the component
+ * advertises — by the keyboard where there is one — and reads the result off
+ * the demo's status line, the ARIA the component publishes about itself, or a
+ * box the test measured rather than assumed.
+ */
+
+/** How far a card's quick-add bar is pushed below the frame it belongs to. */
+const dropOf = (bar: Locator) => async (): Promise<number> =>
+  bar.evaluate((element) => {
+    const frame = element.parentElement;
+    if (!frame) return Number.NaN;
+    return Math.round(
+      element.getBoundingClientRect().top -
+        frame.getBoundingClientRect().bottom,
+    );
+  });
+
+test.describe("commerce", () => {
+  test("cart-fly: the thrown item lands, the cart counts it, and the button confirms", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/cart-fly");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // Each product's own button carries its own sr-only status; the demo's
+    // line is the last one on the page.
+    const announce = stage.locator("[role='status']").first();
+    const lamp = stage
+      .getByRole("listitem")
+      .filter({ hasText: "Waylight task lamp" })
+      .getByRole("button");
+
+    await expect(status).toContainText("Cart holds 0");
+    await expect(lamp).toHaveAccessibleName("Add");
+
+    await lamp.click();
+    // The count rises on the landing, not on the press: onAdd is the flight's
+    // own onComplete, so the cart counts something that actually arrived.
+    await expect(status).toContainText("Cart holds 1", { timeout: 5000 });
+    await expect(announce).toHaveText("Add — added");
+    await expect(lamp).toHaveAccessibleName("Added");
+
+    // The confirmation is a beat, not a latch: the button offers itself again.
+    await expect(lamp).toHaveAccessibleName("Add", { timeout: 5000 });
+    await expect(announce).toHaveText("");
+    await expect(status).toContainText("Cart holds 1");
+
+    // A second item takes its own flight into the same cart.
+    await stage
+      .getByRole("listitem")
+      .filter({ hasText: "Coldbrook flask" })
+      .getByRole("button")
+      .click();
+    await expect(status).toContainText("Cart holds 2", { timeout: 5000 });
+  });
+
+  test("zoom-gallery: a thumbnail swaps the picture and the loupe opens on it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/zoom-gallery");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const views = stage.getByRole("tablist", { name: "Waylight lamp views" });
+    const joint = views.getByRole("tab", { name: "Waylight lamp, arm joint" });
+    const zoom = stage.getByRole("button", { name: "Zoom" });
+
+    await expect(status).toContainText("Waylight lamp, front · zoom off");
+    await expect(zoom).toHaveAttribute("aria-pressed", "false");
+
+    await joint.click();
+    await expect(joint).toHaveAttribute("aria-selected", "true");
+    await expect(
+      views.getByRole("tab", { name: "Waylight lamp, front" }),
+    ).toHaveAttribute("aria-selected", "false");
+    await expect(status).toContainText("Waylight lamp, arm joint · zoom off");
+
+    // The toggle is a real pressed button, not a hover-only trick.
+    await zoom.click();
+    await expect(zoom).toHaveAttribute("aria-pressed", "true");
+    await expect(status).toContainText("zoom 2x");
+    await expect(stage.getByText("2x", { exact: true })).toBeVisible();
+
+    await zoom.press("Escape");
+    await expect(zoom).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toContainText("Waylight lamp, arm joint · zoom off");
+    await expect(stage.getByText("2x", { exact: true })).toHaveCount(0, {
+      timeout: 5000,
+    });
+  });
+
+  test("wave-scrub: Play runs the position and an arrow seeks it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/wave-scrub");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const track = stage.getByRole("slider", {
+      name: "Coldbrook field note position",
+    });
+    const seconds = async (): Promise<number> =>
+      Number(await track.getAttribute("aria-valuenow"));
+
+    await expect(status).toContainText("0:00 of 0:42 · paused");
+    await expect(track).toHaveAttribute("aria-valuetext", "0:00 of 0:42");
+
+    await stage.getByRole("button", { name: "Play" }).click();
+    await expect(status).toContainText("playing");
+    // The clock is the component's own; the test waits for it rather than
+    // sleeping a guessed number of ticks.
+    await expect.poll(seconds, { timeout: 8000 }).toBeGreaterThanOrEqual(1);
+    await expect(track).not.toHaveAttribute("aria-valuetext", "0:00 of 0:42");
+
+    await stage.getByRole("button", { name: "Pause" }).click();
+    await expect(status).toContainText("paused");
+
+    // Home takes the head back to a known second so the seek is exact.
+    await track.press("Home");
+    await expect(track).toHaveAttribute("aria-valuenow", "0");
+    await track.press("ArrowRight");
+    await expect(track).toHaveAttribute("aria-valuenow", "5");
+    await expect(track).toHaveAttribute("aria-valuetext", "0:05 of 0:42");
+    await expect(status).toContainText("0:05 of 0:42 · paused");
+
+    await track.press("End");
+    await expect(track).toHaveAttribute("aria-valuetext", "0:42 of 0:42");
+    await expect(status).toContainText("0:42 of 0:42 · paused");
+  });
+
+  test("coupon-slot: WAYLIGHT10 tears the stub and a bad code changes nothing", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/coupon-slot");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The slot announces its own outcome above the demo's line.
+    const outcome = stage.locator("[role='status']").first();
+    const field = stage.getByLabel("Coupon code");
+
+    await expect(status).toContainText("Total 128.00 · no coupon");
+
+    // A code that is not one: a reason, and a ledger that did not move.
+    await field.fill("FERNWORKS5");
+    await stage.getByRole("button", { name: "Apply" }).click();
+    await expect(outcome).toHaveText("That code is not valid.");
+    await expect(field).toHaveAttribute("aria-invalid", "true");
+    await expect(status).toContainText("Total 128.00 · no coupon");
+    await expect(
+      stage.getByText("Ten percent off", { exact: true }),
+    ).toHaveCount(0);
+
+    // Enter is the same path as the button.
+    await field.fill("WAYLIGHT10");
+    await field.press("Enter");
+    await expect(outcome).toHaveText("Ten percent off applied.");
+    await expect(
+      stage.getByText("Ten percent off", { exact: true }),
+    ).toBeVisible();
+    await expect(stage.getByText("12.80")).toBeVisible();
+    await expect(status).toContainText("Total 115.20 · Ten percent off");
+    // The torn stub hands focus to the control that replaced it.
+    const remove = stage.getByRole("button", { name: "Remove" });
+    await expect(remove).toBeFocused();
+
+    await remove.click();
+    await expect(status).toContainText("Total 128.00 · no coupon");
+    await expect(
+      stage.getByText("Ten percent off", { exact: true }),
+    ).toHaveCount(0, { timeout: 5000 });
+  });
+
+  test("parcel-line: Advance moves the current stop and Reset sends it home", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/parcel-line");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announce = stage.locator("[role='status']").first();
+    const stop = (label: string) =>
+      stage.getByRole("listitem").filter({ hasText: label });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText("Stop 2 of 5 · Basinworks depot");
+    await expect(stop("Basinworks depot")).toHaveAttribute(
+      "aria-current",
+      "step",
+    );
+
+    await stage.getByRole("button", { name: "Advance" }).click();
+    await expect(status).toContainText("Stop 3 of 5 · In transit");
+    // The marker moves rather than multiplying.
+    await expect(stop("In transit")).toHaveAttribute("aria-current", "step");
+    await expect(stop("Basinworks depot")).not.toHaveAttribute(
+      "aria-current",
+      "step",
+    );
+    await expect(stage.locator("li[aria-current='step']")).toHaveCount(1);
+    // The line reports itself, estimate and all.
+    await expect(announce).toHaveText(
+      "Basinworks · BW-4412: stop 3 of 5, In transit. Arrival ETA 18:55.",
+    );
+
+    await reset.click();
+    await expect(status).toContainText("Stop 1 of 5 · Collected");
+    await expect(stop("Collected")).toHaveAttribute("aria-current", "step");
+    // Nothing to rewind, so the control stands down.
+    await expect(reset).toBeDisabled();
+  });
+
+  test("tip-pick: a preset re-prices the bill and Custom takes an amount", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tip-pick");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const chips = stage.getByRole("radiogroup", { name: "Tip" });
+    const twenty = chips.getByRole("radio", { name: "20%" });
+
+    await expect(status).toContainText("Tip $9.60 · total $73.60");
+
+    await twenty.click();
+    await expect(twenty).toHaveAttribute("aria-checked", "true");
+    await expect(chips.getByRole("radio", { name: "15%" })).toHaveAttribute(
+      "aria-checked",
+      "false",
+    );
+    await expect(status).toContainText("Tip $12.80 · total $76.80");
+
+    // Custom unfolds the field and hands it the caret.
+    await chips.getByRole("radio", { name: "Custom" }).click();
+    const amount = stage.getByLabel("Custom tip");
+    await expect(amount).toBeFocused();
+    await expect(status).toContainText("Tip $0.00 · total $64.00");
+
+    await amount.pressSequentially("18.5");
+    await expect(amount).toHaveValue("18.5");
+    await expect(status).toContainText("Tip $18.50 · total $82.50");
+
+    const none = chips.getByRole("radio", { name: "No tip" });
+    await none.click();
+    await expect(none).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("Tip $0.00 · total $64.00");
+  });
+
+  test("flip-card-form: the security code turns the card over and prints on it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/flip-card-form");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const cvc = stage.getByLabel("Security code");
+
+    await expect(status).toContainText("Showing the front of the card");
+
+    // The turn is driven by focus, not by a control of its own.
+    await cvc.focus();
+    await expect(status).toContainText("Showing the back of the card");
+
+    await cvc.pressSequentially("821");
+    await expect(cvc).toHaveValue("821");
+    // The preview is the same value, printed on the panel it belongs to.
+    await expect(stage.getByText("821", { exact: true })).toBeVisible();
+
+    // Leaving the field turns the card back.
+    await stage.getByLabel("Card number").focus();
+    await expect(status).toContainText("Showing the front of the card");
+    await expect(stage.getByText("4915 •••• •••• ••••")).toBeVisible();
+  });
+
+  test("shop-card: hover raises the quick-add bar, and the heart holds its state", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/shop-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const card = stage.getByRole("article", { name: "Watering can" });
+    const bar = card.locator("div.absolute.inset-x-0.bottom-0");
+    const heart = card.getByRole("button", { name: "Save to wishlist" });
+    const add = card.getByRole("button", { name: /^(Quick add|Added)$/ });
+    const drop = dropOf(bar);
+
+    await expect(status).toContainText("Fernworks · Hover or tab a card");
+    await expect(heart).toHaveAttribute("aria-pressed", "false");
+    // Shut, the bar is parked flush under the frame rather than merely faded.
+    await expect.poll(drop, { timeout: 5000 }).toBeGreaterThan(-2);
+
+    await card.hover();
+    await expect.poll(drop, { timeout: 5000 }).toBeLessThan(-30);
+
+    await add.click();
+    await expect(add).toHaveText("Added");
+    await expect(status).toContainText("Fernworks · Added Watering can · 1l");
+
+    // The other size re-prices the card and the next add carries it.
+    await card.getByRole("radio", { name: "2 L" }).click();
+    await add.click();
+    await expect(status).toContainText("Fernworks · Added Watering can · 2l");
+
+    await heart.click();
+    await expect(heart).toHaveAttribute("aria-pressed", "true");
+    await expect(status).toContainText("Fernworks · Saved Watering can");
+
+    await heart.click();
+    await expect(heart).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toContainText("Fernworks · Unsaved Watering can");
+    // The neighbour that started saved is untouched by any of that.
+    await expect(
+      stage
+        .getByRole("article", { name: "Fern mister" })
+        .getByRole("button", { name: "Save to wishlist" }),
+    ).toHaveAttribute("aria-pressed", "true");
+  });
+
+  test("record-hold: Space takes a note, Escape and a left slide both bin it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/record-hold");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const mic = stage.getByRole("button", { name: "Hold to record" });
+
+    await expect(status).toContainText("Idle · hold the mic");
+
+    // Space starts a take, and Escape throws it away.
+    await mic.press(" ");
+    await expect(status).toContainText("Recording 0:00 · slide left to cancel");
+    await expect(
+      stage.getByRole("button", { name: "Recording, release to send" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await page.keyboard.press("Escape");
+    await expect(status).toContainText("Cancelled · hold the mic");
+
+    // A take that reaches the first second is sent, and reads its own clock.
+    await mic.press(" ");
+    await expect(status).toContainText("Recording 0:00");
+    await expect(status).toContainText("Recording 0:01", { timeout: 5000 });
+    await page.keyboard.press(" ");
+    await expect(status).toContainText("Sent 0:01 · hold the mic");
+
+    // The pointer path: a hold long enough to be worth sending, slid left past
+    // the cancel distance, is binned rather than sent.
+    await mic.scrollIntoViewIfNeeded();
+    const box = await mic.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
+    const midX = box.x + box.width / 2;
+    const midY = box.y + box.height / 2;
+    await page.mouse.move(midX, midY);
+    await page.mouse.down();
+    await expect(status).toContainText("Recording 0:01", { timeout: 5000 });
+    await page.mouse.move(midX - 12, midY, { steps: 3 });
+    await page.mouse.move(midX - 130, midY, { steps: 10 });
+    await page.mouse.up();
+    await expect(status).toContainText("Cancelled · hold the mic");
+  });
+
+  test("crop-frame: arrows nudge and resize the rect, and it stays on the picture", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/crop-frame");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const frame = stage.getByRole("group", { name: "Crop frame" });
+    const dial = (name: string) => stage.getByRole("slider", { name });
+    const rectOf = async () => ({
+      x: Number(await dial("Crop left").getAttribute("aria-valuenow")),
+      y: Number(await dial("Crop top").getAttribute("aria-valuenow")),
+      w: Number(await dial("Crop width").getAttribute("aria-valuenow")),
+      h: Number(await dial("Crop height").getAttribute("aria-valuenow")),
+    });
+
+    await expect(status).toContainText("Crop 720×540 at 180, 120");
+    await expect(dial("Crop left")).toHaveAttribute("aria-valuenow", "180");
+    await expect(dial("Crop width")).toHaveAttribute(
+      "aria-valuetext",
+      "720 pixels",
+    );
+
+    // A plain arrow moves the frame; the sliders are the same numbers.
+    await frame.press("ArrowRight");
+    await expect(dial("Crop left")).toHaveAttribute("aria-valuenow", "184");
+    await frame.press("ArrowDown");
+    await expect(dial("Crop top")).toHaveAttribute("aria-valuenow", "124");
+    await expect(status).toContainText("Crop 720×540 at 184, 124");
+
+    // Shift resizes instead, and the 4:3 lock carries the height with it.
+    await frame.press("Shift+ArrowRight");
+    await expect(dial("Crop width")).toHaveAttribute("aria-valuenow", "724");
+    await expect(dial("Crop height")).toHaveAttribute("aria-valuenow", "543");
+    await expect(status).toContainText("Crop 724×543 at 184, 124");
+
+    // Asked for the whole picture the rect takes what the ratio allows, and
+    // no more: nothing it emits can hang off the 1200×800 plate.
+    await dial("Crop width").press("End");
+    await expect(dial("Crop height")).toHaveAttribute("aria-valuenow", "800");
+    const wide = await rectOf();
+    expect(wide.w).toBeLessThanOrEqual(1200);
+    expect(wide.h).toBeLessThanOrEqual(800);
+    expect(wide.x).toBeGreaterThanOrEqual(0);
+    expect(wide.y).toBeGreaterThanOrEqual(0);
+    expect(wide.x + wide.w).toBeLessThanOrEqual(1200);
+    expect(wide.y + wide.h).toBeLessThanOrEqual(800);
+
+    // Pushed further right it simply stops rather than walking off the edge.
+    for (let i = 0; i < 5; i += 1) await dial("Crop left").press("ArrowRight");
+    const pushed = await rectOf();
+    expect(pushed.x + pushed.w).toBeLessThanOrEqual(1200);
+    await expect(status).toContainText(
+      `Crop ${pushed.w}×${pushed.h} at ${pushed.x}, ${pushed.y}`,
+    );
+  });
+});

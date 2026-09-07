@@ -69,6 +69,11 @@ export function SideScroll({
 
   const [travel, setTravel] = React.useState(0);
   const [frameHeight, setFrameHeight] = React.useState(0);
+  // The scrollport's own height: the pin can only reach the end of its travel
+  // if the section is at least a scrollport tall past the travel, or the
+  // container's maximum scroll lands short of progress 1 whenever the frame
+  // and whatever follows it are together shorter than the scrollport.
+  const [rootHeight, setRootHeight] = React.useState(0);
   const [active, setActive] = React.useState(0);
   // The scroll handler decides against this ref rather than inside a state
   // updater: an updater may run during render, and reporting to a parent from
@@ -89,6 +94,7 @@ export function SideScroll({
     const viewport = viewportRef.current;
     const track = trackRef.current;
     const frame = frameRef.current;
+    const root = container.current;
     if (!viewport || !track || !frame) return;
 
     const measure = () => {
@@ -96,13 +102,16 @@ export function SideScroll({
       setTravel((prev) => (prev === span ? prev : span));
       const height = frame.offsetHeight;
       setFrameHeight((prev) => (prev === height ? prev : height));
+      const port = root?.clientHeight ?? 0;
+      setRootHeight((prev) => (prev === port ? prev : port));
     };
 
     const observer = new ResizeObserver(measure);
     observer.observe(viewport);
     observer.observe(track);
+    if (root) observer.observe(root);
     return () => observer.disconnect();
-  }, [count, panelWidth, motionSafe]);
+  }, [container, count, panelWidth, motionSafe]);
 
   React.useEffect(() => {
     const root = container.current;
@@ -174,7 +183,11 @@ export function SideScroll({
       ref={sectionRef}
       aria-label={label}
       className={cn("relative w-full", className)}
-      style={travel > 0 ? { height: frameHeight + travel } : undefined}
+      style={
+        travel > 0
+          ? { height: Math.max(frameHeight, rootHeight) + travel }
+          : undefined
+      }
     >
       <div
         ref={frameRef}
