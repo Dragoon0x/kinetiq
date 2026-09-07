@@ -680,6 +680,26 @@ import { FaqHelpDeskDemo } from "@/registry/demos/faq-help-desk.demo";
 import { OfferLedgerDemo } from "@/registry/demos/offer-ledger.demo";
 import { OfferTriptychDemo } from "@/registry/demos/offer-triptych.demo";
 import { OfferWindowDemo } from "@/registry/demos/offer-window.demo";
+import { PriorityFlagDemo } from "@/registry/demos/priority-flag.demo";
+import { SlotGridDemo } from "@/registry/demos/slot-grid.demo";
+import { VotePairDemo } from "@/registry/demos/vote-pair.demo";
+import { AccessMatrixDemo } from "@/registry/demos/access-matrix.demo";
+import { AvatarPickDemo } from "@/registry/demos/avatar-pick.demo";
+import { ChoiceCardsDemo } from "@/registry/demos/choice-cards.demo";
+import { SizeTilesDemo } from "@/registry/demos/size-tiles.demo";
+import { FilterLedgeDemo } from "@/registry/demos/filter-ledge.demo";
+import { CadencePickDemo } from "@/registry/demos/cadence-pick.demo";
+import { LikertScaleDemo } from "@/registry/demos/likert-scale.demo";
+import { MaskFieldDemo } from "@/registry/demos/mask-field.demo";
+import { TypeaheadFieldDemo } from "@/registry/demos/typeahead-field.demo";
+import { StrengthFieldDemo } from "@/registry/demos/strength-field.demo";
+import { CatchZoneDemo } from "@/registry/demos/catch-zone.demo";
+import { SignaturePadDemo } from "@/registry/demos/signature-pad.demo";
+import { PinPadDemo } from "@/registry/demos/pin-pad.demo";
+import { HueRingDemo } from "@/registry/demos/hue-ring.demo";
+import { TimeDialDemo } from "@/registry/demos/time-dial.demo";
+import { AlmanacPickerDemo } from "@/registry/demos/almanac-picker.demo";
+import { SlideConfirmDemo } from "@/registry/demos/slide-confirm.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1374,4 +1394,24 @@ export const demos: Record<string, ComponentType> = {
   "gradient-drift": GradientDriftDemo,
   "particle-network": ParticleNetworkDemo,
   "flow-field": FlowFieldDemo,
+  "priority-flag": PriorityFlagDemo,
+  "slot-grid": SlotGridDemo,
+  "vote-pair": VotePairDemo,
+  "access-matrix": AccessMatrixDemo,
+  "avatar-pick": AvatarPickDemo,
+  "choice-cards": ChoiceCardsDemo,
+  "size-tiles": SizeTilesDemo,
+  "filter-ledge": FilterLedgeDemo,
+  "cadence-pick": CadencePickDemo,
+  "likert-scale": LikertScaleDemo,
+  "mask-field": MaskFieldDemo,
+  "typeahead-field": TypeaheadFieldDemo,
+  "strength-field": StrengthFieldDemo,
+  "catch-zone": CatchZoneDemo,
+  "signature-pad": SignaturePadDemo,
+  "pin-pad": PinPadDemo,
+  "hue-ring": HueRingDemo,
+  "time-dial": TimeDialDemo,
+  "almanac-picker": AlmanacPickerDemo,
+  "slide-confirm": SlideConfirmDemo,
 };

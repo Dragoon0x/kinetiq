@@ -19253,4 +19253,1273 @@ export const components: KinetiqItem[] = [
       "Page turns slide from the direction of travel, so back reads as back.",
     ],
   },
+  {
+    name: "priority-flag",
+    type: "registry:ui",
+    title: "Priority Flag",
+    description:
+      "Priority drawn as a signal mast: the flag climbs to the chosen rung on glide while its colour tweens up the muted → warn → danger ramp. Landing on the top rung it flutters once, a single two-keyframe skew on recoil. Up and Down step the mast and wrap, Home and End jump to the ends, Space and Enter select.",
+    files: [
+      {
+        path: "registry/ui/priority-flag.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: {
+      serial: "KQ-506",
+    },
+    tagline: "The flag climbs the mast.",
+    keywords: [
+      "priority",
+      "severity",
+      "radiogroup",
+      "triage",
+      "selection",
+      "escalation",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '"low"',
+        description:
+          "Controlled or initial level — low, medium, high or urgent by default.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires when the level changes, by pointer or by key.",
+      },
+      {
+        name: "levels",
+        type: "PriorityLevel[]",
+        defaultValue: "low / medium / high / urgent",
+        description:
+          "Overrides the rungs, ordered bottom to top; the colour ramp stretches to fit.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible group label. Omit it and pass aria-label to label the group invisibly.",
+      },
+    ],
+    usageNotes: [
+      "A radio group with a roving tabindex: Up and Left climb the mast, Down and Right descend, both wrapping; Home and End jump to the ends; Space and Enter select.",
+      "Under reduced motion the flag jumps to its rung with no climb and no flutter — only the colour tweens, because the level's colour is information.",
+      "Rungs are 36px, the same as the row height, so the flag always lands on a label's centreline however many levels you pass.",
+    ],
+  },
+  {
+    name: "slot-grid",
+    type: "registry:ui",
+    title: "Slot Grid",
+    description:
+      "Appointment slots as a real grid of day columns and time rows. Free slots lift a pixel on hover with glide, taken slots are hatched and inert, and picking stamps the slot from 1.3× on recoil while the summary beneath cross-fades to the new time. Arrow keys walk the cells, Home and End jump to the ends of a row, Enter and Space pick.",
+    files: [
+      {
+        path: "registry/ui/slot-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: {
+      serial: "KQ-507",
+    },
+    tagline: "Free slots breathe; the picked one stamps.",
+    keywords: [
+      "scheduling",
+      "booking",
+      "calendar",
+      "grid",
+      "appointment",
+      "selection",
+    ],
+    props: [
+      {
+        name: "days",
+        type: "SlotDay[]",
+        description:
+          "Column headers, left to right; each needs an id and a label.",
+      },
+      {
+        name: "times",
+        type: "string[]",
+        description: "Row labels, top to bottom.",
+      },
+      {
+        name: "taken",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          '"dayId:time" keys that are unavailable; those cells hatch and stop accepting picks.',
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          'Controlled or initial "dayId:time" key. Empty means nothing is held.',
+      },
+      {
+        name: "onValueChange",
+        type: "(key: string) => void",
+        description: 'Fires with the "dayId:time" key on every pick.',
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible group label. Omit it and pass aria-label to label the grid invisibly.",
+      },
+    ],
+    usageNotes: [
+      "role=grid with gridcells: arrow keys move a roving focus in two dimensions without wrapping, Home and End jump to the ends of the row, Enter and Space pick.",
+      "Taken slots keep aria-disabled rather than disabled, so the keyboard can read the whole week while picks stay refused.",
+      "Under reduced motion the stamp appears with no landing and the summary swaps without the cross-fade; the hatch and the stamp both carry the state without colour alone.",
+      "Narrow viewports scroll the day columns horizontally under edge fades while the time column stays pinned.",
+    ],
+  },
+  {
+    name: "vote-pair",
+    type: "registry:ui",
+    title: "Vote Pair",
+    description:
+      "Up and down vote buttons with the tally rolling between them. The chosen thumb pops from 0.78 on recoil and holds an 8° tilt toward its own direction on snap, while the tally rolls in the direction it moved and travels further when a side switch swings it by two. Both halves are toggle buttons carrying aria-pressed, so Enter or Space on the side already chosen withdraws the vote.",
+    files: [
+      {
+        path: "registry/ui/vote-pair.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: {
+      serial: "KQ-508",
+    },
+    tagline: "One thumb bounces; the tally rolls.",
+    keywords: ["vote", "upvote", "rating", "toggle", "tally", "selection"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "1 | 0 | -1",
+        defaultValue: "0",
+        description: "Controlled or initial vote: up, none, or down.",
+      },
+      {
+        name: "score",
+        type: "number",
+        description:
+          "The tally before the reader's own vote is added; the control shows score + value.",
+      },
+      {
+        name: "onVote",
+        type: "(value: 1 | 0 | -1) => void",
+        description:
+          "Fires on every change, including the withdrawal back to 0.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md"',
+        defaultValue: '"md"',
+        description:
+          "Control size; both halves and the tally share one height.",
+      },
+      {
+        name: "subject",
+        type: "string",
+        defaultValue: '"answer"',
+        description:
+          "Names what is being voted on inside each button's accessible label.",
+      },
+    ],
+    usageNotes: [
+      "Two toggle buttons, each its own tab stop: Enter or Space casts, and pressing the side already chosen withdraws the vote back to 0.",
+      "The tally sits in a live region and announces the new number, so the count reaches a screen reader without the animation.",
+      "Under reduced motion nothing pops or tilts — the colours swap and the tally still updates, because the count is information rather than flourish.",
+    ],
+  },
+  {
+    name: "access-matrix",
+    type: "registry:ui",
+    title: "Access Matrix",
+    description:
+      "A permission matrix with roles down, actions across and a switch in every cell. Flipping a row's master runs its cells in order on cascade(), each knob sliding on snap, so a bulk change reads as one act rather than five simultaneous blinks; a column header lights its column by hover or by focus. Arrow keys walk the grid in two dimensions, Home and End jump to the ends of a row, Space and Enter toggle.",
+    files: [
+      {
+        path: "registry/ui/access-matrix.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: {
+      serial: "KQ-509",
+    },
+    tagline: "Flip a row; the cells follow in order.",
+    keywords: [
+      "permissions",
+      "roles",
+      "matrix",
+      "switch",
+      "grid",
+      "access",
+      "selection",
+    ],
+    props: [
+      {
+        name: "roles",
+        type: "AccessRole[]",
+        description: "Rows, top to bottom; each needs an id and a label.",
+      },
+      {
+        name: "actions",
+        type: "AccessAction[]",
+        description: "Columns, left to right; each needs an id and a label.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "Record<string, string[]>",
+        description:
+          "Controlled or initial grants: the granted action ids per role id.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: Record<string, string[]>) => void",
+        description:
+          "Fires with the whole grant map on any toggle, cell or row master.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible group label. Omit it and pass aria-label to label the grid invisibly.",
+      },
+    ],
+    usageNotes: [
+      "role=grid with a roving tabindex: arrow keys move in two dimensions without wrapping, Home and End jump to the row's master and its last action, Space and Enter toggle.",
+      "Cells carry role=switch with aria-checked; the row master is a tri-state checkbox rather than a switch, because ARIA does not let a switch report mixed.",
+      "Under reduced motion the knobs jump to their end with no cascade and no slide — the grant state still changes, since that is the information.",
+      "Narrow viewports scroll the action columns horizontally under an edge fade while the role column stays pinned.",
+    ],
+  },
+  {
+    name: "avatar-pick",
+    type: "registry:ui",
+    title: "Avatar Pick",
+    description:
+      "A face chooser where one ring travels between the tiles on snap, keyed by a shared layoutId so it is the same ring moving rather than nine rings blinking. The chosen face puffs to 1.08 on recoil while the rest lose a little saturation on a tween, and the last tile opens a real file picker and previews the image in place. Arrows step and wrap, Home and End jump to the ends, Space and Enter select.",
+    files: [
+      {
+        path: "registry/ui/avatar-pick.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: {
+      serial: "KQ-510",
+    },
+    tagline: "The ring travels; the chosen face puffs.",
+    keywords: [
+      "avatar",
+      "profile",
+      "picker",
+      "radiogroup",
+      "upload",
+      "selection",
+    ],
+    props: [
+      {
+        name: "options",
+        type: "AvatarOption[]",
+        description:
+          "The faces: an id, one or two initials, a tint (pass a theme token), and a label used as the accessible name.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          'Controlled or initial id. The uploaded face reserves the id "upload".',
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires on every choice, including the one an upload makes.",
+      },
+      {
+        name: "allowUpload",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Shows the tile that opens a real file picker and previews the chosen image.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible group label. Omit it and pass aria-label to label the group invisibly.",
+      },
+    ],
+    usageNotes: [
+      "A radio group with a roving tabindex: arrows step through the tiles and wrap, Home and End jump to the ends, Space and Enter select. On the upload tile Space and Enter open the file picker instead, so no gesture is pointer-only.",
+      "Faces are drawn, not fetched — initials on a disc tinted from the token you pass, so the set costs no image requests and reads in both themes.",
+      "The upload preview's object URL is revoked as soon as it is replaced and again on unmount.",
+      "Under reduced motion the ring jumps to the chosen tile and nothing puffs; the saturation still shifts, because it is what marks the choice.",
+    ],
+  },
+  {
+    name: "choice-cards",
+    type: "registry:ui",
+    title: "Choice Cards",
+    description:
+      "A plan picker built as a radiogroup of cards. Choosing lifts the card 2px on glide while a ring draws around its perimeter and a check stamps into the corner on recoil, and the unchosen cards step back in tone. Switching the billing period re-rolls every price digit by digit on glide; arrow keys move between cards, Home and End jump to the ends, and Space selects.",
+    files: [
+      {
+        path: "registry/ui/choice-cards.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: {
+      serial: "KQ-501",
+    },
+    tagline: "The chosen card lifts; the rest step back.",
+    keywords: [
+      "pricing",
+      "plans",
+      "radiogroup",
+      "cards",
+      "billing",
+      "selection",
+    ],
+    props: [
+      {
+        name: "options",
+        type: "ChoiceCardOption[]",
+        description:
+          "The plans: value, title, monthly and yearly price, blurb, optional badge.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial chosen plan; defaults to the first option.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires on choice.",
+      },
+      {
+        name: "billing / defaultBilling",
+        type: '"monthly" | "yearly"',
+        defaultValue: '"monthly"',
+        description:
+          "Controlled or initial billing period; switching it re-rolls every price.",
+      },
+      {
+        name: "onBillingChange",
+        type: '(billing: "monthly" | "yearly") => void',
+        description: "Fires when the billing period changes.",
+      },
+      {
+        name: "currency",
+        type: "string",
+        defaultValue: '"$"',
+        description: "Prefix for every price.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Plan"',
+        description: "Visible group label, shown beside the billing toggle.",
+      },
+    ],
+    usageNotes: [
+      "A radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump to the first and last plan, Space selects the focused card. The billing toggle is its own two-stop radiogroup.",
+      "Under reduced motion the ring and the corner check still appear — they are the answer to the click — but the card does not lift and prices swap without rolling.",
+      "Cards sit side by side from the small breakpoint up and stack to one column at phone width; the ring is drawn on a measured rect, so it follows the card's real size.",
+    ],
+  },
+  {
+    name: "size-tiles",
+    type: "registry:ui",
+    title: "Size Tiles",
+    description:
+      "A size chooser that answers with weight instead of layout. The chosen tile inflates to 1.06 on snap and its border thickens, both transform and colour, so nothing beside it shifts; unavailable tiles draw a diagonal strike through themselves on flick when hovered or focused and carry 'out of stock' for a screen reader. Arrow keys move and wrap, Home and End jump, Space selects, and the fit note beneath cross-fades over a measured height.",
+    files: [
+      {
+        path: "registry/ui/size-tiles.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: {
+      serial: "KQ-502",
+    },
+    tagline: "The tile you pick inflates; the rest hold still.",
+    keywords: ["size", "picker", "radiogroup", "tiles", "stock", "selection"],
+    props: [
+      {
+        name: "sizes",
+        type: "SizeTile[]",
+        description:
+          "The sizes: value, label, availability, and an optional fit note.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "Controlled or initial chosen size.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires on choice; an unavailable size never fires it.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Size"',
+        description:
+          "Visible group label; the chosen size reads out beside it.",
+      },
+    ],
+    usageNotes: [
+      "A radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump to the first and last tile, Space selects the focused one.",
+      "Unavailable tiles stay in the group and stay focusable — they carry aria-disabled and an 'out of stock' description, so the strike has a keyboard path and is never news only to a mouse.",
+      "Under reduced motion the tile keeps its thickened border and drops the inflation; the strike and the fit note still appear, because availability is information.",
+    ],
+  },
+  {
+    name: "filter-ledge",
+    type: "registry:ui",
+    title: "Filter Ledge",
+    description:
+      "A ledge of filter chips that keeps its arithmetic honest. Toggling a chip blooms its fill from the centre on snap while a check draws itself in on flick and widens a slot to sit in, and the result count beneath rolls its digits to the new number on glide. Clear all sweeps the fills off in a cascade, left to right; every chip is a toggle button carrying aria-pressed and its own tab stop.",
+    files: [
+      {
+        path: "registry/ui/filter-ledge.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: {
+      serial: "KQ-503",
+    },
+    tagline: "Chips toggle; the count catches up.",
+    keywords: ["filters", "chips", "toggle", "facets", "count", "selection"],
+    props: [
+      {
+        name: "filters",
+        type: "FilterChip[]",
+        description: "The chips: id, label, and an optional per-filter count.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        description: "Controlled or initial active filter ids.",
+      },
+      {
+        name: "onValueChange",
+        type: "(ids: string[]) => void",
+        description: "Fires on every toggle and on clear all.",
+      },
+      {
+        name: "resultCount",
+        type: "number",
+        description:
+          "The number the readout rolls to; the owner derives it from the active filters.",
+      },
+      {
+        name: "onClear",
+        type: "() => void",
+        description: "Fires when clear all empties the ledge.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Filters"',
+        description: "Accessible name for the chip group.",
+      },
+    ],
+    usageNotes: [
+      "Chips are toggle buttons with aria-pressed, each its own tab stop, so Tab reaches them and Space or Enter flips one — there is no gesture the keyboard cannot reach. Clear all disables itself when the ledge is already empty.",
+      "Under reduced motion the fills and checks swap instantly and the count updates without rolling; the total still changes, because a filtered result is information rather than flourish.",
+      "At phone width the row scrolls sideways and each end fades only while something is hidden past it; the fade is a mask on the row, so it reads on any background.",
+    ],
+  },
+  {
+    name: "cadence-pick",
+    type: "registry:ui",
+    title: "Cadence Pick",
+    description:
+      "A rhythm picker that shows the rhythm. Four stops share one knob that glides between them on snap, and beside them a seven by five calendar glyph re-patterns itself: every mark keeps its identity across cadences, so it travels to its new cell on glide in a cascade rather than blinking out and back. Custom unfolds an interval stepper over a measured height; arrows move and wrap, Home and End jump, Space selects.",
+    files: [
+      {
+        path: "registry/ui/cadence-pick.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: {
+      serial: "KQ-504",
+    },
+    tagline: "Pick a rhythm; the calendar redraws.",
+    keywords: [
+      "cadence",
+      "schedule",
+      "recurrence",
+      "segmented",
+      "calendar",
+      "selection",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: '"daily" | "weekly" | "monthly" | "custom"',
+        defaultValue: '"weekly"',
+        description: "Controlled or initial cadence.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: Cadence, everyDays?: number) => void",
+        description:
+          "Fires on change; custom carries the interval it now means.",
+      },
+      {
+        name: "everyDays / defaultEveryDays",
+        type: "number",
+        defaultValue: "3",
+        description: "Custom interval in days, clamped to 1–30.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Cadence"',
+        description: "Visible group label, which also names the radiogroup.",
+      },
+    ],
+    usageNotes: [
+      "The stops are a radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump, Space selects. The interval control is a spinbutton — arrows step a day, Page Up and Page Down step a week, Home and End take it to 1 and 30.",
+      "Under reduced motion the marks swap to their new cells instantly and the panel opens without a glide; the pattern still redraws, because the pattern is the answer.",
+      "The custom panel holds no room while it is closed: its height is measured from the controls inside it, and it is inert so nothing in it takes focus while it is shut.",
+    ],
+  },
+  {
+    name: "likert-scale",
+    type: "registry:ui",
+    title: "Likert Scale",
+    description:
+      "An agreement scale of five or seven nodes on a line. Choosing fills the line up to that node on glide and inflates the node on snap, while the anchors shift weight with it — the near one firms as the far one fades — and hovering previews the fill at a lower weight without committing. A radiogroup with a roving tabindex: arrows move and select, Home and End jump to the ends, Space selects.",
+    files: [
+      {
+        path: "registry/ui/likert-scale.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["selection"],
+    meta: {
+      serial: "KQ-505",
+    },
+    tagline: "The bar fills to where you stand.",
+    keywords: [
+      "likert",
+      "survey",
+      "rating",
+      "agreement",
+      "radiogroup",
+      "selection",
+    ],
+    props: [
+      {
+        name: "question",
+        type: "string",
+        description: "The statement being rated; it names the radiogroup.",
+      },
+      {
+        name: "points",
+        type: "5 | 7",
+        defaultValue: "5",
+        description: "Node count.",
+      },
+      {
+        name: "anchors",
+        type: "[string, string]",
+        defaultValue: '["Disagree", "Agree"]',
+        description:
+          "Labels at the ends; the end nodes borrow them for their names.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        description: "Controlled or initial 1-based choice.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description: "Fires on choice, with the 1-based value.",
+      },
+    ],
+    usageNotes: [
+      "A radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump to the ends, Space selects the focused node. Every node carries its position in its name, and the end nodes carry their anchor.",
+      "Under reduced motion the fill still fills — on a tween instead of the glide spring — and the chosen node marks itself by colour rather than by inflating.",
+      "Node geometry never changes: the selected node scales, so the line under the row stays true and nothing beside it moves.",
+    ],
+  },
+  {
+    name: "mask-field",
+    type: "registry:ui",
+    title: "Mask Field",
+    description:
+      "A text field that wears its format. Ghost glyphs hold the shape of what is expected, and as characters land the mask's separators arrive on flick — scaling up from 0.6 as the ink comes in — while deleting pulls them back out the same way. One real input carries the value beneath a transparent text layer so a monospace cell grid can draw the glyphs, which keeps the native keyboard intact: typing, backspace across a separator, selection and paste all behave as the browser intends, and a pasted number fills every slot in a single cascade inside the 600ms budget.",
+    files: [
+      {
+        path: "registry/ui/mask-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-491",
+    },
+    tagline: "The format arrives as you type.",
+    keywords: ["mask", "input", "format", "phone", "card", "field", "form"],
+    props: [
+      {
+        name: "mask",
+        type: "string",
+        description:
+          'The shape, with # for a digit and A for a letter, e.g. "(###) ###-####" or "#### #### #### ####".',
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Raw characters, without separators — controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(raw: string, formatted: string) => void",
+        description: "Both readings on every change.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Visible label above the box.",
+      },
+      {
+        name: "placeholderChar",
+        type: "string",
+        defaultValue: '"_"',
+        description: "The ghost glyph standing in for an empty slot.",
+      },
+    ],
+    usageNotes: [
+      "The keyboard is the browser's own: typing, paste, undo and selection are native, and backspace deletes the character a separator stands in front of rather than stalling on the separator.",
+      "Under reduced motion the ink still changes and the separators still arrive — only the scale and the 4px drop are dropped.",
+      "The drawn glyph layer is aria-hidden; the single real input carries the accessible value, so form posts, autofill and screen readers see the formatted string.",
+    ],
+  },
+  {
+    name: "typeahead-field",
+    type: "registry:ui",
+    title: "Typeahead Field",
+    description:
+      "A field that finishes the word for you. The best match's remainder sits in grey just past the caret, and accepting it wipes the grey copy left to right over durations.base to reveal the committed ink underneath, so the completion is seen becoming real rather than swapped for real. Beneath, matches cascade() in with the typed span emphasised and a single marker rides between them on snap, carried by one layoutId; the input never loses focus, so ArrowUp and ArrowDown move the marker, Tab or ArrowRight takes the completion, Enter picks the marked row and Escape closes the list.",
+    files: [
+      {
+        path: "registry/ui/typeahead-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-492",
+    },
+    tagline: "The rest of the word arrives in grey.",
+    keywords: [
+      "typeahead",
+      "autocomplete",
+      "combobox",
+      "suggestions",
+      "input",
+      "search",
+      "form",
+    ],
+    props: [
+      {
+        name: "suggestions",
+        type: "string[]",
+        description:
+          "The vocabulary to complete from; prefix matches are ranked above matches found inside the word.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "The typed text — controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires on typing and on accept.",
+      },
+      {
+        name: "onAccept",
+        type: "(value: string) => void",
+        description:
+          "Fires when a suggestion is accepted, by completion or by pick.",
+      },
+      {
+        name: "maxItems",
+        type: "number",
+        defaultValue: "6",
+        description: "Suggestions shown under the field.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Visible label above the box.",
+      },
+    ],
+    usageNotes: [
+      "Tab or ArrowRight (with the caret at the end) accepts the completion, ArrowDown opens the list and steps the marker, ArrowUp steps back, Enter picks the marked row, Escape closes. Tab only holds the field while a completion is offered — once accepted, the next Tab leaves.",
+      "Under reduced motion the list appears without the cascade, the marker jumps between rows, and the completion commits without the sweep; the matches and the emphasis are unchanged.",
+      "Combobox semantics throughout: focus and the caret stay in the input while aria-activedescendant points at the marked option, and the panel is measured with a ResizeObserver so it animates when the match count changes rather than reserving room.",
+    ],
+  },
+  {
+    name: "strength-field",
+    type: "registry:ui",
+    title: "Strength Field",
+    description:
+      "A password field that shows its work. Four segments fill on snap as rules are met, staggered by cascade() so a pasted passphrase fills the bar left to right rather than flashing whole, and the bar steps danger → warn → success on a colour tween because a grade is not a landing. Each rule keeps a chip that fills as it is satisfied, with a tick drawing inside it on flick and un-drawing on a tween when the rule breaks; the reveal toggle is a real pressed button that strikes its eye on snap, and the rules travel as data so a product can bring its own.",
+    files: [
+      {
+        path: "registry/ui/strength-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-493",
+    },
+    tagline: "Rules that check themselves off.",
+    keywords: [
+      "password",
+      "strength",
+      "meter",
+      "validation",
+      "rules",
+      "input",
+      "form",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "The password — controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires on typing.",
+      },
+      {
+        name: "onStrengthChange",
+        type: "(strength: number, met: number) => void",
+        description:
+          "Fires with the 0–4 strength and how many rules are met, so a form can gate on it.",
+      },
+      {
+        name: "rules",
+        type: "{ id: string; label: string; test: (value: string) => boolean }[]",
+        description:
+          "The requirements, as data. Defaults to 8+ characters, a number, a symbol, and upper and lower case.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Visible label above the box.",
+      },
+      {
+        name: "showReveal",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Renders the reveal toggle inside the box.",
+      },
+    ],
+    usageNotes: [
+      "Typing is the whole interaction; the reveal toggle is a real button carrying aria-pressed, reachable by Tab and fired by Space or Enter. The bar is a meter with aria-valuenow, aria-valuemax and a spoken aria-valuetext, and a polite status line reports the tier and the count of rules met.",
+      "Under reduced motion every fill still fills and every tick still draws — a met rule is information, not decoration — they simply arrive without the spring.",
+      "Rules are data: pass your own array to match a product's policy, and the four segments re-scale to whatever number of rules you give.",
+    ],
+  },
+  {
+    name: "catch-zone",
+    type: "registry:ui",
+    title: "Catch Zone",
+    description:
+      "A file drop zone that braces. Dragging files over it pulls the dashed frame tight — dash and gap interpolate from one value, so the frame stitches rather than blinks — and contracts the panel 1.5% on flick; leaving relaxes both. Accepted files land as rows on glide arriving from distances.step, each size stamping itself down on recoil while a progress fill runs on a linear tween, and a refused file gets no celebration at all: the frame nudges 4px on a tween and an alert says why. A real file input sits behind the button, so the keyboard path is the platform's own picker rather than a re-implementation.",
+    files: [
+      {
+        path: "registry/ui/catch-zone.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-494",
+    },
+    tagline: "The frame braces for the drop.",
+    keywords: [
+      "dropzone",
+      "upload",
+      "file",
+      "drag and drop",
+      "progress",
+      "form",
+    ],
+    props: [
+      {
+        name: "accept",
+        type: "string",
+        description:
+          'Accepted MIME types or extensions, comma separated — ".pdf,.csv,image/*".',
+      },
+      {
+        name: "multiple",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Allow more than one file; with it off, a new drop replaces the held file.",
+      },
+      {
+        name: "maxSize",
+        type: "number",
+        description: "Bytes; larger files are rejected with a reason.",
+      },
+      {
+        name: "onFiles",
+        type: "(files: File[]) => void",
+        description:
+          "Fires with the full accepted list after every add or remove.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Zone caption, shown above the picker button.",
+      },
+      {
+        name: "progress",
+        type: "Record<string, number>",
+        description:
+          "Upload progress 0–1 per file, keyed by the exported fileKey(file).",
+      },
+    ],
+    usageNotes: [
+      "Tab reaches the picker button and Space or Enter opens the system file dialog — the hidden input type=file is the real control, so nothing about the platform picker is re-implemented. Each row's remove button is reachable the same way and names the file it removes.",
+      "Under reduced motion the frame changes colour and border weight without contracting or nudging, and rows appear in place; the progress fill still runs, because progress is feedback rather than flourish.",
+      "Rejections carry the reason in a role=alert line and never animate approvingly; the drag counter tolerates enter and leave events from child elements, so the frame does not flicker as the pointer crosses the caption.",
+    ],
+  },
+  {
+    name: "signature-pad",
+    type: "registry:ui",
+    title: "Signature Pad",
+    description:
+      "An SVG pad whose ink remembers the pen. Each sample's nib width comes from the speed since the last one, smoothed so the line eases rather than flickers — a fast flourish thins, a slow stop pools — and every stroke is a filled ribbon revealed through a mask that runs along the pen's own path. That is what lets Clear rewind instead of blink: each stroke un-writes on glide, last one first, cascade() apart, while Undo lifts a single stroke away on a fade. Pointer capture is claimed only after 4px of travel so a tap stays a tap, and the keyboard path is a real typed-signature input announced as an equal way to sign.",
+    files: [
+      {
+        path: "registry/ui/signature-pad.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-495",
+    },
+    tagline: "Ink that remembers the pen's speed.",
+    keywords: [
+      "signature",
+      "drawing",
+      "pointer",
+      "svg",
+      "ink",
+      "consent",
+      "form",
+    ],
+    props: [
+      {
+        name: "onChange",
+        type: "(strokes: { points: [number, number][]; widths: number[] }[]) => void",
+        description:
+          "Every stroke, after each change — the points and the nib width recorded at each of them.",
+      },
+      {
+        name: "onTypedChange",
+        type: "(typed: string) => void",
+        description:
+          "Fires with the typed-signature fallback's text, so a form can accept either way of signing.",
+      },
+      {
+        name: "penColor",
+        type: "string",
+        defaultValue: '"currentColor"',
+        description:
+          "CSS colour for the ink; inherits the pad's text colour by default, so it reads in both themes.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "160",
+        description: "Pad height in px; the width fills the container.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Caption above the pad; it names the whole group, controls included.",
+      },
+      {
+        name: "allowTyped",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Offers the typed-signature fallback below the pad.",
+      },
+    ],
+    usageNotes: [
+      "Drawing is pointer-only by nature, so the keyboard path is a typed signature: a real text input, labelled and described as an equal way to sign rather than a consolation. Undo and Clear are ordinary buttons, reachable by Tab and fired by Space or Enter, and disabled when there is nothing to take back.",
+      "Under reduced motion Clear and Undo are instant — no rewind, no lift — while the ink itself, its taper included, is unchanged.",
+      "The pad claims pointer capture only after 4px of travel, so a plain tap is never swallowed, and a stroke that leaves the pad mid-flourish still finishes.",
+    ],
+  },
+  {
+    name: "pin-pad",
+    type: "registry:ui",
+    title: "Pin Pad",
+    description:
+      "A keypad for codes whose keys pop on flick under the finger or under the matching digit typed on a keyboard, filling a dot on snap. A refused code jumps the row and lets recoil ring it out, then empties the dots one at a time on a cascade; an accepted code seals the row into one bar and stamps the check on recoil. Digits type straight in, Backspace and Delete remove, Escape clears, and arrow keys rove the pad.",
+    files: [
+      {
+        path: "registry/ui/pin-pad.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-496",
+    },
+    tagline: "Digits that light; dots that fill.",
+    keywords: ["pin", "passcode", "otp", "keypad", "code", "unlock", "forms"],
+    props: [
+      {
+        name: "length",
+        type: "4 | 5 | 6",
+        defaultValue: "4",
+        description: "Code length, and the number of dots in the row.",
+      },
+      {
+        name: "onComplete",
+        type: "(code: string) => Promise<boolean> | boolean",
+        description:
+          "Called when every dot is filled; false — or a promise resolving to false — runs the wrong-code sequence.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Passcode"',
+        description: "Announced group label.",
+      },
+      {
+        name: "mask",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Show dots rather than the digits themselves.",
+      },
+    ],
+    usageNotes: [
+      "Typing a digit anywhere in the pad enters it and lights that key; Backspace and Delete remove the last digit, Escape clears the row, arrow keys rove the twelve keys and Home and End jump to its ends.",
+      "Under reduced motion the refused row flashes its border instead of shaking and the keys stop popping, but dots still fill and still empty one by one — entry progress is information, not flourish.",
+      "onComplete may return a promise, so verification can run on a server; keys go inert (aria-disabled, never disabled, so focus stays put) until it settles.",
+    ],
+  },
+  {
+    name: "hue-ring",
+    type: "registry:ui",
+    title: "Hue Ring",
+    description:
+      "A hue wheel whose thumb chases the pointer on snap, always the short way round, over a lightness bar that carries the chosen hue. The swatch takes the new colour on a tween and the hex readout rolls each character into place on glide. Two real sliders: arrows step one degree, Shift+Arrow steps ten, Home and End jump to the ends.",
+    files: [
+      {
+        path: "registry/ui/hue-ring.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-497",
+    },
+    tagline: "Turn the ring; the swatch takes the colour.",
+    keywords: ["color", "picker", "hue", "wheel", "swatch", "slider", "forms"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "{ h: number; l: number }",
+        defaultValue: "{ h: 210, l: 55 }",
+        description:
+          "Hue in degrees and lightness 0–100, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: { h: number; l: number }, hex: string) => void",
+        description:
+          "Both readings on every change: the angle pair and the hex it resolves to.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "180",
+        description: "Ring diameter in px; the band and swatch scale with it.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Accent colour"',
+        description: "Group label; each slider is named from it.",
+      },
+    ],
+    usageNotes: [
+      "The ring and the lightness bar are separate sliders: Arrow steps 1, Shift+Arrow steps 10, Home and End jump to the ends. Hue wraps at the seam; lightness clamps.",
+      "Under reduced motion the thumb goes straight to its angle and the swatch and hex swap without a roll.",
+      "The ring takes the pointer only after 4px of travel, so a plain tap on an angle still lands as a tap.",
+    ],
+  },
+  {
+    name: "time-dial",
+    type: "registry:ui",
+    title: "Time Dial",
+    description:
+      "A clock face for picking a time. Tapping or dragging the ring swings the hand to that hour on snap, by the shortest arc, then the face cross-fades to minutes and the hand glides across to the new scale while the readout rolls the digits that changed. Arrows step the phase you are in, Enter advances hour to minute to done, Escape steps back, and the face reports as a slider whose value text reads the whole time.",
+    files: [
+      {
+        path: "registry/ui/time-dial.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-498",
+    },
+    tagline: "The hand swings to the hour.",
+    keywords: ["time", "picker", "clock", "dial", "hours", "minutes", "forms"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '"09:30"',
+        description:
+          'The time as "HH:mm" in 24-hour form, controlled or initial.',
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: 'Fires on every change, always "HH:mm" in 24-hour form.',
+      },
+      {
+        name: "format",
+        type: "12 | 24",
+        defaultValue: "12",
+        description:
+          "Face and readout style; 24 puts 00–11 on the outer band and 12–23 on the inner one instead of an AM/PM segment.",
+      },
+      {
+        name: "minuteStep",
+        type: "number",
+        defaultValue: "5",
+        description: "Minute detent for the face and the arrow keys.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Time"',
+        description:
+          "Group label; the face and the meridiem group are named from it.",
+      },
+      {
+        name: "onPhaseChange",
+        type: '(phase: "hour" | "minute" | "done") => void',
+        description: "Fires when the dial moves between hour, minute and done.",
+      },
+    ],
+    usageNotes: [
+      "Arrows step the phase you are in (hours by one, minutes by minuteStep), Home and End jump to its ends, Enter advances hour to minute to done, and Escape steps back. Releasing a pointer on an hour advances to minutes too.",
+      "The face is one slider that re-identifies with the phase rather than two that would strand focus the moment Enter advanced it; aria-valuetext reads the whole time, and a live region names the phase.",
+      "Under reduced motion the hand goes straight to its angle and the readout swaps its digits; the face still cross-fades, since opacity carries no travel.",
+    ],
+  },
+  {
+    name: "almanac-picker",
+    type: "registry:ui",
+    title: "Almanac Picker",
+    description:
+      "A month grid that moves by direction: the next month enters from distances.shift on the right while the old one leaves on the exit ease, and the frame's measured height glides so a five-row month never jumps to a six-row one. A chosen day stamps on recoil and today wears a ring; in range mode the fill sweeps between the ends on a scaleX tween. Arrows move a day, PageUp and PageDown change month, Home and End jump to the week's ends, and Enter selects.",
+    files: [
+      {
+        path: "registry/ui/almanac-picker.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-499",
+    },
+    tagline: "Months slide; the day stamps.",
+    keywords: ["date", "picker", "calendar", "range", "month", "grid", "forms"],
+    props: [
+      {
+        name: "mode",
+        type: '"single" | "range"',
+        defaultValue: '"single"',
+        description: "One date, or a start and an end.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "Date | [Date, Date | null]",
+        description:
+          "Selection, shaped by mode; a range in progress carries a null end.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: Date | [Date, Date | null]) => void",
+        description:
+          "Fires on selection; opening a range fires once with a null end, then again when it closes.",
+      },
+      {
+        name: "min / max",
+        type: "Date",
+        description: "Bounds; days outside are disabled and refuse selection.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Date"',
+        description: "Group label; the grid is named from it and the month.",
+      },
+    ],
+    usageNotes: [
+      "A real grid: arrows move a day and carry the month with them, PageUp and PageDown change month, Home and End jump to the ends of the week, Enter or Space selects, and the month name is a live region.",
+      "While a range is open the sweep follows the pointer or the focused day, so arrowing through the month reads exactly like hovering it.",
+      "Under reduced motion the months cross-fade in place and the day stops stamping; the range fill still fills, since progress is information.",
+      "Today is read after hydration, not during render, so the server and the client never disagree about which day wears the ring.",
+    ],
+  },
+  {
+    name: "slide-confirm",
+    type: "registry:ui",
+    title: "Slide Confirm",
+    description:
+      "A track that asks for the whole gesture. The thumb tracks the pointer 1:1 while the label fades under it and a fill follows behind; past 85% it slams home on flick, the arrow morphs into a check and the copy swaps, and released short of that it springs back on snap. ArrowRight nudges 10% a press, ArrowLeft takes it back, End runs it to the top and Enter there confirms, so the keyboard drives the same physics.",
+    files: [
+      {
+        path: "registry/ui/slide-confirm.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-500",
+    },
+    tagline: "Slide all the way, or it slides back.",
+    keywords: [
+      "slide",
+      "confirm",
+      "drag",
+      "commit",
+      "payment",
+      "slider",
+      "forms",
+    ],
+    props: [
+      {
+        name: "onConfirm",
+        type: "() => void",
+        description: "Fires once when the slide completes.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Slide to confirm"',
+        description: "Track copy while idle; it also names the slider.",
+      },
+      {
+        name: "confirmedLabel",
+        type: "string",
+        defaultValue: '"Confirmed"',
+        description: "Copy after confirming.",
+      },
+      {
+        name: "resetAfter",
+        type: "number",
+        description:
+          "Milliseconds before the thumb returns; omit to stay confirmed.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Locks the track and takes the thumb out of the tab order.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(percent: number) => void",
+        description:
+          "Fires with the whole-percent position on every change, spring-back included.",
+      },
+    ],
+    usageNotes: [
+      "The thumb is a slider: ArrowRight and ArrowUp nudge 10%, ArrowLeft and ArrowDown take it back, End runs it to the top, Home and Escape return it, and Enter or Space confirms once the thumb is past 85%.",
+      "The pointer is captured only after 4px of travel, so a plain click on the thumb is not swallowed and never confirms by accident.",
+      "Under reduced motion the thumb moves directly and the fill has no spring, but it still fills and the percentage still reads: how far you have got is information.",
+    ],
+  },
 ];
