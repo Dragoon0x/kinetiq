@@ -24008,4 +24008,298 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the height becomes the new height at once and the content swaps, because the content is the information.",
     ],
   },
+  {
+    name: "density-grid",
+    type: "registry:ui",
+    title: "Density Grid",
+    description:
+      "A members table with a density switch. Changing density is a layout animation on glide: rows are keyed by id, so each one keeps its identity and tightens in place — height, gutters and avatar closing at once — rather than the table reprinting itself at a new size. The switch is a radio group where Left and Right step between the three stops without wrapping, Home and End jump to comfortable and compact, and Space selects.",
+    files: [
+      {
+        path: "registry/ui/density-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["layout"],
+    meta: {
+      serial: "KQ-566",
+    },
+    tagline: "Comfortable to compact; the rows tighten in place.",
+    keywords: ["density", "table", "grid", "rows", "compact", "layout"],
+    props: [
+      {
+        name: "rows",
+        type: "{ id: string; name: string; role: string; status: string }[]",
+        description:
+          "Rows in reading order. The id keys the row, so it survives a density change as the same row.",
+      },
+      {
+        name: "density / defaultDensity",
+        type: '"comfortable" | "cozy" | "compact"',
+        defaultValue: '"comfortable"',
+        description: "Controlled or initial row density.",
+      },
+      {
+        name: "onDensityChange",
+        type: "(density: GridDensity) => void",
+        description:
+          "Fires when the switch moves, from the pointer or the keyboard.",
+      },
+      {
+        name: "columns",
+        type: "[string, string, string]",
+        defaultValue: '["Member", "Role", "Status"]',
+        description: "Column headers, left to right.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible table label. Omit it and pass aria-label to name the table invisibly.",
+      },
+    ],
+    usageNotes: [
+      "The switch is a radio group with a roving tabindex: Left and Right step between comfortable, cozy and compact without wrapping past the ends, Home and End jump to the two extremes, Space selects.",
+      "Rows keep their keys, so the density change is a FLIP: each row tightens where it stands and the card follows it down, instead of the table reprinting at a new size.",
+      "The table scrolls inside its own overflow-x-auto box below its minimum width, so a phone column never pushes the page sideways.",
+      "Under reduced motion the sizes swap without travel — the table is still denser, it just does not animate there.",
+    ],
+  },
+  {
+    name: "summary-hem",
+    type: "registry:ui",
+    title: "Summary Hem",
+    description:
+      "A sticky summary that pays for its own space. At rest it is a card of lines, total and action; scrolling the container down condenses it to a slim bar on glide, keeping the total and the button as the same travelling elements while only the itemised lines cross-fade. Scrolling back up reopens it, and the heading holds a disclosure button so Enter or Space does the same from the keyboard.",
+    files: [
+      {
+        path: "registry/ui/summary-hem.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["layout"],
+    meta: {
+      serial: "KQ-567",
+    },
+    tagline: "The summary condenses as you scroll.",
+    keywords: ["summary", "sticky", "cart", "checkout", "condense", "layout"],
+    props: [
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description:
+          "The scrolling element the hem listens to. The hem sits over it, not inside it.",
+      },
+      {
+        name: "lines",
+        type: "{ label: string; value: string }[]",
+        description:
+          "Itemised lines. They are what the condensed bar gives up.",
+      },
+      {
+        name: "total",
+        type: "string",
+        description:
+          "Formatted total. Kept in both states, as one element that travels.",
+      },
+      {
+        name: "cta",
+        type: "{ label: string; onPress: () => void }",
+        description:
+          "The action. Kept in both states; full width expanded, beside the total when condensed.",
+      },
+      {
+        name: "heading",
+        type: "string",
+        defaultValue: '"Order summary"',
+        description: "Names the region and the disclosure button.",
+      },
+      {
+        name: "onCondensedChange",
+        type: "(condensed: boolean) => void",
+        description:
+          "Fires when the hem condenses or expands, whatever caused it.",
+      },
+    ],
+    usageNotes: [
+      "The heading holds a disclosure button: Enter or Space expands and collapses the hem, aria-expanded reports the state and aria-controls points at the lines. Tab reaches the button and then the action.",
+      "Direction drives the condense, not a hard scroll position: scrolling down past a 4px deadzone condenses, scrolling up expands, and the top of the list is always the expanded state.",
+      "Place the hem inside a position: relative wrapper around the scrolling element and give the scroller bottom padding, so the last row can clear the bar.",
+      "Under reduced motion the two states swap without travel; the total and the action still change places, they just do not glide.",
+    ],
+  },
+  {
+    name: "step-slide",
+    type: "registry:ui",
+    title: "Step Slide",
+    description:
+      "A wizard whose frame fits the step it is showing. Next takes the current panel out to the left on the exit ease while the next arrives from a shift to the right on snap, Back reverses both, and the frame's height glides to the panel's measured height rather than reserving room for the tallest one. The dots fill in order and the current one stretches into a pill on snap; Back and Next are ordinary buttons and every move is announced politely.",
+    files: [
+      {
+        path: "registry/ui/step-slide.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["layout"],
+    meta: {
+      serial: "KQ-568",
+    },
+    tagline: "Steps slide by direction; the height fits.",
+    keywords: ["wizard", "steps", "stepper", "onboarding", "slide", "layout"],
+    props: [
+      {
+        name: "steps",
+        type: "{ id: string; title: string; content: React.ReactNode }[]",
+        description:
+          "Ordered steps. Each renders as a group panel titled by its own heading.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description: "Controlled or initial step index, clamped to the range.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number) => void",
+        description: "Fires on every move, forwards or back.",
+      },
+      {
+        name: "onFinish",
+        type: "() => void",
+        description:
+          "Fires when the forward button is pressed on the last step.",
+      },
+      {
+        name: "finishLabel",
+        type: "string",
+        defaultValue: '"Finish"',
+        description: "Label the forward button takes on the last step.",
+      },
+    ],
+    usageNotes: [
+      "Back and Next are real buttons in one row: Back is disabled on the first step, Next reads Finish on the last, and each move is announced politely as its step number and title.",
+      "The frame's height is measured with a ResizeObserver on the live panel and glided to, never reserved — a short step is short and a tall one is never clipped.",
+      "Direction is carried into the panel variants, so a step always leaves the way you came from and arrives from the way you are headed.",
+      "Under reduced motion the panels cross-fade in place and the height swaps; the step still changes, it just does not travel.",
+    ],
+  },
+  {
+    name: "swipe-row",
+    type: "registry:ui",
+    title: "Swipe Row",
+    description:
+      "A list row with its actions parked underneath. Dragging moves the row 1:1 with the pointer until it passes the open stop, then resists; crossing the overswipe threshold arms the first action, which grows on flick, and releasing runs it. Release settles on snap. The pointer is claimed only after 4px of horizontal travel and stands down when the travel is vertical, and every action is also in the row's menu, where Arrow keys move, Home and End jump and Escape returns focus.",
+    files: [
+      {
+        path: "registry/ui/swipe-row.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["layout"],
+    meta: {
+      serial: "KQ-569",
+    },
+    tagline: "Swipe the row; the actions wait underneath.",
+    keywords: ["swipe", "row", "list", "actions", "gesture", "inbox", "layout"],
+    props: [
+      {
+        name: "leading / trailing",
+        type: '{ id: string; label: string; icon: string; tone?: "neutral" | "danger"; onSelect: () => void }[]',
+        description:
+          "Actions on each side. Leading is revealed by dragging right, trailing by dragging left; the first of a side is what an overswipe runs.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "0.6",
+        description: "Fraction of the row's width that arms the first action.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "Row content. It rides the drag; the menu button sits beside it.",
+      },
+      {
+        name: "menuLabel",
+        type: "string",
+        defaultValue: '"Row actions"',
+        description:
+          "Names the menu button that carries the same actions to the keyboard.",
+      },
+    ],
+    usageNotes: [
+      "The menu button is the keyboard path: it opens a menu of every action, where Arrow keys move, Home and End jump, Enter or Space selects and Escape closes and returns focus to the button. The swipe panes are aria-hidden and out of the tab order so a row never costs three tab stops.",
+      "The pointer is captured only after 4px of horizontal travel and the gesture stands down entirely when the travel is vertical, so a tap stays a tap and the list still scrolls under the thumb.",
+      "Render each row inside a ul or ol — the component's root is an li. An open row closes on the next press anywhere else on the page.",
+      "Under reduced motion the row reveals and closes without springs; the actions still appear, they just do not overshoot.",
+    ],
+  },
+  {
+    name: "shrink-bar",
+    type: "registry:ui",
+    title: "Shrink Bar",
+    description:
+      "A header that spends its height as you scroll. One progress value, read straight off the container's scrollTop over the first range pixels, drives the bar's height, the title's scale and the subtitle's fold — scroll-linked with no spring anywhere, because a header that keeps moving after your finger stops reads as lag. The title is a single element throughout, so assistive technology sees one heading rather than a large copy handing over to a small one.",
+    files: [
+      {
+        path: "registry/ui/shrink-bar.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["layout"],
+    meta: {
+      serial: "KQ-570",
+    },
+    tagline: "The header compacts as you go.",
+    keywords: ["header", "scroll", "compact", "sticky", "title", "layout"],
+    props: [
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description:
+          "The scrolling element the bar reads. The bar sits over it, never inside its flow.",
+      },
+      {
+        name: "title / subtitle",
+        type: "string",
+        description:
+          "Header copy. The title is one element in both states; the subtitle folds away as the bar compacts.",
+      },
+      {
+        name: "range",
+        type: "number",
+        defaultValue: "80",
+        description: "Scroll pixels over which the bar compacts fully.",
+      },
+      {
+        name: "actions",
+        type: "React.ReactNode",
+        description: "Right-side controls, centred on the bar at every height.",
+      },
+      {
+        name: "onCompactionChange",
+        type: "(percent: number) => void",
+        description:
+          "Fires with the compaction percent, reported in fives so a fling does not re-render the host every frame.",
+      },
+    ],
+    usageNotes: [
+      "Place the bar inside a position: relative wrapper around the scrolling element and offset the scroller's top padding by SHRINK_BAR_HEIGHT.rest, which the component exports. Keeping the bar out of flow is what stops a shrinking header from shortening the document under the reader's own scroll.",
+      "The compaction is a scroll-linked transform with no spring: the bar is exactly where the scroll says it should be, and reverses the instant the scroll does.",
+      "The title is one h2 that scales toward its left edge and travels up as the bar closes around it, so the heading is never duplicated for the two states.",
+      "Under reduced motion the progress snaps at the halfway mark: the bar switches between its two states rather than tracking the scroll.",
+    ],
+  },
 ];

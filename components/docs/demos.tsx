@@ -755,6 +755,11 @@ import { AgendaDayDemo } from "@/registry/demos/agenda-day.demo";
 import { LaneBoardDemo } from "@/registry/demos/lane-board.demo";
 import { UnfoldCardDemo } from "@/registry/demos/unfold-card.demo";
 import { FitPanelDemo } from "@/registry/demos/fit-panel.demo";
+import { DensityGridDemo } from "@/registry/demos/density-grid.demo";
+import { SummaryHemDemo } from "@/registry/demos/summary-hem.demo";
+import { StepSlideDemo } from "@/registry/demos/step-slide.demo";
+import { SwipeRowDemo } from "@/registry/demos/swipe-row.demo";
+import { ShrinkBarDemo } from "@/registry/demos/shrink-bar.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1524,4 +1529,9 @@ export const demos: Record<string, ComponentType> = {
   "lane-board": LaneBoardDemo,
   "unfold-card": UnfoldCardDemo,
   "fit-panel": FitPanelDemo,
+  "density-grid": DensityGridDemo,
+  "summary-hem": SummaryHemDemo,
+  "step-slide": StepSlideDemo,
+  "swipe-row": SwipeRowDemo,
+  "shrink-bar": ShrinkBarDemo,
 };

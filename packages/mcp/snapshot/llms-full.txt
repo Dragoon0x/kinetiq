@@ -9602,6 +9602,106 @@ Notes:
 - The height is measured, never reserved, so the panel is never propped open for a state it is not showing.
 - Under reduced motion the height becomes the new height at once and the content swaps, because the content is the information.
 
+### Density Grid (KQ-566) — `density-grid`
+Comfortable to compact; the rows tighten in place.
+
+A members table with a density switch. Changing density is a layout animation on glide: rows are keyed by id, so each one keeps its identity and tightens in place — height, gutters and avatar closing at once — rather than the table reprinting itself at a new size. The switch is a radio group where Left and Right step between the three stops without wrapping, Home and End jump to comfortable and compact, and Space selects.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/density-grid`
+
+Props:
+- `rows`: { id: string; name: string; role: string; status: string }[] — Rows in reading order. The id keys the row, so it survives a density change as the same row.
+- `density / defaultDensity`: "comfortable" | "cozy" | "compact" (default "comfortable") — Controlled or initial row density.
+- `onDensityChange`: (density: GridDensity) => void — Fires when the switch moves, from the pointer or the keyboard.
+- `columns`: [string, string, string] (default ["Member", "Role", "Status"]) — Column headers, left to right.
+- `label`: React.ReactNode — Visible table label. Omit it and pass aria-label to name the table invisibly.
+
+Notes:
+- The switch is a radio group with a roving tabindex: Left and Right step between comfortable, cozy and compact without wrapping past the ends, Home and End jump to the two extremes, Space selects.
+- Rows keep their keys, so the density change is a FLIP: each row tightens where it stands and the card follows it down, instead of the table reprinting at a new size.
+- The table scrolls inside its own overflow-x-auto box below its minimum width, so a phone column never pushes the page sideways.
+- Under reduced motion the sizes swap without travel — the table is still denser, it just does not animate there.
+
+### Summary Hem (KQ-567) — `summary-hem`
+The summary condenses as you scroll.
+
+A sticky summary that pays for its own space. At rest it is a card of lines, total and action; scrolling the container down condenses it to a slim bar on glide, keeping the total and the button as the same travelling elements while only the itemised lines cross-fade. Scrolling back up reopens it, and the heading holds a disclosure button so Enter or Space does the same from the keyboard.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/summary-hem`
+
+Props:
+- `container`: React.RefObject<HTMLElement | null> — The scrolling element the hem listens to. The hem sits over it, not inside it.
+- `lines`: { label: string; value: string }[] — Itemised lines. They are what the condensed bar gives up.
+- `total`: string — Formatted total. Kept in both states, as one element that travels.
+- `cta`: { label: string; onPress: () => void } — The action. Kept in both states; full width expanded, beside the total when condensed.
+- `heading`: string (default "Order summary") — Names the region and the disclosure button.
+- `onCondensedChange`: (condensed: boolean) => void — Fires when the hem condenses or expands, whatever caused it.
+
+Notes:
+- The heading holds a disclosure button: Enter or Space expands and collapses the hem, aria-expanded reports the state and aria-controls points at the lines. Tab reaches the button and then the action.
+- Direction drives the condense, not a hard scroll position: scrolling down past a 4px deadzone condenses, scrolling up expands, and the top of the list is always the expanded state.
+- Place the hem inside a position: relative wrapper around the scrolling element and give the scroller bottom padding, so the last row can clear the bar.
+- Under reduced motion the two states swap without travel; the total and the action still change places, they just do not glide.
+
+### Step Slide (KQ-568) — `step-slide`
+Steps slide by direction; the height fits.
+
+A wizard whose frame fits the step it is showing. Next takes the current panel out to the left on the exit ease while the next arrives from a shift to the right on snap, Back reverses both, and the frame's height glides to the panel's measured height rather than reserving room for the tallest one. The dots fill in order and the current one stretches into a pill on snap; Back and Next are ordinary buttons and every move is announced politely.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/step-slide`
+
+Props:
+- `steps`: { id: string; title: string; content: React.ReactNode }[] — Ordered steps. Each renders as a group panel titled by its own heading.
+- `value / defaultValue`: number (default 0) — Controlled or initial step index, clamped to the range.
+- `onValueChange`: (index: number) => void — Fires on every move, forwards or back.
+- `onFinish`: () => void — Fires when the forward button is pressed on the last step.
+- `finishLabel`: string (default "Finish") — Label the forward button takes on the last step.
+
+Notes:
+- Back and Next are real buttons in one row: Back is disabled on the first step, Next reads Finish on the last, and each move is announced politely as its step number and title.
+- The frame's height is measured with a ResizeObserver on the live panel and glided to, never reserved — a short step is short and a tall one is never clipped.
+- Direction is carried into the panel variants, so a step always leaves the way you came from and arrives from the way you are headed.
+- Under reduced motion the panels cross-fade in place and the height swaps; the step still changes, it just does not travel.
+
+### Swipe Row (KQ-569) — `swipe-row`
+Swipe the row; the actions wait underneath.
+
+A list row with its actions parked underneath. Dragging moves the row 1:1 with the pointer until it passes the open stop, then resists; crossing the overswipe threshold arms the first action, which grows on flick, and releasing runs it. Release settles on snap. The pointer is claimed only after 4px of horizontal travel and stands down when the travel is vertical, and every action is also in the row's menu, where Arrow keys move, Home and End jump and Escape returns focus.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/swipe-row`
+
+Props:
+- `leading / trailing`: { id: string; label: string; icon: string; tone?: "neutral" | "danger"; onSelect: () => void }[] — Actions on each side. Leading is revealed by dragging right, trailing by dragging left; the first of a side is what an overswipe runs.
+- `threshold`: number (default 0.6) — Fraction of the row's width that arms the first action.
+- `children`: React.ReactNode — Row content. It rides the drag; the menu button sits beside it.
+- `menuLabel`: string (default "Row actions") — Names the menu button that carries the same actions to the keyboard.
+
+Notes:
+- The menu button is the keyboard path: it opens a menu of every action, where Arrow keys move, Home and End jump, Enter or Space selects and Escape closes and returns focus to the button. The swipe panes are aria-hidden and out of the tab order so a row never costs three tab stops.
+- The pointer is captured only after 4px of horizontal travel and the gesture stands down entirely when the travel is vertical, so a tap stays a tap and the list still scrolls under the thumb.
+- Render each row inside a ul or ol — the component's root is an li. An open row closes on the next press anywhere else on the page.
+- Under reduced motion the row reveals and closes without springs; the actions still appear, they just do not overshoot.
+
+### Shrink Bar (KQ-570) — `shrink-bar`
+The header compacts as you go.
+
+A header that spends its height as you scroll. One progress value, read straight off the container's scrollTop over the first range pixels, drives the bar's height, the title's scale and the subtitle's fold — scroll-linked with no spring anywhere, because a header that keeps moving after your finger stops reads as lag. The title is a single element throughout, so assistive technology sees one heading rather than a large copy handing over to a small one.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/shrink-bar`
+
+Props:
+- `container`: React.RefObject<HTMLElement | null> — The scrolling element the bar reads. The bar sits over it, never inside its flow.
+- `title / subtitle`: string — Header copy. The title is one element in both states; the subtitle folds away as the bar compacts.
+- `range`: number (default 80) — Scroll pixels over which the bar compacts fully.
+- `actions`: React.ReactNode — Right-side controls, centred on the bar at every height.
+- `onCompactionChange`: (percent: number) => void — Fires with the compaction percent, reported in fives so a fling does not re-render the host every frame.
+
+Notes:
+- Place the bar inside a position: relative wrapper around the scrolling element and offset the scroller's top padding by SHRINK_BAR_HEIGHT.rest, which the component exports. Keeping the bar out of flow is what stops a shrinking header from shortening the document under the reader's own scroll.
+- The compaction is a scroll-linked transform with no spring: the bar is exactly where the scroll says it should be, and reverses the instant the scroll does.
+- The title is one h2 that scales toward its left edge and travels up as the bar closes around it, so the heading is never duplicated for the two states.
+- Under reduced motion the progress snaps at the halfway mark: the bar switches between its two states rather than tracking the scroll.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

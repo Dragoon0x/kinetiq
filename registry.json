@@ -15901,6 +15901,141 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "density-grid",
+      "type": "registry:ui",
+      "title": "Density Grid",
+      "description": "A members table with a density switch. Changing density is a layout animation on glide: rows are keyed by id, so each one keeps its identity and tightens in place — height, gutters and avatar closing at once — rather than the table reprinting itself at a new size. The switch is a radio group where Left and Right step between the three stops without wrapping, Home and End jump to comfortable and compact, and Space selects.",
+      "files": [
+        {
+          "path": "registry/ui/density-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-566"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "summary-hem",
+      "type": "registry:ui",
+      "title": "Summary Hem",
+      "description": "A sticky summary that pays for its own space. At rest it is a card of lines, total and action; scrolling the container down condenses it to a slim bar on glide, keeping the total and the button as the same travelling elements while only the itemised lines cross-fade. Scrolling back up reopens it, and the heading holds a disclosure button so Enter or Space does the same from the keyboard.",
+      "files": [
+        {
+          "path": "registry/ui/summary-hem.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-567"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "step-slide",
+      "type": "registry:ui",
+      "title": "Step Slide",
+      "description": "A wizard whose frame fits the step it is showing. Next takes the current panel out to the left on the exit ease while the next arrives from a shift to the right on snap, Back reverses both, and the frame's height glides to the panel's measured height rather than reserving room for the tallest one. The dots fill in order and the current one stretches into a pill on snap; Back and Next are ordinary buttons and every move is announced politely.",
+      "files": [
+        {
+          "path": "registry/ui/step-slide.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-568"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "swipe-row",
+      "type": "registry:ui",
+      "title": "Swipe Row",
+      "description": "A list row with its actions parked underneath. Dragging moves the row 1:1 with the pointer until it passes the open stop, then resists; crossing the overswipe threshold arms the first action, which grows on flick, and releasing runs it. Release settles on snap. The pointer is claimed only after 4px of horizontal travel and stands down when the travel is vertical, and every action is also in the row's menu, where Arrow keys move, Home and End jump and Escape returns focus.",
+      "files": [
+        {
+          "path": "registry/ui/swipe-row.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-569"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shrink-bar",
+      "type": "registry:ui",
+      "title": "Shrink Bar",
+      "description": "A header that spends its height as you scroll. One progress value, read straight off the container's scrollTop over the first range pixels, drives the bar's height, the title's scale and the subtitle's fold — scroll-linked with no spring anywhere, because a header that keeps moving after your finger stops reads as lag. The title is a single element throughout, so assistive technology sees one heading rather than a large copy handing over to a small one.",
+      "files": [
+        {
+          "path": "registry/ui/shrink-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-570"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
