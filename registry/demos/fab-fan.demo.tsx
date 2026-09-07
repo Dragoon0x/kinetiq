@@ -8,7 +8,6 @@ const LEDGER = [
   { id: "l1", who: "Fernworks Ltd", note: "Invoice 4471", amount: "+1,240.00" },
   { id: "l2", who: "Waylight", note: "Subscription", amount: "−18.00" },
   { id: "l3", who: "M. Okonjo", note: "Split · dinner", amount: "−32.50" },
-  { id: "l4", who: "Gaugeworks", note: "Retainer", amount: "+860.00" },
 ];
 
 export function FabFanDemo() {
@@ -30,13 +29,9 @@ export function FabFanDemo() {
                 key={row.id}
                 className="flex items-center justify-between gap-3 border-b border-hairline py-2 last:border-0"
               >
-                <span className="min-w-0">
-                  <span className="block truncate text-xs font-medium">
-                    {row.who}
-                  </span>
-                  <span className="block truncate text-[11px] text-ink-3">
-                    {row.note}
-                  </span>
+                <span className="min-w-0 truncate text-xs">
+                  <span className="font-medium">{row.who}</span>
+                  <span className="text-ink-3"> · {row.note}</span>
                 </span>
                 <span className="shrink-0 font-mono text-[11px] text-ink-2 tabular-nums">
                   {row.amount}

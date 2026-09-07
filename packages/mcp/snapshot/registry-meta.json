@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 489,
+      "components": 529,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -29082,6 +29082,2900 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/touch-echo",
         "bun": "bunx --bun shadcn@latest add @kinetiq/touch-echo",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/touch-echo.json"
+      }
+    },
+    {
+      "slug": "mask-field",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mask Field",
+      "serial": "KQ-491",
+      "tagline": "The format arrives as you type.",
+      "description": "A text field that wears its format. Ghost glyphs hold the shape of what is expected, and as characters land the mask's separators arrive on flick — scaling up from 0.6 as the ink comes in — while deleting pulls them back out the same way. One real input carries the value beneath a transparent text layer so a monospace cell grid can draw the glyphs, which keeps the native keyboard intact: typing, backspace across a separator, selection and paste all behave as the browser intends, and a pasted number fills every slot in a single cascade inside the 600ms budget.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "mask",
+        "input",
+        "format",
+        "phone",
+        "card",
+        "field",
+        "form"
+      ],
+      "props": [
+        {
+          "name": "mask",
+          "type": "string",
+          "description": "The shape, with # for a digit and A for a letter, e.g. \"(###) ###-####\" or \"#### #### #### ####\"."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Raw characters, without separators — controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(raw: string, formatted: string) => void",
+          "description": "Both readings on every change."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Visible label above the box."
+        },
+        {
+          "name": "placeholderChar",
+          "type": "string",
+          "defaultValue": "\"_\"",
+          "description": "The ghost glyph standing in for an empty slot."
+        }
+      ],
+      "usageNotes": [
+        "The keyboard is the browser's own: typing, paste, undo and selection are native, and backspace deletes the character a separator stands in front of rather than stalling on the separator.",
+        "Under reduced motion the ink still changes and the separators still arrive — only the scale and the 4px drop are dropped.",
+        "The drawn glyph layer is aria-hidden; the single real input carries the accessible value, so form posts, autofill and screen readers see the formatted string."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/mask-field",
+      "registryItemUrl": "https://www.kinetiqui.com/r/mask-field.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mask-field",
+        "npm": "npx shadcn@latest add @kinetiq/mask-field",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mask-field",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mask-field",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/mask-field.json"
+      }
+    },
+    {
+      "slug": "typeahead-field",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Typeahead Field",
+      "serial": "KQ-492",
+      "tagline": "The rest of the word arrives in grey.",
+      "description": "A field that finishes the word for you. The best match's remainder sits in grey just past the caret, and accepting it wipes the grey copy left to right over durations.base to reveal the committed ink underneath, so the completion is seen becoming real rather than swapped for real. Beneath, matches cascade() in with the typed span emphasised and a single marker rides between them on snap, carried by one layoutId; the input never loses focus, so ArrowUp and ArrowDown move the marker, Tab or ArrowRight takes the completion, Enter picks the marked row and Escape closes the list.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "typeahead",
+        "autocomplete",
+        "combobox",
+        "suggestions",
+        "input",
+        "search",
+        "form"
+      ],
+      "props": [
+        {
+          "name": "suggestions",
+          "type": "string[]",
+          "description": "The vocabulary to complete from; prefix matches are ranked above matches found inside the word."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "The typed text — controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires on typing and on accept."
+        },
+        {
+          "name": "onAccept",
+          "type": "(value: string) => void",
+          "description": "Fires when a suggestion is accepted, by completion or by pick."
+        },
+        {
+          "name": "maxItems",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Suggestions shown under the field."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Visible label above the box."
+        }
+      ],
+      "usageNotes": [
+        "Tab or ArrowRight (with the caret at the end) accepts the completion, ArrowDown opens the list and steps the marker, ArrowUp steps back, Enter picks the marked row, Escape closes. Tab only holds the field while a completion is offered — once accepted, the next Tab leaves.",
+        "Under reduced motion the list appears without the cascade, the marker jumps between rows, and the completion commits without the sweep; the matches and the emphasis are unchanged.",
+        "Combobox semantics throughout: focus and the caret stay in the input while aria-activedescendant points at the marked option, and the panel is measured with a ResizeObserver so it animates when the match count changes rather than reserving room."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/typeahead-field",
+      "registryItemUrl": "https://www.kinetiqui.com/r/typeahead-field.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/typeahead-field",
+        "npm": "npx shadcn@latest add @kinetiq/typeahead-field",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/typeahead-field",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/typeahead-field",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/typeahead-field.json"
+      }
+    },
+    {
+      "slug": "strength-field",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Strength Field",
+      "serial": "KQ-493",
+      "tagline": "Rules that check themselves off.",
+      "description": "A password field that shows its work. Four segments fill on snap as rules are met, staggered by cascade() so a pasted passphrase fills the bar left to right rather than flashing whole, and the bar steps danger → warn → success on a colour tween because a grade is not a landing. Each rule keeps a chip that fills as it is satisfied, with a tick drawing inside it on flick and un-drawing on a tween when the rule breaks; the reveal toggle is a real pressed button that strikes its eye on snap, and the rules travel as data so a product can bring its own.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "password",
+        "strength",
+        "meter",
+        "validation",
+        "rules",
+        "input",
+        "form"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "The password — controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires on typing."
+        },
+        {
+          "name": "onStrengthChange",
+          "type": "(strength: number, met: number) => void",
+          "description": "Fires with the 0–4 strength and how many rules are met, so a form can gate on it."
+        },
+        {
+          "name": "rules",
+          "type": "{ id: string; label: string; test: (value: string) => boolean }[]",
+          "description": "The requirements, as data. Defaults to 8+ characters, a number, a symbol, and upper and lower case."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Visible label above the box."
+        },
+        {
+          "name": "showReveal",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Renders the reveal toggle inside the box."
+        }
+      ],
+      "usageNotes": [
+        "Typing is the whole interaction; the reveal toggle is a real button carrying aria-pressed, reachable by Tab and fired by Space or Enter. The bar is a meter with aria-valuenow, aria-valuemax and a spoken aria-valuetext, and a polite status line reports the tier and the count of rules met.",
+        "Under reduced motion every fill still fills and every tick still draws — a met rule is information, not decoration — they simply arrive without the spring.",
+        "Rules are data: pass your own array to match a product's policy, and the four segments re-scale to whatever number of rules you give."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/strength-field",
+      "registryItemUrl": "https://www.kinetiqui.com/r/strength-field.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/strength-field",
+        "npm": "npx shadcn@latest add @kinetiq/strength-field",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/strength-field",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/strength-field",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/strength-field.json"
+      }
+    },
+    {
+      "slug": "catch-zone",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Catch Zone",
+      "serial": "KQ-494",
+      "tagline": "The frame braces for the drop.",
+      "description": "A file drop zone that braces. Dragging files over it pulls the dashed frame tight — dash and gap interpolate from one value, so the frame stitches rather than blinks — and contracts the panel 1.5% on flick; leaving relaxes both. Accepted files land as rows on glide arriving from distances.step, each size stamping itself down on recoil while a progress fill runs on a linear tween, and a refused file gets no celebration at all: the frame nudges 4px on a tween and an alert says why. A real file input sits behind the button, so the keyboard path is the platform's own picker rather than a re-implementation.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "dropzone",
+        "upload",
+        "file",
+        "drag and drop",
+        "progress",
+        "form"
+      ],
+      "props": [
+        {
+          "name": "accept",
+          "type": "string",
+          "description": "Accepted MIME types or extensions, comma separated — \".pdf,.csv,image/*\"."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Allow more than one file; with it off, a new drop replaces the held file."
+        },
+        {
+          "name": "maxSize",
+          "type": "number",
+          "description": "Bytes; larger files are rejected with a reason."
+        },
+        {
+          "name": "onFiles",
+          "type": "(files: File[]) => void",
+          "description": "Fires with the full accepted list after every add or remove."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Zone caption, shown above the picker button."
+        },
+        {
+          "name": "progress",
+          "type": "Record<string, number>",
+          "description": "Upload progress 0–1 per file, keyed by the exported fileKey(file)."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the picker button and Space or Enter opens the system file dialog — the hidden input type=file is the real control, so nothing about the platform picker is re-implemented. Each row's remove button is reachable the same way and names the file it removes.",
+        "Under reduced motion the frame changes colour and border weight without contracting or nudging, and rows appear in place; the progress fill still runs, because progress is feedback rather than flourish.",
+        "Rejections carry the reason in a role=alert line and never animate approvingly; the drag counter tolerates enter and leave events from child elements, so the frame does not flicker as the pointer crosses the caption."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/catch-zone",
+      "registryItemUrl": "https://www.kinetiqui.com/r/catch-zone.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/catch-zone",
+        "npm": "npx shadcn@latest add @kinetiq/catch-zone",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/catch-zone",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/catch-zone",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/catch-zone.json"
+      }
+    },
+    {
+      "slug": "signature-pad",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Signature Pad",
+      "serial": "KQ-495",
+      "tagline": "Ink that remembers the pen's speed.",
+      "description": "An SVG pad whose ink remembers the pen. Each sample's nib width comes from the speed since the last one, smoothed so the line eases rather than flickers — a fast flourish thins, a slow stop pools — and every stroke is a filled ribbon revealed through a mask that runs along the pen's own path. That is what lets Clear rewind instead of blink: each stroke un-writes on glide, last one first, cascade() apart, while Undo lifts a single stroke away on a fade. Pointer capture is claimed only after 4px of travel so a tap stays a tap, and the keyboard path is a real typed-signature input announced as an equal way to sign.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "signature",
+        "drawing",
+        "pointer",
+        "svg",
+        "ink",
+        "consent",
+        "form"
+      ],
+      "props": [
+        {
+          "name": "onChange",
+          "type": "(strokes: { points: [number, number][]; widths: number[] }[]) => void",
+          "description": "Every stroke, after each change — the points and the nib width recorded at each of them."
+        },
+        {
+          "name": "onTypedChange",
+          "type": "(typed: string) => void",
+          "description": "Fires with the typed-signature fallback's text, so a form can accept either way of signing."
+        },
+        {
+          "name": "penColor",
+          "type": "string",
+          "defaultValue": "\"currentColor\"",
+          "description": "CSS colour for the ink; inherits the pad's text colour by default, so it reads in both themes."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "160",
+          "description": "Pad height in px; the width fills the container."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Caption above the pad; it names the whole group, controls included."
+        },
+        {
+          "name": "allowTyped",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Offers the typed-signature fallback below the pad."
+        }
+      ],
+      "usageNotes": [
+        "Drawing is pointer-only by nature, so the keyboard path is a typed signature: a real text input, labelled and described as an equal way to sign rather than a consolation. Undo and Clear are ordinary buttons, reachable by Tab and fired by Space or Enter, and disabled when there is nothing to take back.",
+        "Under reduced motion Clear and Undo are instant — no rewind, no lift — while the ink itself, its taper included, is unchanged.",
+        "The pad claims pointer capture only after 4px of travel, so a plain tap is never swallowed, and a stroke that leaves the pad mid-flourish still finishes."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/signature-pad",
+      "registryItemUrl": "https://www.kinetiqui.com/r/signature-pad.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/signature-pad",
+        "npm": "npx shadcn@latest add @kinetiq/signature-pad",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/signature-pad",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/signature-pad",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/signature-pad.json"
+      }
+    },
+    {
+      "slug": "pin-pad",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pin Pad",
+      "serial": "KQ-496",
+      "tagline": "Digits that light; dots that fill.",
+      "description": "A keypad for codes whose keys pop on flick under the finger or under the matching digit typed on a keyboard, filling a dot on snap. A refused code jumps the row and lets recoil ring it out, then empties the dots one at a time on a cascade; an accepted code seals the row into one bar and stamps the check on recoil. Digits type straight in, Backspace and Delete remove, Escape clears, and arrow keys rove the pad.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "pin",
+        "passcode",
+        "otp",
+        "keypad",
+        "code",
+        "unlock",
+        "forms"
+      ],
+      "props": [
+        {
+          "name": "length",
+          "type": "4 | 5 | 6",
+          "defaultValue": "4",
+          "description": "Code length, and the number of dots in the row."
+        },
+        {
+          "name": "onComplete",
+          "type": "(code: string) => Promise<boolean> | boolean",
+          "description": "Called when every dot is filled; false — or a promise resolving to false — runs the wrong-code sequence."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Passcode\"",
+          "description": "Announced group label."
+        },
+        {
+          "name": "mask",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show dots rather than the digits themselves."
+        }
+      ],
+      "usageNotes": [
+        "Typing a digit anywhere in the pad enters it and lights that key; Backspace and Delete remove the last digit, Escape clears the row, arrow keys rove the twelve keys and Home and End jump to its ends.",
+        "Under reduced motion the refused row flashes its border instead of shaking and the keys stop popping, but dots still fill and still empty one by one — entry progress is information, not flourish.",
+        "onComplete may return a promise, so verification can run on a server; keys go inert (aria-disabled, never disabled, so focus stays put) until it settles."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pin-pad",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pin-pad.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pin-pad",
+        "npm": "npx shadcn@latest add @kinetiq/pin-pad",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pin-pad",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pin-pad",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pin-pad.json"
+      }
+    },
+    {
+      "slug": "hue-ring",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Hue Ring",
+      "serial": "KQ-497",
+      "tagline": "Turn the ring; the swatch takes the colour.",
+      "description": "A hue wheel whose thumb chases the pointer on snap, always the short way round, over a lightness bar that carries the chosen hue. The swatch takes the new colour on a tween and the hex readout rolls each character into place on glide. Two real sliders: arrows step one degree, Shift+Arrow steps ten, Home and End jump to the ends.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "color",
+        "picker",
+        "hue",
+        "wheel",
+        "swatch",
+        "slider",
+        "forms"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "{ h: number; l: number }",
+          "defaultValue": "{ h: 210, l: 55 }",
+          "description": "Hue in degrees and lightness 0–100, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: { h: number; l: number }, hex: string) => void",
+          "description": "Both readings on every change: the angle pair and the hex it resolves to."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "180",
+          "description": "Ring diameter in px; the band and swatch scale with it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Accent colour\"",
+          "description": "Group label; each slider is named from it."
+        }
+      ],
+      "usageNotes": [
+        "The ring and the lightness bar are separate sliders: Arrow steps 1, Shift+Arrow steps 10, Home and End jump to the ends. Hue wraps at the seam; lightness clamps.",
+        "Under reduced motion the thumb goes straight to its angle and the swatch and hex swap without a roll.",
+        "The ring takes the pointer only after 4px of travel, so a plain tap on an angle still lands as a tap."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/hue-ring",
+      "registryItemUrl": "https://www.kinetiqui.com/r/hue-ring.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hue-ring",
+        "npm": "npx shadcn@latest add @kinetiq/hue-ring",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hue-ring",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hue-ring",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/hue-ring.json"
+      }
+    },
+    {
+      "slug": "time-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Time Dial",
+      "serial": "KQ-498",
+      "tagline": "The hand swings to the hour.",
+      "description": "A clock face for picking a time. Tapping or dragging the ring swings the hand to that hour on snap, by the shortest arc, then the face cross-fades to minutes and the hand glides across to the new scale while the readout rolls the digits that changed. Arrows step the phase you are in, Enter advances hour to minute to done, Escape steps back, and the face reports as a slider whose value text reads the whole time.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "time",
+        "picker",
+        "clock",
+        "dial",
+        "hours",
+        "minutes",
+        "forms"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"09:30\"",
+          "description": "The time as \"HH:mm\" in 24-hour form, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires on every change, always \"HH:mm\" in 24-hour form."
+        },
+        {
+          "name": "format",
+          "type": "12 | 24",
+          "defaultValue": "12",
+          "description": "Face and readout style; 24 puts 00–11 on the outer band and 12–23 on the inner one instead of an AM/PM segment."
+        },
+        {
+          "name": "minuteStep",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Minute detent for the face and the arrow keys."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Time\"",
+          "description": "Group label; the face and the meridiem group are named from it."
+        },
+        {
+          "name": "onPhaseChange",
+          "type": "(phase: \"hour\" | \"minute\" | \"done\") => void",
+          "description": "Fires when the dial moves between hour, minute and done."
+        }
+      ],
+      "usageNotes": [
+        "Arrows step the phase you are in (hours by one, minutes by minuteStep), Home and End jump to its ends, Enter advances hour to minute to done, and Escape steps back. Releasing a pointer on an hour advances to minutes too.",
+        "The face is one slider that re-identifies with the phase rather than two that would strand focus the moment Enter advanced it; aria-valuetext reads the whole time, and a live region names the phase.",
+        "Under reduced motion the hand goes straight to its angle and the readout swaps its digits; the face still cross-fades, since opacity carries no travel."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/time-dial",
+      "registryItemUrl": "https://www.kinetiqui.com/r/time-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/time-dial",
+        "npm": "npx shadcn@latest add @kinetiq/time-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/time-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/time-dial",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/time-dial.json"
+      }
+    },
+    {
+      "slug": "almanac-picker",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Almanac Picker",
+      "serial": "KQ-499",
+      "tagline": "Months slide; the day stamps.",
+      "description": "A month grid that moves by direction: the next month enters from distances.shift on the right while the old one leaves on the exit ease, and the frame's measured height glides so a five-row month never jumps to a six-row one. A chosen day stamps on recoil and today wears a ring; in range mode the fill sweeps between the ends on a scaleX tween. Arrows move a day, PageUp and PageDown change month, Home and End jump to the week's ends, and Enter selects.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "date",
+        "picker",
+        "calendar",
+        "range",
+        "month",
+        "grid",
+        "forms"
+      ],
+      "props": [
+        {
+          "name": "mode",
+          "type": "\"single\" | \"range\"",
+          "defaultValue": "\"single\"",
+          "description": "One date, or a start and an end."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "Date | [Date, Date | null]",
+          "description": "Selection, shaped by mode; a range in progress carries a null end."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: Date | [Date, Date | null]) => void",
+          "description": "Fires on selection; opening a range fires once with a null end, then again when it closes."
+        },
+        {
+          "name": "min / max",
+          "type": "Date",
+          "description": "Bounds; days outside are disabled and refuse selection."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Date\"",
+          "description": "Group label; the grid is named from it and the month."
+        }
+      ],
+      "usageNotes": [
+        "A real grid: arrows move a day and carry the month with them, PageUp and PageDown change month, Home and End jump to the ends of the week, Enter or Space selects, and the month name is a live region.",
+        "While a range is open the sweep follows the pointer or the focused day, so arrowing through the month reads exactly like hovering it.",
+        "Under reduced motion the months cross-fade in place and the day stops stamping; the range fill still fills, since progress is information.",
+        "Today is read after hydration, not during render, so the server and the client never disagree about which day wears the ring."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/almanac-picker",
+      "registryItemUrl": "https://www.kinetiqui.com/r/almanac-picker.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/almanac-picker",
+        "npm": "npx shadcn@latest add @kinetiq/almanac-picker",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/almanac-picker",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/almanac-picker",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/almanac-picker.json"
+      }
+    },
+    {
+      "slug": "slide-confirm",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Slide Confirm",
+      "serial": "KQ-500",
+      "tagline": "Slide all the way, or it slides back.",
+      "description": "A track that asks for the whole gesture. The thumb tracks the pointer 1:1 while the label fades under it and a fill follows behind; past 85% it slams home on flick, the arrow morphs into a check and the copy swaps, and released short of that it springs back on snap. ArrowRight nudges 10% a press, ArrowLeft takes it back, End runs it to the top and Enter there confirms, so the keyboard drives the same physics.",
+      "categories": [
+        "forms"
+      ],
+      "keywords": [
+        "slide",
+        "confirm",
+        "drag",
+        "commit",
+        "payment",
+        "slider",
+        "forms"
+      ],
+      "props": [
+        {
+          "name": "onConfirm",
+          "type": "() => void",
+          "description": "Fires once when the slide completes."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Slide to confirm\"",
+          "description": "Track copy while idle; it also names the slider."
+        },
+        {
+          "name": "confirmedLabel",
+          "type": "string",
+          "defaultValue": "\"Confirmed\"",
+          "description": "Copy after confirming."
+        },
+        {
+          "name": "resetAfter",
+          "type": "number",
+          "description": "Milliseconds before the thumb returns; omit to stay confirmed."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Locks the track and takes the thumb out of the tab order."
+        },
+        {
+          "name": "onProgressChange",
+          "type": "(percent: number) => void",
+          "description": "Fires with the whole-percent position on every change, spring-back included."
+        }
+      ],
+      "usageNotes": [
+        "The thumb is a slider: ArrowRight and ArrowUp nudge 10%, ArrowLeft and ArrowDown take it back, End runs it to the top, Home and Escape return it, and Enter or Space confirms once the thumb is past 85%.",
+        "The pointer is captured only after 4px of travel, so a plain click on the thumb is not swallowed and never confirms by accident.",
+        "Under reduced motion the thumb moves directly and the fill has no spring, but it still fills and the percentage still reads: how far you have got is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/slide-confirm",
+      "registryItemUrl": "https://www.kinetiqui.com/r/slide-confirm.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/slide-confirm",
+        "npm": "npx shadcn@latest add @kinetiq/slide-confirm",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/slide-confirm",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/slide-confirm",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/slide-confirm.json"
+      }
+    },
+    {
+      "slug": "choice-cards",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Choice Cards",
+      "serial": "KQ-501",
+      "tagline": "The chosen card lifts; the rest step back.",
+      "description": "A plan picker built as a radiogroup of cards. Choosing lifts the card 2px on glide while a ring draws around its perimeter and a check stamps into the corner on recoil, and the unchosen cards step back in tone. Switching the billing period re-rolls every price digit by digit on glide; arrow keys move between cards, Home and End jump to the ends, and Space selects.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "pricing",
+        "plans",
+        "radiogroup",
+        "cards",
+        "billing",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "options",
+          "type": "ChoiceCardOption[]",
+          "description": "The plans: value, title, monthly and yearly price, blurb, optional badge."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial chosen plan; defaults to the first option."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires on choice."
+        },
+        {
+          "name": "billing / defaultBilling",
+          "type": "\"monthly\" | \"yearly\"",
+          "defaultValue": "\"monthly\"",
+          "description": "Controlled or initial billing period; switching it re-rolls every price."
+        },
+        {
+          "name": "onBillingChange",
+          "type": "(billing: \"monthly\" | \"yearly\") => void",
+          "description": "Fires when the billing period changes."
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "defaultValue": "\"$\"",
+          "description": "Prefix for every price."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Plan\"",
+          "description": "Visible group label, shown beside the billing toggle."
+        }
+      ],
+      "usageNotes": [
+        "A radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump to the first and last plan, Space selects the focused card. The billing toggle is its own two-stop radiogroup.",
+        "Under reduced motion the ring and the corner check still appear — they are the answer to the click — but the card does not lift and prices swap without rolling.",
+        "Cards sit side by side from the small breakpoint up and stack to one column at phone width; the ring is drawn on a measured rect, so it follows the card's real size."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/choice-cards",
+      "registryItemUrl": "https://www.kinetiqui.com/r/choice-cards.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/choice-cards",
+        "npm": "npx shadcn@latest add @kinetiq/choice-cards",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/choice-cards",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/choice-cards",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/choice-cards.json"
+      }
+    },
+    {
+      "slug": "size-tiles",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Size Tiles",
+      "serial": "KQ-502",
+      "tagline": "The tile you pick inflates; the rest hold still.",
+      "description": "A size chooser that answers with weight instead of layout. The chosen tile inflates to 1.06 on snap and its border thickens, both transform and colour, so nothing beside it shifts; unavailable tiles draw a diagonal strike through themselves on flick when hovered or focused and carry 'out of stock' for a screen reader. Arrow keys move and wrap, Home and End jump, Space selects, and the fit note beneath cross-fades over a measured height.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "size",
+        "picker",
+        "radiogroup",
+        "tiles",
+        "stock",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "sizes",
+          "type": "SizeTile[]",
+          "description": "The sizes: value, label, availability, and an optional fit note."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial chosen size."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires on choice; an unavailable size never fires it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Size\"",
+          "description": "Visible group label; the chosen size reads out beside it."
+        }
+      ],
+      "usageNotes": [
+        "A radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump to the first and last tile, Space selects the focused one.",
+        "Unavailable tiles stay in the group and stay focusable — they carry aria-disabled and an 'out of stock' description, so the strike has a keyboard path and is never news only to a mouse.",
+        "Under reduced motion the tile keeps its thickened border and drops the inflation; the strike and the fit note still appear, because availability is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/size-tiles",
+      "registryItemUrl": "https://www.kinetiqui.com/r/size-tiles.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/size-tiles",
+        "npm": "npx shadcn@latest add @kinetiq/size-tiles",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/size-tiles",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/size-tiles",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/size-tiles.json"
+      }
+    },
+    {
+      "slug": "filter-ledge",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Filter Ledge",
+      "serial": "KQ-503",
+      "tagline": "Chips toggle; the count catches up.",
+      "description": "A ledge of filter chips that keeps its arithmetic honest. Toggling a chip blooms its fill from the centre on snap while a check draws itself in on flick and widens a slot to sit in, and the result count beneath rolls its digits to the new number on glide. Clear all sweeps the fills off in a cascade, left to right; every chip is a toggle button carrying aria-pressed and its own tab stop.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "filters",
+        "chips",
+        "toggle",
+        "facets",
+        "count",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "filters",
+          "type": "FilterChip[]",
+          "description": "The chips: id, label, and an optional per-filter count."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string[]",
+          "description": "Controlled or initial active filter ids."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires on every toggle and on clear all."
+        },
+        {
+          "name": "resultCount",
+          "type": "number",
+          "description": "The number the readout rolls to; the owner derives it from the active filters."
+        },
+        {
+          "name": "onClear",
+          "type": "() => void",
+          "description": "Fires when clear all empties the ledge."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Filters\"",
+          "description": "Accessible name for the chip group."
+        }
+      ],
+      "usageNotes": [
+        "Chips are toggle buttons with aria-pressed, each its own tab stop, so Tab reaches them and Space or Enter flips one — there is no gesture the keyboard cannot reach. Clear all disables itself when the ledge is already empty.",
+        "Under reduced motion the fills and checks swap instantly and the count updates without rolling; the total still changes, because a filtered result is information rather than flourish.",
+        "At phone width the row scrolls sideways and each end fades only while something is hidden past it; the fade is a mask on the row, so it reads on any background."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/filter-ledge",
+      "registryItemUrl": "https://www.kinetiqui.com/r/filter-ledge.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/filter-ledge",
+        "npm": "npx shadcn@latest add @kinetiq/filter-ledge",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/filter-ledge",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/filter-ledge",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/filter-ledge.json"
+      }
+    },
+    {
+      "slug": "cadence-pick",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cadence Pick",
+      "serial": "KQ-504",
+      "tagline": "Pick a rhythm; the calendar redraws.",
+      "description": "A rhythm picker that shows the rhythm. Four stops share one knob that glides between them on snap, and beside them a seven by five calendar glyph re-patterns itself: every mark keeps its identity across cadences, so it travels to its new cell on glide in a cascade rather than blinking out and back. Custom unfolds an interval stepper over a measured height; arrows move and wrap, Home and End jump, Space selects.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "cadence",
+        "schedule",
+        "recurrence",
+        "segmented",
+        "calendar",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "\"daily\" | \"weekly\" | \"monthly\" | \"custom\"",
+          "defaultValue": "\"weekly\"",
+          "description": "Controlled or initial cadence."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: Cadence, everyDays?: number) => void",
+          "description": "Fires on change; custom carries the interval it now means."
+        },
+        {
+          "name": "everyDays / defaultEveryDays",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Custom interval in days, clamped to 1–30."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Cadence\"",
+          "description": "Visible group label, which also names the radiogroup."
+        }
+      ],
+      "usageNotes": [
+        "The stops are a radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump, Space selects. The interval control is a spinbutton — arrows step a day, Page Up and Page Down step a week, Home and End take it to 1 and 30.",
+        "Under reduced motion the marks swap to their new cells instantly and the panel opens without a glide; the pattern still redraws, because the pattern is the answer.",
+        "The custom panel holds no room while it is closed: its height is measured from the controls inside it, and it is inert so nothing in it takes focus while it is shut."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/cadence-pick",
+      "registryItemUrl": "https://www.kinetiqui.com/r/cadence-pick.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cadence-pick",
+        "npm": "npx shadcn@latest add @kinetiq/cadence-pick",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cadence-pick",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cadence-pick",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/cadence-pick.json"
+      }
+    },
+    {
+      "slug": "likert-scale",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Likert Scale",
+      "serial": "KQ-505",
+      "tagline": "The bar fills to where you stand.",
+      "description": "An agreement scale of five or seven nodes on a line. Choosing fills the line up to that node on glide and inflates the node on snap, while the anchors shift weight with it — the near one firms as the far one fades — and hovering previews the fill at a lower weight without committing. A radiogroup with a roving tabindex: arrows move and select, Home and End jump to the ends, Space selects.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "likert",
+        "survey",
+        "rating",
+        "agreement",
+        "radiogroup",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "question",
+          "type": "string",
+          "description": "The statement being rated; it names the radiogroup."
+        },
+        {
+          "name": "points",
+          "type": "5 | 7",
+          "defaultValue": "5",
+          "description": "Node count."
+        },
+        {
+          "name": "anchors",
+          "type": "[string, string]",
+          "defaultValue": "[\"Disagree\", \"Agree\"]",
+          "description": "Labels at the ends; the end nodes borrow them for their names."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "description": "Controlled or initial 1-based choice."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "description": "Fires on choice, with the 1-based value."
+        }
+      ],
+      "usageNotes": [
+        "A radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump to the ends, Space selects the focused node. Every node carries its position in its name, and the end nodes carry their anchor.",
+        "Under reduced motion the fill still fills — on a tween instead of the glide spring — and the chosen node marks itself by colour rather than by inflating.",
+        "Node geometry never changes: the selected node scales, so the line under the row stays true and nothing beside it moves."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/likert-scale",
+      "registryItemUrl": "https://www.kinetiqui.com/r/likert-scale.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/likert-scale",
+        "npm": "npx shadcn@latest add @kinetiq/likert-scale",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/likert-scale",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/likert-scale",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/likert-scale.json"
+      }
+    },
+    {
+      "slug": "priority-flag",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Priority Flag",
+      "serial": "KQ-506",
+      "tagline": "The flag climbs the mast.",
+      "description": "Priority drawn as a signal mast: the flag climbs to the chosen rung on glide while its colour tweens up the muted → warn → danger ramp. Landing on the top rung it flutters once, a single two-keyframe skew on recoil. Up and Down step the mast and wrap, Home and End jump to the ends, Space and Enter select.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "priority",
+        "severity",
+        "radiogroup",
+        "triage",
+        "selection",
+        "escalation"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"low\"",
+          "description": "Controlled or initial level — low, medium, high or urgent by default."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires when the level changes, by pointer or by key."
+        },
+        {
+          "name": "levels",
+          "type": "PriorityLevel[]",
+          "defaultValue": "low / medium / high / urgent",
+          "description": "Overrides the rungs, ordered bottom to top; the colour ramp stretches to fit."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible group label. Omit it and pass aria-label to label the group invisibly."
+        }
+      ],
+      "usageNotes": [
+        "A radio group with a roving tabindex: Up and Left climb the mast, Down and Right descend, both wrapping; Home and End jump to the ends; Space and Enter select.",
+        "Under reduced motion the flag jumps to its rung with no climb and no flutter — only the colour tweens, because the level's colour is information.",
+        "Rungs are 36px, the same as the row height, so the flag always lands on a label's centreline however many levels you pass."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/priority-flag",
+      "registryItemUrl": "https://www.kinetiqui.com/r/priority-flag.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/priority-flag",
+        "npm": "npx shadcn@latest add @kinetiq/priority-flag",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/priority-flag",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/priority-flag",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/priority-flag.json"
+      }
+    },
+    {
+      "slug": "slot-grid",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Slot Grid",
+      "serial": "KQ-507",
+      "tagline": "Free slots breathe; the picked one stamps.",
+      "description": "Appointment slots as a real grid of day columns and time rows. Free slots lift a pixel on hover with glide, taken slots are hatched and inert, and picking stamps the slot from 1.3× on recoil while the summary beneath cross-fades to the new time. Arrow keys walk the cells, Home and End jump to the ends of a row, Enter and Space pick.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "scheduling",
+        "booking",
+        "calendar",
+        "grid",
+        "appointment",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "days",
+          "type": "SlotDay[]",
+          "description": "Column headers, left to right; each needs an id and a label."
+        },
+        {
+          "name": "times",
+          "type": "string[]",
+          "description": "Row labels, top to bottom."
+        },
+        {
+          "name": "taken",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "\"dayId:time\" keys that are unavailable; those cells hatch and stop accepting picks."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial \"dayId:time\" key. Empty means nothing is held."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(key: string) => void",
+          "description": "Fires with the \"dayId:time\" key on every pick."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible group label. Omit it and pass aria-label to label the grid invisibly."
+        }
+      ],
+      "usageNotes": [
+        "role=grid with gridcells: arrow keys move a roving focus in two dimensions without wrapping, Home and End jump to the ends of the row, Enter and Space pick.",
+        "Taken slots keep aria-disabled rather than disabled, so the keyboard can read the whole week while picks stay refused.",
+        "Under reduced motion the stamp appears with no landing and the summary swaps without the cross-fade; the hatch and the stamp both carry the state without colour alone.",
+        "Narrow viewports scroll the day columns horizontally under edge fades while the time column stays pinned."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/slot-grid",
+      "registryItemUrl": "https://www.kinetiqui.com/r/slot-grid.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/slot-grid",
+        "npm": "npx shadcn@latest add @kinetiq/slot-grid",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/slot-grid",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/slot-grid",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/slot-grid.json"
+      }
+    },
+    {
+      "slug": "vote-pair",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Vote Pair",
+      "serial": "KQ-508",
+      "tagline": "One thumb bounces; the tally rolls.",
+      "description": "Up and down vote buttons with the tally rolling between them. The chosen thumb pops from 0.78 on recoil and holds an 8° tilt toward its own direction on snap, while the tally rolls in the direction it moved and travels further when a side switch swings it by two. Both halves are toggle buttons carrying aria-pressed, so Enter or Space on the side already chosen withdraws the vote.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "vote",
+        "upvote",
+        "rating",
+        "toggle",
+        "tally",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "1 | 0 | -1",
+          "defaultValue": "0",
+          "description": "Controlled or initial vote: up, none, or down."
+        },
+        {
+          "name": "score",
+          "type": "number",
+          "description": "The tally before the reader's own vote is added; the control shows score + value."
+        },
+        {
+          "name": "onVote",
+          "type": "(value: 1 | 0 | -1) => void",
+          "description": "Fires on every change, including the withdrawal back to 0."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "defaultValue": "\"md\"",
+          "description": "Control size; both halves and the tally share one height."
+        },
+        {
+          "name": "subject",
+          "type": "string",
+          "defaultValue": "\"answer\"",
+          "description": "Names what is being voted on inside each button's accessible label."
+        }
+      ],
+      "usageNotes": [
+        "Two toggle buttons, each its own tab stop: Enter or Space casts, and pressing the side already chosen withdraws the vote back to 0.",
+        "The tally sits in a live region and announces the new number, so the count reaches a screen reader without the animation.",
+        "Under reduced motion nothing pops or tilts — the colours swap and the tally still updates, because the count is information rather than flourish."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/vote-pair",
+      "registryItemUrl": "https://www.kinetiqui.com/r/vote-pair.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/vote-pair",
+        "npm": "npx shadcn@latest add @kinetiq/vote-pair",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/vote-pair",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/vote-pair",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/vote-pair.json"
+      }
+    },
+    {
+      "slug": "access-matrix",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Access Matrix",
+      "serial": "KQ-509",
+      "tagline": "Flip a row; the cells follow in order.",
+      "description": "A permission matrix with roles down, actions across and a switch in every cell. Flipping a row's master runs its cells in order on cascade(), each knob sliding on snap, so a bulk change reads as one act rather than five simultaneous blinks; a column header lights its column by hover or by focus. Arrow keys walk the grid in two dimensions, Home and End jump to the ends of a row, Space and Enter toggle.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "permissions",
+        "roles",
+        "matrix",
+        "switch",
+        "grid",
+        "access",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "roles",
+          "type": "AccessRole[]",
+          "description": "Rows, top to bottom; each needs an id and a label."
+        },
+        {
+          "name": "actions",
+          "type": "AccessAction[]",
+          "description": "Columns, left to right; each needs an id and a label."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "Record<string, string[]>",
+          "description": "Controlled or initial grants: the granted action ids per role id."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: Record<string, string[]>) => void",
+          "description": "Fires with the whole grant map on any toggle, cell or row master."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible group label. Omit it and pass aria-label to label the grid invisibly."
+        }
+      ],
+      "usageNotes": [
+        "role=grid with a roving tabindex: arrow keys move in two dimensions without wrapping, Home and End jump to the row's master and its last action, Space and Enter toggle.",
+        "Cells carry role=switch with aria-checked; the row master is a tri-state checkbox rather than a switch, because ARIA does not let a switch report mixed.",
+        "Under reduced motion the knobs jump to their end with no cascade and no slide — the grant state still changes, since that is the information.",
+        "Narrow viewports scroll the action columns horizontally under an edge fade while the role column stays pinned."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/access-matrix",
+      "registryItemUrl": "https://www.kinetiqui.com/r/access-matrix.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/access-matrix",
+        "npm": "npx shadcn@latest add @kinetiq/access-matrix",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/access-matrix",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/access-matrix",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/access-matrix.json"
+      }
+    },
+    {
+      "slug": "avatar-pick",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Avatar Pick",
+      "serial": "KQ-510",
+      "tagline": "The ring travels; the chosen face puffs.",
+      "description": "A face chooser where one ring travels between the tiles on snap, keyed by a shared layoutId so it is the same ring moving rather than nine rings blinking. The chosen face puffs to 1.08 on recoil while the rest lose a little saturation on a tween, and the last tile opens a real file picker and previews the image in place. Arrows step and wrap, Home and End jump to the ends, Space and Enter select.",
+      "categories": [
+        "selection"
+      ],
+      "keywords": [
+        "avatar",
+        "profile",
+        "picker",
+        "radiogroup",
+        "upload",
+        "selection"
+      ],
+      "props": [
+        {
+          "name": "options",
+          "type": "AvatarOption[]",
+          "description": "The faces: an id, one or two initials, a tint (pass a theme token), and a label used as the accessible name."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial id. The uploaded face reserves the id \"upload\"."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires on every choice, including the one an upload makes."
+        },
+        {
+          "name": "allowUpload",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Shows the tile that opens a real file picker and previews the chosen image."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible group label. Omit it and pass aria-label to label the group invisibly."
+        }
+      ],
+      "usageNotes": [
+        "A radio group with a roving tabindex: arrows step through the tiles and wrap, Home and End jump to the ends, Space and Enter select. On the upload tile Space and Enter open the file picker instead, so no gesture is pointer-only.",
+        "Faces are drawn, not fetched — initials on a disc tinted from the token you pass, so the set costs no image requests and reads in both themes.",
+        "The upload preview's object URL is revoked as soon as it is replaced and again on unmount.",
+        "Under reduced motion the ring jumps to the chosen tile and nothing puffs; the saturation still shifts, because it is what marks the choice."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/avatar-pick",
+      "registryItemUrl": "https://www.kinetiqui.com/r/avatar-pick.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/avatar-pick",
+        "npm": "npx shadcn@latest add @kinetiq/avatar-pick",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/avatar-pick",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/avatar-pick",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/avatar-pick.json"
+      }
+    },
+    {
+      "slug": "spy-index",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Spy Index",
+      "serial": "KQ-511",
+      "tagline": "The marker follows your reading.",
+      "description": "A table of contents that watches the page. An IntersectionObserver keyed to the reading line marks the section in view, and the marker travels between entries on glide through a shared layoutId while the active entry steps 4px out of the column and the rail beside the list fills with reading progress. Entries are plain links, so Tab reaches them and Enter follows them; clicking scrolls the container smoothly and hands focus to the target.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "scrollspy",
+        "table of contents",
+        "navigation",
+        "anchor",
+        "progress",
+        "sidebar"
+      ],
+      "props": [
+        {
+          "name": "sections",
+          "type": "{ id: string; label: string }[]",
+          "description": "The entries, in document order; ids must match headings inside the container."
+        },
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "description": "The scrolling element; defaults to the window."
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "Pixels from the top of the container that count as in view."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"On this page\"",
+          "description": "Accessible name for the nav, shown above the list."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(id: string) => void",
+          "description": "Fires when the section in view changes."
+        }
+      ],
+      "usageNotes": [
+        "Entries are ordinary links inside a nav: Tab reaches them, Enter follows them, and the entry in view carries aria-current=\"location\". Clicking scrolls the container to the heading and moves focus there when the target is focusable.",
+        "Under reduced motion the marker jumps to its entry, the 4px indent is dropped, the rail still fills, and the scroll is instant rather than smooth.",
+        "The observer only reports crossings of the reading line; the active entry is then read from geometry, so a heading sitting exactly on the line resolves the same way every time."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/spy-index",
+      "registryItemUrl": "https://www.kinetiqui.com/r/spy-index.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spy-index",
+        "npm": "npx shadcn@latest add @kinetiq/spy-index",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spy-index",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spy-index",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/spy-index.json"
+      }
+    },
+    {
+      "slug": "tab-bar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tab Bar",
+      "serial": "KQ-512",
+      "tagline": "The active icon fills; its label rises.",
+      "description": "A bottom tab bar built for a thumb. The chosen tab fills its outline glyph — a solid path cross-fading over the stroked one, a tween because weight and colour have no physics — lifts its label 2px on snap, and the indicator pill travels under it through a shared layoutId rather than blinking out and in. A badge bumps on recoil when its number changes, and the bar is a real tablist: a roving tabindex, Left and Right around the bar, Home and End to the ends.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "tab bar",
+        "bottom navigation",
+        "mobile",
+        "tabs",
+        "badge",
+        "icons"
+      ],
+      "props": [
+        {
+          "name": "tabs",
+          "type": "{ id: string; label: string; icon: \"home\" | \"search\" | \"inbox\" | \"wallet\" | \"me\"; badge?: number }[]",
+          "description": "Up to five tabs; the icons are built in and a badge shows when its count is above zero."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial active tab id."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires on tap and whenever the keyboard moves the selection."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "defaultValue": "\"Primary\"",
+          "description": "Accessible name for the tablist."
+        }
+      ],
+      "usageNotes": [
+        "A roving tabindex over role=\"tablist\": Left and Right (or Up and Down) wrap around the bar, Home and End jump to the ends, and activation follows focus as tabs should. A tab carrying a badge names its count in its accessible name.",
+        "Under reduced motion the glyph fill and the indicator pill swap instantly, the label holds still, and the badge number still updates — the count is information, not flourish.",
+        "The badge bumps only when its number changes, never on mount, so a first paint is quiet."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/tab-bar",
+      "registryItemUrl": "https://www.kinetiqui.com/r/tab-bar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tab-bar",
+        "npm": "npx shadcn@latest add @kinetiq/tab-bar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tab-bar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tab-bar",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/tab-bar.json"
+      }
+    },
+    {
+      "slug": "fold-sidebar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Fold Sidebar",
+      "serial": "KQ-513",
+      "tagline": "Collapse to icons; the labels fold in.",
+      "description": "An app sidebar that folds to a rail. The width travels between 224px and 56px on glide while each label fades and is clipped by its own row, and because every icon sits half a rail from the edge nothing shifts sideways as the panel narrows. The active pill travels between items through a shared layoutId, group panels animate to a measured height rather than a reserved one, the fold control's double chevron turns over on snap, and in rail mode a hovered or focused item names itself in a tooltip beside the rail.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "sidebar",
+        "rail",
+        "collapse",
+        "navigation",
+        "tooltip",
+        "console"
+      ],
+      "props": [
+        {
+          "name": "groups",
+          "type": "{ label: string; items: { id: string; label: string; icon: string }[] }[]",
+          "description": "Sections and their items; icons come from the built-in set (gauge, grid, bell, users, card, gear, dot)."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial active item id."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires on select."
+        },
+        {
+          "name": "collapsed / defaultCollapsed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Rail mode, controlled or initial."
+        },
+        {
+          "name": "onCollapsedChange",
+          "type": "(collapsed: boolean) => void",
+          "description": "Fires on fold."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Main\"",
+          "description": "Accessible name for the nav."
+        }
+      ],
+      "usageNotes": [
+        "Items are buttons inside a nav and the active one carries aria-current=\"page\"; group headers are aria-expanded toggles over the panel they own, and a closed panel is inert so Tab skips what is hidden behind a zero height.",
+        "Under reduced motion the width and the group heights swap instantly and the chevrons turn without a spring; the labels still fade, since a fade neither travels nor bounces.",
+        "In rail mode the group headers step aside for a hairline and every item stays reachable, naming itself in a tooltip anchored beside the rail on hover or focus."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/fold-sidebar",
+      "registryItemUrl": "https://www.kinetiqui.com/r/fold-sidebar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/fold-sidebar",
+        "npm": "npx shadcn@latest add @kinetiq/fold-sidebar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/fold-sidebar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/fold-sidebar",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/fold-sidebar.json"
+      }
+    },
+    {
+      "slug": "top-rise",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Top Rise",
+      "serial": "KQ-514",
+      "tagline": "Surfaces as you go deep; the ring shows how far.",
+      "description": "A back-to-top control that surfaces from the bottom edge on recoil — two visible bounces, the physics of something landing — once the container has passed the threshold, and sinks away on the exit ease when the top comes back into reach. Its ring carries scroll depth, drawn with pathLength so the geometry follows the button's own box rather than a fixed radius. Pressing it scrolls to the top while the arrow lifts 4px on flick; Tab reaches it and Enter or Space presses it.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "back to top",
+        "scroll",
+        "progress ring",
+        "navigation",
+        "scroll depth",
+        "float"
+      ],
+      "props": [
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "description": "The scrolling element; defaults to the window."
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "defaultValue": "240",
+          "description": "Pixels scrolled before it surfaces."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Back to top\"",
+          "description": "Accessible name."
+        },
+        {
+          "name": "onDepthChange",
+          "type": "(percent: number) => void",
+          "description": "Fires with whole-percent scroll depth, 0–100, when the percent changes."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Positioning is the caller's: absolute inside a relative frame, or fixed when the page itself scrolls."
+        }
+      ],
+      "usageNotes": [
+        "A plain button with an accessible name: Tab reaches it, Enter or Space presses it, and below the threshold it leaves the DOM entirely so the keyboard never lands on something invisible.",
+        "Under reduced motion it fades in and out without travelling, the ring still fills, and the scroll to the top is instant rather than smooth.",
+        "Place it outside the scroll container, in a relative wrapper — an absolutely positioned child of a scroller scrolls away with the content."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/top-rise",
+      "registryItemUrl": "https://www.kinetiqui.com/r/top-rise.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/top-rise",
+        "npm": "npx shadcn@latest add @kinetiq/top-rise",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/top-rise",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/top-rise",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/top-rise.json"
+      }
+    },
+    {
+      "slug": "canopy-menu",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Canopy Menu",
+      "serial": "KQ-515",
+      "tagline": "The panel unfolds; the columns arrive in order.",
+      "description": "A mega menu that stays one panel. Hovering or focusing an item unfolds the canopy beneath the bar — scaleY from the top on glide, clipped — and its columns cascade in inside the 600ms budget. Moving to another item morphs the same panel to the new content's measured width and height rather than closing and reopening; Left and Right walk the bar, Tab steps down into the open panel, and Escape closes and hands focus back.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "mega menu",
+        "navigation",
+        "dropdown",
+        "site nav",
+        "panel",
+        "columns"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id: string; label: string; columns: { heading: string; links: { label: string; href: string }[] }[] }[]",
+          "description": "The bar and the panel behind each item."
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "defaultValue": "80",
+          "description": "Hover intent delay in ms before an unopened panel unfolds; moving between items once open is immediate."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Site\"",
+          "description": "Accessible name for the nav."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires with the open item's id, or null when the panel closes."
+        }
+      ],
+      "usageNotes": [
+        "A roving tabindex of aria-expanded buttons over one region: Left and Right walk the bar, Home and End jump to its ends, Enter and Space toggle, Tab steps down into the open panel, and Escape — from the bar or from inside the panel — closes and returns focus to the item that opened it.",
+        "Under reduced motion the panel appears and disappears without scaling and the columns arrive with it, no cascade and no 8px rise.",
+        "The panel's contents are laid out absolutely so their natural size can be measured free of the box that is animating toward it; the measurement is clamped to the bar's width, so the columns wrap instead of overhanging a narrow viewport."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/canopy-menu",
+      "registryItemUrl": "https://www.kinetiqui.com/r/canopy-menu.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/canopy-menu",
+        "npm": "npx shadcn@latest add @kinetiq/canopy-menu",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/canopy-menu",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/canopy-menu",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/canopy-menu.json"
+      }
+    },
+    {
+      "slug": "swipe-tabs",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Swipe Tabs",
+      "serial": "KQ-516",
+      "tagline": "Drag the panel; the indicator rides your thumb.",
+      "description": "Tabs whose panels are a strip you can push: dragging moves the strip with the pointer while the underline rides the same value, so the indicator sits exactly where your thumb has taken it. Release settles to the nearest panel on snap and the strip's height glides to the new panel's measured height. Left and Right move and activate without wrapping past the ends, Home and End jump.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "tabs",
+        "swipe",
+        "drag",
+        "panels",
+        "indicator",
+        "navigation"
+      ],
+      "props": [
+        {
+          "name": "tabs",
+          "type": "{ id: string; label: string; content: React.ReactNode }[]",
+          "description": "Tabs and their panels, left to right."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial tab id."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires when the active tab changes."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "description": "Names the tablist for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "A real tablist: Left and Right move and activate without wrapping past the ends, Home and End jump to the first and last tab, and the active panel is focusable so it can be scrolled from the keyboard.",
+        "Pointer capture waits for 4px of horizontal travel and stands down when the travel is vertical, so a tap stays a tap and the surface behind the strip still scrolls.",
+        "Under reduced motion the panels swap: no travel, no springs, and dragging is off — the underline and the panel change instantly."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/swipe-tabs",
+      "registryItemUrl": "https://www.kinetiqui.com/r/swipe-tabs.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/swipe-tabs",
+        "npm": "npx shadcn@latest add @kinetiq/swipe-tabs",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/swipe-tabs",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/swipe-tabs",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/swipe-tabs.json"
+      }
+    },
+    {
+      "slug": "route-bar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Route Bar",
+      "serial": "KQ-517",
+      "tagline": "Trickles while it waits; finishes when the page lands.",
+      "description": "The bar at the top of a page change. It appears at 8% and trickles toward 90% on a decaying schedule, so a slow route keeps moving without ever claiming to be nearly done; when the page lands it completes on glide and leaves on the exit ease, with a soft glow at its head. Purely presentational — hold active true while a navigation is pending, or call start() and done() on the ref.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "progress",
+        "route",
+        "loading",
+        "navigation",
+        "top bar",
+        "pending"
+      ],
+      "props": [
+        {
+          "name": "active",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "True while a navigation is pending."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Bar height in px."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "var(--primary)",
+          "description": "CSS colour for the bar and its head glow."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Page loading",
+          "description": "Names the progress bar for assistive technology."
+        },
+        {
+          "name": "ref",
+          "type": "React.Ref<RouteBarHandle>",
+          "description": "Imperative start() and done(), OR'd with the active prop."
+        }
+      ],
+      "usageNotes": [
+        "No keyboard path of its own: the bar is presentational and never takes focus, reporting itself as role=progressbar with aria-valuenow rounded to whole percent.",
+        "Under reduced motion the head loses its glow and the bar still moves, because progress is information rather than flourish.",
+        "Repeated starts reset to 8% instead of stacking, and every timer and animation is stopped on unmount; it is absolutely positioned by default, so it reserves no space in the layout."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/route-bar",
+      "registryItemUrl": "https://www.kinetiqui.com/r/route-bar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/route-bar",
+        "npm": "npx shadcn@latest add @kinetiq/route-bar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/route-bar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/route-bar",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/route-bar.json"
+      }
+    },
+    {
+      "slug": "section-dots",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Section Dots",
+      "serial": "KQ-518",
+      "tagline": "The active dot stretches into a pill.",
+      "description": "A rail of dots down the side of a scrolling story. The active dot stretches into a pill on snap, a layout animation so the shape itself travels rather than a dot blinking on elsewhere, and its label slides out from the rail on hover or focus. The rail reads the container with an IntersectionObserver, and Up and Down move between dots while Enter scrolls the container to that section.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "scrollspy",
+        "dots",
+        "rail",
+        "sections",
+        "navigation",
+        "anchor"
+      ],
+      "props": [
+        {
+          "name": "sections",
+          "type": "{ id: string; label: string }[]",
+          "description": "Ids of the section elements inside the container, in document order."
+        },
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "description": "The scrolling element the rail watches and scrolls."
+        },
+        {
+          "name": "side",
+          "type": "\"left\" | \"right\"",
+          "defaultValue": "right",
+          "description": "Which edge of the container the rail sits on."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(id: string) => void",
+          "description": "Fires when the section under the viewport changes."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Sections",
+          "description": "Names the rail for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Roving tabindex over the dots: Up and Down (or Left and Right) move focus, Home and End jump to the ends, Enter and Space scroll the container to that section, and the active dot carries aria-current.",
+        "Under reduced motion the pill swaps instead of stretching, the label appears without travel, and the container jumps rather than scrolling smoothly.",
+        "The rail positions itself absolutely against the container's own relative parent, so it overlays the frame without reserving a column; keep the section text padded clear of it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/section-dots",
+      "registryItemUrl": "https://www.kinetiqui.com/r/section-dots.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/section-dots",
+        "npm": "npx shadcn@latest add @kinetiq/section-dots",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/section-dots",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/section-dots",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/section-dots.json"
+      }
+    },
+    {
+      "slug": "burger-sheet",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Burger Sheet",
+      "serial": "KQ-519",
+      "tagline": "The burger becomes the cross as the sheet unfolds.",
+      "description": "A menu button that turns into its own close button: the middle bar fades while the outer two travel to the centre and rotate on snap, the same spring the sheet's links land on. The sheet is a large surface, so it arrives on glide with its links cascading behind it and leaves on the exit ease. It is a real dialog while open — focus is trapped in the panel, Escape closes and returns focus to the button, and the frame passed as container stops scrolling.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "menu",
+        "sheet",
+        "burger",
+        "drawer",
+        "mobile",
+        "navigation"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ label: string; href: string }[]",
+          "description": "Links in the sheet, top to bottom."
+        },
+        {
+          "name": "side",
+          "type": "\"left\" | \"right\"",
+          "defaultValue": "left",
+          "description": "Which edge the sheet enters from."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial open state."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires on open and on close."
+        },
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "description": "The scrolling frame the sheet covers; its scroll locks while open."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "Menu",
+          "description": "Heading inside the sheet; also names the dialog."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Menu",
+          "description": "Names the menu button, which carries aria-expanded."
+        }
+      ],
+      "usageNotes": [
+        "Open moves focus to the panel's close button and traps Tab and Shift+Tab inside the dialog; Escape closes and returns focus to the menu button, as does clicking the scrim or a link.",
+        "Under reduced motion the sheet fades in place instead of sliding, the links arrive without travel or cascade, and the bars swap straight to the cross.",
+        "The sheet positions itself against the nearest positioned ancestor, so make the frame relative and leave the header static; scroll locking is applied to the container ref, never to the document."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/burger-sheet",
+      "registryItemUrl": "https://www.kinetiqui.com/r/burger-sheet.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/burger-sheet",
+        "npm": "npx shadcn@latest add @kinetiq/burger-sheet",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/burger-sheet",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/burger-sheet",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/burger-sheet.json"
+      }
+    },
+    {
+      "slug": "letter-index",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Letter Index",
+      "serial": "KQ-520",
+      "tagline": "Drag the letters; the current one pops out.",
+      "description": "The A–Z rail beside a long list. Dragging it pops the letter under the pointer out into a bubble on recoil, two visible bounces, while the list jumps instantly because it is following your thumb; letters with no entries are muted and the pick falls to the nearest letter that has some. The rail is a listbox: Up and Down move the active letter past the muted ones, and Enter scrolls the list there.",
+      "categories": [
+        "navigation"
+      ],
+      "keywords": [
+        "index",
+        "alphabet",
+        "contacts",
+        "scrubber",
+        "jump",
+        "navigation"
+      ],
+      "props": [
+        {
+          "name": "groups",
+          "type": "{ letter: string; items: string[] }[]",
+          "description": "Sections that exist; every other letter of the rail is muted."
+        },
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "description": "The scrolling list; its section headers carry data-letter=\"A\"."
+        },
+        {
+          "name": "onSelect",
+          "type": "(letter: string) => void",
+          "description": "Fires when the rail jumps the list to a letter."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Jump to letter",
+          "description": "Names the rail for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The rail is one tab stop with aria-activedescendant: Up and Down move the active letter and skip the muted ones, Home and End go to the first and last letter with entries, Enter or Space scrolls the list there.",
+        "Under reduced motion the bubble appears instead of popping, and the list jumps rather than scrolling smoothly on Enter.",
+        "Pointer capture waits for 4px of travel so a tap on a letter is still a tap; each section header inside the container must carry data-letter for the rail to find it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/letter-index",
+      "registryItemUrl": "https://www.kinetiqui.com/r/letter-index.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/letter-index",
+        "npm": "npx shadcn@latest add @kinetiq/letter-index",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/letter-index",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/letter-index",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/letter-index.json"
+      }
+    },
+    {
+      "slug": "undo-toast",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Undo Toast",
+      "serial": "KQ-521",
+      "tagline": "Undo, before the ring runs out.",
+      "description": "A toast with an action and a countdown. It rises on recoil, whose two bounces read as something landing on the stack, while a ring beside the message drains linearly across the duration; hovering or focusing stops the ring where it stands and leaving resumes it from there. Taking the action cross-fades the panel to a restored line and lifts it away on the exit ease, and the action is a real button one Tab from the message.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "toast",
+        "undo",
+        "snackbar",
+        "countdown",
+        "notification",
+        "overlay"
+      ],
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "description": "Shows the toast. Raise it after the edit has already been applied."
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "description": "What was done — one short line, past tense."
+        },
+        {
+          "name": "actionLabel",
+          "type": "string",
+          "defaultValue": "\"Undo\"",
+          "description": "Action copy."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "5000",
+          "description": "Milliseconds until it dismisses itself; 0 or less keeps it up."
+        },
+        {
+          "name": "onAction",
+          "type": "() => void",
+          "description": "Fires when the action is taken — restore the thing here."
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "description": "Fires when the ring runs out, the toast is closed, or a restore finishes."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Overrides the default bottom-centre placement inside the nearest relative parent."
+        }
+      ],
+      "usageNotes": [
+        "role=status with two real buttons: Tab reaches the action and the dismiss control, and focusing either pauses the countdown exactly as hovering does.",
+        "Under reduced motion the panel fades in place instead of rising, and the ring still drains — a countdown is information, not flourish.",
+        "It renders absolutely inside the nearest positioned ancestor, so give the surface it belongs to relative; changing the message replaces the panel and restarts the countdown."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/undo-toast",
+      "registryItemUrl": "https://www.kinetiqui.com/r/undo-toast.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/undo-toast",
+        "npm": "npx shadcn@latest add @kinetiq/undo-toast",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/undo-toast",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/undo-toast",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/undo-toast.json"
+      }
+    },
+    {
+      "slug": "light-box",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Light Box",
+      "serial": "KQ-522",
+      "tagline": "The thumbnail becomes the picture.",
+      "description": "A gallery whose thumbnail grows into the viewer. Tile and viewer share a layoutId, so opening morphs the thumbnail's rect into the picture on glide while the backdrop tweens in, and closing returns it to the tile it grew from. Moving is a different gesture: the old picture leaves on the exit ease and the new arrives from distances.shift, driven by arrows, a swipe, or the Left and Right keys, with focus trapped and Escape closing.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "lightbox",
+        "gallery",
+        "viewer",
+        "dialog",
+        "carousel",
+        "overlay"
+      ],
+      "props": [
+        {
+          "name": "images",
+          "type": "LightBoxImage[]",
+          "description": "Items of { id, alt, caption?, art }; art renders in both the tile and the viewer, so make it fill its container."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial id of the open picture; null is closed."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires on open, on every move, and on close."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Applied to the gallery wrapper."
+        }
+      ],
+      "usageNotes": [
+        "role=dialog with a focus trap: focus lands on the panel so the picture's name is read first, Left and Right move between pictures, Tab cycles the controls, and Escape closes and returns focus to the tile.",
+        "Under reduced motion nothing travels — the viewer cross-fades in, pictures cross-fade between each other, and the swipe is dropped in favour of the arrows.",
+        "The viewer is absolutely positioned inside the nearest positioned ancestor, so give the surface that owns the gallery relative; art is yours to supply, so no assets ship with it.",
+        "Closing returns the picture to the tile the session opened from, which keeps the morph pointed at one tile even after moving through the set."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/light-box",
+      "registryItemUrl": "https://www.kinetiqui.com/r/light-box.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/light-box",
+        "npm": "npx shadcn@latest add @kinetiq/light-box",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/light-box",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/light-box",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/light-box.json"
+      }
+    },
+    {
+      "slug": "edit-bubble",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Edit Bubble",
+      "serial": "KQ-523",
+      "tagline": "Click the value; it becomes the field.",
+      "description": "Inline editing without a modal. A pencil hint appears on hover, and clicking morphs the value into a field: reading state and bubble share a layoutId, so the box grows on snap with one crisp overshoot while the text keeps its place. Enter saves and the new value lands on recoil like a stamp, Escape restores, blurring saves, and a blocked save nudges the bubble four pixels and prints the reason where the label sits.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "inline-edit",
+        "editable",
+        "field",
+        "validation",
+        "form",
+        "overlay"
+      ],
+      "props": [
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Current value. The reading state mirrors it; each edit starts from it."
+        },
+        {
+          "name": "onSave",
+          "type": "(value: string) => void | Promise<void>",
+          "description": "Called on commit. Return a promise to hold the bubble open while it saves; a rejection keeps the edit and shows a reason."
+        },
+        {
+          "name": "validate",
+          "type": "(value: string) => string | null",
+          "description": "Return a reason to block the save; null lets it through."
+        },
+        {
+          "name": "type",
+          "type": "\"text\" | \"number\"",
+          "defaultValue": "\"text\"",
+          "description": "Input type; number also sets a decimal inputMode."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Accessible name of the field, also shown above it."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Applied to the field wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Enter saves, Escape restores the previous value, and blurring the field saves as well, so tabbing onward never loses an edit; focus returns to the reading button on every close.",
+        "Under reduced motion the bubble swaps in with no morph, the saved tick appears without its flick, and a blocked save states its reason without the nudge.",
+        "Reading state and bubble are the same height and the label line doubles as the hint and error line, so nothing below the field ever jumps."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/edit-bubble",
+      "registryItemUrl": "https://www.kinetiqui.com/r/edit-bubble.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/edit-bubble",
+        "npm": "npx shadcn@latest add @kinetiq/edit-bubble",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/edit-bubble",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/edit-bubble",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/edit-bubble.json"
+      }
+    },
+    {
+      "slug": "bell-tray",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Bell Tray",
+      "serial": "KQ-524",
+      "tagline": "The bell rings; the tray drops.",
+      "description": "A notification bell and its tray. An arriving item swings the bell on recoil, rotated about its crown so it pivots where a bell hangs, and bumps the badge with the same spring; opening drops the tray on glide with its items cascading in under the 600ms budget. Marking all read sweeps the unread dots out one after another, dismissing an item collapses its row on the exit ease, and the bell is a button with aria-expanded whose tray answers to Up, Down and Escape.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "notifications",
+        "bell",
+        "tray",
+        "badge",
+        "inbox",
+        "overlay"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "BellTrayItem[]",
+          "description": "Notifications of { id, title, time, unread }, newest first."
+        },
+        {
+          "name": "onRead",
+          "type": "(ids: string[]) => void",
+          "description": "Fires with the ids that just became read — one id, or all of them."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "Fires when an item is dismissed; remove it from items to collapse the row."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial tray state."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires when the bell, Escape, or a click outside changes the tray."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Applied to the bell's positioned wrapper."
+        }
+      ],
+      "usageNotes": [
+        "The bell is a button with aria-expanded and aria-controls and the tray a labelled region: Tab moves into the tray, Up and Down walk the items, Enter dismisses one, and Escape closes and returns focus to the bell.",
+        "Under reduced motion nothing swings, drops or cascades — the badge, the dots and the counts still update, because a count is information.",
+        "The bell only rings for ids it has not seen before, so a tray that mounts with items stays still; nothing starts on mount."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/bell-tray",
+      "registryItemUrl": "https://www.kinetiqui.com/r/bell-tray.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/bell-tray",
+        "npm": "npx shadcn@latest add @kinetiq/bell-tray",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/bell-tray",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/bell-tray",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/bell-tray.json"
+      }
+    },
+    {
+      "slug": "typed-confirm",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Typed Confirm",
+      "serial": "KQ-525",
+      "tagline": "Type the word; the button wakes as you match.",
+      "description": "A destructive confirmation that has to be spelled out. Each character that agrees with the phrase lights where it stands on flick, the shortest spring in the set, and the danger button fills from the left in proportion to the match on a plain tween — nothing overshoots, because destruction does not celebrate. A character that disagrees dims the fill instead of clearing it, only an exact match enables the button, and it is an alertdialog with a focus trap where Escape cancels.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "confirm",
+        "destructive",
+        "dialog",
+        "alertdialog",
+        "delete",
+        "overlay"
+      ],
+      "props": [
+        {
+          "name": "phrase",
+          "type": "string",
+          "description": "What must be typed exactly before the button wakes."
+        },
+        {
+          "name": "title / description",
+          "type": "string",
+          "description": "Dialog copy; the description says what is lost and is wired to aria-describedby."
+        },
+        {
+          "name": "confirmLabel",
+          "type": "string",
+          "defaultValue": "\"Delete\"",
+          "description": "Button copy."
+        },
+        {
+          "name": "open / onOpenChange",
+          "type": "boolean / (open: boolean) => void",
+          "description": "Controlled state; the dialog closes through onOpenChange on cancel, Escape, backdrop and confirm."
+        },
+        {
+          "name": "onConfirm",
+          "type": "() => void",
+          "description": "Fires once, on a full match, when the button is pressed."
+        },
+        {
+          "name": "onMatchChange",
+          "type": "(matched: number, total: number) => void",
+          "description": "Fires on every keystroke with the leading characters that match."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Applied to the overlay that fills the nearest positioned ancestor."
+        }
+      ],
+      "usageNotes": [
+        "role=alertdialog with a focus trap: focus lands in the field, Tab cycles the controls, Enter confirms a full match, and Escape cancels and returns focus to whatever opened it.",
+        "Under reduced motion the letters and the fill swap to their new values with no travel, which still shows how far the match has come.",
+        "The dialog is absolutely positioned inside the nearest positioned ancestor, so give the surface it guards relative; the phrase wraps by character so a long name never pushes past a narrow edge."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/typed-confirm",
+      "registryItemUrl": "https://www.kinetiqui.com/r/typed-confirm.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/typed-confirm",
+        "npm": "npx shadcn@latest add @kinetiq/typed-confirm",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/typed-confirm",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/typed-confirm",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/typed-confirm.json"
+      }
+    },
+    {
+      "slug": "fab-fan",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Fab Fan",
+      "serial": "KQ-526",
+      "tagline": "One button fans into five.",
+      "description": "A floating action button that fans into five. Pressing turns the plus 45 degrees into a cross on snap while the actions travel a quarter arc and land on recoil in cascade; the label of whichever action the pointer or the keyboard is on slides in beside it from distances.step, pushed clear of its neighbours. Pressing again folds the cascade backwards on the exit ease. It is a menu button with aria-expanded: Up and Down walk the actions, Left and Right follow the arc, Home and End jump, Enter selects, and Escape folds the fan and returns focus to the trigger.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "fab",
+        "fan",
+        "speed dial",
+        "actions",
+        "menu",
+        "overlay"
+      ],
+      "props": [
+        {
+          "name": "actions",
+          "type": "FabFanAction[]",
+          "description": "Up to five actions; icons come from the built-in stroked set, and anything past the fifth is dropped so the arc stays legible."
+        },
+        {
+          "name": "placement",
+          "type": "\"bottom-right\" | \"bottom-left\"",
+          "defaultValue": "\"bottom-right\"",
+          "description": "Corner the button sits in, and the direction the quarter arc sweeps."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial fan state."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires whenever the fan opens or folds."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Actions\"",
+          "description": "Accessible name for the trigger and the menu it controls."
+        }
+      ],
+      "usageNotes": [
+        "Enter or Space on the trigger opens the fan and focuses the first action; Up and Down walk the list, Left and Right follow the arc's direction, Home and End jump to the ends, Enter or Space selects, and Escape folds the fan and returns focus to the trigger.",
+        "One label shows at a time, on the action the pointer or the keyboard is on, pushed radially outward so it clears the neighbouring actions: five horizontal pills cannot share a quarter arc, whose vertical pitch near the top is under 10px. Every action still carries its label as its accessible name and its tooltip.",
+        "Under reduced motion nothing travels: the actions appear at their stops and fade out again, and the plus swaps to a cross instantly.",
+        "The component fills its nearest positioned ancestor, so give the surface it sits on position: relative; the backdrop is a labelled button so a pointer tap outside also folds it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/fab-fan",
+      "registryItemUrl": "https://www.kinetiqui.com/r/fab-fan.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/fab-fan",
+        "npm": "npx shadcn@latest add @kinetiq/fab-fan",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/fab-fan",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/fab-fan",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/fab-fan.json"
+      }
+    },
+    {
+      "slug": "keymap-sheet",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Keymap Sheet",
+      "serial": "KQ-527",
+      "tagline": "Press ? and the keys drop in.",
+      "description": "A shortcut sheet that opens on ? or its trigger. The panel rises on glide and every keycap pops from 0.7x on flick in a cascade, grouped by section; typing in the filter folds the rows that no longer match away on the exit ease, headings included. It is a modal dialog with a focus trap, the hotkey is ignored while focus sits in a field, and Escape closes the sheet and returns focus to the trigger.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "shortcuts",
+        "keymap",
+        "hotkey",
+        "dialog",
+        "keyboard",
+        "overlay"
+      ],
+      "props": [
+        {
+          "name": "groups",
+          "type": "KeymapGroup[]",
+          "description": "Sections of shortcuts; each shortcut carries a label and one string per keycap."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial sheet state."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires whenever the sheet opens or closes."
+        },
+        {
+          "name": "hotkey",
+          "type": "string",
+          "defaultValue": "\"?\"",
+          "description": "The key that opens the sheet, matched against event.key and shown on the trigger."
+        },
+        {
+          "name": "onFilterChange",
+          "type": "(filter: string) => void",
+          "description": "Fires as the filter field is typed in, and with an empty string when the sheet opens."
+        }
+      ],
+      "usageNotes": [
+        "The hotkey opens the sheet only when focus is not in an input, textarea, select or contenteditable, and its listener is added on mount and removed on unmount. Focus moves to the filter, Tab cycles inside the panel, and Escape closes the sheet and returns focus to the trigger.",
+        "Under reduced motion the sheet fades in place and the keycaps appear without popping; rows still fold, because a filtered list changing length is information.",
+        "The component fills its nearest positioned ancestor, so give the surface it sits on position: relative; the panel scrolls internally and shrinks to the rows that match."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/keymap-sheet",
+      "registryItemUrl": "https://www.kinetiqui.com/r/keymap-sheet.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/keymap-sheet",
+        "npm": "npx shadcn@latest add @kinetiq/keymap-sheet",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/keymap-sheet",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/keymap-sheet",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/keymap-sheet.json"
+      }
+    },
+    {
+      "slug": "dock-player",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Dock Player",
+      "serial": "KQ-528",
+      "tagline": "Scroll past it; it docks in the corner.",
+      "description": "A media card that docks. An IntersectionObserver watches its seat against the scrolling container, and once less than 40 percent of the seat is on screen the card shrinks into the corner along one shared layoutId, travelling on glide because a layout shift should not bounce. Play, progress and close ride along, the docked picture is a button that scrolls the seat back into view, and under reduced motion the two positions cross-fade.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "dock",
+        "player",
+        "sticky",
+        "media",
+        "scroll",
+        "layoutid"
+      ],
+      "props": [
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "description": "The scrolling element whose viewport decides when the card docks; it is the observer's root."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "description": "Card title, and the accessible name of the play, close and return controls."
+        },
+        {
+          "name": "corner",
+          "type": "\"bottom-right\" | \"bottom-left\"",
+          "defaultValue": "\"bottom-right\"",
+          "description": "Corner the card docks into."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "The media surface; it is stretched to fill the card's picture area in both sizes."
+        },
+        {
+          "name": "onStateChange",
+          "type": "(state: DockPlayerState) => void",
+          "description": "Fires when the card moves between inline, docked and closed."
+        }
+      ],
+      "usageNotes": [
+        "Every pointer path has a keyboard one: the docked picture is a button that scrolls the seat back into view, play toggles with Enter or Space, and close hands the seat a Show player button that brings the card back.",
+        "Under reduced motion the inline and docked cards cross-fade instead of travelling, while the timecode and progress bar keep running, because playback state is information rather than flourish.",
+        "Render the component directly in the scrolled column: it returns the seat plus a zero-height sticky rail that must share the column as its containing block. The seat holds the card's exact shape, so the article never reflows when the card leaves."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/dock-player",
+      "registryItemUrl": "https://www.kinetiqui.com/r/dock-player.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/dock-player",
+        "npm": "npx shadcn@latest add @kinetiq/dock-player",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/dock-player",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/dock-player",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/dock-player.json"
+      }
+    },
+    {
+      "slug": "share-tray",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Share Tray",
+      "serial": "KQ-529",
+      "tagline": "Tap share; the targets rise in turn.",
+      "description": "A share sheet whose tray raises on glide while the targets rise from distances.step on recoil in a cascade, so each arrival gets its own two bounces inside the 600ms budget. Copy writes the clipboard and stamps: the link mark cross-fades to a check that draws on flick and the label lands from 1.15x, and where the browser has a native sheet a More target hands off to it. It is a modal dialog with a focus trap, a labelled backdrop, and Escape closing back to the trigger.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "share",
+        "tray",
+        "sheet",
+        "clipboard",
+        "dialog",
+        "overlay"
+      ],
+      "props": [
+        {
+          "name": "url",
+          "type": "string",
+          "description": "What is shared: written to the clipboard by the copy target and handed to the native sheet."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "description": "Share title, shown in the tray and passed to the native sheet."
+        },
+        {
+          "name": "targets",
+          "type": "ShareTarget[]",
+          "description": "Custom destinations, each with an icon from the built-in set; the built-in copy target is always first."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial tray state."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires whenever the tray opens or closes."
+        },
+        {
+          "name": "onAction",
+          "type": "(id: string) => void",
+          "description": "Fires with the id of whichever target was used, the built-in copy and more included."
+        }
+      ],
+      "usageNotes": [
+        "Targets are plain buttons, so Tab walks them and Enter or Space selects; focus is trapped inside the tray and Escape closes it and returns focus to the trigger.",
+        "Under reduced motion the tray fades in place and the targets appear without rising, but the copy stamp still swaps to a check, because a confirmation is information.",
+        "The More target appears only where navigator.share exists, and it is read after hydration through a store snapshot so the server and first client renders agree. A clipboard that refuses is reported as Copy failed rather than silently succeeding."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/share-tray",
+      "registryItemUrl": "https://www.kinetiqui.com/r/share-tray.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/share-tray",
+        "npm": "npx shadcn@latest add @kinetiq/share-tray",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/share-tray",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/share-tray",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/share-tray.json"
+      }
+    },
+    {
+      "slug": "consent-slab",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Consent Slab",
+      "serial": "KQ-530",
+      "tagline": "It rises once; the choices unfold.",
+      "description": "A consent slab that rises from the bottom of its frame on glide. Customise measures its own panel with a ResizeObserver and unfolds to exactly that height, with the necessary category locked on; a decision stamps into the button row and the slab sinks on the exit ease, leaving a Preferences chip to bring it back. It is a labelled region rather than a dialog, and each category is a switch with aria-checked that Enter or Space drives.",
+      "categories": [
+        "overlays"
+      ],
+      "keywords": [
+        "consent",
+        "cookies",
+        "banner",
+        "switches",
+        "region",
+        "overlay"
+      ],
+      "props": [
+        {
+          "name": "categories",
+          "type": "ConsentCategory[]",
+          "description": "Consent categories with a label and a blurb; mark the ones the product cannot run without as locked."
+        },
+        {
+          "name": "onDecision",
+          "type": "(granted: string[]) => void",
+          "description": "Fires with every granted id, locked categories included."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Controlled or initial slab state; the Preferences chip re-raises it."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires when the slab rises or sinks, so a controlled parent can follow the stamp."
+        }
+      ],
+      "usageNotes": [
+        "No focus trap and no backdrop: it is a labelled region, so the page behind it stays usable. Customise carries aria-expanded, each category is a switch driven by Enter or Space, and a locked category reports itself checked and disabled.",
+        "Under reduced motion the slab fades in and out and the panel unfolds instantly; the switches and the stamp still change, because a decision is information.",
+        "Accepting anything optional lands the stamp on recoil, while refusing everything lands it on snap — declining is not an occasion to celebrate. The decision is held in memory here; a product would persist it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/consent-slab",
+      "registryItemUrl": "https://www.kinetiqui.com/r/consent-slab.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/consent-slab",
+        "npm": "npx shadcn@latest add @kinetiq/consent-slab",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/consent-slab",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/consent-slab",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/consent-slab.json"
       }
     },
     {

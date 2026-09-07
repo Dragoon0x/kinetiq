@@ -220,7 +220,7 @@ export function EditBubble({
                   cancel();
                 }
               }}
-              className="relative h-8 w-full rounded-2 bg-transparent px-2 text-sm font-medium outline-none disabled:opacity-60"
+              className="relative h-8 w-full rounded-2 bg-transparent px-2 text-sm font-medium outline-none disabled:opacity-60 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
           </motion.div>
         ) : (

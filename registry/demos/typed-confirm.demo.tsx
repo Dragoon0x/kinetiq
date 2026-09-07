@@ -52,26 +52,26 @@ export function TypedConfirmDemo() {
         </dl>
 
         <div className="border-t border-hairline p-3">
-          {deleted ? (
-            <button
-              type="button"
-              onClick={() => setDeleted(false)}
-              className="flex h-9 w-full items-center justify-center rounded-2 border border-hairline-strong text-sm font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-            >
-              Recreate environment
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setMatch(0);
-                setOpen(true);
-              }}
-              className="flex h-9 w-full items-center justify-center rounded-2 border border-danger/40 text-sm font-medium text-danger transition-colors outline-none hover:bg-destructive/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-            >
-              Delete environment
-            </button>
-          )}
+          {/* One button, two jobs: keeping the node mounted is what lets focus
+              come back to it after the dialog closes. */}
+          <button
+            type="button"
+            onClick={() => {
+              if (deleted) {
+                setDeleted(false);
+                return;
+              }
+              setMatch(0);
+              setOpen(true);
+            }}
+            className={`flex h-9 w-full items-center justify-center rounded-2 border text-sm font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+              deleted
+                ? "border-hairline-strong hover:bg-accent"
+                : "border-danger/40 text-danger hover:bg-destructive/10"
+            }`}
+          >
+            {deleted ? "Recreate environment" : "Delete environment"}
+          </button>
         </div>
 
         <TypedConfirm

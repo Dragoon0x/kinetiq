@@ -38,19 +38,17 @@ export type ShareTrayProps = {
   className?: string;
 };
 
-/** Stroked 16×16 paths — the tray ships its own marks so it needs no icon package. */
-const ICONS: Record<string, string[]> = {
-  link: [
-    "M6.75 9.25a2.5 2.5 0 0 0 3.54 0l2-2a2.5 2.5 0 0 0-3.54-3.54l-.75.75",
-    "M9.25 6.75a2.5 2.5 0 0 0-3.54 0l-2 2a2.5 2.5 0 0 0 3.54 3.54l.75-.75",
-  ],
-  note: ["M4 2.75h8v10.5H4z", "M6.25 6h3.5", "M6.25 8.75h2.5"],
-  chat: ["M3 4.5h10v6H8l-3 2.5V10.5H3z"],
-  mail: ["M2.5 4h11v8h-11z", "M2.5 4.5 8 8.75 13.5 4.5"],
-  board: ["M2.75 3h10.5v10H2.75z", "M6.25 3v10", "M6.25 7.5h7"],
-  send: ["M13.5 2.5 7 9", "M13.5 2.5 9.25 13.5 7 9 2.5 6.75z"],
-  more: ["M4 8h.01", "M8 8h.01", "M12 8h.01"],
-  dot: ["M8 8h.01"],
+/** Stroked 16×16 marks, subpaths and all — the tray carries its own icon set
+ *  rather than pulling in a package. */
+const ICONS: Record<string, string> = {
+  link: "M6.75 9.25a2.5 2.5 0 0 0 3.54 0l2-2a2.5 2.5 0 0 0-3.54-3.54l-.75.75 M9.25 6.75a2.5 2.5 0 0 0-3.54 0l-2 2a2.5 2.5 0 0 0 3.54 3.54l.75-.75",
+  note: "M4 2.75h8v10.5H4z M6.25 6h3.5 M6.25 8.75h2.5",
+  chat: "M3 4.5h10v6H8l-3 2.5V10.5H3z",
+  mail: "M2.5 4h11v8h-11z M2.5 4.5 8 8.75 13.5 4.5",
+  board: "M2.75 3h10.5v10H2.75z M6.25 3v10 M6.25 7.5h7",
+  send: "M13.5 2.5 7 9 M13.5 2.5 9.25 13.5 7 9 2.5 6.75z",
+  more: "M4 8h.01 M8 8h.01 M12 8h.01",
+  dot: "M8 8h.01",
 };
 
 const CHECK = "M3.75 8.5 6.5 11.25 12.25 4.75";
@@ -74,7 +72,6 @@ const useCanHandOff = () =>
   );
 
 function Glyph({ name }: { name: string }) {
-  const paths = ICONS[name] ?? ICONS.dot ?? [];
   return (
     <svg
       viewBox="0 0 16 16"
@@ -86,9 +83,7 @@ function Glyph({ name }: { name: string }) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      {paths.map((d) => (
-        <path key={d} d={d} />
-      ))}
+      <path d={ICONS[name] ?? ICONS.dot} />
     </svg>
   );
 }

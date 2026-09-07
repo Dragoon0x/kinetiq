@@ -21130,4 +21130,643 @@ export const components: KinetiqItem[] = [
       "Pointer capture waits for 4px of travel so a tap on a letter is still a tap; each section header inside the container must carry data-letter for the rail to find it.",
     ],
   },
+  {
+    name: "undo-toast",
+    type: "registry:ui",
+    title: "Undo Toast",
+    description:
+      "A toast with an action and a countdown. It rises on recoil, whose two bounces read as something landing on the stack, while a ring beside the message drains linearly across the duration; hovering or focusing stops the ring where it stands and leaving resumes it from there. Taking the action cross-fades the panel to a restored line and lifts it away on the exit ease, and the action is a real button one Tab from the message.",
+    files: [
+      {
+        path: "registry/ui/undo-toast.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: {
+      serial: "KQ-521",
+    },
+    tagline: "Undo, before the ring runs out.",
+    keywords: [
+      "toast",
+      "undo",
+      "snackbar",
+      "countdown",
+      "notification",
+      "overlay",
+    ],
+    props: [
+      {
+        name: "open",
+        type: "boolean",
+        description:
+          "Shows the toast. Raise it after the edit has already been applied.",
+      },
+      {
+        name: "message",
+        type: "string",
+        description: "What was done — one short line, past tense.",
+      },
+      {
+        name: "actionLabel",
+        type: "string",
+        defaultValue: '"Undo"',
+        description: "Action copy.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "5000",
+        description:
+          "Milliseconds until it dismisses itself; 0 or less keeps it up.",
+      },
+      {
+        name: "onAction",
+        type: "() => void",
+        description: "Fires when the action is taken — restore the thing here.",
+      },
+      {
+        name: "onDismiss",
+        type: "() => void",
+        description:
+          "Fires when the ring runs out, the toast is closed, or a restore finishes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Overrides the default bottom-centre placement inside the nearest relative parent.",
+      },
+    ],
+    usageNotes: [
+      "role=status with two real buttons: Tab reaches the action and the dismiss control, and focusing either pauses the countdown exactly as hovering does.",
+      "Under reduced motion the panel fades in place instead of rising, and the ring still drains — a countdown is information, not flourish.",
+      "It renders absolutely inside the nearest positioned ancestor, so give the surface it belongs to relative; changing the message replaces the panel and restarts the countdown.",
+    ],
+  },
+  {
+    name: "light-box",
+    type: "registry:ui",
+    title: "Light Box",
+    description:
+      "A gallery whose thumbnail grows into the viewer. Tile and viewer share a layoutId, so opening morphs the thumbnail's rect into the picture on glide while the backdrop tweens in, and closing returns it to the tile it grew from. Moving is a different gesture: the old picture leaves on the exit ease and the new arrives from distances.shift, driven by arrows, a swipe, or the Left and Right keys, with focus trapped and Escape closing.",
+    files: [
+      {
+        path: "registry/ui/light-box.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: {
+      serial: "KQ-522",
+    },
+    tagline: "The thumbnail becomes the picture.",
+    keywords: [
+      "lightbox",
+      "gallery",
+      "viewer",
+      "dialog",
+      "carousel",
+      "overlay",
+    ],
+    props: [
+      {
+        name: "images",
+        type: "LightBoxImage[]",
+        description:
+          "Items of { id, alt, caption?, art }; art renders in both the tile and the viewer, so make it fill its container.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial id of the open picture; null is closed.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string | null) => void",
+        description: "Fires on open, on every move, and on close.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Applied to the gallery wrapper.",
+      },
+    ],
+    usageNotes: [
+      "role=dialog with a focus trap: focus lands on the panel so the picture's name is read first, Left and Right move between pictures, Tab cycles the controls, and Escape closes and returns focus to the tile.",
+      "Under reduced motion nothing travels — the viewer cross-fades in, pictures cross-fade between each other, and the swipe is dropped in favour of the arrows.",
+      "The viewer is absolutely positioned inside the nearest positioned ancestor, so give the surface that owns the gallery relative; art is yours to supply, so no assets ship with it.",
+      "Closing returns the picture to the tile the session opened from, which keeps the morph pointed at one tile even after moving through the set.",
+    ],
+  },
+  {
+    name: "edit-bubble",
+    type: "registry:ui",
+    title: "Edit Bubble",
+    description:
+      "Inline editing without a modal. A pencil hint appears on hover, and clicking morphs the value into a field: reading state and bubble share a layoutId, so the box grows on snap with one crisp overshoot while the text keeps its place. Enter saves and the new value lands on recoil like a stamp, Escape restores, blurring saves, and a blocked save nudges the bubble four pixels and prints the reason where the label sits.",
+    files: [
+      {
+        path: "registry/ui/edit-bubble.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: {
+      serial: "KQ-523",
+    },
+    tagline: "Click the value; it becomes the field.",
+    keywords: [
+      "inline-edit",
+      "editable",
+      "field",
+      "validation",
+      "form",
+      "overlay",
+    ],
+    props: [
+      {
+        name: "value",
+        type: "string",
+        description:
+          "Current value. The reading state mirrors it; each edit starts from it.",
+      },
+      {
+        name: "onSave",
+        type: "(value: string) => void | Promise<void>",
+        description:
+          "Called on commit. Return a promise to hold the bubble open while it saves; a rejection keeps the edit and shows a reason.",
+      },
+      {
+        name: "validate",
+        type: "(value: string) => string | null",
+        description: "Return a reason to block the save; null lets it through.",
+      },
+      {
+        name: "type",
+        type: '"text" | "number"',
+        defaultValue: '"text"',
+        description: "Input type; number also sets a decimal inputMode.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Accessible name of the field, also shown above it.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Applied to the field wrapper.",
+      },
+    ],
+    usageNotes: [
+      "Enter saves, Escape restores the previous value, and blurring the field saves as well, so tabbing onward never loses an edit; focus returns to the reading button on every close.",
+      "Under reduced motion the bubble swaps in with no morph, the saved tick appears without its flick, and a blocked save states its reason without the nudge.",
+      "Reading state and bubble are the same height and the label line doubles as the hint and error line, so nothing below the field ever jumps.",
+    ],
+  },
+  {
+    name: "bell-tray",
+    type: "registry:ui",
+    title: "Bell Tray",
+    description:
+      "A notification bell and its tray. An arriving item swings the bell on recoil, rotated about its crown so it pivots where a bell hangs, and bumps the badge with the same spring; opening drops the tray on glide with its items cascading in under the 600ms budget. Marking all read sweeps the unread dots out one after another, dismissing an item collapses its row on the exit ease, and the bell is a button with aria-expanded whose tray answers to Up, Down and Escape.",
+    files: [
+      {
+        path: "registry/ui/bell-tray.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: {
+      serial: "KQ-524",
+    },
+    tagline: "The bell rings; the tray drops.",
+    keywords: ["notifications", "bell", "tray", "badge", "inbox", "overlay"],
+    props: [
+      {
+        name: "items",
+        type: "BellTrayItem[]",
+        description:
+          "Notifications of { id, title, time, unread }, newest first.",
+      },
+      {
+        name: "onRead",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires with the ids that just became read — one id, or all of them.",
+      },
+      {
+        name: "onDismiss",
+        type: "(id: string) => void",
+        description:
+          "Fires when an item is dismissed; remove it from items to collapse the row.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial tray state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires when the bell, Escape, or a click outside changes the tray.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Applied to the bell's positioned wrapper.",
+      },
+    ],
+    usageNotes: [
+      "The bell is a button with aria-expanded and aria-controls and the tray a labelled region: Tab moves into the tray, Up and Down walk the items, Enter dismisses one, and Escape closes and returns focus to the bell.",
+      "Under reduced motion nothing swings, drops or cascades — the badge, the dots and the counts still update, because a count is information.",
+      "The bell only rings for ids it has not seen before, so a tray that mounts with items stays still; nothing starts on mount.",
+    ],
+  },
+  {
+    name: "typed-confirm",
+    type: "registry:ui",
+    title: "Typed Confirm",
+    description:
+      "A destructive confirmation that has to be spelled out. Each character that agrees with the phrase lights where it stands on flick, the shortest spring in the set, and the danger button fills from the left in proportion to the match on a plain tween — nothing overshoots, because destruction does not celebrate. A character that disagrees dims the fill instead of clearing it, only an exact match enables the button, and it is an alertdialog with a focus trap where Escape cancels.",
+    files: [
+      {
+        path: "registry/ui/typed-confirm.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: {
+      serial: "KQ-525",
+    },
+    tagline: "Type the word; the button wakes as you match.",
+    keywords: [
+      "confirm",
+      "destructive",
+      "dialog",
+      "alertdialog",
+      "delete",
+      "overlay",
+    ],
+    props: [
+      {
+        name: "phrase",
+        type: "string",
+        description: "What must be typed exactly before the button wakes.",
+      },
+      {
+        name: "title / description",
+        type: "string",
+        description:
+          "Dialog copy; the description says what is lost and is wired to aria-describedby.",
+      },
+      {
+        name: "confirmLabel",
+        type: "string",
+        defaultValue: '"Delete"',
+        description: "Button copy.",
+      },
+      {
+        name: "open / onOpenChange",
+        type: "boolean / (open: boolean) => void",
+        description:
+          "Controlled state; the dialog closes through onOpenChange on cancel, Escape, backdrop and confirm.",
+      },
+      {
+        name: "onConfirm",
+        type: "() => void",
+        description: "Fires once, on a full match, when the button is pressed.",
+      },
+      {
+        name: "onMatchChange",
+        type: "(matched: number, total: number) => void",
+        description:
+          "Fires on every keystroke with the leading characters that match.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Applied to the overlay that fills the nearest positioned ancestor.",
+      },
+    ],
+    usageNotes: [
+      "role=alertdialog with a focus trap: focus lands in the field, Tab cycles the controls, Enter confirms a full match, and Escape cancels and returns focus to whatever opened it.",
+      "Under reduced motion the letters and the fill swap to their new values with no travel, which still shows how far the match has come.",
+      "The dialog is absolutely positioned inside the nearest positioned ancestor, so give the surface it guards relative; the phrase wraps by character so a long name never pushes past a narrow edge.",
+    ],
+  },
+  {
+    name: "fab-fan",
+    type: "registry:ui",
+    title: "Fab Fan",
+    description:
+      "A floating action button that fans into five. Pressing turns the plus 45 degrees into a cross on snap while the actions travel a quarter arc and land on recoil in cascade; the label of whichever action the pointer or the keyboard is on slides in beside it from distances.step, pushed clear of its neighbours. Pressing again folds the cascade backwards on the exit ease. It is a menu button with aria-expanded: Up and Down walk the actions, Left and Right follow the arc, Home and End jump, Enter selects, and Escape folds the fan and returns focus to the trigger.",
+    files: [
+      {
+        path: "registry/ui/fab-fan.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: {
+      serial: "KQ-526",
+    },
+    tagline: "One button fans into five.",
+    keywords: ["fab", "fan", "speed dial", "actions", "menu", "overlay"],
+    props: [
+      {
+        name: "actions",
+        type: "FabFanAction[]",
+        description:
+          "Up to five actions; icons come from the built-in stroked set, and anything past the fifth is dropped so the arc stays legible.",
+      },
+      {
+        name: "placement",
+        type: '"bottom-right" | "bottom-left"',
+        defaultValue: '"bottom-right"',
+        description:
+          "Corner the button sits in, and the direction the quarter arc sweeps.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial fan state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires whenever the fan opens or folds.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Actions"',
+        description:
+          "Accessible name for the trigger and the menu it controls.",
+      },
+    ],
+    usageNotes: [
+      "Enter or Space on the trigger opens the fan and focuses the first action; Up and Down walk the list, Left and Right follow the arc's direction, Home and End jump to the ends, Enter or Space selects, and Escape folds the fan and returns focus to the trigger.",
+      "One label shows at a time, on the action the pointer or the keyboard is on, pushed radially outward so it clears the neighbouring actions: five horizontal pills cannot share a quarter arc, whose vertical pitch near the top is under 10px. Every action still carries its label as its accessible name and its tooltip.",
+      "Under reduced motion nothing travels: the actions appear at their stops and fade out again, and the plus swaps to a cross instantly.",
+      "The component fills its nearest positioned ancestor, so give the surface it sits on position: relative; the backdrop is a labelled button so a pointer tap outside also folds it.",
+    ],
+  },
+  {
+    name: "keymap-sheet",
+    type: "registry:ui",
+    title: "Keymap Sheet",
+    description:
+      "A shortcut sheet that opens on ? or its trigger. The panel rises on glide and every keycap pops from 0.7x on flick in a cascade, grouped by section; typing in the filter folds the rows that no longer match away on the exit ease, headings included. It is a modal dialog with a focus trap, the hotkey is ignored while focus sits in a field, and Escape closes the sheet and returns focus to the trigger.",
+    files: [
+      {
+        path: "registry/ui/keymap-sheet.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: {
+      serial: "KQ-527",
+    },
+    tagline: "Press ? and the keys drop in.",
+    keywords: [
+      "shortcuts",
+      "keymap",
+      "hotkey",
+      "dialog",
+      "keyboard",
+      "overlay",
+    ],
+    props: [
+      {
+        name: "groups",
+        type: "KeymapGroup[]",
+        description:
+          "Sections of shortcuts; each shortcut carries a label and one string per keycap.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial sheet state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires whenever the sheet opens or closes.",
+      },
+      {
+        name: "hotkey",
+        type: "string",
+        defaultValue: '"?"',
+        description:
+          "The key that opens the sheet, matched against event.key and shown on the trigger.",
+      },
+      {
+        name: "onFilterChange",
+        type: "(filter: string) => void",
+        description:
+          "Fires as the filter field is typed in, and with an empty string when the sheet opens.",
+      },
+    ],
+    usageNotes: [
+      "The hotkey opens the sheet only when focus is not in an input, textarea, select or contenteditable, and its listener is added on mount and removed on unmount. Focus moves to the filter, Tab cycles inside the panel, and Escape closes the sheet and returns focus to the trigger.",
+      "Under reduced motion the sheet fades in place and the keycaps appear without popping; rows still fold, because a filtered list changing length is information.",
+      "The component fills its nearest positioned ancestor, so give the surface it sits on position: relative; the panel scrolls internally and shrinks to the rows that match.",
+    ],
+  },
+  {
+    name: "dock-player",
+    type: "registry:ui",
+    title: "Dock Player",
+    description:
+      "A media card that docks. An IntersectionObserver watches its seat against the scrolling container, and once less than 40 percent of the seat is on screen the card shrinks into the corner along one shared layoutId, travelling on glide because a layout shift should not bounce. Play, progress and close ride along, the docked picture is a button that scrolls the seat back into view, and under reduced motion the two positions cross-fade.",
+    files: [
+      {
+        path: "registry/ui/dock-player.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: {
+      serial: "KQ-528",
+    },
+    tagline: "Scroll past it; it docks in the corner.",
+    keywords: ["dock", "player", "sticky", "media", "scroll", "layoutid"],
+    props: [
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description:
+          "The scrolling element whose viewport decides when the card docks; it is the observer's root.",
+      },
+      {
+        name: "title",
+        type: "string",
+        description:
+          "Card title, and the accessible name of the play, close and return controls.",
+      },
+      {
+        name: "corner",
+        type: '"bottom-right" | "bottom-left"',
+        defaultValue: '"bottom-right"',
+        description: "Corner the card docks into.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The media surface; it is stretched to fill the card's picture area in both sizes.",
+      },
+      {
+        name: "onStateChange",
+        type: "(state: DockPlayerState) => void",
+        description:
+          "Fires when the card moves between inline, docked and closed.",
+      },
+    ],
+    usageNotes: [
+      "Every pointer path has a keyboard one: the docked picture is a button that scrolls the seat back into view, play toggles with Enter or Space, and close hands the seat a Show player button that brings the card back.",
+      "Under reduced motion the inline and docked cards cross-fade instead of travelling, while the timecode and progress bar keep running, because playback state is information rather than flourish.",
+      "Render the component directly in the scrolled column: it returns the seat plus a zero-height sticky rail that must share the column as its containing block. The seat holds the card's exact shape, so the article never reflows when the card leaves.",
+    ],
+  },
+  {
+    name: "share-tray",
+    type: "registry:ui",
+    title: "Share Tray",
+    description:
+      "A share sheet whose tray raises on glide while the targets rise from distances.step on recoil in a cascade, so each arrival gets its own two bounces inside the 600ms budget. Copy writes the clipboard and stamps: the link mark cross-fades to a check that draws on flick and the label lands from 1.15x, and where the browser has a native sheet a More target hands off to it. It is a modal dialog with a focus trap, a labelled backdrop, and Escape closing back to the trigger.",
+    files: [
+      {
+        path: "registry/ui/share-tray.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: {
+      serial: "KQ-529",
+    },
+    tagline: "Tap share; the targets rise in turn.",
+    keywords: ["share", "tray", "sheet", "clipboard", "dialog", "overlay"],
+    props: [
+      {
+        name: "url",
+        type: "string",
+        description:
+          "What is shared: written to the clipboard by the copy target and handed to the native sheet.",
+      },
+      {
+        name: "title",
+        type: "string",
+        description:
+          "Share title, shown in the tray and passed to the native sheet.",
+      },
+      {
+        name: "targets",
+        type: "ShareTarget[]",
+        description:
+          "Custom destinations, each with an icon from the built-in set; the built-in copy target is always first.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial tray state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires whenever the tray opens or closes.",
+      },
+      {
+        name: "onAction",
+        type: "(id: string) => void",
+        description:
+          "Fires with the id of whichever target was used, the built-in copy and more included.",
+      },
+    ],
+    usageNotes: [
+      "Targets are plain buttons, so Tab walks them and Enter or Space selects; focus is trapped inside the tray and Escape closes it and returns focus to the trigger.",
+      "Under reduced motion the tray fades in place and the targets appear without rising, but the copy stamp still swaps to a check, because a confirmation is information.",
+      "The More target appears only where navigator.share exists, and it is read after hydration through a store snapshot so the server and first client renders agree. A clipboard that refuses is reported as Copy failed rather than silently succeeding.",
+    ],
+  },
+  {
+    name: "consent-slab",
+    type: "registry:ui",
+    title: "Consent Slab",
+    description:
+      "A consent slab that rises from the bottom of its frame on glide. Customise measures its own panel with a ResizeObserver and unfolds to exactly that height, with the necessary category locked on; a decision stamps into the button row and the slab sinks on the exit ease, leaving a Preferences chip to bring it back. It is a labelled region rather than a dialog, and each category is a switch with aria-checked that Enter or Space drives.",
+    files: [
+      {
+        path: "registry/ui/consent-slab.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["overlays"],
+    meta: {
+      serial: "KQ-530",
+    },
+    tagline: "It rises once; the choices unfold.",
+    keywords: ["consent", "cookies", "banner", "switches", "region", "overlay"],
+    props: [
+      {
+        name: "categories",
+        type: "ConsentCategory[]",
+        description:
+          "Consent categories with a label and a blurb; mark the ones the product cannot run without as locked.",
+      },
+      {
+        name: "onDecision",
+        type: "(granted: string[]) => void",
+        description: "Fires with every granted id, locked categories included.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Controlled or initial slab state; the Preferences chip re-raises it.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires when the slab rises or sinks, so a controlled parent can follow the stamp.",
+      },
+    ],
+    usageNotes: [
+      "No focus trap and no backdrop: it is a labelled region, so the page behind it stays usable. Customise carries aria-expanded, each category is a switch driven by Enter or Space, and a locked category reports itself checked and disabled.",
+      "Under reduced motion the slab fades in and out and the panel unfolds instantly; the switches and the stamp still change, because a decision is information.",
+      "Accepting anything optional lands the stamp on recoil, while refusing everything lands it on snap — declining is not an occasion to celebrate. The decision is held in memory here; a product would persist it.",
+    ],
+  },
 ];

@@ -36,42 +36,33 @@ export type FabFanProps = {
   className?: string;
 };
 
-/** Stroked 16×16 paths — the fan ships its own marks so it needs no icon package. */
-const ICONS: Record<string, string[]> = {
-  transfer: [
-    "M3.5 6h9",
-    "M10 3.5 12.5 6 10 8.5",
-    "M12.5 10h-9",
-    "M6 7.5 3.5 10 6 12.5",
-  ],
-  request: ["M8 3v6.5", "M5.25 6.75 8 9.5l2.75-2.75", "M3.5 12.5h9"],
-  split: [
-    "M2.5 8h3l2.5-4h5",
-    "M11 2.5 13.5 4 11 5.5",
-    "M5.5 8 8 12h5",
-    "M11 10.5 13.5 12 11 13.5",
-  ],
-  note: ["M4 2.75h8v10.5H4z", "M6.25 6h3.5", "M6.25 8.75h2.5"],
-  scan: [
-    "M3 6V4.5A1.5 1.5 0 0 1 4.5 3H6",
-    "M10 3h1.5A1.5 1.5 0 0 1 13 4.5V6",
-    "M13 10v1.5a1.5 1.5 0 0 1-1.5 1.5H10",
-    "M6 13H4.5A1.5 1.5 0 0 1 3 11.5V10",
-    "M3 8h10",
-  ],
-  dot: ["M8 8h.01"],
+/** Stroked 16×16 marks, subpaths and all — the fan carries its own icon set
+ *  rather than pulling in a package. */
+const ICONS: Record<string, string> = {
+  transfer: "M3.5 6h9 M10 3.5 12.5 6 10 8.5 M12.5 10h-9 M6 7.5 3.5 10 6 12.5",
+  request: "M8 3v6.5 M5.25 6.75 8 9.5l2.75-2.75 M3.5 12.5h9",
+  split:
+    "M2.5 8h3l2.5-4h5 M11 2.5 13.5 4 11 5.5 M5.5 8 8 12h5 M11 10.5 13.5 12 11 13.5",
+  note: "M4 2.75h8v10.5H4z M6.25 6h3.5 M6.25 8.75h2.5",
+  scan: "M3 6V4.5A1.5 1.5 0 0 1 4.5 3H6 M10 3h1.5A1.5 1.5 0 0 1 13 4.5V6 M13 10v1.5a1.5 1.5 0 0 1-1.5 1.5H10 M6 13H4.5A1.5 1.5 0 0 1 3 11.5V10 M3 8h10",
+  dot: "M8 8h.01",
 };
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 const MAX_ACTIONS = 5;
-/** Arc radius and item size in px. Both stay well inside a 342px column. */
-const RADIUS = 72;
-const ITEM = 40;
+/**
+ * Arc radius and item size in px. Five 36px items across a quarter arc sit
+ * 44px apart at this radius — the smallest sweep that keeps them from touching
+ * — and the widest reach still reads inside a 342px column.
+ */
+const RADIUS = 112;
+const ITEM = 36;
+/** Distance from an item's centre to the near edge of its label. */
+const LABEL_ANCHOR = ITEM / 2 + 8;
 
 function Glyph({ name }: { name: string }) {
-  const paths = ICONS[name] ?? ICONS.dot ?? [];
   return (
     <svg
       viewBox="0 0 16 16"
@@ -83,29 +74,31 @@ function Glyph({ name }: { name: string }) {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      {paths.map((d) => (
-        <path key={d} d={d} />
-      ))}
+      <path d={ICONS[name] ?? ICONS.dot} />
     </svg>
   );
 }
 
-/** Position of item `index` on the quarter arc, measured from the button's centre. */
+/**
+ * Where item `index` sits on the quarter arc, measured from the trigger's
+ * centre, plus the outward unit vector at that point — the direction its label
+ * is pushed so it clears the neighbouring actions.
+ */
 function offsetFor(index: number, count: number, inward: number) {
   const t = count > 1 ? index / (count - 1) : 0.5;
   const angle = (t * Math.PI) / 2;
-  return {
-    dx: inward * RADIUS * Math.sin(angle),
-    dy: -RADIUS * Math.cos(angle),
-  };
+  const ux = inward * Math.sin(angle);
+  const uy = -Math.cos(angle);
+  return { dx: RADIUS * ux, dy: RADIUS * uy, ux, uy };
 }
 
 /**
  * One button fans into five. The plus turns 45° into a cross on `snap` — a
  * switch, so one crisp overshoot — while the actions travel a quarter arc and
  * land on `recoil`, whose ζ0.53 gives each the two small bounces of something
- * arriving. Labels follow a beat later from `distances.step`. Folding runs the
- * cascade backwards on the exit ease, because exits accelerate away.
+ * arriving. The label of whichever action the pointer or the keyboard is on
+ * slides in beside it from `distances.step`. Folding runs the cascade
+ * backwards on the exit ease, because exits accelerate away.
  *
  * The trigger is a `menu` button with `aria-expanded`; while open focus is
  * trapped over the trigger and the focused action, Up/Down (and Left/Right,
@@ -136,6 +129,7 @@ export function FabFan({
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen);
   const open = controlledOpen ?? uncontrolledOpen;
   const [active, setActive] = React.useState(0);
+  const [hovered, setHovered] = React.useState<string | null>(null);
 
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const fabRef = React.useRef<HTMLButtonElement | null>(null);
@@ -163,6 +157,7 @@ export function FabFan({
   };
 
   const closeFan = (returnFocus: boolean) => {
+    setHovered(null);
     setOpen(false);
     if (returnFocus) requestAnimationFrame(() => fabRef.current?.focus());
   };
@@ -272,7 +267,11 @@ export function FabFan({
               className="pointer-events-none absolute inset-0"
             >
               {items.map((action, index) => {
-                const { dx, dy } = offsetFor(index, items.length, inward);
+                const { dx, dy, ux, uy } = offsetFor(
+                  index,
+                  items.length,
+                  inward,
+                );
                 const rest = { x: dx - ITEM / 2, y: dy - ITEM / 2, scale: 1 };
                 const folded = { x: -ITEM / 2, y: -ITEM / 2, scale: 0.6 };
                 const delay = index * stagger;
@@ -289,15 +288,9 @@ export function FabFan({
                     }
                   : { duration: durations.fast };
                 const slide = motionSafe
-                  ? {
-                      ...springs.snap,
-                      delay: delay + 0.04,
-                      opacity: {
-                        duration: durations.fast,
-                        delay: delay + 0.04,
-                      },
-                    }
+                  ? { ...springs.snap, opacity: { duration: durations.fast } }
                   : { duration: durations.fast };
+                const showLabel = hovered === action.id || active === index;
                 return (
                   <motion.div
                     key={action.id}
@@ -315,35 +308,42 @@ export function FabFan({
                     }
                     transition={land}
                   >
-                    <motion.div
-                      aria-hidden
-                      className={cn(
-                        "absolute inset-y-0 flex items-center",
-                        placement === "bottom-right"
-                          ? "right-full mr-2"
-                          : "left-full ml-2",
-                      )}
-                      initial={{
-                        x: motionSafe ? inward * -distances.step : 0,
-                        opacity: 0,
-                      }}
-                      animate={{ x: 0, opacity: 1 }}
-                      exit={{
-                        opacity: 0,
-                        transition: {
-                          ...exitFor(durations.fast),
-                          delay: foldDelay,
-                        },
-                      }}
-                      transition={slide}
-                    >
-                      <span
-                        title={action.label}
-                        className="max-w-32 truncate rounded-full border border-hairline-strong bg-popover px-2.5 py-1 text-xs font-medium text-popover-foreground shadow-sm"
+                    {/* One label at a time, pushed radially outward. Five
+                        horizontal pills cannot share a quarter arc without
+                        colliding — its vertical pitch near the top is under
+                        10px — so the label rides whichever action the pointer
+                        or the keyboard is on, clear of its neighbours. */}
+                    {showLabel ? (
+                      <div
+                        aria-hidden
+                        className="pointer-events-none absolute"
+                        style={{
+                          left: ITEM / 2 + ux * LABEL_ANCHOR,
+                          top: ITEM / 2 + uy * LABEL_ANCHOR,
+                        }}
                       >
-                        {action.label}
-                      </span>
-                    </motion.div>
+                        <motion.div
+                          initial={{
+                            x: motionSafe ? -ux * distances.step : 0,
+                            y: motionSafe ? -uy * distances.step : 0,
+                            opacity: 0,
+                          }}
+                          animate={{ x: 0, y: 0, opacity: 1 }}
+                          transition={slide}
+                        >
+                          {/* The pill's own transform hangs it off the anchor
+                              by its outward edge; motion owns the wrapper's. */}
+                          <span
+                            style={{
+                              transform: `translate(calc(-50% + ${ux * 50}%), calc(-50% + ${uy * 50}%))`,
+                            }}
+                            className="block max-w-32 truncate rounded-full border border-hairline-strong bg-popover px-2.5 py-1 text-xs font-medium whitespace-nowrap text-popover-foreground shadow-sm"
+                          >
+                            {action.label}
+                          </span>
+                        </motion.div>
+                      </div>
+                    ) : null}
 
                     <motion.button
                       ref={(node) => {
@@ -353,7 +353,14 @@ export function FabFan({
                       role="menuitem"
                       aria-label={action.label}
                       tabIndex={index === active ? 0 : -1}
+                      title={action.label}
                       onFocus={() => setActive(index)}
+                      onPointerEnter={() => setHovered(action.id)}
+                      onPointerLeave={() =>
+                        setHovered((current) =>
+                          current === action.id ? null : current,
+                        )
+                      }
                       onClick={() => choose(action)}
                       onKeyDown={(event) =>
                         handleItemKeyDown(event, index, action)
@@ -361,7 +368,7 @@ export function FabFan({
                       whileTap={motionSafe ? { scale: 0.92 } : undefined}
                       transition={springs.flick}
                       className={cn(
-                        "pointer-events-auto flex size-10 items-center justify-center rounded-full border border-hairline-strong bg-card text-foreground shadow-sm outline-none hover:bg-accent hover:text-accent-foreground",
+                        "pointer-events-auto flex size-9 items-center justify-center rounded-full border border-hairline-strong bg-card text-foreground shadow-sm outline-none hover:bg-accent hover:text-accent-foreground",
                         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
                       )}
                     >

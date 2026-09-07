@@ -8150,6 +8150,781 @@ Notes:
 - Overlay: draws only the echo; the click reaches the DOM.
 - Reduced motion draws a brief flash with no ring.
 
+### Mask Field (KQ-491) — `mask-field`
+The format arrives as you type.
+
+A text field that wears its format. Ghost glyphs hold the shape of what is expected, and as characters land the mask's separators arrive on flick — scaling up from 0.6 as the ink comes in — while deleting pulls them back out the same way. One real input carries the value beneath a transparent text layer so a monospace cell grid can draw the glyphs, which keeps the native keyboard intact: typing, backspace across a separator, selection and paste all behave as the browser intends, and a pasted number fills every slot in a single cascade inside the 600ms budget.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mask-field`
+
+Props:
+- `mask`: string — The shape, with # for a digit and A for a letter, e.g. "(###) ###-####" or "#### #### #### ####".
+- `value / defaultValue`: string — Raw characters, without separators — controlled or initial.
+- `onValueChange`: (raw: string, formatted: string) => void — Both readings on every change.
+- `label`: string — Visible label above the box.
+- `placeholderChar`: string (default "_") — The ghost glyph standing in for an empty slot.
+
+Notes:
+- The keyboard is the browser's own: typing, paste, undo and selection are native, and backspace deletes the character a separator stands in front of rather than stalling on the separator.
+- Under reduced motion the ink still changes and the separators still arrive — only the scale and the 4px drop are dropped.
+- The drawn glyph layer is aria-hidden; the single real input carries the accessible value, so form posts, autofill and screen readers see the formatted string.
+
+### Typeahead Field (KQ-492) — `typeahead-field`
+The rest of the word arrives in grey.
+
+A field that finishes the word for you. The best match's remainder sits in grey just past the caret, and accepting it wipes the grey copy left to right over durations.base to reveal the committed ink underneath, so the completion is seen becoming real rather than swapped for real. Beneath, matches cascade() in with the typed span emphasised and a single marker rides between them on snap, carried by one layoutId; the input never loses focus, so ArrowUp and ArrowDown move the marker, Tab or ArrowRight takes the completion, Enter picks the marked row and Escape closes the list.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/typeahead-field`
+
+Props:
+- `suggestions`: string[] — The vocabulary to complete from; prefix matches are ranked above matches found inside the word.
+- `value / defaultValue`: string — The typed text — controlled or initial.
+- `onValueChange`: (value: string) => void — Fires on typing and on accept.
+- `onAccept`: (value: string) => void — Fires when a suggestion is accepted, by completion or by pick.
+- `maxItems`: number (default 6) — Suggestions shown under the field.
+- `label`: string — Visible label above the box.
+
+Notes:
+- Tab or ArrowRight (with the caret at the end) accepts the completion, ArrowDown opens the list and steps the marker, ArrowUp steps back, Enter picks the marked row, Escape closes. Tab only holds the field while a completion is offered — once accepted, the next Tab leaves.
+- Under reduced motion the list appears without the cascade, the marker jumps between rows, and the completion commits without the sweep; the matches and the emphasis are unchanged.
+- Combobox semantics throughout: focus and the caret stay in the input while aria-activedescendant points at the marked option, and the panel is measured with a ResizeObserver so it animates when the match count changes rather than reserving room.
+
+### Strength Field (KQ-493) — `strength-field`
+Rules that check themselves off.
+
+A password field that shows its work. Four segments fill on snap as rules are met, staggered by cascade() so a pasted passphrase fills the bar left to right rather than flashing whole, and the bar steps danger → warn → success on a colour tween because a grade is not a landing. Each rule keeps a chip that fills as it is satisfied, with a tick drawing inside it on flick and un-drawing on a tween when the rule breaks; the reveal toggle is a real pressed button that strikes its eye on snap, and the rules travel as data so a product can bring its own.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/strength-field`
+
+Props:
+- `value / defaultValue`: string — The password — controlled or initial.
+- `onValueChange`: (value: string) => void — Fires on typing.
+- `onStrengthChange`: (strength: number, met: number) => void — Fires with the 0–4 strength and how many rules are met, so a form can gate on it.
+- `rules`: { id: string; label: string; test: (value: string) => boolean }[] — The requirements, as data. Defaults to 8+ characters, a number, a symbol, and upper and lower case.
+- `label`: string — Visible label above the box.
+- `showReveal`: boolean (default true) — Renders the reveal toggle inside the box.
+
+Notes:
+- Typing is the whole interaction; the reveal toggle is a real button carrying aria-pressed, reachable by Tab and fired by Space or Enter. The bar is a meter with aria-valuenow, aria-valuemax and a spoken aria-valuetext, and a polite status line reports the tier and the count of rules met.
+- Under reduced motion every fill still fills and every tick still draws — a met rule is information, not decoration — they simply arrive without the spring.
+- Rules are data: pass your own array to match a product's policy, and the four segments re-scale to whatever number of rules you give.
+
+### Catch Zone (KQ-494) — `catch-zone`
+The frame braces for the drop.
+
+A file drop zone that braces. Dragging files over it pulls the dashed frame tight — dash and gap interpolate from one value, so the frame stitches rather than blinks — and contracts the panel 1.5% on flick; leaving relaxes both. Accepted files land as rows on glide arriving from distances.step, each size stamping itself down on recoil while a progress fill runs on a linear tween, and a refused file gets no celebration at all: the frame nudges 4px on a tween and an alert says why. A real file input sits behind the button, so the keyboard path is the platform's own picker rather than a re-implementation.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/catch-zone`
+
+Props:
+- `accept`: string — Accepted MIME types or extensions, comma separated — ".pdf,.csv,image/*".
+- `multiple`: boolean (default true) — Allow more than one file; with it off, a new drop replaces the held file.
+- `maxSize`: number — Bytes; larger files are rejected with a reason.
+- `onFiles`: (files: File[]) => void — Fires with the full accepted list after every add or remove.
+- `label`: string — Zone caption, shown above the picker button.
+- `progress`: Record<string, number> — Upload progress 0–1 per file, keyed by the exported fileKey(file).
+
+Notes:
+- Tab reaches the picker button and Space or Enter opens the system file dialog — the hidden input type=file is the real control, so nothing about the platform picker is re-implemented. Each row's remove button is reachable the same way and names the file it removes.
+- Under reduced motion the frame changes colour and border weight without contracting or nudging, and rows appear in place; the progress fill still runs, because progress is feedback rather than flourish.
+- Rejections carry the reason in a role=alert line and never animate approvingly; the drag counter tolerates enter and leave events from child elements, so the frame does not flicker as the pointer crosses the caption.
+
+### Signature Pad (KQ-495) — `signature-pad`
+Ink that remembers the pen's speed.
+
+An SVG pad whose ink remembers the pen. Each sample's nib width comes from the speed since the last one, smoothed so the line eases rather than flickers — a fast flourish thins, a slow stop pools — and every stroke is a filled ribbon revealed through a mask that runs along the pen's own path. That is what lets Clear rewind instead of blink: each stroke un-writes on glide, last one first, cascade() apart, while Undo lifts a single stroke away on a fade. Pointer capture is claimed only after 4px of travel so a tap stays a tap, and the keyboard path is a real typed-signature input announced as an equal way to sign.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/signature-pad`
+
+Props:
+- `onChange`: (strokes: { points: [number, number][]; widths: number[] }[]) => void — Every stroke, after each change — the points and the nib width recorded at each of them.
+- `onTypedChange`: (typed: string) => void — Fires with the typed-signature fallback's text, so a form can accept either way of signing.
+- `penColor`: string (default "currentColor") — CSS colour for the ink; inherits the pad's text colour by default, so it reads in both themes.
+- `height`: number (default 160) — Pad height in px; the width fills the container.
+- `label`: string — Caption above the pad; it names the whole group, controls included.
+- `allowTyped`: boolean (default true) — Offers the typed-signature fallback below the pad.
+
+Notes:
+- Drawing is pointer-only by nature, so the keyboard path is a typed signature: a real text input, labelled and described as an equal way to sign rather than a consolation. Undo and Clear are ordinary buttons, reachable by Tab and fired by Space or Enter, and disabled when there is nothing to take back.
+- Under reduced motion Clear and Undo are instant — no rewind, no lift — while the ink itself, its taper included, is unchanged.
+- The pad claims pointer capture only after 4px of travel, so a plain tap is never swallowed, and a stroke that leaves the pad mid-flourish still finishes.
+
+### Pin Pad (KQ-496) — `pin-pad`
+Digits that light; dots that fill.
+
+A keypad for codes whose keys pop on flick under the finger or under the matching digit typed on a keyboard, filling a dot on snap. A refused code jumps the row and lets recoil ring it out, then empties the dots one at a time on a cascade; an accepted code seals the row into one bar and stamps the check on recoil. Digits type straight in, Backspace and Delete remove, Escape clears, and arrow keys rove the pad.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pin-pad`
+
+Props:
+- `length`: 4 | 5 | 6 (default 4) — Code length, and the number of dots in the row.
+- `onComplete`: (code: string) => Promise<boolean> | boolean — Called when every dot is filled; false — or a promise resolving to false — runs the wrong-code sequence.
+- `label`: string (default "Passcode") — Announced group label.
+- `mask`: boolean (default true) — Show dots rather than the digits themselves.
+
+Notes:
+- Typing a digit anywhere in the pad enters it and lights that key; Backspace and Delete remove the last digit, Escape clears the row, arrow keys rove the twelve keys and Home and End jump to its ends.
+- Under reduced motion the refused row flashes its border instead of shaking and the keys stop popping, but dots still fill and still empty one by one — entry progress is information, not flourish.
+- onComplete may return a promise, so verification can run on a server; keys go inert (aria-disabled, never disabled, so focus stays put) until it settles.
+
+### Hue Ring (KQ-497) — `hue-ring`
+Turn the ring; the swatch takes the colour.
+
+A hue wheel whose thumb chases the pointer on snap, always the short way round, over a lightness bar that carries the chosen hue. The swatch takes the new colour on a tween and the hex readout rolls each character into place on glide. Two real sliders: arrows step one degree, Shift+Arrow steps ten, Home and End jump to the ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hue-ring`
+
+Props:
+- `value / defaultValue`: { h: number; l: number } (default { h: 210, l: 55 }) — Hue in degrees and lightness 0–100, controlled or initial.
+- `onValueChange`: (value: { h: number; l: number }, hex: string) => void — Both readings on every change: the angle pair and the hex it resolves to.
+- `size`: number (default 180) — Ring diameter in px; the band and swatch scale with it.
+- `label`: string (default "Accent colour") — Group label; each slider is named from it.
+
+Notes:
+- The ring and the lightness bar are separate sliders: Arrow steps 1, Shift+Arrow steps 10, Home and End jump to the ends. Hue wraps at the seam; lightness clamps.
+- Under reduced motion the thumb goes straight to its angle and the swatch and hex swap without a roll.
+- The ring takes the pointer only after 4px of travel, so a plain tap on an angle still lands as a tap.
+
+### Time Dial (KQ-498) — `time-dial`
+The hand swings to the hour.
+
+A clock face for picking a time. Tapping or dragging the ring swings the hand to that hour on snap, by the shortest arc, then the face cross-fades to minutes and the hand glides across to the new scale while the readout rolls the digits that changed. Arrows step the phase you are in, Enter advances hour to minute to done, Escape steps back, and the face reports as a slider whose value text reads the whole time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/time-dial`
+
+Props:
+- `value / defaultValue`: string (default "09:30") — The time as "HH:mm" in 24-hour form, controlled or initial.
+- `onValueChange`: (value: string) => void — Fires on every change, always "HH:mm" in 24-hour form.
+- `format`: 12 | 24 (default 12) — Face and readout style; 24 puts 00–11 on the outer band and 12–23 on the inner one instead of an AM/PM segment.
+- `minuteStep`: number (default 5) — Minute detent for the face and the arrow keys.
+- `label`: string (default "Time") — Group label; the face and the meridiem group are named from it.
+- `onPhaseChange`: (phase: "hour" | "minute" | "done") => void — Fires when the dial moves between hour, minute and done.
+
+Notes:
+- Arrows step the phase you are in (hours by one, minutes by minuteStep), Home and End jump to its ends, Enter advances hour to minute to done, and Escape steps back. Releasing a pointer on an hour advances to minutes too.
+- The face is one slider that re-identifies with the phase rather than two that would strand focus the moment Enter advanced it; aria-valuetext reads the whole time, and a live region names the phase.
+- Under reduced motion the hand goes straight to its angle and the readout swaps its digits; the face still cross-fades, since opacity carries no travel.
+
+### Almanac Picker (KQ-499) — `almanac-picker`
+Months slide; the day stamps.
+
+A month grid that moves by direction: the next month enters from distances.shift on the right while the old one leaves on the exit ease, and the frame's measured height glides so a five-row month never jumps to a six-row one. A chosen day stamps on recoil and today wears a ring; in range mode the fill sweeps between the ends on a scaleX tween. Arrows move a day, PageUp and PageDown change month, Home and End jump to the week's ends, and Enter selects.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/almanac-picker`
+
+Props:
+- `mode`: "single" | "range" (default "single") — One date, or a start and an end.
+- `value / defaultValue`: Date | [Date, Date | null] — Selection, shaped by mode; a range in progress carries a null end.
+- `onValueChange`: (value: Date | [Date, Date | null]) => void — Fires on selection; opening a range fires once with a null end, then again when it closes.
+- `min / max`: Date — Bounds; days outside are disabled and refuse selection.
+- `label`: string (default "Date") — Group label; the grid is named from it and the month.
+
+Notes:
+- A real grid: arrows move a day and carry the month with them, PageUp and PageDown change month, Home and End jump to the ends of the week, Enter or Space selects, and the month name is a live region.
+- While a range is open the sweep follows the pointer or the focused day, so arrowing through the month reads exactly like hovering it.
+- Under reduced motion the months cross-fade in place and the day stops stamping; the range fill still fills, since progress is information.
+- Today is read after hydration, not during render, so the server and the client never disagree about which day wears the ring.
+
+### Slide Confirm (KQ-500) — `slide-confirm`
+Slide all the way, or it slides back.
+
+A track that asks for the whole gesture. The thumb tracks the pointer 1:1 while the label fades under it and a fill follows behind; past 85% it slams home on flick, the arrow morphs into a check and the copy swaps, and released short of that it springs back on snap. ArrowRight nudges 10% a press, ArrowLeft takes it back, End runs it to the top and Enter there confirms, so the keyboard drives the same physics.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slide-confirm`
+
+Props:
+- `onConfirm`: () => void — Fires once when the slide completes.
+- `label`: string (default "Slide to confirm") — Track copy while idle; it also names the slider.
+- `confirmedLabel`: string (default "Confirmed") — Copy after confirming.
+- `resetAfter`: number — Milliseconds before the thumb returns; omit to stay confirmed.
+- `disabled`: boolean (default false) — Locks the track and takes the thumb out of the tab order.
+- `onProgressChange`: (percent: number) => void — Fires with the whole-percent position on every change, spring-back included.
+
+Notes:
+- The thumb is a slider: ArrowRight and ArrowUp nudge 10%, ArrowLeft and ArrowDown take it back, End runs it to the top, Home and Escape return it, and Enter or Space confirms once the thumb is past 85%.
+- The pointer is captured only after 4px of travel, so a plain click on the thumb is not swallowed and never confirms by accident.
+- Under reduced motion the thumb moves directly and the fill has no spring, but it still fills and the percentage still reads: how far you have got is information.
+
+### Choice Cards (KQ-501) — `choice-cards`
+The chosen card lifts; the rest step back.
+
+A plan picker built as a radiogroup of cards. Choosing lifts the card 2px on glide while a ring draws around its perimeter and a check stamps into the corner on recoil, and the unchosen cards step back in tone. Switching the billing period re-rolls every price digit by digit on glide; arrow keys move between cards, Home and End jump to the ends, and Space selects.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/choice-cards`
+
+Props:
+- `options`: ChoiceCardOption[] — The plans: value, title, monthly and yearly price, blurb, optional badge.
+- `value / defaultValue`: string — Controlled or initial chosen plan; defaults to the first option.
+- `onValueChange`: (value: string) => void — Fires on choice.
+- `billing / defaultBilling`: "monthly" | "yearly" (default "monthly") — Controlled or initial billing period; switching it re-rolls every price.
+- `onBillingChange`: (billing: "monthly" | "yearly") => void — Fires when the billing period changes.
+- `currency`: string (default "$") — Prefix for every price.
+- `label`: string (default "Plan") — Visible group label, shown beside the billing toggle.
+
+Notes:
+- A radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump to the first and last plan, Space selects the focused card. The billing toggle is its own two-stop radiogroup.
+- Under reduced motion the ring and the corner check still appear — they are the answer to the click — but the card does not lift and prices swap without rolling.
+- Cards sit side by side from the small breakpoint up and stack to one column at phone width; the ring is drawn on a measured rect, so it follows the card's real size.
+
+### Size Tiles (KQ-502) — `size-tiles`
+The tile you pick inflates; the rest hold still.
+
+A size chooser that answers with weight instead of layout. The chosen tile inflates to 1.06 on snap and its border thickens, both transform and colour, so nothing beside it shifts; unavailable tiles draw a diagonal strike through themselves on flick when hovered or focused and carry 'out of stock' for a screen reader. Arrow keys move and wrap, Home and End jump, Space selects, and the fit note beneath cross-fades over a measured height.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/size-tiles`
+
+Props:
+- `sizes`: SizeTile[] — The sizes: value, label, availability, and an optional fit note.
+- `value / defaultValue`: string — Controlled or initial chosen size.
+- `onValueChange`: (value: string) => void — Fires on choice; an unavailable size never fires it.
+- `label`: string (default "Size") — Visible group label; the chosen size reads out beside it.
+
+Notes:
+- A radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump to the first and last tile, Space selects the focused one.
+- Unavailable tiles stay in the group and stay focusable — they carry aria-disabled and an 'out of stock' description, so the strike has a keyboard path and is never news only to a mouse.
+- Under reduced motion the tile keeps its thickened border and drops the inflation; the strike and the fit note still appear, because availability is information.
+
+### Filter Ledge (KQ-503) — `filter-ledge`
+Chips toggle; the count catches up.
+
+A ledge of filter chips that keeps its arithmetic honest. Toggling a chip blooms its fill from the centre on snap while a check draws itself in on flick and widens a slot to sit in, and the result count beneath rolls its digits to the new number on glide. Clear all sweeps the fills off in a cascade, left to right; every chip is a toggle button carrying aria-pressed and its own tab stop.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/filter-ledge`
+
+Props:
+- `filters`: FilterChip[] — The chips: id, label, and an optional per-filter count.
+- `value / defaultValue`: string[] — Controlled or initial active filter ids.
+- `onValueChange`: (ids: string[]) => void — Fires on every toggle and on clear all.
+- `resultCount`: number — The number the readout rolls to; the owner derives it from the active filters.
+- `onClear`: () => void — Fires when clear all empties the ledge.
+- `label`: string (default "Filters") — Accessible name for the chip group.
+
+Notes:
+- Chips are toggle buttons with aria-pressed, each its own tab stop, so Tab reaches them and Space or Enter flips one — there is no gesture the keyboard cannot reach. Clear all disables itself when the ledge is already empty.
+- Under reduced motion the fills and checks swap instantly and the count updates without rolling; the total still changes, because a filtered result is information rather than flourish.
+- At phone width the row scrolls sideways and each end fades only while something is hidden past it; the fade is a mask on the row, so it reads on any background.
+
+### Cadence Pick (KQ-504) — `cadence-pick`
+Pick a rhythm; the calendar redraws.
+
+A rhythm picker that shows the rhythm. Four stops share one knob that glides between them on snap, and beside them a seven by five calendar glyph re-patterns itself: every mark keeps its identity across cadences, so it travels to its new cell on glide in a cascade rather than blinking out and back. Custom unfolds an interval stepper over a measured height; arrows move and wrap, Home and End jump, Space selects.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cadence-pick`
+
+Props:
+- `value / defaultValue`: "daily" | "weekly" | "monthly" | "custom" (default "weekly") — Controlled or initial cadence.
+- `onValueChange`: (value: Cadence, everyDays?: number) => void — Fires on change; custom carries the interval it now means.
+- `everyDays / defaultEveryDays`: number (default 3) — Custom interval in days, clamped to 1–30.
+- `label`: string (default "Cadence") — Visible group label, which also names the radiogroup.
+
+Notes:
+- The stops are a radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump, Space selects. The interval control is a spinbutton — arrows step a day, Page Up and Page Down step a week, Home and End take it to 1 and 30.
+- Under reduced motion the marks swap to their new cells instantly and the panel opens without a glide; the pattern still redraws, because the pattern is the answer.
+- The custom panel holds no room while it is closed: its height is measured from the controls inside it, and it is inert so nothing in it takes focus while it is shut.
+
+### Likert Scale (KQ-505) — `likert-scale`
+The bar fills to where you stand.
+
+An agreement scale of five or seven nodes on a line. Choosing fills the line up to that node on glide and inflates the node on snap, while the anchors shift weight with it — the near one firms as the far one fades — and hovering previews the fill at a lower weight without committing. A radiogroup with a roving tabindex: arrows move and select, Home and End jump to the ends, Space selects.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/likert-scale`
+
+Props:
+- `question`: string — The statement being rated; it names the radiogroup.
+- `points`: 5 | 7 (default 5) — Node count.
+- `anchors`: [string, string] (default ["Disagree", "Agree"]) — Labels at the ends; the end nodes borrow them for their names.
+- `value / defaultValue`: number — Controlled or initial 1-based choice.
+- `onValueChange`: (value: number) => void — Fires on choice, with the 1-based value.
+
+Notes:
+- A radiogroup with a roving tabindex: Left and Right (or Up and Down) move and select with wrap, Home and End jump to the ends, Space selects the focused node. Every node carries its position in its name, and the end nodes carry their anchor.
+- Under reduced motion the fill still fills — on a tween instead of the glide spring — and the chosen node marks itself by colour rather than by inflating.
+- Node geometry never changes: the selected node scales, so the line under the row stays true and nothing beside it moves.
+
+### Priority Flag (KQ-506) — `priority-flag`
+The flag climbs the mast.
+
+Priority drawn as a signal mast: the flag climbs to the chosen rung on glide while its colour tweens up the muted → warn → danger ramp. Landing on the top rung it flutters once, a single two-keyframe skew on recoil. Up and Down step the mast and wrap, Home and End jump to the ends, Space and Enter select.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/priority-flag`
+
+Props:
+- `value / defaultValue`: string (default "low") — Controlled or initial level — low, medium, high or urgent by default.
+- `onValueChange`: (value: string) => void — Fires when the level changes, by pointer or by key.
+- `levels`: PriorityLevel[] (default low / medium / high / urgent) — Overrides the rungs, ordered bottom to top; the colour ramp stretches to fit.
+- `label`: React.ReactNode — Visible group label. Omit it and pass aria-label to label the group invisibly.
+
+Notes:
+- A radio group with a roving tabindex: Up and Left climb the mast, Down and Right descend, both wrapping; Home and End jump to the ends; Space and Enter select.
+- Under reduced motion the flag jumps to its rung with no climb and no flutter — only the colour tweens, because the level's colour is information.
+- Rungs are 36px, the same as the row height, so the flag always lands on a label's centreline however many levels you pass.
+
+### Slot Grid (KQ-507) — `slot-grid`
+Free slots breathe; the picked one stamps.
+
+Appointment slots as a real grid of day columns and time rows. Free slots lift a pixel on hover with glide, taken slots are hatched and inert, and picking stamps the slot from 1.3× on recoil while the summary beneath cross-fades to the new time. Arrow keys walk the cells, Home and End jump to the ends of a row, Enter and Space pick.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slot-grid`
+
+Props:
+- `days`: SlotDay[] — Column headers, left to right; each needs an id and a label.
+- `times`: string[] — Row labels, top to bottom.
+- `taken`: string[] (default []) — "dayId:time" keys that are unavailable; those cells hatch and stop accepting picks.
+- `value / defaultValue`: string — Controlled or initial "dayId:time" key. Empty means nothing is held.
+- `onValueChange`: (key: string) => void — Fires with the "dayId:time" key on every pick.
+- `label`: React.ReactNode — Visible group label. Omit it and pass aria-label to label the grid invisibly.
+
+Notes:
+- role=grid with gridcells: arrow keys move a roving focus in two dimensions without wrapping, Home and End jump to the ends of the row, Enter and Space pick.
+- Taken slots keep aria-disabled rather than disabled, so the keyboard can read the whole week while picks stay refused.
+- Under reduced motion the stamp appears with no landing and the summary swaps without the cross-fade; the hatch and the stamp both carry the state without colour alone.
+- Narrow viewports scroll the day columns horizontally under edge fades while the time column stays pinned.
+
+### Vote Pair (KQ-508) — `vote-pair`
+One thumb bounces; the tally rolls.
+
+Up and down vote buttons with the tally rolling between them. The chosen thumb pops from 0.78 on recoil and holds an 8° tilt toward its own direction on snap, while the tally rolls in the direction it moved and travels further when a side switch swings it by two. Both halves are toggle buttons carrying aria-pressed, so Enter or Space on the side already chosen withdraws the vote.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vote-pair`
+
+Props:
+- `value / defaultValue`: 1 | 0 | -1 (default 0) — Controlled or initial vote: up, none, or down.
+- `score`: number — The tally before the reader's own vote is added; the control shows score + value.
+- `onVote`: (value: 1 | 0 | -1) => void — Fires on every change, including the withdrawal back to 0.
+- `size`: "sm" | "md" (default "md") — Control size; both halves and the tally share one height.
+- `subject`: string (default "answer") — Names what is being voted on inside each button's accessible label.
+
+Notes:
+- Two toggle buttons, each its own tab stop: Enter or Space casts, and pressing the side already chosen withdraws the vote back to 0.
+- The tally sits in a live region and announces the new number, so the count reaches a screen reader without the animation.
+- Under reduced motion nothing pops or tilts — the colours swap and the tally still updates, because the count is information rather than flourish.
+
+### Access Matrix (KQ-509) — `access-matrix`
+Flip a row; the cells follow in order.
+
+A permission matrix with roles down, actions across and a switch in every cell. Flipping a row's master runs its cells in order on cascade(), each knob sliding on snap, so a bulk change reads as one act rather than five simultaneous blinks; a column header lights its column by hover or by focus. Arrow keys walk the grid in two dimensions, Home and End jump to the ends of a row, Space and Enter toggle.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/access-matrix`
+
+Props:
+- `roles`: AccessRole[] — Rows, top to bottom; each needs an id and a label.
+- `actions`: AccessAction[] — Columns, left to right; each needs an id and a label.
+- `value / defaultValue`: Record<string, string[]> — Controlled or initial grants: the granted action ids per role id.
+- `onValueChange`: (value: Record<string, string[]>) => void — Fires with the whole grant map on any toggle, cell or row master.
+- `label`: React.ReactNode — Visible group label. Omit it and pass aria-label to label the grid invisibly.
+
+Notes:
+- role=grid with a roving tabindex: arrow keys move in two dimensions without wrapping, Home and End jump to the row's master and its last action, Space and Enter toggle.
+- Cells carry role=switch with aria-checked; the row master is a tri-state checkbox rather than a switch, because ARIA does not let a switch report mixed.
+- Under reduced motion the knobs jump to their end with no cascade and no slide — the grant state still changes, since that is the information.
+- Narrow viewports scroll the action columns horizontally under an edge fade while the role column stays pinned.
+
+### Avatar Pick (KQ-510) — `avatar-pick`
+The ring travels; the chosen face puffs.
+
+A face chooser where one ring travels between the tiles on snap, keyed by a shared layoutId so it is the same ring moving rather than nine rings blinking. The chosen face puffs to 1.08 on recoil while the rest lose a little saturation on a tween, and the last tile opens a real file picker and previews the image in place. Arrows step and wrap, Home and End jump to the ends, Space and Enter select.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/avatar-pick`
+
+Props:
+- `options`: AvatarOption[] — The faces: an id, one or two initials, a tint (pass a theme token), and a label used as the accessible name.
+- `value / defaultValue`: string — Controlled or initial id. The uploaded face reserves the id "upload".
+- `onValueChange`: (id: string) => void — Fires on every choice, including the one an upload makes.
+- `allowUpload`: boolean (default true) — Shows the tile that opens a real file picker and previews the chosen image.
+- `label`: React.ReactNode — Visible group label. Omit it and pass aria-label to label the group invisibly.
+
+Notes:
+- A radio group with a roving tabindex: arrows step through the tiles and wrap, Home and End jump to the ends, Space and Enter select. On the upload tile Space and Enter open the file picker instead, so no gesture is pointer-only.
+- Faces are drawn, not fetched — initials on a disc tinted from the token you pass, so the set costs no image requests and reads in both themes.
+- The upload preview's object URL is revoked as soon as it is replaced and again on unmount.
+- Under reduced motion the ring jumps to the chosen tile and nothing puffs; the saturation still shifts, because it is what marks the choice.
+
+### Spy Index (KQ-511) — `spy-index`
+The marker follows your reading.
+
+A table of contents that watches the page. An IntersectionObserver keyed to the reading line marks the section in view, and the marker travels between entries on glide through a shared layoutId while the active entry steps 4px out of the column and the rail beside the list fills with reading progress. Entries are plain links, so Tab reaches them and Enter follows them; clicking scrolls the container smoothly and hands focus to the target.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spy-index`
+
+Props:
+- `sections`: { id: string; label: string }[] — The entries, in document order; ids must match headings inside the container.
+- `container`: React.RefObject<HTMLElement | null> — The scrolling element; defaults to the window.
+- `offset`: number (default 24) — Pixels from the top of the container that count as in view.
+- `label`: string (default "On this page") — Accessible name for the nav, shown above the list.
+- `onActiveChange`: (id: string) => void — Fires when the section in view changes.
+
+Notes:
+- Entries are ordinary links inside a nav: Tab reaches them, Enter follows them, and the entry in view carries aria-current="location". Clicking scrolls the container to the heading and moves focus there when the target is focusable.
+- Under reduced motion the marker jumps to its entry, the 4px indent is dropped, the rail still fills, and the scroll is instant rather than smooth.
+- The observer only reports crossings of the reading line; the active entry is then read from geometry, so a heading sitting exactly on the line resolves the same way every time.
+
+### Tab Bar (KQ-512) — `tab-bar`
+The active icon fills; its label rises.
+
+A bottom tab bar built for a thumb. The chosen tab fills its outline glyph — a solid path cross-fading over the stroked one, a tween because weight and colour have no physics — lifts its label 2px on snap, and the indicator pill travels under it through a shared layoutId rather than blinking out and in. A badge bumps on recoil when its number changes, and the bar is a real tablist: a roving tabindex, Left and Right around the bar, Home and End to the ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tab-bar`
+
+Props:
+- `tabs`: { id: string; label: string; icon: "home" | "search" | "inbox" | "wallet" | "me"; badge?: number }[] — Up to five tabs; the icons are built in and a badge shows when its count is above zero.
+- `value / defaultValue`: string — Controlled or initial active tab id.
+- `onValueChange`: (id: string) => void — Fires on tap and whenever the keyboard moves the selection.
+- `aria-label`: string (default "Primary") — Accessible name for the tablist.
+
+Notes:
+- A roving tabindex over role="tablist": Left and Right (or Up and Down) wrap around the bar, Home and End jump to the ends, and activation follows focus as tabs should. A tab carrying a badge names its count in its accessible name.
+- Under reduced motion the glyph fill and the indicator pill swap instantly, the label holds still, and the badge number still updates — the count is information, not flourish.
+- The badge bumps only when its number changes, never on mount, so a first paint is quiet.
+
+### Fold Sidebar (KQ-513) — `fold-sidebar`
+Collapse to icons; the labels fold in.
+
+An app sidebar that folds to a rail. The width travels between 224px and 56px on glide while each label fades and is clipped by its own row, and because every icon sits half a rail from the edge nothing shifts sideways as the panel narrows. The active pill travels between items through a shared layoutId, group panels animate to a measured height rather than a reserved one, the fold control's double chevron turns over on snap, and in rail mode a hovered or focused item names itself in a tooltip beside the rail.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fold-sidebar`
+
+Props:
+- `groups`: { label: string; items: { id: string; label: string; icon: string }[] }[] — Sections and their items; icons come from the built-in set (gauge, grid, bell, users, card, gear, dot).
+- `value / defaultValue`: string — Controlled or initial active item id.
+- `onValueChange`: (id: string) => void — Fires on select.
+- `collapsed / defaultCollapsed`: boolean (default false) — Rail mode, controlled or initial.
+- `onCollapsedChange`: (collapsed: boolean) => void — Fires on fold.
+- `label`: string (default "Main") — Accessible name for the nav.
+
+Notes:
+- Items are buttons inside a nav and the active one carries aria-current="page"; group headers are aria-expanded toggles over the panel they own, and a closed panel is inert so Tab skips what is hidden behind a zero height.
+- Under reduced motion the width and the group heights swap instantly and the chevrons turn without a spring; the labels still fade, since a fade neither travels nor bounces.
+- In rail mode the group headers step aside for a hairline and every item stays reachable, naming itself in a tooltip anchored beside the rail on hover or focus.
+
+### Top Rise (KQ-514) — `top-rise`
+Surfaces as you go deep; the ring shows how far.
+
+A back-to-top control that surfaces from the bottom edge on recoil — two visible bounces, the physics of something landing — once the container has passed the threshold, and sinks away on the exit ease when the top comes back into reach. Its ring carries scroll depth, drawn with pathLength so the geometry follows the button's own box rather than a fixed radius. Pressing it scrolls to the top while the arrow lifts 4px on flick; Tab reaches it and Enter or Space presses it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/top-rise`
+
+Props:
+- `container`: React.RefObject<HTMLElement | null> — The scrolling element; defaults to the window.
+- `threshold`: number (default 240) — Pixels scrolled before it surfaces.
+- `label`: string (default "Back to top") — Accessible name.
+- `onDepthChange`: (percent: number) => void — Fires with whole-percent scroll depth, 0–100, when the percent changes.
+- `className`: string — Positioning is the caller's: absolute inside a relative frame, or fixed when the page itself scrolls.
+
+Notes:
+- A plain button with an accessible name: Tab reaches it, Enter or Space presses it, and below the threshold it leaves the DOM entirely so the keyboard never lands on something invisible.
+- Under reduced motion it fades in and out without travelling, the ring still fills, and the scroll to the top is instant rather than smooth.
+- Place it outside the scroll container, in a relative wrapper — an absolutely positioned child of a scroller scrolls away with the content.
+
+### Canopy Menu (KQ-515) — `canopy-menu`
+The panel unfolds; the columns arrive in order.
+
+A mega menu that stays one panel. Hovering or focusing an item unfolds the canopy beneath the bar — scaleY from the top on glide, clipped — and its columns cascade in inside the 600ms budget. Moving to another item morphs the same panel to the new content's measured width and height rather than closing and reopening; Left and Right walk the bar, Tab steps down into the open panel, and Escape closes and hands focus back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/canopy-menu`
+
+Props:
+- `items`: { id: string; label: string; columns: { heading: string; links: { label: string; href: string }[] }[] }[] — The bar and the panel behind each item.
+- `openDelay`: number (default 80) — Hover intent delay in ms before an unopened panel unfolds; moving between items once open is immediate.
+- `label`: string (default "Site") — Accessible name for the nav.
+- `onOpenChange`: (id: string | null) => void — Fires with the open item's id, or null when the panel closes.
+
+Notes:
+- A roving tabindex of aria-expanded buttons over one region: Left and Right walk the bar, Home and End jump to its ends, Enter and Space toggle, Tab steps down into the open panel, and Escape — from the bar or from inside the panel — closes and returns focus to the item that opened it.
+- Under reduced motion the panel appears and disappears without scaling and the columns arrive with it, no cascade and no 8px rise.
+- The panel's contents are laid out absolutely so their natural size can be measured free of the box that is animating toward it; the measurement is clamped to the bar's width, so the columns wrap instead of overhanging a narrow viewport.
+
+### Swipe Tabs (KQ-516) — `swipe-tabs`
+Drag the panel; the indicator rides your thumb.
+
+Tabs whose panels are a strip you can push: dragging moves the strip with the pointer while the underline rides the same value, so the indicator sits exactly where your thumb has taken it. Release settles to the nearest panel on snap and the strip's height glides to the new panel's measured height. Left and Right move and activate without wrapping past the ends, Home and End jump.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/swipe-tabs`
+
+Props:
+- `tabs`: { id: string; label: string; content: React.ReactNode }[] — Tabs and their panels, left to right.
+- `value / defaultValue`: string — Controlled or initial tab id.
+- `onValueChange`: (id: string) => void — Fires when the active tab changes.
+- `aria-label`: string — Names the tablist for assistive technology.
+
+Notes:
+- A real tablist: Left and Right move and activate without wrapping past the ends, Home and End jump to the first and last tab, and the active panel is focusable so it can be scrolled from the keyboard.
+- Pointer capture waits for 4px of horizontal travel and stands down when the travel is vertical, so a tap stays a tap and the surface behind the strip still scrolls.
+- Under reduced motion the panels swap: no travel, no springs, and dragging is off — the underline and the panel change instantly.
+
+### Route Bar (KQ-517) — `route-bar`
+Trickles while it waits; finishes when the page lands.
+
+The bar at the top of a page change. It appears at 8% and trickles toward 90% on a decaying schedule, so a slow route keeps moving without ever claiming to be nearly done; when the page lands it completes on glide and leaves on the exit ease, with a soft glow at its head. Purely presentational — hold active true while a navigation is pending, or call start() and done() on the ref.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/route-bar`
+
+Props:
+- `active`: boolean (default false) — True while a navigation is pending.
+- `height`: number (default 2) — Bar height in px.
+- `color`: string (default var(--primary)) — CSS colour for the bar and its head glow.
+- `label`: string (default Page loading) — Names the progress bar for assistive technology.
+- `ref`: React.Ref<RouteBarHandle> — Imperative start() and done(), OR'd with the active prop.
+
+Notes:
+- No keyboard path of its own: the bar is presentational and never takes focus, reporting itself as role=progressbar with aria-valuenow rounded to whole percent.
+- Under reduced motion the head loses its glow and the bar still moves, because progress is information rather than flourish.
+- Repeated starts reset to 8% instead of stacking, and every timer and animation is stopped on unmount; it is absolutely positioned by default, so it reserves no space in the layout.
+
+### Section Dots (KQ-518) — `section-dots`
+The active dot stretches into a pill.
+
+A rail of dots down the side of a scrolling story. The active dot stretches into a pill on snap, a layout animation so the shape itself travels rather than a dot blinking on elsewhere, and its label slides out from the rail on hover or focus. The rail reads the container with an IntersectionObserver, and Up and Down move between dots while Enter scrolls the container to that section.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/section-dots`
+
+Props:
+- `sections`: { id: string; label: string }[] — Ids of the section elements inside the container, in document order.
+- `container`: React.RefObject<HTMLElement | null> — The scrolling element the rail watches and scrolls.
+- `side`: "left" | "right" (default right) — Which edge of the container the rail sits on.
+- `onActiveChange`: (id: string) => void — Fires when the section under the viewport changes.
+- `label`: string (default Sections) — Names the rail for assistive technology.
+
+Notes:
+- Roving tabindex over the dots: Up and Down (or Left and Right) move focus, Home and End jump to the ends, Enter and Space scroll the container to that section, and the active dot carries aria-current.
+- Under reduced motion the pill swaps instead of stretching, the label appears without travel, and the container jumps rather than scrolling smoothly.
+- The rail positions itself absolutely against the container's own relative parent, so it overlays the frame without reserving a column; keep the section text padded clear of it.
+
+### Burger Sheet (KQ-519) — `burger-sheet`
+The burger becomes the cross as the sheet unfolds.
+
+A menu button that turns into its own close button: the middle bar fades while the outer two travel to the centre and rotate on snap, the same spring the sheet's links land on. The sheet is a large surface, so it arrives on glide with its links cascading behind it and leaves on the exit ease. It is a real dialog while open — focus is trapped in the panel, Escape closes and returns focus to the button, and the frame passed as container stops scrolling.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/burger-sheet`
+
+Props:
+- `items`: { label: string; href: string }[] — Links in the sheet, top to bottom.
+- `side`: "left" | "right" (default left) — Which edge the sheet enters from.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial open state.
+- `onOpenChange`: (open: boolean) => void — Fires on open and on close.
+- `container`: React.RefObject<HTMLElement | null> — The scrolling frame the sheet covers; its scroll locks while open.
+- `title`: string (default Menu) — Heading inside the sheet; also names the dialog.
+- `label`: string (default Menu) — Names the menu button, which carries aria-expanded.
+
+Notes:
+- Open moves focus to the panel's close button and traps Tab and Shift+Tab inside the dialog; Escape closes and returns focus to the menu button, as does clicking the scrim or a link.
+- Under reduced motion the sheet fades in place instead of sliding, the links arrive without travel or cascade, and the bars swap straight to the cross.
+- The sheet positions itself against the nearest positioned ancestor, so make the frame relative and leave the header static; scroll locking is applied to the container ref, never to the document.
+
+### Letter Index (KQ-520) — `letter-index`
+Drag the letters; the current one pops out.
+
+The A–Z rail beside a long list. Dragging it pops the letter under the pointer out into a bubble on recoil, two visible bounces, while the list jumps instantly because it is following your thumb; letters with no entries are muted and the pick falls to the nearest letter that has some. The rail is a listbox: Up and Down move the active letter past the muted ones, and Enter scrolls the list there.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/letter-index`
+
+Props:
+- `groups`: { letter: string; items: string[] }[] — Sections that exist; every other letter of the rail is muted.
+- `container`: React.RefObject<HTMLElement | null> — The scrolling list; its section headers carry data-letter="A".
+- `onSelect`: (letter: string) => void — Fires when the rail jumps the list to a letter.
+- `label`: string (default Jump to letter) — Names the rail for assistive technology.
+
+Notes:
+- The rail is one tab stop with aria-activedescendant: Up and Down move the active letter and skip the muted ones, Home and End go to the first and last letter with entries, Enter or Space scrolls the list there.
+- Under reduced motion the bubble appears instead of popping, and the list jumps rather than scrolling smoothly on Enter.
+- Pointer capture waits for 4px of travel so a tap on a letter is still a tap; each section header inside the container must carry data-letter for the rail to find it.
+
+### Undo Toast (KQ-521) — `undo-toast`
+Undo, before the ring runs out.
+
+A toast with an action and a countdown. It rises on recoil, whose two bounces read as something landing on the stack, while a ring beside the message drains linearly across the duration; hovering or focusing stops the ring where it stands and leaving resumes it from there. Taking the action cross-fades the panel to a restored line and lifts it away on the exit ease, and the action is a real button one Tab from the message.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/undo-toast`
+
+Props:
+- `open`: boolean — Shows the toast. Raise it after the edit has already been applied.
+- `message`: string — What was done — one short line, past tense.
+- `actionLabel`: string (default "Undo") — Action copy.
+- `duration`: number (default 5000) — Milliseconds until it dismisses itself; 0 or less keeps it up.
+- `onAction`: () => void — Fires when the action is taken — restore the thing here.
+- `onDismiss`: () => void — Fires when the ring runs out, the toast is closed, or a restore finishes.
+- `className`: string — Overrides the default bottom-centre placement inside the nearest relative parent.
+
+Notes:
+- role=status with two real buttons: Tab reaches the action and the dismiss control, and focusing either pauses the countdown exactly as hovering does.
+- Under reduced motion the panel fades in place instead of rising, and the ring still drains — a countdown is information, not flourish.
+- It renders absolutely inside the nearest positioned ancestor, so give the surface it belongs to relative; changing the message replaces the panel and restarts the countdown.
+
+### Light Box (KQ-522) — `light-box`
+The thumbnail becomes the picture.
+
+A gallery whose thumbnail grows into the viewer. Tile and viewer share a layoutId, so opening morphs the thumbnail's rect into the picture on glide while the backdrop tweens in, and closing returns it to the tile it grew from. Moving is a different gesture: the old picture leaves on the exit ease and the new arrives from distances.shift, driven by arrows, a swipe, or the Left and Right keys, with focus trapped and Escape closing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/light-box`
+
+Props:
+- `images`: LightBoxImage[] — Items of { id, alt, caption?, art }; art renders in both the tile and the viewer, so make it fill its container.
+- `open / defaultOpen`: string | null (default null) — Controlled or initial id of the open picture; null is closed.
+- `onOpenChange`: (id: string | null) => void — Fires on open, on every move, and on close.
+- `className`: string — Applied to the gallery wrapper.
+
+Notes:
+- role=dialog with a focus trap: focus lands on the panel so the picture's name is read first, Left and Right move between pictures, Tab cycles the controls, and Escape closes and returns focus to the tile.
+- Under reduced motion nothing travels — the viewer cross-fades in, pictures cross-fade between each other, and the swipe is dropped in favour of the arrows.
+- The viewer is absolutely positioned inside the nearest positioned ancestor, so give the surface that owns the gallery relative; art is yours to supply, so no assets ship with it.
+- Closing returns the picture to the tile the session opened from, which keeps the morph pointed at one tile even after moving through the set.
+
+### Edit Bubble (KQ-523) — `edit-bubble`
+Click the value; it becomes the field.
+
+Inline editing without a modal. A pencil hint appears on hover, and clicking morphs the value into a field: reading state and bubble share a layoutId, so the box grows on snap with one crisp overshoot while the text keeps its place. Enter saves and the new value lands on recoil like a stamp, Escape restores, blurring saves, and a blocked save nudges the bubble four pixels and prints the reason where the label sits.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/edit-bubble`
+
+Props:
+- `value`: string — Current value. The reading state mirrors it; each edit starts from it.
+- `onSave`: (value: string) => void | Promise<void> — Called on commit. Return a promise to hold the bubble open while it saves; a rejection keeps the edit and shows a reason.
+- `validate`: (value: string) => string | null — Return a reason to block the save; null lets it through.
+- `type`: "text" | "number" (default "text") — Input type; number also sets a decimal inputMode.
+- `label`: string — Accessible name of the field, also shown above it.
+- `className`: string — Applied to the field wrapper.
+
+Notes:
+- Enter saves, Escape restores the previous value, and blurring the field saves as well, so tabbing onward never loses an edit; focus returns to the reading button on every close.
+- Under reduced motion the bubble swaps in with no morph, the saved tick appears without its flick, and a blocked save states its reason without the nudge.
+- Reading state and bubble are the same height and the label line doubles as the hint and error line, so nothing below the field ever jumps.
+
+### Bell Tray (KQ-524) — `bell-tray`
+The bell rings; the tray drops.
+
+A notification bell and its tray. An arriving item swings the bell on recoil, rotated about its crown so it pivots where a bell hangs, and bumps the badge with the same spring; opening drops the tray on glide with its items cascading in under the 600ms budget. Marking all read sweeps the unread dots out one after another, dismissing an item collapses its row on the exit ease, and the bell is a button with aria-expanded whose tray answers to Up, Down and Escape.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bell-tray`
+
+Props:
+- `items`: BellTrayItem[] — Notifications of { id, title, time, unread }, newest first.
+- `onRead`: (ids: string[]) => void — Fires with the ids that just became read — one id, or all of them.
+- `onDismiss`: (id: string) => void — Fires when an item is dismissed; remove it from items to collapse the row.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial tray state.
+- `onOpenChange`: (open: boolean) => void — Fires when the bell, Escape, or a click outside changes the tray.
+- `className`: string — Applied to the bell's positioned wrapper.
+
+Notes:
+- The bell is a button with aria-expanded and aria-controls and the tray a labelled region: Tab moves into the tray, Up and Down walk the items, Enter dismisses one, and Escape closes and returns focus to the bell.
+- Under reduced motion nothing swings, drops or cascades — the badge, the dots and the counts still update, because a count is information.
+- The bell only rings for ids it has not seen before, so a tray that mounts with items stays still; nothing starts on mount.
+
+### Typed Confirm (KQ-525) — `typed-confirm`
+Type the word; the button wakes as you match.
+
+A destructive confirmation that has to be spelled out. Each character that agrees with the phrase lights where it stands on flick, the shortest spring in the set, and the danger button fills from the left in proportion to the match on a plain tween — nothing overshoots, because destruction does not celebrate. A character that disagrees dims the fill instead of clearing it, only an exact match enables the button, and it is an alertdialog with a focus trap where Escape cancels.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/typed-confirm`
+
+Props:
+- `phrase`: string — What must be typed exactly before the button wakes.
+- `title / description`: string — Dialog copy; the description says what is lost and is wired to aria-describedby.
+- `confirmLabel`: string (default "Delete") — Button copy.
+- `open / onOpenChange`: boolean / (open: boolean) => void — Controlled state; the dialog closes through onOpenChange on cancel, Escape, backdrop and confirm.
+- `onConfirm`: () => void — Fires once, on a full match, when the button is pressed.
+- `onMatchChange`: (matched: number, total: number) => void — Fires on every keystroke with the leading characters that match.
+- `className`: string — Applied to the overlay that fills the nearest positioned ancestor.
+
+Notes:
+- role=alertdialog with a focus trap: focus lands in the field, Tab cycles the controls, Enter confirms a full match, and Escape cancels and returns focus to whatever opened it.
+- Under reduced motion the letters and the fill swap to their new values with no travel, which still shows how far the match has come.
+- The dialog is absolutely positioned inside the nearest positioned ancestor, so give the surface it guards relative; the phrase wraps by character so a long name never pushes past a narrow edge.
+
+### Fab Fan (KQ-526) — `fab-fan`
+One button fans into five.
+
+A floating action button that fans into five. Pressing turns the plus 45 degrees into a cross on snap while the actions travel a quarter arc and land on recoil in cascade; the label of whichever action the pointer or the keyboard is on slides in beside it from distances.step, pushed clear of its neighbours. Pressing again folds the cascade backwards on the exit ease. It is a menu button with aria-expanded: Up and Down walk the actions, Left and Right follow the arc, Home and End jump, Enter selects, and Escape folds the fan and returns focus to the trigger.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fab-fan`
+
+Props:
+- `actions`: FabFanAction[] — Up to five actions; icons come from the built-in stroked set, and anything past the fifth is dropped so the arc stays legible.
+- `placement`: "bottom-right" | "bottom-left" (default "bottom-right") — Corner the button sits in, and the direction the quarter arc sweeps.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial fan state.
+- `onOpenChange`: (open: boolean) => void — Fires whenever the fan opens or folds.
+- `label`: string (default "Actions") — Accessible name for the trigger and the menu it controls.
+
+Notes:
+- Enter or Space on the trigger opens the fan and focuses the first action; Up and Down walk the list, Left and Right follow the arc's direction, Home and End jump to the ends, Enter or Space selects, and Escape folds the fan and returns focus to the trigger.
+- One label shows at a time, on the action the pointer or the keyboard is on, pushed radially outward so it clears the neighbouring actions: five horizontal pills cannot share a quarter arc, whose vertical pitch near the top is under 10px. Every action still carries its label as its accessible name and its tooltip.
+- Under reduced motion nothing travels: the actions appear at their stops and fade out again, and the plus swaps to a cross instantly.
+- The component fills its nearest positioned ancestor, so give the surface it sits on position: relative; the backdrop is a labelled button so a pointer tap outside also folds it.
+
+### Keymap Sheet (KQ-527) — `keymap-sheet`
+Press ? and the keys drop in.
+
+A shortcut sheet that opens on ? or its trigger. The panel rises on glide and every keycap pops from 0.7x on flick in a cascade, grouped by section; typing in the filter folds the rows that no longer match away on the exit ease, headings included. It is a modal dialog with a focus trap, the hotkey is ignored while focus sits in a field, and Escape closes the sheet and returns focus to the trigger.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/keymap-sheet`
+
+Props:
+- `groups`: KeymapGroup[] — Sections of shortcuts; each shortcut carries a label and one string per keycap.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial sheet state.
+- `onOpenChange`: (open: boolean) => void — Fires whenever the sheet opens or closes.
+- `hotkey`: string (default "?") — The key that opens the sheet, matched against event.key and shown on the trigger.
+- `onFilterChange`: (filter: string) => void — Fires as the filter field is typed in, and with an empty string when the sheet opens.
+
+Notes:
+- The hotkey opens the sheet only when focus is not in an input, textarea, select or contenteditable, and its listener is added on mount and removed on unmount. Focus moves to the filter, Tab cycles inside the panel, and Escape closes the sheet and returns focus to the trigger.
+- Under reduced motion the sheet fades in place and the keycaps appear without popping; rows still fold, because a filtered list changing length is information.
+- The component fills its nearest positioned ancestor, so give the surface it sits on position: relative; the panel scrolls internally and shrinks to the rows that match.
+
+### Dock Player (KQ-528) — `dock-player`
+Scroll past it; it docks in the corner.
+
+A media card that docks. An IntersectionObserver watches its seat against the scrolling container, and once less than 40 percent of the seat is on screen the card shrinks into the corner along one shared layoutId, travelling on glide because a layout shift should not bounce. Play, progress and close ride along, the docked picture is a button that scrolls the seat back into view, and under reduced motion the two positions cross-fade.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/dock-player`
+
+Props:
+- `container`: React.RefObject<HTMLElement | null> — The scrolling element whose viewport decides when the card docks; it is the observer's root.
+- `title`: string — Card title, and the accessible name of the play, close and return controls.
+- `corner`: "bottom-right" | "bottom-left" (default "bottom-right") — Corner the card docks into.
+- `children`: React.ReactNode — The media surface; it is stretched to fill the card's picture area in both sizes.
+- `onStateChange`: (state: DockPlayerState) => void — Fires when the card moves between inline, docked and closed.
+
+Notes:
+- Every pointer path has a keyboard one: the docked picture is a button that scrolls the seat back into view, play toggles with Enter or Space, and close hands the seat a Show player button that brings the card back.
+- Under reduced motion the inline and docked cards cross-fade instead of travelling, while the timecode and progress bar keep running, because playback state is information rather than flourish.
+- Render the component directly in the scrolled column: it returns the seat plus a zero-height sticky rail that must share the column as its containing block. The seat holds the card's exact shape, so the article never reflows when the card leaves.
+
+### Share Tray (KQ-529) — `share-tray`
+Tap share; the targets rise in turn.
+
+A share sheet whose tray raises on glide while the targets rise from distances.step on recoil in a cascade, so each arrival gets its own two bounces inside the 600ms budget. Copy writes the clipboard and stamps: the link mark cross-fades to a check that draws on flick and the label lands from 1.15x, and where the browser has a native sheet a More target hands off to it. It is a modal dialog with a focus trap, a labelled backdrop, and Escape closing back to the trigger.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/share-tray`
+
+Props:
+- `url`: string — What is shared: written to the clipboard by the copy target and handed to the native sheet.
+- `title`: string — Share title, shown in the tray and passed to the native sheet.
+- `targets`: ShareTarget[] — Custom destinations, each with an icon from the built-in set; the built-in copy target is always first.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial tray state.
+- `onOpenChange`: (open: boolean) => void — Fires whenever the tray opens or closes.
+- `onAction`: (id: string) => void — Fires with the id of whichever target was used, the built-in copy and more included.
+
+Notes:
+- Targets are plain buttons, so Tab walks them and Enter or Space selects; focus is trapped inside the tray and Escape closes it and returns focus to the trigger.
+- Under reduced motion the tray fades in place and the targets appear without rising, but the copy stamp still swaps to a check, because a confirmation is information.
+- The More target appears only where navigator.share exists, and it is read after hydration through a store snapshot so the server and first client renders agree. A clipboard that refuses is reported as Copy failed rather than silently succeeding.
+
+### Consent Slab (KQ-530) — `consent-slab`
+It rises once; the choices unfold.
+
+A consent slab that rises from the bottom of its frame on glide. Customise measures its own panel with a ResizeObserver and unfolds to exactly that height, with the necessary category locked on; a decision stamps into the button row and the slab sinks on the exit ease, leaving a Preferences chip to bring it back. It is a labelled region rather than a dialog, and each category is a switch with aria-checked that Enter or Space drives.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/consent-slab`
+
+Props:
+- `categories`: ConsentCategory[] — Consent categories with a label and a blurb; mark the ones the product cannot run without as locked.
+- `onDecision`: (granted: string[]) => void — Fires with every granted id, locked categories included.
+- `open / defaultOpen`: boolean (default true) — Controlled or initial slab state; the Preferences chip re-raises it.
+- `onOpenChange`: (open: boolean) => void — Fires when the slab rises or sinks, so a controlled parent can follow the stamp.
+
+Notes:
+- No focus trap and no backdrop: it is a labelled region, so the page behind it stays usable. Customise carries aria-expanded, each category is a switch driven by Enter or Space, and a locked category reports itself checked and disabled.
+- Under reduced motion the slab fades in and out and the panel unfolds instantly; the switches and the stamp still change, because a decision is information.
+- Accepting anything optional lands the stamp on recoil, while refusing everything lands it on snap — declining is not an occasion to celebrate. The decision is held in memory here; a product would persist it.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -710,6 +710,16 @@ import { RouteBarDemo } from "@/registry/demos/route-bar.demo";
 import { SectionDotsDemo } from "@/registry/demos/section-dots.demo";
 import { BurgerSheetDemo } from "@/registry/demos/burger-sheet.demo";
 import { LetterIndexDemo } from "@/registry/demos/letter-index.demo";
+import { UndoToastDemo } from "@/registry/demos/undo-toast.demo";
+import { LightBoxDemo } from "@/registry/demos/light-box.demo";
+import { EditBubbleDemo } from "@/registry/demos/edit-bubble.demo";
+import { BellTrayDemo } from "@/registry/demos/bell-tray.demo";
+import { TypedConfirmDemo } from "@/registry/demos/typed-confirm.demo";
+import { FabFanDemo } from "@/registry/demos/fab-fan.demo";
+import { KeymapSheetDemo } from "@/registry/demos/keymap-sheet.demo";
+import { DockPlayerDemo } from "@/registry/demos/dock-player.demo";
+import { ShareTrayDemo } from "@/registry/demos/share-tray.demo";
+import { ConsentSlabDemo } from "@/registry/demos/consent-slab.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1434,4 +1444,14 @@ export const demos: Record<string, ComponentType> = {
   "section-dots": SectionDotsDemo,
   "burger-sheet": BurgerSheetDemo,
   "letter-index": LetterIndexDemo,
+  "undo-toast": UndoToastDemo,
+  "light-box": LightBoxDemo,
+  "edit-bubble": EditBubbleDemo,
+  "bell-tray": BellTrayDemo,
+  "typed-confirm": TypedConfirmDemo,
+  "fab-fan": FabFanDemo,
+  "keymap-sheet": KeymapSheetDemo,
+  "dock-player": DockPlayerDemo,
+  "share-tray": ShareTrayDemo,
+  "consent-slab": ConsentSlabDemo,
 };

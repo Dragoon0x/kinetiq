@@ -13876,6 +13876,1086 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "priority-flag",
+      "type": "registry:ui",
+      "title": "Priority Flag",
+      "description": "Priority drawn as a signal mast: the flag climbs to the chosen rung on glide while its colour tweens up the muted → warn → danger ramp. Landing on the top rung it flutters once, a single two-keyframe skew on recoil. Up and Down step the mast and wrap, Home and End jump to the ends, Space and Enter select.",
+      "files": [
+        {
+          "path": "registry/ui/priority-flag.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-506"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slot-grid",
+      "type": "registry:ui",
+      "title": "Slot Grid",
+      "description": "Appointment slots as a real grid of day columns and time rows. Free slots lift a pixel on hover with glide, taken slots are hatched and inert, and picking stamps the slot from 1.3× on recoil while the summary beneath cross-fades to the new time. Arrow keys walk the cells, Home and End jump to the ends of a row, Enter and Space pick.",
+      "files": [
+        {
+          "path": "registry/ui/slot-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-507"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vote-pair",
+      "type": "registry:ui",
+      "title": "Vote Pair",
+      "description": "Up and down vote buttons with the tally rolling between them. The chosen thumb pops from 0.78 on recoil and holds an 8° tilt toward its own direction on snap, while the tally rolls in the direction it moved and travels further when a side switch swings it by two. Both halves are toggle buttons carrying aria-pressed, so Enter or Space on the side already chosen withdraws the vote.",
+      "files": [
+        {
+          "path": "registry/ui/vote-pair.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-508"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "access-matrix",
+      "type": "registry:ui",
+      "title": "Access Matrix",
+      "description": "A permission matrix with roles down, actions across and a switch in every cell. Flipping a row's master runs its cells in order on cascade(), each knob sliding on snap, so a bulk change reads as one act rather than five simultaneous blinks; a column header lights its column by hover or by focus. Arrow keys walk the grid in two dimensions, Home and End jump to the ends of a row, Space and Enter toggle.",
+      "files": [
+        {
+          "path": "registry/ui/access-matrix.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-509"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "avatar-pick",
+      "type": "registry:ui",
+      "title": "Avatar Pick",
+      "description": "A face chooser where one ring travels between the tiles on snap, keyed by a shared layoutId so it is the same ring moving rather than nine rings blinking. The chosen face puffs to 1.08 on recoil while the rest lose a little saturation on a tween, and the last tile opens a real file picker and previews the image in place. Arrows step and wrap, Home and End jump to the ends, Space and Enter select.",
+      "files": [
+        {
+          "path": "registry/ui/avatar-pick.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-510"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "choice-cards",
+      "type": "registry:ui",
+      "title": "Choice Cards",
+      "description": "A plan picker built as a radiogroup of cards. Choosing lifts the card 2px on glide while a ring draws around its perimeter and a check stamps into the corner on recoil, and the unchosen cards step back in tone. Switching the billing period re-rolls every price digit by digit on glide; arrow keys move between cards, Home and End jump to the ends, and Space selects.",
+      "files": [
+        {
+          "path": "registry/ui/choice-cards.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-501"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "size-tiles",
+      "type": "registry:ui",
+      "title": "Size Tiles",
+      "description": "A size chooser that answers with weight instead of layout. The chosen tile inflates to 1.06 on snap and its border thickens, both transform and colour, so nothing beside it shifts; unavailable tiles draw a diagonal strike through themselves on flick when hovered or focused and carry 'out of stock' for a screen reader. Arrow keys move and wrap, Home and End jump, Space selects, and the fit note beneath cross-fades over a measured height.",
+      "files": [
+        {
+          "path": "registry/ui/size-tiles.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-502"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "filter-ledge",
+      "type": "registry:ui",
+      "title": "Filter Ledge",
+      "description": "A ledge of filter chips that keeps its arithmetic honest. Toggling a chip blooms its fill from the centre on snap while a check draws itself in on flick and widens a slot to sit in, and the result count beneath rolls its digits to the new number on glide. Clear all sweeps the fills off in a cascade, left to right; every chip is a toggle button carrying aria-pressed and its own tab stop.",
+      "files": [
+        {
+          "path": "registry/ui/filter-ledge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-503"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cadence-pick",
+      "type": "registry:ui",
+      "title": "Cadence Pick",
+      "description": "A rhythm picker that shows the rhythm. Four stops share one knob that glides between them on snap, and beside them a seven by five calendar glyph re-patterns itself: every mark keeps its identity across cadences, so it travels to its new cell on glide in a cascade rather than blinking out and back. Custom unfolds an interval stepper over a measured height; arrows move and wrap, Home and End jump, Space selects.",
+      "files": [
+        {
+          "path": "registry/ui/cadence-pick.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-504"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "likert-scale",
+      "type": "registry:ui",
+      "title": "Likert Scale",
+      "description": "An agreement scale of five or seven nodes on a line. Choosing fills the line up to that node on glide and inflates the node on snap, while the anchors shift weight with it — the near one firms as the far one fades — and hovering previews the fill at a lower weight without committing. A radiogroup with a roving tabindex: arrows move and select, Home and End jump to the ends, Space selects.",
+      "files": [
+        {
+          "path": "registry/ui/likert-scale.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "selection"
+      ],
+      "meta": {
+        "serial": "KQ-505"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mask-field",
+      "type": "registry:ui",
+      "title": "Mask Field",
+      "description": "A text field that wears its format. Ghost glyphs hold the shape of what is expected, and as characters land the mask's separators arrive on flick — scaling up from 0.6 as the ink comes in — while deleting pulls them back out the same way. One real input carries the value beneath a transparent text layer so a monospace cell grid can draw the glyphs, which keeps the native keyboard intact: typing, backspace across a separator, selection and paste all behave as the browser intends, and a pasted number fills every slot in a single cascade inside the 600ms budget.",
+      "files": [
+        {
+          "path": "registry/ui/mask-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-491"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "typeahead-field",
+      "type": "registry:ui",
+      "title": "Typeahead Field",
+      "description": "A field that finishes the word for you. The best match's remainder sits in grey just past the caret, and accepting it wipes the grey copy left to right over durations.base to reveal the committed ink underneath, so the completion is seen becoming real rather than swapped for real. Beneath, matches cascade() in with the typed span emphasised and a single marker rides between them on snap, carried by one layoutId; the input never loses focus, so ArrowUp and ArrowDown move the marker, Tab or ArrowRight takes the completion, Enter picks the marked row and Escape closes the list.",
+      "files": [
+        {
+          "path": "registry/ui/typeahead-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-492"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "strength-field",
+      "type": "registry:ui",
+      "title": "Strength Field",
+      "description": "A password field that shows its work. Four segments fill on snap as rules are met, staggered by cascade() so a pasted passphrase fills the bar left to right rather than flashing whole, and the bar steps danger → warn → success on a colour tween because a grade is not a landing. Each rule keeps a chip that fills as it is satisfied, with a tick drawing inside it on flick and un-drawing on a tween when the rule breaks; the reveal toggle is a real pressed button that strikes its eye on snap, and the rules travel as data so a product can bring its own.",
+      "files": [
+        {
+          "path": "registry/ui/strength-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-493"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "catch-zone",
+      "type": "registry:ui",
+      "title": "Catch Zone",
+      "description": "A file drop zone that braces. Dragging files over it pulls the dashed frame tight — dash and gap interpolate from one value, so the frame stitches rather than blinks — and contracts the panel 1.5% on flick; leaving relaxes both. Accepted files land as rows on glide arriving from distances.step, each size stamping itself down on recoil while a progress fill runs on a linear tween, and a refused file gets no celebration at all: the frame nudges 4px on a tween and an alert says why. A real file input sits behind the button, so the keyboard path is the platform's own picker rather than a re-implementation.",
+      "files": [
+        {
+          "path": "registry/ui/catch-zone.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-494"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "signature-pad",
+      "type": "registry:ui",
+      "title": "Signature Pad",
+      "description": "An SVG pad whose ink remembers the pen. Each sample's nib width comes from the speed since the last one, smoothed so the line eases rather than flickers — a fast flourish thins, a slow stop pools — and every stroke is a filled ribbon revealed through a mask that runs along the pen's own path. That is what lets Clear rewind instead of blink: each stroke un-writes on glide, last one first, cascade() apart, while Undo lifts a single stroke away on a fade. Pointer capture is claimed only after 4px of travel so a tap stays a tap, and the keyboard path is a real typed-signature input announced as an equal way to sign.",
+      "files": [
+        {
+          "path": "registry/ui/signature-pad.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-495"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pin-pad",
+      "type": "registry:ui",
+      "title": "Pin Pad",
+      "description": "A keypad for codes whose keys pop on flick under the finger or under the matching digit typed on a keyboard, filling a dot on snap. A refused code jumps the row and lets recoil ring it out, then empties the dots one at a time on a cascade; an accepted code seals the row into one bar and stamps the check on recoil. Digits type straight in, Backspace and Delete remove, Escape clears, and arrow keys rove the pad.",
+      "files": [
+        {
+          "path": "registry/ui/pin-pad.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-496"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hue-ring",
+      "type": "registry:ui",
+      "title": "Hue Ring",
+      "description": "A hue wheel whose thumb chases the pointer on snap, always the short way round, over a lightness bar that carries the chosen hue. The swatch takes the new colour on a tween and the hex readout rolls each character into place on glide. Two real sliders: arrows step one degree, Shift+Arrow steps ten, Home and End jump to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/hue-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-497"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "time-dial",
+      "type": "registry:ui",
+      "title": "Time Dial",
+      "description": "A clock face for picking a time. Tapping or dragging the ring swings the hand to that hour on snap, by the shortest arc, then the face cross-fades to minutes and the hand glides across to the new scale while the readout rolls the digits that changed. Arrows step the phase you are in, Enter advances hour to minute to done, Escape steps back, and the face reports as a slider whose value text reads the whole time.",
+      "files": [
+        {
+          "path": "registry/ui/time-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-498"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "almanac-picker",
+      "type": "registry:ui",
+      "title": "Almanac Picker",
+      "description": "A month grid that moves by direction: the next month enters from distances.shift on the right while the old one leaves on the exit ease, and the frame's measured height glides so a five-row month never jumps to a six-row one. A chosen day stamps on recoil and today wears a ring; in range mode the fill sweeps between the ends on a scaleX tween. Arrows move a day, PageUp and PageDown change month, Home and End jump to the week's ends, and Enter selects.",
+      "files": [
+        {
+          "path": "registry/ui/almanac-picker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-499"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slide-confirm",
+      "type": "registry:ui",
+      "title": "Slide Confirm",
+      "description": "A track that asks for the whole gesture. The thumb tracks the pointer 1:1 while the label fades under it and a fill follows behind; past 85% it slams home on flick, the arrow morphs into a check and the copy swaps, and released short of that it springs back on snap. ArrowRight nudges 10% a press, ArrowLeft takes it back, End runs it to the top and Enter there confirms, so the keyboard drives the same physics.",
+      "files": [
+        {
+          "path": "registry/ui/slide-confirm.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-500"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spy-index",
+      "type": "registry:ui",
+      "title": "Spy Index",
+      "description": "A table of contents that watches the page. An IntersectionObserver keyed to the reading line marks the section in view, and the marker travels between entries on glide through a shared layoutId while the active entry steps 4px out of the column and the rail beside the list fills with reading progress. Entries are plain links, so Tab reaches them and Enter follows them; clicking scrolls the container smoothly and hands focus to the target.",
+      "files": [
+        {
+          "path": "registry/ui/spy-index.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-511"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tab-bar",
+      "type": "registry:ui",
+      "title": "Tab Bar",
+      "description": "A bottom tab bar built for a thumb. The chosen tab fills its outline glyph — a solid path cross-fading over the stroked one, a tween because weight and colour have no physics — lifts its label 2px on snap, and the indicator pill travels under it through a shared layoutId rather than blinking out and in. A badge bumps on recoil when its number changes, and the bar is a real tablist: a roving tabindex, Left and Right around the bar, Home and End to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/tab-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-512"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fold-sidebar",
+      "type": "registry:ui",
+      "title": "Fold Sidebar",
+      "description": "An app sidebar that folds to a rail. The width travels between 224px and 56px on glide while each label fades and is clipped by its own row, and because every icon sits half a rail from the edge nothing shifts sideways as the panel narrows. The active pill travels between items through a shared layoutId, group panels animate to a measured height rather than a reserved one, the fold control's double chevron turns over on snap, and in rail mode a hovered or focused item names itself in a tooltip beside the rail.",
+      "files": [
+        {
+          "path": "registry/ui/fold-sidebar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-513"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "top-rise",
+      "type": "registry:ui",
+      "title": "Top Rise",
+      "description": "A back-to-top control that surfaces from the bottom edge on recoil — two visible bounces, the physics of something landing — once the container has passed the threshold, and sinks away on the exit ease when the top comes back into reach. Its ring carries scroll depth, drawn with pathLength so the geometry follows the button's own box rather than a fixed radius. Pressing it scrolls to the top while the arrow lifts 4px on flick; Tab reaches it and Enter or Space presses it.",
+      "files": [
+        {
+          "path": "registry/ui/top-rise.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-514"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "canopy-menu",
+      "type": "registry:ui",
+      "title": "Canopy Menu",
+      "description": "A mega menu that stays one panel. Hovering or focusing an item unfolds the canopy beneath the bar — scaleY from the top on glide, clipped — and its columns cascade in inside the 600ms budget. Moving to another item morphs the same panel to the new content's measured width and height rather than closing and reopening; Left and Right walk the bar, Tab steps down into the open panel, and Escape closes and hands focus back.",
+      "files": [
+        {
+          "path": "registry/ui/canopy-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-515"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "swipe-tabs",
+      "type": "registry:ui",
+      "title": "Swipe Tabs",
+      "description": "Tabs whose panels are a strip you can push: dragging moves the strip with the pointer while the underline rides the same value, so the indicator sits exactly where your thumb has taken it. Release settles to the nearest panel on snap and the strip's height glides to the new panel's measured height. Left and Right move and activate without wrapping past the ends, Home and End jump.",
+      "files": [
+        {
+          "path": "registry/ui/swipe-tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-516"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "route-bar",
+      "type": "registry:ui",
+      "title": "Route Bar",
+      "description": "The bar at the top of a page change. It appears at 8% and trickles toward 90% on a decaying schedule, so a slow route keeps moving without ever claiming to be nearly done; when the page lands it completes on glide and leaves on the exit ease, with a soft glow at its head. Purely presentational — hold active true while a navigation is pending, or call start() and done() on the ref.",
+      "files": [
+        {
+          "path": "registry/ui/route-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-517"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "section-dots",
+      "type": "registry:ui",
+      "title": "Section Dots",
+      "description": "A rail of dots down the side of a scrolling story. The active dot stretches into a pill on snap, a layout animation so the shape itself travels rather than a dot blinking on elsewhere, and its label slides out from the rail on hover or focus. The rail reads the container with an IntersectionObserver, and Up and Down move between dots while Enter scrolls the container to that section.",
+      "files": [
+        {
+          "path": "registry/ui/section-dots.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-518"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "burger-sheet",
+      "type": "registry:ui",
+      "title": "Burger Sheet",
+      "description": "A menu button that turns into its own close button: the middle bar fades while the outer two travel to the centre and rotate on snap, the same spring the sheet's links land on. The sheet is a large surface, so it arrives on glide with its links cascading behind it and leaves on the exit ease. It is a real dialog while open — focus is trapped in the panel, Escape closes and returns focus to the button, and the frame passed as container stops scrolling.",
+      "files": [
+        {
+          "path": "registry/ui/burger-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-519"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "letter-index",
+      "type": "registry:ui",
+      "title": "Letter Index",
+      "description": "The A–Z rail beside a long list. Dragging it pops the letter under the pointer out into a bubble on recoil, two visible bounces, while the list jumps instantly because it is following your thumb; letters with no entries are muted and the pick falls to the nearest letter that has some. The rail is a listbox: Up and Down move the active letter past the muted ones, and Enter scrolls the list there.",
+      "files": [
+        {
+          "path": "registry/ui/letter-index.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-520"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "undo-toast",
+      "type": "registry:ui",
+      "title": "Undo Toast",
+      "description": "A toast with an action and a countdown. It rises on recoil, whose two bounces read as something landing on the stack, while a ring beside the message drains linearly across the duration; hovering or focusing stops the ring where it stands and leaving resumes it from there. Taking the action cross-fades the panel to a restored line and lifts it away on the exit ease, and the action is a real button one Tab from the message.",
+      "files": [
+        {
+          "path": "registry/ui/undo-toast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-521"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "light-box",
+      "type": "registry:ui",
+      "title": "Light Box",
+      "description": "A gallery whose thumbnail grows into the viewer. Tile and viewer share a layoutId, so opening morphs the thumbnail's rect into the picture on glide while the backdrop tweens in, and closing returns it to the tile it grew from. Moving is a different gesture: the old picture leaves on the exit ease and the new arrives from distances.shift, driven by arrows, a swipe, or the Left and Right keys, with focus trapped and Escape closing.",
+      "files": [
+        {
+          "path": "registry/ui/light-box.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-522"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "edit-bubble",
+      "type": "registry:ui",
+      "title": "Edit Bubble",
+      "description": "Inline editing without a modal. A pencil hint appears on hover, and clicking morphs the value into a field: reading state and bubble share a layoutId, so the box grows on snap with one crisp overshoot while the text keeps its place. Enter saves and the new value lands on recoil like a stamp, Escape restores, blurring saves, and a blocked save nudges the bubble four pixels and prints the reason where the label sits.",
+      "files": [
+        {
+          "path": "registry/ui/edit-bubble.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-523"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bell-tray",
+      "type": "registry:ui",
+      "title": "Bell Tray",
+      "description": "A notification bell and its tray. An arriving item swings the bell on recoil, rotated about its crown so it pivots where a bell hangs, and bumps the badge with the same spring; opening drops the tray on glide with its items cascading in under the 600ms budget. Marking all read sweeps the unread dots out one after another, dismissing an item collapses its row on the exit ease, and the bell is a button with aria-expanded whose tray answers to Up, Down and Escape.",
+      "files": [
+        {
+          "path": "registry/ui/bell-tray.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-524"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "typed-confirm",
+      "type": "registry:ui",
+      "title": "Typed Confirm",
+      "description": "A destructive confirmation that has to be spelled out. Each character that agrees with the phrase lights where it stands on flick, the shortest spring in the set, and the danger button fills from the left in proportion to the match on a plain tween — nothing overshoots, because destruction does not celebrate. A character that disagrees dims the fill instead of clearing it, only an exact match enables the button, and it is an alertdialog with a focus trap where Escape cancels.",
+      "files": [
+        {
+          "path": "registry/ui/typed-confirm.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-525"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fab-fan",
+      "type": "registry:ui",
+      "title": "Fab Fan",
+      "description": "A floating action button that fans into five. Pressing turns the plus 45 degrees into a cross on snap while the actions travel a quarter arc and land on recoil in cascade; the label of whichever action the pointer or the keyboard is on slides in beside it from distances.step, pushed clear of its neighbours. Pressing again folds the cascade backwards on the exit ease. It is a menu button with aria-expanded: Up and Down walk the actions, Left and Right follow the arc, Home and End jump, Enter selects, and Escape folds the fan and returns focus to the trigger.",
+      "files": [
+        {
+          "path": "registry/ui/fab-fan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-526"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "keymap-sheet",
+      "type": "registry:ui",
+      "title": "Keymap Sheet",
+      "description": "A shortcut sheet that opens on ? or its trigger. The panel rises on glide and every keycap pops from 0.7x on flick in a cascade, grouped by section; typing in the filter folds the rows that no longer match away on the exit ease, headings included. It is a modal dialog with a focus trap, the hotkey is ignored while focus sits in a field, and Escape closes the sheet and returns focus to the trigger.",
+      "files": [
+        {
+          "path": "registry/ui/keymap-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-527"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dock-player",
+      "type": "registry:ui",
+      "title": "Dock Player",
+      "description": "A media card that docks. An IntersectionObserver watches its seat against the scrolling container, and once less than 40 percent of the seat is on screen the card shrinks into the corner along one shared layoutId, travelling on glide because a layout shift should not bounce. Play, progress and close ride along, the docked picture is a button that scrolls the seat back into view, and under reduced motion the two positions cross-fade.",
+      "files": [
+        {
+          "path": "registry/ui/dock-player.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-528"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "share-tray",
+      "type": "registry:ui",
+      "title": "Share Tray",
+      "description": "A share sheet whose tray raises on glide while the targets rise from distances.step on recoil in a cascade, so each arrival gets its own two bounces inside the 600ms budget. Copy writes the clipboard and stamps: the link mark cross-fades to a check that draws on flick and the label lands from 1.15x, and where the browser has a native sheet a More target hands off to it. It is a modal dialog with a focus trap, a labelled backdrop, and Escape closing back to the trigger.",
+      "files": [
+        {
+          "path": "registry/ui/share-tray.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-529"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "consent-slab",
+      "type": "registry:ui",
+      "title": "Consent Slab",
+      "description": "A consent slab that rises from the bottom of its frame on glide. Customise measures its own panel with a ResizeObserver and unfolds to exactly that height, with the necessary category locked on; a decision stamps into the button row and the slab sinks on the exit ease, leaving a Preferences chip to bring it back. It is a labelled region rather than a dialog, and each category is a switch with aria-checked that Enter or Space drives.",
+      "files": [
+        {
+          "path": "registry/ui/consent-slab.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "overlays"
+      ],
+      "meta": {
+        "serial": "KQ-530"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

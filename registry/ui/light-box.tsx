@@ -59,6 +59,23 @@ const SLIDE = {
 
 const ARROW = "M10 3.5 5.5 8l4.5 4.5";
 
+function Chevron({ forward }: { forward?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      aria-hidden
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={cn("size-3.5 shrink-0", forward && "rotate-180")}
+    >
+      <path d={ARROW} />
+    </svg>
+  );
+}
+
 const STEP_BUTTON =
   "flex size-8 shrink-0 items-center justify-center rounded-2 border border-hairline-strong text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
 
@@ -299,7 +316,7 @@ export function LightBox({
                 transition={
                   motionSafe ? springs.glide : { duration: durations.fast }
                 }
-                className="relative aspect-[4/3] w-full overflow-hidden rounded-3 border border-hairline-strong bg-surface-2"
+                className="relative aspect-[3/2] w-full overflow-hidden rounded-3 border border-hairline-strong bg-surface-2"
               >
                 {/* Nested AnimatePresence: its children keep their own presence,
                     so closing the viewer morphs a picture that is still there
@@ -339,18 +356,7 @@ export function LightBox({
                   onClick={() => move(-1)}
                   className={STEP_BUTTON}
                 >
-                  <svg
-                    viewBox="0 0 16 16"
-                    aria-hidden
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.75"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="size-3.5 shrink-0"
-                  >
-                    <path d={ARROW} />
-                  </svg>
+                  <Chevron />
                 </button>
 
                 {/* One grid cell holds every caption, so the row keeps its
@@ -381,18 +387,7 @@ export function LightBox({
                   onClick={() => move(1)}
                   className={STEP_BUTTON}
                 >
-                  <svg
-                    viewBox="0 0 16 16"
-                    aria-hidden
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.75"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="size-3.5 shrink-0 rotate-180"
-                  >
-                    <path d={ARROW} />
-                  </svg>
+                  <Chevron forward />
                 </button>
               </motion.div>
             </div>

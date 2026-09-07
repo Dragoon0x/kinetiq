@@ -31,7 +31,14 @@ export function ShareTrayDemo() {
           <h3 className="max-w-[70%] text-base leading-snug font-semibold">
             {ARTICLE.title}
           </h3>
-          <div className="h-20 w-full rounded-2 bg-linear-to-br from-cobalt-wash to-surface-2" />
+          <div
+            aria-hidden
+            className="h-20 w-full rounded-2 bg-linear-to-br from-cobalt-wash to-surface-2"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(115deg, var(--hairline-strong) 0 1px, transparent 1px 9px)",
+            }}
+          />
           <p className="text-xs leading-relaxed text-ink-2">
             A vane that reads long on every third pass is not broken. It is
             telling you where the stop sits, and the tape is the only witness
