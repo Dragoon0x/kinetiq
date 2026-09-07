@@ -4,12 +4,17 @@ import { pagesByFamily } from "@/content/page-categories";
 import { catalogPages } from "@/content/manifest";
 
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMeta } from "@/lib/seo";
+import { breadcrumbLd, collectionLd } from "@/lib/structured-data";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Pages",
   description:
     "Whole page compositions — auth, onboarding, editorial, and every way a request can fail, assembled from the Kinetiq catalog.",
-};
+  path: "/pages",
+  keywords: ["React page templates", "auth page", "onboarding", "error pages"],
+});
 
 function PageCard({ page }: { page: (typeof catalogPages)[number] }) {
   return (
@@ -33,6 +38,24 @@ export default function PagesIndexPage() {
 
   return (
     <div className="mx-auto w-full max-w-5xl px-6 py-12">
+      <JsonLd
+        data={[
+          collectionLd({
+            name: "Pages",
+            description:
+              "Whole page compositions \u2014 auth, onboarding, editorial, and every way a request can fail, assembled from the Kinetiq catalog.",
+            path: "/pages",
+            items: catalogPages.map((p) => ({
+              name: p.title,
+              path: `/pages/${p.name}`,
+            })),
+          }),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Pages", path: "/pages" },
+          ]),
+        ]}
+      />
       <header className="max-w-2xl">
         <p className="text-label text-ink-3">Pages</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-balance">

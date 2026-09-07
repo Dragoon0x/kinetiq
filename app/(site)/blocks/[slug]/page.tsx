@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 
 import { ComponentDocPage } from "@/components/docs/component-page";
 import { catalogBlocks, itemBySlug } from "@/content/manifest";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMeta } from "@/lib/seo";
+import { breadcrumbLd, softwareLd } from "@/lib/structured-data";
 
 export const dynamicParams = false;
 
@@ -18,7 +21,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const item = itemBySlug(slug);
   if (!item) return {};
-  return { title: item.title, description: item.description };
+  return pageMeta({
+    title: item.title,
+    description: item.description,
+    path: `/blocks/${slug}`,
+    keywords: [item.meta?.serial ?? "", ...item.keywords].filter(Boolean),
+  });
 }
 
 export default async function BlockPage({
@@ -29,5 +37,19 @@ export default async function BlockPage({
   const { slug } = await params;
   const item = itemBySlug(slug);
   if (!item || item.type !== "registry:block" || item.draft) notFound();
-  return <ComponentDocPage item={item} kind="blocks" />;
+  return (
+    <>
+      <JsonLd
+        data={[
+          softwareLd(item, "blocks"),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Blocks", path: "/blocks" },
+            { name: item.title, path: `/blocks/${slug}` },
+          ]),
+        ]}
+      />
+      <ComponentDocPage item={item} kind="blocks" />
+    </>
+  );
 }

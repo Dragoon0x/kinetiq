@@ -20,7 +20,8 @@
     "test:e2e": "playwright test",
     "mcp:build": "pnpm --filter @kinetiqui/mcp build",
     "mcp:test": "pnpm --filter @kinetiqui/mcp test",
-    "mcp:snapshot": "tsx scripts/build-machine-meta.ts"
+    "mcp:snapshot": "tsx scripts/build-machine-meta.ts",
+    "seo:indexnow": "tsx scripts/indexnow.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",

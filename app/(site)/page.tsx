@@ -13,6 +13,33 @@ import {
   catalogTemplates,
 } from "@/content/manifest";
 import { Wavefield } from "@/registry/ui/wavefield";
+import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
+import { siteConfig } from "@/lib/site-config";
+
+const HOME_TITLE = `${siteConfig.name} — ${siteConfig.tagline}`;
+
+const base = pageMeta({
+  title: siteConfig.tagline,
+  description: siteConfig.description,
+  path: "/",
+  keywords: [
+    "React animation library",
+    "animated React components",
+    "spring animation",
+    "motion design system",
+    "shadcn registry",
+    "React UI kit",
+  ],
+});
+
+/** The home page carries the site's full name, not the templated one. */
+export const metadata: Metadata = {
+  ...base,
+  title: { absolute: HOME_TITLE },
+  openGraph: { ...base.openGraph, title: HOME_TITLE },
+  twitter: { ...base.twitter, title: HOME_TITLE },
+};
 
 const AGENT_CHANNELS = [
   {
@@ -40,7 +67,10 @@ export default function HomePage() {
   const stats = [
     { value: catalogComponents.length, label: "Instruments" },
     { value: catalogBlocks.length, label: "Assemblies" },
-    { value: catalogPages.length + catalogTemplates.length, label: "Pages & templates" },
+    {
+      value: catalogPages.length + catalogTemplates.length,
+      label: "Pages & templates",
+    },
     { value: categoryCount, label: "Categories" },
   ];
 
@@ -58,7 +88,7 @@ export default function HomePage() {
         />
         <div
           aria-hidden
-          className="bg-grid bg-grid-fade pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 bg-grid bg-grid-fade"
         />
         <div className="relative mx-auto flex w-full max-w-7xl flex-col items-center px-6 pt-24 pb-20 text-center">
           <p className="text-label text-ink-3">
@@ -66,10 +96,10 @@ export default function HomePage() {
             INSTRUMENTS · {String(catalogBlocks.length).padStart(2, "0")}{" "}
             ASSEMBLIES
           </p>
-          <h1 className="text-ink mt-6 max-w-3xl text-5xl font-semibold tracking-tight text-balance sm:text-6xl">
+          <h1 className="mt-6 max-w-3xl text-5xl font-semibold tracking-tight text-balance text-ink sm:text-6xl">
             Motion, calibrated.
           </h1>
-          <p className="text-ink-2 mt-6 max-w-xl text-lg text-balance">
+          <p className="mt-6 max-w-xl text-lg text-balance text-ink-2">
             A React component library where every animation — springs, physics,
             canvas fields, 3D — shares five calibrated springs. Copy the source.
             Own the code. Ship interfaces that feel machined.
@@ -77,13 +107,13 @@ export default function HomePage() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/explore"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-2 px-5 py-2.5 text-sm font-medium transition-colors"
+              className="rounded-2 bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
               Open the explorer
             </Link>
             <Link
               href="/components"
-              className="border-input text-ink hover:bg-accent rounded-2 border px-5 py-2.5 text-sm font-medium transition-colors"
+              className="rounded-2 border border-input px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-accent"
             >
               Browse components
             </Link>
@@ -91,7 +121,7 @@ export default function HomePage() {
 
           <div className="mt-14 w-full max-w-xl text-left">
             <InstallCommand slug="pressure-button" />
-            <p className="text-ink-3 mt-3 text-center text-xs">
+            <p className="mt-3 text-center text-xs text-ink-3">
               One command. The code lands in your repo, not ours.
             </p>
           </div>
@@ -99,13 +129,13 @@ export default function HomePage() {
       </section>
 
       {/* calibration set */}
-      <section className="border-hairline border-t">
+      <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-7xl px-6 py-20">
           <p className="text-label text-ink-3">THE CALIBRATION SET</p>
           <h2 className="mt-2 max-w-lg text-3xl font-semibold tracking-tight">
             Five springs. One language.
           </h2>
-          <p className="text-ink-2 mt-3 max-w-xl">
+          <p className="mt-3 max-w-xl text-ink-2">
             flick confirms, snap switches, glide moves, drift breathes, recoil
             celebrates. Hover a calibration to feel its personality.
           </p>
@@ -116,13 +146,13 @@ export default function HomePage() {
       </section>
 
       {/* the numbers — real counts, rolled by the same instrument they count */}
-      <section className="border-hairline border-t">
+      <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-7xl px-6 py-20">
           <p className="text-label text-ink-3">THE INVENTORY</p>
           <h2 className="mt-2 max-w-lg text-3xl font-semibold tracking-tight">
             One system, machined from one piece.
           </h2>
-          <p className="text-ink-2 mt-3 max-w-xl">
+          <p className="mt-3 max-w-xl text-ink-2">
             Counted from the catalog at build time and rolled by the readout —
             the same instrument you can install.
           </p>
@@ -133,13 +163,13 @@ export default function HomePage() {
       </section>
 
       {/* the library demonstrates itself */}
-      <section className="border-hairline border-t">
+      <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-7xl px-6 py-20">
           <p className="text-label text-ink-3">SELF-DEMONSTRATION</p>
           <h2 className="mt-2 max-w-lg text-3xl font-semibold tracking-tight">
             Nothing here is a screenshot.
           </h2>
-          <p className="text-ink-2 mt-3 max-w-xl">
+          <p className="mt-3 max-w-xl text-ink-2">
             Two vignettes and the agent desk, running live with their default
             props. Hover the scenes; type in the desk. If the home page needed
             special versions, the components would be the problem.
@@ -151,32 +181,32 @@ export default function HomePage() {
       </section>
 
       {/* agent-native distribution */}
-      <section className="border-hairline border-t">
+      <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-7xl px-6 py-20">
           <p className="text-label text-ink-3">AGENT-NATIVE</p>
           <h2 className="mt-2 max-w-lg text-3xl font-semibold tracking-tight">
             Your agent already knows this library.
           </h2>
-          <p className="text-ink-2 mt-3 max-w-xl">
+          <p className="mt-3 max-w-xl text-ink-2">
             Three channels, all free: the registry your tools install from, an
-            MCP server your agent searches, and a packaged skill that teaches
-            it the doctrine.
+            MCP server your agent searches, and a packaged skill that teaches it
+            the doctrine.
           </p>
           <div className="mt-10 grid gap-4 lg:grid-cols-3">
             {AGENT_CHANNELS.map((channel) => (
               <div
                 key={channel.title}
-                className="border-hairline rounded-4 bg-surface-1 flex flex-col border p-6"
+                className="flex flex-col rounded-4 border border-hairline bg-surface-1 p-6"
               >
-                <h3 className="text-ink font-semibold tracking-tight">
+                <h3 className="font-semibold tracking-tight text-ink">
                   {channel.title}
                 </h3>
-                <p className="text-ink-2 mt-2 flex-1 text-sm leading-relaxed">
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-2">
                   {channel.copy}
                 </p>
                 <Link
                   href={channel.href}
-                  className="text-ink-2 hover:text-ink mt-4 text-sm font-medium transition-colors"
+                  className="mt-4 text-sm font-medium text-ink-2 transition-colors hover:text-ink"
                 >
                   {channel.linkLabel} →
                 </Link>
@@ -185,7 +215,7 @@ export default function HomePage() {
           </div>
           <div className="mx-auto mt-8 w-full max-w-xl">
             <InstallCommand slug="agent-skill" />
-            <p className="text-ink-3 mt-3 text-center text-xs">
+            <p className="mt-3 text-center text-xs text-ink-3">
               Installs to .claude/skills/kinetiq — your agent takes it from
               there.
             </p>
@@ -194,7 +224,7 @@ export default function HomePage() {
       </section>
 
       {/* exhibit floor */}
-      <section className="border-hairline border-t">
+      <section className="border-t border-hairline">
         <div className="mx-auto w-full max-w-7xl px-6 py-20">
           <div className="flex items-end justify-between gap-6">
             <div>
@@ -202,14 +232,14 @@ export default function HomePage() {
               <h2 className="mt-2 text-3xl font-semibold tracking-tight">
                 Live specimens.
               </h2>
-              <p className="text-ink-2 mt-3 max-w-xl">
+              <p className="mt-3 max-w-xl text-ink-2">
                 Every instrument is interactive — press, hold, and drag them
                 right here. The whole catalog runs live in the explorer.
               </p>
             </div>
             <Link
               href="/explore"
-              className="text-ink-2 hover:text-ink hidden shrink-0 text-sm font-medium transition-colors sm:block"
+              className="hidden shrink-0 text-sm font-medium text-ink-2 transition-colors hover:text-ink sm:block"
             >
               Open the explorer →
             </Link>
@@ -220,7 +250,7 @@ export default function HomePage() {
           <div className="mt-12 flex justify-center">
             <Link
               href="/explore"
-              className="border-input text-ink hover:bg-accent rounded-2 border px-5 py-2.5 text-sm font-medium transition-colors"
+              className="rounded-2 border border-input px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-accent"
             >
               See all {catalogComponents.length} instruments live
             </Link>

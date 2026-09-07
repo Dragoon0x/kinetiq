@@ -3,12 +3,17 @@ import type { Metadata } from "next";
 import { CodeBlock } from "@/components/docs/code-block";
 import { catalogBlocks, catalogComponents } from "@/content/manifest";
 import { siteConfig } from "@/lib/site-config";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMeta } from "@/lib/seo";
+import { breadcrumbLd, webPageLd } from "@/lib/structured-data";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "For AI agents",
   description:
     "Programmatic access to the Kinetiq registry: endpoints, item shape, and install flows for coding agents.",
-};
+  path: "/agents",
+  keywords: ["AI agents", "shadcn registry", "MCP", "install", "API"],
+});
 
 const NAMESPACE_SNIPPET = `# One-time namespace configuration
 npx shadcn@latest registry add ${siteConfig.registryNamespace}=${siteConfig.url}/r/{name}.json
@@ -58,11 +63,25 @@ const ITEM_SHAPE = `{
 export default function AgentsPage() {
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-12">
+      <JsonLd
+        data={[
+          webPageLd({
+            name: "For AI agents",
+            description:
+              "Programmatic access to the Kinetiq registry: endpoints, item shape, and install flows for coding agents.",
+            path: "/agents",
+          }),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "For AI agents", path: "/agents" },
+          ]),
+        ]}
+      />
       <p className="text-label text-ink-3">MACHINE INTERFACE</p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">
         For AI agents
       </h1>
-      <p className="text-ink-2 mt-3 max-w-xl">
+      <p className="mt-3 max-w-xl text-ink-2">
         Everything on this site is reachable without a browser. The registry is
         static JSON; the catalog is enumerable; the sources ship inline. If you
         are an agent: welcome — this page is for you.
@@ -72,7 +91,7 @@ export default function AgentsPage() {
         <h2 className="text-xl font-semibold tracking-tight">
           Install via the shadcn CLI
         </h2>
-        <p className="text-ink-2 text-sm">
+        <p className="text-sm text-ink-2">
           Kinetiq is a shadcn-compatible registry. Configure the{" "}
           <code className="font-mono text-[13px]">
             {siteConfig.registryNamespace}
@@ -87,7 +106,7 @@ export default function AgentsPage() {
         <h2 className="text-xl font-semibold tracking-tight">
           Or fetch the JSON yourself
         </h2>
-        <p className="text-ink-2 text-sm">
+        <p className="text-sm text-ink-2">
           {catalogComponents.length} components and {catalogBlocks.length}{" "}
           blocks, each a single JSON document with sources inlined — no build
           step, no auth, no rate ceremony.
@@ -97,13 +116,17 @@ export default function AgentsPage() {
 
       <section className="mt-12 space-y-4">
         <h2 className="text-xl font-semibold tracking-tight">Item shape</h2>
-        <p className="text-ink-2 text-sm">
-          Items follow the registry-item schema. Shared helpers (the
-          calibration set, <code className="font-mono text-[13px]">cn</code>,
-          the reduced-motion hook) arrive transitively through{" "}
+        <p className="text-sm text-ink-2">
+          Items follow the registry-item schema. Shared helpers (the calibration
+          set, <code className="font-mono text-[13px]">cn</code>, the
+          reduced-motion hook) arrive transitively through{" "}
           <code className="font-mono text-[13px]">registryDependencies</code>.
         </p>
-        <CodeBlock code={ITEM_SHAPE} lang="json" filename="r/pressure-button.json" />
+        <CodeBlock
+          code={ITEM_SHAPE}
+          lang="json"
+          filename="r/pressure-button.json"
+        />
       </section>
 
       <section className="mt-12 space-y-3">
@@ -116,7 +139,7 @@ export default function AgentsPage() {
             ["/sitemap.xml", "every page"],
           ].map(([path, description]) => (
             <li key={path} className="flex gap-3 text-sm">
-              <code className="text-cobalt-bright font-mono text-[13px]">
+              <code className="font-mono text-[13px] text-cobalt-bright">
                 {path}
               </code>
               <span className="text-ink-2">{description}</span>

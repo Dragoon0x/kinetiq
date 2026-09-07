@@ -4,16 +4,43 @@ import { templateKindOf } from "@/content/template-categories";
 import { catalogTemplates } from "@/content/manifest";
 
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMeta } from "@/lib/seo";
+import { breadcrumbLd, collectionLd } from "@/lib/structured-data";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Templates",
   description:
     "Complete landing sites, each assembled end to end from shipped Kinetiq sections — navbar through footer, no page-local markup.",
-};
+  path: "/templates",
+  keywords: [
+    "React landing page templates",
+    "site templates",
+    "Next.js templates",
+  ],
+});
 
 export default function TemplatesIndexPage() {
   return (
     <div className="mx-auto w-full max-w-5xl px-6 py-12">
+      <JsonLd
+        data={[
+          collectionLd({
+            name: "Templates",
+            description:
+              "Complete landing sites, each assembled end to end from shipped Kinetiq sections \u2014 navbar through footer, no page-local markup.",
+            path: "/templates",
+            items: catalogTemplates.map((t) => ({
+              name: t.title,
+              path: `/templates/${t.name}`,
+            })),
+          }),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Templates", path: "/templates" },
+          ]),
+        ]}
+      />
       <header className="max-w-2xl">
         <p className="text-label text-ink-3">Templates</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-balance">

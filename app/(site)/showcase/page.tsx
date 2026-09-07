@@ -4,12 +4,17 @@ import { categoryBySlug } from "@/content/categories";
 import { SHOWCASES } from "@/content/showcases";
 
 import type { Metadata } from "next";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMeta } from "@/lib/seo";
+import { breadcrumbLd, collectionLd } from "@/lib/structured-data";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Showcases",
   description:
     "Each category of the Kinetiq catalog, staged as a scene — the instruments running together rather than listed apart.",
-};
+  path: "/showcase",
+  keywords: ["component showcase", "live demos", "categories"],
+});
 
 /**
  * The parent of /showcase/[category]. It used to 404: the children were
@@ -19,6 +24,24 @@ export const metadata: Metadata = {
 export default function ShowcaseIndexPage() {
   return (
     <div className="mx-auto w-full max-w-5xl px-6 py-12">
+      <JsonLd
+        data={[
+          collectionLd({
+            name: "Showcases",
+            description:
+              "Each category of the Kinetiq catalog, staged as a scene \u2014 the instruments running together rather than listed apart.",
+            path: "/showcase",
+            items: SHOWCASES.map((s) => ({
+              name: `${categoryBySlug(s.slug)?.label ?? s.slug} showcase`,
+              path: `/showcase/${s.slug}`,
+            })),
+          }),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Showcases", path: "/showcase" },
+          ]),
+        ]}
+      />
       <header className="max-w-2xl">
         <p className="text-label text-ink-3">Showcases</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight text-balance">

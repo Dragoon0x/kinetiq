@@ -6,34 +6,61 @@ import {
   GuideSection,
   GuideShell,
 } from "@/components/docs/guide-shell";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMeta } from "@/lib/seo";
+import { articleLd, breadcrumbLd } from "@/lib/structured-data";
+import { guideBySlug } from "@/content/guides";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Motion Performance",
   description: "Transforms over layout, FLIP, and SSR-safe mounting.",
-};
+  path: "/guides/motion-performance",
+  keywords: [
+    "motion design",
+    "animation guide",
+    "React animation",
+    "spring physics",
+    "Kinetiq guide",
+  ],
+});
 
 export default function MotionPerformanceGuide() {
   return (
     <GuideShell slug="motion-performance">
+      <JsonLd
+        data={[
+          articleLd({
+            headline: "Motion Performance",
+            description: "Transforms over layout, FLIP, and SSR-safe mounting.",
+            path: "/guides/motion-performance",
+            serial: guideBySlug("motion-performance")?.serial,
+          }),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Guides", path: "/guides" },
+            { name: "Motion Performance", path: "/guides/motion-performance" },
+          ]),
+        ]}
+      />
       <GuideSection title="Animate the compositor, not the layout engine">
         <GuideP>
           Transforms and opacity are the two properties browsers can animate
-          without recomputing layout or repainting — they run on the
-          compositor thread and stay smooth even while React is busy.
-          Width, height, top, and left invalidate layout on every frame.
-          The entire Kinetiq catalog animates transforms and opacity;
-          anything that looks like a size change is an impersonation.
+          without recomputing layout or repainting — they run on the compositor
+          thread and stay smooth even while React is busy. Width, height, top,
+          and left invalidate layout on every frame. The entire Kinetiq catalog
+          animates transforms and opacity; anything that looks like a size
+          change is an impersonation.
         </GuideP>
       </GuideSection>
 
       <GuideSection title="FLIP: the impersonation technique">
         <GuideP>
           When a card moves between a list and a grid, its width really does
-          change — but not frame by frame. FLIP measures the element before
-          the change (First), lets CSS place it instantly (Last), applies the
+          change — but not frame by frame. FLIP measures the element before the
+          change (First), lets CSS place it instantly (Last), applies the
           inverse transform so it appears not to have moved (Invert), then
-          springs the transform to identity (Play). The expensive layout
-          happens once; the sixty frames in between are cheap transforms.
+          springs the transform to identity (Play). The expensive layout happens
+          once; the sixty frames in between are cheap transforms.
         </GuideP>
         <CodeBlock
           lang="tsx"
@@ -45,22 +72,22 @@ export default function MotionPerformanceGuide() {
 <motion.div animate={{ width: open ? 480 : 240 }} />`}
         />
         <GuideP>
-          The Layout Bench in the Playground has an X-ray mode that draws
-          each card&apos;s old bounding box during a transition — watch it
-          once and FLIP stops being magic.
+          The Layout Bench in the Playground has an X-ray mode that draws each
+          card&apos;s old bounding box during a transition — watch it once and
+          FLIP stops being magic.
         </GuideP>
       </GuideSection>
 
       <GuideSection title="SSR-safe mounting">
         <GuideP>
-          Server-rendered pages paint before React hydrates, which creates
-          two traps. First: anything measured or randomized must not differ
-          between server and client render — Kinetiq derives &quot;random&quot;
-          rotations from content hashes and defers measurement to effects
-          inside fixed-height frames, so nothing shifts. Second: entrance
-          animations that start at opacity zero on the server leave a blank
-          page for slow connections; gate them on mount or use whileInView so
-          content is visible-first, animated-second.
+          Server-rendered pages paint before React hydrates, which creates two
+          traps. First: anything measured or randomized must not differ between
+          server and client render — Kinetiq derives &quot;random&quot;
+          rotations from content hashes and defers measurement to effects inside
+          fixed-height frames, so nothing shifts. Second: entrance animations
+          that start at opacity zero on the server leave a blank page for slow
+          connections; gate them on mount or use whileInView so content is
+          visible-first, animated-second.
         </GuideP>
         <CodeBlock
           lang="tsx"

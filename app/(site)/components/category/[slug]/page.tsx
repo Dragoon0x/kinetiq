@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import {
-  CATEGORIES,
-  categoryBySlug,
-  categoryOf,
-} from "@/content/categories";
+import { CATEGORIES, categoryBySlug, categoryOf } from "@/content/categories";
 import { itemsByCollection } from "@/content/collections";
 import { catalogComponents } from "@/content/manifest";
 import type { KinetiqItem } from "@/content/manifest/types";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMeta } from "@/lib/seo";
+import { breadcrumbLd, collectionLd } from "@/lib/structured-data";
 
 export const dynamicParams = false;
 
@@ -31,10 +30,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const category = categoryBySlug(slug);
   if (!category) return {};
-  return {
+  return pageMeta({
     title: `${category.label} components`,
     description: category.blurb,
-  };
+    path: `/components/category/${slug}`,
+    keywords: [category.label, "React components", "animated", "motion"],
+  });
 }
 
 export default async function ComponentCategoryPage({
@@ -53,30 +54,47 @@ export default async function ComponentCategoryPage({
 
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-12">
-      <nav aria-label="Breadcrumb" className="text-ink-3 flex gap-2 text-sm">
-        <Link
-          href="/components"
-          className="hover:text-ink transition-colors"
-        >
+      <JsonLd
+        data={[
+          collectionLd({
+            name: `${category.label} components`,
+            description: category.blurb,
+            path: `/components/category/${slug}`,
+            items: items.map((c) => ({
+              name: c.title,
+              path: `/components/${c.name}`,
+            })),
+          }),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Components", path: "/components" },
+            { name: category.label, path: `/components/category/${slug}` },
+          ]),
+        ]}
+      />
+      <nav aria-label="Breadcrumb" className="flex gap-2 text-sm text-ink-3">
+        <Link href="/components" className="transition-colors hover:text-ink">
           Components
         </Link>
         <span aria-hidden>/</span>
         <span className="text-ink-2">{category.label}</span>
       </nav>
 
-      <p className="text-label text-ink-3 mt-8">
+      <p className="mt-8 text-label text-ink-3">
         {category.slug} · {String(items.length).padStart(2, "0")} INSTRUMENTS
       </p>
       <h1 className="mt-2 text-3xl font-semibold tracking-tight">
         {category.label}
       </h1>
-      <p className="text-ink-2 mt-3 max-w-xl text-base">{category.blurb}</p>
+      <p className="mt-3 max-w-xl text-base text-ink-2">{category.blurb}</p>
 
       <Link
         href={
-          category.slug === "spatial" ? "/spatial" : `/showcase/${category.slug}`
+          category.slug === "spatial"
+            ? "/spatial"
+            : `/showcase/${category.slug}`
         }
-        className="text-cobalt-bright hover:text-ink mt-4 inline-flex items-center gap-2 text-sm transition-colors"
+        className="mt-4 inline-flex items-center gap-2 text-sm text-cobalt-bright transition-colors hover:text-ink"
       >
         {category.slug === "spatial"
           ? "Enter the Spatial Wing"
@@ -101,7 +119,7 @@ export default async function ComponentCategoryPage({
                   {String(members.length).padStart(2, "0")}
                 </p>
               </div>
-              <p className="text-ink-2 mt-1.5 max-w-xl text-sm">
+              <p className="mt-1.5 max-w-xl text-sm text-ink-2">
                 {collection.blurb}
               </p>
               <CardGrid items={members} headingLevel="h3" className="mt-5" />
@@ -114,7 +132,7 @@ export default async function ComponentCategoryPage({
 
       <Link
         href={`/explore?category=${category.slug}`}
-        className="text-ink-2 hover:text-ink mt-10 inline-flex items-center gap-2 text-sm transition-colors"
+        className="mt-10 inline-flex items-center gap-2 text-sm text-ink-2 transition-colors hover:text-ink"
       >
         See {category.label} live in the explorer
         <span aria-hidden>→</span>
@@ -135,18 +153,20 @@ function CardGrid({
 }) {
   const Heading = headingLevel;
   return (
-    <ul className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${className ?? ""}`}>
+    <ul
+      className={`grid gap-4 sm:grid-cols-2 lg:grid-cols-3 ${className ?? ""}`}
+    >
       {items.map((component) => (
         <li key={component.name}>
           <Link
             href={`/components/${component.name}`}
-            className="group border-hairline bg-surface-1 hover:border-hairline-strong block h-full rounded-3 border p-5 transition-colors"
+            className="group block h-full rounded-3 border border-hairline bg-surface-1 p-5 transition-colors hover:border-hairline-strong"
           >
             <p className="text-label text-ink-3">{component.meta?.serial}</p>
-            <Heading className="group-hover:text-cobalt-bright mt-3 font-semibold transition-colors">
+            <Heading className="mt-3 font-semibold transition-colors group-hover:text-cobalt-bright">
               {component.title}
             </Heading>
-            <p className="text-ink-2 mt-1.5 text-sm">{component.tagline}</p>
+            <p className="mt-1.5 text-sm text-ink-2">{component.tagline}</p>
           </Link>
         </li>
       ))}

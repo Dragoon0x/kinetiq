@@ -7,15 +7,46 @@ import {
   GuideShell,
   GuideTable,
 } from "@/components/docs/guide-shell";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMeta } from "@/lib/seo";
+import { articleLd, breadcrumbLd } from "@/lib/structured-data";
+import { guideBySlug } from "@/content/guides";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Reduced Motion Is a First-Class State",
   description: "The degradation policy, and how to test it in one click.",
-};
+  path: "/guides/reduced-motion",
+  keywords: [
+    "motion design",
+    "animation guide",
+    "React animation",
+    "spring physics",
+    "Kinetiq guide",
+  ],
+});
 
 export default function ReducedMotionGuide() {
   return (
     <GuideShell slug="reduced-motion">
+      <JsonLd
+        data={[
+          articleLd({
+            headline: "Reduced Motion Is a First-Class State",
+            description:
+              "The degradation policy, and how to test it in one click.",
+            path: "/guides/reduced-motion",
+            serial: guideBySlug("reduced-motion")?.serial,
+          }),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Guides", path: "/guides" },
+            {
+              name: "Reduced Motion Is a First-Class State",
+              path: "/guides/reduced-motion",
+            },
+          ]),
+        ]}
+      />
       <GuideSection title="A policy, not a patch">
         <GuideP>
           Reduced motion is usually an afterthought — a media query bolted on
@@ -26,25 +57,40 @@ export default function ReducedMotionGuide() {
         <GuideTable
           head={["Category", "Full motion", "Reduced"]}
           rows={[
-            ["enters / exits", "spring + directional offset", "opacity fade, fast"],
-            ["discrete state", "travel + overshoot", "instant position, color tween only"],
+            [
+              "enters / exits",
+              "spring + directional offset",
+              "opacity fade, fast",
+            ],
+            [
+              "discrete state",
+              "travel + overshoot",
+              "instant position, color tween only",
+            ],
             [
               "direct manipulation",
               "1:1 tracking + inertia + settle",
               "1:1 tracking kept — inertia and settle removed",
             ],
             ["autoplay loops", "continuous", "static, or ≤1Hz opacity pulse"],
-            ["scroll-linked", "scrubbed transforms", "final state, opacity only"],
-            ["number rolls", "rolling digits", "instant value + brief highlight"],
+            [
+              "scroll-linked",
+              "scrubbed transforms",
+              "final state, opacity only",
+            ],
+            [
+              "number rolls",
+              "rolling digits",
+              "instant value + brief highlight",
+            ],
             ["morphs", "shared-element rect morph", "plain centered fade"],
           ]}
         />
         <GuideP>
-          Two distinctions carry most of the weight. Dragging keeps 1:1
-          tracking because tracking is input, not decoration — removing it
-          would break the interaction, not calm it. And progress indicators
-          keep filling because progress is information; only the flourish
-          around it goes.
+          Two distinctions carry most of the weight. Dragging keeps 1:1 tracking
+          because tracking is input, not decoration — removing it would break
+          the interaction, not calm it. And progress indicators keep filling
+          because progress is information; only the flourish around it goes.
         </GuideP>
       </GuideSection>
 
@@ -52,8 +98,7 @@ export default function ReducedMotionGuide() {
         <GuideP>
           No component reads the media query itself. Everything asks
           useMotionSafe, which combines the OS preference with an optional
-          app-level override — so the policy has exactly one enforcement
-          point.
+          app-level override — so the policy has exactly one enforcement point.
         </GuideP>
         <CodeBlock
           lang="tsx"
@@ -69,12 +114,12 @@ export default function ReducedMotionGuide() {
 
       <GuideSection title="Test it in one click">
         <GuideP>
-          The header carries an RM · TEST switch. Flip it and this entire
-          site — every demo, every page transition — drops into its reduced
-          pathway with a banner confirming the state. If a fallback ever
-          feels broken rather than calm, that is a bug, and it is visible to
-          anyone in one click. Policies you can&apos;t inspect don&apos;t
-          survive contact with shipping.
+          The header carries an RM · TEST switch. Flip it and this entire site —
+          every demo, every page transition — drops into its reduced pathway
+          with a banner confirming the state. If a fallback ever feels broken
+          rather than calm, that is a bug, and it is visible to anyone in one
+          click. Policies you can&apos;t inspect don&apos;t survive contact with
+          shipping.
         </GuideP>
       </GuideSection>
     </GuideShell>

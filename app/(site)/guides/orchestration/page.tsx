@@ -6,28 +6,56 @@ import {
   GuideSection,
   GuideShell,
 } from "@/components/docs/guide-shell";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMeta } from "@/lib/seo";
+import { articleLd, breadcrumbLd } from "@/lib/structured-data";
+import { guideBySlug } from "@/content/guides";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Orchestration",
   description: "The 600ms budget, cascades, and enter/exit asymmetry.",
-};
+  path: "/guides/orchestration",
+  keywords: [
+    "motion design",
+    "animation guide",
+    "React animation",
+    "spring physics",
+    "Kinetiq guide",
+  ],
+});
 
 export default function OrchestrationGuide() {
   return (
     <GuideShell slug="orchestration">
+      <JsonLd
+        data={[
+          articleLd({
+            headline: "Orchestration",
+            description:
+              "The 600ms budget, cascades, and enter/exit asymmetry.",
+            path: "/guides/orchestration",
+            serial: guideBySlug("orchestration")?.serial,
+          }),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Guides", path: "/guides" },
+            { name: "Orchestration", path: "/guides/orchestration" },
+          ]),
+        ]}
+      />
       <GuideSection title="The 600ms budget">
         <GuideP>
           A choreographed sequence — a list cascading in, a grid assembling —
-          gets six hundred milliseconds, total. Under the budget, stagger
-          reads as craft. Over it, the same stagger reads as lag, because the
-          user finished perceiving the change before the interface finished
+          gets six hundred milliseconds, total. Under the budget, stagger reads
+          as craft. Over it, the same stagger reads as lag, because the user
+          finished perceiving the change before the interface finished
           performing it.
         </GuideP>
         <GuideP>
-          The consequence: the interval between items cannot be a constant.
-          Five items at 60ms feels deliberate; forty items at 60ms takes two
-          and a half seconds. The cascade helper derives the interval from
-          the count and clamps it, so dense lists tighten automatically.
+          The consequence: the interval between items cannot be a constant. Five
+          items at 60ms feels deliberate; forty items at 60ms takes two and a
+          half seconds. The cascade helper derives the interval from the count
+          and clamps it, so dense lists tighten automatically.
         </GuideP>
         <CodeBlock
           lang="ts"
@@ -44,17 +72,17 @@ export const cascade = (count: number): number =>
 
       <GuideSection title="Enter with physics, exit with intent">
         <GuideP>
-          Entrances are arrivals: they carry momentum, so they take springs
-          and a short directional offset — eight to sixteen pixels from
-          wherever the element conceptually comes from, never a long slide.
-          Scale-ins start at 0.96, never zero; things grow into place, they
-          don&apos;t inflate from nothing.
+          Entrances are arrivals: they carry momentum, so they take springs and
+          a short directional offset — eight to sixteen pixels from wherever the
+          element conceptually comes from, never a long slide. Scale-ins start
+          at 0.96, never zero; things grow into place, they don&apos;t inflate
+          from nothing.
         </GuideP>
         <GuideP>
           Exits are decisions. They run as tweens at 0.6× the enter duration
           with an easing that accelerates away, and when a group leaves, the
-          exit cascade runs at half the enter interval in reverse. Leaving
-          fast and together is how an interface says it meant to.
+          exit cascade runs at half the enter interval in reverse. Leaving fast
+          and together is how an interface says it meant to.
         </GuideP>
         <CodeBlock
           lang="tsx"
@@ -77,10 +105,10 @@ export const cascade = (count: number): number =>
           not all three. Compound motion is for gyroscopes, not list items.
         </GuideP>
         <GuideP>
-          Stagger from attention, not from index zero: when a user acts on
-          the third item, the cascade radiates from the third item. The
-          Cascade Bench in the Playground has a &quot;clicked&quot; origin
-          mode precisely so you can feel the difference.
+          Stagger from attention, not from index zero: when a user acts on the
+          third item, the cascade radiates from the third item. The Cascade
+          Bench in the Playground has a &quot;clicked&quot; origin mode
+          precisely so you can feel the difference.
         </GuideP>
       </GuideSection>
     </GuideShell>

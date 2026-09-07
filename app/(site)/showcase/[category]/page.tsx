@@ -4,7 +4,14 @@ import { notFound } from "next/navigation";
 import { CategoryShowcase } from "@/components/showcase/category-showcase";
 import { categoryBySlug, categoryOf } from "@/content/categories";
 import { catalogComponents } from "@/content/manifest";
-import { SHOWCASES, assertShowcases, showcaseBySlug } from "@/content/showcases";
+import {
+  SHOWCASES,
+  assertShowcases,
+  showcaseBySlug,
+} from "@/content/showcases";
+import { JsonLd } from "@/components/seo/json-ld";
+import { pageMeta } from "@/lib/seo";
+import { breadcrumbLd, collectionLd } from "@/lib/structured-data";
 
 export const dynamicParams = false;
 
@@ -24,10 +31,12 @@ export async function generateMetadata({
   const showcase = showcaseBySlug(slug);
   const category = categoryBySlug(slug);
   if (!showcase || !category) return {};
-  return {
+  return pageMeta({
     title: `${category.label} showcase`,
-    description: showcase.deck,
-  };
+    description: `${showcase.headline} ${showcase.deck}`,
+    path: `/showcase/${slug}`,
+    keywords: [category.label, "showcase", "live demo", "React components"],
+  });
 }
 
 export default async function ShowcasePage({
@@ -46,6 +55,26 @@ export default async function ShowcasePage({
   if (items.length === 0) notFound();
 
   return (
-    <CategoryShowcase showcase={showcase} category={category} items={items} />
+    <>
+      <JsonLd
+        data={[
+          collectionLd({
+            name: `${category.label} showcase`,
+            description: showcase.deck,
+            path: `/showcase/${slug}`,
+            items: items.map((c) => ({
+              name: c.title,
+              path: `/components/${c.name}`,
+            })),
+          }),
+          breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Showcases", path: "/showcase" },
+            { name: `${category.label} showcase`, path: `/showcase/${slug}` },
+          ]),
+        ]}
+      />
+      <CategoryShowcase showcase={showcase} category={category} items={items} />
+    </>
   );
 }
