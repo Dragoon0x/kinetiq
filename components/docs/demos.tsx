@@ -720,6 +720,16 @@ import { KeymapSheetDemo } from "@/registry/demos/keymap-sheet.demo";
 import { DockPlayerDemo } from "@/registry/demos/dock-player.demo";
 import { ShareTrayDemo } from "@/registry/demos/share-tray.demo";
 import { ConsentSlabDemo } from "@/registry/demos/consent-slab.demo";
+import { QuotaMeterDemo } from "@/registry/demos/quota-meter.demo";
+import { PresenceRowDemo } from "@/registry/demos/presence-row.demo";
+import { TypingPillDemo } from "@/registry/demos/typing-pill.demo";
+import { LoadHemDemo } from "@/registry/demos/load-hem.demo";
+import { OfflineBarDemo } from "@/registry/demos/offline-bar.demo";
+import { TransferBarDemo } from "@/registry/demos/transfer-bar.demo";
+import { SaveMarkDemo } from "@/registry/demos/save-mark.demo";
+import { ExpiryRingDemo } from "@/registry/demos/expiry-ring.demo";
+import { CopyChipDemo } from "@/registry/demos/copy-chip.demo";
+import { TaskTickDemo } from "@/registry/demos/task-tick.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1454,4 +1464,14 @@ export const demos: Record<string, ComponentType> = {
   "dock-player": DockPlayerDemo,
   "share-tray": ShareTrayDemo,
   "consent-slab": ConsentSlabDemo,
+  "quota-meter": QuotaMeterDemo,
+  "presence-row": PresenceRowDemo,
+  "typing-pill": TypingPillDemo,
+  "load-hem": LoadHemDemo,
+  "offline-bar": OfflineBarDemo,
+  "transfer-bar": TransferBarDemo,
+  "save-mark": SaveMarkDemo,
+  "expiry-ring": ExpiryRingDemo,
+  "copy-chip": CopyChipDemo,
+  "task-tick": TaskTickDemo,
 };

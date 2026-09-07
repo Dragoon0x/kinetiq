@@ -14956,6 +14956,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "quota-meter",
+      "type": "registry:ui",
+      "title": "Quota Meter",
+      "description": "A segmented quota meter whose bars fill left to right in a cascade() on glide, because a quantity settles rather than switches. Crossing warnAt tints the track warn and flashes the leading segment once, and usage past the limit opens a danger lane beyond the track's end while the track glides aside to make room. It is a role=meter carrying the overage in aria-valuetext, so the reading is spoken even though the rolling digits are decorative.",
+      "files": [
+        {
+          "path": "registry/ui/quota-meter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-536"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "presence-row",
+      "type": "registry:ui",
+      "title": "Presence Row",
+      "description": "A presence stack that makes room. A face arriving scales from 0.6 into a snap while its neighbours slide over on the same spring through layout, so the row squeezes open instead of reflowing in one frame; a face leaving fades on the exit ease and popLayout closes the row behind it. Hover or focus fans the stack apart so every face is legible — the row itself is focusable, and Escape closes the fan — and the overflow chip rolls its count.",
+      "files": [
+        {
+          "path": "registry/ui/presence-row.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-537"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "typing-pill",
+      "type": "registry:ui",
+      "title": "Typing Pill",
+      "description": "A typing indicator whose pill lands on recoil — the two visible bounces of something arriving in a conversation — and leaves on the exit ease, because a departure should not celebrate itself. The three dots run one snap between two keyframes, reversed and repeated, each started a phase later than the last, so they are never at the same height at once. A polite live region holds only the caption, so a screen reader hears each change exactly once.",
+      "files": [
+        {
+          "path": "registry/ui/typing-pill.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-538"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "load-hem",
+      "type": "registry:ui",
+      "title": "Load Hem",
+      "description": "Infinite scroll done honestly. A sentinel at the list's hem is watched by an IntersectionObserver rather than a scroll handler, so an idle list costs nothing and a hem that is off screen never fetches on mount; the observer is rebuilt after each page, and a status flag means one page is never fetched twice. Arriving rows cascade in from distances.step on glide, the last page stamps the end on recoil, and a failed page keeps what it has and offers Retry.",
+      "files": [
+        {
+          "path": "registry/ui/load-hem.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-539"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "offline-bar",
+      "type": "registry:ui",
+      "title": "Offline Bar",
+      "description": "A connection banner that keeps its own time. Going offline drops the bar in from distances.shift on glide in warn, with a ring counting the seconds down to the next check and a Retry now that runs it immediately; when the connection returns the bar turns success, says so, and lifts away on the exit ease after a beat, because a reconnection is a relief rather than a celebration. It follows the browser's online and offline events through useSyncExternalStore, or takes a controlled online prop from products with their own health check.",
+      "files": [
+        {
+          "path": "registry/ui/offline-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-540"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "transfer-bar",
+      "type": "registry:ui",
+      "title": "Transfer Bar",
+      "description": "A transfer progress bar that stays honest at the end: the fill runs linear to 90% and then approaches the finish asymptotically, so the last percent belongs to the transfer rather than to the animation, while a stripe rides the fill and the rate and remaining-time readouts roll on snap. Done stamps a check on recoil and folds the body away on glide to a one-line summary whose height is measured rather than reserved; error tints warn, stops the stripe and offers Retry. The track is a progressbar carrying aria-valuetext, Retry is a real button in the tab order, and under reduced motion the stripe never runs while the fill still fills.",
+      "files": [
+        {
+          "path": "registry/ui/transfer-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-531"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "save-mark",
+      "type": "registry:ui",
+      "title": "Save Mark",
+      "description": "An autosave indicator that tells the truth about time. Unsaved breathes on drift, saving bounces three dots on snap a beat out of phase, saved draws its check with pathLength on flick, and error shakes once on a tween before offering Retry. \"Saved just now\" relaxes into a live \"Saved 2m ago\" from a timer that runs only while a save is on screen, and the chip is a polite status region whose spoken text changes on state rather than on every tick; Retry is a real button in the tab order, and under reduced motion nothing bounces or breathes while the check still appears.",
+      "files": [
+        {
+          "path": "registry/ui/save-mark.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-532"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "expiry-ring",
+      "type": "registry:ui",
+      "title": "Expiry Ring",
+      "description": "A countdown ring that drains linearly — the one place a tween is more honest than a spring, because no easing may borrow from a second. Inside it mm:ss rolls on snap, one wheel per digit so only the place that changed moves; under the warn threshold the ring pulses on drift and the digits warm to warn, and zero stamps Expired on recoil and swaps the line for a Resend button that restarts the run. The element is a timer with its live region off so a screen reader is not read a number every second, a polite region speaks only at the two thresholds, and Resend is a real button; under reduced motion the pulse never runs while the ring still drains.",
+      "files": [
+        {
+          "path": "registry/ui/expiry-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-533"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "copy-chip",
+      "type": "registry:ui",
+      "title": "Copy Chip",
+      "description": "A copy button that shows its own result. The glyph morphs rather than swaps — the two squares fade out on a tween while the tick draws over them with pathLength on flick — a wash flashes once across the chip and drains on the exit ease, the label swaps to the copied copy, and the chip reverts after its timeout. When the clipboard refuses, the chip selects the value in a field over its own box and asks for Ctrl/Cmd+C, with Escape or blur returning it to idle; a polite status line announces each outcome once, and under reduced motion the icon simply swaps because the result still has to be visible.",
+      "files": [
+        {
+          "path": "registry/ui/copy-chip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-534"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "task-tick",
+      "type": "registry:ui",
+      "title": "Task Tick",
+      "description": "A checklist that keeps its order honest. Checking draws a line through the label with pathLength on flick — the strike is the acknowledgement, so it lands before anything moves — and only after a beat does the row sink into the done section, a layout reorder on glide where the row travels rather than blinking from one place to another; unchecking floats it back and the progress pill counts on snap. The beat is what keeps a fast run of ticks pointing at the rows the reader meant. Every checkbox is a real input, so Tab reaches each one and Space toggles it, and under reduced motion the strike appears complete and rows move without springs, because the order is the information.",
+      "files": [
+        {
+          "path": "registry/ui/task-tick.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-535"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

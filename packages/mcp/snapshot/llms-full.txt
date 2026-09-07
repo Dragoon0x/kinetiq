@@ -8925,6 +8925,193 @@ Notes:
 - Under reduced motion the slab fades in and out and the panel unfolds instantly; the switches and the stamp still change, because a decision is information.
 - Accepting anything optional lands the stamp on recoil, while refusing everything lands it on snap — declining is not an occasion to celebrate. The decision is held in memory here; a product would persist it.
 
+### Transfer Bar (KQ-531) — `transfer-bar`
+Fast at first, honest at the end.
+
+A transfer progress bar that stays honest at the end: the fill runs linear to 90% and then approaches the finish asymptotically, so the last percent belongs to the transfer rather than to the animation, while a stripe rides the fill and the rate and remaining-time readouts roll on snap. Done stamps a check on recoil and folds the body away on glide to a one-line summary whose height is measured rather than reserved; error tints warn, stops the stripe and offers Retry. The track is a progressbar carrying aria-valuetext, Retry is a real button in the tab order, and under reduced motion the stripe never runs while the fill still fills.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/transfer-bar`
+
+Props:
+- `progress`: number — 0–1. Clamped, and compressed past 90% so the fill cannot claim a finish the transfer has not reached.
+- `status`: "active" | "done" | "error" (default "active") — Active runs the stripe, done stamps and folds, error tints warn and offers Retry.
+- `bytes`: { done: number; total: number } — Feeds the byte, rate and remaining-time readouts; the rate is sampled on its own clock and smoothed.
+- `label`: string — File name. Truncates with a title attribute and labels the progressbar.
+- `onRetry`: () => void — Fires from the Retry button in the error state.
+
+Notes:
+- The only control is the Retry button in the error state — a real button in the tab order, activated with Enter or Space.
+- Under reduced motion the stripe never runs and the check simply appears, but the fill still fills and the readouts still update: progress is information, not flourish.
+- Progress is driven entirely by props; the bar owns no clock but the one that samples the transfer rate, and folds to its measured height rather than reserving room for a state.
+
+### Save Mark (KQ-532) — `save-mark`
+Saving, saved, and how long ago.
+
+An autosave indicator that tells the truth about time. Unsaved breathes on drift, saving bounces three dots on snap a beat out of phase, saved draws its check with pathLength on flick, and error shakes once on a tween before offering Retry. "Saved just now" relaxes into a live "Saved 2m ago" from a timer that runs only while a save is on screen, and the chip is a polite status region whose spoken text changes on state rather than on every tick; Retry is a real button in the tab order, and under reduced motion nothing bounces or breathes while the check still appears.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/save-mark`
+
+Props:
+- `state`: "idle" | "dirty" | "saving" | "saved" | "error" — Which of the five save states to show. Each has its own mark and its own physics.
+- `savedAt`: number — Epoch ms of the last save. Drives the relative time, which ticks from a timer and is never read during render.
+- `onRetry`: () => void — Fires from the Retry action, which appears only in the error state.
+
+Notes:
+- The only control is Retry in the error state — a real button in the tab order, activated with Enter or Space.
+- Under reduced motion the dot does not breathe and the saving dots do not bounce; the states swap and the check appears complete, because a save confirmation is information rather than flourish.
+- The polite status region speaks the state, not the clock: "Saved 2m ago" shows on screen while assistive technology hears "Saved" once, so a live relative time never becomes a stream of announcements.
+
+### Expiry Ring (KQ-533) — `expiry-ring`
+The ring drains; the last ten seconds pulse.
+
+A countdown ring that drains linearly — the one place a tween is more honest than a spring, because no easing may borrow from a second. Inside it mm:ss rolls on snap, one wheel per digit so only the place that changed moves; under the warn threshold the ring pulses on drift and the digits warm to warn, and zero stamps Expired on recoil and swaps the line for a Resend button that restarts the run. The element is a timer with its live region off so a screen reader is not read a number every second, a polite region speaks only at the two thresholds, and Resend is a real button; under reduced motion the pulse never runs while the ring still drains.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/expiry-ring`
+
+Props:
+- `seconds`: number — Length of the countdown.
+- `running`: boolean (default true) — Pause and resume. Pausing keeps the elapsed time, so resuming carries on rather than restarting.
+- `warnAt`: number (default 10) — Seconds left when the ring starts pulsing and the digits warm to warn.
+- `onExpire`: () => void — Fires once, from the tick that reaches zero.
+- `onResend`: () => void — Fires from the Resend button, which also restarts the countdown.
+- `onTick`: (secondsLeft: number) => void — Whole seconds left, emitted from the tick that changed the number.
+- `label`: string — What is expiring. Names the timer and both threshold announcements.
+
+Notes:
+- Resend is a real button in the tab order, activated with Enter or Space; pause and resume are driven by the running prop, so the host decides what controls them.
+- Under reduced motion the ring does not pulse and the digits swap in place, but the ring still drains and the readout still counts: a countdown is information, not flourish.
+- The timer's own live region is off. A separate polite region announces exactly twice — on crossing warnAt and on expiring — so assistive technology is never read a number every second.
+
+### Copy Chip (KQ-534) — `copy-chip`
+Copy, and the icon says so.
+
+A copy button that shows its own result. The glyph morphs rather than swaps — the two squares fade out on a tween while the tick draws over them with pathLength on flick — a wash flashes once across the chip and drains on the exit ease, the label swaps to the copied copy, and the chip reverts after its timeout. When the clipboard refuses, the chip selects the value in a field over its own box and asks for Ctrl/Cmd+C, with Escape or blur returning it to idle; a polite status line announces each outcome once, and under reduced motion the icon simply swaps because the result still has to be visible.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/copy-chip`
+
+Props:
+- `value`: string — What is written to the clipboard, and what the fallback field selects.
+- `label`: string (default "Copy") — Idle copy, and the accessible name in the icon variant.
+- `copiedLabel`: string (default "Copied") — Copied copy, shown while the tick is drawn.
+- `timeout`: number (default 1500) — Milliseconds before the chip reverts to idle. A second copy restarts the clock.
+- `variant`: "chip" | "icon" (default "chip") — With or without a visible label; both are 32px tall so they sit in a row of controls.
+- `onCopy`: (value: string) => void — Fires with the value once the clipboard has taken it.
+
+Notes:
+- A real button: Tab reaches it, Enter and Space copy. If the clipboard is refused, focus moves into a field holding the selected value so Ctrl/Cmd+C still works, and Escape or blur returns the chip to idle.
+- Under reduced motion the glyph swaps instead of morphing and the tick appears complete — the outcome is information, so it is never animated away.
+- The polite status line announces each outcome once; the chip itself carries no live region, so a rapid second copy does not stack announcements.
+
+### Task Tick (KQ-535) — `task-tick`
+Strike it through; it sinks to the bottom.
+
+A checklist that keeps its order honest. Checking draws a line through the label with pathLength on flick — the strike is the acknowledgement, so it lands before anything moves — and only after a beat does the row sink into the done section, a layout reorder on glide where the row travels rather than blinking from one place to another; unchecking floats it back and the progress pill counts on snap. The beat is what keeps a fast run of ticks pointing at the rows the reader meant. Every checkbox is a real input, so Tab reaches each one and Space toggles it, and under reduced motion the strike appears complete and rows move without springs, because the order is the information.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/task-tick`
+
+Props:
+- `items`: { id: string; label: string; done: boolean }[] — The tasks, in the order they should read while open. Done tasks sort to the bottom a beat after they are ticked.
+- `onToggle`: (id: string, done: boolean) => void — Fires from the checkbox that changed, with the value it is changing to.
+- `label`: string — List label. Names the list and sits beside the progress pill.
+
+Notes:
+- Real checkboxes: Tab reaches each row, Space toggles it, and the whole row is a label so a pointer can hit anywhere along it.
+- Under reduced motion the strike appears complete and rows move without springs — the reorder still happens, because where a task sits is information rather than flourish.
+- The reorder waits a beat after the tick. A row that leaves instantly takes the pointer's target with it, and the next tick lands on whatever slid underneath.
+
+### Quota Meter (KQ-536) — `quota-meter`
+Fills honestly; over the line, it warns.
+
+A segmented quota meter whose bars fill left to right in a cascade() on glide, because a quantity settles rather than switches. Crossing warnAt tints the track warn and flashes the leading segment once, and usage past the limit opens a danger lane beyond the track's end while the track glides aside to make room. It is a role=meter carrying the overage in aria-valuetext, so the reading is spoken even though the rolling digits are decorative.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/quota-meter`
+
+Props:
+- `used`: number — Current usage in unit. May exceed limit — the overage is drawn past the track's end.
+- `limit`: number — The quota the track represents.
+- `warnAt`: number (default 0.8) — Fraction of the limit at which the meter turns warn and flashes its leading segment.
+- `unit`: string (default "GB") — Unit label printed after both numbers and spoken in the value text.
+- `label`: string — What is being measured; names the meter for assistive technology.
+- `segments`: number (default 16) — Bars in the track; the cascade tightens automatically as the count grows.
+
+Notes:
+- role=meter with aria-valuenow clamped inside the quota (a meter may not report past its maximum) while aria-valuetext names the percentage, or the overage in words.
+- Under reduced motion the segments still fill — a quota is information, not flourish — but without the stagger, and the digits swap in place instead of rolling.
+- The threshold flash is mounted by the crossing itself, so a meter that loads already over the line does not flash at a viewer who crossed nothing.
+
+### Presence Row (KQ-537) — `presence-row`
+Faces join with a squeeze; the count catches up.
+
+A presence stack that makes room. A face arriving scales from 0.6 into a snap while its neighbours slide over on the same spring through layout, so the row squeezes open instead of reflowing in one frame; a face leaving fades on the exit ease and popLayout closes the row behind it. Hover or focus fans the stack apart so every face is legible — the row itself is focusable, and Escape closes the fan — and the overflow chip rolls its count.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/presence-row`
+
+Props:
+- `people`: PresencePerson[] — Who is present, in stacking order; each needs an id, a name and a tint (pass a theme token so both themes read).
+- `max`: number (default 4) — Faces shown before the overflow chip takes over.
+- `onOverflowClick`: () => void — Fires when the +N chip is pressed, from the click itself — the component keeps no list of its own to open.
+- `context`: string (default "this document") — What the presence is for; it completes the spoken sentence, as in "Ana and 2 others are on the Fernworks brief".
+
+Notes:
+- The row is one focus stop carrying the whole sentence as its name; focusing it fans the stack, Escape closes the fan without moving focus, and Tab reaches the +N chip.
+- Faces are procedural initials on a tinted disc — no image requests, and the tint is any CSS colour, so a token keeps both themes legible.
+- Under reduced motion nothing fans and the faces simply appear; the polite status line still lets the count catch up for a screen reader.
+
+### Typing Pill (KQ-538) — `typing-pill`
+Three dots, out of step on purpose.
+
+A typing indicator whose pill lands on recoil — the two visible bounces of something arriving in a conversation — and leaves on the exit ease, because a departure should not celebrate itself. The three dots run one snap between two keyframes, reversed and repeated, each started a phase later than the last, so they are never at the same height at once. A polite live region holds only the caption, so a screen reader hears each change exactly once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/typing-pill`
+
+Props:
+- `names`: string[] — Who is typing, in the order they started. An empty array hides the pill and clears the announcement.
+- `max`: number (default 1) — Names spelled out before the caption falls back to "and N others".
+
+Notes:
+- There is nothing to operate: the pill is driven entirely by names, and its role=status region is announced politely once per change rather than on every frame of the dots.
+- typingCaption(names, max) is exported so a host can mirror the exact wording elsewhere instead of reimplementing the grammar.
+- Under reduced motion the dots pulse their opacity in the same phases and nothing travels; the pill still appears and disappears, since who is typing is information.
+
+### Load Hem (KQ-539) — `load-hem`
+The list's hem loads the next page.
+
+Infinite scroll done honestly. A sentinel at the list's hem is watched by an IntersectionObserver rather than a scroll handler, so an idle list costs nothing and a hem that is off screen never fetches on mount; the observer is rebuilt after each page, and a status flag means one page is never fetched twice. Arriving rows cascade in from distances.step on glide, the last page stamps the end on recoil, and a failed page keeps what it has and offers Retry.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/load-hem`
+
+Props:
+- `initial`: T[] — The first page, already loaded. It is page 0, so the hem asks for page 1 next; it is captured once and never reset by a rebuilt array.
+- `onLoadMore`: (page: number) => Promise<{ items: T[]; hasMore: boolean }> — Fetches a page, called from the crossing that caused it. A rejection shows Retry instead of losing the rows already loaded.
+- `renderItem`: (item: T) => React.ReactNode — Row renderer; the hem supplies the row box and its hairline.
+- `container`: React.RefObject<HTMLElement | null> — The scroll container the sentinel is measured in. Omit it and the hem walks up to the list's own scrolling ancestor.
+- `endLabel`: string (default "That is everything") — The stamp that retires the loader on the last page.
+- `label`: string — Names the list for assistive technology.
+
+Notes:
+- Retry is a real button in the tab order, and the observer stays quiet after a failure until it is pressed — retrying a broken request on scroll is how a list hammers a server.
+- Pages, failures and the end are announced in a polite live region, and the list carries aria-busy while a page is in flight.
+- Under reduced motion the rows appear rather than cascading and the loader stops sweeping, but the loading and end states still show: that a list is still loading is information.
+
+### Offline Bar (KQ-540) — `offline-bar`
+Gone offline; counting down to try again.
+
+A connection banner that keeps its own time. Going offline drops the bar in from distances.shift on glide in warn, with a ring counting the seconds down to the next check and a Retry now that runs it immediately; when the connection returns the bar turns success, says so, and lifts away on the exit ease after a beat, because a reconnection is a relief rather than a celebration. It follows the browser's online and offline events through useSyncExternalStore, or takes a controlled online prop from products with their own health check.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/offline-bar`
+
+Props:
+- `online`: boolean — Controlled connection state. Omit it and the bar follows the browser's own online and offline events.
+- `retryIn`: number (default 10) — Seconds between automatic retries; the ring sweeps once per period.
+- `onRetry`: () => Promise<boolean> | boolean — Runs on every retry, automatic or pressed, from the tick or the press that caused it. Resolving true counts as connected; false restarts the countdown.
+- `offlineLabel`: string (default "No connection") — Copy while the connection is down.
+- `onlineLabel`: string (default "Back online") — Copy for the beat before the bar lifts away.
+
+Notes:
+- Retry now is a real button in the tab order and is disabled while a check is in flight, so the countdown and the keyboard can never run two checks at once.
+- The bar sits inside a permanent role=status region and the ticking seconds are hidden from it — a live region that re-read itself every second would talk over everything else.
+- Under reduced motion the bar fades in place instead of dropping and the ring steps between seconds rather than sweeping; the countdown still counts, since it is information.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
