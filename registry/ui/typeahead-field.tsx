@@ -189,21 +189,24 @@ export function TypeaheadField({
       setOpen(false);
       return;
     }
-    // Shift+Tab is the way back out of the field, never an accept.
-    if (event.key === "Tab" && completion && !event.shiftKey) {
+    // Shift+Tab is the way back out of the field, never an accept. What is
+    // accepted is the suggestion itself, never the typed prefix plus the
+    // remainder: "brig" + Tab commits "Brightwater", exactly as Enter does.
+    if (event.key === "Tab" && completion && target && !event.shiftKey) {
       event.preventDefault();
-      accept(text + completion);
+      accept(target);
       return;
     }
     if (event.key === "ArrowRight" && completion) {
       const node = event.currentTarget;
       // Only when the caret is parked at the end — mid-string, Right still moves.
       if (
+        target &&
         node.selectionStart === text.length &&
         node.selectionEnd === text.length
       ) {
         event.preventDefault();
-        accept(text + completion);
+        accept(target);
       }
     }
   };
