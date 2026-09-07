@@ -50,6 +50,11 @@ export const metadata: Metadata = {
   ],
   // Pages state their own canonical, card copy and description through
   // lib/seo.ts; what lives here is only what every page shares.
+  // Search Console proves ownership by a meta tag; the token is an
+  // environment variable so attaching a console is a deploy, not a commit.
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
   robots: {
     index: true,
     follow: true,
