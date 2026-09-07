@@ -9805,6 +9805,101 @@ Notes:
 - Progress has one source at a time: playing wins, then a controlled progress prop, then the container's scroll. Scroll mapping is linear on purpose — a spring on a scroll-linked value lags the finger.
 - Under reduced motion a run advances in eight jumps instead of gliding, so the trip still finishes and still reports; scrubbed and scroll-linked progress place the rider without travel either way.
 
+### Live Rows (KQ-576) — `live-rows`
+New rows arrive; old ones leave; the list keeps its feet.
+
+A live feed that keeps its feet. A row arrives from a step above and glides the rest of the list down on the glide spring — a layout move, so the rows below travel rather than jump — while a cobalt wash drains off the new row and is cool by the time the next one lands; rows pushed past max fade and collapse on the exit ease. The list holds while a pointer is over it or the keyboard is inside it, so arrivals queue and land together on release, and Tab reaches anything a row contains without the feed moving underneath.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/live-rows`
+
+Props:
+- `items`: { id: string; content: React.ReactNode }[] — Rows, newest first. Ids must be stable — the row travels on its key rather than remounting.
+- `max`: number (default 6) — Rows kept on screen; anything past it collapses out on the exit ease.
+- `paused`: boolean (default false) — Holds the list from outside: arrivals wait, removals still land.
+- `label`: string (default "Feed") — Names the log region and titles the header beside the live indicator.
+- `emptyLabel`: string (default "Nothing yet.") — Read in place of the rows while the feed is empty.
+- `onHoldChange`: (held: boolean) => void — Fires when a pointer or a focus enters and leaves the list, so a host can narrate the hold.
+
+Notes:
+- Focus holds the list exactly as hover does, so Tab can reach a control inside a row without the feed sliding out from under it; the header states Live or Held in plain text rather than colour alone.
+- Under reduced motion rows appear and vanish on opacity alone — no slide, no collapse — because the arrivals are the information and are never animated away.
+- The frame is a polite log region announcing additions once. A held list still honours removals, so clearing items empties the display even while the hold is on.
+
+### Tap Ripple (KQ-577) — `tap-ripple`
+A ripple from where you pressed.
+
+A press ripple that starts where the press did. On pointerdown a disc is placed under the finger and expands on a tween over durations.slow — a spreading front, not a landing, so it never springs — sized from the press point to the furthest corner so it always covers the surface, and it fades on the exit ease when the press is let go. Enter and Space ripple from the centre because a keyboard press has no point to start from, and the wrapper clones the button rather than boxing it, so role, label, disabled state and handlers are exactly what the caller wrote.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tap-ripple`
+
+Props:
+- `color`: string — Ripple colour, used at full strength. Left out, the disc is currentColor at 16%.
+- `duration`: number (default 400) — Expansion in milliseconds; the fade on release runs on the base tween regardless.
+- `children`: React.ReactElement — The button. It is cloned, not wrapped: it keeps its own classes, handlers and semantics.
+
+Notes:
+- Enter and Space ripple from the centre, and a key held while focus moves away is released on blur so no disc is left behind.
+- Under reduced motion nothing travels: the surface takes a brief wash on the exit ease instead of an expanding disc.
+- The ripple layer is aria-hidden, takes no pointer events, and inherits the button's own border radius, so it clips exactly to the corner the caller drew.
+
+### Badge Bump (KQ-578) — `badge-bump`
+The count bumps when it changes.
+
+A count badge that reacts to its own number. Every change bumps the pill from 1.25 back to 1 on recoil — two visible bounces, the physics of something landing — while the digits roll on snap and a wash of the badge's own ink flashes and drains on the exit ease. Going to zero is not a bump: the badge shrinks away on the exit ease, and a polite status line carries the count so the host button keeps whatever name it already had.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/badge-bump`
+
+Props:
+- `count`: number — The number. Zero collapses the badge on the exit ease rather than bumping it.
+- `max`: number (default 99) — Cap; anything above it reads as 99+ and stops the badge growing.
+- `tone`: "primary" | "danger" | "neutral" (default "primary") — Colour. The wash uses the badge's own ink, so every tone flashes correctly.
+- `label`: string (default "unread") — Names the number for assistive technology — the status line reads "12 unread".
+- `children`: React.ReactNode — The thing the badge sits on, usually an icon button.
+
+Notes:
+- The badge is aria-hidden decoration; the count is announced once per change by a polite status line, so the host button keeps its own accessible name and nothing is said twice.
+- Under reduced motion the digits swap instantly and the badge does not bump — the wash still flashes, because the new number is information.
+- The bump runs imperatively as a two-keyframe spring, which is the only shape a spring can take; the digit stack stays mounted underneath so the outgoing number rolls out rather than disappearing.
+
+### Morph Icon (KQ-579) — `morph-icon`
+One icon becomes the other, path by path.
+
+Icons that become each other rather than swapping. Five built-in pairs — play/pause, menu/close, plus/cross, heart, sun/moon — are each drawn twice with matching commands and point counts, so motion interpolates the d attribute directly and every corner travels to its counterpart on snap, one crisp overshoot arriving at the shape it means. The control is a real toggle button: aria-pressed carries the state, the accessible name swaps with it, and Enter and Space work because nothing was reinvented.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/morph-icon`
+
+Props:
+- `pair`: "play-pause" | "menu-close" | "plus-cross" | "heart" | "sun-moon" — Which morph. Each pair ships both shapes with the same commands and point count.
+- `pressed / defaultPressed`: boolean (default false) — Controlled or initial state; aria-pressed tracks it either way.
+- `onPressedChange`: (pressed: boolean) => void — Fires on toggle, after the internal state has moved.
+- `labels`: [string, string] — Accessible names for the two states; each pair carries a sensible default.
+- `size`: number (default 24) — Icon size in pixels. The button pads around it, so the hit target grows with it.
+
+Notes:
+- A native toggle button: Tab reaches it, Enter and Space press it, aria-pressed carries the state and the accessible name swaps with it.
+- Under reduced motion the icons swap outright — the state is the information, the morph is only the manner.
+- Adding a pair means drawing both shapes with identical commands in identical order; where a stroke has nowhere to go, retreat it to a point and fade it rather than leaving a dot under a round cap.
+
+### Scroll Frames (KQ-580) — `scroll-frames`
+Scroll scrubs the sequence.
+
+A frame sequence scrubbed by scroll. The stage pins to the top of its container while a tall spacer scrolls past underneath, and the fraction already gone picks the frame — linearly, because a scrub has no physics of its own and any easing laid over it would fight the finger. Frames are drawn rather than loaded: renderFrame is handed a context already scaled to the display and sized by a ResizeObserver, and the sequence redraws itself when the box or the theme changes.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/scroll-frames`
+
+Props:
+- `frames`: number — Frame count. The last frame owns the final sliver, so a fully scrolled stage lands on the end.
+- `renderFrame`: (index: number, ctx: CanvasRenderingContext2D, size: { w: number; h: number }) => void — Draws one frame in logical pixels; the retina scale and the clear are already done.
+- `container`: React.RefObject<HTMLElement | null> — The scrolling element the stage is pinned inside — never the window.
+- `height`: number (default 600) — Scroll distance the sequence is spread over. Minus the container's height, this is the scrub.
+- `label`: string (default "Frame sequence") — Names the canvas, which is exposed as an image.
+- `onFrameChange`: (index: number) => void — Fires with the frame index whenever it changes, from scroll and from the reduced-motion scrubber alike.
+
+Notes:
+- Scrolling is the container's own, so give that container tabIndex 0 and a name: arrows, Page keys and Home/End then scrub the sequence with no extra key handling.
+- Under reduced motion nothing is pinned and nothing moves on its own — the stage shows the final frame at its natural height with a native range input under it, so the whole sequence can still be read.
+- Keep renderFrame referentially stable (useCallback) and pure: it is called on every frame change, resize and theme flip, and reading tokens off ctx.canvas keeps the drawing correct in both themes.
+
 ### Cart Fly (KQ-581) — `cart-fly`
 The item flies to the cart; the cart catches it.
 

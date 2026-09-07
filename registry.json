@@ -16306,6 +16306,141 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "live-rows",
+      "type": "registry:ui",
+      "title": "Live Rows",
+      "description": "A live feed that keeps its feet. A row arrives from a step above and glides the rest of the list down on the glide spring — a layout move, so the rows below travel rather than jump — while a cobalt wash drains off the new row and is cool by the time the next one lands; rows pushed past max fade and collapse on the exit ease. The list holds while a pointer is over it or the keyboard is inside it, so arrivals queue and land together on release, and Tab reaches anything a row contains without the feed moving underneath.",
+      "files": [
+        {
+          "path": "registry/ui/live-rows.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-576"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tap-ripple",
+      "type": "registry:ui",
+      "title": "Tap Ripple",
+      "description": "A press ripple that starts where the press did. On pointerdown a disc is placed under the finger and expands on a tween over durations.slow — a spreading front, not a landing, so it never springs — sized from the press point to the furthest corner so it always covers the surface, and it fades on the exit ease when the press is let go. Enter and Space ripple from the centre because a keyboard press has no point to start from, and the wrapper clones the button rather than boxing it, so role, label, disabled state and handlers are exactly what the caller wrote.",
+      "files": [
+        {
+          "path": "registry/ui/tap-ripple.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-577"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "badge-bump",
+      "type": "registry:ui",
+      "title": "Badge Bump",
+      "description": "A count badge that reacts to its own number. Every change bumps the pill from 1.25 back to 1 on recoil — two visible bounces, the physics of something landing — while the digits roll on snap and a wash of the badge's own ink flashes and drains on the exit ease. Going to zero is not a bump: the badge shrinks away on the exit ease, and a polite status line carries the count so the host button keeps whatever name it already had.",
+      "files": [
+        {
+          "path": "registry/ui/badge-bump.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-578"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "morph-icon",
+      "type": "registry:ui",
+      "title": "Morph Icon",
+      "description": "Icons that become each other rather than swapping. Five built-in pairs — play/pause, menu/close, plus/cross, heart, sun/moon — are each drawn twice with matching commands and point counts, so motion interpolates the d attribute directly and every corner travels to its counterpart on snap, one crisp overshoot arriving at the shape it means. The control is a real toggle button: aria-pressed carries the state, the accessible name swaps with it, and Enter and Space work because nothing was reinvented.",
+      "files": [
+        {
+          "path": "registry/ui/morph-icon.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-579"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "scroll-frames",
+      "type": "registry:ui",
+      "title": "Scroll Frames",
+      "description": "A frame sequence scrubbed by scroll. The stage pins to the top of its container while a tall spacer scrolls past underneath, and the fraction already gone picks the frame — linearly, because a scrub has no physics of its own and any easing laid over it would fight the finger. Frames are drawn rather than loaded: renderFrame is handed a context already scaled to the display and sized by a ResizeObserver, and the sequence redraws itself when the box or the theme changes.",
+      "files": [
+        {
+          "path": "registry/ui/scroll-frames.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "motion"
+      ],
+      "meta": {
+        "serial": "KQ-580"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

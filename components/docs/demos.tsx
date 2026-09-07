@@ -770,6 +770,11 @@ import { ZoomGalleryDemo } from "@/registry/demos/zoom-gallery.demo";
 import { WaveScrubDemo } from "@/registry/demos/wave-scrub.demo";
 import { CouponSlotDemo } from "@/registry/demos/coupon-slot.demo";
 import { ParcelLineDemo } from "@/registry/demos/parcel-line.demo";
+import { LiveRowsDemo } from "@/registry/demos/live-rows.demo";
+import { TapRippleDemo } from "@/registry/demos/tap-ripple.demo";
+import { BadgeBumpDemo } from "@/registry/demos/badge-bump.demo";
+import { MorphIconDemo } from "@/registry/demos/morph-icon.demo";
+import { ScrollFramesDemo } from "@/registry/demos/scroll-frames.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1554,4 +1559,9 @@ export const demos: Record<string, ComponentType> = {
   "wave-scrub": WaveScrubDemo,
   "coupon-slot": CouponSlotDemo,
   "parcel-line": ParcelLineDemo,
+  "live-rows": LiveRowsDemo,
+  "tap-ripple": TapRippleDemo,
+  "badge-bump": BadgeBumpDemo,
+  "morph-icon": MorphIconDemo,
+  "scroll-frames": ScrollFramesDemo,
 };

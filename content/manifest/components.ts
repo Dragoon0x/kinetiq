@@ -24911,4 +24911,302 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the parcel jumps to its stop and nothing breathes; the fills, the labels, and the ETA still change.",
     ],
   },
+  {
+    name: "live-rows",
+    type: "registry:ui",
+    title: "Live Rows",
+    description:
+      "A live feed that keeps its feet. A row arrives from a step above and glides the rest of the list down on the glide spring — a layout move, so the rows below travel rather than jump — while a cobalt wash drains off the new row and is cool by the time the next one lands; rows pushed past max fade and collapse on the exit ease. The list holds while a pointer is over it or the keyboard is inside it, so arrivals queue and land together on release, and Tab reaches anything a row contains without the feed moving underneath.",
+    files: [
+      {
+        path: "registry/ui/live-rows.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: {
+      serial: "KQ-576",
+    },
+    tagline: "New rows arrive; old ones leave; the list keeps its feet.",
+    keywords: ["feed", "live", "list", "stream", "log", "ticker", "presence"],
+    props: [
+      {
+        name: "items",
+        type: "{ id: string; content: React.ReactNode }[]",
+        description:
+          "Rows, newest first. Ids must be stable — the row travels on its key rather than remounting.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "Rows kept on screen; anything past it collapses out on the exit ease.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Holds the list from outside: arrivals wait, removals still land.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Feed"',
+        description:
+          "Names the log region and titles the header beside the live indicator.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Nothing yet."',
+        description: "Read in place of the rows while the feed is empty.",
+      },
+      {
+        name: "onHoldChange",
+        type: "(held: boolean) => void",
+        description:
+          "Fires when a pointer or a focus enters and leaves the list, so a host can narrate the hold.",
+      },
+    ],
+    usageNotes: [
+      "Focus holds the list exactly as hover does, so Tab can reach a control inside a row without the feed sliding out from under it; the header states Live or Held in plain text rather than colour alone.",
+      "Under reduced motion rows appear and vanish on opacity alone — no slide, no collapse — because the arrivals are the information and are never animated away.",
+      "The frame is a polite log region announcing additions once. A held list still honours removals, so clearing items empties the display even while the hold is on.",
+    ],
+  },
+  {
+    name: "tap-ripple",
+    type: "registry:ui",
+    title: "Tap Ripple",
+    description:
+      "A press ripple that starts where the press did. On pointerdown a disc is placed under the finger and expands on a tween over durations.slow — a spreading front, not a landing, so it never springs — sized from the press point to the furthest corner so it always covers the surface, and it fades on the exit ease when the press is let go. Enter and Space ripple from the centre because a keyboard press has no point to start from, and the wrapper clones the button rather than boxing it, so role, label, disabled state and handlers are exactly what the caller wrote.",
+    files: [
+      {
+        path: "registry/ui/tap-ripple.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: {
+      serial: "KQ-577",
+    },
+    tagline: "A ripple from where you pressed.",
+    keywords: ["ripple", "press", "tap", "button", "feedback", "pointer"],
+    props: [
+      {
+        name: "color",
+        type: "string",
+        description:
+          "Ripple colour, used at full strength. Left out, the disc is currentColor at 16%.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "400",
+        description:
+          "Expansion in milliseconds; the fade on release runs on the base tween regardless.",
+      },
+      {
+        name: "children",
+        type: "React.ReactElement",
+        description:
+          "The button. It is cloned, not wrapped: it keeps its own classes, handlers and semantics.",
+      },
+    ],
+    usageNotes: [
+      "Enter and Space ripple from the centre, and a key held while focus moves away is released on blur so no disc is left behind.",
+      "Under reduced motion nothing travels: the surface takes a brief wash on the exit ease instead of an expanding disc.",
+      "The ripple layer is aria-hidden, takes no pointer events, and inherits the button's own border radius, so it clips exactly to the corner the caller drew.",
+    ],
+  },
+  {
+    name: "badge-bump",
+    type: "registry:ui",
+    title: "Badge Bump",
+    description:
+      "A count badge that reacts to its own number. Every change bumps the pill from 1.25 back to 1 on recoil — two visible bounces, the physics of something landing — while the digits roll on snap and a wash of the badge's own ink flashes and drains on the exit ease. Going to zero is not a bump: the badge shrinks away on the exit ease, and a polite status line carries the count so the host button keeps whatever name it already had.",
+    files: [
+      {
+        path: "registry/ui/badge-bump.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: {
+      serial: "KQ-578",
+    },
+    tagline: "The count bumps when it changes.",
+    keywords: ["badge", "count", "notification", "unread", "bump", "counter"],
+    props: [
+      {
+        name: "count",
+        type: "number",
+        description:
+          "The number. Zero collapses the badge on the exit ease rather than bumping it.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "99",
+        description:
+          "Cap; anything above it reads as 99+ and stops the badge growing.",
+      },
+      {
+        name: "tone",
+        type: '"primary" | "danger" | "neutral"',
+        defaultValue: '"primary"',
+        description:
+          "Colour. The wash uses the badge's own ink, so every tone flashes correctly.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"unread"',
+        description:
+          'Names the number for assistive technology — the status line reads "12 unread".',
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description: "The thing the badge sits on, usually an icon button.",
+      },
+    ],
+    usageNotes: [
+      "The badge is aria-hidden decoration; the count is announced once per change by a polite status line, so the host button keeps its own accessible name and nothing is said twice.",
+      "Under reduced motion the digits swap instantly and the badge does not bump — the wash still flashes, because the new number is information.",
+      "The bump runs imperatively as a two-keyframe spring, which is the only shape a spring can take; the digit stack stays mounted underneath so the outgoing number rolls out rather than disappearing.",
+    ],
+  },
+  {
+    name: "morph-icon",
+    type: "registry:ui",
+    title: "Morph Icon",
+    description:
+      "Icons that become each other rather than swapping. Five built-in pairs — play/pause, menu/close, plus/cross, heart, sun/moon — are each drawn twice with matching commands and point counts, so motion interpolates the d attribute directly and every corner travels to its counterpart on snap, one crisp overshoot arriving at the shape it means. The control is a real toggle button: aria-pressed carries the state, the accessible name swaps with it, and Enter and Space work because nothing was reinvented.",
+    files: [
+      {
+        path: "registry/ui/morph-icon.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: {
+      serial: "KQ-579",
+    },
+    tagline: "One icon becomes the other, path by path.",
+    keywords: ["icon", "morph", "toggle", "path", "svg", "interpolate"],
+    props: [
+      {
+        name: "pair",
+        type: '"play-pause" | "menu-close" | "plus-cross" | "heart" | "sun-moon"',
+        description:
+          "Which morph. Each pair ships both shapes with the same commands and point count.",
+      },
+      {
+        name: "pressed / defaultPressed",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial state; aria-pressed tracks it either way.",
+      },
+      {
+        name: "onPressedChange",
+        type: "(pressed: boolean) => void",
+        description: "Fires on toggle, after the internal state has moved.",
+      },
+      {
+        name: "labels",
+        type: "[string, string]",
+        description:
+          "Accessible names for the two states; each pair carries a sensible default.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "Icon size in pixels. The button pads around it, so the hit target grows with it.",
+      },
+    ],
+    usageNotes: [
+      "A native toggle button: Tab reaches it, Enter and Space press it, aria-pressed carries the state and the accessible name swaps with it.",
+      "Under reduced motion the icons swap outright — the state is the information, the morph is only the manner.",
+      "Adding a pair means drawing both shapes with identical commands in identical order; where a stroke has nowhere to go, retreat it to a point and fade it rather than leaving a dot under a round cap.",
+    ],
+  },
+  {
+    name: "scroll-frames",
+    type: "registry:ui",
+    title: "Scroll Frames",
+    description:
+      "A frame sequence scrubbed by scroll. The stage pins to the top of its container while a tall spacer scrolls past underneath, and the fraction already gone picks the frame — linearly, because a scrub has no physics of its own and any easing laid over it would fight the finger. Frames are drawn rather than loaded: renderFrame is handed a context already scaled to the display and sized by a ResizeObserver, and the sequence redraws itself when the box or the theme changes.",
+    files: [
+      {
+        path: "registry/ui/scroll-frames.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["motion"],
+    meta: {
+      serial: "KQ-580",
+    },
+    tagline: "Scroll scrubs the sequence.",
+    keywords: ["scroll", "scrub", "frames", "canvas", "sequence", "pin"],
+    props: [
+      {
+        name: "frames",
+        type: "number",
+        description:
+          "Frame count. The last frame owns the final sliver, so a fully scrolled stage lands on the end.",
+      },
+      {
+        name: "renderFrame",
+        type: "(index: number, ctx: CanvasRenderingContext2D, size: { w: number; h: number }) => void",
+        description:
+          "Draws one frame in logical pixels; the retina scale and the clear are already done.",
+      },
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description:
+          "The scrolling element the stage is pinned inside — never the window.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "600",
+        description:
+          "Scroll distance the sequence is spread over. Minus the container's height, this is the scrub.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Frame sequence"',
+        description: "Names the canvas, which is exposed as an image.",
+      },
+      {
+        name: "onFrameChange",
+        type: "(index: number) => void",
+        description:
+          "Fires with the frame index whenever it changes, from scroll and from the reduced-motion scrubber alike.",
+      },
+    ],
+    usageNotes: [
+      "Scrolling is the container's own, so give that container tabIndex 0 and a name: arrows, Page keys and Home/End then scrub the sequence with no extra key handling.",
+      "Under reduced motion nothing is pinned and nothing moves on its own — the stage shows the final frame at its natural height with a native range input under it, so the whole sequence can still be read.",
+      "Keep renderFrame referentially stable (useCallback) and pure: it is called on every frame change, resize and theme flip, and reading tokens off ctx.canvas keeps the drawing correct in both themes.",
+    ],
+  },
 ];
