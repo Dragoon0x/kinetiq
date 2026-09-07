@@ -1,4 +1,4 @@
-// Device-level probes for the practical wing: twenty instruments whose worth
+// Device-level probes for the practical wing: forty instruments whose worth
 // is entirely in what they do, not in what they render. Each test drives one
 // component's core mechanic end to end — preferring the keyboard path where the
 // component publishes one — and reads the outcome off the demo's own status
@@ -635,5 +635,727 @@ test.describe("choosers", () => {
 
     await page.keyboard.press("ArrowLeft");
     await expect(status).toContainText("Waylight profile · Fern");
+  });
+});
+
+/**
+ * Most of these demos put their content in one scrolling frame and let a device
+ * watch it. The frame is the only `overflow-y-auto` box inside the stage.
+ */
+const frameOf = (stage: Locator): Locator =>
+  stage.locator("div.overflow-y-auto").first();
+
+/** Scroll a frame to an absolute offset, the way a wheel would. */
+const scrollFrameTo = async (frame: Locator, top: number): Promise<void> => {
+  await frame.evaluate((element, y) => {
+    element.scrollTo({ top: y, behavior: "auto" });
+  }, top);
+};
+
+/** A poll target: how far a frame has been scrolled. */
+const scrollTopOf = (frame: Locator) => async (): Promise<number> =>
+  frame.evaluate((element) => element.scrollTop);
+
+test.describe("wayfinding", () => {
+  test("spy-index: scrolling the frame moves the marker down the index", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/spy-index");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const index = stage.getByRole("navigation", { name: "Batch note" });
+    const frame = frameOf(stage);
+    const scope = index.getByRole("link", { name: "Scope" });
+    const tolerances = index.getByRole("link", { name: "Tolerances" });
+
+    await expect(status).toContainText("Reading Scope");
+    await expect(scope).toHaveAttribute("aria-current", "location");
+
+    // Put Tolerances' top just above the reading line (offset 24), which is
+    // exactly the geometry the index reads the active section from.
+    await frame.evaluate((element) => {
+      const target = element.querySelector("#waylight-tolerances");
+      if (!(target instanceof HTMLElement)) throw new Error("no section");
+      const delta =
+        target.getBoundingClientRect().top -
+        element.getBoundingClientRect().top;
+      element.scrollTo({ top: element.scrollTop + delta - 20 });
+    });
+
+    await expect(status).toContainText("Reading Tolerances");
+    await expect(tolerances).toHaveAttribute("aria-current", "location");
+    await expect(scope).not.toHaveAttribute("aria-current", "location");
+
+    // The rail is a live reading, not a latch: scrolling home hands it back.
+    await scrollFrameTo(frame, 0);
+    await expect(status).toContainText("Reading Scope");
+    await expect(scope).toHaveAttribute("aria-current", "location");
+  });
+
+  test("tab-bar: a click and an arrow both move the bar, and the badge counts", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tab-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const bar = stage.getByRole("tablist", { name: "Coldbrook" });
+    const inbox = bar.getByRole("tab", { name: "Inbox, 3 new" });
+
+    await expect(status).toContainText("Tab home · inbox 3");
+    await expect(bar.getByRole("tab", { name: "Home" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+
+    await inbox.click();
+    await expect(inbox).toHaveAttribute("aria-selected", "true");
+    await expect(status).toContainText("Tab inbox");
+
+    // Activation follows focus, so the arrow both moves and selects.
+    await page.keyboard.press("ArrowRight");
+    const wallet = bar.getByRole("tab", { name: "Wallet" });
+    await expect(wallet).toBeFocused();
+    await expect(wallet).toHaveAttribute("aria-selected", "true");
+    await expect(status).toContainText("Tab wallet");
+
+    await page.keyboard.press("Home");
+    await expect(status).toContainText("Tab home");
+
+    // A statement lands: the badge is part of the tab's own name.
+    await stage.getByRole("button", { name: "Deliver a statement" }).click();
+    await expect(bar.getByRole("tab", { name: "Inbox, 4 new" })).toBeVisible();
+    await expect(status).toContainText("inbox 4");
+  });
+
+  test("fold-sidebar: folding to the rail keeps the item that was open", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/fold-sidebar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const nav = stage.getByRole("navigation", { name: "Gaugeworks console" });
+    const alerts = nav.getByRole("button", { name: "Alerts" });
+    const width = async (): Promise<number> =>
+      (await nav.boundingBox())?.width ?? -1;
+
+    await expect(status).toContainText("Open · Dashboards");
+
+    await alerts.click();
+    await expect(alerts).toHaveAttribute("aria-current", "page");
+    await expect(status).toContainText("Open · Alerts");
+
+    await nav.getByRole("button", { name: "Collapse sidebar" }).click();
+    const expand = nav.getByRole("button", { name: "Expand sidebar" });
+    await expect(expand).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("Rail · Alerts");
+    // 224px open, 56px folded — the nav is measured, not assumed.
+    await expect.poll(width, { timeout: 5000 }).toBeLessThan(80);
+    // The selection survives the fold: the same item still owns the page.
+    await expect(alerts).toHaveAttribute("aria-current", "page");
+
+    await expand.click();
+    await expect(status).toContainText("Open · Alerts");
+    await expect.poll(width, { timeout: 5000 }).toBeGreaterThan(180);
+    await expect(alerts).toHaveAttribute("aria-current", "page");
+  });
+
+  test("top-rise: past the threshold it surfaces, and it takes the frame home", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/top-rise");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const frame = frameOf(stage);
+    const button = stage.getByRole("button", { name: "Back to top" });
+
+    await expect(status).toContainText("Depth 0%");
+    // Below the threshold it is not merely hidden: it is not in the DOM.
+    await expect(button).toHaveCount(0);
+
+    await scrollFrameTo(frame, 400);
+    await expect(button).toBeVisible();
+    await expect(status).not.toContainText("Depth 0%");
+
+    await button.click();
+    await expect.poll(scrollTopOf(frame), { timeout: 5000 }).toBe(0);
+    await expect(status).toContainText("Depth 0%");
+    await expect(button).toHaveCount(0, { timeout: 5000 });
+  });
+
+  test("canopy-menu: hover unfolds one panel and Escape folds it away", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/canopy-menu");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const bar = stage.getByRole("navigation", { name: "Fernworks" });
+    const product = bar.getByRole("button", { name: "Product" });
+    const solutions = bar.getByRole("button", { name: "Solutions" });
+    const panel = stage.locator("[role='region']");
+
+    await expect(status).toContainText("Panel closed");
+    await expect(product).toHaveAttribute("aria-expanded", "false");
+    // A shut canopy is inert, so nothing behind it can be tabbed into.
+    await expect(panel).toHaveAttribute("inert", "");
+
+    await product.hover();
+    await expect(product).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("Panel Product");
+    await expect(panel).not.toHaveAttribute("inert");
+    await expect(panel).toHaveAttribute("aria-label", "Product");
+
+    // Moving along the bar morphs the same panel rather than reopening one.
+    await solutions.hover();
+    await expect(status).toContainText("Panel Solutions");
+    await expect(panel).toHaveAttribute("aria-label", "Solutions");
+    await expect(product).toHaveAttribute("aria-expanded", "false");
+
+    await solutions.press("Escape");
+    await expect(status).toContainText("Panel closed");
+    await expect(solutions).toHaveAttribute("aria-expanded", "false");
+    await expect(solutions).toBeFocused();
+    await expect(panel).toHaveAttribute("inert", "");
+  });
+
+  test("swipe-tabs: the arrow keys walk the strip and the panel follows", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/swipe-tabs");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const tabs = stage.getByRole("tablist", { name: "Order sections" });
+    const panels = stage.locator("[role='tabpanel']");
+
+    await expect(status).toContainText("Tab details");
+    await expect(panels).toHaveCount(3);
+    await expect(panels.nth(0)).not.toHaveAttribute("inert");
+
+    await tabs.getByRole("tab", { name: "Details" }).press("ArrowRight");
+    const items = tabs.getByRole("tab", { name: "Items" });
+    await expect(items).toHaveAttribute("aria-selected", "true");
+    await expect(items).toBeFocused();
+    await expect(status).toContainText("Tab items");
+    // The strip's panels change hands: only the live one stays reachable.
+    await expect(panels.nth(1)).not.toHaveAttribute("inert");
+    await expect(panels.nth(0)).toHaveAttribute("inert", "");
+
+    await page.keyboard.press("ArrowRight");
+    await expect(status).toContainText("Tab timeline");
+    await expect(panels.nth(2)).not.toHaveAttribute("inert");
+
+    // The ends do not wrap; Home is the way back.
+    await page.keyboard.press("ArrowRight");
+    await expect(status).toContainText("Tab timeline");
+    await page.keyboard.press("Home");
+    await expect(status).toContainText("Tab details");
+    await expect(panels.nth(0)).not.toHaveAttribute("inert");
+  });
+
+  test("route-bar: a view button starts the bar and the view lands", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/route-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const signals = stage.getByRole("button", { name: "Signals" });
+    const bar = stage.getByRole("progressbar", {
+      name: "Waylight view loading",
+    });
+
+    await expect(status).toContainText("View overview");
+    // Idle, the bar is not rendered at all.
+    await expect(bar).toHaveCount(0);
+
+    await signals.click();
+    await expect(status).toContainText("Loading signals");
+    await expect(bar).toBeVisible();
+    // It trickles rather than jumping: never past its 90% ceiling while waiting.
+    const percent = Number(await bar.getAttribute("aria-valuenow"));
+    expect(percent).toBeGreaterThanOrEqual(0);
+    expect(percent).toBeLessThanOrEqual(90);
+
+    // The demo's route takes 1.6s, then the view lands and the bar completes.
+    await expect(status).toContainText("View signals", { timeout: 8000 });
+    await expect(stage.getByText("Waylight · Signals")).toBeVisible();
+    await expect(stage.getByText("Rail pressure")).toBeVisible();
+    await expect(signals).toHaveAttribute("aria-current", "page");
+    await expect(bar).toHaveCount(0, { timeout: 8000 });
+  });
+
+  test("section-dots: a dot scrolls the frame and takes aria-current with it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/section-dots");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const rail = stage.getByRole("navigation", {
+      name: "Fieldline run sections",
+    });
+    const frame = frameOf(stage);
+    const intake = rail.getByRole("button", { name: "Intake" });
+    const assemble = rail.getByRole("button", { name: "Assemble" });
+
+    await expect(status).toContainText("Section Intake");
+    await expect(intake).toHaveAttribute("aria-current", "true");
+
+    await assemble.click();
+    // The rail scrolls the container; the observer, not the click, moves the pill.
+    await expect
+      .poll(scrollTopOf(frame), { timeout: 5000 })
+      .toBeGreaterThan(100);
+    await expect(status).toContainText("Section Assemble");
+    await expect(assemble).toHaveAttribute("aria-current", "true");
+    await expect(intake).not.toHaveAttribute("aria-current", "true");
+
+    await intake.click();
+    await expect.poll(scrollTopOf(frame), { timeout: 5000 }).toBe(0);
+    await expect(status).toContainText("Section Intake");
+  });
+
+  test("burger-sheet: the button opens the sheet and Escape hands focus back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/burger-sheet");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const menu = stage.getByRole("button", { name: "Menu", exact: true });
+    const sheet = stage.getByRole("dialog", { name: "Waylight" });
+
+    await expect(status).toContainText("Menu closed");
+    await expect(menu).toHaveAttribute("aria-expanded", "false");
+    await expect(sheet).toHaveCount(0);
+
+    await menu.click();
+    await expect(sheet).toBeVisible();
+    await expect(menu).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("Menu open");
+    await expect(
+      sheet.getByRole("link", { name: "Sweep sheets" }),
+    ).toBeVisible();
+    // Focus is taken to the sheet's first control, not left on the button.
+    await expect(
+      sheet.getByRole("button", { name: "Close menu" }),
+    ).toBeFocused();
+
+    await page.keyboard.press("Escape");
+    await expect(status).toContainText("Menu closed");
+    await expect(sheet).toHaveCount(0, { timeout: 5000 });
+    await expect(menu).toBeFocused();
+  });
+
+  test("letter-index: the rail jumps the list and names the letter it landed on", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/letter-index");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const rail = stage.getByRole("listbox", {
+      name: "Jump to contacts letter",
+    });
+    const list = frameOf(stage);
+
+    await expect(status).toContainText("Letter A");
+    expect(await scrollTopOf(list)()).toBe(0);
+
+    // End takes the last letter that has entries — T, not Z.
+    await rail.press("End");
+    await expect(rail).toHaveAttribute("aria-activedescendant", /-letter-T$/);
+    await expect(
+      rail.getByRole("option", { name: "T", exact: true }),
+    ).toHaveAttribute("aria-selected", "true");
+    // Moving is not jumping: nothing scrolls until the letter is taken.
+    expect(await scrollTopOf(list)()).toBe(0);
+
+    await rail.press("Enter");
+    await expect(status).toContainText("Letter T");
+    await expect
+      .poll(scrollTopOf(list), { timeout: 5000 })
+      .toBeGreaterThan(100);
+
+    // Up skips the letters with no entries: T is preceded by S.
+    await rail.press("ArrowUp");
+    await rail.press("Enter");
+    await expect(status).toContainText("Letter S");
+    await expect(
+      rail.getByRole("option", { name: "S", exact: true }),
+    ).toHaveAttribute("aria-selected", "true");
+  });
+});
+
+test.describe("overlays", () => {
+  test("undo-toast: Archive raises the toast and Undo puts the row back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/undo-toast");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const row = stage
+      .getByRole("listitem")
+      .filter({ hasText: "Weekly digest" });
+
+    await expect(status).toContainText("Inbox 4 of 4");
+    await expect(row).toHaveCount(1);
+
+    await row.getByRole("button", { name: "Archive" }).click();
+    await expect(stage.getByText("Archived Weekly digest")).toBeVisible();
+    await expect(status).toContainText("Inbox 3 of 4 · undo window open");
+    await expect(row).toHaveCount(0, { timeout: 5000 });
+
+    // Well inside the five-second ring.
+    await stage.getByRole("button", { name: "Undo" }).click();
+    await expect(stage.getByText("Restored")).toBeVisible();
+    await expect(row).toHaveCount(1);
+    await expect(status).toContainText("Inbox 4 of 4");
+    // The row goes back where it was, not onto the end.
+    await expect(stage.getByRole("listitem").nth(1)).toContainText(
+      "Weekly digest",
+    );
+
+    // The restored line holds, then the toast lifts away on its own.
+    await expect(status).not.toContainText("undo window open", {
+      timeout: 8000,
+    });
+  });
+
+  test("light-box: a tile opens, an arrow moves, Escape returns to the tile", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/light-box");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const basin = stage.getByRole("button", {
+      name: "Basin fog before sunrise",
+    });
+    const glasshouse = stage.getByRole("button", {
+      name: "Fernworks glasshouse at noon",
+    });
+
+    await expect(status).toContainText("Four plates · pick one to open");
+
+    await basin.click();
+    const viewer = stage.getByRole("dialog", {
+      name: "Basin fog before sunrise",
+    });
+    await expect(viewer).toBeVisible();
+    await expect(basin).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("Viewing Basin fog before sunrise");
+    await expect(stage.getByText("1 / 4")).toBeVisible();
+    // Focus lands on the panel, so the picture's name is read first.
+    await expect(viewer).toBeFocused();
+
+    await page.keyboard.press("ArrowRight");
+    await expect(
+      stage.getByRole("dialog", { name: "Fernworks glasshouse at noon" }),
+    ).toBeVisible();
+    await expect(status).toContainText("Viewing Fernworks glasshouse at noon");
+    await expect(stage.getByText("2 / 4")).toBeVisible();
+    await expect(stage.getByText("Fernworks · 12:05")).toBeVisible();
+
+    await page.keyboard.press("Escape");
+    await expect(status).toContainText("Four plates · pick one to open");
+    await expect(stage.getByRole("dialog")).toHaveCount(0, { timeout: 5000 });
+    // Focus returns to the tile of the picture that was being viewed.
+    await expect(glasshouse).toBeFocused();
+  });
+
+  test("edit-bubble: Enter commits the edit and Escape restores the old value", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/edit-bubble");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const trigger = stage.getByRole("button", {
+      name: "Edit Project name, currently Relay bench rebuild",
+    });
+
+    await expect(status).toContainText("Saved Relay bench rebuild · 4200");
+
+    await trigger.click();
+    const field = stage.getByLabel("Project name");
+    await expect(field).toBeFocused();
+    await field.fill("Relay bench teardown");
+    await field.press("Enter");
+
+    await expect(status).toContainText("Saved Relay bench teardown");
+    const renamed = stage.getByRole("button", {
+      name: "Edit Project name, currently Relay bench teardown",
+    });
+    await expect(renamed).toBeVisible();
+    // Committing hands focus back to the value it just wrote.
+    await expect(renamed).toBeFocused();
+
+    // Escape is the way out that keeps nothing.
+    const budget = stage.getByRole("button", {
+      name: "Edit Monthly budget · USD, currently 4200",
+    });
+    await budget.click();
+    const amount = stage.getByLabel("Monthly budget · USD");
+    await amount.fill("9100");
+    await amount.press("Escape");
+    await expect(status).toContainText("Saved Relay bench teardown · 4200");
+    await expect(budget).toBeVisible();
+    await expect(budget).toBeFocused();
+  });
+
+  test("bell-tray: an arrival raises the count and Mark all read clears it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/bell-tray");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const bell = stage.getByRole("button", { name: /^Notifications, / });
+
+    await expect(status).toContainText("2 unread of 3");
+    await expect(bell).toHaveAttribute("aria-label", "Notifications, 2 unread");
+
+    await stage.getByRole("button", { name: "Simulate arrival" }).click();
+    await expect(bell).toHaveAttribute("aria-label", "Notifications, 3 unread");
+    await expect(status).toContainText("3 unread of 4");
+
+    await bell.click();
+    const tray = stage.getByRole("region", { name: "Notifications" });
+    await expect(tray).toBeVisible();
+    await expect(bell).toHaveAttribute("aria-expanded", "true");
+    await expect(
+      tray.getByRole("button", { name: /^Sensor 12 drifting, now, unread/ }),
+    ).toBeVisible();
+
+    const markAll = tray.getByRole("button", { name: "Mark all read" });
+    await markAll.click();
+    await expect(status).toContainText("0 unread of 4");
+    await expect(bell).toHaveAttribute("aria-label", "Notifications, 0 unread");
+    // Nothing left to mark, so the control stands down.
+    await expect(markAll).toBeDisabled();
+    await expect(
+      tray.getByRole("button", { name: /^Sensor 12 drifting, now\. Dismiss$/ }),
+    ).toBeVisible();
+  });
+
+  test("typed-confirm: the wrong phrase keeps the button asleep, the right one wakes it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/typed-confirm");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+
+    await expect(status).toContainText("Match 0/14");
+
+    await stage.getByRole("button", { name: "Delete environment" }).click();
+    const dialog = stage.getByRole("alertdialog", {
+      name: "Delete this environment",
+    });
+    await expect(dialog).toBeVisible();
+    const field = dialog.getByLabel("Type fernworks-prod to confirm");
+    await expect(field).toBeFocused();
+    const confirm = dialog.getByRole("button", { name: "Delete" });
+    await expect(confirm).toBeDisabled();
+
+    // A near miss is still a miss: ten characters agree, the button does not.
+    await field.fill("fernworks-dev");
+    await expect(status).toContainText("Match 10/14");
+    await expect(field).toHaveAttribute("aria-invalid", "true");
+    await expect(dialog.getByText("That is not the name")).toBeVisible();
+    await expect(confirm).toBeDisabled();
+
+    await field.fill("fernworks-prod");
+    await expect(status).toContainText("Match 14/14");
+    await expect(field).toHaveAttribute("aria-invalid", "false");
+    await expect(confirm).toBeEnabled();
+
+    await confirm.click();
+    await expect(status).toContainText("fernworks-prod deleted");
+    await expect(dialog).toHaveCount(0, { timeout: 5000 });
+    await expect(stage.getByText("Removed")).toBeVisible();
+    await expect(
+      stage.getByRole("button", { name: "Recreate environment" }),
+    ).toBeFocused();
+  });
+
+  test("fab-fan: the fan opens, the arrows walk it, Enter starts the action", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/fab-fan");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const fab = stage.getByRole("button", { name: "New", exact: true });
+
+    await expect(status).toContainText("Open the fan to start something");
+    await expect(fab).toHaveAttribute("aria-expanded", "false");
+
+    await fab.click();
+    const menu = stage.getByRole("menu", { name: "New" });
+    await expect(menu).toBeVisible();
+    await expect(fab).toHaveAttribute("aria-expanded", "true");
+    await expect(menu.getByRole("menuitem")).toHaveCount(5);
+    // The fan is opened from the trigger, so the first action takes focus.
+    const transfer = menu.getByRole("menuitem", { name: "Transfer" });
+    await expect(transfer).toBeFocused();
+
+    await page.keyboard.press("ArrowDown");
+    const request = menu.getByRole("menuitem", { name: "Request" });
+    await expect(request).toBeFocused();
+
+    // Escape folds the fan without starting anything.
+    await page.keyboard.press("Escape");
+    await expect(menu).toHaveCount(0, { timeout: 5000 });
+    await expect(fab).toBeFocused();
+    await expect(status).toContainText("Open the fan to start something");
+
+    await fab.click();
+    await expect(transfer).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Started Request");
+    await expect(menu).toHaveCount(0, { timeout: 5000 });
+    await expect(fab).toBeFocused();
+  });
+
+  test("keymap-sheet: ? opens the sheet, typing folds it down, Escape closes it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/keymap-sheet");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const trigger = stage.getByRole("button", { name: /^Shortcuts/ });
+    const sheet = stage.getByRole("dialog", { name: "Keyboard shortcuts" });
+    const listed = stage.getByText(/shortcuts? listed$/);
+
+    await expect(status).toContainText("Sheet closed · press ? to open");
+    await expect(sheet).toHaveCount(0);
+
+    // Focus is on the document, not in a field, so the hotkey is the sheet's.
+    await page.keyboard.press("?");
+    await expect(sheet).toBeVisible();
+    await expect(status).toContainText("Sheet open");
+    await expect(listed).toHaveText("10 shortcuts listed");
+    const filter = sheet.getByLabel("Filter shortcuts");
+    await expect(filter).toBeFocused();
+
+    await filter.pressSequentially("link");
+    await expect(status).toContainText("filter “link”");
+    await expect(listed).toHaveText("1 shortcut listed", { timeout: 5000 });
+    await expect(sheet.getByText("Insert link")).toBeVisible();
+
+    // The hotkey stands down while the filter has the caret.
+    await filter.press("?");
+    await expect(filter).toHaveValue("link?");
+
+    await filter.press("Escape");
+    await expect(status).toContainText("Sheet closed");
+    await expect(sheet).toHaveCount(0, { timeout: 5000 });
+    await expect(trigger).toBeFocused();
+  });
+
+  test("dock-player: scrolling past the seat sends the card to the corner", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/dock-player");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const frame = frameOf(stage);
+    const returnHome = stage.getByRole("button", {
+      name: "Return Bay 4 calibration to the article",
+    });
+
+    await expect(status).toContainText("Player inline");
+    await expect(returnHome).toHaveCount(0);
+
+    await scrollFrameTo(frame, 400);
+    await expect(status).toContainText("Player docked");
+    await expect(returnHome).toBeVisible();
+    await expect(stage.getByText("Playing in the corner")).toBeVisible();
+
+    // The docked picture is the way back, and it has a keyboard path.
+    await returnHome.click();
+    await expect(status).toContainText("Player inline", { timeout: 8000 });
+    await expect(returnHome).toHaveCount(0, { timeout: 5000 });
+  });
+
+  test("share-tray: the tray opens and Copy link stamps its own cell", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/share-tray");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // Exact: the tray's own backdrop is named "Close share tray".
+    const trigger = stage.getByRole("button", { name: "Share", exact: true });
+
+    await expect(status).toContainText("Open the tray to share");
+
+    await trigger.click();
+    const tray = stage.getByRole("dialog", { name: "Share" });
+    await expect(tray).toBeVisible();
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    await expect(
+      tray.getByText("waylight.example/field/third-sweep"),
+    ).toBeVisible();
+
+    const copy = tray.getByRole("button", { name: "Copy link" });
+    await expect(copy).toBeFocused();
+    await copy.click();
+
+    // Chromium refuses the clipboard write under Playwright, so the cell
+    // stamps the documented fallback — "Copy failed" — rather than "Copied".
+    // Either stamp is the component reporting an attempt, which is what is
+    // under test here; the demo records copy as the target that was used.
+    await expect(status).toContainText("Shared to Copy link");
+    await expect(
+      tray.getByRole("button", { name: /^Cop(ied|y failed)$/ }),
+    ).toBeVisible();
+    await expect(tray.locator("[role='status']")).toHaveText(
+      /^(Link copied|Could not copy the link)$/,
+    );
+
+    await tray.getByRole("button", { name: "Fieldline" }).click();
+    await expect(status).toContainText("Shared to Fieldline");
+
+    await page.keyboard.press("Escape");
+    await expect(tray).toHaveCount(0, { timeout: 5000 });
+    await expect(trigger).toBeFocused();
+  });
+
+  test("consent-slab: Customise unfolds the switches and Reject all sinks the slab", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/consent-slab");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const slab = stage.getByRole("region", { name: "Your data choices" });
+    const customise = slab.getByRole("button", { name: "Customise" });
+    // The switches live in a panel that is measured, not reserved: a folded
+    // panel is zero tall, so the panel's own height is the reveal.
+    const panelHeight = () =>
+      slab
+        .locator("[role='switch']")
+        .first()
+        .evaluate(
+          (element) =>
+            element.closest("div.overflow-hidden")?.getBoundingClientRect()
+              .height ?? -1,
+        );
+
+    await expect(status).toContainText("Awaiting a choice");
+    await expect(customise).toHaveAttribute("aria-expanded", "false");
+    expect(await panelHeight()).toBeLessThan(1);
+
+    await customise.click();
+    await expect(customise).toHaveAttribute("aria-expanded", "true");
+    await expect.poll(panelHeight, { timeout: 5000 }).toBeGreaterThan(60);
+    const necessary = slab.getByRole("switch", { name: "Necessary" });
+    await expect(necessary).toHaveAttribute("aria-checked", "true");
+    await expect(necessary).toHaveAttribute("aria-disabled", "true");
+    const analytics = slab.getByRole("switch", { name: "Analytics" });
+    await expect(analytics).toHaveAttribute("aria-checked", "false");
+
+    // Refusing everything still grants what the site cannot run without.
+    await slab.getByRole("button", { name: "Reject all" }).click();
+    await expect(status).toContainText("Allowed Necessary");
+    // The stamp itself, not the sr-only line that repeats it underneath.
+    await expect(stage.getByText("Necessary only").first()).toBeVisible();
+    // The stamp holds, then the slab sinks and leaves its chip behind.
+    await expect(
+      stage.getByRole("button", { name: "Preferences" }),
+    ).toBeVisible({ timeout: 8000 });
+    await expect(slab).toHaveCount(0);
   });
 });
