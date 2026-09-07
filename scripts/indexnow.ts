@@ -28,20 +28,32 @@ async function main() {
   if (urlList.length === 0) throw new Error("sitemap listed no urls");
 
   // The protocol caps a submission at 10,000 URLs; the sitemap is far under.
-  const res = await fetch("https://api.indexnow.org/IndexNow", {
-    method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify({
-      host,
-      key: KEY,
-      keyLocation: `${origin}/${KEY}.txt`,
-      urlList,
-    }),
+  // The first submission after a deploy is sometimes refused while the
+  // endpoint fetches the key file, so a refusal is retried before it counts.
+  const body = JSON.stringify({
+    host,
+    key: KEY,
+    keyLocation: `${origin}/${KEY}.txt`,
+    urlList,
   });
-  console.log(
-    `indexnow: ${urlList.length} url(s) submitted for ${host}: HTTP ${res.status}`,
-  );
-  if (res.status >= 300) throw new Error(await res.text());
+  let last = "";
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    const res = await fetch("https://api.indexnow.org/IndexNow", {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body,
+    });
+    if (res.status < 300) {
+      console.log(
+        `indexnow: ${urlList.length} url(s) submitted for ${host}: HTTP ${res.status}`,
+      );
+      return;
+    }
+    last = `HTTP ${res.status} ${(await res.text()).trim()}`.trim();
+    console.warn(`indexnow: attempt ${attempt} refused (${last})`);
+    await new Promise((resolve) => setTimeout(resolve, 2000 * attempt));
+  }
+  throw new Error(`indexnow: submission refused after 3 attempts: ${last}`);
 }
 
 main().catch((error) => {
