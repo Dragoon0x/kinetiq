@@ -33,12 +33,12 @@ npx @kinetiqui/mcp
 
 ## Tools
 
-- `list_catalog` — every component and block, with categories and taglines
-- `search` — keyword search across the catalog
-- `get_component` — a component's full docs, props, and install command
-- `get_source` — the exact source a consumer would install
-- `get_motion_system` — the five calibrated springs and the tween scale
-- `install_command` — the copy-paste `shadcn add` line for a slug
+- `list_catalog` — every component, block, page and template, grouped and filterable
+- `search_components` — rank the catalog by name, tagline, or keyword
+- `get_component` — full metadata and source for one item, with its install command
+- `get_install_command` — the exact `shadcn add` line for any items
+- `get_motion_system` — the five calibrated springs, the tween scale, and cascade rules
+- `get_conventions` — the authoring rules (AGENTS.md) as markdown
 
 Plus resources for the machine catalog, the full-ingest reference, and the
 authoring conventions.
