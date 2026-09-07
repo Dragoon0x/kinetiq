@@ -16171,6 +16171,141 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cart-fly",
+      "type": "registry:ui",
+      "title": "Cart Fly",
+      "description": "Add to cart, with the item making the trip. Pressing throws a ghost of the button's thumbnail along an arc to whatever cartRef points at — x on a linear tween, y through a lifted middle keyframe — and the flight's own onComplete calls onAdd, so the cart bumps on recoil because it caught something. The button confirms with a check drawn on flick, and Enter or Space runs the same path.",
+      "files": [
+        {
+          "path": "registry/ui/cart-fly.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-581"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "zoom-gallery",
+      "type": "registry:ui",
+      "title": "Zoom Gallery",
+      "description": "A product gallery with a loupe. Choosing a thumbnail cross-fades the frame while the arriving picture settles from a hair over full size on glide, and the selection ring travels between thumbnails on a shared layoutId; hovering the frame opens a scaled copy translated so the point under the pointer stays under it, clamped to the picture's edges. The thumbnails are a tablist — Left and Right swap pictures, Home and End jump — and a pressed Zoom button opens the pane centred for the keyboard, with Arrow keys panning and Escape closing.",
+      "files": [
+        {
+          "path": "registry/ui/zoom-gallery.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "meta": {
+        "serial": "KQ-582"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wave-scrub",
+      "type": "registry:ui",
+      "title": "Wave Scrub",
+      "description": "A scrubber that shows the sound. The played part is the same waveform in a second colour, revealed by a clip that chases the clock on a short linear tween — a spring would overshoot the present — and the elapsed readout is that same motion value formatted, so the digits roll with the fill. Dragging scrubs after 4px of travel, hovering floats the time under the pointer, the transport morphs between play and pause on snap, and Left and Right step five seconds on a slider whose aria-valuetext reads mm:ss.",
+      "files": [
+        {
+          "path": "registry/ui/wave-scrub.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-583"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "coupon-slot",
+      "type": "registry:ui",
+      "title": "Coupon Slot",
+      "description": "A coupon field shaped like the ticket it is. A code that takes tears the stub off along its perforation — a closing clip and a turn on the exit ease, because a tear accelerates away and never springs back — the seam's two halves part, a discount line glides in beneath the subtotal, and the total rolls down to meet it. A code that is refused nudges the field 4px and settles on recoil while the seam opens and reseals on that same spring; Enter applies, and the outcome is wired to the input through aria-describedby.",
+      "files": [
+        {
+          "path": "registry/ui/coupon-slot.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "meta": {
+        "serial": "KQ-584"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "parcel-line",
+      "type": "registry:ui",
+      "title": "Parcel Line",
+      "description": "A delivery that shows its own progress. The parcel glides between stops on glide and is placed from measured dot centres rather than a percentage, so it lands true on whichever row the stops wrapped onto at phone width; the stop it sits on breathes on drift, a reversing two-keyframe spring, while passed stops fill in order on flick through a cascade that keeps the run inside the 600ms budget. The stops are an ordered list with aria-current on the one in hand, and the ETA rolls when it changes and is announced politely.",
+      "files": [
+        {
+          "path": "registry/ui/parcel-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "feedback"
+      ],
+      "meta": {
+        "serial": "KQ-585"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

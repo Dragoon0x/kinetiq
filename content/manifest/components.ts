@@ -24632,4 +24632,283 @@ export const components: KinetiqItem[] = [
       "Under reduced motion a run advances in eight jumps instead of gliding, so the trip still finishes and still reports; scrubbed and scroll-linked progress place the rider without travel either way.",
     ],
   },
+  {
+    name: "cart-fly",
+    type: "registry:ui",
+    title: "Cart Fly",
+    description:
+      "Add to cart, with the item making the trip. Pressing throws a ghost of the button's thumbnail along an arc to whatever cartRef points at — x on a linear tween, y through a lifted middle keyframe — and the flight's own onComplete calls onAdd, so the cart bumps on recoil because it caught something. The button confirms with a check drawn on flick, and Enter or Space runs the same path.",
+    files: [
+      {
+        path: "registry/ui/cart-fly.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["feedback"],
+    meta: {
+      serial: "KQ-581",
+    },
+    tagline: "The item flies to the cart; the cart catches it.",
+    keywords: ["cart", "commerce", "add", "flight", "ghost", "checkout"],
+    props: [
+      {
+        name: "cartRef",
+        type: "React.RefObject<HTMLElement | null>",
+        description:
+          "The element the ghost flies to; its box is measured at press time.",
+      },
+      {
+        name: "thumbnail",
+        type: "React.ReactNode",
+        description:
+          "The picture that flies — rendered in the button and again as the ghost.",
+      },
+      {
+        name: "onAdd",
+        type: "() => void",
+        description:
+          "Fires when the flight lands, so the cart counts what arrived.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Add to cart",
+        description: "Button copy.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Locks the button; no flight leaves.",
+      },
+    ],
+    usageNotes: [
+      "It is a plain button: Tab reaches it, Enter or Space adds, and the outcome is announced through a polite live region.",
+      "Under reduced motion nothing flies — onAdd fires on the press and the button still confirms, because the count is information rather than flourish.",
+      "Both boxes are measured inside the press handler, so a scrolled page or a moved cart still lands true; several ghosts may be in the air at once.",
+    ],
+  },
+  {
+    name: "zoom-gallery",
+    type: "registry:ui",
+    title: "Zoom Gallery",
+    description:
+      "A product gallery with a loupe. Choosing a thumbnail cross-fades the frame while the arriving picture settles from a hair over full size on glide, and the selection ring travels between thumbnails on a shared layoutId; hovering the frame opens a scaled copy translated so the point under the pointer stays under it, clamped to the picture's edges. The thumbnails are a tablist — Left and Right swap pictures, Home and End jump — and a pressed Zoom button opens the pane centred for the keyboard, with Arrow keys panning and Escape closing.",
+    files: [
+      {
+        path: "registry/ui/zoom-gallery.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-582",
+    },
+    tagline: "Thumbnails swap the picture; hover zooms into it.",
+    keywords: ["gallery", "zoom", "product", "thumbnails", "loupe", "commerce"],
+    props: [
+      {
+        name: "images",
+        type: "{ id: string; alt: string; art: React.ReactNode }[]",
+        description:
+          "Pictures; art is rendered in the thumbnail, the frame, and the zoom pane.",
+      },
+      {
+        name: "zoom",
+        type: "number",
+        defaultValue: "2",
+        description: "Magnification of the zoom pane.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "Controlled or initial active picture id.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires when another picture is chosen.",
+      },
+      {
+        name: "onZoomChange",
+        type: "(zoomed: boolean) => void",
+        description: "Fires when the zoom pane opens or closes.",
+      },
+    ],
+    usageNotes: [
+      "The thumbnails are a tablist with a roving tabindex: Left and Right swap pictures without wrapping past the ends, Home and End jump to the first and last.",
+      "The Zoom button is the keyboard's path into the pane — it opens centred, Arrow keys pan it by a tenth of the picture, and Escape closes it.",
+      "Under reduced motion pictures swap without travel and the pane holds still rather than following the pointer; the magnification itself still shows, because it is information.",
+    ],
+  },
+  {
+    name: "wave-scrub",
+    type: "registry:ui",
+    title: "Wave Scrub",
+    description:
+      "A scrubber that shows the sound. The played part is the same waveform in a second colour, revealed by a clip that chases the clock on a short linear tween — a spring would overshoot the present — and the elapsed readout is that same motion value formatted, so the digits roll with the fill. Dragging scrubs after 4px of travel, hovering floats the time under the pointer, the transport morphs between play and pause on snap, and Left and Right step five seconds on a slider whose aria-valuetext reads mm:ss.",
+    files: [
+      {
+        path: "registry/ui/wave-scrub.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-583",
+    },
+    tagline: "Bars for the sound; the played part fills.",
+    keywords: ["waveform", "scrubber", "audio", "slider", "seek", "transport"],
+    props: [
+      {
+        name: "peaks",
+        type: "number[]",
+        description: "Bar heights, 0–1, left to right.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        description: "Length of the recording, in seconds.",
+      },
+      {
+        name: "position / defaultPosition",
+        type: "number",
+        defaultValue: "0",
+        description: "Controlled or initial position, in seconds played.",
+      },
+      {
+        name: "onSeek",
+        type: "(seconds: number) => void",
+        description: "Fires on every scrub, tap, and arrow press.",
+      },
+      {
+        name: "playing / defaultPlaying",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial transport state.",
+      },
+      {
+        name: "onPlayingChange",
+        type: "(playing: boolean) => void",
+        description: "Fires when the transport button is pressed.",
+      },
+    ],
+    usageNotes: [
+      "The waveform is a slider: Left and Right step five seconds, Up and Down do the same, Home and End jump to the ends, and aria-valuetext reads mm:ss of mm:ss.",
+      "Pointer capture waits for 4px of travel, so a plain tap still seeks where it landed and a vertical touch keeps scrolling the page.",
+      "Under reduced motion the fill steps to each new position instead of gliding — the progress is information, only the travel is dropped. It plays no audio; drive position from your own clock.",
+    ],
+  },
+  {
+    name: "coupon-slot",
+    type: "registry:ui",
+    title: "Coupon Slot",
+    description:
+      "A coupon field shaped like the ticket it is. A code that takes tears the stub off along its perforation — a closing clip and a turn on the exit ease, because a tear accelerates away and never springs back — the seam's two halves part, a discount line glides in beneath the subtotal, and the total rolls down to meet it. A code that is refused nudges the field 4px and settles on recoil while the seam opens and reseals on that same spring; Enter applies, and the outcome is wired to the input through aria-describedby.",
+    files: [
+      {
+        path: "registry/ui/coupon-slot.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["forms"],
+    meta: {
+      serial: "KQ-584",
+    },
+    tagline: "The ticket tears; the total drops.",
+    keywords: ["coupon", "discount", "checkout", "ticket", "voucher", "total"],
+    props: [
+      {
+        name: "onApply",
+        type: "(code: string) => CouponResult | null",
+        description:
+          "Validates a code and returns { label, amount }, or null to refuse it.",
+      },
+      {
+        name: "subtotal",
+        type: "number",
+        description: "The figure the discount comes off.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "Money formatter; the component prints nothing this does not return.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Coupon code",
+        description: "Field label, shown above the stub.",
+      },
+      {
+        name: "onDiscountChange",
+        type: "(discount: CouponResult | null) => void",
+        description: "Fires when a discount is applied or removed.",
+      },
+    ],
+    usageNotes: [
+      "A plain input: Enter applies, Apply is disabled while the field is empty, and the outcome is both described by aria-describedby and announced through a live region that is already in the document.",
+      "Focus follows the work — to Remove when the stub tears off, back to the field when Remove puts it back.",
+      "Under reduced motion nothing travels: the discount line and the stub appear, the seam stays sealed, and the total's digits swap rather than roll.",
+    ],
+  },
+  {
+    name: "parcel-line",
+    type: "registry:ui",
+    title: "Parcel Line",
+    description:
+      "A delivery that shows its own progress. The parcel glides between stops on glide and is placed from measured dot centres rather than a percentage, so it lands true on whichever row the stops wrapped onto at phone width; the stop it sits on breathes on drift, a reversing two-keyframe spring, while passed stops fill in order on flick through a cascade that keeps the run inside the 600ms budget. The stops are an ordered list with aria-current on the one in hand, and the ETA rolls when it changes and is announced politely.",
+    files: [
+      {
+        path: "registry/ui/parcel-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["feedback"],
+    meta: {
+      serial: "KQ-585",
+    },
+    tagline: "The parcel moves along the stops.",
+    keywords: ["delivery", "tracker", "stepper", "shipment", "progress", "eta"],
+    props: [
+      {
+        name: "stops",
+        type: "{ id: string; label: string; time?: string }[]",
+        description: "Ordered stops, first to last.",
+      },
+      {
+        name: "current",
+        type: "number",
+        description: "Index of the stop the parcel is at; clamped to the run.",
+      },
+      {
+        name: "eta",
+        type: "string",
+        description:
+          "Formatted arrival, shown in the header and announced when it changes.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Shipment name; names the region and opens the announcement.",
+      },
+    ],
+    usageNotes: [
+      "An ordered list, not a widget: aria-current marks the stop in hand, every other stop carries a hidden word of state, and the whole reading is announced through a polite live region.",
+      "Stops wrap into a second row at phone width and the parcel follows, because its position comes from measured dot centres rather than a percentage of the track.",
+      "Under reduced motion the parcel jumps to its stop and nothing breathes; the fills, the labels, and the ETA still change.",
+    ],
+  },
 ];

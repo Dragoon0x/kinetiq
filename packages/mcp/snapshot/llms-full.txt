@@ -9805,6 +9805,101 @@ Notes:
 - Progress has one source at a time: playing wins, then a controlled progress prop, then the container's scroll. Scroll mapping is linear on purpose — a spring on a scroll-linked value lags the finger.
 - Under reduced motion a run advances in eight jumps instead of gliding, so the trip still finishes and still reports; scrubbed and scroll-linked progress place the rider without travel either way.
 
+### Cart Fly (KQ-581) — `cart-fly`
+The item flies to the cart; the cart catches it.
+
+Add to cart, with the item making the trip. Pressing throws a ghost of the button's thumbnail along an arc to whatever cartRef points at — x on a linear tween, y through a lifted middle keyframe — and the flight's own onComplete calls onAdd, so the cart bumps on recoil because it caught something. The button confirms with a check drawn on flick, and Enter or Space runs the same path.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cart-fly`
+
+Props:
+- `cartRef`: React.RefObject<HTMLElement | null> — The element the ghost flies to; its box is measured at press time.
+- `thumbnail`: React.ReactNode — The picture that flies — rendered in the button and again as the ghost.
+- `onAdd`: () => void — Fires when the flight lands, so the cart counts what arrived.
+- `label`: string (default Add to cart) — Button copy.
+- `disabled`: boolean (default false) — Locks the button; no flight leaves.
+
+Notes:
+- It is a plain button: Tab reaches it, Enter or Space adds, and the outcome is announced through a polite live region.
+- Under reduced motion nothing flies — onAdd fires on the press and the button still confirms, because the count is information rather than flourish.
+- Both boxes are measured inside the press handler, so a scrolled page or a moved cart still lands true; several ghosts may be in the air at once.
+
+### Zoom Gallery (KQ-582) — `zoom-gallery`
+Thumbnails swap the picture; hover zooms into it.
+
+A product gallery with a loupe. Choosing a thumbnail cross-fades the frame while the arriving picture settles from a hair over full size on glide, and the selection ring travels between thumbnails on a shared layoutId; hovering the frame opens a scaled copy translated so the point under the pointer stays under it, clamped to the picture's edges. The thumbnails are a tablist — Left and Right swap pictures, Home and End jump — and a pressed Zoom button opens the pane centred for the keyboard, with Arrow keys panning and Escape closing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/zoom-gallery`
+
+Props:
+- `images`: { id: string; alt: string; art: React.ReactNode }[] — Pictures; art is rendered in the thumbnail, the frame, and the zoom pane.
+- `zoom`: number (default 2) — Magnification of the zoom pane.
+- `value / defaultValue`: string — Controlled or initial active picture id.
+- `onValueChange`: (id: string) => void — Fires when another picture is chosen.
+- `onZoomChange`: (zoomed: boolean) => void — Fires when the zoom pane opens or closes.
+
+Notes:
+- The thumbnails are a tablist with a roving tabindex: Left and Right swap pictures without wrapping past the ends, Home and End jump to the first and last.
+- The Zoom button is the keyboard's path into the pane — it opens centred, Arrow keys pan it by a tenth of the picture, and Escape closes it.
+- Under reduced motion pictures swap without travel and the pane holds still rather than following the pointer; the magnification itself still shows, because it is information.
+
+### Wave Scrub (KQ-583) — `wave-scrub`
+Bars for the sound; the played part fills.
+
+A scrubber that shows the sound. The played part is the same waveform in a second colour, revealed by a clip that chases the clock on a short linear tween — a spring would overshoot the present — and the elapsed readout is that same motion value formatted, so the digits roll with the fill. Dragging scrubs after 4px of travel, hovering floats the time under the pointer, the transport morphs between play and pause on snap, and Left and Right step five seconds on a slider whose aria-valuetext reads mm:ss.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/wave-scrub`
+
+Props:
+- `peaks`: number[] — Bar heights, 0–1, left to right.
+- `duration`: number — Length of the recording, in seconds.
+- `position / defaultPosition`: number (default 0) — Controlled or initial position, in seconds played.
+- `onSeek`: (seconds: number) => void — Fires on every scrub, tap, and arrow press.
+- `playing / defaultPlaying`: boolean (default false) — Controlled or initial transport state.
+- `onPlayingChange`: (playing: boolean) => void — Fires when the transport button is pressed.
+
+Notes:
+- The waveform is a slider: Left and Right step five seconds, Up and Down do the same, Home and End jump to the ends, and aria-valuetext reads mm:ss of mm:ss.
+- Pointer capture waits for 4px of travel, so a plain tap still seeks where it landed and a vertical touch keeps scrolling the page.
+- Under reduced motion the fill steps to each new position instead of gliding — the progress is information, only the travel is dropped. It plays no audio; drive position from your own clock.
+
+### Coupon Slot (KQ-584) — `coupon-slot`
+The ticket tears; the total drops.
+
+A coupon field shaped like the ticket it is. A code that takes tears the stub off along its perforation — a closing clip and a turn on the exit ease, because a tear accelerates away and never springs back — the seam's two halves part, a discount line glides in beneath the subtotal, and the total rolls down to meet it. A code that is refused nudges the field 4px and settles on recoil while the seam opens and reseals on that same spring; Enter applies, and the outcome is wired to the input through aria-describedby.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/coupon-slot`
+
+Props:
+- `onApply`: (code: string) => CouponResult | null — Validates a code and returns { label, amount }, or null to refuse it.
+- `subtotal`: number — The figure the discount comes off.
+- `format`: (value: number) => string — Money formatter; the component prints nothing this does not return.
+- `label`: string (default Coupon code) — Field label, shown above the stub.
+- `onDiscountChange`: (discount: CouponResult | null) => void — Fires when a discount is applied or removed.
+
+Notes:
+- A plain input: Enter applies, Apply is disabled while the field is empty, and the outcome is both described by aria-describedby and announced through a live region that is already in the document.
+- Focus follows the work — to Remove when the stub tears off, back to the field when Remove puts it back.
+- Under reduced motion nothing travels: the discount line and the stub appear, the seam stays sealed, and the total's digits swap rather than roll.
+
+### Parcel Line (KQ-585) — `parcel-line`
+The parcel moves along the stops.
+
+A delivery that shows its own progress. The parcel glides between stops on glide and is placed from measured dot centres rather than a percentage, so it lands true on whichever row the stops wrapped onto at phone width; the stop it sits on breathes on drift, a reversing two-keyframe spring, while passed stops fill in order on flick through a cascade that keeps the run inside the 600ms budget. The stops are an ordered list with aria-current on the one in hand, and the ETA rolls when it changes and is announced politely.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/parcel-line`
+
+Props:
+- `stops`: { id: string; label: string; time?: string }[] — Ordered stops, first to last.
+- `current`: number — Index of the stop the parcel is at; clamped to the run.
+- `eta`: string — Formatted arrival, shown in the header and announced when it changes.
+- `label`: string — Shipment name; names the region and opens the announcement.
+
+Notes:
+- An ordered list, not a widget: aria-current marks the stop in hand, every other stop carries a hidden word of state, and the whole reading is announced through a polite live region.
+- Stops wrap into a second row at phone width and the parcel follows, because its position comes from measured dot centres rather than a percentage of the track.
+- Under reduced motion the parcel jumps to its stop and nothing breathes; the fills, the labels, and the ETA still change.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
