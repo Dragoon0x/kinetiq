@@ -5,8 +5,12 @@
  */
 export const PLACEHOLDER_ORIGIN = "https://kinetiq.dev";
 
-/** The live production origin, used when no deploy env var overrides it. */
-const CANONICAL_ORIGIN = "https://kinetiqui.vercel.app";
+/**
+ * The live production origin, used when no deploy env var overrides it.
+ * The apex redirects to www, so www is the canonical form; the old
+ * kinetiqui.vercel.app host redirects here (see next.config.ts).
+ */
+const CANONICAL_ORIGIN = "https://www.kinetiqui.com";
 
 /**
  * The canonical origin. Everything that emits an absolute URL — registry

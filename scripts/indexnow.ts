@@ -10,7 +10,7 @@
 const KEY = "541b5c0b7bee626976c0aa3261840784";
 
 async function main() {
-  const origin = (process.argv[2] ?? "https://kinetiqui.vercel.app").replace(
+  const origin = (process.argv[2] ?? "https://www.kinetiqui.com").replace(
     /\/$/,
     "",
   );
