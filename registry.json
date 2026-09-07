@@ -15226,6 +15226,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "uptime-strip",
+      "type": "registry:ui",
+      "title": "Uptime Strip",
+      "description": "Ninety days of service history, one bar each: the bars grow from the baseline in a single cascade on glide, and incident days carry a second bar that swells and fades on drift so the bad days pulse once without anything blinking. The header percentage rolls its digits on glide rather than swapping. The strip is a listbox — the pointer reads whichever bar it is over, Left and Right walk the days, Home and End jump to the oldest and today, and the reading follows along the strip, clamped inside the strip's own box so nothing shifts.",
+      "files": [
+        {
+          "path": "registry/ui/uptime-strip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-541"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "poll-bars",
+      "type": "registry:ui",
+      "title": "Poll Bars",
+      "description": "A poll that turns into its own result. Until the reader votes it is a plain radiogroup; the vote reveals the bars, each growing to its share on glide in one cascade while the percentages roll and the total climbs, and the chosen option stamps its check on recoil. Bars are drawn inside the option rows so revealing the results shifts nothing. Up and Down move and vote, Home and End jump to the ends, Space and Enter cast.",
+      "files": [
+        {
+          "path": "registry/ui/poll-bars.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-542"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "delta-tile",
+      "type": "registry:ui",
+      "title": "Delta Tile",
+      "description": "A KPI tile that answers three questions in one movement: the value rolls its digits on glide, the delta arrow turns to meet it on snap while its colour tweens danger to success, and the twelve-point sparkline redraws itself with pathLength on glide whenever the series changes. The tile is a button — hover or focus reads the previous period, Enter or Space pins that reading — and its accessible name is the whole sentence.",
+      "files": [
+        {
+          "path": "registry/ui/delta-tile.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-543"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "activity-rings",
+      "type": "registry:ui",
+      "title": "Activity Rings",
+      "description": "Three nested progress rings, each filling to its value on glide one cascade step apart so they read as three measurements arriving rather than one animation. A ring past its goal keeps going as a darker second lap over the first, and the centre figure rolls its digits to whichever ring is being read. Hovering or focusing a legend row isolates its ring and dims the others; arrows walk the rows and Enter pins the isolation.",
+      "files": [
+        {
+          "path": "registry/ui/activity-rings.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-544"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "budget-bar",
+      "type": "registry:ui",
+      "title": "Budget Bar",
+      "description": "A month's spending as one stacked bar. The segments grow to their share on glide in a single cascade, then hold: reading one expands it on snap while its neighbours compress, and the label and amount surface inside the segment rather than in a tooltip over the bar. Turning a legend chip off drops that category and the bar re-flows on glide. Arrows walk the segments, Home and End jump to the ends, Enter pins a reading.",
+      "files": [
+        {
+          "path": "registry/ui/budget-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-545"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crosshair-chart",
+      "type": "registry:ui",
+      "title": "Crosshair Chart",
+      "description": "A line chart you read with your hand. The trace draws itself on mount with pathLength on glide and the area fades in a beat behind it; moving a pointer snaps a crosshair to the nearest sample and the dot rides the line on flick, with a readout whose digits roll from a motion value instead of a re-render. The plot is a slider: Left and Right step one sample, Home and End jump to the ends, Escape clears the crosshair.",
+      "files": [
+        {
+          "path": "registry/ui/crosshair-chart.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-546"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gantt-lane",
+      "type": "registry:ui",
+      "title": "Gantt Lane",
+      "description": "A plan on three weeks of grid. Bars arrive a shift from their lane in cascade() order on glide, hovering or focusing one lights its whole chain and draws the connectors with pathLength on flick, and dragging a bar tracks the pointer 1:1, pushes any dependent it would overrun, then settles onto the whole day on snap. Left and Right nudge the focused bar a day, Up and Down walk the lanes, Enter pins the chain and Escape unpins it.",
+      "files": [
+        {
+          "path": "registry/ui/gantt-lane.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-547"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sort-table",
+      "type": "registry:ui",
+      "title": "Sort Table",
+      "description": "A table whose rows trade places. Sorting keeps every row's key and FLIPs it to its new seat on glide instead of re-painting the body, so a reorder is something the eye can follow; the header's arrow flips on snap and the sorted column tints. Headers are buttons inside th cells carrying aria-sort — the first press sorts ascending, the second reverses, the third clears back to the source order.",
+      "files": [
+        {
+          "path": "registry/ui/sort-table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-548"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "waterfall-steps",
+      "type": "registry:ui",
+      "title": "Waterfall Steps",
+      "description": "A cash bridge that builds itself. Every bar grows from the running total the last one ended on, in cascade() order on glide, with rises drawn in success, falls in danger and hairline connectors drawing between them on flick; the closing bar lands on recoil, two visible bounces for the arrival the chart was building toward. Columns are a list of buttons: hover or focus reads a step's delta and running total, Left and Right walk them, Home and End jump to the totals.",
+      "files": [
+        {
+          "path": "registry/ui/waterfall-steps.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-549"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "range-histogram",
+      "type": "registry:ui",
+      "title": "Range Histogram",
+      "description": "A price filter you can see through. A histogram of the whole population sits above a dual-thumb range, and dragging a thumb fades every bin outside the selection on a plain opacity tween while the match count rolls to its new figure from a motion value on glide. The thumbs are real sliders carrying aria-valuetext: arrows step, Shift steps ten, Home and End run to the ends, and a thumb pushes its partner rather than crossing it.",
+      "files": [
+        {
+          "path": "registry/ui/range-histogram.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "data"
+      ],
+      "meta": {
+        "serial": "KQ-550"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

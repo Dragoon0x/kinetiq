@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 539,
+      "components": 549,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -32673,6 +32673,777 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/offline-bar",
         "bun": "bunx --bun shadcn@latest add @kinetiq/offline-bar",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/offline-bar.json"
+      }
+    },
+    {
+      "slug": "uptime-strip",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Uptime Strip",
+      "serial": "KQ-541",
+      "tagline": "Ninety days, one bar each.",
+      "description": "Ninety days of service history, one bar each: the bars grow from the baseline in a single cascade on glide, and incident days carry a second bar that swells and fades on drift so the bad days pulse once without anything blinking. The header percentage rolls its digits on glide rather than swapping. The strip is a listbox — the pointer reads whichever bar it is over, Left and Right walk the days, Home and End jump to the oldest and today, and the reading follows along the strip, clamped inside the strip's own box so nothing shifts.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "uptime",
+        "status",
+        "incidents",
+        "history",
+        "strip",
+        "chart"
+      ],
+      "props": [
+        {
+          "name": "days",
+          "type": "{ date: string; status: \"up\" | \"degraded\" | \"down\" | \"none\"; note?: string }[]",
+          "description": "Ninety entries, oldest first."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Service name."
+        },
+        {
+          "name": "uptime",
+          "type": "number",
+          "description": "Percentage shown in the header; it rolls to each new figure."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "two decimal places",
+          "description": "Formats the header percentage."
+        },
+        {
+          "name": "onReadChange",
+          "type": "(day: UptimeDay | null, index: number) => void",
+          "description": "Fires with the day under the pointer or the keyboard cursor; null on leave."
+        }
+      ],
+      "usageNotes": [
+        "The strip is a listbox with one tab stop: Left and Right (or Up and Down) walk the days, Home and End jump to the oldest day and today, Escape drops the reading, and the reading follows the keyboard cursor as it follows the pointer.",
+        "Under reduced motion the bars appear at full height and the incident pulse is dropped; the percentage still updates, because a reading is information rather than flourish.",
+        "The reading is measured against the strip with a ResizeObserver and clamped to it, so it never leaves the card and never shifts the layout; bars are fluid, so ninety of them fit a 342px phone column."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/uptime-strip",
+      "registryItemUrl": "https://www.kinetiqui.com/r/uptime-strip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/uptime-strip",
+        "npm": "npx shadcn@latest add @kinetiq/uptime-strip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/uptime-strip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/uptime-strip",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/uptime-strip.json"
+      }
+    },
+    {
+      "slug": "poll-bars",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Poll Bars",
+      "serial": "KQ-542",
+      "tagline": "Vote, and the bars find their share.",
+      "description": "A poll that turns into its own result. Until the reader votes it is a plain radiogroup; the vote reveals the bars, each growing to its share on glide in one cascade while the percentages roll and the total climbs, and the chosen option stamps its check on recoil. Bars are drawn inside the option rows so revealing the results shifts nothing. Up and Down move and vote, Home and End jump to the ends, Space and Enter cast.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "poll",
+        "vote",
+        "results",
+        "bars",
+        "radiogroup",
+        "survey"
+      ],
+      "props": [
+        {
+          "name": "options",
+          "type": "{ id: string; label: string; votes: number }[]",
+          "description": "Options and their counts, excluding this reader."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "description": "Controlled or initial vote."
+        },
+        {
+          "name": "onVote",
+          "type": "(id: string) => void",
+          "description": "Fires on vote."
+        },
+        {
+          "name": "allowChange",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Let the reader move their vote after casting it."
+        },
+        {
+          "name": "question",
+          "type": "string",
+          "description": "The poll question; it labels the radiogroup."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "en-US thousands",
+          "description": "Formats the vote counts."
+        }
+      ],
+      "usageNotes": [
+        "A radiogroup with a roving tabindex: Up and Down (or Left and Right) move and vote without wrapping past the ends, Home and End jump to the ends, Space and Enter cast. With allowChange false the arrows still read the options out but the vote holds.",
+        "Under reduced motion the bars are set without spring and the digits swap; the results still appear, because the outcome is the information the reader asked for.",
+        "The bar is drawn inside each option row and the percentage sits in a fixed gutter, so the reveal never moves a row."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/poll-bars",
+      "registryItemUrl": "https://www.kinetiqui.com/r/poll-bars.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/poll-bars",
+        "npm": "npx shadcn@latest add @kinetiq/poll-bars",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/poll-bars",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/poll-bars",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/poll-bars.json"
+      }
+    },
+    {
+      "slug": "delta-tile",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Delta Tile",
+      "serial": "KQ-543",
+      "tagline": "The number rolls; the arrow turns to meet it.",
+      "description": "A KPI tile that answers three questions in one movement: the value rolls its digits on glide, the delta arrow turns to meet it on snap while its colour tweens danger to success, and the twelve-point sparkline redraws itself with pathLength on glide whenever the series changes. The tile is a button — hover or focus reads the previous period, Enter or Space pins that reading — and its accessible name is the whole sentence.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "kpi",
+        "metric",
+        "sparkline",
+        "delta",
+        "tile",
+        "dashboard"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Metric name."
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "description": "Current value; its digits roll to each new number."
+        },
+        {
+          "name": "previous",
+          "type": "number",
+          "description": "Prior period value; the delta is derived from it."
+        },
+        {
+          "name": "series",
+          "type": "number[]",
+          "description": "Sparkline points, oldest first; a new array redraws the path."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "description": "Formats the value, the previous reading, and the range."
+        },
+        {
+          "name": "lowerIsBetter",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Set when a fall is the good outcome — churn, latency, cost."
+        }
+      ],
+      "usageNotes": [
+        "The tile is a button: Tab reaches it, focus reads the previous period, and Enter or Space pins that reading so it can be studied without a pointer.",
+        "Under reduced motion the digits swap, the arrow flips instantly, and the sparkline is drawn at once; the delta colour still tweens, because colour carries no momentum.",
+        "The sparkline is a viewBox scaled by its container with a non-scaling stroke, and the previous-period reading is positioned inside the chart's own box, so neither can overhang a narrow column."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/delta-tile",
+      "registryItemUrl": "https://www.kinetiqui.com/r/delta-tile.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/delta-tile",
+        "npm": "npx shadcn@latest add @kinetiq/delta-tile",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/delta-tile",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/delta-tile",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/delta-tile.json"
+      }
+    },
+    {
+      "slug": "activity-rings",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Activity Rings",
+      "serial": "KQ-544",
+      "tagline": "Three rings, each closing on its own spring.",
+      "description": "Three nested progress rings, each filling to its value on glide one cascade step apart so they read as three measurements arriving rather than one animation. A ring past its goal keeps going as a darker second lap over the first, and the centre figure rolls its digits to whichever ring is being read. Hovering or focusing a legend row isolates its ring and dims the others; arrows walk the rows and Enter pins the isolation.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "rings",
+        "progress",
+        "goals",
+        "activity",
+        "radial",
+        "chart"
+      ],
+      "props": [
+        {
+          "name": "rings",
+          "type": "{ id: string; label: string; value: number; goal: number; color: string }[]",
+          "description": "Outer to inner, up to three."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "200",
+          "description": "Diameter in px; the figure scales down with its container."
+        },
+        {
+          "name": "thickness",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "Ring stroke width in px."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "en-US thousands",
+          "description": "Formats values and goals in the legend."
+        },
+        {
+          "name": "aria-label",
+          "type": "string",
+          "defaultValue": "\"Activity rings\"",
+          "description": "Names the figure; a sentence per ring is appended to it."
+        }
+      ],
+      "usageNotes": [
+        "The legend is a list of buttons with a roving tabindex: Up and Down move between rows, Home and End jump to the ends, and Enter or Space pins the isolation so it survives the pointer leaving.",
+        "Under reduced motion the rings are set without spring and only the dimming tweens; the fill still shows, because progress is information.",
+        "The figure is role=img carrying one sentence per ring, so the whole reading is available without sight or a pointer."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/activity-rings",
+      "registryItemUrl": "https://www.kinetiqui.com/r/activity-rings.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/activity-rings",
+        "npm": "npx shadcn@latest add @kinetiq/activity-rings",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/activity-rings",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/activity-rings",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/activity-rings.json"
+      }
+    },
+    {
+      "slug": "budget-bar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Budget Bar",
+      "serial": "KQ-545",
+      "tagline": "Segments grow, then make room for each other.",
+      "description": "A month's spending as one stacked bar. The segments grow to their share on glide in a single cascade, then hold: reading one expands it on snap while its neighbours compress, and the label and amount surface inside the segment rather than in a tooltip over the bar. Turning a legend chip off drops that category and the bar re-flows on glide. Arrows walk the segments, Home and End jump to the ends, Enter pins a reading.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "budget",
+        "stacked",
+        "bar",
+        "breakdown",
+        "legend",
+        "spending"
+      ],
+      "props": [
+        {
+          "name": "segments",
+          "type": "{ id: string; label: string; value: number; color: string }[]",
+          "description": "Categories and amounts, left to right."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "en-US thousands",
+          "description": "Formats amounts in the bar, the legend, and the total."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Bar title."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(segment: BudgetSegment | null) => void",
+          "description": "Fires with the segment being read; null when the reading is dropped."
+        }
+      ],
+      "usageNotes": [
+        "The segments are a group of buttons with a roving tabindex that skips hidden categories: Left and Right walk them, Home and End jump to the ends, and Enter or Space pins a reading so it survives the pointer leaving. Legend chips are toggle buttons carrying aria-pressed.",
+        "Under reduced motion the widths are set without spring and only the labels fade; the shares still show, because the breakdown is the information.",
+        "Each segment's wash is mixed into the surface colour, so the reading inside it keeps its contrast in both themes; the amount lives inside the segment, so nothing overlays the bar."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/budget-bar",
+      "registryItemUrl": "https://www.kinetiqui.com/r/budget-bar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/budget-bar",
+        "npm": "npx shadcn@latest add @kinetiq/budget-bar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/budget-bar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/budget-bar",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/budget-bar.json"
+      }
+    },
+    {
+      "slug": "crosshair-chart",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Crosshair Chart",
+      "serial": "KQ-546",
+      "tagline": "The dot rides the line under your hand.",
+      "description": "A line chart you read with your hand. The trace draws itself on mount with pathLength on glide and the area fades in a beat behind it; moving a pointer snaps a crosshair to the nearest sample and the dot rides the line on flick, with a readout whose digits roll from a motion value instead of a re-render. The plot is a slider: Left and Right step one sample, Home and End jump to the ends, Escape clears the crosshair.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "chart",
+        "line",
+        "crosshair",
+        "tooltip",
+        "scrub",
+        "series",
+        "data"
+      ],
+      "props": [
+        {
+          "name": "points",
+          "type": "CrosshairPoint[]",
+          "description": "The series, left to right; each sample carries a label and a value."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "rounded en-US",
+          "description": "Formats every number the chart says out loud, the rolling readout included."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "200",
+          "description": "Plot height in px. The width is fluid and measured, so nothing overhangs a phone."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Series name — the chart's accessible name and the readout's caption."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "defaultValue": "var(--signal, var(--primary))",
+          "description": "Trace and fill colour; any CSS colour, defaulting to the signal token."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(index: number | null) => void",
+          "description": "Fires with the index under the crosshair, or null when it clears."
+        }
+      ],
+      "usageNotes": [
+        "The plot carries role=slider: Left and Right step one sample, Up and Down do the same, Home and End jump to the ends, Escape clears the crosshair, and aria-valuetext speaks the point under it.",
+        "Under reduced motion the trace is painted whole with no self-draw and the dot jumps between samples — the reading still changes, because the reading is the information.",
+        "Every sample is also listed for assistive technology, so the chart means something with no pointer at all; the hover readout is absolutely placed and clamped inside the plot, so a rolling number never moves the page.",
+        "Touch keeps pan-y, so the page still scrolls through the chart while horizontal travel scrubs it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/crosshair-chart",
+      "registryItemUrl": "https://www.kinetiqui.com/r/crosshair-chart.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/crosshair-chart",
+        "npm": "npx shadcn@latest add @kinetiq/crosshair-chart",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/crosshair-chart",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/crosshair-chart",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/crosshair-chart.json"
+      }
+    },
+    {
+      "slug": "gantt-lane",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gantt Lane",
+      "serial": "KQ-547",
+      "tagline": "Bars slide into their lanes; hover lights the chain.",
+      "description": "A plan on three weeks of grid. Bars arrive a shift from their lane in cascade() order on glide, hovering or focusing one lights its whole chain and draws the connectors with pathLength on flick, and dragging a bar tracks the pointer 1:1, pushes any dependent it would overrun, then settles onto the whole day on snap. Left and Right nudge the focused bar a day, Up and Down walk the lanes, Enter pins the chain and Escape unpins it.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "gantt",
+        "timeline",
+        "schedule",
+        "dependencies",
+        "drag",
+        "plan",
+        "data"
+      ],
+      "props": [
+        {
+          "name": "tasks",
+          "type": "GanttTask[]",
+          "description": "Seeds the lanes as day offsets from the chart start; the chart owns positions after that and reports through onChange."
+        },
+        {
+          "name": "days",
+          "type": "number",
+          "defaultValue": "21",
+          "description": "Columns in the grid. The lanes scroll horizontally under edge fades when they outrun the viewport."
+        },
+        {
+          "name": "today",
+          "type": "number",
+          "description": "Day offset the today line stands on. Omit it and no line is drawn."
+        },
+        {
+          "name": "onChange",
+          "type": "(tasks: GanttTask[]) => void",
+          "description": "Fires with the whole plan after a drag settles or a keyboard nudge lands."
+        },
+        {
+          "name": "formatDay",
+          "type": "(day: number) => string",
+          "defaultValue": "Day {n}",
+          "description": "Names a day offset for the header ticks, the bars' aria-describedby dates and the live readout."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires with the hovered or focused task id, or null when nothing is lit."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible chart label. Omit it and pass aria-label to name the chart invisibly."
+        }
+      ],
+      "usageNotes": [
+        "Bars are buttons carrying their dates through aria-describedby: Left and Right nudge the focused bar one day, Up and Down walk the lanes, Home and End jump to the ends, Enter pins the chain lit and Escape unpins it.",
+        "Dragging captures the pointer only after 4px of travel, so a tap still reaches the click that pins a chain, and a synthetic sweep can never throw on capture.",
+        "Under reduced motion bars appear in place with no cascade and connectors are drawn already complete — the plan still moves, because the dates are the information.",
+        "The task-name column stays pinned while the lanes scroll horizontally under edge fades; nothing overhangs a 342px viewport."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/gantt-lane",
+      "registryItemUrl": "https://www.kinetiqui.com/r/gantt-lane.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gantt-lane",
+        "npm": "npx shadcn@latest add @kinetiq/gantt-lane",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gantt-lane",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gantt-lane",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/gantt-lane.json"
+      }
+    },
+    {
+      "slug": "sort-table",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sort Table",
+      "serial": "KQ-548",
+      "tagline": "Click a header; the rows trade places.",
+      "description": "A table whose rows trade places. Sorting keeps every row's key and FLIPs it to its new seat on glide instead of re-painting the body, so a reorder is something the eye can follow; the header's arrow flips on snap and the sorted column tints. Headers are buttons inside th cells carrying aria-sort — the first press sorts ascending, the second reverses, the third clears back to the source order.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "table",
+        "sort",
+        "reorder",
+        "flip",
+        "columns",
+        "rows",
+        "data"
+      ],
+      "props": [
+        {
+          "name": "columns",
+          "type": "SortColumn[]",
+          "description": "Columns, left to right; numeric ones sort by value and right-align in a mono tabular face."
+        },
+        {
+          "name": "rows",
+          "type": "SortRow[]",
+          "description": "Rows as plain records, each carrying a stable key field the FLIP animation tracks."
+        },
+        {
+          "name": "sort / defaultSort",
+          "type": "SortState | null",
+          "description": "Controlled or initial sort; null is the source order."
+        },
+        {
+          "name": "onSortChange",
+          "type": "(sort: SortState | null) => void",
+          "description": "Fires with the new sort, or null when a third press clears it."
+        },
+        {
+          "name": "format",
+          "type": "(value: string | number, column: SortColumn) => React.ReactNode",
+          "description": "Formats a cell — numbers should come through here rather than raw."
+        },
+        {
+          "name": "rowKey",
+          "type": "string",
+          "defaultValue": "id",
+          "description": "Row field holding the stable key; rows keep it across sorts so they travel rather than blink."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Table caption, read by assistive technology and hidden on screen."
+        }
+      ],
+      "usageNotes": [
+        "Each header is a button inside a th carrying aria-sort: press to sort ascending, again to reverse, a third time to clear; Enter and Space activate it like any button and the new order is announced.",
+        "Rows animate with layout=\"position\" so only the seat change moves — a full layout animation would scale-correct cells that never resized.",
+        "Under reduced motion the rows simply swap: the order still changes, because the order is the information.",
+        "Sorting never changes a header's width — the arrow is always rendered and only its opacity and rotation change."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/sort-table",
+      "registryItemUrl": "https://www.kinetiqui.com/r/sort-table.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sort-table",
+        "npm": "npx shadcn@latest add @kinetiq/sort-table",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sort-table",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sort-table",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/sort-table.json"
+      }
+    },
+    {
+      "slug": "waterfall-steps",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Waterfall Steps",
+      "serial": "KQ-549",
+      "tagline": "Each bar starts where the last one ended.",
+      "description": "A cash bridge that builds itself. Every bar grows from the running total the last one ended on, in cascade() order on glide, with rises drawn in success, falls in danger and hairline connectors drawing between them on flick; the closing bar lands on recoil, two visible bounces for the arrival the chart was building toward. Columns are a list of buttons: hover or focus reads a step's delta and running total, Left and Right walk them, Home and End jump to the totals.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "waterfall",
+        "bridge",
+        "chart",
+        "delta",
+        "cashflow",
+        "steps",
+        "data"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "WaterfallStep[]",
+          "description": "Ordered changes between the opening and closing totals; a negative delta falls."
+        },
+        {
+          "name": "start",
+          "type": "number",
+          "description": "Opening value the first step builds on."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "rounded en-US",
+          "description": "Formats every number: the rolling readout, the caption total and the aria text."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "200",
+          "description": "Plot height in px. The width is fluid and measured, so the columns fit any container."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Chart name; also the caption above the plot, opposite the closing total."
+        },
+        {
+          "name": "startLabel / totalLabel",
+          "type": "string",
+          "defaultValue": "Opening / Closing",
+          "description": "Column names for the two total bars."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(index: number | null) => void",
+          "description": "Fires with the column index under the pointer or focus, or null when it clears."
+        }
+      ],
+      "usageNotes": [
+        "Columns are list items holding buttons with aria-labels that read the delta and the running total: Left and Right walk the columns on a roving tabindex, Home and End jump to the opening and closing totals.",
+        "The hover readout is absolutely placed and clamped inside the plot, and its digits roll from motion values, so reading the chart never moves the page.",
+        "Under reduced motion the bars appear in place and the connectors are already drawn — the values still arrive, because the values are the information.",
+        "Bars animate their y and height attributes rather than scaleY, so no transform-origin rewrite is involved and the corner radii never stretch."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/waterfall-steps",
+      "registryItemUrl": "https://www.kinetiqui.com/r/waterfall-steps.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/waterfall-steps",
+        "npm": "npx shadcn@latest add @kinetiq/waterfall-steps",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/waterfall-steps",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/waterfall-steps",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/waterfall-steps.json"
+      }
+    },
+    {
+      "slug": "range-histogram",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Range Histogram",
+      "serial": "KQ-550",
+      "tagline": "Drag the thumbs; the bars outside fade.",
+      "description": "A price filter you can see through. A histogram of the whole population sits above a dual-thumb range, and dragging a thumb fades every bin outside the selection on a plain opacity tween while the match count rolls to its new figure from a motion value on glide. The thumbs are real sliders carrying aria-valuetext: arrows step, Shift steps ten, Home and End run to the ends, and a thumb pushes its partner rather than crossing it.",
+      "categories": [
+        "data"
+      ],
+      "keywords": [
+        "histogram",
+        "range",
+        "filter",
+        "slider",
+        "bins",
+        "price",
+        "data"
+      ],
+      "props": [
+        {
+          "name": "bins",
+          "type": "HistogramBin[]",
+          "description": "Ordered bins, left to right; their outer ends set the slider's bounds."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "[number, number]",
+          "description": "Controlled or initial range; it defaults to the full span of the bins."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(range: [number, number]) => void",
+          "description": "Fires on every drag frame and every keyboard step."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "rounded en-US",
+          "description": "Formats the two ends and the sliders' aria-valuetext."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "a quarter of the narrowest bin",
+          "description": "Arrow-key step; Shift and the page keys move ten of them."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "88",
+          "description": "Histogram height in px. The width is fluid and measured."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the filter for assistive technology and captions the match readout."
+        }
+      ],
+      "usageNotes": [
+        "Two role=slider thumbs with aria-valuetext: Left and Right step, Shift or the page keys step ten, Home and End run to the ends, and each thumb's aria-valuemax or valuemin is its partner, so they never cross.",
+        "A press on the track moves the nearest thumb and captures the pointer only after 4px of travel, so a plain click is never swallowed and a synthetic sweep cannot throw.",
+        "A bin counts as selected when its midpoint falls inside the range, so the fade and the match count always agree.",
+        "Under reduced motion the bins swap state with no fade and the count sets instantly — the selection still shows, because the selection is the information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/range-histogram",
+      "registryItemUrl": "https://www.kinetiqui.com/r/range-histogram.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/range-histogram",
+        "npm": "npx shadcn@latest add @kinetiq/range-histogram",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/range-histogram",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/range-histogram",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/range-histogram.json"
       }
     },
     {

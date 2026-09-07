@@ -730,6 +730,16 @@ import { SaveMarkDemo } from "@/registry/demos/save-mark.demo";
 import { ExpiryRingDemo } from "@/registry/demos/expiry-ring.demo";
 import { CopyChipDemo } from "@/registry/demos/copy-chip.demo";
 import { TaskTickDemo } from "@/registry/demos/task-tick.demo";
+import { UptimeStripDemo } from "@/registry/demos/uptime-strip.demo";
+import { PollBarsDemo } from "@/registry/demos/poll-bars.demo";
+import { DeltaTileDemo } from "@/registry/demos/delta-tile.demo";
+import { ActivityRingsDemo } from "@/registry/demos/activity-rings.demo";
+import { BudgetBarDemo } from "@/registry/demos/budget-bar.demo";
+import { CrosshairChartDemo } from "@/registry/demos/crosshair-chart.demo";
+import { GanttLaneDemo } from "@/registry/demos/gantt-lane.demo";
+import { SortTableDemo } from "@/registry/demos/sort-table.demo";
+import { WaterfallStepsDemo } from "@/registry/demos/waterfall-steps.demo";
+import { RangeHistogramDemo } from "@/registry/demos/range-histogram.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1474,4 +1484,14 @@ export const demos: Record<string, ComponentType> = {
   "expiry-ring": ExpiryRingDemo,
   "copy-chip": CopyChipDemo,
   "task-tick": TaskTickDemo,
+  "uptime-strip": UptimeStripDemo,
+  "poll-bars": PollBarsDemo,
+  "delta-tile": DeltaTileDemo,
+  "activity-rings": ActivityRingsDemo,
+  "budget-bar": BudgetBarDemo,
+  "crosshair-chart": CrosshairChartDemo,
+  "gantt-lane": GanttLaneDemo,
+  "sort-table": SortTableDemo,
+  "waterfall-steps": WaterfallStepsDemo,
+  "range-histogram": RangeHistogramDemo,
 };
