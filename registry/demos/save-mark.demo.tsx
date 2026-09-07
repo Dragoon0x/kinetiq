@@ -16,7 +16,10 @@ export function SaveMarkDemo() {
   );
   const [state, setState] = React.useState<SaveState>("idle");
   const [savedAt, setSavedAt] = React.useState(0);
-  const [saves, setSaves] = React.useState(0);
+  // Attempts pick which round trip drops; written counts only the ones that
+  // landed, which is what the status line claims.
+  const [attempts, setAttempts] = React.useState(0);
+  const [written, setWritten] = React.useState(0);
 
   // Every keystroke restarts the debounce; the cleanup is what makes it one.
   React.useEffect(() => {
@@ -28,16 +31,17 @@ export function SaveMarkDemo() {
   React.useEffect(() => {
     if (state !== "saving") return;
     const timer = window.setTimeout(() => {
-      if (saves === FLAKY_SAVE) {
+      if (attempts === FLAKY_SAVE) {
         setState("error");
       } else {
         setSavedAt(Date.now());
         setState("saved");
+        setWritten((count) => count + 1);
       }
-      setSaves((count) => count + 1);
+      setAttempts((count) => count + 1);
     }, ROUND_TRIP_MS);
     return () => window.clearTimeout(timer);
-  }, [state, saves]);
+  }, [state, attempts]);
 
   return (
     <div className="flex w-full max-w-sm flex-col gap-3">
@@ -68,7 +72,7 @@ export function SaveMarkDemo() {
         className="border-t border-border pt-3 font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase"
       >
         Autosave · <span className="text-signal">{state}</span> ·{" "}
-        <span className="tabular-nums">{saves}</span> written
+        <span className="tabular-nums">{written}</span> written
       </p>
     </div>
   );

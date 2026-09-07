@@ -1359,3 +1359,440 @@ test.describe("overlays", () => {
     await expect(slab).toHaveCount(0);
   });
 });
+
+/**
+ * A state that only lives for a beat — a 700ms save, say — is not something a
+ * poll can prove it saw, and a miss would be a fact about the polling interval
+ * rather than about the component. The trail is recorded in the page instead,
+ * by a MutationObserver installed before the run starts, and read back after.
+ */
+const recordTrail = async (target: Locator): Promise<void> => {
+  await target.evaluate((element) => {
+    const trail: string[] = [];
+    const read = () => {
+      const text = (element.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (trail[trail.length - 1] !== text) trail.push(text);
+    };
+    read();
+    new MutationObserver(read).observe(element, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    (window as unknown as { __trail: string[] }).__trail = trail;
+  });
+};
+
+/** Everything the recorded node has said so far, oldest first. */
+const trailOf = (page: Page) => async (): Promise<string[]> =>
+  page.evaluate(
+    () => (window as unknown as { __trail?: string[] }).__trail ?? [],
+  );
+
+test.describe("feedback", () => {
+  test("transfer-bar: the queue runs, one upload drops, and Retry finishes it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/transfer-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+
+    await expect(status).toContainText("0 of 3 · ready");
+
+    await stage.getByRole("button", { name: "Start upload" }).click();
+    await expect(status).toContainText("uploading");
+
+    // The second file drops its connection the first time it is tried, and the
+    // queue stops with it rather than stepping over it.
+    const retry = stage.getByRole("button", { name: "Retry" });
+    await expect(retry).toBeVisible({ timeout: 15000 });
+    await expect(status).toContainText("1 of 3 · one stopped");
+    const stopped = stage.getByRole("progressbar", {
+      name: "fernworks-canopy-plan.pdf",
+    });
+    await expect(stopped).toHaveAttribute(
+      "aria-valuetext",
+      /^Stopped at \d+ percent$/,
+    );
+    await expect(stage.getByText("Failed")).toBeVisible();
+
+    await retry.click();
+    await expect(status).toContainText("3 of 3 · all uploaded", {
+      timeout: 15000,
+    });
+    // A finished bar folds its body away, so no track is left anywhere.
+    await expect(stage.getByRole("progressbar")).toHaveCount(0, {
+      timeout: 5000,
+    });
+  });
+
+  test("save-mark: a keystroke goes dirty, then saving, then saved", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/save-mark");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The chip is a status region of its own, and it comes first in the demo.
+    const mark = stage.locator("[role='status']").first();
+    const note = stage.getByLabel("Fernworks field note");
+
+    await expect(status).toContainText("idle · 0 written");
+    await expect(mark).toContainText("No changes");
+
+    await recordTrail(status);
+    await note.pressSequentially(" Held.");
+
+    await expect(mark).toContainText("Unsaved changes");
+    await expect(status).toContainText("saved · 1 written", { timeout: 8000 });
+    await expect(mark).toContainText("Saved just now");
+
+    // Saving lasts 700ms, which a poll may or may not land on; the trail was
+    // recorded in the page, so the sequence is the component's own.
+    const states = (await trailOf(page)()).map((line) => line.split(" · ")[1]);
+    expect(states).toEqual(["idle", "dirty", "saving", "saved"]);
+
+    // The demo drops its second save, so the error path and Retry are both
+    // reachable from the same field.
+    await note.pressSequentially("!");
+    await expect(status).toContainText("error", { timeout: 8000 });
+    await expect(mark).toContainText("Save failed");
+
+    await mark.getByRole("button", { name: "Retry" }).click();
+    await expect(status).toContainText("saved · 2 written", { timeout: 8000 });
+    await expect(mark).toContainText("Saved just now");
+  });
+
+  test("expiry-ring: the digits drain, Pause holds them, Resume sets them going", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/expiry-ring");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const ring = stage.getByRole("timer", {
+      name: "Waylight verification code",
+    });
+    // The face is a stack of rolling digit strips; the ring's own reading of
+    // it is the sr-only line beside the label.
+    const spoken = stage.getByText(/seconds remaining$/);
+    const left = async (): Promise<number> =>
+      Number(/(\d+)s left/.exec((await status.textContent()) ?? "")?.[1] ?? -1);
+
+    await expect(ring).toBeVisible();
+    await expect(status).toContainText("30s left · sent 1×");
+    await expect(spoken).toHaveText("30 seconds remaining");
+    await expect(stage.getByText("Expires in")).toBeVisible();
+
+    // Draining, not merely mounted.
+    await expect.poll(left, { timeout: 8000 }).toBeLessThanOrEqual(28);
+
+    await stage.getByRole("button", { name: "Pause" }).click();
+    await expect(stage.getByText("Paused")).toBeVisible();
+    const held = await left();
+    await expect(spoken).toHaveText(`${held} seconds remaining`);
+    // The ticker is cleared, not ignored: nothing moves at all while it is off.
+    await page.waitForTimeout(900);
+    expect(await left()).toBe(held);
+    await expect(spoken).toHaveText(`${held} seconds remaining`);
+
+    await stage.getByRole("button", { name: "Resume" }).click();
+    await expect(stage.getByText("Expires in")).toBeVisible();
+    await expect.poll(left, { timeout: 8000 }).toBeLessThan(held);
+    // Resend belongs to the expired state, a full 30s window away, which is
+    // outside this test's budget — the ring is still counting here.
+    await expect(stage.getByRole("button", { name: "Resend" })).toHaveCount(0);
+  });
+
+  test("copy-chip: a press copies, or hands the value to Ctrl/Cmd+C when the clipboard refuses", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/copy-chip");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The chip's accessible name is the very thing under test, so it is
+    // reached by its place in the demo: the first control on the plate.
+    const chip = stage.getByRole("button").first();
+    // The chip carries a status of its own, ahead of the demo's line.
+    const said = stage.locator("[role='status']").first();
+
+    await expect(chip).toHaveText("Copy");
+    await expect(said).toHaveText("");
+    await expect(status).toContainText("nothing copied yet");
+
+    await chip.click();
+
+    // Chromium under Playwright refuses the write, so the documented fallback
+    // is the outcome on test here; either way the chip reports its attempt.
+    await expect(said).toHaveText(
+      /^(Copied wl_live_7f3ca2b91d4e|Copy blocked\. Press Ctrl\/Cmd\+C)$/,
+      { timeout: 5000 },
+    );
+    const blocked = ((await said.textContent()) ?? "").startsWith(
+      "Copy blocked",
+    );
+
+    if (blocked) {
+      // A refusal is not a shrug: the value is selected in a field over the
+      // chip's own box, one keystroke away from the clipboard.
+      await expect(chip).toHaveText("Press Ctrl/Cmd+C");
+      const fallback = stage.getByLabel("Copy value — Press Ctrl/Cmd+C");
+      await expect(fallback).toBeFocused();
+      await expect(fallback).toHaveValue("wl_live_7f3ca2b91d4e");
+      // Nothing was copied, and the demo does not claim otherwise.
+      await expect(status).toContainText("nothing copied yet");
+
+      await fallback.press("Escape");
+      await expect(chip).toHaveText("Copy");
+      await expect(said).toHaveText("");
+    } else {
+      await expect(chip).toHaveText("Copied");
+      await expect(status).toContainText("copied wl_live_7f3ca2b91d4e");
+      // The stamp reverts on its own after the timeout.
+      await expect(chip).toHaveText("Copy", { timeout: 5000 });
+    }
+  });
+
+  test("task-tick: checking strikes a row and sinks it into Done", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/task-tick");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const rows = stage.getByRole("listitem");
+    const canopy = stage.getByRole("checkbox", {
+      name: "Set the canopy baseline",
+    });
+    const label = stage.getByTitle("Set the canopy baseline");
+
+    await expect(status).toContainText("2 of 5 done");
+    // Open work above the divider, done work below it: this row starts on top.
+    await expect(rows.first()).toContainText("Set the canopy baseline");
+    await expect(canopy).not.toBeChecked();
+
+    // The box is sr-only and its label owns the hit area, so Space is the path.
+    await canopy.press(" ");
+    await expect(canopy).toBeChecked();
+    await expect(status).toContainText("3 of 5 done");
+    // Struck through and retired to the done tone.
+    await expect(label).toHaveClass(/text-ink-3/);
+    await expect(stage.getByText("Done", { exact: true })).toBeVisible();
+    // The row holds its place for a beat, then sinks past the divider.
+    await expect(rows.last()).toContainText("Set the canopy baseline", {
+      timeout: 5000,
+    });
+
+    await canopy.press(" ");
+    await expect(canopy).not.toBeChecked();
+    await expect(status).toContainText("2 of 5 done");
+    await expect(label).not.toHaveClass(/text-ink-3/);
+    await expect(rows.first()).toContainText("Set the canopy baseline", {
+      timeout: 5000,
+    });
+  });
+
+  test("quota-meter: adding crosses the warn line, then goes over the quota", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/quota-meter");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const meter = stage.getByRole("meter", { name: "Gaugeworks storage" });
+    const add = stage.getByRole("button", { name: "Add 35 GB" });
+
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "120 of 250 GB used, 48 percent",
+    );
+    await expect(stage.getByText("Within quota")).toBeVisible();
+    await expect(status).toContainText("Using 120 of 250 GB");
+
+    // 190 of 250 is 76%: the warn line at 80% is a line, not a mood.
+    await add.click();
+    await add.click();
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "190 of 250 GB used, 76 percent",
+    );
+    await expect(stage.getByText("Within quota")).toBeVisible();
+
+    await add.click();
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "225 of 250 GB used, 90 percent",
+    );
+    await expect(stage.getByText("Near limit")).toBeVisible();
+    await expect(status).toContainText("Using 225 of 250 GB");
+
+    // A meter may not report past its maximum, so the overage goes in the
+    // valuetext while valuenow stays inside the quota.
+    await add.click();
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "260 of 250 GB used, 10 GB over the quota",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "250");
+    await expect(stage.getByText("Over by 10 GB")).toBeVisible();
+    await expect(status).toContainText("Using 260 of 250 GB");
+  });
+
+  test("presence-row: a face arrives, the chip takes the overflow, a face leaves", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/presence-row");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The group's name is the sentence it speaks, and the sentence changes.
+    const row = stage.getByRole("group", { name: /on the Fernworks brief$/ });
+    const faces = stage.locator("li[title]");
+    const join = stage.getByRole("button", { name: "Someone joins" });
+    const leave = stage.getByRole("button", { name: "Someone leaves" });
+
+    await expect(faces).toHaveCount(3);
+    await expect(row).toHaveAttribute(
+      "aria-label",
+      "Ana Reyes, Bo Fenwick and 1 other are on the Fernworks brief",
+    );
+    await expect(status).toContainText("3 on the brief");
+
+    await join.click();
+    await expect(faces).toHaveCount(4);
+    await expect(stage.getByTitle("Milo Trant")).toBeVisible();
+    await expect(status).toContainText("4 on the brief");
+
+    // Past max the fifth face does not squeeze in: it goes behind the chip.
+    await join.click();
+    const overflow = stage.getByRole("button", { name: "Show 1 more person" });
+    await expect(overflow).toBeVisible();
+    await expect(faces).toHaveCount(4);
+    await expect(row).toHaveAttribute(
+      "aria-label",
+      "Ana Reyes, Bo Fenwick and 3 others are on the Fernworks brief",
+    );
+    await expect(status).toContainText("5 on the brief");
+
+    // The chip is a real button, and it knows who it is holding.
+    await overflow.click();
+    await expect(status).toContainText("also Nell Okoro");
+
+    await leave.click();
+    await expect(overflow).toHaveCount(0, { timeout: 5000 });
+    await expect(status).toContainText("4 on the brief");
+
+    await leave.click();
+    await expect(stage.getByTitle("Milo Trant")).toHaveCount(0, {
+      timeout: 5000,
+    });
+    await expect(faces).toHaveCount(3);
+    await expect(status).toContainText("3 on the brief");
+  });
+
+  test("typing-pill: the pill arrives with a typist and names the pair", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/typing-pill");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The pill's own live region, which is mounted whether or not it shows.
+    const said = stage.locator("[role='status']").first();
+    const pill = stage
+      .locator("div[aria-hidden]")
+      .filter({ hasText: "typing" });
+    const ana = stage.getByRole("button", { name: "Ana" });
+    const bo = stage.getByRole("button", { name: "Bo" });
+
+    await expect(ana).toHaveAttribute("aria-pressed", "true");
+    await expect(pill).toBeVisible();
+    await expect(pill).toContainText("Ana is typing");
+    await expect(said).toHaveText("Ana is typing");
+    await expect(status).toContainText("Ana is typing");
+
+    // A second typist does not lengthen the caption: one name, then a count.
+    await bo.click();
+    await expect(bo).toHaveAttribute("aria-pressed", "true");
+    await expect(said).toHaveText("Ana and 1 other are typing");
+    await expect(pill).toContainText("Ana and 1 other are typing");
+    await expect(status).toContainText("Ana and 1 other are typing");
+
+    // The caption keeps roster order however the buttons were pressed.
+    await ana.click();
+    await expect(said).toHaveText("Bo is typing");
+    await expect(status).toContainText("Bo is typing");
+
+    await bo.click();
+    await expect(pill).toHaveCount(0, { timeout: 5000 });
+    // The region empties rather than holding a stale sentence.
+    await expect(said).toHaveText("");
+    await expect(status).toContainText("No one is typing");
+  });
+
+  test("load-hem: the hem recovers a failed page and stamps the end", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/load-hem");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const frame = frameOf(stage);
+    const rows = stage
+      .getByRole("list", { name: "Basinworks listings" })
+      .getByRole("listitem");
+
+    await expect(rows).toHaveCount(8);
+    await expect(status).toContainText("Page 1 of 3 · 8 listings");
+
+    // The hem crossing the fold is what asks for the next page — and the demo
+    // drops that page the first time it is asked for.
+    await scrollFrameTo(frame, 99_999);
+    const retry = stage.getByRole("button", { name: "Retry" });
+    await expect(retry).toBeVisible({ timeout: 8000 });
+    await expect(stage.getByText("That page did not load.")).toBeVisible();
+    // A failed page keeps everything already loaded.
+    await expect(rows).toHaveCount(8);
+    await expect(status).toContainText("Page 1 of 3 · 8 listings");
+
+    await retry.click();
+    await expect(rows).toHaveCount(16, { timeout: 8000 });
+    await expect(status).toContainText("Page 2 of 3 · 16 listings");
+    await expect(retry).toHaveCount(0);
+
+    await scrollFrameTo(frame, 99_999);
+    await expect(rows).toHaveCount(24, { timeout: 8000 });
+    await expect(status).toContainText("Page 3 of 3 · 24 listings");
+    // The last page retires the loader and stamps the end.
+    await expect(stage.getByText("That is everything")).toBeVisible();
+  });
+
+  test("offline-bar: the bar drops, the second check gets through, and it lifts", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/offline-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The bar lives inside a permanent status region: the region is always
+    // there, and what changes is what it is holding.
+    const bar = stage.locator("[role='status']").first();
+
+    await expect(status).toContainText("Connection Online");
+    await expect(bar).toHaveText("");
+
+    await stage.getByRole("switch", { name: "Simulate offline" }).click();
+    await expect(bar).toContainText("No connection");
+    await expect(bar).toContainText(/retrying in \ds/);
+    await expect(status).toContainText("Offline · 0 attempts");
+
+    const retry = bar.getByRole("button", { name: "Retry now" });
+    await retry.click();
+    // The check takes 700ms, and the first one does not get through.
+    await expect(status).toContainText("Offline · 1 attempt", {
+      timeout: 8000,
+    });
+    await expect(bar).toContainText("No connection");
+
+    await retry.click();
+    await expect(status).toContainText("Connection Back online", {
+      timeout: 8000,
+    });
+    await expect(bar).toHaveText("Back online");
+    // A relief, not a celebration: the bar holds its beat, then lifts away.
+    await expect(bar).toHaveText("", { timeout: 8000 });
+    await expect(status).toContainText("Connection Back online");
+  });
+});
