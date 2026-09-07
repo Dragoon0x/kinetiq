@@ -20522,4 +20522,612 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the thumb moves directly and the fill has no spring, but it still fills and the percentage still reads: how far you have got is information.",
     ],
   },
+  {
+    name: "spy-index",
+    type: "registry:ui",
+    title: "Spy Index",
+    description:
+      "A table of contents that watches the page. An IntersectionObserver keyed to the reading line marks the section in view, and the marker travels between entries on glide through a shared layoutId while the active entry steps 4px out of the column and the rail beside the list fills with reading progress. Entries are plain links, so Tab reaches them and Enter follows them; clicking scrolls the container smoothly and hands focus to the target.",
+    files: [
+      {
+        path: "registry/ui/spy-index.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-511",
+    },
+    tagline: "The marker follows your reading.",
+    keywords: [
+      "scrollspy",
+      "table of contents",
+      "navigation",
+      "anchor",
+      "progress",
+      "sidebar",
+    ],
+    props: [
+      {
+        name: "sections",
+        type: "{ id: string; label: string }[]",
+        description:
+          "The entries, in document order; ids must match headings inside the container.",
+      },
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description: "The scrolling element; defaults to the window.",
+      },
+      {
+        name: "offset",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "Pixels from the top of the container that count as in view.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"On this page"',
+        description: "Accessible name for the nav, shown above the list.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(id: string) => void",
+        description: "Fires when the section in view changes.",
+      },
+    ],
+    usageNotes: [
+      'Entries are ordinary links inside a nav: Tab reaches them, Enter follows them, and the entry in view carries aria-current="location". Clicking scrolls the container to the heading and moves focus there when the target is focusable.',
+      "Under reduced motion the marker jumps to its entry, the 4px indent is dropped, the rail still fills, and the scroll is instant rather than smooth.",
+      "The observer only reports crossings of the reading line; the active entry is then read from geometry, so a heading sitting exactly on the line resolves the same way every time.",
+    ],
+  },
+  {
+    name: "tab-bar",
+    type: "registry:ui",
+    title: "Tab Bar",
+    description:
+      "A bottom tab bar built for a thumb. The chosen tab fills its outline glyph — a solid path cross-fading over the stroked one, a tween because weight and colour have no physics — lifts its label 2px on snap, and the indicator pill travels under it through a shared layoutId rather than blinking out and in. A badge bumps on recoil when its number changes, and the bar is a real tablist: a roving tabindex, Left and Right around the bar, Home and End to the ends.",
+    files: [
+      {
+        path: "registry/ui/tab-bar.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-512",
+    },
+    tagline: "The active icon fills; its label rises.",
+    keywords: [
+      "tab bar",
+      "bottom navigation",
+      "mobile",
+      "tabs",
+      "badge",
+      "icons",
+    ],
+    props: [
+      {
+        name: "tabs",
+        type: '{ id: string; label: string; icon: "home" | "search" | "inbox" | "wallet" | "me"; badge?: number }[]',
+        description:
+          "Up to five tabs; the icons are built in and a badge shows when its count is above zero.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "Controlled or initial active tab id.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires on tap and whenever the keyboard moves the selection.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        defaultValue: '"Primary"',
+        description: "Accessible name for the tablist.",
+      },
+    ],
+    usageNotes: [
+      'A roving tabindex over role="tablist": Left and Right (or Up and Down) wrap around the bar, Home and End jump to the ends, and activation follows focus as tabs should. A tab carrying a badge names its count in its accessible name.',
+      "Under reduced motion the glyph fill and the indicator pill swap instantly, the label holds still, and the badge number still updates — the count is information, not flourish.",
+      "The badge bumps only when its number changes, never on mount, so a first paint is quiet.",
+    ],
+  },
+  {
+    name: "fold-sidebar",
+    type: "registry:ui",
+    title: "Fold Sidebar",
+    description:
+      "An app sidebar that folds to a rail. The width travels between 224px and 56px on glide while each label fades and is clipped by its own row, and because every icon sits half a rail from the edge nothing shifts sideways as the panel narrows. The active pill travels between items through a shared layoutId, group panels animate to a measured height rather than a reserved one, the fold control's double chevron turns over on snap, and in rail mode a hovered or focused item names itself in a tooltip beside the rail.",
+    files: [
+      {
+        path: "registry/ui/fold-sidebar.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-513",
+    },
+    tagline: "Collapse to icons; the labels fold in.",
+    keywords: [
+      "sidebar",
+      "rail",
+      "collapse",
+      "navigation",
+      "tooltip",
+      "console",
+    ],
+    props: [
+      {
+        name: "groups",
+        type: "{ label: string; items: { id: string; label: string; icon: string }[] }[]",
+        description:
+          "Sections and their items; icons come from the built-in set (gauge, grid, bell, users, card, gear, dot).",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "Controlled or initial active item id.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires on select.",
+      },
+      {
+        name: "collapsed / defaultCollapsed",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Rail mode, controlled or initial.",
+      },
+      {
+        name: "onCollapsedChange",
+        type: "(collapsed: boolean) => void",
+        description: "Fires on fold.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Main"',
+        description: "Accessible name for the nav.",
+      },
+    ],
+    usageNotes: [
+      'Items are buttons inside a nav and the active one carries aria-current="page"; group headers are aria-expanded toggles over the panel they own, and a closed panel is inert so Tab skips what is hidden behind a zero height.',
+      "Under reduced motion the width and the group heights swap instantly and the chevrons turn without a spring; the labels still fade, since a fade neither travels nor bounces.",
+      "In rail mode the group headers step aside for a hairline and every item stays reachable, naming itself in a tooltip anchored beside the rail on hover or focus.",
+    ],
+  },
+  {
+    name: "top-rise",
+    type: "registry:ui",
+    title: "Top Rise",
+    description:
+      "A back-to-top control that surfaces from the bottom edge on recoil — two visible bounces, the physics of something landing — once the container has passed the threshold, and sinks away on the exit ease when the top comes back into reach. Its ring carries scroll depth, drawn with pathLength so the geometry follows the button's own box rather than a fixed radius. Pressing it scrolls to the top while the arrow lifts 4px on flick; Tab reaches it and Enter or Space presses it.",
+    files: [
+      {
+        path: "registry/ui/top-rise.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-514",
+    },
+    tagline: "Surfaces as you go deep; the ring shows how far.",
+    keywords: [
+      "back to top",
+      "scroll",
+      "progress ring",
+      "navigation",
+      "scroll depth",
+      "float",
+    ],
+    props: [
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description: "The scrolling element; defaults to the window.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "240",
+        description: "Pixels scrolled before it surfaces.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Back to top"',
+        description: "Accessible name.",
+      },
+      {
+        name: "onDepthChange",
+        type: "(percent: number) => void",
+        description:
+          "Fires with whole-percent scroll depth, 0–100, when the percent changes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Positioning is the caller's: absolute inside a relative frame, or fixed when the page itself scrolls.",
+      },
+    ],
+    usageNotes: [
+      "A plain button with an accessible name: Tab reaches it, Enter or Space presses it, and below the threshold it leaves the DOM entirely so the keyboard never lands on something invisible.",
+      "Under reduced motion it fades in and out without travelling, the ring still fills, and the scroll to the top is instant rather than smooth.",
+      "Place it outside the scroll container, in a relative wrapper — an absolutely positioned child of a scroller scrolls away with the content.",
+    ],
+  },
+  {
+    name: "canopy-menu",
+    type: "registry:ui",
+    title: "Canopy Menu",
+    description:
+      "A mega menu that stays one panel. Hovering or focusing an item unfolds the canopy beneath the bar — scaleY from the top on glide, clipped — and its columns cascade in inside the 600ms budget. Moving to another item morphs the same panel to the new content's measured width and height rather than closing and reopening; Left and Right walk the bar, Tab steps down into the open panel, and Escape closes and hands focus back.",
+    files: [
+      {
+        path: "registry/ui/canopy-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-515",
+    },
+    tagline: "The panel unfolds; the columns arrive in order.",
+    keywords: [
+      "mega menu",
+      "navigation",
+      "dropdown",
+      "site nav",
+      "panel",
+      "columns",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "{ id: string; label: string; columns: { heading: string; links: { label: string; href: string }[] }[] }[]",
+        description: "The bar and the panel behind each item.",
+      },
+      {
+        name: "openDelay",
+        type: "number",
+        defaultValue: "80",
+        description:
+          "Hover intent delay in ms before an unopened panel unfolds; moving between items once open is immediate.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Site"',
+        description: "Accessible name for the nav.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires with the open item's id, or null when the panel closes.",
+      },
+    ],
+    usageNotes: [
+      "A roving tabindex of aria-expanded buttons over one region: Left and Right walk the bar, Home and End jump to its ends, Enter and Space toggle, Tab steps down into the open panel, and Escape — from the bar or from inside the panel — closes and returns focus to the item that opened it.",
+      "Under reduced motion the panel appears and disappears without scaling and the columns arrive with it, no cascade and no 8px rise.",
+      "The panel's contents are laid out absolutely so their natural size can be measured free of the box that is animating toward it; the measurement is clamped to the bar's width, so the columns wrap instead of overhanging a narrow viewport.",
+    ],
+  },
+  {
+    name: "swipe-tabs",
+    type: "registry:ui",
+    title: "Swipe Tabs",
+    description:
+      "Tabs whose panels are a strip you can push: dragging moves the strip with the pointer while the underline rides the same value, so the indicator sits exactly where your thumb has taken it. Release settles to the nearest panel on snap and the strip's height glides to the new panel's measured height. Left and Right move and activate without wrapping past the ends, Home and End jump.",
+    files: [
+      {
+        path: "registry/ui/swipe-tabs.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-516",
+    },
+    tagline: "Drag the panel; the indicator rides your thumb.",
+    keywords: ["tabs", "swipe", "drag", "panels", "indicator", "navigation"],
+    props: [
+      {
+        name: "tabs",
+        type: "{ id: string; label: string; content: React.ReactNode }[]",
+        description: "Tabs and their panels, left to right.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "Controlled or initial tab id.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires when the active tab changes.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Names the tablist for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "A real tablist: Left and Right move and activate without wrapping past the ends, Home and End jump to the first and last tab, and the active panel is focusable so it can be scrolled from the keyboard.",
+      "Pointer capture waits for 4px of horizontal travel and stands down when the travel is vertical, so a tap stays a tap and the surface behind the strip still scrolls.",
+      "Under reduced motion the panels swap: no travel, no springs, and dragging is off — the underline and the panel change instantly.",
+    ],
+  },
+  {
+    name: "route-bar",
+    type: "registry:ui",
+    title: "Route Bar",
+    description:
+      "The bar at the top of a page change. It appears at 8% and trickles toward 90% on a decaying schedule, so a slow route keeps moving without ever claiming to be nearly done; when the page lands it completes on glide and leaves on the exit ease, with a soft glow at its head. Purely presentational — hold active true while a navigation is pending, or call start() and done() on the ref.",
+    files: [
+      {
+        path: "registry/ui/route-bar.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-517",
+    },
+    tagline: "Trickles while it waits; finishes when the page lands.",
+    keywords: [
+      "progress",
+      "route",
+      "loading",
+      "navigation",
+      "top bar",
+      "pending",
+    ],
+    props: [
+      {
+        name: "active",
+        type: "boolean",
+        defaultValue: "false",
+        description: "True while a navigation is pending.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "2",
+        description: "Bar height in px.",
+      },
+      {
+        name: "color",
+        type: "string",
+        defaultValue: "var(--primary)",
+        description: "CSS colour for the bar and its head glow.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Page loading",
+        description: "Names the progress bar for assistive technology.",
+      },
+      {
+        name: "ref",
+        type: "React.Ref<RouteBarHandle>",
+        description:
+          "Imperative start() and done(), OR'd with the active prop.",
+      },
+    ],
+    usageNotes: [
+      "No keyboard path of its own: the bar is presentational and never takes focus, reporting itself as role=progressbar with aria-valuenow rounded to whole percent.",
+      "Under reduced motion the head loses its glow and the bar still moves, because progress is information rather than flourish.",
+      "Repeated starts reset to 8% instead of stacking, and every timer and animation is stopped on unmount; it is absolutely positioned by default, so it reserves no space in the layout.",
+    ],
+  },
+  {
+    name: "section-dots",
+    type: "registry:ui",
+    title: "Section Dots",
+    description:
+      "A rail of dots down the side of a scrolling story. The active dot stretches into a pill on snap, a layout animation so the shape itself travels rather than a dot blinking on elsewhere, and its label slides out from the rail on hover or focus. The rail reads the container with an IntersectionObserver, and Up and Down move between dots while Enter scrolls the container to that section.",
+    files: [
+      {
+        path: "registry/ui/section-dots.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-518",
+    },
+    tagline: "The active dot stretches into a pill.",
+    keywords: ["scrollspy", "dots", "rail", "sections", "navigation", "anchor"],
+    props: [
+      {
+        name: "sections",
+        type: "{ id: string; label: string }[]",
+        description:
+          "Ids of the section elements inside the container, in document order.",
+      },
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description: "The scrolling element the rail watches and scrolls.",
+      },
+      {
+        name: "side",
+        type: '"left" | "right"',
+        defaultValue: "right",
+        description: "Which edge of the container the rail sits on.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(id: string) => void",
+        description: "Fires when the section under the viewport changes.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Sections",
+        description: "Names the rail for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Roving tabindex over the dots: Up and Down (or Left and Right) move focus, Home and End jump to the ends, Enter and Space scroll the container to that section, and the active dot carries aria-current.",
+      "Under reduced motion the pill swaps instead of stretching, the label appears without travel, and the container jumps rather than scrolling smoothly.",
+      "The rail positions itself absolutely against the container's own relative parent, so it overlays the frame without reserving a column; keep the section text padded clear of it.",
+    ],
+  },
+  {
+    name: "burger-sheet",
+    type: "registry:ui",
+    title: "Burger Sheet",
+    description:
+      "A menu button that turns into its own close button: the middle bar fades while the outer two travel to the centre and rotate on snap, the same spring the sheet's links land on. The sheet is a large surface, so it arrives on glide with its links cascading behind it and leaves on the exit ease. It is a real dialog while open — focus is trapped in the panel, Escape closes and returns focus to the button, and the frame passed as container stops scrolling.",
+    files: [
+      {
+        path: "registry/ui/burger-sheet.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-519",
+    },
+    tagline: "The burger becomes the cross as the sheet unfolds.",
+    keywords: ["menu", "sheet", "burger", "drawer", "mobile", "navigation"],
+    props: [
+      {
+        name: "items",
+        type: "{ label: string; href: string }[]",
+        description: "Links in the sheet, top to bottom.",
+      },
+      {
+        name: "side",
+        type: '"left" | "right"',
+        defaultValue: "left",
+        description: "Which edge the sheet enters from.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial open state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires on open and on close.",
+      },
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description:
+          "The scrolling frame the sheet covers; its scroll locks while open.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: "Menu",
+        description: "Heading inside the sheet; also names the dialog.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Menu",
+        description: "Names the menu button, which carries aria-expanded.",
+      },
+    ],
+    usageNotes: [
+      "Open moves focus to the panel's close button and traps Tab and Shift+Tab inside the dialog; Escape closes and returns focus to the menu button, as does clicking the scrim or a link.",
+      "Under reduced motion the sheet fades in place instead of sliding, the links arrive without travel or cascade, and the bars swap straight to the cross.",
+      "The sheet positions itself against the nearest positioned ancestor, so make the frame relative and leave the header static; scroll locking is applied to the container ref, never to the document.",
+    ],
+  },
+  {
+    name: "letter-index",
+    type: "registry:ui",
+    title: "Letter Index",
+    description:
+      "The A–Z rail beside a long list. Dragging it pops the letter under the pointer out into a bubble on recoil, two visible bounces, while the list jumps instantly because it is following your thumb; letters with no entries are muted and the pick falls to the nearest letter that has some. The rail is a listbox: Up and Down move the active letter past the muted ones, and Enter scrolls the list there.",
+    files: [
+      {
+        path: "registry/ui/letter-index.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["navigation"],
+    meta: {
+      serial: "KQ-520",
+    },
+    tagline: "Drag the letters; the current one pops out.",
+    keywords: [
+      "index",
+      "alphabet",
+      "contacts",
+      "scrubber",
+      "jump",
+      "navigation",
+    ],
+    props: [
+      {
+        name: "groups",
+        type: "{ letter: string; items: string[] }[]",
+        description:
+          "Sections that exist; every other letter of the rail is muted.",
+      },
+      {
+        name: "container",
+        type: "React.RefObject<HTMLElement | null>",
+        description:
+          'The scrolling list; its section headers carry data-letter="A".',
+      },
+      {
+        name: "onSelect",
+        type: "(letter: string) => void",
+        description: "Fires when the rail jumps the list to a letter.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Jump to letter",
+        description: "Names the rail for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The rail is one tab stop with aria-activedescendant: Up and Down move the active letter and skip the muted ones, Home and End go to the first and last letter with entries, Enter or Space scrolls the list there.",
+      "Under reduced motion the bubble appears instead of popping, and the list jumps rather than scrolling smoothly on Enter.",
+      "Pointer capture waits for 4px of travel so a tap on a letter is still a tap; each section header inside the container must carry data-letter for the rail to find it.",
+    ],
+  },
 ];

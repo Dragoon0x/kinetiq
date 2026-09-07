@@ -700,6 +700,16 @@ import { HueRingDemo } from "@/registry/demos/hue-ring.demo";
 import { TimeDialDemo } from "@/registry/demos/time-dial.demo";
 import { AlmanacPickerDemo } from "@/registry/demos/almanac-picker.demo";
 import { SlideConfirmDemo } from "@/registry/demos/slide-confirm.demo";
+import { SpyIndexDemo } from "@/registry/demos/spy-index.demo";
+import { TabBarDemo } from "@/registry/demos/tab-bar.demo";
+import { FoldSidebarDemo } from "@/registry/demos/fold-sidebar.demo";
+import { TopRiseDemo } from "@/registry/demos/top-rise.demo";
+import { CanopyMenuDemo } from "@/registry/demos/canopy-menu.demo";
+import { SwipeTabsDemo } from "@/registry/demos/swipe-tabs.demo";
+import { RouteBarDemo } from "@/registry/demos/route-bar.demo";
+import { SectionDotsDemo } from "@/registry/demos/section-dots.demo";
+import { BurgerSheetDemo } from "@/registry/demos/burger-sheet.demo";
+import { LetterIndexDemo } from "@/registry/demos/letter-index.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1414,4 +1424,14 @@ export const demos: Record<string, ComponentType> = {
   "time-dial": TimeDialDemo,
   "almanac-picker": AlmanacPickerDemo,
   "slide-confirm": SlideConfirmDemo,
+  "spy-index": SpyIndexDemo,
+  "tab-bar": TabBarDemo,
+  "fold-sidebar": FoldSidebarDemo,
+  "top-rise": TopRiseDemo,
+  "canopy-menu": CanopyMenuDemo,
+  "swipe-tabs": SwipeTabsDemo,
+  "route-bar": RouteBarDemo,
+  "section-dots": SectionDotsDemo,
+  "burger-sheet": BurgerSheetDemo,
+  "letter-index": LetterIndexDemo,
 };
