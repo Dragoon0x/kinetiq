@@ -740,6 +740,21 @@ import { GanttLaneDemo } from "@/registry/demos/gantt-lane.demo";
 import { SortTableDemo } from "@/registry/demos/sort-table.demo";
 import { WaterfallStepsDemo } from "@/registry/demos/waterfall-steps.demo";
 import { RangeHistogramDemo } from "@/registry/demos/range-histogram.demo";
+import { DiffLinesDemo } from "@/registry/demos/diff-lines.demo";
+import { FoldTextDemo } from "@/registry/demos/fold-text.demo";
+import { GlossWordDemo } from "@/registry/demos/gloss-word.demo";
+import { FindMarksDemo } from "@/registry/demos/find-marks.demo";
+import { SelectBarDemo } from "@/registry/demos/select-bar.demo";
+import { MentionChipDemo } from "@/registry/demos/mention-chip.demo";
+import { SquiggleMarkDemo } from "@/registry/demos/squiggle-mark.demo";
+import { KaraokeLineDemo } from "@/registry/demos/karaoke-line.demo";
+import { TranscriptFlowDemo } from "@/registry/demos/transcript-flow.demo";
+import { UnitFlipDemo } from "@/registry/demos/unit-flip.demo";
+import { ReorderListDemo } from "@/registry/demos/reorder-list.demo";
+import { AgendaDayDemo } from "@/registry/demos/agenda-day.demo";
+import { LaneBoardDemo } from "@/registry/demos/lane-board.demo";
+import { UnfoldCardDemo } from "@/registry/demos/unfold-card.demo";
+import { FitPanelDemo } from "@/registry/demos/fit-panel.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1494,4 +1509,19 @@ export const demos: Record<string, ComponentType> = {
   "sort-table": SortTableDemo,
   "waterfall-steps": WaterfallStepsDemo,
   "range-histogram": RangeHistogramDemo,
+  "diff-lines": DiffLinesDemo,
+  "fold-text": FoldTextDemo,
+  "gloss-word": GlossWordDemo,
+  "find-marks": FindMarksDemo,
+  "select-bar": SelectBarDemo,
+  "mention-chip": MentionChipDemo,
+  "squiggle-mark": SquiggleMarkDemo,
+  "karaoke-line": KaraokeLineDemo,
+  "transcript-flow": TranscriptFlowDemo,
+  "unit-flip": UnitFlipDemo,
+  "reorder-list": ReorderListDemo,
+  "agenda-day": AgendaDayDemo,
+  "lane-board": LaneBoardDemo,
+  "unfold-card": UnfoldCardDemo,
+  "fit-panel": FitPanelDemo,
 };

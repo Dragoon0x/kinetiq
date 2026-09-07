@@ -9317,6 +9317,291 @@ Notes:
 - A bin counts as selected when its midpoint falls inside the range, so the fade and the match count always agree.
 - Under reduced motion the bins swap state with no fade and the count sets instantly — the selection still shows, because the selection is the information.
 
+### Diff Lines (KQ-551) — `diff-lines`
+The old line strikes; the new one types in.
+
+An inline word diff you can read and apply in place. Removed words fade to a ghost while a strike draws through each one with pathLength on flick, added words wipe in from the left on a clip tween under a success wash that cools over a second, and accepting a hunk drops its ghost on the exit ease while the measured passage glides to its new height. Each accept is a real toggle button, so Tab reaches it and Enter or Space applies the change or puts it back; arrows move between the change and result stops.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/diff-lines`
+
+Props:
+- `before`: string — The original text; the diff is computed by word.
+- `after`: string — The edited text; the diff is computed by word.
+- `view / defaultView`: "change" | "result" (default "change") — Whether the passage shows the change or the result.
+- `onViewChange`: (view: "change" | "result") => void — Fires when the view switch moves.
+- `onAccept`: (index: number) => void — Fires when a hunk is accepted.
+- `onAcceptedChange`: (indexes: number[]) => void — Fires whenever the accepted set changes, restores included.
+- `label`: string (default "Suggested edit") — Visible label above the passage.
+
+Notes:
+- Tab reaches every accept toggle; Enter or Space applies a hunk and applies it again in reverse. The view switch is a radio group: arrows move, Home and End jump, Space selects.
+- Under reduced motion the spans swap — the strike is already drawn and the new wording is already in place, because the change is the information.
+- The passage's height is measured with a ResizeObserver and glided, so no room is held for the longer of the two texts.
+
+### Fold Text (KQ-552) — `fold-text`
+The clamp lets go; the fade lifts.
+
+Read-more done by measurement. The folded box is exactly as many line boxes tall as it claims, and opening animates that height to the content's ResizeObserver-measured height on glide while the bottom fade lifts on an opacity tween and the chevron snaps over with the label. It is a real disclosure button: aria-expanded and aria-controls, Enter or Space to open, and no button at all when the passage already fits.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fold-text`
+
+Props:
+- `lines`: number (default 3) — Visible lines while folded.
+- `children`: React.ReactNode — The text.
+- `moreLabel`: string (default "Read more") — Button copy while folded.
+- `lessLabel`: string (default "Show less") — Button copy while open.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial open state.
+- `onOpenChange`: (open: boolean) => void — Fires when the disclosure opens or folds.
+
+Notes:
+- A disclosure button with aria-expanded and aria-controls: Tab reaches it, Enter or Space folds and unfolds the region it names.
+- Under reduced motion the heights swap and only the fade tweens — the text still arrives, because the text is the information.
+- Nothing is reserved: the folded height comes from the line box, the open height from a ResizeObserver, and a passage that already fits shows no button.
+
+### Gloss Word (KQ-553) — `gloss-word`
+Hover the term; the gloss unfolds inline.
+
+A glossary term that explains itself without covering the sentence. Hover, focus or tap unfolds the gloss on the line beneath and pushes the following text down on glide, over a height a ResizeObserver measures rather than reserves; bubble mode floats it above instead, entering on snap from 4px and clamped to its paragraph. The term is a real button with aria-expanded and aria-controls, so Enter or Space toggles it and Escape closes it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gloss-word`
+
+Props:
+- `term`: string — The word as it reads in the sentence.
+- `gloss`: React.ReactNode — The explanation.
+- `mode`: "inline" | "bubble" (default "inline") — Whether the gloss unfolds beneath the line or floats above it.
+- `onOpenChange`: (open: boolean) => void — Fires when the gloss opens or closes.
+
+Notes:
+- The term is a button with aria-expanded and aria-controls: Tab reaches it, Enter or Space toggles the gloss, Escape closes it, and a pointer leaving closes it too.
+- Under reduced motion the gloss appears in place — no unfold, no travel — because the explanation is the point.
+- The inline gloss is a full-width float, so give the paragraph that holds the terms `display: flow-root` and it will contain every gloss it opens.
+
+### Find Marks (KQ-554) — `find-marks`
+Type, and the matches light up in order.
+
+Find in text, with the finding visible. Every match takes a wash that sweeps in from its left edge on a cascade capped at the 600ms budget, and one ring travels between matches on glide through a shared layoutId so the reader follows a ring that moves rather than one that blinks. Enter steps forward, Shift+Enter steps back, and the counter rolls a digit at a time on snap.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/find-marks`
+
+Props:
+- `text`: string — The body to search.
+- `query / defaultQuery`: string — Controlled or initial search term.
+- `onQueryChange`: (query: string) => void — Fires on typing.
+- `caseSensitive`: boolean (default false) — Match case.
+- `onMatchChange`: (index: number, total: number) => void — Fires when the current match or the total changes; memoise it.
+- `maxHeight`: number (default 260) — Tallest the passage grows before it scrolls, in px.
+- `label`: string (default "Find in passage") — Field label, used as the accessible name.
+
+Notes:
+- The field is a searchbox: Enter steps to the next match, Shift+Enter to the previous, and the same steps sit beside it as buttons with labels for a pointer.
+- Under reduced motion the marks appear and the ring cuts to its match — the highlight and the count are information, so they still show.
+- The passage scrolls itself rather than the document, so stepping through matches never drags the page.
+
+### Select Bar (KQ-555) — `select-bar`
+Select words; the bar rises above them.
+
+A format bar that rises out of the selection. Selecting words lifts the toolbar above them on recoil, positioned from the selection's own rectangle and clamped to the passage; it glides sideways when the selection moves and fades on the exit ease when it collapses. Formatting is range wrapping rather than execCommand, and the bar is a role=toolbar with a roving tabindex where Left and Right step the buttons and Escape drops it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/select-bar`
+
+Props:
+- `actions`: ("bold" | "italic" | "link" | "code")[] (default ["bold", "italic", "link"]) — Buttons on the bar.
+- `children`: React.ReactNode — The editable content; it is seeded once and then owned by the editor.
+- `onChange`: (html: string) => void — Fires after an action, with the editor's HTML.
+- `onAction`: (action: SelectAction) => void — Fires with the action that was applied.
+- `label`: string (default "Editable passage") — Accessible name for the editable region.
+
+Notes:
+- The editor is a textbox reachable by Tab; the bar is a toolbar with a roving tabindex — Left and Right step the buttons, Home and End jump, Enter or Space applies, Escape drops the bar. Cmd or Ctrl with B or I never needs the bar at all.
+- Under reduced motion the bar appears where it belongs instead of rising, and still follows the selection.
+- Formatting wraps the live range in real elements, so the HTML handed to onChange is the markup a reader would expect: strong, em, a, code.
+
+### Mention Chip (KQ-556) — `mention-chip`
+Type @, pick a name; it becomes a chip.
+
+A composer that turns names into chips. Typing @ opens a listbox under the field that filters as you type, and choosing inflates the word in place — scale from 0.9 on snap with the colour wash arriving as a tween underneath — while Backspace against a chip's trailing edge fades the whole mention out before the characters go, so the line never reflows out from under the fade. The field is a real textarea with a painted layer behind it, so the caret, the selection and every native editing shortcut survive; focus stays in the text and aria-activedescendant drives the list, where Up and Down move the highlight, Enter or Tab inserts and Escape dismisses. Under reduced motion the chip simply appears.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mention-chip`
+
+Props:
+- `people`: { id: string; name: string; handle: string }[] — Who can be mentioned. Name and handle are both searched.
+- `value / defaultValue`: { text: string; mentions: string[] } — Composer content. Mentions are ids, recomputed from the text on every edit.
+- `onChange`: (value: { text: string; mentions: string[] }) => void — Fires on every edit with the text and the ids mentioned in it.
+- `placeholder`: string (default Write a comment) — Empty copy, painted in the field and set on the textarea.
+- `label`: React.ReactNode — Visible field label. Omit it and pass aria-label to label the field invisibly.
+
+Notes:
+- Type @ to open the list: Up and Down move the highlight, Enter or Tab inserts the mention, Escape dismisses it. Backspace at a chip's trailing edge (or Delete at its leading edge) removes the whole mention.
+- Under reduced motion the chip appears rather than inflating, and a removed mention leaves without the fade.
+- A mention stores the space inside a name as a non-breaking one so the textarea and the painted layer wrap identically — read value.text back with that in mind.
+
+### Squiggle Mark (KQ-557) — `squiggle-mark`
+The squiggle draws under the doubt.
+
+Spellcheck marks that behave like a proofreader. A wavy path draws under each flagged word with pathLength on flick — a mark is a note, not an event — staggered by cascade so a paragraph's worth lands inside the choreography budget, and hovering or focusing a word raises its suggestion. Accept swaps the word, the old copy fading while the new one enters from a nudge, and retracts the squiggle back along its own path; Ignore leaves the word and dissolves the mark. Every flagged word is a button described by its suggestion, so Tab reaches the word, then Accept and Ignore, Escape closes the bubble, and resolving one hands focus to the next open word. Under reduced motion the squiggles are simply there.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/squiggle-mark`
+
+Props:
+- `text`: string — The sentence to mark up. Flagged words are matched inside it in order.
+- `issues`: { word: string; suggestion: string }[] — Flagged words and their fixes, in the order they appear in the text.
+- `onFix`: (word: string, replacement: string | null) => void — Fires on accept with the replacement, or on ignore with null.
+
+Notes:
+- Tab reaches each flagged word, which opens its bubble; Tab again lands on Accept then Ignore, Escape closes the bubble, and resolving a word moves focus to the next flagged one.
+- Under reduced motion the squiggles appear complete, the replacement swaps without travel, and the mark clears instead of retracting.
+- The bubble is measured against the text block and clamped to it, and drops below a word on the first line so it never leaves the column.
+
+### Karaoke Line (KQ-558) — `karaoke-line`
+Words light in time; the caret glides ahead.
+
+A line that lights in time. Each word fills with colour as its window passes — a clip sweeping across the glyphs on a linear tween scaled to that word's own duration, because a fill is a measurement and measurements do not ease — while the word being sung inflates 4% on snap and a soft caret glides ahead on glide, riding the trailing edge of the live word and slipping to the leading edge of the next one through a gap. The clock is either yours through time or the component's through playing, and it never starts on mount. Words are buttons in a roving tabindex: Left and Right walk the line, Home and End jump to its ends, Enter or Space seeks. Under reduced motion the words switch colour at their moment, with no inflate and no travelling caret.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/karaoke-line`
+
+Props:
+- `words`: { text: string; start: number; end: number }[] — The line in timing order; start and end are seconds.
+- `time`: number — Controlled playhead in seconds. Omit it to use the internal clock.
+- `playing`: boolean (default false) — Runs the clock at 20 ticks a second. Nothing starts on mount.
+- `onSeek`: (time: number) => void — Fires with a word's start time when it is clicked or activated.
+- `onTimeChange`: (time: number) => void — Fires on every tick, so a controlled parent can follow the clock.
+- `label`: string (default Lyric line) — Names the line for assistive technology.
+
+Notes:
+- Roving tabindex: Left and Right walk the words, Home and End jump to the ends, Enter or Space seeks to the focused word.
+- Under reduced motion each word switches colour at its moment — no sweep, no inflate, no travelling caret — because the timing is the information.
+- The clock parks at the last word's end; pass playing again after seeking back to run it a second time.
+
+### Transcript Flow (KQ-559) — `transcript-flow`
+Tentative in grey, firm when it's sure.
+
+A transcript that shows its own confidence. Words arrive tentative in muted ink and firm to foreground on a colour tween when their segment finalises, a word the recogniser revises cross-fades in place with the old copy popped out of flow so the line never doubles in width mid-swap, and new words enter from a nudge on glide. While the microphone is open a dot breathes at the end of the text on drift, the slowest spring in the set, because ambient state should not compete with the words. The view follows the speaker only while the reader is already at the bottom, with one button back to the live edge; the region is a focusable log the keyboard can scroll, and finalised text is announced through a polite status instead of the live edge. Under reduced motion the pulse holds still and the colours simply swap.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/transcript-flow`
+
+Props:
+- `segments`: { id: string; text: string; final: boolean }[] — The transcript so far, oldest first. Replace a segment's text to revise it in place.
+- `listening`: boolean (default false) — Shows the breathing pulse at the end of the text.
+- `maxHeight`: number (default 200) — Scroll height in pixels. The box grows to it and no further.
+- `label`: string (default Transcript) — Names the log for assistive technology.
+
+Notes:
+- The log is focusable, so the keyboard can scroll it; scrolling up pins the view and the Latest button returns to the live edge.
+- Under reduced motion the pulse holds still, words appear without travel, and tentative text still swaps colour when it firms.
+- Only finalised segments are announced — the live edge is aria-live off, or every revision would be read aloud.
+
+### Unit Flip (KQ-560) — `unit-flip`
+Flip the unit; the digits re-roll.
+
+A readout whose unit is the control. Pressing the chip turns it over — rotateX on snap, two faces on one card, one crisp overshoot as it lands — while the digits re-roll to the converted value, each glyph riding out of its own slot in the direction of the flip so the number reads as re-measured rather than replaced. Precision follows the unit, so the miles reading keeps two decimals where the kilometres reading keeps one. The chip is a button carrying aria-pressed, Space and Enter flip it, its accessible name says which unit is showing and which is a press away, and the converted value is announced through a polite status. Under reduced motion the card does not turn and the digits swap in place, because the reading is the information.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/unit-flip`
+
+Props:
+- `value`: number — The measurement, expressed in the first unit.
+- `units`: [UnitFlipUnit, UnitFlipUnit] — The pair — { label, convert, digits } — each converting from the base value.
+- `unit / defaultUnit`: 0 | 1 (default 0) — Controlled or initial unit index.
+- `onUnitChange`: (index: 0 | 1) => void — Fires on flip with the index now showing.
+- `label`: React.ReactNode — What is being measured; sits opposite the readout and truncates rather than wrapping.
+
+Notes:
+- The unit chip is a button with aria-pressed: Space or Enter flips it, and its accessible name names both the current unit and the one a press away.
+- Under reduced motion the card does not turn and the digits swap in place — the converted reading still changes.
+- Decimal places come from each unit's digits (default 1), so a coarse unit and a fine one can read at their own precision.
+
+### Reorder List (KQ-561) — `reorder-list`
+Lift a row; the others make room.
+
+A list you rearrange by hand. The row under the pointer lifts to 1.02 with a raised edge on flick and then tracks the pointer 1:1, while the rows it passes slide out of its way on glide and the drop settles it into its slot on snap. The pointer is captured only after 4px of travel, so a plain tap still lands; Space lifts the focused row, Up and Down move it, Home and End send it to the ends, Space drops and Escape puts it back, with every step announced politely.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/reorder-list`
+
+Props:
+- `items`: { id: string; label: string; meta?: string }[] — Seeds the order; the list owns it after that and reports through onReorder.
+- `onReorder`: (items: ReorderItem[]) => void — Fires with the whole list once a row is dropped, never mid-move.
+- `renderItem`: (item: ReorderItem) => React.ReactNode — Replaces the row's content. Rows keep one shared height either way, so the drop target stays unambiguous.
+- `label`: string — Visible list label; names the list for assistive technology.
+
+Notes:
+- Space lifts the focused row, Up and Down move it, Home and End send it to the ends, Space drops it and Escape restores the order it started from. Each step is announced in a polite live region.
+- The pointer is captured only after 4px of travel, so a tap on a row is never swallowed by the drag.
+- Under reduced motion nothing travels: rows swap places as the pointer crosses them, because the order is the information.
+
+### Agenda Day (KQ-562) — `agenda-day`
+Events stack in the day; now creeps down the column.
+
+A day drawn on its hours. Events arrive a step from the gutter in cascade order on glide, overlapping events share the column and re-divide it as one is moved out of the pile, and the now-line creeps down on drift from the now prop rather than the wall clock so the day renders the same on the server as in the browser. Dragging a block tracks the pointer 1:1 and settles onto its quarter hour on snap; Up and Down move the focused event a quarter hour, Page Up and Page Down an hour, and every move is announced.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/agenda-day`
+
+Props:
+- `events`: { id: string; title: string; start: number; end: number; tint?: string }[] — Minutes from the start of the day. Seeds the agenda, which owns positions after that and reports via onChange.
+- `hours`: [number, number] (default [8, 18]) — Visible range as whole hours. Ten hours fit a 342px phone column without a scroll.
+- `now`: number — Minutes for the now-line. Omit it, or send it out of range, and no line is drawn.
+- `onChange`: (events: AgendaEvent[]) => void — Fires with the whole day after a drop or a keyboard nudge.
+- `onActiveChange`: (id: string | null) => void — Fires with the focused event id, or null when focus leaves the day.
+- `label`: React.ReactNode — Visible label. Omit it and pass aria-label to name the day invisibly.
+
+Notes:
+- Every event is a button whose name reads its title and both times. Up and Down move the focused event a quarter hour, Page Up and Page Down an hour, Left and Right walk between events, Home and End jump to the ends; each move is announced politely.
+- The pointer is captured only after 4px of travel, and the grid re-divides its columns in quarter-hour steps while the block itself follows the pointer.
+- The now-line is driven by the now prop, never Date.now(), so the first client paint matches the server's markup.
+- Under reduced motion events appear without travel and land instantly; the times still change, because the time is the information.
+
+### Lane Board (KQ-563) — `lane-board`
+Cards cross lanes; the columns make room.
+
+A board whose columns make room. Lifting a card takes it out of its lane on flick, the lane under the pointer opens a placeholder of exactly that card's height which travels between lanes on glide while the cards around it re-flow, and letting go settles the card from where the hand left it into the slot on snap as both lanes' counts roll. The pointer is captured only after 4px of travel, and every card is a menu button whose four moves — a lane left, a lane right, a place up, a place down — are reachable from the keyboard and announced.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lane-board`
+
+Props:
+- `lanes`: { id: string; title: string; cards: { id: string; title: string; tag?: string }[] }[] — Seeds the board; it owns card placement after that and reports via onMove.
+- `onMove`: (cardId: string, toLane: string, index: number) => void — Fires on a drop or a keyboard move, with the index the card landed on.
+- `label`: React.ReactNode — Visible board label. Omit it and pass aria-label to name the board invisibly.
+
+Notes:
+- Every card is a menu button: Enter or Space opens its four moves, arrow keys walk them past the ones that are unavailable, Escape closes, and each landing is announced politely with its lane and position.
+- The pointer is captured only after 4px of travel, and the drop target is read from lane bands measured once as the drag engages, so the placeholder never hunts between two slots.
+- Lanes scroll sideways under edge fades when the board is wider than its column; three lanes fit the doc width.
+- Under reduced motion nothing travels: the card stays put and marked while the placeholder shows where it will land.
+
+### Unfold Card (KQ-564) — `unfold-card`
+The card unfolds into its detail in place.
+
+A list of cards that open where they stand. Clicking one unfolds its detail directly beneath its summary, the container animating to a height a ResizeObserver actually measured on glide, so nothing is reserved while the card is folded and nothing below it jumps when it opens; the cards that stay folded ease back in opacity, a lighting change rather than a movement, and the chevron turns on snap. Only one card is open at a time, each summary is a button carrying aria-expanded and aria-controls, and Escape folds the open card and returns focus to its summary.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/unfold-card`
+
+Props:
+- `items`: { id: string; summary: React.ReactNode; detail: React.ReactNode }[] — The cards, in reading order. The summary is always visible; the detail is revealed beneath it.
+- `open / defaultOpen`: string | null — Controlled or initial open id; null folds everything.
+- `onOpenChange`: (id: string | null) => void — Fires with the id that opened, or null when everything folds.
+- `label`: React.ReactNode — Visible list label. Omit it and pass aria-label to name the list invisibly.
+
+Notes:
+- Each summary is a button carrying aria-expanded and aria-controls over a labelled region. Up and Down walk the cards, Home and End jump to the ends, Escape folds the open card and returns focus to its summary.
+- The open height is measured with a ResizeObserver rather than reserved, so a detail that grows in place carries the container with it.
+- Under reduced motion the detail swaps in at its natural height and the chevron turns instantly; the detail still appears, because the detail is the information.
+
+### Fit Panel (KQ-565) — `fit-panel`
+The panel's height follows its content.
+
+A container that is exactly as tall as what is inside it. Swap the content by changing contentKey and the outgoing copy fades away on the exit ease, the incoming fades in, and the box glides between the two measured heights on glide, so nothing below the panel jumps and nothing above it is held open by a reserve. A ResizeObserver rides the mounted content, attached by the callback ref rather than an effect, so content that grows in place carries the panel with it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fit-panel`
+
+Props:
+- `children`: React.ReactNode — Content; change contentKey to swap it.
+- `contentKey`: string — Identifies the current content. A new value fades the old copy out, the new one in, and glides the height between them.
+- `onHeightChange`: (height: number) => void — Fires with each freshly measured height, in pixels.
+- `className`: string — Outer classes. Padding belongs on the content, not on the panel.
+
+Notes:
+- A pure layout utility: it adds no roles of its own, so whatever semantics the content needs — a tabpanel, a region, a status — it brings with it.
+- The height is measured, never reserved, so the panel is never propped open for a state it is not showing.
+- Under reduced motion the height becomes the new height at once and the content swaps, because the content is the information.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

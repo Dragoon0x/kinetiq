@@ -15496,6 +15496,411 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "diff-lines",
+      "type": "registry:ui",
+      "title": "Diff Lines",
+      "description": "An inline word diff you can read and apply in place. Removed words fade to a ghost while a strike draws through each one with pathLength on flick, added words wipe in from the left on a clip tween under a success wash that cools over a second, and accepting a hunk drops its ghost on the exit ease while the measured passage glides to its new height. Each accept is a real toggle button, so Tab reaches it and Enter or Space applies the change or puts it back; arrows move between the change and result stops.",
+      "files": [
+        {
+          "path": "registry/ui/diff-lines.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-551"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fold-text",
+      "type": "registry:ui",
+      "title": "Fold Text",
+      "description": "Read-more done by measurement. The folded box is exactly as many line boxes tall as it claims, and opening animates that height to the content's ResizeObserver-measured height on glide while the bottom fade lifts on an opacity tween and the chevron snaps over with the label. It is a real disclosure button: aria-expanded and aria-controls, Enter or Space to open, and no button at all when the passage already fits.",
+      "files": [
+        {
+          "path": "registry/ui/fold-text.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-552"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gloss-word",
+      "type": "registry:ui",
+      "title": "Gloss Word",
+      "description": "A glossary term that explains itself without covering the sentence. Hover, focus or tap unfolds the gloss on the line beneath and pushes the following text down on glide, over a height a ResizeObserver measures rather than reserves; bubble mode floats it above instead, entering on snap from 4px and clamped to its paragraph. The term is a real button with aria-expanded and aria-controls, so Enter or Space toggles it and Escape closes it.",
+      "files": [
+        {
+          "path": "registry/ui/gloss-word.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-553"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "find-marks",
+      "type": "registry:ui",
+      "title": "Find Marks",
+      "description": "Find in text, with the finding visible. Every match takes a wash that sweeps in from its left edge on a cascade capped at the 600ms budget, and one ring travels between matches on glide through a shared layoutId so the reader follows a ring that moves rather than one that blinks. Enter steps forward, Shift+Enter steps back, and the counter rolls a digit at a time on snap.",
+      "files": [
+        {
+          "path": "registry/ui/find-marks.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-554"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "select-bar",
+      "type": "registry:ui",
+      "title": "Select Bar",
+      "description": "A format bar that rises out of the selection. Selecting words lifts the toolbar above them on recoil, positioned from the selection's own rectangle and clamped to the passage; it glides sideways when the selection moves and fades on the exit ease when it collapses. Formatting is range wrapping rather than execCommand, and the bar is a role=toolbar with a roving tabindex where Left and Right step the buttons and Escape drops it.",
+      "files": [
+        {
+          "path": "registry/ui/select-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-555"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mention-chip",
+      "type": "registry:ui",
+      "title": "Mention Chip",
+      "description": "A composer that turns names into chips. Typing @ opens a listbox under the field that filters as you type, and choosing inflates the word in place — scale from 0.9 on snap with the colour wash arriving as a tween underneath — while Backspace against a chip's trailing edge fades the whole mention out before the characters go, so the line never reflows out from under the fade. The field is a real textarea with a painted layer behind it, so the caret, the selection and every native editing shortcut survive; focus stays in the text and aria-activedescendant drives the list, where Up and Down move the highlight, Enter or Tab inserts and Escape dismisses. Under reduced motion the chip simply appears.",
+      "files": [
+        {
+          "path": "registry/ui/mention-chip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-556"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "squiggle-mark",
+      "type": "registry:ui",
+      "title": "Squiggle Mark",
+      "description": "Spellcheck marks that behave like a proofreader. A wavy path draws under each flagged word with pathLength on flick — a mark is a note, not an event — staggered by cascade so a paragraph's worth lands inside the choreography budget, and hovering or focusing a word raises its suggestion. Accept swaps the word, the old copy fading while the new one enters from a nudge, and retracts the squiggle back along its own path; Ignore leaves the word and dissolves the mark. Every flagged word is a button described by its suggestion, so Tab reaches the word, then Accept and Ignore, Escape closes the bubble, and resolving one hands focus to the next open word. Under reduced motion the squiggles are simply there.",
+      "files": [
+        {
+          "path": "registry/ui/squiggle-mark.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-557"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "karaoke-line",
+      "type": "registry:ui",
+      "title": "Karaoke Line",
+      "description": "A line that lights in time. Each word fills with colour as its window passes — a clip sweeping across the glyphs on a linear tween scaled to that word's own duration, because a fill is a measurement and measurements do not ease — while the word being sung inflates 4% on snap and a soft caret glides ahead on glide, riding the trailing edge of the live word and slipping to the leading edge of the next one through a gap. The clock is either yours through time or the component's through playing, and it never starts on mount. Words are buttons in a roving tabindex: Left and Right walk the line, Home and End jump to its ends, Enter or Space seeks. Under reduced motion the words switch colour at their moment, with no inflate and no travelling caret.",
+      "files": [
+        {
+          "path": "registry/ui/karaoke-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-558"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "transcript-flow",
+      "type": "registry:ui",
+      "title": "Transcript Flow",
+      "description": "A transcript that shows its own confidence. Words arrive tentative in muted ink and firm to foreground on a colour tween when their segment finalises, a word the recogniser revises cross-fades in place with the old copy popped out of flow so the line never doubles in width mid-swap, and new words enter from a nudge on glide. While the microphone is open a dot breathes at the end of the text on drift, the slowest spring in the set, because ambient state should not compete with the words. The view follows the speaker only while the reader is already at the bottom, with one button back to the live edge; the region is a focusable log the keyboard can scroll, and finalised text is announced through a polite status instead of the live edge. Under reduced motion the pulse holds still and the colours simply swap.",
+      "files": [
+        {
+          "path": "registry/ui/transcript-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-559"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "unit-flip",
+      "type": "registry:ui",
+      "title": "Unit Flip",
+      "description": "A readout whose unit is the control. Pressing the chip turns it over — rotateX on snap, two faces on one card, one crisp overshoot as it lands — while the digits re-roll to the converted value, each glyph riding out of its own slot in the direction of the flip so the number reads as re-measured rather than replaced. Precision follows the unit, so the miles reading keeps two decimals where the kilometres reading keeps one. The chip is a button carrying aria-pressed, Space and Enter flip it, its accessible name says which unit is showing and which is a press away, and the converted value is announced through a polite status. Under reduced motion the card does not turn and the digits swap in place, because the reading is the information.",
+      "files": [
+        {
+          "path": "registry/ui/unit-flip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "text"
+      ],
+      "meta": {
+        "serial": "KQ-560"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reorder-list",
+      "type": "registry:ui",
+      "title": "Reorder List",
+      "description": "A list you rearrange by hand. The row under the pointer lifts to 1.02 with a raised edge on flick and then tracks the pointer 1:1, while the rows it passes slide out of its way on glide and the drop settles it into its slot on snap. The pointer is captured only after 4px of travel, so a plain tap still lands; Space lifts the focused row, Up and Down move it, Home and End send it to the ends, Space drops and Escape puts it back, with every step announced politely.",
+      "files": [
+        {
+          "path": "registry/ui/reorder-list.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-561"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "agenda-day",
+      "type": "registry:ui",
+      "title": "Agenda Day",
+      "description": "A day drawn on its hours. Events arrive a step from the gutter in cascade order on glide, overlapping events share the column and re-divide it as one is moved out of the pile, and the now-line creeps down on drift from the now prop rather than the wall clock so the day renders the same on the server as in the browser. Dragging a block tracks the pointer 1:1 and settles onto its quarter hour on snap; Up and Down move the focused event a quarter hour, Page Up and Page Down an hour, and every move is announced.",
+      "files": [
+        {
+          "path": "registry/ui/agenda-day.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-562"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lane-board",
+      "type": "registry:ui",
+      "title": "Lane Board",
+      "description": "A board whose columns make room. Lifting a card takes it out of its lane on flick, the lane under the pointer opens a placeholder of exactly that card's height which travels between lanes on glide while the cards around it re-flow, and letting go settles the card from where the hand left it into the slot on snap as both lanes' counts roll. The pointer is captured only after 4px of travel, and every card is a menu button whose four moves — a lane left, a lane right, a place up, a place down — are reachable from the keyboard and announced.",
+      "files": [
+        {
+          "path": "registry/ui/lane-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-563"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "unfold-card",
+      "type": "registry:ui",
+      "title": "Unfold Card",
+      "description": "A list of cards that open where they stand. Clicking one unfolds its detail directly beneath its summary, the container animating to a height a ResizeObserver actually measured on glide, so nothing is reserved while the card is folded and nothing below it jumps when it opens; the cards that stay folded ease back in opacity, a lighting change rather than a movement, and the chevron turns on snap. Only one card is open at a time, each summary is a button carrying aria-expanded and aria-controls, and Escape folds the open card and returns focus to its summary.",
+      "files": [
+        {
+          "path": "registry/ui/unfold-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-564"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fit-panel",
+      "type": "registry:ui",
+      "title": "Fit Panel",
+      "description": "A container that is exactly as tall as what is inside it. Swap the content by changing contentKey and the outgoing copy fades away on the exit ease, the incoming fades in, and the box glides between the two measured heights on glide, so nothing below the panel jumps and nothing above it is held open by a reserve. A ResizeObserver rides the mounted content, attached by the callback ref rather than an effect, so content that grows in place carries the panel with it.",
+      "files": [
+        {
+          "path": "registry/ui/fit-panel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "layout"
+      ],
+      "meta": {
+        "serial": "KQ-565"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
