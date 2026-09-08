@@ -18,6 +18,9 @@ export function ChipContactDemo() {
   const [running, setRunning] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
   const [approve, setApprove] = React.useState(true);
+  // The verdict a read will reach is fixed when the read starts: the armed
+  // control chooses the next outcome, never rewrites a finished one.
+  const [verdict, setVerdict] = React.useState(true);
 
   const done = progress >= 1;
 
@@ -49,11 +52,12 @@ export function ChipContactDemo() {
       ? "connecting"
       : !done
         ? "reading"
-        : approve
+        : verdict
           ? "approved"
           : "declined";
 
   const read = () => {
+    setVerdict(approve);
     setProgress(0);
     setRunning(true);
   };
