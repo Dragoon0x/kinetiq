@@ -543,3 +543,655 @@ test.describe("balances", () => {
     await expect(status).toContainText("Balance hidden · hold or press space");
   });
 });
+
+/**
+ * The transfers family moves money, so its outcomes are commitments: the step a
+ * flow refuses to leave, the digit a pad will not take, the notch a slider parks
+ * at. Every test drives the mechanic the component advertises — through the
+ * keyboard wherever it publishes one — and reads the result off the demo's
+ * status line and the ARIA the component publishes about itself.
+ */
+test.describe("transfers", () => {
+  test("send-flow: the flow walks payee to review, and send is refused until the figure lands", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/send-flow");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The card speaks its own step before the demo's line reports it.
+    const announced = stage.locator("[role='status']").first();
+    const mara = stage.getByRole("radio", { name: "Mara Vance @mara.v" });
+    const iyad = stage.getByRole("radio", { name: "Iyad Sorel @sorel" });
+    // One control carries the step forward, and its name says which step it is.
+    const primary = stage.getByRole("button", {
+      name: /^(Next|Send \$|Start another)/,
+    });
+
+    await expect(status).toContainText("Step 1 of 3 · to unset · $0.00");
+    await expect(announced).toHaveText("Step 1 of 3, Payee");
+    // Nothing chosen: Next keeps its place and says why rather than vanishing.
+    await expect(primary).toHaveAttribute("aria-disabled", "true");
+
+    // Activation follows focus in the payee group: the arrow moves and chooses.
+    await mara.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(iyad).toBeFocused();
+    await expect(iyad).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("to Iyad Sorel");
+    await page.keyboard.press("ArrowUp");
+    await expect(mara).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("Step 1 of 3 · to Mara Vance · $0.00");
+    await expect(primary).not.toHaveAttribute("aria-disabled", "true");
+
+    await primary.click();
+    await expect(status).toContainText("Step 2 of 3 · to Mara Vance · $0.00");
+    await expect(announced).toHaveText("Step 2 of 3, Amount");
+    await expect(primary).toHaveAttribute("aria-disabled", "true");
+
+    // Over the balance the flow refuses to go on, and the field says the reason
+    // rather than only turning red.
+    const field = stage.getByLabel("Amount for Mara Vance");
+    await expect(field).toHaveAccessibleDescription("Enter an amount");
+    await field.fill("2000");
+    await expect(status).toContainText("$2000.00");
+    await expect(field).toHaveAccessibleDescription(
+      "That is more than the balance",
+    );
+    await expect(primary).toHaveAttribute("aria-disabled", "true");
+
+    const preset = stage.getByRole("button", { name: "$50.00" });
+    await preset.click();
+    await expect(preset).toHaveAttribute("aria-pressed", "true");
+    await expect(field).toHaveValue("50");
+    await expect(field).toHaveAccessibleDescription("Balance $1284.50");
+    await expect(status).toContainText("Step 2 of 3 · to Mara Vance · $50.00");
+
+    // The arming window is about 700ms of recoil, which a poll could arrive too
+    // late to see. The button is the same node across every step, so its
+    // refusal is recorded as it happens and read back once the figure is down.
+    await primary.evaluate((element) => {
+      const read = () => element.getAttribute("aria-disabled") ?? "armed";
+      const trail: string[] = [read()];
+      new MutationObserver(() => {
+        if (trail[trail.length - 1] !== read()) trail.push(read());
+      }).observe(element, {
+        attributes: true,
+        attributeFilter: ["aria-disabled"],
+      });
+      (window as unknown as { __armTrail: string[] }).__armTrail = trail;
+    });
+
+    await primary.click();
+    await expect(status).toContainText("Step 3 of 3 · to Mara Vance · $50.00");
+    await expect(announced).toHaveText("Step 3 of 3, Review");
+    await expect(primary).toHaveAccessibleName("Send $50.00");
+    await expect(primary).not.toHaveAttribute("aria-disabled", "true", {
+      timeout: 5000,
+    });
+    const armTrail = await page.evaluate(
+      () => (window as unknown as { __armTrail?: string[] }).__armTrail ?? [],
+    );
+    // Free on the amount step, refused on arrival at review, armed by the
+    // landing: you cannot send a figure that is still moving.
+    expect(armTrail).toEqual(["armed", "true", "armed"]);
+
+    await primary.click();
+    await expect(status).toContainText("Sent $50.00 to Mara Vance");
+    await expect(announced).toHaveText("Sent $50.00 to Mara Vance");
+    await expect(primary).toHaveAccessibleName("Start another");
+
+    // Starting again walks back to the payee step without losing the payee.
+    await primary.click();
+    await expect(announced).toHaveText("Step 1 of 3, Payee");
+    await expect(mara).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("Step 1 of 3 · to Mara Vance · $50.00");
+  });
+
+  test("recipient-pick: arrows walk the faces, a press grows the chip, and the query filters the row", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/recipient-pick");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const field = stage.getByRole("textbox");
+    const row = stage.getByRole("listbox", { name: "Send to recents" });
+    const faces = row.getByRole("option");
+    const mara = row.getByRole("option", { name: "Mara Vance @mara.v" });
+    const tomas = row.getByRole("option", { name: "Tomas Renn @t.renn" });
+
+    await expect(faces).toHaveCount(6);
+    await expect(status).toContainText("No payee · 6 shown");
+    await expect(announced).toHaveText(
+      "6 of 6 recent payees shown, none chosen",
+    );
+    await expect(field).toHaveAccessibleDescription("6 of 6 recents");
+
+    // Down enters the row, the arrows step it, and only a press chooses.
+    await field.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(mara).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(tomas).toBeFocused();
+    await expect(tomas).toHaveAttribute("aria-selected", "false");
+
+    await page.keyboard.press("Enter");
+    await expect(tomas).toHaveAttribute("aria-selected", "true");
+    // Choosing hands the caret back so the flow carries on from the field.
+    await expect(field).toBeFocused();
+    await expect(status).toContainText("To Tomas Renn · @t.renn");
+    await expect(announced).toHaveText("Sending to Tomas Renn, @t.renn");
+    // The name and handle exist only on the chip, so the chip's growth is the
+    // reveal: an unchosen face is still two letters.
+    await expect(tomas).toContainText("@t.renn");
+    await expect(mara).not.toContainText("Mara Vance");
+
+    // Down re-enters at the chosen face, and the same press clears it.
+    await page.keyboard.press("ArrowDown");
+    await expect(tomas).toBeFocused();
+    await page.keyboard.press(" ");
+    await expect(tomas).toHaveAttribute("aria-selected", "false");
+    await expect(tomas).not.toContainText("@t.renn");
+    await expect(field).toBeFocused();
+    await expect(status).toContainText("No payee · 6 shown");
+
+    // Typing filters the row and the count is spoken, not only drawn.
+    await field.fill("an");
+    await expect(faces).toHaveCount(3, { timeout: 5000 });
+    await expect(status).toContainText("No payee · 3 shown");
+    await expect(announced).toHaveText(
+      "3 of 6 recent payees shown, none chosen",
+    );
+    await expect(field).toHaveAccessibleDescription("3 of 6 recents");
+
+    // Escape in the field clears the query and the row comes back whole.
+    await page.keyboard.press("Escape");
+    await expect(field).toHaveValue("");
+    await expect(faces).toHaveCount(6, { timeout: 5000 });
+    await expect(status).toContainText("No payee · 6 shown");
+
+    // Nothing matched is said in words rather than left as an empty row.
+    await field.fill("zzz");
+    await expect(faces).toHaveCount(0, { timeout: 5000 });
+    await expect(row).toContainText("No recent payee matches that.");
+    await expect(status).toContainText("No payee · 0 shown");
+  });
+
+  test("amount-pad: keys and keystrokes build the figure, and the ceiling refuses rather than clamps", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/amount-pad");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const pad = stage.getByRole("group", { name: "To Basinworks Exchange" });
+    // The figure is spoken once as a whole string; every drawn cell is hidden.
+    const spoken = pad.locator("output span.sr-only");
+    const key = (name: string) =>
+      pad.getByRole("button", { name, exact: true });
+
+    await expect(spoken).toHaveText("$0.00");
+    await expect(status).toContainText("Amount $0.00 · limit $500.00");
+
+    await key("1").click();
+    await key("2").click();
+    await key("4").click();
+    await expect(spoken).toHaveText("$124.00");
+    await expect(status).toContainText("Amount $124.00 · limit $500.00");
+
+    // The point locks the cents: two digits fit behind it and no more.
+    await key("Decimal point").click();
+    await key("5").click();
+    await key("0").click();
+    await expect(spoken).toHaveText("$124.50");
+    await expect(status).toContainText("Amount $124.50 · limit $500.00");
+    await expect(key("7")).toHaveAttribute("aria-disabled", "true");
+    await expect(key("Decimal point")).toHaveAttribute("aria-disabled", "true");
+    // A spent key is refused through the keyboard too, rather than silently
+    // swallowing the press. Delete is the one key the full cents leave live.
+    await key("Delete").focus();
+    await page.keyboard.press("7");
+    await expect(spoken).toHaveText("$124.50");
+
+    await key("Delete").click();
+    await key("Delete").click();
+    await expect(spoken).toHaveText("$124.00");
+    await expect(status).toContainText("Amount $124.00");
+    await expect(key("7")).not.toHaveAttribute("aria-disabled", "true");
+
+    await stage.getByRole("button", { name: "Clear" }).click();
+    await expect(spoken).toHaveText("$0.00");
+
+    // Typed digits drive the same pad: the handler lives on the group, so the
+    // keyboard reaches it through whichever key holds the focus.
+    await key("1").focus();
+    await page.keyboard.press("5");
+    await page.keyboard.press("0");
+    await page.keyboard.press("0");
+    await expect(spoken).toHaveText("$500.00");
+    await expect(status).toContainText("Amount $500.00 · limit $500.00");
+
+    // Past the ceiling the press is refused, not clamped: the readout is never
+    // a figure the payer cannot actually send.
+    await page.keyboard.press(".");
+    await page.keyboard.press("1");
+    await expect(spoken).toHaveText("$500.00");
+    await expect(stage.getByRole("alert")).toHaveText(
+      "$500.10 is over the $500.00 limit",
+    );
+    await expect(status).toContainText("Amount $500.00 · refused $500.10");
+  });
+
+  test("transfer-track: the dot walks the rail, a refused hop holds it, and Retry lands it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/transfer-track");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const stops = stage.getByRole("listitem");
+    // The travelling dot is the only size-4 disc on the rail; the stops are 2.
+    const dot = stage.locator("span.size-4.rounded-full");
+    const dotX = async (): Promise<number> => (await dot.boundingBox())?.x ?? 0;
+
+    await expect(stops).toHaveCount(3);
+    await expect(status).toContainText("sent · stamped 09:41");
+    await expect(announced).toHaveText("Sent, stop 1 of 3");
+    await expect(stops.nth(0)).toHaveAttribute("aria-current", "step");
+    // The run is spoken as a word per stop, never by colour or position alone.
+    await expect(stops.nth(0)).toContainText("current");
+    await expect(stops.nth(0)).toContainText("09:41");
+    await expect(stops.nth(2)).toContainText("waiting");
+    const start = await dotX();
+
+    await stage.getByRole("button", { name: "Advance" }).click();
+    await expect(announced).toHaveText("On its way, stop 2 of 3");
+    await expect(stops.nth(1)).toHaveAttribute("aria-current", "step");
+    await expect(stops.nth(1)).toContainText("current");
+    // The stamp is the host's own string, so only its arrival is asserted.
+    await expect(status).toContainText("on its way · stamped 09:41,");
+    await expect.poll(dotX, { timeout: 5000 }).toBeGreaterThan(start + 20);
+
+    // A refused hop holds the dot at the stop it truly reached.
+    await stage.getByRole("button", { name: "Fail the hop" }).click();
+    await expect(stage.getByRole("alert")).toHaveText(
+      "Fernwork Supply refused the hop. Nothing left the account.",
+    );
+    await expect(stops.nth(1)).toContainText("held");
+    await expect(announced).toHaveText("On its way: the next hop failed");
+    await expect(status).toContainText(
+      "Failed after on its way · retry offered",
+    );
+    const retry = stage.getByRole("button", { name: "Retry" });
+    await expect(retry).toHaveAccessibleDescription(
+      "Fernwork Supply refused the hop. Nothing left the account.",
+    );
+
+    await retry.click();
+    await expect(retry).toHaveCount(0, { timeout: 5000 });
+    await expect(stops.nth(2)).toHaveAttribute("aria-current", "step");
+    await expect(stops.nth(2)).toContainText("reached");
+    await expect(announced).toHaveText("Landed, stop 3 of 3");
+    await expect(status).toContainText("landed · stamped 09:41,");
+    await expect.poll(dotX, { timeout: 5000 }).toBeGreaterThan(start + 200);
+  });
+
+  test("split-bill: a key moves one share, the others give way, and the total never drifts", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/split-bill");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const mara = stage.getByRole("slider", { name: "Mara Vance" });
+    const iyad = stage.getByRole("slider", { name: "Iyad Sorel" });
+    const priya = stage.getByRole("slider", { name: "Priya Okonkwo" });
+    const equalise = stage.getByRole("button", { name: "Equalise" });
+    const percentOf = async (share: Locator): Promise<number> =>
+      Number(await share.getAttribute("aria-valuenow"));
+
+    // A share is spoken as money as well as a percentage.
+    await expect(mara).toHaveAttribute("aria-valuetext", "40 percent, $59.36");
+    await expect(status).toContainText(
+      "Mara Vance leads · $59.36 of $148.40 · remainder $0.00",
+    );
+    await expect(announced).toHaveText(
+      "Mara Vance has the largest share, $59.36 of $148.40, across 4 people",
+    );
+    await expect(equalise).toBeEnabled();
+
+    // One arrow takes a cent of the bill from the others in proportion.
+    await mara.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(mara).toHaveAttribute("aria-valuetext", "41 percent, $60.84");
+    await expect(priya).toHaveAttribute("aria-valuetext", "15 percent, $21.89");
+    await expect(status).toContainText("Mara Vance leads · $60.84 of $148.40");
+    await expect(status).toContainText("remainder $0.00");
+
+    // Home hands the whole share back, and the lead moves with the money.
+    await page.keyboard.press("Home");
+    await expect(mara).toHaveAttribute("aria-valuetext", "0 percent, $0.00");
+    await expect(iyad).toHaveAttribute("aria-valuetext", "42 percent, $61.83");
+    await expect(status).toContainText(
+      "Iyad Sorel leads · $61.83 of $148.40 · remainder $0.00",
+    );
+
+    await equalise.click();
+    await expect(mara).toHaveAttribute("aria-valuetext", "25 percent, $37.10");
+    await expect(priya).toHaveAttribute("aria-valuetext", "25 percent, $37.10");
+    await expect(status).toContainText(
+      "Mara Vance leads · $37.10 of $148.40 · remainder $0.00",
+    );
+    // An even split has nothing left to equalise.
+    await expect(equalise).toBeDisabled();
+    await expect(stage.getByText("4 ways · remainder $0.00")).toBeVisible();
+
+    // A plain tap still sets the share it landed on, dead centre of the track.
+    await priya.click();
+    await expect
+      .poll(async () => percentOf(priya), {
+        timeout: 5000,
+      })
+      .toBeGreaterThan(44);
+    expect(await percentOf(priya)).toBeLessThan(56);
+    await expect(status).toContainText("Priya Okonkwo leads");
+    await expect(status).toContainText("remainder $0.00");
+    await expect(equalise).toBeEnabled();
+  });
+
+  test("schedule-send: the knob opens the panel, the date steps, and the sentence rewrites", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/schedule-send");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The animated tokens are decoration; the settled sentence is this line.
+    const sentence = stage.locator("[role='status']").first();
+    const now = stage.getByRole("radio", { name: "Now" });
+    const scheduled = stage.getByRole("radio", { name: "Scheduled" });
+    const date = stage.getByRole("spinbutton", { name: "Send date" });
+
+    await expect(sentence).toHaveText("Sends 240.00 now");
+    await expect(status).toContainText("Waylight Pay 240.00 now");
+    await expect(now).toHaveAttribute("aria-checked", "true");
+    // A closed panel is out of the tree entirely, not merely off screen.
+    await expect(date).toHaveCount(0);
+    await expect(stage.getByRole("radio", { name: "Monthly" })).toHaveCount(0);
+
+    await now.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(scheduled).toBeFocused();
+    await expect(scheduled).toHaveAttribute("aria-checked", "true");
+    await expect(date).toHaveAttribute("aria-valuenow", "1");
+    await expect(date).toHaveAttribute(
+      "aria-valuetext",
+      "Tue 14 Apr, tomorrow",
+    );
+    await expect(sentence).toHaveText("Sends 240.00 on Tue 14 Apr");
+    await expect(status).toContainText("Waylight Pay 240.00 day +1, once");
+
+    // The date is a real spinbutton: a day, a week, and the far end.
+    await date.focus();
+    await page.keyboard.press("ArrowUp");
+    await expect(date).toHaveAttribute("aria-valuenow", "2");
+    await expect(date).toHaveAttribute(
+      "aria-valuetext",
+      "Wed 15 Apr, in 2 days",
+    );
+    await page.keyboard.press("PageUp");
+    await expect(date).toHaveAttribute("aria-valuenow", "9");
+    await expect(date).toHaveAttribute(
+      "aria-valuetext",
+      "Wed 22 Apr, in 9 days",
+    );
+    await page.keyboard.press("End");
+    await expect(date).toHaveAttribute("aria-valuenow", "60");
+    await expect(date).toHaveAttribute(
+      "aria-valuetext",
+      "Fri 12 Jun, in 60 days",
+    );
+    await expect(
+      stage.getByRole("button", { name: "Later day" }),
+    ).toBeDisabled();
+    await page.keyboard.press("Home");
+    await expect(date).toHaveAttribute("aria-valuenow", "1");
+    await expect(
+      stage.getByRole("button", { name: "Earlier day" }),
+    ).toBeDisabled();
+
+    // The repeat picker is the same instrument, and the sentence takes its word.
+    await stage.getByRole("radio", { name: "Once" }).focus();
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(stage.getByRole("radio", { name: "Monthly" })).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect(sentence).toHaveText(
+      "Sends 240.00 on Tue 14 Apr then every month",
+    );
+    await expect(status).toContainText("Waylight Pay 240.00 day +1, monthly");
+
+    // An input the picker does not own still rewrites the sentence.
+    await stage.getByRole("button", { name: "Amount +50" }).click();
+    await expect(sentence).toHaveText(
+      "Sends 290.00 on Tue 14 Apr then every month",
+    );
+    await expect(status).toContainText("Waylight Pay 290.00 day +1, monthly");
+  });
+
+  test("transfer-receipt: the sheet unrolls, the reference types itself in, and the copy reports back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/transfer-receipt");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // Three live regions stand in the stage: the copy line inside the sheet,
+    // the receipt's own settled line, and the demo's line last.
+    const printed = stage.locator("[role='status']").nth(1);
+    const sheet = stage.getByRole("region", { name: "Waylight Pay receipt" });
+
+    await expect(status).toContainText("Waylight Pay idle");
+    // Nothing is reserved for a receipt that has not printed.
+    await expect(sheet).toHaveCount(0);
+    await expect(printed).toBeEmpty();
+
+    await stage.getByRole("button", { name: "Send 320.00" }).click();
+    await expect(status).toContainText("Waylight Pay printed");
+    await expect(sheet).toContainText("320.00");
+    await expect(sheet).toContainText("Fernworks Supply");
+    await expect(sheet).toContainText("•••• 4417");
+    await expect(sheet).toContainText("320.40");
+    await expect(sheet).toContainText("Within an hour");
+
+    // The line waits for the typing to finish rather than announcing letters.
+    await expect(printed).toHaveText("Receipt ready, reference WAY-4K7Q-2318", {
+      timeout: 5000,
+    });
+    const copy = stage.getByRole("button", {
+      name: "Copy reference WAY-4K7Q-2318",
+    });
+    await expect(copy).toContainText("WAY-4K7Q-2318");
+
+    // A keyboard press copies. Automation may refuse the clipboard, and the
+    // receipt is documented to report either answer rather than pretend.
+    await copy.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText(
+      /Waylight Pay (reference copied|copy blocked)/,
+      { timeout: 5000 },
+    );
+
+    await stage.getByRole("button", { name: "New transfer" }).click();
+    await expect(sheet).toHaveCount(0, { timeout: 5000 });
+    await expect(printed).toBeEmpty();
+    await expect(status).toContainText("Waylight Pay idle");
+  });
+
+  test("limit-meter: the staged preview crosses the ceiling and a confirmed send joins the fill", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/limit-meter");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const meter = stage.getByRole("meter", {
+      name: "Waylight Pay daily limit",
+    });
+    const confirm = stage.getByRole("button", { name: "Confirm" });
+
+    await expect(meter).toHaveAttribute("aria-valuenow", "600");
+    await expect(meter).toHaveAttribute("aria-valuemax", "2000");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "600.00 of 2,000.00 used, 250.00 staged, 1,150.00 left today",
+    );
+    await expect(status).toContainText("Waylight Pay staging 250.00");
+
+    // Staging past the ceiling names the overage in money, never in colour.
+    const stageUp = stage.getByRole("button", { name: "Stage +250" });
+    for (let press = 0; press < 5; press += 1) await stageUp.click();
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "600.00 of 2,000.00 used, 1,500.00 staged, over by 100.00",
+    );
+    // A meter may not report past its maximum, so the committed total stands.
+    await expect(meter).toHaveAttribute("aria-valuenow", "600");
+    await expect(status).toContainText("Waylight Pay over by 100.00");
+    await expect(
+      stage.getByText("Over by 100.00", { exact: true }),
+    ).toBeVisible();
+    await expect(confirm).toBeDisabled();
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "600.00 of 2,000.00 used, 250.00 staged, 1,150.00 left today",
+    );
+    await expect(confirm).toBeEnabled();
+
+    // Confirming moves the staged amount into the fill as a send of its own.
+    await confirm.click();
+    await expect(meter).toHaveAttribute("aria-valuenow", "850");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "850.00 of 2,000.00 used, 1,150.00 left today",
+    );
+    await expect(status).toContainText("Waylight Pay 1,150.00 left");
+    await expect(
+      stage.getByText("850.00 of 2,000.00 sent", { exact: true }),
+    ).toBeVisible();
+    await expect(confirm).toBeDisabled();
+  });
+
+  test("confirm-slab: the track parks at the detent, Escape returns it, and Enter lands the send", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/confirm-slab");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const slab = stage.getByRole("group", { name: "Confirm transfer" });
+    const track = stage.getByRole("slider", { name: "Slide to send" });
+    const percent = async (): Promise<number> =>
+      Number(await track.getAttribute("aria-valuenow"));
+
+    await expect(status).toContainText("Basinworks payout ready");
+    await expect(track).toHaveAttribute("aria-valuenow", "0");
+    await expect(track).toHaveAttribute("aria-valuetext", "0 percent slid");
+    await expect(slab).toContainText("Coldbrook Bank");
+    await expect(slab).toContainText("1,242.40");
+
+    // The first press takes the thumb to the notch and no further.
+    await track.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(track).toHaveAttribute(
+      "aria-valuetext",
+      "Held at the detent, push past to send",
+    );
+    await expect(status).toContainText("Basinworks payout held at detent");
+    await expect.poll(percent, { timeout: 5000 }).toBeGreaterThan(55);
+    expect(await percent()).toBeLessThan(70);
+
+    // The notch is a rest point, not a commitment: Escape hands it back.
+    await page.keyboard.press("Escape");
+    await expect(status).toContainText("Basinworks payout ready");
+    await expect(track).toHaveAttribute("aria-valuetext", "0 percent slid", {
+      timeout: 5000,
+    });
+
+    // Enter lands the slide only from the notch, so it takes two presses.
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Basinworks payout ready");
+    await page.keyboard.press("ArrowRight");
+    await expect(status).toContainText("held at detent");
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Basinworks payout sent 1,242.40");
+    await expect(announced).toHaveText("Sent 1,242.40");
+    // The slab sank and the space it held collapsed to the confirmed line,
+    // taking the track out of the tree rather than leaving it live behind the
+    // outcome.
+    await expect(slab).toHaveCount(0, { timeout: 5000 });
+    await expect(track).toHaveCount(0);
+
+    await stage.getByRole("button", { name: "Review again" }).click();
+    await expect(status).toContainText("Basinworks payout ready");
+    await expect(slab).toContainText("1,242.40");
+    await expect(track).toHaveAttribute("aria-valuenow", "0");
+  });
+
+  test("settle-pulse: the pill widens on settlement and the sum joins it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/settle-pulse");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The pill is its own live region, ahead of the demo's line.
+    const pill = stage.locator("[role='status']").first();
+    // Everything drawn sits inside the hidden shell; the sentence is beside it.
+    const shell = pill.locator("span[aria-hidden]").first();
+    const shellWidth = async (): Promise<number> =>
+      shell.evaluate((element) => (element as HTMLElement).offsetWidth);
+
+    await expect(pill).toContainText(
+      "Transfer of 240.00, pending on Coldbrook Bank",
+    );
+    await expect(shell).toContainText("Pending");
+    // Until the network speaks nothing has moved, so no sum is shown.
+    await expect(shell).not.toContainText("240.00");
+    await expect(status).toContainText(
+      "Waylight Pay 240.00 pending on coldbrook bank",
+    );
+    const waiting = await shellWidth();
+
+    await stage.getByRole("button", { name: "Settle" }).click();
+    await expect(pill).toContainText(
+      "Transfer of 240.00, settled on Coldbrook Bank",
+    );
+    await expect(shell).toContainText("Settled");
+    await expect(shell).toContainText("240.00");
+    await expect(status).toContainText("Waylight Pay 240.00 settled");
+    // The widening is the point of the pill: the sum needs room it did not have.
+    await expect
+      .poll(shellWidth, { timeout: 5000 })
+      .toBeGreaterThan(waiting + 20);
+
+    await stage.getByRole("button", { name: "Return" }).click();
+    await expect(pill).toContainText(
+      "Transfer of 240.00, returned on Coldbrook Bank",
+    );
+    await expect(shell).toContainText("Returned");
+    await expect(status).toContainText("Waylight Pay 240.00 returned");
+    await expect(stage.getByRole("button", { name: "Return" })).toBeDisabled();
+
+    // Back to pending, the sum leaves again and the pill closes on its word.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(pill).toContainText(
+      "Transfer of 240.00, pending on Coldbrook Bank",
+    );
+    await expect(shell).not.toContainText("240.00");
+    await expect(status).toContainText(
+      "Waylight Pay 240.00 pending on coldbrook bank",
+    );
+    await expect.poll(shellWidth, { timeout: 5000 }).toBeLessThan(waiting + 10);
+  });
+});
