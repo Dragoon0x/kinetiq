@@ -11689,6 +11689,253 @@ Notes:
 - Every node's label states its part in words — "Leaf 3, on the proof path, hash 4f2a…c19b" — so being on the path is never carried by colour alone, and a polite status region announces the outcome once.
 - Under reduced motion the path appears already drawn with no stagger and the seal does not arrive from a scale, because which edges prove the receipt is the information rather than the flourish.
 
+### Swap Pair (KQ-661) — `swap-pair`
+Flip the pair; the numbers follow.
+
+A swap card whose two asset fields trade places. Pressing the flip control turns its arrow a half turn on snap while the cards travel between slots as a FLIP on glide, and the inverted rate rolls its digits on snap. The pay field is a real decimal input and the receive field is an output bound to it, so Tab reaches the amount, the Max control and the flip, and Enter or Space reverses the pair.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/swap-pair`
+
+Props:
+- `assets`: [SwapAsset, SwapAsset] — The pair in its base order: { symbol, name, balance }. Index 0 pays while the card is not inverted.
+- `rate`: number — Units of assets[1] per one of assets[0]; inverted when the pair flips.
+- `amount / defaultAmount`: number (default 0) — Controlled or initial pay amount, always denominated in the paying asset.
+- `onAmountChange`: (amount: number) => void — Fires from the keystroke, the Max press, or the flip that rebased the amount.
+- `inverted / defaultInverted`: boolean (default false) — Controlled or initial direction; true pays assets[1].
+- `onInvertedChange`: (inverted: boolean) => void — Fires from the flip press.
+- `format`: (value: number, symbol: string) => string (default en-US grouping, 2 dp at 1,000 and above, up to 6 dp below) — Formats every figure the card prints, including the rate.
+- `feeRate`: number (default 0.003) — Share of the receive figure quoted as the network fee line.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Tab reaches the pay input, the Max button and the flip control; Enter or Space flips the pair, and the flip button's accessible name is the outcome it produces rather than its icon.
+- Flipping rebases the amount — what you were about to receive becomes what you pay — so a second flip lands back on the figure you started with.
+- Over balance sets aria-invalid on the input and prints the reason in words beside it, never colour alone; a debounced visually hidden status line reads the settled pair and rate.
+- Under reduced motion the cards swap slots instantly, the arrow's glyph turns over without rotating and the rate's digits change in place.
+
+### Slippage Dial (KQ-662) — `slippage-dial`
+How much you will tolerate.
+
+Three tolerance stops and a custom field share one knob, which travels between them on snap with a single crisp overshoot rather than four chips blinking. The minimum received rolls its digits on snap as the tolerance changes, and a threshold note glides open to a ResizeObserver-measured height so no room is reserved for a state that is usually absent. The stops are a radio group with a roving tabindex — arrows step, Home and End reach the ends, Space selects — and the field is one Tab further on.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slippage-dial`
+
+Props:
+- `expected`: number — The quoted receive figure, before any slippage is allowed for.
+- `value / defaultValue`: number (default 0.5) — Controlled or initial tolerance, in percent.
+- `onValueChange`: (value: number) => void — Fires from the press, key, or keystroke that changed the tolerance.
+- `presets`: number[] (default [0.1, 0.5, 1]) — The stops, in percent, left to right.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })) — Formats the quoted and minimum figures.
+- `symbol`: string (default FRN) — Ticker printed after both figures.
+- `warnAt`: number (default 1) — Tolerance above which the dial warns that the quote can slip.
+- `lowAt`: number (default 0.05) — Tolerance below which the dial warns the trade may not settle.
+- `max`: number (default 50) — Ceiling the custom field clamps to.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- The stops are a radio group with a roving tabindex: Left/Up and Right/Down step without wrapping, Home and End jump to the ends, Space selects. The custom field is a real decimal input one Tab past them.
+- An empty field means a preset owns the tolerance and a filled one means the field does, so the two can never both claim it; emptying the field returns to the first preset.
+- The threshold note carries the warning in words as well as in the warn tint, and a debounced visually hidden status line reads the settled tolerance and minimum.
+- Under reduced motion the knob appears on its stop with no travel and the digits swap in place — the minimum still changes, because what the tolerance costs is the information.
+
+### Pool Share (KQ-663) — `pool-share`
+Your slice of the pool.
+
+A liquidity position drawn as one wedge of a ring, whose arc grows on glide when you add — one number settling over 450ms rather than a bar snapping. The position and fees roll their digits on snap and the added sum stamps over the ring on recoil, while hovering the ring or pressing the totals control cross-fades the readings to the pool's own. The control is a real aria-pressed button, so the keyboard reaches the second reading exactly as the pointer does and Escape returns to your share.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pool-share`
+
+Props:
+- `poolName`: string — The pair's name, e.g. "BSN / FRN".
+- `contributed`: number — Your position's value in the pool; the wedge is this against poolTotal.
+- `poolTotal`: number — The pool's total value.
+- `fees`: number (default 0) — Fees earned so far; rolls when it changes.
+- `reserves`: [PoolReserve, PoolReserve] — { symbol, amount } per side, printed as the pool's totals reading.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })) — Formats every cash figure.
+- `addStep`: number (default 500) — The sum the Add control offers.
+- `onAdd`: (amount: number) => void — Fires from the Add press; raise contributed and the wedge follows.
+- `showTotals / defaultShowTotals`: boolean (default false) — Controlled or initial pinned state of the second reading; hover borrows it transiently on top.
+- `onShowTotalsChange`: (shown: boolean) => void — Fires from the press or the Escape that changed the pinned reading.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Tab reaches the Add control and the Pool totals toggle, which share one height; Enter or Space presses them and Escape on the toggle returns to your share.
+- The SVG is decorative: the share is exposed as a visually hidden role="meter" with a spoken aria-valuetext, and every figure the ring draws is printed as text.
+- Both readings are two rows of the same shape in one grid cell, so nothing reserves room for a taller state.
+- Under reduced motion the wedge still grows and the figures still change, but on a short tween, and the stamp appears in place rather than rising.
+
+### Stake Lock (KQ-664) — `stake-lock`
+Lock it up; watch it earn.
+
+A staking card whose term rail is exact under the finger while a drag is live and settles onto its detent on snap when the pointer lifts, with the projected yield rolling its digits on snap beside it. Locking drops a padlock's shackle into its body on snap and starts an unlock countdown that stops while the tab is hidden and catches up when it returns; cancelling early arms first and opens the shackle on flick with no bounce. The rail is a real slider — arrows move a detent, Page keys move two, Home and End reach the shortest and longest term.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stake-lock`
+
+Props:
+- `amount`: number — The sum being staked.
+- `symbol`: string (default BSN) — Ticker printed after every figure.
+- `terms`: StakeTerm[] (default 30 / 90 / 180 / 365 days at 3.2 / 4.8 / 6.4 / 8.1%) — The detents: { days, apr }, ascending by days.
+- `value / defaultValue`: number (default the second term's days) — Controlled or initial term, in days.
+- `onValueChange`: (days: number) => void — Fires from the pointer or key that moved the term.
+- `locked / defaultLocked`: boolean (default false) — Controlled or initial lock state.
+- `onLockedChange`: (locked: boolean) => void — Fires from the press that locked, cancelled, or unstaked.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })) — Formats the stake and the projected yield.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- The rail is role="slider": Left/Down and Right/Up move one detent, PageUp and PageDown move two, Home and End jump to the shortest and longest term. While locked it is aria-disabled and refuses both pointer and key.
+- Pointer capture waits for 4px of travel and is taken and released inside try/catch, so a plain press sets the nearest detent and a synthetic sweep cannot throw.
+- Cancelling early arms the button first and names the consequence in its accessible name; a matured term turns the same button into a plain Unstake with no arming.
+- The countdown is a role="timer" with aria-live off — the two transitions are announced instead — and its interval stops while the document is hidden, catching up when it returns.
+- Under reduced motion the knob jumps between detents, the shackle swaps between open and shut, and the digits change in place; the countdown still ticks.
+
+### Yield Curve (KQ-665) — `yield-curve`
+Longer lock, higher rate.
+
+Rates plotted against lock length as one Catmull-Rom path that draws itself with pathLength on glide, once, so that afterwards the only thing moving is the marker. Dragging picks the nearest term and the marker travels to it on snap with a guide dropping to the axis, the chosen point lifting off its own curve into a halo while the callout rolls its digits and glides to stay over its node. The plot is a real slider: arrows step a term, Page keys move two, Home and End reach the shortest and longest.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/yield-curve`
+
+Props:
+- `points`: YieldPoint[] — The curve: { days, apr }, ascending by days. Two points or more.
+- `value / defaultValue`: number (default the middle term) — Controlled or initial chosen term, in days.
+- `onValueChange`: (days: number) => void — Fires from the pointer or key that moved the marker.
+- `amount`: number — Principal; given it, the callout prints what the chosen term earns.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })) — Formats the earnings figure.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- The plot is role="slider": Left/Down and Right/Up step one term without wrapping, PageUp and PageDown move two, Home and End jump to the shortest and longest.
+- Pointer capture waits for 4px of travel and is taken and released inside try/catch, so a plain press sets the nearest term and a synthetic sweep cannot throw; the plot is touch-none so a drag does not scroll the page.
+- Every coordinate is rounded before it reaches an attribute, because Node and the browser can differ in the last digits of a square root and a mismatched attribute is a hydration error.
+- The callout's width and the plot's are measured with a ResizeObserver and its travel clamped between them, so it can never leave the plot at any width.
+- Under reduced motion the curve is already drawn, the marker jumps without travel or lift, and the digits swap in place.
+
+### Route Split (KQ-666) — `route-split`
+One trade, many roads.
+
+One trade drawn as the several roads it takes: each leg is a curve whose stroke width is its share, and the amount travels along it as a dash flowing on a linear ease. A changed split re-lays the widths on glide, and pinning a road lands its label chip on snap. The legend is the accessible surface — real buttons on a roving tabindex where Up and Down step, Home and End jump, Enter pins the reading so the pointer can leave, and Escape unpins.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/route-split`
+
+Props:
+- `legs`: RouteLeg[] — { id, venue, share } per road, in draw order; shares are weights and are normalised.
+- `amount`: number — The total being routed; each road carries amount × share.
+- `from`: string — Source ticker, printed in the left pill.
+- `to`: string — Destination ticker, printed in the right pill.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { maximumFractionDigits: 0 })) — Formats every amount, in the legend and in the spoken sentences.
+- `value / defaultValue`: string | null (default null) — Controlled or initial pinned leg; hover and focus preview on top of it without changing it.
+- `onValueChange`: (id: string | null) => void — Fires from the press or the Escape that changed the pin.
+- `onActiveChange`: (id: string | null) => void — Fires whenever the read leg changes, by hover, focus or pin.
+- `flowing`: boolean (default true) — Runs the dash flow; ignored under reduced motion and paused while the document is hidden.
+- `height`: number (default 104) — Diagram height in px; the width is fluid and measured with a ResizeObserver.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- The legend carries a roving tabindex: Up and Down (or Left and Right) step between roads, Home and End jump to the ends, Enter and Space pin a road, Escape unpins without losing focus.
+- The SVG is aria-hidden — every figure it draws is printed in the legend, and each button is named by a sentence carrying its share and amount.
+- The dash flow is one shared motion value transformed per road, and it stops while the document is hidden.
+- Under reduced motion the roads draw solid and still carry their widths, because the split is the information.
+
+### Approve Step (KQ-667) — `approve-step`
+Allow, then swap.
+
+Two controls in one row where the second cannot be reached until the first has finished. Approving turns a ring at a constant rate; approval collapses the button to a tick chip that slides aside on glide while Swap takes the width it left, then wakes into it with a single snap from 0.98 and stamps its tick on recoil once the trade lands. Swap is never disabled — it carries aria-disabled so the keyboard reaches it and hears why it is asleep, and every state arrives through the status prop, so the control never invents time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/approve-step`
+
+Props:
+- `status / defaultStatus`: ApproveStepStatus (default "idle") — Controlled or initial state: idle, approving, approved, swapping, done or failed.
+- `onStatusChange`: (status: ApproveStepStatus) => void — Fires from the press that moved the control into a pending state.
+- `onApprove`: () => void — Fires from the Approve (or Retry) press; the host does the work and sets status.
+- `onSwap`: () => void — Fires from the Swap press; the host does the work and sets status.
+- `amount`: number — The sum being approved, in symbol.
+- `symbol`: string — Ticker being approved, e.g. "BSN".
+- `receive`: number — The estimated sum received, in receiveSymbol.
+- `receiveSymbol`: string — Ticker received, e.g. "FRN".
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { maximumFractionDigits: 2 })) — Formats both sums, in the labels and in the spoken sentences.
+- `errorMessage`: string (default "Approval was not confirmed.") — The line shown under the row while status is failed.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Tab reaches Approve then Swap; Enter and Space press them. Swap carries aria-disabled rather than disabled, so it stays in the tab order and explains itself, and focus is handed to it once approval lands.
+- A pending control carries aria-busy and keeps its name; approval and completion are announced once each by a visually hidden role="status", never during the ring.
+- A failed approval returns the button as Retry with a role="alert" line and no celebration.
+- Under reduced motion the ring holds still and says "Approving" in words, and the chip and the width swap instantly.
+
+### Harvest Tap (KQ-668) — `harvest-tap`
+Collect what has accrued.
+
+An accrued-rewards figure that climbs from a motion value rather than state, so it runs continuously without a render per frame, and holds while the document is hidden. Harvesting reads the figure in the press handler and sweeps a ghost of it into the balance on glide over the distance actually measured between the two rows, rolls the balance's digits on snap, and drops the emptied row back to zero on recoil. The Harvest button is a real button that disables itself below minHarvest, and the collected sum is announced once on the press rather than per tick.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/harvest-tap`
+
+Props:
+- `balance`: number — The collected balance; its digits roll when it changes.
+- `accrued`: number (default 0) — The figure the tap starts from; changing it reseeds the climbing readout.
+- `rate`: number (default 0) — Units accrued per second while accruing.
+- `accruing`: boolean (default false) — Runs the climb; paused while the document is hidden.
+- `symbol`: string — Ticker for both figures, e.g. "BSN".
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })) — Formats every figure, in the readouts and the spoken sentences.
+- `minHarvest`: number (default 0) — Below this the Harvest button is disabled and names the threshold.
+- `onHarvest`: (amount: number) => void — Fires from the press, carrying the figure at the moment it was pressed.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Tab reaches the Harvest button; Enter and Space press it. It is genuinely disabled below minHarvest and describes the threshold rather than failing silently.
+- The climbing figure is aria-hidden — a number changing every frame is noise — and the rate is stated once instead; a visually hidden role="status" announces the collected sum and the new balance on the press.
+- The climb runs only while the accruing prop is true and the document is visible, and it is stopped in the effect's cleanup.
+- Under reduced motion the figure still climbs and the balance still changes, but nothing sweeps or bounces and the digits swap in place.
+
+### Impermanent Meter (KQ-669) — `impermanent-meter`
+What the pool cost you against holding.
+
+Two bars on one scale — what a position would be worth held, and what it is worth pooled — with the shortfall between their ends drawn as hatching that fills on glide as prices diverge, while the percentage rolls its digits on snap. The gap is derived from the pool's own arithmetic rather than handed in, and fees are netted off it honestly. Hovering the gap or pressing the Difference row opens a breakdown whose height is measured rather than reserved; Escape closes it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/impermanent-meter`
+
+Props:
+- `deposit`: number — Position value at entry; both bars are scaled from it.
+- `priceRatio`: number (default 1) — Price of the pair now against entry — 1 is unchanged, 2 has doubled.
+- `feesEarned`: number (default 0) — Fees taken since entry; nets off the shortfall in the breakdown.
+- `pair`: [string, string] (default ["A", "B"]) — The two tickers, named in the breakdown.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })) — Formats every cash figure.
+- `warnAt`: number (default 0.02) — Shortfall fraction at which the gap turns warn.
+- `dangerAt`: number (default 0.06) — Shortfall fraction at which it turns danger.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial pinned state of the breakdown; hover previews it on top.
+- `onOpenChange`: (open: boolean) => void — Fires from the press or the Escape that changed the pinned state.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Tab reaches the Difference row, which carries aria-expanded and aria-controls; Enter and Space open the breakdown and Escape closes it without losing focus. The hatched gap repeats the same hover and click as a pointer shortcut, never as the only path.
+- The graphic is aria-hidden; a visually hidden role="meter" carries the shortfall percentage and an aria-valuetext sentence naming both values and the net after fees.
+- Severity is carried by a word — None, Slight, Notable, Heavy — as well as a tone, and the shortfall is hatched rather than tinted, so neither reading depends on colour.
+- Under reduced motion the gap still fills and the figures still change, on a fast tween with no overshoot.
+
+### Liquidity Range (KQ-670) — `liquidity-range`
+Set the band where you earn.
+
+A price axis with the pool's depth drawn as a procedural curve and two handles that set the earning band; the curve is drawn twice, dim across the axis and bright inside a window sized to the band, so the earning stretch is the same curve lit. Dragging tracks the pointer 1:1 with no spring, while a keyboard step glides the band on snap and the covered depth counts from a motion value. The price marker breathes while it is inside the band and goes still — and says so in words — once it is not.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/liquidity-range`
+
+Props:
+- `bins`: LiquidityBin[] — { price, depth } samples in ascending price; their ends set the axis.
+- `price`: number — The market price, drawn as the marker and compared against the band.
+- `value / defaultValue`: [number, number] (default the whole axis) — Controlled or initial band, low then high.
+- `onValueChange`: (band: [number, number]) => void — Fires on every drag frame and every keyboard step.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })) — Formats every price, in the readouts and in aria-valuetext.
+- `step`: number (default axis span ÷ 200) — Arrow-key step; Shift and the Page keys multiply it by ten.
+- `unit`: string — What a price is quoted in, e.g. "FRN per BSN"; spoken in aria-valuetext.
+- `height`: number (default 96) — Plot height in px; the width is fluid and measured.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Two role="slider" handles: Left and Right step, Shift steps ten at a time, PageUp and PageDown step ten, Home and End run to the ends, and the handles stop one step apart rather than crossing.
+- A press captures the pointer only after 4px of travel, inside try/catch, so a plain click still moves the nearer handle and a synthetic sweep cannot throw.
+- The plot is aria-hidden — the band, price, covered depth and every bin are printed as text — and whether the price is earning is stated in words, not by the pulse or the colour.
+- Under reduced motion the marker holds a steady halo instead of breathing and nothing springs; the lit stretch still lights.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

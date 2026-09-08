@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 659,
+      "components": 669,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -42811,6 +42811,984 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/receipt-proof",
         "bun": "bunx --bun shadcn@latest add @kinetiq/receipt-proof",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/receipt-proof.json"
+      }
+    },
+    {
+      "slug": "swap-pair",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Swap Pair",
+      "serial": "KQ-661",
+      "tagline": "Flip the pair; the numbers follow.",
+      "description": "A swap card whose two asset fields trade places. Pressing the flip control turns its arrow a half turn on snap while the cards travel between slots as a FLIP on glide, and the inverted rate rolls its digits on snap. The pay field is a real decimal input and the receive field is an output bound to it, so Tab reaches the amount, the Max control and the flip, and Enter or Space reverses the pair.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "swap",
+        "exchange",
+        "pair",
+        "rate",
+        "flip",
+        "trade",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "assets",
+          "type": "[SwapAsset, SwapAsset]",
+          "description": "The pair in its base order: { symbol, name, balance }. Index 0 pays while the card is not inverted."
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "description": "Units of assets[1] per one of assets[0]; inverted when the pair flips."
+        },
+        {
+          "name": "amount / defaultAmount",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial pay amount, always denominated in the paying asset."
+        },
+        {
+          "name": "onAmountChange",
+          "type": "(amount: number) => void",
+          "description": "Fires from the keystroke, the Max press, or the flip that rebased the amount."
+        },
+        {
+          "name": "inverted / defaultInverted",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial direction; true pays assets[1]."
+        },
+        {
+          "name": "onInvertedChange",
+          "type": "(inverted: boolean) => void",
+          "description": "Fires from the flip press."
+        },
+        {
+          "name": "format",
+          "type": "(value: number, symbol: string) => string",
+          "defaultValue": "en-US grouping, 2 dp at 1,000 and above, up to 6 dp below",
+          "description": "Formats every figure the card prints, including the rate."
+        },
+        {
+          "name": "feeRate",
+          "type": "number",
+          "defaultValue": "0.003",
+          "description": "Share of the receive figure quoted as the network fee line."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the pay input, the Max button and the flip control; Enter or Space flips the pair, and the flip button's accessible name is the outcome it produces rather than its icon.",
+        "Flipping rebases the amount — what you were about to receive becomes what you pay — so a second flip lands back on the figure you started with.",
+        "Over balance sets aria-invalid on the input and prints the reason in words beside it, never colour alone; a debounced visually hidden status line reads the settled pair and rate.",
+        "Under reduced motion the cards swap slots instantly, the arrow's glyph turns over without rotating and the rate's digits change in place."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/swap-pair",
+      "registryItemUrl": "https://www.kinetiqui.com/r/swap-pair.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/swap-pair",
+        "npm": "npx shadcn@latest add @kinetiq/swap-pair",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/swap-pair",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/swap-pair",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/swap-pair.json"
+      }
+    },
+    {
+      "slug": "slippage-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Slippage Dial",
+      "serial": "KQ-662",
+      "tagline": "How much you will tolerate.",
+      "description": "Three tolerance stops and a custom field share one knob, which travels between them on snap with a single crisp overshoot rather than four chips blinking. The minimum received rolls its digits on snap as the tolerance changes, and a threshold note glides open to a ResizeObserver-measured height so no room is reserved for a state that is usually absent. The stops are a radio group with a roving tabindex — arrows step, Home and End reach the ends, Space selects — and the field is one Tab further on.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "slippage",
+        "tolerance",
+        "swap",
+        "preset",
+        "minimum",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "expected",
+          "type": "number",
+          "description": "The quoted receive figure, before any slippage is allowed for."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "Controlled or initial tolerance, in percent."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "description": "Fires from the press, key, or keystroke that changed the tolerance."
+        },
+        {
+          "name": "presets",
+          "type": "number[]",
+          "defaultValue": "[0.1, 0.5, 1]",
+          "description": "The stops, in percent, left to right."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { minimumFractionDigits: 2, maximumFractionDigits: 2 })",
+          "description": "Formats the quoted and minimum figures."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "defaultValue": "FRN",
+          "description": "Ticker printed after both figures."
+        },
+        {
+          "name": "warnAt",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Tolerance above which the dial warns that the quote can slip."
+        },
+        {
+          "name": "lowAt",
+          "type": "number",
+          "defaultValue": "0.05",
+          "description": "Tolerance below which the dial warns the trade may not settle."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "50",
+          "description": "Ceiling the custom field clamps to."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "The stops are a radio group with a roving tabindex: Left/Up and Right/Down step without wrapping, Home and End jump to the ends, Space selects. The custom field is a real decimal input one Tab past them.",
+        "An empty field means a preset owns the tolerance and a filled one means the field does, so the two can never both claim it; emptying the field returns to the first preset.",
+        "The threshold note carries the warning in words as well as in the warn tint, and a debounced visually hidden status line reads the settled tolerance and minimum.",
+        "Under reduced motion the knob appears on its stop with no travel and the digits swap in place — the minimum still changes, because what the tolerance costs is the information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/slippage-dial",
+      "registryItemUrl": "https://www.kinetiqui.com/r/slippage-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/slippage-dial",
+        "npm": "npx shadcn@latest add @kinetiq/slippage-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/slippage-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/slippage-dial",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/slippage-dial.json"
+      }
+    },
+    {
+      "slug": "pool-share",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pool Share",
+      "serial": "KQ-663",
+      "tagline": "Your slice of the pool.",
+      "description": "A liquidity position drawn as one wedge of a ring, whose arc grows on glide when you add — one number settling over 450ms rather than a bar snapping. The position and fees roll their digits on snap and the added sum stamps over the ring on recoil, while hovering the ring or pressing the totals control cross-fades the readings to the pool's own. The control is a real aria-pressed button, so the keyboard reaches the second reading exactly as the pointer does and Escape returns to your share.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "pool",
+        "liquidity",
+        "share",
+        "wedge",
+        "ring",
+        "fees",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "poolName",
+          "type": "string",
+          "description": "The pair's name, e.g. \"BSN / FRN\"."
+        },
+        {
+          "name": "contributed",
+          "type": "number",
+          "description": "Your position's value in the pool; the wedge is this against poolTotal."
+        },
+        {
+          "name": "poolTotal",
+          "type": "number",
+          "description": "The pool's total value."
+        },
+        {
+          "name": "fees",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Fees earned so far; rolls when it changes."
+        },
+        {
+          "name": "reserves",
+          "type": "[PoolReserve, PoolReserve]",
+          "description": "{ symbol, amount } per side, printed as the pool's totals reading."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\", maximumFractionDigits: 0 })",
+          "description": "Formats every cash figure."
+        },
+        {
+          "name": "addStep",
+          "type": "number",
+          "defaultValue": "500",
+          "description": "The sum the Add control offers."
+        },
+        {
+          "name": "onAdd",
+          "type": "(amount: number) => void",
+          "description": "Fires from the Add press; raise contributed and the wedge follows."
+        },
+        {
+          "name": "showTotals / defaultShowTotals",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial pinned state of the second reading; hover borrows it transiently on top."
+        },
+        {
+          "name": "onShowTotalsChange",
+          "type": "(shown: boolean) => void",
+          "description": "Fires from the press or the Escape that changed the pinned reading."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the Add control and the Pool totals toggle, which share one height; Enter or Space presses them and Escape on the toggle returns to your share.",
+        "The SVG is decorative: the share is exposed as a visually hidden role=\"meter\" with a spoken aria-valuetext, and every figure the ring draws is printed as text.",
+        "Both readings are two rows of the same shape in one grid cell, so nothing reserves room for a taller state.",
+        "Under reduced motion the wedge still grows and the figures still change, but on a short tween, and the stamp appears in place rather than rising."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pool-share",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pool-share.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pool-share",
+        "npm": "npx shadcn@latest add @kinetiq/pool-share",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pool-share",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pool-share",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pool-share.json"
+      }
+    },
+    {
+      "slug": "stake-lock",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Stake Lock",
+      "serial": "KQ-664",
+      "tagline": "Lock it up; watch it earn.",
+      "description": "A staking card whose term rail is exact under the finger while a drag is live and settles onto its detent on snap when the pointer lifts, with the projected yield rolling its digits on snap beside it. Locking drops a padlock's shackle into its body on snap and starts an unlock countdown that stops while the tab is hidden and catches up when it returns; cancelling early arms first and opens the shackle on flick with no bounce. The rail is a real slider — arrows move a detent, Page keys move two, Home and End reach the shortest and longest term.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "stake",
+        "lock",
+        "term",
+        "yield",
+        "countdown",
+        "padlock",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The sum being staked."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "defaultValue": "BSN",
+          "description": "Ticker printed after every figure."
+        },
+        {
+          "name": "terms",
+          "type": "StakeTerm[]",
+          "defaultValue": "30 / 90 / 180 / 365 days at 3.2 / 4.8 / 6.4 / 8.1%",
+          "description": "The detents: { days, apr }, ascending by days."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "the second term's days",
+          "description": "Controlled or initial term, in days."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(days: number) => void",
+          "description": "Fires from the pointer or key that moved the term."
+        },
+        {
+          "name": "locked / defaultLocked",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial lock state."
+        },
+        {
+          "name": "onLockedChange",
+          "type": "(locked: boolean) => void",
+          "description": "Fires from the press that locked, cancelled, or unstaked."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { minimumFractionDigits: 2, maximumFractionDigits: 2 })",
+          "description": "Formats the stake and the projected yield."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "The rail is role=\"slider\": Left/Down and Right/Up move one detent, PageUp and PageDown move two, Home and End jump to the shortest and longest term. While locked it is aria-disabled and refuses both pointer and key.",
+        "Pointer capture waits for 4px of travel and is taken and released inside try/catch, so a plain press sets the nearest detent and a synthetic sweep cannot throw.",
+        "Cancelling early arms the button first and names the consequence in its accessible name; a matured term turns the same button into a plain Unstake with no arming.",
+        "The countdown is a role=\"timer\" with aria-live off — the two transitions are announced instead — and its interval stops while the document is hidden, catching up when it returns.",
+        "Under reduced motion the knob jumps between detents, the shackle swaps between open and shut, and the digits change in place; the countdown still ticks."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/stake-lock",
+      "registryItemUrl": "https://www.kinetiqui.com/r/stake-lock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stake-lock",
+        "npm": "npx shadcn@latest add @kinetiq/stake-lock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stake-lock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stake-lock",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/stake-lock.json"
+      }
+    },
+    {
+      "slug": "yield-curve",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Yield Curve",
+      "serial": "KQ-665",
+      "tagline": "Longer lock, higher rate.",
+      "description": "Rates plotted against lock length as one Catmull-Rom path that draws itself with pathLength on glide, once, so that afterwards the only thing moving is the marker. Dragging picks the nearest term and the marker travels to it on snap with a guide dropping to the axis, the chosen point lifting off its own curve into a halo while the callout rolls its digits and glides to stay over its node. The plot is a real slider: arrows step a term, Page keys move two, Home and End reach the shortest and longest.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "yield",
+        "curve",
+        "term",
+        "rate",
+        "chart",
+        "marker",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "points",
+          "type": "YieldPoint[]",
+          "description": "The curve: { days, apr }, ascending by days. Two points or more."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "the middle term",
+          "description": "Controlled or initial chosen term, in days."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(days: number) => void",
+          "description": "Fires from the pointer or key that moved the marker."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "Principal; given it, the callout prints what the chosen term earns."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\", maximumFractionDigits: 0 })",
+          "description": "Formats the earnings figure."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "The plot is role=\"slider\": Left/Down and Right/Up step one term without wrapping, PageUp and PageDown move two, Home and End jump to the shortest and longest.",
+        "Pointer capture waits for 4px of travel and is taken and released inside try/catch, so a plain press sets the nearest term and a synthetic sweep cannot throw; the plot is touch-none so a drag does not scroll the page.",
+        "Every coordinate is rounded before it reaches an attribute, because Node and the browser can differ in the last digits of a square root and a mismatched attribute is a hydration error.",
+        "The callout's width and the plot's are measured with a ResizeObserver and its travel clamped between them, so it can never leave the plot at any width.",
+        "Under reduced motion the curve is already drawn, the marker jumps without travel or lift, and the digits swap in place."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/yield-curve",
+      "registryItemUrl": "https://www.kinetiqui.com/r/yield-curve.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/yield-curve",
+        "npm": "npx shadcn@latest add @kinetiq/yield-curve",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/yield-curve",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/yield-curve",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/yield-curve.json"
+      }
+    },
+    {
+      "slug": "route-split",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Route Split",
+      "serial": "KQ-666",
+      "tagline": "One trade, many roads.",
+      "description": "One trade drawn as the several roads it takes: each leg is a curve whose stroke width is its share, and the amount travels along it as a dash flowing on a linear ease. A changed split re-lays the widths on glide, and pinning a road lands its label chip on snap. The legend is the accessible surface — real buttons on a roving tabindex where Up and Down step, Home and End jump, Enter pins the reading so the pointer can leave, and Escape unpins.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "route",
+        "split",
+        "swap",
+        "venue",
+        "diagram",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "legs",
+          "type": "RouteLeg[]",
+          "description": "{ id, venue, share } per road, in draw order; shares are weights and are normalised."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The total being routed; each road carries amount × share."
+        },
+        {
+          "name": "from",
+          "type": "string",
+          "description": "Source ticker, printed in the left pill."
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "description": "Destination ticker, printed in the right pill."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { maximumFractionDigits: 0 })",
+          "description": "Formats every amount, in the legend and in the spoken sentences."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial pinned leg; hover and focus preview on top of it without changing it."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the press or the Escape that changed the pin."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires whenever the read leg changes, by hover, focus or pin."
+        },
+        {
+          "name": "flowing",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Runs the dash flow; ignored under reduced motion and paused while the document is hidden."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "104",
+          "description": "Diagram height in px; the width is fluid and measured with a ResizeObserver."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "The legend carries a roving tabindex: Up and Down (or Left and Right) step between roads, Home and End jump to the ends, Enter and Space pin a road, Escape unpins without losing focus.",
+        "The SVG is aria-hidden — every figure it draws is printed in the legend, and each button is named by a sentence carrying its share and amount.",
+        "The dash flow is one shared motion value transformed per road, and it stops while the document is hidden.",
+        "Under reduced motion the roads draw solid and still carry their widths, because the split is the information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/route-split",
+      "registryItemUrl": "https://www.kinetiqui.com/r/route-split.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/route-split",
+        "npm": "npx shadcn@latest add @kinetiq/route-split",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/route-split",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/route-split",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/route-split.json"
+      }
+    },
+    {
+      "slug": "approve-step",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Approve Step",
+      "serial": "KQ-667",
+      "tagline": "Allow, then swap.",
+      "description": "Two controls in one row where the second cannot be reached until the first has finished. Approving turns a ring at a constant rate; approval collapses the button to a tick chip that slides aside on glide while Swap takes the width it left, then wakes into it with a single snap from 0.98 and stamps its tick on recoil once the trade lands. Swap is never disabled — it carries aria-disabled so the keyboard reaches it and hears why it is asleep, and every state arrives through the status prop, so the control never invents time.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "approve",
+        "allowance",
+        "two-step",
+        "swap",
+        "gate",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "status / defaultStatus",
+          "type": "ApproveStepStatus",
+          "defaultValue": "\"idle\"",
+          "description": "Controlled or initial state: idle, approving, approved, swapping, done or failed."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(status: ApproveStepStatus) => void",
+          "description": "Fires from the press that moved the control into a pending state."
+        },
+        {
+          "name": "onApprove",
+          "type": "() => void",
+          "description": "Fires from the Approve (or Retry) press; the host does the work and sets status."
+        },
+        {
+          "name": "onSwap",
+          "type": "() => void",
+          "description": "Fires from the Swap press; the host does the work and sets status."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The sum being approved, in symbol."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Ticker being approved, e.g. \"BSN\"."
+        },
+        {
+          "name": "receive",
+          "type": "number",
+          "description": "The estimated sum received, in receiveSymbol."
+        },
+        {
+          "name": "receiveSymbol",
+          "type": "string",
+          "description": "Ticker received, e.g. \"FRN\"."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { maximumFractionDigits: 2 })",
+          "description": "Formats both sums, in the labels and in the spoken sentences."
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "defaultValue": "\"Approval was not confirmed.\"",
+          "description": "The line shown under the row while status is failed."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches Approve then Swap; Enter and Space press them. Swap carries aria-disabled rather than disabled, so it stays in the tab order and explains itself, and focus is handed to it once approval lands.",
+        "A pending control carries aria-busy and keeps its name; approval and completion are announced once each by a visually hidden role=\"status\", never during the ring.",
+        "A failed approval returns the button as Retry with a role=\"alert\" line and no celebration.",
+        "Under reduced motion the ring holds still and says \"Approving\" in words, and the chip and the width swap instantly."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/approve-step",
+      "registryItemUrl": "https://www.kinetiqui.com/r/approve-step.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/approve-step",
+        "npm": "npx shadcn@latest add @kinetiq/approve-step",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/approve-step",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/approve-step",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/approve-step.json"
+      }
+    },
+    {
+      "slug": "harvest-tap",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Harvest Tap",
+      "serial": "KQ-668",
+      "tagline": "Collect what has accrued.",
+      "description": "An accrued-rewards figure that climbs from a motion value rather than state, so it runs continuously without a render per frame, and holds while the document is hidden. Harvesting reads the figure in the press handler and sweeps a ghost of it into the balance on glide over the distance actually measured between the two rows, rolls the balance's digits on snap, and drops the emptied row back to zero on recoil. The Harvest button is a real button that disables itself below minHarvest, and the collected sum is announced once on the press rather than per tick.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "harvest",
+        "rewards",
+        "accrual",
+        "staking",
+        "claim",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "balance",
+          "type": "number",
+          "description": "The collected balance; its digits roll when it changes."
+        },
+        {
+          "name": "accrued",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The figure the tap starts from; changing it reseeds the climbing readout."
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Units accrued per second while accruing."
+        },
+        {
+          "name": "accruing",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Runs the climb; paused while the document is hidden."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Ticker for both figures, e.g. \"BSN\"."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { minimumFractionDigits: 2, maximumFractionDigits: 2 })",
+          "description": "Formats every figure, in the readouts and the spoken sentences."
+        },
+        {
+          "name": "minHarvest",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Below this the Harvest button is disabled and names the threshold."
+        },
+        {
+          "name": "onHarvest",
+          "type": "(amount: number) => void",
+          "description": "Fires from the press, carrying the figure at the moment it was pressed."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the Harvest button; Enter and Space press it. It is genuinely disabled below minHarvest and describes the threshold rather than failing silently.",
+        "The climbing figure is aria-hidden — a number changing every frame is noise — and the rate is stated once instead; a visually hidden role=\"status\" announces the collected sum and the new balance on the press.",
+        "The climb runs only while the accruing prop is true and the document is visible, and it is stopped in the effect's cleanup.",
+        "Under reduced motion the figure still climbs and the balance still changes, but nothing sweeps or bounces and the digits swap in place."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/harvest-tap",
+      "registryItemUrl": "https://www.kinetiqui.com/r/harvest-tap.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/harvest-tap",
+        "npm": "npx shadcn@latest add @kinetiq/harvest-tap",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/harvest-tap",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/harvest-tap",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/harvest-tap.json"
+      }
+    },
+    {
+      "slug": "impermanent-meter",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Impermanent Meter",
+      "serial": "KQ-669",
+      "tagline": "What the pool cost you against holding.",
+      "description": "Two bars on one scale — what a position would be worth held, and what it is worth pooled — with the shortfall between their ends drawn as hatching that fills on glide as prices diverge, while the percentage rolls its digits on snap. The gap is derived from the pool's own arithmetic rather than handed in, and fees are netted off it honestly. Hovering the gap or pressing the Difference row opens a breakdown whose height is measured rather than reserved; Escape closes it.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "impermanent",
+        "divergence",
+        "pool",
+        "meter",
+        "hold",
+        "fees",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "deposit",
+          "type": "number",
+          "description": "Position value at entry; both bars are scaled from it."
+        },
+        {
+          "name": "priceRatio",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Price of the pair now against entry — 1 is unchanged, 2 has doubled."
+        },
+        {
+          "name": "feesEarned",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Fees taken since entry; nets off the shortfall in the breakdown."
+        },
+        {
+          "name": "pair",
+          "type": "[string, string]",
+          "defaultValue": "[\"A\", \"B\"]",
+          "description": "The two tickers, named in the breakdown."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\", maximumFractionDigits: 0 })",
+          "description": "Formats every cash figure."
+        },
+        {
+          "name": "warnAt",
+          "type": "number",
+          "defaultValue": "0.02",
+          "description": "Shortfall fraction at which the gap turns warn."
+        },
+        {
+          "name": "dangerAt",
+          "type": "number",
+          "defaultValue": "0.06",
+          "description": "Shortfall fraction at which it turns danger."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial pinned state of the breakdown; hover previews it on top."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the press or the Escape that changed the pinned state."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the Difference row, which carries aria-expanded and aria-controls; Enter and Space open the breakdown and Escape closes it without losing focus. The hatched gap repeats the same hover and click as a pointer shortcut, never as the only path.",
+        "The graphic is aria-hidden; a visually hidden role=\"meter\" carries the shortfall percentage and an aria-valuetext sentence naming both values and the net after fees.",
+        "Severity is carried by a word — None, Slight, Notable, Heavy — as well as a tone, and the shortfall is hatched rather than tinted, so neither reading depends on colour.",
+        "Under reduced motion the gap still fills and the figures still change, on a fast tween with no overshoot."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/impermanent-meter",
+      "registryItemUrl": "https://www.kinetiqui.com/r/impermanent-meter.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/impermanent-meter",
+        "npm": "npx shadcn@latest add @kinetiq/impermanent-meter",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/impermanent-meter",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/impermanent-meter",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/impermanent-meter.json"
+      }
+    },
+    {
+      "slug": "liquidity-range",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Liquidity Range",
+      "serial": "KQ-670",
+      "tagline": "Set the band where you earn.",
+      "description": "A price axis with the pool's depth drawn as a procedural curve and two handles that set the earning band; the curve is drawn twice, dim across the axis and bright inside a window sized to the band, so the earning stretch is the same curve lit. Dragging tracks the pointer 1:1 with no spring, while a keyboard step glides the band on snap and the covered depth counts from a motion value. The price marker breathes while it is inside the band and goes still — and says so in words — once it is not.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "liquidity",
+        "range",
+        "band",
+        "depth",
+        "price",
+        "slider",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "bins",
+          "type": "LiquidityBin[]",
+          "description": "{ price, depth } samples in ascending price; their ends set the axis."
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "description": "The market price, drawn as the marker and compared against the band."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "[number, number]",
+          "defaultValue": "the whole axis",
+          "description": "Controlled or initial band, low then high."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(band: [number, number]) => void",
+          "description": "Fires on every drag frame and every keyboard step."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { minimumFractionDigits: 2, maximumFractionDigits: 2 })",
+          "description": "Formats every price, in the readouts and in aria-valuetext."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "axis span ÷ 200",
+          "description": "Arrow-key step; Shift and the Page keys multiply it by ten."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "description": "What a price is quoted in, e.g. \"FRN per BSN\"; spoken in aria-valuetext."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "96",
+          "description": "Plot height in px; the width is fluid and measured."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Two role=\"slider\" handles: Left and Right step, Shift steps ten at a time, PageUp and PageDown step ten, Home and End run to the ends, and the handles stop one step apart rather than crossing.",
+        "A press captures the pointer only after 4px of travel, inside try/catch, so a plain click still moves the nearer handle and a synthetic sweep cannot throw.",
+        "The plot is aria-hidden — the band, price, covered depth and every bin are printed as text — and whether the price is earning is stated in words, not by the pulse or the colour.",
+        "Under reduced motion the marker holds a steady halo instead of breathing and nothing springs; the lit stretch still lights."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/liquidity-range",
+      "registryItemUrl": "https://www.kinetiqui.com/r/liquidity-range.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/liquidity-range",
+        "npm": "npx shadcn@latest add @kinetiq/liquidity-range",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/liquidity-range",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/liquidity-range",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/liquidity-range.json"
       }
     },
     {

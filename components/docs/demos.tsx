@@ -850,6 +850,16 @@ import { FinalityRingDemo } from "@/registry/demos/finality-ring.demo";
 import { NonceLineDemo } from "@/registry/demos/nonce-line.demo";
 import { BridgeHopDemo } from "@/registry/demos/bridge-hop.demo";
 import { ReceiptProofDemo } from "@/registry/demos/receipt-proof.demo";
+import { SwapPairDemo } from "@/registry/demos/swap-pair.demo";
+import { SlippageDialDemo } from "@/registry/demos/slippage-dial.demo";
+import { PoolShareDemo } from "@/registry/demos/pool-share.demo";
+import { StakeLockDemo } from "@/registry/demos/stake-lock.demo";
+import { YieldCurveDemo } from "@/registry/demos/yield-curve.demo";
+import { RouteSplitDemo } from "@/registry/demos/route-split.demo";
+import { ApproveStepDemo } from "@/registry/demos/approve-step.demo";
+import { HarvestTapDemo } from "@/registry/demos/harvest-tap.demo";
+import { ImpermanentMeterDemo } from "@/registry/demos/impermanent-meter.demo";
+import { LiquidityRangeDemo } from "@/registry/demos/liquidity-range.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1714,4 +1724,14 @@ export const demos: Record<string, ComponentType> = {
   "nonce-line": NonceLineDemo,
   "bridge-hop": BridgeHopDemo,
   "receipt-proof": ReceiptProofDemo,
+  "swap-pair": SwapPairDemo,
+  "slippage-dial": SlippageDialDemo,
+  "pool-share": PoolShareDemo,
+  "stake-lock": StakeLockDemo,
+  "yield-curve": YieldCurveDemo,
+  "route-split": RouteSplitDemo,
+  "approve-step": ApproveStepDemo,
+  "harvest-tap": HarvestTapDemo,
+  "impermanent-meter": ImpermanentMeterDemo,
+  "liquidity-range": LiquidityRangeDemo,
 };

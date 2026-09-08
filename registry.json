@@ -18466,6 +18466,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "swap-pair",
+      "type": "registry:ui",
+      "title": "Swap Pair",
+      "description": "A swap card whose two asset fields trade places. Pressing the flip control turns its arrow a half turn on snap while the cards travel between slots as a FLIP on glide, and the inverted rate rolls its digits on snap. The pay field is a real decimal input and the receive field is an output bound to it, so Tab reaches the amount, the Max control and the flip, and Enter or Space reverses the pair.",
+      "files": [
+        {
+          "path": "registry/ui/swap-pair.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-661"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slippage-dial",
+      "type": "registry:ui",
+      "title": "Slippage Dial",
+      "description": "Three tolerance stops and a custom field share one knob, which travels between them on snap with a single crisp overshoot rather than four chips blinking. The minimum received rolls its digits on snap as the tolerance changes, and a threshold note glides open to a ResizeObserver-measured height so no room is reserved for a state that is usually absent. The stops are a radio group with a roving tabindex — arrows step, Home and End reach the ends, Space selects — and the field is one Tab further on.",
+      "files": [
+        {
+          "path": "registry/ui/slippage-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-662"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pool-share",
+      "type": "registry:ui",
+      "title": "Pool Share",
+      "description": "A liquidity position drawn as one wedge of a ring, whose arc grows on glide when you add — one number settling over 450ms rather than a bar snapping. The position and fees roll their digits on snap and the added sum stamps over the ring on recoil, while hovering the ring or pressing the totals control cross-fades the readings to the pool's own. The control is a real aria-pressed button, so the keyboard reaches the second reading exactly as the pointer does and Escape returns to your share.",
+      "files": [
+        {
+          "path": "registry/ui/pool-share.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-663"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stake-lock",
+      "type": "registry:ui",
+      "title": "Stake Lock",
+      "description": "A staking card whose term rail is exact under the finger while a drag is live and settles onto its detent on snap when the pointer lifts, with the projected yield rolling its digits on snap beside it. Locking drops a padlock's shackle into its body on snap and starts an unlock countdown that stops while the tab is hidden and catches up when it returns; cancelling early arms first and opens the shackle on flick with no bounce. The rail is a real slider — arrows move a detent, Page keys move two, Home and End reach the shortest and longest term.",
+      "files": [
+        {
+          "path": "registry/ui/stake-lock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-664"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "yield-curve",
+      "type": "registry:ui",
+      "title": "Yield Curve",
+      "description": "Rates plotted against lock length as one Catmull-Rom path that draws itself with pathLength on glide, once, so that afterwards the only thing moving is the marker. Dragging picks the nearest term and the marker travels to it on snap with a guide dropping to the axis, the chosen point lifting off its own curve into a halo while the callout rolls its digits and glides to stay over its node. The plot is a real slider: arrows step a term, Page keys move two, Home and End reach the shortest and longest.",
+      "files": [
+        {
+          "path": "registry/ui/yield-curve.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-665"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "route-split",
+      "type": "registry:ui",
+      "title": "Route Split",
+      "description": "One trade drawn as the several roads it takes: each leg is a curve whose stroke width is its share, and the amount travels along it as a dash flowing on a linear ease. A changed split re-lays the widths on glide, and pinning a road lands its label chip on snap. The legend is the accessible surface — real buttons on a roving tabindex where Up and Down step, Home and End jump, Enter pins the reading so the pointer can leave, and Escape unpins.",
+      "files": [
+        {
+          "path": "registry/ui/route-split.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-666"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "approve-step",
+      "type": "registry:ui",
+      "title": "Approve Step",
+      "description": "Two controls in one row where the second cannot be reached until the first has finished. Approving turns a ring at a constant rate; approval collapses the button to a tick chip that slides aside on glide while Swap takes the width it left, then wakes into it with a single snap from 0.98 and stamps its tick on recoil once the trade lands. Swap is never disabled — it carries aria-disabled so the keyboard reaches it and hears why it is asleep, and every state arrives through the status prop, so the control never invents time.",
+      "files": [
+        {
+          "path": "registry/ui/approve-step.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-667"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "harvest-tap",
+      "type": "registry:ui",
+      "title": "Harvest Tap",
+      "description": "An accrued-rewards figure that climbs from a motion value rather than state, so it runs continuously without a render per frame, and holds while the document is hidden. Harvesting reads the figure in the press handler and sweeps a ghost of it into the balance on glide over the distance actually measured between the two rows, rolls the balance's digits on snap, and drops the emptied row back to zero on recoil. The Harvest button is a real button that disables itself below minHarvest, and the collected sum is announced once on the press rather than per tick.",
+      "files": [
+        {
+          "path": "registry/ui/harvest-tap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-668"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "impermanent-meter",
+      "type": "registry:ui",
+      "title": "Impermanent Meter",
+      "description": "Two bars on one scale — what a position would be worth held, and what it is worth pooled — with the shortfall between their ends drawn as hatching that fills on glide as prices diverge, while the percentage rolls its digits on snap. The gap is derived from the pool's own arithmetic rather than handed in, and fees are netted off it honestly. Hovering the gap or pressing the Difference row opens a breakdown whose height is measured rather than reserved; Escape closes it.",
+      "files": [
+        {
+          "path": "registry/ui/impermanent-meter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-669"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "liquidity-range",
+      "type": "registry:ui",
+      "title": "Liquidity Range",
+      "description": "A price axis with the pool's depth drawn as a procedural curve and two handles that set the earning band; the curve is drawn twice, dim across the axis and bright inside a window sized to the band, so the earning stretch is the same curve lit. Dragging tracks the pointer 1:1 with no spring, while a keyboard step glides the band on snap and the covered depth counts from a motion value. The price marker breathes while it is inside the band and goes still — and says so in words — once it is not.",
+      "files": [
+        {
+          "path": "registry/ui/liquidity-range.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-670"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
