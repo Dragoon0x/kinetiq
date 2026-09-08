@@ -1,6 +1,6 @@
 {
   "name": "@kinetiqui/mcp",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
   "description": "Model Context Protocol server for the Kinetiq motion design system — search, read, and install components from any AI agent.",
   "type": "module",
