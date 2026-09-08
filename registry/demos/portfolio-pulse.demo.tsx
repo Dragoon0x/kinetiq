@@ -26,6 +26,9 @@ export function PortfolioPulseDemo() {
   const [book, setBook] = React.useState({ seed: 20310418, value: OPEN });
   const [running, setRunning] = React.useState(false);
   const [ticks, setTicks] = React.useState(0);
+  // A reset returns the value to its open, which the pulse rightly reports as
+  // a tick; the demo's counter should not take that one.
+  const resetting = React.useRef(false);
   const [moved, setMoved] = React.useState<"up" | "down" | "flat">("flat");
 
   const tick = React.useCallback(() => {
@@ -63,6 +66,10 @@ export function PortfolioPulseDemo() {
         value={book.value}
         open={OPEN}
         onTick={(_value, direction) => {
+          if (resetting.current) {
+            resetting.current = false;
+            return;
+          }
           setTicks((count) => count + 1);
           setMoved(direction);
         }}
@@ -86,6 +93,7 @@ export function PortfolioPulseDemo() {
           disabled={ticks === 0}
           onClick={() => {
             setRunning(false);
+            resetting.current = true;
             setBook({ seed: 20310418, value: OPEN });
             setTicks(0);
             setMoved("flat");
