@@ -93,8 +93,11 @@ export function SeedConfirm({
   const [focusSeq, setFocusSeq] = React.useState(0);
   const [announcement, setAnnouncement] = React.useState("");
 
-  const chipRefs = React.useRef<(HTMLButtonElement | null)[]>([]);
-  const focusTarget = React.useRef(0);
+  // Keyed by word, not by position: motion memoises the ref it forwards, so a
+  // chip's callback runs at mount only, and a tray that shrinks would leave
+  // every surviving chip parked at its mount-time index.
+  const chipRefs = React.useRef(new Map<string, HTMLButtonElement>());
+  const focusWord = React.useRef<string | null>(null);
 
   React.useEffect(() => {
     if (reject === null) return;
@@ -106,7 +109,8 @@ export function SeedConfirm({
   // after the commit that removed one — never during render.
   React.useEffect(() => {
     if (focusSeq === 0) return;
-    chipRefs.current[focusTarget.current]?.focus();
+    const word = focusWord.current;
+    if (word) chipRefs.current.get(word)?.focus();
   }, [focusSeq]);
 
   const total = positions.length;
@@ -138,8 +142,10 @@ export function SeedConfirm({
         : `${word} placed at word ${position}`,
     );
     if (fromKey) {
-      focusTarget.current = Math.max(0, Math.min(index, remaining.length - 2));
-      setFocusIndex(focusTarget.current);
+      const left = remaining.filter((other) => other !== word);
+      const at = Math.max(0, Math.min(index, left.length - 1));
+      focusWord.current = left[at] ?? null;
+      setFocusIndex(at);
       setFocusSeq((seq) => seq + 1);
     }
     if (next.length >= total) onComplete?.();
@@ -152,8 +158,11 @@ export function SeedConfirm({
     commit(next);
     setAnnouncement(`${word} returned to the tray`);
     if (fromKey) {
-      focusTarget.current = Math.max(0, options.indexOf(word));
-      setFocusIndex(focusTarget.current);
+      const back = options.filter(
+        (other) => other === word || !next.includes(other),
+      );
+      focusWord.current = word;
+      setFocusIndex(Math.max(0, back.indexOf(word)));
       setFocusSeq((seq) => seq + 1);
     }
   };
@@ -161,7 +170,8 @@ export function SeedConfirm({
   const moveFocus = (index: number) => {
     const clamped = Math.min(remaining.length - 1, Math.max(0, index));
     setFocusIndex(clamped);
-    chipRefs.current[clamped]?.focus();
+    const word = remaining[clamped];
+    if (word) chipRefs.current.get(word)?.focus();
   };
 
   const handleKeyDown = (event: React.KeyboardEvent, index: number) => {
@@ -355,7 +365,8 @@ export function SeedConfirm({
                 >
                   <motion.button
                     ref={(node) => {
-                      chipRefs.current[index] = node;
+                      if (node) chipRefs.current.set(word, node);
+                      else chipRefs.current.delete(word);
                     }}
                     type="button"
                     tabIndex={
