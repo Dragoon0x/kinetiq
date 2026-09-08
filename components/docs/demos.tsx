@@ -800,6 +800,16 @@ import { TransferReceiptDemo } from "@/registry/demos/transfer-receipt.demo";
 import { LimitMeterDemo } from "@/registry/demos/limit-meter.demo";
 import { ConfirmSlabDemo } from "@/registry/demos/confirm-slab.demo";
 import { SettlePulseDemo } from "@/registry/demos/settle-pulse.demo";
+import { CardFaceDemo } from "@/registry/demos/card-face.demo";
+import { CardFreezeDemo } from "@/registry/demos/card-freeze.demo";
+import { VirtualMintDemo } from "@/registry/demos/virtual-mint.demo";
+import { SpendLimitDemo } from "@/registry/demos/spend-limit.demo";
+import { CardPinDemo } from "@/registry/demos/card-pin.demo";
+import { CardTapDemo } from "@/registry/demos/card-tap.demo";
+import { CardOrderDemo } from "@/registry/demos/card-order.demo";
+import { MerchantLockDemo } from "@/registry/demos/merchant-lock.demo";
+import { CardStackDemo } from "@/registry/demos/card-stack.demo";
+import { ChipContactDemo } from "@/registry/demos/chip-contact.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1614,4 +1624,14 @@ export const demos: Record<string, ComponentType> = {
   "limit-meter": LimitMeterDemo,
   "confirm-slab": ConfirmSlabDemo,
   "settle-pulse": SettlePulseDemo,
+  "card-face": CardFaceDemo,
+  "card-freeze": CardFreezeDemo,
+  "virtual-mint": VirtualMintDemo,
+  "spend-limit": SpendLimitDemo,
+  "card-pin": CardPinDemo,
+  "card-tap": CardTapDemo,
+  "card-order": CardOrderDemo,
+  "merchant-lock": MerchantLockDemo,
+  "card-stack": CardStackDemo,
+  "chip-contact": ChipContactDemo,
 };

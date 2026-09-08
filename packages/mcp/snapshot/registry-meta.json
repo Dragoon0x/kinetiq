@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 609,
+      "components": 619,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -38092,6 +38092,956 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/settle-pulse",
         "bun": "bunx --bun shadcn@latest add @kinetiq/settle-pulse",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/settle-pulse.json"
+      }
+    },
+    {
+      "slug": "card-face",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Card Face",
+      "serial": "KQ-611",
+      "tagline": "A card that turns to show its back.",
+      "description": "A payment card whose reveal switch turns the whole slab on snap — a real rotateY with both faces backface-hidden — so the back arrives with one crisp overshoot. The full number un-masks digit by digit as the turn lands, a cascade of flicks that runs backwards when the card closes, and freezing settles a frost veneer on a tween that turns the card home and locks the switch. The control is a role=\"switch\" button, so Space and Enter turn the card.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "card",
+        "flip",
+        "reveal",
+        "mask",
+        "finance",
+        "wallet"
+      ],
+      "props": [
+        {
+          "name": "number",
+          "type": "string",
+          "defaultValue": "\"8412550722644417\"",
+          "description": "Card number; non-digits are stripped and the rest padded to sixteen."
+        },
+        {
+          "name": "revealed / defaultRevealed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial reveal state."
+        },
+        {
+          "name": "onRevealedChange",
+          "type": "(revealed: boolean) => void",
+          "description": "Fires from the click on the reveal switch."
+        },
+        {
+          "name": "frozen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Frosts the face, hides the details and locks the switch."
+        },
+        {
+          "name": "holder",
+          "type": "string",
+          "defaultValue": "\"R. ALDERWICK\"",
+          "description": "Name printed on both faces."
+        },
+        {
+          "name": "expiry",
+          "type": "string",
+          "defaultValue": "\"04/29\"",
+          "description": "Expiry exactly as printed."
+        },
+        {
+          "name": "securityCode",
+          "type": "string",
+          "defaultValue": "\"418\"",
+          "description": "Three or four digits on the signature panel."
+        },
+        {
+          "name": "network",
+          "type": "string",
+          "defaultValue": "\"Waylight\"",
+          "description": "Network wordmark on the front."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Virtual card\"",
+          "description": "Names the card group for assistive technology."
+        },
+        {
+          "name": "revealLabel",
+          "type": "string",
+          "defaultValue": "\"Show card details\"",
+          "description": "Reveal switch copy."
+        }
+      ],
+      "usageNotes": [
+        "The reveal control is a real role=\"switch\" button: Tab to it, Space or Enter turns the card. The face turned away is aria-hidden and the number carries its own aria-label, so a reader hears one number, not sixteen columns.",
+        "Under reduced motion the faces cross-fade in place and every digit un-masks at once — no rotation, no stagger — because which digits are showing is information.",
+        "Freezing hides the details for as long as it lasts; clear `revealed` as well if a controlled card should stay shut after it thaws."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/card-face",
+      "registryItemUrl": "https://www.kinetiqui.com/r/card-face.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/card-face",
+        "npm": "npx shadcn@latest add @kinetiq/card-face",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/card-face",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/card-face",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/card-face.json"
+      }
+    },
+    {
+      "slug": "card-freeze",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Card Freeze",
+      "serial": "KQ-612",
+      "tagline": "Frozen in a swipe.",
+      "description": "A throw switch that freezes a card: the knob tracks the pointer once the drag clears 4px and commits past the halfway mark on snap, springing home on the same spring when it is released short. Behind it a seeded field of crystals sits under a radial-gradient mask whose hole radius is a motion value, so freezing spreads the frost inward from the edges on drift and thawing lets it recede from the centre. The track is a role=\"switch\": Space and Enter toggle, Right freezes, Left thaws, Escape abandons a throw.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "card",
+        "freeze",
+        "switch",
+        "frost",
+        "finance",
+        "toggle"
+      ],
+      "props": [
+        {
+          "name": "frozen / defaultFrozen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial frozen state."
+        },
+        {
+          "name": "onFrozenChange",
+          "type": "(frozen: boolean) => void",
+          "description": "Fires from the release, click or key that committed the throw."
+        },
+        {
+          "name": "onProgressChange",
+          "type": "(percent: number) => void",
+          "description": "Whole-percent throw position, for a status line that narrates the gesture."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Freeze card\"",
+          "description": "Names the switch."
+        },
+        {
+          "name": "network",
+          "type": "string",
+          "defaultValue": "\"Waylight\"",
+          "description": "Network wordmark on the slab."
+        },
+        {
+          "name": "last4",
+          "type": "string",
+          "defaultValue": "\"4417\"",
+          "description": "Last four digits printed on the slab."
+        },
+        {
+          "name": "holder",
+          "type": "string",
+          "defaultValue": "\"R. ALDERWICK\"",
+          "description": "Name on the slab."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "19",
+          "description": "Seeds the crystal pattern — the same seed always draws the same frost."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Locks the track."
+        }
+      ],
+      "usageNotes": [
+        "The track is a role=\"switch\" with a roving focus: Space and Enter toggle it, ArrowRight and End freeze, ArrowLeft and Home thaw, Escape settles a throw already in progress back where it started.",
+        "Under reduced motion the knob jumps to its end and the veneer cross-fades in place instead of spreading — the frost still arrives, because whether the card is frozen is information.",
+        "The crystal field is procedural and seeded, so it renders identically on the server and the client and needs no assets."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/card-freeze",
+      "registryItemUrl": "https://www.kinetiqui.com/r/card-freeze.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/card-freeze",
+        "npm": "npx shadcn@latest add @kinetiq/card-freeze",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/card-freeze",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/card-freeze",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/card-freeze.json"
+      }
+    },
+    {
+      "slug": "virtual-mint",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Virtual Mint",
+      "serial": "KQ-613",
+      "tagline": "A new card, minted in front of you.",
+      "description": "Press to mint a virtual card: a blank slab rises on recoil, ζ0.53, the two bounces of a thing landing on the bench, and then its number prints in a cascade of flicks before the expiry and the name follow. The slab files itself away on the exit ease while the wallet row makes room on glide and the new chip lands. One phase machine drives it from a single timer chain that stops while the document is hidden, and every number is seeded rather than random.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "card",
+        "mint",
+        "issue",
+        "wallet",
+        "finance",
+        "print"
+      ],
+      "props": [
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "4417",
+          "description": "Seeds every minted number and expiry — the same press mints the same card."
+        },
+        {
+          "name": "defaultCards",
+          "type": "MintedCard[]",
+          "description": "Cards already in the wallet row; omit it and one is seeded for you."
+        },
+        {
+          "name": "maxCards",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Wallet cap; the oldest chip leaves when it is passed."
+        },
+        {
+          "name": "holder",
+          "type": "string",
+          "defaultValue": "\"R. ALDERWICK\"",
+          "description": "Name printed on each card."
+        },
+        {
+          "name": "network",
+          "type": "string",
+          "defaultValue": "\"Waylight\"",
+          "description": "Network wordmark on the slab."
+        },
+        {
+          "name": "onMint",
+          "type": "(card: MintedCard) => void",
+          "description": "Fires from the filing timer, once the card has landed in the wallet."
+        },
+        {
+          "name": "onPhaseChange",
+          "type": "(phase: MintPhase) => void",
+          "description": "Fires from the click and from each phase timer: idle, rising, printing, filing."
+        },
+        {
+          "name": "mintLabel",
+          "type": "string",
+          "defaultValue": "\"Mint card\"",
+          "description": "Mint button copy."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Virtual cards\"",
+          "description": "Names the wallet row."
+        }
+      ],
+      "usageNotes": [
+        "The mint control is a real button, disabled and aria-busy while a mint is in flight; the wallet is a list whose scroller takes focus, so a keyboard can pan it.",
+        "Under reduced motion nothing rises, slides or shrinks: the slab appears at rest, the three fields print at once, and the chip lands in place — the card is still minted.",
+        "The phase chain stops while the document is hidden and restarts the phase it was in, so a mint never completes on a tab nobody is watching."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/virtual-mint",
+      "registryItemUrl": "https://www.kinetiqui.com/r/virtual-mint.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/virtual-mint",
+        "npm": "npx shadcn@latest add @kinetiq/virtual-mint",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/virtual-mint",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/virtual-mint",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/virtual-mint.json"
+      }
+    },
+    {
+      "slug": "spend-limit",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Spend Limit",
+      "serial": "KQ-614",
+      "tagline": "Drag the ceiling, watch the room.",
+      "description": "A card's monthly limit as a rail you drag over a column of the spend so far. The column fills on glide with no overshoot, the rail tracks the pointer once the drag clears 4px and settles onto the nearest step on snap, and the remaining-room chip rides the rail with its figure rolling on the same spring. Dragging the ceiling under the spend hatches the slice above it in danger on a colour tween — nothing bounces. It is a vertical role=\"slider\": arrows step, Page keys move five, Home and End run to the ends.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "limit",
+        "slider",
+        "budget",
+        "spend",
+        "finance",
+        "ceiling"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "1200",
+          "description": "Controlled or initial limit."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "description": "Fires from the pointer move or key that changed the ceiling."
+        },
+        {
+          "name": "onCommit",
+          "type": "(value: number) => void",
+          "description": "Fires once the ceiling has settled — on release, or on key-up."
+        },
+        {
+          "name": "spend",
+          "type": "number",
+          "defaultValue": "860",
+          "description": "Spend so far, drawn as the column fill."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "2000",
+          "description": "Top of the scale."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "50",
+          "description": "Release snap and arrow step; Page keys move five of them."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\")",
+          "description": "Formats every amount in the instrument."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Monthly limit\"",
+          "description": "Names the slider."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "defaultValue": "\"USD\"",
+          "description": "Suffix beside the headline figure."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Locks the rail."
+        }
+      ],
+      "usageNotes": [
+        "A vertical role=\"slider\": ArrowUp and ArrowRight add a step, ArrowDown and ArrowLeft take one, PageUp and PageDown move five, Home and End run to the ends, and aria-valuetext says the money and the room in words.",
+        "Under reduced motion the rail and the fill move without a spring, but the colours, the hatch and the figures still change — where the ceiling stands is information.",
+        "Every amount, including the rolling room figure, goes through `format`, and the digits are tabular so a roll never shifts the layout."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/spend-limit",
+      "registryItemUrl": "https://www.kinetiqui.com/r/spend-limit.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spend-limit",
+        "npm": "npx shadcn@latest add @kinetiq/spend-limit",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spend-limit",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spend-limit",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/spend-limit.json"
+      }
+    },
+    {
+      "slug": "card-pin",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Card PIN",
+      "serial": "KQ-615",
+      "tagline": "Four digits, shown one at a time.",
+      "description": "A PIN reveal you have to hold. Each cell is a two-face column that rolls its bullet away for its digit on snap, staggered by cascade so the four land one at a time, and rolls back in reverse when you let go. A ring inside the control drains linearly across the window from a motion value, ending the reveal on its own when it empties. Space held reveals while held, Enter latches the reveal for the whole window, and Escape closes it.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "pin",
+        "reveal",
+        "hold",
+        "countdown",
+        "finance",
+        "security"
+      ],
+      "props": [
+        {
+          "name": "pin",
+          "type": "string",
+          "defaultValue": "\"4182\"",
+          "description": "Digits to reveal; non-digits are stripped."
+        },
+        {
+          "name": "holdFor",
+          "type": "number",
+          "defaultValue": "8000",
+          "description": "Milliseconds the reveal may stay open before the ring closes it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Card PIN\"",
+          "description": "Names the group."
+        },
+        {
+          "name": "holdLabel",
+          "type": "string",
+          "defaultValue": "\"Hold to show\"",
+          "description": "Control copy while the PIN is hidden."
+        },
+        {
+          "name": "shownLabel",
+          "type": "string",
+          "defaultValue": "\"Showing\"",
+          "description": "Control copy while the PIN is showing."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Locks the control."
+        },
+        {
+          "name": "onRevealChange",
+          "type": "(revealed: boolean) => void",
+          "description": "Fires from the pointer, key or timeout that changed the reveal."
+        },
+        {
+          "name": "onTimeout",
+          "type": "() => void",
+          "description": "Fires from the ring's completion, when the window runs out."
+        }
+      ],
+      "usageNotes": [
+        "Two keyboard paths, because not everyone can hold a key: Space held shows the PIN while held, Enter latches it for the whole window, and Enter again or Escape closes it early.",
+        "Under reduced motion the columns swap face instantly instead of rolling, but they still swap and the ring still drains at the same linear rate — both are information.",
+        "Hiding the document ends the reveal outright, so a PIN never sits uncovered on a tab nobody is watching."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/card-pin",
+      "registryItemUrl": "https://www.kinetiqui.com/r/card-pin.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/card-pin",
+        "npm": "npx shadcn@latest add @kinetiq/card-pin",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/card-pin",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/card-pin",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/card-pin.json"
+      }
+    },
+    {
+      "slug": "card-tap",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Card Tap",
+      "serial": "KQ-616",
+      "tagline": "Tap to pay, watched.",
+      "description": "A contactless payment drawn as a scene: push the slab toward the reader and past six tenths of its travel the tap fires, the card closing the gap on snap while rings pulse from the contact point on drift for as long as the read lasts. Approval stamps a tick on recoil; a decline never celebrates, shaking the card home on a tween instead. The slab is a real button, so Enter, Space and Right Arrow tap it without a pointer.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "tap",
+        "contactless",
+        "payment",
+        "reader",
+        "finance",
+        "card"
+      ],
+      "props": [
+        {
+          "name": "status / defaultStatus",
+          "type": "\"idle\" | \"reading\" | \"approved\" | \"declined\"",
+          "defaultValue": "\"idle\"",
+          "description": "Controlled or initial phase of the tap."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(status: CardTapStatus) => void",
+          "description": "Fires from the gesture or key that moved the card to the reader."
+        },
+        {
+          "name": "onTap",
+          "type": "() => void",
+          "description": "Fires once the card reaches the reader — start the authorisation here."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The sum being tapped."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat USD",
+          "description": "Formats every amount; the stage never invents a currency."
+        },
+        {
+          "name": "merchant",
+          "type": "string",
+          "defaultValue": "\"Fernworks Depot\"",
+          "description": "Who is being paid."
+        },
+        {
+          "name": "network",
+          "type": "string",
+          "defaultValue": "\"Waylight\"",
+          "description": "Network wordmark printed on the slab."
+        },
+        {
+          "name": "last4",
+          "type": "string",
+          "defaultValue": "\"4417\"",
+          "description": "Last four digits printed on the slab."
+        },
+        {
+          "name": "declineReason",
+          "type": "string",
+          "defaultValue": "\"Card limit reached\"",
+          "description": "Printed under the stage when the tap is refused."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Tap to pay\"",
+          "description": "Names the group for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The slab is a real button named for the card, the sum and the merchant: Enter, Space and Right Arrow all tap, so the drag has a full keyboard path. One sr-only role=\"status\" carries the outcome, so a reader hears it once rather than twice.",
+        "Under reduced motion nothing travels — the reader lights, the tick appears at full size and a decline holds a static danger mark — because the outcome of a payment is information, not flourish.",
+        "The travel is read from the track and the slab inside the pointer and key handlers, never during render, so the scene follows its container at any width."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/card-tap",
+      "registryItemUrl": "https://www.kinetiqui.com/r/card-tap.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/card-tap",
+        "npm": "npx shadcn@latest add @kinetiq/card-tap",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/card-tap",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/card-tap",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/card-tap.json"
+      }
+    },
+    {
+      "slug": "card-order",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Card Order",
+      "serial": "KQ-617",
+      "tagline": "From the press to your door.",
+      "description": "A card on its way to you: a miniature slab rides a rail above the stops and slides to the one the order has reached on glide, landing on recoil at the last stop where a tick stamps into the final dot. The rail fills behind it and each reached dot flicks in on a cascade, so a jump of two stages lights in sequence. Under the rail the day count rolls on snap and the date cross-fades.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "order",
+        "delivery",
+        "tracking",
+        "shipping",
+        "finance",
+        "card"
+      ],
+      "props": [
+        {
+          "name": "stage",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Index of the furthest stop reached; clamped to the stage list."
+        },
+        {
+          "name": "stages",
+          "type": "OrderStage[]",
+          "defaultValue": "printed / posted / out for delivery / delivered",
+          "description": "The stops in order; each carries an id, a label and a short note."
+        },
+        {
+          "name": "etaDays",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Days until arrival; the digits roll when the estimate tightens."
+        },
+        {
+          "name": "etaDate",
+          "type": "string",
+          "defaultValue": "\"Thu 14 Mar\"",
+          "description": "The date under the count; cross-fades when it changes."
+        },
+        {
+          "name": "deliveredNote",
+          "type": "string",
+          "defaultValue": "\"Signed for at the door\"",
+          "description": "Replaces the estimate once the last stop is reached."
+        },
+        {
+          "name": "network",
+          "type": "string",
+          "defaultValue": "\"Waylight\"",
+          "description": "Wordmark printed beside the order reference."
+        },
+        {
+          "name": "last4",
+          "type": "string",
+          "defaultValue": "\"4417\"",
+          "description": "Last four digits of the card on its way."
+        },
+        {
+          "name": "fee",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Replacement fee; zero prints \"No fee\"."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat USD",
+          "description": "Formats the fee; the order never invents a currency."
+        },
+        {
+          "name": "reference",
+          "type": "string",
+          "defaultValue": "\"CBK-4417-2F\"",
+          "description": "Order reference, printed mono and selectable."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Card order\"",
+          "description": "Names the group for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "A read-only tracker: the stops are an ordered list, the furthest reached carries aria-current=\"step\", each stop spells done or waiting for a reader, and one sr-only role=\"status\" announces the change in a sentence.",
+        "Under reduced motion the slab swaps to its stop instantly and the dots simply appear, but the rail still fills and the count still rolls over, because how far a parcel has come is information.",
+        "The slab is exactly one column wide, so a stage of travel is exactly one of its own widths — the stop and its dot cannot drift apart at any container width."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/card-order",
+      "registryItemUrl": "https://www.kinetiqui.com/r/card-order.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/card-order",
+        "npm": "npx shadcn@latest add @kinetiq/card-order",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/card-order",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/card-order",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/card-order.json"
+      }
+    },
+    {
+      "slug": "merchant-lock",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Merchant Lock",
+      "serial": "KQ-618",
+      "tagline": "Only where you say.",
+      "description": "A card's spending rules, one row per merchant category. Locking a row closes the hasp on flick, dims the row on a colour tween and strikes its amount, so the state is carried by shape and text rather than tone alone; the allowed figure below sums every open category and rolls its digits to the new total on snap. The header control sweeps every row at once, staggered by cascade so a wall of locks closes in sequence.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "lock",
+        "merchant",
+        "controls",
+        "spending",
+        "finance",
+        "switch"
+      ],
+      "props": [
+        {
+          "name": "categories",
+          "type": "MerchantCategory[]",
+          "defaultValue": "six seeded rows",
+          "description": "The rows to draw: id, label, amount and an optional drawn glyph."
+        },
+        {
+          "name": "locked / defaultLocked",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Controlled or initial ids of the locked categories."
+        },
+        {
+          "name": "onLockedChange",
+          "type": "(locked: string[], changed: { id: string; locked: boolean }) => void",
+          "description": "Fires from the click or key that toggled a lock; the id is \"*\" for the header sweep."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat USD",
+          "description": "Formats every amount; the list never invents a currency."
+        },
+        {
+          "name": "period",
+          "type": "string",
+          "defaultValue": "\"a month\"",
+          "description": "Suffix on the row amounts and on the total."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Where this card can spend\"",
+          "description": "Visible heading, also the list's accessible name."
+        },
+        {
+          "name": "showLockAll",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Renders the header control that locks or opens every row."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Locks the rules themselves; every switch goes inert."
+        }
+      ],
+      "usageNotes": [
+        "Each padlock is a real role=\"switch\" button named by its row, so Tab reaches every one and Space toggles it; the header control states what it will do rather than what it is.",
+        "Locked rows keep full contrast on the name — only the amount dims and strikes — so nothing becomes unreadable when it is switched off, and the state never rests on colour alone.",
+        "Under reduced motion the hasp is drawn already closed or open, the total swaps in place and the sweep applies to every row at once with no stagger."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/merchant-lock",
+      "registryItemUrl": "https://www.kinetiqui.com/r/merchant-lock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/merchant-lock",
+        "npm": "npx shadcn@latest add @kinetiq/merchant-lock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/merchant-lock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/merchant-lock",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/merchant-lock.json"
+      }
+    },
+    {
+      "slug": "card-stack",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Card Stack",
+      "serial": "KQ-619",
+      "tagline": "Your cards, in a fanned stack.",
+      "description": "A wallet whose cards shingle down the stage with the strip that names each one left showing. Hovering the stack, or moving focus into it, fans it on glide; picking a card brings it to the front on snap and the others tuck behind in the order they were in, so working through the wallet reads as rotation rather than a reshuffle. It is a radio group: arrows cycle the front card, Home and End jump to the ends.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "wallet",
+        "cards",
+        "stack",
+        "fan",
+        "finance",
+        "picker"
+      ],
+      "props": [
+        {
+          "name": "cards",
+          "type": "StackCard[]",
+          "description": "The wallet, front first: id, name, last4 and an optional network and balance. The first five are used."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "the first card's id",
+          "description": "Controlled or initial id of the front card."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the click or key that brought a card forward."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat USD",
+          "description": "Formats every balance; the wallet never invents a currency."
+        },
+        {
+          "name": "expanded",
+          "type": "boolean",
+          "description": "Forces the fan open; leave it out and hover or focus opens it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Cards\"",
+          "description": "Visible heading, also the group's accessible name."
+        }
+      ],
+      "usageNotes": [
+        "A radio group with a roving tabindex, so the wallet is one Tab stop: Down and Right take the next card to the front, Up and Left the previous, Home and End the ends, Space and Enter pick the focused one.",
+        "Under reduced motion the fan stays open from the first paint and picking swaps the order instantly — which card leads is still plain from its ring and its weight.",
+        "Every offset is a percentage of a card's own height and the stage's height a percentage of its own width, so the instrument scales with its column and reserves nothing."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/card-stack",
+      "registryItemUrl": "https://www.kinetiqui.com/r/card-stack.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/card-stack",
+        "npm": "npx shadcn@latest add @kinetiq/card-stack",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/card-stack",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/card-stack",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/card-stack.json"
+      }
+    },
+    {
+      "slug": "chip-contact",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Chip Contact",
+      "serial": "KQ-620",
+      "tagline": "The chip lights when it reads.",
+      "description": "A close-up of a card's contact plate while a reader talks to it: a glint sweeps the plate on a linear tween as the eight pads light one after another in a cascade of flicks, then the read fills the plate left to right, determinate when the host passes progress and sweeping when it does not. Success stamps a disc on recoil with its tick drawn by pathLength; a refusal blinks the plate twice on a tween and offers Retry.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "chip",
+        "reader",
+        "scan",
+        "progress",
+        "finance",
+        "card"
+      ],
+      "props": [
+        {
+          "name": "status",
+          "type": "\"idle\" | \"connecting\" | \"reading\" | \"approved\" | \"declined\"",
+          "defaultValue": "\"idle\"",
+          "description": "The phase the reader is in."
+        },
+        {
+          "name": "progress",
+          "type": "number",
+          "description": "0–1. Given, the scan is determinate and reported; omitted, it loops."
+        },
+        {
+          "name": "steps",
+          "type": "string[]",
+          "defaultValue": "three seeded lines",
+          "description": "Read steps; the line under the plate names the one progress has reached."
+        },
+        {
+          "name": "reader",
+          "type": "string",
+          "defaultValue": "\"Gaugeworks counter reader\"",
+          "description": "Who is reading, printed in the header."
+        },
+        {
+          "name": "declineReason",
+          "type": "string",
+          "defaultValue": "\"Chip could not be read\"",
+          "description": "Printed under the plinth when the read is refused."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Fires from the Retry press; omit it and no Retry is offered."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Chip read\"",
+          "description": "Names the group for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The plate is a role=\"progressbar\": with progress it reports a value and an aria-valuetext naming the step, and without one it is simply aria-busy, which is what indeterminate means. Retry is a real button, so it takes Space and Enter natively.",
+        "Under reduced motion there is no glint, no travelling bar and no blink, but the pads still light, the fill still fills and the tick still appears — how far a read has got is information.",
+        "The read itself belongs to the host: drive progress from a timer that clears on unmount and stops while the document is hidden, as the demo does."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/chip-contact",
+      "registryItemUrl": "https://www.kinetiqui.com/r/chip-contact.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/chip-contact",
+        "npm": "npx shadcn@latest add @kinetiq/chip-contact",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/chip-contact",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/chip-contact",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/chip-contact.json"
       }
     },
     {

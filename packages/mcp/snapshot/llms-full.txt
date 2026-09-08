@@ -10533,6 +10533,234 @@ Notes:
 - The pill's width is measured from its content with a ResizeObserver rather than guessed, so a longer word widens it exactly.
 - Under reduced motion there is no breath and no halo, the widening is instant, and the tick appears already drawn.
 
+### Card Face (KQ-611) — `card-face`
+A card that turns to show its back.
+
+A payment card whose reveal switch turns the whole slab on snap — a real rotateY with both faces backface-hidden — so the back arrives with one crisp overshoot. The full number un-masks digit by digit as the turn lands, a cascade of flicks that runs backwards when the card closes, and freezing settles a frost veneer on a tween that turns the card home and locks the switch. The control is a role="switch" button, so Space and Enter turn the card.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/card-face`
+
+Props:
+- `number`: string (default "8412550722644417") — Card number; non-digits are stripped and the rest padded to sixteen.
+- `revealed / defaultRevealed`: boolean (default false) — Controlled or initial reveal state.
+- `onRevealedChange`: (revealed: boolean) => void — Fires from the click on the reveal switch.
+- `frozen`: boolean (default false) — Frosts the face, hides the details and locks the switch.
+- `holder`: string (default "R. ALDERWICK") — Name printed on both faces.
+- `expiry`: string (default "04/29") — Expiry exactly as printed.
+- `securityCode`: string (default "418") — Three or four digits on the signature panel.
+- `network`: string (default "Waylight") — Network wordmark on the front.
+- `label`: string (default "Virtual card") — Names the card group for assistive technology.
+- `revealLabel`: string (default "Show card details") — Reveal switch copy.
+
+Notes:
+- The reveal control is a real role="switch" button: Tab to it, Space or Enter turns the card. The face turned away is aria-hidden and the number carries its own aria-label, so a reader hears one number, not sixteen columns.
+- Under reduced motion the faces cross-fade in place and every digit un-masks at once — no rotation, no stagger — because which digits are showing is information.
+- Freezing hides the details for as long as it lasts; clear `revealed` as well if a controlled card should stay shut after it thaws.
+
+### Card Freeze (KQ-612) — `card-freeze`
+Frozen in a swipe.
+
+A throw switch that freezes a card: the knob tracks the pointer once the drag clears 4px and commits past the halfway mark on snap, springing home on the same spring when it is released short. Behind it a seeded field of crystals sits under a radial-gradient mask whose hole radius is a motion value, so freezing spreads the frost inward from the edges on drift and thawing lets it recede from the centre. The track is a role="switch": Space and Enter toggle, Right freezes, Left thaws, Escape abandons a throw.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/card-freeze`
+
+Props:
+- `frozen / defaultFrozen`: boolean (default false) — Controlled or initial frozen state.
+- `onFrozenChange`: (frozen: boolean) => void — Fires from the release, click or key that committed the throw.
+- `onProgressChange`: (percent: number) => void — Whole-percent throw position, for a status line that narrates the gesture.
+- `label`: string (default "Freeze card") — Names the switch.
+- `network`: string (default "Waylight") — Network wordmark on the slab.
+- `last4`: string (default "4417") — Last four digits printed on the slab.
+- `holder`: string (default "R. ALDERWICK") — Name on the slab.
+- `seed`: number (default 19) — Seeds the crystal pattern — the same seed always draws the same frost.
+- `disabled`: boolean (default false) — Locks the track.
+
+Notes:
+- The track is a role="switch" with a roving focus: Space and Enter toggle it, ArrowRight and End freeze, ArrowLeft and Home thaw, Escape settles a throw already in progress back where it started.
+- Under reduced motion the knob jumps to its end and the veneer cross-fades in place instead of spreading — the frost still arrives, because whether the card is frozen is information.
+- The crystal field is procedural and seeded, so it renders identically on the server and the client and needs no assets.
+
+### Virtual Mint (KQ-613) — `virtual-mint`
+A new card, minted in front of you.
+
+Press to mint a virtual card: a blank slab rises on recoil, ζ0.53, the two bounces of a thing landing on the bench, and then its number prints in a cascade of flicks before the expiry and the name follow. The slab files itself away on the exit ease while the wallet row makes room on glide and the new chip lands. One phase machine drives it from a single timer chain that stops while the document is hidden, and every number is seeded rather than random.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/virtual-mint`
+
+Props:
+- `seed`: number (default 4417) — Seeds every minted number and expiry — the same press mints the same card.
+- `defaultCards`: MintedCard[] — Cards already in the wallet row; omit it and one is seeded for you.
+- `maxCards`: number (default 4) — Wallet cap; the oldest chip leaves when it is passed.
+- `holder`: string (default "R. ALDERWICK") — Name printed on each card.
+- `network`: string (default "Waylight") — Network wordmark on the slab.
+- `onMint`: (card: MintedCard) => void — Fires from the filing timer, once the card has landed in the wallet.
+- `onPhaseChange`: (phase: MintPhase) => void — Fires from the click and from each phase timer: idle, rising, printing, filing.
+- `mintLabel`: string (default "Mint card") — Mint button copy.
+- `label`: string (default "Virtual cards") — Names the wallet row.
+
+Notes:
+- The mint control is a real button, disabled and aria-busy while a mint is in flight; the wallet is a list whose scroller takes focus, so a keyboard can pan it.
+- Under reduced motion nothing rises, slides or shrinks: the slab appears at rest, the three fields print at once, and the chip lands in place — the card is still minted.
+- The phase chain stops while the document is hidden and restarts the phase it was in, so a mint never completes on a tab nobody is watching.
+
+### Spend Limit (KQ-614) — `spend-limit`
+Drag the ceiling, watch the room.
+
+A card's monthly limit as a rail you drag over a column of the spend so far. The column fills on glide with no overshoot, the rail tracks the pointer once the drag clears 4px and settles onto the nearest step on snap, and the remaining-room chip rides the rail with its figure rolling on the same spring. Dragging the ceiling under the spend hatches the slice above it in danger on a colour tween — nothing bounces. It is a vertical role="slider": arrows step, Page keys move five, Home and End run to the ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spend-limit`
+
+Props:
+- `value / defaultValue`: number (default 1200) — Controlled or initial limit.
+- `onValueChange`: (value: number) => void — Fires from the pointer move or key that changed the ceiling.
+- `onCommit`: (value: number) => void — Fires once the ceiling has settled — on release, or on key-up.
+- `spend`: number (default 860) — Spend so far, drawn as the column fill.
+- `max`: number (default 2000) — Top of the scale.
+- `step`: number (default 50) — Release snap and arrow step; Page keys move five of them.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US")) — Formats every amount in the instrument.
+- `label`: string (default "Monthly limit") — Names the slider.
+- `unit`: string (default "USD") — Suffix beside the headline figure.
+- `disabled`: boolean (default false) — Locks the rail.
+
+Notes:
+- A vertical role="slider": ArrowUp and ArrowRight add a step, ArrowDown and ArrowLeft take one, PageUp and PageDown move five, Home and End run to the ends, and aria-valuetext says the money and the room in words.
+- Under reduced motion the rail and the fill move without a spring, but the colours, the hatch and the figures still change — where the ceiling stands is information.
+- Every amount, including the rolling room figure, goes through `format`, and the digits are tabular so a roll never shifts the layout.
+
+### Card PIN (KQ-615) — `card-pin`
+Four digits, shown one at a time.
+
+A PIN reveal you have to hold. Each cell is a two-face column that rolls its bullet away for its digit on snap, staggered by cascade so the four land one at a time, and rolls back in reverse when you let go. A ring inside the control drains linearly across the window from a motion value, ending the reveal on its own when it empties. Space held reveals while held, Enter latches the reveal for the whole window, and Escape closes it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/card-pin`
+
+Props:
+- `pin`: string (default "4182") — Digits to reveal; non-digits are stripped.
+- `holdFor`: number (default 8000) — Milliseconds the reveal may stay open before the ring closes it.
+- `label`: string (default "Card PIN") — Names the group.
+- `holdLabel`: string (default "Hold to show") — Control copy while the PIN is hidden.
+- `shownLabel`: string (default "Showing") — Control copy while the PIN is showing.
+- `disabled`: boolean (default false) — Locks the control.
+- `onRevealChange`: (revealed: boolean) => void — Fires from the pointer, key or timeout that changed the reveal.
+- `onTimeout`: () => void — Fires from the ring's completion, when the window runs out.
+
+Notes:
+- Two keyboard paths, because not everyone can hold a key: Space held shows the PIN while held, Enter latches it for the whole window, and Enter again or Escape closes it early.
+- Under reduced motion the columns swap face instantly instead of rolling, but they still swap and the ring still drains at the same linear rate — both are information.
+- Hiding the document ends the reveal outright, so a PIN never sits uncovered on a tab nobody is watching.
+
+### Card Tap (KQ-616) — `card-tap`
+Tap to pay, watched.
+
+A contactless payment drawn as a scene: push the slab toward the reader and past six tenths of its travel the tap fires, the card closing the gap on snap while rings pulse from the contact point on drift for as long as the read lasts. Approval stamps a tick on recoil; a decline never celebrates, shaking the card home on a tween instead. The slab is a real button, so Enter, Space and Right Arrow tap it without a pointer.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/card-tap`
+
+Props:
+- `status / defaultStatus`: "idle" | "reading" | "approved" | "declined" (default "idle") — Controlled or initial phase of the tap.
+- `onStatusChange`: (status: CardTapStatus) => void — Fires from the gesture or key that moved the card to the reader.
+- `onTap`: () => void — Fires once the card reaches the reader — start the authorisation here.
+- `amount`: number (default 0) — The sum being tapped.
+- `format`: (value: number) => string (default Intl.NumberFormat USD) — Formats every amount; the stage never invents a currency.
+- `merchant`: string (default "Fernworks Depot") — Who is being paid.
+- `network`: string (default "Waylight") — Network wordmark printed on the slab.
+- `last4`: string (default "4417") — Last four digits printed on the slab.
+- `declineReason`: string (default "Card limit reached") — Printed under the stage when the tap is refused.
+- `label`: string (default "Tap to pay") — Names the group for assistive technology.
+
+Notes:
+- The slab is a real button named for the card, the sum and the merchant: Enter, Space and Right Arrow all tap, so the drag has a full keyboard path. One sr-only role="status" carries the outcome, so a reader hears it once rather than twice.
+- Under reduced motion nothing travels — the reader lights, the tick appears at full size and a decline holds a static danger mark — because the outcome of a payment is information, not flourish.
+- The travel is read from the track and the slab inside the pointer and key handlers, never during render, so the scene follows its container at any width.
+
+### Card Order (KQ-617) — `card-order`
+From the press to your door.
+
+A card on its way to you: a miniature slab rides a rail above the stops and slides to the one the order has reached on glide, landing on recoil at the last stop where a tick stamps into the final dot. The rail fills behind it and each reached dot flicks in on a cascade, so a jump of two stages lights in sequence. Under the rail the day count rolls on snap and the date cross-fades.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/card-order`
+
+Props:
+- `stage`: number (default 0) — Index of the furthest stop reached; clamped to the stage list.
+- `stages`: OrderStage[] (default printed / posted / out for delivery / delivered) — The stops in order; each carries an id, a label and a short note.
+- `etaDays`: number (default 3) — Days until arrival; the digits roll when the estimate tightens.
+- `etaDate`: string (default "Thu 14 Mar") — The date under the count; cross-fades when it changes.
+- `deliveredNote`: string (default "Signed for at the door") — Replaces the estimate once the last stop is reached.
+- `network`: string (default "Waylight") — Wordmark printed beside the order reference.
+- `last4`: string (default "4417") — Last four digits of the card on its way.
+- `fee`: number (default 0) — Replacement fee; zero prints "No fee".
+- `format`: (value: number) => string (default Intl.NumberFormat USD) — Formats the fee; the order never invents a currency.
+- `reference`: string (default "CBK-4417-2F") — Order reference, printed mono and selectable.
+- `label`: string (default "Card order") — Names the group for assistive technology.
+
+Notes:
+- A read-only tracker: the stops are an ordered list, the furthest reached carries aria-current="step", each stop spells done or waiting for a reader, and one sr-only role="status" announces the change in a sentence.
+- Under reduced motion the slab swaps to its stop instantly and the dots simply appear, but the rail still fills and the count still rolls over, because how far a parcel has come is information.
+- The slab is exactly one column wide, so a stage of travel is exactly one of its own widths — the stop and its dot cannot drift apart at any container width.
+
+### Merchant Lock (KQ-618) — `merchant-lock`
+Only where you say.
+
+A card's spending rules, one row per merchant category. Locking a row closes the hasp on flick, dims the row on a colour tween and strikes its amount, so the state is carried by shape and text rather than tone alone; the allowed figure below sums every open category and rolls its digits to the new total on snap. The header control sweeps every row at once, staggered by cascade so a wall of locks closes in sequence.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/merchant-lock`
+
+Props:
+- `categories`: MerchantCategory[] (default six seeded rows) — The rows to draw: id, label, amount and an optional drawn glyph.
+- `locked / defaultLocked`: string[] (default []) — Controlled or initial ids of the locked categories.
+- `onLockedChange`: (locked: string[], changed: { id: string; locked: boolean }) => void — Fires from the click or key that toggled a lock; the id is "*" for the header sweep.
+- `format`: (value: number) => string (default Intl.NumberFormat USD) — Formats every amount; the list never invents a currency.
+- `period`: string (default "a month") — Suffix on the row amounts and on the total.
+- `label`: string (default "Where this card can spend") — Visible heading, also the list's accessible name.
+- `showLockAll`: boolean (default true) — Renders the header control that locks or opens every row.
+- `disabled`: boolean (default false) — Locks the rules themselves; every switch goes inert.
+
+Notes:
+- Each padlock is a real role="switch" button named by its row, so Tab reaches every one and Space toggles it; the header control states what it will do rather than what it is.
+- Locked rows keep full contrast on the name — only the amount dims and strikes — so nothing becomes unreadable when it is switched off, and the state never rests on colour alone.
+- Under reduced motion the hasp is drawn already closed or open, the total swaps in place and the sweep applies to every row at once with no stagger.
+
+### Card Stack (KQ-619) — `card-stack`
+Your cards, in a fanned stack.
+
+A wallet whose cards shingle down the stage with the strip that names each one left showing. Hovering the stack, or moving focus into it, fans it on glide; picking a card brings it to the front on snap and the others tuck behind in the order they were in, so working through the wallet reads as rotation rather than a reshuffle. It is a radio group: arrows cycle the front card, Home and End jump to the ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/card-stack`
+
+Props:
+- `cards`: StackCard[] — The wallet, front first: id, name, last4 and an optional network and balance. The first five are used.
+- `value / defaultValue`: string (default the first card's id) — Controlled or initial id of the front card.
+- `onValueChange`: (id: string) => void — Fires from the click or key that brought a card forward.
+- `format`: (value: number) => string (default Intl.NumberFormat USD) — Formats every balance; the wallet never invents a currency.
+- `expanded`: boolean — Forces the fan open; leave it out and hover or focus opens it.
+- `label`: string (default "Cards") — Visible heading, also the group's accessible name.
+
+Notes:
+- A radio group with a roving tabindex, so the wallet is one Tab stop: Down and Right take the next card to the front, Up and Left the previous, Home and End the ends, Space and Enter pick the focused one.
+- Under reduced motion the fan stays open from the first paint and picking swaps the order instantly — which card leads is still plain from its ring and its weight.
+- Every offset is a percentage of a card's own height and the stage's height a percentage of its own width, so the instrument scales with its column and reserves nothing.
+
+### Chip Contact (KQ-620) — `chip-contact`
+The chip lights when it reads.
+
+A close-up of a card's contact plate while a reader talks to it: a glint sweeps the plate on a linear tween as the eight pads light one after another in a cascade of flicks, then the read fills the plate left to right, determinate when the host passes progress and sweeping when it does not. Success stamps a disc on recoil with its tick drawn by pathLength; a refusal blinks the plate twice on a tween and offers Retry.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/chip-contact`
+
+Props:
+- `status`: "idle" | "connecting" | "reading" | "approved" | "declined" (default "idle") — The phase the reader is in.
+- `progress`: number — 0–1. Given, the scan is determinate and reported; omitted, it loops.
+- `steps`: string[] (default three seeded lines) — Read steps; the line under the plate names the one progress has reached.
+- `reader`: string (default "Gaugeworks counter reader") — Who is reading, printed in the header.
+- `declineReason`: string (default "Chip could not be read") — Printed under the plinth when the read is refused.
+- `onRetry`: () => void — Fires from the Retry press; omit it and no Retry is offered.
+- `label`: string (default "Chip read") — Names the group for assistive technology.
+
+Notes:
+- The plate is a role="progressbar": with progress it reports a value and an aria-valuetext naming the step, and without one it is simply aria-busy, which is what indeterminate means. Retry is a real button, so it takes Space and Enter natively.
+- Under reduced motion there is no glint, no travelling bar and no blink, but the pads still light, the fill still fills and the tick still appears — how far a read has got is information.
+- The read itself belongs to the host: drive progress from a timer that clears on unmount and stops while the document is hidden, as the demo does.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

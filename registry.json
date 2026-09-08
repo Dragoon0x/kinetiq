@@ -17116,6 +17116,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "card-face",
+      "type": "registry:ui",
+      "title": "Card Face",
+      "description": "A payment card whose reveal switch turns the whole slab on snap — a real rotateY with both faces backface-hidden — so the back arrives with one crisp overshoot. The full number un-masks digit by digit as the turn lands, a cascade of flicks that runs backwards when the card closes, and freezing settles a frost veneer on a tween that turns the card home and locks the switch. The control is a role=\"switch\" button, so Space and Enter turn the card.",
+      "files": [
+        {
+          "path": "registry/ui/card-face.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-611"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "card-freeze",
+      "type": "registry:ui",
+      "title": "Card Freeze",
+      "description": "A throw switch that freezes a card: the knob tracks the pointer once the drag clears 4px and commits past the halfway mark on snap, springing home on the same spring when it is released short. Behind it a seeded field of crystals sits under a radial-gradient mask whose hole radius is a motion value, so freezing spreads the frost inward from the edges on drift and thawing lets it recede from the centre. The track is a role=\"switch\": Space and Enter toggle, Right freezes, Left thaws, Escape abandons a throw.",
+      "files": [
+        {
+          "path": "registry/ui/card-freeze.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-612"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "virtual-mint",
+      "type": "registry:ui",
+      "title": "Virtual Mint",
+      "description": "Press to mint a virtual card: a blank slab rises on recoil, ζ0.53, the two bounces of a thing landing on the bench, and then its number prints in a cascade of flicks before the expiry and the name follow. The slab files itself away on the exit ease while the wallet row makes room on glide and the new chip lands. One phase machine drives it from a single timer chain that stops while the document is hidden, and every number is seeded rather than random.",
+      "files": [
+        {
+          "path": "registry/ui/virtual-mint.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-613"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spend-limit",
+      "type": "registry:ui",
+      "title": "Spend Limit",
+      "description": "A card's monthly limit as a rail you drag over a column of the spend so far. The column fills on glide with no overshoot, the rail tracks the pointer once the drag clears 4px and settles onto the nearest step on snap, and the remaining-room chip rides the rail with its figure rolling on the same spring. Dragging the ceiling under the spend hatches the slice above it in danger on a colour tween — nothing bounces. It is a vertical role=\"slider\": arrows step, Page keys move five, Home and End run to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/spend-limit.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-614"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "card-pin",
+      "type": "registry:ui",
+      "title": "Card PIN",
+      "description": "A PIN reveal you have to hold. Each cell is a two-face column that rolls its bullet away for its digit on snap, staggered by cascade so the four land one at a time, and rolls back in reverse when you let go. A ring inside the control drains linearly across the window from a motion value, ending the reveal on its own when it empties. Space held reveals while held, Enter latches the reveal for the whole window, and Escape closes it.",
+      "files": [
+        {
+          "path": "registry/ui/card-pin.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-615"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "card-tap",
+      "type": "registry:ui",
+      "title": "Card Tap",
+      "description": "A contactless payment drawn as a scene: push the slab toward the reader and past six tenths of its travel the tap fires, the card closing the gap on snap while rings pulse from the contact point on drift for as long as the read lasts. Approval stamps a tick on recoil; a decline never celebrates, shaking the card home on a tween instead. The slab is a real button, so Enter, Space and Right Arrow tap it without a pointer.",
+      "files": [
+        {
+          "path": "registry/ui/card-tap.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-616"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "card-order",
+      "type": "registry:ui",
+      "title": "Card Order",
+      "description": "A card on its way to you: a miniature slab rides a rail above the stops and slides to the one the order has reached on glide, landing on recoil at the last stop where a tick stamps into the final dot. The rail fills behind it and each reached dot flicks in on a cascade, so a jump of two stages lights in sequence. Under the rail the day count rolls on snap and the date cross-fades.",
+      "files": [
+        {
+          "path": "registry/ui/card-order.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-617"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "merchant-lock",
+      "type": "registry:ui",
+      "title": "Merchant Lock",
+      "description": "A card's spending rules, one row per merchant category. Locking a row closes the hasp on flick, dims the row on a colour tween and strikes its amount, so the state is carried by shape and text rather than tone alone; the allowed figure below sums every open category and rolls its digits to the new total on snap. The header control sweeps every row at once, staggered by cascade so a wall of locks closes in sequence.",
+      "files": [
+        {
+          "path": "registry/ui/merchant-lock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-618"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "card-stack",
+      "type": "registry:ui",
+      "title": "Card Stack",
+      "description": "A wallet whose cards shingle down the stage with the strip that names each one left showing. Hovering the stack, or moving focus into it, fans it on glide; picking a card brings it to the front on snap and the others tuck behind in the order they were in, so working through the wallet reads as rotation rather than a reshuffle. It is a radio group: arrows cycle the front card, Home and End jump to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/card-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-619"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "chip-contact",
+      "type": "registry:ui",
+      "title": "Chip Contact",
+      "description": "A close-up of a card's contact plate while a reader talks to it: a glint sweeps the plate on a linear tween as the eight pads light one after another in a cascade of flicks, then the read fills the plate left to right, determinate when the host passes progress and sweeping when it does not. Success stamps a disc on recoil with its tick drawn by pathLength; a refusal blinks the plate twice on a tween and offers Retry.",
+      "files": [
+        {
+          "path": "registry/ui/chip-contact.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-620"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
