@@ -101,6 +101,9 @@ const CATEGORY_LOOK: Record<
   spatial: { spring: "drift", accent: "violet" },
   delight: { spring: "recoil", accent: "amber" },
   game: { spring: "flick", accent: "coral" },
+  finance: { spring: "glide", accent: "mint" },
+  chat: { spring: "snap", accent: "sky" },
+  devtools: { spring: "flick", accent: "amber" },
 };
 
 export type OgItemKind = "components" | "blocks" | "pages" | "templates";

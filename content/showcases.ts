@@ -39,10 +39,17 @@ export type Showcase = {
   closing: string;
 };
 
+/**
+ * Categories whose room is still being built: a wing lands its instruments
+ * first and stages them once there is enough to stage. Their category pages
+ * simply do not offer a showcase link until the room exists.
+ */
+export const SHOWCASE_PENDING: CategorySlug[] = ["finance", "chat", "devtools"];
+
 /** Spatial keeps /spatial; every other category gets a showcase. */
 export const SHOWCASE_SLUGS: CategorySlug[] = CATEGORIES.map(
   (c) => c.slug,
-).filter((slug) => slug !== "spatial");
+).filter((slug) => slug !== "spatial" && !SHOWCASE_PENDING.includes(slug));
 
 /** Ordered to match CATEGORIES. */
 export const SHOWCASES: Showcase[] = [

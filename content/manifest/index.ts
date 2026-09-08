@@ -30,7 +30,12 @@ for (const item of allItems) {
   names.add(item.name);
 }
 
+/** The number after the dash, so KQ-1000 sorts after KQ-999, not before KQ-2. */
+const serialNumber = (item: KinetiqItem): number =>
+  Number(item.meta?.serial?.split("-")[1] ?? 0);
+
 const bySerial = (a: KinetiqItem, b: KinetiqItem) =>
+  serialNumber(a) - serialNumber(b) ||
   (a.meta?.serial ?? "").localeCompare(b.meta?.serial ?? "");
 
 /** Catalog items that appear in nav/docs (excludes shared libs/hooks), in serial order. */

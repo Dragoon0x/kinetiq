@@ -29,7 +29,10 @@ export type CategorySlug =
   | "physics"
   | "spatial"
   | "delight"
-  | "game";
+  | "game"
+  | "finance"
+  | "chat"
+  | "devtools";
 
 export type Category = {
   slug: CategorySlug;
@@ -147,6 +150,24 @@ export const CATEGORIES: Category[] = [
     blurb:
       "Loops that make an interface worth coming back to \u2014 quests, ranks, streaks, and the meters that carry them.",
   },
+  {
+    slug: "finance",
+    label: "Finance",
+    blurb:
+      "Money in motion \u2014 balances, books, trades, transfers, and ledgers that settle like the numbers they carry.",
+  },
+  {
+    slug: "chat",
+    label: "Chat",
+    blurb:
+      "Conversation as a surface \u2014 threads, composers, reactions, presence, and the rooms they happen in.",
+  },
+  {
+    slug: "devtools",
+    label: "Devtools",
+    blurb:
+      "The instruments behind the product \u2014 logs, traces, pipelines, keys, deploys, and the consoles that read them.",
+  },
 ];
 
 const CATEGORY_SLUGS = new Set<string>(CATEGORIES.map((c) => c.slug));
@@ -167,8 +188,17 @@ const CATEGORY_ALIASES: Record<string, CategorySlug> = {
   // overlays
   overlay: "overlays",
   // data
-  finance: "data",
   commerce: "data",
+  // finance
+  wallet: "finance",
+  trading: "finance",
+  payments: "finance",
+  // chat
+  messaging: "chat",
+  // devtools
+  observability: "devtools",
+  infra: "devtools",
+  security: "devtools",
   // feedback
   onboarding: "feedback",
   // layout
