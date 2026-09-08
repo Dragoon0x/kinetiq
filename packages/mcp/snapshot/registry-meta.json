@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 669,
+      "components": 679,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -43789,6 +43789,854 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/liquidity-range",
         "bun": "bunx --bun shadcn@latest add @kinetiq/liquidity-range",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/liquidity-range.json"
+      }
+    },
+    {
+      "slug": "envelope-row",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Envelope Row",
+      "serial": "KQ-671",
+      "tagline": "Money set aside, on purpose.",
+      "description": "Budget envelopes as a row of cards, each filling from the bottom with the share of its allocation already spent — a scaleY on glide, because an amount settles rather than switches. Dragging the coin out of a card's socket lifts it onto two motion values that track the pointer with no render per frame; releasing over another envelope commits the transfer and the coin flies the rest of the way on glide while the remainder chips settle on recoil. Enter or Space lifts the coin, Arrow keys walk the row, a second Enter or Space drops it and Escape puts it back.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "budget",
+        "envelope",
+        "allocation",
+        "transfer",
+        "drag",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "envelopes / defaultEnvelopes",
+          "type": "EnvelopeItem[]",
+          "description": "Controlled or initial envelopes: { id, name, allocated, spent }."
+        },
+        {
+          "name": "onEnvelopesChange",
+          "type": "(next: EnvelopeItem[]) => void",
+          "description": "Fires from the drop or key that moved money, with the whole new row."
+        },
+        {
+          "name": "onTransfer",
+          "type": "(from: string, to: string, amount: number) => void",
+          "description": "Fires from the same event with just the move."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "25",
+          "description": "Money moved by one drop."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "description": "Formats every amount; defaults to an explicit en-US currency formatter so the server and the client agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Envelopes",
+          "description": "Names the row; printed above it and used for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "A roving tabindex over the cards: Arrow keys move, Home and End jump to the ends, Enter or Space lifts and drops the coin, Escape puts it back. A plain click runs the same two-tap trade.",
+        "Only the coin socket takes a drag — the row still scrolls under a thumb everywhere else — and the pointer is captured after 4px of travel so a tap is never swallowed.",
+        "Under reduced motion the coin never travels: it waits on its source card and fades at the drop, while the fills still fill on a tween because that is the information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/envelope-row",
+      "registryItemUrl": "https://www.kinetiqui.com/r/envelope-row.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/envelope-row",
+        "npm": "npx shadcn@latest add @kinetiq/envelope-row",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/envelope-row",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/envelope-row",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/envelope-row.json"
+      }
+    },
+    {
+      "slug": "spend-ring",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Spend Ring",
+      "serial": "KQ-672",
+      "tagline": "The month, as a ring.",
+      "description": "The month drawn once, as a ring: the arc grows clockwise with the share of the budget already spent through strokeDashoffset on a pathLength circle, settling on glide because a total is a quantity arriving rather than a switch flipping. A one-notch dash walks the same circle at the month's own progress, so fill behind the mark reads on pace and fill past it turns warn, while spend past the budget wraps a second danger arc back over the ring's head on snap. The centre figure counts through a motion value, and a two-stop radio group under the ring swaps it between spent and left with Arrow keys, Home and End, its knob travelling on a shared layoutId.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "budget",
+        "ring",
+        "month",
+        "pace",
+        "meter",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "spent",
+          "type": "number",
+          "description": "Money spent this month. May exceed the budget; the overage is drawn."
+        },
+        {
+          "name": "budget",
+          "type": "number",
+          "description": "The month's budget."
+        },
+        {
+          "name": "day",
+          "type": "number",
+          "description": "Day of the month, 1-based; places the pace mark on the ring."
+        },
+        {
+          "name": "daysInMonth",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "Length of the month."
+        },
+        {
+          "name": "readout / defaultReadout",
+          "type": "\"spent\" | \"left\"",
+          "defaultValue": "spent",
+          "description": "Controlled or initial centre figure."
+        },
+        {
+          "name": "onReadoutChange",
+          "type": "(readout: \"spent\" | \"left\") => void",
+          "description": "Fires from the click or key that changed the centre figure."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "description": "Formats every money figure; defaults to an explicit en-US currency formatter."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "168",
+          "description": "Ring diameter in px, applied as a maximum — the ring shrinks with its container rather than overhanging it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the ring; printed above it and used for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "A role=\"meter\" whose aria-valuetext reads the month as a sentence, plus a two-stop radio group with a roving tabindex: Arrow keys move and select, Home and End jump, Space selects.",
+        "The pace mark walks the circle as a dash on the ring's own geometry, so no trigonometry reaches an attribute and nothing can differ between the server's markup and the browser's.",
+        "Under reduced motion nothing springs, but the arc still fills and the mark still walks, because where the month stands is the information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/spend-ring",
+      "registryItemUrl": "https://www.kinetiqui.com/r/spend-ring.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spend-ring",
+        "npm": "npx shadcn@latest add @kinetiq/spend-ring",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spend-ring",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spend-ring",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/spend-ring.json"
+      }
+    },
+    {
+      "slug": "category-bars",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Category Bars",
+      "serial": "KQ-673",
+      "tagline": "Where the money went.",
+      "description": "A month's spend sorted heaviest first, each bar drawing in from its left origin on glide under a cascade() stagger so the board settles inside the choreography budget. Bars are scaled against the largest category rather than the total, which keeps the smallest one legible, and the total above them rolls its digits on snap whenever the figures change. Pressing a row unpacks its merchants: a ResizeObserver measures the panel and the frame glides to that height rather than reserving one, while the rows arrive on snap from a nudge of travel; Arrow Up and Down walk the headers, Home and End jump to the ends, Enter and Space toggle.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "spend",
+        "category",
+        "bars",
+        "breakdown",
+        "accordion",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "categories",
+          "type": "SpendCategory[]",
+          "description": "{ id, label, amount, merchants? } — sorted internally, heaviest first."
+        },
+        {
+          "name": "expanded / defaultExpanded",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial open category id."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the click or key that opened or closed a row."
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "description": "The figure that rolls above the board; defaults to the sum of the categories."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "description": "Formats every amount; defaults to an explicit en-US currency formatter."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Spend by category",
+          "description": "Names the board; printed above it."
+        }
+      ],
+      "usageNotes": [
+        "The disclosure pattern: every header is a button with aria-expanded and aria-controls and stays in the tab order, while Arrow Up and Down walk between them and Home and End jump to the ends.",
+        "The merchant panel's height is measured with a ResizeObserver, so a category with two merchants takes the room two merchants need and nothing reserves space for a state.",
+        "Under reduced motion the bars still fill and the panel still opens — that is the information — but without stagger, travel, or spring."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/category-bars",
+      "registryItemUrl": "https://www.kinetiqui.com/r/category-bars.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/category-bars",
+        "npm": "npx shadcn@latest add @kinetiq/category-bars",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/category-bars",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/category-bars",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/category-bars.json"
+      }
+    },
+    {
+      "slug": "forecast-line",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Forecast Line",
+      "serial": "KQ-674",
+      "tagline": "Where the balance is heading.",
+      "description": "A balance chart whose line changes character at today: solid for what happened, the same stroke dashed for what is only projected, because a forecast is a claim and should not be drawn like a fact. Toggling a scheduled bill re-prices the plan and a clip rectangle sweeps open from today's dot to the end of the month on glide, which is what lets the redraw keep its dashes; the closing figure counts through a motion value on snap and today's dot holds a slow drift breath. Every bill is a real switch in the tab order, and a projection that crosses zero shades the band below the axis and marks the day in danger.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "balance",
+        "forecast",
+        "projection",
+        "bills",
+        "chart",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "history",
+          "type": "number[]",
+          "description": "Actual closing balances for day 1 through today, in order."
+        },
+        {
+          "name": "bills",
+          "type": "ScheduledBill[]",
+          "defaultValue": "[]",
+          "description": "{ id, label, day, amount } — future outflows the forecast may include."
+        },
+        {
+          "name": "enabled / defaultEnabled",
+          "type": "string[]",
+          "description": "Controlled or initial ids of the bills in the plan; defaults to every bill."
+        },
+        {
+          "name": "onEnabledChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the click or key that toggled a bill."
+        },
+        {
+          "name": "onProjectionChange",
+          "type": "(projection: BalanceProjection) => void",
+          "description": "Fires from the same event with the newly priced plan: points, closing balance, and the first short day."
+        },
+        {
+          "name": "days",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "Days on the x axis; the forecast runs from the end of the history to here."
+        },
+        {
+          "name": "dailyBurn",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Average daily spend carried through the forecast, on top of the bills."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "description": "Formats every money figure; defaults to an explicit en-US currency formatter."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "132",
+          "description": "Plot height in px; the width is fluid."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Balance forecast",
+          "description": "Names the chart; printed above it."
+        }
+      ],
+      "usageNotes": [
+        "Each bill is a button with role=\"switch\" and aria-checked in the tab order; Enter and Space toggle it, and a polite status announces the new projection once per action rather than once per frame.",
+        "The module also exports projectBalance, the pure walk the chart uses, so a host can price a plan for a summary line without mounting a second chart to ask.",
+        "Under reduced motion the forecast swaps rather than sweeps and today's dot does not breathe, but the line still moves where the money moves it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/forecast-line",
+      "registryItemUrl": "https://www.kinetiqui.com/r/forecast-line.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/forecast-line",
+        "npm": "npx shadcn@latest add @kinetiq/forecast-line",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/forecast-line",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/forecast-line",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/forecast-line.json"
+      }
+    },
+    {
+      "slug": "spend-alert",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Spend Alert",
+      "serial": "KQ-675",
+      "tagline": "A warning that arrives softly.",
+      "description": "Crossing the warning threshold slides an alert pill in from a shift above its rail on glide — no overshoot, because a warning that celebrates is a warning nobody believes — and a halo behind its icon breathes between two keyframes on drift, reversing forever. Crossing the limit is a different state rather than a louder one: the copy and the colour turn danger and the breath stops, since a breach is a fact and not an ambient condition. Dismissing slides the pill away on the exit ease and leaves a smaller dot arriving on snap; Escape from inside the pill dismisses it and hands focus to that dot, which is a real button that brings the pill back.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "alert",
+        "budget",
+        "limit",
+        "warning",
+        "dismiss",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "category",
+          "type": "string",
+          "description": "The category the alert is about; named in the copy and in both labels."
+        },
+        {
+          "name": "spent",
+          "type": "number",
+          "description": "Money spent in the category so far."
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "The category's cap."
+        },
+        {
+          "name": "warnAt",
+          "type": "number",
+          "defaultValue": "0.85",
+          "description": "Share of the limit at which the pill arrives."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "description": "Controlled visibility, which overrides both the threshold and the dismissal; defaultOpen false starts dismissed."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the click or key that dismissed or restored it."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "description": "Formats both amounts; defaults to an explicit en-US currency formatter."
+        },
+        {
+          "name": "showDot",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Leaves a dot behind on dismissal; false removes the alert outright."
+        }
+      ],
+      "usageNotes": [
+        "Renders absolutely inside the nearest positioned ancestor — give the surface it warns about `relative` so the pill stays with its content.",
+        "A role=\"status\" region rather than a dialog: it announces itself politely and never steals or traps focus, but Escape from inside it dismisses and hands focus to the dot so the keyboard never lands on nothing.",
+        "A dismissal is remembered against the level it was made at, so putting away a warning does not silence the breach that follows; under reduced motion nothing slides and nothing breathes, while the meter still fills and every word still changes."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/spend-alert",
+      "registryItemUrl": "https://www.kinetiqui.com/r/spend-alert.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/spend-alert",
+        "npm": "npx shadcn@latest add @kinetiq/spend-alert",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/spend-alert",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/spend-alert",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/spend-alert.json"
+      }
+    },
+    {
+      "slug": "merchant-cluster",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Merchant Cluster",
+      "serial": "KQ-676",
+      "tagline": "Bubbles sized by what they take.",
+      "description": "A month's merchants as bubbles sized by what they took. The pack settles on snap in a cascade, each bubble growing out of the cluster's centre, and pressing one expands it: the chosen bubble glides to the middle at triple its radius while the rest part onto a ring around it, and the panel underneath opens to that merchant's transactions on a measured height. Bubbles carry a roving tabindex in spend order where arrows step, Home and End reach the largest and smallest, Enter and Space toggle and Escape collapses.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "merchants",
+        "spend",
+        "bubble",
+        "cluster",
+        "packing",
+        "transactions"
+      ],
+      "props": [
+        {
+          "name": "merchants",
+          "type": "MerchantSpend[]",
+          "description": "Merchants with id, name, amount and transactions; bubbles are area-proportional to the amount."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial expanded merchant id; null is the resting cluster."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the press, Enter, Space or Escape that expanded or collapsed a bubble."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD Intl.NumberFormat",
+          "description": "Formats every amount in the cluster and the panel."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Spend by merchant",
+          "description": "Names the cluster for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Bubbles are buttons with a roving tabindex in spend order: arrows step, Home and End reach the largest and smallest, Enter and Space toggle, Escape collapses.",
+        "The panel's height comes from a ResizeObserver, so a closed panel reserves no space and an open one is exactly as tall as its rows.",
+        "Under reduced motion the pack appears in place and the expansion swaps without travel, while the transactions still open — they are the reading, not the flourish."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/merchant-cluster",
+      "registryItemUrl": "https://www.kinetiqui.com/r/merchant-cluster.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/merchant-cluster",
+        "npm": "npx shadcn@latest add @kinetiq/merchant-cluster",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/merchant-cluster",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/merchant-cluster",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/merchant-cluster.json"
+      }
+    },
+    {
+      "slug": "week-strip",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Week Strip",
+      "serial": "KQ-677",
+      "tagline": "Seven days, seven bars.",
+      "description": "A week of spend, seven bars in one plot. The bars draw up from the baseline on glide in a cascade — a quantity settling, so no overshoot — while today's column keeps a ring that breathes on a mirrored opacity tween and stops when the tab is hidden. Swiping changes week: the pointer is captured only after 4px of travel, the strip follows the finger with rubber-band resistance at the ends, and on release the same seven bars keep their identity and glide to the new week's heights while the strip springs back on snap. Left and Right step days, Home and End reach the ends of the week, PageUp and PageDown change week, Enter and Space select.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "week",
+        "spend",
+        "bars",
+        "budget",
+        "swipe",
+        "daily"
+      ],
+      "props": [
+        {
+          "name": "weeks",
+          "type": "SpendWeek[]",
+          "description": "Weeks oldest first; each carries seven days and an optional todayIndex."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "the most recent week",
+          "description": "Controlled or initial week id."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the swipe, the chevrons, or PageUp and PageDown that changed week."
+        },
+        {
+          "name": "onDayChange",
+          "type": "(day: SpendDay | null, index: number) => void",
+          "description": "Fires from the press or keypress that selected a day."
+        },
+        {
+          "name": "dailyBudget",
+          "type": "number",
+          "description": "Draws a dashed guide across the plot; bars above it read warn."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD Intl.NumberFormat",
+          "description": "Formats every amount."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Weekly spend",
+          "description": "Names the strip for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Roving tabindex across the seven bars: Left and Right step days, Home and End reach the ends of the week, PageUp and PageDown change week, Enter and Space select a day.",
+        "Every bar is scaled against the tallest day in every week, so changing week is a comparison rather than a rescale.",
+        "Under reduced motion the bars still fill on a tween, today's ring holds still, and the strip commits the week without following the finger."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/week-strip",
+      "registryItemUrl": "https://www.kinetiqui.com/r/week-strip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/week-strip",
+        "npm": "npx shadcn@latest add @kinetiq/week-strip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/week-strip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/week-strip",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/week-strip.json"
+      }
+    },
+    {
+      "slug": "goal-thermometer",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Goal Thermometer",
+      "serial": "KQ-678",
+      "tagline": "A goal you can watch fill.",
+      "description": "A vertical thermometer for a spend cap whose mercury is the sum of the entries, so the fill rises with each expense: the column's height animates on glide and the total counts up on the same spring through a motion value. Every expense leaves a tick on the rail at its cumulative height, the newest carrying a chip that lands with a snap and then rides upward with the meniscus; past warnAt the tube turns warn and the bulb glows on a mirrored tween that stops when the tab is hidden, and past the cap it turns danger without bouncing. It is a meter whose aria-valuenow stays inside the cap while aria-valuetext names the overage, with a hidden list of every expense.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "budget",
+        "cap",
+        "thermometer",
+        "meter",
+        "spend",
+        "goal"
+      ],
+      "props": [
+        {
+          "name": "entries",
+          "type": "GoalEntry[]",
+          "description": "Expenses in the order they landed; their sum is the fill and each leaves a tick."
+        },
+        {
+          "name": "cap",
+          "type": "number",
+          "description": "The cap the tube tops out at."
+        },
+        {
+          "name": "warnAt",
+          "type": "number",
+          "defaultValue": "0.85",
+          "description": "Fraction of the cap where the tube warns and the bulb glows."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the goal, printed above the tube and read as the meter's label."
+        },
+        {
+          "name": "marks",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Tick labels printed up the scale."
+        },
+        {
+          "name": "onStateChange",
+          "type": "(state: \"under\" | \"near\" | \"over\") => void",
+          "description": "Fires from the effect that sees a threshold cross, never during render."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD Intl.NumberFormat",
+          "description": "Formats the total, the cap, the scale and every chip."
+        }
+      ],
+      "usageNotes": [
+        "A meter, not a control: aria-valuenow stays inside the cap, aria-valuetext carries the sentence including the overage, and a visually hidden list keeps every expense readable.",
+        "Threshold crossings announce once through a polite live region rather than once per expense.",
+        "Under reduced motion the fill still rises and the total still counts, on a tween, and the bulb's halo holds a static ring."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/goal-thermometer",
+      "registryItemUrl": "https://www.kinetiqui.com/r/goal-thermometer.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/goal-thermometer",
+        "npm": "npx shadcn@latest add @kinetiq/goal-thermometer",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/goal-thermometer",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/goal-thermometer",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/goal-thermometer.json"
+      }
+    },
+    {
+      "slug": "bill-calendar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Bill Calendar",
+      "serial": "KQ-739",
+      "tagline": "Every bill, on the day it lands.",
+      "description": "A month of bills, each on the day it lands, over a balance line that shows what the account holds on every one of those days. The line is one column per day — a balance is piecewise-constant between bills — and each column's height animates on glide, so moving a bill re-plots the month with a layout's physics. Dragging a chip captures the pointer only after 4px of travel while a carry chip follows it inside the card's frame and the day beneath lights as the drop target; on release the bill lands on recoil. Arrows walk days, Enter lifts the bill on the focused day, arrows choose its new day, Enter drops it and Escape cancels.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "bills",
+        "calendar",
+        "balance",
+        "drag",
+        "month",
+        "schedule"
+      ],
+      "props": [
+        {
+          "name": "bills / defaultBills",
+          "type": "Bill[]",
+          "defaultValue": "[]",
+          "description": "Controlled or initial bills, each with id, label, amount and day."
+        },
+        {
+          "name": "onBillsChange",
+          "type": "(bills: Bill[]) => void",
+          "description": "Fires from the drop or the keyboard move that changed a day."
+        },
+        {
+          "name": "onBillMove",
+          "type": "(bill: Bill, fromDay: number, toDay: number) => void",
+          "description": "Fires alongside it with the move itself, for an undo line."
+        },
+        {
+          "name": "openingBalance",
+          "type": "number",
+          "description": "What the account holds before the first of the month."
+        },
+        {
+          "name": "days",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "Days in the month."
+        },
+        {
+          "name": "startWeekday",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Column the 1st sits in, 0 = Monday."
+        },
+        {
+          "name": "monthLabel",
+          "type": "string",
+          "defaultValue": "This month",
+          "description": "Printed in the header and in every day's label."
+        },
+        {
+          "name": "floor",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Balance under this reads danger and the day's label says overdrawn."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD Intl.NumberFormat",
+          "description": "Formats every amount."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Bill calendar",
+          "description": "Names the grid for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "A real grid with a roving tabindex: arrows walk days and Up and Down move by a week, Home and End reach the ends of a week, Enter lifts the bill on the focused day, arrows choose the new day, Enter drops it and Escape cancels — the drag, on the keyboard, narrated by a polite live region.",
+        "The pointer is captured only after 4px of travel, inside try/catch, so a plain press still selects a day and a synthetic sweep never throws.",
+        "Under reduced motion nothing lifts or bounces, but the carry chip still follows the pointer and the balance line still re-plots on a tween."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/bill-calendar",
+      "registryItemUrl": "https://www.kinetiqui.com/r/bill-calendar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/bill-calendar",
+        "npm": "npx shadcn@latest add @kinetiq/bill-calendar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/bill-calendar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/bill-calendar",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/bill-calendar.json"
+      }
+    },
+    {
+      "slug": "cashflow-river",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cashflow River",
+      "serial": "KQ-740",
+      "tagline": "In from the left, out to the right.",
+      "description": "Income enters from the left, merges into one balance trunk and leaves to the right as spend, every stream a stroked ribbon whose width is its share of the month. Both sides stack to the same total, so a ribbon keeps one thickness from its node to its band on the trunk, and whatever spend does not take stays as a Kept band in the signal tone; when the amounts change the curve and its width re-form together on glide. Pointing at a ribbon reads its figure in the header and thickens it while the rest dim, pressing pins the reading and Escape releases it, and each stream is also a chip below with a roving tabindex where arrows step, Home and End jump and Enter and Space pin.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "cashflow",
+        "sankey",
+        "income",
+        "spend",
+        "flow",
+        "budget"
+      ],
+      "props": [
+        {
+          "name": "inflows",
+          "type": "FlowStream[]",
+          "description": "Income streams top to bottom; labels stay short, the gutters hold about nine characters."
+        },
+        {
+          "name": "outflows",
+          "type": "FlowStream[]",
+          "description": "Spend categories top to bottom; the surplus or shortfall band is added for you."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial pinned stream id."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the press, Enter, Space or Escape that pinned or released a stream."
+        },
+        {
+          "name": "onReadChange",
+          "type": "(stream: FlowStream | null, side: \"in\" | \"out\" | null) => void",
+          "description": "Fires from the pointer or focus that lit a stream."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD Intl.NumberFormat",
+          "description": "Formats every figure on the diagram."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Cashflow",
+          "description": "Names the diagram for assistive technology and heads the card."
+        }
+      ],
+      "usageNotes": [
+        "Every ribbon has a chip below the diagram: a roving tabindex where Left and Right and Up and Down step, Home and End jump, Enter and Space pin the reading and Escape releases it — the keyboard equal of the hover.",
+        "The hit target is a fat transparent stroke over each ribbon, so a four-unit ribbon is still catchable with a pointer.",
+        "Under reduced motion the widths still re-form, on a tween instead of the glide spring, and the lit ribbon brightens rather than thickening."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/cashflow-river",
+      "registryItemUrl": "https://www.kinetiqui.com/r/cashflow-river.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cashflow-river",
+        "npm": "npx shadcn@latest add @kinetiq/cashflow-river",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cashflow-river",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cashflow-river",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/cashflow-river.json"
       }
     },
     {

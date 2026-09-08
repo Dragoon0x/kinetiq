@@ -860,6 +860,16 @@ import { ApproveStepDemo } from "@/registry/demos/approve-step.demo";
 import { HarvestTapDemo } from "@/registry/demos/harvest-tap.demo";
 import { ImpermanentMeterDemo } from "@/registry/demos/impermanent-meter.demo";
 import { LiquidityRangeDemo } from "@/registry/demos/liquidity-range.demo";
+import { EnvelopeRowDemo } from "@/registry/demos/envelope-row.demo";
+import { SpendRingDemo } from "@/registry/demos/spend-ring.demo";
+import { CategoryBarsDemo } from "@/registry/demos/category-bars.demo";
+import { ForecastLineDemo } from "@/registry/demos/forecast-line.demo";
+import { SpendAlertDemo } from "@/registry/demos/spend-alert.demo";
+import { MerchantClusterDemo } from "@/registry/demos/merchant-cluster.demo";
+import { WeekStripDemo } from "@/registry/demos/week-strip.demo";
+import { GoalThermometerDemo } from "@/registry/demos/goal-thermometer.demo";
+import { BillCalendarDemo } from "@/registry/demos/bill-calendar.demo";
+import { CashflowRiverDemo } from "@/registry/demos/cashflow-river.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1734,4 +1744,14 @@ export const demos: Record<string, ComponentType> = {
   "harvest-tap": HarvestTapDemo,
   "impermanent-meter": ImpermanentMeterDemo,
   "liquidity-range": LiquidityRangeDemo,
+  "envelope-row": EnvelopeRowDemo,
+  "spend-ring": SpendRingDemo,
+  "category-bars": CategoryBarsDemo,
+  "forecast-line": ForecastLineDemo,
+  "spend-alert": SpendAlertDemo,
+  "merchant-cluster": MerchantClusterDemo,
+  "week-strip": WeekStripDemo,
+  "goal-thermometer": GoalThermometerDemo,
+  "bill-calendar": BillCalendarDemo,
+  "cashflow-river": CashflowRiverDemo,
 };

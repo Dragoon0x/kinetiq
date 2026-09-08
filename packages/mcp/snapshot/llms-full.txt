@@ -11936,6 +11936,221 @@ Notes:
 - The plot is aria-hidden — the band, price, covered depth and every bin are printed as text — and whether the price is earning is stated in words, not by the pulse or the colour.
 - Under reduced motion the marker holds a steady halo instead of breathing and nothing springs; the lit stretch still lights.
 
+### Envelope Row (KQ-671) — `envelope-row`
+Money set aside, on purpose.
+
+Budget envelopes as a row of cards, each filling from the bottom with the share of its allocation already spent — a scaleY on glide, because an amount settles rather than switches. Dragging the coin out of a card's socket lifts it onto two motion values that track the pointer with no render per frame; releasing over another envelope commits the transfer and the coin flies the rest of the way on glide while the remainder chips settle on recoil. Enter or Space lifts the coin, Arrow keys walk the row, a second Enter or Space drops it and Escape puts it back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/envelope-row`
+
+Props:
+- `envelopes / defaultEnvelopes`: EnvelopeItem[] — Controlled or initial envelopes: { id, name, allocated, spent }.
+- `onEnvelopesChange`: (next: EnvelopeItem[]) => void — Fires from the drop or key that moved money, with the whole new row.
+- `onTransfer`: (from: string, to: string, amount: number) => void — Fires from the same event with just the move.
+- `step`: number (default 25) — Money moved by one drop.
+- `format`: (value: number) => string — Formats every amount; defaults to an explicit en-US currency formatter so the server and the client agree.
+- `label`: string (default Envelopes) — Names the row; printed above it and used for assistive technology.
+
+Notes:
+- A roving tabindex over the cards: Arrow keys move, Home and End jump to the ends, Enter or Space lifts and drops the coin, Escape puts it back. A plain click runs the same two-tap trade.
+- Only the coin socket takes a drag — the row still scrolls under a thumb everywhere else — and the pointer is captured after 4px of travel so a tap is never swallowed.
+- Under reduced motion the coin never travels: it waits on its source card and fades at the drop, while the fills still fill on a tween because that is the information.
+
+### Spend Ring (KQ-672) — `spend-ring`
+The month, as a ring.
+
+The month drawn once, as a ring: the arc grows clockwise with the share of the budget already spent through strokeDashoffset on a pathLength circle, settling on glide because a total is a quantity arriving rather than a switch flipping. A one-notch dash walks the same circle at the month's own progress, so fill behind the mark reads on pace and fill past it turns warn, while spend past the budget wraps a second danger arc back over the ring's head on snap. The centre figure counts through a motion value, and a two-stop radio group under the ring swaps it between spent and left with Arrow keys, Home and End, its knob travelling on a shared layoutId.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spend-ring`
+
+Props:
+- `spent`: number — Money spent this month. May exceed the budget; the overage is drawn.
+- `budget`: number — The month's budget.
+- `day`: number — Day of the month, 1-based; places the pace mark on the ring.
+- `daysInMonth`: number (default 30) — Length of the month.
+- `readout / defaultReadout`: "spent" | "left" (default spent) — Controlled or initial centre figure.
+- `onReadoutChange`: (readout: "spent" | "left") => void — Fires from the click or key that changed the centre figure.
+- `format`: (value: number) => string — Formats every money figure; defaults to an explicit en-US currency formatter.
+- `size`: number (default 168) — Ring diameter in px, applied as a maximum — the ring shrinks with its container rather than overhanging it.
+- `label`: string — Names the ring; printed above it and used for assistive technology.
+
+Notes:
+- A role="meter" whose aria-valuetext reads the month as a sentence, plus a two-stop radio group with a roving tabindex: Arrow keys move and select, Home and End jump, Space selects.
+- The pace mark walks the circle as a dash on the ring's own geometry, so no trigonometry reaches an attribute and nothing can differ between the server's markup and the browser's.
+- Under reduced motion nothing springs, but the arc still fills and the mark still walks, because where the month stands is the information.
+
+### Category Bars (KQ-673) — `category-bars`
+Where the money went.
+
+A month's spend sorted heaviest first, each bar drawing in from its left origin on glide under a cascade() stagger so the board settles inside the choreography budget. Bars are scaled against the largest category rather than the total, which keeps the smallest one legible, and the total above them rolls its digits on snap whenever the figures change. Pressing a row unpacks its merchants: a ResizeObserver measures the panel and the frame glides to that height rather than reserving one, while the rows arrive on snap from a nudge of travel; Arrow Up and Down walk the headers, Home and End jump to the ends, Enter and Space toggle.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/category-bars`
+
+Props:
+- `categories`: SpendCategory[] — { id, label, amount, merchants? } — sorted internally, heaviest first.
+- `expanded / defaultExpanded`: string | null (default null) — Controlled or initial open category id.
+- `onExpandedChange`: (id: string | null) => void — Fires from the click or key that opened or closed a row.
+- `total`: number — The figure that rolls above the board; defaults to the sum of the categories.
+- `format`: (value: number) => string — Formats every amount; defaults to an explicit en-US currency formatter.
+- `label`: string (default Spend by category) — Names the board; printed above it.
+
+Notes:
+- The disclosure pattern: every header is a button with aria-expanded and aria-controls and stays in the tab order, while Arrow Up and Down walk between them and Home and End jump to the ends.
+- The merchant panel's height is measured with a ResizeObserver, so a category with two merchants takes the room two merchants need and nothing reserves space for a state.
+- Under reduced motion the bars still fill and the panel still opens — that is the information — but without stagger, travel, or spring.
+
+### Forecast Line (KQ-674) — `forecast-line`
+Where the balance is heading.
+
+A balance chart whose line changes character at today: solid for what happened, the same stroke dashed for what is only projected, because a forecast is a claim and should not be drawn like a fact. Toggling a scheduled bill re-prices the plan and a clip rectangle sweeps open from today's dot to the end of the month on glide, which is what lets the redraw keep its dashes; the closing figure counts through a motion value on snap and today's dot holds a slow drift breath. Every bill is a real switch in the tab order, and a projection that crosses zero shades the band below the axis and marks the day in danger.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/forecast-line`
+
+Props:
+- `history`: number[] — Actual closing balances for day 1 through today, in order.
+- `bills`: ScheduledBill[] (default []) — { id, label, day, amount } — future outflows the forecast may include.
+- `enabled / defaultEnabled`: string[] — Controlled or initial ids of the bills in the plan; defaults to every bill.
+- `onEnabledChange`: (ids: string[]) => void — Fires from the click or key that toggled a bill.
+- `onProjectionChange`: (projection: BalanceProjection) => void — Fires from the same event with the newly priced plan: points, closing balance, and the first short day.
+- `days`: number (default 30) — Days on the x axis; the forecast runs from the end of the history to here.
+- `dailyBurn`: number (default 0) — Average daily spend carried through the forecast, on top of the bills.
+- `format`: (value: number) => string — Formats every money figure; defaults to an explicit en-US currency formatter.
+- `height`: number (default 132) — Plot height in px; the width is fluid.
+- `label`: string (default Balance forecast) — Names the chart; printed above it.
+
+Notes:
+- Each bill is a button with role="switch" and aria-checked in the tab order; Enter and Space toggle it, and a polite status announces the new projection once per action rather than once per frame.
+- The module also exports projectBalance, the pure walk the chart uses, so a host can price a plan for a summary line without mounting a second chart to ask.
+- Under reduced motion the forecast swaps rather than sweeps and today's dot does not breathe, but the line still moves where the money moves it.
+
+### Spend Alert (KQ-675) — `spend-alert`
+A warning that arrives softly.
+
+Crossing the warning threshold slides an alert pill in from a shift above its rail on glide — no overshoot, because a warning that celebrates is a warning nobody believes — and a halo behind its icon breathes between two keyframes on drift, reversing forever. Crossing the limit is a different state rather than a louder one: the copy and the colour turn danger and the breath stops, since a breach is a fact and not an ambient condition. Dismissing slides the pill away on the exit ease and leaves a smaller dot arriving on snap; Escape from inside the pill dismisses it and hands focus to that dot, which is a real button that brings the pill back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/spend-alert`
+
+Props:
+- `category`: string — The category the alert is about; named in the copy and in both labels.
+- `spent`: number — Money spent in the category so far.
+- `limit`: number — The category's cap.
+- `warnAt`: number (default 0.85) — Share of the limit at which the pill arrives.
+- `open / defaultOpen`: boolean — Controlled visibility, which overrides both the threshold and the dismissal; defaultOpen false starts dismissed.
+- `onOpenChange`: (open: boolean) => void — Fires from the click or key that dismissed or restored it.
+- `format`: (value: number) => string — Formats both amounts; defaults to an explicit en-US currency formatter.
+- `showDot`: boolean (default true) — Leaves a dot behind on dismissal; false removes the alert outright.
+
+Notes:
+- Renders absolutely inside the nearest positioned ancestor — give the surface it warns about `relative` so the pill stays with its content.
+- A role="status" region rather than a dialog: it announces itself politely and never steals or traps focus, but Escape from inside it dismisses and hands focus to the dot so the keyboard never lands on nothing.
+- A dismissal is remembered against the level it was made at, so putting away a warning does not silence the breach that follows; under reduced motion nothing slides and nothing breathes, while the meter still fills and every word still changes.
+
+### Merchant Cluster (KQ-676) — `merchant-cluster`
+Bubbles sized by what they take.
+
+A month's merchants as bubbles sized by what they took. The pack settles on snap in a cascade, each bubble growing out of the cluster's centre, and pressing one expands it: the chosen bubble glides to the middle at triple its radius while the rest part onto a ring around it, and the panel underneath opens to that merchant's transactions on a measured height. Bubbles carry a roving tabindex in spend order where arrows step, Home and End reach the largest and smallest, Enter and Space toggle and Escape collapses.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/merchant-cluster`
+
+Props:
+- `merchants`: MerchantSpend[] — Merchants with id, name, amount and transactions; bubbles are area-proportional to the amount.
+- `value / defaultValue`: string | null (default null) — Controlled or initial expanded merchant id; null is the resting cluster.
+- `onValueChange`: (id: string | null) => void — Fires from the press, Enter, Space or Escape that expanded or collapsed a bubble.
+- `format`: (value: number) => string (default USD Intl.NumberFormat) — Formats every amount in the cluster and the panel.
+- `label`: string (default Spend by merchant) — Names the cluster for assistive technology.
+
+Notes:
+- Bubbles are buttons with a roving tabindex in spend order: arrows step, Home and End reach the largest and smallest, Enter and Space toggle, Escape collapses.
+- The panel's height comes from a ResizeObserver, so a closed panel reserves no space and an open one is exactly as tall as its rows.
+- Under reduced motion the pack appears in place and the expansion swaps without travel, while the transactions still open — they are the reading, not the flourish.
+
+### Week Strip (KQ-677) — `week-strip`
+Seven days, seven bars.
+
+A week of spend, seven bars in one plot. The bars draw up from the baseline on glide in a cascade — a quantity settling, so no overshoot — while today's column keeps a ring that breathes on a mirrored opacity tween and stops when the tab is hidden. Swiping changes week: the pointer is captured only after 4px of travel, the strip follows the finger with rubber-band resistance at the ends, and on release the same seven bars keep their identity and glide to the new week's heights while the strip springs back on snap. Left and Right step days, Home and End reach the ends of the week, PageUp and PageDown change week, Enter and Space select.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/week-strip`
+
+Props:
+- `weeks`: SpendWeek[] — Weeks oldest first; each carries seven days and an optional todayIndex.
+- `value / defaultValue`: string (default the most recent week) — Controlled or initial week id.
+- `onValueChange`: (id: string) => void — Fires from the swipe, the chevrons, or PageUp and PageDown that changed week.
+- `onDayChange`: (day: SpendDay | null, index: number) => void — Fires from the press or keypress that selected a day.
+- `dailyBudget`: number — Draws a dashed guide across the plot; bars above it read warn.
+- `format`: (value: number) => string (default USD Intl.NumberFormat) — Formats every amount.
+- `label`: string (default Weekly spend) — Names the strip for assistive technology.
+
+Notes:
+- Roving tabindex across the seven bars: Left and Right step days, Home and End reach the ends of the week, PageUp and PageDown change week, Enter and Space select a day.
+- Every bar is scaled against the tallest day in every week, so changing week is a comparison rather than a rescale.
+- Under reduced motion the bars still fill on a tween, today's ring holds still, and the strip commits the week without following the finger.
+
+### Goal Thermometer (KQ-678) — `goal-thermometer`
+A goal you can watch fill.
+
+A vertical thermometer for a spend cap whose mercury is the sum of the entries, so the fill rises with each expense: the column's height animates on glide and the total counts up on the same spring through a motion value. Every expense leaves a tick on the rail at its cumulative height, the newest carrying a chip that lands with a snap and then rides upward with the meniscus; past warnAt the tube turns warn and the bulb glows on a mirrored tween that stops when the tab is hidden, and past the cap it turns danger without bouncing. It is a meter whose aria-valuenow stays inside the cap while aria-valuetext names the overage, with a hidden list of every expense.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/goal-thermometer`
+
+Props:
+- `entries`: GoalEntry[] — Expenses in the order they landed; their sum is the fill and each leaves a tick.
+- `cap`: number — The cap the tube tops out at.
+- `warnAt`: number (default 0.85) — Fraction of the cap where the tube warns and the bulb glows.
+- `label`: string — Names the goal, printed above the tube and read as the meter's label.
+- `marks`: number (default 4) — Tick labels printed up the scale.
+- `onStateChange`: (state: "under" | "near" | "over") => void — Fires from the effect that sees a threshold cross, never during render.
+- `format`: (value: number) => string (default USD Intl.NumberFormat) — Formats the total, the cap, the scale and every chip.
+
+Notes:
+- A meter, not a control: aria-valuenow stays inside the cap, aria-valuetext carries the sentence including the overage, and a visually hidden list keeps every expense readable.
+- Threshold crossings announce once through a polite live region rather than once per expense.
+- Under reduced motion the fill still rises and the total still counts, on a tween, and the bulb's halo holds a static ring.
+
+### Bill Calendar (KQ-739) — `bill-calendar`
+Every bill, on the day it lands.
+
+A month of bills, each on the day it lands, over a balance line that shows what the account holds on every one of those days. The line is one column per day — a balance is piecewise-constant between bills — and each column's height animates on glide, so moving a bill re-plots the month with a layout's physics. Dragging a chip captures the pointer only after 4px of travel while a carry chip follows it inside the card's frame and the day beneath lights as the drop target; on release the bill lands on recoil. Arrows walk days, Enter lifts the bill on the focused day, arrows choose its new day, Enter drops it and Escape cancels.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bill-calendar`
+
+Props:
+- `bills / defaultBills`: Bill[] (default []) — Controlled or initial bills, each with id, label, amount and day.
+- `onBillsChange`: (bills: Bill[]) => void — Fires from the drop or the keyboard move that changed a day.
+- `onBillMove`: (bill: Bill, fromDay: number, toDay: number) => void — Fires alongside it with the move itself, for an undo line.
+- `openingBalance`: number — What the account holds before the first of the month.
+- `days`: number (default 30) — Days in the month.
+- `startWeekday`: number (default 0) — Column the 1st sits in, 0 = Monday.
+- `monthLabel`: string (default This month) — Printed in the header and in every day's label.
+- `floor`: number (default 0) — Balance under this reads danger and the day's label says overdrawn.
+- `format`: (value: number) => string (default USD Intl.NumberFormat) — Formats every amount.
+- `label`: string (default Bill calendar) — Names the grid for assistive technology.
+
+Notes:
+- A real grid with a roving tabindex: arrows walk days and Up and Down move by a week, Home and End reach the ends of a week, Enter lifts the bill on the focused day, arrows choose the new day, Enter drops it and Escape cancels — the drag, on the keyboard, narrated by a polite live region.
+- The pointer is captured only after 4px of travel, inside try/catch, so a plain press still selects a day and a synthetic sweep never throws.
+- Under reduced motion nothing lifts or bounces, but the carry chip still follows the pointer and the balance line still re-plots on a tween.
+
+### Cashflow River (KQ-740) — `cashflow-river`
+In from the left, out to the right.
+
+Income enters from the left, merges into one balance trunk and leaves to the right as spend, every stream a stroked ribbon whose width is its share of the month. Both sides stack to the same total, so a ribbon keeps one thickness from its node to its band on the trunk, and whatever spend does not take stays as a Kept band in the signal tone; when the amounts change the curve and its width re-form together on glide. Pointing at a ribbon reads its figure in the header and thickens it while the rest dim, pressing pins the reading and Escape releases it, and each stream is also a chip below with a roving tabindex where arrows step, Home and End jump and Enter and Space pin.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cashflow-river`
+
+Props:
+- `inflows`: FlowStream[] — Income streams top to bottom; labels stay short, the gutters hold about nine characters.
+- `outflows`: FlowStream[] — Spend categories top to bottom; the surplus or shortfall band is added for you.
+- `value / defaultValue`: string | null (default null) — Controlled or initial pinned stream id.
+- `onValueChange`: (id: string | null) => void — Fires from the press, Enter, Space or Escape that pinned or released a stream.
+- `onReadChange`: (stream: FlowStream | null, side: "in" | "out" | null) => void — Fires from the pointer or focus that lit a stream.
+- `format`: (value: number) => string (default USD Intl.NumberFormat) — Formats every figure on the diagram.
+- `label`: string (default Cashflow) — Names the diagram for assistive technology and heads the card.
+
+Notes:
+- Every ribbon has a chip below the diagram: a roving tabindex where Left and Right and Up and Down step, Home and End jump, Enter and Space pin the reading and Escape releases it — the keyboard equal of the hover.
+- The hit target is a fat transparent stroke over each ribbon, so a four-unit ribbon is still catchable with a pointer.
+- Under reduced motion the widths still re-form, on a tween instead of the glide spring, and the lit ribbon brightens rather than thickening.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

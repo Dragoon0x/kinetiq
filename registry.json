@@ -18736,6 +18736,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "envelope-row",
+      "type": "registry:ui",
+      "title": "Envelope Row",
+      "description": "Budget envelopes as a row of cards, each filling from the bottom with the share of its allocation already spent — a scaleY on glide, because an amount settles rather than switches. Dragging the coin out of a card's socket lifts it onto two motion values that track the pointer with no render per frame; releasing over another envelope commits the transfer and the coin flies the rest of the way on glide while the remainder chips settle on recoil. Enter or Space lifts the coin, Arrow keys walk the row, a second Enter or Space drops it and Escape puts it back.",
+      "files": [
+        {
+          "path": "registry/ui/envelope-row.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-671"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spend-ring",
+      "type": "registry:ui",
+      "title": "Spend Ring",
+      "description": "The month drawn once, as a ring: the arc grows clockwise with the share of the budget already spent through strokeDashoffset on a pathLength circle, settling on glide because a total is a quantity arriving rather than a switch flipping. A one-notch dash walks the same circle at the month's own progress, so fill behind the mark reads on pace and fill past it turns warn, while spend past the budget wraps a second danger arc back over the ring's head on snap. The centre figure counts through a motion value, and a two-stop radio group under the ring swaps it between spent and left with Arrow keys, Home and End, its knob travelling on a shared layoutId.",
+      "files": [
+        {
+          "path": "registry/ui/spend-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-672"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "category-bars",
+      "type": "registry:ui",
+      "title": "Category Bars",
+      "description": "A month's spend sorted heaviest first, each bar drawing in from its left origin on glide under a cascade() stagger so the board settles inside the choreography budget. Bars are scaled against the largest category rather than the total, which keeps the smallest one legible, and the total above them rolls its digits on snap whenever the figures change. Pressing a row unpacks its merchants: a ResizeObserver measures the panel and the frame glides to that height rather than reserving one, while the rows arrive on snap from a nudge of travel; Arrow Up and Down walk the headers, Home and End jump to the ends, Enter and Space toggle.",
+      "files": [
+        {
+          "path": "registry/ui/category-bars.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-673"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "forecast-line",
+      "type": "registry:ui",
+      "title": "Forecast Line",
+      "description": "A balance chart whose line changes character at today: solid for what happened, the same stroke dashed for what is only projected, because a forecast is a claim and should not be drawn like a fact. Toggling a scheduled bill re-prices the plan and a clip rectangle sweeps open from today's dot to the end of the month on glide, which is what lets the redraw keep its dashes; the closing figure counts through a motion value on snap and today's dot holds a slow drift breath. Every bill is a real switch in the tab order, and a projection that crosses zero shades the band below the axis and marks the day in danger.",
+      "files": [
+        {
+          "path": "registry/ui/forecast-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-674"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "spend-alert",
+      "type": "registry:ui",
+      "title": "Spend Alert",
+      "description": "Crossing the warning threshold slides an alert pill in from a shift above its rail on glide — no overshoot, because a warning that celebrates is a warning nobody believes — and a halo behind its icon breathes between two keyframes on drift, reversing forever. Crossing the limit is a different state rather than a louder one: the copy and the colour turn danger and the breath stops, since a breach is a fact and not an ambient condition. Dismissing slides the pill away on the exit ease and leaves a smaller dot arriving on snap; Escape from inside the pill dismisses it and hands focus to that dot, which is a real button that brings the pill back.",
+      "files": [
+        {
+          "path": "registry/ui/spend-alert.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-675"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "merchant-cluster",
+      "type": "registry:ui",
+      "title": "Merchant Cluster",
+      "description": "A month's merchants as bubbles sized by what they took. The pack settles on snap in a cascade, each bubble growing out of the cluster's centre, and pressing one expands it: the chosen bubble glides to the middle at triple its radius while the rest part onto a ring around it, and the panel underneath opens to that merchant's transactions on a measured height. Bubbles carry a roving tabindex in spend order where arrows step, Home and End reach the largest and smallest, Enter and Space toggle and Escape collapses.",
+      "files": [
+        {
+          "path": "registry/ui/merchant-cluster.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-676"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "week-strip",
+      "type": "registry:ui",
+      "title": "Week Strip",
+      "description": "A week of spend, seven bars in one plot. The bars draw up from the baseline on glide in a cascade — a quantity settling, so no overshoot — while today's column keeps a ring that breathes on a mirrored opacity tween and stops when the tab is hidden. Swiping changes week: the pointer is captured only after 4px of travel, the strip follows the finger with rubber-band resistance at the ends, and on release the same seven bars keep their identity and glide to the new week's heights while the strip springs back on snap. Left and Right step days, Home and End reach the ends of the week, PageUp and PageDown change week, Enter and Space select.",
+      "files": [
+        {
+          "path": "registry/ui/week-strip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-677"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "goal-thermometer",
+      "type": "registry:ui",
+      "title": "Goal Thermometer",
+      "description": "A vertical thermometer for a spend cap whose mercury is the sum of the entries, so the fill rises with each expense: the column's height animates on glide and the total counts up on the same spring through a motion value. Every expense leaves a tick on the rail at its cumulative height, the newest carrying a chip that lands with a snap and then rides upward with the meniscus; past warnAt the tube turns warn and the bulb glows on a mirrored tween that stops when the tab is hidden, and past the cap it turns danger without bouncing. It is a meter whose aria-valuenow stays inside the cap while aria-valuetext names the overage, with a hidden list of every expense.",
+      "files": [
+        {
+          "path": "registry/ui/goal-thermometer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-678"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bill-calendar",
+      "type": "registry:ui",
+      "title": "Bill Calendar",
+      "description": "A month of bills, each on the day it lands, over a balance line that shows what the account holds on every one of those days. The line is one column per day — a balance is piecewise-constant between bills — and each column's height animates on glide, so moving a bill re-plots the month with a layout's physics. Dragging a chip captures the pointer only after 4px of travel while a carry chip follows it inside the card's frame and the day beneath lights as the drop target; on release the bill lands on recoil. Arrows walk days, Enter lifts the bill on the focused day, arrows choose its new day, Enter drops it and Escape cancels.",
+      "files": [
+        {
+          "path": "registry/ui/bill-calendar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-739"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cashflow-river",
+      "type": "registry:ui",
+      "title": "Cashflow River",
+      "description": "Income enters from the left, merges into one balance trunk and leaves to the right as spend, every stream a stroked ribbon whose width is its share of the month. Both sides stack to the same total, so a ribbon keeps one thickness from its node to its band on the trunk, and whatever spend does not take stays as a Kept band in the signal tone; when the amounts change the curve and its width re-form together on glide. Pointing at a ribbon reads its figure in the header and thickens it while the rest dim, pressing pins the reading and Escape releases it, and each stream is also a chip below with a roving tabindex where arrows step, Home and End jump and Enter and Space pin.",
+      "files": [
+        {
+          "path": "registry/ui/cashflow-river.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-740"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
