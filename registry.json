@@ -16576,6 +16576,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "balance-roll",
+      "type": "registry:ui",
+      "title": "Balance Roll",
+      "description": "A balance whose digit columns roll to the new figure on glide, in a cascade that starts at the units and ripples left the way an odometer's small wheels stop first. Each column is one eleven-face strip — the ten digits and a bullet — so pressing the figure rolls it to dots instead of swapping in a placeholder, and the separators only fade, which keeps the layout still. A change slides a delta chip in beside the figure on snap and takes it away on the exit ease; the press is an aria-pressed button whose name carries the amount, so Enter and Space mask it and no reader wades through the columns.",
+      "files": [
+        {
+          "path": "registry/ui/balance-roll.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-591"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "account-deck",
+      "type": "registry:ui",
+      "title": "Account Deck",
+      "description": "A horizontal deck of account cards where the pick lifts on snap and every other card recedes exactly one step, so the deck reads as two planes rather than a perspective trick. The strip centres the chosen card by animating a motion value's x on snap, seeded from a ResizeObserver so the first paint lands centred, and the balance under the deck rolls its digits on snap because the roll belongs to the pick that caused it. It is a radiogroup with a roving tabindex — Left and Right step, Home and End jump, Space selects — and a pointer drag steps the pick only after 4px of travel, capturing inside try/catch.",
+      "files": [
+        {
+          "path": "registry/ui/account-deck.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-592"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ledger-line",
+      "type": "registry:ui",
+      "title": "Ledger Line",
+      "description": "A transaction row that opens where it stands: pressing expands its merchant, category, running balance and reference on glide to a height a ResizeObserver measured, with the facts arriving on a cascade and the chevron turning on snap. A pending entry sweeps a soft band along its amount on a linear tween driven entirely by the status prop, and a settling entry stamps a tick that draws itself with pathLength on flick and lands from 1.3x on recoil. The row is a real aria-expanded button — Enter and Space toggle, Escape closes — and pending is a word and a hatch, never colour alone.",
+      "files": [
+        {
+          "path": "registry/ui/ledger-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-593"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "running-tally",
+      "type": "registry:ui",
+      "title": "Running Tally",
+      "description": "A movements list where each new entry arrives from the side its sign points to — a credit from the right, a debit from the left, on snap — while the list makes room by animating its height on glide, so the rows below are pushed rather than teleported. The total rolls its digits on glide and a hairline under it wipes toward the side the movement came from before fading, which is the instrument's only celebration: a withdrawal gets the same physics as a deposit, in the other direction. Rows are an ordered list whose direction is spoken as well as drawn, and the settled total is announced politely and reported through onTotalChange from the effect that observed it.",
+      "files": [
+        {
+          "path": "registry/ui/running-tally.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-594"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "statement-fold",
+      "type": "registry:ui",
+      "title": "Statement Fold",
+      "description": "A month's statement folded in three: pressing the header unfolds income, spend and net, each rotating from -90 degrees about its own top edge on glide in a cascade, so the letter opens from the top down instead of all at once. Folding back reverses the order on the exit ease, and the card's height comes from a ResizeObserver on the open content rather than a reserved minimum. Each panel's bar draws with scaleX against the largest of the three figures, the net colours by sign and never bounces, and the header is a real aria-expanded button that Enter, Space and Escape drive.",
+      "files": [
+        {
+          "path": "registry/ui/statement-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-595"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reserve-gauge",
+      "type": "registry:ui",
+      "title": "Reserve Gauge",
+      "description": "A balance bar split to scale between spendable money and the holds sitting on it, each hold hatched and sized by its share. Clearing a hold shrinks its segment away on the exit ease while the available run glides wider and the figure rolls its digits on snap; a reader caret slides to whichever segment is being read on snap. The holds are one Tab stop with a roving tabindex — Left and Right step, Home and End jump, Enter pins the reason open, Escape unpins.",
+      "files": [
+        {
+          "path": "registry/ui/reserve-gauge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-596"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "balance-compare",
+      "type": "registry:ui",
+      "title": "Balance Compare",
+      "description": "Two periods stand on columns scaled against the larger of the pair, and hovering or focusing draws a line between the column tops with pathLength on flick — the line is the assertion, so it lands at once. It colours by direction and carries a caret so up and down never rest on colour alone, while a percent chip arrives at its midpoint on snap from a nudge below and the columns glide to new heights. Enter or Space pins the line open for touch and keyboard readers, Escape releases it.",
+      "files": [
+        {
+          "path": "registry/ui/balance-compare.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-597"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cash-clock",
+      "type": "registry:ui",
+      "title": "Cash Clock",
+      "description": "A ring that fills toward payday one tick per day, its spent arc growing on glide because a cycle is a quantity settling rather than a switch flipping. Inside sits the balance you will actually reach: switching a scheduled outgoing on or off counts the projection to its new figure on snap through a motion value and lands or lifts that outgoing's marker on the day it falls, and a projection under the floor turns the unspent arc danger. The outgoings are real checkboxes, so Tab reaches each one and Space toggles it.",
+      "files": [
+        {
+          "path": "registry/ui/cash-clock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-598"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "multi-currency",
+      "type": "registry:ui",
+      "title": "Currency Stack",
+      "description": "A stack where every currency keeps its own lane and its own units. Choosing a lane sends it to the top and the rest close the gap beneath it — a layout reorder on glide, so each lane travels rather than the list redrawing — and the chosen lane opens a conversion strip whose converted total rolls its digits on snap under a rate readout. A new rate table pulses the strip with a cobalt wash on the exit ease; Up and Down walk the lanes, Home and End jump, Enter or Space brings the focused lane to the top.",
+      "files": [
+        {
+          "path": "registry/ui/multi-currency.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-599"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "balance-mask",
+      "type": "registry:ui",
+      "title": "Balance Mask",
+      "description": "A balance drawn as bullets until you hold it: the two layers share one grid cell and clip against each other, so holding drives the boundary across on glide and releasing runs it back on the exit ease, with the mono face keeping both strings exactly the same width. Space or Enter toggles instead of holding and cross-fades rather than wipes — no travel where there was no gesture — while Escape hides and a released pointer anywhere on the page re-masks the figure. The eye's slash draws on flick.",
+      "files": [
+        {
+          "path": "registry/ui/balance-mask.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-600"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

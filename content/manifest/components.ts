@@ -25497,4 +25497,831 @@ export const components: KinetiqItem[] = [
       "Pointer capture waits for 4px of travel so a plain click is never swallowed, and the rubber band is a visual offset only — the committed rect never leaves the picture.",
     ],
   },
+  {
+    name: "balance-roll",
+    type: "registry:ui",
+    title: "Balance Roll",
+    description:
+      "A balance whose digit columns roll to the new figure on glide, in a cascade that starts at the units and ripples left the way an odometer's small wheels stop first. Each column is one eleven-face strip — the ten digits and a bullet — so pressing the figure rolls it to dots instead of swapping in a placeholder, and the separators only fade, which keeps the layout still. A change slides a delta chip in beside the figure on snap and takes it away on the exit ease; the press is an aria-pressed button whose name carries the amount, so Enter and Space mask it and no reader wades through the columns.",
+    files: [
+      {
+        path: "registry/ui/balance-roll.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-591",
+    },
+    tagline: "The number lands before the confetti would.",
+    keywords: [
+      "balance",
+      "rolling digits",
+      "odometer",
+      "mask",
+      "currency",
+      "finance",
+      "delta",
+    ],
+    props: [
+      {
+        name: "value",
+        type: "number",
+        description:
+          "The balance in major units. Changing it rolls the digits and raises the delta chip.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What the figure is; labels the readout for assistive technology.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Turns an amount into its printed string. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "masked / defaultMasked",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial mask state; masked rolls every digit on to a bullet.",
+      },
+      {
+        name: "onMaskedChange",
+        type: "(masked: boolean) => void",
+        description: "Fires from the press that toggled the mask.",
+      },
+      {
+        name: "onValueSettle",
+        type: "(value: number, delta: number) => void",
+        description:
+          "Fires once per settled change, from the effect that observed it.",
+      },
+      {
+        name: "deltaHoldMs",
+        type: "number",
+        defaultValue: "2600",
+        description:
+          "Milliseconds the delta chip holds before it fades; 0 keeps it up.",
+      },
+      {
+        name: "caption",
+        type: "React.ReactNode",
+        description:
+          "A quiet line under the figure — the account the balance belongs to.",
+      },
+    ],
+    usageNotes: [
+      "The figure is a real toggle button: Tab reaches it, Enter and Space mask and reveal, and its accessible name carries the amount while the rolling columns stay hidden from assistive technology.",
+      "Under reduced motion the digits swap to their faces with no roll or stagger and the chip fades in place — the change is still shown, because a movement of balance is information.",
+      "Masking hides the delta chip as well: a hidden balance that still advertises its movement is not hidden.",
+    ],
+  },
+  {
+    name: "account-deck",
+    type: "registry:ui",
+    title: "Account Deck",
+    description:
+      "A horizontal deck of account cards where the pick lifts on snap and every other card recedes exactly one step, so the deck reads as two planes rather than a perspective trick. The strip centres the chosen card by animating a motion value's x on snap, seeded from a ResizeObserver so the first paint lands centred, and the balance under the deck rolls its digits on snap because the roll belongs to the pick that caused it. It is a radiogroup with a roving tabindex — Left and Right step, Home and End jump, Space selects — and a pointer drag steps the pick only after 4px of travel, capturing inside try/catch.",
+    files: [
+      {
+        path: "registry/ui/account-deck.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-592",
+    },
+    tagline: "Pick an account; the rest step back.",
+    keywords: [
+      "accounts",
+      "deck",
+      "carousel",
+      "balance",
+      "swipe",
+      "finance",
+      "radiogroup",
+    ],
+    props: [
+      {
+        name: "accounts",
+        type: "DeckAccount[]",
+        description:
+          "The accounts left to right: id, name, kind, an optional masked tail, and a balance.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial account id; defaults to the first account.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the click, key or drag step that changed the pick.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats the balance under the deck. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible group label; omit it and pass aria-label to label the deck invisibly.",
+      },
+      {
+        name: "balanceLabel",
+        type: "string",
+        defaultValue: '"Balance"',
+        description: "The caption over the rolling figure.",
+      },
+    ],
+    usageNotes: [
+      "A radiogroup with a roving tabindex: Left and Right (or Up and Down) step without wrapping past the ends, Home and End jump to the outer accounts, Space selects the focused card.",
+      "Dragging steps the pick — travel under 4px is ignored so plain clicks survive, and each further 48px commits one step and re-anchors, so a long sweep walks the deck.",
+      "Under reduced motion nothing lifts or scales — the pick is carried by its rail, border and wash — the strip jumps to the centred position and the balance's digits swap.",
+    ],
+  },
+  {
+    name: "ledger-line",
+    type: "registry:ui",
+    title: "Ledger Line",
+    description:
+      "A transaction row that opens where it stands: pressing expands its merchant, category, running balance and reference on glide to a height a ResizeObserver measured, with the facts arriving on a cascade and the chevron turning on snap. A pending entry sweeps a soft band along its amount on a linear tween driven entirely by the status prop, and a settling entry stamps a tick that draws itself with pathLength on flick and lands from 1.3x on recoil. The row is a real aria-expanded button — Enter and Space toggle, Escape closes — and pending is a word and a hatch, never colour alone.",
+    files: [
+      {
+        path: "registry/ui/ledger-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-593",
+    },
+    tagline: "Every entry knows where it came from.",
+    keywords: [
+      "transaction",
+      "ledger",
+      "row",
+      "expand",
+      "pending",
+      "settled",
+      "finance",
+    ],
+    props: [
+      {
+        name: "title",
+        type: "string",
+        description: "What the entry says on the statement.",
+      },
+      {
+        name: "amount",
+        type: "number",
+        description:
+          "Signed major units; negative is a debit and the row composes the sign itself.",
+      },
+      {
+        name: "date",
+        type: "string",
+        description:
+          "An already-formatted day label, so the row never reads a clock.",
+      },
+      {
+        name: "status",
+        type: '"pending" | "settled"',
+        defaultValue: '"settled"',
+        description:
+          "Pending shimmers along the amount; settling stamps the tick.",
+      },
+      {
+        name: "merchant",
+        type: "string",
+        description: "The resolved merchant line in the detail.",
+      },
+      {
+        name: "category",
+        type: "string",
+        description:
+          "Category chip in the detail; its dot sits on the label's centreline.",
+      },
+      {
+        name: "runningBalance",
+        type: "number",
+        description: "Balance after this entry; omitted, the line is left out.",
+      },
+      {
+        name: "reference",
+        type: "string",
+        description: "Reference code in the detail.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial expansion.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the press or the Escape that changed it.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats an unsigned amount. The default pins an explicit locale so server and client agree.",
+      },
+    ],
+    usageNotes: [
+      "The row is a real button carrying aria-expanded and aria-controls: Enter and Space toggle the detail, Escape closes it and leaves focus on the row.",
+      "The panel's height is measured with a ResizeObserver rather than reserved, so a row with fewer facts is shorter instead of padded.",
+      "Under reduced motion nothing sweeps and nothing stamps: pending shows a hatched chip, the tick appears complete, and the panel opens instantly with the facts fading in.",
+    ],
+  },
+  {
+    name: "running-tally",
+    type: "registry:ui",
+    title: "Running Tally",
+    description:
+      "A movements list where each new entry arrives from the side its sign points to — a credit from the right, a debit from the left, on snap — while the list makes room by animating its height on glide, so the rows below are pushed rather than teleported. The total rolls its digits on glide and a hairline under it wipes toward the side the movement came from before fading, which is the instrument's only celebration: a withdrawal gets the same physics as a deposit, in the other direction. Rows are an ordered list whose direction is spoken as well as drawn, and the settled total is announced politely and reported through onTotalChange from the effect that observed it.",
+    files: [
+      {
+        path: "registry/ui/running-tally.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-594",
+    },
+    tagline: "Deposits climb, withdrawals sink, the total keeps up.",
+    keywords: [
+      "tally",
+      "running total",
+      "credits",
+      "debits",
+      "ledger",
+      "finance",
+      "list",
+    ],
+    props: [
+      {
+        name: "entries",
+        type: "TallyEntry[]",
+        description:
+          "The movements, newest first: id, label, signed amount and an optional note.",
+      },
+      {
+        name: "openingBalance",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "The figure the entries move from; the total is this plus every entry passed.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "Rows kept on screen; older ones leave on the exit ease but still count toward the total.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the tally and titles the total.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats the total. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "formatDelta",
+        type: "(value: number) => string",
+        defaultValue: 'the same formatter with signDisplay: "always"',
+        description: "Formats a row's amount, so the sign always shows.",
+      },
+      {
+        name: "onTotalChange",
+        type: "(total: number) => void",
+        description:
+          "Fires from the effect that observes a new total, never during render.",
+      },
+    ],
+    usageNotes: [
+      "Nothing here runs on a clock: entries arrive because the host passed them, so a demo or a feed decides the pace and there is no timer to leak.",
+      'Each row\'s direction is announced as a word ("Credit", "Debit") and the total is read by a polite status region, so the arrows\' colour is never the only cue.',
+      "Under reduced motion rows fade into place with no side travel and the digits swap, but the order still changes and the oldest row still leaves, because the order is the record.",
+    ],
+  },
+  {
+    name: "statement-fold",
+    type: "registry:ui",
+    title: "Statement Fold",
+    description:
+      "A month's statement folded in three: pressing the header unfolds income, spend and net, each rotating from -90 degrees about its own top edge on glide in a cascade, so the letter opens from the top down instead of all at once. Folding back reverses the order on the exit ease, and the card's height comes from a ResizeObserver on the open content rather than a reserved minimum. Each panel's bar draws with scaleX against the largest of the three figures, the net colours by sign and never bounces, and the header is a real aria-expanded button that Enter, Space and Escape drive.",
+    files: [
+      {
+        path: "registry/ui/statement-fold.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-595",
+    },
+    tagline: "A month you can open like a letter.",
+    keywords: [
+      "statement",
+      "fold",
+      "unfold",
+      "monthly",
+      "income",
+      "spend",
+      "finance",
+    ],
+    props: [
+      {
+        name: "month",
+        type: "string",
+        description: "The statement's month, as printed.",
+      },
+      {
+        name: "year",
+        type: "string | number",
+        description: "Optional year beside the month.",
+      },
+      {
+        name: "accountName",
+        type: "string",
+        description:
+          "The account the statement belongs to, printed under the month.",
+      },
+      {
+        name: "income",
+        type: "number",
+        description: "Money in, major units.",
+      },
+      {
+        name: "spend",
+        type: "number",
+        description: "Money out, positive major units.",
+      },
+      {
+        name: "net",
+        type: "number",
+        defaultValue: "income - spend",
+        description:
+          "Overrides the computed net when the host has its own figure.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial fold state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the press or the Escape that changed it.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats an unsigned amount; the card composes the signs itself.",
+      },
+    ],
+    usageNotes: [
+      "The header is a real button carrying aria-expanded and aria-controls: Enter and Space unfold it, Escape folds the card and returns focus to the header.",
+      "The panels are a dl of dt/dd pairs inside a labelled region, so income, spend and net are read as labelled amounts rather than loose numbers.",
+      "Under reduced motion nothing rotates: the panels arrive in sequence by opacity alone and the height changes instantly, while the bars still draw their proportions.",
+    ],
+  },
+  {
+    name: "reserve-gauge",
+    type: "registry:ui",
+    title: "Reserve Gauge",
+    description:
+      "A balance bar split to scale between spendable money and the holds sitting on it, each hold hatched and sized by its share. Clearing a hold shrinks its segment away on the exit ease while the available run glides wider and the figure rolls its digits on snap; a reader caret slides to whichever segment is being read on snap. The holds are one Tab stop with a roving tabindex — Left and Right step, Home and End jump, Enter pins the reason open, Escape unpins.",
+    files: [
+      {
+        path: "registry/ui/reserve-gauge.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-596",
+    },
+    tagline: "How much of this is actually yours.",
+    keywords: ["balance", "holds", "available", "banking", "meter", "finance"],
+    props: [
+      {
+        name: "total",
+        type: "number",
+        description: "Cleared balance, holds included.",
+      },
+      {
+        name: "holds",
+        type: "ReserveHold[]",
+        defaultValue: "[]",
+        description:
+          "Each hold's id, amount, reason and clearing note, drawn left to right.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the account and labels the bar.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        defaultValue: "en-US currency",
+        description:
+          "Renders every amount; the locale is pinned so the server and client agree.",
+      },
+      {
+        name: "activeHoldId / defaultActiveHoldId",
+        type: "string | null",
+        description:
+          "Controlled or initial pinned hold — the one whose reason stays open.",
+      },
+      {
+        name: "onActiveHoldChange",
+        type: "(id: string | null) => void",
+        description: "Fires from the press that pinned or unpinned a hold.",
+      },
+      {
+        name: "onHoldReveal",
+        type: "(id: string | null) => void",
+        description:
+          "Fires when hover or focus changes which reason is showing.",
+      },
+    ],
+    usageNotes: [
+      "The holds are one Tab stop with a roving tabindex: Left and Right step between segments, Home and End jump to the ends, Enter or Space pins a reason open, Escape unpins.",
+      "Under reduced motion the segment widths still redraw and the figure still updates — on a tween instead of a spring, with no digit roll — because the split is the information.",
+      "Amounts always go through `format`; a hold smaller than a twentieth of the bar keeps a floor width so it stays readable and hittable.",
+    ],
+  },
+  {
+    name: "balance-compare",
+    type: "registry:ui",
+    title: "Balance Compare",
+    description:
+      "Two periods stand on columns scaled against the larger of the pair, and hovering or focusing draws a line between the column tops with pathLength on flick — the line is the assertion, so it lands at once. It colours by direction and carries a caret so up and down never rest on colour alone, while a percent chip arrives at its midpoint on snap from a nudge below and the columns glide to new heights. Enter or Space pins the line open for touch and keyboard readers, Escape releases it.",
+    files: [
+      {
+        path: "registry/ui/balance-compare.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-597",
+    },
+    tagline: "Two months, one honest line.",
+    keywords: ["compare", "balance", "delta", "percent", "trend", "finance"],
+    props: [
+      {
+        name: "from",
+        type: "BalancePoint",
+        description:
+          "The earlier period: its label and amount, drawn on the left.",
+      },
+      {
+        name: "to",
+        type: "BalancePoint",
+        description:
+          "The later period: its label and amount, drawn on the right.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "What is being compared; names the control.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        defaultValue: "en-US currency",
+        description:
+          "Renders both figures and the delta when there is no percentage to give.",
+      },
+      {
+        name: "pinned / defaultPinned",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial pinned state — the line and chip stay drawn.",
+      },
+      {
+        name: "onPinnedChange",
+        type: "(pinned: boolean) => void",
+        description: "Fires from the press that pinned or released the line.",
+      },
+      {
+        name: "onRevealChange",
+        type: "(revealed: boolean) => void",
+        description:
+          "Fires when the line becomes visible or hides, from hover, focus or a pin.",
+      },
+    ],
+    usageNotes: [
+      "The whole instrument is one button: Tab reaches it, hover or focus draws the line, Enter or Space pins it, Escape releases it. Its accessible name carries the entire comparison as a sentence.",
+      "Under reduced motion the line appears at full length on an opacity tween and the chip fades in place — the direction, caret, colour and percentage are unchanged.",
+      "A `from` of zero has no percentage to give, so the chip shows the money moved instead of dividing by zero.",
+    ],
+  },
+  {
+    name: "cash-clock",
+    type: "registry:ui",
+    title: "Cash Clock",
+    description:
+      "A ring that fills toward payday one tick per day, its spent arc growing on glide because a cycle is a quantity settling rather than a switch flipping. Inside sits the balance you will actually reach: switching a scheduled outgoing on or off counts the projection to its new figure on snap through a motion value and lands or lifts that outgoing's marker on the day it falls, and a projection under the floor turns the unspent arc danger. The outgoings are real checkboxes, so Tab reaches each one and Space toggles it.",
+    files: [
+      {
+        path: "registry/ui/cash-clock.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-598",
+    },
+    tagline: "Payday is a countdown, not a surprise.",
+    keywords: [
+      "payday",
+      "projection",
+      "countdown",
+      "budget",
+      "ring",
+      "finance",
+    ],
+    props: [
+      {
+        name: "balance",
+        type: "number",
+        description: "Balance today, before the scheduled outgoings.",
+      },
+      {
+        name: "daysToPayday",
+        type: "number",
+        description:
+          "Days left in the cycle; clamped into cycleDays. Never read from the clock.",
+      },
+      {
+        name: "cycleDays",
+        type: "number",
+        defaultValue: "30",
+        description: "Ticks on the ring — the length of the pay cycle.",
+      },
+      {
+        name: "outgoings",
+        type: "CashOutgoing[]",
+        defaultValue: "[]",
+        description:
+          "Scheduled debits: id, label, amount and the day each lands.",
+      },
+      {
+        name: "included / defaultIncluded",
+        type: "string[]",
+        defaultValue: "every outgoing",
+        description: "Controlled or initial ids counted in the projection.",
+      },
+      {
+        name: "onIncludedChange",
+        type: "(ids: string[]) => void",
+        description: "Fires from the checkbox that changed.",
+      },
+      {
+        name: "onProjectionChange",
+        type: "(projected: number) => void",
+        description: "Fires with the new projection after a toggle.",
+      },
+      {
+        name: "floor",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "A projection below this reads danger and shows what you are short by.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        defaultValue: "en-US currency",
+        description:
+          "Renders the projection and every row; the locale is pinned for hydration.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the cycle and labels the ring.",
+      },
+    ],
+    usageNotes: [
+      "The outgoings are real checkboxes inside a labelled list: Tab reaches each one, Space toggles it, and each row's accessible name carries the amount and the day it lands.",
+      "Under reduced motion the arc still fills and the markers still appear — on a tween, with the projection setting instead of counting — because a countdown is information.",
+      "Nothing runs on a timer and nothing reads the clock: the day count arrives as a prop, so the ring renders identically on the server and the client.",
+    ],
+  },
+  {
+    name: "multi-currency",
+    type: "registry:ui",
+    title: "Currency Stack",
+    description:
+      "A stack where every currency keeps its own lane and its own units. Choosing a lane sends it to the top and the rest close the gap beneath it — a layout reorder on glide, so each lane travels rather than the list redrawing — and the chosen lane opens a conversion strip whose converted total rolls its digits on snap under a rate readout. A new rate table pulses the strip with a cobalt wash on the exit ease; Up and Down walk the lanes, Home and End jump, Enter or Space brings the focused lane to the top.",
+    files: [
+      {
+        path: "registry/ui/multi-currency.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-599",
+    },
+    tagline: "Every currency in its own lane.",
+    keywords: [
+      "currency",
+      "wallet",
+      "conversion",
+      "exchange rate",
+      "reorder",
+      "finance",
+    ],
+    props: [
+      {
+        name: "balances",
+        type: "CurrencyBalance[]",
+        description:
+          "One lane per currency — code, name and amount — in their resting order.",
+      },
+      {
+        name: "rates",
+        type: "Record<string, number>",
+        description:
+          "Units of `display` per one unit of each code; handing down a new table pulses the strip.",
+      },
+      {
+        name: "display",
+        type: "string",
+        description: "The code every lane converts into.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "first lane",
+        description: "Controlled or initial selected code — the lane on top.",
+      },
+      {
+        name: "onValueChange",
+        type: "(code: string) => void",
+        description: "Fires from the press or key that changed lanes.",
+      },
+      {
+        name: "format",
+        type: "(amount: number, code: string) => string",
+        defaultValue: "grouped en-US plus the code",
+        description: "Renders every balance and the converted total.",
+      },
+      {
+        name: "formatRate",
+        type: "(rate: number) => string",
+        defaultValue: "four decimals",
+        description: "Renders the rate in the readout.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the wallet and labels the stack.",
+      },
+    ],
+    usageNotes: [
+      "A listbox with manual selection: one Tab stop, Up and Down walk the lanes in the order they are drawn, Home and End jump to the ends, Enter or Space brings the focused lane to the top. Arrows move focus without selecting, because selecting reorders the list.",
+      "Under reduced motion the lanes swap position without travel, the strip opens on a tween and the digits set in place — the order and the converted total still change, because both are the information.",
+      "The strip's height is animated from its own content rather than reserved, so a closed lane costs exactly one row; a visually hidden status announces one settled sentence per change, never one per digit.",
+    ],
+  },
+  {
+    name: "balance-mask",
+    type: "registry:ui",
+    title: "Balance Mask",
+    description:
+      "A balance drawn as bullets until you hold it: the two layers share one grid cell and clip against each other, so holding drives the boundary across on glide and releasing runs it back on the exit ease, with the mono face keeping both strings exactly the same width. Space or Enter toggles instead of holding and cross-fades rather than wipes — no travel where there was no gesture — while Escape hides and a released pointer anywhere on the page re-masks the figure. The eye's slash draws on flick.",
+    files: [
+      {
+        path: "registry/ui/balance-mask.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-600",
+    },
+    tagline: "Hidden by default, shown on purpose.",
+    keywords: [
+      "mask",
+      "balance",
+      "privacy",
+      "hold to reveal",
+      "hide",
+      "finance",
+    ],
+    props: [
+      {
+        name: "amount",
+        type: "number",
+        description: "The figure behind the mask.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "What the figure is; sits above it and names the control.",
+      },
+      {
+        name: "format",
+        type: "(amount: number) => string",
+        defaultValue: "en-US currency",
+        description:
+          "Renders the figure; the mask is built from its output, so only digits become bullets.",
+      },
+      {
+        name: "revealed / defaultRevealed",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial reveal, for a page-wide hide-balances switch.",
+      },
+      {
+        name: "onRevealedChange",
+        type: "(revealed: boolean) => void",
+        description: "Fires from the pointer, key or blur that changed it.",
+      },
+      {
+        name: "holdToReveal",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "False makes the pointer toggle, and fade, instead of hold.",
+      },
+      {
+        name: "maskChar",
+        type: "string",
+        defaultValue: "•",
+        description: "The character every digit becomes.",
+      },
+      {
+        name: "hint",
+        type: "React.ReactNode",
+        defaultValue: "Hold to show",
+        description:
+          "One short line under the figure; dims while the figure is shown.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Space or Enter toggles the reveal and cross-fades it, Escape hides, and a held key cannot flutter the mask because the repeat is ignored. Blurring while holding re-masks.",
+      "Under reduced motion every path is a fade — the balance still shows and still hides, because that is the whole control.",
+      "The figure is in the DOM behind the mask: this is a shoulder-surfing guard, not a security boundary. Nothing captures the pointer, so a stray drag across the control cannot leave the balance standing open.",
+    ],
+  },
 ];

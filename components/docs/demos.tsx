@@ -780,6 +780,16 @@ import { FlipCardFormDemo } from "@/registry/demos/flip-card-form.demo";
 import { ShopCardDemo } from "@/registry/demos/shop-card.demo";
 import { RecordHoldDemo } from "@/registry/demos/record-hold.demo";
 import { CropFrameDemo } from "@/registry/demos/crop-frame.demo";
+import { BalanceRollDemo } from "@/registry/demos/balance-roll.demo";
+import { AccountDeckDemo } from "@/registry/demos/account-deck.demo";
+import { LedgerLineDemo } from "@/registry/demos/ledger-line.demo";
+import { RunningTallyDemo } from "@/registry/demos/running-tally.demo";
+import { StatementFoldDemo } from "@/registry/demos/statement-fold.demo";
+import { ReserveGaugeDemo } from "@/registry/demos/reserve-gauge.demo";
+import { BalanceCompareDemo } from "@/registry/demos/balance-compare.demo";
+import { CashClockDemo } from "@/registry/demos/cash-clock.demo";
+import { MultiCurrencyDemo } from "@/registry/demos/multi-currency.demo";
+import { BalanceMaskDemo } from "@/registry/demos/balance-mask.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1574,4 +1584,14 @@ export const demos: Record<string, ComponentType> = {
   "shop-card": ShopCardDemo,
   "record-hold": RecordHoldDemo,
   "crop-frame": CropFrameDemo,
+  "balance-roll": BalanceRollDemo,
+  "account-deck": AccountDeckDemo,
+  "ledger-line": LedgerLineDemo,
+  "running-tally": RunningTallyDemo,
+  "statement-fold": StatementFoldDemo,
+  "reserve-gauge": ReserveGaugeDemo,
+  "balance-compare": BalanceCompareDemo,
+  "cash-clock": CashClockDemo,
+  "multi-currency": MultiCurrencyDemo,
+  "balance-mask": BalanceMaskDemo,
 };
