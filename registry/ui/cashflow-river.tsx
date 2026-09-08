@@ -246,18 +246,23 @@ export function CashflowRiver({
     if (pinned === null) report(lane);
   };
 
+  // Unpinning hands the reading back to whatever still lights a lane — the
+  // pointer resting on it, or the chip that holds focus — rather than
+  // blanking a figure the ribbon still shows.
+  const underneath = () => lanes.find((lane) => lane.id === hovered) ?? null;
+
   const pin = (lane: Lane) => {
     const next = pinned === lane.id ? null : lane.id;
     if (!isControlled) setUncontrolled(next);
     onValueChange?.(next);
-    report(next === null ? null : lane);
+    report(next === null ? underneath() : lane);
   };
 
   const release = () => {
     if (pinned === null) return;
     if (!isControlled) setUncontrolled(null);
     onValueChange?.(null);
-    report(null);
+    report(underneath());
   };
 
   const focusAt = (to: number) => {

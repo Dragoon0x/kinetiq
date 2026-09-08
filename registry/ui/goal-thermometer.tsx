@@ -256,7 +256,7 @@ export function GoalThermometer({
           aria-describedby={listId}
           aria-valuemin={0}
           aria-valuemax={cap}
-          aria-valuenow={clamp(spent, 0, cap)}
+          aria-valuenow={Number(clamp(spent, 0, cap).toFixed(2))}
           aria-valuetext={`${format(spent)} of ${format(cap)} spent. ${sentence}.`}
           className="flex w-9 shrink-0 flex-col items-center"
         >
