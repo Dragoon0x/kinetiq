@@ -384,10 +384,7 @@ export function OrderBook({
             }}
             tabIndex={active === spreadIndex ? 0 : -1}
             aria-label={`Spread ${format(spread)}, ${Math.round(bps)} basis points, mid ${format(mid)}`}
-            onFocus={() => {
-              setFocusIndex(spreadIndex);
-              read(null);
-            }}
+            onFocus={() => setFocusIndex(spreadIndex)}
             onKeyDown={(event) => onKeyDown(event, spreadIndex)}
             className={cn(
               ROW,

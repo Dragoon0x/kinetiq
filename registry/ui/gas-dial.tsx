@@ -408,11 +408,14 @@ export function GasDial({
                 />
               );
             })}
+            {/* A pointer riding the rim, not a full needle from the hub: the
+                fee reads at the dial's centre, and a needle through the hub
+                would cross it at the middle stop. */}
             <motion.line
               x1={HUB_X}
-              y1={HUB_Y}
+              y1={HUB_Y - R - 3}
               x2={HUB_X}
-              y2={HUB_Y - R + 9}
+              y2={HUB_Y - R + 10}
               stroke="var(--ink)"
               strokeWidth="2.2"
               strokeLinecap="round"

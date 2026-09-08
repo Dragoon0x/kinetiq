@@ -1838,3 +1838,740 @@ test.describe("cards", () => {
     await expect(announced).toHaveText("Declined, chip could not be read");
   });
 });
+
+/**
+ * The trading family is a terminal: a ladder of resting orders, a tape that
+ * prints one figure at a time, a ticket you slide to send, a chart you brush a
+ * range on, a position whose profit moves with the mark, a rail carrying stop
+ * and target, liquidity drawn as a landscape, a quote that expires while you
+ * look at it, and a face saying how long the venue stays open. Every test
+ * drives the mechanic the component advertises — through the keyboard wherever
+ * it publishes one — and reads the result off the demo's status line and the
+ * ARIA the component publishes about itself.
+ */
+
+/**
+ * A line written from a timer rather than from a render cannot be proved to
+ * have spoken *once* by polling it: a poll that misses an intermediate reading
+ * is a fact about the polling interval. The trail is recorded in the page
+ * instead, by an observer installed before the burst, and read back after.
+ */
+const recordTradingTrail = async (target: Locator): Promise<void> => {
+  await target.evaluate((element) => {
+    const trail: string[] = [];
+    const read = () => {
+      const text = (element.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (trail[trail.length - 1] !== text) trail.push(text);
+    };
+    read();
+    new MutationObserver(read).observe(element, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    (window as unknown as { __tradingTrail: string[] }).__tradingTrail = trail;
+  });
+};
+
+/** Everything the recorded node has said so far, oldest first. */
+const tradingTrailOf = (page: Page) => async (): Promise<string[]> =>
+  page.evaluate(
+    () =>
+      (window as unknown as { __tradingTrail?: string[] }).__tradingTrail ?? [],
+  );
+
+/** A poll target: the print count the tape's demo is publishing. */
+const printsOf = (line: Locator) => async (): Promise<number> =>
+  Number(
+    /·\s*(\d+)\s*prints/.exec((await line.textContent()) ?? "")?.[1] ?? -1,
+  );
+
+/** The pointer x of a bar's centre in a plot laid out as `count` equal columns. */
+const barCentre = (
+  box: { x: number; width: number },
+  index: number,
+  count: number,
+) => box.x + ((index + 0.5) * box.width) / count;
+
+test.describe("trading", () => {
+  test("order-book: arrows walk the ladder across the spread, and a post opens a level the touch then eats", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/order-book");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const book = stage.getByRole("grid", { name: "BSN/USD" });
+    // Rows are read by the price they carry, never by index: the ladder gains
+    // and loses levels under the test.
+    const farAsk = book.getByRole("row", { name: /^Ask \$24\.36/ });
+    const bestAsk = book.getByRole("row", { name: /^Ask \$24\.19/ });
+    const band = book.getByRole("row", { name: /^Spread/ });
+    const bestBid = book.getByRole("row", { name: /^Bid \$24\.16/ });
+    const farBid = book.getByRole("row", { name: /^Bid \$23\.98/ });
+
+    await expect(status).toContainText(
+      "Spread 0.03 · Touch 24.16 / 24.19 · Reading —",
+    );
+    // Cumulative depth sums outward from the touch, so the outermost row on a
+    // side carries that side's whole book and the money resting under it.
+    await expect(farAsk).toHaveAttribute(
+      "aria-label",
+      "Ask $24.36, size 160 BSN, 1,230 BSN cumulative, $29,842.50 resting",
+    );
+
+    // The row that holds focus is the row that is read: the hover reading has
+    // an exact keyboard equivalent.
+    await farAsk.focus();
+    await expect(status).toContainText("Reading ask 24.36 · 1230 BSN");
+
+    await page.keyboard.press("End");
+    await expect(farBid).toBeFocused();
+    await expect(status).toContainText("Reading bid 23.98 · 1280 BSN");
+
+    await page.keyboard.press("Home");
+    await expect(farAsk).toBeFocused();
+    for (let step = 0; step < 5; step += 1) {
+      await page.keyboard.press("ArrowDown");
+    }
+    await expect(bestAsk).toBeFocused();
+    await expect(status).toContainText("Reading ask 24.19 · 180 BSN");
+
+    // The spread band is a row too, so the arrows pass through it, and it names
+    // the spread it stands for.
+    await page.keyboard.press("ArrowDown");
+    await expect(band).toBeFocused();
+    await expect(band).toHaveAttribute(
+      "aria-label",
+      "Spread $0.03, 12 basis points, mid $24.18",
+    );
+
+    await page.keyboard.press("ArrowDown");
+    await expect(bestBid).toBeFocused();
+    await expect(status).toContainText("Reading bid 24.16 · 210 BSN");
+
+    // A post opens a price inside the book without moving the touch, and the
+    // press carries focus out of the grid, which is what clears the reading.
+    await stage.getByRole("button", { name: "Post orders" }).click();
+    await expect(
+      book.getByRole("row", { name: /^Bid \$24\.14/ }),
+    ).toHaveAttribute(
+      "aria-label",
+      "Bid $24.14, size 140 BSN, 350 BSN cumulative, $8,453.20 resting",
+    );
+    await expect(status).toContainText("Touch 24.16 / 24.19 · Reading —");
+
+    // Two fills of 150 drain the 210 resting at the bid; the emptied level
+    // leaves the ladder rather than resting at zero, and the touch widens.
+    const fill = stage.getByRole("button", { name: "Fill touch" });
+    await fill.click();
+    await expect(bestBid).toHaveAttribute(
+      "aria-label",
+      "Bid $24.16, size 60 BSN, 60 BSN cumulative, $1,449.60 resting",
+    );
+    await fill.click();
+    await expect(bestBid).toHaveCount(0);
+    await expect(bestAsk).toHaveCount(0);
+    await expect(status).toContainText("Spread 0.07 · Touch 24.14 / 24.21");
+
+    // The pointer crossing the band keeps the level it was reading: the band is
+    // not a level, so there is nothing there to read instead.
+    const touchBid = book.getByRole("row", { name: /^Bid \$24\.14/ });
+    await touchBid.hover();
+    await expect(status).toContainText("Reading bid 24.14 · 140 BSN");
+    await band.hover();
+    await expect(status).toContainText("Reading bid 24.14 · 140 BSN");
+
+    // The keyboard owes the pointer an exact equivalent. Focus leaving the grid
+    // clears the reading; stepping between rows does not, so an arrow key never
+    // flashes the readout back to the mid — and the band is one of the rows an
+    // arrow key steps through.
+    await touchBid.focus();
+    await expect(status).toContainText("Reading bid 24.14 · 140 BSN");
+    await page.keyboard.press("ArrowUp");
+    await expect(band).toBeFocused();
+    await expect(status).toContainText("Reading bid 24.14 · 140 BSN");
+  });
+
+  test("price-ticker: a burst of prints rolls the tape and the live line announces only where it settled", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/price-ticker");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const tape = stage.getByRole("group", { name: "BSN/USD" });
+    // The figure and the chip are decoration; this sentence is the whole of
+    // what the ticker says out loud.
+    const announced = tape.locator("[aria-live='polite']");
+    const print = stage.getByRole("button", { name: "Print", exact: true });
+
+    await expect(status).toContainText("Last $24.06 · 0 prints · last flat");
+    await expect(announced).toHaveText(
+      "BSN/USD $24.06, up 0.75 percent on the close",
+    );
+
+    // One print: the seeded walk steps a cent down, and the announcement
+    // arrives once the flash it waits out has expired.
+    await print.click();
+    await expect(status).toContainText("Last $24.05 · 1 prints · last down");
+    await expect(announced).toHaveText(
+      "BSN/USD $24.05, up 0.71 percent on the close",
+      { timeout: 5000 },
+    );
+
+    // Four prints inside one task — far faster than the 700ms window the
+    // sentence waits out. The tape passes through 24.06, 24.03 and 24.02 on
+    // its way to 24.03, and none of them may be spoken.
+    await recordTradingTrail(announced);
+    await print.evaluate(async (button: HTMLButtonElement) => {
+      for (let index = 0; index < 4; index += 1) {
+        button.click();
+        // Its own task each time, so React commits four prints rather than
+        // batching them into one, and 60ms apart, so the tape stays inside the
+        // window the sentence is waiting out.
+        await new Promise((settle) => setTimeout(settle, 60));
+      }
+    });
+    await expect(status).toContainText("Last $24.03 · 5 prints · last up");
+    await expect
+      .poll(tradingTrailOf(page), { timeout: 5000 })
+      .toEqual([
+        "BSN/USD $24.05, up 0.71 percent on the close",
+        "BSN/USD $24.03, up 0.63 percent on the close",
+      ]);
+
+    // Reset puts the opening figure back — and the walk back up to it is a
+    // price change like any other, so the tape prints it and says so rather
+    // than pretending the counter never moved.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toContainText("Last $24.06 · 1 prints · last up");
+    await expect(announced).toHaveText(
+      "BSN/USD $24.06, up 0.75 percent on the close",
+      { timeout: 5000 },
+    );
+
+    // The live toggle owns an interval, and stopping it has to actually tear
+    // that interval down rather than merely stop drawing.
+    const live = stage.getByRole("button", { name: "Live" });
+    await live.click();
+    await expect
+      .poll(printsOf(status), { timeout: 8000 })
+      .toBeGreaterThanOrEqual(2);
+    const stop = stage.getByRole("button", { name: "Stop" });
+    await expect(stop).toHaveAttribute("aria-pressed", "true");
+    await stop.click();
+    const stopped = await printsOf(status)();
+    await page.waitForTimeout(1000);
+    expect(await printsOf(status)()).toBe(stopped);
+  });
+
+  test("order-ticket: the size slider lands on its detents and the track sends the side it was set to", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/order-ticket");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const size = stage.getByRole("slider", { name: "Size" });
+
+    await expect(status).toContainText(
+      "buy 50% · 99.67 BSN · Est $2,410.00 · Ready",
+    );
+    await expect(size).toHaveAttribute(
+      "aria-valuetext",
+      "50 percent, 99.67 BSN, $2,410.00",
+    );
+
+    // An arrow is a percent; PageUp is the detent above wherever that landed,
+    // which is the magnet's keyboard equivalent and costs no aiming.
+    await size.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(size).toHaveAttribute(
+      "aria-valuetext",
+      "51 percent, 101.66 BSN, $2,458.20",
+    );
+    await page.keyboard.press("PageUp");
+    await expect(size).toHaveAttribute(
+      "aria-valuetext",
+      "75 percent, 149.50 BSN, $3,615.00",
+    );
+    await expect(stage.getByRole("button", { name: "75%" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+
+    await page.keyboard.press("End");
+    await expect(size).toHaveAttribute(
+      "aria-valuetext",
+      "100 percent, 199.34 BSN, $4,820.00",
+    );
+    await expect(stage.getByRole("button", { name: "Max" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+
+    // The quick sizes are the same detents as controls.
+    await stage.getByRole("button", { name: "25%" }).click();
+    await expect(size).toHaveAttribute("aria-valuenow", "25");
+    await expect(status).toContainText("buy 25% · 49.83 BSN · Est $1,205.00");
+
+    // The side toggle is a two-stop radiogroup: one arrow crosses it, and the
+    // ticket's estimate follows the side it is now written for.
+    const buy = stage.getByRole("radio", { name: "Buy" });
+    await buy.focus();
+    await page.keyboard.press("ArrowRight");
+    const sell = stage.getByRole("radio", { name: "Sell" });
+    await expect(sell).toBeFocused();
+    await expect(sell).toHaveAttribute("aria-checked", "true");
+    await expect(buy).toHaveAttribute("aria-checked", "false");
+    await expect(status).toContainText("sell 25% · 49.83 BSN");
+
+    const track = stage.getByRole("slider", {
+      name: "Submit sell order, 49.83 BSN",
+    });
+    await track.focus();
+    for (let nudge = 0; nudge < 3; nudge += 1) {
+      await page.keyboard.press("ArrowRight");
+    }
+    await expect(track).toHaveAttribute("aria-valuetext", "30 percent slid");
+    // Submitting is a track, not a tap: Enter short of the commit sends nothing.
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("· Ready");
+
+    await page.keyboard.press("End");
+    await expect(track).toHaveAttribute("aria-valuetext", "100 percent slid");
+    await page.keyboard.press("Enter");
+    await expect(track).toHaveAttribute("aria-valuetext", "Order sent");
+    await expect(status).toContainText(
+      "sell 25% · 49.83 BSN · Est $1,205.00 · Sent",
+    );
+    await expect(
+      stage.getByText("Sell order sent: 49.83 BSN for $1,205.00"),
+    ).toBeAttached();
+
+    // The track re-arms itself rather than staying spent.
+    await expect(track).toHaveAttribute("aria-valuetext", "0 percent slid", {
+      timeout: 6000,
+    });
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toContainText(
+      "buy 50% · 99.67 BSN · Est $2,410.00 · Ready",
+    );
+  });
+
+  test("fill-tape: prints run the tape, a hold freezes it with a backlog, and releasing plays the backlog in", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/fill-tape");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const spoken = stage.locator("[aria-live='polite']");
+    const printFill = stage.getByRole("button", { name: "Print fill" });
+    const oldest = stage.getByRole("listitem", {
+      name: "Sell 84 BSN at $24.14, 14:22:07",
+    });
+
+    await expect(status).toContainText("0 fills · 0 BSN · Running");
+    await expect(spoken).toHaveText("Tape running");
+
+    for (let print = 0; print < 3; print += 1) await printFill.click();
+    await expect(oldest).toBeVisible();
+    await expect(
+      stage.getByRole("listitem", { name: "Buy 19 BSN at $24.24, 14:22:15" }),
+    ).toBeVisible();
+    await expect(status).toContainText("3 fills · 119 BSN · Running");
+
+    // Hold is a real button, so the hover hold has a keyboard equivalent. Its
+    // name carries the latch and the backlog, so it is held by the pair.
+    const hold = stage.getByRole("button", { name: /^(Hold|Release) tape/ });
+    await expect(hold).toHaveAccessibleName("Hold tape");
+    await hold.focus();
+    await page.keyboard.press("Enter");
+    await expect(hold).toHaveAttribute("aria-pressed", "true");
+    await expect(spoken).toHaveText("Tape held");
+
+    // Fills arriving under a hold are counted, never dropped — and the frozen
+    // volume stays with the rows it belongs to.
+    for (let print = 0; print < 2; print += 1) await printFill.click();
+    await expect(status).toContainText("5 fills · 119 BSN · Held · 2 waiting");
+    await expect(stage.getByRole("listitem")).toHaveCount(3);
+    await expect(hold).toHaveAccessibleName("Release tape, 2 fills waiting");
+
+    // Releasing the latch is not enough while the control still holds focus:
+    // the card holds on focus-within, so reaching Hold never costs you the
+    // rows you were reading.
+    await hold.focus();
+    await page.keyboard.press(" ");
+    await expect(hold).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toContainText("Held · 2 waiting");
+
+    await page.keyboard.press("Tab");
+    await expect(spoken).toHaveText("Tape running");
+    await expect(status).toContainText("5 fills · 183 BSN · Running");
+    await expect(stage.getByRole("listitem")).toHaveCount(5);
+
+    // Past capacity the oldest row collapses off the top; the volume it
+    // printed stays counted.
+    for (let print = 0; print < 3; print += 1) await printFill.click();
+    await expect(stage.getByRole("listitem")).toHaveCount(7);
+    await expect(oldest).toHaveCount(0);
+    await expect(status).toContainText("8 fills · 393 BSN · Running");
+
+    // The pointer holds the tape the same way the latch does.
+    await stage.getByRole("list").hover();
+    await expect(status).toContainText("Held · 0 waiting");
+    await page.mouse.move(2, 2);
+    await expect(status).toContainText("8 fills · 393 BSN · Running");
+  });
+
+  test("candle-brush: a sweep brushes a range, and the keyboard reaches the same range and speaks it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/candle-brush");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const plot = stage.getByRole("img", {
+      name: "BSN/USD candlestick chart, 28 bars",
+    });
+    const spoken = stage.locator("[aria-live='polite']");
+    const clear = stage.getByRole("button", { name: "Clear range" });
+
+    await expect(status).toContainText("No range · drag to read a move");
+    await expect(clear).toBeDisabled();
+
+    // The plot's width is measured, not assumed: bar centres come off the box
+    // the browser actually laid out.
+    await plot.scrollIntoViewIfNeeded();
+    const box = await plot.boundingBox();
+    expect(box).not.toBeNull();
+    if (!box) return;
+    const y = box.y + box.height / 2;
+    await page.mouse.move(barCentre(box, 5, 28), y);
+    await page.mouse.down();
+    await page.mouse.move(barCentre(box, 9, 28), y);
+    await page.mouse.move(barCentre(box, 12, 28), y);
+    await page.mouse.up();
+
+    await expect(status).toContainText(
+      "Bars 6–13 · Open $23.10 · Close $23.19 · +0.39%",
+    );
+    await expect(stage.getByText("O $23.10 C $23.19 Δ +$0.09")).toBeVisible();
+    // A sweep crosses a bar every few pixels, so the live region stays silent
+    // for the pointer and speaks only for the keyboard.
+    await expect(spoken).toBeEmpty();
+
+    // Reaching Clear takes the pointer off the plate, and a plate with no
+    // pointer on it holds no crosshair: the readout falls back to the domain.
+    await expect(clear).toBeEnabled();
+    await clear.click();
+    await expect(status).toContainText("No range · drag to read a move");
+    await expect(stage.getByText("Range $23.00 – $23.76")).toBeVisible();
+
+    // Space drops the anchor at the cursor and Shift with an arrow extends the
+    // range from it: a complete equivalent of the drag. Escape first, because
+    // a sweep leaves its anchor standing for exactly this kind of extension
+    // and the host's Clear only took the range.
+    await plot.focus();
+    await page.keyboard.press("Escape");
+    await page.keyboard.press("End");
+    await expect(status).toContainText("No range · Bar 28 close $23.75");
+    await page.keyboard.press(" ");
+    await expect(status).toContainText(
+      "Bars 28–28 · Open $23.66 · Close $23.75 · +0.38%",
+    );
+    for (let step = 0; step < 3; step += 1) {
+      await page.keyboard.press("Shift+ArrowLeft");
+    }
+    await expect(status).toContainText(
+      "Bars 25–28 · Open $23.60 · Close $23.75 · +0.64%",
+    );
+    await expect(spoken).toHaveText(
+      "Bars 25 to 28, open $23.60, close $23.75, up 0.64 percent",
+    );
+
+    await page.keyboard.press("Escape");
+    await expect(status).toContainText("No range · Bar 25 close $23.54");
+    await expect(clear).toBeDisabled();
+  });
+
+  test("position-card: the mark rolls the P&L and the close slide converts it to a realised figure", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/position-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The card marks its own thresholds before the demo's line reports.
+    const milestone = stage.locator("[role='status']").first();
+    const rail = stage.getByRole("slider", { name: "Slide to close BSN" });
+
+    await expect(status).toContainText("BSN long · mark 24.08 · P&L +$8.80");
+    await expect(milestone).toHaveText("Position in profit");
+    await expect(
+      stage.getByText("Unrealised profit and loss +$8.80, +0.92%"),
+    ).toBeAttached();
+
+    // A print is money, not price: forty units of a forty-cent move.
+    await stage.getByRole("button", { name: "Print" }).click();
+    await expect(status).toContainText("BSN long · mark 24.26 · P&L +$16.00");
+    await expect(
+      stage.getByText("Unrealised profit and loss +$16.00, +1.68%"),
+    ).toBeAttached();
+
+    await expect(rail).toHaveAttribute(
+      "aria-valuetext",
+      "Slide to close, 0 percent",
+    );
+    await rail.focus();
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(rail).toHaveAttribute(
+      "aria-valuetext",
+      "Slide to close, 40 percent",
+    );
+    // Released short of the detent the rail comes back, and nothing is closed.
+    await page.keyboard.press("Home");
+    await expect(rail).toHaveAttribute(
+      "aria-valuetext",
+      "Slide to close, 0 percent",
+    );
+    await expect(status).toContainText("BSN long · mark 24.26");
+
+    // Past halfway, Enter converts the number: the figure freezes at what it
+    // was worth when the gesture crossed.
+    for (let nudge = 0; nudge < 3; nudge += 1) {
+      await page.keyboard.press("ArrowRight");
+    }
+    await expect(rail).toHaveAttribute(
+      "aria-valuetext",
+      "Slide to close, 60 percent",
+    );
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("BSN closed · realised +$16.00");
+    await expect(milestone).toHaveText("Position closed, realised +$16.00");
+    await expect(
+      stage.getByText("Realised profit and loss +$16.00, +1.68%"),
+    ).toBeAttached();
+    // No dead control is left in the tab order once the position is shut.
+    await expect(rail).toHaveCount(0);
+    await expect(
+      stage.getByText("Position closed", { exact: true }),
+    ).toBeVisible();
+    await expect(stage.getByRole("button", { name: "Print" })).toBeDisabled();
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toContainText("BSN long · mark 24.08 · P&L +$8.80");
+    await expect(rail).toHaveAttribute(
+      "aria-valuetext",
+      "Slide to close, 0 percent",
+    );
+  });
+
+  test("stop-rail: arrowing a handle redraws the risk, and neighbours are a wall it cannot cross", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/stop-rail");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const settled = stage.locator("[role='status']").first();
+    const stop = stage.getByRole("slider", { name: "Stop price" });
+    const entry = stage.getByRole("slider", { name: "Entry price" });
+
+    await expect(status).toContainText("Risk $36.00 · reward $96.00 · 2.67R");
+    await expect(settled).toHaveText("Risk $36.00, reward $96.00, 2.67 R");
+    await expect(stop).toHaveAttribute(
+      "aria-valuetext",
+      "23.30, risk $36.00, reward $96.00, 2.67 R",
+    );
+
+    // One step of the demo's 0.05 tick, and the money follows the forty units
+    // the plan is sized for.
+    await stop.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(stop).toHaveAttribute("aria-valuenow", "23.35");
+    await expect(status).toContainText("Risk $34.00 · reward $96.00 · 2.82R");
+
+    // Shift is ten ticks at once.
+    await page.keyboard.press("Shift+ArrowRight");
+    await expect(stop).toHaveAttribute("aria-valuenow", "23.85");
+    await expect(status).toContainText("Risk $14.00 · reward $96.00 · 6.86R");
+
+    // End is this handle's own limit, which is the gap its neighbour leaves it
+    // — and pressing on does not push it through entry.
+    await page.keyboard.press("End");
+    await expect(stop).toHaveAttribute("aria-valuenow", "24");
+    await expect(status).toContainText("Risk $8.00 · reward $96.00 · 12.00R");
+    await page.keyboard.press("ArrowRight");
+    await expect(stop).toHaveAttribute("aria-valuenow", "24");
+
+    await page.keyboard.press("Home");
+    await expect(stop).toHaveAttribute("aria-valuenow", "22");
+    await expect(status).toContainText("Risk $88.00 · reward $96.00 · 1.09R");
+
+    // Moving entry moves both bands at once: it is the pivot the other two are
+    // measured from.
+    await entry.focus();
+    await page.keyboard.press("PageDown");
+    await expect(entry).toHaveAttribute("aria-valuenow", "23.7");
+    await expect(status).toContainText("Risk $68.00 · reward $116.00 · 1.71R");
+    await expect(settled).toHaveText("Risk $68.00, reward $116.00, 1.71 R");
+  });
+
+  test("depth-mound: the plate scrubs level by level and reads the depth resting out to it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/depth-mound");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const plate = stage.getByRole("slider", { name: "FRN" });
+
+    await expect(status).toContainText(
+      "FRN · spread 0.04 · bid 8812 / ask 9378",
+    );
+    await expect(plate).toHaveAttribute(
+      "aria-valuetext",
+      "Mid 24.30, spread 0.04",
+    );
+
+    // Focus opens the crosshair at the best bid, which is where a reader
+    // starts, not at the deepest column.
+    await plate.focus();
+    await expect(plate).toHaveAttribute("aria-valuenow", "9");
+    await expect(plate).toHaveAttribute(
+      "aria-valuetext",
+      "Bid 24.28, size 579, 579 cumulative, $14,058",
+    );
+
+    // One step right crosses the mid into the ask mound.
+    await page.keyboard.press("ArrowRight");
+    await expect(plate).toHaveAttribute(
+      "aria-valuetext",
+      "Ask 24.32, size 609, 609 cumulative, $14,811",
+    );
+
+    // The ends are the deepest column a side has, and the cumulative there is
+    // that whole side of the book.
+    await page.keyboard.press("Home");
+    await expect(plate).toHaveAttribute("aria-valuenow", "0");
+    await expect(plate).toHaveAttribute(
+      "aria-valuetext",
+      "Bid 24.10, size 1,357, 8,812 cumulative, $212,369",
+    );
+    await page.keyboard.press("End");
+    await expect(plate).toHaveAttribute("aria-valuenow", "19");
+    await expect(plate).toHaveAttribute(
+      "aria-valuetext",
+      "Ask 24.50, size 1,497, 9,378 cumulative, $229,761",
+    );
+
+    // Escape puts the reading back to the face's own summary.
+    await page.keyboard.press("Escape");
+    await expect(plate).toHaveAttribute(
+      "aria-valuetext",
+      "Mid 24.30, spread 0.04",
+    );
+
+    // The book is also a table, so the terrain means something with no pointer
+    // at all — and a churn rewrites both.
+    const book = stage.getByRole("table");
+    await expect(book).toContainText("FRN order book, Mid 24.30, spread 0.04");
+    await expect(book.getByRole("row")).toHaveCount(21);
+    await stage.getByRole("button", { name: "Print" }).click();
+    await expect(status).toContainText("bid 8842 / ask 9288");
+  });
+
+  test("trade-confirm: the quote expires under the sheet, a refresh re-arms it, and confirming places it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/trade-confirm");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const review = stage.getByRole("button", { name: "Review order" });
+    const sheet = stage.getByRole("dialog", { name: "Confirm order" });
+    const confirm = sheet.getByRole("button", { name: "Confirm" });
+
+    await expect(status).toContainText("CBK buy 40 · quote 18.42 · idle");
+
+    // Focus enters the sheet on Confirm and returns to the opener on Escape.
+    await review.click();
+    await expect(confirm).toBeFocused({ timeout: 5000 });
+    await expect(
+      sheet.getByText("buy 40 units of CBK at 18.42, fee $0.35, total $737.15"),
+    ).toBeAttached();
+    await expect(status).toContainText("quote 18.42 · holding");
+    await page.keyboard.press("Escape");
+    await expect(sheet).toHaveCount(0);
+    await expect(review).toBeFocused();
+    await expect(status).toContainText("quote 18.42 · idle");
+
+    // The eight-second hold runs out in place: the sheet expires rather than
+    // closing, and the confirm disables rather than disappearing.
+    await review.click();
+    await expect(confirm).toBeEnabled();
+    await expect(status).toContainText("quote 18.42 · expired", {
+      timeout: 15000,
+    });
+    // One sentence per threshold: the hold line speaks on expiry, not per second.
+    await expect(sheet.locator("[role='status']")).toHaveText("Quote expired");
+    await expect(confirm).toBeDisabled();
+
+    // Refresh asks the host for a new quote; the total is rebuilt from it and
+    // the hold starts again.
+    await sheet.getByRole("button", { name: "Refresh quote" }).click();
+    await expect(status).toContainText("quote 18.47 · holding");
+    await expect(
+      sheet.getByText("buy 40 units of CBK at 18.47, fee $0.35, total $739.15"),
+    ).toBeAttached();
+    await expect(confirm).toBeEnabled();
+
+    await confirm.click();
+    await expect(status).toContainText("CBK buy 40 · placed at 18.47");
+    await expect(sheet).toHaveCount(0, { timeout: 5000 });
+  });
+
+  test("market-clock: pinning a session retargets the countdown, and the run flips the venue closed", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/market-clock");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const spoken = stage.locator("[role='status']").first();
+    // The face is read by what it says, and it says everything: state,
+    // countdown and every session's hours.
+    const face = stage.getByRole("img", { name: /^Basinworks Exchange,/ });
+    const afternoon = stage.getByRole("button", { name: /^Afternoon/ });
+
+    await expect(status).toContainText("Basinworks · 12:14 · open");
+    await expect(spoken).toHaveText("Basinworks Exchange open");
+    await expect(face).toHaveAttribute(
+      "aria-label",
+      "Basinworks Exchange, open. Closes in 16m. Sessions: Morning 09:00 to 12:30, Afternoon 13:30 to 16:30.",
+    );
+    await expect(stage.getByText("Closes in 16m")).toBeVisible();
+    await expect(stage.getByText("12:14 · next 12:30")).toBeVisible();
+
+    // Pinning retargets the countdown at that session's own next open without
+    // touching the state the venue is actually in.
+    await afternoon.click();
+    await expect(afternoon).toHaveAttribute("aria-pressed", "true");
+    await expect(stage.getByText("Afternoon opens in 1h 16m")).toBeVisible();
+    await expect(stage.getByText("12:14 · next 13:30")).toBeVisible();
+    await expect(face).toHaveAttribute(
+      "aria-label",
+      "Basinworks Exchange, open. Afternoon opens in 1h 16m. Sessions: Morning 09:00 to 12:30, Afternoon 13:30 to 16:30.",
+    );
+
+    await page.keyboard.press("Escape");
+    await expect(afternoon).toHaveAttribute("aria-pressed", "false");
+    await expect(stage.getByText("Closes in 16m")).toBeVisible();
+
+    // The fast-forward carries the hand past 12:30, and the face flips once.
+    await stage.getByRole("button", { name: "Run" }).click();
+    await expect(status).toContainText("closed", { timeout: 10000 });
+    await stage.getByRole("button", { name: "Pause" }).click();
+    await expect(spoken).toHaveText("Basinworks Exchange closed");
+    await expect(face).toHaveAttribute("aria-label", /closed\. Opens in /);
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toContainText("Basinworks · 12:14 · open");
+    await expect(spoken).toHaveText("Basinworks Exchange open");
+  });
+});
