@@ -17386,6 +17386,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "order-book",
+      "type": "registry:ui",
+      "title": "Order Book",
+      "description": "A two-sided price ladder where asks stack above the spread band and bids below, each row laid over a depth bar scaled to the deeper side so the halves stay comparable. A new price level slides in from the ladder's outer edge on snap while a filled level drains toward the touch on glide and an emptied one collapses out on the exit ease; the spread band breathes on a slow mirrored tween that stops while the document is hidden. It is a real grid: a roving tabindex puts ArrowUp and ArrowDown through every rung across the spread, Home and End jump to the ends, and each row speaks the cumulative depth the hover reading shows.",
+      "files": [
+        {
+          "path": "registry/ui/order-book.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-621"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "price-ticker",
+      "type": "registry:ui",
+      "title": "Price Ticker",
+      "description": "A price whose digit columns roll one face on snap in the direction the print moved — up from below when it rose, down from above when it fell — while columns that did not change hold still. A wash flashes success or danger behind the figure and leaves on the exit ease, and the change chip rolls its sign and percent on the same pair while its arrow turns over on snap. The component never generates a print: it rolls what it is given, reports each committed one through onPrint, and writes a polite sr-only sentence only after the flash window is quiet, so a burst of prints announces once.",
+      "files": [
+        {
+          "path": "registry/ui/price-ticker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-622"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "order-ticket",
+      "type": "registry:ui",
+      "title": "Order Ticket",
+      "description": "An order ticket whose side toggle carries one knob across the card on glide — a layout-scale move rather than a switch flipping in place — while a size slider tracks the pointer one to one and is drawn to the nearest detent on snap, the only overshoot in the ticket. The estimated cost rolls its digits on the same spring, and submitting is a track: the thumb lands on flick past 85 percent of the travel and springs back on snap when it is released short. The side takes Left and Right, the slider takes Arrows and PageUp/PageDown for the next detent, and the track takes ArrowRight, End and then Enter.",
+      "files": [
+        {
+          "path": "registry/ui/order-ticket.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-623"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fill-tape",
+      "type": "registry:ui",
+      "title": "Fill Tape",
+      "description": "Time and sales printed downward: the newest fill mounts at the foot of the tape from a step below on snap while the rows above glide up a line, and at capacity the top row collapses out on the exit ease as the column, measured by a ResizeObserver, settles to its new height. Holding is honest rather than cosmetic — hover, focus or the Hold button freezes the rows you were reading and counts arrivals into a waiting chip instead of dropping them, and the session volume freezes with them and rolls up through the whole backlog on release. Rows are list items whose labels speak the side in words, and Hold is a real aria-pressed button reachable by Tab.",
+      "files": [
+        {
+          "path": "registry/ui/fill-tape.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-624"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "candle-brush",
+      "type": "registry:ui",
+      "title": "Candle Brush",
+      "description": "A candlestick chart you can draw on. Each candle grows out of its own open — the body scales from nothing with its transform origin pinned to the open edge, so an up bar rises and a down bar drops — on glide in a cascade that keeps the whole chart inside the choreography budget. Pressing drops a brush anchor and dragging sweeps a range whose edges snap to whole candles on snap while everything outside dims on a tween and the readout gives the open, close and percent; the crosshair snaps to the bar under the pointer on flick rather than riding free. Arrows walk the crosshair, Space drops the anchor, Shift with an arrow extends the range and Escape clears it.",
+      "files": [
+        {
+          "path": "registry/ui/candle-brush.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-625"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "position-card",
+      "type": "registry:ui",
+      "title": "Position Card",
+      "description": "An open position that keeps score. The unrealised P&L rolls its digits on snap with each print while a tint washes behind the figure in the direction of the move, and a scaled bar under it runs from a fixed zero anchor — profit right toward the target tick, loss left down a shorter lane at the same dollars per pixel — both on glide. Closing is a slide whose knob rides a motion value, and the rail is a slider: arrows step, Home releases, End crosses the detent.",
+      "files": [
+        {
+          "path": "registry/ui/position-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-626"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stop-rail",
+      "type": "registry:ui",
+      "title": "Stop Rail",
+      "description": "A trade plan you can grab. Stop, entry and target handles ride one price rail and the bands between them shade the loss and the gain, animating left and width on glide — except while a finger is down, when the transition drops to zero so a band tracks the hand instead of trailing it. The R multiple eases through a motion value on snap and turns success when it crosses the threshold; each handle is a slider where arrows step, Shift or Page steps ten at a time, and Home and End jump to the limits its neighbours leave it.",
+      "files": [
+        {
+          "path": "registry/ui/stop-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-627"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "depth-mound",
+      "type": "registry:ui",
+      "title": "Depth Mound",
+      "description": "Liquidity as terrain. Bids pile up leftward from an anchored mid line and asks rightward, each column as tall as the cumulative size out to its price, and a new book re-grows them on glide delayed by cascade outward from the mid, with a flash on every level that actually changed. The plate is a slider: a pointer snaps the crosshair to the nearest column, Left and Right step one level, Home and End jump to the deepest bid and ask, Escape clears it, and the cumulative figure eases on flick from a motion value.",
+      "files": [
+        {
+          "path": "registry/ui/depth-mound.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-628"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "trade-confirm",
+      "type": "registry:ui",
+      "title": "Trade Confirm",
+      "description": "The last look at the number. The sheet rises inside its own frame on glide — never a bounce, because nothing is worth celebrating until the order is placed — while a ring beside the quote drains linearly across the hold from a motion value, pausing whenever the tab is hidden. Expiry dims the quote in place, disables confirm rather than hiding it, and slides a refresh control into the hold line; a new price rolls the digits on snap and refills the ring. Focus enters on Confirm, Tab cycles inside, Escape cancels, and focus returns to whatever opened it.",
+      "files": [
+        {
+          "path": "registry/ui/trade-confirm.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-629"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "market-clock",
+      "type": "registry:ui",
+      "title": "Market Clock",
+      "description": "A twenty-four hour face that draws a venue's sessions as arcs where they actually sit. The hand sweeps from a minute the host supplies, its rotation accumulated across midnight so it never unwinds a full turn, on a linear tween matched to the step. The arc between the hand and the next change shrinks as the hand eats it and breathes on drift once the change is close; the state pill snaps between Open and Closed, and each legend row is a button that pins the countdown to its session, with Escape to unpin.",
+      "files": [
+        {
+          "path": "registry/ui/market-clock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-630"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

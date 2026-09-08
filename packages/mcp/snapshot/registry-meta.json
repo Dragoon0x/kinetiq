@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 619,
+      "components": 629,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -39042,6 +39042,1042 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/chip-contact",
         "bun": "bunx --bun shadcn@latest add @kinetiq/chip-contact",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/chip-contact.json"
+      }
+    },
+    {
+      "slug": "order-book",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Order Book",
+      "serial": "KQ-621",
+      "tagline": "Bids and asks, meeting in the middle.",
+      "description": "A two-sided price ladder where asks stack above the spread band and bids below, each row laid over a depth bar scaled to the deeper side so the halves stay comparable. A new price level slides in from the ladder's outer edge on snap while a filled level drains toward the touch on glide and an emptied one collapses out on the exit ease; the spread band breathes on a slow mirrored tween that stops while the document is hidden. It is a real grid: a roving tabindex puts ArrowUp and ArrowDown through every rung across the spread, Home and End jump to the ends, and each row speaks the cumulative depth the hover reading shows.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "order book",
+        "depth",
+        "ladder",
+        "bids",
+        "asks",
+        "spread",
+        "trading"
+      ],
+      "props": [
+        {
+          "name": "bids",
+          "type": "BookLevel[]",
+          "description": "Buy levels, best (highest) first."
+        },
+        {
+          "name": "asks",
+          "type": "BookLevel[]",
+          "description": "Sell levels, best (lowest) first."
+        },
+        {
+          "name": "depth",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Rows drawn per side; deeper levels fall off the ladder."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "defaultValue": "\"BSN/USD\"",
+          "description": "The pair the ladder is for; names the grid for assistive technology."
+        },
+        {
+          "name": "sizeUnit",
+          "type": "string",
+          "defaultValue": "\"BSN\"",
+          "description": "Unit printed after sizes and spoken in row labels."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Turns money into its printed string. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "formatSize",
+          "type": "(size: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\")",
+          "description": "Turns a size into its printed string."
+        },
+        {
+          "name": "onLevelRead",
+          "type": "(reading: LevelReading | null) => void",
+          "description": "Fires from the pointer or focus event that changed the read level, with the side, price, size and cumulative depth, and with null when the pointer leaves."
+        }
+      ],
+      "usageNotes": [
+        "A roving tabindex over rows: ArrowUp and ArrowDown walk the whole ladder across the spread band, Home and End jump to the far ask and the far bid, and the focused row reports the same reading a hover does.",
+        "Under reduced motion levels appear and resize in place with no slide or drain, and the spread band stops breathing — the depths, the reading and the totals all still show.",
+        "The band's breathing tween is torn down whenever the document is hidden, so a backgrounded tab animates nothing."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/order-book",
+      "registryItemUrl": "https://www.kinetiqui.com/r/order-book.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/order-book",
+        "npm": "npx shadcn@latest add @kinetiq/order-book",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/order-book",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/order-book",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/order-book.json"
+      }
+    },
+    {
+      "slug": "price-ticker",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Price Ticker",
+      "serial": "KQ-622",
+      "tagline": "Each print, in the direction it moved.",
+      "description": "A price whose digit columns roll one face on snap in the direction the print moved — up from below when it rose, down from above when it fell — while columns that did not change hold still. A wash flashes success or danger behind the figure and leaves on the exit ease, and the change chip rolls its sign and percent on the same pair while its arrow turns over on snap. The component never generates a print: it rolls what it is given, reports each committed one through onPrint, and writes a polite sr-only sentence only after the flash window is quiet, so a burst of prints announces once.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "price",
+        "ticker",
+        "rolling digits",
+        "quote",
+        "flash",
+        "trading",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "price",
+          "type": "number",
+          "description": "The last price. Changing it rolls the digits the way the print moved and flashes the wash."
+        },
+        {
+          "name": "previousClose",
+          "type": "number",
+          "description": "The basis the change chip is measured against."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "defaultValue": "\"BSN/USD\"",
+          "description": "The instrument printed above the figure; names the readout for assistive technology."
+        },
+        {
+          "name": "venue",
+          "type": "string",
+          "description": "A quiet line beside the symbol — the book the print came from."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Turns a price into its printed string. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "flashMs",
+          "type": "number",
+          "defaultValue": "700",
+          "description": "How long the direction wash holds before it fades, and the quiet the live region waits out before it announces."
+        },
+        {
+          "name": "size",
+          "type": "\"md\" | \"lg\"",
+          "defaultValue": "\"lg\"",
+          "description": "Figure scale; md fits the price into a dense row."
+        },
+        {
+          "name": "onPrint",
+          "type": "(price: number, direction: \"up\" | \"down\" | \"flat\") => void",
+          "description": "Fires once per committed print, from the effect that observed it."
+        }
+      ],
+      "usageNotes": [
+        "Not a control: the figure takes no focus and steals none. A single polite sr-only sentence carries the price, the direction in words and the percent, written once the flash window has been quiet so a fast tape announces once rather than per print.",
+        "Under reduced motion the faces swap with no travel and the arrow swaps instead of turning, while the direction wash still appears and fades — which way the price moved is information, not flourish.",
+        "The component generates nothing itself; drive price from a stream, a poll or a button and it rolls what it is handed."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/price-ticker",
+      "registryItemUrl": "https://www.kinetiqui.com/r/price-ticker.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/price-ticker",
+        "npm": "npx shadcn@latest add @kinetiq/price-ticker",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/price-ticker",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/price-ticker",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/price-ticker.json"
+      }
+    },
+    {
+      "slug": "order-ticket",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Order Ticket",
+      "serial": "KQ-623",
+      "tagline": "Buy or sell, sized by a slider.",
+      "description": "An order ticket whose side toggle carries one knob across the card on glide — a layout-scale move rather than a switch flipping in place — while a size slider tracks the pointer one to one and is drawn to the nearest detent on snap, the only overshoot in the ticket. The estimated cost rolls its digits on the same spring, and submitting is a track: the thumb lands on flick past 85 percent of the travel and springs back on snap when it is released short. The side takes Left and Right, the slider takes Arrows and PageUp/PageDown for the next detent, and the track takes ArrowRight, End and then Enter.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "order",
+        "ticket",
+        "buy sell",
+        "size slider",
+        "detent",
+        "slide to submit",
+        "trading"
+      ],
+      "props": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "defaultValue": "\"BSN/USD\"",
+          "description": "The instrument the ticket is for."
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "description": "The working price the estimate is built from."
+        },
+        {
+          "name": "buyingPower",
+          "type": "number",
+          "description": "What 100 percent on the size slider is worth."
+        },
+        {
+          "name": "side / defaultSide",
+          "type": "\"buy\" | \"sell\"",
+          "defaultValue": "\"buy\"",
+          "description": "Controlled or initial side; the knob glides between the two stops."
+        },
+        {
+          "name": "onSideChange",
+          "type": "(side: \"buy\" | \"sell\") => void",
+          "description": "Fires from the press or key that changed the side."
+        },
+        {
+          "name": "sizePercent / defaultSizePercent",
+          "type": "number",
+          "defaultValue": "25",
+          "description": "Controlled or initial size as a percentage of buying power."
+        },
+        {
+          "name": "onSizePercentChange",
+          "type": "(percent: number) => void",
+          "description": "Fires from the pointer or key that moved the slider, and from the detent settle."
+        },
+        {
+          "name": "detents",
+          "type": "number[]",
+          "defaultValue": "[25, 50, 75, 100]",
+          "description": "Percentages the thumb is drawn to; also the quick-size buttons under the track."
+        },
+        {
+          "name": "snapWithin",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How near a detent a release must land, in percent, to be pulled in."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Turns money into its printed string. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "unitLabel",
+          "type": "string",
+          "defaultValue": "\"BSN\"",
+          "description": "Unit for the estimated quantity."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(order: SubmittedOrder) => void",
+          "description": "Fires once from the gesture or key that completed the submit track, with the side, percent, amount and units."
+        },
+        {
+          "name": "submittedFor",
+          "type": "number",
+          "defaultValue": "2200",
+          "description": "Milliseconds the track holds its sent state before re-arming; 0 holds it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Locks the toggle, the slider and the track."
+        }
+      ],
+      "usageNotes": [
+        "Three keyboard contracts in one card: the side is a radio group on Left and Right, the size slider takes Arrows for one percent with PageUp and PageDown jumping to the next detent and Home and End for the ends, and the submit track takes ArrowRight or End to slide and Enter at the top to send.",
+        "Under reduced motion the knob swaps between stops, both thumbs move without physics and the cost swaps its digits — where a gesture got to is still drawn, because that is information.",
+        "Pointer capture is taken only after 4px of travel and always inside a try/catch, so a plain click is never swallowed and a synthetic drag through the ticket cannot throw."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/order-ticket",
+      "registryItemUrl": "https://www.kinetiqui.com/r/order-ticket.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/order-ticket",
+        "npm": "npx shadcn@latest add @kinetiq/order-ticket",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/order-ticket",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/order-ticket",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/order-ticket.json"
+      }
+    },
+    {
+      "slug": "fill-tape",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Fill Tape",
+      "serial": "KQ-624",
+      "tagline": "Trades as they happen.",
+      "description": "Time and sales printed downward: the newest fill mounts at the foot of the tape from a step below on snap while the rows above glide up a line, and at capacity the top row collapses out on the exit ease as the column, measured by a ResizeObserver, settles to its new height. Holding is honest rather than cosmetic — hover, focus or the Hold button freezes the rows you were reading and counts arrivals into a waiting chip instead of dropping them, and the session volume freezes with them and rolls up through the whole backlog on release. Rows are list items whose labels speak the side in words, and Hold is a real aria-pressed button reachable by Tab.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "fills",
+        "time and sales",
+        "tape",
+        "trades",
+        "stream",
+        "hold",
+        "trading"
+      ],
+      "props": [
+        {
+          "name": "fills",
+          "type": "Fill[]",
+          "description": "The tape, oldest first. `time` is already printed by the producer, so no clock is read here."
+        },
+        {
+          "name": "capacity",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "Rows kept on screen; older ones collapse off the top."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "defaultValue": "\"BSN/USD\"",
+          "description": "The pair the tape is for; names the list for assistive technology."
+        },
+        {
+          "name": "sizeUnit",
+          "type": "string",
+          "defaultValue": "\"BSN\"",
+          "description": "Unit printed after sizes and spoken in row labels."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Turns money into its printed string. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "formatSize",
+          "type": "(size: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\")",
+          "description": "Turns a size into its printed string."
+        },
+        {
+          "name": "held / defaultHeld",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial latch on the Hold control; hover and focus hold transiently on top of it."
+        },
+        {
+          "name": "onHeldChange",
+          "type": "(held: boolean) => void",
+          "description": "Fires from the press or key that toggled the latch."
+        },
+        {
+          "name": "onPausedChange",
+          "type": "(paused: boolean, waiting: number) => void",
+          "description": "Fires from the effect that observed the effective hold — latch, hover or focus — and again as the backlog grows."
+        },
+        {
+          "name": "onVolumeSettle",
+          "type": "(volume: number, fills: number) => void",
+          "description": "Fires from the effect that observed the printed volume change, never during render."
+        },
+        {
+          "name": "emptyLabel",
+          "type": "string",
+          "defaultValue": "\"No fills yet\"",
+          "description": "The line the tape shows before its first print."
+        }
+      ],
+      "usageNotes": [
+        "Hold is the keyboard equivalent of the hover hold: Tab to it and press Enter or Space to latch. Tabbing to it already holds the tape, because the card holds on focus-within, so reaching the control never costs you the rows you were reading.",
+        "Under reduced motion rows appear and leave without travel or a layout glide, but the tape still advances and the volume still updates — a tape that stopped saying what traded would be broken, not calm.",
+        "The component prints only what it is given: it never mints a fill and never reads a clock, so the producer owns the stream, its cleanup and its printed times."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/fill-tape",
+      "registryItemUrl": "https://www.kinetiqui.com/r/fill-tape.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/fill-tape",
+        "npm": "npx shadcn@latest add @kinetiq/fill-tape",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/fill-tape",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/fill-tape",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/fill-tape.json"
+      }
+    },
+    {
+      "slug": "candle-brush",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Candle Brush",
+      "serial": "KQ-625",
+      "tagline": "Draw a range; read the move.",
+      "description": "A candlestick chart you can draw on. Each candle grows out of its own open — the body scales from nothing with its transform origin pinned to the open edge, so an up bar rises and a down bar drops — on glide in a cascade that keeps the whole chart inside the choreography budget. Pressing drops a brush anchor and dragging sweeps a range whose edges snap to whole candles on snap while everything outside dims on a tween and the readout gives the open, close and percent; the crosshair snaps to the bar under the pointer on flick rather than riding free. Arrows walk the crosshair, Space drops the anchor, Shift with an arrow extends the range and Escape clears it.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "candlestick",
+        "chart",
+        "brush",
+        "range select",
+        "ohlc",
+        "crosshair",
+        "trading"
+      ],
+      "props": [
+        {
+          "name": "candles",
+          "type": "Candle[]",
+          "description": "Bars, oldest first: id, label, open, high, low and close. The label is printed by the caller, so no clock is read here."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "defaultValue": "\"BSN/USD\"",
+          "description": "The instrument; names the plot for assistive technology."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "164",
+          "description": "Plot height in px. The width is fluid and measured with a ResizeObserver."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Turns a price into its printed string. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "selection / defaultSelection",
+          "type": "{ start: number; end: number } | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial brushed range, as inclusive candle indices."
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "(selection: CandleRange | null) => void",
+          "description": "Fires from the pointer or key that changed the range, never during render."
+        },
+        {
+          "name": "onCursorChange",
+          "type": "(index: number | null) => void",
+          "description": "Fires from the pointer or key that moved the crosshair."
+        }
+      ],
+      "usageNotes": [
+        "One focusable plot with a complete keyboard equivalent of the drag: Arrows walk the crosshair a bar at a time, Home and End jump to the ends, Space drops or lifts the brush anchor, Shift with an arrow extends the range, and Escape clears it. A polite region reads the cursor bar's full OHLC.",
+        "Under reduced motion the candles render already drawn, the crosshair jumps and the band moves without a spring — the dimming, the lit range and the readout all still work, because what is selected is the point of the instrument.",
+        "A tap sets the crosshair and lifts the brush rather than leaving an empty range behind; capture is taken only after 4px of travel, inside a try/catch."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/candle-brush",
+      "registryItemUrl": "https://www.kinetiqui.com/r/candle-brush.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/candle-brush",
+        "npm": "npx shadcn@latest add @kinetiq/candle-brush",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/candle-brush",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/candle-brush",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/candle-brush.json"
+      }
+    },
+    {
+      "slug": "position-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Position Card",
+      "serial": "KQ-626",
+      "tagline": "Profit that moves as the price does.",
+      "description": "An open position that keeps score. The unrealised P&L rolls its digits on snap with each print while a tint washes behind the figure in the direction of the move, and a scaled bar under it runs from a fixed zero anchor — profit right toward the target tick, loss left down a shorter lane at the same dollars per pixel — both on glide. Closing is a slide whose knob rides a motion value, and the rail is a slider: arrows step, Home releases, End crosses the detent.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "position",
+        "pnl",
+        "trading",
+        "finance",
+        "slide to close",
+        "target"
+      ],
+      "props": [
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Instrument code shown in the header."
+        },
+        {
+          "name": "side",
+          "type": "\"long\" | \"short\"",
+          "defaultValue": "\"long\"",
+          "description": "Which way the position profits."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "description": "Units held; scales every money figure."
+        },
+        {
+          "name": "entry",
+          "type": "number",
+          "description": "Average entry price."
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "description": "Mark price. A new value rolls the P&L and flashes the print."
+        },
+        {
+          "name": "target",
+          "type": "number",
+          "description": "Take-profit price — the far end of the gain lane."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD, 2dp",
+          "description": "Formats every money figure."
+        },
+        {
+          "name": "formatPrice",
+          "type": "(value: number) => string",
+          "defaultValue": "2dp",
+          "description": "Formats prices."
+        },
+        {
+          "name": "unitLabel",
+          "type": "string",
+          "defaultValue": "\"units\"",
+          "description": "Noun printed after the size."
+        },
+        {
+          "name": "zeroAt",
+          "type": "number",
+          "defaultValue": "0.28",
+          "description": "Share of the track left of zero — the loss lane."
+        },
+        {
+          "name": "closed / defaultClosed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial closed state."
+        },
+        {
+          "name": "onClose",
+          "type": "(realised: number) => void",
+          "description": "Fires from the gesture or key that crossed the detent."
+        },
+        {
+          "name": "onSlideProgress",
+          "type": "(progress: number) => void",
+          "description": "0–1, fired from the pointer or key that moved the knob."
+        }
+      ],
+      "usageNotes": [
+        "The close rail is a slider: Right and Up step forward, Left and Down back, Home releases it, End crosses the detent, and Enter or Space closes from past halfway.",
+        "Pointer capture is taken only after 4px of travel and inside try/catch, so a plain tap still lands and a synthetic sweep cannot throw.",
+        "Under reduced motion the digits swap instead of rolling and the knob jumps between stops, but the bar still fills and the print still tints — progress is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/position-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/position-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/position-card",
+        "npm": "npx shadcn@latest add @kinetiq/position-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/position-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/position-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/position-card.json"
+      }
+    },
+    {
+      "slug": "stop-rail",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Stop Rail",
+      "serial": "KQ-627",
+      "tagline": "Drag your stop; the risk redraws.",
+      "description": "A trade plan you can grab. Stop, entry and target handles ride one price rail and the bands between them shade the loss and the gain, animating left and width on glide — except while a finger is down, when the transition drops to zero so a band tracks the hand instead of trailing it. The R multiple eases through a motion value on snap and turns success when it crosses the threshold; each handle is a slider where arrows step, Shift or Page steps ten at a time, and Home and End jump to the limits its neighbours leave it.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "stop loss",
+        "risk reward",
+        "trading",
+        "finance",
+        "handles",
+        "range"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "StopRailValue",
+          "description": "Controlled or initial { stop, entry, target } prices."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: StopRailValue) => void",
+          "description": "Fires from the drag or key that moved a handle."
+        },
+        {
+          "name": "low",
+          "type": "number",
+          "description": "Left end of the rail's price domain."
+        },
+        {
+          "name": "high",
+          "type": "number",
+          "description": "Right end of the rail's price domain."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "0.01",
+          "description": "Arrow-key increment; drags snap to it."
+        },
+        {
+          "name": "side",
+          "type": "\"long\" | \"short\"",
+          "defaultValue": "\"long\"",
+          "description": "Which side of entry the stop sits on; a short reverses the rail."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Units, so risk and reward read as money."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Instrument code in the header."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD, 2dp",
+          "description": "Formats the risk and reward money."
+        },
+        {
+          "name": "formatPrice",
+          "type": "(value: number) => string",
+          "defaultValue": "2dp",
+          "description": "Formats the three prices."
+        },
+        {
+          "name": "goodAt",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "R at which the ratio and the gain band turn success."
+        },
+        {
+          "name": "minGap",
+          "type": "number",
+          "defaultValue": "step * 4",
+          "description": "Smallest distance allowed between handles."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Risk\"",
+          "description": "Names the group for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Each handle is a slider button: Left and Down step down, Right and Up step up, Shift or PageUp/PageDown steps ten at a time, and Home and End jump to the limits its neighbours leave it.",
+        "Pointer capture is taken only after 4px of travel and inside try/catch, so a plain tap still lands and a synthetic sweep cannot throw.",
+        "Under reduced motion nothing springs, but the bands, the ratio and its threshold colour all still change — that is the information the rail carries."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/stop-rail",
+      "registryItemUrl": "https://www.kinetiqui.com/r/stop-rail.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stop-rail",
+        "npm": "npx shadcn@latest add @kinetiq/stop-rail",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stop-rail",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stop-rail",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/stop-rail.json"
+      }
+    },
+    {
+      "slug": "depth-mound",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Depth Mound",
+      "serial": "KQ-628",
+      "tagline": "Liquidity as a landscape.",
+      "description": "Liquidity as terrain. Bids pile up leftward from an anchored mid line and asks rightward, each column as tall as the cumulative size out to its price, and a new book re-grows them on glide delayed by cascade outward from the mid, with a flash on every level that actually changed. The plate is a slider: a pointer snaps the crosshair to the nearest column, Left and Right step one level, Home and End jump to the deepest bid and ask, Escape clears it, and the cumulative figure eases on flick from a motion value.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "depth chart",
+        "order book",
+        "liquidity",
+        "trading",
+        "finance",
+        "crosshair"
+      ],
+      "props": [
+        {
+          "name": "bids",
+          "type": "DepthLevel[]",
+          "description": "Bid levels, best first, descending price."
+        },
+        {
+          "name": "asks",
+          "type": "DepthLevel[]",
+          "description": "Ask levels, best first, ascending price."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "160",
+          "description": "Plot height in px; the width is fluid."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD, 0dp",
+          "description": "Formats the notional in the accessible reading."
+        },
+        {
+          "name": "formatPrice",
+          "type": "(value: number) => string",
+          "defaultValue": "2dp",
+          "description": "Formats prices."
+        },
+        {
+          "name": "formatSize",
+          "type": "(value: number) => string",
+          "defaultValue": "grouped integer",
+          "description": "Formats sizes and cumulative depth."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Instrument code beside the mid."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Depth\"",
+          "description": "Accessible name for the plot."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(reading: DepthReading | null) => void",
+          "description": "Fires from the pointer or key that moved the crosshair."
+        }
+      ],
+      "usageNotes": [
+        "The plate is a slider over the levels: Left and Right step one, Up and Down likewise, Home and End jump to the deepest bid and ask, Escape clears the crosshair, and focus opens it at the best bid.",
+        "The whole book is also rendered as a visually hidden table of side, price, size and cumulative depth, so the chart means something with no pointer at all.",
+        "Under reduced motion the columns still change height and the crosshair still moves — depth is the information — but with no stagger, no spring and no flash travel."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/depth-mound",
+      "registryItemUrl": "https://www.kinetiqui.com/r/depth-mound.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/depth-mound",
+        "npm": "npx shadcn@latest add @kinetiq/depth-mound",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/depth-mound",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/depth-mound",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/depth-mound.json"
+      }
+    },
+    {
+      "slug": "trade-confirm",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Trade Confirm",
+      "serial": "KQ-629",
+      "tagline": "The last look at the number.",
+      "description": "The last look at the number. The sheet rises inside its own frame on glide — never a bounce, because nothing is worth celebrating until the order is placed — while a ring beside the quote drains linearly across the hold from a motion value, pausing whenever the tab is hidden. Expiry dims the quote in place, disables confirm rather than hiding it, and slides a refresh control into the hold line; a new price rolls the digits on snap and refills the ring. Focus enters on Confirm, Tab cycles inside, Escape cancels, and focus returns to whatever opened it.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "confirm",
+        "quote",
+        "countdown",
+        "trading",
+        "finance",
+        "dialog"
+      ],
+      "props": [
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial visibility."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the press, key or confirm that changed it."
+        },
+        {
+          "name": "side",
+          "type": "\"buy\" | \"sell\"",
+          "defaultValue": "\"buy\"",
+          "description": "Order side; colours the header chip."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Instrument code."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "description": "Units on the order."
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "description": "The held quote. A new value rolls the digits and restarts the hold."
+        },
+        {
+          "name": "fee",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Added to the total."
+        },
+        {
+          "name": "holdMs",
+          "type": "number",
+          "defaultValue": "12000",
+          "description": "Milliseconds the quote holds before it expires."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD, 2dp",
+          "description": "Formats the fee and the total."
+        },
+        {
+          "name": "formatPrice",
+          "type": "(value: number) => string",
+          "defaultValue": "2dp",
+          "description": "Formats the quote."
+        },
+        {
+          "name": "unitLabel",
+          "type": "string",
+          "defaultValue": "\"units\"",
+          "description": "Noun printed after the size."
+        },
+        {
+          "name": "onConfirm",
+          "type": "(price: number) => void",
+          "description": "Fires from the press that confirmed, with the quote it confirmed."
+        },
+        {
+          "name": "onRefresh",
+          "type": "() => void",
+          "description": "Fires from the press that asked for a new quote."
+        },
+        {
+          "name": "onExpire",
+          "type": "() => void",
+          "description": "Fires from the ring's completion."
+        }
+      ],
+      "usageNotes": [
+        "Renders absolutely inside the nearest positioned ancestor — give the surface it belongs to `relative`.",
+        "A real modal: focus enters on Confirm, Tab and Shift+Tab cycle inside the sheet, Escape cancels, and focus returns to whatever opened it.",
+        "Hiding the document pauses the hold and showing it again resumes from what was left, so a quote never expires on a screen nobody is watching.",
+        "Under reduced motion the sheet fades in place, digits swap instead of rolling, and the ring still drains at the same linear rate."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/trade-confirm",
+      "registryItemUrl": "https://www.kinetiqui.com/r/trade-confirm.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/trade-confirm",
+        "npm": "npx shadcn@latest add @kinetiq/trade-confirm",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/trade-confirm",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/trade-confirm",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/trade-confirm.json"
+      }
+    },
+    {
+      "slug": "market-clock",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Market Clock",
+      "serial": "KQ-630",
+      "tagline": "Open, closed, and how long until.",
+      "description": "A twenty-four hour face that draws a venue's sessions as arcs where they actually sit. The hand sweeps from a minute the host supplies, its rotation accumulated across midnight so it never unwinds a full turn, on a linear tween matched to the step. The arc between the hand and the next change shrinks as the hand eats it and breathes on drift once the change is close; the state pill snaps between Open and Closed, and each legend row is a button that pins the countdown to its session, with Escape to unpin.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "market hours",
+        "clock",
+        "sessions",
+        "countdown",
+        "finance",
+        "dial"
+      ],
+      "props": [
+        {
+          "name": "minute",
+          "type": "number",
+          "description": "Minutes since midnight, possibly fractional. The host owns the clock, so the face stays deterministic on the server."
+        },
+        {
+          "name": "sessions",
+          "type": "MarketSession[]",
+          "defaultValue": "09:00–12:30, 13:30–16:30",
+          "description": "Open stretches as { label, from, to } in minutes; everything outside them is closed."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Market\"",
+          "description": "Venue name; the group's accessible name."
+        },
+        {
+          "name": "zone",
+          "type": "string",
+          "description": "Small caption under the venue name."
+        },
+        {
+          "name": "soonMinutes",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "How close the next change must be before the arc ahead breathes."
+        },
+        {
+          "name": "selected / defaultSelected",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial pinned session label."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(label: string | null) => void",
+          "description": "Fires from the press or key that pinned or cleared a session."
+        },
+        {
+          "name": "onStateChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the effect that observed the flip, once per flip."
+        },
+        {
+          "name": "formatTime",
+          "type": "(minute: number) => string",
+          "defaultValue": "24h HH:MM",
+          "description": "Formats every time on the face and in the legend."
+        }
+      ],
+      "usageNotes": [
+        "Each legend row is a real button with aria-pressed: Enter or Space pins the countdown to that session, a second press or Escape anywhere in the group clears it.",
+        "The face is a role=\"img\" whose label names the state, the countdown and every session's hours, and a status region carries only the word Open or Closed so it speaks once per flip rather than once per tick.",
+        "Under reduced motion the hand jumps to its minute and the arc ahead stops breathing, but the arcs, the state and the countdown all still update."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/market-clock",
+      "registryItemUrl": "https://www.kinetiqui.com/r/market-clock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/market-clock",
+        "npm": "npx shadcn@latest add @kinetiq/market-clock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/market-clock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/market-clock",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/market-clock.json"
       }
     },
     {

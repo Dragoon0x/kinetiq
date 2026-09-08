@@ -10761,6 +10761,253 @@ Notes:
 - Under reduced motion there is no glint, no travelling bar and no blink, but the pads still light, the fill still fills and the tick still appears — how far a read has got is information.
 - The read itself belongs to the host: drive progress from a timer that clears on unmount and stops while the document is hidden, as the demo does.
 
+### Order Book (KQ-621) — `order-book`
+Bids and asks, meeting in the middle.
+
+A two-sided price ladder where asks stack above the spread band and bids below, each row laid over a depth bar scaled to the deeper side so the halves stay comparable. A new price level slides in from the ladder's outer edge on snap while a filled level drains toward the touch on glide and an emptied one collapses out on the exit ease; the spread band breathes on a slow mirrored tween that stops while the document is hidden. It is a real grid: a roving tabindex puts ArrowUp and ArrowDown through every rung across the spread, Home and End jump to the ends, and each row speaks the cumulative depth the hover reading shows.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/order-book`
+
+Props:
+- `bids`: BookLevel[] — Buy levels, best (highest) first.
+- `asks`: BookLevel[] — Sell levels, best (lowest) first.
+- `depth`: number (default 6) — Rows drawn per side; deeper levels fall off the ladder.
+- `symbol`: string (default "BSN/USD") — The pair the ladder is for; names the grid for assistive technology.
+- `sizeUnit`: string (default "BSN") — Unit printed after sizes and spoken in row labels.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Turns money into its printed string. The default pins an explicit locale so server and client agree.
+- `formatSize`: (size: number) => string (default Intl.NumberFormat("en-US")) — Turns a size into its printed string.
+- `onLevelRead`: (reading: LevelReading | null) => void — Fires from the pointer or focus event that changed the read level, with the side, price, size and cumulative depth, and with null when the pointer leaves.
+
+Notes:
+- A roving tabindex over rows: ArrowUp and ArrowDown walk the whole ladder across the spread band, Home and End jump to the far ask and the far bid, and the focused row reports the same reading a hover does.
+- Under reduced motion levels appear and resize in place with no slide or drain, and the spread band stops breathing — the depths, the reading and the totals all still show.
+- The band's breathing tween is torn down whenever the document is hidden, so a backgrounded tab animates nothing.
+
+### Price Ticker (KQ-622) — `price-ticker`
+Each print, in the direction it moved.
+
+A price whose digit columns roll one face on snap in the direction the print moved — up from below when it rose, down from above when it fell — while columns that did not change hold still. A wash flashes success or danger behind the figure and leaves on the exit ease, and the change chip rolls its sign and percent on the same pair while its arrow turns over on snap. The component never generates a print: it rolls what it is given, reports each committed one through onPrint, and writes a polite sr-only sentence only after the flash window is quiet, so a burst of prints announces once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/price-ticker`
+
+Props:
+- `price`: number — The last price. Changing it rolls the digits the way the print moved and flashes the wash.
+- `previousClose`: number — The basis the change chip is measured against.
+- `symbol`: string (default "BSN/USD") — The instrument printed above the figure; names the readout for assistive technology.
+- `venue`: string — A quiet line beside the symbol — the book the print came from.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Turns a price into its printed string. The default pins an explicit locale so server and client agree.
+- `flashMs`: number (default 700) — How long the direction wash holds before it fades, and the quiet the live region waits out before it announces.
+- `size`: "md" | "lg" (default "lg") — Figure scale; md fits the price into a dense row.
+- `onPrint`: (price: number, direction: "up" | "down" | "flat") => void — Fires once per committed print, from the effect that observed it.
+
+Notes:
+- Not a control: the figure takes no focus and steals none. A single polite sr-only sentence carries the price, the direction in words and the percent, written once the flash window has been quiet so a fast tape announces once rather than per print.
+- Under reduced motion the faces swap with no travel and the arrow swaps instead of turning, while the direction wash still appears and fades — which way the price moved is information, not flourish.
+- The component generates nothing itself; drive price from a stream, a poll or a button and it rolls what it is handed.
+
+### Order Ticket (KQ-623) — `order-ticket`
+Buy or sell, sized by a slider.
+
+An order ticket whose side toggle carries one knob across the card on glide — a layout-scale move rather than a switch flipping in place — while a size slider tracks the pointer one to one and is drawn to the nearest detent on snap, the only overshoot in the ticket. The estimated cost rolls its digits on the same spring, and submitting is a track: the thumb lands on flick past 85 percent of the travel and springs back on snap when it is released short. The side takes Left and Right, the slider takes Arrows and PageUp/PageDown for the next detent, and the track takes ArrowRight, End and then Enter.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/order-ticket`
+
+Props:
+- `symbol`: string (default "BSN/USD") — The instrument the ticket is for.
+- `price`: number — The working price the estimate is built from.
+- `buyingPower`: number — What 100 percent on the size slider is worth.
+- `side / defaultSide`: "buy" | "sell" (default "buy") — Controlled or initial side; the knob glides between the two stops.
+- `onSideChange`: (side: "buy" | "sell") => void — Fires from the press or key that changed the side.
+- `sizePercent / defaultSizePercent`: number (default 25) — Controlled or initial size as a percentage of buying power.
+- `onSizePercentChange`: (percent: number) => void — Fires from the pointer or key that moved the slider, and from the detent settle.
+- `detents`: number[] (default [25, 50, 75, 100]) — Percentages the thumb is drawn to; also the quick-size buttons under the track.
+- `snapWithin`: number (default 6) — How near a detent a release must land, in percent, to be pulled in.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Turns money into its printed string. The default pins an explicit locale so server and client agree.
+- `unitLabel`: string (default "BSN") — Unit for the estimated quantity.
+- `onSubmit`: (order: SubmittedOrder) => void — Fires once from the gesture or key that completed the submit track, with the side, percent, amount and units.
+- `submittedFor`: number (default 2200) — Milliseconds the track holds its sent state before re-arming; 0 holds it.
+- `disabled`: boolean (default false) — Locks the toggle, the slider and the track.
+
+Notes:
+- Three keyboard contracts in one card: the side is a radio group on Left and Right, the size slider takes Arrows for one percent with PageUp and PageDown jumping to the next detent and Home and End for the ends, and the submit track takes ArrowRight or End to slide and Enter at the top to send.
+- Under reduced motion the knob swaps between stops, both thumbs move without physics and the cost swaps its digits — where a gesture got to is still drawn, because that is information.
+- Pointer capture is taken only after 4px of travel and always inside a try/catch, so a plain click is never swallowed and a synthetic drag through the ticket cannot throw.
+
+### Fill Tape (KQ-624) — `fill-tape`
+Trades as they happen.
+
+Time and sales printed downward: the newest fill mounts at the foot of the tape from a step below on snap while the rows above glide up a line, and at capacity the top row collapses out on the exit ease as the column, measured by a ResizeObserver, settles to its new height. Holding is honest rather than cosmetic — hover, focus or the Hold button freezes the rows you were reading and counts arrivals into a waiting chip instead of dropping them, and the session volume freezes with them and rolls up through the whole backlog on release. Rows are list items whose labels speak the side in words, and Hold is a real aria-pressed button reachable by Tab.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fill-tape`
+
+Props:
+- `fills`: Fill[] — The tape, oldest first. `time` is already printed by the producer, so no clock is read here.
+- `capacity`: number (default 7) — Rows kept on screen; older ones collapse off the top.
+- `symbol`: string (default "BSN/USD") — The pair the tape is for; names the list for assistive technology.
+- `sizeUnit`: string (default "BSN") — Unit printed after sizes and spoken in row labels.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Turns money into its printed string. The default pins an explicit locale so server and client agree.
+- `formatSize`: (size: number) => string (default Intl.NumberFormat("en-US")) — Turns a size into its printed string.
+- `held / defaultHeld`: boolean (default false) — Controlled or initial latch on the Hold control; hover and focus hold transiently on top of it.
+- `onHeldChange`: (held: boolean) => void — Fires from the press or key that toggled the latch.
+- `onPausedChange`: (paused: boolean, waiting: number) => void — Fires from the effect that observed the effective hold — latch, hover or focus — and again as the backlog grows.
+- `onVolumeSettle`: (volume: number, fills: number) => void — Fires from the effect that observed the printed volume change, never during render.
+- `emptyLabel`: string (default "No fills yet") — The line the tape shows before its first print.
+
+Notes:
+- Hold is the keyboard equivalent of the hover hold: Tab to it and press Enter or Space to latch. Tabbing to it already holds the tape, because the card holds on focus-within, so reaching the control never costs you the rows you were reading.
+- Under reduced motion rows appear and leave without travel or a layout glide, but the tape still advances and the volume still updates — a tape that stopped saying what traded would be broken, not calm.
+- The component prints only what it is given: it never mints a fill and never reads a clock, so the producer owns the stream, its cleanup and its printed times.
+
+### Candle Brush (KQ-625) — `candle-brush`
+Draw a range; read the move.
+
+A candlestick chart you can draw on. Each candle grows out of its own open — the body scales from nothing with its transform origin pinned to the open edge, so an up bar rises and a down bar drops — on glide in a cascade that keeps the whole chart inside the choreography budget. Pressing drops a brush anchor and dragging sweeps a range whose edges snap to whole candles on snap while everything outside dims on a tween and the readout gives the open, close and percent; the crosshair snaps to the bar under the pointer on flick rather than riding free. Arrows walk the crosshair, Space drops the anchor, Shift with an arrow extends the range and Escape clears it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/candle-brush`
+
+Props:
+- `candles`: Candle[] — Bars, oldest first: id, label, open, high, low and close. The label is printed by the caller, so no clock is read here.
+- `symbol`: string (default "BSN/USD") — The instrument; names the plot for assistive technology.
+- `height`: number (default 164) — Plot height in px. The width is fluid and measured with a ResizeObserver.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Turns a price into its printed string. The default pins an explicit locale so server and client agree.
+- `selection / defaultSelection`: { start: number; end: number } | null (default null) — Controlled or initial brushed range, as inclusive candle indices.
+- `onSelectionChange`: (selection: CandleRange | null) => void — Fires from the pointer or key that changed the range, never during render.
+- `onCursorChange`: (index: number | null) => void — Fires from the pointer or key that moved the crosshair.
+
+Notes:
+- One focusable plot with a complete keyboard equivalent of the drag: Arrows walk the crosshair a bar at a time, Home and End jump to the ends, Space drops or lifts the brush anchor, Shift with an arrow extends the range, and Escape clears it. A polite region reads the cursor bar's full OHLC.
+- Under reduced motion the candles render already drawn, the crosshair jumps and the band moves without a spring — the dimming, the lit range and the readout all still work, because what is selected is the point of the instrument.
+- A tap sets the crosshair and lifts the brush rather than leaving an empty range behind; capture is taken only after 4px of travel, inside a try/catch.
+
+### Position Card (KQ-626) — `position-card`
+Profit that moves as the price does.
+
+An open position that keeps score. The unrealised P&L rolls its digits on snap with each print while a tint washes behind the figure in the direction of the move, and a scaled bar under it runs from a fixed zero anchor — profit right toward the target tick, loss left down a shorter lane at the same dollars per pixel — both on glide. Closing is a slide whose knob rides a motion value, and the rail is a slider: arrows step, Home releases, End crosses the detent.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/position-card`
+
+Props:
+- `symbol`: string — Instrument code shown in the header.
+- `side`: "long" | "short" (default "long") — Which way the position profits.
+- `size`: number — Units held; scales every money figure.
+- `entry`: number — Average entry price.
+- `price`: number — Mark price. A new value rolls the P&L and flashes the print.
+- `target`: number — Take-profit price — the far end of the gain lane.
+- `format`: (value: number) => string (default USD, 2dp) — Formats every money figure.
+- `formatPrice`: (value: number) => string (default 2dp) — Formats prices.
+- `unitLabel`: string (default "units") — Noun printed after the size.
+- `zeroAt`: number (default 0.28) — Share of the track left of zero — the loss lane.
+- `closed / defaultClosed`: boolean (default false) — Controlled or initial closed state.
+- `onClose`: (realised: number) => void — Fires from the gesture or key that crossed the detent.
+- `onSlideProgress`: (progress: number) => void — 0–1, fired from the pointer or key that moved the knob.
+
+Notes:
+- The close rail is a slider: Right and Up step forward, Left and Down back, Home releases it, End crosses the detent, and Enter or Space closes from past halfway.
+- Pointer capture is taken only after 4px of travel and inside try/catch, so a plain tap still lands and a synthetic sweep cannot throw.
+- Under reduced motion the digits swap instead of rolling and the knob jumps between stops, but the bar still fills and the print still tints — progress is information.
+
+### Stop Rail (KQ-627) — `stop-rail`
+Drag your stop; the risk redraws.
+
+A trade plan you can grab. Stop, entry and target handles ride one price rail and the bands between them shade the loss and the gain, animating left and width on glide — except while a finger is down, when the transition drops to zero so a band tracks the hand instead of trailing it. The R multiple eases through a motion value on snap and turns success when it crosses the threshold; each handle is a slider where arrows step, Shift or Page steps ten at a time, and Home and End jump to the limits its neighbours leave it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stop-rail`
+
+Props:
+- `value / defaultValue`: StopRailValue — Controlled or initial { stop, entry, target } prices.
+- `onValueChange`: (value: StopRailValue) => void — Fires from the drag or key that moved a handle.
+- `low`: number — Left end of the rail's price domain.
+- `high`: number — Right end of the rail's price domain.
+- `step`: number (default 0.01) — Arrow-key increment; drags snap to it.
+- `side`: "long" | "short" (default "long") — Which side of entry the stop sits on; a short reverses the rail.
+- `size`: number (default 1) — Units, so risk and reward read as money.
+- `symbol`: string — Instrument code in the header.
+- `format`: (value: number) => string (default USD, 2dp) — Formats the risk and reward money.
+- `formatPrice`: (value: number) => string (default 2dp) — Formats the three prices.
+- `goodAt`: number (default 2) — R at which the ratio and the gain band turn success.
+- `minGap`: number (default step * 4) — Smallest distance allowed between handles.
+- `label`: string (default "Risk") — Names the group for assistive technology.
+
+Notes:
+- Each handle is a slider button: Left and Down step down, Right and Up step up, Shift or PageUp/PageDown steps ten at a time, and Home and End jump to the limits its neighbours leave it.
+- Pointer capture is taken only after 4px of travel and inside try/catch, so a plain tap still lands and a synthetic sweep cannot throw.
+- Under reduced motion nothing springs, but the bands, the ratio and its threshold colour all still change — that is the information the rail carries.
+
+### Depth Mound (KQ-628) — `depth-mound`
+Liquidity as a landscape.
+
+Liquidity as terrain. Bids pile up leftward from an anchored mid line and asks rightward, each column as tall as the cumulative size out to its price, and a new book re-grows them on glide delayed by cascade outward from the mid, with a flash on every level that actually changed. The plate is a slider: a pointer snaps the crosshair to the nearest column, Left and Right step one level, Home and End jump to the deepest bid and ask, Escape clears it, and the cumulative figure eases on flick from a motion value.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/depth-mound`
+
+Props:
+- `bids`: DepthLevel[] — Bid levels, best first, descending price.
+- `asks`: DepthLevel[] — Ask levels, best first, ascending price.
+- `height`: number (default 160) — Plot height in px; the width is fluid.
+- `format`: (value: number) => string (default USD, 0dp) — Formats the notional in the accessible reading.
+- `formatPrice`: (value: number) => string (default 2dp) — Formats prices.
+- `formatSize`: (value: number) => string (default grouped integer) — Formats sizes and cumulative depth.
+- `symbol`: string — Instrument code beside the mid.
+- `label`: string (default "Depth") — Accessible name for the plot.
+- `onActiveChange`: (reading: DepthReading | null) => void — Fires from the pointer or key that moved the crosshair.
+
+Notes:
+- The plate is a slider over the levels: Left and Right step one, Up and Down likewise, Home and End jump to the deepest bid and ask, Escape clears the crosshair, and focus opens it at the best bid.
+- The whole book is also rendered as a visually hidden table of side, price, size and cumulative depth, so the chart means something with no pointer at all.
+- Under reduced motion the columns still change height and the crosshair still moves — depth is the information — but with no stagger, no spring and no flash travel.
+
+### Trade Confirm (KQ-629) — `trade-confirm`
+The last look at the number.
+
+The last look at the number. The sheet rises inside its own frame on glide — never a bounce, because nothing is worth celebrating until the order is placed — while a ring beside the quote drains linearly across the hold from a motion value, pausing whenever the tab is hidden. Expiry dims the quote in place, disables confirm rather than hiding it, and slides a refresh control into the hold line; a new price rolls the digits on snap and refills the ring. Focus enters on Confirm, Tab cycles inside, Escape cancels, and focus returns to whatever opened it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trade-confirm`
+
+Props:
+- `open / defaultOpen`: boolean (default false) — Controlled or initial visibility.
+- `onOpenChange`: (open: boolean) => void — Fires from the press, key or confirm that changed it.
+- `side`: "buy" | "sell" (default "buy") — Order side; colours the header chip.
+- `symbol`: string — Instrument code.
+- `size`: number — Units on the order.
+- `price`: number — The held quote. A new value rolls the digits and restarts the hold.
+- `fee`: number (default 0) — Added to the total.
+- `holdMs`: number (default 12000) — Milliseconds the quote holds before it expires.
+- `format`: (value: number) => string (default USD, 2dp) — Formats the fee and the total.
+- `formatPrice`: (value: number) => string (default 2dp) — Formats the quote.
+- `unitLabel`: string (default "units") — Noun printed after the size.
+- `onConfirm`: (price: number) => void — Fires from the press that confirmed, with the quote it confirmed.
+- `onRefresh`: () => void — Fires from the press that asked for a new quote.
+- `onExpire`: () => void — Fires from the ring's completion.
+
+Notes:
+- Renders absolutely inside the nearest positioned ancestor — give the surface it belongs to `relative`.
+- A real modal: focus enters on Confirm, Tab and Shift+Tab cycle inside the sheet, Escape cancels, and focus returns to whatever opened it.
+- Hiding the document pauses the hold and showing it again resumes from what was left, so a quote never expires on a screen nobody is watching.
+- Under reduced motion the sheet fades in place, digits swap instead of rolling, and the ring still drains at the same linear rate.
+
+### Market Clock (KQ-630) — `market-clock`
+Open, closed, and how long until.
+
+A twenty-four hour face that draws a venue's sessions as arcs where they actually sit. The hand sweeps from a minute the host supplies, its rotation accumulated across midnight so it never unwinds a full turn, on a linear tween matched to the step. The arc between the hand and the next change shrinks as the hand eats it and breathes on drift once the change is close; the state pill snaps between Open and Closed, and each legend row is a button that pins the countdown to its session, with Escape to unpin.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/market-clock`
+
+Props:
+- `minute`: number — Minutes since midnight, possibly fractional. The host owns the clock, so the face stays deterministic on the server.
+- `sessions`: MarketSession[] (default 09:00–12:30, 13:30–16:30) — Open stretches as { label, from, to } in minutes; everything outside them is closed.
+- `label`: string (default "Market") — Venue name; the group's accessible name.
+- `zone`: string — Small caption under the venue name.
+- `soonMinutes`: number (default 30) — How close the next change must be before the arc ahead breathes.
+- `selected / defaultSelected`: string | null (default null) — Controlled or initial pinned session label.
+- `onSelectedChange`: (label: string | null) => void — Fires from the press or key that pinned or cleared a session.
+- `onStateChange`: (open: boolean) => void — Fires from the effect that observed the flip, once per flip.
+- `formatTime`: (minute: number) => string (default 24h HH:MM) — Formats every time on the face and in the legend.
+
+Notes:
+- Each legend row is a real button with aria-pressed: Enter or Space pins the countdown to that session, a second press or Escape anywhere in the group clears it.
+- The face is a role="img" whose label names the state, the countdown and every session's hours, and a status region carries only the word Open or Closed so it speaks once per flip rather than once per tick.
+- Under reduced motion the hand jumps to its minute and the arc ahead stops breathing, but the arcs, the state and the countdown all still update.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

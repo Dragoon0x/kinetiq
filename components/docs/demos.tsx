@@ -810,6 +810,16 @@ import { CardOrderDemo } from "@/registry/demos/card-order.demo";
 import { MerchantLockDemo } from "@/registry/demos/merchant-lock.demo";
 import { CardStackDemo } from "@/registry/demos/card-stack.demo";
 import { ChipContactDemo } from "@/registry/demos/chip-contact.demo";
+import { OrderBookDemo } from "@/registry/demos/order-book.demo";
+import { PriceTickerDemo } from "@/registry/demos/price-ticker.demo";
+import { OrderTicketDemo } from "@/registry/demos/order-ticket.demo";
+import { FillTapeDemo } from "@/registry/demos/fill-tape.demo";
+import { CandleBrushDemo } from "@/registry/demos/candle-brush.demo";
+import { PositionCardDemo } from "@/registry/demos/position-card.demo";
+import { StopRailDemo } from "@/registry/demos/stop-rail.demo";
+import { DepthMoundDemo } from "@/registry/demos/depth-mound.demo";
+import { TradeConfirmDemo } from "@/registry/demos/trade-confirm.demo";
+import { MarketClockDemo } from "@/registry/demos/market-clock.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1634,4 +1644,14 @@ export const demos: Record<string, ComponentType> = {
   "merchant-lock": MerchantLockDemo,
   "card-stack": CardStackDemo,
   "chip-contact": ChipContactDemo,
+  "order-book": OrderBookDemo,
+  "price-ticker": PriceTickerDemo,
+  "order-ticket": OrderTicketDemo,
+  "fill-tape": FillTapeDemo,
+  "candle-brush": CandleBrushDemo,
+  "position-card": PositionCardDemo,
+  "stop-rail": StopRailDemo,
+  "depth-mound": DepthMoundDemo,
+  "trade-confirm": TradeConfirmDemo,
+  "market-clock": MarketClockDemo,
 };
