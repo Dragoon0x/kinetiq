@@ -10310,6 +10310,229 @@ Notes:
 - Under reduced motion every path is a fade — the balance still shows and still hides, because that is the whole control.
 - The figure is in the DOM behind the mask: this is a shoulder-surfing guard, not a security boundary. Nothing captures the pointer, so a stray drag across the control cannot leave the balance standing open.
 
+### Send Flow (KQ-601) — `send-flow`
+Who, how much, then the one press that matters.
+
+Three steps for one payment. Panels cross-slide by direction on glide inside a card whose height is measured by a ResizeObserver, so no step is padded out to the tallest; on the review step the amount lands on recoil and the confirm button is inert until that landing completes. Recipients are a radio group with a roving tabindex where arrows step, Home and End jump and Space chooses.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/send-flow`
+
+Props:
+- `recipients`: SendRecipient[] — Who can be paid: id, name, handle and tint. Faces are drawn from initials — no images.
+- `step / defaultStep`: "who" | "amount" | "review" | "sent" (default "who") — Controlled or initial step.
+- `onStepChange`: (step: SendStep) => void — Fires from the press or key that moved the step.
+- `recipientId / defaultRecipientId`: string (default "") — Controlled or initial payee; empty means nothing is chosen and Next is refused.
+- `amount / defaultAmount`: number (default 0) — Controlled or initial amount in major units.
+- `presets`: number[] (default [20, 50, 100]) — Quick amounts offered under the field.
+- `balance`: number — Ceiling for the amount; over it the flow refuses to go on and says why.
+- `format`: (value: number) => string — Money formatter — the flow never invents a currency. Defaults to an en-US Intl.NumberFormat so server and client agree.
+- `onSend`: (payment: { recipientId: string; amount: number }) => void — Fires from the confirm press, once the figure has landed.
+- `label`: string (default "Send money") — Names the card for assistive technology.
+
+Notes:
+- Payees are a radio group with a roving tabindex: arrows step without wrapping, Home and End jump to the ends, Space chooses. Back and Next are real buttons sharing one row.
+- The confirm button stays inert until the review figure finishes landing, and says so through aria-describedby rather than disappearing.
+- Under reduced motion panels cross-fade in place, the figure fades, and the button arms on that tween — the height still animates, because a card collapsing is information.
+
+### Recipient Pick (KQ-602) — `recipient-pick`
+Faces first, then the rest of the name.
+
+Recent payees drawn as faces. Picking one grows its row item into a chip carrying the full name and handle beside the same disc — a layout animation on glide — while the others shrink and recede on a tween. Typing filters the row and the survivors travel to their new slots through the same FLIP; the row is a listbox where arrows step, Home and End jump, Enter chooses and Escape returns to the field.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/recipient-pick`
+
+Props:
+- `people`: Recipient[] — The recent payees: id, name, handle and tint. Pass a theme token as the tint so both themes read.
+- `value / defaultValue`: string | null (default null) — Controlled or initial payee id; null is the unpicked row.
+- `onValueChange`: (id: string | null) => void — Fires from the press or key that chose or cleared.
+- `query / defaultQuery`: string (default "") — Controlled or initial filter text.
+- `onQueryChange`: (query: string) => void — Fires from the field's input event.
+- `max`: number (default 6) — Faces drawn before the row stops; the count line says how many matched.
+- `label`: string (default "Send to") — Visible field label and the row's group name.
+- `placeholder`: string (default "Name or handle") — Field placeholder.
+
+Notes:
+- The row is a listbox with a roving tabindex: Left and Right step without wrapping, Home and End jump, Enter and Space choose or clear, Escape hands focus back to the field. Down from the field enters the row at the chosen face.
+- Faces are procedural — initials on a disc tinted from the token you pass — so the row costs no image requests.
+- Under reduced motion the chip swaps in, the row re-lays instantly and the unchosen faces dim by opacity alone.
+
+### Amount Pad (KQ-603) — `amount-pad`
+Digits you can feel land.
+
+A keypad for money whose figure is the instrument. A pressed key sinks on flick, and each new character slides into the figure from its right on snap, keyed by role so only the typed digit mounts. The decimal point draws a rule under the cents and holds their width; a press that would pass the limit is refused rather than clamped, jumping the figure so recoil can ring it back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/amount-pad`
+
+Props:
+- `value / defaultValue`: number (default 0) — Controlled or initial amount in major units.
+- `onValueChange`: (value: number) => void — Fires from the key press or keystroke that changed the amount.
+- `limit`: number — Ceiling; a press that would pass it is refused and shakes the figure. Omit for no ceiling.
+- `onLimitReached`: (attempted: number) => void — Fires from the refused press, with the amount that was attempted.
+- `format`: (value: number, fractionDigits: number) => string — Prints the figure; fractionDigits is how many cents digits have been typed, so the field is not padded to .00 before the payer gets there. Defaults to an en-US Intl.NumberFormat.
+- `label`: string (default "Amount") — Names the pad and the readout.
+- `caption`: React.ReactNode — A quiet line under the figure — what the money is for. Falls back to the limit.
+
+Notes:
+- One group over a three-column key grid with a roving tabindex: arrows walk the keys, Home and End jump, Enter and Space press. Digits, a point and Backspace typed inside the pad drive the same actions.
+- Keys that can no longer act — digits once both cents are typed, the point once it is placed — carry aria-disabled and stay focusable, so the keyboard can still read the whole pad.
+- Under reduced motion nothing sinks, slides or shakes: the key takes a fill, the digits appear, and a refusal still turns the figure and raises its line.
+
+### Transfer Track (KQ-604) — `transfer-track`
+Sent, on its way, landed.
+
+Three stops and one payment moving between them. The dot glides from stop to stop on glide and the rail fills to the same point on the same spring, placed from a measured track width so it lands true at any column width. Reaching a stop stamps its time on recoil; a failed hop turns the segment ahead danger under a hatch, holds the dot, and offers a Retry the keyboard can reach.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/transfer-track`
+
+Props:
+- `stops`: [TrackStop, TrackStop, TrackStop] (default Sent / On its way / Landed) — The three stops, in order.
+- `reached`: number (default 0) — Index of the furthest stop actually reached, 0 to 2.
+- `stamps`: (string | undefined)[] (default []) — Formatted times per stop; a new entry stamps in. The card never reads a clock itself.
+- `failed`: boolean (default false) — The hop out of `reached` failed: the segment ahead turns danger and Retry appears.
+- `failureMessage`: string (default "The hop was refused.") — The line shown beside Retry.
+- `onRetry`: () => void — Fires from the Retry press. Omit it and no Retry is offered.
+- `amount`: number — The sum in flight, printed in the header.
+- `format`: (value: number) => string — Money formatter — the card never invents a currency. Defaults to an en-US Intl.NumberFormat.
+- `label`: string — What the transfer is; names the region.
+- `reference`: React.ReactNode — A quiet mono line under the header — the reference the host issued.
+
+Notes:
+- The stops are an ordered list carrying aria-current="step" and a hidden state word each, so the run never reads by colour or position alone; the failure is a role="alert" beside a real Retry button.
+- Times are formatted strings from the host, stamped when they first arrive — stops already stamped at mount render settled rather than stamping at a viewer who watched nothing.
+- Under reduced motion the dot jumps and the fill runs on a tween, and stamps appear without landing — progress is still fully shown.
+
+### Split Bill (KQ-605) — `split-bill`
+Everyone's share, nobody's argument.
+
+One bill across several faces with a total that cannot drift. Dragging a row's track reshapes every other share in proportion so they always sum to one, and the rows that moved follow on glide while the track under the finger stays unsprung. Equalise snaps every share even on snap through a cascade; each track is a real slider whose arrows, Page keys and Home and End reshape the others exactly as a drag does.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/split-bill`
+
+Props:
+- `total`: number — The bill in major units.
+- `people`: SplitPerson[] — Who is splitting it: id, name and tint. Faces are initials on a disc — no images.
+- `value / defaultValue`: number[] (default even shares) — Controlled or initial shares as fractions in `people` order; normalised to sum to 1.
+- `onValueChange`: (shares: number[]) => void — Fires from the drag, the key, or Equalise — never from a render.
+- `format`: (value: number) => string — Money formatter — the card never invents a currency. Defaults to an en-US Intl.NumberFormat.
+- `step`: number (default 0.01) — Share a single arrow key moves; Page Up and Page Down move five of them.
+- `label`: string (default "Split") — Names the card for assistive technology.
+- `caption`: React.ReactNode — A quiet line under the header — the venue and the date.
+
+Notes:
+- Every track is a role="slider" named for its person and voiced as money as well as a percentage: arrows move by step, Page Up and Page Down by five, Home and End go to nothing and everything.
+- The pointer is captured only after 4px of travel, so a plain tap still sets the share it landed on and a synthetic sweep through the card cannot throw.
+- Shares are rounded to the cent with the remainder handed to the largest, so the printed shares always add up to the printed total; under reduced motion the fills move on a short tween and the equalise cascade goes.
+
+### Schedule Send (KQ-606) — `schedule-send`
+Now, later, or every month.
+
+A two-stop control decides when the money leaves, one knob travelling between Now and Scheduled on snap. Choosing Scheduled unfolds a date spinbutton and a repeat picker whose height is measured rather than reserved, gliding open on glide and closing to a true zero, while the summary sentence rewrites itself token by token — only the words that changed leave and arrive. Both pickers are radiogroups with a roving tabindex where arrows step and Home and End jump; the date takes arrows for a day and Page keys for a week.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/schedule-send`
+
+Props:
+- `value / defaultValue`: ScheduleValue (default { mode: "now", offsetDays: 1, repeat: "once" }) — Controlled or initial schedule: mode, days after baseDate, repeat.
+- `onValueChange`: (value: ScheduleValue) => void — Fires from the control that changed, never from render.
+- `amount`: number — The sum being scheduled; drives the summary sentence.
+- `format`: (value: number) => string (default Intl.NumberFormat, two decimals) — Formats every amount the component prints.
+- `baseDate`: string (default 2026-04-13) — ISO YYYY-MM-DD the offset counts from, read in UTC so no clock is sampled during render.
+- `maxOffsetDays`: number (default 60) — Furthest schedulable day.
+- `label`: string (default Send) — Visible group label and the mode radiogroup's accessible name.
+
+Notes:
+- Two radiogroups with a roving tabindex: Left and Right step without wrapping, Home and End jump to the ends, Space selects. The date is a spinbutton — arrows move a day, PageUp and PageDown move a week, Home returns to tomorrow, End jumps to the last schedulable day.
+- The panel's height is measured with a ResizeObserver and closes to zero, so nothing reserves room for a picker nobody opened.
+- Under reduced motion the knobs swap instantly, the panel opens without a spring, and the summary tokens cross-fade in place — the sentence still rewrites.
+
+### Transfer Receipt (KQ-607) — `transfer-receipt`
+The receipt prints itself.
+
+A send unrolls the sheet from a true zero to the height a ResizeObserver measured, on glide, with overflow-hidden clipping it so the lines emerge from under the top edge in a cascade rather than fading in place. Once the last line lands the reference types itself in, one character per tick, pausing while the tab is hidden; pressing it copies the reference and the glyph draws a check on flick. The lines are a real description list, the reference is a button one Tab away, and a single polite live region announces the receipt on settle rather than per character.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/transfer-receipt`
+
+Props:
+- `open`: boolean — Raise it once the send has gone through; the sheet unrolls.
+- `amount`: number — The sum sent, printed at the head of the sheet.
+- `format`: (value: number) => string (default Intl.NumberFormat, two decimals) — Formats the head figure and every line carrying an amount.
+- `lines`: ReceiptLine[] (default []) — Label and value pairs printed in order; a line's amount is routed through format.
+- `reference`: string — The reference number that types itself in and is copied on press.
+- `title`: string (default Transfer receipt) — Sheet heading and the section's accessible name.
+- `typeSpeedMs`: number (default 45) — Milliseconds per typed character; 0 prints the reference at once.
+- `onCopy`: (reference: string, ok: boolean) => void — Fires from the copy press with whether the clipboard accepted it.
+
+Notes:
+- The reference is a real button: Tab reaches it, Enter or Space copies, and the outcome is announced by the receipt's live region rather than by colour.
+- The typing interval lives in an effect with cleanup and skips ticks while the document is hidden, so a backgrounded tab never prints to nobody.
+- Under reduced motion the sheet opens without a spring, the lines arrive with opacity only, and the reference is printed whole from the first frame.
+
+### Limit Meter (KQ-608) — `limit-meter`
+How much room today has left.
+
+The fill is made of the actual sends rather than anonymous ticks: each transfer is its own block, its width its share of the limit, growing from zero on glide and shrinking away on the exit ease when it is cancelled. Ahead of the fill the staged amount previews as a hatched segment that arrives on snap and marches one seamless stripe period while it stands, stopping when the tab is hidden. Crossing the limit turns the preview and the rail danger and prints the overage in money, and the remaining figure rolls to its new value on glide.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/limit-meter`
+
+Props:
+- `entries`: LimitEntry[] — Sends already counted against today, oldest first; each is one block of the fill.
+- `limit`: number — The daily ceiling; the full width of the rail.
+- `pending`: number (default 0) — The amount about to be sent, drawn as the hatched preview.
+- `format`: (value: number) => string (default Intl.NumberFormat, two decimals) — Formats every amount the meter prints.
+- `label`: string (default Daily send limit) — Names the meter for assistive technology.
+- `resetNote`: string (default Resets 00:00) — Small note under the rail — the window's own words.
+
+Notes:
+- A role="meter" whose aria-valuenow stays inside the limit, with aria-valuetext naming the total, the staged amount and any overage in words — the over state is never colour alone.
+- Nothing here takes focus: it is a readout, driven entirely by its props.
+- Under reduced motion the widths are set without springs and the hatch stands still — the fill still fills, because how much room is left is information.
+
+### Confirm Slab (KQ-609) — `confirm-slab`
+Read it before you press it.
+
+The facts reveal one after another on a cascade — amount, recipient, fee, total — each rising on glide so the eye is walked down the card in the order the numbers matter. The confirm control is a track with a detent: the thumb follows the pointer to a drawn notch at 62%, meets resistance past it, and parks there when released, then slams home on flick once it is pushed through; released short of the notch it springs back on snap. Confirming sinks the slab on the exit ease and collapses its space on glide to one confirmed line with a tick drawn on flick.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/confirm-slab`
+
+Props:
+- `amount`: number — The sum being confirmed; the card's headline figure.
+- `format`: (value: number) => string (default Intl.NumberFormat, two decimals) — Formats the amount, the fee, and the total.
+- `recipient`: string — Who is being paid; truncates with a title.
+- `account`: string — The masked account line under the recipient.
+- `fee`: number (default 0) — Added to the amount for the total row.
+- `note`: string — Optional last row — what the transfer is for.
+- `confirmLabel`: string (default Slide to send) — Track copy while idle, and the slider's accessible name.
+- `sentLabel`: string (default Sent) — Copy for the line the slab collapses to.
+- `disabled`: boolean (default false) — Locks the track and dims the slab.
+- `onConfirm`: () => void — Fires once, from the gesture or key that landed the slide.
+- `onCancel`: () => void — Fires from the Cancel button.
+- `onStageChange`: (stage: "idle" | "detent" | "sent") => void — Fires as the control moves between its stages.
+
+Notes:
+- The track is a role="slider": ArrowRight and ArrowUp move to the detent and then past it, ArrowLeft and ArrowDown return it to the start, Home and Escape reset it, End runs it home, and Enter or Space confirms from the detent.
+- Pointer capture is taken only after 4px of travel and inside a try/catch, so a plain click is never swallowed and a synthetic sweep cannot throw.
+- Under reduced motion the rows fade without travel, the thumb is set rather than sprung, and the sink becomes a fade — the confirmed line and its tick still appear.
+
+### Settle Pulse (KQ-610) — `settle-pulse`
+Pending until the network says so.
+
+Waiting, the pill breathes: it scales between two keyframes on drift with repeatType mirror while a halo swells in opposition behind it, and the breath rests while the tab is hidden. When the status settles the breathing returns to rest on drift and the pill widens on snap to the measured width its new word and settled sum need, clipping them so they are revealed as the surface arrives. The tick then stamps on recoil with the check drawing on flick; a returned transfer takes the same widening and no bounce, because a failure never celebrates.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/settle-pulse`
+
+Props:
+- `status`: "pending" | "settled" | "returned" (default pending) — Which state the pill shows; changing it runs the settle.
+- `amount`: number — Optional sum; it joins the pill once the network settles or returns it, which is what the pill widens to fit.
+- `format`: (value: number) => string (default Intl.NumberFormat, two decimals) — Formats the amount.
+- `labels`: Partial<Record<SettleStatus, string>> (default Pending / Settled / Returned) — Overrides the word for any state.
+- `network`: string — Who has to say so — printed under the pill and named in the announcement.
+- `size`: "sm" | "md" (default md) — Pill height: h-7 or h-9, so it keeps the row height it sits in.
+- `onSettled`: (status: SettleStatus) => void — Fires once the stamp has landed, from the animation's own completion.
+
+Notes:
+- A polite role="status" carrying a whole sentence for assistive technology, so the state is never colour or pulse alone. It is a readout with no interactive parts, so it never takes focus.
+- The pill's width is measured from its content with a ResizeObserver rather than guessed, so a longer word widens it exactly.
+- Under reduced motion there is no breath and no halo, the widening is instant, and the tick appears already drawn.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

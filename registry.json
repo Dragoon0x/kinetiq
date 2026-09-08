@@ -16846,6 +16846,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "send-flow",
+      "type": "registry:ui",
+      "title": "Send Flow",
+      "description": "Three steps for one payment. Panels cross-slide by direction on glide inside a card whose height is measured by a ResizeObserver, so no step is padded out to the tallest; on the review step the amount lands on recoil and the confirm button is inert until that landing completes. Recipients are a radio group with a roving tabindex where arrows step, Home and End jump and Space chooses.",
+      "files": [
+        {
+          "path": "registry/ui/send-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-601"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "recipient-pick",
+      "type": "registry:ui",
+      "title": "Recipient Pick",
+      "description": "Recent payees drawn as faces. Picking one grows its row item into a chip carrying the full name and handle beside the same disc — a layout animation on glide — while the others shrink and recede on a tween. Typing filters the row and the survivors travel to their new slots through the same FLIP; the row is a listbox where arrows step, Home and End jump, Enter chooses and Escape returns to the field.",
+      "files": [
+        {
+          "path": "registry/ui/recipient-pick.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-602"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "amount-pad",
+      "type": "registry:ui",
+      "title": "Amount Pad",
+      "description": "A keypad for money whose figure is the instrument. A pressed key sinks on flick, and each new character slides into the figure from its right on snap, keyed by role so only the typed digit mounts. The decimal point draws a rule under the cents and holds their width; a press that would pass the limit is refused rather than clamped, jumping the figure so recoil can ring it back.",
+      "files": [
+        {
+          "path": "registry/ui/amount-pad.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-603"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "transfer-track",
+      "type": "registry:ui",
+      "title": "Transfer Track",
+      "description": "Three stops and one payment moving between them. The dot glides from stop to stop on glide and the rail fills to the same point on the same spring, placed from a measured track width so it lands true at any column width. Reaching a stop stamps its time on recoil; a failed hop turns the segment ahead danger under a hatch, holds the dot, and offers a Retry the keyboard can reach.",
+      "files": [
+        {
+          "path": "registry/ui/transfer-track.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-604"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "split-bill",
+      "type": "registry:ui",
+      "title": "Split Bill",
+      "description": "One bill across several faces with a total that cannot drift. Dragging a row's track reshapes every other share in proportion so they always sum to one, and the rows that moved follow on glide while the track under the finger stays unsprung. Equalise snaps every share even on snap through a cascade; each track is a real slider whose arrows, Page keys and Home and End reshape the others exactly as a drag does.",
+      "files": [
+        {
+          "path": "registry/ui/split-bill.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-605"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "schedule-send",
+      "type": "registry:ui",
+      "title": "Schedule Send",
+      "description": "A two-stop control decides when the money leaves, one knob travelling between Now and Scheduled on snap. Choosing Scheduled unfolds a date spinbutton and a repeat picker whose height is measured rather than reserved, gliding open on glide and closing to a true zero, while the summary sentence rewrites itself token by token — only the words that changed leave and arrive. Both pickers are radiogroups with a roving tabindex where arrows step and Home and End jump; the date takes arrows for a day and Page keys for a week.",
+      "files": [
+        {
+          "path": "registry/ui/schedule-send.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-606"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "transfer-receipt",
+      "type": "registry:ui",
+      "title": "Transfer Receipt",
+      "description": "A send unrolls the sheet from a true zero to the height a ResizeObserver measured, on glide, with overflow-hidden clipping it so the lines emerge from under the top edge in a cascade rather than fading in place. Once the last line lands the reference types itself in, one character per tick, pausing while the tab is hidden; pressing it copies the reference and the glyph draws a check on flick. The lines are a real description list, the reference is a button one Tab away, and a single polite live region announces the receipt on settle rather than per character.",
+      "files": [
+        {
+          "path": "registry/ui/transfer-receipt.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-607"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "limit-meter",
+      "type": "registry:ui",
+      "title": "Limit Meter",
+      "description": "The fill is made of the actual sends rather than anonymous ticks: each transfer is its own block, its width its share of the limit, growing from zero on glide and shrinking away on the exit ease when it is cancelled. Ahead of the fill the staged amount previews as a hatched segment that arrives on snap and marches one seamless stripe period while it stands, stopping when the tab is hidden. Crossing the limit turns the preview and the rail danger and prints the overage in money, and the remaining figure rolls to its new value on glide.",
+      "files": [
+        {
+          "path": "registry/ui/limit-meter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-608"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "confirm-slab",
+      "type": "registry:ui",
+      "title": "Confirm Slab",
+      "description": "The facts reveal one after another on a cascade — amount, recipient, fee, total — each rising on glide so the eye is walked down the card in the order the numbers matter. The confirm control is a track with a detent: the thumb follows the pointer to a drawn notch at 62%, meets resistance past it, and parks there when released, then slams home on flick once it is pushed through; released short of the notch it springs back on snap. Confirming sinks the slab on the exit ease and collapses its space on glide to one confirmed line with a tick drawn on flick.",
+      "files": [
+        {
+          "path": "registry/ui/confirm-slab.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-609"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "settle-pulse",
+      "type": "registry:ui",
+      "title": "Settle Pulse",
+      "description": "Waiting, the pill breathes: it scales between two keyframes on drift with repeatType mirror while a halo swells in opposition behind it, and the breath rests while the tab is hidden. When the status settles the breathing returns to rest on drift and the pill widens on snap to the measured width its new word and settled sum need, clipping them so they are revealed as the surface arrives. The tick then stamps on recoil with the check drawing on flick; a returned transfer takes the same widening and no bounce, because a failure never celebrates.",
+      "files": [
+        {
+          "path": "registry/ui/settle-pulse.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-610"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

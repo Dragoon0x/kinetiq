@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 599,
+      "components": 609,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -37195,6 +37195,903 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/balance-mask",
         "bun": "bunx --bun shadcn@latest add @kinetiq/balance-mask",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/balance-mask.json"
+      }
+    },
+    {
+      "slug": "send-flow",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Send Flow",
+      "serial": "KQ-601",
+      "tagline": "Who, how much, then the one press that matters.",
+      "description": "Three steps for one payment. Panels cross-slide by direction on glide inside a card whose height is measured by a ResizeObserver, so no step is padded out to the tallest; on the review step the amount lands on recoil and the confirm button is inert until that landing completes. Recipients are a radio group with a roving tabindex where arrows step, Home and End jump and Space chooses.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "send",
+        "payment",
+        "steps",
+        "wizard",
+        "transfer",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "recipients",
+          "type": "SendRecipient[]",
+          "description": "Who can be paid: id, name, handle and tint. Faces are drawn from initials — no images."
+        },
+        {
+          "name": "step / defaultStep",
+          "type": "\"who\" | \"amount\" | \"review\" | \"sent\"",
+          "defaultValue": "\"who\"",
+          "description": "Controlled or initial step."
+        },
+        {
+          "name": "onStepChange",
+          "type": "(step: SendStep) => void",
+          "description": "Fires from the press or key that moved the step."
+        },
+        {
+          "name": "recipientId / defaultRecipientId",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial payee; empty means nothing is chosen and Next is refused."
+        },
+        {
+          "name": "amount / defaultAmount",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial amount in major units."
+        },
+        {
+          "name": "presets",
+          "type": "number[]",
+          "defaultValue": "[20, 50, 100]",
+          "description": "Quick amounts offered under the field."
+        },
+        {
+          "name": "balance",
+          "type": "number",
+          "description": "Ceiling for the amount; over it the flow refuses to go on and says why."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "description": "Money formatter — the flow never invents a currency. Defaults to an en-US Intl.NumberFormat so server and client agree."
+        },
+        {
+          "name": "onSend",
+          "type": "(payment: { recipientId: string; amount: number }) => void",
+          "description": "Fires from the confirm press, once the figure has landed."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Send money\"",
+          "description": "Names the card for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Payees are a radio group with a roving tabindex: arrows step without wrapping, Home and End jump to the ends, Space chooses. Back and Next are real buttons sharing one row.",
+        "The confirm button stays inert until the review figure finishes landing, and says so through aria-describedby rather than disappearing.",
+        "Under reduced motion panels cross-fade in place, the figure fades, and the button arms on that tween — the height still animates, because a card collapsing is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/send-flow",
+      "registryItemUrl": "https://www.kinetiqui.com/r/send-flow.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/send-flow",
+        "npm": "npx shadcn@latest add @kinetiq/send-flow",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/send-flow",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/send-flow",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/send-flow.json"
+      }
+    },
+    {
+      "slug": "recipient-pick",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Recipient Pick",
+      "serial": "KQ-602",
+      "tagline": "Faces first, then the rest of the name.",
+      "description": "Recent payees drawn as faces. Picking one grows its row item into a chip carrying the full name and handle beside the same disc — a layout animation on glide — while the others shrink and recede on a tween. Typing filters the row and the survivors travel to their new slots through the same FLIP; the row is a listbox where arrows step, Home and End jump, Enter chooses and Escape returns to the field.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "recipient",
+        "payee",
+        "avatar",
+        "filter",
+        "listbox",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "people",
+          "type": "Recipient[]",
+          "description": "The recent payees: id, name, handle and tint. Pass a theme token as the tint so both themes read."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial payee id; null is the unpicked row."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the press or key that chose or cleared."
+        },
+        {
+          "name": "query / defaultQuery",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial filter text."
+        },
+        {
+          "name": "onQueryChange",
+          "type": "(query: string) => void",
+          "description": "Fires from the field's input event."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Faces drawn before the row stops; the count line says how many matched."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Send to\"",
+          "description": "Visible field label and the row's group name."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Name or handle\"",
+          "description": "Field placeholder."
+        }
+      ],
+      "usageNotes": [
+        "The row is a listbox with a roving tabindex: Left and Right step without wrapping, Home and End jump, Enter and Space choose or clear, Escape hands focus back to the field. Down from the field enters the row at the chosen face.",
+        "Faces are procedural — initials on a disc tinted from the token you pass — so the row costs no image requests.",
+        "Under reduced motion the chip swaps in, the row re-lays instantly and the unchosen faces dim by opacity alone."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/recipient-pick",
+      "registryItemUrl": "https://www.kinetiqui.com/r/recipient-pick.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/recipient-pick",
+        "npm": "npx shadcn@latest add @kinetiq/recipient-pick",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/recipient-pick",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/recipient-pick",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/recipient-pick.json"
+      }
+    },
+    {
+      "slug": "amount-pad",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Amount Pad",
+      "serial": "KQ-603",
+      "tagline": "Digits you can feel land.",
+      "description": "A keypad for money whose figure is the instrument. A pressed key sinks on flick, and each new character slides into the figure from its right on snap, keyed by role so only the typed digit mounts. The decimal point draws a rule under the cents and holds their width; a press that would pass the limit is refused rather than clamped, jumping the figure so recoil can ring it back.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "keypad",
+        "amount",
+        "currency",
+        "numeric",
+        "entry",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial amount in major units."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "description": "Fires from the key press or keystroke that changed the amount."
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "Ceiling; a press that would pass it is refused and shakes the figure. Omit for no ceiling."
+        },
+        {
+          "name": "onLimitReached",
+          "type": "(attempted: number) => void",
+          "description": "Fires from the refused press, with the amount that was attempted."
+        },
+        {
+          "name": "format",
+          "type": "(value: number, fractionDigits: number) => string",
+          "description": "Prints the figure; fractionDigits is how many cents digits have been typed, so the field is not padded to .00 before the payer gets there. Defaults to an en-US Intl.NumberFormat."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Amount\"",
+          "description": "Names the pad and the readout."
+        },
+        {
+          "name": "caption",
+          "type": "React.ReactNode",
+          "description": "A quiet line under the figure — what the money is for. Falls back to the limit."
+        }
+      ],
+      "usageNotes": [
+        "One group over a three-column key grid with a roving tabindex: arrows walk the keys, Home and End jump, Enter and Space press. Digits, a point and Backspace typed inside the pad drive the same actions.",
+        "Keys that can no longer act — digits once both cents are typed, the point once it is placed — carry aria-disabled and stay focusable, so the keyboard can still read the whole pad.",
+        "Under reduced motion nothing sinks, slides or shakes: the key takes a fill, the digits appear, and a refusal still turns the figure and raises its line."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/amount-pad",
+      "registryItemUrl": "https://www.kinetiqui.com/r/amount-pad.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/amount-pad",
+        "npm": "npx shadcn@latest add @kinetiq/amount-pad",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/amount-pad",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/amount-pad",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/amount-pad.json"
+      }
+    },
+    {
+      "slug": "transfer-track",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Transfer Track",
+      "serial": "KQ-604",
+      "tagline": "Sent, on its way, landed.",
+      "description": "Three stops and one payment moving between them. The dot glides from stop to stop on glide and the rail fills to the same point on the same spring, placed from a measured track width so it lands true at any column width. Reaching a stop stamps its time on recoil; a failed hop turns the segment ahead danger under a hatch, holds the dot, and offers a Retry the keyboard can reach.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "transfer",
+        "progress",
+        "steps",
+        "status",
+        "retry",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "stops",
+          "type": "[TrackStop, TrackStop, TrackStop]",
+          "defaultValue": "Sent / On its way / Landed",
+          "description": "The three stops, in order."
+        },
+        {
+          "name": "reached",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Index of the furthest stop actually reached, 0 to 2."
+        },
+        {
+          "name": "stamps",
+          "type": "(string | undefined)[]",
+          "defaultValue": "[]",
+          "description": "Formatted times per stop; a new entry stamps in. The card never reads a clock itself."
+        },
+        {
+          "name": "failed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The hop out of `reached` failed: the segment ahead turns danger and Retry appears."
+        },
+        {
+          "name": "failureMessage",
+          "type": "string",
+          "defaultValue": "\"The hop was refused.\"",
+          "description": "The line shown beside Retry."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Fires from the Retry press. Omit it and no Retry is offered."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The sum in flight, printed in the header."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "description": "Money formatter — the card never invents a currency. Defaults to an en-US Intl.NumberFormat."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What the transfer is; names the region."
+        },
+        {
+          "name": "reference",
+          "type": "React.ReactNode",
+          "description": "A quiet mono line under the header — the reference the host issued."
+        }
+      ],
+      "usageNotes": [
+        "The stops are an ordered list carrying aria-current=\"step\" and a hidden state word each, so the run never reads by colour or position alone; the failure is a role=\"alert\" beside a real Retry button.",
+        "Times are formatted strings from the host, stamped when they first arrive — stops already stamped at mount render settled rather than stamping at a viewer who watched nothing.",
+        "Under reduced motion the dot jumps and the fill runs on a tween, and stamps appear without landing — progress is still fully shown."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/transfer-track",
+      "registryItemUrl": "https://www.kinetiqui.com/r/transfer-track.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/transfer-track",
+        "npm": "npx shadcn@latest add @kinetiq/transfer-track",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/transfer-track",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/transfer-track",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/transfer-track.json"
+      }
+    },
+    {
+      "slug": "split-bill",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Split Bill",
+      "serial": "KQ-605",
+      "tagline": "Everyone's share, nobody's argument.",
+      "description": "One bill across several faces with a total that cannot drift. Dragging a row's track reshapes every other share in proportion so they always sum to one, and the rows that moved follow on glide while the track under the finger stays unsprung. Equalise snaps every share even on snap through a cascade; each track is a real slider whose arrows, Page keys and Home and End reshape the others exactly as a drag does.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "split",
+        "bill",
+        "shares",
+        "slider",
+        "group",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "total",
+          "type": "number",
+          "description": "The bill in major units."
+        },
+        {
+          "name": "people",
+          "type": "SplitPerson[]",
+          "description": "Who is splitting it: id, name and tint. Faces are initials on a disc — no images."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number[]",
+          "defaultValue": "even shares",
+          "description": "Controlled or initial shares as fractions in `people` order; normalised to sum to 1."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(shares: number[]) => void",
+          "description": "Fires from the drag, the key, or Equalise — never from a render."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "description": "Money formatter — the card never invents a currency. Defaults to an en-US Intl.NumberFormat."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "0.01",
+          "description": "Share a single arrow key moves; Page Up and Page Down move five of them."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Split\"",
+          "description": "Names the card for assistive technology."
+        },
+        {
+          "name": "caption",
+          "type": "React.ReactNode",
+          "description": "A quiet line under the header — the venue and the date."
+        }
+      ],
+      "usageNotes": [
+        "Every track is a role=\"slider\" named for its person and voiced as money as well as a percentage: arrows move by step, Page Up and Page Down by five, Home and End go to nothing and everything.",
+        "The pointer is captured only after 4px of travel, so a plain tap still sets the share it landed on and a synthetic sweep through the card cannot throw.",
+        "Shares are rounded to the cent with the remainder handed to the largest, so the printed shares always add up to the printed total; under reduced motion the fills move on a short tween and the equalise cascade goes."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/split-bill",
+      "registryItemUrl": "https://www.kinetiqui.com/r/split-bill.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/split-bill",
+        "npm": "npx shadcn@latest add @kinetiq/split-bill",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/split-bill",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/split-bill",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/split-bill.json"
+      }
+    },
+    {
+      "slug": "schedule-send",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Schedule Send",
+      "serial": "KQ-606",
+      "tagline": "Now, later, or every month.",
+      "description": "A two-stop control decides when the money leaves, one knob travelling between Now and Scheduled on snap. Choosing Scheduled unfolds a date spinbutton and a repeat picker whose height is measured rather than reserved, gliding open on glide and closing to a true zero, while the summary sentence rewrites itself token by token — only the words that changed leave and arrive. Both pickers are radiogroups with a roving tabindex where arrows step and Home and End jump; the date takes arrows for a day and Page keys for a week.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "schedule",
+        "recurring",
+        "transfer",
+        "date",
+        "repeat",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "ScheduleValue",
+          "defaultValue": "{ mode: \"now\", offsetDays: 1, repeat: \"once\" }",
+          "description": "Controlled or initial schedule: mode, days after baseDate, repeat."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: ScheduleValue) => void",
+          "description": "Fires from the control that changed, never from render."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The sum being scheduled; drives the summary sentence."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat, two decimals",
+          "description": "Formats every amount the component prints."
+        },
+        {
+          "name": "baseDate",
+          "type": "string",
+          "defaultValue": "2026-04-13",
+          "description": "ISO YYYY-MM-DD the offset counts from, read in UTC so no clock is sampled during render."
+        },
+        {
+          "name": "maxOffsetDays",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "Furthest schedulable day."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Send",
+          "description": "Visible group label and the mode radiogroup's accessible name."
+        }
+      ],
+      "usageNotes": [
+        "Two radiogroups with a roving tabindex: Left and Right step without wrapping, Home and End jump to the ends, Space selects. The date is a spinbutton — arrows move a day, PageUp and PageDown move a week, Home returns to tomorrow, End jumps to the last schedulable day.",
+        "The panel's height is measured with a ResizeObserver and closes to zero, so nothing reserves room for a picker nobody opened.",
+        "Under reduced motion the knobs swap instantly, the panel opens without a spring, and the summary tokens cross-fade in place — the sentence still rewrites."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/schedule-send",
+      "registryItemUrl": "https://www.kinetiqui.com/r/schedule-send.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/schedule-send",
+        "npm": "npx shadcn@latest add @kinetiq/schedule-send",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/schedule-send",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/schedule-send",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/schedule-send.json"
+      }
+    },
+    {
+      "slug": "transfer-receipt",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Transfer Receipt",
+      "serial": "KQ-607",
+      "tagline": "The receipt prints itself.",
+      "description": "A send unrolls the sheet from a true zero to the height a ResizeObserver measured, on glide, with overflow-hidden clipping it so the lines emerge from under the top edge in a cascade rather than fading in place. Once the last line lands the reference types itself in, one character per tick, pausing while the tab is hidden; pressing it copies the reference and the glyph draws a check on flick. The lines are a real description list, the reference is a button one Tab away, and a single polite live region announces the receipt on settle rather than per character.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "receipt",
+        "transfer",
+        "reference",
+        "copy",
+        "print",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "description": "Raise it once the send has gone through; the sheet unrolls."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The sum sent, printed at the head of the sheet."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat, two decimals",
+          "description": "Formats the head figure and every line carrying an amount."
+        },
+        {
+          "name": "lines",
+          "type": "ReceiptLine[]",
+          "defaultValue": "[]",
+          "description": "Label and value pairs printed in order; a line's amount is routed through format."
+        },
+        {
+          "name": "reference",
+          "type": "string",
+          "description": "The reference number that types itself in and is copied on press."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "Transfer receipt",
+          "description": "Sheet heading and the section's accessible name."
+        },
+        {
+          "name": "typeSpeedMs",
+          "type": "number",
+          "defaultValue": "45",
+          "description": "Milliseconds per typed character; 0 prints the reference at once."
+        },
+        {
+          "name": "onCopy",
+          "type": "(reference: string, ok: boolean) => void",
+          "description": "Fires from the copy press with whether the clipboard accepted it."
+        }
+      ],
+      "usageNotes": [
+        "The reference is a real button: Tab reaches it, Enter or Space copies, and the outcome is announced by the receipt's live region rather than by colour.",
+        "The typing interval lives in an effect with cleanup and skips ticks while the document is hidden, so a backgrounded tab never prints to nobody.",
+        "Under reduced motion the sheet opens without a spring, the lines arrive with opacity only, and the reference is printed whole from the first frame."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/transfer-receipt",
+      "registryItemUrl": "https://www.kinetiqui.com/r/transfer-receipt.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/transfer-receipt",
+        "npm": "npx shadcn@latest add @kinetiq/transfer-receipt",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/transfer-receipt",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/transfer-receipt",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/transfer-receipt.json"
+      }
+    },
+    {
+      "slug": "limit-meter",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Limit Meter",
+      "serial": "KQ-608",
+      "tagline": "How much room today has left.",
+      "description": "The fill is made of the actual sends rather than anonymous ticks: each transfer is its own block, its width its share of the limit, growing from zero on glide and shrinking away on the exit ease when it is cancelled. Ahead of the fill the staged amount previews as a hatched segment that arrives on snap and marches one seamless stripe period while it stands, stopping when the tab is hidden. Crossing the limit turns the preview and the rail danger and prints the overage in money, and the remaining figure rolls to its new value on glide.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "limit",
+        "meter",
+        "daily",
+        "pending",
+        "overage",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "entries",
+          "type": "LimitEntry[]",
+          "description": "Sends already counted against today, oldest first; each is one block of the fill."
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "The daily ceiling; the full width of the rail."
+        },
+        {
+          "name": "pending",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The amount about to be sent, drawn as the hatched preview."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat, two decimals",
+          "description": "Formats every amount the meter prints."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Daily send limit",
+          "description": "Names the meter for assistive technology."
+        },
+        {
+          "name": "resetNote",
+          "type": "string",
+          "defaultValue": "Resets 00:00",
+          "description": "Small note under the rail — the window's own words."
+        }
+      ],
+      "usageNotes": [
+        "A role=\"meter\" whose aria-valuenow stays inside the limit, with aria-valuetext naming the total, the staged amount and any overage in words — the over state is never colour alone.",
+        "Nothing here takes focus: it is a readout, driven entirely by its props.",
+        "Under reduced motion the widths are set without springs and the hatch stands still — the fill still fills, because how much room is left is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/limit-meter",
+      "registryItemUrl": "https://www.kinetiqui.com/r/limit-meter.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/limit-meter",
+        "npm": "npx shadcn@latest add @kinetiq/limit-meter",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/limit-meter",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/limit-meter",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/limit-meter.json"
+      }
+    },
+    {
+      "slug": "confirm-slab",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Confirm Slab",
+      "serial": "KQ-609",
+      "tagline": "Read it before you press it.",
+      "description": "The facts reveal one after another on a cascade — amount, recipient, fee, total — each rising on glide so the eye is walked down the card in the order the numbers matter. The confirm control is a track with a detent: the thumb follows the pointer to a drawn notch at 62%, meets resistance past it, and parks there when released, then slams home on flick once it is pushed through; released short of the notch it springs back on snap. Confirming sinks the slab on the exit ease and collapses its space on glide to one confirmed line with a tick drawn on flick.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "confirm",
+        "slide",
+        "detent",
+        "transfer",
+        "review",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The sum being confirmed; the card's headline figure."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat, two decimals",
+          "description": "Formats the amount, the fee, and the total."
+        },
+        {
+          "name": "recipient",
+          "type": "string",
+          "description": "Who is being paid; truncates with a title."
+        },
+        {
+          "name": "account",
+          "type": "string",
+          "description": "The masked account line under the recipient."
+        },
+        {
+          "name": "fee",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Added to the amount for the total row."
+        },
+        {
+          "name": "note",
+          "type": "string",
+          "description": "Optional last row — what the transfer is for."
+        },
+        {
+          "name": "confirmLabel",
+          "type": "string",
+          "defaultValue": "Slide to send",
+          "description": "Track copy while idle, and the slider's accessible name."
+        },
+        {
+          "name": "sentLabel",
+          "type": "string",
+          "defaultValue": "Sent",
+          "description": "Copy for the line the slab collapses to."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Locks the track and dims the slab."
+        },
+        {
+          "name": "onConfirm",
+          "type": "() => void",
+          "description": "Fires once, from the gesture or key that landed the slide."
+        },
+        {
+          "name": "onCancel",
+          "type": "() => void",
+          "description": "Fires from the Cancel button."
+        },
+        {
+          "name": "onStageChange",
+          "type": "(stage: \"idle\" | \"detent\" | \"sent\") => void",
+          "description": "Fires as the control moves between its stages."
+        }
+      ],
+      "usageNotes": [
+        "The track is a role=\"slider\": ArrowRight and ArrowUp move to the detent and then past it, ArrowLeft and ArrowDown return it to the start, Home and Escape reset it, End runs it home, and Enter or Space confirms from the detent.",
+        "Pointer capture is taken only after 4px of travel and inside a try/catch, so a plain click is never swallowed and a synthetic sweep cannot throw.",
+        "Under reduced motion the rows fade without travel, the thumb is set rather than sprung, and the sink becomes a fade — the confirmed line and its tick still appear."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/confirm-slab",
+      "registryItemUrl": "https://www.kinetiqui.com/r/confirm-slab.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/confirm-slab",
+        "npm": "npx shadcn@latest add @kinetiq/confirm-slab",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/confirm-slab",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/confirm-slab",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/confirm-slab.json"
+      }
+    },
+    {
+      "slug": "settle-pulse",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Settle Pulse",
+      "serial": "KQ-610",
+      "tagline": "Pending until the network says so.",
+      "description": "Waiting, the pill breathes: it scales between two keyframes on drift with repeatType mirror while a halo swells in opposition behind it, and the breath rests while the tab is hidden. When the status settles the breathing returns to rest on drift and the pill widens on snap to the measured width its new word and settled sum need, clipping them so they are revealed as the surface arrives. The tick then stamps on recoil with the check drawing on flick; a returned transfer takes the same widening and no bounce, because a failure never celebrates.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "pending",
+        "settled",
+        "status",
+        "pill",
+        "transfer",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "status",
+          "type": "\"pending\" | \"settled\" | \"returned\"",
+          "defaultValue": "pending",
+          "description": "Which state the pill shows; changing it runs the settle."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "Optional sum; it joins the pill once the network settles or returns it, which is what the pill widens to fit."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat, two decimals",
+          "description": "Formats the amount."
+        },
+        {
+          "name": "labels",
+          "type": "Partial<Record<SettleStatus, string>>",
+          "defaultValue": "Pending / Settled / Returned",
+          "description": "Overrides the word for any state."
+        },
+        {
+          "name": "network",
+          "type": "string",
+          "description": "Who has to say so — printed under the pill and named in the announcement."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "defaultValue": "md",
+          "description": "Pill height: h-7 or h-9, so it keeps the row height it sits in."
+        },
+        {
+          "name": "onSettled",
+          "type": "(status: SettleStatus) => void",
+          "description": "Fires once the stamp has landed, from the animation's own completion."
+        }
+      ],
+      "usageNotes": [
+        "A polite role=\"status\" carrying a whole sentence for assistive technology, so the state is never colour or pulse alone. It is a readout with no interactive parts, so it never takes focus.",
+        "The pill's width is measured from its content with a ResizeObserver rather than guessed, so a longer word widens it exactly.",
+        "Under reduced motion there is no breath and no halo, the widening is instant, and the tick appears already drawn."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/settle-pulse",
+      "registryItemUrl": "https://www.kinetiqui.com/r/settle-pulse.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/settle-pulse",
+        "npm": "npx shadcn@latest add @kinetiq/settle-pulse",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/settle-pulse",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/settle-pulse",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/settle-pulse.json"
       }
     },
     {

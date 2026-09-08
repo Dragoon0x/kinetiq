@@ -790,6 +790,16 @@ import { BalanceCompareDemo } from "@/registry/demos/balance-compare.demo";
 import { CashClockDemo } from "@/registry/demos/cash-clock.demo";
 import { MultiCurrencyDemo } from "@/registry/demos/multi-currency.demo";
 import { BalanceMaskDemo } from "@/registry/demos/balance-mask.demo";
+import { SendFlowDemo } from "@/registry/demos/send-flow.demo";
+import { RecipientPickDemo } from "@/registry/demos/recipient-pick.demo";
+import { AmountPadDemo } from "@/registry/demos/amount-pad.demo";
+import { TransferTrackDemo } from "@/registry/demos/transfer-track.demo";
+import { SplitBillDemo } from "@/registry/demos/split-bill.demo";
+import { ScheduleSendDemo } from "@/registry/demos/schedule-send.demo";
+import { TransferReceiptDemo } from "@/registry/demos/transfer-receipt.demo";
+import { LimitMeterDemo } from "@/registry/demos/limit-meter.demo";
+import { ConfirmSlabDemo } from "@/registry/demos/confirm-slab.demo";
+import { SettlePulseDemo } from "@/registry/demos/settle-pulse.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1594,4 +1604,14 @@ export const demos: Record<string, ComponentType> = {
   "cash-clock": CashClockDemo,
   "multi-currency": MultiCurrencyDemo,
   "balance-mask": BalanceMaskDemo,
+  "send-flow": SendFlowDemo,
+  "recipient-pick": RecipientPickDemo,
+  "amount-pad": AmountPadDemo,
+  "transfer-track": TransferTrackDemo,
+  "split-bill": SplitBillDemo,
+  "schedule-send": ScheduleSendDemo,
+  "transfer-receipt": TransferReceiptDemo,
+  "limit-meter": LimitMeterDemo,
+  "confirm-slab": ConfirmSlabDemo,
+  "settle-pulse": SettlePulseDemo,
 };
