@@ -19006,6 +19006,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "subscription-list",
+      "type": "registry:ui",
+      "title": "Subscription List",
+      "description": "A standing list of everything that charges the account, ordered by next charge, where the soonest row keeps a live countdown that ticks once a second from an interval and stops while the tab is hidden. Cancelling a row calls back from the press; when the host drops it the row slides left as its ResizeObserver-measured height closes on the exit ease, and the monthly total rolls its digit columns to the new figure on snap, counting a yearly plan as a twelfth of itself. Every cancel is a real button named for its service, so Tab reaches each one and Enter or Space fires it, while the countdown sits in an aria-live=\"off\" timer that can be queried instead of announced every second.",
+      "files": [
+        {
+          "path": "registry/ui/subscription-list.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-679"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "invoice-build",
+      "type": "registry:ui",
+      "title": "Invoice Build",
+      "description": "An invoice that does its own arithmetic in front of you: a new line opens from zero to a ResizeObserver-measured height on glide while its content slides in from 16px, and the subtotal, tax and total roll their digit columns to the new figures on snap. Removing a line closes the same measured height on the exit ease, which accelerates away rather than springing back, and the figures roll down as it goes. Every remove is a real button carrying its line's description, and removing the row you are standing on hands focus to the next one, so a keyboard run of deletions never dumps focus on the body.",
+      "files": [
+        {
+          "path": "registry/ui/invoice-build.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-680"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "due-badge",
+      "type": "registry:ui",
+      "title": "Due Badge",
+      "description": "One pill that carries an invoice's whole standing. Changing status runs a wash — a tinted layer wipes across from the left on the base tween while the pill's colour transitions beneath it — and the label swaps by sliding, the old words leaving upward on the exit ease as the new words rise on snap, with the pill's width gliding to a measured target so a long label closes rather than snapping. Overdue is the only state given ambient motion, a ring that breathes on drift; paid stamps, drawing its tick with pathLength on flick and landing the pill from 1.06 to 1 on recoil, and the whole standing is spoken once through a polite live region.",
+      "files": [
+        {
+          "path": "registry/ui/due-badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-681"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "payment-plan",
+      "type": "registry:ui",
+      "title": "Payment Plan",
+      "description": "A total, a slider, and the plan it makes: the knob glides between whole instalment counts on snap while the rail and stop ticks follow, and the headline per-payment figure rolls its digit columns on the same spring. Changing the count rebuilds the plan — new rows open from a ResizeObserver-measured height in a cascade on glide, rows that leave close on the exit ease — and the split is done in whole cents so the rows sum to the charge exactly, with the remainder handed to the earliest payments and named in the caption. It is a real role=\"slider\": arrows step, Page keys move by three, Home and End take the ends, and a drag captures the pointer only after 4px so a plain click still lands on the stop it hit.",
+      "files": [
+        {
+          "path": "registry/ui/payment-plan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-682"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "retry-schedule",
+      "type": "registry:ui",
+      "title": "Retry Schedule",
+      "description": "A failed charge and the plan for trying it again: spent attempts are struck dots, the next one is ringed and breathing on drift, and the connector into it is the countdown made visible, filling at a linear rate while the mm:ss beside it ticks from an interval that stops when the tab is hidden and holds while an attempt is in flight. Retry now fires the attempt early from the press, and a settled attempt lands — a failure strikes its dot on flick, a success draws its tick on flick and lands the dot on recoil, the one place two bounces are earned. The schedule is an ordered list whose items carry sentences, so the drawn rail stays decorative and the countdown sits in an aria-live=\"off\" timer that is queried rather than announced every second.",
+      "files": [
+        {
+          "path": "registry/ui/retry-schedule.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-683"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "receipt-drawer",
+      "type": "registry:ui",
+      "title": "Receipt Drawer",
+      "description": "A filing drawer for receipts. The front is a disclosure that pulls the drawer open on glide to a height a ResizeObserver measured, each receipt inside is a card that expands where it stands on glide with its lines arriving on a cascade, and searching filters the cards with a FLIP: survivors travel to their new rows on glide while the ones that leave fade on the exit ease. The front and every card are real aria-expanded buttons; Up and Down move between cards, Escape closes an open card and returns focus, and Escape in a non-empty search clears it.",
+      "files": [
+        {
+          "path": "registry/ui/receipt-drawer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-684"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tax-split",
+      "type": "registry:ui",
+      "title": "Tax Split",
+      "description": "A stacked bar that splits an amount into net and tax around a fixed marker for the amount you entered. In exclusive mode the tax continues past the marker; switching to inclusive slides the bar's end back to it and the tax inside, both segments travelling on glide, while the net, tax and total figures roll their digits on glide without shifting layout. The mode switch is a radio group whose knob rides a shared layoutId on snap: Left and Right step, Home and End jump, Space selects.",
+      "files": [
+        {
+          "path": "registry/ui/tax-split.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-685"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "proration-bar",
+      "type": "registry:ui",
+      "title": "Proration Bar",
+      "description": "A billing period as a bar split by the plan-change date: the days before fill in the primary colour, the days after are hatched because they come back as credit. The split is a real slider thumb — a key press or a track click slides it on glide, a drag follows the pointer directly — and the used and credit figures beneath roll on glide from whole cents. Left and Right move a day, Page Up and Page Down a week, Home and End reach the period's ends.",
+      "files": [
+        {
+          "path": "registry/ui/proration-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-686"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dunning-steps",
+      "type": "registry:ui",
+      "title": "Dunning Steps",
+      "description": "A vertical rail of reminder emails that escalate. Sent steps are stamped with a tick that lands on recoil, the next step wears a ring that drains linearly across intervalMs while the rail segment leading to it fills at the same rate, and when the ring runs out the send is reported and the next ring begins. Pause freezes the rail where it stands, with the Paused word arriving on snap, and Resume continues from the remainder; the clock runs only while running is true and stops while the tab is hidden.",
+      "files": [
+        {
+          "path": "registry/ui/dunning-steps.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-687"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "credit-note",
+      "type": "registry:ui",
+      "title": "Credit Note",
+      "description": "A credit note beside the next invoice. Pressing Apply lifts a chip carrying the amount to be applied from the credit figure and slides it into the invoice's total on glide; when it lands the total and the credit line roll to their new values on glide and the applied share of the credit bar hatches in from the left while the remainder stays solid. Remove reverses the flight. Apply and Remove are one real button, held disabled while a chip is in flight, and a status line reports each landing.",
+      "files": [
+        {
+          "path": "registry/ui/credit-note.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-688"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

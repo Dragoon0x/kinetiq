@@ -33146,4 +33146,842 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the widths still re-form, on a tween instead of the glide spring, and the lit ribbon brightens rather than thickening.",
     ],
   },
+  {
+    name: "subscription-list",
+    type: "registry:ui",
+    title: "Subscription List",
+    description:
+      'A standing list of everything that charges the account, ordered by next charge, where the soonest row keeps a live countdown that ticks once a second from an interval and stops while the tab is hidden. Cancelling a row calls back from the press; when the host drops it the row slides left as its ResizeObserver-measured height closes on the exit ease, and the monthly total rolls its digit columns to the new figure on snap, counting a yearly plan as a twelfth of itself. Every cancel is a real button named for its service, so Tab reaches each one and Enter or Space fires it, while the countdown sits in an aria-live="off" timer that can be queried instead of announced every second.',
+    files: [
+      {
+        path: "registry/ui/subscription-list.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-679",
+    },
+    tagline: "Everything that charges you.",
+    keywords: [
+      "subscriptions",
+      "recurring",
+      "billing",
+      "countdown",
+      "cancel",
+      "rolling total",
+      "finance",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "SubscriptionItem[]",
+        description:
+          "The subscriptions: id, name, plan, amount, cycle and dueInSeconds. The soonest charge leads the list and gets the countdown.",
+      },
+      {
+        name: "onCancel",
+        type: "(id: string) => void",
+        description:
+          "Fires from the press on a row's cancel; remove the item to play the slide-out.",
+      },
+      {
+        name: "onTick",
+        type: "(secondsLeft: number) => void",
+        description:
+          "Fires once a second from the countdown interval with the seconds left on the soonest charge.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Turns an amount into its printed string. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "running",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Runs the countdown. False holds it where it stands, and it also stops while the document is hidden.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Subscriptions"',
+        description:
+          "Names the list and the monthly total for assistive technology.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Nothing charges this account."',
+        description: "The designed empty state; no height is reserved for it.",
+      },
+    ],
+    usageNotes: [
+      "Every row's cancel is a real button labelled with its service, so Tab reaches it and Enter or Space fires it; focus moves to the next row's cancel afterwards rather than falling to the body.",
+      "Under reduced motion the cancelled row closes without travel and the total's digits swap in place — the countdown still ticks and the total still changes, because both are information.",
+      "The countdown runs from a prop, pauses when the document is hidden, and reports each second through onTick; nothing reads the clock during render.",
+    ],
+  },
+  {
+    name: "invoice-build",
+    type: "registry:ui",
+    title: "Invoice Build",
+    description:
+      "An invoice that does its own arithmetic in front of you: a new line opens from zero to a ResizeObserver-measured height on glide while its content slides in from 16px, and the subtotal, tax and total roll their digit columns to the new figures on snap. Removing a line closes the same measured height on the exit ease, which accelerates away rather than springing back, and the figures roll down as it goes. Every remove is a real button carrying its line's description, and removing the row you are standing on hands focus to the next one, so a keyboard run of deletions never dumps focus on the body.",
+    files: [
+      {
+        path: "registry/ui/invoice-build.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-680",
+    },
+    tagline: "Lines that add themselves up.",
+    keywords: [
+      "invoice",
+      "line items",
+      "subtotal",
+      "tax",
+      "rolling total",
+      "billing",
+      "finance",
+    ],
+    props: [
+      {
+        name: "lines",
+        type: "InvoiceLine[]",
+        description:
+          "The lines: id, description, qty and unitPrice. Adding one slides it in; removing one collapses it.",
+      },
+      {
+        name: "onRemove",
+        type: "(id: string) => void",
+        description:
+          "Fires from the press on a line's remove button; drop the line to play the collapse.",
+      },
+      {
+        name: "taxRate",
+        type: "number",
+        defaultValue: "0.08",
+        description:
+          "Fraction of the subtotal charged as tax; the rate is printed as a percentage in the tax label.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Turns an amount into its printed string. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "onTotalChange",
+        type: "(total: number, subtotal: number, tax: number) => void",
+        description:
+          "Fires from the effect that observes a settled change of the three figures.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Invoice"',
+        description:
+          "Names the line list and the totals for assistive technology.",
+      },
+      {
+        name: "note",
+        type: "React.ReactNode",
+        description:
+          "A quiet caption under the totals — the account or the terms.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"No lines yet."',
+        description: "The designed empty state; no height is reserved for it.",
+      },
+    ],
+    usageNotes: [
+      "Each line's remove is a real button named for its line, so Tab reaches it and Enter or Space fires it; focus lands on the next remove button afterwards.",
+      "Under reduced motion rows appear and leave at full height on an opacity change and the digit columns swap in place — the arithmetic still updates, because the arithmetic is the point.",
+      "Amounts are counted in whole cents and printed through format in tabular-nums, so a rolling column never nudges the column beside it.",
+    ],
+  },
+  {
+    name: "due-badge",
+    type: "registry:ui",
+    title: "Due Badge",
+    description:
+      "One pill that carries an invoice's whole standing. Changing status runs a wash — a tinted layer wipes across from the left on the base tween while the pill's colour transitions beneath it — and the label swaps by sliding, the old words leaving upward on the exit ease as the new words rise on snap, with the pill's width gliding to a measured target so a long label closes rather than snapping. Overdue is the only state given ambient motion, a ring that breathes on drift; paid stamps, drawing its tick with pathLength on flick and landing the pill from 1.06 to 1 on recoil, and the whole standing is spoken once through a polite live region.",
+    files: [
+      {
+        path: "registry/ui/due-badge.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-681",
+    },
+    tagline: "Due, overdue, paid.",
+    keywords: [
+      "badge",
+      "status",
+      "invoice",
+      "overdue",
+      "paid",
+      "pill",
+      "finance",
+    ],
+    props: [
+      {
+        name: "status",
+        type: '"due" | "overdue" | "paid"',
+        defaultValue: '"due"',
+        description:
+          "The standing. Changing it runs the wash, the label slide and that state's own motion.",
+      },
+      {
+        name: "days",
+        type: "number",
+        description:
+          "Whole days until the due date, or since it when overdue; drives the generated label.",
+      },
+      {
+        name: "amount",
+        type: "number",
+        description:
+          "Optional figure printed after the label and named in the announcement.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Turns the amount into its printed string. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "labels",
+        type: "Partial<Record<DueStatus, string>>",
+        description: "Overrides the generated label for any state.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md"',
+        defaultValue: '"md"',
+        description:
+          "The 24px row badge or the 28px card badge; both keep one radius.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          'What the badge is about ("Invoice 4821"), spoken before the state.',
+      },
+      {
+        name: "announce",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Keeps the polite live region that reads the new state once it settles.",
+      },
+    ],
+    usageNotes: [
+      "Colour never carries the state alone: each state has its own glyph and its own words, and the pill's visuals are hidden from assistive technology so the standing arrives as one sentence rather than three fragments.",
+      "Under reduced motion nothing pulses, wipes or recoils — the colour transitions, the label cross-fades in place and the tick appears already drawn.",
+      "A display control with no pointer gesture: it is not focusable and owes no keyboard path; drive it from the state that owns the invoice.",
+    ],
+  },
+  {
+    name: "payment-plan",
+    type: "registry:ui",
+    title: "Payment Plan",
+    description:
+      'A total, a slider, and the plan it makes: the knob glides between whole instalment counts on snap while the rail and stop ticks follow, and the headline per-payment figure rolls its digit columns on the same spring. Changing the count rebuilds the plan — new rows open from a ResizeObserver-measured height in a cascade on glide, rows that leave close on the exit ease — and the split is done in whole cents so the rows sum to the charge exactly, with the remainder handed to the earliest payments and named in the caption. It is a real role="slider": arrows step, Page keys move by three, Home and End take the ends, and a drag captures the pointer only after 4px so a plain click still lands on the stop it hit.',
+    files: [
+      {
+        path: "registry/ui/payment-plan.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-682",
+    },
+    tagline: "Split it into instalments.",
+    keywords: [
+      "instalments",
+      "payment plan",
+      "slider",
+      "checkout",
+      "schedule",
+      "split",
+      "finance",
+    ],
+    props: [
+      {
+        name: "total",
+        type: "number",
+        description: "The amount to split, in major units.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "3",
+        description: "Controlled or initial instalment count.",
+      },
+      {
+        name: "onValueChange",
+        type: "(count: number) => void",
+        description:
+          "Fires from the drag, click or key that changed the count.",
+      },
+      {
+        name: "min / max",
+        type: "number",
+        defaultValue: "2 / 12",
+        description: "The fewest and most instalments the slider allows.",
+      },
+      {
+        name: "cadence",
+        type: '"weekly" | "fortnightly" | "monthly"',
+        defaultValue: '"monthly"',
+        description:
+          "Spacing of the instalments; names the row labels and the per-payment caption.",
+      },
+      {
+        name: "feeRate",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Fraction of the total added as a plan fee; above zero it adds a fee line and raises what is charged.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Turns an amount into its printed string. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Payment plan"',
+        description: "Names the slider and the plan for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Left and Down step down an instalment, Right and Up step up, PageUp and PageDown move by three, Home is min and End is max; a pointer drag captures only after 4px of travel, so a plain click lands on the stop it hit.",
+      "Under reduced motion the knob and the rail move without spring, rows appear and leave at full height on an opacity change, and the per-payment digits swap in place.",
+      "The announcement holds while the knob is being dragged and catches up on release, so a drag never babbles at a screen reader.",
+    ],
+  },
+  {
+    name: "retry-schedule",
+    type: "registry:ui",
+    title: "Retry Schedule",
+    description:
+      'A failed charge and the plan for trying it again: spent attempts are struck dots, the next one is ringed and breathing on drift, and the connector into it is the countdown made visible, filling at a linear rate while the mm:ss beside it ticks from an interval that stops when the tab is hidden and holds while an attempt is in flight. Retry now fires the attempt early from the press, and a settled attempt lands — a failure strikes its dot on flick, a success draws its tick on flick and lands the dot on recoil, the one place two bounces are earned. The schedule is an ordered list whose items carry sentences, so the drawn rail stays decorative and the countdown sits in an aria-live="off" timer that is queried rather than announced every second.',
+    files: [
+      {
+        path: "registry/ui/retry-schedule.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-683",
+    },
+    tagline: "When we will try again.",
+    keywords: [
+      "retry",
+      "dunning",
+      "failed payment",
+      "countdown",
+      "timeline",
+      "schedule",
+      "finance",
+    ],
+    props: [
+      {
+        name: "attempts",
+        type: "RetryAttempt[]",
+        description:
+          'The schedule: id, label and status of "failed", "pending" or "succeeded". The first pending attempt is the next one.',
+      },
+      {
+        name: "waitSeconds",
+        type: "number",
+        defaultValue: "300",
+        description:
+          "Seconds until the next attempt; the countdown and the connector fill run across it.",
+      },
+      {
+        name: "amount",
+        type: "number",
+        description: "The amount that failed, in major units.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Turns the amount into its printed string. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "reason / method",
+        type: "string",
+        defaultValue: '"Card declined"',
+        description:
+          "The decline line and the quiet caption naming the method that failed.",
+      },
+      {
+        name: "running",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Runs the countdown. It also stops while the document is hidden or while busy.",
+      },
+      {
+        name: "busy",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The attempt is in flight: the button reads Trying, its ring spins, and the countdown holds.",
+      },
+      {
+        name: "onRetryNow",
+        type: "() => void",
+        description: "Fires from the press on Retry now.",
+      },
+      {
+        name: "onElapse",
+        type: "() => void",
+        description:
+          "Fires from the interval when the wait reaches zero, so the host can run the attempt.",
+      },
+      {
+        name: "onTick",
+        type: "(secondsLeft: number) => void",
+        description:
+          "Fires once a second from the interval with the seconds left.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Retry schedule"',
+        description: "Names the schedule for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Retry now is a real button carrying aria-busy while an attempt is in flight; it stays focusable rather than going disabled, so starting an attempt never throws the keyboard back to the top of the card.",
+      "Under reduced motion nothing breathes, spins or recoils — the connector still fills and the tick appears already drawn, because a countdown and an outcome are information.",
+      "The countdown runs from a prop, pauses when the document is hidden or while busy, and reports each second through onTick; nothing reads the clock during render.",
+    ],
+  },
+  {
+    name: "receipt-drawer",
+    type: "registry:ui",
+    title: "Receipt Drawer",
+    description:
+      "A filing drawer for receipts. The front is a disclosure that pulls the drawer open on glide to a height a ResizeObserver measured, each receipt inside is a card that expands where it stands on glide with its lines arriving on a cascade, and searching filters the cards with a FLIP: survivors travel to their new rows on glide while the ones that leave fade on the exit ease. The front and every card are real aria-expanded buttons; Up and Down move between cards, Escape closes an open card and returns focus, and Escape in a non-empty search clears it.",
+    files: [
+      {
+        path: "registry/ui/receipt-drawer.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-684",
+    },
+    tagline: "Every receipt, filed.",
+    keywords: [
+      "receipt",
+      "drawer",
+      "expenses",
+      "search",
+      "filter",
+      "expand",
+      "finance",
+    ],
+    props: [
+      {
+        name: "receipts",
+        type: "Receipt[]",
+        description:
+          "Each receipt carries an id, merchant, a pre-formatted date, its total, its line items and an optional note.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial drawer state; onOpenChange fires from the press on the front.",
+      },
+      {
+        name: "query / defaultQuery",
+        type: "string",
+        defaultValue: '""',
+        description:
+          "Controlled or initial search text; onQueryChange fires from the input event.",
+      },
+      {
+        name: "expandedId / defaultExpandedId",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Which receipt is open; onExpandedChange fires from the press or Escape that changed it.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "Formats every amount. Defaults to a fixed en-US currency formatter so server and client print the same string.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Receipts"',
+        description: "The drawer's title and accessible name.",
+      },
+      {
+        name: "searchLabel",
+        type: "string",
+        defaultValue: '"Search receipts"',
+        description: "Label for the search field.",
+      },
+      {
+        name: "emptyMessage",
+        type: "string",
+        defaultValue: '"No receipts match."',
+        description: "Shown when the search matches nothing.",
+      },
+    ],
+    usageNotes: [
+      "The front and every card are aria-expanded buttons: Enter and Space toggle, Up and Down move between cards, Escape closes an open card and returns focus to it, and Escape in a non-empty search clears it. The body is inert while the drawer is closed.",
+      "Under reduced motion the drawer and the cards swap height instantly and filtering only fades — no FLIP travel, no line-item offsets.",
+      "matchReceipt(receipt, query) is exported so a host can mirror the filter for its own count.",
+    ],
+  },
+  {
+    name: "tax-split",
+    type: "registry:ui",
+    title: "Tax Split",
+    description:
+      "A stacked bar that splits an amount into net and tax around a fixed marker for the amount you entered. In exclusive mode the tax continues past the marker; switching to inclusive slides the bar's end back to it and the tax inside, both segments travelling on glide, while the net, tax and total figures roll their digits on glide without shifting layout. The mode switch is a radio group whose knob rides a shared layoutId on snap: Left and Right step, Home and End jump, Space selects.",
+    files: [
+      {
+        path: "registry/ui/tax-split.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-685",
+    },
+    tagline: "What is yours and what is the tax.",
+    keywords: [
+      "tax",
+      "net",
+      "gross",
+      "inclusive",
+      "exclusive",
+      "stacked bar",
+      "finance",
+    ],
+    props: [
+      {
+        name: "amount",
+        type: "number",
+        description: "The entered amount in major units.",
+      },
+      {
+        name: "rate",
+        type: "number",
+        description: "Tax rate as a fraction; 0.2 is twenty percent.",
+      },
+      {
+        name: "mode / defaultMode",
+        type: '"inclusive" | "exclusive"',
+        defaultValue: '"exclusive"',
+        description:
+          "Controlled or initial mode; onModeChange fires from the press or key that switched it.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "Formats every figure. Defaults to a fixed en-US currency formatter.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Tax"',
+        description: "Names the control and its radio group.",
+      },
+      {
+        name: "netLabel / taxLabel / totalLabel",
+        type: "string",
+        description:
+          "Captions for the three figures; default Net, Tax and Total.",
+      },
+    ],
+    usageNotes: [
+      "The switch is a radio group with a roving tabindex: Left and Right step between inclusive and exclusive, Home and End jump, Space selects. The bar is an image whose label reads net, tax and total; a status line reports each switch.",
+      "Under reduced motion the segment widths tween on the base duration, the digits swap in place and the knob swaps without travelling.",
+      "splitTax(amount, rate, mode) is exported and works in whole cents, so net plus tax always equals the total.",
+    ],
+  },
+  {
+    name: "proration-bar",
+    type: "registry:ui",
+    title: "Proration Bar",
+    description:
+      "A billing period as a bar split by the plan-change date: the days before fill in the primary colour, the days after are hatched because they come back as credit. The split is a real slider thumb — a key press or a track click slides it on glide, a drag follows the pointer directly — and the used and credit figures beneath roll on glide from whole cents. Left and Right move a day, Page Up and Page Down a week, Home and End reach the period's ends.",
+    files: [
+      {
+        path: "registry/ui/proration-bar.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-686",
+    },
+    tagline: "Only the days you used.",
+    keywords: [
+      "proration",
+      "billing period",
+      "credit",
+      "slider",
+      "plan change",
+      "subscription",
+      "finance",
+    ],
+    props: [
+      {
+        name: "periodStart / periodEnd",
+        type: "string",
+        description:
+          "The period's first day and the day the next one begins, as YYYY-MM-DD. Day arithmetic is in UTC and never reads a clock.",
+      },
+      {
+        name: "price",
+        type: "number",
+        description:
+          "The period's charge in major units; used and credit are split from it in whole cents.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "half the period",
+        description:
+          "Controlled or initial days used; onValueChange fires from the pointer, key or click that moved the split.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "Formats both figures. Defaults to a fixed en-US currency formatter.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Plan change"',
+        description: "Names the slider.",
+      },
+      {
+        name: "usedLabel / creditLabel",
+        type: "string",
+        description: "Captions for the two figures; default Used and Credit.",
+      },
+    ],
+    usageNotes: [
+      "The thumb is role=slider: Left and Right move a day, Up and Down the same, Page Up and Page Down a week, Home and End reach the ends, and aria-valuetext speaks the change date with both figures. The pointer is captured only after four pixels of travel, so a plain click on the track still sets the day.",
+      "Under reduced motion the split tweens on the base duration with no mount fill, and the digits swap in place.",
+      "prorate(price, daysUsed, days), periodDays(start, end) and dayLabel(start, offset) are exported so a host can print the same figures.",
+    ],
+  },
+  {
+    name: "dunning-steps",
+    type: "registry:ui",
+    title: "Dunning Steps",
+    description:
+      "A vertical rail of reminder emails that escalate. Sent steps are stamped with a tick that lands on recoil, the next step wears a ring that drains linearly across intervalMs while the rail segment leading to it fills at the same rate, and when the ring runs out the send is reported and the next ring begins. Pause freezes the rail where it stands, with the Paused word arriving on snap, and Resume continues from the remainder; the clock runs only while running is true and stops while the tab is hidden.",
+    files: [
+      {
+        path: "registry/ui/dunning-steps.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-687",
+    },
+    tagline: "Reminders, escalating.",
+    keywords: [
+      "dunning",
+      "reminders",
+      "overdue",
+      "invoice",
+      "countdown",
+      "steps",
+      "finance",
+    ],
+    props: [
+      {
+        name: "steps",
+        type: "DunningStep[]",
+        description:
+          "Each step carries an id, a title, an optional detail line and the day after the due date it goes out.",
+      },
+      {
+        name: "sent / defaultSent",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Controlled or initial count of steps that have gone out; onSentChange fires from the countdown's completion, and onStepSent(index, step) alongside it.",
+      },
+      {
+        name: "running",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The clock. Only a prop or a host's button starts it; while false the ring shows full.",
+      },
+      {
+        name: "paused / defaultPaused",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial pause; onPausedChange fires from the Pause or Resume press.",
+      },
+      {
+        name: "intervalMs",
+        type: "number",
+        defaultValue: "4000",
+        description: "Milliseconds each ring takes to drain.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Reminders"',
+        description: "Heading and the list's accessible name.",
+      },
+      {
+        name: "pauseLabel / resumeLabel",
+        type: "string",
+        description: "Copy on the pause control; default Pause and Resume.",
+      },
+    ],
+    usageNotes: [
+      "An ordered list whose next step carries aria-current=step; every state is a visible word (Sent, Next, Paused, Upcoming), never a colour alone. The pause control is a real aria-pressed button: Tab to it, Enter or Space toggles. A status line announces each send and each pause or resume.",
+      "Under reduced motion the ring and the rail still drain, because a countdown is information; the stamp appears without its bounce and the status word fades in place.",
+      "The countdown lives in an effect with cleanup, pauses while the document is hidden and resumes from where it stood, and never reads a clock during render.",
+    ],
+  },
+  {
+    name: "credit-note",
+    type: "registry:ui",
+    title: "Credit Note",
+    description:
+      "A credit note beside the next invoice. Pressing Apply lifts a chip carrying the amount to be applied from the credit figure and slides it into the invoice's total on glide; when it lands the total and the credit line roll to their new values on glide and the applied share of the credit bar hatches in from the left while the remainder stays solid. Remove reverses the flight. Apply and Remove are one real button, held disabled while a chip is in flight, and a status line reports each landing.",
+    files: [
+      {
+        path: "registry/ui/credit-note.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-688",
+    },
+    tagline: "Money owed back to you.",
+    keywords: [
+      "credit note",
+      "refund",
+      "invoice",
+      "apply credit",
+      "billing",
+      "meter",
+      "finance",
+    ],
+    props: [
+      {
+        name: "credit",
+        type: "number",
+        description: "The credit note's full value in major units.",
+      },
+      {
+        name: "invoiceSubtotal",
+        type: "number",
+        description: "The next invoice's amount before credit, in major units.",
+      },
+      {
+        name: "applied / defaultApplied",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Controlled or initial credit already applied, clamped to the lesser of the credit and the subtotal; onAppliedChange fires from the Apply or Remove press.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "Formats every amount. Defaults to a fixed en-US currency formatter.",
+      },
+      {
+        name: "creditLabel / creditReference",
+        type: "string",
+        description:
+          "Title and small reference on the credit card; the title defaults to Credit note.",
+      },
+      {
+        name: "invoiceLabel / invoiceReference",
+        type: "string",
+        description:
+          "Title and small reference on the invoice card; the title defaults to Next invoice.",
+      },
+      {
+        name: "applyLabel / removeLabel",
+        type: "string",
+        description:
+          "Copy on the action button; default Apply credit and Remove credit.",
+      },
+    ],
+    usageNotes: [
+      "The credit bar is role=meter whose value is the remaining credit and whose text names applied and remaining. Apply and Remove share one real button: Tab to it, Enter or Space presses; it is disabled while a chip is in flight and reads Nothing to apply when the credit or the invoice is zero.",
+      "Under reduced motion there is no flight: the figures swap on the press, the hatch tweens on the base duration, and the button re-enables at once.",
+      "All arithmetic is in whole cents, so applied plus remaining always equals the credit and subtotal minus applied always equals the total due.",
+    ],
+  },
 ];

@@ -870,6 +870,16 @@ import { WeekStripDemo } from "@/registry/demos/week-strip.demo";
 import { GoalThermometerDemo } from "@/registry/demos/goal-thermometer.demo";
 import { BillCalendarDemo } from "@/registry/demos/bill-calendar.demo";
 import { CashflowRiverDemo } from "@/registry/demos/cashflow-river.demo";
+import { SubscriptionListDemo } from "@/registry/demos/subscription-list.demo";
+import { InvoiceBuildDemo } from "@/registry/demos/invoice-build.demo";
+import { DueBadgeDemo } from "@/registry/demos/due-badge.demo";
+import { PaymentPlanDemo } from "@/registry/demos/payment-plan.demo";
+import { RetryScheduleDemo } from "@/registry/demos/retry-schedule.demo";
+import { ReceiptDrawerDemo } from "@/registry/demos/receipt-drawer.demo";
+import { TaxSplitDemo } from "@/registry/demos/tax-split.demo";
+import { ProrationBarDemo } from "@/registry/demos/proration-bar.demo";
+import { DunningStepsDemo } from "@/registry/demos/dunning-steps.demo";
+import { CreditNoteDemo } from "@/registry/demos/credit-note.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1754,4 +1764,14 @@ export const demos: Record<string, ComponentType> = {
   "goal-thermometer": GoalThermometerDemo,
   "bill-calendar": BillCalendarDemo,
   "cashflow-river": CashflowRiverDemo,
+  "subscription-list": SubscriptionListDemo,
+  "invoice-build": InvoiceBuildDemo,
+  "due-badge": DueBadgeDemo,
+  "payment-plan": PaymentPlanDemo,
+  "retry-schedule": RetryScheduleDemo,
+  "receipt-drawer": ReceiptDrawerDemo,
+  "tax-split": TaxSplitDemo,
+  "proration-bar": ProrationBarDemo,
+  "dunning-steps": DunningStepsDemo,
+  "credit-note": CreditNoteDemo,
 };
