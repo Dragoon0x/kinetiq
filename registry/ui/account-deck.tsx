@@ -322,7 +322,10 @@ export function AccountDeck({
         role="radiogroup"
         aria-labelledby={label ? labelId : undefined}
         aria-label={label ? undefined : ariaLabel}
-        className="relative w-full overflow-hidden rounded-3 border border-hairline bg-surface-1"
+        // Clip, not hidden: a hidden overflow is still a scroll container, and a
+        // programmatic scroll (focus-into-view, a test's click) would offset the
+        // strip under the transforms that position it. A clipped box cannot scroll.
+        className="relative w-full overflow-clip rounded-3 border border-hairline bg-surface-1"
       >
         <div
           className="w-full translate-x-1/2 touch-pan-y"
