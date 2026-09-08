@@ -830,6 +830,16 @@ import { GainLossDemo } from "@/registry/demos/gain-loss.demo";
 import { CostBasisDemo } from "@/registry/demos/cost-basis.demo";
 import { PortfolioPulseDemo } from "@/registry/demos/portfolio-pulse.demo";
 import { WatchDragDemo } from "@/registry/demos/watch-drag.demo";
+import { SeedRevealDemo } from "@/registry/demos/seed-reveal.demo";
+import { SeedConfirmDemo } from "@/registry/demos/seed-confirm.demo";
+import { AddressChipDemo } from "@/registry/demos/address-chip.demo";
+import { SignRequestDemo } from "@/registry/demos/sign-request.demo";
+import { WalletConnectDemo } from "@/registry/demos/wallet-connect.demo";
+import { NetworkPickDemo } from "@/registry/demos/network-pick.demo";
+import { GasDialDemo } from "@/registry/demos/gas-dial.demo";
+import { QrFoldDemo } from "@/registry/demos/qr-fold.demo";
+import { KeyVaultDemo } from "@/registry/demos/key-vault.demo";
+import { HardwareNudgeDemo } from "@/registry/demos/hardware-nudge.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1674,4 +1684,14 @@ export const demos: Record<string, ComponentType> = {
   "cost-basis": CostBasisDemo,
   "portfolio-pulse": PortfolioPulseDemo,
   "watch-drag": WatchDragDemo,
+  "seed-reveal": SeedRevealDemo,
+  "seed-confirm": SeedConfirmDemo,
+  "address-chip": AddressChipDemo,
+  "sign-request": SignRequestDemo,
+  "wallet-connect": WalletConnectDemo,
+  "network-pick": NetworkPickDemo,
+  "gas-dial": GasDialDemo,
+  "qr-fold": QrFoldDemo,
+  "key-vault": KeyVaultDemo,
+  "hardware-nudge": HardwareNudgeDemo,
 };

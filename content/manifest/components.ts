@@ -29710,4 +29710,835 @@ export const components: KinetiqItem[] = [
       "Under reduced motion nothing travels — the list reorders live as the pointer crosses each row, because the order is the information, not the flight.",
     ],
   },
+  {
+    name: "seed-reveal",
+    type: "registry:ui",
+    title: "Seed Reveal",
+    description:
+      "A recovery phrase under hatched plates that lift one at a time while the control is held, each on snap with the word beneath arriving from a nudge; letting go re-covers the grid on the exit ease. The furthest word reached is kept as seen, and the copy control stays shut until every word has shown. Space or Enter held down runs the same walk as a press, Escape or blur ends it.",
+    files: [
+      {
+        path: "registry/ui/seed-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-641",
+    },
+    tagline: "Twelve words, one at a time.",
+    keywords: [
+      "seed",
+      "phrase",
+      "recovery",
+      "reveal",
+      "hold",
+      "wallet",
+      "backup",
+    ],
+    props: [
+      {
+        name: "words",
+        type: "string[]",
+        description:
+          "The phrase, in order. Twelve or twenty-four — the grid takes any length.",
+      },
+      {
+        name: "revealMs",
+        type: "number",
+        defaultValue: "120",
+        description: "Milliseconds between words while the control is held.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        defaultValue: '"Recovery phrase"',
+        description: "Visible heading for the card.",
+      },
+      {
+        name: "holdLabel",
+        type: "string",
+        defaultValue: '"Hold to reveal"',
+        description: "Copy on the hold control.",
+      },
+      {
+        name: "onSeenChange",
+        type: "(seen: number, total: number) => void",
+        description:
+          "Fires from the tick that uncovers a word never seen before.",
+      },
+      {
+        name: "onRevealComplete",
+        type: "() => void",
+        description: "Fires from the tick that uncovers the last word.",
+      },
+      {
+        name: "onCopy",
+        type: "(ok: boolean) => void",
+        description:
+          "Fires from the copy press once the clipboard has answered.",
+      },
+    ],
+    usageNotes: [
+      "The hold control is a real button: Space or Enter held down reveals (auto-repeat ignored), releasing the key ends the hold, and Escape or blur ends it early.",
+      'Covered words are not in the accessibility tree — each slot reads "Word 3, hidden" until its plate is off — and copy stays disabled until every word has been seen.',
+      "Under reduced motion the plates swap instead of lifting, but the walk still steps and the meter still fills, because how far the reveal got is information.",
+    ],
+  },
+  {
+    name: "seed-confirm",
+    type: "registry:ui",
+    title: "Seed Confirm",
+    description:
+      "The check that follows a backup: a right pick flies its chip out of the tray and into the numbered slot on a shared layoutId move on glide, while the tray closes the gap behind it on the same spring. A wrong pick never moves — the chip shakes on a four-keyframe tween, the active slot tints danger, and the miss is counted — and the last placement stamps a seal on recoil. The tray is a roving-tabindex group: Arrow keys step, Home and End jump, Enter or Space picks, Backspace undoes.",
+    files: [
+      {
+        path: "registry/ui/seed-confirm.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-642",
+    },
+    tagline: "Put the words back in order.",
+    keywords: [
+      "seed",
+      "phrase",
+      "confirm",
+      "wallet",
+      "backup",
+      "verify",
+      "chips",
+    ],
+    props: [
+      {
+        name: "positions",
+        type: "number[]",
+        description: "The word numbers being checked, in ask order.",
+      },
+      {
+        name: "answers",
+        type: "string[]",
+        description:
+          "The correct word for each position; same length as positions.",
+      },
+      {
+        name: "options",
+        type: "string[]",
+        description:
+          "The tray in display order — answers plus decoys, distinct, so the shuffle stays deterministic.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        description: "Controlled or initial placements, shortest first.",
+      },
+      {
+        name: "onValueChange",
+        type: "(placed: string[]) => void",
+        description:
+          "Fires from the pick or the undo that changed the placements.",
+      },
+      {
+        name: "onMistake",
+        type: "(position: number, word: string) => void",
+        description:
+          "Fires from the pick that put the wrong word in the active slot.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "Fires from the pick that filled the last slot.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        defaultValue: '"Confirm your phrase"',
+        description: "Visible heading for the card.",
+      },
+    ],
+    usageNotes: [
+      "The tray carries a roving tabindex: Arrow keys step without wrapping, Home and End jump, Enter or Space picks, Backspace or Delete returns the last placed word.",
+      'Slots are an ordered list where each row reads "Word 7, empty" or "Word 7, anchor", and every outcome is spoken by a polite status region rather than shown in colour alone.',
+      "Under reduced motion chips swap into their slots instead of flying and a refusal tints rather than shakes, while the fill count and miss tally still update.",
+    ],
+  },
+  {
+    name: "address-chip",
+    type: "registry:ui",
+    title: "Address Chip",
+    description:
+      "An address shown head-and-tail with the middle collapsed to a real zero-width box; hover or focus glides it open to the width a ResizeObserver measured on the inner run, and the three dots close as the characters arrive. Pressing copies the whole address, draws the tick on flick and stamps a pill over the chip on recoil. Enter or Space copies, Escape shuts the middle without giving up focus.",
+    files: [
+      {
+        path: "registry/ui/address-chip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-643",
+    },
+    tagline: "The middle you never read.",
+    keywords: [
+      "address",
+      "wallet",
+      "truncate",
+      "copy",
+      "clipboard",
+      "chip",
+      "expand",
+    ],
+    props: [
+      {
+        name: "address",
+        type: "string",
+        description:
+          "The full address. Copied verbatim — the clipboard never gets the abbreviation.",
+      },
+      {
+        name: "head",
+        type: "number",
+        defaultValue: "6",
+        description: "Characters kept before the collapsed middle.",
+      },
+      {
+        name: "tail",
+        type: "number",
+        defaultValue: "4",
+        description: "Characters kept after it.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Address"',
+        description:
+          "Names the chip for assistive technology and titles the copy action.",
+      },
+      {
+        name: "expanded",
+        type: "boolean",
+        description:
+          "Forces the middle open (or shut) regardless of hover and focus.",
+      },
+      {
+        name: "onExpandedChange",
+        type: "(expanded: boolean) => void",
+        description:
+          "Fires from the hover, focus, or Escape that changed the middle's state.",
+      },
+      {
+        name: "onCopy",
+        type: "(address: string, ok: boolean) => void",
+        description:
+          "Fires from the copy press once the clipboard has answered.",
+      },
+    ],
+    usageNotes: [
+      "One real button: focus expands the middle exactly as hover does, Enter or Space copies, and Escape collapses it again without moving focus.",
+      "The aria-label carries the full address, so a screen reader never reconstructs the middle from an ellipsis, and a refused clipboard is announced rather than hidden.",
+      "The address sits in its own overflow-x-auto strip with edge fades, so an address wider than the card scrolls inside the chip instead of pushing the page sideways.",
+      "Under reduced motion the middle appears at full width with no glide and the stamp fades in square.",
+    ],
+  },
+  {
+    name: "sign-request",
+    type: "registry:ui",
+    title: "Sign Request",
+    description:
+      "A signing sheet that rises inside the wallet's own frame from a shift on glide and lays the request out one row at a time, each arriving from a nudge behind a cascade delay. A scroll listener writes reading progress into a motion value that scales the hairline beneath the list, and reaching the end arms the sign control, whose fill sweeps in from the left on snap. Focus moves to the list on open and back to the opener on close, Tab is trapped, Escape rejects, and a press on the closed gate takes the reader to the end instead.",
+    files: [
+      {
+        path: "registry/ui/sign-request.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-644",
+    },
+    tagline: "Read what you are signing.",
+    keywords: [
+      "sign",
+      "signature",
+      "approve",
+      "wallet",
+      "sheet",
+      "dialog",
+      "consent",
+    ],
+    props: [
+      {
+        name: "open",
+        type: "boolean",
+        description: "Raises the sheet. Render it inside a relative frame.",
+      },
+      {
+        name: "fields",
+        type: "SignField[]",
+        description:
+          "The request in reading order: id, label, value or amount, and an optional warn tone.",
+      },
+      {
+        name: "origin",
+        type: "string",
+        description:
+          "Who is asking. Shown under the title and read out with it.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Signature request"',
+        description: "Sheet heading and the dialog's accessible name.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: 'Intl.NumberFormat("en-US")',
+        description:
+          "Every amount goes through this — the sheet never invents a currency.",
+      },
+      {
+        name: "signLabel",
+        type: "string",
+        defaultValue: '"Sign"',
+        description: "Copy on the arming control.",
+      },
+      {
+        name: "onSign",
+        type: "() => void",
+        description: "Fires from the sign press, only ever while armed.",
+      },
+      {
+        name: "onReject",
+        type: "() => void",
+        description: "Fires from the reject press, the scrim, or Escape.",
+      },
+      {
+        name: "onArmedChange",
+        type: "(armed: boolean) => void",
+        description:
+          "Fires from the scroll or resize callback that armed or disarmed the control.",
+      },
+    ],
+    usageNotes: [
+      "A real dialog: focus moves to the field list on open so PageDown reads immediately, Tab and Shift+Tab are trapped inside the sheet, Escape rejects, and focus returns to the opener on close.",
+      "The gate is an aria-disabled control with a reason attached, not a dead button — a press while closed takes the reader to the end, and a Jump to end control gives the same path without scrolling.",
+      "Warn-toned rows carry the word Warning as well as the colour, and a request too short to scroll arms on its own from the ResizeObserver.",
+      "Under reduced motion nothing travels and the fill swaps colour, while the reading hairline still tracks the scroll.",
+    ],
+  },
+  {
+    name: "wallet-connect",
+    type: "registry:ui",
+    title: "Wallet Connect",
+    description:
+      "The handshake drawn as two nodes closing the distance: asking narrows the rail they are pinned to on glide, so they approach without either owning a pixel measurement, while the wallet node breathes on a slow reversing tween. Approval draws the link across on glide and lands a tick in a disc at the join on flick; refusal snaps them apart on snap while the link falls away on the exit ease. One real button carries the whole flow — Connect, Cancel, Disconnect, Try again — and a status line says the state in words.",
+    files: [
+      {
+        path: "registry/ui/wallet-connect.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-645",
+    },
+    tagline: "The handshake, drawn.",
+    keywords: [
+      "wallet",
+      "connect",
+      "handshake",
+      "pairing",
+      "link",
+      "approval",
+      "session",
+    ],
+    props: [
+      {
+        name: "status / defaultStatus",
+        type: '"idle" | "pending" | "connected" | "rejected"',
+        defaultValue: '"idle"',
+        description: "Controlled or initial state of the handshake.",
+      },
+      {
+        name: "onStatusChange",
+        type: "(status: WalletConnectStatus) => void",
+        description: "Fires from the press that changed the state.",
+      },
+      {
+        name: "appName",
+        type: "string",
+        description: "Who is asking. Its node draws the initials.",
+      },
+      {
+        name: "walletName",
+        type: "string",
+        description: "Who is being asked. Its node draws a wallet.",
+      },
+      {
+        name: "address",
+        type: "string",
+        description:
+          "Shown abbreviated under the stage once connected, and spoken in full.",
+      },
+      {
+        name: "onRequest",
+        type: "() => void",
+        description:
+          "Fires from the connect press, before the host has answered.",
+      },
+      {
+        name: "onCancel",
+        type: "() => void",
+        description: "Fires from the cancel press while pending.",
+      },
+      {
+        name: "onDisconnect",
+        type: "() => void",
+        description: "Fires from the disconnect press while connected.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        defaultValue: '"Connect a wallet"',
+        description: "Visible heading for the card.",
+      },
+    ],
+    usageNotes: [
+      "The whole flow runs from one real button whose label follows the state, so Enter and Space reach every step; there is no pointer-only path.",
+      "The stage is decoration — a status region beneath it carries the state in words and the full address, so the outcome is never colour or drawing alone.",
+      "The rail is sized as a share of the stage rather than in pixels, so the approach reads the same at 342px as at full width.",
+      "Under reduced motion the nodes hold one position, the link swaps from dashed to solid, the tick appears complete and the wallet node does not breathe.",
+    ],
+  },
+  {
+    name: "network-pick",
+    type: "registry:ui",
+    title: "Network Pick",
+    description:
+      "A wallet header that changes chain without moving anything else. Picking a chain wipes its tone across the header on a clipPath tween that enters from the side the pick lies on, while the chain badge leaves on the exit ease and the new one arrives from 8px away on snap, and the balance beneath re-rolls its digit columns on snap in a cascade that starts at the units and ripples left. It is a radio group with a roving tabindex — Left and Right step without wrapping, Home and End jump, Space selects — and under reduced motion the wash cross-fades, the badge swaps in place and the digits jump to their faces.",
+    files: [
+      {
+        path: "registry/ui/network-pick.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-646",
+    },
+    tagline: "Switch chains without losing your place.",
+    keywords: [
+      "network",
+      "chain",
+      "wallet",
+      "selector",
+      "balance",
+      "finance",
+      "radiogroup",
+    ],
+    props: [
+      {
+        name: "chains",
+        type: "NetworkChain[]",
+        description:
+          "The chains left to right: id, name, symbol, a token tone, a native balance and its value in the reporting currency.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial chain id; defaults to the first chain.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires from the press or key that changed the pick.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Prints the headline figure. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "formatUnits",
+        type: "(value: number, symbol: string) => string",
+        defaultValue: "four fraction digits then the symbol",
+        description: "Prints the native balance under the headline.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible group label; omit it and pass aria-label to label the group invisibly.",
+      },
+      {
+        name: "caption",
+        type: "React.ReactNode",
+        description:
+          "A quiet line under the balance — the account the header belongs to.",
+      },
+    ],
+    usageNotes: [
+      "A radio group with a roving tabindex: Left and Right step between chains without wrapping past the ends, Home and End jump, and Space selects. Moving focus selects, as a radio group does.",
+      "Under reduced motion the wash cross-fades instead of wiping, the badge swaps in place and the digit columns jump to their faces — the tone and the figure still change, because which chain you are on is the information.",
+      "The rolling columns and the ghost badges are hidden from assistive technology; one sr-only status sentence carries the chain, the native balance and the reporting figure on each switch.",
+      "Chain colour comes from a token tone — cobalt, signal, success, warn or danger — never a hex, so both themes read.",
+    ],
+  },
+  {
+    name: "gas-dial",
+    type: "registry:ui",
+    title: "Gas Dial",
+    description:
+      "Three speeds, a needle, and what each one costs. The needle rides a motion value animated on glide — a needle crossing an arc eases into position rather than overshooting — and the same value drives the filled arc's pathLength, so the sweep and the needle are one movement; the fee rolls its digit columns on snap and the estimated time counts, a second motion value read straight into the readout so the clock counts without re-rendering a frame of it. The three stops are a radio group with a roving tabindex — Left and Right step, Home and End jump, Space selects — and the dial face is a pointer shortcut that picks the nearest detent by angle, capturing only after 4px of travel.",
+    files: [
+      {
+        path: "registry/ui/gas-dial.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-647",
+    },
+    tagline: "Slow, normal, fast, and what each costs.",
+    keywords: ["gas", "fee", "dial", "needle", "speed", "finance", "estimate"],
+    props: [
+      {
+        name: "stops",
+        type: "[GasStop, GasStop, GasStop]",
+        defaultValue: "slow / normal / fast",
+        description:
+          "Exactly three stops, slowest first: id, label, fee in major units, estimated seconds and an optional network rate.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial stop id; defaults to the middle stop.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the press, key or dial gesture that changed the stop.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Prints the fee. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "rateUnit",
+        type: "string",
+        defaultValue: '"u"',
+        description: "Unit printed after a stop's rate in the mono chip.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible group label; omit it and pass aria-label to label the group invisibly.",
+      },
+    ],
+    usageNotes: [
+      "The stops are a radio group with a roving tabindex: Left and Right step without wrapping past the ends, Home and End jump to slow and fast, and Space selects. The dial face is a pointer shortcut only — every speed is reachable from the keyboard.",
+      "Pointer capture on the dial waits for 4px of travel and is taken and released inside try/catch, so a plain click is never swallowed and a synthetic sweep through the specimen cannot throw.",
+      "Under reduced motion the needle and the arc set to their stop at once and the clock arrives at its value instead of counting to it — the fee and the wait still change, because what a speed costs is the information.",
+      "The rolling fee columns are hidden from assistive technology; one sr-only status sentence carries the speed, the fee and the estimated wait.",
+    ],
+  },
+  {
+    name: "qr-fold",
+    type: "registry:ui",
+    title: "QR Fold",
+    description:
+      "A receive card whose payment code lives folded into a strip until you ask for it. Pressing unfolds it: the wrapper's height glides from the strip to the square's ResizeObserver-measured height while the code scales up from its top edge, so it reads as paper opening downwards rather than a box growing, and folding away runs back on the exit ease because exits never spring. The toggle carries aria-expanded, Escape anywhere in the card folds the code and returns focus to it, and the address chip beneath copies with a tick drawn on flick.",
+    files: [
+      {
+        path: "registry/ui/qr-fold.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-648",
+    },
+    tagline: "Show the code; hide the code.",
+    keywords: ["qr", "receive", "address", "fold", "copy", "finance", "wallet"],
+    props: [
+      {
+        name: "address",
+        type: "string",
+        description:
+          "The receiving address. Seeds the procedural code and fills the copy chip.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        defaultValue: '"Receive"',
+        description: "Card heading; names the card for assistive technology.",
+      },
+      {
+        name: "network",
+        type: "string",
+        description:
+          "Chain or rail the address belongs to; shown as a mono chip and named in the code's label.",
+      },
+      {
+        name: "amount",
+        type: "number",
+        description:
+          "Requested amount in major units. Omit it for an open request.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Prints the requested amount. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial fold state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the press or the Escape that changed the fold.",
+      },
+      {
+        name: "modules",
+        type: "number",
+        defaultValue: "25",
+        description:
+          "Grid size of the procedural code; clamped to 21–33 and forced odd.",
+      },
+      {
+        name: "onCopy",
+        type: "(address: string, ok: boolean) => void",
+        description:
+          "Fires from the copy attempt with whether the clipboard took it.",
+      },
+    ],
+    usageNotes: [
+      "The strip is a real toggle with aria-expanded and aria-controls; Escape anywhere inside the card folds the code and hands focus back to it.",
+      "The code is procedural and fake — a hash of the address seeds the grid, drawn as one SVG path — so nothing is fetched and nothing is scannable.",
+      "Under reduced motion the height and the fold set at once and the code cross-fades in, because whether the code is showing is the point of the control.",
+      'A clipboard that refuses shows a failure mark and announces "Clipboard unavailable" rather than claiming a copy that never happened.',
+    ],
+  },
+  {
+    name: "key-vault",
+    type: "registry:ui",
+    title: "Key Vault",
+    description:
+      'A vault whose lock says both that it is open and how long it stays open. Flipping the switch turns the lock on snap — the shackle lifts and the keyway takes a quarter turn in one crisp overshoot — while an auto-lock ring drains linearly from a motion value, stopping while the tab is hidden and resuming from what is left, and the vault locks itself from that animation\'s completion rather than from inside a state updater. The keys exist only while the vault is open, arriving from 8px away on glide in a cascade; the lock is a role="switch", each reveal is an aria-pressed button, and Escape anywhere inside locks the vault and returns focus to the switch.',
+    files: [
+      {
+        path: "registry/ui/key-vault.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-649",
+    },
+    tagline: "Locked, unlocked, and how long for.",
+    keywords: [
+      "vault",
+      "lock",
+      "secrets",
+      "auto-lock",
+      "reveal",
+      "finance",
+      "switch",
+    ],
+    props: [
+      {
+        name: "keys",
+        type: "VaultKey[]",
+        description:
+          "The keys in order: id, label, kind and the secret value, which stays masked until an explicit reveal.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description: "Vault name; labels the card and the key list.",
+      },
+      {
+        name: "unlocked / defaultUnlocked",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial lock state.",
+      },
+      {
+        name: "onUnlockedChange",
+        type: "(unlocked: boolean) => void",
+        description:
+          "Fires from the switch, the Escape, or the ring running out.",
+      },
+      {
+        name: "autoLockMs",
+        type: "number",
+        defaultValue: "12000",
+        description:
+          "Milliseconds the vault stays open; 0 disables the ring and the auto-lock.",
+      },
+      {
+        name: "onAutoLock",
+        type: "() => void",
+        description:
+          "Fires from the ring's completion when the vault locks itself.",
+      },
+      {
+        name: "onReveal",
+        type: "(id: string, revealed: boolean) => void",
+        description: "Fires from the press that revealed or re-masked a value.",
+      },
+      {
+        name: "onCopy",
+        type: "(id: string, ok: boolean) => void",
+        description:
+          "Fires from the copy attempt with whether the clipboard took it.",
+      },
+    ],
+    usageNotes: [
+      'The lock is a role="switch" with aria-checked that Space and Enter flip; Escape anywhere inside the card locks the vault and hands focus back to it.',
+      "Locked, the rows are unmounted rather than hidden — a sealed vault keeps no values in the document and nothing focusable behind a closed drawer.",
+      "Revealing or copying re-arms the ring, and the drain stops while the tab is hidden and resumes from what is left rather than restarting.",
+      "Under reduced motion the lock swaps without turning and rows fade instead of sliding, but the ring still drains at the same linear rate, because how long you have is information.",
+    ],
+  },
+  {
+    name: "hardware-nudge",
+    type: "registry:ui",
+    title: "Hardware Nudge",
+    description:
+      "A prompt that waits on a physical signer. While the request is out the device outline pulses on a repeating tween — a breath repeats, and a spring is a single arrival — and a deadline bar drains linearly from a motion value that stops while the tab is hidden and resumes from what is left, with the seconds read straight into the text so the clock counts without re-rendering a frame of it. When the confirmation lands the button lights and the tick draws on flick while the device settles on recoil; a timeout does not celebrate, it dims and greys on a colour tween, and one button — send, cancel or send again — keeps the card the same height in every state.",
+    files: [
+      {
+        path: "registry/ui/hardware-nudge.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-650",
+    },
+    tagline: "Confirm on the device.",
+    keywords: [
+      "hardware",
+      "device",
+      "confirm",
+      "signer",
+      "timeout",
+      "finance",
+      "prompt",
+    ],
+    props: [
+      {
+        name: "status / defaultStatus",
+        type: '"idle" | "waiting" | "confirmed" | "expired"',
+        defaultValue: '"idle"',
+        description: "Controlled or initial state of the request.",
+      },
+      {
+        name: "onStatusChange",
+        type: "(status: NudgeStatus) => void",
+        description:
+          "Fires from the press or the drain that changed the state.",
+      },
+      {
+        name: "deviceName",
+        type: "string",
+        defaultValue: '"Fieldline Signer"',
+        description:
+          "The device being waited on; named in every state sentence.",
+      },
+      {
+        name: "amount",
+        type: "number",
+        description:
+          "Amount awaiting confirmation, in major units of the reporting currency.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Prints the amount. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "units / symbol",
+        type: "number / string",
+        description:
+          "Native amount and its ticker, printed above the reporting figure.",
+      },
+      {
+        name: "to",
+        type: "string",
+        description:
+          "Destination address; shown head and tail in mono with a full title.",
+      },
+      {
+        name: "timeoutMs",
+        type: "number",
+        defaultValue: "30000",
+        description:
+          "Milliseconds before the request expires; 0 waits forever and hides the deadline.",
+      },
+      {
+        name: "onExpire",
+        type: "() => void",
+        description:
+          "Fires from the drain's completion when the request times out.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Fires from the press that sent or re-sent the request.",
+      },
+    ],
+    usageNotes: [
+      "One real button covers every state — send, cancel, send again, and a disabled Confirmed — so the card keeps its height and the whole flow is one Tab away.",
+      "The visible line under the device is the live region: a reader hears one sentence per state rather than a per-second tick.",
+      "The deadline drain stops while the tab is hidden and resumes from what is left, and the request expires from the animation's completion rather than from inside a state updater.",
+      "Under reduced motion the outline holds a steady ring instead of breathing and the device does not bounce, but the button still lights, the tick still appears and the clock still counts.",
+    ],
+  },
 ];

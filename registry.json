@@ -17926,6 +17926,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "seed-reveal",
+      "type": "registry:ui",
+      "title": "Seed Reveal",
+      "description": "A recovery phrase under hatched plates that lift one at a time while the control is held, each on snap with the word beneath arriving from a nudge; letting go re-covers the grid on the exit ease. The furthest word reached is kept as seen, and the copy control stays shut until every word has shown. Space or Enter held down runs the same walk as a press, Escape or blur ends it.",
+      "files": [
+        {
+          "path": "registry/ui/seed-reveal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-641"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "seed-confirm",
+      "type": "registry:ui",
+      "title": "Seed Confirm",
+      "description": "The check that follows a backup: a right pick flies its chip out of the tray and into the numbered slot on a shared layoutId move on glide, while the tray closes the gap behind it on the same spring. A wrong pick never moves — the chip shakes on a four-keyframe tween, the active slot tints danger, and the miss is counted — and the last placement stamps a seal on recoil. The tray is a roving-tabindex group: Arrow keys step, Home and End jump, Enter or Space picks, Backspace undoes.",
+      "files": [
+        {
+          "path": "registry/ui/seed-confirm.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-642"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "address-chip",
+      "type": "registry:ui",
+      "title": "Address Chip",
+      "description": "An address shown head-and-tail with the middle collapsed to a real zero-width box; hover or focus glides it open to the width a ResizeObserver measured on the inner run, and the three dots close as the characters arrive. Pressing copies the whole address, draws the tick on flick and stamps a pill over the chip on recoil. Enter or Space copies, Escape shuts the middle without giving up focus.",
+      "files": [
+        {
+          "path": "registry/ui/address-chip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-643"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sign-request",
+      "type": "registry:ui",
+      "title": "Sign Request",
+      "description": "A signing sheet that rises inside the wallet's own frame from a shift on glide and lays the request out one row at a time, each arriving from a nudge behind a cascade delay. A scroll listener writes reading progress into a motion value that scales the hairline beneath the list, and reaching the end arms the sign control, whose fill sweeps in from the left on snap. Focus moves to the list on open and back to the opener on close, Tab is trapped, Escape rejects, and a press on the closed gate takes the reader to the end instead.",
+      "files": [
+        {
+          "path": "registry/ui/sign-request.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-644"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wallet-connect",
+      "type": "registry:ui",
+      "title": "Wallet Connect",
+      "description": "The handshake drawn as two nodes closing the distance: asking narrows the rail they are pinned to on glide, so they approach without either owning a pixel measurement, while the wallet node breathes on a slow reversing tween. Approval draws the link across on glide and lands a tick in a disc at the join on flick; refusal snaps them apart on snap while the link falls away on the exit ease. One real button carries the whole flow — Connect, Cancel, Disconnect, Try again — and a status line says the state in words.",
+      "files": [
+        {
+          "path": "registry/ui/wallet-connect.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-645"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "network-pick",
+      "type": "registry:ui",
+      "title": "Network Pick",
+      "description": "A wallet header that changes chain without moving anything else. Picking a chain wipes its tone across the header on a clipPath tween that enters from the side the pick lies on, while the chain badge leaves on the exit ease and the new one arrives from 8px away on snap, and the balance beneath re-rolls its digit columns on snap in a cascade that starts at the units and ripples left. It is a radio group with a roving tabindex — Left and Right step without wrapping, Home and End jump, Space selects — and under reduced motion the wash cross-fades, the badge swaps in place and the digits jump to their faces.",
+      "files": [
+        {
+          "path": "registry/ui/network-pick.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-646"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gas-dial",
+      "type": "registry:ui",
+      "title": "Gas Dial",
+      "description": "Three speeds, a needle, and what each one costs. The needle rides a motion value animated on glide — a needle crossing an arc eases into position rather than overshooting — and the same value drives the filled arc's pathLength, so the sweep and the needle are one movement; the fee rolls its digit columns on snap and the estimated time counts, a second motion value read straight into the readout so the clock counts without re-rendering a frame of it. The three stops are a radio group with a roving tabindex — Left and Right step, Home and End jump, Space selects — and the dial face is a pointer shortcut that picks the nearest detent by angle, capturing only after 4px of travel.",
+      "files": [
+        {
+          "path": "registry/ui/gas-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-647"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "qr-fold",
+      "type": "registry:ui",
+      "title": "QR Fold",
+      "description": "A receive card whose payment code lives folded into a strip until you ask for it. Pressing unfolds it: the wrapper's height glides from the strip to the square's ResizeObserver-measured height while the code scales up from its top edge, so it reads as paper opening downwards rather than a box growing, and folding away runs back on the exit ease because exits never spring. The toggle carries aria-expanded, Escape anywhere in the card folds the code and returns focus to it, and the address chip beneath copies with a tick drawn on flick.",
+      "files": [
+        {
+          "path": "registry/ui/qr-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-648"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "key-vault",
+      "type": "registry:ui",
+      "title": "Key Vault",
+      "description": "A vault whose lock says both that it is open and how long it stays open. Flipping the switch turns the lock on snap — the shackle lifts and the keyway takes a quarter turn in one crisp overshoot — while an auto-lock ring drains linearly from a motion value, stopping while the tab is hidden and resuming from what is left, and the vault locks itself from that animation's completion rather than from inside a state updater. The keys exist only while the vault is open, arriving from 8px away on glide in a cascade; the lock is a role=\"switch\", each reveal is an aria-pressed button, and Escape anywhere inside locks the vault and returns focus to the switch.",
+      "files": [
+        {
+          "path": "registry/ui/key-vault.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-649"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hardware-nudge",
+      "type": "registry:ui",
+      "title": "Hardware Nudge",
+      "description": "A prompt that waits on a physical signer. While the request is out the device outline pulses on a repeating tween — a breath repeats, and a spring is a single arrival — and a deadline bar drains linearly from a motion value that stops while the tab is hidden and resumes from what is left, with the seconds read straight into the text so the clock counts without re-rendering a frame of it. When the confirmation lands the button lights and the tick draws on flick while the device settles on recoil; a timeout does not celebrate, it dims and greys on a colour tween, and one button — send, cancel or send again — keeps the card the same height in every state.",
+      "files": [
+        {
+          "path": "registry/ui/hardware-nudge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-650"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
