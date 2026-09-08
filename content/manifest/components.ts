@@ -30541,4 +30541,953 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the outline holds a steady ring instead of breathing and the device does not bounce, but the button still lights, the tick still appears and the clock still counts.",
     ],
   },
+  {
+    name: "tx-status",
+    type: "registry:ui",
+    title: "Tx Status",
+    description:
+      "A transfer watched until it settles: each block that lands takes the next slot, arriving from a step to the right on snap, while the track beneath extends on glide and the count swaps on snap so the figure moves with the tile. At the threshold the pill stamps from 1.2x on recoil and its check draws on flick, while a dropped transfer only cross-fades because a failure must never celebrate. Landed tiles are buttons on a roving tabindex where Left and Right step, Home and End jump, Enter pins a block's detail and Escape releases it.",
+    files: [
+      {
+        path: "registry/ui/tx-status.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-651",
+    },
+    tagline: "Pending, then confirmed, block by block.",
+    keywords: [
+      "transaction",
+      "confirmations",
+      "blocks",
+      "settlement",
+      "status",
+      "finality",
+    ],
+    props: [
+      {
+        name: "hash",
+        type: "string",
+        description:
+          "The transfer's identifier: shown head-and-tail, spoken whole.",
+      },
+      {
+        name: "amount",
+        type: "number",
+        description: "The transferred amount, printed through format.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "Intl.NumberFormat, 4 decimals",
+        description: "Formats the amount.",
+      },
+      {
+        name: "asset",
+        type: "string",
+        defaultValue: '"BSN"',
+        description: "Asset ticker printed after the amount.",
+      },
+      {
+        name: "blocks",
+        type: "TxStatusBlock[]",
+        defaultValue: "[]",
+        description:
+          "Confirming blocks oldest first; its length is the confirmation count.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "Confirmations needed for finality, and the number of slots drawn.",
+      },
+      {
+        name: "dropped",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Marks the transfer as dropped from the queue and suppresses the stamp.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Transfer"',
+        description: "Heads the amount and names the card.",
+      },
+      {
+        name: "onBlockSelect",
+        type: "(block: TxStatusBlock | null) => void",
+        description: "Fires from the press that pins or unpins a block.",
+      },
+      {
+        name: "onFinal",
+        type: "(confirmations: number) => void",
+        description: "Fires once, when the threshold is first met.",
+      },
+    ],
+    usageNotes: [
+      "Landed tiles carry a roving tabindex: Left and Right step, Home and End jump to the ends, Enter or Space pins a block so its detail survives the pointer leaving, Escape releases it.",
+      "Under reduced motion tiles appear in place and the track still extends, because how many blocks have landed is information rather than flourish.",
+      "Nothing is timed inside the card: the host lands blocks by appending to blocks, so the ticker and its cleanup stay where the data lives.",
+    ],
+  },
+  {
+    name: "block-stream",
+    type: "registry:ui",
+    title: "Block Stream",
+    description:
+      "A rail of blocks that fills from the right: a new block enters from a shift beyond the right edge on snap while the tiles already on the rail slide one place left under a layout animation on glide, and the tile pushed off the end leaves on the exit ease. Each tile carries its height, its transaction count, and a fullness bar that extends on glide. Pointing at the rail or focusing any tile holds the stream through onPauseChange, and tiles are buttons on a roving tabindex where Left and Right step, Home and End jump, and Enter pins a tile's detail.",
+    files: [
+      {
+        path: "registry/ui/block-stream.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-652",
+    },
+    tagline: "Blocks as they are mined.",
+    keywords: ["blocks", "stream", "ledger", "feed", "rail", "live"],
+    props: [
+      {
+        name: "blocks",
+        type: "StreamBlock[]",
+        description:
+          "Blocks oldest first; the newest sits at the right of the rail.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "5",
+        description: "Tiles kept on the rail; older ones leave to the left.",
+      },
+      {
+        name: "capacity",
+        type: "number",
+        defaultValue: "2400",
+        description: "Transactions a full block holds; sets each fullness bar.",
+      },
+      {
+        name: "paused",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Host-driven hold, OR-ed with the pointer and focus hold.",
+      },
+      {
+        name: "onPauseChange",
+        type: "(paused: boolean) => void",
+        description:
+          "Fires from the pointer or focus event that changed the hold.",
+      },
+      {
+        name: "onSelect",
+        type: "(block: StreamBlock | null) => void",
+        description: "Fires from the press that pins or unpins a tile.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "Intl.NumberFormat, grouped",
+        description: "Formats heights and transaction counts.",
+      },
+      {
+        name: "announce",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Announces each settled block politely; turn it off in a busy page.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Block stream"',
+        description: "Names the rail for assistive technology.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"No blocks yet."',
+        description: "Shown while the rail is empty.",
+      },
+    ],
+    usageNotes: [
+      "Tiles carry a roving tabindex: Left and Right step, Home and End jump to the oldest and newest tile on the rail, Enter or Space pins a tile, Escape releases it. Focus holds the stream exactly as hover does, so the keyboard can read a tile without it sliding away.",
+      "Under reduced motion tiles appear in place and leave the same way, and the fullness bars still extend, because how full a block is is information.",
+      "The rail never overflows: tiles flex to the width available, so only the entering tile's travel is clipped.",
+    ],
+  },
+  {
+    name: "gas-tracker",
+    type: "registry:ui",
+    title: "Gas Tracker",
+    description:
+      "A fee readout with its own recent past. The headline rolls on snap so only the digit columns that changed move, while the history strip extends: each reading arrives at the right of a fixed grid and its bar scales up from its base on glide. A dashed ceiling crosses the strip, bars at or above it draw in warn, and a crossing tints the headline. The strip is a real slider: pointing reads the nearest column, Left and Right step through the run, Home and End jump, and Escape releases the cursor back to live.",
+    files: [
+      {
+        path: "registry/ui/gas-tracker.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-653",
+    },
+    tagline: "The fee, live.",
+    keywords: [
+      "fee",
+      "gas",
+      "readout",
+      "sparkline",
+      "threshold",
+      "rolling digits",
+    ],
+    props: [
+      {
+        name: "value",
+        type: "number",
+        description: "The current reading, in unit.",
+      },
+      {
+        name: "history",
+        type: "number[]",
+        defaultValue: "[]",
+        description:
+          "Earlier readings oldest first; the current one is appended for the strip.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        description:
+          "The ceiling: crossing it colours the readout and the bars above it.",
+      },
+      {
+        name: "capacity",
+        type: "number",
+        defaultValue: "28",
+        description:
+          "Columns in the strip; the grid is fixed, so a long run cannot overflow.",
+      },
+      {
+        name: "unit",
+        type: "string",
+        defaultValue: '"gu"',
+        description: "Unit printed after every figure and spoken in labels.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "Intl.NumberFormat, 1 decimal",
+        description: "Formats every figure on the card.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Network fee"',
+        description: "Names the tracker for assistive technology.",
+      },
+      {
+        name: "selectedIndex / defaultSelectedIndex",
+        type: "number | null",
+        defaultValue: "null",
+        description:
+          "Cursor position as an index into the drawn window; null is live.",
+      },
+      {
+        name: "onSelectedIndexChange",
+        type: "(index: number | null) => void",
+        description:
+          "Fires from the pointer, key, or Escape that moved the cursor.",
+      },
+    ],
+    usageNotes: [
+      "The strip is a role=slider with tabIndex 0: Left and Right step through the readings, Home and End jump to the oldest and newest, Escape releases the cursor back to live. A cursor placed with the keys outlives the pointer wandering off.",
+      "Under reduced motion the digits swap in place and the bars still extend on a tween, because the history is information rather than flourish.",
+      "The live region carries only the ceiling verdict, so it speaks on a crossing rather than once per sample.",
+    ],
+  },
+  {
+    name: "tx-flow",
+    type: "registry:ui",
+    title: "Tx Flow",
+    description:
+      "One transaction, drawn: every input curves into a hub and every output curves out of it, each edge weighted by that leg's share of the total. Value marches along the edges as a dashed stroke on a linear tween, and only while flowing is set, the tab is visible, and motion is welcome. Pointing at an edge or its row lights both and reads the address and amount, thickening the stroke on glide; rows carry one roving tabindex across both columns where Up and Down move within a column, Left and Right cross between them, Enter pins a leg and Escape releases it.",
+    files: [
+      {
+        path: "registry/ui/tx-flow.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-654",
+    },
+    tagline: "From this address to that one.",
+    keywords: [
+      "transaction",
+      "inputs",
+      "outputs",
+      "diagram",
+      "addresses",
+      "fee",
+    ],
+    props: [
+      {
+        name: "inputs",
+        type: "TxLeg[]",
+        description: "Addresses the transaction spends from, top to bottom.",
+      },
+      {
+        name: "outputs",
+        type: "TxLeg[]",
+        description:
+          'Addresses it pays, top to bottom; one may carry kind: "fee".',
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "Intl.NumberFormat, 4 decimals",
+        description: "Formats every amount on the diagram.",
+      },
+      {
+        name: "asset",
+        type: "string",
+        defaultValue: '"BSN"',
+        description: "Asset ticker printed after amounts.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description: "Controlled or initial pinned leg id.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the press or Escape that pinned or released a leg.",
+      },
+      {
+        name: "onHoverChange",
+        type: "(id: string | null) => void",
+        description: "Fires from the pointer or focus that lit a leg.",
+      },
+      {
+        name: "flowing",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Marches the dashes; still gated by reduced motion and tab visibility.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Transaction"',
+        description: "Names the diagram for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "One roving tabindex spans both columns: Up and Down move within a column, Left and Right cross to the other at the same row, Home and End jump to the first and last leg, Enter or Space pins a leg and Escape releases it.",
+      "Under reduced motion the dashes hold still and each leg's share still reads in its stroke weight; highlighting becomes colour and weight on a tween.",
+      "Geometry is measured by a ResizeObserver and every coordinate is rounded before it reaches an attribute, so adding a leg re-draws without a hydration mismatch.",
+    ],
+  },
+  {
+    name: "mempool-queue",
+    type: "registry:ui",
+    title: "Mempool Queue",
+    description:
+      "The waiting room, ordered by what each transaction pays. Rows sort by fee and carry layout on glide, so a reorder is the list rearranging itself and every row travels to its new place; an arrival drops in from a step above on snap and a mined transaction leaves on the exit ease. Your row is washed, ringed, and named in words, and bumping its fee climbs it past the cut line that marks the next block, flashing a wash keyed to the new rank so it fires once per climb and never on a slide backwards. The bump button sits in the tab order and says what fee it would offer.",
+    files: [
+      {
+        path: "registry/ui/mempool-queue.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-655",
+    },
+    tagline: "Waiting, ordered by what they pay.",
+    keywords: ["mempool", "queue", "fee", "priority", "reorder", "pending"],
+    props: [
+      {
+        name: "entries",
+        type: "MempoolEntry[]",
+        description:
+          "Pending transactions in any order; the queue sorts them by fee.",
+      },
+      {
+        name: "blockSlots",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Rows that make the next block; the cut line sits under them.",
+      },
+      {
+        name: "capacity",
+        type: "number",
+        defaultValue: "7",
+        description: "Rows drawn; the rest are counted in the footer.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "2",
+        description: "Added to your fee by one press of the bump button.",
+      },
+      {
+        name: "unit",
+        type: "string",
+        defaultValue: '"gu"',
+        description: "Fee unit printed after every figure.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "Intl.NumberFormat, 1 decimal",
+        description: "Formats every fee on the list.",
+      },
+      {
+        name: "onBump",
+        type: "(id: string, nextFee: number) => void",
+        description: "Fires from the press; re-sort by writing entries.",
+      },
+      {
+        name: "bumpLabel",
+        type: "string",
+        defaultValue: '"Bump"',
+        description: "Copy on the bump button.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Pending queue"',
+        description: "Names the list for assistive technology.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Nothing waiting."',
+        description: "Shown when the queue is empty.",
+      },
+    ],
+    usageNotes: [
+      "The only control is the bump button on your row: it is in the tab order, Enter and Space press it, and its label names the fee it would offer. Every row carries its position and whether it makes the next block as a sentence, so nothing rests on colour.",
+      "Under reduced motion rows take their new places instantly, because the order is the information and it still changes; the improvement flash still plays, because feedback is not flourish.",
+      "Rows past capacity are not rendered at all: a busy queue is counted in the footer rather than grown into the DOM.",
+    ],
+  },
+  {
+    name: "explorer-search",
+    type: "registry:ui",
+    title: "Explorer Search",
+    description:
+      "A search field that recognises the shape of what you paste before it looks anything up: the leading mark swaps to the recognised kind on flick while the border tweens to cobalt, and a hairline sweeps the field linearly through the debounce so the wait reads as work. The resolved preview card arrives from a step below on glide, and its wrapper's height is measured with a ResizeObserver so no room is ever reserved for a card that has not resolved. Enter opens the record, Escape clears the field, and a polite status region announces each outcome once instead of on every keystroke.",
+    files: [
+      {
+        path: "registry/ui/explorer-search.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-656",
+    },
+    tagline: "Paste a hash; watch it resolve.",
+    keywords: [
+      "search",
+      "explorer",
+      "hash",
+      "address",
+      "lookup",
+      "preview",
+      "finance",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description: "Controlled or initial query text.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires from the input, the clear press or Escape.",
+      },
+      {
+        name: "resolve",
+        type: "(query: string, kind: ExplorerKind) => ExplorerHit | null",
+        description:
+          "Looks the query up. Called from the debounce timer, never during render.",
+      },
+      {
+        name: "resolveDelayMs",
+        type: "number",
+        defaultValue: "420",
+        description:
+          "Milliseconds between the last keystroke and the lookup; the sweep runs for exactly this long.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })',
+        description:
+          "Formats every amount on the preview card. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "asset",
+        type: "string",
+        defaultValue: '"BSN"',
+        description: "Ticker printed after each amount.",
+      },
+      {
+        name: "onKindChange",
+        type: "(kind: ExplorerKind) => void",
+        description:
+          "Fires when the recognised shape changes — hash, address, block or unknown.",
+      },
+      {
+        name: "onResolved",
+        type: "(hit: ExplorerHit | null) => void",
+        description:
+          "Fires from the resolve timer with the record, or null for no match.",
+      },
+      {
+        name: "onOpen",
+        type: "(hit: ExplorerHit) => void",
+        description: "Fires from Enter in the field or the card's open press.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible field label; omit it and pass aria-label to label the field invisibly.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Hash, address or block"',
+        description: "Field placeholder.",
+      },
+    ],
+    usageNotes: [
+      "The field is a real search input: Enter opens the resolved record, Escape clears the query and dismisses the card, and the card's open control is one Tab away.",
+      "Classification is a pure regex over the trimmed query, so it costs nothing per keystroke; only the lookup is debounced, and the debounce pauses while the document is hidden.",
+      "Under reduced motion the card cross-fades in place with no slide and no spring, but the debounce sweep still runs, because the wait is information about what the field is doing.",
+    ],
+  },
+  {
+    name: "finality-ring",
+    type: "registry:ui",
+    title: "Finality Ring",
+    description:
+      "A ring left open at the top, where the notch is the part of finality still owed. Every confirmation extends the arc on glide and draws its own tick on flick, and the last block fills the remaining sweep and closes the notch in one move on snap, so the ring shutting is the same gesture as the transaction settling. The certainty figure rolls its digits on snap inside a fixed five-character box and gives way to a drawn check at finality, because at that point the number is no longer a probability.",
+    files: [
+      {
+        path: "registry/ui/finality-ring.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-657",
+    },
+    tagline: "How sure the chain is.",
+    keywords: [
+      "finality",
+      "confirmations",
+      "ring",
+      "progress",
+      "settlement",
+      "certainty",
+      "finance",
+    ],
+    props: [
+      {
+        name: "confirmations",
+        type: "number",
+        description:
+          "Blocks seen on top of the transaction; clamped to finality for display.",
+      },
+      {
+        name: "finality",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "Confirmations that count as final — the ring's maximum and its tick count.",
+      },
+      {
+        name: "certaintyFor",
+        type: "(confirmations: number, finality: number) => number",
+        defaultValue: "1 - 0.5 ** confirmations, exactly 1 at finality",
+        description:
+          "Returns 0–1 for the centre figure. The default halves the remaining doubt per block.",
+      },
+      {
+        name: "amount",
+        type: "number",
+        description:
+          "The sum being secured, printed under the ring; omit it and the line is not drawn.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })',
+        description:
+          "Formats the amount. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "asset",
+        type: "string",
+        defaultValue: '"BSN"',
+        description: "Ticker printed after the amount.",
+      },
+      {
+        name: "onFinal",
+        type: "() => void",
+        description:
+          "Fires once, from the effect that observes the crossing into finality.",
+      },
+      {
+        name: "pendingLabel / finalLabel",
+        type: "string",
+        defaultValue: '"Settling" / "Final"',
+        description: "The word under the figure before and after finality.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md"',
+        defaultValue: '"md"',
+        description: "Ring scale; the centre figure sizes with it.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible caption over the ring; omit it and pass aria-label.",
+      },
+    ],
+    usageNotes: [
+      'A role="progressbar" carrying the confirmation count and a spoken aria-valuetext; a polite status region announces finality once rather than every block.',
+      "The component owns no control and runs no clock — blocks arrive as a prop, so the host decides what a block is and when one lands.",
+      "Under reduced motion the arc still fills and the digits still change, on a tween instead of a spring, with no closing overshoot and the check already drawn.",
+    ],
+  },
+  {
+    name: "nonce-line",
+    type: "registry:ui",
+    title: "Nonce Line",
+    description:
+      "An account's outgoing transactions on one rail in nonce order, where a missing number draws as a dashed slot that breathes on a three-keyframe opacity tween and everything behind it reads as blocked. While the gap stands, the rail carries a break so the blocked tail visibly sits further along than it should; filling the slot collapses that break on glide and slides every transaction behind it forward. The rail is an ordered list with a roving tabindex — Left and Right step, Home and End jump, Enter and Space select or fill — and every tile's label spells its state out in words.",
+    files: [
+      {
+        path: "registry/ui/nonce-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-658",
+    },
+    tagline: "Every transaction in order.",
+    keywords: [
+      "nonce",
+      "sequence",
+      "queue",
+      "gap",
+      "pending",
+      "transactions",
+      "finance",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "NonceItem[]",
+        description:
+          "The transactions: nonce, hash, status, amount and an optional payee. Order does not matter; the line sorts by nonce and draws the missing numbers itself.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        description:
+          "Controlled or initial focused nonce; defaults to the lowest on the rail.",
+      },
+      {
+        name: "onValueChange",
+        type: "(nonce: number) => void",
+        description:
+          "Fires from the click or key press that moved the selection.",
+      },
+      {
+        name: "onFill",
+        type: "(nonce: number) => void",
+        description:
+          "Fires from the press on a gap slot; the host inserts the missing transaction.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })',
+        description:
+          "Formats every amount on the rail and in the detail line. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "asset",
+        type: "string",
+        defaultValue: '"BSN"',
+        description: "Ticker printed after each amount.",
+      },
+      {
+        name: "fillLabel",
+        type: "string",
+        defaultValue: '"Fill"',
+        description: "Word inside a gap slot.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible list label; omit it and pass aria-label to label the rail invisibly.",
+      },
+    ],
+    usageNotes: [
+      "An ordered list with a roving tabindex: Left and Right step without wrapping, Home and End jump to the ends, Enter and Space select the tile or fill the gap under focus.",
+      "Blocked is derived, never supplied — a pending transaction behind a missing nonce is blocked, and its label says so in words rather than relying on the dimming.",
+      "Under reduced motion the slot stops breathing and the break collapses instantly; the order still changes, because the order is the information.",
+    ],
+  },
+  {
+    name: "bridge-hop",
+    type: "registry:ui",
+    title: "Bridge Hop",
+    description:
+      "Two chain cards over a hop whose rail carries one node per stage, and a single token puck that crosses it: each completed stage slides the puck to the next node on glide, and the rail itself never fills, so the only thing travelling is the token. The rail's width is measured with a ResizeObserver and the puck moves by x in pixels off that measurement, so it can never overhang at any width; in flight it breathes on drift between two keyframes and stops for a hidden tab. Arrival lands on recoil while the destination balance rolls up on snap, and the stage nodes are real buttons with a roving tabindex whose focus writes the same read-out as hovering.",
+    files: [
+      {
+        path: "registry/ui/bridge-hop.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-659",
+    },
+    tagline: "One chain to another, in steps.",
+    keywords: [
+      "bridge",
+      "transfer",
+      "tracker",
+      "stages",
+      "cross-chain",
+      "progress",
+      "finance",
+    ],
+    props: [
+      {
+        name: "stages",
+        type: "BridgeStage[]",
+        defaultValue: "locked / attested / relayed / minted",
+        description:
+          "The hop's nodes source to destination: id, label, and an optional detail and hash for the read-out.",
+      },
+      {
+        name: "stage",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "How many stages have completed; stages.length means arrived.",
+      },
+      {
+        name: "from / to",
+        type: "BridgeChain",
+        description: "The two chain cards: a name and a short ticker each.",
+      },
+      {
+        name: "amount",
+        type: "number",
+        description: "The sum crossing, printed as a debit on the source card.",
+      },
+      {
+        name: "destinationBalance",
+        type: "number",
+        description:
+          "The destination's balance; its digits roll when the transfer lands.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })',
+        description:
+          "Formats the amount and the destination balance. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "asset",
+        type: "string",
+        defaultValue: '"BSN"',
+        description:
+          "Ticker for the amounts; its first letter is the mark on the token.",
+      },
+      {
+        name: "failed",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Stops the token on the stage in flight and marks it danger. Nothing bounces on a failure.",
+      },
+      {
+        name: "onStageFocus",
+        type: "(id: string) => void",
+        description:
+          "Fires from the hover or focus that changed the read-out under the rail.",
+      },
+      {
+        name: "onArrive",
+        type: "() => void",
+        description:
+          "Fires once, from the effect that observes the last stage completing.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description: "Visible caption; omit it and pass aria-label.",
+      },
+    ],
+    usageNotes: [
+      "The stages are real buttons with a roving tabindex: Left and Right step without wrapping, Home and End jump, and focus writes the same detail line that hovering does.",
+      'State reaches assistive technology in words — each node\'s label reads "Attested, done" or "Relayed, in progress" — alongside a sr-only progressbar and a status region that announces arrival or failure once.',
+      "Under reduced motion the token does not travel or breathe: it takes its position outright, the checks appear already drawn, and the arrival does not bounce.",
+    ],
+  },
+  {
+    name: "receipt-proof",
+    type: "registry:ui",
+    title: "Receipt Proof",
+    description:
+      "A receipt's inclusion proof drawn as the tree it actually is: choosing a leaf picks out the edges that prove it and the sibling hash a verifier needs at every level, and turning the status to checking draws that path leaf-first with each edge's pathLength on glide, staggered by cascade so the climb stays inside the choreography budget. Verifying stamps the root — the seal lands from 1.25× on recoil and its check draws on flick — while a failure only changes colour, because a failure does not celebrate. Hashes are procedural and seeded and every coordinate is rounded before it reaches an attribute, so the tree hydrates identically on the server and in the browser.",
+    files: [
+      {
+        path: "registry/ui/receipt-proof.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-660",
+    },
+    tagline: "The proof, drawn as a path.",
+    keywords: [
+      "proof",
+      "merkle",
+      "tree",
+      "verify",
+      "receipt",
+      "inclusion",
+      "finance",
+    ],
+    props: [
+      {
+        name: "leaves",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "Leaf count, rounded up to a power of two so the tree pairs evenly.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Controlled or initial leaf index — the receipt being proved.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number) => void",
+        description: "Fires from the click or key press that chose a leaf.",
+      },
+      {
+        name: "status",
+        type: '"idle" | "checking" | "verified" | "failed"',
+        defaultValue: '"idle"',
+        description: "Drives the draw and the stamp; the host owns the timing.",
+      },
+      {
+        name: "seed",
+        type: "string",
+        defaultValue: '"basin"',
+        description:
+          "Seeds the procedural hashes so the same tree is drawn every render.",
+      },
+      {
+        name: "amount",
+        type: "number",
+        description:
+          "The receipt's value, printed under the tree; omit it and the figure is not drawn.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })',
+        description:
+          "Formats the amount. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "asset",
+        type: "string",
+        defaultValue: '"BSN"',
+        description: "Ticker printed after the amount.",
+      },
+      {
+        name: "onNodeFocus",
+        type: "(node: ProofNode) => void",
+        description:
+          "Fires from the hover or focus that changed the read-out, with the node's level, index, hash and role.",
+      },
+      {
+        name: "rootLabel",
+        type: "string",
+        defaultValue: '"Block root"',
+        description: "Name of the root node in its label and read-out.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description: "Visible caption; omit it and pass aria-label.",
+      },
+    ],
+    usageNotes: [
+      "Nodes are real buttons over the SVG with a roving tabindex: Left and Right walk a level, Up and Down change level, Home and End jump to a level's ends, Enter and Space choose the leaf under focus.",
+      'Every node\'s label states its part in words — "Leaf 3, on the proof path, hash 4f2a…c19b" — so being on the path is never carried by colour alone, and a polite status region announces the outcome once.',
+      "Under reduced motion the path appears already drawn with no stagger and the seal does not arrive from a scale, because which edges prove the receipt is the information rather than the flourish.",
+    ],
+  },
 ];

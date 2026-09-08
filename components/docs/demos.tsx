@@ -840,6 +840,16 @@ import { GasDialDemo } from "@/registry/demos/gas-dial.demo";
 import { QrFoldDemo } from "@/registry/demos/qr-fold.demo";
 import { KeyVaultDemo } from "@/registry/demos/key-vault.demo";
 import { HardwareNudgeDemo } from "@/registry/demos/hardware-nudge.demo";
+import { TxStatusDemo } from "@/registry/demos/tx-status.demo";
+import { BlockStreamDemo } from "@/registry/demos/block-stream.demo";
+import { GasTrackerDemo } from "@/registry/demos/gas-tracker.demo";
+import { TxFlowDemo } from "@/registry/demos/tx-flow.demo";
+import { MempoolQueueDemo } from "@/registry/demos/mempool-queue.demo";
+import { ExplorerSearchDemo } from "@/registry/demos/explorer-search.demo";
+import { FinalityRingDemo } from "@/registry/demos/finality-ring.demo";
+import { NonceLineDemo } from "@/registry/demos/nonce-line.demo";
+import { BridgeHopDemo } from "@/registry/demos/bridge-hop.demo";
+import { ReceiptProofDemo } from "@/registry/demos/receipt-proof.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1694,4 +1704,14 @@ export const demos: Record<string, ComponentType> = {
   "qr-fold": QrFoldDemo,
   "key-vault": KeyVaultDemo,
   "hardware-nudge": HardwareNudgeDemo,
+  "tx-status": TxStatusDemo,
+  "block-stream": BlockStreamDemo,
+  "gas-tracker": GasTrackerDemo,
+  "tx-flow": TxFlowDemo,
+  "mempool-queue": MempoolQueueDemo,
+  "explorer-search": ExplorerSearchDemo,
+  "finality-ring": FinalityRingDemo,
+  "nonce-line": NonceLineDemo,
+  "bridge-hop": BridgeHopDemo,
+  "receipt-proof": ReceiptProofDemo,
 };

@@ -11450,6 +11450,245 @@ Notes:
 - The deadline drain stops while the tab is hidden and resumes from what is left, and the request expires from the animation's completion rather than from inside a state updater.
 - Under reduced motion the outline holds a steady ring instead of breathing and the device does not bounce, but the button still lights, the tick still appears and the clock still counts.
 
+### Tx Status (KQ-651) — `tx-status`
+Pending, then confirmed, block by block.
+
+A transfer watched until it settles: each block that lands takes the next slot, arriving from a step to the right on snap, while the track beneath extends on glide and the count swaps on snap so the figure moves with the tile. At the threshold the pill stamps from 1.2x on recoil and its check draws on flick, while a dropped transfer only cross-fades because a failure must never celebrate. Landed tiles are buttons on a roving tabindex where Left and Right step, Home and End jump, Enter pins a block's detail and Escape releases it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tx-status`
+
+Props:
+- `hash`: string — The transfer's identifier: shown head-and-tail, spoken whole.
+- `amount`: number — The transferred amount, printed through format.
+- `format`: (value: number) => string (default Intl.NumberFormat, 4 decimals) — Formats the amount.
+- `asset`: string (default "BSN") — Asset ticker printed after the amount.
+- `blocks`: TxStatusBlock[] (default []) — Confirming blocks oldest first; its length is the confirmation count.
+- `threshold`: number (default 6) — Confirmations needed for finality, and the number of slots drawn.
+- `dropped`: boolean (default false) — Marks the transfer as dropped from the queue and suppresses the stamp.
+- `label`: string (default "Transfer") — Heads the amount and names the card.
+- `onBlockSelect`: (block: TxStatusBlock | null) => void — Fires from the press that pins or unpins a block.
+- `onFinal`: (confirmations: number) => void — Fires once, when the threshold is first met.
+
+Notes:
+- Landed tiles carry a roving tabindex: Left and Right step, Home and End jump to the ends, Enter or Space pins a block so its detail survives the pointer leaving, Escape releases it.
+- Under reduced motion tiles appear in place and the track still extends, because how many blocks have landed is information rather than flourish.
+- Nothing is timed inside the card: the host lands blocks by appending to blocks, so the ticker and its cleanup stay where the data lives.
+
+### Block Stream (KQ-652) — `block-stream`
+Blocks as they are mined.
+
+A rail of blocks that fills from the right: a new block enters from a shift beyond the right edge on snap while the tiles already on the rail slide one place left under a layout animation on glide, and the tile pushed off the end leaves on the exit ease. Each tile carries its height, its transaction count, and a fullness bar that extends on glide. Pointing at the rail or focusing any tile holds the stream through onPauseChange, and tiles are buttons on a roving tabindex where Left and Right step, Home and End jump, and Enter pins a tile's detail.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/block-stream`
+
+Props:
+- `blocks`: StreamBlock[] — Blocks oldest first; the newest sits at the right of the rail.
+- `max`: number (default 5) — Tiles kept on the rail; older ones leave to the left.
+- `capacity`: number (default 2400) — Transactions a full block holds; sets each fullness bar.
+- `paused`: boolean (default false) — Host-driven hold, OR-ed with the pointer and focus hold.
+- `onPauseChange`: (paused: boolean) => void — Fires from the pointer or focus event that changed the hold.
+- `onSelect`: (block: StreamBlock | null) => void — Fires from the press that pins or unpins a tile.
+- `format`: (value: number) => string (default Intl.NumberFormat, grouped) — Formats heights and transaction counts.
+- `announce`: boolean (default true) — Announces each settled block politely; turn it off in a busy page.
+- `label`: string (default "Block stream") — Names the rail for assistive technology.
+- `emptyLabel`: string (default "No blocks yet.") — Shown while the rail is empty.
+
+Notes:
+- Tiles carry a roving tabindex: Left and Right step, Home and End jump to the oldest and newest tile on the rail, Enter or Space pins a tile, Escape releases it. Focus holds the stream exactly as hover does, so the keyboard can read a tile without it sliding away.
+- Under reduced motion tiles appear in place and leave the same way, and the fullness bars still extend, because how full a block is is information.
+- The rail never overflows: tiles flex to the width available, so only the entering tile's travel is clipped.
+
+### Gas Tracker (KQ-653) — `gas-tracker`
+The fee, live.
+
+A fee readout with its own recent past. The headline rolls on snap so only the digit columns that changed move, while the history strip extends: each reading arrives at the right of a fixed grid and its bar scales up from its base on glide. A dashed ceiling crosses the strip, bars at or above it draw in warn, and a crossing tints the headline. The strip is a real slider: pointing reads the nearest column, Left and Right step through the run, Home and End jump, and Escape releases the cursor back to live.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gas-tracker`
+
+Props:
+- `value`: number — The current reading, in unit.
+- `history`: number[] (default []) — Earlier readings oldest first; the current one is appended for the strip.
+- `threshold`: number — The ceiling: crossing it colours the readout and the bars above it.
+- `capacity`: number (default 28) — Columns in the strip; the grid is fixed, so a long run cannot overflow.
+- `unit`: string (default "gu") — Unit printed after every figure and spoken in labels.
+- `format`: (value: number) => string (default Intl.NumberFormat, 1 decimal) — Formats every figure on the card.
+- `label`: string (default "Network fee") — Names the tracker for assistive technology.
+- `selectedIndex / defaultSelectedIndex`: number | null (default null) — Cursor position as an index into the drawn window; null is live.
+- `onSelectedIndexChange`: (index: number | null) => void — Fires from the pointer, key, or Escape that moved the cursor.
+
+Notes:
+- The strip is a role=slider with tabIndex 0: Left and Right step through the readings, Home and End jump to the oldest and newest, Escape releases the cursor back to live. A cursor placed with the keys outlives the pointer wandering off.
+- Under reduced motion the digits swap in place and the bars still extend on a tween, because the history is information rather than flourish.
+- The live region carries only the ceiling verdict, so it speaks on a crossing rather than once per sample.
+
+### Tx Flow (KQ-654) — `tx-flow`
+From this address to that one.
+
+One transaction, drawn: every input curves into a hub and every output curves out of it, each edge weighted by that leg's share of the total. Value marches along the edges as a dashed stroke on a linear tween, and only while flowing is set, the tab is visible, and motion is welcome. Pointing at an edge or its row lights both and reads the address and amount, thickening the stroke on glide; rows carry one roving tabindex across both columns where Up and Down move within a column, Left and Right cross between them, Enter pins a leg and Escape releases it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tx-flow`
+
+Props:
+- `inputs`: TxLeg[] — Addresses the transaction spends from, top to bottom.
+- `outputs`: TxLeg[] — Addresses it pays, top to bottom; one may carry kind: "fee".
+- `format`: (value: number) => string (default Intl.NumberFormat, 4 decimals) — Formats every amount on the diagram.
+- `asset`: string (default "BSN") — Asset ticker printed after amounts.
+- `value / defaultValue`: string | null (default null) — Controlled or initial pinned leg id.
+- `onValueChange`: (id: string | null) => void — Fires from the press or Escape that pinned or released a leg.
+- `onHoverChange`: (id: string | null) => void — Fires from the pointer or focus that lit a leg.
+- `flowing`: boolean (default true) — Marches the dashes; still gated by reduced motion and tab visibility.
+- `label`: string (default "Transaction") — Names the diagram for assistive technology.
+
+Notes:
+- One roving tabindex spans both columns: Up and Down move within a column, Left and Right cross to the other at the same row, Home and End jump to the first and last leg, Enter or Space pins a leg and Escape releases it.
+- Under reduced motion the dashes hold still and each leg's share still reads in its stroke weight; highlighting becomes colour and weight on a tween.
+- Geometry is measured by a ResizeObserver and every coordinate is rounded before it reaches an attribute, so adding a leg re-draws without a hydration mismatch.
+
+### Mempool Queue (KQ-655) — `mempool-queue`
+Waiting, ordered by what they pay.
+
+The waiting room, ordered by what each transaction pays. Rows sort by fee and carry layout on glide, so a reorder is the list rearranging itself and every row travels to its new place; an arrival drops in from a step above on snap and a mined transaction leaves on the exit ease. Your row is washed, ringed, and named in words, and bumping its fee climbs it past the cut line that marks the next block, flashing a wash keyed to the new rank so it fires once per climb and never on a slide backwards. The bump button sits in the tab order and says what fee it would offer.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mempool-queue`
+
+Props:
+- `entries`: MempoolEntry[] — Pending transactions in any order; the queue sorts them by fee.
+- `blockSlots`: number (default 3) — Rows that make the next block; the cut line sits under them.
+- `capacity`: number (default 7) — Rows drawn; the rest are counted in the footer.
+- `step`: number (default 2) — Added to your fee by one press of the bump button.
+- `unit`: string (default "gu") — Fee unit printed after every figure.
+- `format`: (value: number) => string (default Intl.NumberFormat, 1 decimal) — Formats every fee on the list.
+- `onBump`: (id: string, nextFee: number) => void — Fires from the press; re-sort by writing entries.
+- `bumpLabel`: string (default "Bump") — Copy on the bump button.
+- `label`: string (default "Pending queue") — Names the list for assistive technology.
+- `emptyLabel`: string (default "Nothing waiting.") — Shown when the queue is empty.
+
+Notes:
+- The only control is the bump button on your row: it is in the tab order, Enter and Space press it, and its label names the fee it would offer. Every row carries its position and whether it makes the next block as a sentence, so nothing rests on colour.
+- Under reduced motion rows take their new places instantly, because the order is the information and it still changes; the improvement flash still plays, because feedback is not flourish.
+- Rows past capacity are not rendered at all: a busy queue is counted in the footer rather than grown into the DOM.
+
+### Explorer Search (KQ-656) — `explorer-search`
+Paste a hash; watch it resolve.
+
+A search field that recognises the shape of what you paste before it looks anything up: the leading mark swaps to the recognised kind on flick while the border tweens to cobalt, and a hairline sweeps the field linearly through the debounce so the wait reads as work. The resolved preview card arrives from a step below on glide, and its wrapper's height is measured with a ResizeObserver so no room is ever reserved for a card that has not resolved. Enter opens the record, Escape clears the field, and a polite status region announces each outcome once instead of on every keystroke.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/explorer-search`
+
+Props:
+- `value / defaultValue`: string (default "") — Controlled or initial query text.
+- `onValueChange`: (value: string) => void — Fires from the input, the clear press or Escape.
+- `resolve`: (query: string, kind: ExplorerKind) => ExplorerHit | null — Looks the query up. Called from the debounce timer, never during render.
+- `resolveDelayMs`: number (default 420) — Milliseconds between the last keystroke and the lookup; the sweep runs for exactly this long.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })) — Formats every amount on the preview card. The default pins an explicit locale so server and client agree.
+- `asset`: string (default "BSN") — Ticker printed after each amount.
+- `onKindChange`: (kind: ExplorerKind) => void — Fires when the recognised shape changes — hash, address, block or unknown.
+- `onResolved`: (hit: ExplorerHit | null) => void — Fires from the resolve timer with the record, or null for no match.
+- `onOpen`: (hit: ExplorerHit) => void — Fires from Enter in the field or the card's open press.
+- `label`: React.ReactNode — Visible field label; omit it and pass aria-label to label the field invisibly.
+- `placeholder`: string (default "Hash, address or block") — Field placeholder.
+
+Notes:
+- The field is a real search input: Enter opens the resolved record, Escape clears the query and dismisses the card, and the card's open control is one Tab away.
+- Classification is a pure regex over the trimmed query, so it costs nothing per keystroke; only the lookup is debounced, and the debounce pauses while the document is hidden.
+- Under reduced motion the card cross-fades in place with no slide and no spring, but the debounce sweep still runs, because the wait is information about what the field is doing.
+
+### Finality Ring (KQ-657) — `finality-ring`
+How sure the chain is.
+
+A ring left open at the top, where the notch is the part of finality still owed. Every confirmation extends the arc on glide and draws its own tick on flick, and the last block fills the remaining sweep and closes the notch in one move on snap, so the ring shutting is the same gesture as the transaction settling. The certainty figure rolls its digits on snap inside a fixed five-character box and gives way to a drawn check at finality, because at that point the number is no longer a probability.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/finality-ring`
+
+Props:
+- `confirmations`: number — Blocks seen on top of the transaction; clamped to finality for display.
+- `finality`: number (default 12) — Confirmations that count as final — the ring's maximum and its tick count.
+- `certaintyFor`: (confirmations: number, finality: number) => number (default 1 - 0.5 ** confirmations, exactly 1 at finality) — Returns 0–1 for the centre figure. The default halves the remaining doubt per block.
+- `amount`: number — The sum being secured, printed under the ring; omit it and the line is not drawn.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })) — Formats the amount. The default pins an explicit locale so server and client agree.
+- `asset`: string (default "BSN") — Ticker printed after the amount.
+- `onFinal`: () => void — Fires once, from the effect that observes the crossing into finality.
+- `pendingLabel / finalLabel`: string (default "Settling" / "Final") — The word under the figure before and after finality.
+- `size`: "sm" | "md" (default "md") — Ring scale; the centre figure sizes with it.
+- `label`: React.ReactNode — Visible caption over the ring; omit it and pass aria-label.
+
+Notes:
+- A role="progressbar" carrying the confirmation count and a spoken aria-valuetext; a polite status region announces finality once rather than every block.
+- The component owns no control and runs no clock — blocks arrive as a prop, so the host decides what a block is and when one lands.
+- Under reduced motion the arc still fills and the digits still change, on a tween instead of a spring, with no closing overshoot and the check already drawn.
+
+### Nonce Line (KQ-658) — `nonce-line`
+Every transaction in order.
+
+An account's outgoing transactions on one rail in nonce order, where a missing number draws as a dashed slot that breathes on a three-keyframe opacity tween and everything behind it reads as blocked. While the gap stands, the rail carries a break so the blocked tail visibly sits further along than it should; filling the slot collapses that break on glide and slides every transaction behind it forward. The rail is an ordered list with a roving tabindex — Left and Right step, Home and End jump, Enter and Space select or fill — and every tile's label spells its state out in words.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/nonce-line`
+
+Props:
+- `items`: NonceItem[] — The transactions: nonce, hash, status, amount and an optional payee. Order does not matter; the line sorts by nonce and draws the missing numbers itself.
+- `value / defaultValue`: number — Controlled or initial focused nonce; defaults to the lowest on the rail.
+- `onValueChange`: (nonce: number) => void — Fires from the click or key press that moved the selection.
+- `onFill`: (nonce: number) => void — Fires from the press on a gap slot; the host inserts the missing transaction.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })) — Formats every amount on the rail and in the detail line. The default pins an explicit locale so server and client agree.
+- `asset`: string (default "BSN") — Ticker printed after each amount.
+- `fillLabel`: string (default "Fill") — Word inside a gap slot.
+- `label`: React.ReactNode — Visible list label; omit it and pass aria-label to label the rail invisibly.
+
+Notes:
+- An ordered list with a roving tabindex: Left and Right step without wrapping, Home and End jump to the ends, Enter and Space select the tile or fill the gap under focus.
+- Blocked is derived, never supplied — a pending transaction behind a missing nonce is blocked, and its label says so in words rather than relying on the dimming.
+- Under reduced motion the slot stops breathing and the break collapses instantly; the order still changes, because the order is the information.
+
+### Bridge Hop (KQ-659) — `bridge-hop`
+One chain to another, in steps.
+
+Two chain cards over a hop whose rail carries one node per stage, and a single token puck that crosses it: each completed stage slides the puck to the next node on glide, and the rail itself never fills, so the only thing travelling is the token. The rail's width is measured with a ResizeObserver and the puck moves by x in pixels off that measurement, so it can never overhang at any width; in flight it breathes on drift between two keyframes and stops for a hidden tab. Arrival lands on recoil while the destination balance rolls up on snap, and the stage nodes are real buttons with a roving tabindex whose focus writes the same read-out as hovering.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bridge-hop`
+
+Props:
+- `stages`: BridgeStage[] (default locked / attested / relayed / minted) — The hop's nodes source to destination: id, label, and an optional detail and hash for the read-out.
+- `stage`: number (default 0) — How many stages have completed; stages.length means arrived.
+- `from / to`: BridgeChain — The two chain cards: a name and a short ticker each.
+- `amount`: number — The sum crossing, printed as a debit on the source card.
+- `destinationBalance`: number — The destination's balance; its digits roll when the transfer lands.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })) — Formats the amount and the destination balance. The default pins an explicit locale so server and client agree.
+- `asset`: string (default "BSN") — Ticker for the amounts; its first letter is the mark on the token.
+- `failed`: boolean (default false) — Stops the token on the stage in flight and marks it danger. Nothing bounces on a failure.
+- `onStageFocus`: (id: string) => void — Fires from the hover or focus that changed the read-out under the rail.
+- `onArrive`: () => void — Fires once, from the effect that observes the last stage completing.
+- `label`: React.ReactNode — Visible caption; omit it and pass aria-label.
+
+Notes:
+- The stages are real buttons with a roving tabindex: Left and Right step without wrapping, Home and End jump, and focus writes the same detail line that hovering does.
+- State reaches assistive technology in words — each node's label reads "Attested, done" or "Relayed, in progress" — alongside a sr-only progressbar and a status region that announces arrival or failure once.
+- Under reduced motion the token does not travel or breathe: it takes its position outright, the checks appear already drawn, and the arrival does not bounce.
+
+### Receipt Proof (KQ-660) — `receipt-proof`
+The proof, drawn as a path.
+
+A receipt's inclusion proof drawn as the tree it actually is: choosing a leaf picks out the edges that prove it and the sibling hash a verifier needs at every level, and turning the status to checking draws that path leaf-first with each edge's pathLength on glide, staggered by cascade so the climb stays inside the choreography budget. Verifying stamps the root — the seal lands from 1.25× on recoil and its check draws on flick — while a failure only changes colour, because a failure does not celebrate. Hashes are procedural and seeded and every coordinate is rounded before it reaches an attribute, so the tree hydrates identically on the server and in the browser.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/receipt-proof`
+
+Props:
+- `leaves`: number (default 8) — Leaf count, rounded up to a power of two so the tree pairs evenly.
+- `value / defaultValue`: number (default 0) — Controlled or initial leaf index — the receipt being proved.
+- `onValueChange`: (index: number) => void — Fires from the click or key press that chose a leaf.
+- `status`: "idle" | "checking" | "verified" | "failed" (default "idle") — Drives the draw and the stamp; the host owns the timing.
+- `seed`: string (default "basin") — Seeds the procedural hashes so the same tree is drawn every render.
+- `amount`: number — The receipt's value, printed under the tree; omit it and the figure is not drawn.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })) — Formats the amount. The default pins an explicit locale so server and client agree.
+- `asset`: string (default "BSN") — Ticker printed after the amount.
+- `onNodeFocus`: (node: ProofNode) => void — Fires from the hover or focus that changed the read-out, with the node's level, index, hash and role.
+- `rootLabel`: string (default "Block root") — Name of the root node in its label and read-out.
+- `label`: React.ReactNode — Visible caption; omit it and pass aria-label.
+
+Notes:
+- Nodes are real buttons over the SVG with a roving tabindex: Left and Right walk a level, Up and Down change level, Home and End jump to a level's ends, Enter and Space choose the leaf under focus.
+- Every node's label states its part in words — "Leaf 3, on the proof path, hash 4f2a…c19b" — so being on the path is never carried by colour alone, and a polite status region announces the outcome once.
+- Under reduced motion the path appears already drawn with no stagger and the seal does not arrive from a scale, because which edges prove the receipt is the information rather than the flourish.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

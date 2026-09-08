@@ -18196,6 +18196,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tx-status",
+      "type": "registry:ui",
+      "title": "Tx Status",
+      "description": "A transfer watched until it settles: each block that lands takes the next slot, arriving from a step to the right on snap, while the track beneath extends on glide and the count swaps on snap so the figure moves with the tile. At the threshold the pill stamps from 1.2x on recoil and its check draws on flick, while a dropped transfer only cross-fades because a failure must never celebrate. Landed tiles are buttons on a roving tabindex where Left and Right step, Home and End jump, Enter pins a block's detail and Escape releases it.",
+      "files": [
+        {
+          "path": "registry/ui/tx-status.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-651"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "block-stream",
+      "type": "registry:ui",
+      "title": "Block Stream",
+      "description": "A rail of blocks that fills from the right: a new block enters from a shift beyond the right edge on snap while the tiles already on the rail slide one place left under a layout animation on glide, and the tile pushed off the end leaves on the exit ease. Each tile carries its height, its transaction count, and a fullness bar that extends on glide. Pointing at the rail or focusing any tile holds the stream through onPauseChange, and tiles are buttons on a roving tabindex where Left and Right step, Home and End jump, and Enter pins a tile's detail.",
+      "files": [
+        {
+          "path": "registry/ui/block-stream.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-652"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gas-tracker",
+      "type": "registry:ui",
+      "title": "Gas Tracker",
+      "description": "A fee readout with its own recent past. The headline rolls on snap so only the digit columns that changed move, while the history strip extends: each reading arrives at the right of a fixed grid and its bar scales up from its base on glide. A dashed ceiling crosses the strip, bars at or above it draw in warn, and a crossing tints the headline. The strip is a real slider: pointing reads the nearest column, Left and Right step through the run, Home and End jump, and Escape releases the cursor back to live.",
+      "files": [
+        {
+          "path": "registry/ui/gas-tracker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-653"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tx-flow",
+      "type": "registry:ui",
+      "title": "Tx Flow",
+      "description": "One transaction, drawn: every input curves into a hub and every output curves out of it, each edge weighted by that leg's share of the total. Value marches along the edges as a dashed stroke on a linear tween, and only while flowing is set, the tab is visible, and motion is welcome. Pointing at an edge or its row lights both and reads the address and amount, thickening the stroke on glide; rows carry one roving tabindex across both columns where Up and Down move within a column, Left and Right cross between them, Enter pins a leg and Escape releases it.",
+      "files": [
+        {
+          "path": "registry/ui/tx-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-654"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mempool-queue",
+      "type": "registry:ui",
+      "title": "Mempool Queue",
+      "description": "The waiting room, ordered by what each transaction pays. Rows sort by fee and carry layout on glide, so a reorder is the list rearranging itself and every row travels to its new place; an arrival drops in from a step above on snap and a mined transaction leaves on the exit ease. Your row is washed, ringed, and named in words, and bumping its fee climbs it past the cut line that marks the next block, flashing a wash keyed to the new rank so it fires once per climb and never on a slide backwards. The bump button sits in the tab order and says what fee it would offer.",
+      "files": [
+        {
+          "path": "registry/ui/mempool-queue.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-655"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "explorer-search",
+      "type": "registry:ui",
+      "title": "Explorer Search",
+      "description": "A search field that recognises the shape of what you paste before it looks anything up: the leading mark swaps to the recognised kind on flick while the border tweens to cobalt, and a hairline sweeps the field linearly through the debounce so the wait reads as work. The resolved preview card arrives from a step below on glide, and its wrapper's height is measured with a ResizeObserver so no room is ever reserved for a card that has not resolved. Enter opens the record, Escape clears the field, and a polite status region announces each outcome once instead of on every keystroke.",
+      "files": [
+        {
+          "path": "registry/ui/explorer-search.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-656"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "finality-ring",
+      "type": "registry:ui",
+      "title": "Finality Ring",
+      "description": "A ring left open at the top, where the notch is the part of finality still owed. Every confirmation extends the arc on glide and draws its own tick on flick, and the last block fills the remaining sweep and closes the notch in one move on snap, so the ring shutting is the same gesture as the transaction settling. The certainty figure rolls its digits on snap inside a fixed five-character box and gives way to a drawn check at finality, because at that point the number is no longer a probability.",
+      "files": [
+        {
+          "path": "registry/ui/finality-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-657"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "nonce-line",
+      "type": "registry:ui",
+      "title": "Nonce Line",
+      "description": "An account's outgoing transactions on one rail in nonce order, where a missing number draws as a dashed slot that breathes on a three-keyframe opacity tween and everything behind it reads as blocked. While the gap stands, the rail carries a break so the blocked tail visibly sits further along than it should; filling the slot collapses that break on glide and slides every transaction behind it forward. The rail is an ordered list with a roving tabindex — Left and Right step, Home and End jump, Enter and Space select or fill — and every tile's label spells its state out in words.",
+      "files": [
+        {
+          "path": "registry/ui/nonce-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-658"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bridge-hop",
+      "type": "registry:ui",
+      "title": "Bridge Hop",
+      "description": "Two chain cards over a hop whose rail carries one node per stage, and a single token puck that crosses it: each completed stage slides the puck to the next node on glide, and the rail itself never fills, so the only thing travelling is the token. The rail's width is measured with a ResizeObserver and the puck moves by x in pixels off that measurement, so it can never overhang at any width; in flight it breathes on drift between two keyframes and stops for a hidden tab. Arrival lands on recoil while the destination balance rolls up on snap, and the stage nodes are real buttons with a roving tabindex whose focus writes the same read-out as hovering.",
+      "files": [
+        {
+          "path": "registry/ui/bridge-hop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-659"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "receipt-proof",
+      "type": "registry:ui",
+      "title": "Receipt Proof",
+      "description": "A receipt's inclusion proof drawn as the tree it actually is: choosing a leaf picks out the edges that prove it and the sibling hash a verifier needs at every level, and turning the status to checking draws that path leaf-first with each edge's pathLength on glide, staggered by cascade so the climb stays inside the choreography budget. Verifying stamps the root — the seal lands from 1.25× on recoil and its check draws on flick — while a failure only changes colour, because a failure does not celebrate. Hashes are procedural and seeded and every coordinate is rounded before it reaches an attribute, so the tree hydrates identically on the server and in the browser.",
+      "files": [
+        {
+          "path": "registry/ui/receipt-proof.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-660"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
