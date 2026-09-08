@@ -51,7 +51,9 @@ const SPECIMENS = [
   { label: "Hash", query: TX },
   { label: "Address", query: ACCOUNT },
   { label: "Block", query: HEIGHT },
-  { label: "Broken", query: "0x91ae204f68d5c1a7e93b" },
+  // A well-formed address the chain has never seen, so the not-found card is
+  // one press away; a malformed string would only ever earn the hint.
+  { label: "Unknown", query: "0x91ae204f68d5c1a7e93b4c07d2e5f8a1b6c3d9e0" },
 ];
 
 const BUTTON =

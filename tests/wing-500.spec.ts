@@ -4018,3 +4018,1572 @@ test.describe("portfolio", () => {
     ).toBeVisible();
   });
 });
+
+/**
+ * The defi family is arithmetic you can press: a pair that flips, a tolerance
+ * you set, a slice of a pool, a lock that shuts on a term. Every test drives
+ * the mechanic the component advertises — through the keyboard wherever it
+ * publishes one — and reads the outcome off the demo's status line, the ARIA
+ * value the control carries, and the sentence the component speaks about
+ * itself.
+ */
+test.describe("defi", () => {
+  test("swap-pair: the flip trades the fields, and the figure it was about to receive is what it now pays", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/swap-pair");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The card speaks its own settled pair before the demo's line does.
+    const announced = stage.locator("[role='status']").first();
+    const pay = stage.getByLabel("You pay");
+
+    await expect(status).toContainText("Pay 250.00 BSN — Receive 3,104.50 FRN");
+    await expect(pay).toHaveValue("250");
+    // The announcement is the settled pair in one sentence, not a rate table.
+    await expect(announced).toHaveText(
+      "Paying 250.00 BSN, receiving 3,104.50 FRN. One BSN is 12.418 FRN.",
+    );
+
+    // The control is named by the outcome it performs, so it is pressed by
+    // what it does rather than by the arrow drawn inside it.
+    await stage
+      .getByRole("button", { name: "Pay Fernwork, receive Basin" })
+      .focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Pay 3,104.50 FRN — Receive 250.00 BSN");
+    await expect(pay).toHaveValue("3104.5");
+
+    // 3,104.50 FRN is far past a 96.20 balance, and the refusal is carried in
+    // words on the field rather than by the danger tint alone — while the
+    // receive figure still computes, because hiding it would hide the reason.
+    await expect(pay).toHaveAttribute("aria-invalid", "true");
+    await expect(pay).toHaveAccessibleDescription("Over balance");
+
+    // Max fills the field with the whole balance, which lands back inside it.
+    await stage.getByRole("button", { name: "Pay maximum, 96.20 FRN" }).click();
+    await expect(status).toContainText("Pay 96.20 FRN — Receive 7.75 BSN");
+    await expect(pay).not.toHaveAttribute("aria-invalid", "true");
+
+    // Typing drives the same arithmetic as the presses do.
+    await pay.fill("10");
+    await expect(status).toContainText("Pay 10.00 FRN — Receive 0.81 BSN");
+
+    // Space is the other half of the same press, and the pair comes back the
+    // way it went: what was about to be received is what is now paid.
+    await stage
+      .getByRole("button", { name: "Pay Basin, receive Fernwork" })
+      .focus();
+    await page.keyboard.press(" ");
+    await expect(status).toContainText("Pay 0.81 BSN — Receive 10.00 FRN");
+    await expect(pay).toHaveValue("0.805283");
+  });
+
+  test("slippage-dial: arrows walk the stops, a typed figure takes the knob, and emptying hands it back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/slippage-dial");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const stops = stage.getByRole("radiogroup", { name: "Preset tolerance" });
+    const tenth = stops.getByRole("radio", { name: "0.1%", exact: true });
+    const half = stops.getByRole("radio", { name: "0.5%", exact: true });
+    const one = stops.getByRole("radio", { name: "1%", exact: true });
+    const custom = stage.getByLabel("Custom tolerance, percent");
+
+    await expect(status).toContainText("Tolerance 0.50% — Min 3,088.98 FRN");
+    await expect(half).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText(
+      "Tolerance 0.5%. Minimum received 3,088.98 FRN.",
+    );
+
+    // Activation follows focus: the arrow both moves and chooses, and the
+    // minimum answers the stop it lands on.
+    await half.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(one).toBeFocused();
+    await expect(one).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("Tolerance 1.00% — Min 3,073.46 FRN");
+
+    // The rail does not wrap past its last stop.
+    await page.keyboard.press("ArrowRight");
+    await expect(one).toBeFocused();
+    await expect(one).toHaveAttribute("aria-checked", "true");
+
+    await page.keyboard.press("Home");
+    await expect(tenth).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("Tolerance 0.10% — Min 3,101.40 FRN");
+
+    // A tolerance too small to settle is named in words on the field, not left
+    // to a tint, and no preset holds the knob while the field does.
+    await custom.fill("0.01");
+    await expect(status).toContainText("Tolerance 0.01% — Min 3,104.19 FRN");
+    await expect(custom).toHaveAttribute("aria-invalid", "true");
+    await expect(custom).toHaveAccessibleDescription(
+      "The trade may not settle: prices move more than this between blocks.",
+    );
+    await expect(tenth).toHaveAttribute("aria-checked", "false");
+
+    // Emptying the field hands the tolerance back to the first stop rather
+    // than leaving the dial with nothing live.
+    await custom.fill("");
+    await expect(tenth).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("Tolerance 0.10% — Min 3,101.40 FRN");
+
+    // The wide case warns with the sum the quote could slip by, and says it in
+    // the announcement as well as under the rail.
+    await stage.getByRole("button", { name: "Widen to 5%" }).click();
+    await expect(status).toContainText("Tolerance 5.00% — Min 2,949.27 FRN");
+    await expect(custom).toHaveValue("5");
+    await expect(custom).toHaveAttribute("aria-invalid", "true");
+    await expect(announced).toHaveText(
+      "Tolerance 5%. Minimum received 2,949.27 FRN. A quote can settle up to 155.23 FRN below this one.",
+    );
+  });
+
+  test("pool-share: an add grows the wedge and the meter, and the totals reading is a press away", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/pool-share");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter", {
+      name: "Your share of the BSN / FRN pool",
+    });
+    const totals = stage.getByRole("button", { name: "Pool totals" });
+    // Both readings are always mounted so the cross-fade has something to fade
+    // to; which one is live is carried by aria-hidden, not by opacity.
+    const pooled = stage.locator("dl").nth(1);
+
+    await expect(status).toContainText("Share 2.41% — Position $29,900");
+    await expect(meter).toHaveAttribute("aria-valuenow", "2.41");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "2.41 percent of the pool, $29,900 of $1,240,000",
+    );
+    await expect(announced).toHaveText(
+      "Position $29,900, 2.41 percent of the BSN / FRN pool. Fees earned $185.",
+    );
+
+    // The second reading is a real pressed button, so the keyboard reaches the
+    // pool's own totals exactly as the pointer does.
+    await expect(totals).toHaveAttribute("aria-pressed", "false");
+    await expect(pooled).toHaveAttribute("aria-hidden", "true");
+    await totals.focus();
+    await page.keyboard.press("Enter");
+    await expect(totals).toHaveAttribute("aria-pressed", "true");
+    await expect(pooled).toHaveAttribute("aria-hidden", "false");
+    await expect(pooled).toContainText("41,800");
+
+    // Escape hands the card back to your share without moving focus.
+    await page.keyboard.press("Escape");
+    await expect(totals).toHaveAttribute("aria-pressed", "false");
+    await expect(totals).toBeFocused();
+    await expect(pooled).toHaveAttribute("aria-hidden", "true");
+
+    // The add raises the position and the pool together, so the wedge grows by
+    // the difference between the two rather than by the sum alone.
+    await stage.getByRole("button", { name: "Add $500" }).click();
+    await expect(stage.getByText("+$500")).toBeVisible();
+    await expect(status).toContainText("Share 2.45% — Position $30,400");
+    await expect(meter).toHaveAttribute("aria-valuenow", "2.45");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "2.45 percent of the pool, $30,400 of $1,240,500",
+    );
+    await expect(announced).toHaveText(
+      "Position $30,400, 2.45 percent of the BSN / FRN pool. Fees earned $185.",
+    );
+
+    await stage.getByRole("button", { name: "Reset position" }).click();
+    await expect(status).toContainText("Share 2.41% — Position $29,900");
+    await expect(meter).toHaveAttribute("aria-valuenow", "2.41");
+  });
+
+  test("stake-lock: keys walk the detents, the lock shuts on the term, and the cancel arms before it opens", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/stake-lock");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const rail = stage.getByRole("slider", { name: "Lock term" });
+
+    await expect(status).toContainText(
+      "Term 90 d · 4.80% — Yield 49.71 BSN — Open",
+    );
+    await expect(rail).toHaveAttribute("aria-valuenow", "90");
+    await expect(rail).toHaveAttribute(
+      "aria-valuetext",
+      "90 days, 4.8 percent, earns 49.71 BSN",
+    );
+
+    // Each detent carries its own rate, so the yield is the figure answering
+    // the term rather than a number scaled off one.
+    await rail.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(rail).toHaveAttribute("aria-valuenow", "180");
+    await expect(status).toContainText("Term 180 d · 6.40% — Yield 132.56 BSN");
+
+    // End is the longest term, and the rail does not run past it.
+    await page.keyboard.press("End");
+    await expect(rail).toHaveAttribute("aria-valuenow", "365");
+    await expect(status).toContainText("Term 365 d · 8.10% — Yield 340.20 BSN");
+    await page.keyboard.press("ArrowRight");
+    await expect(rail).toHaveAttribute("aria-valuenow", "365");
+
+    await page.keyboard.press("Home");
+    await expect(rail).toHaveAttribute("aria-valuenow", "30");
+    await expect(status).toContainText("Term 30 d · 3.20% — Yield 11.05 BSN");
+
+    // Page keys move two detents at once.
+    await page.keyboard.press("PageUp");
+    await expect(rail).toHaveAttribute("aria-valuenow", "180");
+    await expect(rail).toHaveAttribute(
+      "aria-valuetext",
+      "180 days, 6.4 percent, earns 132.56 BSN",
+    );
+
+    // Shutting the lock starts the only clock on the card and takes the rail
+    // out of service — a term cannot be re-chosen once it is locked.
+    await stage.getByRole("button", { name: "Lock 180 days" }).click();
+    await expect(status).toContainText("— Locked");
+    await expect(announced).toHaveText(
+      "Locked for 180 days at 6.4 percent, earning 132.56 BSN.",
+    );
+    await expect(rail).toHaveAttribute("aria-disabled", "true");
+    await expect(stage.getByRole("timer")).toHaveAttribute(
+      "aria-label",
+      /^Unlocks in (180d 00:00:00|179d 23:59:5\d)$/,
+    );
+    await rail.focus();
+    await page.keyboard.press("Home");
+    await expect(rail).toHaveAttribute("aria-valuenow", "180");
+
+    // Cancelling early is destructive, so the first press only arms it and the
+    // consequence is spoken in the button's own name.
+    const cancel = stage.getByRole("button", { name: "Cancel lock early" });
+    await cancel.click();
+    await expect(announced).toHaveText(
+      "Press again to cancel the lock. The earned yield is forfeit.",
+    );
+    const confirm = stage.getByRole("button", {
+      name: "Confirm cancel, the earned yield is forfeit",
+    });
+    await expect(confirm).toBeVisible();
+
+    await confirm.click();
+    await expect(announced).toHaveText(
+      "Lock cancelled. The earned yield is forfeit and 4,200.00 BSN is released.",
+    );
+    await expect(status).toContainText("— Open");
+    await expect(stage.getByRole("timer")).toHaveCount(0);
+    await expect(rail).not.toHaveAttribute("aria-disabled", "true");
+  });
+
+  test("yield-curve: keys and a sweep both walk the ladder, and each term prints what it earns", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/yield-curve");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const plot = stage.getByRole("slider", {
+      name: "Coldbrook Bank · term ladder",
+    });
+
+    await expect(status).toContainText("Term 90 d — Rate 4.60% — Earns $227");
+    await expect(plot).toHaveAttribute("aria-valuenow", "90");
+    await expect(plot).toHaveAttribute(
+      "aria-valuetext",
+      "90 days, 4.60 percent, earns $227",
+    );
+    await expect(announced).toHaveText("90 days, 4.60 percent, earns $227");
+
+    // The axis is compressed by a square root, but a key still steps one term:
+    // what moves is the marker, never the reading's grain.
+    await plot.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(plot).toHaveAttribute("aria-valuenow", "180");
+    await expect(status).toContainText("Term 180 d — Rate 5.70% — Earns $562");
+
+    // Page keys move two terms, and the ladder stops at its own ends.
+    await page.keyboard.press("PageUp");
+    await expect(plot).toHaveAttribute("aria-valuenow", "365");
+    await expect(status).toContainText(
+      "Term 365 d — Rate 7.20% — Earns $1,440",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(plot).toHaveAttribute("aria-valuenow", "365");
+
+    await page.keyboard.press("Home");
+    await expect(plot).toHaveAttribute("aria-valuenow", "30");
+    await expect(status).toContainText("Term 30 d — Rate 3.10% — Earns $51");
+    await expect(announced).toHaveText("30 days, 3.10 percent, earns $51");
+
+    // The demo's own jump is the same commit through a different door.
+    await stage.getByRole("button", { name: "Longest term" }).click();
+    await expect(plot).toHaveAttribute("aria-valuenow", "365");
+
+    // A sweep across the plot lands on the nearest term to where it stops, and
+    // the capture it takes on the way must not throw.
+    const box = await plot.boundingBox();
+    expect(box).not.toBeNull();
+    const midY = (box?.y ?? 0) + (box?.height ?? 0) / 2;
+    const left = (box?.x ?? 0) + 6;
+    await page.mouse.move((box?.x ?? 0) + (box?.width ?? 0) - 6, midY);
+    await page.mouse.down();
+    await page.mouse.move((box?.x ?? 0) + (box?.width ?? 0) / 2, midY, {
+      steps: 6,
+    });
+    await page.mouse.move(left, midY, { steps: 6 });
+    await page.mouse.up();
+    await expect(plot).toHaveAttribute("aria-valuenow", "30");
+    await expect(status).toContainText("Term 30 d — Rate 3.10% — Earns $51");
+    await expect(announced).toHaveText("30 days, 3.10 percent, earns $51");
+  });
+
+  test("route-split: the legend walks the roads, a press pins one, and a rebalance re-lays it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/route-split");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const pinnedLine = stage.locator("[role='status']").first();
+    const basin = stage.getByRole("button", {
+      name: "Basin Pool, 52 percent, 6,240 BSN",
+    });
+    const fernwork = stage.getByRole("button", {
+      name: "Fernwork Deep, 31 percent, 3,720 BSN",
+    });
+    const coldbrook = stage.getByRole("button", {
+      name: "Coldbrook Bridge, 17 percent, 2,040 BSN",
+    });
+    const rebalance = stage.getByRole("button", { name: "Rebalance" });
+
+    // With nothing read, the line is the whole trade rather than one road.
+    await expect(status).toContainText("Route all roads — 3 legs · 12,000 BSN");
+    await expect(pinnedLine).toBeEmpty();
+
+    // Focus reads a road without deciding anything.
+    await basin.focus();
+    await expect(status).toContainText("Route Basin Pool — 52% · 6,240 BSN");
+    await expect(pinnedLine).toBeEmpty();
+
+    await page.keyboard.press("ArrowDown");
+    await expect(fernwork).toBeFocused();
+    await expect(status).toContainText("Route Fernwork Deep — 31% · 3,720 BSN");
+    await page.keyboard.press("End");
+    await expect(coldbrook).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(basin).toBeFocused();
+
+    // The press is the decision, and it is the only thing announced.
+    await page.keyboard.press("Enter");
+    await expect(basin).toHaveAttribute("aria-pressed", "true");
+    await expect(pinnedLine).toHaveText("Routing 6,240 BSN through Basin Pool");
+
+    // A pin holds after the pointer and the focus have left it.
+    await rebalance.focus();
+    await expect(status).toContainText("Route Basin Pool — 52% · 6,240 BSN");
+
+    // A changed split re-lays the roads and re-prints every share, and the pin
+    // keeps reading the road it was put on.
+    await rebalance.click();
+    await expect(status).toContainText("Route Basin Pool — 44% · 5,280 BSN");
+    await expect(pinnedLine).toHaveText("Routing 5,280 BSN through Basin Pool");
+    await expect(
+      stage.getByRole("button", {
+        name: "Coldbrook Bridge, 32 percent, 3,840 BSN",
+      }),
+    ).toBeVisible();
+
+    // Escape unpins and keeps focus, so the reading falls back to the road the
+    // keyboard is standing on and then to the whole trade.
+    const rebalanced = stage.getByRole("button", {
+      name: "Basin Pool, 44 percent, 5,280 BSN",
+    });
+    await rebalanced.focus();
+    await page.keyboard.press("Escape");
+    await expect(rebalanced).toHaveAttribute("aria-pressed", "false");
+    await expect(rebalanced).toBeFocused();
+    await expect(pinnedLine).toBeEmpty();
+    await rebalance.focus();
+    await expect(status).toContainText("Route all roads — 3 legs · 12,000 BSN");
+  });
+
+  test("approve-step: the swap stays asleep until the approval lands, and says why while it is", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/approve-step");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const approve = stage.getByRole("button", { name: "Approve 12,000 BSN" });
+    const swap = stage.getByRole("button", {
+      name: "Swap 12,000 BSN for about 148,320 FRN",
+    });
+
+    await expect(status).toContainText("step 1 · approve 12,000 BSN");
+    // Never `disabled`: a control taken out of the tab order cannot say why it
+    // is asleep, and the reason is the whole point of the pair.
+    await expect(swap).toHaveAttribute("aria-disabled", "true");
+    await expect(swap).toHaveAccessibleDescription(
+      "Approve the allowance before swapping.",
+    );
+
+    // A press on the sleeping half does nothing at all: the keyboard reaches
+    // it, hears why it is dimmed, and the guarded handler refuses it.
+    await swap.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("step 1 · approve 12,000 BSN");
+
+    await approve.focus();
+    await page.keyboard.press("Enter");
+    await expect(approve).toHaveAttribute("aria-busy", "true");
+    await expect(status).toContainText("step 1 · approving");
+
+    // The host resolves it; the control never invents the time.
+    await expect(status).toContainText("step 2 · swap ready", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText("Approved. Swap is ready.");
+    await expect(approve).toHaveCount(0);
+    await expect(swap).toHaveAttribute("aria-disabled", "false");
+    // The button the press was standing on has become a chip, so focus is
+    // handed to the step that just woke rather than dropped on the body.
+    await expect(swap).toBeFocused();
+
+    await page.keyboard.press("Enter");
+    await expect(swap).toHaveAttribute("aria-busy", "true");
+    await expect(status).toContainText("step 2 · swapping");
+
+    await expect(status).toContainText("done · 148,320 FRN", { timeout: 5000 });
+    await expect(announced).toHaveText("Swap complete. 148,320 FRN received.");
+    await expect(swap).toHaveText("Swapped");
+    await expect(swap).toHaveAttribute("aria-disabled", "true");
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toContainText("step 1 · approve 12,000 BSN");
+    await expect(approve).toBeVisible();
+  });
+
+  test("harvest-tap: the press empties the cup into the balance, and the tap fills it again", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/harvest-tap");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const harvest = stage.getByRole("button", { name: "Harvest" });
+
+    // Nothing runs until the tap is opened, so the seeded figure is exact.
+    await expect(stage.getByText("Paused", { exact: true })).toBeVisible();
+    await expect(status).toContainText(
+      "Balance 1,250.00 BSN · tap closed · harvested 0× 0.00 BSN",
+    );
+    await expect(announced).toBeEmpty();
+    await expect(harvest).toBeEnabled();
+
+    // The press carries the figure it read at the moment it was pressed, and
+    // that sum is spoken once rather than per tick.
+    await harvest.click();
+    await expect(status).toContainText(
+      "Balance 1,253.60 BSN · tap closed · harvested 1× 3.60 BSN",
+    );
+    await expect(announced).toHaveText(
+      "Harvested 3.60 BSN. Balance 1,253.60 BSN.",
+    );
+
+    // An emptied cup is below the threshold, and the button names the
+    // threshold rather than merely going grey.
+    await expect(harvest).toBeDisabled();
+    await expect(harvest).toHaveAccessibleDescription(
+      "Harvest is available once 1.00 BSN has accrued.",
+    );
+
+    // Opening the tap fills it again, and the button wakes on the frame the
+    // threshold is actually crossed.
+    await stage.getByRole("button", { name: "Start" }).click();
+    await expect(stage.getByText("Accruing", { exact: true })).toBeVisible();
+    await expect(harvest).toBeEnabled({ timeout: 8000 });
+
+    await harvest.click();
+    await expect(announced).toHaveText(
+      /^Harvested \d+\.\d{2} BSN\. Balance 1,2\d\d\.\d{2} BSN\.$/,
+    );
+    await expect(status).toContainText("harvested 2×");
+
+    // Closing the tap says so in a word, not in a colour.
+    await stage.getByRole("button", { name: "Pause" }).click();
+    await expect(stage.getByText("Paused", { exact: true })).toBeVisible();
+    await expect(status).toContainText("tap closed");
+
+    // A reset returns the position to its seed, climb and all.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toContainText(
+      "Balance 1,250.00 BSN · tap closed · harvested 0× 0.00 BSN",
+    );
+  });
+
+  test("impermanent-meter: a diverging price opens the gap, and the breakdown nets the fees against it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/impermanent-meter");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const meter = stage.getByRole("meter", { name: "Basinworks Exchange" });
+    const difference = stage.getByRole("button", {
+      name: /^Difference against holding/,
+    });
+    // The panel is measured rather than reserved, so which state it is in is
+    // carried by aria-hidden and the control's own aria-expanded.
+    const panel = stage.locator("[id$='-panel']");
+
+    await expect(status).toContainText(
+      "Ratio ×1.0 · divergence −0.00% · net +$186",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "0");
+    await expect(difference).toHaveAccessibleName(
+      "Difference against holding, $0",
+    );
+    await expect(difference).toHaveAttribute("aria-expanded", "false");
+    await expect(panel).toHaveAttribute("aria-hidden", "true");
+
+    // Doubling the pair costs the position 5.72% against simply holding it,
+    // and the severity is a word as well as a tone.
+    await stage.getByRole("button", { name: "×2.0" }).click();
+    await expect(stage.getByRole("button", { name: "×2.0" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await expect(status).toContainText(
+      "Ratio ×2.0 · divergence −5.72% · net −$1,796",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "5.72");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "5.72 percent below holding: $32,668 pooled against $34,650 held, net negative $1,796 after fees",
+    );
+    await expect(stage.getByText("Notable")).toBeVisible();
+    await expect(difference).toHaveAccessibleName(
+      "Difference against holding, $1,982",
+    );
+
+    // The breakdown is a real control on the keyboard path, not a hover trick
+    // on the hatched gap, and it reads as terms and values.
+    await difference.focus();
+    await page.keyboard.press("Enter");
+    await expect(difference).toHaveAttribute("aria-expanded", "true");
+    await expect(panel).toHaveAttribute("aria-hidden", "false");
+    await expect(panel).toContainText("$34,650");
+    await expect(panel).toContainText("$32,668");
+    await expect(panel).toContainText("−$1,982");
+    await expect(panel).toContainText("+$186");
+    await expect(panel).toContainText("−$1,796");
+
+    await page.keyboard.press("Escape");
+    await expect(difference).toHaveAttribute("aria-expanded", "false");
+    await expect(difference).toBeFocused();
+    await expect(panel).toHaveAttribute("aria-hidden", "true");
+
+    // Further divergence is heavier, and the meter carries the same figure the
+    // status line prints.
+    await stage.getByRole("button", { name: "×3.0" }).click();
+    await expect(status).toContainText(
+      "Ratio ×3.0 · divergence −13.40% · net −$6,004",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "13.4");
+    await expect(stage.getByText("Heavy")).toBeVisible();
+  });
+
+  test("liquidity-range: the price leaving the band stops the earning, and the handles refuse to meet", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/liquidity-range");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const earning = stage.locator("[role='status']").first();
+    const low = stage.getByRole("slider", { name: "Range minimum" });
+    const high = stage.getByRole("slider", { name: "Range maximum" });
+
+    await expect(status).toContainText(
+      "Band 11.80 – 13.10 · price 12.42 in range · depth 47%",
+    );
+    await expect(low).toHaveAttribute("aria-valuenow", "11.8");
+    await expect(low).toHaveAttribute("aria-valuetext", "11.80 FRN per BSN");
+    await expect(high).toHaveAttribute("aria-valuenow", "13.1");
+    await expect(earning).toHaveText("Price 12.42 is inside the band.");
+
+    // Whether the band is earning is stated in words, never left to the pulse.
+    const nudgeUp = stage.getByRole("button", { name: "Price +" });
+    await nudgeUp.click();
+    await expect(status).toContainText("price 12.70 in range");
+    await nudgeUp.click();
+    await nudgeUp.click();
+    await expect(status).toContainText("price 13.26 out of range");
+    await expect(earning).toHaveText(
+      "Price 13.26 is outside the band. The position is not earning.",
+    );
+    await expect(
+      stage.getByText("Out of range", { exact: true }),
+    ).toBeVisible();
+
+    // Widening the top of the band takes the price back inside it, and the
+    // covered depth follows the band rather than the price.
+    await high.focus();
+    await page.keyboard.press("End");
+    await expect(high).toHaveAttribute("aria-valuenow", "15.5");
+    await expect(status).toContainText("price 13.26 in range · depth 80%");
+    await expect(earning).toHaveText("Price 13.26 is inside the band.");
+
+    // One arrow is one step of the axis's two-hundredth; Shift is ten of them.
+    await low.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(low).toHaveAttribute("aria-valuenow", "11.83");
+    await expect(low).toHaveAttribute("aria-valuetext", "11.83 FRN per BSN");
+    await page.keyboard.press("Shift+ArrowRight");
+    await expect(low).toHaveAttribute("aria-valuenow", "12.13");
+    await expect(status).toContainText("Band 12.13 – 15.50 · price 13.26");
+    await expect(status).toContainText("depth 70%");
+
+    // The handles stop one step apart: a band with no width earns nothing, so
+    // Home on the upper handle lands on its neighbour plus a step.
+    await high.focus();
+    await page.keyboard.press("Home");
+    await expect(high).toHaveAttribute("aria-valuenow", "12.16");
+    await expect(low).toHaveAttribute("aria-valuenow", "12.13");
+    await expect(status).toContainText(
+      "Band 12.13 – 12.16 · price 13.26 out of range · depth 0%",
+    );
+  });
+});
+
+/**
+ * The onchain family watches a ledger, so its outcomes are counts and states:
+ * the block that took the next slot, the reading the strip was scrubbed to, the
+ * rank a bumped fee climbed to, the node the token crossed onto. Every test
+ * drives the mechanic the component advertises — through the keyboard wherever
+ * it publishes one — and reads the result off the demo's status line, the ARIA
+ * the component publishes about itself, and, where the outcome is a rolled
+ * figure, the face each digit column actually settled on.
+ */
+
+/**
+ * The figure a rolling readout is showing. Each column is ten faces tall and
+ * translated by one face per digit, so the digit is the offset the wheel
+ * settled on — the text alone carries all ten faces and says nothing.
+ */
+const rolledFigureOf = (target: Locator) => async (): Promise<string> =>
+  target.evaluate((root) =>
+    Array.from(root.children)
+      .map((column) => {
+        const wheel = column.firstElementChild;
+        if (!(wheel instanceof HTMLElement)) return column.textContent ?? "";
+        const box = wheel.getBoundingClientRect();
+        const face = box.height / 10;
+        if (face <= 0) return "?";
+        return String(
+          Math.round((column.getBoundingClientRect().top - box.top) / face),
+        );
+      })
+      .join(""),
+  );
+
+/** How many transactions the queue says it holds, read off its own chip. */
+const waitingOf = (stage: Locator) => async (): Promise<number> => {
+  const chip = (await stage.getByText(/^\d+ waiting$/).textContent()) ?? "";
+  return Number(/^(\d+)/.exec(chip)?.[1] ?? 0);
+};
+
+/** The seeded miner the block stream's demo runs, replayed for one height. */
+const minedAt = (height: number): { txCount: number; percent: number } => {
+  const txCount = 640 + (((height - 812441) * 397) % 1780);
+  return { txCount, percent: Math.round((txCount / 2400) * 100) };
+};
+
+/** Grouped integers, the way every figure on these cards is printed. */
+const grouped = (value: number): string => value.toLocaleString("en-US");
+
+/**
+ * The gas sampler's seeded walk, in the order the demo appends it. A reading is
+ * a pure function of its sample number, so a run that lands two samples instead
+ * of one is still exactly predictable.
+ */
+const GAS_FEED = [18.3, 27.1, 23.7, 20.5];
+/** Readings the strip is seeded with before anything is sampled. */
+const GAS_SEEDED = 14;
+
+test.describe("onchain", () => {
+  test("tx-status: six blocks land on the transfer, and a pinned tile holds its own block", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tx-status");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The card announces its phase before the demo's line, and only its phase:
+    // a reader is not told about every block that lands.
+    const announced = stage.locator("[role='status']").first();
+    const track = stage.getByRole("progressbar", {
+      name: "Waylight payout confirmations",
+    });
+    const detail = stage.locator("p[title]").first();
+
+    await expect(status).toContainText("Transfer pending · block —");
+    await expect(announced).toHaveText("Waylight payout pending.");
+    await expect(track).toHaveAttribute("aria-valuenow", "0");
+    await expect(track).toHaveAttribute("aria-valuemax", "6");
+    await expect(track).toHaveAttribute(
+      "aria-valuetext",
+      "0 of 6 confirmations, pending",
+    );
+    await expect(detail).toHaveText("In the queue. No blocks yet.");
+    await expect(stage.getByText("Pending", { exact: true })).toBeVisible();
+
+    // Empty slots are decoration: nothing is focusable until a block lands.
+    await expect(
+      stage.getByRole("group", {
+        name: "Confirming blocks for Waylight payout",
+      }),
+    ).toBeVisible();
+    await expect(stage.getByRole("button", { name: /^Block / })).toHaveCount(0);
+
+    await stage.getByRole("button", { name: "Land blocks" }).click();
+    await expect(announced).toHaveText("Waylight payout confirming.", {
+      timeout: 5000,
+    });
+    await expect(track).toHaveAttribute("aria-valuetext", /confirming$/);
+
+    // Six blocks in, the pill stamps and every reading of the card agrees.
+    await expect(status).toContainText("Transfer final · block 812446", {
+      timeout: 15000,
+    });
+    await expect(announced).toHaveText("Waylight payout final.");
+    await expect(track).toHaveAttribute("aria-valuenow", "6");
+    await expect(track).toHaveAttribute(
+      "aria-valuetext",
+      "6 of 6 confirmations, final",
+    );
+    await expect(stage.getByText("Final", { exact: true })).toBeVisible();
+    await expect(detail).toHaveText("Final after 6 confirmations.");
+
+    const tiles = stage.getByRole("button", { name: /^Block / });
+    await expect(tiles).toHaveCount(6);
+    const oldest = stage.getByRole("button", {
+      name: "Block 812,441, confirmation 1 of 6, 940 transactions",
+    });
+    const newest = stage.getByRole("button", {
+      name: "Block 812,446, confirmation 6 of 6, 995 transactions",
+    });
+
+    // Focus lights a tile exactly as the pointer does, and the detail line
+    // reads the block under it rather than the run as a whole.
+    await oldest.focus();
+    await expect(detail).toHaveText(
+      "Block 812,441 · 940 tx · confirmation 1 of 6",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(
+      stage.getByRole("button", { name: /^Block 812,442,/ }),
+    ).toBeFocused();
+    await expect(detail).toHaveText(
+      "Block 812,442 · 1,211 tx · confirmation 2 of 6",
+    );
+
+    // End jumps to the block on top, and the row does not wrap past it.
+    await page.keyboard.press("End");
+    await expect(newest).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await expect(newest).toBeFocused();
+    await expect(detail).toHaveText(
+      "Block 812,446 · 995 tx · confirmation 6 of 6",
+    );
+
+    await page.keyboard.press("Home");
+    await expect(oldest).toBeFocused();
+
+    // Pressing pins the block, so the demo's head follows the pin rather than
+    // the newest tile; Escape hands it back without losing focus.
+    await page.keyboard.press("Enter");
+    await expect(oldest).toHaveAttribute("aria-pressed", "true");
+    await expect(status).toContainText("Transfer final · block 812441");
+    await page.keyboard.press("Escape");
+    await expect(oldest).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toContainText("Transfer final · block 812446");
+
+    // A dropped transfer is the other ending: no slots, no stamp, no bounce.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(track).toHaveAttribute("aria-valuenow", "0");
+    await stage.getByRole("button", { name: "Drop" }).click();
+    await expect(status).toContainText("Transfer dropped · block —");
+    await expect(announced).toHaveText(
+      "Waylight payout dropped from the queue.",
+    );
+    await expect(track).toHaveAttribute(
+      "aria-valuetext",
+      "Dropped before any confirmation",
+    );
+    await expect(detail).toHaveText(
+      "Dropped from the queue. Send it again to retry.",
+    );
+    await expect(stage.getByText("Dropped", { exact: true })).toBeVisible();
+  });
+
+  test("block-stream: the rail fills from the right, and a pointer or a focus holds the feed", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/block-stream");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const rail = stage.getByRole("list", { name: "Basin ledger" });
+    const tiles = rail.getByRole("button");
+    const caption = stage.locator("p[title]").first();
+    const held = stage.getByText("Held", { exact: true });
+
+    await expect(status).toContainText("Head 812443 · stopped · 1434 tx");
+    await expect(announced).toHaveText("Block 812,443, 1,434 transactions.");
+    await expect(tiles).toHaveCount(3);
+    await expect(tiles.first()).toHaveAccessibleName(
+      "Block 812,441, 640 transactions, 27 percent full",
+    );
+    await expect(caption).toHaveText("Block 812,443 · 1,434 tx · 60% full");
+    await expect(held).toHaveCount(0);
+
+    // Mining puts the newest block at the right-most place on the rail.
+    await stage.getByRole("button", { name: "Start stream" }).click();
+    await expect(status).toContainText("streaming");
+    await expect(status).toContainText("Head 812444", { timeout: 8000 });
+
+    // A reader's pointer holds the stream, so the tile being read cannot slide
+    // out from under them — and pointing at it reads it into the caption.
+    await stage.getByRole("button", { name: /^Block 812,441,/ }).hover();
+    await expect(held).toBeVisible();
+    await expect(status).toContainText("held");
+    await expect(caption).toHaveText("Block 812,441 · 640 tx · 27% full");
+
+    // The ticker is stopped, not ignored: nothing arrives at all while it is
+    // held, so the head the hold caught is the head a second later.
+    const frozen = (await status.textContent()) ?? "";
+    await page.waitForTimeout(1000);
+    expect(await status.textContent()).toBe(frozen);
+    const head = Number(/Head (\d+)/.exec(frozen)?.[1] ?? 0);
+    const newest = minedAt(head);
+
+    // Focus does exactly what the pointer does, so the hold survives the mouse
+    // wandering off and the rail is readable without one.
+    await tiles.first().focus();
+    await page.mouse.move(0, 0);
+    await expect(held).toBeVisible();
+    await expect(status).toContainText("held");
+
+    await page.keyboard.press("End");
+    await expect(tiles.last()).toBeFocused();
+    await expect(caption).toHaveText(
+      `Block ${grouped(head)} · ${grouped(newest.txCount)} tx · ${newest.percent}% full`,
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(tiles.last()).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(tiles.first()).toBeFocused();
+
+    await page.keyboard.press("Enter");
+    await expect(tiles.first()).toHaveAttribute("aria-pressed", "true");
+    await page.keyboard.press("Escape");
+    await expect(tiles.first()).toHaveAttribute("aria-pressed", "false");
+
+    // The feed runs again the moment focus leaves the rail, and the rail keeps
+    // its cap: the tile pushed off the end leaves rather than piling up.
+    await stage.getByRole("button", { name: "Pause stream" }).focus();
+    await expect(held).toHaveCount(0);
+    await expect(status).toContainText("streaming");
+    await expect(status).toContainText("Head 812447", { timeout: 12000 });
+    await expect(tiles).toHaveCount(5);
+    await expect(tiles.last()).toHaveAccessibleName(
+      `Block 812,447, ${grouped(minedAt(812447).txCount)} transactions, ${minedAt(812447).percent} percent full`,
+    );
+  });
+
+  test("gas-tracker: the strip scrubs its own history, and a lowered ceiling flips the verdict", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/gas-tracker");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The card speaks the ceiling verdict only, so it says nothing per sample.
+    const announced = stage.locator("[role='status']").first();
+    const strip = stage.getByRole("slider", { name: "Basin relay fee" });
+    const caption = stage.locator("p[title]").first();
+
+    await expect(status).toContainText(
+      "Fee 20.1 gu · ceiling 30 · under · live",
+    );
+    await expect(announced).toHaveText(
+      "Basin relay fee under the 30.0 gu ceiling.",
+    );
+    await expect(strip).toHaveAttribute("aria-valuemin", "0");
+    await expect(strip).toHaveAttribute("aria-valuemax", "13");
+    await expect(strip).toHaveAttribute("aria-valuenow", "13");
+    await expect(strip).toHaveAttribute(
+      "aria-valuetext",
+      "Reading 14 of 14, 20.1 gu, below the 30.0 gu ceiling, live",
+    );
+    await expect(caption).toHaveText("Under the 30.0 gu ceiling");
+
+    // The strip is a real slider: the arrows walk the run one reading at a
+    // time and the caption reads the column the cursor landed on.
+    await strip.focus();
+    await page.keyboard.press("ArrowLeft");
+    await expect(strip).toHaveAttribute("aria-valuenow", "12");
+    await expect(strip).toHaveAttribute(
+      "aria-valuetext",
+      "Reading 13 of 14, 20.6 gu, below the 30.0 gu ceiling",
+    );
+    await expect(caption).toHaveText("Reading 13 of 14 · 20.6 gu");
+    await expect(status).toContainText("reading 13 of 14");
+
+    // Home is the oldest reading, and the run does not wrap past it.
+    await page.keyboard.press("Home");
+    await expect(strip).toHaveAttribute("aria-valuenow", "0");
+    await expect(status).toContainText("reading 1 of 14");
+    await page.keyboard.press("ArrowLeft");
+    await expect(strip).toHaveAttribute("aria-valuenow", "0");
+
+    // The peak of the run sits over the ceiling and the cursor says so — while
+    // the spoken verdict stays with the live reading, not the scrubbed one.
+    for (let step = 0; step < 4; step += 1) {
+      await page.keyboard.press("ArrowRight");
+    }
+    await expect(strip).toHaveAttribute(
+      "aria-valuetext",
+      "Reading 5 of 14, 30.2 gu, above the 30.0 gu ceiling",
+    );
+    await expect(announced).toHaveText(
+      "Basin relay fee under the 30.0 gu ceiling.",
+    );
+
+    await page.keyboard.press("End");
+    await expect(strip).toHaveAttribute("aria-valuenow", "13");
+    await page.keyboard.press("Escape");
+    await expect(status).toContainText("· live");
+    await expect(caption).toHaveText("Under the 30.0 gu ceiling");
+
+    // Bringing the ceiling under the live reading is a crossing, and a
+    // crossing is the one thing this card announces.
+    const lower = stage.getByRole("button", { name: "Ceiling −5" });
+    await lower.click();
+    await lower.click();
+    await expect(status).toContainText("ceiling 20 · over");
+    await expect(announced).toHaveText(
+      "Basin relay fee above the 20.0 gu ceiling.",
+    );
+    await expect(caption).toHaveText("Above the 20.0 gu ceiling");
+    await expect(strip).toHaveAttribute(
+      "aria-valuetext",
+      "Reading 14 of 14, 20.1 gu, above the 20.0 gu ceiling, live",
+    );
+
+    // A sample lands at the right of the strip: the run grows a column and the
+    // headline is the reading that arrived, whichever of them it is.
+    await stage.getByRole("button", { name: "Start sampling" }).click();
+    await expect
+      .poll(async () => Number(await strip.getAttribute("aria-valuemax")), {
+        timeout: 8000,
+      })
+      .toBeGreaterThan(13);
+    await stage.getByRole("button", { name: "Pause sampling" }).click();
+    const last = Number(await strip.getAttribute("aria-valuemax"));
+    const landed = GAS_FEED[last - GAS_SEEDED] ?? 0;
+    await expect(status).toContainText(`Fee ${landed.toFixed(1)} gu`);
+    await expect(strip).toHaveAttribute("aria-valuenow", String(last));
+    await expect(strip).toHaveAttribute(
+      "aria-valuetext",
+      `Reading ${last + 1} of ${last + 1}, ${landed.toFixed(1)} gu, ${
+        landed >= 20 ? "above" : "below"
+      } the 20.0 gu ceiling, live`,
+    );
+  });
+
+  test("tx-flow: one roving tabindex crosses both columns, and a pinned leg keeps its reading", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tx-flow");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The card speaks the reconciliation, which changes rarely; the readout
+    // under the diagram is aria-hidden because each row already says it.
+    const announced = stage.locator("[role='status']").first();
+    const readout = stage.locator("p[title]").first();
+    const inputs = stage.getByRole("list", {
+      name: "Basinworks payout inputs",
+    });
+    const outputs = stage.getByRole("list", {
+      name: "Basinworks payout outputs",
+    });
+    const inOne = inputs.getByRole("button", {
+      name: "Input 1, bsn1q8f4…hd21c, 0.8200 BSN",
+    });
+    const inTwo = inputs.getByRole("button", {
+      name: "Input 2, bsn1qk3r…7vte0, 0.4200 BSN",
+    });
+    const outTwo = outputs.getByRole("button", {
+      name: "Output 2, bsn1qr7d…c1nf8, 0.3060 BSN",
+    });
+    const feeLeg = outputs.getByRole("button", {
+      name: "Network fee, Basin relay, 0.0040 BSN",
+    });
+
+    await expect(status).toContainText("Legs 5 · flowing");
+    await expect(announced).toHaveText(
+      "Basinworks payout balanced: in 1.2400 BSN, out 1.2360 BSN, fee 0.0040 BSN.",
+    );
+    await expect(readout).toHaveText("In 1.2400 · out 1.2360 · fee 0.0040 BSN");
+
+    // Focus lights a leg exactly as pointing at its edge does.
+    await inOne.focus();
+    await expect(readout).toHaveText("Input 1 · bsn1q8f4…hd21c · 0.8200 BSN");
+    await expect(status).toContainText("Leg bsn1q8f4…hd21c · 0.8200 BSN");
+
+    // Down walks a column; right crosses to the other one at the same row.
+    await page.keyboard.press("ArrowDown");
+    await expect(inTwo).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await expect(outTwo).toBeFocused();
+    await expect(readout).toHaveText("Output 2 · bsn1qr7d…c1nf8 · 0.3060 BSN");
+    await page.keyboard.press("ArrowLeft");
+    await expect(inTwo).toBeFocused();
+
+    // End is the fee leg, which is marked in words rather than in colour.
+    await page.keyboard.press("End");
+    await expect(feeLeg).toBeFocused();
+    await expect(readout).toHaveText("Network fee · Basin relay · 0.0040 BSN");
+
+    // Pinning survives the focus moving on: the reading is the pin's, not the
+    // leg the keyboard has since walked to.
+    await page.keyboard.press("Enter");
+    await expect(feeLeg).toHaveAttribute("aria-pressed", "true");
+    await page.keyboard.press("Home");
+    await expect(inOne).toBeFocused();
+    await expect(readout).toHaveText("Network fee · Basin relay · 0.0040 BSN");
+    await expect(status).toContainText("Leg Basin relay · 0.0040 BSN");
+
+    await page.keyboard.press("Escape");
+    await expect(feeLeg).toHaveAttribute("aria-pressed", "false");
+    await expect(readout).toHaveText("Input 1 · bsn1q8f4…hd21c · 0.8200 BSN");
+
+    // Splitting a payment re-measures the gutter mid-flight: the paid legs
+    // renumber, and the transaction still reconciles to the same three sums.
+    await stage.getByRole("button", { name: "Split output" }).click();
+    await expect(status).toContainText("Legs 6 · flowing");
+    await expect(outputs.getByRole("button")).toHaveCount(4);
+    await expect(
+      outputs.getByRole("button", {
+        name: "Output 2, bsn1qv2t…s6hb9, 0.3500 BSN",
+      }),
+    ).toBeVisible();
+    await expect(
+      outputs.getByRole("button", {
+        name: "Output 3, bsn1qr7d…c1nf8, 0.3060 BSN",
+      }),
+    ).toBeVisible();
+    await expect(announced).toHaveText(
+      "Basinworks payout balanced: in 1.2400 BSN, out 1.2360 BSN, fee 0.0040 BSN.",
+    );
+    await expect(readout).toHaveText("In 1.2400 · out 1.2360 · fee 0.0040 BSN");
+
+    // The march is the host's to stop, and stopping it changes nothing else.
+    await stage.getByRole("button", { name: "Stop flow" }).click();
+    await expect(status).toContainText("Legs 6 · held");
+    await expect(readout).toHaveText("In 1.2400 · out 1.2360 · fee 0.0040 BSN");
+  });
+
+  test("mempool-queue: three bumps carry your row over the cut, and the block takes it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/mempool-queue");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The queue speaks your rank, which is derived — so it changes on a climb
+    // rather than on every arrival.
+    const announced = stage.locator("[role='status']").first();
+    const queue = stage.getByRole("list", { name: "Basin pending queue" });
+    const bump = stage.getByRole("button", { name: /^Bump your fee to/ });
+    const waiting = waitingOf(stage);
+
+    await expect(status).toContainText("Yours #4 of 5 · 1 short · fee 12.0 gu");
+    await expect(announced).toHaveText(
+      "Your transaction is number 4 of 5, 1 place short of the next block.",
+    );
+    await expect(queue.getByRole("listitem")).toHaveCount(5);
+    await expect(stage.getByText("5 waiting", { exact: true })).toBeVisible();
+    await expect(stage.getByText("Next block cut")).toBeVisible();
+    // The row's own sentence, not a name on the list item: position, offer and
+    // whether it makes the block, all in words.
+    await expect(
+      stage.getByText(
+        "Position 4 of 5, bsn1q8f4…hd21c, 12.0 gu, waiting. Your transaction.",
+      ),
+    ).toBeVisible();
+    await expect(bump).toHaveAccessibleName("Bump your fee to 15.0 gu");
+
+    // Bumping is the only control on the list, and it says what it would pay.
+    await bump.press("Enter");
+    await expect(status).toContainText("Yours #4 of 5 · 1 short · fee 15.0 gu");
+    await expect(bump).toHaveAccessibleName("Bump your fee to 18.0 gu");
+    await bump.press(" ");
+    await expect(status).toContainText("fee 18.0 gu");
+    await expect(announced).toHaveText(
+      "Your transaction is number 4 of 5, 1 place short of the next block.",
+    );
+
+    // The third bump clears the row above, and the cut line lands under yours.
+    await bump.press("Enter");
+    await expect(status).toContainText(
+      "Yours #3 of 5 · in next block · fee 21.0 gu",
+    );
+    await expect(announced).toHaveText(
+      "Your transaction is number 3 of 5 and makes the next block.",
+    );
+    await expect(
+      stage.getByText(
+        "Position 3 of 5, bsn1q8f4…hd21c, 21.0 gu, in the next block. Your transaction.",
+      ),
+    ).toBeVisible();
+
+    // Mining takes the rows above the cut, and yours goes with them.
+    await stage.getByRole("button", { name: "Mine block" }).click();
+    await expect(status).toContainText("Yours — · mined · fee — gu");
+    await expect(announced).toHaveText("2 waiting.");
+    await expect(queue.getByRole("listitem")).toHaveCount(2);
+    await expect(stage.getByRole("button", { name: /^Bump/ })).toHaveCount(0);
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toContainText("Yours #4 of 5 · 1 short · fee 12.0 gu");
+
+    // Arrivals are the host's, and a better-paying one pushes your row back
+    // without touching the offer it is making.
+    await stage.getByRole("button", { name: "Start arrivals" }).click();
+    await expect.poll(waiting, { timeout: 10000 }).toBeGreaterThan(5);
+    await stage.getByRole("button", { name: "Pause arrivals" }).click();
+    const total = await waiting();
+    await expect(announced).toContainText(`of ${total},`);
+    await expect(status).toContainText(`of ${total} ·`);
+    await expect(status).toContainText("fee 12.0 gu");
+  });
+
+  test("explorer-search: a pasted hash classifies, resolves after the wait, and Escape clears it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/explorer-search");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The field announces the settled outcome once per resolution, never once
+    // per keystroke, so it stays empty until a lookup answers.
+    const announced = stage.locator("[role='status']").first();
+    const field = stage.getByRole("searchbox", { name: "Basinworks explorer" });
+
+    await expect(status).toContainText("Explorer unknown typing");
+    await expect(announced).toBeEmpty();
+    await expect(field).toHaveValue("");
+    await expect(
+      stage.getByText("Not a hash, an address or a block height."),
+    ).toBeVisible();
+
+    // The shape is classified before anything is looked up, and the lookup
+    // lands a card a reader can jump to.
+    await stage.getByRole("button", { name: "Hash", exact: true }).click();
+    await expect(
+      stage.getByText("Recognised as a transaction hash."),
+    ).toBeVisible();
+    await expect(status).toContainText("Explorer hash resolved", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText(
+      "Transaction resolved. Transfer to Fernworks Supply.",
+    );
+    const card = stage.getByRole("region", {
+      name: "Transfer to Fernworks Supply",
+    });
+    await expect(card).toBeVisible();
+    await expect(card).toContainText("Confirmed");
+    await expect(card).toContainText("4,812,907");
+    await expect(card).toContainText("1,240.00 BSN");
+    await expect(card.getByRole("button", { name: "Open" })).toBeVisible();
+
+    // Enter in the field opens the record it resolved.
+    await field.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Explorer hash opened");
+
+    // Escape clears the field and dismisses the card, leaving focus behind.
+    await page.keyboard.press("Escape");
+    await expect(field).toHaveValue("");
+    await expect(field).toBeFocused();
+    await expect(card).toHaveCount(0);
+    await expect(status).toContainText("Explorer unknown typing");
+    await expect(announced).toBeEmpty();
+
+    // A block height is the second shape, and this one is not on the chain:
+    // recognised, waited out, and answered with nothing.
+    await field.fill("4812908");
+    await expect(status).toContainText("Explorer block resolving");
+    await expect(status).toContainText("Explorer block no match", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText("Nothing found for that query.");
+    await expect(
+      stage.getByRole("region", { name: "No record found" }),
+    ).toBeVisible();
+
+    // One digit along is a record, and the card lays out for a block instead.
+    await field.fill("4812907");
+    await expect(status).toContainText("Explorer block resolved", {
+      timeout: 8000,
+    });
+    const block = stage.getByRole("region", { name: "Block 4,812,907" });
+    await expect(block).toBeVisible();
+    await expect(block).toContainText("184");
+    await expect(block).toContainText("31.08 BSN");
+    await expect(announced).toHaveText("Block resolved. Block 4,812,907.");
+
+    // The clear control is the pointer's half of Escape.
+    await stage.getByRole("button", { name: "Clear the query" }).click();
+    await expect(field).toHaveValue("");
+    await expect(block).toHaveCount(0);
+    await expect(status).toContainText("Explorer unknown typing");
+  });
+
+  test("finality-ring: nine more blocks close the notch and the ring stamps final", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/finality-ring");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The ring announces the settled word once, so it is silent until then.
+    const announced = stage.locator("[role='status']").first();
+    const ring = stage.getByRole("progressbar");
+    const next = stage.getByRole("button", { name: "Next block" });
+
+    await expect(status).toContainText("Finality 3/12 settling");
+    await expect(announced).toBeEmpty();
+    await expect(ring).toHaveAttribute("aria-valuemin", "0");
+    await expect(ring).toHaveAttribute("aria-valuemax", "12");
+    await expect(ring).toHaveAttribute("aria-valuenow", "3");
+    await expect(ring).toHaveAttribute(
+      "aria-valuetext",
+      "3 of 12 confirmations, 87.50 percent certain",
+    );
+    await expect(stage.getByText("3 of 12 blocks")).toBeVisible();
+    await expect(stage.getByText("1,240.00 BSN")).toBeVisible();
+    await expect(ring.getByText("Settling", { exact: true })).toBeVisible();
+
+    // Each block halves the doubt left in the transfer.
+    await next.press("Enter");
+    await expect(ring).toHaveAttribute(
+      "aria-valuetext",
+      "4 of 12 confirmations, 93.75 percent certain",
+    );
+    await expect(status).toContainText("Finality 4/12 settling");
+    await expect(stage.getByText("4 of 12 blocks")).toBeVisible();
+
+    // Finality is the one place the figure is allowed to be exact, and the
+    // centre gives up its probability for the drawn check.
+    for (let block = 0; block < 8; block += 1) {
+      await next.click();
+    }
+    await expect(ring).toHaveAttribute("aria-valuenow", "12");
+    await expect(ring).toHaveAttribute(
+      "aria-valuetext",
+      "12 of 12 confirmations, final",
+    );
+    await expect(announced).toHaveText("Final. 12 of 12 confirmations.");
+    await expect(status).toContainText("Finality 12/12 final");
+    await expect(ring.getByText("Final", { exact: true })).toBeVisible();
+    await expect(next).toBeDisabled();
+
+    // Reset takes the ring back to a bare notch, and the word goes quiet.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(ring).toHaveAttribute("aria-valuenow", "0");
+    await expect(ring).toHaveAttribute(
+      "aria-valuetext",
+      "0 of 12 confirmations, 0.00 percent certain",
+    );
+    await expect(status).toContainText("Finality 0/12 settling");
+    await expect(announced).toBeEmpty();
+    await expect(next).toBeEnabled();
+  });
+
+  test("nonce-line: the missing nonce blocks the tail, and filling it closes the line", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/nonce-line");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const detail = stage.locator("p[aria-live='polite']").first();
+    const rail = stage.getByRole("list", { name: "Basin outbox" });
+    const gap = rail.getByRole("button", { name: "Nonce 43 missing, fill it" });
+    const first = rail.getByRole("button", { name: /^Nonce 41,/ });
+    const last = rail.getByRole("button", { name: /^Nonce 46,/ });
+    const blocked = rail.getByRole("button", { name: /^Nonce 44,/ });
+
+    await expect(status).toContainText("Nonce 44 blocked");
+    await expect(announced).toHaveText("3 transactions waiting on nonce 43");
+    await expect(stage.getByText("Gap at 43")).toBeVisible();
+    await expect(rail.getByRole("button")).toHaveCount(6);
+    await expect(detail).toHaveText(
+      "Nonce 44 · 0x0c19bfa2 · 120.00 BSN · waiting on 43",
+    );
+    // Blocked is spelled out, so it never rests on the dimming alone.
+    await expect(blocked).toHaveAccessibleName(
+      "Nonce 44, 120.00 BSN to Coldbrook Bank, waiting on nonce 43",
+    );
+    await expect(first).toHaveAccessibleName(
+      "Nonce 41, 300.00 BSN to Fernworks Supply, confirmed",
+    );
+
+    // The rail walks on a roving tabindex, and it does not wrap at either end.
+    await blocked.focus();
+    await page.keyboard.press("Home");
+    await expect(first).toBeFocused();
+    await expect(status).toContainText("Nonce 41 confirmed");
+    await expect(detail).toHaveText(
+      "Nonce 41 · 0x4f2a91c0 · 300.00 BSN · Confirmed",
+    );
+    await page.keyboard.press("ArrowLeft");
+    await expect(first).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(last).toBeFocused();
+    await expect(status).toContainText("Nonce 46 blocked");
+    await page.keyboard.press("ArrowRight");
+    await expect(last).toBeFocused();
+
+    // The gap keeps the same keyboard contract as every other tile.
+    await page.keyboard.press("Home");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(gap).toBeFocused();
+    await expect(status).toContainText("Nonce 43 gap");
+    await expect(detail).toHaveText("Nonce 43 · missing");
+
+    // Filling it is the whole interaction: the tail stops waiting on a nonce
+    // that has arrived, and the line reads as one run again.
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Line in order");
+    await expect(stage.getByText("In order", { exact: true })).toBeVisible();
+    await expect(status).toContainText("Nonce 43 pending");
+    await expect(detail).toHaveText(
+      "Nonce 43 · 0x71c40ade · 64.80 BSN · Pending",
+    );
+    await expect(blocked).toHaveAccessibleName(
+      "Nonce 44, 120.00 BSN to Coldbrook Bank, pending",
+    );
+    await expect(stage.getByRole("button", { name: "Fill 43" })).toBeDisabled();
+
+    // Reset puts the gap back, tail and all.
+    await stage.getByRole("button", { name: "Reset run" }).click();
+    await expect(announced).toHaveText("3 transactions waiting on nonce 43");
+    await expect(stage.getByText("Gap at 43")).toBeVisible();
+    await expect(blocked).toHaveAccessibleName(
+      "Nonce 44, 120.00 BSN to Coldbrook Bank, waiting on nonce 43",
+    );
+  });
+
+  test("bridge-hop: four stages carry the token across and the destination balance rolls up", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/bridge-hop");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // Arrival is announced once; every stage before it is silent.
+    const announced = stage.locator("[role='status']").first();
+    const hop = stage.getByRole("list", { name: "Bridge stages" });
+    const track = stage.getByRole("progressbar", {
+      name: "Bridge from Basin to Coldbrook",
+    });
+    const detail = stage.locator("p[aria-live='polite']").first();
+    const advance = stage.getByRole("button", { name: "Advance" });
+    const locked = hop.getByRole("button", { name: "Locked, done" });
+    const minted = hop.getByRole("button", { name: /^Minted,/ });
+    const balance = rolledFigureOf(
+      stage.locator("span.inline-flex.tabular-nums").first(),
+    );
+    // The rail never fills, so the token is the only thing that crosses it.
+    const tokenLeft = async (): Promise<number> => {
+      const box = await stage.locator("span.z-20").first().boundingBox();
+      return box ? Math.round(box.x) : -1;
+    };
+
+    await expect(status).toContainText("Bridge locked · 1/4");
+    await expect(announced).toBeEmpty();
+    await expect(track).toHaveAttribute("aria-valuemin", "0");
+    await expect(track).toHaveAttribute("aria-valuemax", "4");
+    await expect(track).toHaveAttribute("aria-valuenow", "1");
+    await expect(track).toHaveAttribute(
+      "aria-valuetext",
+      "1 of 4 stages, locked",
+    );
+    // Every node's state is a word, never a colour.
+    await expect(locked).toBeVisible();
+    await expect(
+      hop.getByRole("button", { name: "Attested, in progress" }),
+    ).toBeVisible();
+    await expect(
+      hop.getByRole("button", { name: "Relayed, waiting" }),
+    ).toBeVisible();
+    await expect(hop.locator("li[aria-current='step']")).toHaveCount(1);
+    await expect(detail).toHaveText(
+      "Attested · Signed by 9 of 12 guards · 0xb7e3…05aa",
+    );
+    await expect.poll(balance, { timeout: 5000 }).toBe("80.00");
+    const parked = await tokenLeft();
+
+    // Focus is the keyboard equal of hovering a node, and it does not wrap.
+    await hop.getByRole("button", { name: "Attested, in progress" }).focus();
+    await page.keyboard.press("Home");
+    await expect(locked).toBeFocused();
+    await expect(detail).toHaveText("Locked · Held on Basin · 0x4f2a…be17");
+    await page.keyboard.press("ArrowLeft");
+    await expect(locked).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(minted).toBeFocused();
+    await expect(detail).toHaveText(
+      "Minted · Issued to the recipient · 0x93de…5c8b",
+    );
+
+    // Each completed stage takes the token one node further along the rail.
+    await advance.click();
+    await expect(status).toContainText("Bridge attested · 2/4");
+    await expect(track).toHaveAttribute(
+      "aria-valuetext",
+      "2 of 4 stages, attested",
+    );
+    await expect(
+      hop.getByRole("button", { name: "Attested, done" }),
+    ).toBeVisible();
+    await expect(announced).toBeEmpty();
+
+    // Arrival is the one place that celebrates, and the balance is the outcome.
+    await advance.click();
+    await advance.click();
+    await expect(status).toContainText("Bridge arrived · 4/4");
+    await expect(track).toHaveAttribute("aria-valuenow", "4");
+    await expect(track).toHaveAttribute(
+      "aria-valuetext",
+      "4 of 4 stages, arrived",
+    );
+    await expect(announced).toHaveText("Arrived on Coldbrook.");
+    await expect(minted).toHaveAccessibleName("Minted, done");
+    await expect(hop.locator("li[aria-current='step']")).toHaveCount(0);
+    await expect(advance).toBeDisabled();
+    await expect.poll(balance, { timeout: 5000 }).toBe("500.00");
+    await expect
+      .poll(tokenLeft, { timeout: 5000 })
+      .toBeGreaterThan(parked + 60);
+
+    // Reset sends the token back to the source pillar and takes the credit
+    // with it: the destination is only richer once the hop has landed.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toContainText("Bridge waiting · 0/4");
+    await expect(track).toHaveAttribute(
+      "aria-valuetext",
+      "0 of 4 stages, waiting",
+    );
+    await expect(announced).toBeEmpty();
+    await expect.poll(balance, { timeout: 5000 }).toBe("80.00");
+    await expect.poll(tokenLeft, { timeout: 5000 }).toBeLessThan(parked);
+  });
+
+  test("receipt-proof: verifying stamps the root, and another leaf takes the proof back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/receipt-proof");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The outcome is announced once; the walk is read off the polite line.
+    const announced = stage.locator("[role='status']").first();
+    const detail = stage.locator("p[aria-live='polite']").first();
+    const detailName = detail.locator("span").first();
+    const detailHash = detail.locator("span").last();
+    const leafThree = stage.getByRole("button", { name: /^Leaf 3,/ });
+    const leafFour = stage.getByRole("button", { name: /^Leaf 4,/ });
+    const leafFive = stage.getByRole("button", { name: /^Leaf 5,/ });
+    const root = stage.getByRole("button", { name: /^Block root,/ });
+    const verify = stage.getByRole("button", { name: "Verify" });
+
+    await expect(status).toContainText("Proof leaf 3 idle");
+    await expect(announced).toBeEmpty();
+    // The part each node plays in the proof is stated in words.
+    await expect(leafThree).toHaveAccessibleName(
+      "Leaf 3, on the proof path, hash 0xbfc0…43f3",
+    );
+    await expect(leafThree).toHaveAttribute("aria-pressed", "true");
+    await expect(
+      stage.getByRole("button", { name: /^Leaf 2,/ }),
+    ).toHaveAccessibleName("Leaf 2, proof sibling, hash 0x906a…d0a2");
+    await expect(
+      stage.getByRole("button", { name: /^Leaf 0,/ }),
+    ).toHaveAccessibleName("Leaf 0, not in this proof, hash 0xcf3f…f621");
+    await expect(detailName).toHaveText("Leaf 3");
+    await expect(detailHash).toHaveText("0xbfc02cb8f0b943f3");
+    await expect(
+      stage.getByText("Proving leaf 3 · on the proof path"),
+    ).toBeVisible();
+    await expect(stage.getByText("240.00 BSN")).toBeVisible();
+
+    // Verifying climbs the path and then stamps the root.
+    await verify.click();
+    await expect(root).toHaveAccessibleName(/^Block root, checking,/);
+    await expect(status).toContainText("Proof leaf 3 checking");
+    await expect(status).toContainText("Proof leaf 3 verified", {
+      timeout: 8000,
+    });
+    await expect(root).toHaveAccessibleName(
+      "Block root, verified, hash 0xf69b…ab6d",
+    );
+    await expect(announced).toHaveText(
+      "Proof verified against the block root.",
+    );
+    await expect(verify).toBeDisabled();
+
+    // Walking the field is the keyboard equal of hovering it: left and right
+    // stay on a level, up changes level, and the read-out follows.
+    await leafThree.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(leafFour).toBeFocused();
+    await expect(detailName).toHaveText("Leaf 4");
+    await expect(detailHash).toHaveText("0x6575cc4d437c4453");
+    await page.keyboard.press("ArrowUp");
+    await expect(
+      stage.getByRole("button", { name: /^Level 1 node 2,/ }),
+    ).toBeFocused();
+    await expect(detailName).toHaveText("Level 1 node 2");
+    await expect(detailHash).toHaveText("0x022d0dd0d17cdf7b");
+    await page.keyboard.press("End");
+    await expect(
+      stage.getByRole("button", { name: /^Level 1 node 3,/ }),
+    ).toBeFocused();
+
+    // A proof of one leaf is not a proof of another: choosing drops it back to
+    // idle, and the path and its siblings are redrawn around the new leaf.
+    await leafFive.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Proof leaf 5 idle");
+    await expect(leafFive).toHaveAttribute("aria-pressed", "true");
+    await expect(leafThree).toHaveAttribute("aria-pressed", "false");
+    await expect(announced).toBeEmpty();
+    await expect(root).toHaveAccessibleName(/^Block root, on the proof path,/);
+    await expect(leafFour).toHaveAccessibleName(
+      "Leaf 4, proof sibling, hash 0x6575…4453",
+    );
+    await expect(leafThree).toHaveAccessibleName(
+      "Leaf 3, not in this proof, hash 0xbfc0…43f3",
+    );
+    await expect(
+      stage.getByText("Proving leaf 5 · on the proof path"),
+    ).toBeVisible();
+    await expect(verify).toBeEnabled();
+  });
+});
