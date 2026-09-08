@@ -28907,4 +28907,807 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the hand jumps to its minute and the arc ahead stops breathing, but the arcs, the state and the countdown all still update.",
     ],
   },
+  {
+    name: "holdings-ring",
+    type: "registry:ui",
+    title: "Holdings Ring",
+    description:
+      "An allocation ring that re-proportions rather than redraws: every asset is one stroked circle whose pathLength is its share and whose pathOffset is its start on the rim, so adding or removing an asset animates two numbers on glide and the whole ring settles as one body. Segments draw in on a cascade at mount and shrink away on the exit ease, while pointing at one lifts it along its own mid angle on snap and cross-fades the hub to that asset's amount and share. The SVG is decorative; the legend under it is a real radiogroup with a roving tabindex where arrows step, Home and End jump, Space selects and Escape hands the hub back to the total.",
+    files: [
+      {
+        path: "registry/ui/holdings-ring.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-631",
+    },
+    tagline: "Every asset's share of the whole.",
+    keywords: [
+      "allocation",
+      "donut",
+      "ring",
+      "portfolio",
+      "share",
+      "finance",
+      "radiogroup",
+    ],
+    props: [
+      {
+        name: "assets",
+        type: "RingAsset[]",
+        description:
+          "The mix clockwise from twelve o'clock: id, label and value. Non-positive assets are dropped.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial selected asset id; null reads the portfolio total.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the click, key or Escape that changed the selection.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })',
+        description:
+          "Formats every amount. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible group heading; omit it and pass aria-label to name the ring invisibly.",
+      },
+      {
+        name: "totalLabel",
+        type: "string",
+        defaultValue: '"Total"',
+        description: "Caption over the hub figure while nothing is selected.",
+      },
+      {
+        name: "thickness",
+        type: "number",
+        defaultValue: "13",
+        description: "Segment stroke width in the 120-unit viewBox.",
+      },
+    ],
+    usageNotes: [
+      "The legend is a radiogroup with a roving tabindex: Up and Down (or Left and Right) step without wrapping, Home and End jump to the outer assets, Space selects and Escape clears back to the total.",
+      "Each legend entry's accessible name spells out the asset, its amount and its share, so nothing depends on the ring or on colour.",
+      "Under reduced motion the segments render at their share with no draw-in and re-proportion instantly; the active one is marked by opacity and stroke rather than a lift.",
+    ],
+  },
+  {
+    name: "performance-line",
+    type: "registry:ui",
+    title: "Performance Line",
+    description:
+      "A performance chart whose period selector redraws the trace instead of cross-fading it: switching remounts a clip rectangle at zero width that opens across the plate on a durations.page tween, wiping the new line and its fill in from the left. The pill under the chosen period travels on a useId-prefixed layoutId on snap, the return figure rolls its digits on the same spring with a caret that turns to match the sign, and the start marker labels itself once the wipe has passed. The selector is a real tablist with a roving tabindex — Left and Right step, Home and End jump, focus activates — and the plate is its panel with an aria-label sentence stating the whole period.",
+    files: [
+      {
+        path: "registry/ui/performance-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-632",
+    },
+    tagline: "Since when, and how far.",
+    keywords: [
+      "performance",
+      "chart",
+      "period",
+      "return",
+      "portfolio",
+      "finance",
+      "tabs",
+    ],
+    props: [
+      {
+        name: "periods",
+        type: "PerformancePeriod[]",
+        description:
+          "Each period's id, short tab label, an already-formatted start label, and its closes oldest first.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial period id; defaults to the first period.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires from the click or key that changed the period.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats the current value and the start chip's opening figure.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible heading beside the selector; omit it and pass aria-label.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "132",
+        description:
+          "Plate height in px. The width is fluid and every marker is placed in percentages.",
+      },
+    ],
+    usageNotes: [
+      "A tablist with a roving tabindex: Left and Right (or Up and Down) step without wrapping, Home and End jump to the outer periods, and focus activates the period.",
+      "Pass `since` as an already-formatted date string — the chart never reads a clock, so the server and the client always draw the same label.",
+      "Under reduced motion there is no wipe: the new trace is simply there, complete, and the digits swap in place rather than rolling.",
+    ],
+  },
+  {
+    name: "rebalance-bars",
+    type: "registry:ui",
+    title: "Rebalance Bars",
+    description:
+      'Paired bars per asset — Now, solid, and Target, hatched behind a hairline — so the gap between them is the drift. Pressing the action glides every Now bar to its target on a cascade, glide rather than recoil because a portfolio reaching its model is a weight settling and a sale should never celebrate; a warn-hatched drift lane rides the Now track from where the weight stands to where it belongs and closes to nothing as the bar lands. Each pair is a role="meter" whose aria-valuetext states the whole trade in a sentence, and the action is a real button that disables itself once nothing is left to trade.',
+    files: [
+      {
+        path: "registry/ui/rebalance-bars.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-633",
+    },
+    tagline: "Current, target, and the moves between.",
+    keywords: [
+      "rebalance",
+      "target",
+      "weights",
+      "drift",
+      "portfolio",
+      "finance",
+      "meter",
+    ],
+    props: [
+      {
+        name: "assets",
+        type: "RebalanceAsset[]",
+        description:
+          "Each asset's id, label, current weight and target weight in whole percentage points.",
+      },
+      {
+        name: "total",
+        type: "number",
+        description:
+          "The portfolio's value; each trade's cash amount is its weight change against this.",
+      },
+      {
+        name: "applied / defaultApplied",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial state of the rebalance; true draws every Now bar at its target.",
+      },
+      {
+        name: "onAppliedChange",
+        type: "(applied: boolean) => void",
+        description:
+          "Fires from the button press, never from inside a state updater.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })',
+        description:
+          "Formats each trade's cash amount and the total left to move.",
+      },
+      {
+        name: "actionLabel",
+        type: "string",
+        defaultValue: '"Rebalance"',
+        description:
+          "Copy on the action button, which appends the number of trades.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description:
+          "Visible heading; omit it and pass aria-label to name the list.",
+      },
+    ],
+    usageNotes: [
+      "The action is the only gesture: Enter and Space press it, and it disables itself with a spoken reason once every row is on target.",
+      'Buy and sell are a caret, a word and a hatch as well as a colour, and the summary line above the rows is a role="status" that announces once rather than per row.',
+      "Under reduced motion the bars still reach their targets — instantly, with no stagger — the drift lane closes on a colour tween and the tick appears already drawn.",
+    ],
+  },
+  {
+    name: "holding-row",
+    type: "registry:ui",
+    title: "Holding Row",
+    description:
+      "A position that opens its history. Pressing the row expands the panel on glide to a height a ResizeObserver measured on the content, so no room is reserved for a panel that is not showing; inside, the mini trace draws its pathLength while the fill scales off the baseline and the lot rows arrive on a cascade. A change in price is caught by comparing the incoming prop with the committed one during render — no clock — and each catch remounts a wash that flashes behind the change chip while the value swaps in a slot sized by an invisible copy of itself, so the row never reflows mid-tick. The header is a real aria-expanded button: Enter and Space toggle, Escape closes and returns focus.",
+    files: [
+      {
+        path: "registry/ui/holding-row.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-634",
+    },
+    tagline: "A position that opens its history.",
+    keywords: [
+      "holding",
+      "position",
+      "expand",
+      "lots",
+      "price",
+      "portfolio",
+      "finance",
+    ],
+    props: [
+      {
+        name: "symbol",
+        type: "string",
+        description:
+          "The invented ticker, set in mono; it also names the panel.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "The position's full name, truncated with a title when it will not fit.",
+      },
+      {
+        name: "quantity",
+        type: "number",
+        description: "Units held; the market value is quantity times price.",
+      },
+      {
+        name: "price",
+        type: "number",
+        description:
+          "Last price. A change flashes the chip and swaps the value in its slot.",
+      },
+      {
+        name: "changePercent",
+        type: "number",
+        description:
+          "Session change in percent; its sign drives the chip's colour and caret.",
+      },
+      {
+        name: "history",
+        type: "number[]",
+        defaultValue: "[]",
+        description:
+          "Seeded closes, oldest first, for the mini trace. Fewer than two points hides the chart.",
+      },
+      {
+        name: "lots",
+        type: "HoldingLot[]",
+        defaultValue: "[]",
+        description:
+          "Each lot's id, an already-formatted date, its quantity and its cost.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial expansion of the history panel.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the press or the Escape that changed the expansion.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats every amount. The default pins an explicit locale so server and client agree.",
+      },
+    ],
+    usageNotes: [
+      "Enter and Space toggle the row; Escape closes it and returns focus to the header. The panel is a labelled region and is aria-hidden while closed.",
+      "Drive `price` from your own feed: the flash is derived from the prop during render, so the row never reads a clock and never needs a timer of its own.",
+      "Under reduced motion the panel opens instantly and the trace renders already drawn, but the chip still flashes — a price tick is feedback, not flourish.",
+    ],
+  },
+  {
+    name: "allocation-slider",
+    type: "registry:ui",
+    title: "Allocation Slider",
+    description:
+      'A stack of allocation sliders that always sum to 100. The row under the pointer is exact — its fill and thumb track the finger with duration 0, because direct manipulation must never lag behind the hand — while every other row eases to its new share on glide, so what you hold is instant and what answers is sprung. Whatever the held row gives up is shared out by largest remainder against a snapshot taken when the gesture began, so the whole numbers on screen sum to exactly 100 on every frame and the untouched rows keep their ratios. Each track is a real role="slider": arrows step, Page keys move five, Home and End reach the ends of the pool, and a per-row lock switch takes that row out of the pool on snap.',
+    files: [
+      {
+        path: "registry/ui/allocation-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-635",
+    },
+    tagline: "Move one; the others give.",
+    keywords: [
+      "allocation",
+      "sliders",
+      "weights",
+      "portfolio",
+      "redistribute",
+      "finance",
+      "lock",
+    ],
+    props: [
+      {
+        name: "slices",
+        type: "AllocationSlice[]",
+        description: "The rows top to bottom: an id and a label each.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number[]",
+        description:
+          "Controlled or initial whole-percent weights aligned to slices by index; normalised to sum to 100, defaulting to an even split.",
+      },
+      {
+        name: "onValueChange",
+        type: "(values: number[]) => void",
+        description:
+          "Fires from the pointer or key that changed the mix, never from a render or a state updater.",
+      },
+      {
+        name: "total",
+        type: "number",
+        description:
+          "The portfolio's value; given it, each row prints its cash share in tabular figures.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })',
+        description:
+          "Formats each row's cash share. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Percentage points per arrow key; Page keys move five steps.",
+      },
+      {
+        name: "lockable",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Renders the per-row lock switch. A locked row never gives and never takes.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description: "Visible group heading; omit it and pass aria-label.",
+      },
+    ],
+    usageNotes: [
+      "Every track is a slider: Left and Down step down, Right and Up step up, PageUp and PageDown move five steps, Home goes to 0 and End to whatever the locks leave in the pool.",
+      "Pointer travel under 4px never captures, so a plain click on a track sets that row; past 4px the capture and its release are both guarded so a synthetic sweep cannot throw.",
+      "Under reduced motion the other rows jump to their new shares instead of springing and the lock's shackle swaps, but the fills still fill and the numbers still count.",
+    ],
+  },
+  {
+    name: "dividend-calendar",
+    type: "registry:ui",
+    title: "Dividend Calendar",
+    description:
+      "A month of payouts on the days they land. Every paying day carries a drawn coin that drops from a shift above its cell and lands on recoil, staggered by cascade so a busy month stays inside the choreography budget, and the month total rolls on snap between months — up when the new month pays more. It is a real grid: arrows walk the days, Home and End reach the ends of a week, PageUp and PageDown change month, and pressing a day pins its reading until Escape.",
+    files: [
+      {
+        path: "registry/ui/dividend-calendar.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-636",
+    },
+    tagline: "Payouts, on the days they land.",
+    keywords: ["dividend", "calendar", "payout", "income", "finance", "month"],
+    props: [
+      {
+        name: "months",
+        type: "DividendMonth[]",
+        description:
+          "The months the arrows walk: id, label, days, the weekday the 1st falls on, and the payouts.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "first month's id",
+        description: "Controlled or initial month id.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires from the arrow or key that changed month.",
+      },
+      {
+        name: "onDayRead",
+        type: "(day: number | null, payout: DividendPayout | null) => void",
+        description:
+          "Fires from the pointer, focus or press that changed what the header reads; null when nothing is being read.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "USD, 2dp",
+        description: "Formats every amount, including the month total.",
+      },
+      {
+        name: "weekdays",
+        type: "string[]",
+        defaultValue: '["M","T","W","T","F","S","S"]',
+        description: "Seven column headers, Monday first.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description: "Visible heading; omit it and pass aria-label.",
+      },
+    ],
+    usageNotes: [
+      "A grid of day buttons with a roving tabindex: arrows walk the days, Home and End reach the ends of a week, PageUp and PageDown change month keeping the day, Enter or Space pins a day's reading and Escape releases it.",
+      "The reading appears in the header rather than a floating tooltip, so nothing can leave the frame at narrow widths.",
+      "Under reduced motion the coins are simply present at full scale and the total's digits swap in place — which days pay is information, not flourish.",
+    ],
+  },
+  {
+    name: "gain-loss",
+    type: "registry:ui",
+    title: "Gain Loss Bar",
+    description:
+      "A holding's day measured from a centre line: gains grow right in success, losses grow left in danger, all scaled against the largest move so the longest bar reaches the edge. Bars unroll out of the axis on glide with a cascade on the first paint only, and the sort control re-orders the rows with FLIP on glide so a row travels to its place rather than blinking there. The sort is a radiogroup with a roving tabindex — arrows step, Home and End jump, Space selects.",
+    files: [
+      {
+        path: "registry/ui/gain-loss.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-637",
+    },
+    tagline: "Green to the right, red to the left.",
+    keywords: [
+      "gain",
+      "loss",
+      "diverging",
+      "bars",
+      "sort",
+      "finance",
+      "positions",
+    ],
+    props: [
+      {
+        name: "holdings",
+        type: "GainLossHolding[]",
+        description:
+          "The set: id, label, the money moved and the same move in percent.",
+      },
+      {
+        name: "sort / defaultSort",
+        type: '"best" | "worst" | "name"',
+        defaultValue: '"best"',
+        description:
+          "Controlled or initial sort; changing it re-orders the rows with FLIP.",
+      },
+      {
+        name: "onSortChange",
+        type: "(sort: GainLossSort) => void",
+        description: "Fires from the click or key that changed the sort.",
+      },
+      {
+        name: "basis",
+        type: '"amount" | "percent"',
+        defaultValue: '"amount"',
+        description:
+          "Which figure the bars and row readouts measure; changing it re-scales every bar at once.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "USD, 0dp",
+        description: "Formats every money figure, including the net.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description: "Visible heading; omit it and pass aria-label.",
+      },
+    ],
+    usageNotes: [
+      "The sort control is a radiogroup with a roving tabindex: Left and Right step without wrapping, Home and End jump to the ends, Space selects.",
+      "Each row's visible label and figure are hidden from assistive technology and replaced by one sentence, so direction is spoken as a word rather than resting on a plus sign or a colour.",
+      "Under reduced motion the bars are at full length on the first paint and rows swap into their sorted places without travelling — the arrangement is the information.",
+    ],
+  },
+  {
+    name: "cost-basis",
+    type: "registry:ui",
+    title: "Cost Basis",
+    description:
+      "What you paid, against what it is worth. A neutral base fill runs to the paid mark and a coloured extension fills from there toward worth — right in success, left in danger — both as transforms settling on glide, and the per-share toggle rolls both figures on snap while the lane deliberately holds still, because dividing both numbers by the same share count changes no ratio. The toggle is a real switch reached by Tab and flipped with Space.",
+    files: [
+      {
+        path: "registry/ui/cost-basis.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-638",
+    },
+    tagline: "What you paid, against what it is worth.",
+    keywords: [
+      "cost basis",
+      "position",
+      "unrealised",
+      "per share",
+      "finance",
+      "holding",
+    ],
+    props: [
+      {
+        name: "symbol",
+        type: "string",
+        description: "Instrument code printed under the lane.",
+      },
+      {
+        name: "shares",
+        type: "number",
+        description: "Units held; divides both totals for the per-share view.",
+      },
+      {
+        name: "costPerShare",
+        type: "number",
+        description: "Average price paid — the lane's mark.",
+      },
+      {
+        name: "price",
+        type: "number",
+        description:
+          "Current mark. A new value re-fills the lane on glide and rolls the worth figure.",
+      },
+      {
+        name: "perShare / defaultPerShare",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial state of the per-share toggle.",
+      },
+      {
+        name: "onPerShareChange",
+        type: "(perShare: boolean) => void",
+        description: "Fires from the click or key that flipped the toggle.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "USD, 0dp",
+        description: "Formats the position totals.",
+      },
+      {
+        name: "formatPrice",
+        type: "(value: number) => string",
+        defaultValue: "USD, 2dp",
+        description: "Formats the per-share figures.",
+      },
+      {
+        name: "headroom",
+        type: "number",
+        defaultValue: "0.12",
+        description:
+          "Slack past the larger figure so a full lane never touches the edge.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description: "Visible heading; omit it and pass aria-label.",
+      },
+    ],
+    usageNotes: [
+      'The per-share control is a role="switch" with aria-checked: Tab reaches it, Space or Enter flips it.',
+      "The lane is scaled from the position totals, never from the displayed figures, so flipping to per-share cannot twitch a bar whose ratio did not change.",
+      "Under reduced motion the digits swap in place and the fills jump to their new geometry — the gap between paid and worth is information, so it is never withheld.",
+    ],
+  },
+  {
+    name: "portfolio-pulse",
+    type: "registry:ui",
+    title: "Portfolio Pulse",
+    description:
+      "A whole book in one beat. Each tick rolls the total's digit columns one face on snap in the direction the money moved, extends the trace with a segment that draws on flick, and fires the beat dot — a ring that expands and fades on a tween over a dot landing back from 1.4× on flick — while a full window slides left by one pitch on glide from a motion value. After quietMs of no change the beat stills and one polite sentence is announced, never one per tick.",
+    files: [
+      {
+        path: "registry/ui/portfolio-pulse.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-639",
+    },
+    tagline: "The whole book, one beat.",
+    keywords: [
+      "portfolio",
+      "pulse",
+      "sparkline",
+      "ticker",
+      "finance",
+      "live",
+      "total",
+    ],
+    props: [
+      {
+        name: "value",
+        type: "number",
+        description:
+          "The book's mark. A new value rolls the total, extends the trace and fires the beat.",
+      },
+      {
+        name: "open",
+        type: "number",
+        description: "Session open — the basis for the change chip.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        defaultValue: '"Book"',
+        description: "Visible heading on the card.",
+      },
+      {
+        name: "venue",
+        type: "string",
+        description: "Quiet mono line opposite the heading.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "USD, 0dp",
+        description: "Formats the total and the change.",
+      },
+      {
+        name: "points",
+        type: "number",
+        defaultValue: "36",
+        description:
+          "Length of the trail window; older marks fall off the left.",
+      },
+      {
+        name: "quietMs",
+        type: "number",
+        defaultValue: "1600",
+        description:
+          "Quiet after which the beat stills and the sentence is announced.",
+      },
+      {
+        name: "onTick",
+        type: '(value: number, direction: "up" | "down") => void',
+        description:
+          "Fires from the effect that observed the committed tick, never from a render.",
+      },
+    ],
+    usageNotes: [
+      "The card never generates a tick: drive it from a prop and it rolls what it is given, reporting each committed tick through onTick.",
+      "The sentence is written once the tape has been quiet for quietMs, so a burst of prints announces the settled book once instead of once per print.",
+      "Under reduced motion the ring never fires and the trace extends without travelling, but the digits still update and the beat dot still changes tone between live and still.",
+    ],
+  },
+  {
+    name: "watch-drag",
+    type: "registry:ui",
+    title: "Watch Drag",
+    description:
+      "A watchlist you rank by hand. Pressing a row's grip lifts it on flick and then tracks the pointer 1:1 with no easing, while the rows it passes make room with FLIP on glide, a dashed slot marks the place it will take, and the drop settles it there on glide before a cobalt wash leaves on the exit ease. Space lifts, Up and Down move, Home and End reach the ends, Space drops and Escape restores — every step announced by name and position.",
+    files: [
+      {
+        path: "registry/ui/watch-drag.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-640",
+    },
+    tagline: "Sort your holdings by hand.",
+    keywords: [
+      "watchlist",
+      "reorder",
+      "drag",
+      "holdings",
+      "finance",
+      "rank",
+      "flip",
+    ],
+    props: [
+      {
+        name: "holdings",
+        type: "WatchHolding[]",
+        description:
+          "The watchlist: id, symbol, name, price and the day's move in percent.",
+      },
+      {
+        name: "order / defaultOrder",
+        type: "string[]",
+        defaultValue: "the holdings order",
+        description:
+          "Controlled or initial order as ids; unknown ids are ignored and missing ones appended.",
+      },
+      {
+        name: "onOrderChange",
+        type: "(order: string[]) => void",
+        description:
+          "Fires from the drop, or from each key that committed a move, never from inside a state updater.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: "USD, 2dp",
+        description: "Formats every price.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description: "Visible heading; omit it and pass aria-label.",
+      },
+    ],
+    usageNotes: [
+      "Only the grip is focusable, so Tab walks ranks rather than every readout: Space or Enter lifts and drops, Up and Down move a lifted row and otherwise move focus, Home and End reach the ends, Escape cancels and restores the order the lift started from.",
+      "The pointer is captured only after 4px of travel and inside try/catch both ways, so a plain tap still lands and a synthetic sweep cannot throw.",
+      "Under reduced motion nothing travels — the list reorders live as the pointer crosses each row, because the order is the information, not the flight.",
+    ],
+  },
 ];

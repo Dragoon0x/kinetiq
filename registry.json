@@ -17656,6 +17656,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "holdings-ring",
+      "type": "registry:ui",
+      "title": "Holdings Ring",
+      "description": "An allocation ring that re-proportions rather than redraws: every asset is one stroked circle whose pathLength is its share and whose pathOffset is its start on the rim, so adding or removing an asset animates two numbers on glide and the whole ring settles as one body. Segments draw in on a cascade at mount and shrink away on the exit ease, while pointing at one lifts it along its own mid angle on snap and cross-fades the hub to that asset's amount and share. The SVG is decorative; the legend under it is a real radiogroup with a roving tabindex where arrows step, Home and End jump, Space selects and Escape hands the hub back to the total.",
+      "files": [
+        {
+          "path": "registry/ui/holdings-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-631"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "performance-line",
+      "type": "registry:ui",
+      "title": "Performance Line",
+      "description": "A performance chart whose period selector redraws the trace instead of cross-fading it: switching remounts a clip rectangle at zero width that opens across the plate on a durations.page tween, wiping the new line and its fill in from the left. The pill under the chosen period travels on a useId-prefixed layoutId on snap, the return figure rolls its digits on the same spring with a caret that turns to match the sign, and the start marker labels itself once the wipe has passed. The selector is a real tablist with a roving tabindex — Left and Right step, Home and End jump, focus activates — and the plate is its panel with an aria-label sentence stating the whole period.",
+      "files": [
+        {
+          "path": "registry/ui/performance-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-632"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rebalance-bars",
+      "type": "registry:ui",
+      "title": "Rebalance Bars",
+      "description": "Paired bars per asset — Now, solid, and Target, hatched behind a hairline — so the gap between them is the drift. Pressing the action glides every Now bar to its target on a cascade, glide rather than recoil because a portfolio reaching its model is a weight settling and a sale should never celebrate; a warn-hatched drift lane rides the Now track from where the weight stands to where it belongs and closes to nothing as the bar lands. Each pair is a role=\"meter\" whose aria-valuetext states the whole trade in a sentence, and the action is a real button that disables itself once nothing is left to trade.",
+      "files": [
+        {
+          "path": "registry/ui/rebalance-bars.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-633"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "holding-row",
+      "type": "registry:ui",
+      "title": "Holding Row",
+      "description": "A position that opens its history. Pressing the row expands the panel on glide to a height a ResizeObserver measured on the content, so no room is reserved for a panel that is not showing; inside, the mini trace draws its pathLength while the fill scales off the baseline and the lot rows arrive on a cascade. A change in price is caught by comparing the incoming prop with the committed one during render — no clock — and each catch remounts a wash that flashes behind the change chip while the value swaps in a slot sized by an invisible copy of itself, so the row never reflows mid-tick. The header is a real aria-expanded button: Enter and Space toggle, Escape closes and returns focus.",
+      "files": [
+        {
+          "path": "registry/ui/holding-row.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-634"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "allocation-slider",
+      "type": "registry:ui",
+      "title": "Allocation Slider",
+      "description": "A stack of allocation sliders that always sum to 100. The row under the pointer is exact — its fill and thumb track the finger with duration 0, because direct manipulation must never lag behind the hand — while every other row eases to its new share on glide, so what you hold is instant and what answers is sprung. Whatever the held row gives up is shared out by largest remainder against a snapshot taken when the gesture began, so the whole numbers on screen sum to exactly 100 on every frame and the untouched rows keep their ratios. Each track is a real role=\"slider\": arrows step, Page keys move five, Home and End reach the ends of the pool, and a per-row lock switch takes that row out of the pool on snap.",
+      "files": [
+        {
+          "path": "registry/ui/allocation-slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-635"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dividend-calendar",
+      "type": "registry:ui",
+      "title": "Dividend Calendar",
+      "description": "A month of payouts on the days they land. Every paying day carries a drawn coin that drops from a shift above its cell and lands on recoil, staggered by cascade so a busy month stays inside the choreography budget, and the month total rolls on snap between months — up when the new month pays more. It is a real grid: arrows walk the days, Home and End reach the ends of a week, PageUp and PageDown change month, and pressing a day pins its reading until Escape.",
+      "files": [
+        {
+          "path": "registry/ui/dividend-calendar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-636"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gain-loss",
+      "type": "registry:ui",
+      "title": "Gain Loss Bar",
+      "description": "A holding's day measured from a centre line: gains grow right in success, losses grow left in danger, all scaled against the largest move so the longest bar reaches the edge. Bars unroll out of the axis on glide with a cascade on the first paint only, and the sort control re-orders the rows with FLIP on glide so a row travels to its place rather than blinking there. The sort is a radiogroup with a roving tabindex — arrows step, Home and End jump, Space selects.",
+      "files": [
+        {
+          "path": "registry/ui/gain-loss.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-637"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cost-basis",
+      "type": "registry:ui",
+      "title": "Cost Basis",
+      "description": "What you paid, against what it is worth. A neutral base fill runs to the paid mark and a coloured extension fills from there toward worth — right in success, left in danger — both as transforms settling on glide, and the per-share toggle rolls both figures on snap while the lane deliberately holds still, because dividing both numbers by the same share count changes no ratio. The toggle is a real switch reached by Tab and flipped with Space.",
+      "files": [
+        {
+          "path": "registry/ui/cost-basis.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-638"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "portfolio-pulse",
+      "type": "registry:ui",
+      "title": "Portfolio Pulse",
+      "description": "A whole book in one beat. Each tick rolls the total's digit columns one face on snap in the direction the money moved, extends the trace with a segment that draws on flick, and fires the beat dot — a ring that expands and fades on a tween over a dot landing back from 1.4× on flick — while a full window slides left by one pitch on glide from a motion value. After quietMs of no change the beat stills and one polite sentence is announced, never one per tick.",
+      "files": [
+        {
+          "path": "registry/ui/portfolio-pulse.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-639"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "watch-drag",
+      "type": "registry:ui",
+      "title": "Watch Drag",
+      "description": "A watchlist you rank by hand. Pressing a row's grip lifts it on flick and then tracks the pointer 1:1 with no easing, while the rows it passes make room with FLIP on glide, a dashed slot marks the place it will take, and the drop settles it there on glide before a cobalt wash leaves on the exit ease. Space lifts, Up and Down move, Home and End reach the ends, Space drops and Escape restores — every step announced by name and position.",
+      "files": [
+        {
+          "path": "registry/ui/watch-drag.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-640"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

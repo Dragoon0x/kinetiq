@@ -820,6 +820,16 @@ import { StopRailDemo } from "@/registry/demos/stop-rail.demo";
 import { DepthMoundDemo } from "@/registry/demos/depth-mound.demo";
 import { TradeConfirmDemo } from "@/registry/demos/trade-confirm.demo";
 import { MarketClockDemo } from "@/registry/demos/market-clock.demo";
+import { HoldingsRingDemo } from "@/registry/demos/holdings-ring.demo";
+import { PerformanceLineDemo } from "@/registry/demos/performance-line.demo";
+import { RebalanceBarsDemo } from "@/registry/demos/rebalance-bars.demo";
+import { HoldingRowDemo } from "@/registry/demos/holding-row.demo";
+import { AllocationSliderDemo } from "@/registry/demos/allocation-slider.demo";
+import { DividendCalendarDemo } from "@/registry/demos/dividend-calendar.demo";
+import { GainLossDemo } from "@/registry/demos/gain-loss.demo";
+import { CostBasisDemo } from "@/registry/demos/cost-basis.demo";
+import { PortfolioPulseDemo } from "@/registry/demos/portfolio-pulse.demo";
+import { WatchDragDemo } from "@/registry/demos/watch-drag.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1654,4 +1664,14 @@ export const demos: Record<string, ComponentType> = {
   "depth-mound": DepthMoundDemo,
   "trade-confirm": TradeConfirmDemo,
   "market-clock": MarketClockDemo,
+  "holdings-ring": HoldingsRingDemo,
+  "performance-line": PerformanceLineDemo,
+  "rebalance-bars": RebalanceBarsDemo,
+  "holding-row": HoldingRowDemo,
+  "allocation-slider": AllocationSliderDemo,
+  "dividend-calendar": DividendCalendarDemo,
+  "gain-loss": GainLossDemo,
+  "cost-basis": CostBasisDemo,
+  "portfolio-pulse": PortfolioPulseDemo,
+  "watch-drag": WatchDragDemo,
 };
