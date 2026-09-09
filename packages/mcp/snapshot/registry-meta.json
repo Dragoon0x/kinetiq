@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 689,
+      "components": 699,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -45324,6 +45324,836 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/credit-note",
         "bun": "bunx --bun shadcn@latest add @kinetiq/credit-note",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/credit-note.json"
+      }
+    },
+    {
+      "slug": "kyc-steps",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "KYC Steps",
+      "serial": "KQ-689",
+      "tagline": "Identity, one step at a time.",
+      "description": "A verification stepper whose steps unlock in sequence: only the current step is open, its body gliding open on glide from a measured height, and every later one stays locked until the step above is approved. Approval stamps the node on recoil, draws its tick on flick and fills the connector on glide as the next step unlocks; rejection shakes the card on a symmetric tween with no spring and reopens it with the reason. The only control is the open step's real button, reached by Tab and pressed with Enter or Space; every state arrives through the status prop, so the stepper never invents time.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "kyc",
+        "verification",
+        "identity",
+        "stepper",
+        "onboarding",
+        "review",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "steps",
+          "type": "KycStep[]",
+          "description": "{ id, title, description } in order; later steps stay locked until every earlier one is approved."
+        },
+        {
+          "name": "status / defaultStatus",
+          "type": "Record<string, KycStepStatus>",
+          "defaultValue": "{}",
+          "description": "Per-step status, review, approved or rejected; a step absent from the map is pending."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(status: Record<string, KycStepStatus>) => void",
+          "description": "Fires from the Submit press with the step moved to review."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(id: string) => void",
+          "description": "Fires from the Submit or Resubmit press; the host does the work and sets status."
+        },
+        {
+          "name": "reasons",
+          "type": "Record<string, string>",
+          "defaultValue": "{}",
+          "description": "Rejection reason per step id, shown under a rejected step as an alert."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the open step's Submit button; Enter and Space press it. Locked and approved steps have no control, and each step's aria-label sentence names its state.",
+        "A reviewing button carries aria-busy and keeps its name; approvals are announced once by a visually hidden role=\"status\", and a rejection reason is a role=\"alert\".",
+        "Under reduced motion the body still changes height on a tween, the check appears at rest, the ring holds still beside the words, and a rejected step turns danger without shaking."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/kyc-steps",
+      "registryItemUrl": "https://www.kinetiqui.com/r/kyc-steps.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/kyc-steps",
+        "npm": "npx shadcn@latest add @kinetiq/kyc-steps",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/kyc-steps",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/kyc-steps",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/kyc-steps.json"
+      }
+    },
+    {
+      "slug": "doc-scan",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Doc Scan",
+      "serial": "KQ-690",
+      "tagline": "Hold the document still.",
+      "description": "A viewfinder for a hand-held identity document. Idle, the procedural card sits off centre and breathes; Capture settles it on glide while four corner brackets snap in from the frame's corners onto the card's on snap, then a bar sweeps the card on a linear tween and hands the capture to the host. Captured flashes once and stamps a check on recoil; blurred is the nudge, a filter blur, a sideways shake with no spring, released brackets and a Retry. One real button carries the whole flow for the keyboard, and the brackets are placed in percentages so the frame is sized by its container and never measured.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "document",
+        "scan",
+        "capture",
+        "viewfinder",
+        "identity",
+        "kyc",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "status / defaultStatus",
+          "type": "DocScanStatus",
+          "defaultValue": "\"idle\"",
+          "description": "Controlled or initial phase: idle, finding, scanning, captured or blurred."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(status: DocScanStatus) => void",
+          "description": "Fires from Capture (to finding), from the brackets landing (to scanning) and from Retry."
+        },
+        {
+          "name": "onScanned",
+          "type": "() => void",
+          "description": "Fires when the scan bar reaches the bottom; the host judges the capture and sets captured or blurred."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Identity document\"",
+          "description": "Printed on the procedural card and in the frame's accessible name."
+        },
+        {
+          "name": "holder",
+          "type": "string",
+          "defaultValue": "\"A. Fernwork\"",
+          "description": "Name line on the procedural card."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the Capture button; Enter and Space press it. The same button reads Scanning (aria-busy) while the frame works, Retry after a blurred capture and Captured, aria-disabled, at the end.",
+        "The frame is a role=\"img\" whose label names the document and the phase; phases are announced once by a visually hidden role=\"status\", and the blurred prompt is a role=\"alert\".",
+        "Under reduced motion the card sits centred from the start, the brackets fade in at the corners, the bar still sweeps and the blur still blurs, and nothing shakes or bounces."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/doc-scan",
+      "registryItemUrl": "https://www.kinetiqui.com/r/doc-scan.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/doc-scan",
+        "npm": "npx shadcn@latest add @kinetiq/doc-scan",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/doc-scan",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/doc-scan",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/doc-scan.json"
+      }
+    },
+    {
+      "slug": "selfie-ring",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Selfie Ring",
+      "serial": "KQ-691",
+      "tagline": "Look into the ring.",
+      "description": "A liveness check drawn as a ring around a procedural face. Each prompt slides up into the caption on snap while the ring fills one more segment on glide, and the face answers: features glide left or right, the eyes blink on a tween. Passing the last prompt closes the ring: the arc completes, the ring tightens onto the face on recoil and a check disc stamps at the top; failure drains the ring on glide with no bounce. The ring is a progressbar whose valuetext names the prompt, one real button starts or retries the check, and the host advances step and status so the ring owns no clock.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "selfie",
+        "liveness",
+        "face",
+        "ring",
+        "identity",
+        "kyc",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "prompts",
+          "type": "string[]",
+          "defaultValue": "[\"Centre your face\", \"Turn left\", \"Turn right\", \"Blink\"]",
+          "description": "The prompts in order, one ring segment each; prompts that mention left, right or blink move the face."
+        },
+        {
+          "name": "status / defaultStatus",
+          "type": "SelfieRingStatus",
+          "defaultValue": "\"idle\"",
+          "description": "idle, checking, passed or failed."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(status: SelfieRingStatus) => void",
+          "description": "Fires from the Start and Try again presses with checking."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Index of the prompt being held while checking; earlier prompts count as done."
+        },
+        {
+          "name": "onStart",
+          "type": "() => void",
+          "description": "Fires from the Start or Try again press; the host runs the camera check."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the Start button; Enter and Space press it. While checking it reads Checking with aria-busy, and after a failure it returns as Try again.",
+        "The ring is a role=\"progressbar\" with aria-valuenow, min, max and a valuetext that names the current prompt; the caption is a role=\"status\" so each prompt is announced once, and Face lost is a role=\"alert\".",
+        "Under reduced motion prompts swap in place, the face holds still, the ring still fills segment by segment on a tween, and the close neither tightens nor bounces."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/selfie-ring",
+      "registryItemUrl": "https://www.kinetiqui.com/r/selfie-ring.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/selfie-ring",
+        "npm": "npx shadcn@latest add @kinetiq/selfie-ring",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/selfie-ring",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/selfie-ring",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/selfie-ring.json"
+      }
+    },
+    {
+      "slug": "otp-cells",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "OTP Cells",
+      "serial": "KQ-692",
+      "tagline": "Six digits, verified as they land.",
+      "description": "Six real inputs, one digit each, that behave as one field. A paste, from the clipboard or from a value that arrives several digits at once, lands the digits in a cascade, each popping in on snap staggered by cascade(); the last digit triggers verification from a timer once the cascade has landed, and while the host holds verifying a dash runs around the last cell at a constant rate. Verified stamps a tick badge onto the last cell on recoil; failed shakes the row on a symmetric tween with no spring, clears it and returns focus to the first cell. Left and Right move, Home and End jump, Backspace clears and steps back.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "otp",
+        "one-time code",
+        "verification",
+        "cells",
+        "paste",
+        "sign-in",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "length",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Number of cells."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial code, digits only; longer input is truncated."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(code: string) => void",
+          "description": "Fires from typing, paste and the clear after a failure."
+        },
+        {
+          "name": "onComplete",
+          "type": "(code: string) => void",
+          "description": "Fires once from a timer after the last digit lands; re-arms when the code shrinks."
+        },
+        {
+          "name": "status",
+          "type": "OtpCellsStatus",
+          "defaultValue": "\"idle\"",
+          "description": "idle, verifying, verified or failed, set by the host once onComplete has fired."
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "defaultValue": "\"That code did not match.\"",
+          "description": "The alert line under the row while status is failed."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Group name for assistive technology."
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "description": "Visible line under the label, e.g. where the code was sent."
+        }
+      ],
+      "usageNotes": [
+        "Tab enters the row at the first empty cell; digits type and advance, Backspace clears and steps back, Delete clears in place, Left and Right move, Home and End jump. A paste into any cell fills from there.",
+        "The group carries aria-busy while verifying and a visually hidden role=\"status\" announces Verifying and Verified once each; the error line is a role=\"alert\" wired by aria-describedby, and the inputs are read-only once verification starts.",
+        "Under reduced motion digits appear in place with no stagger, the dash holds still and the words carry the state, the badge appears at rest, and a failure clears the row without shaking."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/otp-cells",
+      "registryItemUrl": "https://www.kinetiqui.com/r/otp-cells.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/otp-cells",
+        "npm": "npx shadcn@latest add @kinetiq/otp-cells",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/otp-cells",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/otp-cells",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/otp-cells.json"
+      }
+    },
+    {
+      "slug": "device-trust",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Device Trust",
+      "serial": "KQ-693",
+      "tagline": "This device, remembered.",
+      "description": "A card for one signed-in device with a single control that grants or revokes trust. Approval stamps a round seal onto the card on recoil, the two bounces of a stamp on paper, with an impact ring spreading from under it and its tick drawing on flick. Hovering or focusing Revoke lifts the seal's edge on glide so the peel is previewed, and revoking peels it away: the seal rotates off its left edge on the exit ease with perspective and fades, with no bounce on the way out. The button is the only control, busy while the host is pending, and trust changes are announced once.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "device",
+        "trust",
+        "seal",
+        "session",
+        "security",
+        "remember",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "trusted / defaultTrusted",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial trust."
+        },
+        {
+          "name": "onTrustedChange",
+          "type": "(trusted: boolean) => void",
+          "description": "Fires from the Revoke press with false; granting goes through onTrust."
+        },
+        {
+          "name": "onTrust",
+          "type": "() => void",
+          "description": "Fires from the Trust press; the host approves and sets trusted."
+        },
+        {
+          "name": "pending",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The host is approving: the button turns its ring and is aria-busy."
+        },
+        {
+          "name": "device",
+          "type": "DeviceTrustDevice",
+          "description": "{ name, platform, location, lastSeen, kind: \"laptop\" | \"phone\" }; lastSeen is a static string."
+        },
+        {
+          "name": "days",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "How long a trusted device is remembered; printed in the footer line."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the one button; Enter and Space press it. It reads Trust this device, Approving with aria-busy while pending, and Revoke trust once trusted; hovering or focusing Revoke lifts the seal's edge.",
+        "The card is a role=\"group\" named by the heading or the device; the seal is decorative, and a visually hidden role=\"status\" announces Trusted for n days and Trust revoked once each.",
+        "Under reduced motion the seal appears at rest with its tick drawn and no impact ring, the ring holds still beside the word, the lift is skipped, and revoking fades the seal out."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/device-trust",
+      "registryItemUrl": "https://www.kinetiqui.com/r/device-trust.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/device-trust",
+        "npm": "npx shadcn@latest add @kinetiq/device-trust",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/device-trust",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/device-trust",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/device-trust.json"
+      }
+    },
+    {
+      "slug": "risk-hold",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Risk Hold",
+      "serial": "KQ-694",
+      "tagline": "Held for a look, then released.",
+      "description": "A payment held for review. The notice beneath the row drains a review ring across the window and releases at zero, or sooner when a reviewer presses Release: the notice slides away on the exit ease while its height closes, and the row's chip turns to Sent with a tick drawn on flick. Escalate stops the ring and turns the notice amber by colour alone; the notice itself arrives on glide, and both controls are real buttons one Tab apart.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "hold",
+        "review",
+        "risk",
+        "payment",
+        "timer",
+        "escalate",
+        "release"
+      ],
+      "props": [
+        {
+          "name": "status / defaultStatus",
+          "type": "\"held\" | \"released\" | \"escalated\"",
+          "defaultValue": "\"held\"",
+          "description": "Controlled or initial state of the hold."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(status, cause: \"reviewer\" | \"timer\") => void",
+          "description": "Fires from the press, or from the ring running out with cause \"timer\"."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The held sum, in symbol."
+        },
+        {
+          "name": "symbol",
+          "type": "string",
+          "description": "Asset code shown after the amount."
+        },
+        {
+          "name": "payee",
+          "type": "string",
+          "description": "Who the payment goes to."
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "defaultValue": "\"New payee\"",
+          "description": "Why it was held."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "description": "Formats the amount; defaults to a two-decimal number format."
+        },
+        {
+          "name": "reviewMs",
+          "type": "number",
+          "defaultValue": "10000",
+          "description": "The review window; the ring drains across it and releases at zero."
+        },
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "Release and Escalate are real buttons: Tab reaches each, Enter or Space presses. Escalate becomes aria-disabled once escalated so the keyboard can still read why it will not move.",
+        "Under reduced motion the ring still drains and the readout still counts; the notice fades and closes without sliding, and the amber turn is instant.",
+        "The ring pauses while the tab is hidden and resumes from where it stood; a status change is announced once through a polite status region, never per second."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/risk-hold",
+      "registryItemUrl": "https://www.kinetiqui.com/r/risk-hold.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/risk-hold",
+        "npm": "npx shadcn@latest add @kinetiq/risk-hold",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/risk-hold",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/risk-hold",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/risk-hold.json"
+      }
+    },
+    {
+      "slug": "two-factor",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Two Factor",
+      "serial": "KQ-695",
+      "tagline": "The second key, arriving.",
+      "description": "A sign-in confirmation with two routes on a tablist: a code, or an approval on a device. The knob slides between them on snap while the panel glides to a measured height; the code field's next empty cell holds a caret that pulses while the prompt waits and each digit lands on flick, and the device route draws a phone whose screen breathes on drift until approval lights it. Either route ending in verified stamps a chip into the header on recoil; a wrong code nudges the cells on snap, raises an alert and clears.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "2fa",
+        "two-factor",
+        "code",
+        "otp",
+        "device",
+        "approve",
+        "sign-in"
+      ],
+      "props": [
+        {
+          "name": "method / defaultMethod",
+          "type": "\"code\" | \"device\"",
+          "defaultValue": "\"code\"",
+          "description": "Which route is showing."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The code, digits only. A controlled host clears it after a failure."
+        },
+        {
+          "name": "status / defaultStatus",
+          "type": "\"waiting\" | \"checking\" | \"verified\" | \"failed\"",
+          "defaultValue": "\"waiting\"",
+          "description": "The outcome; the host decides it. A submit moves the component to checking."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(code: string) => void",
+          "description": "Fires when the last digit lands, or Enter is pressed on a full code."
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Digits in the code."
+        },
+        {
+          "name": "deviceName",
+          "type": "string",
+          "defaultValue": "\"your device\"",
+          "description": "Named in the device route and its announcements."
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "defaultValue": "\"That code did not match.\"",
+          "description": "The alert line under failed."
+        },
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "The routes are real tabs: Left and Right, Home and End move and select. The code is one real numeric input under the cells, so typing, Backspace, paste and Enter all work; the last digit submits.",
+        "Under reduced motion the caret is solid, digits appear in place, the panel swaps height instantly with a cross-fade, the device screen lights by colour, and the stamp fades in.",
+        "The caret pulse and the screen's breathing rest while the tab is hidden. Outcomes are announced politely once; a failure is an alert."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/two-factor",
+      "registryItemUrl": "https://www.kinetiqui.com/r/two-factor.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/two-factor",
+        "npm": "npx shadcn@latest add @kinetiq/two-factor",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/two-factor",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/two-factor",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/two-factor.json"
+      }
+    },
+    {
+      "slug": "session-list",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Session List",
+      "serial": "KQ-696",
+      "tagline": "Everywhere you are signed in.",
+      "description": "A list of signed-in sessions where the one reading the list breathes: its chip's dot wears a halo that swells and settles on drift, mirrored, resting while the tab is hidden. Signing one out slides the row aside by a shift while its measured height closes on the exit ease, so the rows below glide up; signing out all cascades the exits top to bottom on cascade(), the order carried through AnimatePresence's custom to rows already removed. Every Sign out is a real button named after its device.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "sessions",
+        "sign out",
+        "devices",
+        "security",
+        "account",
+        "list",
+        "cascade"
+      ],
+      "props": [
+        {
+          "name": "sessions",
+          "type": "SessionItem[]",
+          "description": "{ id, device, kind: \"phone\" | \"laptop\" | \"tablet\", place, seen, current? } — the host owns the list."
+        },
+        {
+          "name": "onSignOut",
+          "type": "(id: string) => void",
+          "description": "Fires from the row's button; the host removes the session and the row leaves."
+        },
+        {
+          "name": "onSignOutAll",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the footer with every non-current id; their rows leave in a cascade."
+        },
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "description": "List heading."
+        },
+        {
+          "name": "currentLabel",
+          "type": "string",
+          "defaultValue": "\"This device\"",
+          "description": "Chip text on the live row."
+        },
+        {
+          "name": "signOutAllLabel",
+          "type": "string",
+          "defaultValue": "\"Sign out all other sessions\"",
+          "description": "Footer control."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches each Sign out and the footer; Enter or Space presses. After a sign-out, focus is handed to the next row or the footer before the row leaves.",
+        "Under reduced motion the live dot sits inside a still ring, rows fade and close without sideways travel, and the cascade keeps its order as fades.",
+        "The live row is named in words — the chip says This device — so presence never rests on colour or motion alone; sign-outs are announced once through a polite status region."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/session-list",
+      "registryItemUrl": "https://www.kinetiqui.com/r/session-list.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/session-list",
+        "npm": "npx shadcn@latest add @kinetiq/session-list",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/session-list",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/session-list",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/session-list.json"
+      }
+    },
+    {
+      "slug": "liveness-dots",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Liveness Dots",
+      "serial": "KQ-697",
+      "tagline": "Follow the dot.",
+      "description": "A liveness check where a dot travels on glide to each of N stops and waits; catching it there — the pointer entering it, a press, or Space and Enter while it holds focus — stamps the stop with a ring that lands on recoil and stays, while a stop left uncaught is marked with a still dashed ring. When the last stop resolves, a clean run draws a closed loop through every stop with pathLength on glide and a tick lands at the centre; any miss ends in a plain count and a Try again.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "liveness",
+        "verification",
+        "dot",
+        "follow",
+        "challenge",
+        "identity",
+        "check"
+      ],
+      "props": [
+        {
+          "name": "positions",
+          "type": "{ x: number; y: number }[]",
+          "description": "Where the dot stops, in order, as 0–100 percentages of the stage; six seeded stops by default."
+        },
+        {
+          "name": "windowMs",
+          "type": "number",
+          "defaultValue": "1600",
+          "description": "How long the dot waits at each stop before moving on."
+        },
+        {
+          "name": "status / defaultStatus",
+          "type": "\"idle\" | \"running\" | \"passed\" | \"failed\"",
+          "defaultValue": "\"idle\"",
+          "description": "Controlled or initial state of the check; setting running starts a fresh run."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(status) => void",
+          "description": "Fires from the press or the timer that moved the check."
+        },
+        {
+          "name": "onResolve",
+          "type": "(index: number, caught: boolean) => void",
+          "description": "Fires as each stop is caught or missed."
+        },
+        {
+          "name": "label",
+          "type": "ReactNode",
+          "description": "Visible heading; omit it and pass aria-label."
+        }
+      ],
+      "usageNotes": [
+        "The dot is a real button that takes focus when the check starts and keeps it as it travels: Space or Enter at each stop is the keyboard path, and the pointer entering the dot counts as a catch.",
+        "Under reduced motion the dot swaps between stops, the rings and the loop appear in place, and the wait window is unchanged.",
+        "The window lives in an effect with cleanup and waits while the tab is hidden; each stop and the outcome are announced once through a polite status region."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/liveness-dots",
+      "registryItemUrl": "https://www.kinetiqui.com/r/liveness-dots.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/liveness-dots",
+        "npm": "npx shadcn@latest add @kinetiq/liveness-dots",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/liveness-dots",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/liveness-dots",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/liveness-dots.json"
+      }
+    },
+    {
+      "slug": "verified-seal",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Verified Seal",
+      "serial": "KQ-698",
+      "tagline": "Checked, and it says so.",
+      "description": "A profile header that wears a rosette seal beside the name once verified. The moment the fact turns true the seal stamps on recoil from 1.6× and −14°, and when the stamp settles a highlight sweeps across it once on a slow tween: the glint. Hovering or focusing the seal opens a strip beneath the header to a measured height on glide, listing what was verified and when with each tick drawn on flick in a cascade; a press pins it, Escape closes it, and revoking lifts the seal away on the exit ease.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "verified",
+        "seal",
+        "badge",
+        "profile",
+        "trust",
+        "identity",
+        "stamp"
+      ],
+      "props": [
+        {
+          "name": "verified",
+          "type": "boolean",
+          "description": "The fact. Turning true stamps the seal; turning false lifts it away. A profile that mounts verified does not stamp."
+        },
+        {
+          "name": "checks",
+          "type": "{ id: string; label: string; at: string }[]",
+          "description": "What was verified and when, preformatted."
+        },
+        {
+          "name": "verifiedAt",
+          "type": "string",
+          "description": "When the seal was granted, preformatted, shown at the head of the strip."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Profile name; its first letters fill the avatar unless initials is given."
+        },
+        {
+          "name": "handle",
+          "type": "string",
+          "description": "Secondary line under the name."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial pinned state of the detail strip; hover and focus open it on their own."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the seal press or Escape."
+        },
+        {
+          "name": "sealLabel",
+          "type": "string",
+          "defaultValue": "\"Verified\"",
+          "description": "The seal's name for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The seal is a real button with aria-expanded: Tab to it and the strip opens, Enter or Space pins it, Escape closes it and keeps focus on the seal.",
+        "Under reduced motion the seal fades in and out with no rotation, scale or glint; the strip swaps height with a cross-fade and the ticks appear complete.",
+        "The strip is only rendered while open, so nothing reserves space; the name's line height matches the seal's box, so the row never jumps when the seal lands."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/verified-seal",
+      "registryItemUrl": "https://www.kinetiqui.com/r/verified-seal.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/verified-seal",
+        "npm": "npx shadcn@latest add @kinetiq/verified-seal",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/verified-seal",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/verified-seal",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/verified-seal.json"
       }
     },
     {

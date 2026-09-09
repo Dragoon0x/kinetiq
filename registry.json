@@ -19276,6 +19276,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "kyc-steps",
+      "type": "registry:ui",
+      "title": "KYC Steps",
+      "description": "A verification stepper whose steps unlock in sequence: only the current step is open, its body gliding open on glide from a measured height, and every later one stays locked until the step above is approved. Approval stamps the node on recoil, draws its tick on flick and fills the connector on glide as the next step unlocks; rejection shakes the card on a symmetric tween with no spring and reopens it with the reason. The only control is the open step's real button, reached by Tab and pressed with Enter or Space; every state arrives through the status prop, so the stepper never invents time.",
+      "files": [
+        {
+          "path": "registry/ui/kyc-steps.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-689"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "doc-scan",
+      "type": "registry:ui",
+      "title": "Doc Scan",
+      "description": "A viewfinder for a hand-held identity document. Idle, the procedural card sits off centre and breathes; Capture settles it on glide while four corner brackets snap in from the frame's corners onto the card's on snap, then a bar sweeps the card on a linear tween and hands the capture to the host. Captured flashes once and stamps a check on recoil; blurred is the nudge, a filter blur, a sideways shake with no spring, released brackets and a Retry. One real button carries the whole flow for the keyboard, and the brackets are placed in percentages so the frame is sized by its container and never measured.",
+      "files": [
+        {
+          "path": "registry/ui/doc-scan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-690"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "selfie-ring",
+      "type": "registry:ui",
+      "title": "Selfie Ring",
+      "description": "A liveness check drawn as a ring around a procedural face. Each prompt slides up into the caption on snap while the ring fills one more segment on glide, and the face answers: features glide left or right, the eyes blink on a tween. Passing the last prompt closes the ring: the arc completes, the ring tightens onto the face on recoil and a check disc stamps at the top; failure drains the ring on glide with no bounce. The ring is a progressbar whose valuetext names the prompt, one real button starts or retries the check, and the host advances step and status so the ring owns no clock.",
+      "files": [
+        {
+          "path": "registry/ui/selfie-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-691"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "otp-cells",
+      "type": "registry:ui",
+      "title": "OTP Cells",
+      "description": "Six real inputs, one digit each, that behave as one field. A paste, from the clipboard or from a value that arrives several digits at once, lands the digits in a cascade, each popping in on snap staggered by cascade(); the last digit triggers verification from a timer once the cascade has landed, and while the host holds verifying a dash runs around the last cell at a constant rate. Verified stamps a tick badge onto the last cell on recoil; failed shakes the row on a symmetric tween with no spring, clears it and returns focus to the first cell. Left and Right move, Home and End jump, Backspace clears and steps back.",
+      "files": [
+        {
+          "path": "registry/ui/otp-cells.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-692"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "device-trust",
+      "type": "registry:ui",
+      "title": "Device Trust",
+      "description": "A card for one signed-in device with a single control that grants or revokes trust. Approval stamps a round seal onto the card on recoil, the two bounces of a stamp on paper, with an impact ring spreading from under it and its tick drawing on flick. Hovering or focusing Revoke lifts the seal's edge on glide so the peel is previewed, and revoking peels it away: the seal rotates off its left edge on the exit ease with perspective and fades, with no bounce on the way out. The button is the only control, busy while the host is pending, and trust changes are announced once.",
+      "files": [
+        {
+          "path": "registry/ui/device-trust.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-693"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "risk-hold",
+      "type": "registry:ui",
+      "title": "Risk Hold",
+      "description": "A payment held for review. The notice beneath the row drains a review ring across the window and releases at zero, or sooner when a reviewer presses Release: the notice slides away on the exit ease while its height closes, and the row's chip turns to Sent with a tick drawn on flick. Escalate stops the ring and turns the notice amber by colour alone; the notice itself arrives on glide, and both controls are real buttons one Tab apart.",
+      "files": [
+        {
+          "path": "registry/ui/risk-hold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-694"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "two-factor",
+      "type": "registry:ui",
+      "title": "Two Factor",
+      "description": "A sign-in confirmation with two routes on a tablist: a code, or an approval on a device. The knob slides between them on snap while the panel glides to a measured height; the code field's next empty cell holds a caret that pulses while the prompt waits and each digit lands on flick, and the device route draws a phone whose screen breathes on drift until approval lights it. Either route ending in verified stamps a chip into the header on recoil; a wrong code nudges the cells on snap, raises an alert and clears.",
+      "files": [
+        {
+          "path": "registry/ui/two-factor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-695"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "session-list",
+      "type": "registry:ui",
+      "title": "Session List",
+      "description": "A list of signed-in sessions where the one reading the list breathes: its chip's dot wears a halo that swells and settles on drift, mirrored, resting while the tab is hidden. Signing one out slides the row aside by a shift while its measured height closes on the exit ease, so the rows below glide up; signing out all cascades the exits top to bottom on cascade(), the order carried through AnimatePresence's custom to rows already removed. Every Sign out is a real button named after its device.",
+      "files": [
+        {
+          "path": "registry/ui/session-list.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-696"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "liveness-dots",
+      "type": "registry:ui",
+      "title": "Liveness Dots",
+      "description": "A liveness check where a dot travels on glide to each of N stops and waits; catching it there — the pointer entering it, a press, or Space and Enter while it holds focus — stamps the stop with a ring that lands on recoil and stays, while a stop left uncaught is marked with a still dashed ring. When the last stop resolves, a clean run draws a closed loop through every stop with pathLength on glide and a tick lands at the centre; any miss ends in a plain count and a Try again.",
+      "files": [
+        {
+          "path": "registry/ui/liveness-dots.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-697"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "verified-seal",
+      "type": "registry:ui",
+      "title": "Verified Seal",
+      "description": "A profile header that wears a rosette seal beside the name once verified. The moment the fact turns true the seal stamps on recoil from 1.6× and −14°, and when the stamp settles a highlight sweeps across it once on a slow tween: the glint. Hovering or focusing the seal opens a strip beneath the header to a measured height on glide, listing what was verified and when with each tick drawn on flick in a cascade; a press pins it, Escape closes it, and revoking lifts the seal away on the exit ease.",
+      "files": [
+        {
+          "path": "registry/ui/verified-seal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-698"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -880,6 +880,16 @@ import { TaxSplitDemo } from "@/registry/demos/tax-split.demo";
 import { ProrationBarDemo } from "@/registry/demos/proration-bar.demo";
 import { DunningStepsDemo } from "@/registry/demos/dunning-steps.demo";
 import { CreditNoteDemo } from "@/registry/demos/credit-note.demo";
+import { KycStepsDemo } from "@/registry/demos/kyc-steps.demo";
+import { DocScanDemo } from "@/registry/demos/doc-scan.demo";
+import { SelfieRingDemo } from "@/registry/demos/selfie-ring.demo";
+import { OtpCellsDemo } from "@/registry/demos/otp-cells.demo";
+import { DeviceTrustDemo } from "@/registry/demos/device-trust.demo";
+import { RiskHoldDemo } from "@/registry/demos/risk-hold.demo";
+import { TwoFactorDemo } from "@/registry/demos/two-factor.demo";
+import { SessionListDemo } from "@/registry/demos/session-list.demo";
+import { LivenessDotsDemo } from "@/registry/demos/liveness-dots.demo";
+import { VerifiedSealDemo } from "@/registry/demos/verified-seal.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1774,4 +1784,14 @@ export const demos: Record<string, ComponentType> = {
   "proration-bar": ProrationBarDemo,
   "dunning-steps": DunningStepsDemo,
   "credit-note": CreditNoteDemo,
+  "kyc-steps": KycStepsDemo,
+  "doc-scan": DocScanDemo,
+  "selfie-ring": SelfieRingDemo,
+  "otp-cells": OtpCellsDemo,
+  "device-trust": DeviceTrustDemo,
+  "risk-hold": RiskHoldDemo,
+  "two-factor": TwoFactorDemo,
+  "session-list": SessionListDemo,
+  "liveness-dots": LivenessDotsDemo,
+  "verified-seal": VerifiedSealDemo,
 };

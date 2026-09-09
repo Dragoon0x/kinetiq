@@ -12322,6 +12322,216 @@ Notes:
 - Under reduced motion there is no flight: the figures swap on the press, the hatch tweens on the base duration, and the button re-enables at once.
 - All arithmetic is in whole cents, so applied plus remaining always equals the credit and subtotal minus applied always equals the total due.
 
+### KYC Steps (KQ-689) — `kyc-steps`
+Identity, one step at a time.
+
+A verification stepper whose steps unlock in sequence: only the current step is open, its body gliding open on glide from a measured height, and every later one stays locked until the step above is approved. Approval stamps the node on recoil, draws its tick on flick and fills the connector on glide as the next step unlocks; rejection shakes the card on a symmetric tween with no spring and reopens it with the reason. The only control is the open step's real button, reached by Tab and pressed with Enter or Space; every state arrives through the status prop, so the stepper never invents time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/kyc-steps`
+
+Props:
+- `steps`: KycStep[] — { id, title, description } in order; later steps stay locked until every earlier one is approved.
+- `status / defaultStatus`: Record<string, KycStepStatus> (default {}) — Per-step status, review, approved or rejected; a step absent from the map is pending.
+- `onStatusChange`: (status: Record<string, KycStepStatus>) => void — Fires from the Submit press with the step moved to review.
+- `onSubmit`: (id: string) => void — Fires from the Submit or Resubmit press; the host does the work and sets status.
+- `reasons`: Record<string, string> (default {}) — Rejection reason per step id, shown under a rejected step as an alert.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Tab reaches the open step's Submit button; Enter and Space press it. Locked and approved steps have no control, and each step's aria-label sentence names its state.
+- A reviewing button carries aria-busy and keeps its name; approvals are announced once by a visually hidden role="status", and a rejection reason is a role="alert".
+- Under reduced motion the body still changes height on a tween, the check appears at rest, the ring holds still beside the words, and a rejected step turns danger without shaking.
+
+### Doc Scan (KQ-690) — `doc-scan`
+Hold the document still.
+
+A viewfinder for a hand-held identity document. Idle, the procedural card sits off centre and breathes; Capture settles it on glide while four corner brackets snap in from the frame's corners onto the card's on snap, then a bar sweeps the card on a linear tween and hands the capture to the host. Captured flashes once and stamps a check on recoil; blurred is the nudge, a filter blur, a sideways shake with no spring, released brackets and a Retry. One real button carries the whole flow for the keyboard, and the brackets are placed in percentages so the frame is sized by its container and never measured.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/doc-scan`
+
+Props:
+- `status / defaultStatus`: DocScanStatus (default "idle") — Controlled or initial phase: idle, finding, scanning, captured or blurred.
+- `onStatusChange`: (status: DocScanStatus) => void — Fires from Capture (to finding), from the brackets landing (to scanning) and from Retry.
+- `onScanned`: () => void — Fires when the scan bar reaches the bottom; the host judges the capture and sets captured or blurred.
+- `title`: string (default "Identity document") — Printed on the procedural card and in the frame's accessible name.
+- `holder`: string (default "A. Fernwork") — Name line on the procedural card.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Tab reaches the Capture button; Enter and Space press it. The same button reads Scanning (aria-busy) while the frame works, Retry after a blurred capture and Captured, aria-disabled, at the end.
+- The frame is a role="img" whose label names the document and the phase; phases are announced once by a visually hidden role="status", and the blurred prompt is a role="alert".
+- Under reduced motion the card sits centred from the start, the brackets fade in at the corners, the bar still sweeps and the blur still blurs, and nothing shakes or bounces.
+
+### Selfie Ring (KQ-691) — `selfie-ring`
+Look into the ring.
+
+A liveness check drawn as a ring around a procedural face. Each prompt slides up into the caption on snap while the ring fills one more segment on glide, and the face answers: features glide left or right, the eyes blink on a tween. Passing the last prompt closes the ring: the arc completes, the ring tightens onto the face on recoil and a check disc stamps at the top; failure drains the ring on glide with no bounce. The ring is a progressbar whose valuetext names the prompt, one real button starts or retries the check, and the host advances step and status so the ring owns no clock.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/selfie-ring`
+
+Props:
+- `prompts`: string[] (default ["Centre your face", "Turn left", "Turn right", "Blink"]) — The prompts in order, one ring segment each; prompts that mention left, right or blink move the face.
+- `status / defaultStatus`: SelfieRingStatus (default "idle") — idle, checking, passed or failed.
+- `onStatusChange`: (status: SelfieRingStatus) => void — Fires from the Start and Try again presses with checking.
+- `step`: number (default 0) — Index of the prompt being held while checking; earlier prompts count as done.
+- `onStart`: () => void — Fires from the Start or Try again press; the host runs the camera check.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Tab reaches the Start button; Enter and Space press it. While checking it reads Checking with aria-busy, and after a failure it returns as Try again.
+- The ring is a role="progressbar" with aria-valuenow, min, max and a valuetext that names the current prompt; the caption is a role="status" so each prompt is announced once, and Face lost is a role="alert".
+- Under reduced motion prompts swap in place, the face holds still, the ring still fills segment by segment on a tween, and the close neither tightens nor bounces.
+
+### OTP Cells (KQ-692) — `otp-cells`
+Six digits, verified as they land.
+
+Six real inputs, one digit each, that behave as one field. A paste, from the clipboard or from a value that arrives several digits at once, lands the digits in a cascade, each popping in on snap staggered by cascade(); the last digit triggers verification from a timer once the cascade has landed, and while the host holds verifying a dash runs around the last cell at a constant rate. Verified stamps a tick badge onto the last cell on recoil; failed shakes the row on a symmetric tween with no spring, clears it and returns focus to the first cell. Left and Right move, Home and End jump, Backspace clears and steps back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/otp-cells`
+
+Props:
+- `length`: number (default 6) — Number of cells.
+- `value / defaultValue`: string (default "") — Controlled or initial code, digits only; longer input is truncated.
+- `onValueChange`: (code: string) => void — Fires from typing, paste and the clear after a failure.
+- `onComplete`: (code: string) => void — Fires once from a timer after the last digit lands; re-arms when the code shrinks.
+- `status`: OtpCellsStatus (default "idle") — idle, verifying, verified or failed, set by the host once onComplete has fired.
+- `errorMessage`: string (default "That code did not match.") — The alert line under the row while status is failed.
+- `label`: string — Group name for assistive technology.
+- `hint`: string — Visible line under the label, e.g. where the code was sent.
+
+Notes:
+- Tab enters the row at the first empty cell; digits type and advance, Backspace clears and steps back, Delete clears in place, Left and Right move, Home and End jump. A paste into any cell fills from there.
+- The group carries aria-busy while verifying and a visually hidden role="status" announces Verifying and Verified once each; the error line is a role="alert" wired by aria-describedby, and the inputs are read-only once verification starts.
+- Under reduced motion digits appear in place with no stagger, the dash holds still and the words carry the state, the badge appears at rest, and a failure clears the row without shaking.
+
+### Device Trust (KQ-693) — `device-trust`
+This device, remembered.
+
+A card for one signed-in device with a single control that grants or revokes trust. Approval stamps a round seal onto the card on recoil, the two bounces of a stamp on paper, with an impact ring spreading from under it and its tick drawing on flick. Hovering or focusing Revoke lifts the seal's edge on glide so the peel is previewed, and revoking peels it away: the seal rotates off its left edge on the exit ease with perspective and fades, with no bounce on the way out. The button is the only control, busy while the host is pending, and trust changes are announced once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/device-trust`
+
+Props:
+- `trusted / defaultTrusted`: boolean (default false) — Controlled or initial trust.
+- `onTrustedChange`: (trusted: boolean) => void — Fires from the Revoke press with false; granting goes through onTrust.
+- `onTrust`: () => void — Fires from the Trust press; the host approves and sets trusted.
+- `pending`: boolean (default false) — The host is approving: the button turns its ring and is aria-busy.
+- `device`: DeviceTrustDevice — { name, platform, location, lastSeen, kind: "laptop" | "phone" }; lastSeen is a static string.
+- `days`: number (default 30) — How long a trusted device is remembered; printed in the footer line.
+- `label`: React.ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Tab reaches the one button; Enter and Space press it. It reads Trust this device, Approving with aria-busy while pending, and Revoke trust once trusted; hovering or focusing Revoke lifts the seal's edge.
+- The card is a role="group" named by the heading or the device; the seal is decorative, and a visually hidden role="status" announces Trusted for n days and Trust revoked once each.
+- Under reduced motion the seal appears at rest with its tick drawn and no impact ring, the ring holds still beside the word, the lift is skipped, and revoking fades the seal out.
+
+### Risk Hold (KQ-694) — `risk-hold`
+Held for a look, then released.
+
+A payment held for review. The notice beneath the row drains a review ring across the window and releases at zero, or sooner when a reviewer presses Release: the notice slides away on the exit ease while its height closes, and the row's chip turns to Sent with a tick drawn on flick. Escalate stops the ring and turns the notice amber by colour alone; the notice itself arrives on glide, and both controls are real buttons one Tab apart.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/risk-hold`
+
+Props:
+- `status / defaultStatus`: "held" | "released" | "escalated" (default "held") — Controlled or initial state of the hold.
+- `onStatusChange`: (status, cause: "reviewer" | "timer") => void — Fires from the press, or from the ring running out with cause "timer".
+- `amount`: number — The held sum, in symbol.
+- `symbol`: string — Asset code shown after the amount.
+- `payee`: string — Who the payment goes to.
+- `reason`: string (default "New payee") — Why it was held.
+- `format`: (value: number) => string — Formats the amount; defaults to a two-decimal number format.
+- `reviewMs`: number (default 10000) — The review window; the ring drains across it and releases at zero.
+- `label`: ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- Release and Escalate are real buttons: Tab reaches each, Enter or Space presses. Escalate becomes aria-disabled once escalated so the keyboard can still read why it will not move.
+- Under reduced motion the ring still drains and the readout still counts; the notice fades and closes without sliding, and the amber turn is instant.
+- The ring pauses while the tab is hidden and resumes from where it stood; a status change is announced once through a polite status region, never per second.
+
+### Two Factor (KQ-695) — `two-factor`
+The second key, arriving.
+
+A sign-in confirmation with two routes on a tablist: a code, or an approval on a device. The knob slides between them on snap while the panel glides to a measured height; the code field's next empty cell holds a caret that pulses while the prompt waits and each digit lands on flick, and the device route draws a phone whose screen breathes on drift until approval lights it. Either route ending in verified stamps a chip into the header on recoil; a wrong code nudges the cells on snap, raises an alert and clears.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/two-factor`
+
+Props:
+- `method / defaultMethod`: "code" | "device" (default "code") — Which route is showing.
+- `value / defaultValue`: string (default "") — The code, digits only. A controlled host clears it after a failure.
+- `status / defaultStatus`: "waiting" | "checking" | "verified" | "failed" (default "waiting") — The outcome; the host decides it. A submit moves the component to checking.
+- `onSubmit`: (code: string) => void — Fires when the last digit lands, or Enter is pressed on a full code.
+- `length`: number (default 6) — Digits in the code.
+- `deviceName`: string (default "your device") — Named in the device route and its announcements.
+- `errorMessage`: string (default "That code did not match.") — The alert line under failed.
+- `label`: ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- The routes are real tabs: Left and Right, Home and End move and select. The code is one real numeric input under the cells, so typing, Backspace, paste and Enter all work; the last digit submits.
+- Under reduced motion the caret is solid, digits appear in place, the panel swaps height instantly with a cross-fade, the device screen lights by colour, and the stamp fades in.
+- The caret pulse and the screen's breathing rest while the tab is hidden. Outcomes are announced politely once; a failure is an alert.
+
+### Session List (KQ-696) — `session-list`
+Everywhere you are signed in.
+
+A list of signed-in sessions where the one reading the list breathes: its chip's dot wears a halo that swells and settles on drift, mirrored, resting while the tab is hidden. Signing one out slides the row aside by a shift while its measured height closes on the exit ease, so the rows below glide up; signing out all cascades the exits top to bottom on cascade(), the order carried through AnimatePresence's custom to rows already removed. Every Sign out is a real button named after its device.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/session-list`
+
+Props:
+- `sessions`: SessionItem[] — { id, device, kind: "phone" | "laptop" | "tablet", place, seen, current? } — the host owns the list.
+- `onSignOut`: (id: string) => void — Fires from the row's button; the host removes the session and the row leaves.
+- `onSignOutAll`: (ids: string[]) => void — Fires from the footer with every non-current id; their rows leave in a cascade.
+- `label`: ReactNode — List heading.
+- `currentLabel`: string (default "This device") — Chip text on the live row.
+- `signOutAllLabel`: string (default "Sign out all other sessions") — Footer control.
+
+Notes:
+- Tab reaches each Sign out and the footer; Enter or Space presses. After a sign-out, focus is handed to the next row or the footer before the row leaves.
+- Under reduced motion the live dot sits inside a still ring, rows fade and close without sideways travel, and the cascade keeps its order as fades.
+- The live row is named in words — the chip says This device — so presence never rests on colour or motion alone; sign-outs are announced once through a polite status region.
+
+### Liveness Dots (KQ-697) — `liveness-dots`
+Follow the dot.
+
+A liveness check where a dot travels on glide to each of N stops and waits; catching it there — the pointer entering it, a press, or Space and Enter while it holds focus — stamps the stop with a ring that lands on recoil and stays, while a stop left uncaught is marked with a still dashed ring. When the last stop resolves, a clean run draws a closed loop through every stop with pathLength on glide and a tick lands at the centre; any miss ends in a plain count and a Try again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/liveness-dots`
+
+Props:
+- `positions`: { x: number; y: number }[] — Where the dot stops, in order, as 0–100 percentages of the stage; six seeded stops by default.
+- `windowMs`: number (default 1600) — How long the dot waits at each stop before moving on.
+- `status / defaultStatus`: "idle" | "running" | "passed" | "failed" (default "idle") — Controlled or initial state of the check; setting running starts a fresh run.
+- `onStatusChange`: (status) => void — Fires from the press or the timer that moved the check.
+- `onResolve`: (index: number, caught: boolean) => void — Fires as each stop is caught or missed.
+- `label`: ReactNode — Visible heading; omit it and pass aria-label.
+
+Notes:
+- The dot is a real button that takes focus when the check starts and keeps it as it travels: Space or Enter at each stop is the keyboard path, and the pointer entering the dot counts as a catch.
+- Under reduced motion the dot swaps between stops, the rings and the loop appear in place, and the wait window is unchanged.
+- The window lives in an effect with cleanup and waits while the tab is hidden; each stop and the outcome are announced once through a polite status region.
+
+### Verified Seal (KQ-698) — `verified-seal`
+Checked, and it says so.
+
+A profile header that wears a rosette seal beside the name once verified. The moment the fact turns true the seal stamps on recoil from 1.6× and −14°, and when the stamp settles a highlight sweeps across it once on a slow tween: the glint. Hovering or focusing the seal opens a strip beneath the header to a measured height on glide, listing what was verified and when with each tick drawn on flick in a cascade; a press pins it, Escape closes it, and revoking lifts the seal away on the exit ease.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/verified-seal`
+
+Props:
+- `verified`: boolean — The fact. Turning true stamps the seal; turning false lifts it away. A profile that mounts verified does not stamp.
+- `checks`: { id: string; label: string; at: string }[] — What was verified and when, preformatted.
+- `verifiedAt`: string — When the seal was granted, preformatted, shown at the head of the strip.
+- `name`: string — Profile name; its first letters fill the avatar unless initials is given.
+- `handle`: string — Secondary line under the name.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial pinned state of the detail strip; hover and focus open it on their own.
+- `onOpenChange`: (open: boolean) => void — Fires from the seal press or Escape.
+- `sealLabel`: string (default "Verified") — The seal's name for assistive technology.
+
+Notes:
+- The seal is a real button with aria-expanded: Tab to it and the strip opens, Enter or Space pins it, Escape closes it and keeps focus on the seal.
+- Under reduced motion the seal fades in and out with no rotation, scale or glint; the strip swaps height with a cross-fade and the ticks appear complete.
+- The strip is only rendered while open, so nothing reserves space; the name's line height matches the seal's box, so the row never jumps when the seal lands.
+
 ### Bill Calendar (KQ-739) — `bill-calendar`
 Every bill, on the day it lands.
 
