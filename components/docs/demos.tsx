@@ -1000,6 +1000,16 @@ import { FlagNoteDemo } from "@/registry/demos/flag-note.demo";
 import { ScoreHistoryDemo } from "@/registry/demos/score-history.demo";
 import { JudgeVerdictDemo } from "@/registry/demos/judge-verdict.demo";
 import { SampleWheelDemo } from "@/registry/demos/sample-wheel.demo";
+import { MemoryCardDemo } from "@/registry/demos/memory-card.demo";
+import { RecallHintDemo } from "@/registry/demos/recall-hint.demo";
+import { HistoryScrubDemo } from "@/registry/demos/history-scrub.demo";
+import { SummaryFoldDemo } from "@/registry/demos/summary-fold.demo";
+import { PinBoardDemo } from "@/registry/demos/pin-board.demo";
+import { ForgetSweepDemo } from "@/registry/demos/forget-sweep.demo";
+import { ThreadTreeDemo } from "@/registry/demos/thread-tree.demo";
+import { ContextStackDemo } from "@/registry/demos/context-stack.demo";
+import { RecentRailDemo } from "@/registry/demos/recent-rail.demo";
+import { MemoryAgeDemo } from "@/registry/demos/memory-age.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2014,4 +2024,14 @@ export const demos: Record<string, ComponentType> = {
   "score-history": ScoreHistoryDemo,
   "judge-verdict": JudgeVerdictDemo,
   "sample-wheel": SampleWheelDemo,
+  "memory-card": MemoryCardDemo,
+  "recall-hint": RecallHintDemo,
+  "history-scrub": HistoryScrubDemo,
+  "summary-fold": SummaryFoldDemo,
+  "pin-board": PinBoardDemo,
+  "forget-sweep": ForgetSweepDemo,
+  "thread-tree": ThreadTreeDemo,
+  "context-stack": ContextStackDemo,
+  "recent-rail": RecentRailDemo,
+  "memory-age": MemoryAgeDemo,
 };

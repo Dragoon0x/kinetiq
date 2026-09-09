@@ -43149,4 +43149,696 @@ export const components: KinetiqItem[] = [
       "Chips are placed by percentages of the square so nothing overhangs at narrow widths; the hub's rolling digits are hidden from assistive technology and a visually hidden status line speaks the chosen sample once per change.",
     ],
   },
+  {
+    name: "memory-card",
+    type: "registry:ui",
+    title: "Memory Card",
+    description:
+      "A rail of the facts an assistant has saved, newest at the bottom and pinned ones held at the top. A saved card slides in from the trailing side on snap while the rail's measured height glides to make room; pressing the pin draws the glyph on flick and the card travels to the top with a layout move on glide, and forgetting slides the card out on the exit ease as the cards beneath close the gap. Tab reaches every pin and forget button; ArrowDown and ArrowUp move to the same control on the next card, Home and End jump to the ends.",
+    files: [
+      {
+        path: "registry/ui/memory-card.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-811",
+    },
+    tagline: "A fact it remembers.",
+    keywords: ["memory", "fact", "pin", "forget", "rail", "assistant", "saved"],
+    props: [
+      {
+        name: "items",
+        type: "MemoryItem[]",
+        description:
+          "The saved facts in arrival order, each with an id, a fact, an optional mono note and a pinned flag; the host owns the list.",
+      },
+      {
+        name: "onPin",
+        type: "(id: string, pinned: boolean) => void",
+        description:
+          "Fires from a card's pin toggle with the state it asks for.",
+      },
+      {
+        name: "onForget",
+        type: "(id: string) => void",
+        description: "Fires from a card's forget button.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the rail for assistive technology.",
+      },
+      {
+        name: "emptyText",
+        type: "string",
+        defaultValue: '"Nothing remembered yet"',
+        description: "The line shown while nothing is saved.",
+      },
+    ],
+    usageNotes: [
+      "Every card holds two real buttons, so Tab reaches each pin and forget; ArrowDown and ArrowUp move focus to the same control on the next or previous card, Home and End jump to the first and last card.",
+      "Under reduced motion cards fade in and out in place, reorders swap without a layout spring, the pin glyph appears complete and the rail's height moves on a fast tween; the order is the information and still shows.",
+      "A polite status line announces a save, a pin, an unpin and a forget once each; cards present at mount stay silent.",
+    ],
+  },
+  {
+    name: "recall-hint",
+    type: "registry:ui",
+    title: "Recall Hint",
+    description:
+      "A composer with a memory beside it. When a memory applies to the draft a hint chip rises in the toolbar row on snap and breathes once, a single scale tween that begins as it lands; pressing it inserts the memory as context, the same chip travelling up into the context row through a shared layoutId on snap while the row's measured height glides open, and a removed chip leaves on the exit ease. Enter sends, Shift+Enter breaks the line, Tab reaches the hint and its dismiss button, and Escape in the field dismisses the hint until a different memory applies.",
+    files: [
+      {
+        path: "registry/ui/recall-hint.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-812",
+    },
+    tagline: "Remembered from before.",
+    keywords: [
+      "memory",
+      "recall",
+      "hint",
+      "composer",
+      "context",
+      "chip",
+      "assistant",
+    ],
+    props: [
+      {
+        name: "memory",
+        type: "RecallMemory | null",
+        defaultValue: "null",
+        description:
+          "The memory that applies to the draft, with an id and a fact, or null while none does; the host decides what applies.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description: "Controlled or initial draft.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires on every edit of the draft.",
+      },
+      {
+        name: "context / defaultContext",
+        type: "RecallMemory[]",
+        defaultValue: "[]",
+        description:
+          "Controlled or initial list of inserted memories, shown as chips above the field.",
+      },
+      {
+        name: "onContextChange",
+        type: "(context: RecallMemory[]) => void",
+        description: "Fires when a memory is inserted or removed.",
+      },
+      {
+        name: "onInsert",
+        type: "(memory: RecallMemory) => void",
+        description:
+          "Fires from the hint press after the memory joins the context.",
+      },
+      {
+        name: "onDismiss",
+        type: "(memory: RecallMemory) => void",
+        description:
+          "Fires from Escape in the field or the hint's dismiss button.",
+      },
+      {
+        name: "onSend",
+        type: "(value: string, context: RecallMemory[]) => void",
+        description:
+          "Fires from Enter or the send button with the trimmed draft and the context attached.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Write a reply"',
+        description: "Placeholder for the empty field.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the textarea for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Enter sends and Shift+Enter breaks the line; while a hint shows the field is described by a note that says Tab reaches the hint and Escape dismisses it, and removing a context chip returns focus to the field.",
+      "Under reduced motion the hint fades in place and breathes as one opacity dip, inserting cross-fades the hint out and the context chip in with no travel, and the context row's height moves on a fast tween.",
+      "The status line says once each that a memory is available, that it was added, that the hint was dismissed and that the draft was sent; it never speaks per keystroke.",
+    ],
+  },
+  {
+    name: "history-scrub",
+    type: "registry:ui",
+    title: "History Scrub",
+    description:
+      "A scrubber that walks a conversation one message at a time. The pane shows the current message and a window before it; moving the thumb cross-fades messages in and out on a fast opacity tween while the ones that stay glide to their new rows with a layout move on glide, and the pane's measured height follows on glide. The track carries a mark per message, taller where the date changes; the thumb glides to its stop on snap with a date tab riding on it. Pressing the track jumps to the nearest message, a drag scrubs message by message, and as a slider Left and Right step, PageUp and PageDown step five, Home and End jump to the ends.",
+    files: [
+      {
+        path: "registry/ui/history-scrub.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-813",
+    },
+    tagline: "Scrub through the conversation.",
+    keywords: [
+      "history",
+      "scrub",
+      "slider",
+      "conversation",
+      "thread",
+      "timeline",
+      "assistant",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "HistoryMessage[]",
+        description:
+          "The conversation oldest first: id, role of user or assistant, text, and a preformatted date label the host supplies.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "messages.length - 1",
+        description: "Controlled or initial index of the current message.",
+      },
+      {
+        name: "onValueChange",
+        type: "(index: number) => void",
+        description:
+          "Fires from a press, a drag step or a key that moved the current message.",
+      },
+      {
+        name: "window",
+        type: "number",
+        defaultValue: "2",
+        description: "Messages shown above the current one.",
+      },
+      {
+        name: "assistantName",
+        type: "string",
+        defaultValue: '"Assistant"',
+        description:
+          "Name printed on assistant rows and spoken in the value text; invented names only.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the slider and the instrument for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The track is a slider: ArrowLeft and ArrowDown step back one message, ArrowRight and ArrowUp step forward, PageUp and PageDown step five, Home and End jump to the ends; the value text reads the date, the position and the speaker.",
+      "Under reduced motion messages swap by opacity only with no layout glide, the thumb and its date tab move instantly, and the pane's height moves on a fast tween.",
+      "The status line speaks the position only when a pointer lets go; keyboard users already hear it through the value text, and the date tab is decoration hidden from assistive technology.",
+    ],
+  },
+  {
+    name: "summary-fold",
+    type: "registry:ui",
+    title: "Summary Fold",
+    description:
+      "A block of older messages that folds into a summary card. The block and the summary share one grid cell and are each measured by their own ResizeObserver, so the frame animates its height on glide between the two measurements while the leaving face fades on the exit ease and the arriving face fades in on a fast tween, a surface shrinking onto its summary rather than a swap. Two hairline sheets under the card say that messages sit beneath it; the fold control is a disclosure button that names what it will do, and Enter or Space toggles it.",
+    files: [
+      {
+        path: "registry/ui/summary-fold.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-814",
+    },
+    tagline: "The long part, summarised.",
+    keywords: [
+      "summary",
+      "fold",
+      "collapse",
+      "messages",
+      "thread",
+      "disclosure",
+      "assistant",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "FoldMessage[]",
+        description:
+          "The older block oldest first: id, role of user or assistant, and text.",
+      },
+      {
+        name: "summary",
+        type: "string",
+        description: "The summary text the host produced for the block.",
+      },
+      {
+        name: "folded / defaultFolded",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Controlled or initial folded state.",
+      },
+      {
+        name: "onFoldedChange",
+        type: "(folded: boolean) => void",
+        description: "Fires from the fold control with the state it asks for.",
+      },
+      {
+        name: "assistantName",
+        type: "string",
+        defaultValue: '"Assistant"',
+        description:
+          "Name printed on assistant rows and on the summary card's heading line; invented names only.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'The fold control is a button with aria-expanded and aria-controls that reads "Fold n older messages" or "Unfold n messages"; Enter and Space toggle it, and the hidden face is aria-hidden and inert so only what is shown is read.',
+      "Under reduced motion the faces cross-fade by opacity and the height moves on a fast tween; the sheet edge and the count chip still show.",
+      "The status line announces the fold or unfold once the height has settled, so it speaks when the change has visibly happened.",
+    ],
+  },
+  {
+    name: "pin-board",
+    type: "registry:ui",
+    title: "Pin Board",
+    description:
+      "A board of facts the assistant is holding in view, laid out as wrapping tiles whose widths follow their text. Pinning a fact lands its tile on recoil from 0.9 scale, two visible bounces, while every other tile reflows to its new place with a layout move on glide and the board's measured height glides with it; unpinning fades the tile on the exit ease and the board closes around the gap. Hovering or focusing a tile reads where it came from in a cross-fading source strip, pressing holds the source open, and the fact buttons share a roving tabindex where arrows step, Home and End jump, and Delete unpins.",
+    files: [
+      {
+        path: "registry/ui/pin-board.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-815",
+    },
+    tagline: "Facts pinned in view.",
+    keywords: [
+      "pin",
+      "board",
+      "facts",
+      "source",
+      "provenance",
+      "tiles",
+      "assistant",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "PinnedFact[]",
+        description:
+          "The pinned facts in pin order, each with an id, a fact and a source of who said it, which turn and the quoted line; the host owns the list.",
+      },
+      {
+        name: "onUnpin",
+        type: "(id: string) => void",
+        description:
+          "Fires from a tile's unpin button or Delete and Backspace on a focused tile.",
+      },
+      {
+        name: "onSourceChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires when the source strip changes what it shows, with the tile's id or null.",
+      },
+      {
+        name: "assistantName",
+        type: "string",
+        defaultValue: '"Assistant"',
+        description:
+          "Name used for assistant sources in the strip; invented names only.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the board for assistive technology.",
+      },
+      {
+        name: "emptyText",
+        type: "string",
+        defaultValue: '"Nothing pinned yet"',
+        description: "The line shown while nothing is pinned.",
+      },
+    ],
+    usageNotes: [
+      "The fact buttons share a roving tabindex: ArrowRight and ArrowDown step to the next tile, ArrowLeft and ArrowUp to the previous, Home and End jump to the ends, Enter and Space hold a tile's source open, Escape releases it, and Delete or Backspace unpins the focused tile and moves focus to its neighbour.",
+      "Under reduced motion tiles fade in and out in place with no scale and no layout spring, the reflow is instant, the source strip still cross-fades and the board's height moves on a fast tween.",
+      'The status line says "Pinned" and "Unpinned" once per change and never speaks on hover; each fact button controls the source strip through aria-controls and reports a held source with aria-expanded.',
+    ],
+  },
+  {
+    name: "forget-sweep",
+    type: "registry:ui",
+    title: "Forget Sweep",
+    description:
+      "A list of facts an assistant remembers, each with a Forget button. Pressing it wipes the fact away left to right on a clip tween with an eraser head riding the edge — a destructive act never bounces — and an undo chip rises into the same row on snap carrying a ring that drains linearly across the window, so nothing beneath shifts while it is open. Hovering or a keyboard focus holds the ring, Undo wipes the fact back in from the left, and when the ring runs out the row fades on the exit ease and its siblings travel up on glide as the list's measured height follows.",
+    files: [
+      {
+        path: "registry/ui/forget-sweep.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-816",
+    },
+    tagline: "Gone, on purpose.",
+    keywords: [
+      "memory",
+      "forget",
+      "undo",
+      "wipe",
+      "countdown",
+      "ring",
+      "agent",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "ForgetItem[]",
+        description:
+          "The remembered facts in list order — id, text and an optional source line; the host owns the list and removes an item from onForget.",
+      },
+      {
+        name: "undoWindow",
+        type: "number",
+        defaultValue: "4000",
+        description:
+          "Milliseconds the undo chip stays before the forget commits.",
+      },
+      {
+        name: "onForgetStart",
+        type: "(id: string) => void",
+        description: "Fires when Forget is pressed and the undo window opens.",
+      },
+      {
+        name: "onForget",
+        type: "(id: string) => void",
+        description:
+          "Fires when the ring runs out without an undo; remove the item here.",
+      },
+      {
+        name: "onUndo",
+        type: "(id: string) => void",
+        description:
+          "Fires from the Undo button once the fact starts wiping back in.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the list for assistive technology and prints as its heading.",
+      },
+    ],
+    usageNotes: [
+      "Every control is a real button one Tab away: Forget hands focus to Undo once the chip mounts, Escape on the chip commits nothing and only lets the ring keep draining, and a window that closes on a focused chip moves focus to the next live row or the list.",
+      "Under reduced motion the wipe is a fade, the chip appears in place and rows leave with a fade; the ring still drains, because the countdown is information.",
+      "A hidden tab pauses the ring and leaving resumes it from the remainder; the sr-only status speaks the forget, the restore and the expiry once each, on settle.",
+    ],
+  },
+  {
+    name: "thread-tree",
+    type: "registry:ui",
+    title: "Thread Tree",
+    description:
+      "A conversation drawn as the tree it actually is, above the turns it produced. The path from the root to the chosen turn lights: each edge draws with pathLength on flick one cascade step later per level, so the light travels down from the root, and the nodes it reaches fill cobalt in time to meet it. Choosing another turn slides the messages — shared turns stay, the turns past the fork leave toward the old branch's side on the exit ease and the new ones arrive from the chosen side on snap in a cascade — while the pane's measured height glides.",
+    files: [
+      {
+        path: "registry/ui/thread-tree.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-817",
+    },
+    tagline: "Branches of the conversation.",
+    keywords: [
+      "thread",
+      "tree",
+      "branch",
+      "conversation",
+      "fork",
+      "treeitem",
+      "agent",
+    ],
+    props: [
+      {
+        name: "nodes",
+        type: "ThreadNode[]",
+        description:
+          "Every turn — id, parentId (null for the single root), role and text — in any order; leaves take columns and parents centre over their children.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial selected turn; defaults to the first leaf.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires from the click or key that chose a turn.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the tree for assistive technology and prints as its heading.",
+      },
+    ],
+    usageNotes: [
+      'A role="tree" of treeitem buttons with a roving tabindex: Down follows the lit path (else the first child), Up goes to the parent, Left and Right step between siblings, Home is the root, End is the chosen turn, and Enter or Space chooses.',
+      "Under reduced motion edges light by opacity with no draw, nodes recolour at once, messages cross-fade in place, and the pane's height tweens.",
+      'The messages are an ordered list with the role in a visible label; one sr-only status speaks "Branch n of m, k turns" on settle, so nothing is announced per message.',
+    ],
+  },
+  {
+    name: "context-stack",
+    type: "registry:ui",
+    title: "Context Stack",
+    description:
+      "The model's context as strata: messages on top, memory beneath, the system prompt at the base, each slab's thickness its share of the total on glide from a 36px floor. Hovering or focusing a slab lifts it a step on glide with a shadow while its readout cross-fades from the layer's note to its size and share; pressing pins the lift and Escape releases it. Beneath, a meter fills to the total's share of the budget on glide, striped by layer from the base up, and the lifted layer's stripe stays bright while the others dim.",
+    files: [
+      {
+        path: "registry/ui/context-stack.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-818",
+    },
+    tagline: "What the model has, layered.",
+    keywords: [
+      "context",
+      "tokens",
+      "budget",
+      "layers",
+      "meter",
+      "system prompt",
+      "agent",
+    ],
+    props: [
+      {
+        name: "layers",
+        type: "ContextLayer[]",
+        description:
+          'Top of the stack first — id, label, tokens and an optional resting note such as "12 turns"; the last layer is the base.',
+      },
+      {
+        name: "budget",
+        type: "number",
+        description: "Tokens the model can take; the meter's maximum.",
+      },
+      {
+        name: "format",
+        type: "(tokens: number) => string",
+        defaultValue: 'Intl.NumberFormat("en-US")',
+        description: "Formats every count that is printed or spoken.",
+      },
+      {
+        name: "onLift",
+        type: "(id: string | null) => void",
+        description:
+          "Fires when a slab lifts or settles, with the lifted layer's id or null.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the stack and its meter for assistive technology and prints as the heading.",
+      },
+    ],
+    usageNotes: [
+      "Each slab is a button whose name already carries its size and share: Tab lifts it like hover, Enter or Space pins it (aria-pressed), pressing again or Escape releases.",
+      "Under reduced motion nothing lifts — the slab brightens its border and the readout swaps — while thickness and the meter still animate on a tween, because they are information.",
+      'The meter is a role="meter" with whole-token values and a spoken "<total> of <budget> tokens, <percent> percent"; the sr-only status repeats the total once per change.',
+    ],
+  },
+  {
+    name: "recent-rail",
+    type: "registry:ui",
+    title: "Recent Rail",
+    description:
+      "A rail of recent conversations, newest first. Rows slide in from a step away on snap in a cascade — on mount, and again when a new conversation lands at the top while the rows beneath travel down with layout on glide and the one past the limit fades out at the bottom, the rail's measured height gliding to fit. The active row glows: a shared layoutId plate travels to it on snap and a bloom behind it arrives on flick and settles to a soft rest on drift. Renaming edits in place, the title swapping for an input at the same height, and the new title cross-fades in.",
+    files: [
+      {
+        path: "registry/ui/recent-rail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-819",
+    },
+    tagline: "Where you were, last.",
+    keywords: [
+      "recent",
+      "conversations",
+      "history",
+      "rename",
+      "rail",
+      "sidebar",
+      "agent",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "RecentItem[]",
+        description:
+          "Newest first — id, title and a short age label the host supplies, never read from a clock; the host owns the list.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "Rows the rail shows; the one pushed past it fades out at the bottom.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial active conversation; defaults to the first item.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires from the click or key that opened a conversation.",
+      },
+      {
+        name: "onRename",
+        type: "(id: string, title: string) => void",
+        description:
+          "Fires from a committed rename with a non-empty, changed title.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the rail for assistive technology and prints as its heading.",
+      },
+    ],
+    usageNotes: [
+      "A roving tabindex sits on the active row's button: Up and Down move between rows, Home and End jump, Enter or Space opens, and F2 (or the rename button) starts a rename; in the field Enter commits, Escape cancels and returns focus to the row, blur commits.",
+      "Under reduced motion rows fade in place, the plate swaps to the active row without travelling, the bloom starts at its rest, the height tweens, and the rename swaps without a cross-fade.",
+      'Ages are labels the host passes in, so the rail never reads a clock; the sr-only status speaks "Opened", "Renamed to" and "New conversation" once each.',
+    ],
+  },
+  {
+    name: "memory-age",
+    type: "registry:ui",
+    title: "Memory Age",
+    description:
+      "A list of remembered facts whose ink fades with age: each row's opacity is one minus 0.65 times its share of the horizon, tweened on the base duration, so the oldest sit at 35 percent and the list sorts freshest first. When the host answers a Refresh by dropping a row's age, a soft cobalt wash sweeps the row left to right on a slow tween while its ink returns, and the row rises to the top with layout on glide — a FLIP move that travels rather than blinking into place. A legend beneath reads the horizon.",
+    files: [
+      {
+        path: "registry/ui/memory-age.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-820",
+    },
+    tagline: "Older memories fade.",
+    keywords: ["memory", "age", "fade", "refresh", "decay", "FLIP", "agent"],
+    props: [
+      {
+        name: "items",
+        type: "MemoryAgeItem[]",
+        description:
+          "The facts — id, text and an age in days the host supplies — in any order; the list sorts freshest first.",
+      },
+      {
+        name: "horizon",
+        type: "number",
+        defaultValue: "30",
+        description: "Days at which a memory is at its faintest.",
+      },
+      {
+        name: "formatAge",
+        type: "(days: number) => string",
+        defaultValue: "today / Nd / Nw",
+        description: "Labels each row's age.",
+      },
+      {
+        name: "onRefresh",
+        type: "(id: string) => void",
+        description:
+          "Fires from a row's Refresh button; set that item's age to 0 to sweep and lift it.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the list for assistive technology and prints as its heading.",
+      },
+    ],
+    usageNotes: [
+      "Every Refresh is a real button one Tab away; each row names its text, its age label and whether it is fresh, fading or faint, so fading is never stated by opacity alone.",
+      "Under reduced motion opacity still tracks age on a tween, because fading is information; the wash becomes a tint that fades in and out with no travel, and the reorder runs on a tween instead of a spring.",
+      'Ages are numbers the host passes in — an "Age a week" script, not a clock — and the sr-only status speaks "Refreshed <text>, moved to the top" once per refresh.',
+    ],
+  },
 ];

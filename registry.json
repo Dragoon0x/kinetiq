@@ -22516,6 +22516,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "memory-card",
+      "type": "registry:ui",
+      "title": "Memory Card",
+      "description": "A rail of the facts an assistant has saved, newest at the bottom and pinned ones held at the top. A saved card slides in from the trailing side on snap while the rail's measured height glides to make room; pressing the pin draws the glyph on flick and the card travels to the top with a layout move on glide, and forgetting slides the card out on the exit ease as the cards beneath close the gap. Tab reaches every pin and forget button; ArrowDown and ArrowUp move to the same control on the next card, Home and End jump to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/memory-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-811"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "recall-hint",
+      "type": "registry:ui",
+      "title": "Recall Hint",
+      "description": "A composer with a memory beside it. When a memory applies to the draft a hint chip rises in the toolbar row on snap and breathes once, a single scale tween that begins as it lands; pressing it inserts the memory as context, the same chip travelling up into the context row through a shared layoutId on snap while the row's measured height glides open, and a removed chip leaves on the exit ease. Enter sends, Shift+Enter breaks the line, Tab reaches the hint and its dismiss button, and Escape in the field dismisses the hint until a different memory applies.",
+      "files": [
+        {
+          "path": "registry/ui/recall-hint.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-812"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "history-scrub",
+      "type": "registry:ui",
+      "title": "History Scrub",
+      "description": "A scrubber that walks a conversation one message at a time. The pane shows the current message and a window before it; moving the thumb cross-fades messages in and out on a fast opacity tween while the ones that stay glide to their new rows with a layout move on glide, and the pane's measured height follows on glide. The track carries a mark per message, taller where the date changes; the thumb glides to its stop on snap with a date tab riding on it. Pressing the track jumps to the nearest message, a drag scrubs message by message, and as a slider Left and Right step, PageUp and PageDown step five, Home and End jump to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/history-scrub.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-813"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "summary-fold",
+      "type": "registry:ui",
+      "title": "Summary Fold",
+      "description": "A block of older messages that folds into a summary card. The block and the summary share one grid cell and are each measured by their own ResizeObserver, so the frame animates its height on glide between the two measurements while the leaving face fades on the exit ease and the arriving face fades in on a fast tween, a surface shrinking onto its summary rather than a swap. Two hairline sheets under the card say that messages sit beneath it; the fold control is a disclosure button that names what it will do, and Enter or Space toggles it.",
+      "files": [
+        {
+          "path": "registry/ui/summary-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-814"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pin-board",
+      "type": "registry:ui",
+      "title": "Pin Board",
+      "description": "A board of facts the assistant is holding in view, laid out as wrapping tiles whose widths follow their text. Pinning a fact lands its tile on recoil from 0.9 scale, two visible bounces, while every other tile reflows to its new place with a layout move on glide and the board's measured height glides with it; unpinning fades the tile on the exit ease and the board closes around the gap. Hovering or focusing a tile reads where it came from in a cross-fading source strip, pressing holds the source open, and the fact buttons share a roving tabindex where arrows step, Home and End jump, and Delete unpins.",
+      "files": [
+        {
+          "path": "registry/ui/pin-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-815"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "forget-sweep",
+      "type": "registry:ui",
+      "title": "Forget Sweep",
+      "description": "A list of facts an assistant remembers, each with a Forget button. Pressing it wipes the fact away left to right on a clip tween with an eraser head riding the edge — a destructive act never bounces — and an undo chip rises into the same row on snap carrying a ring that drains linearly across the window, so nothing beneath shifts while it is open. Hovering or a keyboard focus holds the ring, Undo wipes the fact back in from the left, and when the ring runs out the row fades on the exit ease and its siblings travel up on glide as the list's measured height follows.",
+      "files": [
+        {
+          "path": "registry/ui/forget-sweep.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-816"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "thread-tree",
+      "type": "registry:ui",
+      "title": "Thread Tree",
+      "description": "A conversation drawn as the tree it actually is, above the turns it produced. The path from the root to the chosen turn lights: each edge draws with pathLength on flick one cascade step later per level, so the light travels down from the root, and the nodes it reaches fill cobalt in time to meet it. Choosing another turn slides the messages — shared turns stay, the turns past the fork leave toward the old branch's side on the exit ease and the new ones arrive from the chosen side on snap in a cascade — while the pane's measured height glides.",
+      "files": [
+        {
+          "path": "registry/ui/thread-tree.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-817"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "context-stack",
+      "type": "registry:ui",
+      "title": "Context Stack",
+      "description": "The model's context as strata: messages on top, memory beneath, the system prompt at the base, each slab's thickness its share of the total on glide from a 36px floor. Hovering or focusing a slab lifts it a step on glide with a shadow while its readout cross-fades from the layer's note to its size and share; pressing pins the lift and Escape releases it. Beneath, a meter fills to the total's share of the budget on glide, striped by layer from the base up, and the lifted layer's stripe stays bright while the others dim.",
+      "files": [
+        {
+          "path": "registry/ui/context-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-818"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "recent-rail",
+      "type": "registry:ui",
+      "title": "Recent Rail",
+      "description": "A rail of recent conversations, newest first. Rows slide in from a step away on snap in a cascade — on mount, and again when a new conversation lands at the top while the rows beneath travel down with layout on glide and the one past the limit fades out at the bottom, the rail's measured height gliding to fit. The active row glows: a shared layoutId plate travels to it on snap and a bloom behind it arrives on flick and settles to a soft rest on drift. Renaming edits in place, the title swapping for an input at the same height, and the new title cross-fades in.",
+      "files": [
+        {
+          "path": "registry/ui/recent-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-819"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "memory-age",
+      "type": "registry:ui",
+      "title": "Memory Age",
+      "description": "A list of remembered facts whose ink fades with age: each row's opacity is one minus 0.65 times its share of the horizon, tweened on the base duration, so the oldest sit at 35 percent and the list sorts freshest first. When the host answers a Refresh by dropping a row's age, a soft cobalt wash sweeps the row left to right on a slow tween while its ink returns, and the row rises to the top with layout on glide — a FLIP move that travels rather than blinking into place. A legend beneath reads the horizon.",
+      "files": [
+        {
+          "path": "registry/ui/memory-age.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-820"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
