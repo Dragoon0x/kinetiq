@@ -339,13 +339,16 @@ export function CashflowRiver({
         </span>
       </div>
 
-      {/* The figure being read, announced once per stream. */}
-      <div aria-live="polite" className="min-w-0">
-        <AnimatePresence mode="wait" initial={false}>
+      {/* The figure being read, announced once per stream. Both readings
+          share one grid cell and cross-fade: waiting for the outgoing one to
+          leave would leave the line two readings behind a walk of the arrow
+          keys, and stacking them keeps the row's height still. */}
+      <div aria-live="polite" className="grid min-w-0">
+        <AnimatePresence initial={false}>
           <motion.p
             key={reading}
             className={cn(
-              "font-mono text-xs font-medium tabular-nums",
+              "col-start-1 row-start-1 font-mono text-xs font-medium tabular-nums",
               active ? toneOf(active) : "text-ink-2",
             )}
             initial={{ opacity: 0 }}
