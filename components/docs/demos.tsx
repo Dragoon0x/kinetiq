@@ -950,6 +950,16 @@ import { FileTouchDemo } from "@/registry/demos/file-touch.demo";
 import { BrowserPeekDemo } from "@/registry/demos/browser-peek.demo";
 import { ApprovalQueueDemo } from "@/registry/demos/approval-queue.demo";
 import { ToolBudgetDemo } from "@/registry/demos/tool-budget.demo";
+import { PromptComposerDemo } from "@/registry/demos/prompt-composer.demo";
+import { SlashMenuDemo } from "@/registry/demos/slash-menu.demo";
+import { AttachTrayDemo } from "@/registry/demos/attach-tray.demo";
+import { TemplateFillDemo } from "@/registry/demos/template-fill.demo";
+import { VoicePromptDemo } from "@/registry/demos/voice-prompt.demo";
+import { ContextChipsDemo } from "@/registry/demos/context-chips.demo";
+import { PromptHistoryDemo } from "@/registry/demos/prompt-history.demo";
+import { DraftParkDemo } from "@/registry/demos/draft-park.demo";
+import { ModeSwitchDemo } from "@/registry/demos/mode-switch.demo";
+import { SendHoldDemo } from "@/registry/demos/send-hold.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1914,4 +1924,14 @@ export const demos: Record<string, ComponentType> = {
   "browser-peek": BrowserPeekDemo,
   "approval-queue": ApprovalQueueDemo,
   "tool-budget": ToolBudgetDemo,
+  "prompt-composer": PromptComposerDemo,
+  "slash-menu": SlashMenuDemo,
+  "attach-tray": AttachTrayDemo,
+  "template-fill": TemplateFillDemo,
+  "voice-prompt": VoicePromptDemo,
+  "context-chips": ContextChipsDemo,
+  "prompt-history": PromptHistoryDemo,
+  "draft-park": DraftParkDemo,
+  "mode-switch": ModeSwitchDemo,
+  "send-hold": SendHoldDemo,
 };

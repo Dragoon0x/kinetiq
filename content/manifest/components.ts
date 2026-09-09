@@ -39586,4 +39586,810 @@ export const components: KinetiqItem[] = [
       "The status region speaks on threshold only: running low, then locked; never per call.",
     ],
   },
+  {
+    name: "prompt-composer",
+    type: "registry:ui",
+    title: "Prompt Composer",
+    description:
+      "A composer that grows with the thought. A hidden mirror carries the draft in the field's own type and padding, so its measured height — read by a ResizeObserver — is the height the field needs, and the wrapper glides there on glide, holding at maxRows while the textarea scrolls inside. The footer's token estimate rolls its digits on snap, and the send control is one button whose shape says what it does: round with an arrow while idle, square with a stop mark while a run is live, the corners and glyph swapping on snap so focus never moves. Enter sends, Shift+Enter breaks the line, and while live Enter is held so the draft stays.",
+    files: [
+      {
+        path: "registry/ui/prompt-composer.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-751",
+    },
+    tagline: "A field that grows with the thought.",
+    keywords: [
+      "composer",
+      "prompt",
+      "textarea",
+      "autogrow",
+      "tokens",
+      "send",
+      "stop",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description: "Controlled or initial draft.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires from every edit.",
+      },
+      {
+        name: "onSend",
+        type: "(value: string) => void",
+        description:
+          "Fires from Enter or the send button with the trimmed draft; the parent clears or keeps it.",
+      },
+      {
+        name: "onStop",
+        type: "() => void",
+        description: "Fires from the stop button while live.",
+      },
+      {
+        name: "live",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A run is in flight: the send button becomes stop and Enter is held.",
+      },
+      {
+        name: "model",
+        type: "string",
+        description: "Printed in the footer beside the estimate.",
+      },
+      {
+        name: "estimateTokens",
+        type: "(value: string) => number",
+        defaultValue: "Math.ceil(chars / 4)",
+        description: "The estimate shown in the footer.",
+      },
+      {
+        name: "maxRows",
+        type: "number",
+        defaultValue: "6",
+        description: "Lines the field grows to before it scrolls.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Ask anything"',
+        description: "Placeholder while the draft is empty.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the textarea for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Enter sends and Shift+Enter breaks the line; the send and stop control is one real button whose name swaps, aria-disabled while the draft is empty so focus stays put, and a status line announces when a run goes live and when it ends — never per keystroke.",
+      "Under reduced motion the height and the glyph swap on fast tweens and the digits change in place; the estimate and the stop still show, because both are information.",
+      "The parent owns the run: raise live when a request is in flight and the composer holds Enter until it is lowered again.",
+    ],
+  },
+  {
+    name: "slash-menu",
+    type: "registry:ui",
+    title: "Slash Menu",
+    description:
+      "Type a slash; the commands rise. A leading slash in the input opens a list anchored above the caret — the input's offset inside the composer, measured so chips pushing the input along move the anchor with it and clamped so the list never overhangs the edge — rising from eight pixels below on snap with one crisp overshoot. Arrow keys move a single layoutId pill between rows on snap, Enter turns the active command into a chip that scales in on snap while the slash text clears, Escape closes and Backspace in an empty field removes the last chip. A combobox with options and a status line that announces inserts and removals on settle, never the filtering.",
+    files: [
+      {
+        path: "registry/ui/slash-menu.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-752",
+    },
+    tagline: "Type a slash; the commands rise.",
+    keywords: [
+      "slash",
+      "command",
+      "menu",
+      "combobox",
+      "chip",
+      "composer",
+      "listbox",
+    ],
+    props: [
+      {
+        name: "commands",
+        type: "SlashCommand[]",
+        description:
+          "{ id, label, hint? } offered after a leading slash; the hint prints as a mono aside.",
+      },
+      {
+        name: "chips / defaultChips",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "Controlled or initial inserted command ids.",
+      },
+      {
+        name: "onChipsChange",
+        type: "(ids: string[]) => void",
+        description: "Fires from an insert or a removal.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description: "Controlled or initial input text.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires from every edit.",
+      },
+      {
+        name: "onInsert",
+        type: "(command: SlashCommand) => void",
+        description: "Fires from Enter or a click on an option.",
+      },
+      {
+        name: "onRemove",
+        type: "(command: SlashCommand) => void",
+        description:
+          "Fires from a chip's remove button or Backspace in an empty field.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Type / for commands"',
+        description:
+          "Placeholder while the input is empty and no chip is inserted.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the combobox.",
+      },
+      {
+        name: "ref",
+        type: "React.Ref<HTMLInputElement>",
+        description: "The text input, so a parent can focus it.",
+      },
+    ],
+    usageNotes: [
+      "A slash opens the list, ArrowUp and ArrowDown move the pill without wrapping, Home and End jump, Enter inserts, Escape closes and keeps the text, Backspace in an empty field removes the last chip, and every chip's remove button is one Tab away; focus returns to the input after a removal.",
+      "Under reduced motion the list fades in place with no rise, the pill swaps rows without a layout spring and chips appear by opacity alone — the list still opens and the chip still lands, because both are the result of the keystroke.",
+      "Chips are unique by command id: inserting a command already in the row clears the slash text and announces that it is already inserted rather than doubling it.",
+    ],
+  },
+  {
+    name: "attach-tray",
+    type: "registry:ui",
+    title: "Attach Tray",
+    description:
+      "Files that dock beside the prompt. The whole tray takes a drop from the OS and an Add files button opens a real file input, so the keyboard reaches the same door. Each file becomes a chip that slides in from eight pixels on snap with a progress ring whose dash offset follows progress on glide — an upload settles, it does not jump — and at 1 the ring gives way to a check drawn on flick. Removing a chip runs its exit on the exit ease while the row beneath is measured, so the tray's height glides to the new row count and to zero when the last chip goes, with nothing reserved. Rings are progress bars with a value text, remove buttons are named by file, and a status line announces each file as it attaches.",
+    files: [
+      {
+        path: "registry/ui/attach-tray.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-753",
+    },
+    tagline: "Files that dock beside the prompt.",
+    keywords: [
+      "attachment",
+      "upload",
+      "drop",
+      "files",
+      "chips",
+      "progress ring",
+      "composer",
+    ],
+    props: [
+      {
+        name: "files",
+        type: "AttachFile[]",
+        description:
+          "{ id, name, size, progress, kind? } — size in bytes, progress 0..1, kind image, doc, sheet, code or file (inferred from the extension when omitted).",
+      },
+      {
+        name: "onAdd",
+        type: "(files: { name: string; size: number }[]) => void",
+        description:
+          "Fires from a drop or the file picker with the names and sizes chosen; the parent starts the upload and owns the progress.",
+      },
+      {
+        name: "onRemove",
+        type: "(id: string) => void",
+        description: "Fires from a chip's remove button.",
+      },
+      {
+        name: "format",
+        type: "(bytes: number) => string",
+        defaultValue: "formatBytes",
+        description:
+          "Formats every size; the default prints B, KB or MB with one decimal.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the tray as a group.",
+      },
+    ],
+    usageNotes: [
+      "Tab reaches the Add files button, which opens the native picker, and then each chip's remove button; every ring is a progressbar whose value text reads Uploading N percent or Attached, and a status line announces a file once when its progress first reaches 1.",
+      "Under reduced motion chips fade in without travel, the ring still fills on a tween, the check still appears and the tray's height swaps on a tween — progress is information, not flourish.",
+      "The parent owns the files: add them at progress 0 in onAdd, raise progress as the upload reports, and drop them in onRemove; the tray animates whatever the array does.",
+    ],
+  },
+  {
+    name: "template-fill",
+    type: "registry:ui",
+    title: "Template Fill",
+    description:
+      "A prompt with blanks to fill. The template's blanks are real inline inputs on a wash, each sized by a hidden mirror so its width glides on glide from the placeholder's width to the typed word's — filling a blank collapses its placeholder. One layoutId ring travels to whichever blank has focus on snap, so Tab and Shift+Tab move it with no handling of their own, and Enter commits a blank and carries focus to the next. Beneath, the composed prompt previews with filled values cross-faded to ink and empty blanks left as dashed slots; a count chip reads the progress and the Use button arms when the last blank is filled.",
+    files: [
+      {
+        path: "registry/ui/template-fill.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-754",
+    },
+    tagline: "A prompt with blanks to fill.",
+    keywords: [
+      "template",
+      "blanks",
+      "prompt",
+      "fill",
+      "inline input",
+      "preview",
+      "composer",
+    ],
+    props: [
+      {
+        name: "template",
+        type: "string",
+        description:
+          "A sentence with {key} or {key: placeholder words} blanks.",
+      },
+      {
+        name: "values / defaultValues",
+        type: "Record<string, string>",
+        defaultValue: "{}",
+        description: "Controlled or initial values by key.",
+      },
+      {
+        name: "onValuesChange",
+        type: "(values: Record<string, string>) => void",
+        description: "Fires from every edit.",
+      },
+      {
+        name: "onCommit",
+        type: "(key: string, value: string) => void",
+        description:
+          "Fires from Enter or blur on a blank whose value changed since its last commit.",
+      },
+      {
+        name: "onUse",
+        type: "(prompt: string) => void",
+        description: "Fires from the Use button with the composed prompt.",
+      },
+      {
+        name: "useLabel",
+        type: "string",
+        defaultValue: '"Use prompt"',
+        description: "The button's copy.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the group.",
+      },
+    ],
+    usageNotes: [
+      "Tab and Shift+Tab move between the blanks, which are real inputs named by their placeholder; Enter commits a blank and moves to the next, and to the Use button once every blank is filled; the button is aria-disabled until then so focus stays put; a status line announces each commit — never a keystroke.",
+      "Under reduced motion the ring swaps to the focused blank without a spring, widths move on a fast tween and the preview fades; the count and the readiness still show.",
+      "composePrompt(template, values) is exported so a parent can build the same prompt the preview shows; an empty blank prints as its placeholder in brackets.",
+    ],
+  },
+  {
+    name: "voice-prompt",
+    type: "registry:ui",
+    title: "Voice Prompt",
+    description:
+      "Speak; the words appear. A hold-to-talk button with two rings behind it: the inner follows the level on flick, the fastest house spring, so it reads as the voice rather than lagging it, and the outer trails the same level on glide so a loud moment leaves a wake. Pointer down or a held Space or Enter begins the hold, the pointer is captured only after four pixels of travel so a click stays a click, interim words arrive from four pixels on snap in light ink and firm to full ink when final, and release fires onSend with the joined words as a Sent stamp lands on recoil. No microphone is read; the level and the words come from the parent.",
+    files: [
+      {
+        path: "registry/ui/voice-prompt.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-755",
+    },
+    tagline: "Speak; the words appear.",
+    keywords: [
+      "voice",
+      "hold to talk",
+      "dictation",
+      "transcript",
+      "level ring",
+      "push to talk",
+      "composer",
+    ],
+    props: [
+      {
+        name: "level",
+        type: "number",
+        defaultValue: "0",
+        description: "Voice level 0..1; drives the rings while holding.",
+      },
+      {
+        name: "words",
+        type: "VoiceWord[]",
+        defaultValue: "[]",
+        description:
+          "{ id, text, final } — interim words read light, final words firm to full ink.",
+      },
+      {
+        name: "holding",
+        type: "boolean",
+        description:
+          "Optional controlled hold state; the component holds its own when omitted.",
+      },
+      {
+        name: "onHoldStart",
+        type: "() => void",
+        description:
+          "Fires from the press that begins a hold; start listening here.",
+      },
+      {
+        name: "onSend",
+        type: "(text: string) => void",
+        description: "Fires from the release with the joined words.",
+      },
+      {
+        name: "onCancel",
+        type: "() => void",
+        description:
+          "Fires from Escape during a hold, a lost focus, or a release with nothing said.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Hold to talk"',
+        description: "The button's accessible name.",
+      },
+    ],
+    usageNotes: [
+      "Hold Space or Enter to talk and release to send; Escape cancels; the button carries aria-pressed for the hold and a description of the gesture, the transcript is a plain paragraph, and a status line announces the hold, the send and a cancel — never a word as it arrives.",
+      "Under reduced motion the rings hold their size and show the level as wash opacity, words appear in place and firm by colour, and the stamp fades in.",
+      "The parent owns the audio: begin listening in onHoldStart, feed level and words as they arrive, and clear them in onSend — nothing in the component touches a microphone or a clock.",
+    ],
+  },
+  {
+    name: "context-chips",
+    type: "registry:ui",
+    title: "Context Chips",
+    description:
+      "What the model can see, as a strip of chips at the head of a composer: one per context item with a glyph for its kind, its name and its size. An added chip slides in from eight pixels on snap — one crisp overshoot, a chip landing — and a removed one leaves on the exit ease while the row beneath is measured, so the strip's height glides on glide to the rows it needs with nothing reserved. Hovering or focusing a chip rises a preview of the first lines on snap; Enter or Space pins it and Escape closes it. With a budget, a hairline bar fills by the total's share on glide and turns warn past 80 percent, and a status line announces each arrival and removal on settle.",
+    files: [
+      {
+        path: "registry/ui/context-chips.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-756",
+    },
+    tagline: "What the model can see.",
+    keywords: [
+      "context",
+      "chips",
+      "composer",
+      "preview",
+      "budget",
+      "tokens",
+      "attachments",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "ContextItem[]",
+        description:
+          "{ id, kind, name, size, preview } — kind is file, page or selection; size in bytes; preview is the first lines of the content.",
+      },
+      {
+        name: "budget",
+        type: "number",
+        description:
+          "Bytes the model can take; prints the budget line and the bar when set.",
+      },
+      {
+        name: "onRemove",
+        type: "(id: string) => void",
+        description: "Fires from a chip's remove button.",
+      },
+      {
+        name: "onPreview",
+        type: "(id: string | null) => void",
+        description:
+          "Fires when a preview opens or closes, with the item's id or null.",
+      },
+      {
+        name: "format",
+        type: "(bytes: number) => string",
+        defaultValue: "formatSize",
+        description: "Formats every size; the default prints B, KB or MB.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the strip as a group.",
+      },
+    ],
+    usageNotes: [
+      "Tab reaches each chip's body and then its remove button; focus opens the preview, Enter or Space pins it open, Escape closes and unpins it. The preview is a tooltip the chip is described by, the bar is a meter with a value text, and a status line announces each item as it arrives and each removal.",
+      "Under reduced motion chips fade in without travel, the preview fades in place, and the strip's height and the bar's fill move on fast tweens — the fill still fills, because the budget is information.",
+      "The parent owns the items: add them as the user attaches context and drop them in onRemove; the strip animates whatever the array does and prints the total against the budget.",
+    ],
+  },
+  {
+    name: "prompt-history",
+    type: "registry:ui",
+    title: "Prompt History",
+    description:
+      "A single-line composer with a memory. ArrowUp in the empty field opens a stack of previous prompts above it, most recent nearest the field: the cards rise from eight pixels on snap in a cascade stagger, and the stack reads as a wheel — the active card at full ink and scale, its neighbours dimmer and smaller by their distance, the highlight travelling on snap. ArrowUp turns it toward older prompts, ArrowDown toward newer and closes past the newest, Home and End jump, and Enter picks: the stack leaves on the exit ease and the prompt slides down into the field with the caret at its end. A clock button opens the same stack for the pointer, typing closes it, and Enter with text sends.",
+    files: [
+      {
+        path: "registry/ui/prompt-history.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-757",
+    },
+    tagline: "Your last prompts, on a wheel.",
+    keywords: [
+      "history",
+      "prompts",
+      "composer",
+      "combobox",
+      "wheel",
+      "recall",
+      "arrow up",
+    ],
+    props: [
+      {
+        name: "prompts",
+        type: "string[]",
+        description: "Previous prompts, most recent first.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "5",
+        description: "How many of them the stack shows.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description: "Controlled or initial field text.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires from every edit and from a pick.",
+      },
+      {
+        name: "onPick",
+        type: "(prompt: string, index: number) => void",
+        description: "Fires when a card is picked, with its index in prompts.",
+      },
+      {
+        name: "onSend",
+        type: "(value: string) => void",
+        description: "Fires from Enter with text, trimmed.",
+      },
+      {
+        name: "open",
+        type: "boolean",
+        description:
+          "Optional controlled open state of the stack; pair with onOpenChange.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires when the stack opens or closes.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Ask, or press Up for history"',
+        description: "Placeholder while the field is empty.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the combobox.",
+      },
+    ],
+    usageNotes: [
+      "The input is a combobox with aria-expanded and an active descendant over a listbox of options: ArrowUp opens and moves older, ArrowDown moves newer and closes past the newest, Home and End jump to the ends of the stack, Enter picks, Escape closes, typing closes, and Enter with text sends. A status line announces a pick and a send on settle; turning the wheel is never announced per step.",
+      "Under reduced motion the stack fades in place with no rise and no stagger, the highlight swaps between cards without scale, and the picked prompt fades into the field — the stack still opens and the field still fills, because both are the result of the keystroke.",
+      "The parent owns the history: push the sent text to the front of prompts in onSend and clear the value; the stack shows the first max entries and reports a pick with its index.",
+    ],
+  },
+  {
+    name: "draft-park",
+    type: "registry:ui",
+    title: "Draft Park",
+    description:
+      "A composer with a parking rail beneath it. Park takes the field's draft and puts it aside: a ghost of the text drops out of the field on the exit ease while a chip with its first words lands on the rail from sixteen pixels on glide — a layout move, no bounce. Pressing the chip slides it back, the chip leaving upward on the exit ease as the text arrives in the field on glide with the caret at its end; a draft already in the field is parked in the same motion, so a restore is a swap and nothing is lost. The rail is measured, so its height glides to the chip rows, and drafts persist across runs: Send clears the field while the rail keeps every chip.",
+    files: [
+      {
+        path: "registry/ui/draft-park.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-758",
+    },
+    tagline: "Put a prompt aside.",
+    keywords: [
+      "draft",
+      "park",
+      "composer",
+      "stash",
+      "chips",
+      "rail",
+      "restore",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description: "Controlled or initial field text.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires from every edit, a park and a restore.",
+      },
+      {
+        name: "drafts / defaultDrafts",
+        type: "ParkedDraft[]",
+        defaultValue: "[]",
+        description:
+          "Controlled or initial parked drafts, { id, text }, newest last.",
+      },
+      {
+        name: "onDraftsChange",
+        type: "(drafts: ParkedDraft[]) => void",
+        description:
+          "Fires from a park, a restore and a discard with the whole rail.",
+      },
+      {
+        name: "onPark",
+        type: "(draft: ParkedDraft) => void",
+        description:
+          "Fires from the Park button, and from a restore that swapped the field's draft out, with the draft it made.",
+      },
+      {
+        name: "onRestore",
+        type: "(draft: ParkedDraft) => void",
+        description: "Fires from a chip press with the draft it returned.",
+      },
+      {
+        name: "onDiscard",
+        type: "(draft: ParkedDraft) => void",
+        description: "Fires from a chip's discard button.",
+      },
+      {
+        name: "onSend",
+        type: "(value: string) => void",
+        description:
+          "Fires from Enter or the Send button with the trimmed draft; the field clears.",
+      },
+      {
+        name: "live",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A run is in flight: Send is held, Park and the rail still work.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Ask anything"',
+        description: "Placeholder while the field is empty.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the field.",
+      },
+    ],
+    usageNotes: [
+      "Tab runs from the field to Park, Send, then each chip's restore and discard button; Enter sends, Shift+Enter breaks the line, and Enter on a chip restores it with focus back in the field and the caret at the end. The rail is a list named Parked drafts, each button is named by the draft's first words, and a status line announces a park, a restore, a discard and a send on settle.",
+      "Under reduced motion the ghost does not travel — the field simply empties — the chip fades onto the rail, the restored text fades into the field, and the rail's height moves on a fast tween.",
+      "Drafts persist across runs: raise live while the parent's turn is in flight and Send is held, but Park and the rail keep working, so nothing typed during a run is lost.",
+    ],
+  },
+  {
+    name: "mode-switch",
+    type: "registry:ui",
+    title: "Mode Switch",
+    description:
+      "A segmented switch at the head of a composer that decides what the field is for. One knob rides the segments, keyed by a shared layoutId so the same knob travels to the chosen mode on snap with a single crisp overshoot. The composer answers it: the placeholder cross-fades to the mode's own words on a fast tween, the control row — tool chips, a mono note and the action button — cross-fades the same way in one shared cell while its measured height glides on glide, and the field's tint follows the mode. Arrow keys move and select across the segments without wrapping, Home and End jump, Enter submits the trimmed text with the mode and Shift+Enter breaks the line.",
+    files: [
+      {
+        path: "registry/ui/mode-switch.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-759",
+    },
+    tagline: "Chat, or a task.",
+    keywords: [
+      "mode",
+      "segmented",
+      "switch",
+      "composer",
+      "chat",
+      "task",
+      "radiogroup",
+    ],
+    props: [
+      {
+        name: "modes",
+        type: "ComposerMode[]",
+        description:
+          "{ value, label, placeholder, action, note?, tools?, tint? } — at least two; tools print as chips, note as a mono aside, tint plain or wash colours the field.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "first mode",
+        description: "Controlled or initial mode value.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires from a segment press or an arrow key.",
+      },
+      {
+        name: "text / defaultText",
+        type: "string",
+        defaultValue: '""',
+        description: "Controlled or initial field text.",
+      },
+      {
+        name: "onTextChange",
+        type: "(text: string) => void",
+        description: "Fires from every edit.",
+      },
+      {
+        name: "onSubmit",
+        type: "(mode: string, text: string) => void",
+        description:
+          "Fires from Enter or the action button with the trimmed text.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the switch and, with the mode, the field.",
+      },
+    ],
+    usageNotes: [
+      "The switch is a radio group with a roving tabindex: Left and Right (or Up and Down) move and select without wrapping past the ends, Home and End jump, Space and Enter select. The field is a real textarea named by the mode and the label; the inactive control row is hidden and inert, so only the live mode's action is reachable. A status line announces the mode on a change and the action on a submit, never per keystroke.",
+      "Under reduced motion the knob swaps to its segment with no travel, the placeholder and the control row swap on a fast opacity tween, and the row's height moves on a fast tween — the mode still changes, because the mode is the information.",
+      "Give each mode its own placeholder and action so the field reads before a word is typed; a tint of wash marks the mode that does more than talk.",
+    ],
+  },
+  {
+    name: "send-hold",
+    type: "registry:ui",
+    title: "Send Hold",
+    description:
+      "A send button with a plan behind it. A tap sends now; holding past holdDelay fills a hairline ring around the arrow linearly, then unfolds a panel above the button whose options rise from eight pixels on snap in a cascade stagger, nearest the button first. While the pointer is still down, dragging over an option moves one layoutId pill between rows on snap and releasing picks it; releasing anywhere else folds the panel on the exit ease with nothing sent. A pick lands a stamp beside the button on recoil — Sent, Scheduled, Queued — that fades after a beat. Space or Enter taps, holding either opens the panel with focus on the first item, ArrowUp opens it directly, and the arrows, Home, End, Enter and Escape drive the menu.",
+    files: [
+      {
+        path: "registry/ui/send-hold.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-760",
+    },
+    tagline: "Hold to send with a plan.",
+    keywords: [
+      "send",
+      "hold",
+      "menu",
+      "schedule",
+      "task",
+      "composer",
+      "press and hold",
+    ],
+    props: [
+      {
+        name: "options",
+        type: "SendOption[]",
+        defaultValue: "send now / schedule / send as task",
+        description:
+          "{ id, label, hint?, stamp? } — the plan's choices; the first is what a tap does, hint prints as a mono aside, stamp is the word that lands after a pick.",
+      },
+      {
+        name: "holdDelay",
+        type: "number",
+        defaultValue: "320",
+        description: "Milliseconds of hold before the panel unfolds.",
+      },
+      {
+        name: "onPick",
+        type: "(option: SendOption) => void",
+        description:
+          "Fires from a tap (the first option), a release on an option, or Enter in the panel.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Nothing to send: the button is inert and the panel never opens.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Send"',
+        description: "The button's accessible name.",
+      },
+    ],
+    usageNotes: [
+      "Space or Enter taps and sends now; holding either past holdDelay opens the panel and moves focus to the first item, and ArrowUp on the button opens it directly. In the panel ArrowUp and ArrowDown move, Home and End jump, Enter or Space picks, Escape closes and returns focus to the button. The button carries aria-haspopup and aria-expanded, the panel is a menu of menuitems described by their hints, an sr-only hint describes the hold, and a status line announces the stamp on a pick — never while the ring fills.",
+      "Under reduced motion the ring still fills across the delay, because the hold is information; the panel fades in place with no rise and no stagger, the pill swaps rows and the stamp fades in and out without bounce.",
+      "The pointer is captured only after four pixels of travel, inside a try/catch, so a plain click is never swallowed. The panel opens up and to the left, so place the button at a composer's right end and give it headroom.",
+    ],
+  },
 ];

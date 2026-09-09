@@ -21166,6 +21166,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "prompt-composer",
+      "type": "registry:ui",
+      "title": "Prompt Composer",
+      "description": "A composer that grows with the thought. A hidden mirror carries the draft in the field's own type and padding, so its measured height — read by a ResizeObserver — is the height the field needs, and the wrapper glides there on glide, holding at maxRows while the textarea scrolls inside. The footer's token estimate rolls its digits on snap, and the send control is one button whose shape says what it does: round with an arrow while idle, square with a stop mark while a run is live, the corners and glyph swapping on snap so focus never moves. Enter sends, Shift+Enter breaks the line, and while live Enter is held so the draft stays.",
+      "files": [
+        {
+          "path": "registry/ui/prompt-composer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-751"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slash-menu",
+      "type": "registry:ui",
+      "title": "Slash Menu",
+      "description": "Type a slash; the commands rise. A leading slash in the input opens a list anchored above the caret — the input's offset inside the composer, measured so chips pushing the input along move the anchor with it and clamped so the list never overhangs the edge — rising from eight pixels below on snap with one crisp overshoot. Arrow keys move a single layoutId pill between rows on snap, Enter turns the active command into a chip that scales in on snap while the slash text clears, Escape closes and Backspace in an empty field removes the last chip. A combobox with options and a status line that announces inserts and removals on settle, never the filtering.",
+      "files": [
+        {
+          "path": "registry/ui/slash-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-752"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "attach-tray",
+      "type": "registry:ui",
+      "title": "Attach Tray",
+      "description": "Files that dock beside the prompt. The whole tray takes a drop from the OS and an Add files button opens a real file input, so the keyboard reaches the same door. Each file becomes a chip that slides in from eight pixels on snap with a progress ring whose dash offset follows progress on glide — an upload settles, it does not jump — and at 1 the ring gives way to a check drawn on flick. Removing a chip runs its exit on the exit ease while the row beneath is measured, so the tray's height glides to the new row count and to zero when the last chip goes, with nothing reserved. Rings are progress bars with a value text, remove buttons are named by file, and a status line announces each file as it attaches.",
+      "files": [
+        {
+          "path": "registry/ui/attach-tray.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-753"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "template-fill",
+      "type": "registry:ui",
+      "title": "Template Fill",
+      "description": "A prompt with blanks to fill. The template's blanks are real inline inputs on a wash, each sized by a hidden mirror so its width glides on glide from the placeholder's width to the typed word's — filling a blank collapses its placeholder. One layoutId ring travels to whichever blank has focus on snap, so Tab and Shift+Tab move it with no handling of their own, and Enter commits a blank and carries focus to the next. Beneath, the composed prompt previews with filled values cross-faded to ink and empty blanks left as dashed slots; a count chip reads the progress and the Use button arms when the last blank is filled.",
+      "files": [
+        {
+          "path": "registry/ui/template-fill.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-754"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "voice-prompt",
+      "type": "registry:ui",
+      "title": "Voice Prompt",
+      "description": "Speak; the words appear. A hold-to-talk button with two rings behind it: the inner follows the level on flick, the fastest house spring, so it reads as the voice rather than lagging it, and the outer trails the same level on glide so a loud moment leaves a wake. Pointer down or a held Space or Enter begins the hold, the pointer is captured only after four pixels of travel so a click stays a click, interim words arrive from four pixels on snap in light ink and firm to full ink when final, and release fires onSend with the joined words as a Sent stamp lands on recoil. No microphone is read; the level and the words come from the parent.",
+      "files": [
+        {
+          "path": "registry/ui/voice-prompt.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-755"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "context-chips",
+      "type": "registry:ui",
+      "title": "Context Chips",
+      "description": "What the model can see, as a strip of chips at the head of a composer: one per context item with a glyph for its kind, its name and its size. An added chip slides in from eight pixels on snap — one crisp overshoot, a chip landing — and a removed one leaves on the exit ease while the row beneath is measured, so the strip's height glides on glide to the rows it needs with nothing reserved. Hovering or focusing a chip rises a preview of the first lines on snap; Enter or Space pins it and Escape closes it. With a budget, a hairline bar fills by the total's share on glide and turns warn past 80 percent, and a status line announces each arrival and removal on settle.",
+      "files": [
+        {
+          "path": "registry/ui/context-chips.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-756"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "prompt-history",
+      "type": "registry:ui",
+      "title": "Prompt History",
+      "description": "A single-line composer with a memory. ArrowUp in the empty field opens a stack of previous prompts above it, most recent nearest the field: the cards rise from eight pixels on snap in a cascade stagger, and the stack reads as a wheel — the active card at full ink and scale, its neighbours dimmer and smaller by their distance, the highlight travelling on snap. ArrowUp turns it toward older prompts, ArrowDown toward newer and closes past the newest, Home and End jump, and Enter picks: the stack leaves on the exit ease and the prompt slides down into the field with the caret at its end. A clock button opens the same stack for the pointer, typing closes it, and Enter with text sends.",
+      "files": [
+        {
+          "path": "registry/ui/prompt-history.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-757"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "draft-park",
+      "type": "registry:ui",
+      "title": "Draft Park",
+      "description": "A composer with a parking rail beneath it. Park takes the field's draft and puts it aside: a ghost of the text drops out of the field on the exit ease while a chip with its first words lands on the rail from sixteen pixels on glide — a layout move, no bounce. Pressing the chip slides it back, the chip leaving upward on the exit ease as the text arrives in the field on glide with the caret at its end; a draft already in the field is parked in the same motion, so a restore is a swap and nothing is lost. The rail is measured, so its height glides to the chip rows, and drafts persist across runs: Send clears the field while the rail keeps every chip.",
+      "files": [
+        {
+          "path": "registry/ui/draft-park.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-758"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mode-switch",
+      "type": "registry:ui",
+      "title": "Mode Switch",
+      "description": "A segmented switch at the head of a composer that decides what the field is for. One knob rides the segments, keyed by a shared layoutId so the same knob travels to the chosen mode on snap with a single crisp overshoot. The composer answers it: the placeholder cross-fades to the mode's own words on a fast tween, the control row — tool chips, a mono note and the action button — cross-fades the same way in one shared cell while its measured height glides on glide, and the field's tint follows the mode. Arrow keys move and select across the segments without wrapping, Home and End jump, Enter submits the trimmed text with the mode and Shift+Enter breaks the line.",
+      "files": [
+        {
+          "path": "registry/ui/mode-switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-759"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "send-hold",
+      "type": "registry:ui",
+      "title": "Send Hold",
+      "description": "A send button with a plan behind it. A tap sends now; holding past holdDelay fills a hairline ring around the arrow linearly, then unfolds a panel above the button whose options rise from eight pixels on snap in a cascade stagger, nearest the button first. While the pointer is still down, dragging over an option moves one layoutId pill between rows on snap and releasing picks it; releasing anywhere else folds the panel on the exit ease with nothing sent. A pick lands a stamp beside the button on recoil — Sent, Scheduled, Queued — that fades after a beat. Space or Enter taps, holding either opens the panel with focus on the first item, ArrowUp opens it directly, and the arrows, Home, End, Enter and Escape drive the menu.",
+      "files": [
+        {
+          "path": "registry/ui/send-hold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-760"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
