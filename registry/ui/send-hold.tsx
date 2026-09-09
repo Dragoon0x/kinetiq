@@ -317,6 +317,13 @@ export function SendHold({
       tap();
     }
   };
+  // The key that opened the panel is released with focus already inside it,
+  // so the button's own keyup never runs; without this the held flag would
+  // stay raised and Enter could never pick a row again.
+  const onMenuKeyUp = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === " " || event.key === "Enter") keyHeldRef.current = false;
+  };
+
   const onMenuKey = (event: React.KeyboardEvent<HTMLDivElement>) => {
     const last = options.length - 1;
     const moves: Record<string, number> = {
@@ -366,6 +373,7 @@ export function SendHold({
             role="menu"
             aria-label="Send options"
             onKeyDown={onMenuKey}
+            onKeyUp={onMenuKeyUp}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: exitFor(durations.fast) }}

@@ -11987,3 +11987,1642 @@ test.describe("point of sale", () => {
       .toBeLessThan(0.01);
   });
 });
+
+/**
+ * The composer family is the prompt box and everything that hangs off it: a
+ * field that grows, a slash that raises commands, files that dock, blanks that
+ * fill, a button held to talk, chips the model can see, a wheel of old prompts,
+ * a rail to park a draft on, a switch that decides what the field is for, and
+ * a send button with a plan behind it. Every test drives the mechanic the
+ * component advertises — through the keyboard wherever it publishes one, and
+ * by the pointer where the mechanic is a hold — and reads the outcome off the
+ * demo's status line and the ARIA the component publishes about itself.
+ */
+test.describe("composer", () => {
+  test("prompt-composer: the field grows with the draft, Enter sends, Enter is held while live and the same button stops", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/prompt-composer");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The composer announces the run's edges before the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const field = stage.getByRole("textbox", { name: "Ask Fernworks Model 3" });
+    const control = stage.getByRole("button", { name: /^Send$|^Stop$/ });
+    const heightOf = async (): Promise<number> =>
+      (await field.boundingBox())?.height ?? 0;
+
+    await expect(status).toHaveText("Idle · ≈ 0 tokens");
+    await expect(control).toHaveAccessibleName("Send");
+    await expect(control).toHaveAttribute("aria-disabled", "true");
+    await expect(field).toHaveAccessibleDescription(/About 0 tokens/);
+    const oneLine = await heightOf();
+
+    // Typing arms the button and rolls the estimate; Shift+Enter breaks the
+    // line and the field glides taller to take it.
+    await field.focus();
+    await page.keyboard.type("Draft the note");
+    await expect(status).toHaveText("Idle · ≈ 4 tokens");
+    await expect(control).not.toHaveAttribute("aria-disabled", "true");
+    await page.keyboard.press("Shift+Enter");
+    await page.keyboard.type("for crews");
+    await expect(field).toHaveValue("Draft the note\nfor crews");
+    await expect(status).toHaveText("Idle · ≈ 6 tokens");
+    await expect(field).toHaveAccessibleDescription(/About 6 tokens/);
+    await expect
+      .poll(heightOf, { timeout: 5000 })
+      .toBeGreaterThan(oneLine + 12);
+
+    // Enter sends, and Tab reaches the same button, now Stop, which halts it.
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Streaming · 6 tokens sent");
+    await page.keyboard.press("Tab");
+    await expect(control).toBeFocused();
+    await expect(control).toHaveAccessibleName("Stop");
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Stopped · run halted");
+    await expect(control).toHaveAccessibleName("Send");
+    await expect(announced).toHaveText("Run ended");
+    await expect(field).toHaveValue("");
+
+    // Clear puts the demo back to idle; a pasted brief is three lines, and
+    // the field grows to hold all of them.
+    await stage.getByRole("button", { name: "Clear" }).click();
+    await expect(status).toHaveText("Idle · ≈ 0 tokens");
+    await stage.getByRole("button", { name: "Paste draft" }).click();
+    await expect(status).toHaveText("Idle · ≈ 38 tokens");
+    await expect(field).toHaveAccessibleDescription(/About 38 tokens/);
+    await expect
+      .poll(heightOf, { timeout: 5000 })
+      .toBeGreaterThan(oneLine + 32);
+
+    // While the run is live Enter is held: the draft stays put, and the run
+    // settles on its own.
+    await control.click();
+    await expect(status).toHaveText("Streaming · 38 tokens sent");
+    await expect(announced).toHaveText("Run live, Enter held");
+    await expect(control).toHaveAccessibleName("Stop");
+    await field.focus();
+    await page.keyboard.type("held");
+    await page.keyboard.press("Enter");
+    await expect(field).toHaveValue("held");
+    await expect(status).toHaveText("Streaming · 38 tokens sent");
+    await expect(status).toHaveText("Done · 38 tokens sent", { timeout: 6000 });
+    await expect(announced).toHaveText("Run ended");
+    await expect(control).toHaveAccessibleName("Send");
+    await expect(field).toHaveValue("held");
+    await expect.poll(heightOf, { timeout: 5000 }).toBeLessThan(oneLine + 4);
+  });
+
+  test("slash-menu: a leading slash raises the commands, arrows walk them, Enter lands a chip and Backspace takes it back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/slash-menu");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const input = stage.getByRole("combobox", {
+      name: "Ask Gaugeworks Reasoner",
+    });
+    const list = stage.getByRole("listbox", { name: "Commands" });
+    const options = list.getByRole("option");
+    const chips = stage
+      .getByRole("list", { name: "Inserted commands" })
+      .getByRole("listitem");
+
+    await expect(status).toHaveText("No chips · type / for commands");
+    await expect(input).toHaveAttribute("aria-expanded", "false");
+    await expect(list).toHaveCount(0);
+
+    // The slash opens the list with every command and the first one active.
+    await input.focus();
+    await page.keyboard.type("/");
+    await expect(input).toHaveAttribute("aria-expanded", "true");
+    await expect(options).toHaveCount(6);
+    await expect(list.getByText("6", { exact: true })).toBeVisible();
+    await expect(options.nth(0)).toHaveAttribute("aria-selected", "true");
+    await expect(input).toHaveAttribute(
+      "aria-activedescendant",
+      /-opt-summarise$/,
+    );
+
+    // Arrows move the pill, End and Home jump, and the top does not wrap.
+    await page.keyboard.press("ArrowDown");
+    await expect(input).toHaveAttribute(
+      "aria-activedescendant",
+      /-opt-translate$/,
+    );
+    await expect(options.nth(1)).toHaveAttribute("aria-selected", "true");
+    await expect(options.nth(0)).toHaveAttribute("aria-selected", "false");
+    await page.keyboard.press("ArrowDown");
+    await expect(input).toHaveAttribute(
+      "aria-activedescendant",
+      /-opt-rewrite$/,
+    );
+    await page.keyboard.press("End");
+    await expect(input).toHaveAttribute(
+      "aria-activedescendant",
+      /-opt-explain$/,
+    );
+    await page.keyboard.press("Home");
+    await page.keyboard.press("ArrowUp");
+    await expect(input).toHaveAttribute(
+      "aria-activedescendant",
+      /-opt-summarise$/,
+    );
+
+    // Enter inserts the active command as a chip and clears the slash.
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Inserted /summarise · 1 chip");
+    await expect(announced).toHaveText("Inserted summarise");
+    await expect(chips).toHaveCount(1);
+    await expect(
+      stage.getByRole("button", { name: "Remove /summarise" }),
+    ).toBeVisible();
+    await expect(input).toHaveValue("");
+    await expect(input).toHaveAttribute("aria-expanded", "false");
+
+    // Characters after the slash filter the list.
+    await page.keyboard.type("/tr");
+    await expect(options).toHaveCount(1);
+    await expect(list.getByText("1", { exact: true })).toBeVisible();
+    await expect(options.nth(0)).toContainText("translate");
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Inserted /translate · 2 chips");
+    await expect(chips).toHaveCount(2);
+
+    // A command already inserted says so rather than doubling.
+    await page.keyboard.type("/sum");
+    await expect(options).toHaveCount(1);
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("summarise already inserted");
+    await expect(status).toHaveText("Inserted /translate · 2 chips");
+    await expect(chips).toHaveCount(2);
+    await expect(input).toHaveValue("");
+
+    // Escape closes the list and keeps the text; Backspace in an empty field
+    // takes the last chip back.
+    await page.keyboard.type("/");
+    await expect(input).toHaveAttribute("aria-expanded", "true");
+    await page.keyboard.press("Escape");
+    await expect(input).toHaveAttribute("aria-expanded", "false");
+    await expect(input).toHaveValue("/");
+    await page.keyboard.press("Backspace");
+    await expect(input).toHaveValue("");
+    await expect(chips).toHaveCount(2);
+    await page.keyboard.press("Backspace");
+    await expect(status).toHaveText("Removed /translate · 1 chip");
+    await expect(announced).toHaveText("Removed translate");
+    await expect(chips).toHaveCount(1);
+
+    // Each chip's own button removes it.
+    await stage.getByRole("button", { name: "Remove /summarise" }).click();
+    await expect(status).toHaveText("Removed /summarise · 0 chips");
+    await expect(announced).toHaveText("Removed summarise");
+    await expect(chips).toHaveCount(0);
+  });
+
+  test("attach-tray: the picker's files become chips whose rings fill to a check, and a removal folds the row", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/attach-tray");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const tray = stage.getByRole("group", { name: "Attach to the brief" });
+    const addFiles = tray.getByRole("button", { name: "Add files" });
+    const chips = tray.getByRole("listitem");
+    const rings = tray.getByRole("progressbar");
+
+    await expect(status).toHaveText("Empty · drop a file");
+    await expect(tray).toContainText("Nothing attached");
+    await expect(chips).toHaveCount(0);
+
+    // Enter on the button opens the real file input; two files arrive at zero
+    // and upload on the demo's timer until each ring reads attached.
+    const chooser = page.waitForEvent("filechooser");
+    await addFiles.focus();
+    await page.keyboard.press("Enter");
+    await (
+      await chooser
+    ).setFiles([
+      {
+        name: "brief.pdf",
+        mimeType: "application/pdf",
+        buffer: Buffer.alloc(4096),
+      },
+      { name: "plan.png", mimeType: "image/png", buffer: Buffer.alloc(2048) },
+    ]);
+    await expect(status).toHaveText("2 files · 2 uploading");
+    await expect(chips).toHaveCount(2);
+    await expect(rings).toHaveCount(2);
+    await expect(rings.nth(0)).toHaveAccessibleName("brief.pdf upload");
+    await expect(rings.nth(1)).toHaveAccessibleName("plan.png upload");
+    await expect(chips.nth(0)).toContainText("4 KB");
+    await expect(chips.nth(1)).toContainText("2 KB");
+    await expect(rings.nth(0)).toHaveAttribute("aria-valuetext", "Attached", {
+      timeout: 6000,
+    });
+    await expect(rings.nth(1)).toHaveAttribute("aria-valuetext", "Attached", {
+      timeout: 6000,
+    });
+    await expect(rings.nth(1)).toHaveAttribute("aria-valuenow", "100");
+    await expect(status).toHaveText("2 files · all attached · 6 KB");
+    await expect(announced).toHaveText(/attached$/);
+    await expect(tray).toContainText("2 files · 6 KB");
+
+    // Removing one leaves the other, and the totals follow.
+    await tray.getByRole("button", { name: "Remove brief.pdf" }).click();
+    await expect(status).toHaveText("1 file · all attached · 2 KB");
+    await expect(announced).toHaveText("Removed brief.pdf");
+    await expect(chips).toHaveCount(1);
+    await expect(chips.nth(0)).toContainText("plan.png");
+
+    // The demo's seeded drop uploads the same way. It hands out the samples
+    // in turn, and the picker's two files have already taken the first two.
+    await stage.getByRole("button", { name: "Drop a file" }).click();
+    await expect(status).toHaveText("2 files · 1 uploading");
+    await expect(chips.nth(1)).toContainText("costs.xlsx");
+    await expect(chips.nth(1)).toContainText("96 KB");
+    await expect(status).toHaveText("2 files · all attached · 98 KB", {
+      timeout: 6000,
+    });
+    await expect(announced).toHaveText("costs.xlsx attached");
+
+    await stage.getByRole("button", { name: "Clear" }).click();
+    await expect(status).toHaveText("Empty · drop a file");
+    await expect(chips).toHaveCount(0);
+  });
+
+  test("template-fill: Enter commits each blank and moves on, the count climbs, and the last blank arms Use", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/template-fill");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const card = stage.getByRole("group", { name: "Release note" });
+    const tone = card.getByRole("textbox", { name: "tone", exact: true });
+    const audience = card.getByRole("textbox", { name: "who reads it" });
+    const feature = card.getByRole("textbox", { name: "the feature" });
+    const length = card.getByRole("textbox", { name: "a number" });
+    const use = card.getByRole("button", { name: "Use prompt" });
+
+    await expect(status).toHaveText("0 / 4 filled");
+    await expect(use).toHaveAttribute("aria-disabled", "true");
+    // The count chip is two spans, so its text runs together.
+    await expect(card).toContainText(/0\s*\/ 4 filled/);
+    await expect(card).toContainText("94 chars");
+    await expect(tone).toHaveAttribute("placeholder", "tone");
+
+    // The count follows the typing; the commit is Enter, which names the
+    // blank, announces it once, and carries focus on.
+    await tone.focus();
+    await page.keyboard.type("plain");
+    await expect(status).toHaveText("1 / 4 filled");
+    await expect(announced).toBeEmpty();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("1 / 4 filled · last tone");
+    await expect(announced).toHaveText("tone filled: plain. 1 of 4 filled.");
+    await expect(audience).toBeFocused();
+
+    await page.keyboard.type("field crews");
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("2 / 4 filled · last audience");
+    await expect(announced).toHaveText(
+      "who reads it filled: field crews. 2 of 4 filled.",
+    );
+    await expect(feature).toBeFocused();
+
+    await page.keyboard.type("the offline sync fix");
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("3 / 4 filled · last feature");
+    await expect(length).toBeFocused();
+    await expect(use).toHaveAttribute("aria-disabled", "true");
+
+    // The last commit completes the prompt and hands focus to Use.
+    await page.keyboard.type("120");
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Ready · 90 chars");
+    await expect(announced).toHaveText("a number filled: 120. 4 of 4 filled.");
+    await expect(use).not.toHaveAttribute("aria-disabled", "true");
+    await expect(use).toBeFocused();
+    await expect(card).toContainText(
+      "Write a plain release note for field crews about the offline sync fix, in under 120 words.",
+    );
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Used · 90 chars");
+
+    // Clearing a blank disarms Use again, and the blur commits the clearing.
+    await length.fill("");
+    await expect(status).toHaveText("3 / 4 filled · last length");
+    await expect(use).toHaveAttribute("aria-disabled", "true");
+    await page.keyboard.press("Tab");
+    await expect(announced).toHaveText("a number cleared. 3 of 4 filled.");
+
+    // The demo's sample fills every blank at once.
+    await stage.getByRole("button", { name: "Fill sample" }).click();
+    await expect(status).toHaveText("Ready · 90 chars");
+    await expect(tone).toHaveValue("plain");
+    await expect(length).toHaveValue("120");
+  });
+
+  test("voice-prompt: a plain click hears nothing, a held Space listens and its release sends, and Escape cancels a hold", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/voice-prompt");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const button = stage.getByRole("button", {
+      name: "Hold to talk to Fernworks Model 3",
+    });
+
+    await expect(status).toHaveText("Hold to talk");
+    await expect(button).toHaveAttribute("aria-pressed", "false");
+    await expect(button).toHaveAccessibleDescription(
+      "Hold Space or the pointer to talk; release to send; Escape cancels.",
+    );
+    await expect(stage.getByText("Hold the button and speak")).toBeVisible();
+
+    // A plain click begins and ends a hold before a word arrives.
+    await button.click();
+    await expect(status).toHaveText("Cancelled");
+    await expect(announced).toHaveText("Nothing heard");
+    await expect(button).toHaveAttribute("aria-pressed", "false");
+
+    // Holding Space listens: the script runs to its eight words, and the
+    // release sends them joined.
+    await button.focus();
+    await page.keyboard.down(" ");
+    await expect(button).toHaveAttribute("aria-pressed", "true");
+    await expect(announced).toHaveText("Listening");
+    await expect(status).toHaveText(/^Listening · level \d+% · \d+ words$/);
+    await expect(status).toHaveText(/· 8 words$/, { timeout: 5000 });
+    await expect(stage.getByText("Basinworks", { exact: true })).toBeVisible();
+    await page.keyboard.up(" ");
+    await expect(status).toHaveText("Sent · 8 words");
+    await expect(button).toHaveAttribute("aria-pressed", "false");
+    await expect(announced).toHaveText(
+      "Sent: Book the Basinworks room for Thursday at ten",
+    );
+    await expect(stage.getByText("Sent", { exact: true })).toBeVisible();
+    // Exact, so the status line's "Sent: …" copy of the words is not it.
+    await expect(
+      stage.getByText("Book the Basinworks room for Thursday at ten", {
+        exact: true,
+      }),
+    ).toBeVisible();
+
+    // Escape mid-hold cancels, and the key's release is then nothing.
+    await page.keyboard.down("Enter");
+    await expect(button).toHaveAttribute("aria-pressed", "true");
+    await expect(status).toHaveText(/^Listening/);
+    await page.keyboard.press("Escape");
+    await expect(status).toHaveText("Cancelled");
+    await expect(announced).toHaveText("Cancelled");
+    await expect(button).toHaveAttribute("aria-pressed", "false");
+    await page.keyboard.up("Enter");
+    await expect(status).toHaveText("Cancelled");
+    await expect(button).toHaveAttribute("aria-pressed", "false");
+  });
+
+  test("context-chips: added items fill the budget meter, focus opens a preview Enter pins and Escape closes, and a removal drops the total", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/context-chips");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const strip = stage.getByRole("group", {
+      name: "Context for Fernworks Model 3",
+    });
+    const meter = strip.getByRole("meter", { name: "Context budget" });
+    const preview = strip.getByRole("tooltip");
+    const plan = strip.getByRole("button", {
+      name: "sync-plan.md, file, 2.1 KB",
+    });
+    const notes = strip.getByRole("button", {
+      name: "Release notes 4.2, page, 6.3 KB",
+    });
+
+    await expect(status).toHaveText("Empty · add context");
+    await expect(strip).toContainText("Nothing in context yet");
+    await expect(meter).toHaveAttribute("aria-valuenow", "0");
+    await expect(meter).toHaveAttribute("aria-valuemax", "32768");
+
+    // Each arrival is announced with the running total, and the meter follows.
+    await stage.getByRole("button", { name: "Add file" }).click();
+    await expect(status).toHaveText("1 item · 2.1 KB of 32 KB");
+    await expect(announced).toHaveText(
+      "sync-plan.md added, 2.1 KB. 1 item, 2.1 KB of 32 KB.",
+    );
+    await expect(plan).toHaveAttribute("aria-expanded", "false");
+    await expect(meter).toHaveAttribute("aria-valuenow", "2148");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "2.1 KB of 32 KB, 7 percent",
+    );
+    await stage.getByRole("button", { name: "Add page" }).click();
+    await expect(status).toHaveText("2 items · 8.4 KB of 32 KB");
+    await stage.getByRole("button", { name: "Add selection" }).click();
+    await expect(status).toHaveText("3 items · 8.8 KB of 32 KB");
+    await expect(announced).toHaveText(
+      "retry.ts · 12–18 added, 412 B. 3 items, 8.8 KB of 32 KB.",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "8970");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "8.8 KB of 32 KB, 27 percent",
+    );
+    await expect(strip.getByRole("listitem")).toHaveCount(3);
+    await expect(preview).toHaveCount(0);
+
+    // Focus opens the preview and the chip describes itself by it.
+    await plan.focus();
+    await expect(plan).toHaveAttribute("aria-expanded", "true");
+    await expect(preview).toBeVisible();
+    await expect(preview).toContainText("Sync fix rollout");
+    await expect(plan).toHaveAccessibleDescription(/Sync fix rollout/);
+    await expect(status).toHaveText("Preview sync-plan.md · 3 items");
+
+    // Escape closes it without moving focus.
+    await page.keyboard.press("Escape");
+    await expect(plan).toHaveAttribute("aria-expanded", "false");
+    await expect(preview).toHaveCount(0);
+    await expect(status).toHaveText("3 items · 8.8 KB of 32 KB");
+    await expect(plan).toBeFocused();
+
+    // Enter pins it, so it survives focus walking on to the next chip.
+    await page.keyboard.press("Enter");
+    await expect(plan).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toHaveText("Preview sync-plan.md · 3 items");
+    await page.keyboard.press("Tab");
+    await expect(
+      strip.getByRole("button", { name: "Remove sync-plan.md" }),
+    ).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(notes).toBeFocused();
+    await expect(plan).toHaveAttribute("aria-expanded", "true");
+    await expect(notes).toHaveAttribute("aria-expanded", "false");
+    await expect(preview).toContainText("sync-plan.md");
+    await expect(status).toHaveText("Preview sync-plan.md · 3 items");
+    await page.keyboard.press("Escape");
+    await expect(preview).toHaveCount(0);
+    await expect(status).toHaveText("3 items · 8.8 KB of 32 KB");
+
+    // A removal is announced and the budget line drops with it.
+    await strip.getByRole("button", { name: "Remove sync-plan.md" }).click();
+    await expect(status).toHaveText("2 items · 6.7 KB of 32 KB");
+    await expect(announced).toHaveText("Removed sync-plan.md");
+    await expect(meter).toHaveAttribute("aria-valuenow", "6822");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "6.7 KB of 32 KB, 21 percent",
+    );
+    await expect(strip.getByRole("listitem")).toHaveCount(2);
+    await expect(plan).toHaveCount(0);
+  });
+
+  test("prompt-history: Up opens the wheel in the empty field, arrows turn it, Enter picks with the caret at the end, and a send joins the stack", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/prompt-history");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const input = stage.getByRole("combobox", {
+      name: "Ask Gaugeworks Reasoner",
+    });
+    const clock = stage.getByRole("button", { name: "Previous prompts" });
+    const stack = stage.getByRole("listbox", { name: "Previous prompts" });
+    const options = stack.getByRole("option");
+    const caretOf = (): Promise<number | null> =>
+      input.evaluate((element: HTMLInputElement) => element.selectionStart);
+
+    await expect(status).toHaveText("5 prompts · up for history");
+    await expect(input).toHaveAttribute("aria-expanded", "false");
+    await expect(clock).toHaveAttribute("aria-expanded", "false");
+    await expect(stack).toHaveCount(0);
+
+    // Up in the empty field opens the stack at the newest prompt.
+    await input.focus();
+    await page.keyboard.press("ArrowUp");
+    await expect(input).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toHaveText("History open · 5 prompts");
+    await expect(options).toHaveCount(5);
+    await expect(input).toHaveAttribute("aria-activedescendant", /-opt-0$/);
+    await expect(
+      options.filter({ hasText: "Summarise the sync fix for field crews" }),
+    ).toHaveAttribute("aria-selected", "true");
+    await expect(stack.getByText("1 / 5", { exact: true })).toBeVisible();
+
+    // Up turns toward older, Down toward newer; Home and End are the ends.
+    await page.keyboard.press("ArrowUp");
+    await expect(input).toHaveAttribute("aria-activedescendant", /-opt-1$/);
+    await expect(
+      options.filter({ hasText: "Draft a release note under 120 words" }),
+    ).toHaveAttribute("aria-selected", "true");
+    await expect(stack.getByText("2 / 5", { exact: true })).toBeVisible();
+    await page.keyboard.press("ArrowUp");
+    await expect(input).toHaveAttribute("aria-activedescendant", /-opt-2$/);
+    await page.keyboard.press("Home");
+    await expect(input).toHaveAttribute("aria-activedescendant", /-opt-4$/);
+    await expect(stack.getByText("5 / 5", { exact: true })).toBeVisible();
+    await page.keyboard.press("ArrowDown");
+    await expect(input).toHaveAttribute("aria-activedescendant", /-opt-3$/);
+    await page.keyboard.press("End");
+    await expect(input).toHaveAttribute("aria-activedescendant", /-opt-0$/);
+
+    // Escape closes and leaves the field empty.
+    await page.keyboard.press("Escape");
+    await expect(input).toHaveAttribute("aria-expanded", "false");
+    await expect(stack).toHaveCount(0);
+    await expect(input).toHaveValue("");
+    await expect(status).toHaveText("5 prompts · up for history");
+
+    // Enter picks the active card into the field, caret at its end.
+    await page.keyboard.press("ArrowUp");
+    await page.keyboard.press("ArrowUp");
+    await expect(stack.getByText("2 / 5", { exact: true })).toBeVisible();
+    await page.keyboard.press("Enter");
+    await expect(input).toHaveValue("Draft a release note under 120 words");
+    await expect(input).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toHaveText(
+      "Picked #2 · Draft a release note under 120 words",
+    );
+    await expect(announced).toHaveText(
+      "Picked: Draft a release note under 120 words",
+    );
+    await expect(input).toBeFocused();
+    await expect.poll(caretOf, { timeout: 3000 }).toBe(36);
+
+    // Typing edits the pick, and Enter with text sends it to the front.
+    await page.keyboard.type(" please");
+    await expect(input).toHaveValue(
+      "Draft a release note under 120 words please",
+    );
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Sent · 6 prompts");
+    await expect(announced).toHaveText("Sent");
+    await expect(input).toHaveValue("");
+
+    // The stack shows the newest five; a step past the newest closes it.
+    await page.keyboard.press("ArrowUp");
+    await expect(status).toHaveText("History open · 6 prompts");
+    await expect(options).toHaveCount(5);
+    await expect(options.filter({ hasText: "words please" })).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    await page.keyboard.press("ArrowDown");
+    await expect(input).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toHaveText("Sent · 6 prompts");
+
+    // The clock opens the same stack for the pointer, and a click picks.
+    await clock.click();
+    await expect(clock).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toHaveText("History open · 6 prompts");
+    await options.filter({ hasText: "Explain the queued badge" }).click();
+    await expect(input).toHaveValue("Explain the queued badge");
+    await expect(status).toHaveText("Picked #5 · Explain the queued badge");
+    await expect(clock).toHaveAttribute("aria-expanded", "false");
+  });
+
+  test("draft-park: Park sets the draft aside, a chip press brings it back or swaps, the rail survives a run and discard empties it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/draft-park");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const field = stage.getByRole("textbox", { name: "Ask Fernworks Model 3" });
+    const park = stage.getByRole("button", { name: "Park" });
+    const send = stage.getByRole("button", { name: "Send" });
+    const rail = stage.getByRole("list", { name: "Parked drafts" });
+    const restoreList = stage.getByRole("button", {
+      name: "Restore: List the retry backoff…",
+    });
+    const caretOf = (): Promise<number> =>
+      field.evaluate((element: HTMLTextAreaElement) => element.selectionStart);
+
+    await expect(status).toHaveText("No drafts · type, then park");
+    await expect(park).toHaveAttribute("aria-disabled", "true");
+    await expect(send).toHaveAttribute("aria-disabled", "true");
+    await expect(stage.getByText("No parked drafts")).toBeVisible();
+    await expect(field).toHaveAccessibleDescription(
+      "Enter sends, Shift+Enter breaks the line, Park puts the draft aside",
+    );
+
+    // Typing arms both buttons; Tab reaches Park and Enter parks the draft,
+    // then focus comes back to the emptied field.
+    await field.focus();
+    await page.keyboard.type("List the retry backoff steps.");
+    await expect(park).not.toHaveAttribute("aria-disabled", "true");
+    await expect(send).not.toHaveAttribute("aria-disabled", "true");
+    await page.keyboard.press("Tab");
+    await expect(park).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Parked 1 · List the retry backoff…");
+    await expect(announced).toHaveText(
+      "Parked: List the retry backoff…. 1 parked.",
+    );
+    await expect(field).toHaveValue("");
+    await expect(field).toBeFocused();
+    await expect(rail.getByRole("listitem")).toHaveCount(1);
+    await expect(restoreList).toBeVisible();
+    await expect(park).toHaveAttribute("aria-disabled", "true");
+
+    // Tab past Park and Send reaches the chip; Enter restores it into the
+    // empty field with the caret at the end.
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Tab");
+    await expect(restoreList).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Restored · 0 parked");
+    await expect(announced).toHaveText(
+      "Restored: List the retry backoff…. 0 parked.",
+    );
+    await expect(field).toHaveValue("List the retry backoff steps.");
+    await expect(field).toBeFocused();
+    await expect.poll(caretOf, { timeout: 3000 }).toBe(29);
+    await expect(rail).toHaveCount(0);
+    await expect(stage.getByText("No parked drafts")).toBeVisible();
+
+    // With a draft already in the field, restoring is a swap: the chip's text
+    // comes back and the field's draft is parked in the same press.
+    await park.click();
+    await expect(status).toHaveText("Parked 1 · List the retry backoff…");
+    await expect(field).toHaveValue("");
+    await page.keyboard.type("Draft the note.");
+    await restoreList.click();
+    await expect(announced).toHaveText(
+      "Restored: List the retry backoff…. 1 parked.",
+    );
+    await expect(field).toHaveValue("List the retry backoff steps.");
+    await expect(
+      stage.getByRole("button", { name: "Restore: Draft the note." }),
+    ).toBeVisible();
+    await expect(restoreList).toHaveCount(0);
+    await expect(rail.getByRole("listitem")).toHaveCount(1);
+    // The swap parks the field's draft last, and the demo reports that park.
+    await expect(status).toHaveText("Parked 1 · Draft the note.");
+    await expect(field).toBeFocused();
+    await expect.poll(caretOf, { timeout: 3000 }).toBe(29);
+
+    // Enter sends and the run holds Send; the rail keeps its chip throughout.
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Run live · 1 parked");
+    await expect(announced).toHaveText("Sent");
+    await expect(field).toHaveValue("");
+    await expect(send).toHaveAttribute("aria-disabled", "true");
+    await expect(rail.getByRole("listitem")).toHaveCount(1);
+    await expect(status).toHaveText("Done · 1 parked · kept through the run", {
+      timeout: 5000,
+    });
+    await expect(rail.getByRole("listitem")).toHaveCount(1);
+
+    // Discard empties the rail.
+    await stage
+      .getByRole("button", { name: "Discard: Draft the note." })
+      .click();
+    await expect(status).toHaveText("Discarded · 0 parked");
+    await expect(announced).toHaveText(/^Discarded: Draft the note/);
+    await expect(rail).toHaveCount(0);
+    await expect(stage.getByText("No parked drafts")).toBeVisible();
+  });
+
+  test("mode-switch: arrows move the knob without wrapping, the field and its action follow the mode, and Enter submits with it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/mode-switch");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const group = stage.getByRole("radiogroup", { name: "Fernworks Model 3" });
+    const chat = group.getByRole("radio", { name: "Chat" });
+    const task = group.getByRole("radio", { name: "Task" });
+    const chatField = stage.getByRole("textbox", {
+      name: "Chat · Fernworks Model 3",
+    });
+    const taskField = stage.getByRole("textbox", {
+      name: "Task · Fernworks Model 3",
+    });
+    const sendButton = stage.getByRole("button", { name: "Send" });
+    const runButton = stage.getByRole("button", { name: "Run" });
+
+    await expect(status).toHaveText("Mode Chat · Send");
+    await expect(chat).toHaveAttribute("aria-checked", "true");
+    await expect(chatField).toHaveAttribute(
+      "placeholder",
+      "Message Fernworks Model 3",
+    );
+    await expect(taskField).toHaveCount(0);
+    // Only the live mode's controls are in the tree; the other row is hidden.
+    await expect(sendButton).toHaveCount(1);
+    await expect(sendButton).toHaveAttribute("aria-disabled", "true");
+    await expect(runButton).toHaveCount(0);
+
+    // Right selects Task: the field is renamed, the placeholder and the
+    // action swap, and the change is announced once.
+    await chat.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(task).toBeFocused();
+    await expect(task).toHaveAttribute("aria-checked", "true");
+    await expect(chat).toHaveAttribute("aria-checked", "false");
+    await expect(status).toHaveText("Mode Task · Run · 2 tools");
+    await expect(announced).toHaveText(
+      "Task mode. Describe the task to run. Run.",
+    );
+    await expect(taskField).toHaveAttribute(
+      "placeholder",
+      "Describe the task to run",
+    );
+    await expect(chatField).toHaveCount(0);
+    await expect(runButton).toHaveCount(1);
+    await expect(sendButton).toHaveCount(0);
+
+    // The switch does not wrap; Home and End are its ends.
+    await page.keyboard.press("ArrowRight");
+    await expect(task).toHaveAttribute("aria-checked", "true");
+    await expect(task).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(chat).toBeFocused();
+    await expect(chat).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Mode Chat · Send");
+    await page.keyboard.press("End");
+    await expect(task).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Mode Task · Run · 2 tools");
+
+    // Enter submits the trimmed text with the mode.
+    await taskField.focus();
+    await page.keyboard.type("Read the notes");
+    await expect(runButton).not.toHaveAttribute("aria-disabled", "true");
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Run · Task · 14 chars");
+    await expect(announced).toHaveText("Run: 14 characters");
+
+    // Switching back keeps the text; Shift+Enter breaks the line and the
+    // action button submits under the other name.
+    await chat.click();
+    await expect(status).toHaveText("Mode Chat · Send");
+    await expect(chatField).toHaveValue("Read the notes");
+    await chatField.focus();
+    await page.keyboard.press("End");
+    await page.keyboard.press("Shift+Enter");
+    await page.keyboard.type("now");
+    await expect(chatField).toHaveValue("Read the notes\nnow");
+    await expect(status).toHaveText("Mode Chat · Send");
+    await sendButton.click();
+    await expect(status).toHaveText("Send · Chat · 18 chars");
+    await expect(announced).toHaveText("Send: 18 characters");
+  });
+
+  test("send-hold: a tap sends now, Up opens the plan for the keys, a held pointer drags to a pick, and a held key opens with focus in the panel", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/send-hold");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const input = stage.getByRole("textbox", {
+      name: "Ask Gaugeworks Reasoner",
+    });
+    const button = stage.getByRole("button", {
+      name: "Send to Gaugeworks Reasoner",
+    });
+    const menu = stage.getByRole("menu", { name: "Send options" });
+    const items = menu.getByRole("menuitem");
+    const reset = stage.getByRole("button", { name: "Reset" });
+    // The stamp is hidden decoration that says the same word the status
+    // announces, so it is read by that mark rather than by its text alone.
+    const stamp = (text: string): Locator =>
+      stage
+        .locator("span[aria-hidden='true']")
+        .filter({ hasText: new RegExp(`^${text}$`) });
+
+    await expect(status).toHaveText("Hold Send for options");
+    await expect(input).toHaveValue("Draft the release note for the sync fix");
+    await expect(button).toHaveAttribute("aria-haspopup", "menu");
+    await expect(button).toHaveAttribute("aria-expanded", "false");
+    await expect(button).not.toHaveAttribute("aria-disabled", "true");
+    await expect(button).toHaveAccessibleDescription(
+      "Hold for options, or press Up",
+    );
+
+    // A tap is the first option: sent now, stamped, and the field clears.
+    await button.click();
+    await expect(status).toHaveText("Sent now · 1 message");
+    await expect(announced).toHaveText("Sent");
+    await expect(stamp("Sent")).toBeVisible();
+    await expect(input).toHaveValue("");
+    await expect(button).toHaveAttribute("aria-disabled", "true");
+
+    // With nothing to send the button is inert.
+    await button.focus();
+    await page.keyboard.press("Enter");
+    await expect(button).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toHaveText("Sent now · 1 message");
+    await reset.click();
+    await expect(input).toHaveValue("Draft the release note for the sync fix");
+    await expect(button).not.toHaveAttribute("aria-disabled", "true");
+
+    // Up opens the panel with focus on the first item; the arrows walk it,
+    // Home and End jump, Escape closes and hands focus back.
+    await button.focus();
+    await page.keyboard.press("ArrowUp");
+    await expect(button).toHaveAttribute("aria-expanded", "true");
+    await expect(items).toHaveCount(3);
+    await expect(items.nth(0)).toHaveText("Send nowEnter");
+    await expect(items.nth(0)).toBeFocused();
+    await page.keyboard.press("ArrowUp");
+    await expect(items.nth(1)).toBeFocused();
+    await expect(items.nth(1)).toHaveAccessibleDescription("09:00 tomorrow");
+    await page.keyboard.press("ArrowUp");
+    await expect(items.nth(2)).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(items.nth(0)).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(items.nth(2)).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await expect(items.nth(1)).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(button).toHaveAttribute("aria-expanded", "false");
+    await expect(menu).toHaveCount(0);
+    await expect(button).toBeFocused();
+    await expect(status).toHaveText("Sent now · 1 message");
+
+    // Enter in the panel picks the focused option.
+    await page.keyboard.press("ArrowUp");
+    await expect(items.nth(0)).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(items.nth(2)).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Queued as task · 2 messages");
+    await expect(announced).toHaveText("Queued");
+    await expect(stamp("Queued")).toBeVisible();
+    await expect(button).toHaveAttribute("aria-expanded", "false");
+    await expect(button).toBeFocused();
+    await expect(input).toHaveValue("");
+
+    // A held pointer fills the ring and unfolds the panel with focus still on
+    // the button; dragging onto an option and releasing picks it.
+    await reset.click();
+    const box = await button.boundingBox();
+    if (!box) throw new Error("send button has no box");
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await expect(button).toHaveAttribute("aria-expanded", "true", {
+      timeout: 3000,
+    });
+    await expect(button).toBeFocused();
+    const schedule = await items.nth(1).boundingBox();
+    if (!schedule) throw new Error("schedule option has no box");
+    await page.mouse.move(
+      schedule.x + schedule.width / 2,
+      schedule.y + schedule.height / 2,
+      { steps: 20 },
+    );
+    await page.mouse.up();
+    await expect(status).toHaveText("Scheduled · 09:00 tomorrow · 3 messages");
+    await expect(announced).toHaveText("Scheduled");
+    await expect(button).toHaveAttribute("aria-expanded", "false");
+
+    // A held key opens the panel the same way, moves focus to the first item,
+    // and its release is then nothing; Enter on a row picks it.
+    await reset.click();
+    await button.focus();
+    await page.keyboard.down("Enter");
+    await expect(button).toHaveAttribute("aria-expanded", "true", {
+      timeout: 3000,
+    });
+    await expect(items.nth(0)).toBeFocused();
+    await page.keyboard.up("Enter");
+    await expect(button).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toHaveText("Scheduled · 09:00 tomorrow · 3 messages");
+    await page.keyboard.press("ArrowUp");
+    await expect(items.nth(1)).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Scheduled · 09:00 tomorrow · 4 messages");
+    await expect(announced).toHaveText("Scheduled");
+    await expect(button).toBeFocused();
+  });
+});
+
+/**
+ * Records every distinct text a live region passes through, so a sentence
+ * announced for one beat before the next replaces it is still on the record —
+ * and so a region that must speak once per sentence can be shown to have said
+ * nothing else.
+ */
+const recordStreamTrail = async (target: Locator): Promise<void> => {
+  await target.evaluate((element) => {
+    const trail: string[] = [];
+    const read = () => {
+      const text = (element.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (trail[trail.length - 1] !== text) trail.push(text);
+    };
+    read();
+    new MutationObserver(read).observe(element, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    (window as unknown as { __streamTrail: string[] }).__streamTrail = trail;
+  });
+};
+
+/** Everything the recorded region has said so far, oldest first, silences left out. */
+const streamTrailOf = (page: Page) => async (): Promise<string[]> =>
+  (
+    await page.evaluate(
+      () =>
+        (window as unknown as { __streamTrail?: string[] }).__streamTrail ?? [],
+    )
+  ).filter(Boolean);
+
+/** A poll target: the horizontal scale a bar's fill has drawn to. */
+const fillScaleOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 1;
+    return new DOMMatrix(transform).a;
+  });
+
+/** A poll target: the inline width a table column has been animated to. */
+const colWidthOf = (target: Locator) => async (): Promise<string> =>
+  target.evaluate((element) => (element as HTMLElement).style.width);
+
+/**
+ * The streaming family is the answer arriving: tokens, a fold of reasoning,
+ * paragraphs settling, a dropped stream picked back up, a replay at any pace,
+ * a caret that leads, a table filling, two answers racing, the wait for the
+ * first word, and a stop that keeps what came. Every stream is driven by the
+ * demo's own button from a seeded script, so the tests wait on settled states
+ * and sentence-level announcements — never a mid-stream count — and drive the
+ * keyboard wherever a component publishes a key. Each live region is recorded
+ * from before the first press, so "once per sentence, never per token" is
+ * asserted on the whole record rather than on whatever happened to be showing.
+ */
+test.describe("streaming", () => {
+  test("token-stream: sentences are announced whole, Enter on Stop cuts the stream to a full stop, and Replay runs it out", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/token-stream");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component announces its sentences above the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const region = stage.getByRole("region", {
+      name: "Answer from Fernworks Model 3",
+    });
+    const answer = region.locator("p");
+    const stop = region.getByRole("button", { name: "Stop" });
+    const first = "Open the pot you want to share and choose Move to a space.";
+    const second =
+      "Waylight asks every member of that space to approve the move before the balance leaves your account.";
+    const last =
+      "Until they all approve, the pot stays where it is and keeps earning.";
+
+    await expect(status).toHaveText("Idle · press play");
+    await expect(announced).toBeEmpty();
+    await expect(stop).toHaveCount(0);
+    await recordStreamTrail(announced);
+
+    // Play opens the stream: Stop arrives with it, and the live region says
+    // nothing until a sentence is whole.
+    await stage.getByRole("button", { name: "Play" }).click();
+    await expect(status).toContainText("Streaming");
+    await expect(stop).toBeVisible();
+    await expect(announced).toHaveText(first, { timeout: 6000 });
+
+    // Enter on Stop cuts it: the words stay, the count freezes short of the
+    // script, the control leaves, and focus parks on the answer.
+    await stop.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText(/^Stopped · \d+ of 43 tokens$/);
+    await expect(announced).toHaveText("Stopped.");
+    await expect(stop).toHaveCount(0);
+    await expect(region).toBeFocused();
+    await expect(answer).toContainText(first);
+    await expect(answer).not.toContainText(last);
+
+    // Replay starts from nothing and runs to the end: the last sentence is
+    // the last thing said, and Stop leaves with the stream.
+    await stage.getByRole("button", { name: "Replay" }).click();
+    await expect(status).toContainText("Streaming");
+    await expect(status).toHaveText("Complete · 43 tokens", { timeout: 12000 });
+    await expect(announced).toHaveText(last);
+    await expect(stop).toHaveCount(0);
+    await expect(answer).toHaveText(`${first} ${second} ${last}`);
+
+    // Once per sentence, never per token: across both runs the region said
+    // only whole sentences and the stop — and the full run said all three.
+    const trail = await streamTrailOf(page)();
+    const cut = trail.indexOf("Stopped.");
+    expect(trail[0]).toBe(first);
+    expect(trail.filter((said) => said === "Stopped.")).toHaveLength(1);
+    expect(trail.slice(cut + 1)).toEqual([first, second, last]);
+    for (const said of trail) {
+      expect([first, second, last, "Stopped."]).toContain(said);
+    }
+  });
+
+  test("thinking-fold: the strip counts while thinking, Enter unfolds the lines as they land, and the settle stamps the time", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/thinking-fold");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const strip = stage.getByRole("button", {
+      name: /^(Reasoning|Thinking|Thought for)/,
+    });
+    const panel = stage.getByRole("region", { name: "Reasoning" });
+    const lines = panel.getByRole("listitem");
+
+    await expect(status).toHaveText("Idle · press play");
+    await expect(strip).toHaveAccessibleName("Reasoning");
+    await expect(strip).toHaveAttribute("aria-expanded", "false");
+    // Folded is out of the tree: the panel is hidden and inert.
+    await expect(panel).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+    await recordStreamTrail(announced);
+
+    await stage.getByRole("button", { name: "Play" }).click();
+    await expect(status).toContainText("Thinking ·");
+    await expect(strip).toHaveAccessibleName("Thinking");
+    await expect(announced).toHaveText("Thinking");
+
+    // Reasoning is available, never hidden: Enter unfolds it mid-thought and
+    // the lines land inside the open panel.
+    await strip.focus();
+    await page.keyboard.press("Enter");
+    await expect(strip).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("unfolded");
+    await expect(panel).toBeVisible();
+    await expect(lines).toHaveCount(4, { timeout: 8000 });
+    await expect(lines.nth(3)).toHaveText(
+      "The Fieldline renewal comes out 40.00 under the next cheapest.",
+    );
+
+    // The settle: the clock stops at the scripted tick, the label becomes the
+    // time it took, and the answer appears under the fold.
+    await expect(status).toHaveText("Thought for · 3.6s · 4 lines · unfolded", {
+      timeout: 6000,
+    });
+    await expect(strip).toHaveAccessibleName("Thought for 3.6s");
+    await expect(announced).toHaveText("Thought for 3.6s, 4 lines");
+    await expect(stage.getByText("Renew with Fieldline.")).toBeVisible();
+
+    // Space folds it again, and the lines leave the tree with it.
+    await page.keyboard.press(" ");
+    await expect(strip).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toHaveText("Thought for · 3.6s · 4 lines · folded");
+    await expect(panel).toHaveCount(0);
+
+    // Once when thinking starts, once when it settles — never a tick, never
+    // a line.
+    expect(await streamTrailOf(page)()).toEqual([
+      "Thinking",
+      "Thought for 3.6s, 4 lines",
+    ]);
+  });
+
+  test("answer-settle: a paragraph settles as the next begins, the close washes the answer, and each is announced once", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/answer-settle");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const region = stage.getByRole("region", {
+      name: "Quarter summary from Fernworks Model 3",
+    });
+    const paragraphs = region.locator("p");
+    // Provisional is lighter ink; the placeholder before the first word wears
+    // the same ink, so there is exactly one such paragraph until the close.
+    const provisional = region.locator("p.text-ink-3");
+    const first =
+      "Coldbrook closed the quarter with deposits up 4.2% and lending flat. Most of the growth came from the Easy saver range after the rate change in May.";
+    const second =
+      "Card spend recovered through the last six weeks, led by travel and groceries. Fee income followed it, though refunds ran higher than the same period last year.";
+    const third =
+      "The item to watch is the branch cost line, which rose for a third quarter. A decision on the two smallest branches is due before the next review.";
+    const complete = `${third} Answer complete, 3 paragraphs.`;
+
+    await expect(status).toHaveText("Idle · press play");
+    await expect(announced).toBeEmpty();
+    await recordStreamTrail(announced);
+
+    await stage.getByRole("button", { name: "Play" }).click();
+    await expect(status).toContainText("Streaming · paragraph 1 of 3");
+    await expect(provisional).toHaveCount(1);
+
+    // The first paragraph is announced — and settles to full ink — the moment
+    // the second begins, not a word before.
+    await expect(status).toContainText("Streaming · paragraph 2 of 3", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText(first);
+    await expect(paragraphs.first()).toHaveText(first);
+    await expect(paragraphs.first()).toHaveClass(/text-foreground/);
+    await expect(provisional).toHaveCount(1);
+
+    // The close settles the last paragraph and runs the wash; onSettled fires
+    // from the wash's completion, which the demo's line reads back.
+    await expect(status).toHaveText("Settled · 3 paragraphs · washed", {
+      timeout: 12000,
+    });
+    await expect(paragraphs).toHaveCount(3);
+    await expect(paragraphs.nth(2)).toHaveText(third);
+    await expect(provisional).toHaveCount(0);
+    await expect(announced).toHaveText(complete);
+
+    expect(await streamTrailOf(page)()).toEqual([first, second, complete]);
+  });
+
+  test("stream-retry: the drop frays the tail and offers Retry, and Enter on it heals the seam and runs to the end", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/stream-retry");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const region = stage.getByRole("region", {
+      name: "Answer from Fernworks Model 3",
+    });
+    const answer = region.locator("p");
+    const retry = region.getByRole("button", { name: "Retry" });
+    const error = region.getByText("Connection dropped");
+    const seam =
+      "Withdrawals to a newly added bank account wait 24 hours before they leave Basinworks.";
+
+    await expect(status).toHaveText("Idle · press play");
+    await expect(retry).toHaveCount(0);
+    await recordStreamTrail(announced);
+
+    // The first attempt drops after word 14: the words stay — the frayed
+    // characters keep their text — the error names the drop, and Retry sits
+    // inline after the tail. Nothing arrives while it waits.
+    await stage.getByRole("button", { name: "Play" }).click();
+    await expect(status).toContainText("Streaming");
+    await expect(status).toHaveText("Dropped at word 14 · retry", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText(
+      "Stream interrupted after 14 words. Retry available.",
+    );
+    await expect(retry).toBeVisible();
+    await expect(error).toBeVisible();
+    await expect(answer).toContainText(seam);
+    await expect(answer).not.toContainText("The hold");
+
+    // Enter on Retry heals the seam: the control and the error leave, focus
+    // parks on the answer, and the stream resumes from the word it dropped at.
+    await retry.focus();
+    await page.keyboard.press("Enter");
+    await expect(region).toBeFocused();
+    await expect(retry).toHaveCount(0);
+    await expect(error).toHaveCount(0);
+    await expect(announced).toHaveText("Resumed from word 14.");
+    await expect(status).toContainText("Resumed from word 14");
+
+    await expect(status).toHaveText("Complete · 48 words · 1 retry", {
+      timeout: 10000,
+    });
+    await expect(announced).toHaveText("Response complete, 48 words.");
+    await expect(answer).toContainText("nothing is charged for the wait.");
+    // The seam stays as a faint dotted underline once healed.
+    await expect(answer.locator(".border-dotted")).toHaveCount(1);
+    await expect(answer.locator(".border-dotted")).toHaveText("works.");
+
+    expect(await streamTrailOf(page)()).toEqual([
+      "Stream interrupted after 14 words. Retry available.",
+      "Resumed from word 14.",
+      "Response complete, 48 words.",
+    ]);
+  });
+
+  test("speed-scrub: arrows step the position by words, the speed row picks the pace, and Space plays it to the end", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/speed-scrub");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const slider = stage.getByRole("slider", {
+      name: "Answer from Gaugeworks Reasoner",
+    });
+    const transport = stage.getByRole("button", {
+      name: /^(Play|Pause|Replay)$/,
+    });
+    const speeds = stage.getByRole("radiogroup", { name: "Speed" });
+    const one = speeds.getByRole("radio", { name: "1×" });
+    const four = speeds.getByRole("radio", { name: "4×" });
+    const valueNow = async (): Promise<number> =>
+      Number(await slider.getAttribute("aria-valuenow"));
+
+    await expect(status).toHaveText("Paused · word 0 of 74 · 1×");
+    await expect(slider).toHaveAttribute("aria-valuenow", "0");
+    await expect(slider).toHaveAttribute("aria-valuemax", "397");
+    await expect(slider).toHaveAttribute("aria-valuetext", "word 0 of 74");
+    await expect(transport).toHaveText("Play");
+    await expect(transport).toHaveAttribute("aria-pressed", "false");
+    await expect(one).toHaveAttribute("aria-checked", "true");
+
+    // The slider steps in words, not characters: one right lands after
+    // "Renew", up is five words, and End is the whole answer.
+    await slider.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "5");
+    await expect(slider).toHaveAttribute("aria-valuetext", "word 1 of 74");
+    await expect(status).toHaveText("Paused · word 1 of 74 · 1×");
+    await page.keyboard.press("ArrowUp");
+    await expect(slider).toHaveAttribute("aria-valuetext", "word 6 of 74");
+    await page.keyboard.press("ArrowLeft");
+    await expect(slider).toHaveAttribute("aria-valuetext", "word 5 of 74");
+    await page.keyboard.press("End");
+    await expect(slider).toHaveAttribute("aria-valuenow", "397");
+    await expect(status).toHaveText("End · word 74 of 74 · 1×");
+    await expect(transport).toHaveText("Replay");
+    await page.keyboard.press("Home");
+    await expect(status).toHaveText("Paused · word 0 of 74 · 1×");
+    await expect(transport).toHaveText("Play");
+
+    // The speed row is a roving radio group: End from 1× lands on 4×.
+    await one.focus();
+    await page.keyboard.press("End");
+    await expect(four).toBeFocused();
+    await expect(four).toHaveAttribute("aria-checked", "true");
+    await expect(one).toHaveAttribute("aria-checked", "false");
+    await expect(status).toHaveText("Paused · word 0 of 74 · 4×");
+
+    // Space on the slider plays; at 4× the replay reaches the end in a few
+    // seconds, pauses itself there, and says so once.
+    await slider.focus();
+    await page.keyboard.press(" ");
+    await expect(transport).toHaveText("Pause");
+    await expect(transport).toHaveAttribute("aria-pressed", "true");
+    await expect(announced).toHaveText("Playing at 4×.");
+    await expect(status).toContainText("Playing");
+    await expect(status).toHaveText("End · word 74 of 74 · 4×", {
+      timeout: 10000,
+    });
+    await expect(announced).toHaveText("End of answer.");
+    await expect(transport).toHaveText("Replay");
+    await expect(transport).toHaveAttribute("aria-pressed", "false");
+    await expect(slider).toHaveAttribute("aria-valuenow", "397");
+
+    // Replay at the end rewinds and plays; Space again holds it mid-answer,
+    // the hold names where it stopped, and nothing moves underneath.
+    await transport.click();
+    await expect(status).toContainText("Playing");
+    await expect.poll(valueNow, { timeout: 4000 }).toBeGreaterThan(20);
+    await slider.focus();
+    await page.keyboard.press(" ");
+    await expect(transport).toHaveText("Play");
+    await expect(status).toHaveText(
+      /^(Paused|Held in ".+") · word \d+ of 74 · 4×$/,
+    );
+    await expect(announced).toHaveText(
+      /^Paused, (held in \S+, )?word \d+ of 74\.$/,
+    );
+    const held = await valueNow();
+    expect(held).toBeGreaterThan(20);
+    expect(held).toBeLessThan(397);
+    await page.waitForTimeout(400);
+    expect(await valueNow()).toBe(held);
+  });
+
+  test("cursor-lead: Play lands the answer word by word, each sentence is announced as it closes, and the surface settles", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/cursor-lead");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const surface = stage.getByRole("region", {
+      name: "Answer about the churn window",
+    });
+    const answer = surface.locator("p");
+    const play = stage.getByRole("button", { name: /^(Play|Replay)$/ });
+    const first = "The Tuesday night window is the one to take.";
+    const second =
+      "Its slots hold under minus twelve for six straight hours, which is long enough to churn the pistachio and let it set before the morning delivery run leaves.";
+    const third =
+      "Thursday runs colder but breaks twice, and a broken churn costs a whole batch.";
+
+    await expect(status).toHaveText("Waiting · press play");
+    await expect(surface).not.toHaveAttribute("aria-busy", "true");
+    await expect(announced).toBeEmpty();
+    await recordStreamTrail(announced);
+
+    // Play holds its own button down and marks the surface busy; the first
+    // sentence is announced when its final word lands, not a word before.
+    await play.click();
+    await expect(play).toBeDisabled();
+    await expect(surface).toHaveAttribute("aria-busy", "true");
+    await expect(status).toContainText("caret leading");
+    await expect(announced).toHaveText(first, { timeout: 6000 });
+    await expect(answer).toContainText(first);
+
+    await expect(status).toHaveText("Settled 51 words · 3 sentences", {
+      timeout: 12000,
+    });
+    await expect(announced).toHaveText(`${third} Answer complete.`);
+    await expect(answer).toHaveText(`${first} ${second} ${third}`);
+    await expect(surface).not.toHaveAttribute("aria-busy", "true");
+    await expect(play).toBeEnabled();
+    await expect(play).toHaveText("Replay");
+
+    expect(await streamTrailOf(page)()).toEqual([
+      first,
+      second,
+      `${third} Answer complete.`,
+    ]);
+  });
+
+  test("partial-table: Write fills the rows with the columns held, each row is announced whole, and the last character settles the widths", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/partial-table");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const table = stage.getByRole("table", {
+      name: /^Suppliers for the Waylight order/,
+    });
+    const rows = table.locator("tbody tr");
+    const cols = table.locator("col");
+    const write = stage.getByRole("button", { name: /^(Write|Rewrite)$/ });
+
+    await expect(status).toHaveText("Waiting · press write");
+    await expect(table.getByRole("columnheader")).toHaveText([
+      "Supplier",
+      "Lead",
+      "Cost",
+      "Stock",
+    ]);
+    await expect(rows).toHaveCount(0);
+    await expect(cols).toHaveCount(4);
+    await expect.poll(colWidthOf(cols.first())).toBe("25%");
+    await expect(announced).toBeEmpty();
+    await recordStreamTrail(announced);
+
+    await write.click();
+    await expect(write).toBeDisabled();
+    await expect(table).toHaveAttribute("aria-busy", "true");
+    await expect(status).toHaveText(/Writing row \d of 4 · columns held/);
+    // The columns hold their quarters while any cell is incomplete.
+    await expect.poll(colWidthOf(cols.first())).toBe("25%");
+    // A row is announced when its last character lands, never a character.
+    await expect(announced).toHaveText(/^Row [1-3] complete$/, {
+      timeout: 6000,
+    });
+
+    await expect(status).toHaveText("Complete 4 rows · columns settled", {
+      timeout: 10000,
+    });
+    await expect(announced).toHaveText("Table complete, 4 rows");
+    await expect(rows).toHaveCount(4);
+    await expect(table.getByRole("cell", { name: "Basinworks" })).toBeVisible();
+    await expect(table.getByRole("cell", { name: "Backorder" })).toBeVisible();
+    await expect(rows.nth(1)).toHaveText(/Fernworks\s*1 day\s*\$5\.10\s*Low/);
+    await expect(table).not.toHaveAttribute("aria-busy", "true");
+    await expect(write).toBeEnabled();
+    await expect(write).toHaveText("Rewrite");
+    // Settling is the one moment the columns move: the held quarters give
+    // way to each column's measured share.
+    await expect
+      .poll(colWidthOf(cols.first()), { timeout: 5000 })
+      .not.toBe("25%");
+
+    expect(await streamTrailOf(page)()).toEqual([
+      "Row 1 complete",
+      "Row 2 complete",
+      "Row 3 complete",
+      "Table complete, 4 rows",
+    ]);
+  });
+
+  test("stream-branch: the faster pane takes First, Enter on Keep folds the other away, and Compare again unfolds it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/stream-branch");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const a = stage.getByRole("article", { name: "Fernworks Model 3" });
+    const b = stage.getByRole("article", { name: "Gaugeworks Reasoner" });
+    const keepA = a.getByRole("button", { name: "Keep Fernworks Model 3" });
+    const keepB = b.getByRole("button", { name: "Keep Gaugeworks Reasoner" });
+    const stampB = b.getByText("First", { exact: true });
+    const again = stage.getByRole("button", { name: "Compare again" });
+    const race = stage.getByRole("button", { name: /^Race( again)?$/ });
+
+    await expect(status).toHaveText("Waiting · press race");
+    await expect(a).toBeVisible();
+    await expect(b).toBeVisible();
+    await expect(stampB).toHaveCount(0);
+    await expect(again).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+    await recordStreamTrail(announced);
+
+    await race.click();
+    await expect(race).toBeDisabled();
+    await expect(a).toHaveAttribute("aria-busy", "true");
+    await expect(b).toHaveAttribute("aria-busy", "true");
+    await expect(status).toHaveText(/^Racing · A \d+ · B \d+ words$/);
+
+    // B streams faster: its rail lands first and it takes the stamp while A
+    // is still busy.
+    await expect(announced).toHaveText("Gaugeworks Reasoner finished first", {
+      timeout: 8000,
+    });
+    await expect(stampB).toBeVisible();
+    await expect(b).not.toHaveAttribute("aria-busy", "true");
+    await expect(a).toHaveAttribute("aria-busy", "true");
+
+    await expect(status).toContainText("B first · A 41 · B 31 words", {
+      timeout: 10000,
+    });
+    await expect(a).not.toHaveAttribute("aria-busy", "true");
+    await expect(race).toBeEnabled();
+    await expect(race).toHaveText("Race again");
+    // Finishing second wins nothing.
+    await expect(a.getByText("First", { exact: true })).toHaveCount(0);
+
+    // Enter on Keep: the chosen pane is pressed and keeps focus (no DOM move),
+    // the other folds out of the tree, and Compare again appears.
+    await keepB.focus();
+    await page.keyboard.press("Enter");
+    await expect(keepB).toHaveAttribute("aria-pressed", "true");
+    await expect(keepB).toHaveText("Kept");
+    await expect(keepB).toBeFocused();
+    await expect(status).toHaveText("Kept b · a folded");
+    await expect(announced).toHaveText("Kept Gaugeworks Reasoner");
+    await expect(a).toHaveCount(0);
+    await expect(again).toBeVisible();
+
+    await again.click();
+    await expect(announced).toHaveText("Comparing again");
+    await expect(status).toContainText("B first · A 41 · B 31 words");
+    await expect(a).toBeVisible();
+    await expect(keepA).toHaveAttribute("aria-pressed", "false");
+    await expect(keepB).toHaveAttribute("aria-pressed", "false");
+    await expect(keepB).toHaveText("Keep");
+    await expect(again).toHaveCount(0);
+    // The First stamp is a fact about the race, not the pick: it stays.
+    await expect(stampB).toBeVisible();
+
+    expect(await streamTrailOf(page)()).toEqual([
+      "Gaugeworks Reasoner finished first",
+      "Kept Gaugeworks Reasoner",
+      "Comparing again",
+    ]);
+  });
+
+  test("latency-bar: Ask fills the bar until the first token and stamps the wait, and a hard ask turns it slow", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/latency-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const timer = stage.getByRole("timer", { name: "Fernworks Model 3" });
+    const ask = stage.getByRole("button", { name: "Ask", exact: true });
+    const hard = stage.getByRole("button", { name: "Ask a hard one" });
+    // The track is aria-hidden decoration; its fill is read off the page.
+    const fill = stage.locator("div[aria-hidden='true'] > div.origin-left");
+    const slow = stage.getByText("slow", { exact: true });
+
+    await expect(status).toHaveText("Idle · ready");
+    await expect(timer).toHaveText("0.00 s");
+    await expect(announced).toBeEmpty();
+    await expect(slow).toHaveCount(0);
+    await expect.poll(fillScaleOf(fill)).toBeLessThan(0.01);
+    await recordStreamTrail(announced);
+
+    // The quick ask: the readout counts from the host's clock, both buttons
+    // wait, and the first token stamps the time and fills the bar.
+    await ask.click();
+    await expect(status).toHaveText(/^Waiting · \d\.\d\d s$/);
+    await expect(ask).toBeDisabled();
+    await expect(hard).toBeDisabled();
+    await expect(status).toHaveText("First token · 0.84 s", { timeout: 6000 });
+    await expect(timer).toHaveText("0.84 s");
+    await expect(announced).toHaveText("First token in 0.84 s");
+    await expect(slow).toHaveCount(0);
+    await expect
+      .poll(fillScaleOf(fill), { timeout: 4000 })
+      .toBeGreaterThan(0.98);
+    await expect(ask).toBeEnabled();
+    await expect(hard).toBeEnabled();
+
+    // The hard ask crosses the warn line: the readout gains the word slow so
+    // colour never carries it alone, and keeps it once the token lands.
+    await hard.click();
+    await expect(status).toHaveText(/^Waiting · \d\.\d\d s$/);
+    await expect(ask).toBeDisabled();
+    await expect(slow).toBeVisible({ timeout: 6000 });
+    await expect(status).toHaveText("First token · 2.65 s · slow", {
+      timeout: 6000,
+    });
+    await expect(timer).toHaveText("2.65 s");
+    await expect(slow).toBeVisible();
+    await expect(announced).toHaveText("First token in 2.65 s, slow");
+    await expect
+      .poll(fillScaleOf(fill), { timeout: 4000 })
+      .toBeGreaterThan(0.98);
+
+    // Once per settled wait, never per tick.
+    expect(await streamTrailOf(page)()).toEqual([
+      "First token in 0.84 s",
+      "First token in 2.65 s, slow",
+    ]);
+  });
+
+  test("stop-slab: Escape inside the surface stops the stream and keeps the words, and Enter on Regenerate runs it out", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/stop-slab");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const surface = stage.getByRole("region", {
+      name: "Summary of the Basinworks route plan",
+    });
+    const answer = surface.locator("p");
+    const stop = surface.getByRole("button", { name: "Stop generating" });
+    const regenerate = surface.getByRole("button", { name: "Regenerate" });
+    // The cap mark is aria-hidden decoration; it is read off the page.
+    const cap = surface.getByText("kept", { exact: true });
+    const ask = stage.getByRole("button", { name: /^Ask( again)?$/ });
+    const words =
+      "The Basinworks plan runs three trucks on a loop that starts at the yard, takes the river road north, and turns back at the Coldbrook depot before noon. The afternoon leg covers the Fieldline farms in one pass, which saves a fourth truck and keeps every delivery inside its window.".split(
+        " ",
+      );
+
+    await expect(status).toHaveText("Idle · press ask");
+    await expect(answer).toHaveText("Nothing yet.");
+    // Idle has no control at all: the button is born with the stream.
+    await expect(stop).toHaveCount(0);
+    await expect(regenerate).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+    await recordStreamTrail(announced);
+
+    await ask.click();
+    await expect(ask).toBeDisabled();
+    await expect(surface).toHaveAttribute("aria-busy", "true");
+    await expect(status).toHaveText(/^Streaming · \d+ of 50 words$/);
+    await expect(stop).toBeVisible();
+    // The control is born with the stream, before its first word; a stop
+    // pressed then keeps nothing and draws no cap. Let the opening land first.
+    await expect(answer).toContainText("The Basinworks plan", {
+      timeout: 4000,
+    });
+
+    // Escape anywhere inside the surface is Stop: the words stay, the cap
+    // lands after the last of them, and the same button becomes Regenerate.
+    await stop.focus();
+    await page.keyboard.press("Escape");
+    await expect(status).toHaveText(/^Stopped · kept \d+ of 50 words$/);
+    await expect(announced).toHaveText(/^Stopped, kept \d+ words$/);
+    await expect(regenerate).toBeVisible();
+    await expect(regenerate).toBeFocused();
+    await expect(stop).toHaveCount(0);
+    await expect(cap).toBeVisible();
+    await expect(surface).not.toHaveAttribute("aria-busy", "true");
+    await expect(ask).toBeEnabled();
+    await expect(ask).toHaveText("Ask again");
+    // What the line says was kept is exactly what is on the surface. The cap
+    // is aria-hidden decoration set beside the words by a margin rather than
+    // a space, so it is read by its own mark above, not out of this text.
+    const kept = Number(
+      /kept (\d+) of/.exec((await status.textContent()) ?? "")?.[1],
+    );
+    expect(kept).toBeGreaterThan(0);
+    expect(kept).toBeLessThan(50);
+    await expect(answer).toContainText(words.slice(0, kept).join(" "));
+
+    // Enter on Regenerate clears and restarts; a stream that ends on its own
+    // shrinks the slab to Regenerate again, without the cap.
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText(/^Streaming · \d+ of 50 words$/);
+    await expect(stop).toBeVisible();
+    await expect(cap).toHaveCount(0);
+    await expect(status).toHaveText("Complete · 50 words", { timeout: 12000 });
+    await expect(announced).toHaveText("Answer complete");
+    await expect(regenerate).toBeVisible();
+    await expect(cap).toHaveCount(0);
+    await expect(surface).not.toHaveAttribute("aria-busy", "true");
+    await expect(answer).toHaveText(words.join(" "));
+
+    expect(await streamTrailOf(page)()).toEqual([
+      expect.stringMatching(/^Stopped, kept \d+ words$/),
+      "Answer complete",
+    ]);
+  });
+});
