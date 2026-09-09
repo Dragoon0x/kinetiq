@@ -970,6 +970,16 @@ import { VerifyRowDemo } from "@/registry/demos/verify-row.demo";
 import { FootnoteDrawerDemo } from "@/registry/demos/footnote-drawer.demo";
 import { PagePinDemo } from "@/registry/demos/page-pin.demo";
 import { CitationCountDemo } from "@/registry/demos/citation-count.demo";
+import { ModelPickDemo } from "@/registry/demos/model-pick.demo";
+import { TemperatureSliderDemo } from "@/registry/demos/temperature-slider.demo";
+import { ContextMeterDemo } from "@/registry/demos/context-meter.demo";
+import { PresetDeckDemo } from "@/registry/demos/preset-deck.demo";
+import { SystemPromptDemo } from "@/registry/demos/system-prompt.demo";
+import { TokenBudgetDemo } from "@/registry/demos/token-budget.demo";
+import { ToolToggleDemo } from "@/registry/demos/tool-toggle.demo";
+import { SafetyDialDemo } from "@/registry/demos/safety-dial.demo";
+import { SeedLockDemo } from "@/registry/demos/seed-lock.demo";
+import { SamplingGraphDemo } from "@/registry/demos/sampling-graph.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1954,4 +1964,14 @@ export const demos: Record<string, ComponentType> = {
   "footnote-drawer": FootnoteDrawerDemo,
   "page-pin": PagePinDemo,
   "citation-count": CitationCountDemo,
+  "model-pick": ModelPickDemo,
+  "temperature-slider": TemperatureSliderDemo,
+  "context-meter": ContextMeterDemo,
+  "preset-deck": PresetDeckDemo,
+  "system-prompt": SystemPromptDemo,
+  "token-budget": TokenBudgetDemo,
+  "tool-toggle": ToolToggleDemo,
+  "safety-dial": SafetyDialDemo,
+  "seed-lock": SeedLockDemo,
+  "sampling-graph": SamplingGraphDemo,
 };

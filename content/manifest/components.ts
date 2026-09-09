@@ -41105,4 +41105,696 @@ export const components: KinetiqItem[] = [
       "Citations and covered claims are separate numbers on purpose: a second citation on an already-covered claim rolls the count without moving the ring.",
     ],
   },
+  {
+    name: "model-pick",
+    type: "registry:ui",
+    title: "Model Pick",
+    description:
+      "A radio list of models, each row carrying speed and quality as five-segment bars under a header badge that names the choice. Picking a row re-draws its bars segment by segment in a cascade on glide while the other rows stay dim and still, the badge's old name lifts out and the new one rises on snap, and the pill's measured width glides to fit. A roving tabindex: arrows move and select, Home and End jump, Space and Enter select.",
+    files: [
+      {
+        path: "registry/ui/model-pick.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-781",
+    },
+    tagline: "Choose the mind.",
+    keywords: ["model", "picker", "radio", "speed", "quality", "bars", "agent"],
+    props: [
+      {
+        name: "models",
+        type: "PickModel[]",
+        description:
+          "The choices; each carries a name, an optional note, and speed and quality readings on 0..scale.",
+      },
+      {
+        name: "scale",
+        type: "number",
+        defaultValue: "5",
+        description: "Segments per bar.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial model id; defaults to the first model.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the row press or arrow key that changed the choice.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the group and heads the card.",
+      },
+    ],
+    usageNotes: [
+      "A radio group with a roving tabindex: ArrowUp and ArrowDown (or Left and Right) move and select without wrapping, Home and End jump, Space and Enter select.",
+      "Under reduced motion the chosen row's bars fill on a fast tween without stagger and the badge cross-fades in place; the readings still show.",
+      "Each row is named by its model and described by its readings for assistive technology; the bars themselves are decorative.",
+    ],
+  },
+  {
+    name: "temperature-slider",
+    type: "registry:ui",
+    title: "Temperature Slider",
+    description:
+      "A slider whose track runs cool cobalt to warm danger, with a clipped copy of the gradient filling to the thumb so the colour at the thumb is the temperature; the thumb and fill glide on glide when set by click, key or host and track the pointer 1:1 while dragging. A sample sentence beside it re-renders as the value warms: each word slot flips at its own threshold, the new word rising on snap under a wash of the track colour that fades. Arrows step, PageUp and PageDown step ten, Home and End jump.",
+    files: [
+      {
+        path: "registry/ui/temperature-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-782",
+    },
+    tagline: "Colder is steadier.",
+    keywords: [
+      "temperature",
+      "slider",
+      "sampling",
+      "gradient",
+      "sample",
+      "settings",
+      "agent",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0.7",
+        description: "Controlled or initial temperature, snapped to the step.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description: "Fires from a drag, a track press or a key step.",
+      },
+      {
+        name: "onSampleChange",
+        type: "(sample: TemperatureSample) => void",
+        description:
+          "Fires with the value: the sentence the sample now reads and how many slots swapped.",
+      },
+      {
+        name: "min / max / step",
+        type: "number",
+        defaultValue: "0 / 2 / 0.1",
+        description: "The range and the step the thumb snaps to.",
+      },
+      {
+        name: "sample",
+        type: "string[][]",
+        description: "Word slots; each slot's variants run steady to wild.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the slider.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "Formats the readout and aria-valuetext; defaults to the step's decimals.",
+      },
+    ],
+    usageNotes: [
+      'The thumb is a role="slider": ArrowLeft and ArrowRight step, PageUp and PageDown step ten, Home and End jump; a press on the track jumps there and a drag captures the pointer only after 4px of travel.',
+      "Under reduced motion the fill tweens and the thumb swaps to its place at once; words cross-fade by opacity alone and the colour still follows the value.",
+      "The sentence is spoken once the value has been still for half a second, never per step; the animated sentence is decorative and a plain copy is what assistive technology reads.",
+    ],
+  },
+  {
+    name: "context-meter",
+    type: "registry:ui",
+    title: "Context Meter",
+    description:
+      "A ring built from one arc per message, laid end to end from twelve o'clock. A new message's arc draws to its share of the window on glide while the earlier arcs slide to their new starts, and the centre percentage rolls its digits on snap. At the warn line the ring turns warn and a note with a Summarise button unfolds under measured height; the host folds older messages into one and the folded arcs fade. Past the limit the ring turns danger.",
+    files: [
+      {
+        path: "registry/ui/context-meter.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-783",
+    },
+    tagline: "How much of the window is used.",
+    keywords: [
+      "context",
+      "window",
+      "tokens",
+      "ring",
+      "meter",
+      "summarise",
+      "agent",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "ContextMessage[]",
+        description:
+          "The window's contents, oldest first; each carries its tokens and who wrote it.",
+      },
+      {
+        name: "limit",
+        type: "number",
+        description: "The window size in tokens.",
+      },
+      {
+        name: "warnAt",
+        type: "number",
+        defaultValue: "0.8",
+        description:
+          "Fraction of the window at which the ring warns and offers to summarise.",
+      },
+      {
+        name: "onSummarize",
+        type: "() => void",
+        description:
+          "Fires from the Summarise button; fold older messages into one here.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the meter.",
+      },
+      {
+        name: "format",
+        type: "(tokens: number) => string",
+        description:
+          "Formats the token readout; defaults to a compact form like 38.4k.",
+      },
+    ],
+    usageNotes: [
+      'A role="meter" whose value stays inside the window while its value text names the overage and the message count; Summarise is a real button one Tab away.',
+      "Under reduced motion arcs tween to their lengths, digits swap in place, and the note fades in without height travel.",
+      "The status region speaks on threshold only — near the limit, then the limit reached — never per message; pressing Summarise announces that older messages are being folded.",
+    ],
+  },
+  {
+    name: "preset-deck",
+    type: "registry:ui",
+    title: "Preset Deck",
+    description:
+      "One slider per field above a deck of preset cards. Applying a card sends every slider to its values on glide in a cascade, so the panel reads as one gesture sweeping down; the card whose values match is checked with a tick drawn on flick, and nudging a slider unchecks it and arms Save. Saving opens a name field inside the frame and mints a new card that slides in at the front on snap while the others make room on glide. Sliders take arrows, PageUp and PageDown, Home and End; the deck is a radio group whose arrows move and apply.",
+    files: [
+      {
+        path: "registry/ui/preset-deck.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-784",
+    },
+    tagline: "Settings you can name.",
+    keywords: [
+      "preset",
+      "settings",
+      "sliders",
+      "cards",
+      "save",
+      "sampling",
+      "agent",
+    ],
+    props: [
+      {
+        name: "fields",
+        type: "PresetField[]",
+        description:
+          "One slider each: id, label, min, max, step and an optional format.",
+      },
+      {
+        name: "values / defaultValues",
+        type: "Record<string, number>",
+        description:
+          "Controlled or initial slider values by field id; a missing field starts at its minimum.",
+      },
+      {
+        name: "onValuesChange",
+        type: "(values: Record<string, number>) => void",
+        description: "Fires from a slider or an applied preset.",
+      },
+      {
+        name: "presets / defaultPresets",
+        type: "Preset[]",
+        description:
+          "Controlled or initial deck; each card carries a name and a value per field.",
+      },
+      {
+        name: "onPresetsChange",
+        type: "(presets: Preset[]) => void",
+        description: "Fires from a save with the new card at the front.",
+      },
+      {
+        name: "onApply",
+        type: "(preset: Preset) => void",
+        description: "Fires from a card press or an arrow key.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the panel.",
+      },
+    ],
+    usageNotes: [
+      'Sliders are role="slider": arrows step, PageUp and PageDown step ten, Home and End jump, a press on the track jumps there and a drag captures only after 4px. The deck is a radio group with a roving tabindex: arrows move and apply, Home and End jump, Space and Enter apply.',
+      "Under reduced motion sliders tween to their values without stagger and the thumbs swap at once; the new card fades in place and the deck reflows without springs.",
+      "Escape in the name field cancels and returns focus to Save; Save stays focusable but inert while the current values are already a card. The status line speaks an apply and a save only.",
+    ],
+  },
+  {
+    name: "system-prompt",
+    type: "registry:ui",
+    title: "System Prompt",
+    description:
+      "A collapsible system prompt whose body is measured and glides open and shut on glide, folding to a single preview line; the chevron turns on snap. Editing away from the baseline lands a Modified badge on flick beside a character count and arms Reset, and Reset wipes the text back with a sweep — a soft band crosses the editor and the baseline returns at its midpoint. The header button toggles with Enter or Space and the textarea is a real field.",
+    files: [
+      {
+        path: "registry/ui/system-prompt.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-785",
+    },
+    tagline: "The rules, folded away.",
+    keywords: [
+      "system prompt",
+      "instructions",
+      "collapsible",
+      "textarea",
+      "reset",
+      "modified",
+      "agent",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description: "Controlled or initial prompt text.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description:
+          "Fires from typing, and from the sweep when Reset restores the baseline.",
+      },
+      {
+        name: "baseline",
+        type: "string",
+        description:
+          "What Reset restores and what modified is measured against; defaults to the initial text.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Controlled or initial fold.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the header button.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"System prompt"',
+        description: "Header text; names the textarea.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        description:
+          "Shown in the empty editor and as the folded preview of an empty prompt.",
+      },
+    ],
+    usageNotes: [
+      "The header is a button with aria-expanded that controls the body; the textarea is a real field labelled by the header, and Reset is a real button that stays focusable but inert while the text matches the baseline.",
+      "Under reduced motion the body swaps height on a fast tween, the chevron turns without spring, the sweep becomes an opacity wash with the text swapped at once, and the badge fades.",
+      "The status line speaks a modification once typing has been still for a beat, and the reset when the sweep lands — never per keystroke.",
+    ],
+  },
+  {
+    name: "token-budget",
+    type: "registry:ui",
+    title: "Token Budget",
+    description:
+      "A max-tokens control whose bar tells the truth about how much of the cap will be spent. The bar is the slider's track: a pale fill reaches the cap and a solid fill reaches the host's estimate of the reply, both settling on glide, while the thumb travels on snap for a key step or a track press. When the estimate passes the cap the overflow is hatched warn and a cut chip lands on flick; the cap and the estimate roll their digits on snap, and arrows, Page keys, Home and End drive the thumb.",
+    files: [
+      {
+        path: "registry/ui/token-budget.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-786",
+    },
+    tagline: "Output, capped.",
+    keywords: [
+      "tokens",
+      "max tokens",
+      "cap",
+      "slider",
+      "estimate",
+      "truncate",
+      "agent",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "1024",
+        description:
+          "Controlled or initial cap in tokens; snapped to step and clamped to min and max.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description: "Fires from a drag, a track press or an arrow key.",
+      },
+      {
+        name: "onSettle",
+        type: "(value: number) => void",
+        description: "Fires once the cap has been still for half a second.",
+      },
+      {
+        name: "estimate",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Tokens the host expects the reply to need; shaded inside the cap, hatched past it.",
+      },
+      {
+        name: "min / max / step",
+        type: "number",
+        defaultValue: "64 / 4096 / 64",
+        description:
+          "The cap's range and the arrow-key step; the track's full length is max.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the slider.",
+      },
+      {
+        name: "format",
+        type: "(tokens: number) => string",
+        defaultValue: "en-US grouping",
+        description: "Readout and aria-valuetext.",
+      },
+    ],
+    usageNotes: [
+      "The thumb is a slider: arrows step, PageUp and PageDown move four steps, Home and End jump; a press on the track jumps there and a drag captures the pointer only after four pixels of travel.",
+      "Under reduced motion the fills and thumb tween, the digits swap in place and the cut chip fades — the fills still fill, because the estimate is information.",
+      "The status region speaks the cap and the estimate once they have been still for half a second, never per keystroke.",
+    ],
+  },
+  {
+    name: "tool-toggle",
+    type: "registry:ui",
+    title: "Tool Toggle",
+    description:
+      "A grid of switches deciding what the model may reach for. Switching a tool on draws its procedural glyph with pathLength on flick while the plate tints cobalt and the knob crosses on snap; switching it off undraws the glyph and leaves an empty socket, so an off tool never reads as a greyed picture. The header counts the tools that are on and rolls its digits on snap from the flip that changed it; arrows walk the grid, Home and End jump, Space and Enter flip.",
+    files: [
+      {
+        path: "registry/ui/tool-toggle.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-787",
+    },
+    tagline: "Which tools it may use.",
+    keywords: ["tools", "switch", "grid", "glyph", "enable", "count", "agent"],
+    props: [
+      {
+        name: "tools",
+        type: "ToggleTool[]",
+        description:
+          "{ id, name, hint?, icon } where icon is one of search, browser, file, shell, calc or mail.",
+      },
+      {
+        name: "enabled / defaultEnabled",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "Controlled or initial ids that are on.",
+      },
+      {
+        name: "onEnabledChange",
+        type: "(enabled: string[], changed: { id: string; on: boolean }) => void",
+        description: "Fires from the press or key that flipped a switch.",
+      },
+      {
+        name: "columns",
+        type: "1 | 2 | 3",
+        defaultValue: "2",
+        description: "Grid columns; two fit a phone.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the group and the count.",
+      },
+    ],
+    usageNotes: [
+      "Each cell is a real switch button under a roving tabindex: Left and Right move one cell, Up and Down move one row, Home and End jump, Space and Enter flip.",
+      "Under reduced motion glyphs swap on opacity, knobs swap sides and the digits swap in place — the count still changes, because it is information.",
+      "The status region speaks the flipped tool and the new count once per flip; the hint is the switch's description.",
+    ],
+  },
+  {
+    name: "safety-dial",
+    type: "registry:ui",
+    title: "Safety Dial",
+    description:
+      "A three-stop dial for how careful the model should be. The needle glides to the chosen stop on glide, a surface coming to rest, while the stop's description slides in from the side the needle moved toward on snap inside a cell whose measured height glides. The strictest stop locks the flagged tools: a padlock lands on each chip on flick under a hatch that fades in. Arrows move one stop, Home and End jump, and a press on the face chooses the stop nearest the pointer's bearing.",
+    files: [
+      {
+        path: "registry/ui/safety-dial.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-788",
+    },
+    tagline: "How careful.",
+    keywords: ["safety", "dial", "needle", "level", "strict", "lock", "agent"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: '"open" | "guarded" | "strict"',
+        defaultValue: '"guarded"',
+        description: "Controlled or initial level.",
+      },
+      {
+        name: "onValueChange",
+        type: "(level: SafetyLevel, lockedToolIds: string[]) => void",
+        description:
+          "Fires from the press or key that moved the needle, with the ids locked at the new level.",
+      },
+      {
+        name: "descriptions",
+        type: "Partial<Record<SafetyLevel, string>>",
+        description:
+          "One sentence per stop, shown beneath the dial; house copy by default.",
+      },
+      {
+        name: "tools",
+        type: "DialTool[]",
+        defaultValue: "[]",
+        description:
+          "{ id, name, strictLocks? }; flagged tools lock at Strict.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the dial.",
+      },
+    ],
+    usageNotes: [
+      "The stops are a radio group with a roving tabindex: Left and Right move one stop without wrapping, Home and End jump, Space and Enter select; the face is hidden art a press can also aim at, with no pointer capture to swallow a click.",
+      "Under reduced motion the needle swaps to its stop, the description cross-fades in place and the locks still appear, because they are information.",
+      'The status region speaks the stop and what it locks; locked chips carry "locked" in their accessible name, not colour alone.',
+    ],
+  },
+  {
+    name: "seed-lock",
+    type: "registry:ui",
+    title: "Seed Lock",
+    description:
+      "A seed field with a lock. A rolling readout sits over a real mono input, so a new seed rolls into place digit by digit on snap while the input keeps the value for forms and assistive technology. The lock's shackle closes on flick, turning the field read-only and settling the regenerate control's randomness dots to one faint grey; unlocking opens the shackle and rolls a new seed at once, derived from the old one by an integer hash so server and client agree. Typing edits the seed directly.",
+    files: [
+      {
+        path: "registry/ui/seed-lock.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-789",
+    },
+    tagline: "Same seed, same answer.",
+    keywords: [
+      "seed",
+      "lock",
+      "random",
+      "regenerate",
+      "deterministic",
+      "input",
+      "agent",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '"48213907"',
+        description: "Controlled or initial seed, digits only.",
+      },
+      {
+        name: "onValueChange",
+        type: '(seed: string, reason: "typed" | "rolled") => void',
+        description:
+          "Fires from a keystroke, an unlock or the regenerate control.",
+      },
+      {
+        name: "locked / defaultLocked",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial lock state.",
+      },
+      {
+        name: "onLockedChange",
+        type: "(locked: boolean) => void",
+        description: "Fires from the lock switch.",
+      },
+      {
+        name: "maxDigits",
+        type: "number",
+        defaultValue: "9",
+        description: "Longest seed the field accepts.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the field.",
+      },
+    ],
+    usageNotes: [
+      'The input is a numeric text field labelled by label, read-only while locked; the lock is a switch named "Lock seed" and the regenerate control a button named "New seed" that stays focusable while disabled so the keyboard can read why.',
+      "Under reduced motion the digits swap in place, the shackle swaps open or closed and the dots swap their pattern — the read-only dim still shows.",
+      "The status region speaks from the lock and the roll only, never from a keystroke; nextSeed is exported so a host can derive the same roll.",
+    ],
+  },
+  {
+    name: "sampling-graph",
+    type: "registry:ui",
+    title: "Sampling Graph",
+    description:
+      "A bar chart of next-token probabilities drawn from the host's logits by a softmax at the given temperature, a repetition penalty on tokens already seen and a top-p nucleus that cuts the tail. Rows are keyed by token and sorted by probability, so a parameter change that reorders them is a FLIP layout move on glide while each bar scales on glide and the percentages roll on snap. A seeded draw picks one token and its bar lights: the fill turns signal and a pip lands on flick; a settle timer speaks the pick once the parameters are still.",
+    files: [
+      {
+        path: "registry/ui/sampling-graph.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-790",
+    },
+    tagline: "Where the next word comes from.",
+    keywords: [
+      "sampling",
+      "probability",
+      "softmax",
+      "temperature",
+      "top-p",
+      "bar chart",
+      "agent",
+    ],
+    props: [
+      {
+        name: "candidates",
+        type: "SamplingCandidate[]",
+        description: "{ token, logit, seen? }; at most a dozen rows read well.",
+      },
+      {
+        name: "temperature",
+        type: "number",
+        defaultValue: "1",
+        description: "Softmax temperature; clamped to 0.05 or more.",
+      },
+      {
+        name: "penalty",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Repetition penalty dividing the logit of seen tokens; 1 is off.",
+      },
+      {
+        name: "topP",
+        type: "number",
+        defaultValue: "1",
+        description: "Nucleus share; tokens past it are cut and never drawn.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description: "Seeds the draw that picks the token.",
+      },
+      {
+        name: "onSettle",
+        type: "(pick: SamplingPick) => void",
+        description:
+          "Fires from the settle timer with { token, probability, rank } once the parameters have been still for half a second.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the chart.",
+      },
+    ],
+    usageNotes: [
+      'The chart takes no input: every parameter is a prop the host\'s own controls drive, so the keyboard path is the host\'s; rows are list items carrying the token, its percentage, "cut" and "picked" as text.',
+      "Under reduced motion rows swap into their new order without travelling, bars tween, digits swap and the pick's light is a colour swap — the sort and the light still happen, because they are information.",
+      "sampleDistribution is exported so a host can read the same pick the chart shows without waiting for the settle; every probability is rounded to six decimals and every width to three before it reaches an attribute.",
+    ],
+  },
 ];
