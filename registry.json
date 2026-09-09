@@ -19546,6 +19546,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "loan-slider",
+      "type": "registry:ui",
+      "title": "Loan Slider",
+      "description": "One slider for the amount and a row of chips for the term, with the cost of the answer printed live beneath them. The thumb tracks a drag with no lag and takes a click, a key or a term chip on snap; the monthly payment counts to its new value on glide through a motion value, and the cost rail — principal in cobalt, total interest in warn, scaled against the dearest loan on offer — grows on glide as the amount rises and lengthens its warn share as the term stretches. Arrows step the slider, Page keys move ten, Home and End reach the ends; the terms are a radio group with a roving tabindex.",
+      "files": [
+        {
+          "path": "registry/ui/loan-slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-699"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "repayment-arc",
+      "type": "registry:ui",
+      "title": "Repayment Arc",
+      "description": "The whole cost of a loan — principal plus every scheduled interest charge — drawn as one 240° arc that fills clockwise with what has actually been repaid: principal in cobalt from the start and interest in warn continuing from where the principal ends, both shares animated together on glide. Their sum places the frontier, a marker riding the arc with the next due date just outside it; the date swaps only once the spring has settled, so the label never names a date the arc has not yet reached, and the centre figure counts on glide. Nothing takes focus: it is a role=\"meter\" driven by its props.",
+      "files": [
+        {
+          "path": "registry/ui/repayment-arc.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-700"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "credit-dial",
+      "type": "registry:ui",
+      "title": "Credit Dial",
+      "description": "A 240° dial banded from poor to excellent whose needle sweeps to the score on glide and settles without a wobble; the figure under the hub is derived from the same motion value, so it counts exactly as fast as the needle turns. While the needle moves the band label is withheld; when the spring settles the band fades in on the enter ease and, given a previous reading, a change chip arrives beside it on snap — the same physics up or down. It is a role=\"meter\" that announces the settled reading once; nothing takes focus.",
+      "files": [
+        {
+          "path": "registry/ui/credit-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-701"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "limit-raise",
+      "type": "registry:ui",
+      "title": "Limit Raise",
+      "description": "A credit limit drawn as a bar against the most the issuer could grant — the current limit a solid cobalt segment with the balance used drawn darker inside it — and a stepper beneath that names the limit you would like, its tick sliding along the bar on snap. Requesting draws the ask as a hatched extension that grows from the limit's end on snap and marches while the request stands; approval fills it, the solid segment gliding out over the hatch as the figure rolls to the new limit and an Approved chip lands on recoil, while a decline turns the hatch danger and says so in words. The readout is a role=\"spinbutton\": arrows step, Page keys move five, Home and End reach the ends.",
+      "files": [
+        {
+          "path": "registry/ui/limit-raise.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-702"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "apr-compare",
+      "type": "registry:ui",
+      "title": "APR Compare",
+      "description": "Two loan offers as two cards in one row, each reading its lender, its APR, the monthly payment it implies for the amount being borrowed, and a cost bar. The APR and monthly figures are odometer columns that roll on snap when the amount or the quotes change; each cost bar is principal in cobalt plus interest in warn, scaled against the dearer offer's total and settling on glide, and the cheaper card says so in words. Picking an offer lifts it a nudge on snap with a raised shadow and dims the other by opacity; the cards are a radio group where the arrows move the pick, Home and End jump, and Space or Enter picks.",
+      "files": [
+        {
+          "path": "registry/ui/apr-compare.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-703"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "amortise-stack",
+      "type": "registry:ui",
+      "title": "Amortise Stack",
+      "description": "A loan as one stacked bar per payment, interest over principal, whose boundary slides down period by period. The bars rise on glide in a cascade; scrubbing across the chart moves a cursor on snap and the split beneath rolls its digits on snap while a ratio bar re-proportions on glide. It is a slider: Left and Right step a period, Home and End jump, Page keys move a year.",
+      "files": [
+        {
+          "path": "registry/ui/amortise-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-704"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "overdraft-line",
+      "type": "registry:ui",
+      "title": "Overdraft Line",
+      "description": "A balance line over a chart whose zero sits above the floor: the space down to the limit is the overdraft band. Scrubbing reveals the series up to a day on glide; below zero the line turns danger and a red fill drops from the zero line to that day's depth on glide, while the balance and the fee accrued roll their digits on snap. It is a slider: Left and Right step a day, Home and End jump.",
+      "files": [
+        {
+          "path": "registry/ui/overdraft-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-705"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "paydown-plan",
+      "type": "registry:ui",
+      "title": "Paydown Plan",
+      "description": "A list of debts and the order to clear them. A two-stop control picks smallest-first or highest-rate-first and the rows reorder with a FLIP layout move on glide, their rank numerals cross-fading in place; a range input sets the extra paid each month, and the projected debt-free date rolls its year on snap while the month fades over and the total interest rolls with it. Arrows move the order control, the range is native.",
+      "files": [
+        {
+          "path": "registry/ui/paydown-plan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-706"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "autopay-toggle",
+      "type": "registry:ui",
+      "title": "Autopay Toggle",
+      "description": "A switch that puts a bill on autopay. The knob rides its track on snap and a calendar glyph beside it turns over on the same spring, from a dash to the pay date's day; below, the upcoming schedule is an ordered list into which the autopay payment slides on snap at its dated place while the rows around it glide apart and the list grows to its measured height. Space and Enter toggle the switch.",
+      "files": [
+        {
+          "path": "registry/ui/autopay-toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-707"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "grace-timer",
+      "type": "registry:ui",
+      "title": "Grace Timer",
+      "description": "A grace period as a bar that drains linearly from where it stands to empty, only while running and the tab is visible, with the days remaining stepping down on snap from the tick that crosses each day. Inside the last days the bar and figure turn warn; at zero interest applies. Pay stops the drain where it stands and a PAID seal stamps into the figure's place on recoil. Pay is a real button; the bar is a meter.",
+      "files": [
+        {
+          "path": "registry/ui/grace-timer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-708"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

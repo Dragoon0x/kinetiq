@@ -890,6 +890,16 @@ import { TwoFactorDemo } from "@/registry/demos/two-factor.demo";
 import { SessionListDemo } from "@/registry/demos/session-list.demo";
 import { LivenessDotsDemo } from "@/registry/demos/liveness-dots.demo";
 import { VerifiedSealDemo } from "@/registry/demos/verified-seal.demo";
+import { LoanSliderDemo } from "@/registry/demos/loan-slider.demo";
+import { RepaymentArcDemo } from "@/registry/demos/repayment-arc.demo";
+import { CreditDialDemo } from "@/registry/demos/credit-dial.demo";
+import { LimitRaiseDemo } from "@/registry/demos/limit-raise.demo";
+import { AprCompareDemo } from "@/registry/demos/apr-compare.demo";
+import { AmortiseStackDemo } from "@/registry/demos/amortise-stack.demo";
+import { OverdraftLineDemo } from "@/registry/demos/overdraft-line.demo";
+import { PaydownPlanDemo } from "@/registry/demos/paydown-plan.demo";
+import { AutopayToggleDemo } from "@/registry/demos/autopay-toggle.demo";
+import { GraceTimerDemo } from "@/registry/demos/grace-timer.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1794,4 +1804,14 @@ export const demos: Record<string, ComponentType> = {
   "session-list": SessionListDemo,
   "liveness-dots": LivenessDotsDemo,
   "verified-seal": VerifiedSealDemo,
+  "loan-slider": LoanSliderDemo,
+  "repayment-arc": RepaymentArcDemo,
+  "credit-dial": CreditDialDemo,
+  "limit-raise": LimitRaiseDemo,
+  "apr-compare": AprCompareDemo,
+  "amortise-stack": AmortiseStackDemo,
+  "overdraft-line": OverdraftLineDemo,
+  "paydown-plan": PaydownPlanDemo,
+  "autopay-toggle": AutopayToggleDemo,
+  "grace-timer": GraceTimerDemo,
 };

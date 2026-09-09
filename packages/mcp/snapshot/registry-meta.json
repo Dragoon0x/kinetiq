@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 699,
+      "components": 709,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -46154,6 +46154,938 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/verified-seal",
         "bun": "bunx --bun shadcn@latest add @kinetiq/verified-seal",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/verified-seal.json"
+      }
+    },
+    {
+      "slug": "loan-slider",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Loan Slider",
+      "serial": "KQ-699",
+      "tagline": "Borrow more; pay more each month.",
+      "description": "One slider for the amount and a row of chips for the term, with the cost of the answer printed live beneath them. The thumb tracks a drag with no lag and takes a click, a key or a term chip on snap; the monthly payment counts to its new value on glide through a motion value, and the cost rail — principal in cobalt, total interest in warn, scaled against the dearest loan on offer — grows on glide as the amount rises and lengthens its warn share as the term stretches. Arrows step the slider, Page keys move ten, Home and End reach the ends; the terms are a radio group with a roving tabindex.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "loan",
+        "slider",
+        "term",
+        "monthly",
+        "interest",
+        "amortised",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "min",
+          "description": "Controlled or initial loan amount."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(amount: number) => void",
+          "description": "Fires from the drag, click or key that moved the amount."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "defaultValue": "1000",
+          "description": "Smallest amount on offer."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "25000",
+          "description": "Largest amount on offer; also scales the cost rail."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "250",
+          "description": "Amount per arrow key and drag snap; Page keys move ten."
+        },
+        {
+          "name": "terms",
+          "type": "number[]",
+          "defaultValue": "[12, 24, 36, 48, 60]",
+          "description": "Term chips, in months."
+        },
+        {
+          "name": "term / defaultTerm",
+          "type": "number",
+          "defaultValue": "the middle chip",
+          "description": "Controlled or initial term in months."
+        },
+        {
+          "name": "onTermChange",
+          "type": "(months: number) => void",
+          "description": "Fires from the click or key that picked a term."
+        },
+        {
+          "name": "apr",
+          "type": "number",
+          "description": "Annual rate in percent; drives the amortised payment."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat, two decimals",
+          "description": "Formats every amount the control prints."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Loan amount",
+          "description": "Names the slider; printed above it."
+        }
+      ],
+      "usageNotes": [
+        "The track is a role=\"slider\" with a money aria-valuetext: arrows step, Page keys move ten steps, Home and End reach the ends. The term chips are a radio group with a roving tabindex where Left and Right step without wrapping and Space selects.",
+        "Under reduced motion the thumb and the term knob take their positions without springs, the monthly figure sets instead of counting, and the rail segments tween their widths — the cost still shows, because what a loan costs is information.",
+        "Pointer capture is taken only after 4px of travel, so a plain click on the track sets the amount; the status sentence holds its last settled quote during a drag and catches up on release."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/loan-slider",
+      "registryItemUrl": "https://www.kinetiqui.com/r/loan-slider.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/loan-slider",
+        "npm": "npx shadcn@latest add @kinetiq/loan-slider",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/loan-slider",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/loan-slider",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/loan-slider.json"
+      }
+    },
+    {
+      "slug": "repayment-arc",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Repayment Arc",
+      "serial": "KQ-700",
+      "tagline": "How far through the loan you are.",
+      "description": "The whole cost of a loan — principal plus every scheduled interest charge — drawn as one 240° arc that fills clockwise with what has actually been repaid: principal in cobalt from the start and interest in warn continuing from where the principal ends, both shares animated together on glide. Their sum places the frontier, a marker riding the arc with the next due date just outside it; the date swaps only once the spring has settled, so the label never names a date the arc has not yet reached, and the centre figure counts on glide. Nothing takes focus: it is a role=\"meter\" driven by its props.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "repayment",
+        "arc",
+        "loan",
+        "principal",
+        "interest",
+        "due",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "total",
+          "type": "number",
+          "description": "Principal plus every scheduled interest charge; the full arc."
+        },
+        {
+          "name": "paidPrincipal",
+          "type": "number",
+          "description": "Principal repaid so far; the cobalt share."
+        },
+        {
+          "name": "paidInterest",
+          "type": "number",
+          "description": "Interest paid so far; the warn share."
+        },
+        {
+          "name": "paidCount",
+          "type": "number",
+          "description": "Instalments made."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "description": "Instalments in the schedule."
+        },
+        {
+          "name": "nextDue",
+          "type": "string",
+          "description": "The next due date in its own words, printed at the frontier."
+        },
+        {
+          "name": "nextAmount",
+          "type": "number",
+          "description": "The next instalment, printed under the arc when given."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat, two decimals",
+          "description": "Formats every amount the arc prints."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Repayment",
+          "description": "Names the meter; printed above the arc."
+        }
+      ],
+      "usageNotes": [
+        "A role=\"meter\" whose aria-valuetext reads paid of total, the principal and interest split, the instalments made and the next due date; the legend names the split in words so colour is never the only carrier. Nothing here takes focus.",
+        "Under reduced motion the two shares set their lengths on a short tween, the frontier jumps to its place and the date swaps at once — the arc still fills, because how far through you are is information.",
+        "Every trigonometric coordinate is rounded to three decimals before it reaches the markup, so the server and the browser agree on the frontier."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/repayment-arc",
+      "registryItemUrl": "https://www.kinetiqui.com/r/repayment-arc.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/repayment-arc",
+        "npm": "npx shadcn@latest add @kinetiq/repayment-arc",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/repayment-arc",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/repayment-arc",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/repayment-arc.json"
+      }
+    },
+    {
+      "slug": "credit-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Credit Dial",
+      "serial": "KQ-701",
+      "tagline": "A score with a needle.",
+      "description": "A 240° dial banded from poor to excellent whose needle sweeps to the score on glide and settles without a wobble; the figure under the hub is derived from the same motion value, so it counts exactly as fast as the needle turns. While the needle moves the band label is withheld; when the spring settles the band fades in on the enter ease and, given a previous reading, a change chip arrives beside it on snap — the same physics up or down. It is a role=\"meter\" that announces the settled reading once; nothing takes focus.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "credit",
+        "score",
+        "dial",
+        "needle",
+        "gauge",
+        "band",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "score",
+          "type": "number",
+          "description": "The reading the needle sweeps to."
+        },
+        {
+          "name": "previous",
+          "type": "number",
+          "description": "The last reading; given it, the change chip shows the move."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Floor of the scale."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "1000",
+          "description": "Ceiling of the scale."
+        },
+        {
+          "name": "bands",
+          "type": "CreditBand[]",
+          "defaultValue": "five bands, poor to excellent",
+          "description": "Ascending { label, from, tone } bands; each colours its own segment of the arc."
+        },
+        {
+          "name": "sweepOnMount",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Sweep up from the floor on first paint rather than starting at the score."
+        },
+        {
+          "name": "onSettle",
+          "type": "(score: number) => void",
+          "description": "Fires when the needle has settled on a score."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Score",
+          "description": "Names the meter; printed above the dial."
+        }
+      ],
+      "usageNotes": [
+        "A role=\"meter\" whose aria-valuetext reads the score of the ceiling, the band and the move since the previous reading; the settled reading is announced once through a status line, and the move is spoken in words rather than carried by colour alone.",
+        "Under reduced motion the needle and the counting figure set to the score at once, the band label swaps by opacity and the chip appears in place without travel.",
+        "Every trigonometric coordinate is rounded to three decimals before it reaches the markup, so the server and the browser agree on the dial."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/credit-dial",
+      "registryItemUrl": "https://www.kinetiqui.com/r/credit-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/credit-dial",
+        "npm": "npx shadcn@latest add @kinetiq/credit-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/credit-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/credit-dial",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/credit-dial.json"
+      }
+    },
+    {
+      "slug": "limit-raise",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Limit Raise",
+      "serial": "KQ-702",
+      "tagline": "Ask for more room.",
+      "description": "A credit limit drawn as a bar against the most the issuer could grant — the current limit a solid cobalt segment with the balance used drawn darker inside it — and a stepper beneath that names the limit you would like, its tick sliding along the bar on snap. Requesting draws the ask as a hatched extension that grows from the limit's end on snap and marches while the request stands; approval fills it, the solid segment gliding out over the hatch as the figure rolls to the new limit and an Approved chip lands on recoil, while a decline turns the hatch danger and says so in words. The readout is a role=\"spinbutton\": arrows step, Page keys move five, Home and End reach the ends.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "credit",
+        "limit",
+        "raise",
+        "request",
+        "approval",
+        "hatched",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "The current limit; the solid segment. Raise it when a request is approved."
+        },
+        {
+          "name": "used",
+          "type": "number",
+          "description": "Balance already used; drawn inside the limit."
+        },
+        {
+          "name": "ceiling",
+          "type": "number",
+          "defaultValue": "limit × 2.5",
+          "description": "The most that can be asked for; the full track."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "500",
+          "description": "Amount per stepper press or arrow key; Page keys move five."
+        },
+        {
+          "name": "proposed / defaultProposed",
+          "type": "number",
+          "defaultValue": "limit + step",
+          "description": "Controlled or initial ask; the uncontrolled ask resets to limit + step when the limit changes."
+        },
+        {
+          "name": "onProposedChange",
+          "type": "(amount: number) => void",
+          "description": "Fires from the press or key that changed the ask."
+        },
+        {
+          "name": "status",
+          "type": "\"idle\" | \"requested\" | \"approved\" | \"declined\"",
+          "defaultValue": "idle",
+          "description": "Where the request stands; the parent decides."
+        },
+        {
+          "name": "onRequest",
+          "type": "(amount: number) => void",
+          "description": "Fires from the Request button with the ask."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat, two decimals",
+          "description": "Formats every amount the bar prints."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Credit limit",
+          "description": "Names the meter; printed above the bar."
+        }
+      ],
+      "usageNotes": [
+        "The bar is a role=\"meter\" of the balance against the limit whose aria-valuetext names the room and the state of any request; the ask readout is a role=\"spinbutton\" beside real − and + buttons, and the verdict is printed and announced in words, never colour alone.",
+        "Under reduced motion the extension, the tick and the fill take their widths on a short tween, the hatch stands still and the chip fades in place — the fill still fills, because the new room is information.",
+        "The parent plays issuer: on approval raise `limit` to the ask and set status to approved, and clear the status back to idle when the ask changes so a stale verdict never stands beside a new question."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/limit-raise",
+      "registryItemUrl": "https://www.kinetiqui.com/r/limit-raise.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/limit-raise",
+        "npm": "npx shadcn@latest add @kinetiq/limit-raise",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/limit-raise",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/limit-raise",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/limit-raise.json"
+      }
+    },
+    {
+      "slug": "apr-compare",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "APR Compare",
+      "serial": "KQ-703",
+      "tagline": "Two offers, side by side.",
+      "description": "Two loan offers as two cards in one row, each reading its lender, its APR, the monthly payment it implies for the amount being borrowed, and a cost bar. The APR and monthly figures are odometer columns that roll on snap when the amount or the quotes change; each cost bar is principal in cobalt plus interest in warn, scaled against the dearer offer's total and settling on glide, and the cheaper card says so in words. Picking an offer lifts it a nudge on snap with a raised shadow and dims the other by opacity; the cards are a radio group where the arrows move the pick, Home and End jump, and Space or Enter picks.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "apr",
+        "compare",
+        "offers",
+        "loan",
+        "rate",
+        "cost",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "offers",
+          "type": "[AprOffer, AprOffer]",
+          "description": "The two offers, left and right: { id, lender, apr, term, fee? }."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The principal both offers are costed against."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial picked offer id; nothing picked when omitted."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the click or key that picked an offer."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat, two decimals",
+          "description": "Formats every amount the cards print."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "Offers",
+          "description": "Names the group; printed above the cards."
+        }
+      ],
+      "usageNotes": [
+        "A role=\"radiogroup\" of two role=\"radio\" cards with a roving tabindex: Left and Right move the pick without wrapping, Home and End jump, Space and Enter pick. Each card carries an aria-label sentence with its lender, rate, term, monthly and total, and the status line announces the pick and the difference.",
+        "Under reduced motion the digits swap in place, the bars and totals set on a short tween, and picking changes the border and dims the other card by opacity with no lift.",
+        "Both cost bars share one scale — the dearer offer's total — so the same pixel means the same money on either card."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/apr-compare",
+      "registryItemUrl": "https://www.kinetiqui.com/r/apr-compare.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/apr-compare",
+        "npm": "npx shadcn@latest add @kinetiq/apr-compare",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/apr-compare",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/apr-compare",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/apr-compare.json"
+      }
+    },
+    {
+      "slug": "amortise-stack",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Amortise Stack",
+      "serial": "KQ-704",
+      "tagline": "Interest first, then principal.",
+      "description": "A loan as one stacked bar per payment, interest over principal, whose boundary slides down period by period. The bars rise on glide in a cascade; scrubbing across the chart moves a cursor on snap and the split beneath rolls its digits on snap while a ratio bar re-proportions on glide. It is a slider: Left and Right step a period, Home and End jump, Page keys move a year.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "amortisation",
+        "loan",
+        "interest",
+        "principal",
+        "schedule",
+        "scrub",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "principal",
+          "type": "number",
+          "description": "Amount borrowed, in major units."
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "description": "Annual interest rate as a percentage."
+        },
+        {
+          "name": "periods",
+          "type": "number",
+          "description": "Number of monthly payments; one bar each."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial period index, 0-based."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(period: number, split: AmortiseSplit) => void",
+          "description": "Fires from the pointer or key event that moved the cursor, with that period's interest, principal, balance and payment."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD via Intl.NumberFormat",
+          "description": "Turns an amount into its printed string."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the chart for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The chart is one role=\"slider\" over the periods: Left and Right step, Home and End jump to the first and last, PageUp and PageDown move twelve; hovering or dragging scrubs the same value, and aria-valuetext reads the split.",
+        "Under reduced motion the bars stand at full height with no cascade, the cursor swaps to its period, the digits swap in place, and the ratio bar re-proportions with a short tween.",
+        "Every amount passes through format; the three figures are left-aligned in equal columns so a figure gaining a digit never shifts its neighbours."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/amortise-stack",
+      "registryItemUrl": "https://www.kinetiqui.com/r/amortise-stack.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/amortise-stack",
+        "npm": "npx shadcn@latest add @kinetiq/amortise-stack",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/amortise-stack",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/amortise-stack",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/amortise-stack.json"
+      }
+    },
+    {
+      "slug": "overdraft-line",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Overdraft Line",
+      "serial": "KQ-705",
+      "tagline": "Below zero, but how far.",
+      "description": "A balance line over a chart whose zero sits above the floor: the space down to the limit is the overdraft band. Scrubbing reveals the series up to a day on glide; below zero the line turns danger and a red fill drops from the zero line to that day's depth on glide, while the balance and the fee accrued roll their digits on snap. It is a slider: Left and Right step a day, Home and End jump.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "overdraft",
+        "balance",
+        "fee",
+        "bank",
+        "line",
+        "chart",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "points",
+          "type": "number[]",
+          "description": "End-of-day balances in major units, oldest first; negative is overdrawn."
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "description": "The overdraft limit as a positive amount, the band's floor."
+        },
+        {
+          "name": "feeRate",
+          "type": "number",
+          "defaultValue": "19.9",
+          "description": "Annual rate charged on the overdrawn amount, as a percentage, accrued per day over 365."
+        },
+        {
+          "name": "day / defaultDay",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Controlled or initial count of days revealed, 1 to points.length."
+        },
+        {
+          "name": "onDayChange",
+          "type": "(day: number, reading: OverdraftReading) => void",
+          "description": "Fires from the pointer or key event that moved the day, with that day's balance, overdrawn depth and fee."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD via Intl.NumberFormat",
+          "description": "Turns an amount into its printed string."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the chart for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The chart is one role=\"slider\" over the days: Left and Right step, Home and End jump, hovering or dragging scrubs; the pointer is captured only after four pixels of travel so a click still focuses.",
+        "Under reduced motion the reveal, the fill and the marker jump to their positions; the red fill still fills with a short tween, because how far below zero is the information.",
+        "readOverdraft(points, day, feeRate) is exported so a host can print the same balance and fee the chart shows without waiting for an event."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/overdraft-line",
+      "registryItemUrl": "https://www.kinetiqui.com/r/overdraft-line.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/overdraft-line",
+        "npm": "npx shadcn@latest add @kinetiq/overdraft-line",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/overdraft-line",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/overdraft-line",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/overdraft-line.json"
+      }
+    },
+    {
+      "slug": "paydown-plan",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Paydown Plan",
+      "serial": "KQ-706",
+      "tagline": "Which debt first.",
+      "description": "A list of debts and the order to clear them. A two-stop control picks smallest-first or highest-rate-first and the rows reorder with a FLIP layout move on glide, their rank numerals cross-fading in place; a range input sets the extra paid each month, and the projected debt-free date rolls its year on snap while the month fades over and the total interest rolls with it. Arrows move the order control, the range is native.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "debt",
+        "paydown",
+        "snowball",
+        "avalanche",
+        "payoff",
+        "reorder",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "debts",
+          "type": "PaydownDebt[]",
+          "description": "{ id, name, balance, rate, minimum }, rate as an annual percentage."
+        },
+        {
+          "name": "strategy / defaultStrategy",
+          "type": "\"smallest\" | \"rate\"",
+          "defaultValue": "\"smallest\"",
+          "description": "Controlled or initial order: smallest balance first, or highest rate first."
+        },
+        {
+          "name": "onStrategyChange",
+          "type": "(strategy: PaydownStrategy) => void",
+          "description": "Fires from the press that changed the order."
+        },
+        {
+          "name": "extra / defaultExtra",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial extra monthly payment on top of the minimums."
+        },
+        {
+          "name": "onExtraChange",
+          "type": "(extra: number) => void",
+          "description": "Fires from the range input's change event."
+        },
+        {
+          "name": "maxExtra",
+          "type": "number",
+          "defaultValue": "500",
+          "description": "Top of the extra-payment range."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "25",
+          "description": "Range step."
+        },
+        {
+          "name": "start",
+          "type": "{ year: number; month: number }",
+          "description": "The first payment's month (1 to 12); passed explicitly so the render never reads the clock."
+        },
+        {
+          "name": "onProjectionChange",
+          "type": "(projection: PaydownProjection) => void",
+          "description": "Fires from the effect that observed a changed plan, with months, interest, the payoff month and each debt's clearing month."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD via Intl.NumberFormat",
+          "description": "Turns an amount into its printed string."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the plan for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The order control is a radio group with a roving tabindex: Left, Right, Up and Down move and select, Home and End jump, Space selects; the extra payment is a native range input labelled Extra each month.",
+        "Under reduced motion the rows swap places without travelling and the date, month and interest figures swap in place; the order still changes, because the order is the information.",
+        "projectPaydown(debts, strategy, extra, start) is exported: minimums go to every debt each month and the extra, plus any minimum freed by a cleared debt, goes to the first debt still open in the chosen order."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/paydown-plan",
+      "registryItemUrl": "https://www.kinetiqui.com/r/paydown-plan.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/paydown-plan",
+        "npm": "npx shadcn@latest add @kinetiq/paydown-plan",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/paydown-plan",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/paydown-plan",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/paydown-plan.json"
+      }
+    },
+    {
+      "slug": "autopay-toggle",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Autopay Toggle",
+      "serial": "KQ-707",
+      "tagline": "Paid on the day, every time.",
+      "description": "A switch that puts a bill on autopay. The knob rides its track on snap and a calendar glyph beside it turns over on the same spring, from a dash to the pay date's day; below, the upcoming schedule is an ordered list into which the autopay payment slides on snap at its dated place while the rows around it glide apart and the list grows to its measured height. Space and Enter toggle the switch.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "autopay",
+        "switch",
+        "toggle",
+        "schedule",
+        "calendar",
+        "bill",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "checked / defaultChecked",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial switch state."
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "(checked: boolean) => void",
+          "description": "Fires from the press that flipped it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What is being paid; names the switch."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The payment autopay will make."
+        },
+        {
+          "name": "nextDate",
+          "type": "{ month: number; day: number }",
+          "description": "The next pay date, month 1 to 12; passed explicitly so the render never reads the clock."
+        },
+        {
+          "name": "schedule",
+          "type": "ScheduleItem[]",
+          "defaultValue": "[]",
+          "description": "Other upcoming payments: { id, label, month, day, amount }, in any order."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD via Intl.NumberFormat",
+          "description": "Turns an amount into its printed string."
+        }
+      ],
+      "usageNotes": [
+        "A role=\"switch\" button labelled by the bill and described by the line that names the date and amount, so Space and Enter toggle and a reader hears what on means; a status line announces the change.",
+        "Under reduced motion the knob swaps position, the glyph's faces cross-fade instead of turning, the row fades in place, and the list height changes with a short tween.",
+        "The list's height is measured with a ResizeObserver, never reserved; switching off sends the autopay row out on the exit ease and the list closes up."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/autopay-toggle",
+      "registryItemUrl": "https://www.kinetiqui.com/r/autopay-toggle.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/autopay-toggle",
+        "npm": "npx shadcn@latest add @kinetiq/autopay-toggle",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/autopay-toggle",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/autopay-toggle",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/autopay-toggle.json"
+      }
+    },
+    {
+      "slug": "grace-timer",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Grace Timer",
+      "serial": "KQ-708",
+      "tagline": "Days left before it counts.",
+      "description": "A grace period as a bar that drains linearly from where it stands to empty, only while running and the tab is visible, with the days remaining stepping down on snap from the tick that crosses each day. Inside the last days the bar and figure turn warn; at zero interest applies. Pay stops the drain where it stands and a PAID seal stamps into the figure's place on recoil. Pay is a real button; the bar is a meter.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "grace",
+        "countdown",
+        "timer",
+        "statement",
+        "interest",
+        "stamp",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "days",
+          "type": "number",
+          "description": "Length of the grace period in days."
+        },
+        {
+          "name": "daysUsed",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Days already elapsed when the timer mounts."
+        },
+        {
+          "name": "running",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Runs the drain; false holds it where it stands."
+        },
+        {
+          "name": "secondsPerDay",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Real seconds per simulated day."
+        },
+        {
+          "name": "warnDays",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Days remaining at which the bar turns warn."
+        },
+        {
+          "name": "paid / defaultPaid",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial paid state."
+        },
+        {
+          "name": "onPaidChange",
+          "type": "(paid: boolean) => void",
+          "description": "Fires from the Pay press."
+        },
+        {
+          "name": "onDaysChange",
+          "type": "(daysLeft: number) => void",
+          "description": "Fires from the tick that crossed into a new day."
+        },
+        {
+          "name": "onExpire",
+          "type": "() => void",
+          "description": "Fires from the tick that reached zero."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The statement balance the Pay button settles."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "USD via Intl.NumberFormat",
+          "description": "Turns an amount into its printed string."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the timer."
+        }
+      ],
+      "usageNotes": [
+        "The bar is a role=\"meter\" of days left with aria-valuetext; Pay is a real button that disables once paid or expired; a status line announces the warn window, expiry and payment rather than every day.",
+        "Under reduced motion the bar still drains because a countdown is information, the figure swaps instead of rolling, and the seal appears without scaling or bouncing.",
+        "The drain runs only from the running prop, pauses while the document is hidden, and never reads the clock during render; remount with a key to reset it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/grace-timer",
+      "registryItemUrl": "https://www.kinetiqui.com/r/grace-timer.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/grace-timer",
+        "npm": "npx shadcn@latest add @kinetiq/grace-timer",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/grace-timer",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/grace-timer",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/grace-timer.json"
       }
     },
     {
