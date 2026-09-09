@@ -7414,3 +7414,859 @@ test.describe("billing", () => {
     await expect(stage.getByText("$24.00", { exact: true })).toHaveCount(1);
   });
 });
+
+/**
+ * A verdict in the identity family holds for about a second — a review, a
+ * scan, a prompt — and `expect` backs its own polling off to a second, so a
+ * read that waits for such a moment polls on a tight cadence, and reads that
+ * share one moment are issued together rather than one after the other.
+ */
+const tight = { intervals: [100], timeout: 4000 };
+const textOf = (locator: Locator) => async (): Promise<string> =>
+  (await locator.textContent()) ?? "";
+const attributeOf =
+  (locator: Locator, name: string) => async (): Promise<string | null> =>
+    locator.getAttribute(name);
+
+/**
+ * The identity family is a series of verdicts the component never reaches on
+ * its own: a review that comes back approved or rejected, a scan read as
+ * blurred, a code that matched or did not, a device the host chose to trust.
+ * Every test drives the mechanic through the keyboard where the component
+ * publishes one, lets the demo's timers hand down the verdict, and reads the
+ * outcome off the demo's status line and the ARIA the component publishes
+ * about itself — the step that is current, the ring's value, the alert that
+ * names the failure, the focus that was handed on.
+ */
+test.describe("identity", () => {
+  test("kyc-steps: Enter submits the open step, approval stamps it and hands focus down, a rejection reopens it with the reason", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/kyc-steps");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const steps = stage
+      .getByRole("list", { name: "Coldbrook Bank · open an account" })
+      .getByRole("listitem");
+    // Only the open step renders a control, so this is always that step's.
+    const action = steps.getByRole("button");
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText("step 1 of 3 · Identity document");
+    await expect(steps).toHaveCount(3);
+    await expect(steps.nth(0)).toHaveAttribute("aria-current", "step");
+    await expect(steps.nth(0)).toHaveAttribute(
+      "aria-label",
+      "Identity document, step 1 of 3, open",
+    );
+    await expect(steps.nth(1)).toHaveAttribute(
+      "aria-label",
+      "Selfie, step 2 of 3, locked",
+    );
+    await expect(steps.nth(1)).not.toHaveAttribute("aria-current", "step");
+    await expect(action).toHaveCount(1);
+    await expect(action).toHaveText("Submit");
+    await expect(reset).toBeDisabled();
+    await expect(announced).toBeEmpty();
+
+    // Enter hands the step to the host: the button turns busy, keeps a name.
+    await action.focus();
+    await page.keyboard.press("Enter");
+    // The review lasts 1.3s, so these read the one moment together.
+    await Promise.all([
+      expect(status).toContainText("step 1 of 3 · in review"),
+      expect(action).toHaveText("In review"),
+      expect(action).toHaveAttribute("aria-busy", "true"),
+      expect(announced).toHaveText("Identity document in review."),
+      expect(steps.nth(0)).toHaveAttribute(
+        "aria-label",
+        "Identity document, step 1 of 3, in review",
+      ),
+    ]);
+
+    // Approval stamps the node, unlocks the selfie and hands focus to its
+    // button rather than letting it fall to the body with the old one.
+    await expect(status).toContainText("step 2 of 3 · Selfie", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText(
+      "Identity document approved. Selfie is next.",
+    );
+    await expect(steps.nth(0)).toHaveAttribute(
+      "aria-label",
+      "Identity document, step 1 of 3, approved",
+    );
+    await expect(steps.nth(0)).not.toHaveAttribute("aria-current", "step");
+    await expect(steps.nth(1)).toHaveAttribute("aria-current", "step");
+    await expect(steps.nth(1)).toHaveAttribute(
+      "aria-label",
+      "Selfie, step 2 of 3, open",
+    );
+    await expect(action).toHaveCount(1);
+    await expect(action).toBeFocused();
+
+    // The first selfie comes back rejected: the reason is an alert, and the
+    // same button now reads Resubmit.
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("step 2 of 3 · in review");
+    await expect(status).toContainText("step 2 of 3 · rejected", {
+      timeout: 5000,
+    });
+    await expect(stage.getByRole("alert")).toHaveText(
+      "Face was partly out of frame. Take it again.",
+    );
+    await expect(steps.nth(1)).toHaveAttribute(
+      "aria-label",
+      "Selfie, step 2 of 3, rejected",
+    );
+    await expect(action).toHaveText("Resubmit");
+    await expect(action).toBeFocused();
+
+    // Resubmitting approves; the third step opens and the alert is gone.
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("step 3 of 3 · Proof of address", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText(
+      "Selfie approved. Proof of address is next.",
+    );
+    await expect(stage.getByRole("alert")).toHaveCount(0);
+    await expect(steps.nth(2)).toHaveAttribute("aria-current", "step");
+    await expect(action).toHaveText("Submit");
+
+    await action.click();
+    await expect(status).toContainText("verified · 3 of 3", { timeout: 5000 });
+    await expect(announced).toHaveText("All steps approved.");
+    await expect(steps.nth(2)).toHaveAttribute(
+      "aria-label",
+      "Proof of address, step 3 of 3, approved",
+    );
+    await expect(action).toHaveCount(0);
+
+    await reset.click();
+    await expect(status).toContainText("step 1 of 3 · Identity document");
+    await expect(steps.nth(0)).toHaveAttribute("aria-current", "step");
+    await expect(action).toHaveText("Submit");
+  });
+
+  test("doc-scan: Enter captures, the brackets lock on and the bar sweeps, the first read is blurred and the retry is captured", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/doc-scan");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const frame = stage.getByRole("img", { name: /^Coldbrook ID, / });
+    const action = stage.getByRole("button", {
+      name: /^(Capture|Scanning|Retry|Captured)$/,
+    });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText("ready · hold the card in frame");
+    await expect(frame).toHaveAccessibleName(
+      "Coldbrook ID, hold the card in frame",
+    );
+    await expect(action).toHaveText("Capture");
+    await expect(announced).toHaveText("Hold the card in frame");
+    await expect(reset).toBeDisabled();
+
+    // Enter starts finding: the same button turns busy and reads Scanning.
+    await action.focus();
+    await page.keyboard.press("Enter");
+    // The brackets take half a second to lock on, so these read that one
+    // moment together.
+    await Promise.all([
+      expect(status).toContainText("finding edges"),
+      expect(action).toHaveText("Scanning"),
+      expect(action).toHaveAttribute("aria-busy", "true"),
+      expect(frame).toHaveAccessibleName("Coldbrook ID, finding edges"),
+      expect(announced).toHaveText("Finding edges"),
+    ]);
+
+    // The brackets settle and the bar sweeps for 1.4s; then the host reads
+    // the first scan as blurred, which is an alert, and the button offers
+    // Retry.
+    await Promise.all([
+      expect.poll(textOf(status), tight).toContain("scanning"),
+      expect
+        .poll(attributeOf(frame, "aria-label"), tight)
+        .toBe("Coldbrook ID, hold still"),
+      expect.poll(textOf(announced), tight).toBe("Hold still"),
+    ]);
+    await expect(status).toContainText("blurred · hold still", {
+      timeout: 6000,
+    });
+    await expect(stage.getByRole("alert")).toHaveText(
+      "Blurred. Hold the document still",
+    );
+    await expect(frame).toHaveAccessibleName(
+      "Coldbrook ID, blurred. hold the document still",
+    );
+    await expect(action).toHaveText("Retry");
+    await expect(action).not.toHaveAttribute("aria-busy", "true");
+    await expect(announced).toBeEmpty();
+
+    // Retry is the same button, still focused: Enter finds, scans, captures.
+    await expect(action).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("finding edges");
+    await expect(status).toContainText("captured · coldbrook id", {
+      timeout: 8000,
+    });
+    await expect(frame).toHaveAccessibleName("Coldbrook ID, captured");
+    await expect(action).toHaveText("Captured");
+    await expect(action).toHaveAttribute("aria-disabled", "true");
+    await expect(announced).toHaveText("Captured");
+    await expect(stage.getByRole("alert")).toHaveCount(0);
+
+    // A captured frame does not capture again.
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("captured · coldbrook id");
+
+    await reset.click();
+    await expect(status).toContainText("ready · hold the card in frame");
+    await expect(action).toHaveText("Capture");
+  });
+
+  test("selfie-ring: Enter starts the prompts and the ring fills one segment each, a lost face drains it, Try again runs through to passed", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/selfie-ring");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The caption is the component's own status region, ahead of the demo's.
+    const caption = stage.locator("[role='status']").first();
+    const ring = stage.getByRole("progressbar", {
+      name: "Basinworks Exchange · confirm withdrawal",
+    });
+    const action = stage.getByRole("button", {
+      name: /^(Start check|Checking|Passed|Try again)$/,
+    });
+    const lose = stage.getByRole("button", { name: "Lose the face" });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText("ready · 0 of 4");
+    await expect(ring).toHaveAttribute("aria-valuenow", "0");
+    await expect(ring).toHaveAttribute("aria-valuemax", "4");
+    await expect(ring).toHaveAttribute(
+      "aria-valuetext",
+      "0 of 4, ready when you are",
+    );
+    await expect(caption).toHaveText("Ready when you are");
+    await expect(action).toHaveText("Start check");
+    await expect(lose).toBeDisabled();
+    await expect(reset).toBeDisabled();
+
+    await action.focus();
+    await page.keyboard.press("Enter");
+    // A prompt holds for 1.1s, so these read the one moment together.
+    await Promise.all([
+      expect(status).toContainText("Centre your face · 1 of 4"),
+      expect(action).toHaveText("Checking"),
+      expect(action).toHaveAttribute("aria-busy", "true"),
+      expect(ring).toHaveAttribute("aria-valuenow", "0"),
+      expect(ring).toHaveAttribute(
+        "aria-valuetext",
+        "0 of 4, centre your face",
+      ),
+      expect(caption).toHaveText("Centre your face"),
+    ]);
+
+    // The host advances one prompt per beat; the ring counts the ones done.
+    await Promise.all([
+      expect.poll(textOf(status), tight).toContain("Turn left · 2 of 4"),
+      expect.poll(attributeOf(ring, "aria-valuenow"), tight).toBe("1"),
+      expect
+        .poll(attributeOf(ring, "aria-valuetext"), tight)
+        .toBe("1 of 4, turn left"),
+    ]);
+
+    // Losing the face drains the ring to nothing and raises an alert.
+    await lose.click();
+    await expect(status).toContainText("failed · face lost");
+    await expect(stage.getByRole("alert")).toHaveText("Face lost");
+    await expect(ring).toHaveAttribute("aria-valuenow", "0");
+    await expect(ring).toHaveAttribute("aria-valuetext", "0 of 4, face lost");
+    await expect(action).toHaveText("Try again");
+    await expect(action).not.toHaveAttribute("aria-busy", "true");
+    await expect(lose).toBeDisabled();
+
+    // Try again starts from the first prompt and runs through to passed.
+    await action.click();
+    await Promise.all([
+      expect(status).toContainText("Centre your face · 1 of 4"),
+      expect(ring).toHaveAttribute("aria-valuenow", "0"),
+    ]);
+    await expect
+      .poll(textOf(status), { ...tight, timeout: 6000 })
+      .toContain("Blink · 4 of 4");
+    await expect(status).toContainText("passed · 4 of 4", { timeout: 4000 });
+    await expect(ring).toHaveAttribute("aria-valuenow", "4");
+    await expect(ring).toHaveAttribute("aria-valuetext", "4 of 4, all clear");
+    await expect(caption).toHaveText("All clear");
+    await expect(action).toHaveText("Passed");
+    await expect(action).toHaveAttribute("aria-disabled", "true");
+
+    await reset.click();
+    await expect(status).toContainText("ready · 0 of 4");
+    await expect(ring).toHaveAttribute("aria-valuenow", "0");
+    await expect(action).toHaveText("Start check");
+  });
+
+  test("otp-cells: typed digits advance the row and Backspace steps back, a wrong code is refused and cleared, the pasted code verifies", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/otp-cells");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const group = stage.getByRole("group", {
+      name: "Waylight Pay · confirm sign-in",
+    });
+    const cell = (n: number): Locator =>
+      group.getByRole("textbox", { name: `Digit ${n} of 6` });
+    const paste = stage.getByRole("button", { name: "Paste code" });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText("code · 0 of 6");
+    await expect(group.getByRole("textbox")).toHaveCount(6);
+    // Tab enters the row at the first empty cell.
+    await expect(cell(1)).toHaveAttribute("tabindex", "0");
+    await expect(cell(2)).toHaveAttribute("tabindex", "-1");
+    await expect(announced).toBeEmpty();
+
+    // Each digit lands and moves the focus on; Backspace on an empty cell
+    // clears the one before it and steps back; Home and End jump.
+    await cell(1).focus();
+    await page.keyboard.type("4821");
+    await expect(status).toContainText("code · 4 of 6");
+    await expect(cell(5)).toBeFocused();
+    await expect(cell(5)).toHaveAttribute("tabindex", "0");
+    await expect(cell(4)).toHaveValue("1");
+    await page.keyboard.press("Backspace");
+    await expect(status).toContainText("code · 3 of 6");
+    await expect(cell(4)).toBeFocused();
+    await expect(cell(4)).toHaveValue("");
+    await page.keyboard.press("Home");
+    await expect(cell(1)).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(cell(4)).toBeFocused();
+
+    // A wrong code fills the row and asks for verification once the last
+    // digit has landed; refused, the row clears and focus returns to the
+    // first cell with the reason as an alert.
+    await page.keyboard.type("199");
+    // Verification holds for 1.2s, so these read the one moment together.
+    await Promise.all([
+      expect.poll(textOf(status), tight).toContain("verifying"),
+      expect.poll(attributeOf(group, "aria-busy"), tight).toBe("true"),
+      expect.poll(textOf(announced), tight).toBe("Verifying"),
+      expect(cell(6)).toHaveValue("9"),
+    ]);
+    await expect(status).toContainText("rejected · try again", {
+      timeout: 5000,
+    });
+    await expect(stage.getByRole("alert")).toHaveText(
+      "That code did not match.",
+    );
+    await expect(cell(1)).toHaveAttribute("aria-invalid", "true");
+    await expect(group).not.toHaveAttribute("aria-busy", "true");
+    await expect(cell(1)).toBeFocused();
+    await expect(cell(6)).toHaveValue("");
+    await expect(cell(1)).toHaveValue("");
+    await expect(announced).toBeEmpty();
+
+    // The sent code arrives in one commit and verifies.
+    await paste.click();
+    await Promise.all([
+      expect(cell(1)).toHaveValue("4"),
+      expect(cell(6)).toHaveValue("0"),
+      expect.poll(textOf(status), tight).toContain("verifying"),
+    ]);
+    await expect(status).toContainText("verified · signed in", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText("Verified");
+    await expect(stage.getByRole("alert")).toHaveCount(0);
+    await expect(cell(1)).not.toHaveAttribute("aria-invalid", "true");
+    await expect(cell(6)).toHaveJSProperty("readOnly", true);
+    await expect(paste).toBeDisabled();
+
+    await reset.click();
+    await expect(status).toContainText("code · 0 of 6");
+    await expect(cell(6)).toHaveValue("");
+  });
+
+  test("device-trust: Enter asks for approval and the seal stamps when the host trusts, hover lifts its edge, Enter again peels it away", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/device-trust");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const card = stage.getByRole("group", {
+      name: "Coldbrook Bank · this device",
+    });
+    const action = card.getByRole("button", {
+      name: /^(Trust this device|Approving|Revoke trust)$/,
+    });
+    // The seal is aria-hidden art, so it is read off the page; its ring of
+    // type is the text it carries.
+    const seal = card.locator("span.drop-shadow-sm");
+    const lift = async (): Promise<number> =>
+      seal.evaluate((element) => {
+        const match = /rotateY\(([-\d.]+)deg\)/.exec(element.style.transform);
+        return match ? Number(match[1]) : 0;
+      });
+
+    await expect(status).toContainText("untrusted · asks every time");
+    await expect(card).toContainText("Fieldline Air 13");
+    await expect(card).toContainText("Asks for a code every time");
+    await expect(action).toHaveText("Trust this device");
+    await expect(seal).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+
+    await action.focus();
+    await page.keyboard.press("Enter");
+    // Approval takes 1.2s, so these read the one moment together.
+    await Promise.all([
+      expect(status).toContainText("approving"),
+      expect(action).toHaveText("Approving"),
+      expect(action).toHaveAttribute("aria-busy", "true"),
+      expect(card).toContainText("Waiting for approval"),
+      expect(announced).toHaveText("Approving"),
+    ]);
+
+    // The host approves: the seal stamps and the footer remembers the device.
+    await expect(status).toContainText("trusted · 30 days", { timeout: 5000 });
+    await expect(action).toHaveText("Revoke trust");
+    await expect(action).not.toHaveAttribute("aria-busy", "true");
+    await expect(seal).toContainText("TRUSTED · DEVICE");
+    await expect(card).toContainText("Remembered for 30 days");
+    await expect(announced).toHaveText("Trusted for 30 days");
+
+    // Hovering Revoke previews the peel: the seal's edge lifts, and settles
+    // back when the pointer leaves.
+    await action.hover();
+    await expect.poll(lift, { timeout: 3000 }).toBe(18);
+    await page.mouse.move(0, 0);
+    await expect.poll(lift, { timeout: 3000 }).toBe(0);
+
+    // Enter on Revoke peels the seal away, and the footer swaps back.
+    await action.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("revoked · asks every time");
+    await expect(action).toHaveText("Trust this device");
+    await expect(card).toContainText("Asks for a code every time");
+    await expect(announced).toHaveText("Trust revoked");
+    await expect(seal).toHaveCount(0);
+  });
+
+  test("risk-hold: the ring drains and the window closing sends the payment on its own, a fresh hold is frozen by Enter on Escalate and cleared by Release", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/risk-hold");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const card = stage.getByRole("group", { name: "Waylight Pay" });
+    const timer = card.getByRole("timer", { name: "Review window" });
+    // The draining ring is the second circle in the window.
+    const ringOffset = ringOffsetOf(timer.locator("circle").nth(1));
+    const release = card.getByRole("button", { name: "Release" });
+    const escalate = card.getByRole("button", {
+      name: /^(Escalate|Escalated)$/,
+    });
+    const holdAgain = stage.getByRole("button", { name: "Hold again" });
+
+    await expect(status).toContainText("Held · review 8s");
+    await expect(card).toContainText("Held for review");
+    await expect(announced).toHaveText(
+      "Held for review. Releases in 8 seconds unless escalated.",
+    );
+    await expect(escalate).toHaveText("Escalate");
+    await expect(escalate).not.toHaveAttribute("aria-disabled", "true");
+    await expect(holdAgain).toBeDisabled();
+
+    // The readout ticks from the motion value, and the ring drains with it.
+    // The window is eight seconds from the page's own load, so this reads
+    // whatever second it is on and waits for the next.
+    await expect(timer).toHaveText(/^0:0[5-8]$/);
+    const readout = (await timer.textContent()) ?? "";
+    const fresh = await ringOffset();
+    await expect(timer).not.toHaveText(readout, { timeout: 4000 });
+    expect(await ringOffset()).toBeGreaterThan(fresh);
+
+    // The window closing sends the payment with nobody pressing anything:
+    // the notice leaves, the chip turns to Sent, and the cause is the timer.
+    await expect(status).toContainText("Released on timer · sent", {
+      timeout: 15000,
+    });
+    await expect(announced).toHaveText(
+      "Released when the review window closed. Payment sent.",
+    );
+    await expect(card).toContainText("Sent");
+    await expect(timer).toHaveCount(0);
+    await expect(release).toHaveCount(0);
+    await expect(holdAgain).toBeEnabled();
+
+    // A fresh hold gets a full ring: a resumed one would read a remainder, a
+    // fresh one reads the whole window, on the second it opens or the next.
+    await holdAgain.click();
+    await Promise.all([
+      expect(status).toContainText("Held · review 8s"),
+      expect(timer).toHaveText(/^0:0[78]$/),
+      expect(announced).toHaveText(
+        "Held for review. Releases in 8 seconds unless escalated.",
+      ),
+    ]);
+    await expect(card).toContainText("1,240.00");
+    await expect(card).toContainText("to Fernworks Ltd");
+
+    // Enter on Escalate freezes the window: the ring reads the same a second
+    // later, the control becomes an inert label, and the chip turns.
+    await escalate.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Escalated · awaiting review");
+    await expect(escalate).toHaveText("Escalated");
+    await expect(escalate).toHaveAttribute("aria-disabled", "true");
+    await expect(card).toContainText("Escalated for review");
+    await expect(announced).toHaveText("Escalated for manual review.");
+    const held = await ringOffset();
+    const frozen = (await timer.textContent()) ?? "";
+    await page.waitForTimeout(1000);
+    expect(await ringOffset()).toBe(held);
+    await expect(timer).toHaveText(frozen);
+    // The label stays a label: pressing it again changes nothing.
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Escalated · awaiting review");
+
+    // A human still clears it: Release slides the notice away and sends.
+    await release.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Released by reviewer · sent");
+    await expect(announced).toHaveText("Released by reviewer. Payment sent.");
+    await expect(card).toContainText("Sent");
+    await expect(timer).toHaveCount(0);
+  });
+
+  test("two-factor: a wrong code is refused and cleared, the seeded code verifies, and ArrowRight switches to the device route that approves", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/two-factor");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const tabs = stage.getByRole("tablist", { name: "Verification method" });
+    const codeTab = tabs.getByRole("tab", { name: "Enter code" });
+    const deviceTab = tabs.getByRole("tab", { name: "Approve on device" });
+    const input = stage.getByRole("textbox", { name: "6-digit code" });
+    const panel = stage.getByRole("tabpanel");
+    // The header's stamp; the announcement says "Verified." with a stop.
+    const stamp = stage.getByText("Verified", { exact: true });
+    const approve = stage.getByRole("button", { name: "Approve on phone" });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText("Code · waiting");
+    await expect(codeTab).toHaveAttribute("aria-selected", "true");
+    await expect(deviceTab).toHaveAttribute("aria-selected", "false");
+    await expect(panel).toHaveAccessibleName("Enter code");
+    await expect(panel).toContainText("From your authenticator app.");
+    await expect(input).toHaveValue("");
+    await expect(stamp).toHaveCount(0);
+    await expect(approve).toBeDisabled();
+    await expect(reset).toBeDisabled();
+    await expect(announced).toBeEmpty();
+
+    // The sixth digit submits. A wrong code is checked, then refused: the
+    // field clears, the alert names it, and the input is marked invalid.
+    await input.focus();
+    await page.keyboard.type("482911");
+    await expect(status).toContainText("code · checking");
+    await expect(status).toContainText("Code · did not match", {
+      timeout: 4000,
+    });
+    await expect(stage.getByRole("alert")).toHaveText(
+      "That code did not match.",
+    );
+    await expect(input).toHaveAttribute("aria-invalid", "true");
+    await expect(input).toHaveValue("");
+    await expect(panel).toContainText("That code did not match.");
+    await expect(stamp).toHaveCount(0);
+
+    // The seeded code goes through, and the header takes the stamp.
+    await page.keyboard.type("482913");
+    await expect(status).toContainText("code · checking");
+    await expect(status).toContainText("Verified · via code", {
+      timeout: 4000,
+    });
+    await expect(announced).toHaveText("Verified.");
+    await expect(stamp).toBeVisible();
+    await expect(input).toBeDisabled();
+    await expect(panel).toContainText("Code accepted.");
+    await expect(stage.getByRole("alert")).toHaveCount(0);
+
+    // Reset, then ArrowRight both moves and selects the device route.
+    await reset.click();
+    await expect(status).toContainText("Code · waiting");
+    await expect(stamp).toHaveCount(0);
+    await expect(input).toHaveValue("");
+    await codeTab.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(deviceTab).toBeFocused();
+    await expect(deviceTab).toHaveAttribute("aria-selected", "true");
+    await expect(codeTab).toHaveAttribute("aria-selected", "false");
+    await expect(status).toContainText("Device · waiting for phone");
+    await expect(panel).toHaveAccessibleName("Approve on device");
+    await expect(panel).toContainText("Waiting for Coldbrook phone");
+    await expect(announced).toHaveText(
+      "Waiting for approval on Coldbrook phone.",
+    );
+    await expect(input).toHaveCount(0);
+    await expect(approve).toBeEnabled();
+
+    // The phone approves: the same stamp lands, by the other route.
+    await approve.click();
+    await expect(status).toContainText("device · checking");
+    await expect(status).toContainText("Verified · via device", {
+      timeout: 4000,
+    });
+    await expect(panel).toContainText("Approved on Coldbrook phone");
+    await expect(stamp).toBeVisible();
+    await expect(announced).toHaveText("Verified.");
+    await expect(approve).toBeDisabled();
+  });
+
+  test("session-list: Enter signs one session out and hands focus to the next row, the footer cascades the rest away, Restore brings them back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/session-list");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const list = stage.getByRole("list", { name: "Basinworks Exchange" });
+    const rows = list.getByRole("listitem");
+    const coldbrook = list.getByRole("button", {
+      name: "Sign out Coldbrook phone",
+    });
+    const fieldline = list.getByRole("button", {
+      name: "Sign out Fieldline tablet",
+    });
+    const gaugeworks = list.getByRole("button", {
+      name: "Sign out Gaugeworks laptop",
+    });
+    const footer = stage.getByRole("button", {
+      name: "Sign out all other sessions",
+    });
+    const restore = stage.getByRole("button", { name: "Restore" });
+
+    await expect(status).toHaveText("4 sessions · 3 other");
+    await expect(rows).toHaveCount(4);
+    await expect(rows.first()).toContainText("Waylight laptop");
+    await expect(rows.first()).toContainText("This device");
+    // The live row has no control of its own.
+    await expect(list.getByRole("button")).toHaveCount(3);
+    await expect(
+      list.getByRole("button", { name: "Sign out Waylight laptop" }),
+    ).toHaveCount(0);
+    await expect(restore).toBeDisabled();
+    await expect(announced).toBeEmpty();
+
+    // Enter on a row's button signs it out; focus lands on the next row's
+    // button before the row leaves, and the count rolls.
+    await coldbrook.focus();
+    await page.keyboard.press("Enter");
+    await expect(fieldline).toBeFocused();
+    await expect(status).toHaveText(
+      "3 sessions · 2 other · signed out Coldbrook phone",
+    );
+    await expect(announced).toHaveText("Signed out Coldbrook phone");
+    await expect(rows).toHaveCount(3);
+    await expect(coldbrook).toHaveCount(0);
+    await expect(rows.nth(1)).toContainText("Fieldline tablet");
+    await expect(restore).toBeEnabled();
+
+    // The footer takes every other session, top to bottom, then leaves.
+    await footer.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("1 session · 0 other · signed out all");
+    await expect(announced).toHaveText("Signed out 2 sessions");
+    await expect(rows).toHaveCount(1);
+    await expect(fieldline).toHaveCount(0);
+    await expect(gaugeworks).toHaveCount(0);
+    await expect(footer).toHaveCount(0);
+    await expect(stage.getByText("No other sessions.")).toBeVisible();
+    await expect(rows.first()).toContainText("This device");
+
+    await restore.click();
+    await expect(status).toHaveText("4 sessions · 3 other");
+    await expect(rows).toHaveCount(4);
+    await expect(list.getByRole("button")).toHaveCount(3);
+    await expect(footer).toBeVisible();
+    await expect(restore).toBeDisabled();
+  });
+
+  test("liveness-dots: Enter catches the dot at each stop, a stop left alone is missed and fails the check, Try again runs a clean loop", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/liveness-dots");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const check = stage.getByRole("group", { name: "Basinworks Exchange" });
+    const begin = check.getByRole("button", { name: "Begin check" });
+    const retry = check.getByRole("button", { name: "Try again" });
+    const dot = check.getByRole("button", {
+      name: /^Dot, stop \d of 6\. Press to catch it\.$/,
+    });
+    // The closed loop through every stop; the caught rings are circles.
+    const loop = check.locator("path.stroke-success");
+
+    await expect(status).toHaveText("Idle");
+    await expect(check).toContainText("0 / 6");
+    await expect(dot).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+
+    // Begin from the keyboard — the pointer stays out of the stage, where
+    // touching the dot would count as a catch — and the dot takes focus.
+    await begin.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Running · 0 of 6");
+    await expect(dot).toHaveAccessibleName(
+      "Dot, stop 1 of 6. Press to catch it.",
+    );
+    await expect(dot).toBeFocused();
+    await expect(begin).toHaveCount(0);
+
+    // Space catches: the stop is stamped and the dot moves on, keeping focus.
+    // The next window closes about two seconds later, so these read the one
+    // moment together.
+    await page.keyboard.press(" ");
+    await Promise.all([
+      expect(status).toHaveText("Running · 1 of 6"),
+      expect(announced).toHaveText("Caught 1 of 6"),
+      expect(dot).toHaveAccessibleName("Dot, stop 2 of 6. Press to catch it."),
+      expect(dot).toBeFocused(),
+      expect(check).toContainText("1 / 6"),
+    ]);
+
+    // Left alone for the window, the second stop is missed.
+    await expect(announced).toHaveText("Missed 2 of 6", { timeout: 5000 });
+    await Promise.all([
+      expect(status).toHaveText("Running · 2 of 6"),
+      expect(dot).toHaveAccessibleName("Dot, stop 3 of 6. Press to catch it."),
+    ]);
+
+    // Enter catches the rest; one miss ends in failed, focus on Try again.
+    for (const stop of [3, 4, 5, 6]) {
+      await page.keyboard.press("Enter");
+      await expect(announced).toHaveText(
+        stop === 6 ? "Check failed. 5 of 6 caught." : `Caught ${stop} of 6`,
+      );
+    }
+    await expect(status).toHaveText("Failed · 5 of 6");
+    await expect(check).toContainText("5 of 6 caught. Try again.");
+    await expect(check).toContainText("5 / 6");
+    await expect(dot).toHaveCount(0);
+    await expect(retry).toBeFocused();
+    await expect(loop).toHaveCount(0);
+
+    // Try again restarts from the first stop; six catches close the loop.
+    await page.keyboard.press("Enter");
+    await Promise.all([
+      expect(status).toHaveText("Running · 0 of 6"),
+      expect(check).toContainText("0 / 6"),
+      expect(dot).toBeFocused(),
+    ]);
+    for (const stop of [1, 2, 3, 4, 5, 6]) {
+      await expect(dot).toHaveAccessibleName(
+        `Dot, stop ${stop} of 6. Press to catch it.`,
+      );
+      await page.keyboard.press("Enter");
+    }
+    await expect(status).toHaveText("Passed · 6 of 6");
+    await expect(announced).toHaveText("Liveness confirmed");
+    await expect(check).toContainText("Liveness confirmed.");
+    await expect(check).toContainText("6 / 6");
+    await expect(loop).toHaveCount(1);
+    await expect(dot).toHaveCount(0);
+  });
+
+  test("verified-seal: the checks stamp the seal, focus opens what was checked, Enter pins it, Escape closes it, Revoke lifts it away", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/verified-seal");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const seal = stage.getByRole("button", {
+      name: "Verified. Show what was checked",
+    });
+    const details = stage.getByRole("region", {
+      name: "Verification details",
+    });
+    const run = stage.getByRole("button", { name: "Run checks" });
+    const revoke = stage.getByRole("button", { name: "Revoke" });
+
+    await expect(status).toHaveText("Unverified");
+    await expect(stage.getByText("Marta Ferreira")).toBeVisible();
+    await expect(seal).toHaveCount(0);
+    await expect(details).toHaveCount(0);
+    await expect(revoke).toBeDisabled();
+    await expect(announced).toBeEmpty();
+
+    // The host's checks resolve to verified: the seal stamps beside the
+    // name, closed, and the profile is announced once.
+    await run.click();
+    await Promise.all([
+      expect(status).toHaveText("Checking"),
+      expect(run).toBeDisabled(),
+    ]);
+    await expect(status).toHaveText("Verified · 3 checks", { timeout: 4000 });
+    await expect(seal).toHaveAttribute("aria-expanded", "false");
+    await expect(announced).toHaveText("Marta Ferreira is verified.");
+    await expect(details).toHaveCount(0);
+    await expect(revoke).toBeEnabled();
+
+    // Focus opens the strip without pinning it.
+    await seal.focus();
+    await expect(seal).toHaveAttribute("aria-expanded", "true");
+    await expect(details).toBeVisible();
+    await expect(details).toContainText("Verified 3 Apr 2026");
+    await expect(details.getByRole("listitem")).toHaveCount(3);
+    await expect(details.getByRole("listitem").nth(0)).toContainText(
+      "Identity",
+    );
+    await expect(details.getByRole("listitem").nth(2)).toContainText(
+      "Payout account",
+    );
+    await expect(status).toHaveText("Verified · 3 checks");
+
+    // Enter pins it open; Escape closes it and keeps focus on the seal.
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Verified · details open");
+    await expect(seal).toHaveAttribute("aria-expanded", "true");
+    await page.keyboard.press("Escape");
+    await expect(status).toHaveText("Verified · 3 checks");
+    await expect(seal).toHaveAttribute("aria-expanded", "false");
+    await expect(details).toHaveCount(0);
+    await expect(seal).toBeFocused();
+
+    // Hover reads it too, and leaving closes it.
+    await seal.hover();
+    await expect(seal).toHaveAttribute("aria-expanded", "true");
+    await expect(details).toBeVisible();
+    await page.mouse.move(0, 0);
+    await expect(seal).toHaveAttribute("aria-expanded", "false");
+    await expect(details).toHaveCount(0);
+
+    // Revoke lifts the seal away, with the strip it would have opened.
+    await revoke.click();
+    await expect(status).toHaveText("Unverified");
+    await expect(announced).toHaveText("Verification removed.");
+    await expect(seal).toHaveCount(0);
+    await expect(details).toHaveCount(0);
+    await expect(run).toBeEnabled();
+  });
+});
