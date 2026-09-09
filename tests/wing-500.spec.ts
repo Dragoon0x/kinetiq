@@ -11208,3 +11208,782 @@ test.describe("markets", () => {
     );
   });
 });
+
+/** A poll target: the horizontal translate a knob or a pill is currently at. */
+const posXOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 0;
+    return new DOMMatrix(transform).e;
+  });
+
+/** A poll target: how far down a sheet has been pulled. */
+const posYOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 0;
+    return new DOMMatrix(transform).f;
+  });
+
+/** A poll target: the horizontal scale a bar's fill has drawn to. */
+const posScaleXOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 1;
+    return new DOMMatrix(transform).a;
+  });
+
+/**
+ * Records every distinct text a node passes through, so a word that is on
+ * screen for one beat before its row leaves is still on the record.
+ */
+const recordPosTrail = async (target: Locator): Promise<void> => {
+  await target.evaluate((element) => {
+    const trail: string[] = [];
+    const read = () => {
+      const text = (element.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (trail[trail.length - 1] !== text) trail.push(text);
+    };
+    read();
+    new MutationObserver(read).observe(element, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    (window as unknown as { __posTrail: string[] }).__posTrail = trail;
+  });
+};
+
+/** Everything the recorded node has said so far, oldest first. */
+const posTrailOf = (page: Page) => async (): Promise<string[]> =>
+  page.evaluate(
+    () => (window as unknown as { __posTrail?: string[] }).__posTrail ?? [],
+  );
+
+/**
+ * The point of sale family is the counter, seen from both sides: a tip screen
+ * turned to the customer, a bill split three ways, money going back, a
+ * receipt out of a mouth, a number called, a till counted, a card tapped, a
+ * tender chosen, a basket line ticked, and the day totalled. Every test
+ * drives the mechanic the component advertises — through the keyboard
+ * wherever it publishes one, and by the pointer where the mechanic is a
+ * slide or a pull — and reads the outcome off the demo's status line and the
+ * ARIA the component publishes about itself.
+ */
+test.describe("point of sale", () => {
+  test("tip-terminal: arrows pick the tip, the pad takes a custom figure, a short slide springs back and a full slide pays", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tip-terminal");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The terminal announces its own figures before the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const chips = stage.getByRole("radiogroup", { name: "Tip" });
+    const eighteen = chips.getByRole("radio", { name: /^18%/ });
+    const twenty = chips.getByRole("radio", { name: /^20%/ });
+    const custom = chips.getByRole("radio", { name: "Custom" });
+    const pad = stage.getByRole("group", { name: "Custom tip" });
+    // The knob's name carries the total, and flips to Paid once it has.
+    const knob = stage.getByRole("button", { name: /^Slide to confirm|^Paid/ });
+
+    await expect(status).toContainText(
+      "Coldbrook Coffee · tip $2.63 (18%) · total $17.23",
+    );
+    await expect(eighteen).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText("Tip $2.63, total $17.23");
+    await expect(knob).toHaveAccessibleName("Slide to confirm $17.23");
+
+    // Arrows move and pick in one press; End reaches the custom chip.
+    await eighteen.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(twenty).toBeFocused();
+    await expect(twenty).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("tip $2.92 (20%) · total $17.52");
+
+    await page.keyboard.press("End");
+    await expect(custom).toBeFocused();
+    await expect(custom).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("tip $0.00 (custom) · total $14.60");
+
+    // The pad's keys build the figure a digit at a time.
+    await pad.getByRole("button", { name: "3", exact: true }).click();
+    await pad.getByRole("button", { name: ".", exact: true }).click();
+    await pad.getByRole("button", { name: "5", exact: true }).click();
+    await expect(status).toContainText("tip $3.50 (custom) · total $18.10");
+    await expect(announced).toHaveText("Tip $3.50, total $18.10");
+    await expect(knob).toHaveAccessibleName("Slide to confirm $18.10");
+
+    // The track sits below the fold, and the mouse does not scroll on its own.
+    await knob.scrollIntoViewIfNeeded();
+    const track = knob.locator("..");
+    const inner = await track.evaluate((element) => element.clientWidth);
+    const start = await knob.boundingBox();
+    if (!start) throw new Error("the knob has no track to slide on");
+    // The knob's travel is the track inside its border, less the knob and
+    // its inset — the same measure the knob is pinned to once paid.
+    const travel = inner - start.width - 8;
+    const midY = start.y + start.height / 2;
+    const grip = start.x + start.width / 2;
+
+    // A slide that stops short springs back, and nothing is paid.
+    await page.mouse.move(grip, midY);
+    await page.mouse.down();
+    await page.mouse.move(grip + travel * 0.3, midY, { steps: 8 });
+    await page.mouse.up();
+    await expect.poll(posXOf(knob), { timeout: 4000 }).toBeLessThan(1);
+    await expect(status).toContainText("tip $3.50 (custom) · total $18.10");
+    await expect(knob).toBeEnabled();
+
+    // Past the commit point the release pays: the knob glides home, every
+    // chip and key locks, and the card reads Paid. A hand moves in small
+    // steps, each still on the knob, which is where the slide is picked up.
+    await page.mouse.move(grip, midY);
+    await page.mouse.down();
+    await page.mouse.move(grip + travel + 20, midY, { steps: 30 });
+    await page.mouse.up();
+    await expect(status).toContainText("Paid $18.10 · tip $3.50");
+    await expect(announced).toHaveText("Paid $18.10");
+    await expect(knob).toHaveAccessibleName("Paid $18.10");
+    await expect(knob).toBeDisabled();
+    await expect(custom).toBeDisabled();
+    await expect(
+      pad.getByRole("button", { name: "5", exact: true }),
+    ).toBeDisabled();
+    await expect
+      .poll(posXOf(knob), { timeout: 4000 })
+      .toBeGreaterThan(travel - 1);
+
+    // A new order is a new terminal, and Enter confirms it without a slide.
+    await stage.getByRole("button", { name: "New order" }).click();
+    await expect(status).toContainText(
+      "Coldbrook Coffee · tip $2.63 (18%) · total $17.23",
+    );
+    await expect(knob).toHaveAccessibleName("Slide to confirm $17.23");
+    await knob.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Paid $17.23 · tip $2.63");
+    await expect(knob).toHaveAccessibleName("Paid $17.23");
+  });
+
+  test("split-ways: arrows change the mode, a chip hands its item down the table and the steppers show what is left", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/split-ways");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const modes = stage.getByRole("radiogroup", { name: "Fernworks Kitchen" });
+    const byCount = modes.getByRole("radio", { name: "By count" });
+    const byItem = modes.getByRole("radio", { name: "By item" });
+    const byAmount = modes.getByRole("radio", { name: "By amount" });
+    const shares = stage.getByRole("list", { name: "Shares" });
+
+    await expect(status).toHaveText(
+      "By count · Ada $28.80 · Bo $28.80 · Cy $28.80",
+    );
+    await expect(byCount).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText(
+      "By count: Ada $28.80, Bo $28.80, Cy $28.80",
+    );
+    await expect(shares.getByRole("listitem")).toHaveCount(3);
+
+    // The arrow both moves and picks: the item mode reads the assignments.
+    await byCount.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(byItem).toBeFocused();
+    await expect(byItem).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText(
+      "By item · Ada $66.40 · Bo $12.00 · Cy $8.00",
+    );
+
+    // A chip names where it is and where it goes; Enter moves it a seat.
+    await stage
+      .getByRole("button", { name: "Flatbread $14.00, with Ada. Move to Bo" })
+      .press("Enter");
+    await expect(status).toHaveText(
+      "By item · Ada $52.40 · Bo $26.00 · Cy $8.00",
+    );
+    await stage
+      .getByRole("button", { name: "Flatbread $14.00, with Bo. Move to Cy" })
+      .press("Enter");
+    await expect(status).toHaveText(
+      "By item · Ada $52.40 · Bo $12.00 · Cy $22.00",
+    );
+    await expect(announced).toHaveText(
+      "By item: Ada $52.40, Bo $12.00, Cy $22.00, All assigned",
+    );
+
+    // End reaches the amount mode, which starts even and reports the gap.
+    await byItem.focus();
+    await page.keyboard.press("End");
+    await expect(byAmount).toBeFocused();
+    await expect(byAmount).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText(
+      "By amount · Ada $28.80 · Bo $28.80 · Cy $28.80",
+    );
+    await stage.getByRole("button", { name: "More for Ada" }).click();
+    await expect(status).toHaveText(
+      "By amount · Ada $29.80 · Bo $28.80 · Cy $28.80 · $1.00 over",
+    );
+    await expect(announced).toHaveText(
+      "By amount: Ada $29.80, Bo $28.80, Cy $28.80, Over $1.00",
+    );
+    const less = stage.getByRole("button", { name: "Less for Ada" });
+    await less.click();
+    await less.click();
+    await expect(status).toHaveText(
+      "By amount · Ada $27.80 · Bo $28.80 · Cy $28.80 · $1.00 unassigned",
+    );
+    await expect(announced).toHaveText(
+      "By amount: Ada $27.80, Bo $28.80, Cy $28.80, Unassigned $1.00",
+    );
+
+    // Home is the even split again, with nothing left over to report.
+    await byAmount.focus();
+    await page.keyboard.press("Home");
+    await expect(byCount).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText(
+      "By count · Ada $28.80 · Bo $28.80 · Cy $28.80",
+    );
+  });
+
+  test("refund-flow: keys and a click set the amount under the cap, and Refund sends it back to the card", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/refund-flow");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const slider = stage.getByRole("slider", { name: "Refund amount" });
+    const button = stage.getByRole("button", { name: /^Refund|^Sending back/ });
+    // The stamp is the one element that says only "Refunded".
+    const stamp = stage.getByText("Refunded", { exact: true });
+
+    await expect(status).toContainText("Refund $48.00 of $48.00 · full");
+    await expect(slider).toHaveAttribute("aria-valuemax", "48");
+    await expect(slider).toHaveAttribute("aria-valuenow", "48");
+    await expect(slider).toHaveAttribute("aria-valuetext", "$48.00");
+    await expect(announced).toHaveText("Refund $48.00 of $48.00, full refund");
+    await expect(stage.getByText("Full refund", { exact: true })).toBeVisible();
+
+    // Home is nothing back, and nothing back cannot be sent.
+    await slider.focus();
+    await page.keyboard.press("Home");
+    await expect(slider).toHaveAttribute("aria-valuenow", "0");
+    await expect(status).toContainText("Refund $0.00 of $48.00 · none");
+    await expect(
+      stage.getByText("Nothing back", { exact: true }),
+    ).toBeVisible();
+    await expect(button).toHaveText("Refund $0.00");
+    await expect(button).toBeDisabled();
+
+    // Page keys move ten; End is the whole charge and the cap holds past it.
+    await page.keyboard.press("PageUp");
+    await page.keyboard.press("PageUp");
+    await expect(slider).toHaveAttribute("aria-valuenow", "20");
+    await expect(slider).toHaveAttribute("aria-valuetext", "$20.00");
+    await expect(status).toContainText("Refund $20.00 of $48.00 · partial");
+    await expect(
+      stage.getByText("Partial refund", { exact: true }),
+    ).toBeVisible();
+    await page.keyboard.press("End");
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "48");
+    await expect(status).toContainText("Refund $48.00 of $48.00 · full");
+
+    // A plain click sets the amount where it lands: the middle is half.
+    await slider.click();
+    await expect(slider).toHaveAttribute("aria-valuenow", "24");
+    await expect(status).toContainText("Refund $24.00 of $48.00 · partial");
+    await expect(button).toHaveText("Refund $24.00");
+
+    // Refund travels, then lands: the stamp, the words, and a locked card.
+    await button.click();
+    await expect(button).toHaveAttribute("aria-busy", "true");
+    await expect(status).toContainText("Refunded $24.00 to •• 4182", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText("Refunded $24.00 to •• 4182");
+    await expect(button).toHaveText("Refunded $24.00");
+    await expect(button).toBeDisabled();
+    await expect(slider).toHaveAttribute("aria-disabled", "true");
+    await expect(stamp).toBeVisible();
+
+    // A new charge is a new card, back at the full amount.
+    await stage.getByRole("button", { name: "New charge" }).click();
+    await expect(status).toContainText("Refund $48.00 of $48.00 · full");
+    await expect(slider).toHaveAttribute("aria-valuenow", "48");
+    await expect(stamp).toHaveCount(0);
+    await expect(button).toBeEnabled();
+  });
+
+  test("receipt-print: Print feeds the lines out, Tear off takes the sheet by key, and the next sheet comes away by hand", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/receipt-print");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The printer's own visible state sits in its header row, before the demo's line.
+    const printer = stage.locator("[role='status']").first();
+    const print = stage.getByRole("button", { name: "Print" });
+    const sheet = stage.getByRole("region", { name: "Coldbrook Coffee" });
+    const lines = sheet.getByRole("listitem");
+    const tearOff = stage.getByRole("button", { name: "Tear off" });
+
+    await expect(status).toContainText("Coldbrook Coffee · ready");
+    await expect(printer).toHaveText("Ready");
+    await expect(sheet).toHaveCount(0);
+    await expect(tearOff).toHaveCount(0);
+    await expect(print).toBeEnabled();
+
+    // Lines feed one at a time; the tear control arrives only once the
+    // barcode is out.
+    await print.click();
+    await expect(status).toContainText("Coldbrook Coffee · printing");
+    await expect(printer).toHaveText("Printing");
+    await expect(print).toBeDisabled();
+    await expect(lines).toHaveCount(6, { timeout: 5000 });
+    await expect(lines.nth(0)).toHaveText(/Flat white\s*\$4\.20/);
+    await expect(lines.nth(4)).toHaveText(/Total\s*\$12\.31/);
+    await expect(lines.nth(5)).toHaveText("Thank you");
+    await expect(status).toContainText("printed · pull to tear", {
+      timeout: 5000,
+    });
+    await expect(printer).toHaveText("Printed");
+    await expect(tearOff).toBeVisible();
+    await expect(print).toBeDisabled();
+
+    // Enter on Tear off tears; the sheet leaves and the printer is free again.
+    await tearOff.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Coldbrook Coffee · torn off");
+    await expect(printer).toHaveText("Torn off");
+    await expect(sheet).toHaveCount(0, { timeout: 4000 });
+    await expect(tearOff).toHaveCount(0);
+    await expect(print).toBeEnabled();
+
+    // The next order prints a fresh sheet.
+    await print.click();
+    await expect(status).toContainText("printed · pull to tear", {
+      timeout: 5000,
+    });
+    await expect(lines).toHaveCount(6);
+    // The sheet hangs below the fold; a pull needs room beneath it in view.
+    await status.scrollIntoViewIfNeeded();
+    const paper = await sheet.boundingBox();
+    if (!paper) throw new Error("the sheet has no box to pull");
+    const midX = paper.x + paper.width / 2;
+    const gripY = paper.y + paper.height / 2;
+
+    // A short pull stretches against the perforation and springs back.
+    await page.mouse.move(midX, gripY);
+    await page.mouse.down();
+    await page.mouse.move(midX, gripY + 30, { steps: 6 });
+    await page.mouse.up();
+    await expect(status).toContainText("printed · pull to tear");
+    await expect.poll(posYOf(sheet), { timeout: 4000 }).toBeLessThan(1);
+    await expect(printer).toHaveText("Printed");
+
+    // Past the tear distance the sheet comes away from the release.
+    await page.mouse.move(midX, gripY);
+    await page.mouse.down();
+    await page.mouse.move(midX, gripY + 120, { steps: 8 });
+    await page.mouse.up();
+    await expect(status).toContainText("Coldbrook Coffee · torn off");
+    await expect(printer).toHaveText("Torn off");
+    await expect(sheet).toHaveCount(0, { timeout: 4000 });
+  });
+
+  test("queue-number: Next clicks the board over, the card is called at the ticket and passed after it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/queue-number");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const board = stage.getByRole("group", {
+      name: "Coldbrook Bank · Counter 3",
+    });
+    const next = stage.getByRole("button", { name: "Next" });
+    const auto = stage.getByRole("button", { name: /^Auto/ });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText(
+      "Serving A-042 · yours A-047 · 4 before you",
+    );
+    await expect(board).toContainText("A-042");
+    await expect(announced).toHaveText(
+      "Your number A-047, 4 before you, about 7 minutes",
+    );
+    await expect(stage.getByText(/wait ~6:1\d/)).toBeVisible();
+
+    // One call: the board and the estimate re-sync, and the wait keeps
+    // ticking down from the new figure.
+    await next.click();
+    await expect(status).toContainText(
+      "Serving A-043 · yours A-047 · 3 before you",
+    );
+    await expect(board).toContainText("A-043");
+    await expect(announced).toHaveText(
+      "Your number A-047, 3 before you, about 5 minutes",
+    );
+    await expect(stage.getByText(/wait ~(5:00|4:59)/)).toBeVisible();
+    await expect(stage.getByText(/wait ~4:5\d/)).toBeVisible({
+      timeout: 3000,
+    });
+
+    // The last number before ours reads "next"; ours is the call.
+    await next.click();
+    await next.click();
+    await next.click();
+    await expect(status).toContainText("Serving A-046 · yours A-047 · next");
+    await expect(announced).toHaveText(
+      "Your number A-047, next, about 2 minutes",
+    );
+    await next.click();
+    await expect(status).toContainText("Your turn · A-047");
+    await expect(board).toContainText("A-047");
+    await expect(announced).toHaveText("Your number A-047, your turn");
+    await expect(stage.getByText("Your turn", { exact: true })).toBeVisible();
+    await expect(auto).toBeDisabled();
+
+    // Past the ticket the card is history, and the branch has no next for us.
+    await next.click();
+    await expect(status).toContainText("Called earlier · A-047");
+    await expect(announced).toHaveText("Your number A-047, called earlier");
+    await expect(next).toBeDisabled();
+
+    // Reset returns the board; Auto then calls the next number on its own.
+    await reset.click();
+    await expect(status).toContainText(
+      "Serving A-042 · yours A-047 · 4 before you",
+    );
+    await expect(auto).toHaveAttribute("aria-pressed", "false");
+    await auto.click();
+    await expect(auto).toHaveAttribute("aria-pressed", "true");
+    await expect(auto).toHaveText("Auto on");
+    await expect(status).toContainText("Serving A-043", { timeout: 6000 });
+    await reset.click();
+    await expect(auto).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toContainText("Serving A-042");
+  });
+
+  test("cash-drawer: Open unlatches the tray, Count tallies every slot to the variance, and Close locks the total in", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/cash-drawer");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const till = stage.getByRole("group", { name: "Waylight Pay · Till 2" });
+    const open = till.getByRole("button", { name: "Open" });
+    const count = till.getByRole("button", { name: "Count" });
+    const close = till.getByRole("button", { name: "Close" });
+    // The tray shares the till's label and is out of the tree while closed.
+    const tray = till.getByRole("region", { name: "Waylight Pay · Till 2" });
+    const slots = tray.getByRole("listitem");
+
+    await expect(status).toHaveText("Locked");
+    await expect(announced).toHaveText("Locked");
+    await expect(tray).toHaveCount(0);
+    await expect(count).toBeDisabled();
+    await expect(close).toBeDisabled();
+
+    // Open: the tray is in the tree, uncounted, and Count is armed.
+    await open.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Open · not counted");
+    await expect(announced).toHaveText("Open, not counted");
+    await expect(open).toBeDisabled();
+    await expect(count).toBeEnabled();
+    await expect(slots).toHaveCount(6);
+    await expect(slots.first()).toContainText("$50.00 notes, 0 counted, $0.00");
+    await expect(till.getByText("Not counted", { exact: true })).toBeVisible();
+
+    // Count walks the slots; the footer settles on the total and its variance.
+    await count.click();
+    await expect(status).toHaveText("Counting");
+    await expect(count).toHaveAttribute("aria-disabled", "true");
+    await expect(status).toHaveText("Counted $483.75 · over $3.75", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText("Counted, $483.75, over $3.75");
+    await expect(slots.first()).toContainText(
+      "$50.00 notes, 4 counted, $200.00",
+    );
+    await expect(slots.last()).toContainText("$0.25 coins, 27 counted, $6.75");
+    await expect(till.getByText("Over $3.75", { exact: true })).toBeVisible();
+    await expect(count).toBeDisabled();
+
+    // Close locks the tallied total in and takes the tray out of the tree.
+    await close.click();
+    await expect(status).toHaveText("Locked · $483.75");
+    await expect(announced).toHaveText("Locked, $483.75");
+    await expect(tray).toHaveCount(0);
+    await expect(open).toBeEnabled();
+
+    // Opening again is a fresh count.
+    await open.click();
+    await expect(status).toHaveText("Open · not counted");
+    await expect(slots.first()).toContainText("$50.00 notes, 0 counted, $0.00");
+    await expect(count).toBeEnabled();
+  });
+
+  test("tap-reader: a press reads, the acquirer answers, and the same button starts the next sale either way", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tap-reader");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The reader's own state line is a status region before the demo's.
+    const line = stage.locator("[role='status']").first();
+    const ring = stage.getByRole("button", {
+      name: /^Tap to pay|^Reading$|^Approved, new sale$|^Declined, try again$/,
+    });
+    const answers = stage.getByRole("radiogroup", { name: "Acquirer answer" });
+    const decline = answers.getByRole("radio", { name: "Decline" });
+
+    await expect(status).toHaveText("Ready · $24.60");
+    await expect(ring).toHaveAccessibleName("Tap to pay $24.60");
+    await expect(line).toHaveText("Hold your card to the reader");
+    await expect(stage.getByText("WL-2041")).toBeVisible();
+
+    // Enter taps: the ring is busy until the acquirer approves.
+    await ring.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Reading");
+    await expect(ring).toHaveAccessibleName("Reading");
+    await expect(ring).toHaveAttribute("aria-busy", "true");
+    await expect(ring).toHaveAttribute("aria-disabled", "true");
+    await expect(line).toHaveText("Reading, keep the card still");
+    await expect(status).toHaveText("Approved · $24.60", { timeout: 5000 });
+    await expect(ring).toHaveAccessibleName("Approved, new sale");
+    await expect(line).toHaveText("Approved, take your card");
+
+    // Space on the same button is the next sale.
+    await page.keyboard.press(" ");
+    await expect(status).toHaveText("Ready · $8.75");
+    await expect(ring).toHaveAccessibleName("Tap to pay $8.75");
+    await expect(stage.getByText("WL-2042")).toBeVisible();
+
+    // With the acquirer armed to decline, the same tap ends the other way.
+    await decline.click();
+    await expect(decline).toHaveAttribute("aria-checked", "true");
+    await ring.click();
+    await expect(status).toHaveText("Reading");
+    await expect(status).toHaveText("Declined · $8.75", { timeout: 5000 });
+    await expect(ring).toHaveAccessibleName("Declined, try again");
+    await expect(line).toHaveText("Declined, try another card");
+    await ring.click();
+    await expect(status).toHaveText("Ready · $61.20");
+    await expect(ring).toHaveAccessibleName("Tap to pay $61.20");
+  });
+
+  test("tender-switch: arrows walk the stops without wrapping, and split's two fields keep each other honest", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tender-switch");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const group = stage.getByRole("radiogroup", {
+      name: "Waylight Pay · Sale",
+    });
+    const card = group.getByRole("radio", { name: "Card" });
+    const cash = group.getByRole("radio", { name: "Cash" });
+    const split = group.getByRole("radio", { name: "Split" });
+    const cardField = stage.getByRole("textbox", { name: "Card" });
+    const cashField = stage.getByRole("textbox", { name: "Cash" });
+
+    await expect(status).toHaveText("Card · $48.20");
+    await expect(card).toHaveAttribute("aria-checked", "true");
+    // Folded, the split fields are out of the tree altogether.
+    await expect(cardField).toHaveCount(0);
+
+    // Right steps to cash; two lefts stop at the first stop.
+    await card.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(cash).toBeFocused();
+    await expect(cash).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Cash · $48.20");
+    await page.keyboard.press("ArrowLeft");
+    await page.keyboard.press("ArrowLeft");
+    await expect(card).toBeFocused();
+    await expect(card).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Card · $48.20");
+
+    // End unfolds the split at half and half.
+    await page.keyboard.press("End");
+    await expect(split).toBeFocused();
+    await expect(split).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Split · card $24.10 · cash $24.10");
+    await expect(cardField).toHaveValue("24.10");
+    await expect(cashField).toHaveValue("24.10");
+
+    // Editing one side sets the other to the remainder.
+    await cardField.fill("30");
+    await expect(status).toHaveText("Split · card $30.00 · cash $18.20");
+    await expect(cashField).toHaveValue("18.20");
+    await cardField.press("Tab");
+    await expect(cardField).toHaveValue("30.00");
+
+    // More than the sale on one side clamps: the other side goes to zero.
+    await cashField.fill("50");
+    await expect(status).toHaveText("Split · card $0.00 · cash $48.20");
+    await expect(cardField).toHaveValue("0.00");
+    await cashField.press("Tab");
+    await expect(cashField).toHaveValue("48.20");
+
+    // Home folds it away again.
+    await split.focus();
+    await page.keyboard.press("Home");
+    await expect(card).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Card · $48.20");
+    await expect(cardField).toHaveCount(0);
+  });
+
+  test("line-item: keys tick the quantity between its limits, minus becomes remove at one, and the basket follows", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/line-item");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // Each line announces itself; the flat white's line comes first.
+    const announced = stage.locator("[role='status']").first();
+    const flatWhite = stage.getByRole("spinbutton", {
+      name: "Flat white quantity",
+    });
+    const increase = stage.getByRole("button", { name: "Increase" }).first();
+    const remove = stage.getByRole("button", { name: "Remove Flat white" });
+    const reset = stage.getByRole("button", { name: "Reset basket" });
+
+    await expect(status).toHaveText("3 lines · $27.40");
+    await expect(flatWhite).toHaveAttribute("aria-valuenow", "2");
+    await expect(flatWhite).toHaveAttribute("aria-valuemax", "99");
+    await expect(announced).toHaveText("Quantity 2, $8.40");
+    await expect(stage.getByRole("button", { name: "Decrease" })).toHaveCount(
+      1,
+    );
+    await expect(remove).toHaveCount(0);
+    await expect(reset).toBeDisabled();
+
+    // Up ticks one; the line total and the basket move in the same beat.
+    await flatWhite.focus();
+    await page.keyboard.press("ArrowUp");
+    await expect(flatWhite).toHaveAttribute("aria-valuenow", "3");
+    await expect(announced).toHaveText("Quantity 3, $12.60");
+    await expect(status).toHaveText("3 lines · $31.60");
+    await expect(reset).toBeEnabled();
+
+    // End is the maximum, where plus is spent.
+    await page.keyboard.press("End");
+    await expect(flatWhite).toHaveAttribute("aria-valuenow", "99");
+    await expect(announced).toHaveText("Quantity 99, $415.80");
+    await expect(status).toHaveText("3 lines · $434.80");
+    await expect(increase).toBeDisabled();
+
+    // Home is the minimum, where minus has become remove and Down does nothing.
+    await page.keyboard.press("Home");
+    await expect(flatWhite).toHaveAttribute("aria-valuenow", "1");
+    await expect(announced).toHaveText("Quantity 1, $4.20");
+    await expect(status).toHaveText("3 lines · $23.20");
+    await expect(remove).toBeVisible();
+    await expect(stage.getByRole("button", { name: "Decrease" })).toHaveCount(
+      0,
+    );
+    await page.keyboard.press("ArrowDown");
+    await expect(flatWhite).toHaveAttribute("aria-valuenow", "1");
+
+    // Remove says so, collapses the row, and only then does the basket drop it.
+    await recordPosTrail(announced);
+    await remove.click();
+    await expect.poll(posTrailOf(page), { timeout: 4000 }).toContain("Removed");
+    await expect(status).toHaveText("2 lines · $19.00", { timeout: 4000 });
+    await expect(flatWhite).toHaveCount(0);
+    await expect(remove).toHaveCount(0);
+
+    // The next line up is the pastry, and it ticks the same way.
+    await increase.click();
+    await expect(
+      stage.getByRole("spinbutton", { name: "Almond pastry quantity" }),
+    ).toHaveAttribute("aria-valuenow", "2");
+    await expect(status).toHaveText("2 lines · $22.80");
+
+    // Reset restores the opening basket.
+    await reset.click();
+    await expect(status).toHaveText("3 lines · $27.40");
+    await expect(flatWhite).toHaveAttribute("aria-valuenow", "2");
+    await expect(reset).toBeDisabled();
+  });
+
+  test("day-close: one button totals the figures and draws the bars, then closes the day under a stamp", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/day-close");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const card = stage.getByRole("group", {
+      name: "Waylight Pay · Terminal 2",
+    });
+    const control = card.getByRole("button", {
+      name: /^Total the day$|^Close the day$|^Closed$/,
+    });
+    const reopen = stage.getByRole("button", { name: "Reopen" });
+    const figures = card.locator("dd");
+    const bars = card.getByRole("listitem");
+    const drinksFill = bars.first().locator("span.origin-left");
+    // The stamp is hidden decoration; the button's Closed is not.
+    const stamp = card.locator("[aria-hidden='true']").getByText("Closed", {
+      exact: true,
+    });
+
+    await expect(status).toHaveText("Open · not totalled");
+    await expect(announced).toHaveText("Open, not totalled");
+    await expect(control).toHaveText("Total the day");
+    await expect(figures).toHaveCount(4);
+    await expect(figures.nth(3)).toContainText("not totalled");
+    await expect(bars).toHaveCount(4);
+    await expect(bars.nth(0)).toContainText("Drinks, not totalled");
+    await expect(stamp).toHaveCount(0);
+    await expect(reopen).toBeDisabled();
+
+    // Totalling reveals every figure and draws each bar to its share.
+    await control.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Totalled · net $1,360.75");
+    await expect(announced).toHaveText("Totalled, net $1,360.75");
+    await expect(control).toHaveText("Close the day");
+    await expect(figures.nth(0)).toContainText("$1,284.50");
+    await expect(figures.nth(1)).toContainText("-$36.00");
+    await expect(figures.nth(2)).toContainText("$112.25");
+    await expect(figures.nth(3)).toContainText("$1,360.75");
+    await expect(bars.nth(0)).toContainText("Drinks, $512.30, 40 percent");
+    await expect(bars.nth(3)).toContainText("Other, $103.70, 8 percent");
+    await expect
+      .poll(posScaleXOf(drinksFill), { timeout: 6000 })
+      .toBeGreaterThan(0.39);
+    await expect(stamp).toHaveCount(0);
+
+    // Closing stamps the day and locks the control.
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Closed · net $1,360.75");
+    await expect(announced).toHaveText("Day closed");
+    await expect(control).toHaveText("Closed");
+    await expect(control).toBeDisabled();
+    await expect(stamp).toBeVisible();
+    await expect(figures.nth(3)).toContainText("$1,360.75");
+
+    // Reopen empties the card to run it again.
+    await reopen.click();
+    await expect(status).toHaveText("Open · not totalled");
+    await expect(announced).toHaveText("Open, not totalled");
+    await expect(control).toHaveText("Total the day");
+    await expect(control).toBeEnabled();
+    await expect(figures.nth(3)).toContainText("not totalled");
+    await expect(stamp).toHaveCount(0, { timeout: 3000 });
+    await expect
+      .poll(posScaleXOf(drinksFill), { timeout: 4000 })
+      .toBeLessThan(0.01);
+  });
+});
