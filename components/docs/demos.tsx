@@ -1010,6 +1010,16 @@ import { ThreadTreeDemo } from "@/registry/demos/thread-tree.demo";
 import { ContextStackDemo } from "@/registry/demos/context-stack.demo";
 import { RecentRailDemo } from "@/registry/demos/recent-rail.demo";
 import { MemoryAgeDemo } from "@/registry/demos/memory-age.demo";
+import { ImageRevealDemo } from "@/registry/demos/image-reveal.demo";
+import { CodeScaffoldDemo } from "@/registry/demos/code-scaffold.demo";
+import { TableBuildDemo } from "@/registry/demos/table-build.demo";
+import { OutlineGrowDemo } from "@/registry/demos/outline-grow.demo";
+import { VariationGridDemo } from "@/registry/demos/variation-grid.demo";
+import { GenerateProgressDemo } from "@/registry/demos/generate-progress.demo";
+import { InpaintBrushDemo } from "@/registry/demos/inpaint-brush.demo";
+import { PromptEchoDemo } from "@/registry/demos/prompt-echo.demo";
+import { RenderQueueDemo } from "@/registry/demos/render-queue.demo";
+import { ExportStampDemo } from "@/registry/demos/export-stamp.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2034,4 +2044,14 @@ export const demos: Record<string, ComponentType> = {
   "context-stack": ContextStackDemo,
   "recent-rail": RecentRailDemo,
   "memory-age": MemoryAgeDemo,
+  "image-reveal": ImageRevealDemo,
+  "code-scaffold": CodeScaffoldDemo,
+  "table-build": TableBuildDemo,
+  "outline-grow": OutlineGrowDemo,
+  "variation-grid": VariationGridDemo,
+  "generate-progress": GenerateProgressDemo,
+  "inpaint-brush": InpaintBrushDemo,
+  "prompt-echo": PromptEchoDemo,
+  "render-queue": RenderQueueDemo,
+  "export-stamp": ExportStampDemo,
 };

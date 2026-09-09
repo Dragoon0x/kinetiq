@@ -22786,6 +22786,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "image-reveal",
+      "type": "registry:ui",
+      "title": "Image Reveal",
+      "description": "A generated image that sharpens in steps. Progress is quantised into steps, and each one drops the blur and lifts the saturation on a slow tween while a ring in the corner drains; the last step gives way to a tick drawn on flick, and a new seed wipes in over the old picture behind a clip that opens left to right. Retry is a native button: Tab, then Enter or Space regenerates.",
+      "files": [
+        {
+          "path": "registry/ui/image-reveal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-821"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "code-scaffold",
+      "type": "registry:ui",
+      "title": "Code Scaffold",
+      "description": "A code block that shows its shape before its text. Every line is present as a grey bar at its indentation and as long as its text, cascading in on glide, and each arriving line is revealed left to right by a clip tween while its bar fades beneath it, so the shape develops into the line. The copy control mounts on snap only once the last line lands; Tab reaches it and Enter or Space copies, stamping a tick drawn on flick.",
+      "files": [
+        {
+          "path": "registry/ui/code-scaffold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-822"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "table-build",
+      "type": "registry:ui",
+      "title": "Table Build",
+      "description": "A generated table that is usable before it is finished. The header lands first, each heading dropping into its seat on snap, and rows cascade in as they arrive on glide; rows are keyed by id with a position layout animation, so sorting while the table fills glides the rows present to their new seats and later rows slot straight into sorted place. Headings are native buttons with aria-sort: Tab between them, Enter or Space cycles ascending, descending, none.",
+      "files": [
+        {
+          "path": "registry/ui/table-build.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-823"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "outline-grow",
+      "type": "registry:ui",
+      "title": "Outline Grow",
+      "description": "A document that shows its outline before its prose. Headings land at once in the article and in a rail beside it, cascading on glide, and each section's paragraph then grows sentence by sentence — every sentence fading in and settling four pixels on glide while the words still wrap as prose. The rail stays as the document's progress: a marker pill slides to the section being written on snap, dots fill as sections complete, and Up and Down step the rail while Enter moves focus to that heading.",
+      "files": [
+        {
+          "path": "registry/ui/outline-grow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-824"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "variation-grid",
+      "type": "registry:ui",
+      "title": "Variation Grid",
+      "description": "Four generated takes that reveal together and let you keep one. The veils lift on one slow tween because the takes are one delivery; picking lifts the chosen tile on snap with the raised shadow while the other three fold away on the exit ease and the hero glides to span the grid on glide, and Pick another unfolds them back. The tiles are a radiogroup with a roving tabindex: arrows step and jump rows, Home and End reach the corners, Space or Enter picks, Escape unfolds.",
+      "files": [
+        {
+          "path": "registry/ui/variation-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-825"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "generate-progress",
+      "type": "registry:ui",
+      "title": "Generate Progress",
+      "description": "Stages, not a spinner. A vertical rail with one node per stage of a generation; as the host reaches a stage its name slides in beside the node from eight pixels away on snap and its note fades in underneath, the fill between nodes grows on glide to the stage's fraction, a landed node draws its tick on flick, and the header's counter rolls its digit on snap beside a word that says Waiting, Working, or Done. The header is the progressbar and the rail is a list with aria-current on the stage in flight; nothing is focusable because it is read, not driven.",
+      "files": [
+        {
+          "path": "registry/ui/generate-progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-826"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "inpaint-brush",
+      "type": "registry:ui",
+      "title": "Inpaint Brush",
+      "description": "Paint the part to redo. A procedural picture with a round brush: dragging lays dabs that render through one SVG mask as a flat cobalt wash, the pointer is captured only after four pixels of travel, and a coverage chip arrives in the header on snap. Regenerate hands the host onRegenerate and the host drives stage and progress: a shimmer band travels across the masked region on the linear ease and behind its front a second seeded scene resolves, then the dabs are kept as a patch and the wash clears. Arrow keys move the brush on flick, Space paints, Backspace takes back a stroke.",
+      "files": [
+        {
+          "path": "registry/ui/inpaint-brush.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-827"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "prompt-echo",
+      "type": "registry:ui",
+      "title": "Prompt Echo",
+      "description": "What it heard you ask. The request sits at the top and under it the model's restatement types itself from a host-driven character count, a caret riding its end. Parts with options are the assumptions the model made, drawn as dotted-underlined buttons; pressing one opens a row of alternatives whose measured height glides open on glide while its chips arrive in a cascade on snap, and choosing one slides the correction into the sentence — old words leave upward on the exit ease, new ones arrive from eight pixels below on snap — while the footer's edit count rolls. The row is a listbox with a roving tabindex, Escape closes it and returns focus, and Confirm proceeds with the final sentence.",
+      "files": [
+        {
+          "path": "registry/ui/prompt-echo.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-828"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "render-queue",
+      "type": "registry:ui",
+      "title": "Render Queue",
+      "description": "Yours is third. One row for a job waiting its turn: the badge's ordinal rolls its digit down on snap and cross-fades its suffix as the host lowers position, and the estimate's seconds roll on the same spring so waiting reads as counting. At position 0 the row expands into the progress view — the inner content is measured and the wrapper's height glides to it on glide — the badge cross-fades into a ring that fills to progress, a bar runs the row, and done closes the ring and draws a tick on flick. Leave is the only focusable part and goes with the wait.",
+      "files": [
+        {
+          "path": "registry/ui/render-queue.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-829"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "export-stamp",
+      "type": "registry:ui",
+      "title": "Export Stamp",
+      "description": "Done, and sent where you said. A row of target chips is a radiogroup whose chosen chip takes the cobalt wash on a colour tween while its detail line glides open beneath the row on glide from a measured height. Export hands the host onExport and the host drives stage and progress: the button's own fill runs left to right as a bar on glide, and on \"stamped\" a seal lands over the chosen chip on recoil — from 1.4× and a tilt to rest, two visible bounces — as the chip turns success and the button reads Exported. Left and Right step the chips without wrapping, Home and End jump, Space selects.",
+      "files": [
+        {
+          "path": "registry/ui/export-stamp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-830"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

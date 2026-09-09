@@ -15091,6 +15091,223 @@ Notes:
 - Under reduced motion opacity still tracks age on a tween, because fading is information; the wash becomes a tint that fades in and out with no travel, and the reorder runs on a tween instead of a spring.
 - Ages are numbers the host passes in — an "Age a week" script, not a clock — and the sr-only status speaks "Refreshed <text>, moved to the top" once per refresh.
 
+### Image Reveal (KQ-821) — `image-reveal`
+Sharpening as it renders.
+
+A generated image that sharpens in steps. Progress is quantised into steps, and each one drops the blur and lifts the saturation on a slow tween while a ring in the corner drains; the last step gives way to a tick drawn on flick, and a new seed wipes in over the old picture behind a clip that opens left to right. Retry is a native button: Tab, then Enter or Space regenerates.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/image-reveal`
+
+Props:
+- `progress`: number (default 0) — Generation progress from 0 to 1, owned by the host.
+- `steps`: number (default 4) — Discrete sharpening steps the blur resolves through.
+- `generating`: boolean (default false) — The render is in flight: sets aria-busy and disables the retry control.
+- `seed`: number (default 1) — Drives the procedural picture; changing it regenerates with a wipe.
+- `label`: string — What was asked for; names the picture and heads the footer.
+- `model`: string — An invented model name for the footer line.
+- `onRegenerate`: () => void — Fires from the Retry button, labelled Generate before the first picture.
+- `onResolve`: () => void — Fires once when the final sharpening step has finished.
+
+Notes:
+- The only control is the native Retry button — Tab reaches it, Enter or Space regenerates — and it is disabled while a render is in flight.
+- Under reduced motion each step swaps instantly and the wipe becomes a cross-fade; the ring still drains and the tick still appears, because progress is information.
+- The live region says Rendering, Rendering again and Image resolved once per stage, never per step; the picture is a role="img" named by the label.
+
+### Code Scaffold (KQ-822) — `code-scaffold`
+The shape first, then the lines.
+
+A code block that shows its shape before its text. Every line is present as a grey bar at its indentation and as long as its text, cascading in on glide, and each arriving line is revealed left to right by a clip tween while its bar fades beneath it, so the shape develops into the line. The copy control mounts on snap only once the last line lands; Tab reaches it and Enter or Space copies, stamping a tick drawn on flick.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/code-scaffold`
+
+Props:
+- `lines`: string[] — The complete code, one entry per line; the scaffold takes its shape from these.
+- `arrived`: number (default 0) — Lines that have arrived, top to bottom.
+- `generating`: boolean (default false) — Generation is open: the scaffold shows and aria-busy is set.
+- `filename`: string — Shown in the header rail.
+- `label`: string — Names the block for assistive technology.
+- `onCopy`: (text: string) => void — Fires from the copy control with the full text.
+- `copyLabel`: string (default "Copy") — Copy control text.
+
+Notes:
+- The copy control is the only interactive element and exists only once the code is complete — Tab, then Enter or Space — so nothing partial can be copied.
+- Under reduced motion bars appear together with a fade and no rise, an arriving line is an opacity swap with no clip travel, the height tweens, and the tick appears without a draw.
+- The block is a region holding a real <pre>: bars are hidden from assistive technology, unarrived lines contribute no text, and the live region says Writing code, Code complete and Copied once per stage.
+
+### Table Build (KQ-823) — `table-build`
+Columns settle, rows fill.
+
+A generated table that is usable before it is finished. The header lands first, each heading dropping into its seat on snap, and rows cascade in as they arrive on glide; rows are keyed by id with a position layout animation, so sorting while the table fills glides the rows present to their new seats and later rows slot straight into sorted place. Headings are native buttons with aria-sort: Tab between them, Enter or Space cycles ascending, descending, none.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/table-build`
+
+Props:
+- `columns`: TableBuildColumn[] — Column key, heading, whether it is numeric, and an optional format for the printed cell.
+- `rows`: TableBuildRow[] — Every row the table will have, each with an id, in arrival order.
+- `arrived`: number (default 0) — Rows that have arrived so far.
+- `generating`: boolean (default false) — The build is open: the header shows and aria-busy is set.
+- `sort / defaultSort`: TableBuildSort | null (default null) — Controlled or initial sort: a column key and "asc" or "desc".
+- `onSortChange`: (sort: TableBuildSort | null) => void — Fires from the heading button that changed the sort.
+- `caption`: string — Names the table; rendered as its caption.
+- `model`: string — An invented model name beside the caption.
+- `onComplete`: () => void — Fires once when the last-arriving row has finished landing.
+
+Notes:
+- Every heading is a native button on a <th> carrying aria-sort — Tab moves between them, Enter or Space cycles that column ascending, descending, none — and it works while rows are still arriving.
+- Under reduced motion headings and rows fade in with no drop or rise, a re-sort swaps rows in place instead of gliding, and the arrow swaps direction without rotating.
+- Two polite live regions speak the stage (Building table, Table complete) and the sort (Sorted by Amount, descending) once per change, never a row.
+
+### Outline Grow (KQ-824) — `outline-grow`
+Headings first, prose later.
+
+A document that shows its outline before its prose. Headings land at once in the article and in a rail beside it, cascading on glide, and each section's paragraph then grows sentence by sentence — every sentence fading in and settling four pixels on glide while the words still wrap as prose. The rail stays as the document's progress: a marker pill slides to the section being written on snap, dots fill as sections complete, and Up and Down step the rail while Enter moves focus to that heading.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/outline-grow`
+
+Props:
+- `sections`: OutlineSection[] — The document's sections in order: an id, a heading and the sentences of its paragraph.
+- `arrived`: number (default 0) — Sentences that have arrived across the document, in reading order.
+- `generating`: boolean (default false) — Generation is open: the outline shows and aria-busy is set.
+- `title`: string — The document's title; printed in the header and naming the article.
+- `model`: string — An invented model name for the header chip.
+- `onComplete`: () => void — Fires once when the last sentence has landed.
+
+Notes:
+- The rail is a nav with a roving tabindex: Up and Down step its items, Home and End jump, Enter or Space moves focus to that heading in the article; the section being written carries aria-current.
+- Under reduced motion headings and sentences fade in with no rise, the rail marker swaps to its item without sliding, and the track fill and dots tween; progress still shows because it is information.
+- One polite live region says Outline ready, Section <heading> complete once per section, and Document complete — never a sentence.
+
+### Variation Grid (KQ-825) — `variation-grid`
+Four takes, pick one.
+
+Four generated takes that reveal together and let you keep one. The veils lift on one slow tween because the takes are one delivery; picking lifts the chosen tile on snap with the raised shadow while the other three fold away on the exit ease and the hero glides to span the grid on glide, and Pick another unfolds them back. The tiles are a radiogroup with a roving tabindex: arrows step and jump rows, Home and End reach the corners, Space or Enter picks, Escape unfolds.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/variation-grid`
+
+Props:
+- `variations`: [Variation, Variation, Variation, Variation] — Exactly four takes: an id, a seed for the procedural picture and a short label.
+- `revealed`: boolean (default false) — The four pictures are ready and lift their veils together.
+- `generating`: boolean (default false) — The render is in flight: the shimmer sweeps and aria-busy is set.
+- `value / defaultValue`: string | null (default null) — Controlled or initial pick by variation id; null while nothing is chosen.
+- `onValueChange`: (id: string | null) => void — Fires from the click or key that picked, or from Pick another and Escape.
+- `label`: string — Names the grid and its radiogroup for assistive technology.
+- `pickAnotherLabel`: string (default "Pick another") — Copy on the unfold control.
+
+Notes:
+- A radiogroup of native buttons with a roving tabindex — Left and Right step, Up and Down jump a row of two, Home and End go to the corners, Space or Enter picks — disabled until the takes are revealed; Escape on the chosen tile or the Pick another button unfolds the rest and returns focus to that tile.
+- Under reduced motion the veils lift on a fast fade and nothing lifts or folds: the other three fade out, the chosen tile swaps to its span, and the tick appears without a draw.
+- The live region says Rendering four takes, Four takes ready, Picked <label> and All four takes shown once per stage; the pictures are procedural and decorative, so each tile is named by its caption.
+
+### Generate Progress (KQ-826) — `generate-progress`
+Stages, not a spinner.
+
+Stages, not a spinner. A vertical rail with one node per stage of a generation; as the host reaches a stage its name slides in beside the node from eight pixels away on snap and its note fades in underneath, the fill between nodes grows on glide to the stage's fraction, a landed node draws its tick on flick, and the header's counter rolls its digit on snap beside a word that says Waiting, Working, or Done. The header is the progressbar and the rail is a list with aria-current on the stage in flight; nothing is focusable because it is read, not driven.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/generate-progress`
+
+Props:
+- `stages`: GenerateStage[] — Ordered stages: id, label, and an optional note shown under the name once the stage has begun.
+- `stage`: number — Index of the stage in flight; below 0 is waiting and stages.length means every stage has landed.
+- `progress`: number (default 0) — 0..1 inside the current stage, driven by the host.
+- `label`: string — Names the progressbar for assistive technology.
+- `doneLabel`: string (default "Done") — The header word once every stage has landed.
+
+Notes:
+- Read, not driven: the header is a progressbar whose aria-valuenow counts landed stages and whose aria-valuetext names the stage in flight; the rail is a list with aria-current="step" and an sr-only verdict per stage.
+- Under reduced motion names fade in place without travel, fills tween, ticks appear whole and the counter swaps its digit; every fill still shows because progress is information.
+- The live region speaks once as each stage begins and once at the end, never as the fraction moves; drive stage and progress from your own clock and never from a timer inside the component.
+
+### Inpaint Brush (KQ-827) — `inpaint-brush`
+Paint the part to redo.
+
+Paint the part to redo. A procedural picture with a round brush: dragging lays dabs that render through one SVG mask as a flat cobalt wash, the pointer is captured only after four pixels of travel, and a coverage chip arrives in the header on snap. Regenerate hands the host onRegenerate and the host drives stage and progress: a shimmer band travels across the masked region on the linear ease and behind its front a second seeded scene resolves, then the dabs are kept as a patch and the wash clears. Arrow keys move the brush on flick, Space paints, Backspace takes back a stroke.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/inpaint-brush`
+
+Props:
+- `stage`: "paint" | "sweeping" | "resolved" (default "paint") — Where the regeneration stands; the host drives it and the component commits the mask as a kept patch on "resolved".
+- `progress`: number (default 0) — 0..1 of the sweep while stage is "sweeping".
+- `seed`: number (default 1) — Seeds the scene drawn under the mask; change it before each sweep so what resolves is what gets kept.
+- `brushSize`: number (default 12) — Dab radius in picture units; the picture is 160 by 100.
+- `onRegenerate`: () => void — Fires from the Regenerate control.
+- `onMaskChange`: (coverage: number) => void — Fires when a stroke ends or the mask clears, with coverage as a whole percent.
+- `label`: string — Names the canvas for assistive technology.
+- `regenerateLabel`: string (default "Regenerate") — Copy on the Regenerate control.
+- `clearLabel`: string (default "Clear") — Copy on the Clear control.
+
+Notes:
+- The canvas is a labelled application region: Arrow keys move the brush by half its size, Space or Enter lays a dab, Backspace or Delete removes the last stroke, Escape hides the cursor; Clear and Regenerate are real buttons that enable once a mask exists.
+- Under reduced motion the shimmer band is dropped and the sweep's edge alone reveals the result, the wash and chip fade without travel, and the cursor jumps to its position.
+- The live region speaks coverage once per stroke and the stage once per change, never per dab; drive stage and progress from your own clock and bump seed as the sweep starts.
+
+### Prompt Echo (KQ-828) — `prompt-echo`
+What it heard you ask.
+
+What it heard you ask. The request sits at the top and under it the model's restatement types itself from a host-driven character count, a caret riding its end. Parts with options are the assumptions the model made, drawn as dotted-underlined buttons; pressing one opens a row of alternatives whose measured height glides open on glide while its chips arrive in a cascade on snap, and choosing one slides the correction into the sentence — old words leave upward on the exit ease, new ones arrive from eight pixels below on snap — while the footer's edit count rolls. The row is a listbox with a roving tabindex, Escape closes it and returns focus, and Confirm proceeds with the final sentence.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/prompt-echo`
+
+Props:
+- `request`: string — The original prompt, printed as the quoted request.
+- `parts`: EchoPart[] — The restatement in order: id, text carrying its own spaces, and optional options that make the part a correctable assumption.
+- `typed`: number — Characters of the restatement revealed so far, driven by the host; omit for a finished restatement.
+- `edits / defaultEdits`: Record<string, string> (default {}) — Controlled or initial corrections by part id.
+- `onEditsChange`: (edits: Record<string, string>) => void — Fires when a correction is chosen.
+- `onConfirm`: (text: string, editCount: number) => void — Fires from the confirm control with the final sentence and how many parts were corrected.
+- `model`: string — The invented model's name for the header chip.
+- `label`: string — Names the region for assistive technology.
+- `confirmLabel`: string (default "Looks right") — Copy on the confirm control.
+
+Notes:
+- Assumptions are buttons with aria-expanded; the alternatives row is a listbox with a roving tabindex where arrows step, Home and End jump, Enter or Space chooses, and Escape closes and returns focus to the part. Confirm is disabled until typing finishes.
+- Under reduced motion the restatement appears clause by clause, the caret holds still, the row fades open without travel and a correction swaps in place on an opacity tween.
+- The live region speaks the finished restatement once, each correction once and Confirmed once; drive typed from your own clock, never from a timer inside the component.
+
+### Render Queue (KQ-829) — `render-queue`
+Yours is third.
+
+Yours is third. One row for a job waiting its turn: the badge's ordinal rolls its digit down on snap and cross-fades its suffix as the host lowers position, and the estimate's seconds roll on the same spring so waiting reads as counting. At position 0 the row expands into the progress view — the inner content is measured and the wrapper's height glides to it on glide — the badge cross-fades into a ring that fills to progress, a bar runs the row, and done closes the ring and draws a tick on flick. Leave is the only focusable part and goes with the wait.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/render-queue`
+
+Props:
+- `position`: number — Jobs ahead of this one plus one; 0 means it is rendering.
+- `estimateSeconds`: number — Seconds until the job starts; its digits roll as the host updates it.
+- `progress`: number (default 0) — 0..1 of the render while position is 0.
+- `done`: boolean (default false) — The render finished: the ring closes, the tick draws, the word lands on Done.
+- `title`: string — What is being rendered.
+- `model`: string — The invented model's name under the title.
+- `onCancel`: () => void — Fires from the Leave control while waiting.
+- `label`: string — Names the row for assistive technology.
+- `cancelLabel`: string (default "Leave") — Copy on the waiting control.
+
+Notes:
+- Leave is the only focusable part and is removed once rendering starts; the bar is a progressbar with a whole-percent aria-valuenow and a spoken aria-valuetext.
+- Under reduced motion digits and the suffix swap in place, the row's height and the fills still change on tweens, and the tick appears whole.
+- The live region speaks the place in line once per position change (with the estimate as it stood), Rendering started once and Done once — never per percent; drive position, estimateSeconds and progress from your own clock.
+
+### Export Stamp (KQ-830) — `export-stamp`
+Done, and sent where you said.
+
+Done, and sent where you said. A row of target chips is a radiogroup whose chosen chip takes the cobalt wash on a colour tween while its detail line glides open beneath the row on glide from a measured height. Export hands the host onExport and the host drives stage and progress: the button's own fill runs left to right as a bar on glide, and on "stamped" a seal lands over the chosen chip on recoil — from 1.4× and a tilt to rest, two visible bounces — as the chip turns success and the button reads Exported. Left and Right step the chips without wrapping, Home and End jump, Space selects.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/export-stamp`
+
+Props:
+- `targets`: ExportTarget[] — Destinations in order: id, label, and an optional detail line shown for the chosen one.
+- `value / defaultValue`: string (default first target) — Controlled or initial target id.
+- `onValueChange`: (id: string) => void — Fires when a target is picked; reset stage to idle here so a new target is a new export.
+- `stage`: "idle" | "exporting" | "stamped" (default "idle") — Where the export stands; the host drives it.
+- `progress`: number (default 0) — 0..1 of the export while stage is "exporting".
+- `onExport`: (id: string) => void — Fires from the Export control with the chosen target.
+- `label`: string — Names the control group for assistive technology.
+- `exportLabel`: string (default "Export") — Copy on the control while idle.
+
+Notes:
+- Targets are a radiogroup with a roving tabindex: Left and Right (or Up and Down) step without wrapping, Home and End jump, Space selects, and picking is ignored while an export runs; Export is a real button with aria-busy while exporting and reads Exported, disabled, after the stamp.
+- Under reduced motion the bar still fills on a tween, the detail line swaps without gliding, and the seal fades in at rest with no tilt or bounce.
+- The live region speaks Exporting to <target> and Exported to <target> once each on stage change, never per percent; the seal is aria-hidden and the chip's own sr-only text says it was sent.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

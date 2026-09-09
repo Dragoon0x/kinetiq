@@ -43841,4 +43841,816 @@ export const components: KinetiqItem[] = [
       'Ages are numbers the host passes in — an "Age a week" script, not a clock — and the sr-only status speaks "Refreshed <text>, moved to the top" once per refresh.',
     ],
   },
+  {
+    name: "image-reveal",
+    type: "registry:ui",
+    title: "Image Reveal",
+    description:
+      "A generated image that sharpens in steps. Progress is quantised into steps, and each one drops the blur and lifts the saturation on a slow tween while a ring in the corner drains; the last step gives way to a tick drawn on flick, and a new seed wipes in over the old picture behind a clip that opens left to right. Retry is a native button: Tab, then Enter or Space regenerates.",
+    files: [
+      {
+        path: "registry/ui/image-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-821",
+    },
+    tagline: "Sharpening as it renders.",
+    keywords: [
+      "image",
+      "generation",
+      "blur",
+      "progress",
+      "ring",
+      "retry",
+      "wipe",
+    ],
+    props: [
+      {
+        name: "progress",
+        type: "number",
+        defaultValue: "0",
+        description: "Generation progress from 0 to 1, owned by the host.",
+      },
+      {
+        name: "steps",
+        type: "number",
+        defaultValue: "4",
+        description: "Discrete sharpening steps the blur resolves through.",
+      },
+      {
+        name: "generating",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The render is in flight: sets aria-busy and disables the retry control.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Drives the procedural picture; changing it regenerates with a wipe.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What was asked for; names the picture and heads the footer.",
+      },
+      {
+        name: "model",
+        type: "string",
+        description: "An invented model name for the footer line.",
+      },
+      {
+        name: "onRegenerate",
+        type: "() => void",
+        description:
+          "Fires from the Retry button, labelled Generate before the first picture.",
+      },
+      {
+        name: "onResolve",
+        type: "() => void",
+        description: "Fires once when the final sharpening step has finished.",
+      },
+    ],
+    usageNotes: [
+      "The only control is the native Retry button — Tab reaches it, Enter or Space regenerates — and it is disabled while a render is in flight.",
+      "Under reduced motion each step swaps instantly and the wipe becomes a cross-fade; the ring still drains and the tick still appears, because progress is information.",
+      'The live region says Rendering, Rendering again and Image resolved once per stage, never per step; the picture is a role="img" named by the label.',
+    ],
+  },
+  {
+    name: "code-scaffold",
+    type: "registry:ui",
+    title: "Code Scaffold",
+    description:
+      "A code block that shows its shape before its text. Every line is present as a grey bar at its indentation and as long as its text, cascading in on glide, and each arriving line is revealed left to right by a clip tween while its bar fades beneath it, so the shape develops into the line. The copy control mounts on snap only once the last line lands; Tab reaches it and Enter or Space copies, stamping a tick drawn on flick.",
+    files: [
+      {
+        path: "registry/ui/code-scaffold.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-822",
+    },
+    tagline: "The shape first, then the lines.",
+    keywords: [
+      "code",
+      "skeleton",
+      "scaffold",
+      "streaming",
+      "generation",
+      "copy",
+      "lines",
+    ],
+    props: [
+      {
+        name: "lines",
+        type: "string[]",
+        description:
+          "The complete code, one entry per line; the scaffold takes its shape from these.",
+      },
+      {
+        name: "arrived",
+        type: "number",
+        defaultValue: "0",
+        description: "Lines that have arrived, top to bottom.",
+      },
+      {
+        name: "generating",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Generation is open: the scaffold shows and aria-busy is set.",
+      },
+      {
+        name: "filename",
+        type: "string",
+        description: "Shown in the header rail.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the block for assistive technology.",
+      },
+      {
+        name: "onCopy",
+        type: "(text: string) => void",
+        description: "Fires from the copy control with the full text.",
+      },
+      {
+        name: "copyLabel",
+        type: "string",
+        defaultValue: '"Copy"',
+        description: "Copy control text.",
+      },
+    ],
+    usageNotes: [
+      "The copy control is the only interactive element and exists only once the code is complete — Tab, then Enter or Space — so nothing partial can be copied.",
+      "Under reduced motion bars appear together with a fade and no rise, an arriving line is an opacity swap with no clip travel, the height tweens, and the tick appears without a draw.",
+      "The block is a region holding a real <pre>: bars are hidden from assistive technology, unarrived lines contribute no text, and the live region says Writing code, Code complete and Copied once per stage.",
+    ],
+  },
+  {
+    name: "table-build",
+    type: "registry:ui",
+    title: "Table Build",
+    description:
+      "A generated table that is usable before it is finished. The header lands first, each heading dropping into its seat on snap, and rows cascade in as they arrive on glide; rows are keyed by id with a position layout animation, so sorting while the table fills glides the rows present to their new seats and later rows slot straight into sorted place. Headings are native buttons with aria-sort: Tab between them, Enter or Space cycles ascending, descending, none.",
+    files: [
+      {
+        path: "registry/ui/table-build.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-823",
+    },
+    tagline: "Columns settle, rows fill.",
+    keywords: [
+      "table",
+      "generation",
+      "sort",
+      "streaming",
+      "rows",
+      "header",
+      "cascade",
+    ],
+    props: [
+      {
+        name: "columns",
+        type: "TableBuildColumn[]",
+        description:
+          "Column key, heading, whether it is numeric, and an optional format for the printed cell.",
+      },
+      {
+        name: "rows",
+        type: "TableBuildRow[]",
+        description:
+          "Every row the table will have, each with an id, in arrival order.",
+      },
+      {
+        name: "arrived",
+        type: "number",
+        defaultValue: "0",
+        description: "Rows that have arrived so far.",
+      },
+      {
+        name: "generating",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The build is open: the header shows and aria-busy is set.",
+      },
+      {
+        name: "sort / defaultSort",
+        type: "TableBuildSort | null",
+        defaultValue: "null",
+        description:
+          'Controlled or initial sort: a column key and "asc" or "desc".',
+      },
+      {
+        name: "onSortChange",
+        type: "(sort: TableBuildSort | null) => void",
+        description: "Fires from the heading button that changed the sort.",
+      },
+      {
+        name: "caption",
+        type: "string",
+        description: "Names the table; rendered as its caption.",
+      },
+      {
+        name: "model",
+        type: "string",
+        description: "An invented model name beside the caption.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description:
+          "Fires once when the last-arriving row has finished landing.",
+      },
+    ],
+    usageNotes: [
+      "Every heading is a native button on a <th> carrying aria-sort — Tab moves between them, Enter or Space cycles that column ascending, descending, none — and it works while rows are still arriving.",
+      "Under reduced motion headings and rows fade in with no drop or rise, a re-sort swaps rows in place instead of gliding, and the arrow swaps direction without rotating.",
+      "Two polite live regions speak the stage (Building table, Table complete) and the sort (Sorted by Amount, descending) once per change, never a row.",
+    ],
+  },
+  {
+    name: "outline-grow",
+    type: "registry:ui",
+    title: "Outline Grow",
+    description:
+      "A document that shows its outline before its prose. Headings land at once in the article and in a rail beside it, cascading on glide, and each section's paragraph then grows sentence by sentence — every sentence fading in and settling four pixels on glide while the words still wrap as prose. The rail stays as the document's progress: a marker pill slides to the section being written on snap, dots fill as sections complete, and Up and Down step the rail while Enter moves focus to that heading.",
+    files: [
+      {
+        path: "registry/ui/outline-grow.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-824",
+    },
+    tagline: "Headings first, prose later.",
+    keywords: [
+      "outline",
+      "document",
+      "headings",
+      "prose",
+      "streaming",
+      "rail",
+      "sections",
+    ],
+    props: [
+      {
+        name: "sections",
+        type: "OutlineSection[]",
+        description:
+          "The document's sections in order: an id, a heading and the sentences of its paragraph.",
+      },
+      {
+        name: "arrived",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Sentences that have arrived across the document, in reading order.",
+      },
+      {
+        name: "generating",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Generation is open: the outline shows and aria-busy is set.",
+      },
+      {
+        name: "title",
+        type: "string",
+        description:
+          "The document's title; printed in the header and naming the article.",
+      },
+      {
+        name: "model",
+        type: "string",
+        description: "An invented model name for the header chip.",
+      },
+      {
+        name: "onComplete",
+        type: "() => void",
+        description: "Fires once when the last sentence has landed.",
+      },
+    ],
+    usageNotes: [
+      "The rail is a nav with a roving tabindex: Up and Down step its items, Home and End jump, Enter or Space moves focus to that heading in the article; the section being written carries aria-current.",
+      "Under reduced motion headings and sentences fade in with no rise, the rail marker swaps to its item without sliding, and the track fill and dots tween; progress still shows because it is information.",
+      "One polite live region says Outline ready, Section <heading> complete once per section, and Document complete — never a sentence.",
+    ],
+  },
+  {
+    name: "variation-grid",
+    type: "registry:ui",
+    title: "Variation Grid",
+    description:
+      "Four generated takes that reveal together and let you keep one. The veils lift on one slow tween because the takes are one delivery; picking lifts the chosen tile on snap with the raised shadow while the other three fold away on the exit ease and the hero glides to span the grid on glide, and Pick another unfolds them back. The tiles are a radiogroup with a roving tabindex: arrows step and jump rows, Home and End reach the corners, Space or Enter picks, Escape unfolds.",
+    files: [
+      {
+        path: "registry/ui/variation-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-825",
+    },
+    tagline: "Four takes, pick one.",
+    keywords: [
+      "variations",
+      "grid",
+      "generation",
+      "pick",
+      "fold",
+      "reveal",
+      "radiogroup",
+    ],
+    props: [
+      {
+        name: "variations",
+        type: "[Variation, Variation, Variation, Variation]",
+        description:
+          "Exactly four takes: an id, a seed for the procedural picture and a short label.",
+      },
+      {
+        name: "revealed",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The four pictures are ready and lift their veils together.",
+      },
+      {
+        name: "generating",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The render is in flight: the shimmer sweeps and aria-busy is set.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial pick by variation id; null while nothing is chosen.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the click or key that picked, or from Pick another and Escape.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the grid and its radiogroup for assistive technology.",
+      },
+      {
+        name: "pickAnotherLabel",
+        type: "string",
+        defaultValue: '"Pick another"',
+        description: "Copy on the unfold control.",
+      },
+    ],
+    usageNotes: [
+      "A radiogroup of native buttons with a roving tabindex — Left and Right step, Up and Down jump a row of two, Home and End go to the corners, Space or Enter picks — disabled until the takes are revealed; Escape on the chosen tile or the Pick another button unfolds the rest and returns focus to that tile.",
+      "Under reduced motion the veils lift on a fast fade and nothing lifts or folds: the other three fade out, the chosen tile swaps to its span, and the tick appears without a draw.",
+      "The live region says Rendering four takes, Four takes ready, Picked <label> and All four takes shown once per stage; the pictures are procedural and decorative, so each tile is named by its caption.",
+    ],
+  },
+  {
+    name: "generate-progress",
+    type: "registry:ui",
+    title: "Generate Progress",
+    description:
+      "Stages, not a spinner. A vertical rail with one node per stage of a generation; as the host reaches a stage its name slides in beside the node from eight pixels away on snap and its note fades in underneath, the fill between nodes grows on glide to the stage's fraction, a landed node draws its tick on flick, and the header's counter rolls its digit on snap beside a word that says Waiting, Working, or Done. The header is the progressbar and the rail is a list with aria-current on the stage in flight; nothing is focusable because it is read, not driven.",
+    files: [
+      {
+        path: "registry/ui/generate-progress.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-826",
+    },
+    tagline: "Stages, not a spinner.",
+    keywords: [
+      "progress",
+      "stages",
+      "generation",
+      "rail",
+      "steps",
+      "agent",
+      "loading",
+    ],
+    props: [
+      {
+        name: "stages",
+        type: "GenerateStage[]",
+        description:
+          "Ordered stages: id, label, and an optional note shown under the name once the stage has begun.",
+      },
+      {
+        name: "stage",
+        type: "number",
+        description:
+          "Index of the stage in flight; below 0 is waiting and stages.length means every stage has landed.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        defaultValue: "0",
+        description: "0..1 inside the current stage, driven by the host.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the progressbar for assistive technology.",
+      },
+      {
+        name: "doneLabel",
+        type: "string",
+        defaultValue: '"Done"',
+        description: "The header word once every stage has landed.",
+      },
+    ],
+    usageNotes: [
+      'Read, not driven: the header is a progressbar whose aria-valuenow counts landed stages and whose aria-valuetext names the stage in flight; the rail is a list with aria-current="step" and an sr-only verdict per stage.',
+      "Under reduced motion names fade in place without travel, fills tween, ticks appear whole and the counter swaps its digit; every fill still shows because progress is information.",
+      "The live region speaks once as each stage begins and once at the end, never as the fraction moves; drive stage and progress from your own clock and never from a timer inside the component.",
+    ],
+  },
+  {
+    name: "inpaint-brush",
+    type: "registry:ui",
+    title: "Inpaint Brush",
+    description:
+      "Paint the part to redo. A procedural picture with a round brush: dragging lays dabs that render through one SVG mask as a flat cobalt wash, the pointer is captured only after four pixels of travel, and a coverage chip arrives in the header on snap. Regenerate hands the host onRegenerate and the host drives stage and progress: a shimmer band travels across the masked region on the linear ease and behind its front a second seeded scene resolves, then the dabs are kept as a patch and the wash clears. Arrow keys move the brush on flick, Space paints, Backspace takes back a stroke.",
+    files: [
+      {
+        path: "registry/ui/inpaint-brush.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-827",
+    },
+    tagline: "Paint the part to redo.",
+    keywords: [
+      "inpaint",
+      "brush",
+      "mask",
+      "regenerate",
+      "image",
+      "canvas",
+      "agent",
+    ],
+    props: [
+      {
+        name: "stage",
+        type: '"paint" | "sweeping" | "resolved"',
+        defaultValue: '"paint"',
+        description:
+          'Where the regeneration stands; the host drives it and the component commits the mask as a kept patch on "resolved".',
+      },
+      {
+        name: "progress",
+        type: "number",
+        defaultValue: "0",
+        description: '0..1 of the sweep while stage is "sweeping".',
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Seeds the scene drawn under the mask; change it before each sweep so what resolves is what gets kept.",
+      },
+      {
+        name: "brushSize",
+        type: "number",
+        defaultValue: "12",
+        description: "Dab radius in picture units; the picture is 160 by 100.",
+      },
+      {
+        name: "onRegenerate",
+        type: "() => void",
+        description: "Fires from the Regenerate control.",
+      },
+      {
+        name: "onMaskChange",
+        type: "(coverage: number) => void",
+        description:
+          "Fires when a stroke ends or the mask clears, with coverage as a whole percent.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the canvas for assistive technology.",
+      },
+      {
+        name: "regenerateLabel",
+        type: "string",
+        defaultValue: '"Regenerate"',
+        description: "Copy on the Regenerate control.",
+      },
+      {
+        name: "clearLabel",
+        type: "string",
+        defaultValue: '"Clear"',
+        description: "Copy on the Clear control.",
+      },
+    ],
+    usageNotes: [
+      "The canvas is a labelled application region: Arrow keys move the brush by half its size, Space or Enter lays a dab, Backspace or Delete removes the last stroke, Escape hides the cursor; Clear and Regenerate are real buttons that enable once a mask exists.",
+      "Under reduced motion the shimmer band is dropped and the sweep's edge alone reveals the result, the wash and chip fade without travel, and the cursor jumps to its position.",
+      "The live region speaks coverage once per stroke and the stage once per change, never per dab; drive stage and progress from your own clock and bump seed as the sweep starts.",
+    ],
+  },
+  {
+    name: "prompt-echo",
+    type: "registry:ui",
+    title: "Prompt Echo",
+    description:
+      "What it heard you ask. The request sits at the top and under it the model's restatement types itself from a host-driven character count, a caret riding its end. Parts with options are the assumptions the model made, drawn as dotted-underlined buttons; pressing one opens a row of alternatives whose measured height glides open on glide while its chips arrive in a cascade on snap, and choosing one slides the correction into the sentence — old words leave upward on the exit ease, new ones arrive from eight pixels below on snap — while the footer's edit count rolls. The row is a listbox with a roving tabindex, Escape closes it and returns focus, and Confirm proceeds with the final sentence.",
+    files: [
+      {
+        path: "registry/ui/prompt-echo.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-828",
+    },
+    tagline: "What it heard you ask.",
+    keywords: [
+      "prompt",
+      "restatement",
+      "assumptions",
+      "correction",
+      "confirm",
+      "typing",
+      "agent",
+    ],
+    props: [
+      {
+        name: "request",
+        type: "string",
+        description: "The original prompt, printed as the quoted request.",
+      },
+      {
+        name: "parts",
+        type: "EchoPart[]",
+        description:
+          "The restatement in order: id, text carrying its own spaces, and optional options that make the part a correctable assumption.",
+      },
+      {
+        name: "typed",
+        type: "number",
+        description:
+          "Characters of the restatement revealed so far, driven by the host; omit for a finished restatement.",
+      },
+      {
+        name: "edits / defaultEdits",
+        type: "Record<string, string>",
+        defaultValue: "{}",
+        description: "Controlled or initial corrections by part id.",
+      },
+      {
+        name: "onEditsChange",
+        type: "(edits: Record<string, string>) => void",
+        description: "Fires when a correction is chosen.",
+      },
+      {
+        name: "onConfirm",
+        type: "(text: string, editCount: number) => void",
+        description:
+          "Fires from the confirm control with the final sentence and how many parts were corrected.",
+      },
+      {
+        name: "model",
+        type: "string",
+        description: "The invented model's name for the header chip.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the region for assistive technology.",
+      },
+      {
+        name: "confirmLabel",
+        type: "string",
+        defaultValue: '"Looks right"',
+        description: "Copy on the confirm control.",
+      },
+    ],
+    usageNotes: [
+      "Assumptions are buttons with aria-expanded; the alternatives row is a listbox with a roving tabindex where arrows step, Home and End jump, Enter or Space chooses, and Escape closes and returns focus to the part. Confirm is disabled until typing finishes.",
+      "Under reduced motion the restatement appears clause by clause, the caret holds still, the row fades open without travel and a correction swaps in place on an opacity tween.",
+      "The live region speaks the finished restatement once, each correction once and Confirmed once; drive typed from your own clock, never from a timer inside the component.",
+    ],
+  },
+  {
+    name: "render-queue",
+    type: "registry:ui",
+    title: "Render Queue",
+    description:
+      "Yours is third. One row for a job waiting its turn: the badge's ordinal rolls its digit down on snap and cross-fades its suffix as the host lowers position, and the estimate's seconds roll on the same spring so waiting reads as counting. At position 0 the row expands into the progress view — the inner content is measured and the wrapper's height glides to it on glide — the badge cross-fades into a ring that fills to progress, a bar runs the row, and done closes the ring and draws a tick on flick. Leave is the only focusable part and goes with the wait.",
+    files: [
+      {
+        path: "registry/ui/render-queue.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-829",
+    },
+    tagline: "Yours is third.",
+    keywords: [
+      "queue",
+      "position",
+      "ordinal",
+      "estimate",
+      "render",
+      "progress",
+      "agent",
+    ],
+    props: [
+      {
+        name: "position",
+        type: "number",
+        description:
+          "Jobs ahead of this one plus one; 0 means it is rendering.",
+      },
+      {
+        name: "estimateSeconds",
+        type: "number",
+        description:
+          "Seconds until the job starts; its digits roll as the host updates it.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        defaultValue: "0",
+        description: "0..1 of the render while position is 0.",
+      },
+      {
+        name: "done",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The render finished: the ring closes, the tick draws, the word lands on Done.",
+      },
+      {
+        name: "title",
+        type: "string",
+        description: "What is being rendered.",
+      },
+      {
+        name: "model",
+        type: "string",
+        description: "The invented model's name under the title.",
+      },
+      {
+        name: "onCancel",
+        type: "() => void",
+        description: "Fires from the Leave control while waiting.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the row for assistive technology.",
+      },
+      {
+        name: "cancelLabel",
+        type: "string",
+        defaultValue: '"Leave"',
+        description: "Copy on the waiting control.",
+      },
+    ],
+    usageNotes: [
+      "Leave is the only focusable part and is removed once rendering starts; the bar is a progressbar with a whole-percent aria-valuenow and a spoken aria-valuetext.",
+      "Under reduced motion digits and the suffix swap in place, the row's height and the fills still change on tweens, and the tick appears whole.",
+      "The live region speaks the place in line once per position change (with the estimate as it stood), Rendering started once and Done once — never per percent; drive position, estimateSeconds and progress from your own clock.",
+    ],
+  },
+  {
+    name: "export-stamp",
+    type: "registry:ui",
+    title: "Export Stamp",
+    description:
+      'Done, and sent where you said. A row of target chips is a radiogroup whose chosen chip takes the cobalt wash on a colour tween while its detail line glides open beneath the row on glide from a measured height. Export hands the host onExport and the host drives stage and progress: the button\'s own fill runs left to right as a bar on glide, and on "stamped" a seal lands over the chosen chip on recoil — from 1.4× and a tilt to rest, two visible bounces — as the chip turns success and the button reads Exported. Left and Right step the chips without wrapping, Home and End jump, Space selects.',
+    files: [
+      {
+        path: "registry/ui/export-stamp.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-830",
+    },
+    tagline: "Done, and sent where you said.",
+    keywords: [
+      "export",
+      "stamp",
+      "destination",
+      "target",
+      "send",
+      "progress",
+      "agent",
+    ],
+    props: [
+      {
+        name: "targets",
+        type: "ExportTarget[]",
+        description:
+          "Destinations in order: id, label, and an optional detail line shown for the chosen one.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "first target",
+        description: "Controlled or initial target id.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires when a target is picked; reset stage to idle here so a new target is a new export.",
+      },
+      {
+        name: "stage",
+        type: '"idle" | "exporting" | "stamped"',
+        defaultValue: '"idle"',
+        description: "Where the export stands; the host drives it.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        defaultValue: "0",
+        description: '0..1 of the export while stage is "exporting".',
+      },
+      {
+        name: "onExport",
+        type: "(id: string) => void",
+        description: "Fires from the Export control with the chosen target.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the control group for assistive technology.",
+      },
+      {
+        name: "exportLabel",
+        type: "string",
+        defaultValue: '"Export"',
+        description: "Copy on the control while idle.",
+      },
+    ],
+    usageNotes: [
+      "Targets are a radiogroup with a roving tabindex: Left and Right (or Up and Down) step without wrapping, Home and End jump, Space selects, and picking is ignored while an export runs; Export is a real button with aria-busy while exporting and reads Exported, disabled, after the stamp.",
+      "Under reduced motion the bar still fills on a tween, the detail line swaps without gliding, and the seal fades in at rest with no tilt or bounce.",
+      "The live region speaks Exporting to <target> and Exported to <target> once each on stage change, never per percent; the seal is aria-hidden and the chip's own sr-only text says it was sent.",
+    ],
+  },
 ];
