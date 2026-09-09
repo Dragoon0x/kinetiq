@@ -990,6 +990,16 @@ import { ParallelFanDemo } from "@/registry/demos/parallel-fan.demo";
 import { CheckpointRailDemo } from "@/registry/demos/checkpoint-rail.demo";
 import { TaskBoardDemo } from "@/registry/demos/task-board.demo";
 import { OrchestraViewDemo } from "@/registry/demos/orchestra-view.demo";
+import { RatingPairDemo } from "@/registry/demos/rating-pair.demo";
+import { RubricGridDemo } from "@/registry/demos/rubric-grid.demo";
+import { ThumbsMorphDemo } from "@/registry/demos/thumbs-morph.demo";
+import { RegressionDiffDemo } from "@/registry/demos/regression-diff.demo";
+import { EvalProgressDemo } from "@/registry/demos/eval-progress.demo";
+import { GoldCompareDemo } from "@/registry/demos/gold-compare.demo";
+import { FlagNoteDemo } from "@/registry/demos/flag-note.demo";
+import { ScoreHistoryDemo } from "@/registry/demos/score-history.demo";
+import { JudgeVerdictDemo } from "@/registry/demos/judge-verdict.demo";
+import { SampleWheelDemo } from "@/registry/demos/sample-wheel.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1994,4 +2004,14 @@ export const demos: Record<string, ComponentType> = {
   "checkpoint-rail": CheckpointRailDemo,
   "task-board": TaskBoardDemo,
   "orchestra-view": OrchestraViewDemo,
+  "rating-pair": RatingPairDemo,
+  "rubric-grid": RubricGridDemo,
+  "thumbs-morph": ThumbsMorphDemo,
+  "regression-diff": RegressionDiffDemo,
+  "eval-progress": EvalProgressDemo,
+  "gold-compare": GoldCompareDemo,
+  "flag-note": FlagNoteDemo,
+  "score-history": ScoreHistoryDemo,
+  "judge-verdict": JudgeVerdictDemo,
+  "sample-wheel": SampleWheelDemo,
 };

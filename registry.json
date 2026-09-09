@@ -22246,6 +22246,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rating-pair",
+      "type": "registry:ui",
+      "title": "Rating Pair",
+      "description": "Two answers to one prompt with a three-way pick beneath them. Choosing a side lifts that card two pixels on snap and takes the strong hairline, while a preference beam pivots on its centre pin so the chosen end rises, also on snap, and a fill grows from the pin toward it on glide; a tie brings the beam level and drains both halves. The pick is a radiogroup with a roving tabindex: Left and Right step, Home and End jump, Space and Enter select.",
+      "files": [
+        {
+          "path": "registry/ui/rating-pair.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-801"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rubric-grid",
+      "type": "registry:ui",
+      "title": "Rubric Grid",
+      "description": "A rubric as a real grid: a row per criterion, a cell per level. Scoring a level fills the row with a wash that grows from the left edge to the chosen level on glide, the chosen cell takes the primary fill, and pressing it again clears the row so the bar drains. The total rolls its digits on snap, unscored criteria carry a hollow ring that breathes until they are scored, and a Complete chip lands on snap when every row is. Arrow keys walk the cells, Home and End jump to the ends of a row, Space and Enter score or clear.",
+      "files": [
+        {
+          "path": "registry/ui/rubric-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-802"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "thumbs-morph",
+      "type": "registry:ui",
+      "title": "Thumbs Morph",
+      "description": "Two outline thumbs whose glyph fills on press: a solid copy of the same path is revealed by a wrapper whose height grows on snap, rising from the base for the up thumb and sinking from the top for the down thumb, and pressing again drains it. A down press unfolds a reason chip row beneath, its box gliding to a ResizeObserver-measured height while the chips arrive on a cascade with a four-pixel nudge on snap; up, or clearing, folds it away. Both thumbs and every chip are toggle buttons reached by Tab and pressed with Space or Enter.",
+      "files": [
+        {
+          "path": "registry/ui/thumbs-morph.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-803"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "regression-diff",
+      "type": "registry:ui",
+      "title": "Regression Diff",
+      "description": "One row per test, two scores per row: previous and current draw as paired bars growing from the left on glide, and a current score that falls below the previous by more than the threshold turns its bar and delta danger red on a colour tween. When the last current score lands the list holds a beat and re-orders — regressions to the top, worst first — as a FLIP layout move on glide, so rows travel rather than blink. It is read, not driven: every row is a sentence, and the live region speaks the regression count once when the sort lands.",
+      "files": [
+        {
+          "path": "registry/ui/regression-diff.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-804"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "eval-progress",
+      "type": "registry:ui",
+      "title": "Eval Progress",
+      "description": "A progress bar built from one segment per case. As a case lands its segment fills from the left on glide — a green wash for a pass, a red one for a fail — then a pass ticks with a check drawn on flick and a fail stamps with a cross landing from 1.3× on glide, never a bounce. The pass rate in the header rolls its digits on snap beside a done-of-total count. It is a progressbar whose value is cases done and whose text carries passed and failed; the live region speaks each fail and the final rate once, never a passing case.",
+      "files": [
+        {
+          "path": "registry/ui/eval-progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-805"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gold-compare",
+      "type": "registry:ui",
+      "title": "Gold Compare",
+      "description": "An answer beside its gold reference, diffed word by word with a longest common subsequence: words the reference lacks take a warn wash and underline in the answer, words the answer missed take a cobalt wash in the reference, so the two panes read as one edit. A similarity ring fills to the Dice similarity on glide while the percent rolls its digits on snap, and a Differences only switch collapses every shared run into a counting chip as each pane glides to its measured height. The switch is a real role=\"switch\" that Space and Enter toggle.",
+      "files": [
+        {
+          "path": "registry/ui/gold-compare.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-806"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "flag-note",
+      "type": "registry:ui",
+      "title": "Flag Note",
+      "description": "An answer card whose Flag control raises a note panel beneath the text: the panel glides from zero to its measured height on glide, focus moves to a row of reason chips, and a real textarea takes the note. Submit folds the panel back and the flag badge lands in the header on snap with its glyph filling on a colour tween; pressing the badge reopens the panel to edit, and Remove clears it on the exit ease, never a bounce. Reasons are a radiogroup with a roving tabindex, and Escape anywhere in the panel cancels and returns focus.",
+      "files": [
+        {
+          "path": "registry/ui/flag-note.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-807"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "score-history",
+      "type": "registry:ui",
+      "title": "Score History",
+      "description": "A line of eval scores, one point per model version, in a fluid-width plot. On mount each segment draws with pathLength on glide one cascade step after the last and the points land behind it; appending a version draws only its new segment while the older segments and points glide to the re-fitted domain together, and the latest point pulses on a repeating enter-ease ring so the eye finds now. Hovering or dragging reads the nearest version, the hairline snapping to it and the point lifting on snap; the plot is a slider, so Left and Right step, Home and End jump, and Escape returns the reading to the latest.",
+      "files": [
+        {
+          "path": "registry/ui/score-history.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-808"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "judge-verdict",
+      "type": "registry:ui",
+      "title": "Judge Verdict",
+      "description": "A verdict card from a judge model. While judging, the score slot reads a dash and a dot breathes; when the verdict arrives the score counts up from zero as a motion value on glide, the verdict word lands beside it on snap with a four-pixel nudge, and the confidence bar fills on glide, tinting warn below one half, its percent reading once the fill lands. Then the reasoning unfolds to its measured height on glide with its numbered points arriving in a cascade; the disclosure stays a real button that Space and Enter fold and unfold, and a fail lands on the same spring in danger ink with no bounce anywhere.",
+      "files": [
+        {
+          "path": "registry/ui/judge-verdict.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-809"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sample-wheel",
+      "type": "registry:ui",
+      "title": "Sample Wheel",
+      "description": "Evaluation samples as chips around a rim inside a square that clips its corners. The ring turns so the chosen sample sits at the front under a fixed notch: Prev, Next and the arrow keys turn it one detent on snap while every chip counter-rotates from the same angle so its label stays upright, and dragging anywhere on the ring turns it with the pointer, capture taken only after four pixels, release settling to the nearest detent on snap and choosing what landed at the front. Failed samples carry a danger tick outside their chip and a danger stroke; the hub reads the front sample with its score rolling on snap, and beneath it the title and score bars fill on glide.",
+      "files": [
+        {
+          "path": "registry/ui/sample-wheel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-810"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 799,
+      "components": 809,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -54703,6 +54703,774 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/orchestra-view",
         "bun": "bunx --bun shadcn@latest add @kinetiq/orchestra-view",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/orchestra-view.json"
+      }
+    },
+    {
+      "slug": "rating-pair",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rating Pair",
+      "serial": "KQ-801",
+      "tagline": "Better, worse, or the same.",
+      "description": "Two answers to one prompt with a three-way pick beneath them. Choosing a side lifts that card two pixels on snap and takes the strong hairline, while a preference beam pivots on its centre pin so the chosen end rises, also on snap, and a fill grows from the pin toward it on glide; a tie brings the beam level and drains both halves. The pick is a radiogroup with a roving tabindex: Left and Right step, Home and End jump, Space and Enter select.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "rating",
+        "preference",
+        "pairwise",
+        "compare",
+        "tie",
+        "evaluation",
+        "radiogroup"
+      ],
+      "props": [
+        {
+          "name": "answers",
+          "type": "[RatingAnswer, RatingAnswer]",
+          "description": "Left and right answers to the same prompt: id, an invented model name, and the text."
+        },
+        {
+          "name": "prompt",
+          "type": "string",
+          "description": "The question both answers respond to, printed above the pair."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "RatingPick | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial pick: \"left\", \"tie\", \"right\", or null while nothing is chosen."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(pick: RatingPick) => void",
+          "description": "Fires from the click or key that changed the pick."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the pair and its radiogroup for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "A radiogroup with a roving tabindex: Left and Right (or Up and Down) step the three stops without wrapping, Home and End jump to the outer ones, Space and Enter select, and an arrow move selects as a native radio does.",
+        "Under reduced motion nothing lifts or rotates: the chosen card takes its border and wash on a colour tween and the beam's fill swaps to its length.",
+        "The live region speaks \"Preferred <model>\" or \"Rated the same\" once per pick; the beam itself is decoration and hidden from assistive technology."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/rating-pair",
+      "registryItemUrl": "https://www.kinetiqui.com/r/rating-pair.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rating-pair",
+        "npm": "npx shadcn@latest add @kinetiq/rating-pair",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rating-pair",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rating-pair",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/rating-pair.json"
+      }
+    },
+    {
+      "slug": "rubric-grid",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rubric Grid",
+      "serial": "KQ-802",
+      "tagline": "Scored on every axis.",
+      "description": "A rubric as a real grid: a row per criterion, a cell per level. Scoring a level fills the row with a wash that grows from the left edge to the chosen level on glide, the chosen cell takes the primary fill, and pressing it again clears the row so the bar drains. The total rolls its digits on snap, unscored criteria carry a hollow ring that breathes until they are scored, and a Complete chip lands on snap when every row is. Arrow keys walk the cells, Home and End jump to the ends of a row, Space and Enter score or clear.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "rubric",
+        "score",
+        "criteria",
+        "grid",
+        "grading",
+        "evaluation",
+        "total"
+      ],
+      "props": [
+        {
+          "name": "criteria",
+          "type": "RubricCriterion[]",
+          "description": "The rows, top to bottom: id, name, and an optional hint under the name."
+        },
+        {
+          "name": "levels",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Score levels per criterion, 1 to levels."
+        },
+        {
+          "name": "levelLabels",
+          "type": "string[]",
+          "description": "Column-header words for the levels; falls back to the numbers."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "Record<string, number>",
+          "defaultValue": "{}",
+          "description": "Controlled or initial scores keyed by criterion id; absent keys are unscored."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(scores: Record<string, number>) => void",
+          "description": "Fires from the click or key that scored or cleared a criterion, with the whole map."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the grid for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "A role=\"grid\" with a roving tabindex across every cell: Left and Right step levels, Up and Down step criteria, Home and End jump to the first and last level of the row, Space and Enter score — or clear, when pressed on the chosen level.",
+        "Under reduced motion the bar swaps to its length on a tween, rings do not breathe (the hollow ring and the word \"unscored\" carry the state), the digits swap in place, and the Complete chip fades in.",
+        "Each row header carries its score in words for assistive technology, and the live region speaks each score, each clear, and the total once every criterion is scored."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/rubric-grid",
+      "registryItemUrl": "https://www.kinetiqui.com/r/rubric-grid.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rubric-grid",
+        "npm": "npx shadcn@latest add @kinetiq/rubric-grid",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rubric-grid",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rubric-grid",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/rubric-grid.json"
+      }
+    },
+    {
+      "slug": "thumbs-morph",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Thumbs Morph",
+      "serial": "KQ-803",
+      "tagline": "Up, then a reason.",
+      "description": "Two outline thumbs whose glyph fills on press: a solid copy of the same path is revealed by a wrapper whose height grows on snap, rising from the base for the up thumb and sinking from the top for the down thumb, and pressing again drains it. A down press unfolds a reason chip row beneath, its box gliding to a ResizeObserver-measured height while the chips arrive on a cascade with a four-pixel nudge on snap; up, or clearing, folds it away. Both thumbs and every chip are toggle buttons reached by Tab and pressed with Space or Enter.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "thumbs",
+        "feedback",
+        "reason",
+        "chips",
+        "verdict",
+        "measured height",
+        "evaluation"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "ThumbsValue | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial verdict: \"up\", \"down\", or null while nothing is chosen."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: ThumbsValue | null) => void",
+          "description": "Fires from the thumb press that changed the verdict."
+        },
+        {
+          "name": "reasons",
+          "type": "ThumbsReason[]",
+          "defaultValue": "five house reasons",
+          "description": "The chips offered after a down press: id and label."
+        },
+        {
+          "name": "chosen / defaultChosen",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Controlled or initial chosen reason ids; chips are multi-select."
+        },
+        {
+          "name": "onChosenChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the chip press that toggled a reason."
+        },
+        {
+          "name": "subject",
+          "type": "string",
+          "defaultValue": "\"answer\"",
+          "description": "Names what is being rated in the group and thumb labels."
+        }
+      ],
+      "usageNotes": [
+        "Both thumbs are toggle buttons with aria-pressed; the down thumb also carries aria-expanded and aria-controls for the reason row, which is inert and out of the tab order while folded.",
+        "Under reduced motion the fill appears whole on a fade instead of rising, the row's height still opens and closes on a tween because the question is information, and the chips fade in with no nudge and no cascade.",
+        "The live region speaks \"Marked good\", \"Marked poor, pick a reason\", \"Verdict cleared\", and each reason added or removed, once per change."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/thumbs-morph",
+      "registryItemUrl": "https://www.kinetiqui.com/r/thumbs-morph.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/thumbs-morph",
+        "npm": "npx shadcn@latest add @kinetiq/thumbs-morph",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/thumbs-morph",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/thumbs-morph",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/thumbs-morph.json"
+      }
+    },
+    {
+      "slug": "regression-diff",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Regression Diff",
+      "serial": "KQ-804",
+      "tagline": "What changed between runs.",
+      "description": "One row per test, two scores per row: previous and current draw as paired bars growing from the left on glide, and a current score that falls below the previous by more than the threshold turns its bar and delta danger red on a colour tween. When the last current score lands the list holds a beat and re-orders — regressions to the top, worst first — as a FLIP layout move on glide, so rows travel rather than blink. It is read, not driven: every row is a sentence, and the live region speaks the regression count once when the sort lands.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "regression",
+        "diff",
+        "runs",
+        "scores",
+        "paired bars",
+        "FLIP",
+        "evaluation"
+      ],
+      "props": [
+        {
+          "name": "tests",
+          "type": "RegressionTest[]",
+          "description": "The rows in their pre-sort order: id, name, before, and after once the current run has scored it."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "100",
+          "description": "The full-bar score."
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "How far current may fall below previous before it counts as a regression."
+        },
+        {
+          "name": "runLabels",
+          "type": "[string, string]",
+          "defaultValue": "[\"Previous\", \"Current\"]",
+          "description": "Names the two runs in the legend and the row sentences."
+        },
+        {
+          "name": "onSettle",
+          "type": "(regressions: number) => void",
+          "description": "Fires from the beat's timer when the sorted order lands, with the regression count."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the list for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "No gesture and no focusable part: the list reads in order at all times, each row an aria-label sentence with both scores, the delta in words, and \"regression\" where it applies — never colour alone.",
+        "Under reduced motion the bars swap to their lengths on a tween, the colour still turns, and the re-order happens without a layout animation — the order still changes, because the order is the information.",
+        "The beat before the sort lives in an effect with cleanup, waits while the document is hidden, and a new run (current scores cleared) un-sorts the list without any reset."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/regression-diff",
+      "registryItemUrl": "https://www.kinetiqui.com/r/regression-diff.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/regression-diff",
+        "npm": "npx shadcn@latest add @kinetiq/regression-diff",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/regression-diff",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/regression-diff",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/regression-diff.json"
+      }
+    },
+    {
+      "slug": "eval-progress",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Eval Progress",
+      "serial": "KQ-805",
+      "tagline": "How many passed so far.",
+      "description": "A progress bar built from one segment per case. As a case lands its segment fills from the left on glide — a green wash for a pass, a red one for a fail — then a pass ticks with a check drawn on flick and a fail stamps with a cross landing from 1.3× on glide, never a bounce. The pass rate in the header rolls its digits on snap beside a done-of-total count. It is a progressbar whose value is cases done and whose text carries passed and failed; the live region speaks each fail and the final rate once, never a passing case.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "evaluation",
+        "progress",
+        "pass rate",
+        "cases",
+        "tick",
+        "stamp",
+        "progressbar"
+      ],
+      "props": [
+        {
+          "name": "results",
+          "type": "EvalCase[]",
+          "description": "The cases in order: id, name, and a status of \"pending\", \"pass\", or \"fail\"; a case lands when its status leaves pending."
+        },
+        {
+          "name": "playing",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The run is live: sets aria-busy on the bar and the Running word."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the bar for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "It is read, not driven: a role=\"progressbar\" with aria-valuenow as cases done, aria-valuemax as the case count, and aria-valuetext naming passed and failed; segments are hidden decoration titled with their case and verdict.",
+        "Under reduced motion segments fill on a tween, the tick appears whole, the cross fades in without scaling, and the digits swap in place — the count and colour still update because progress is information.",
+        "The component never reads a clock: feed landings through results from a seeded schedule that lives in an effect with cleanup and pauses while the document is hidden, as the demo does."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/eval-progress",
+      "registryItemUrl": "https://www.kinetiqui.com/r/eval-progress.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/eval-progress",
+        "npm": "npx shadcn@latest add @kinetiq/eval-progress",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/eval-progress",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/eval-progress",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/eval-progress.json"
+      }
+    },
+    {
+      "slug": "gold-compare",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Gold Compare",
+      "serial": "KQ-806",
+      "tagline": "Against the reference.",
+      "description": "An answer beside its gold reference, diffed word by word with a longest common subsequence: words the reference lacks take a warn wash and underline in the answer, words the answer missed take a cobalt wash in the reference, so the two panes read as one edit. A similarity ring fills to the Dice similarity on glide while the percent rolls its digits on snap, and a Differences only switch collapses every shared run into a counting chip as each pane glides to its measured height. The switch is a real role=\"switch\" that Space and Enter toggle.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "diff",
+        "reference",
+        "gold",
+        "similarity",
+        "evaluation",
+        "compare",
+        "answer"
+      ],
+      "props": [
+        {
+          "name": "answer",
+          "type": "string",
+          "description": "The model's answer."
+        },
+        {
+          "name": "reference",
+          "type": "string",
+          "description": "The gold reference it is compared against."
+        },
+        {
+          "name": "diffOnly / defaultDiffOnly",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial state of the Differences only switch."
+        },
+        {
+          "name": "onDiffOnlyChange",
+          "type": "(diffOnly: boolean) => void",
+          "description": "Fires from the switch press."
+        },
+        {
+          "name": "onCompare",
+          "type": "(result: GoldCompareResult) => void",
+          "description": "Fires once a new pair has been diffed: similarity as a whole percent and the words that differ across both panes."
+        },
+        {
+          "name": "answerLabel",
+          "type": "string",
+          "defaultValue": "\"Answer\"",
+          "description": "Caption of the answer pane."
+        },
+        {
+          "name": "referenceLabel",
+          "type": "string",
+          "defaultValue": "\"Reference\"",
+          "description": "Caption of the reference pane."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Layout overrides on the frame."
+        }
+      ],
+      "usageNotes": [
+        "The Differences only control is a button with role=\"switch\" and aria-checked; Space and Enter toggle it, and each pane is a section named by its caption.",
+        "Under reduced motion the ring still fills on a short tween, the digits swap in place, the knob jumps to its stop and the panes' heights tween, because the diff, the percent and the collapse are the information.",
+        "Diff marks are never colour alone: differing words carry an underline and a visually hidden added or missing word, collapsed runs read as N same words, and a visually hidden status line speaks the similarity once per pair and the mode once per toggle."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/gold-compare",
+      "registryItemUrl": "https://www.kinetiqui.com/r/gold-compare.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/gold-compare",
+        "npm": "npx shadcn@latest add @kinetiq/gold-compare",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/gold-compare",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/gold-compare",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/gold-compare.json"
+      }
+    },
+    {
+      "slug": "flag-note",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Flag Note",
+      "serial": "KQ-807",
+      "tagline": "Mark it, say why.",
+      "description": "An answer card whose Flag control raises a note panel beneath the text: the panel glides from zero to its measured height on glide, focus moves to a row of reason chips, and a real textarea takes the note. Submit folds the panel back and the flag badge lands in the header on snap with its glyph filling on a colour tween; pressing the badge reopens the panel to edit, and Remove clears it on the exit ease, never a bounce. Reasons are a radiogroup with a roving tabindex, and Escape anywhere in the panel cancels and returns focus.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "flag",
+        "note",
+        "feedback",
+        "reason",
+        "badge",
+        "evaluation",
+        "annotate"
+      ],
+      "props": [
+        {
+          "name": "model",
+          "type": "string",
+          "description": "Whose answer this is; the header caption."
+        },
+        {
+          "name": "answer",
+          "type": "string",
+          "description": "The answer text."
+        },
+        {
+          "name": "reasons",
+          "type": "string[]",
+          "defaultValue": "[\"Wrong\", \"Unsafe\", \"Off topic\", \"Style\"]",
+          "description": "The reason chips."
+        },
+        {
+          "name": "flag / defaultFlag",
+          "type": "FlagNoteValue | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial flag: { reason, note }, or null while unflagged."
+        },
+        {
+          "name": "onFlagChange",
+          "type": "(flag: FlagNoteValue | null) => void",
+          "description": "Fires from Submit with the flag, or from Remove with null."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires when the note panel opens or closes."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Layout overrides on the card."
+        }
+      ],
+      "usageNotes": [
+        "The Flag button and the badge carry aria-expanded and aria-controls for the panel, which is inert and out of the tab order while folded; reasons are a radiogroup where Left and Right step, Home and End jump and Space selects, and Submit stays disabled until a reason is chosen.",
+        "Escape in the panel cancels and returns focus to the control that opened it; Submit returns focus to the badge and Remove to the Flag button, and a visually hidden status line speaks Flagged as <reason> and Flag removed.",
+        "Under reduced motion the panel still opens and closes on a tween because the field is information; the badge fades in place with no overshoot and the flag glyph fills on a colour tween."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/flag-note",
+      "registryItemUrl": "https://www.kinetiqui.com/r/flag-note.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/flag-note",
+        "npm": "npx shadcn@latest add @kinetiq/flag-note",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/flag-note",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/flag-note",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/flag-note.json"
+      }
+    },
+    {
+      "slug": "score-history",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Score History",
+      "serial": "KQ-808",
+      "tagline": "How the model has done, over time.",
+      "description": "A line of eval scores, one point per model version, in a fluid-width plot. On mount each segment draws with pathLength on glide one cascade step after the last and the points land behind it; appending a version draws only its new segment while the older segments and points glide to the re-fitted domain together, and the latest point pulses on a repeating enter-ease ring so the eye finds now. Hovering or dragging reads the nearest version, the hairline snapping to it and the point lifting on snap; the plot is a slider, so Left and Right step, Home and End jump, and Escape returns the reading to the latest.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "score",
+        "history",
+        "versions",
+        "line",
+        "chart",
+        "evaluation",
+        "trend"
+      ],
+      "props": [
+        {
+          "name": "versions",
+          "type": "ScoreVersion[]",
+          "description": "Oldest first: { id, label, score, passed, total }; score is 0–100. Appending one extends the line."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Score\"",
+          "description": "Names the plot; prints in the header."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "128",
+          "description": "Plot height in px; the width is measured."
+        },
+        {
+          "name": "onReadChange",
+          "type": "(version: ScoreVersion | null) => void",
+          "description": "Fires when the reading moves to a version, or back to the latest (null)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Layout overrides on the frame."
+        }
+      ],
+      "usageNotes": [
+        "The plot is a role=\"slider\" over version indices whose aria-valuetext reads the version, its score, its cases passed of total and the delta in words; Left and Right (or Down and Up) step, Home and End jump, Escape returns to the latest.",
+        "Under reduced motion the line appears drawn and the points in place; nothing pulses and the latest point wears a still outer ring instead, while the reading still follows the pointer and keys and the hairline swaps position.",
+        "The header readout is hidden from assistive technology because the slider speaks the value; a visually hidden polite live region announces the latest version once when a release lands, from a short timer."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/score-history",
+      "registryItemUrl": "https://www.kinetiqui.com/r/score-history.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/score-history",
+        "npm": "npx shadcn@latest add @kinetiq/score-history",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/score-history",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/score-history",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/score-history.json"
+      }
+    },
+    {
+      "slug": "judge-verdict",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Judge Verdict",
+      "serial": "KQ-809",
+      "tagline": "The judge's call, explained.",
+      "description": "A verdict card from a judge model. While judging, the score slot reads a dash and a dot breathes; when the verdict arrives the score counts up from zero as a motion value on glide, the verdict word lands beside it on snap with a four-pixel nudge, and the confidence bar fills on glide, tinting warn below one half, its percent reading once the fill lands. Then the reasoning unfolds to its measured height on glide with its numbered points arriving in a cascade; the disclosure stays a real button that Space and Enter fold and unfold, and a fail lands on the same spring in danger ink with no bounce anywhere.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "judge",
+        "verdict",
+        "score",
+        "confidence",
+        "reasoning",
+        "evaluation",
+        "grader"
+      ],
+      "props": [
+        {
+          "name": "judge",
+          "type": "string",
+          "description": "The judge model's name; the header caption."
+        },
+        {
+          "name": "caseLabel",
+          "type": "string",
+          "description": "What is being judged; prints beside the judge."
+        },
+        {
+          "name": "judging",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The host is waiting on the judge; shows the breathing dot and sets aria-busy."
+        },
+        {
+          "name": "verdict",
+          "type": "JudgeVerdictValue | null",
+          "defaultValue": "null",
+          "description": "{ score, label, confidence, reasoning }: score 0 to max, label pass, fail or borderline, confidence 0–1, reasoning as points."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "The score's ceiling."
+        },
+        {
+          "name": "reasoningOpen / defaultReasoningOpen",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Controlled or initial state of the reasoning disclosure once a verdict exists."
+        },
+        {
+          "name": "onReasoningOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the disclosure press."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Layout overrides on the card."
+        }
+      ],
+      "usageNotes": [
+        "The reasoning toggle is a button with aria-expanded and aria-controls; Space and Enter fold and unfold it, the folded list is inert and out of the tab order, and the points are an ordered list.",
+        "Under reduced motion the score swaps to its value, the verdict word fades in without a nudge, the bar fills on a tween because confidence is information, and the reasoning box tweens open with its points fading in place.",
+        "The score readout is hidden from assistive technology while it counts; a visually hidden status line speaks the verdict, score and confidence once when it lands, the confidence bar is a role=\"meter\", and the card is aria-busy while judging."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/judge-verdict",
+      "registryItemUrl": "https://www.kinetiqui.com/r/judge-verdict.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/judge-verdict",
+        "npm": "npx shadcn@latest add @kinetiq/judge-verdict",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/judge-verdict",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/judge-verdict",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/judge-verdict.json"
+      }
+    },
+    {
+      "slug": "sample-wheel",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sample Wheel",
+      "serial": "KQ-810",
+      "tagline": "Spin through the samples.",
+      "description": "Evaluation samples as chips around a rim inside a square that clips its corners. The ring turns so the chosen sample sits at the front under a fixed notch: Prev, Next and the arrow keys turn it one detent on snap while every chip counter-rotates from the same angle so its label stays upright, and dragging anywhere on the ring turns it with the pointer, capture taken only after four pixels, release settling to the nearest detent on snap and choosing what landed at the front. Failed samples carry a danger tick outside their chip and a danger stroke; the hub reads the front sample with its score rolling on snap, and beneath it the title and score bars fill on glide.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "wheel",
+        "samples",
+        "rotate",
+        "drag",
+        "evaluation",
+        "radiogroup",
+        "detent"
+      ],
+      "props": [
+        {
+          "name": "samples",
+          "type": "WheelSample[]",
+          "description": "Clockwise from the front: { id, label, title, score, passed, scores }; scores is up to three { name, value } on 0–100."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "the first sample's id",
+          "description": "Controlled or initial sample id."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the step, key, chip press or drag release that changed the pick."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the wheel for assistive technology."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Layout overrides on the frame."
+        }
+      ],
+      "usageNotes": [
+        "The ring is a radiogroup with a roving tabindex: every chip is a button with role=\"radio\" named Sample S-07, fail, score 42; Right and Down step clockwise, Left and Up anticlockwise, Home and End jump to the first and last, Space selects, and the visible Prev and Next buttons do the same for pointer users.",
+        "Under reduced motion the ring jumps to the chosen detent without travel, the chips set upright at once, the digits swap and the score bars fill on a tween; a drag still turns the ring with the pointer and release still picks.",
+        "Chips are placed by percentages of the square so nothing overhangs at narrow widths; the hub's rolling digits are hidden from assistive technology and a visually hidden status line speaks the chosen sample once per change."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/sample-wheel",
+      "registryItemUrl": "https://www.kinetiqui.com/r/sample-wheel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sample-wheel",
+        "npm": "npx shadcn@latest add @kinetiq/sample-wheel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sample-wheel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sample-wheel",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/sample-wheel.json"
       }
     },
     {
