@@ -900,6 +900,16 @@ import { OverdraftLineDemo } from "@/registry/demos/overdraft-line.demo";
 import { PaydownPlanDemo } from "@/registry/demos/paydown-plan.demo";
 import { AutopayToggleDemo } from "@/registry/demos/autopay-toggle.demo";
 import { GraceTimerDemo } from "@/registry/demos/grace-timer.demo";
+import { GoalPotDemo } from "@/registry/demos/goal-pot.demo";
+import { RoundUpDemo } from "@/registry/demos/round-up.demo";
+import { InterestDripDemo } from "@/registry/demos/interest-drip.demo";
+import { GoalTimelineDemo } from "@/registry/demos/goal-timeline.demo";
+import { PotShuffleDemo } from "@/registry/demos/pot-shuffle.demo";
+import { StreakSaverDemo } from "@/registry/demos/streak-saver.demo";
+import { AutoSweepDemo } from "@/registry/demos/auto-sweep.demo";
+import { GoalCardDemo } from "@/registry/demos/goal-card.demo";
+import { RateLadderDemo } from "@/registry/demos/rate-ladder.demo";
+import { NestEggDemo } from "@/registry/demos/nest-egg.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1814,4 +1824,14 @@ export const demos: Record<string, ComponentType> = {
   "paydown-plan": PaydownPlanDemo,
   "autopay-toggle": AutopayToggleDemo,
   "grace-timer": GraceTimerDemo,
+  "goal-pot": GoalPotDemo,
+  "round-up": RoundUpDemo,
+  "interest-drip": InterestDripDemo,
+  "goal-timeline": GoalTimelineDemo,
+  "pot-shuffle": PotShuffleDemo,
+  "streak-saver": StreakSaverDemo,
+  "auto-sweep": AutoSweepDemo,
+  "goal-card": GoalCardDemo,
+  "rate-ladder": RateLadderDemo,
+  "nest-egg": NestEggDemo,
 };

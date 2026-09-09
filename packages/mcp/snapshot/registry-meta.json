@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 709,
+      "components": 719,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -47086,6 +47086,889 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/grace-timer",
         "bun": "bunx --bun shadcn@latest add @kinetiq/grace-timer",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/grace-timer.json"
+      }
+    },
+    {
+      "slug": "goal-pot",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Goal Pot",
+      "serial": "KQ-709",
+      "tagline": "Coins in, pot fills.",
+      "description": "A savings pot whose liquid is the share of the goal already saved. Each increase mints a coin above the lip that drops in and lands on recoil, and only when it lands does the level rise on glide and the figure count up on the same spring; landing at the goal turns the lip success and glints it once. The pot is a meter with a spoken value text, the quick-add controls are real buttons reached by Tab and pressed by Enter or Space, and each add is announced.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "savings",
+        "goal",
+        "pot",
+        "coin",
+        "fill",
+        "meter",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial amount in the pot."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number, added: number) => void",
+          "description": "Fires from the quick-add press that changed the amount."
+        },
+        {
+          "name": "goal",
+          "type": "number",
+          "description": "The target; the pot is full here and the lip glints when reached."
+        },
+        {
+          "name": "steps",
+          "type": "number[]",
+          "defaultValue": "[20, 50, 100]",
+          "description": "Quick-add amounts rendered as buttons under the readout. An empty list hides the row."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Formats every amount. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the pot; printed above the readout and read as the meter's label."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches each quick-add button and Enter or Space presses it; the pot itself is a role=\"meter\" whose value text says how much is saved and how much is left, and a status line announces each add and the moment the goal is reached.",
+        "Under reduced motion the coin fades in on the surface instead of falling, the level and the count move on a tween, and the lip turns success without the travelling glint — the fill still fills, because that is the information.",
+        "A lower value drops the level on glide with no coin: a withdrawal is never celebrated."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/goal-pot",
+      "registryItemUrl": "https://www.kinetiqui.com/r/goal-pot.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/goal-pot",
+        "npm": "npx shadcn@latest add @kinetiq/goal-pot",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/goal-pot",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/goal-pot",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/goal-pot.json"
+      }
+    },
+    {
+      "slug": "round-up",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Round Up",
+      "serial": "KQ-710",
+      "tagline": "The change, saved.",
+      "description": "A purchase card whose spare change is saved. When a new purchase arrives with the switch on, the change chip lifts out of the card on snap and glides into the savings figure above, shrinking as it goes; on arrival the figure rolls its digits on snap and a tag names what landed. The switch is a real role=\"switch\" that Space and Enter flip, the figure reads as one string, and each landing is announced.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "round-up",
+        "spare change",
+        "savings",
+        "purchase",
+        "switch",
+        "rolling digits",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "purchase",
+          "type": "RoundUpPurchase | null",
+          "defaultValue": "null",
+          "description": "{ id, merchant, amount, note? }. A new id is a new purchase; when enabled its change lifts and flies."
+        },
+        {
+          "name": "saved / defaultSaved",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial round-up total."
+        },
+        {
+          "name": "onSavedChange",
+          "type": "(saved: number, change: number) => void",
+          "description": "Fires when a lifted change lands in the figure, with the new total and the amount that landed."
+        },
+        {
+          "name": "enabled / defaultEnabled",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Controlled or initial switch state."
+        },
+        {
+          "name": "onEnabledChange",
+          "type": "(enabled: boolean) => void",
+          "description": "Fires from the press that flipped the switch."
+        },
+        {
+          "name": "roundTo",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "The unit a purchase rounds up to."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Formats every amount. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Round-ups\"",
+          "description": "Names the savings figure."
+        }
+      ],
+      "usageNotes": [
+        "The switch is a button with role=\"switch\" and aria-checked; Tab reaches it and Space or Enter flips it. The figure is a labelled group whose rolling columns stay hidden behind an sr-only amount, and a status line announces each landing and each flip.",
+        "Under reduced motion the chip fades on the card instead of travelling — its fade still commits the total and fires onSavedChange — and the digits swap in place.",
+        "A purchase arriving mid-flight mounts a second flyer rather than interrupting the first, so every lifted change still lands and still counts."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/round-up",
+      "registryItemUrl": "https://www.kinetiqui.com/r/round-up.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/round-up",
+        "npm": "npx shadcn@latest add @kinetiq/round-up",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/round-up",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/round-up",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/round-up.json"
+      }
+    },
+    {
+      "slug": "interest-drip",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Interest Drip",
+      "serial": "KQ-711",
+      "tagline": "Watch it grow, slowly.",
+      "description": "A savings balance with the interest accruing in front of you. While playing, a timer compounds the balance by fractions of a cent per tick with a soft colour pulse, the cent column rolls on snap when a whole cent turns, and a projection line beneath extends on glide as simulated days pass. Hovering or focusing the figure shows the daily rate; Tab reaches the figure, Enter pins the card and Escape dismisses it.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "interest",
+        "savings",
+        "compound",
+        "accrual",
+        "projection",
+        "rate",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "principal",
+          "type": "number",
+          "description": "The balance at day 0."
+        },
+        {
+          "name": "rate",
+          "type": "number",
+          "description": "Annual percentage yield as a fraction — 0.0305 for 3.05%. Changing it morphs the projection on glide."
+        },
+        {
+          "name": "playing",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Runs the accrual timer. It pauses itself while the tab is hidden."
+        },
+        {
+          "name": "tickMs",
+          "type": "number",
+          "defaultValue": "900",
+          "description": "Milliseconds between ticks."
+        },
+        {
+          "name": "stepDays",
+          "type": "number",
+          "defaultValue": "1 / 24",
+          "description": "Simulated days advanced per tick — an hour by default, so the drip is fractions."
+        },
+        {
+          "name": "horizonDays",
+          "type": "number",
+          "defaultValue": "365",
+          "description": "How far the projection line looks ahead."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Formats the balance and the daily rate. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the balance."
+        },
+        {
+          "name": "onTick",
+          "type": "(balance: number, days: number) => void",
+          "description": "Fires from each timer tick with the compounded balance and elapsed days."
+        }
+      ],
+      "usageNotes": [
+        "The figure is a button described by the rate sentence: hover or focus shows the card, Enter or Space pins it, Escape and blur dismiss it. The projection is an image whose name states the projected balance at the horizon.",
+        "Under reduced motion the pulse is already colour only; the cent column swaps instead of rolling, the card fades without travel, and the line's length swaps on a tween. The drip still drips, because the accrual is the information.",
+        "The live region reports each whole simulated day and each pause, never every tick, and the timer never reads a clock — time is counted from the ticks."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/interest-drip",
+      "registryItemUrl": "https://www.kinetiqui.com/r/interest-drip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/interest-drip",
+        "npm": "npx shadcn@latest add @kinetiq/interest-drip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/interest-drip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/interest-drip",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/interest-drip.json"
+      }
+    },
+    {
+      "slug": "goal-timeline",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Goal Timeline",
+      "serial": "KQ-712",
+      "tagline": "When you will get there.",
+      "description": "A timeline from now to a horizon with a marker planted where the goal is met at the current monthly contribution. Moving the contribution slider slides the marker earlier or later on glide, the filled run stretching behind it on the same spring, while the flag cross-fades to the new month and the months figure rolls in on snap. The thumb is a real slider: Arrow keys step, PageUp and PageDown take ten steps, Home and End jump, and the projection is announced when the slider settles.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "goal",
+        "timeline",
+        "slider",
+        "projection",
+        "savings",
+        "contribution",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "saved",
+          "type": "number",
+          "description": "Already in the goal."
+        },
+        {
+          "name": "goal",
+          "type": "number",
+          "description": "The target amount."
+        },
+        {
+          "name": "monthly / defaultMonthly",
+          "type": "number",
+          "defaultValue": "min",
+          "description": "Controlled or initial monthly contribution."
+        },
+        {
+          "name": "onMonthlyChange",
+          "type": "(monthly: number) => void",
+          "description": "Fires from the pointer or key that moved the slider."
+        },
+        {
+          "name": "min / max / step",
+          "type": "number",
+          "defaultValue": "50 / 1000 / 25",
+          "description": "Slider range and step."
+        },
+        {
+          "name": "start",
+          "type": "{ year: number; month: number }",
+          "description": "The timeline's first month (month 1–12). Seeded, never read from a clock."
+        },
+        {
+          "name": "horizonMonths",
+          "type": "number",
+          "defaultValue": "36",
+          "description": "How far the track looks ahead; a goal past it parks the marker at the end."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\", maximumFractionDigits: 0 })",
+          "description": "Formats the amounts and the slider's value text. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the goal; heads the instrument and labels the slider."
+        }
+      ],
+      "usageNotes": [
+        "The thumb is a focusable role=\"slider\" with aria-valuetext naming the contribution and the months to go; pressing the track jumps to that value and dragging scrubs it, capturing the pointer only after 4px so a tap stays a tap.",
+        "Under reduced motion the marker and the fill swap to their positions on a tween with no spring; the flag still cross-fades and the months figure swaps in place.",
+        "Also exports projectGoalMonths(saved, goal, monthly) so a host can print the same projection the marker shows."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/goal-timeline",
+      "registryItemUrl": "https://www.kinetiqui.com/r/goal-timeline.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/goal-timeline",
+        "npm": "npx shadcn@latest add @kinetiq/goal-timeline",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/goal-timeline",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/goal-timeline",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/goal-timeline.json"
+      }
+    },
+    {
+      "slug": "pot-shuffle",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pot Shuffle",
+      "serial": "KQ-713",
+      "tagline": "Move money between pots.",
+      "description": "A row of savings jars with a liquid level and a figure each. Dragging from one jar tilts it toward the pointer on glide and lifts a coin; releasing over another jar sends the coin along an arc on glide and drops it in on recoil, and only then do the levels glide and both figures roll their digits on snap. The keyboard runs the same move — Enter or Space lifts, Arrow keys walk the row, Enter or Space drops, Escape cancels — and every step is announced.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "pots",
+        "savings",
+        "transfer",
+        "drag",
+        "coin",
+        "rolling digits",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "pots / defaultPots",
+          "type": "ShufflePot[]",
+          "description": "{ id, name, balance }[], controlled or initial."
+        },
+        {
+          "name": "onPotsChange",
+          "type": "(next: ShufflePot[]) => void",
+          "description": "Fires when a move lands, with the whole new row."
+        },
+        {
+          "name": "onMove",
+          "type": "(from: string, to: string, amount: number) => void",
+          "description": "Fires alongside it with just the move."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "50",
+          "description": "Money moved by one drop, clamped to what the source holds."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\", maximumFractionDigits: 0 })",
+          "description": "Formats every figure. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Pots\"",
+          "description": "Names the row."
+        }
+      ],
+      "usageNotes": [
+        "Each jar is a button named by the pot and its balance, in a roving tabindex: Left and Right walk the row, Home and End jump, Enter or Space lifts a coin and drops it on another jar, Escape puts it back. A hint line says what to do next and a status line announces each lift, move and cancel.",
+        "Under reduced motion there is no tilt and no arc: the coin waits on its jar and fades at the drop, whose completion still commits the move; the levels move on a tween and the figures swap their digits in place.",
+        "The move commits — and onPotsChange fires — when the coin lands, not when the pointer lets go, so the figures roll the moment the money arrives."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pot-shuffle",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pot-shuffle.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pot-shuffle",
+        "npm": "npx shadcn@latest add @kinetiq/pot-shuffle",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pot-shuffle",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pot-shuffle",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pot-shuffle.json"
+      }
+    },
+    {
+      "slug": "streak-saver",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Streak Saver",
+      "serial": "KQ-714",
+      "tagline": "Weeks in a row.",
+      "description": "A weekly saving streak as a row of cells, oldest on the left and the current week on the right. Saving lights the current cell — the fill lands from 0.6× on snap, one crisp overshoot, a light switching on — while a halo blooms and fades on a tween and the streak count rolls to the new run on the same beat. When the calendar advances the oldest cell leaves on the exit ease, the rest glide left one column as a layout move, a new outlined cell arrives from the right, and a week left unsaved dims to a hatched cell on a colour tween: nothing celebrates a miss. The cells are a labelled list that reads as sentences, the Save button stays focusable once pressed, and a status line announces the run once per change.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "streak",
+        "savings",
+        "weekly",
+        "habit",
+        "rolling digits",
+        "finance",
+        "contribution"
+      ],
+      "props": [
+        {
+          "name": "weeks",
+          "type": "StreakWeek[]",
+          "description": "Oldest first; the last entry is the current week. Each carries an id, a date label and whether it was saved: a past week unsaved is missed, the current week unsaved is open."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "The weekly contribution, printed on the Save button and used for the total put away."
+        },
+        {
+          "name": "onSave",
+          "type": "(weekId: string) => void",
+          "description": "Fires from the Save press for the current week."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Formats every amount. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the saver; printed as the heading and read as the list's label."
+        }
+      ],
+      "usageNotes": [
+        "The Save button is a real button — Tab reaches it, Enter and Space press it — and once the week is saved it turns aria-disabled rather than disabled, so focus stays where the press was; each cell reads as a sentence and a status line announces the run once per change.",
+        "Under reduced motion a lit cell fades to its colour, the row's shift swaps positions, the missed cell still dims and the digits swap in place — the cell still lights and the count still updates, because the run is the information.",
+        "An open current week does not break the streak; it only leaves it at risk. The parent owns the calendar: append a new open week and drop the oldest to advance it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/streak-saver",
+      "registryItemUrl": "https://www.kinetiqui.com/r/streak-saver.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/streak-saver",
+        "npm": "npx shadcn@latest add @kinetiq/streak-saver",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/streak-saver",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/streak-saver",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/streak-saver.json"
+      }
+    },
+    {
+      "slug": "auto-sweep",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Auto Sweep",
+      "serial": "KQ-715",
+      "tagline": "Whatever is left, swept.",
+      "description": "A month-end sweep: two tiles, Spending and Savings, and above them a lane where a dashed arc runs from one figure to the other. Pressing Sweep lifts the leftover out of the spending tile as a pill that travels the arc on glide — the curve is closed-form, so the pill's position is one progress value and the trail draws itself just ahead of it — while the spending figure rolls down on snap the moment the pill leaves and the savings figure rolls up only when it lands, dropping the last nudge on recoil as the tile's wash flashes once. Any increase in savings mounts the same flight, so a parent that sweeps on its own schedule animates the same way. The figures are a definition list, the button's name says what it sweeps, and a status line announces the landing.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "sweep",
+        "savings",
+        "transfer",
+        "month end",
+        "rolling digits",
+        "finance",
+        "balance"
+      ],
+      "props": [
+        {
+          "name": "balance",
+          "type": "number",
+          "description": "The spending balance. Rolls down when a sweep leaves."
+        },
+        {
+          "name": "savings",
+          "type": "number",
+          "description": "The savings balance. An increase mounts a flight carrying the difference; the figure rolls when it lands."
+        },
+        {
+          "name": "keep",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The floor left in spending; the leftover is balance minus keep, never below zero."
+        },
+        {
+          "name": "period",
+          "type": "string",
+          "description": "The sweep's occasion, printed under the heading (\"Month end · 30 Sep\")."
+        },
+        {
+          "name": "onSweep",
+          "type": "(amount: number) => void",
+          "description": "Fires from the Sweep press with the leftover; move the money here."
+        },
+        {
+          "name": "onSettle",
+          "type": "(amount: number) => void",
+          "description": "Fires when the pill lands in savings."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Formats every amount. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the control; printed as the heading and read as the group's label."
+        }
+      ],
+      "usageNotes": [
+        "The Sweep button is a real button — Tab reaches it, Enter and Space press it — and with nothing above the floor it turns aria-disabled rather than disabled, so focus stays put; the two balances read as a definition list and a status line announces the landing.",
+        "Under reduced motion the pill fades in over the spending figure and out over the savings figure with no travel, the trail is skipped, the wash still flashes and the digits swap in place — the money still visibly moves from one figure to the other.",
+        "The parent owns the money: move it in onSweep and the component animates the difference, so a sweep triggered by a schedule looks exactly like one triggered by the button."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/auto-sweep",
+      "registryItemUrl": "https://www.kinetiqui.com/r/auto-sweep.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/auto-sweep",
+        "npm": "npx shadcn@latest add @kinetiq/auto-sweep",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/auto-sweep",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/auto-sweep",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/auto-sweep.json"
+      }
+    },
+    {
+      "slug": "goal-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Goal Card",
+      "serial": "KQ-716",
+      "tagline": "One goal, one card.",
+      "description": "One card for one goal: a ring whose stroke is the share saved, the goal's name and figure beside it, an add control, and a details toggle that unfolds a panel underneath. Pressing Add mints a coin at the ring's rim that drops into the hub on recoil — the two visible bounces of a coin landing in a slot — and only when it lands does the ring grow to the new share on glide and the hub's percentage roll on snap, so the ring moves because the coin arrived; reaching the goal turns the ring success and draws a tick on flick. The panel's height is measured by a ResizeObserver and animated on glide with the chevron turning on snap. The ring is a meter that carries the share in words, the panel is inert while closed, and a status line announces each add once.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "goal",
+        "savings",
+        "ring",
+        "progress",
+        "coin",
+        "disclosure",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial amount saved. An increase mints a coin and the ring waits for it to land; a decrease shrinks the ring at once with no coin."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number, added: number) => void",
+          "description": "Fires from the Add press that changed the amount, with the new total and what was added."
+        },
+        {
+          "name": "goal",
+          "type": "number",
+          "description": "The target; the ring closes here and Add turns aria-disabled once it is reached."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "25",
+          "description": "The amount one Add press contributes, clamped so the last press lands exactly on the goal."
+        },
+        {
+          "name": "weekly",
+          "type": "number",
+          "defaultValue": "step",
+          "description": "Planned contribution per week; the panel projects the weeks left from it."
+        },
+        {
+          "name": "deadline",
+          "type": "string",
+          "description": "A quiet line in the panel (\"By 30 Nov\")."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial state of the details panel."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the Details toggle press."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Formats every amount. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "The goal's name; printed as the heading and read as the meter's label."
+        }
+      ],
+      "usageNotes": [
+        "Add and Details are real buttons — Tab reaches them, Enter and Space press them. Details carries aria-expanded and aria-controls for the panel, which is inert while closed so it never traps a Tab; the ring is a meter whose value text reads the share in words, and a status line announces each add and the moment the goal is reached.",
+        "Under reduced motion the coin fades in at the hub and out again so the add is still acknowledged, the ring and percentage move on a base tween, the tick appears complete and the panel's height tweens on fast — the ring still fills and the panel still opens.",
+        "Both the amount and the panel are controlled or uncontrolled: pass value and onValueChange to own the money, open and onOpenChange to own the disclosure, or defaults for either."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/goal-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/goal-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/goal-card",
+        "npm": "npx shadcn@latest add @kinetiq/goal-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/goal-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/goal-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/goal-card.json"
+      }
+    },
+    {
+      "slug": "rate-ladder",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rate Ladder",
+      "serial": "KQ-717",
+      "tagline": "Longer terms, higher rungs.",
+      "description": "A ladder of term deposits: two stiles with a rung per term, the shortest at the bottom and the longest at the top, so higher rungs pay more. Picking a rung lifts it off the stiles on snap — two pixels up, a raised surface and a cobalt edge, one crisp overshoot — while the rung it replaces settles back, and on the same beat the headline rate rolls its digits and, given a principal, the interest at maturity rolls beside it. Beneath the ladder a timeline runs from the deposit date to the longest term: a marker and its date flag slide on glide to the chosen maturity while the elapsed track fills to it, with the flag clamped inside the axis against measured widths. The ladder is a radio group with a roving tabindex where arrows select as they move, and the readout is a status line that announces a pick once.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "term deposit",
+        "rate",
+        "ladder",
+        "maturity",
+        "timeline",
+        "radiogroup",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "rungs",
+          "type": "Rung[]",
+          "description": "Term deposits as { months, rate }, ascending by months; the rate is percent per year."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "the middle rung's months",
+          "description": "Controlled or initial term in months."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(months: number) => void",
+          "description": "Fires from the press or key that picked a rung."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "description": "Principal; given it, the interest at maturity (amount × rate ÷ 100 × months ÷ 12) is shown and read."
+        },
+        {
+          "name": "start",
+          "type": "string",
+          "description": "The deposit date as YYYY-MM-DD; the timeline starts here and maturities are computed in UTC, so no clock is read."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\" })",
+          "description": "Formats every amount. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "formatDate",
+          "type": "(date: Date) => string",
+          "defaultValue": "Intl.DateTimeFormat(\"en-US\", { month: \"short\", day: \"numeric\", year: \"numeric\", timeZone: \"UTC\" })",
+          "description": "Formats the maturity date on the flag, the axis and in every sentence."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the ladder; printed as the heading and read as the radio group's label."
+        }
+      ],
+      "usageNotes": [
+        "A radio group under the hood: Tab lands on the chosen rung, Up and Right step to a longer term and Down and Left to a shorter one without wrapping, Home is the shortest and End the longest, arrows select as they move, and Space or Enter select the focused rung. Each rung is named by its sentence and the readout is a status line, so a pick is announced once.",
+        "Under reduced motion the chosen rung changes colour and edge only, the rate and interest swap their digits in place, and the marker and track fill jump on a fast tween — which rung is chosen still shows.",
+        "Pass start as a fixed date rather than today's: the ladder never reads a clock, so server and client render the same maturities."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/rate-ladder",
+      "registryItemUrl": "https://www.kinetiqui.com/r/rate-ladder.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rate-ladder",
+        "npm": "npx shadcn@latest add @kinetiq/rate-ladder",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rate-ladder",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rate-ladder",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/rate-ladder.json"
+      }
+    },
+    {
+      "slug": "nest-egg",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Nest Egg",
+      "serial": "KQ-718",
+      "tagline": "The long view, compounding.",
+      "description": "A chart of a balance compounding over the years: a principal plus a monthly contribution, compounded monthly at the chosen rate. On mount the curve draws itself from year zero with pathLength on glide over a dashed line of the contributions alone, so the gap between them — the growth — is the picture. The plot is a slider: pressing or dragging reads the value at the nearest year, a cursor and a dot travelling to it on snap while a callout above rolls the year's balance with the contributed and growth split beneath. The rate chips morph the path on glide — every path has the same point count, so the curve bends rather than blinks — against a vertical scale fixed to the highest offered rate, so a higher rate visibly lifts the curve. Arrows step a year, Page keys five, Home and End reach the ends, and a status line announces the settled year, never every year a drag passes through.",
+      "categories": [
+        "finance"
+      ],
+      "keywords": [
+        "compound",
+        "savings",
+        "chart",
+        "scrub",
+        "slider",
+        "projection",
+        "finance"
+      ],
+      "props": [
+        {
+          "name": "principal",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The opening balance."
+        },
+        {
+          "name": "monthly",
+          "type": "number",
+          "description": "The monthly contribution, compounded monthly at the chosen rate."
+        },
+        {
+          "name": "years",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "The horizon; the plot has a point per year and the slider runs from 0 to here."
+        },
+        {
+          "name": "rates",
+          "type": "number[]",
+          "defaultValue": "[3, 5, 7, 9]",
+          "description": "The rate chips in percent per year; the vertical scale fits the highest so a higher rate lifts the curve rather than rescaling it."
+        },
+        {
+          "name": "rate / defaultRate",
+          "type": "number",
+          "defaultValue": "the middle chip",
+          "description": "Controlled or initial annual rate in percent."
+        },
+        {
+          "name": "onRateChange",
+          "type": "(rate: number) => void",
+          "description": "Fires from the chip press or key."
+        },
+        {
+          "name": "year / defaultYear",
+          "type": "number",
+          "defaultValue": "years",
+          "description": "Controlled or initial scrub position in years."
+        },
+        {
+          "name": "onYearChange",
+          "type": "(year: number) => void",
+          "description": "Fires from the pointer or key that moved the cursor."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\", { style: \"currency\", currency: \"USD\", maximumFractionDigits: 0 })",
+          "description": "Formats every amount. The default pins an explicit locale so server and client agree."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the chart; printed as the heading and read as the slider's label."
+        }
+      ],
+      "usageNotes": [
+        "The plot is a slider: Tab reaches it, Left and Right (or Down and Up) step a year, Page Down and Page Up step five, Home and End reach year 0 and the horizon, and its value text reads the balance, the contributions and the growth as one sentence. The rate chips are a radio group with a roving tabindex where Left and Right step, Home and End jump, and Space selects.",
+        "Under reduced motion the curve is already drawn on mount, a rate change swaps the path in place, the cursor and dot jump, and the callout's digits swap without rolling — the value at the year still reads, because that is the information.",
+        "Pointer capture waits for four pixels of travel, so a plain press sets the nearest year and a synthetic sweep cannot throw; the status line holds the last settled year during a drag and catches up on release."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/nest-egg",
+      "registryItemUrl": "https://www.kinetiqui.com/r/nest-egg.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/nest-egg",
+        "npm": "npx shadcn@latest add @kinetiq/nest-egg",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/nest-egg",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/nest-egg",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/nest-egg.json"
       }
     },
     {

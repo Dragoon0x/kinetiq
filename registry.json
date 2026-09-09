@@ -19816,6 +19816,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "goal-pot",
+      "type": "registry:ui",
+      "title": "Goal Pot",
+      "description": "A savings pot whose liquid is the share of the goal already saved. Each increase mints a coin above the lip that drops in and lands on recoil, and only when it lands does the level rise on glide and the figure count up on the same spring; landing at the goal turns the lip success and glints it once. The pot is a meter with a spoken value text, the quick-add controls are real buttons reached by Tab and pressed by Enter or Space, and each add is announced.",
+      "files": [
+        {
+          "path": "registry/ui/goal-pot.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-709"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "round-up",
+      "type": "registry:ui",
+      "title": "Round Up",
+      "description": "A purchase card whose spare change is saved. When a new purchase arrives with the switch on, the change chip lifts out of the card on snap and glides into the savings figure above, shrinking as it goes; on arrival the figure rolls its digits on snap and a tag names what landed. The switch is a real role=\"switch\" that Space and Enter flip, the figure reads as one string, and each landing is announced.",
+      "files": [
+        {
+          "path": "registry/ui/round-up.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-710"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "interest-drip",
+      "type": "registry:ui",
+      "title": "Interest Drip",
+      "description": "A savings balance with the interest accruing in front of you. While playing, a timer compounds the balance by fractions of a cent per tick with a soft colour pulse, the cent column rolls on snap when a whole cent turns, and a projection line beneath extends on glide as simulated days pass. Hovering or focusing the figure shows the daily rate; Tab reaches the figure, Enter pins the card and Escape dismisses it.",
+      "files": [
+        {
+          "path": "registry/ui/interest-drip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-711"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "goal-timeline",
+      "type": "registry:ui",
+      "title": "Goal Timeline",
+      "description": "A timeline from now to a horizon with a marker planted where the goal is met at the current monthly contribution. Moving the contribution slider slides the marker earlier or later on glide, the filled run stretching behind it on the same spring, while the flag cross-fades to the new month and the months figure rolls in on snap. The thumb is a real slider: Arrow keys step, PageUp and PageDown take ten steps, Home and End jump, and the projection is announced when the slider settles.",
+      "files": [
+        {
+          "path": "registry/ui/goal-timeline.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-712"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pot-shuffle",
+      "type": "registry:ui",
+      "title": "Pot Shuffle",
+      "description": "A row of savings jars with a liquid level and a figure each. Dragging from one jar tilts it toward the pointer on glide and lifts a coin; releasing over another jar sends the coin along an arc on glide and drops it in on recoil, and only then do the levels glide and both figures roll their digits on snap. The keyboard runs the same move — Enter or Space lifts, Arrow keys walk the row, Enter or Space drops, Escape cancels — and every step is announced.",
+      "files": [
+        {
+          "path": "registry/ui/pot-shuffle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-713"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "streak-saver",
+      "type": "registry:ui",
+      "title": "Streak Saver",
+      "description": "A weekly saving streak as a row of cells, oldest on the left and the current week on the right. Saving lights the current cell — the fill lands from 0.6× on snap, one crisp overshoot, a light switching on — while a halo blooms and fades on a tween and the streak count rolls to the new run on the same beat. When the calendar advances the oldest cell leaves on the exit ease, the rest glide left one column as a layout move, a new outlined cell arrives from the right, and a week left unsaved dims to a hatched cell on a colour tween: nothing celebrates a miss. The cells are a labelled list that reads as sentences, the Save button stays focusable once pressed, and a status line announces the run once per change.",
+      "files": [
+        {
+          "path": "registry/ui/streak-saver.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-714"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "auto-sweep",
+      "type": "registry:ui",
+      "title": "Auto Sweep",
+      "description": "A month-end sweep: two tiles, Spending and Savings, and above them a lane where a dashed arc runs from one figure to the other. Pressing Sweep lifts the leftover out of the spending tile as a pill that travels the arc on glide — the curve is closed-form, so the pill's position is one progress value and the trail draws itself just ahead of it — while the spending figure rolls down on snap the moment the pill leaves and the savings figure rolls up only when it lands, dropping the last nudge on recoil as the tile's wash flashes once. Any increase in savings mounts the same flight, so a parent that sweeps on its own schedule animates the same way. The figures are a definition list, the button's name says what it sweeps, and a status line announces the landing.",
+      "files": [
+        {
+          "path": "registry/ui/auto-sweep.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-715"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "goal-card",
+      "type": "registry:ui",
+      "title": "Goal Card",
+      "description": "One card for one goal: a ring whose stroke is the share saved, the goal's name and figure beside it, an add control, and a details toggle that unfolds a panel underneath. Pressing Add mints a coin at the ring's rim that drops into the hub on recoil — the two visible bounces of a coin landing in a slot — and only when it lands does the ring grow to the new share on glide and the hub's percentage roll on snap, so the ring moves because the coin arrived; reaching the goal turns the ring success and draws a tick on flick. The panel's height is measured by a ResizeObserver and animated on glide with the chevron turning on snap. The ring is a meter that carries the share in words, the panel is inert while closed, and a status line announces each add once.",
+      "files": [
+        {
+          "path": "registry/ui/goal-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-716"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rate-ladder",
+      "type": "registry:ui",
+      "title": "Rate Ladder",
+      "description": "A ladder of term deposits: two stiles with a rung per term, the shortest at the bottom and the longest at the top, so higher rungs pay more. Picking a rung lifts it off the stiles on snap — two pixels up, a raised surface and a cobalt edge, one crisp overshoot — while the rung it replaces settles back, and on the same beat the headline rate rolls its digits and, given a principal, the interest at maturity rolls beside it. Beneath the ladder a timeline runs from the deposit date to the longest term: a marker and its date flag slide on glide to the chosen maturity while the elapsed track fills to it, with the flag clamped inside the axis against measured widths. The ladder is a radio group with a roving tabindex where arrows select as they move, and the readout is a status line that announces a pick once.",
+      "files": [
+        {
+          "path": "registry/ui/rate-ladder.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-717"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "nest-egg",
+      "type": "registry:ui",
+      "title": "Nest Egg",
+      "description": "A chart of a balance compounding over the years: a principal plus a monthly contribution, compounded monthly at the chosen rate. On mount the curve draws itself from year zero with pathLength on glide over a dashed line of the contributions alone, so the gap between them — the growth — is the picture. The plot is a slider: pressing or dragging reads the value at the nearest year, a cursor and a dot travelling to it on snap while a callout above rolls the year's balance with the contributed and growth split beneath. The rate chips morph the path on glide — every path has the same point count, so the curve bends rather than blinks — against a vertical scale fixed to the highest offered rate, so a higher rate visibly lifts the curve. Arrows step a year, Page keys five, Home and End reach the ends, and a status line announces the settled year, never every year a drag passes through.",
+      "files": [
+        {
+          "path": "registry/ui/nest-egg.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-718"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

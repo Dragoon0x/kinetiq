@@ -12760,6 +12760,225 @@ Notes:
 - Under reduced motion the bar still drains because a countdown is information, the figure swaps instead of rolling, and the seal appears without scaling or bouncing.
 - The drain runs only from the running prop, pauses while the document is hidden, and never reads the clock during render; remount with a key to reset it.
 
+### Goal Pot (KQ-709) — `goal-pot`
+Coins in, pot fills.
+
+A savings pot whose liquid is the share of the goal already saved. Each increase mints a coin above the lip that drops in and lands on recoil, and only when it lands does the level rise on glide and the figure count up on the same spring; landing at the goal turns the lip success and glints it once. The pot is a meter with a spoken value text, the quick-add controls are real buttons reached by Tab and pressed by Enter or Space, and each add is announced.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/goal-pot`
+
+Props:
+- `value / defaultValue`: number (default 0) — Controlled or initial amount in the pot.
+- `onValueChange`: (value: number, added: number) => void — Fires from the quick-add press that changed the amount.
+- `goal`: number — The target; the pot is full here and the lip glints when reached.
+- `steps`: number[] (default [20, 50, 100]) — Quick-add amounts rendered as buttons under the readout. An empty list hides the row.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount. The default pins an explicit locale so server and client agree.
+- `label`: string — Names the pot; printed above the readout and read as the meter's label.
+
+Notes:
+- Tab reaches each quick-add button and Enter or Space presses it; the pot itself is a role="meter" whose value text says how much is saved and how much is left, and a status line announces each add and the moment the goal is reached.
+- Under reduced motion the coin fades in on the surface instead of falling, the level and the count move on a tween, and the lip turns success without the travelling glint — the fill still fills, because that is the information.
+- A lower value drops the level on glide with no coin: a withdrawal is never celebrated.
+
+### Round Up (KQ-710) — `round-up`
+The change, saved.
+
+A purchase card whose spare change is saved. When a new purchase arrives with the switch on, the change chip lifts out of the card on snap and glides into the savings figure above, shrinking as it goes; on arrival the figure rolls its digits on snap and a tag names what landed. The switch is a real role="switch" that Space and Enter flip, the figure reads as one string, and each landing is announced.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/round-up`
+
+Props:
+- `purchase`: RoundUpPurchase | null (default null) — { id, merchant, amount, note? }. A new id is a new purchase; when enabled its change lifts and flies.
+- `saved / defaultSaved`: number (default 0) — Controlled or initial round-up total.
+- `onSavedChange`: (saved: number, change: number) => void — Fires when a lifted change lands in the figure, with the new total and the amount that landed.
+- `enabled / defaultEnabled`: boolean (default true) — Controlled or initial switch state.
+- `onEnabledChange`: (enabled: boolean) => void — Fires from the press that flipped the switch.
+- `roundTo`: number (default 1) — The unit a purchase rounds up to.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount. The default pins an explicit locale so server and client agree.
+- `label`: string (default "Round-ups") — Names the savings figure.
+
+Notes:
+- The switch is a button with role="switch" and aria-checked; Tab reaches it and Space or Enter flips it. The figure is a labelled group whose rolling columns stay hidden behind an sr-only amount, and a status line announces each landing and each flip.
+- Under reduced motion the chip fades on the card instead of travelling — its fade still commits the total and fires onSavedChange — and the digits swap in place.
+- A purchase arriving mid-flight mounts a second flyer rather than interrupting the first, so every lifted change still lands and still counts.
+
+### Interest Drip (KQ-711) — `interest-drip`
+Watch it grow, slowly.
+
+A savings balance with the interest accruing in front of you. While playing, a timer compounds the balance by fractions of a cent per tick with a soft colour pulse, the cent column rolls on snap when a whole cent turns, and a projection line beneath extends on glide as simulated days pass. Hovering or focusing the figure shows the daily rate; Tab reaches the figure, Enter pins the card and Escape dismisses it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/interest-drip`
+
+Props:
+- `principal`: number — The balance at day 0.
+- `rate`: number — Annual percentage yield as a fraction — 0.0305 for 3.05%. Changing it morphs the projection on glide.
+- `playing`: boolean (default false) — Runs the accrual timer. It pauses itself while the tab is hidden.
+- `tickMs`: number (default 900) — Milliseconds between ticks.
+- `stepDays`: number (default 1 / 24) — Simulated days advanced per tick — an hour by default, so the drip is fractions.
+- `horizonDays`: number (default 365) — How far the projection line looks ahead.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats the balance and the daily rate. The default pins an explicit locale so server and client agree.
+- `label`: string — Names the balance.
+- `onTick`: (balance: number, days: number) => void — Fires from each timer tick with the compounded balance and elapsed days.
+
+Notes:
+- The figure is a button described by the rate sentence: hover or focus shows the card, Enter or Space pins it, Escape and blur dismiss it. The projection is an image whose name states the projected balance at the horizon.
+- Under reduced motion the pulse is already colour only; the cent column swaps instead of rolling, the card fades without travel, and the line's length swaps on a tween. The drip still drips, because the accrual is the information.
+- The live region reports each whole simulated day and each pause, never every tick, and the timer never reads a clock — time is counted from the ticks.
+
+### Goal Timeline (KQ-712) — `goal-timeline`
+When you will get there.
+
+A timeline from now to a horizon with a marker planted where the goal is met at the current monthly contribution. Moving the contribution slider slides the marker earlier or later on glide, the filled run stretching behind it on the same spring, while the flag cross-fades to the new month and the months figure rolls in on snap. The thumb is a real slider: Arrow keys step, PageUp and PageDown take ten steps, Home and End jump, and the projection is announced when the slider settles.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/goal-timeline`
+
+Props:
+- `saved`: number — Already in the goal.
+- `goal`: number — The target amount.
+- `monthly / defaultMonthly`: number (default min) — Controlled or initial monthly contribution.
+- `onMonthlyChange`: (monthly: number) => void — Fires from the pointer or key that moved the slider.
+- `min / max / step`: number (default 50 / 1000 / 25) — Slider range and step.
+- `start`: { year: number; month: number } — The timeline's first month (month 1–12). Seeded, never read from a clock.
+- `horizonMonths`: number (default 36) — How far the track looks ahead; a goal past it parks the marker at the end.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })) — Formats the amounts and the slider's value text. The default pins an explicit locale so server and client agree.
+- `label`: string — Names the goal; heads the instrument and labels the slider.
+
+Notes:
+- The thumb is a focusable role="slider" with aria-valuetext naming the contribution and the months to go; pressing the track jumps to that value and dragging scrubs it, capturing the pointer only after 4px so a tap stays a tap.
+- Under reduced motion the marker and the fill swap to their positions on a tween with no spring; the flag still cross-fades and the months figure swaps in place.
+- Also exports projectGoalMonths(saved, goal, monthly) so a host can print the same projection the marker shows.
+
+### Pot Shuffle (KQ-713) — `pot-shuffle`
+Move money between pots.
+
+A row of savings jars with a liquid level and a figure each. Dragging from one jar tilts it toward the pointer on glide and lifts a coin; releasing over another jar sends the coin along an arc on glide and drops it in on recoil, and only then do the levels glide and both figures roll their digits on snap. The keyboard runs the same move — Enter or Space lifts, Arrow keys walk the row, Enter or Space drops, Escape cancels — and every step is announced.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pot-shuffle`
+
+Props:
+- `pots / defaultPots`: ShufflePot[] — { id, name, balance }[], controlled or initial.
+- `onPotsChange`: (next: ShufflePot[]) => void — Fires when a move lands, with the whole new row.
+- `onMove`: (from: string, to: string, amount: number) => void — Fires alongside it with just the move.
+- `step`: number (default 50) — Money moved by one drop, clamped to what the source holds.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })) — Formats every figure. The default pins an explicit locale so server and client agree.
+- `label`: string (default "Pots") — Names the row.
+
+Notes:
+- Each jar is a button named by the pot and its balance, in a roving tabindex: Left and Right walk the row, Home and End jump, Enter or Space lifts a coin and drops it on another jar, Escape puts it back. A hint line says what to do next and a status line announces each lift, move and cancel.
+- Under reduced motion there is no tilt and no arc: the coin waits on its jar and fades at the drop, whose completion still commits the move; the levels move on a tween and the figures swap their digits in place.
+- The move commits — and onPotsChange fires — when the coin lands, not when the pointer lets go, so the figures roll the moment the money arrives.
+
+### Streak Saver (KQ-714) — `streak-saver`
+Weeks in a row.
+
+A weekly saving streak as a row of cells, oldest on the left and the current week on the right. Saving lights the current cell — the fill lands from 0.6× on snap, one crisp overshoot, a light switching on — while a halo blooms and fades on a tween and the streak count rolls to the new run on the same beat. When the calendar advances the oldest cell leaves on the exit ease, the rest glide left one column as a layout move, a new outlined cell arrives from the right, and a week left unsaved dims to a hatched cell on a colour tween: nothing celebrates a miss. The cells are a labelled list that reads as sentences, the Save button stays focusable once pressed, and a status line announces the run once per change.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/streak-saver`
+
+Props:
+- `weeks`: StreakWeek[] — Oldest first; the last entry is the current week. Each carries an id, a date label and whether it was saved: a past week unsaved is missed, the current week unsaved is open.
+- `amount`: number — The weekly contribution, printed on the Save button and used for the total put away.
+- `onSave`: (weekId: string) => void — Fires from the Save press for the current week.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount. The default pins an explicit locale so server and client agree.
+- `label`: string — Names the saver; printed as the heading and read as the list's label.
+
+Notes:
+- The Save button is a real button — Tab reaches it, Enter and Space press it — and once the week is saved it turns aria-disabled rather than disabled, so focus stays where the press was; each cell reads as a sentence and a status line announces the run once per change.
+- Under reduced motion a lit cell fades to its colour, the row's shift swaps positions, the missed cell still dims and the digits swap in place — the cell still lights and the count still updates, because the run is the information.
+- An open current week does not break the streak; it only leaves it at risk. The parent owns the calendar: append a new open week and drop the oldest to advance it.
+
+### Auto Sweep (KQ-715) — `auto-sweep`
+Whatever is left, swept.
+
+A month-end sweep: two tiles, Spending and Savings, and above them a lane where a dashed arc runs from one figure to the other. Pressing Sweep lifts the leftover out of the spending tile as a pill that travels the arc on glide — the curve is closed-form, so the pill's position is one progress value and the trail draws itself just ahead of it — while the spending figure rolls down on snap the moment the pill leaves and the savings figure rolls up only when it lands, dropping the last nudge on recoil as the tile's wash flashes once. Any increase in savings mounts the same flight, so a parent that sweeps on its own schedule animates the same way. The figures are a definition list, the button's name says what it sweeps, and a status line announces the landing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/auto-sweep`
+
+Props:
+- `balance`: number — The spending balance. Rolls down when a sweep leaves.
+- `savings`: number — The savings balance. An increase mounts a flight carrying the difference; the figure rolls when it lands.
+- `keep`: number (default 0) — The floor left in spending; the leftover is balance minus keep, never below zero.
+- `period`: string — The sweep's occasion, printed under the heading ("Month end · 30 Sep").
+- `onSweep`: (amount: number) => void — Fires from the Sweep press with the leftover; move the money here.
+- `onSettle`: (amount: number) => void — Fires when the pill lands in savings.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount. The default pins an explicit locale so server and client agree.
+- `label`: string — Names the control; printed as the heading and read as the group's label.
+
+Notes:
+- The Sweep button is a real button — Tab reaches it, Enter and Space press it — and with nothing above the floor it turns aria-disabled rather than disabled, so focus stays put; the two balances read as a definition list and a status line announces the landing.
+- Under reduced motion the pill fades in over the spending figure and out over the savings figure with no travel, the trail is skipped, the wash still flashes and the digits swap in place — the money still visibly moves from one figure to the other.
+- The parent owns the money: move it in onSweep and the component animates the difference, so a sweep triggered by a schedule looks exactly like one triggered by the button.
+
+### Goal Card (KQ-716) — `goal-card`
+One goal, one card.
+
+One card for one goal: a ring whose stroke is the share saved, the goal's name and figure beside it, an add control, and a details toggle that unfolds a panel underneath. Pressing Add mints a coin at the ring's rim that drops into the hub on recoil — the two visible bounces of a coin landing in a slot — and only when it lands does the ring grow to the new share on glide and the hub's percentage roll on snap, so the ring moves because the coin arrived; reaching the goal turns the ring success and draws a tick on flick. The panel's height is measured by a ResizeObserver and animated on glide with the chevron turning on snap. The ring is a meter that carries the share in words, the panel is inert while closed, and a status line announces each add once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/goal-card`
+
+Props:
+- `value / defaultValue`: number (default 0) — Controlled or initial amount saved. An increase mints a coin and the ring waits for it to land; a decrease shrinks the ring at once with no coin.
+- `onValueChange`: (value: number, added: number) => void — Fires from the Add press that changed the amount, with the new total and what was added.
+- `goal`: number — The target; the ring closes here and Add turns aria-disabled once it is reached.
+- `step`: number (default 25) — The amount one Add press contributes, clamped so the last press lands exactly on the goal.
+- `weekly`: number (default step) — Planned contribution per week; the panel projects the weeks left from it.
+- `deadline`: string — A quiet line in the panel ("By 30 Nov").
+- `open / defaultOpen`: boolean (default false) — Controlled or initial state of the details panel.
+- `onOpenChange`: (open: boolean) => void — Fires from the Details toggle press.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount. The default pins an explicit locale so server and client agree.
+- `label`: string — The goal's name; printed as the heading and read as the meter's label.
+
+Notes:
+- Add and Details are real buttons — Tab reaches them, Enter and Space press them. Details carries aria-expanded and aria-controls for the panel, which is inert while closed so it never traps a Tab; the ring is a meter whose value text reads the share in words, and a status line announces each add and the moment the goal is reached.
+- Under reduced motion the coin fades in at the hub and out again so the add is still acknowledged, the ring and percentage move on a base tween, the tick appears complete and the panel's height tweens on fast — the ring still fills and the panel still opens.
+- Both the amount and the panel are controlled or uncontrolled: pass value and onValueChange to own the money, open and onOpenChange to own the disclosure, or defaults for either.
+
+### Rate Ladder (KQ-717) — `rate-ladder`
+Longer terms, higher rungs.
+
+A ladder of term deposits: two stiles with a rung per term, the shortest at the bottom and the longest at the top, so higher rungs pay more. Picking a rung lifts it off the stiles on snap — two pixels up, a raised surface and a cobalt edge, one crisp overshoot — while the rung it replaces settles back, and on the same beat the headline rate rolls its digits and, given a principal, the interest at maturity rolls beside it. Beneath the ladder a timeline runs from the deposit date to the longest term: a marker and its date flag slide on glide to the chosen maturity while the elapsed track fills to it, with the flag clamped inside the axis against measured widths. The ladder is a radio group with a roving tabindex where arrows select as they move, and the readout is a status line that announces a pick once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rate-ladder`
+
+Props:
+- `rungs`: Rung[] — Term deposits as { months, rate }, ascending by months; the rate is percent per year.
+- `value / defaultValue`: number (default the middle rung's months) — Controlled or initial term in months.
+- `onValueChange`: (months: number) => void — Fires from the press or key that picked a rung.
+- `amount`: number — Principal; given it, the interest at maturity (amount × rate ÷ 100 × months ÷ 12) is shown and read.
+- `start`: string — The deposit date as YYYY-MM-DD; the timeline starts here and maturities are computed in UTC, so no clock is read.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount. The default pins an explicit locale so server and client agree.
+- `formatDate`: (date: Date) => string (default Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })) — Formats the maturity date on the flag, the axis and in every sentence.
+- `label`: string — Names the ladder; printed as the heading and read as the radio group's label.
+
+Notes:
+- A radio group under the hood: Tab lands on the chosen rung, Up and Right step to a longer term and Down and Left to a shorter one without wrapping, Home is the shortest and End the longest, arrows select as they move, and Space or Enter select the focused rung. Each rung is named by its sentence and the readout is a status line, so a pick is announced once.
+- Under reduced motion the chosen rung changes colour and edge only, the rate and interest swap their digits in place, and the marker and track fill jump on a fast tween — which rung is chosen still shows.
+- Pass start as a fixed date rather than today's: the ladder never reads a clock, so server and client render the same maturities.
+
+### Nest Egg (KQ-718) — `nest-egg`
+The long view, compounding.
+
+A chart of a balance compounding over the years: a principal plus a monthly contribution, compounded monthly at the chosen rate. On mount the curve draws itself from year zero with pathLength on glide over a dashed line of the contributions alone, so the gap between them — the growth — is the picture. The plot is a slider: pressing or dragging reads the value at the nearest year, a cursor and a dot travelling to it on snap while a callout above rolls the year's balance with the contributed and growth split beneath. The rate chips morph the path on glide — every path has the same point count, so the curve bends rather than blinks — against a vertical scale fixed to the highest offered rate, so a higher rate visibly lifts the curve. Arrows step a year, Page keys five, Home and End reach the ends, and a status line announces the settled year, never every year a drag passes through.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/nest-egg`
+
+Props:
+- `principal`: number (default 0) — The opening balance.
+- `monthly`: number — The monthly contribution, compounded monthly at the chosen rate.
+- `years`: number (default 30) — The horizon; the plot has a point per year and the slider runs from 0 to here.
+- `rates`: number[] (default [3, 5, 7, 9]) — The rate chips in percent per year; the vertical scale fits the highest so a higher rate lifts the curve rather than rescaling it.
+- `rate / defaultRate`: number (default the middle chip) — Controlled or initial annual rate in percent.
+- `onRateChange`: (rate: number) => void — Fires from the chip press or key.
+- `year / defaultYear`: number (default years) — Controlled or initial scrub position in years.
+- `onYearChange`: (year: number) => void — Fires from the pointer or key that moved the cursor.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 })) — Formats every amount. The default pins an explicit locale so server and client agree.
+- `label`: string — Names the chart; printed as the heading and read as the slider's label.
+
+Notes:
+- The plot is a slider: Tab reaches it, Left and Right (or Down and Up) step a year, Page Down and Page Up step five, Home and End reach year 0 and the horizon, and its value text reads the balance, the contributions and the growth as one sentence. The rate chips are a radio group with a roving tabindex where Left and Right step, Home and End jump, and Space selects.
+- Under reduced motion the curve is already drawn on mount, a rate change swaps the path in place, the cursor and dot jump, and the callout's digits swap without rolling — the value at the year still reads, because that is the information.
+- Pointer capture waits for four pixels of travel, so a plain press sets the nearest year and a synthetic sweep cannot throw; the status line holds the last settled year during a drag and catches up on release.
+
 ### Bill Calendar (KQ-739) — `bill-calendar`
 Every bill, on the day it lands.
 
