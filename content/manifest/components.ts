@@ -36453,4 +36453,858 @@ export const components: KinetiqItem[] = [
       "Pointer capture waits for four pixels of travel, so a plain press sets the nearest year and a synthetic sweep cannot throw; the status line holds the last settled year during a drag and catches up on release.",
     ],
   },
+  {
+    name: "mover-list",
+    type: "registry:ui",
+    title: "Mover List",
+    description:
+      "A board of assets ranked by percent change. When prices tick, every row that changes seat travels to its new one with a position-only FLIP on glide while the rank column re-reads in place, and each updated chip mounts a wash keyed to that tick that flashes and fades on the exit ease. A radio pair swaps gainers for losers with Left and Right, Home and End, and Space; a polite live region names the leader once the tape goes quiet.",
+    files: [
+      {
+        path: "registry/ui/mover-list.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-719",
+    },
+    tagline: "Who moved most today.",
+    keywords: [
+      "movers",
+      "gainers",
+      "losers",
+      "leaderboard",
+      "flip",
+      "market",
+      "finance",
+    ],
+    props: [
+      {
+        name: "assets",
+        type: "MoverAsset[]",
+        description:
+          "The board: id, symbol, name, price and previousClose. Changing a price flashes that row's chip and re-sorts the rows.",
+      },
+      {
+        name: "view / defaultView",
+        type: '"gainers" | "losers"',
+        defaultValue: '"gainers"',
+        description: "Controlled or initial sort direction.",
+      },
+      {
+        name: "onViewChange",
+        type: "(view: MoverView) => void",
+        description: "Fires from the radio that changed the view.",
+      },
+      {
+        name: "limit",
+        type: "number",
+        defaultValue: "5",
+        description: "Rows shown; the rest leave on the exit ease.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Prints every price. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "flashMs",
+        type: "number",
+        defaultValue: "900",
+        description:
+          "How long a chip's flash takes to fade, and the quiet the live region waits for before naming the leader.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Movers"',
+        description:
+          "Names the list for assistive technology and prints in the header.",
+      },
+      {
+        name: "onOrderChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires from the effect that observed a new order, with the visible ids top to bottom.",
+      },
+    ],
+    usageNotes: [
+      "The view control is a radio group with a roving tabindex: Left and Right step between gainers and losers, Home and End jump, Space selects. Each row reads rank, asset, price and change as one sentence, so the sign never rides on colour alone.",
+      "Under reduced motion rows swap seats without travel and chips still flash and fade in place — an update is information, the travel was the flourish.",
+      "Which chips flash is decided by comparing each incoming price with the last committed one, so a re-render that changes nothing flashes nothing and the first paint never flashes.",
+    ],
+  },
+  {
+    name: "price-sparkline",
+    type: "registry:ui",
+    title: "Price Sparkline",
+    description:
+      "A day's prices as one line that grows across its frame. Each arriving point draws only the newest segment with pathLength on glide while the points before it hold still, the last point's dot travels to its new place on glide with a halo that breathes on a slow reversing tween and a ring that expands on each arrival, and once the day overfills the frame the window slides. Hovering snaps a hairline to the nearest print and the header reads its time and price; the plot is a slider where Left and Right walk the points, Home and End jump, and Escape returns to the latest.",
+    files: [
+      {
+        path: "registry/ui/price-sparkline.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-720",
+    },
+    tagline: "A day in one line.",
+    keywords: [
+      "sparkline",
+      "price",
+      "intraday",
+      "live",
+      "chart",
+      "readout",
+      "finance",
+    ],
+    props: [
+      {
+        name: "points",
+        type: "SparkPricePoint[]",
+        description:
+          "The day's prints as { time, price }, oldest first. Appending one extends the line by a segment.",
+      },
+      {
+        name: "capacity",
+        type: "number",
+        defaultValue: "48",
+        description:
+          "Points across the full width; more than this slides the window to the last capacity points.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Prints every price. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "96",
+        description:
+          "Plot height in px; the width is fluid and measured with a ResizeObserver.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Price"',
+        description:
+          "The instrument; prints in the header and names the slider.",
+      },
+      {
+        name: "onReadChange",
+        type: "(point: SparkPricePoint | null, index: number | null) => void",
+        description:
+          "Fires from the pointer or key that moved the reading to a point, or returned it to the latest (null).",
+      },
+    ],
+    usageNotes: [
+      "The plot is a horizontal slider: Left and Right walk one print, Home and End jump to the ends, Escape returns the reading to the latest; aria-valuetext speaks the time and price of the point under the hairline.",
+      "Under reduced motion the newest segment appears fully drawn, the dot swaps position and no halo or ring plays — the hairline and readout still follow the pointer and the keys.",
+      "The polite live region names the latest print once the tape has been quiet for a beat, never per point.",
+    ],
+  },
+  {
+    name: "watchlist-row",
+    type: "registry:ui",
+    title: "Watchlist Row",
+    description:
+      "One row of a watchlist whose star is a switch: watching scales the fill up from the star's centre on recoil, two visible bounces of a stamp landing, while the price rolls to each print on snap and the change chip re-tones. Unstarring drains the fill, holds a beat so the empty star is read, then slides the content out on the exit ease and collapses the row's measured height behind it, firing onRemoved from the collapse's completion. Tab reaches the star, Space and Enter toggle it.",
+    files: [
+      {
+        path: "registry/ui/watchlist-row.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-721",
+    },
+    tagline: "Starred, and watched.",
+    keywords: [
+      "watchlist",
+      "star",
+      "favourite",
+      "rolling price",
+      "row",
+      "remove",
+      "finance",
+    ],
+    props: [
+      {
+        name: "id",
+        type: "string",
+        description: "Identifies the row in onRemoved.",
+      },
+      {
+        name: "symbol",
+        type: "string",
+        description: "The ticker printed first and named in the star's label.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "The asset's name, printed under the symbol.",
+      },
+      {
+        name: "price",
+        type: "number",
+        description: "The last print. Changing it rolls the digits on snap.",
+      },
+      {
+        name: "previousClose",
+        type: "number",
+        description: "Basis for the change chip.",
+      },
+      {
+        name: "watched / defaultWatched",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Controlled or initial star state; false starts the leave after the beat.",
+      },
+      {
+        name: "onWatchedChange",
+        type: "(watched: boolean) => void",
+        description: "Fires from the press that toggled the star.",
+      },
+      {
+        name: "onRemoved",
+        type: "(id: string) => void",
+        description:
+          "Fires once the row has slid out and collapsed; drop it from the list here.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Prints the price. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "leaveDelayMs",
+        type: "number",
+        defaultValue: "500",
+        description:
+          "The beat between unstarring and the slide-out, so the empty star is read; re-starring inside it cancels the leave.",
+      },
+    ],
+    usageNotes: [
+      "The star is a real switch: Tab reaches it, Space and Enter toggle it, its name carries the symbol, and the row speaks price and change in words while the rolling columns stay hidden from assistive technology.",
+      "Under reduced motion the fill appears without scale, the digits swap without rolling, and the row still leaves — it fades and collapses without the sideways travel.",
+      "Renders as an li: compose rows inside a ul or ol, and remove a row from your list in onRemoved rather than on the star press, so the slide-out is seen.",
+    ],
+  },
+  {
+    name: "price-alert",
+    type: "registry:ui",
+    title: "Price Alert",
+    description:
+      "A threshold line dragged over a price chart. The line sits directly under the hand once a press has travelled four pixels, a plain click or a key moves it on snap, and the alert badge follows it through a spring on glide so the label trails the tool by a beat. When the last price lands on the other side of the line the badge pulses — landing from 1.25× on recoil with a ring that expands on the enter ease — and onCross fires; moving the line re-arms it without a pulse. The badge is a vertical slider: Up and Down step, Page keys jump ten, Home and End reach the bounds.",
+    files: [
+      {
+        path: "registry/ui/price-alert.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-722",
+    },
+    tagline: "Tell me when it crosses.",
+    keywords: [
+      "alert",
+      "threshold",
+      "price",
+      "chart",
+      "drag",
+      "slider",
+      "finance",
+    ],
+    props: [
+      {
+        name: "points",
+        type: "number[]",
+        description:
+          "Prices oldest first; the last one is the live print the crossing is judged against.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "the middle of the range",
+        description: "Controlled or initial threshold.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description: "Fires from the drag, click or key that moved the line.",
+      },
+      {
+        name: "min / max",
+        type: "number",
+        defaultValue: "the data's range, padded 8%",
+        description: "The chart's vertical range and the threshold's bounds.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "0.01",
+        description:
+          "Threshold granularity; arrow keys move one step, Page keys ten.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Prints the threshold and prices. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "160",
+        description:
+          "Plot height in px; the width is fluid and measured with a ResizeObserver.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Price alert"',
+        description: "Names the slider and prints in the header.",
+      },
+      {
+        name: "onCross",
+        type: '(direction: "above" | "below", price: number) => void',
+        description:
+          "Fires from the effect that observed the last price crossing the line, with the side it landed on.",
+      },
+    ],
+    usageNotes: [
+      "The badge is a vertical slider: ArrowUp and ArrowDown move one step, PageUp and PageDown ten, Home and End jump to min and max; aria-valuetext says whether the alert is waiting for a rise or a fall, or has crossed.",
+      "Under reduced motion the line and the badge move together with no spring lag, and a crossing flips the tone and the words with a blink instead of a bounce and a ring.",
+      "Only a price movement counts as a crossing — dragging the line across the current price re-arms the alert quietly.",
+    ],
+  },
+  {
+    name: "heat-tiles",
+    type: "registry:ui",
+    title: "Heat Tiles",
+    description:
+      "A grid of asset tiles coloured by percent change: a success layer and a danger layer sit under each tile's text and their opacities tween on the move ease, so a tile warms as a gain grows, cools as it fades, and cross-fades on a sign flip. Pressing a tile opens it in place — it spans two columns and two rows while the rest of the grid re-lays around it with layout on glide, dense-packed so no hole opens — and reveals the name, price, a day sparkline and the high and low. Tiles are buttons with a roving tabindex: arrows move, Home and End jump, Enter and Space toggle, Escape closes.",
+    files: [
+      {
+        path: "registry/ui/heat-tiles.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-723",
+    },
+    tagline: "The market as a grid of heat.",
+    keywords: [
+      "heatmap",
+      "tiles",
+      "market",
+      "grid",
+      "expand",
+      "change",
+      "finance",
+    ],
+    props: [
+      {
+        name: "assets",
+        type: "HeatAsset[]",
+        description:
+          "The board: id, symbol, name, price, previousClose and an optional history for the open tile's sparkline. Changing a price re-tints its tile.",
+      },
+      {
+        name: "columns",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "Tiles per row; an open tile spans two columns and two rows.",
+      },
+      {
+        name: "expanded / defaultExpanded",
+        type: "string | null",
+        defaultValue: "null",
+        description: "Controlled or initial open tile id.",
+      },
+      {
+        name: "onExpandedChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the press or key that opened or closed a tile.",
+      },
+      {
+        name: "scale",
+        type: "number",
+        defaultValue: "3",
+        description: "Percent change at which a tile's tint saturates.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Prints the open tile's price, high and low. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Market heat"',
+        description:
+          "Names the grid for assistive technology and prints above it.",
+      },
+    ],
+    usageNotes: [
+      "Roving tabindex over real buttons: Left and Right move one tile, Up and Down move a row, Home and End jump to the ends, Enter and Space toggle a tile, Escape closes the open one and keeps focus. Each tile's name is a sentence with the change in words, so the tint is never the only signal.",
+      "Under reduced motion the tints still tween — colour is the information — but tiles swap seats without travel and the details fade in without a delay.",
+      "Tints saturate at scale percent; lower it for a quiet market so small moves still read, raise it for a volatile one so the grid is not all colour.",
+    ],
+  },
+  {
+    name: "index-dial",
+    type: "registry:ui",
+    title: "Index Dial",
+    description:
+      "A half-dial for a market index, zeroed on the previous close: the needle stands straight up when the index is flat and swings left for a fall or right for a rise. Each print swings it on snap — one crisp overshoot, the way a real needle overshoots a new reading — and the arc from the zero mark to the needle is drawn from the same motion value, success on the up side and danger on the down side, so the sign is the reading. The level rolls its digit columns on the same spring and a chip carries the percent; it is a role=meter whose valuetext reads the move in words, and nothing takes focus.",
+    files: [
+      {
+        path: "registry/ui/index-dial.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-724",
+    },
+    tagline: "The whole market, one needle.",
+    keywords: [
+      "index",
+      "dial",
+      "needle",
+      "market",
+      "gauge",
+      "rolling digits",
+      "finance",
+    ],
+    props: [
+      {
+        name: "value",
+        type: "number",
+        description:
+          "The index level. Changing it swings the needle and rolls the figure.",
+      },
+      {
+        name: "previousClose",
+        type: "number",
+        description: "The basis; the dial's zero.",
+      },
+      {
+        name: "range",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Percent each side of zero the dial spans; larger moves pin the needle at the rim.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })',
+        description:
+          "Prints the index level. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The index name; labels the meter.",
+      },
+      {
+        name: "caption",
+        type: "string",
+        description: "A quiet mono line beside the label — the venue.",
+      },
+      {
+        name: "swingOnMount",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Start the needle at zero and swing it to the value on first paint.",
+      },
+      {
+        name: "onSettle",
+        type: "(value: number, changePercent: number) => void",
+        description:
+          "Fires from the spring's completion when the needle comes to rest.",
+      },
+    ],
+    usageNotes: [
+      "The dial has no pointer gesture and takes no focus: it is a role=meter whose aria-valuetext reads the level and the move in words, and each settled print is announced once through a polite status line.",
+      "Under reduced motion the needle and arc set at once, the digits swap without a roll and the chip appears in place — the arc still colours by sign, because the reading is the information.",
+      "Moves beyond range pin the needle at the rim while the figure and chip print the full change.",
+    ],
+  },
+  {
+    name: "sector-wheel",
+    type: "registry:ui",
+    title: "Sector Wheel",
+    description:
+      "A ring of market sectors drawn as stroked wedges whose widths are their performance: each sector's share is its absolute move plus a small baseline, coloured success or danger by sign, and a change of data re-proportions every wedge's pathLength and pathOffset on one glide so the ring settles as a body. Choosing a sector spins the wheel on snap, the shorter way round, until that wedge sits under the notch at twelve o'clock, the hub cross-fades to its name and move, and a measured panel glides open on its movers in a cascade. The wheel can be grabbed after four pixels of travel and released onto a wedge; the chips beneath are a radiogroup with a roving tabindex, so the arrow keys spin it too.",
+    files: [
+      {
+        path: "registry/ui/sector-wheel.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-725",
+    },
+    tagline: "Sectors, as wedges.",
+    keywords: [
+      "sector",
+      "wheel",
+      "wedge",
+      "market",
+      "movers",
+      "spin",
+      "finance",
+    ],
+    props: [
+      {
+        name: "sectors",
+        type: "WheelSector[]",
+        description:
+          "Clockwise from the notch: { id, label, change, movers: { symbol, name, change }[] }, moves in percent.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "first sector",
+        description: "Controlled or initial selected sector id.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the press, key or release that chose a sector.",
+      },
+      {
+        name: "baseline",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Percent points added to every wedge's magnitude so a flat sector keeps a readable slice.",
+      },
+      {
+        name: "formatChange",
+        type: "(percent: number) => string",
+        defaultValue: "signed two decimals with %",
+        description: "Prints a move.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description: "Visible heading. Omit it and pass aria-label.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Invisible label when label is omitted.",
+      },
+    ],
+    usageNotes: [
+      "The chips are a radiogroup with a roving tabindex: Right and Down step to the next sector, Left and Up to the previous, Home and End jump to the first and last, Space selects — and every step spins the wheel to that wedge's detent, the same spin the pointer makes by dragging the ring.",
+      "Under reduced motion the wedges set to their shares and the wheel rotates by an instant swap so the chosen sector still sits under the notch; the hub cross-fades by opacity and the movers appear without stagger or travel.",
+      "Each radio is named by the sector and its move in words, the mover list is a real ordered list labelled by the sector, and a polite status line announces the chosen sector and its top mover on each change.",
+    ],
+  },
+  {
+    name: "earnings-countdown",
+    type: "registry:ui",
+    title: "Earnings Countdown",
+    description:
+      "A card that counts down to a company's results: a ring drains toward the report, its fraction the seconds left over a window, while a mono readout rolls its digit columns on snap as each second lands. The clock is the component's own, seeded from a prop and ticking in an effect that halts while the document is hidden. When results land the ring closes on snap and turns success, the actual figures roll in beside the estimates on the same spring, and a verdict chip appears — Beat on recoil because a beat is a landing, Miss and In line on snap with no bounce. Reaching zero without results swaps the readout to Due and holds; nothing takes focus.",
+    files: [
+      {
+        path: "registry/ui/earnings-countdown.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-726",
+    },
+    tagline: "Results, in three days.",
+    keywords: [
+      "earnings",
+      "countdown",
+      "timer",
+      "ring",
+      "estimate",
+      "results",
+      "finance",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description: "What is being reported; labels the card.",
+      },
+      {
+        name: "seconds",
+        type: "number",
+        description:
+          "Seconds until the report when the clock is seeded; changing it re-seeds the clock.",
+      },
+      {
+        name: "window",
+        type: "number",
+        defaultValue: "259200",
+        description: "Seconds the full ring represents; three days by default.",
+      },
+      {
+        name: "running",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Ticks the clock.",
+      },
+      {
+        name: "estimate",
+        type: "{ eps: number; revenue: number }",
+        description: "The consensus figures.",
+      },
+      {
+        name: "actual",
+        type: "{ eps: number; revenue: number }",
+        description: "The reported figures; providing them lands the results.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description: "Prints earnings per share.",
+      },
+      {
+        name: "formatRevenue",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 2 })',
+        description: "Prints revenue.",
+      },
+      {
+        name: "onElapsed",
+        type: "() => void",
+        description: "Fires from the tick that reached zero.",
+      },
+      {
+        name: "onLand",
+        type: '(verdict: "beat" | "miss" | "inline") => void',
+        description:
+          "Fires from the effect that observed the actual figures arrive.",
+      },
+    ],
+    usageNotes: [
+      'The card is a role="group" labelled by its label; the readout is a role="timer" with aria-live="off" whose aria-label carries the time in words, so a screen reader is never read every second. The figures are a definition list, unreported actuals are labelled Not yet reported, and a polite status line announces milestones only: the clock starting, results due, and results landing with the verdict in words.',
+      "Under reduced motion the digits swap without a roll, the ring still drains second by second because a countdown is information, the actual figures appear in place and the verdict chip fades in with no travel or bounce.",
+      "No pointer gesture and no wall clock: the clock ticks from its seed in an effect with its own interval, halts entirely while the document is hidden, and never reads the time during render.",
+    ],
+  },
+  {
+    name: "news-ticker",
+    type: "registry:ui",
+    title: "News Ticker",
+    description:
+      "A single line of market headlines flowing right to left on one frame loop that integrates the tape's velocity toward a target with exponential friction: the cruising speed while playing, zero the moment a pointer is over it, a headline holds focus, or play is off, so the tape eases to a stop and eases back up rather than freezing. Headlines are real buttons; focusing one pauses the tape and glides it into view on glide. A new headline is spliced into the ring after the item under the right edge, arrives from distances.shift on snap behind a signal wash that fades on the exit ease, and the ring's ResizeObserver moves the tape by exactly the width it added so nothing already on screen jumps.",
+    files: [
+      {
+        path: "registry/ui/news-ticker.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-727",
+    },
+    tagline: "Headlines that pass, and pause.",
+    keywords: [
+      "ticker",
+      "headlines",
+      "news",
+      "tape",
+      "marquee",
+      "friction",
+      "finance",
+    ],
+    props: [
+      {
+        name: "headlines",
+        type: "TickerHeadline[]",
+        description:
+          'In arrival order: { id, text, source, time, tone? } where time is an already-formatted string and tone is "up" | "down" | "flat". A new id pushes in at the right edge.',
+      },
+      {
+        name: "playing / defaultPlaying",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Controlled or initial play state. Off, the tape eases to a stop.",
+      },
+      {
+        name: "onPlayingChange",
+        type: "(playing: boolean) => void",
+        description: "Fires from the tape's own Pause/Play toggle.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "40",
+        description: "Cruising speed in px/s.",
+      },
+      {
+        name: "onSelect",
+        type: "(id: string) => void",
+        description: "Fires from the press on a headline.",
+      },
+      {
+        name: "onPauseChange",
+        type: "(paused: boolean) => void",
+        description:
+          "Fires from the hover, focus or play change that paused or resumed the tape.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "Headlines",
+        description: "Names the region.",
+      },
+    ],
+    usageNotes: [
+      "A visible Pause/Play toggle with aria-pressed is first in the tab order and last on screen; Tab then walks the headlines of the first ring copy, each focus pausing the tape and gliding that headline into view. The loop copies are aria-hidden and inert, so the tape reads once.",
+      "Under reduced motion there is no tape: the headlines render as a wrapped row of chips, newest first, a new one appears in place with the same flash in opacity only, and the pause control is not shown because nothing moves.",
+      'New headlines are announced once, politely, as "New: text, source" from the effect that observed the arrival, never per frame; tone is carried by a caret and the words in each button\'s name, not by colour alone. The loop halts entirely while the document is hidden.',
+    ],
+  },
+  {
+    name: "compare-lines",
+    type: "registry:ui",
+    title: "Compare Lines",
+    description:
+      "Two assets on one plate, each series normalised to its own first point so the lines share a scale of percent-since-start and a dashed baseline at zero. On mount both traces draw in together — pathLength from 0 to 1 on one durations.page tween with the enter ease — so they finish on the same frame and the eye reads the divergence as it happens. The legend is two toggles: hiding a series fades its line and area on the exit ease with no redraw, and the vertical domain is fixed across both series so a toggle never re-scales the plate. Pointing at the plate sets a cursor at the nearest sample — a hairline, a dot per visible series, a bar between them and a readout chip that prints both values and the gap in percentage points — and the chip moves on snap while keeping inside the plate; the plate is a focusable group where Left and Right step the cursor, Home and End jump to the ends and Escape clears it.",
+    files: [
+      {
+        path: "registry/ui/compare-lines.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-728",
+    },
+    tagline: "Two assets, one chart.",
+    keywords: [
+      "compare",
+      "lines",
+      "chart",
+      "normalised",
+      "cursor",
+      "gap",
+      "finance",
+    ],
+    props: [
+      {
+        name: "series",
+        type: "[CompareSeries, CompareSeries]",
+        description:
+          "{ id, label, points: number[] }, closes oldest first; both series share the same sample count.",
+      },
+      {
+        name: "labels",
+        type: "string[]",
+        description:
+          "Already-formatted x labels, one per sample, for the readout.",
+      },
+      {
+        name: "hidden / defaultHidden",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "Controlled or initial set of hidden series ids.",
+      },
+      {
+        name: "onHiddenChange",
+        type: "(hidden: string[]) => void",
+        description: "Fires from the toggle that changed it.",
+      },
+      {
+        name: "onCursorChange",
+        type: "(index: number | null) => void",
+        description: "Fires from the pointer or key that moved the cursor.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Prints a raw close in the readout. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "label",
+        type: "React.ReactNode",
+        description: "Visible heading. Omit it and pass aria-label.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "140",
+        description: "Plate height in px; the width is fluid and measured.",
+      },
+      {
+        name: "aria-label",
+        type: "string",
+        description: "Invisible label when label is omitted.",
+      },
+    ],
+    usageNotes: [
+      "The plate is a focusable role=\"group\" labelled by the heading and described by both series' final moves: Left and Right step the cursor, Home and End jump to the ends, Escape clears it, as does leaving or blurring the plate. The legend toggles are aria-pressed buttons named Show or Hide plus the series, and a polite status line reads the cursor's sample, each visible series in words and the gap in points.",
+      "Under reduced motion both traces are simply there, complete; toggling still fades because opacity is the one motion allowed, and the cursor readout swaps position without a spring.",
+      "The gap is the first series' percent minus the second's, positive when the first leads; lead is carried in words and a sign, and the two series use cobalt and warn so neither reads as up or down.",
+    ],
+  },
 ];

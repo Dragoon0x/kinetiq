@@ -910,6 +910,16 @@ import { AutoSweepDemo } from "@/registry/demos/auto-sweep.demo";
 import { GoalCardDemo } from "@/registry/demos/goal-card.demo";
 import { RateLadderDemo } from "@/registry/demos/rate-ladder.demo";
 import { NestEggDemo } from "@/registry/demos/nest-egg.demo";
+import { MoverListDemo } from "@/registry/demos/mover-list.demo";
+import { PriceSparklineDemo } from "@/registry/demos/price-sparkline.demo";
+import { WatchlistRowDemo } from "@/registry/demos/watchlist-row.demo";
+import { PriceAlertDemo } from "@/registry/demos/price-alert.demo";
+import { HeatTilesDemo } from "@/registry/demos/heat-tiles.demo";
+import { IndexDialDemo } from "@/registry/demos/index-dial.demo";
+import { SectorWheelDemo } from "@/registry/demos/sector-wheel.demo";
+import { EarningsCountdownDemo } from "@/registry/demos/earnings-countdown.demo";
+import { NewsTickerDemo } from "@/registry/demos/news-ticker.demo";
+import { CompareLinesDemo } from "@/registry/demos/compare-lines.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1834,4 +1844,14 @@ export const demos: Record<string, ComponentType> = {
   "goal-card": GoalCardDemo,
   "rate-ladder": RateLadderDemo,
   "nest-egg": NestEggDemo,
+  "mover-list": MoverListDemo,
+  "price-sparkline": PriceSparklineDemo,
+  "watchlist-row": WatchlistRowDemo,
+  "price-alert": PriceAlertDemo,
+  "heat-tiles": HeatTilesDemo,
+  "index-dial": IndexDialDemo,
+  "sector-wheel": SectorWheelDemo,
+  "earnings-countdown": EarningsCountdownDemo,
+  "news-ticker": NewsTickerDemo,
+  "compare-lines": CompareLinesDemo,
 };

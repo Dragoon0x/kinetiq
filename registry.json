@@ -20086,6 +20086,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mover-list",
+      "type": "registry:ui",
+      "title": "Mover List",
+      "description": "A board of assets ranked by percent change. When prices tick, every row that changes seat travels to its new one with a position-only FLIP on glide while the rank column re-reads in place, and each updated chip mounts a wash keyed to that tick that flashes and fades on the exit ease. A radio pair swaps gainers for losers with Left and Right, Home and End, and Space; a polite live region names the leader once the tape goes quiet.",
+      "files": [
+        {
+          "path": "registry/ui/mover-list.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-719"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "price-sparkline",
+      "type": "registry:ui",
+      "title": "Price Sparkline",
+      "description": "A day's prices as one line that grows across its frame. Each arriving point draws only the newest segment with pathLength on glide while the points before it hold still, the last point's dot travels to its new place on glide with a halo that breathes on a slow reversing tween and a ring that expands on each arrival, and once the day overfills the frame the window slides. Hovering snaps a hairline to the nearest print and the header reads its time and price; the plot is a slider where Left and Right walk the points, Home and End jump, and Escape returns to the latest.",
+      "files": [
+        {
+          "path": "registry/ui/price-sparkline.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-720"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "watchlist-row",
+      "type": "registry:ui",
+      "title": "Watchlist Row",
+      "description": "One row of a watchlist whose star is a switch: watching scales the fill up from the star's centre on recoil, two visible bounces of a stamp landing, while the price rolls to each print on snap and the change chip re-tones. Unstarring drains the fill, holds a beat so the empty star is read, then slides the content out on the exit ease and collapses the row's measured height behind it, firing onRemoved from the collapse's completion. Tab reaches the star, Space and Enter toggle it.",
+      "files": [
+        {
+          "path": "registry/ui/watchlist-row.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-721"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "price-alert",
+      "type": "registry:ui",
+      "title": "Price Alert",
+      "description": "A threshold line dragged over a price chart. The line sits directly under the hand once a press has travelled four pixels, a plain click or a key moves it on snap, and the alert badge follows it through a spring on glide so the label trails the tool by a beat. When the last price lands on the other side of the line the badge pulses — landing from 1.25× on recoil with a ring that expands on the enter ease — and onCross fires; moving the line re-arms it without a pulse. The badge is a vertical slider: Up and Down step, Page keys jump ten, Home and End reach the bounds.",
+      "files": [
+        {
+          "path": "registry/ui/price-alert.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-722"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "heat-tiles",
+      "type": "registry:ui",
+      "title": "Heat Tiles",
+      "description": "A grid of asset tiles coloured by percent change: a success layer and a danger layer sit under each tile's text and their opacities tween on the move ease, so a tile warms as a gain grows, cools as it fades, and cross-fades on a sign flip. Pressing a tile opens it in place — it spans two columns and two rows while the rest of the grid re-lays around it with layout on glide, dense-packed so no hole opens — and reveals the name, price, a day sparkline and the high and low. Tiles are buttons with a roving tabindex: arrows move, Home and End jump, Enter and Space toggle, Escape closes.",
+      "files": [
+        {
+          "path": "registry/ui/heat-tiles.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-723"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "index-dial",
+      "type": "registry:ui",
+      "title": "Index Dial",
+      "description": "A half-dial for a market index, zeroed on the previous close: the needle stands straight up when the index is flat and swings left for a fall or right for a rise. Each print swings it on snap — one crisp overshoot, the way a real needle overshoots a new reading — and the arc from the zero mark to the needle is drawn from the same motion value, success on the up side and danger on the down side, so the sign is the reading. The level rolls its digit columns on the same spring and a chip carries the percent; it is a role=meter whose valuetext reads the move in words, and nothing takes focus.",
+      "files": [
+        {
+          "path": "registry/ui/index-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-724"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sector-wheel",
+      "type": "registry:ui",
+      "title": "Sector Wheel",
+      "description": "A ring of market sectors drawn as stroked wedges whose widths are their performance: each sector's share is its absolute move plus a small baseline, coloured success or danger by sign, and a change of data re-proportions every wedge's pathLength and pathOffset on one glide so the ring settles as a body. Choosing a sector spins the wheel on snap, the shorter way round, until that wedge sits under the notch at twelve o'clock, the hub cross-fades to its name and move, and a measured panel glides open on its movers in a cascade. The wheel can be grabbed after four pixels of travel and released onto a wedge; the chips beneath are a radiogroup with a roving tabindex, so the arrow keys spin it too.",
+      "files": [
+        {
+          "path": "registry/ui/sector-wheel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-725"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "earnings-countdown",
+      "type": "registry:ui",
+      "title": "Earnings Countdown",
+      "description": "A card that counts down to a company's results: a ring drains toward the report, its fraction the seconds left over a window, while a mono readout rolls its digit columns on snap as each second lands. The clock is the component's own, seeded from a prop and ticking in an effect that halts while the document is hidden. When results land the ring closes on snap and turns success, the actual figures roll in beside the estimates on the same spring, and a verdict chip appears — Beat on recoil because a beat is a landing, Miss and In line on snap with no bounce. Reaching zero without results swaps the readout to Due and holds; nothing takes focus.",
+      "files": [
+        {
+          "path": "registry/ui/earnings-countdown.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-726"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "news-ticker",
+      "type": "registry:ui",
+      "title": "News Ticker",
+      "description": "A single line of market headlines flowing right to left on one frame loop that integrates the tape's velocity toward a target with exponential friction: the cruising speed while playing, zero the moment a pointer is over it, a headline holds focus, or play is off, so the tape eases to a stop and eases back up rather than freezing. Headlines are real buttons; focusing one pauses the tape and glides it into view on glide. A new headline is spliced into the ring after the item under the right edge, arrives from distances.shift on snap behind a signal wash that fades on the exit ease, and the ring's ResizeObserver moves the tape by exactly the width it added so nothing already on screen jumps.",
+      "files": [
+        {
+          "path": "registry/ui/news-ticker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-727"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "compare-lines",
+      "type": "registry:ui",
+      "title": "Compare Lines",
+      "description": "Two assets on one plate, each series normalised to its own first point so the lines share a scale of percent-since-start and a dashed baseline at zero. On mount both traces draw in together — pathLength from 0 to 1 on one durations.page tween with the enter ease — so they finish on the same frame and the eye reads the divergence as it happens. The legend is two toggles: hiding a series fades its line and area on the exit ease with no redraw, and the vertical domain is fixed across both series so a toggle never re-scales the plate. Pointing at the plate sets a cursor at the nearest sample — a hairline, a dot per visible series, a bar between them and a readout chip that prints both values and the gap in percentage points — and the chip moves on snap while keeping inside the plate; the plate is a focusable group where Left and Right step the cursor, Home and End jump to the ends and Escape clears it.",
+      "files": [
+        {
+          "path": "registry/ui/compare-lines.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-728"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
