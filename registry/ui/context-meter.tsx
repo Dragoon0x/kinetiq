@@ -176,6 +176,18 @@ export function ContextMeter({
       : "";
   const [announce, setAnnounce] = React.useState("");
 
+  // The summary is the host's answer, so the region speaks when the messages
+  // actually shrink rather than when the button is pressed. Said at arrival
+  // with the room it freed, it is a fresh sentence every time, which a region
+  // that repeated one line would not be.
+  const [seenCount, setSeenCount] = React.useState(messages.length);
+  if (messages.length !== seenCount) {
+    if (messages.length < seenCount) {
+      setAnnounce(`Summarised, ${percent} percent used`);
+    }
+    setSeenCount(messages.length);
+  }
+
   // The note's height is measured from its content and never reserved, so
   // an idle meter is exactly the ring and its readout.
   const noteRef = React.useRef<HTMLDivElement | null>(null);
@@ -354,10 +366,7 @@ export function ContextMeter({
                 </p>
                 <button
                   type="button"
-                  onClick={() => {
-                    setAnnounce("Summarising older messages");
-                    onSummarize?.();
-                  }}
+                  onClick={() => onSummarize?.()}
                   className={cn(
                     "flex h-8 shrink-0 items-center rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent active:bg-cobalt-wash",
                     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",

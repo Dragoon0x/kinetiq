@@ -389,6 +389,8 @@ export function SafetyDial({
             return (
               <li
                 key={tool.id}
+                // A list item is not a control, so it cannot be disabled;
+                // the lock is carried in the item's own name instead.
                 aria-label={isLocked ? `${tool.name}, locked` : tool.name}
                 style={{ backgroundImage: isLocked ? HATCH : undefined }}
                 className={cn(
