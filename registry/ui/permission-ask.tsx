@@ -69,6 +69,8 @@ type AskCardProps = {
   onAllow?: () => void;
   onDeny?: () => void;
   onArmed?: () => void;
+  /** Hands focus back to whatever held it before the card rose. */
+  returnFocus?: () => void;
 };
 
 /**
@@ -84,6 +86,7 @@ function AskCard({
   onAllow,
   onDeny,
   onArmed,
+  returnFocus,
 }: AskCardProps) {
   const baseId = React.useId();
   const titleId = `${baseId}-title`;
@@ -122,16 +125,14 @@ function AskCard({
   }, [armed, visible, armDelay, progress, armedRef]);
 
   // Focus lands on Deny — the safe answer, and the only one live yet — and
-  // goes back to whatever had it once the card has finished leaving.
+  // goes back to whatever had it once the card has finished leaving. The
+  // element to return to is remembered by the frame, not read here: a host
+  // that disables its trigger while the card is open has already had it
+  // blurred by the time this runs, and the body is nobody to go back to.
   React.useEffect(() => {
-    const previous = document.activeElement;
     denyRef.current?.focus();
-    return () => {
-      if (previous instanceof HTMLElement && previous.isConnected) {
-        previous.focus();
-      }
-    };
-  }, []);
+    return () => returnFocus?.();
+  }, [returnFocus]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Escape") {
@@ -282,6 +283,30 @@ export function PermissionAsk({
 }: PermissionAskProps) {
   const motionSafe = useMotionSafe();
 
+  // The frame outlives every card, so it is what can remember where focus was
+  // before one rose. Reading it from inside the card is too late: a host that
+  // disables its trigger on open has already had it blurred by then.
+  const frameRef = React.useRef<HTMLDivElement | null>(null);
+  const priorFocus = React.useRef<HTMLElement | null>(null);
+  React.useEffect(() => {
+    const remember = (event: FocusEvent) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (frameRef.current?.contains(target)) return;
+      priorFocus.current = target;
+    };
+    document.addEventListener("focusin", remember, true);
+    return () => document.removeEventListener("focusin", remember, true);
+  }, []);
+  const returnFocus = React.useCallback(() => {
+    const target = priorFocus.current;
+    if (!target || !target.isConnected) return;
+    // A trigger disabled while the card was open cannot take it back; the
+    // frame itself is the nearest place that keeps the reader in context.
+    if (target.matches(":disabled")) frameRef.current?.focus();
+    else target.focus();
+  }, []);
+
   const innerRef = React.useRef<HTMLDivElement | null>(null);
   const [measured, setMeasured] = React.useState(0);
   React.useEffect(() => {
@@ -313,10 +338,15 @@ export function PermissionAsk({
 
   return (
     <div
-      ref={ref}
+      ref={(node) => {
+        frameRef.current = node;
+        if (typeof ref === "function") ref(node);
+        else if (ref) ref.current = node;
+      }}
       role="group"
       aria-label={label}
-      className={cn("flex w-full flex-col", className)}
+      tabIndex={-1}
+      className={cn("flex w-full flex-col outline-none", className)}
     >
       <div
         className={cn(
@@ -384,6 +414,7 @@ export function PermissionAsk({
                 onAllow={onAllow}
                 onDeny={onDeny}
                 onArmed={onArmed}
+                returnFocus={returnFocus}
               />
             ) : null}
           </AnimatePresence>

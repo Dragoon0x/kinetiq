@@ -50,11 +50,6 @@ export type ApprovalQueueProps = {
 /** How each card leaves: the side carries the decision, the delay the cascade. */
 type ExitPlan = { dir: 1 | -1; delays: Record<string, number> };
 
-type Last =
-  | { kind: "one"; decision: ApprovalDecision; summary: string }
-  | { kind: "all"; count: number }
-  | null;
-
 const RISK_TONE: Record<ApprovalRisk, string> = {
   low: "text-ink-3",
   medium: "text-warn",
@@ -130,7 +125,7 @@ export function ApprovalQueue({
   const wantsFocus = React.useRef(false);
 
   const [plan, setPlan] = React.useState<ExitPlan>({ dir: 1, delays: {} });
-  const [last, setLast] = React.useState<Last>(null);
+  const [last, setLast] = React.useState<string | null>(null);
 
   // The new head's control mounts in the same commit that removes the old
   // one, so the effect after that commit is where focus can land on it.
@@ -145,7 +140,12 @@ export function ApprovalQueue({
 
   const decide = (item: ApprovalItem, decision: ApprovalDecision) => {
     setPlan({ dir: decision === "approve" ? 1 : -1, delays: {} });
-    setLast({ kind: "one", decision, summary: item.summary });
+    const left = items.length - 1;
+    setLast(
+      `${decision === "approve" ? "Approved" : "Denied"} ${item.summary}. ${
+        left === 0 ? "Queue clear." : `${left} waiting.`
+      }`,
+    );
     wantsFocus.current = true;
     onDecide?.(item.id, decision);
   };
@@ -157,19 +157,14 @@ export function ApprovalQueue({
       delays[item.id] = Number((index * gap).toFixed(3));
     });
     setPlan({ dir: 1, delays });
-    setLast({ kind: "all", count: items.length });
+    setLast(`Approved all ${items.length}. Queue clear.`);
     wantsFocus.current = true;
     onApproveAll?.();
   };
 
-  const announcement =
-    last === null
-      ? ""
-      : last.kind === "all"
-        ? `Approved all ${last.count}. Queue clear.`
-        : `${last.decision === "approve" ? "Approved" : "Denied"} ${last.summary}. ${
-            items.length === 0 ? "Queue clear." : `${items.length} waiting.`
-          }`;
+  // Said once, at the moment of the decision. Deriving it from the live list
+  // would let a host refilling the queue speak a past decision over again.
+  const announcement = last ?? "";
 
   const fade = { duration: durations.fast, ease: easings.enter } as const;
   const control =

@@ -13626,3 +13626,748 @@ test.describe("streaming", () => {
     ]);
   });
 });
+
+/**
+ * Records every distinct sentence a live region passes through, so a state
+ * announced for one beat before the next replaces it is still on the record —
+ * and so a region that must speak once per state change can be shown to have
+ * said nothing per tick.
+ */
+const recordToolsTrail = async (target: Locator): Promise<void> => {
+  await target.evaluate((element) => {
+    const trail: string[] = [];
+    const read = () => {
+      const text = (element.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (trail[trail.length - 1] !== text) trail.push(text);
+    };
+    read();
+    new MutationObserver(read).observe(element, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    (window as unknown as { __toolsTrail: string[] }).__toolsTrail = trail;
+  });
+};
+
+/** Everything the recorded region has said so far, oldest first, silences left out. */
+const toolsTrailOf = (page: Page) => async (): Promise<string[]> =>
+  (
+    await page.evaluate(
+      () =>
+        (window as unknown as { __toolsTrail?: string[] }).__toolsTrail ?? [],
+    )
+  ).filter(Boolean);
+
+/** A poll target: how far a tailing box is from the end of its own scroll. */
+const toolsTailGapOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate(
+    (element) =>
+      element.scrollHeight - element.scrollTop - element.clientHeight,
+  );
+
+/**
+ * The tools family is the agent reaching for something outside itself: a call
+ * and its answer, the gate a risky call waits at, a chain of calls that earn
+ * each other, a result folded to its gist, a retry that keeps its history, a
+ * command tailing its output, the files a write touched, the pages a browse
+ * walked, a queue of actions waiting on a person, and the budget all of it
+ * spends. Every run is driven by the demo's own button from a seeded script,
+ * so each test waits on settled states and state-change announcements — never
+ * a mid-run tick count — and drives the keyboard wherever a component
+ * publishes one. The live regions are recorded from before the first press,
+ * so "once per state change, never per line" is asserted on the whole record.
+ */
+test.describe("tools", () => {
+  test("tool-call: Play runs the call to a stamp, and Enter folds the row it opened", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tool-call");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The call announces its own status changes above the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const row = stage.getByRole("button", { name: /^search_ledger/ });
+    const panel = stage.getByRole("region", { name: "search_ledger" });
+
+    await expect(status).toHaveText("Idle · press play");
+    await expect(row).toHaveAttribute("aria-expanded", "false");
+    // Folded, the panel is inert and aria-hidden: it is out of the tree, not
+    // merely out of sight.
+    await expect(panel).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+    await recordToolsTrail(announced);
+
+    // Play opens the row as the call starts, so the lines land in the open.
+    await stage.getByRole("button", { name: "Play", exact: true }).click();
+    await expect(row).toHaveAttribute("aria-expanded", "true");
+    await expect(panel).toBeVisible();
+
+    // The settled call: the host's own elapsed, every line, and the stamp.
+    await expect(status).toHaveText("Done · 1.4s · 5 lines · open", {
+      timeout: 12000,
+    });
+    await expect(announced).toHaveText("search_ledger done in 1.4s, 5 lines");
+    await expect(panel.getByText("5 lines", { exact: true })).toBeVisible();
+    await expect(panel.locator("pre")).toContainText(
+      "2026-08-15  CBK-2291    +905.50  Gaugeworks invoice 1187",
+    );
+    // The arguments are a real definition list, not a printed preview.
+    await expect(panel.locator("dt")).toHaveText(["account", "since", "limit"]);
+    await expect(panel.locator("dd")).toHaveText([
+      "CBK-2291",
+      "2026-07-01",
+      "5",
+    ]);
+
+    // Enter on the row folds it, and the panel leaves the tree with it.
+    await row.focus();
+    await page.keyboard.press("Enter");
+    await expect(row).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toHaveText("Done · 1.4s · 5 lines · closed");
+    await expect(panel).toHaveCount(0);
+
+    // Space is the other half of the same press.
+    await page.keyboard.press(" ");
+    await expect(row).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toHaveText("Done · 1.4s · 5 lines · open");
+
+    // Once per status change, never per line.
+    expect(await toolsTrailOf(page)()).toEqual([
+      "search_ledger running",
+      "search_ledger done in 1.4s, 5 lines",
+    ]);
+  });
+
+  test("permission-ask: Allow arms only after the wait, Escape denies, and the second ask allows from the keyboard", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/permission-ask");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const ask = stage.getByRole("button", { name: /^Ask( again)?$/ });
+    const card = stage.getByRole("alertdialog");
+    const deny = card.getByRole("button", { name: "Deny" });
+    const allow = card.getByRole("button", { name: "Allow" });
+
+    await expect(status).toHaveText("Idle · press ask");
+    await expect(stage.getByText("Held", { exact: true })).toBeVisible();
+    await expect(card).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+    await recordToolsTrail(announced);
+
+    // The card rises with focus on the safe answer and Allow disarmed: a
+    // control that can be pressed the instant it appears gets pressed by
+    // accident.
+    await ask.click();
+    await expect(card).toBeVisible();
+    await expect(deny).toBeFocused();
+    await expect(allow).toBeDisabled();
+    await expect(status).toHaveText("Asking · allow arms in 0.7s");
+    await expect(announced).toHaveText("Permission asked for write_file");
+    await expect(stage.getByText("high risk", { exact: true })).toBeVisible();
+
+    await expect(allow).toBeEnabled({ timeout: 6000 });
+    await expect(status).toHaveText("Asking · allow armed");
+
+    // Tab cycles between the two answers and nowhere else.
+    await page.keyboard.press("Tab");
+    await expect(allow).toBeFocused();
+    await page.keyboard.press("Shift+Tab");
+    await expect(deny).toBeFocused();
+
+    // Escape is Deny: the card sinks and the row greys with the word.
+    await page.keyboard.press("Escape");
+    await expect(status).toHaveText("Denied · write_file skipped");
+    await expect(announced).toHaveText("write_file denied");
+    await expect(stage.getByText("Denied", { exact: true })).toBeVisible();
+    await expect(card).toHaveCount(0, { timeout: 4000 });
+
+    // A fresh ask arms from nothing again, and Enter on the armed control
+    // takes the other answer.
+    await ask.click();
+    await expect(card).toBeVisible();
+    await expect(allow).toBeDisabled();
+    await expect(allow).toBeEnabled({ timeout: 6000 });
+    await page.keyboard.press("Tab");
+    await expect(allow).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Allowed · write_file runs");
+    await expect(announced).toHaveText("write_file allowed");
+    await expect(stage.getByText("Allowed", { exact: true })).toBeVisible();
+    await expect(card).toHaveCount(0, { timeout: 4000 });
+
+    // Once per ask and once per answer, never in between.
+    expect(await toolsTrailOf(page)()).toEqual([
+      "Permission asked for write_file",
+      "write_file denied",
+      "Permission asked for write_file",
+      "write_file allowed",
+    ]);
+
+    // The card is modal, so it owes the keyboard back: once it has finished
+    // leaving, focus belongs to whatever had it before the card rose.
+    await expect(ask).toBeFocused({ timeout: 4000 });
+  });
+
+  test("tool-chain: the third link fails and pauses the chain, and Enter on Retry runs it out", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tool-chain");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const chain = stage.getByRole("list", { name: "Reconcile payouts" });
+    const retry = stage.getByRole("button", { name: "Retry match_rows" });
+
+    await expect(status).toHaveText("Idle · press play");
+    await expect(chain.getByRole("listitem")).toHaveCount(4);
+    // The Retry control lives inside an inert error line until one is needed.
+    await expect(retry).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+    await recordToolsTrail(announced);
+
+    await stage.getByRole("button", { name: "Play", exact: true }).click();
+
+    // The chain pauses where it broke: the error is in words, the step below
+    // reads Paused, and the link beneath stays undrawn.
+    await expect(status).toHaveText("Paused · link 3 failed", {
+      timeout: 12000,
+    });
+    await expect(announced).toHaveText(
+      "Chain paused at link 3 of 4: match_rows failed, 3 rows unmatched",
+    );
+    await expect(
+      stage.getByText("3 rows unmatched", { exact: true }),
+    ).toBeVisible();
+    await expect(chain.getByRole("listitem").nth(2)).toContainText("Failed");
+    await expect(chain.getByRole("listitem").nth(3)).toContainText("Paused");
+
+    // Enter on Retry runs the failed link again, and the chain runs out.
+    await retry.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Complete · 4 links · 1 retry", {
+      timeout: 12000,
+    });
+    await expect(announced).toHaveText("Chain complete, 4 links");
+    await expect(retry).toHaveCount(0);
+    await expect(chain.getByRole("listitem").nth(3)).toContainText("Done");
+
+    // Once per link, once for the pause, once for the retry, once at the end.
+    expect(await toolsTrailOf(page)()).toEqual([
+      "Link 1 of 4 running, read_file",
+      "Link 2 of 4 running, search_ledger",
+      "Link 3 of 4 running, match_rows",
+      "Chain paused at link 3 of 4: match_rows failed, 3 rows unmatched",
+      "Link 3 of 4 running, match_rows",
+      "Link 4 of 4 running, post_summary",
+      "Chain complete, 4 links",
+    ]);
+  });
+
+  test("result-fold: the gist lands with the last line, and Enter unfolds the tail the control counted", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/result-fold");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const tail = stage.getByRole("region", { name: "search_ledger" });
+
+    await expect(status).toHaveText("Idle · press play");
+    await expect(stage.getByText("No result yet.")).toBeVisible();
+    // Nothing to fold yet, so there is no control to press.
+    await expect(stage.getByRole("button", { name: /^Show / })).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+    await recordToolsTrail(announced);
+
+    await stage.getByRole("button", { name: "Play", exact: true }).click();
+
+    // Settled: eighteen lines in, three of them shown, and the gist arrived.
+    await expect(status).toHaveText("Folded · 3 of 18 lines", {
+      timeout: 14000,
+    });
+    await expect(announced).toHaveText(
+      "search_ledger returned 18 lines: 18 rows · 3 unreconciled",
+    );
+    await expect(
+      stage.getByText("18 rows · 3 unreconciled", { exact: true }),
+    ).toBeVisible();
+
+    // The control names what it will do, and the tail is out of the tree
+    // while it is folded.
+    const fold = stage.getByRole("button", { name: "Show 15 more lines" });
+    await expect(fold).toHaveAttribute("aria-expanded", "false");
+    await expect(tail).toHaveCount(0);
+
+    await fold.focus();
+    await page.keyboard.press("Enter");
+    await expect(fold).toHaveCount(0);
+    const less = stage.getByRole("button", { name: "Show less" });
+    await expect(less).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toHaveText("Unfolded · 18 lines");
+    // Unfolded, the tail is in the tree with every line the count promised.
+    await expect(tail).toContainText(
+      "LD-40274  2026-09-08    -62.40   Basinworks Exchange  matched",
+    );
+    await expect(tail.locator("pre > span")).toHaveCount(15);
+
+    // Space folds it back, and the count says how much went away again.
+    await page.keyboard.press(" ");
+    await expect(status).toHaveText("Folded · 3 of 18 lines");
+    await expect(tail).toHaveCount(0);
+    await expect(
+      stage.getByRole("button", { name: "Show 15 more lines" }),
+    ).toBeVisible();
+
+    // The gist is read once, never a line.
+    expect(await toolsTrailOf(page)()).toEqual([
+      "search_ledger returned 18 lines: 18 rows · 3 unreconciled",
+    ]);
+
+    // And what is unfolded is shown: the tail is a surface extending to the
+    // height its own lines measure, not a region that is merely un-hidden.
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Unfolded · 18 lines");
+    await expect(tail).toBeVisible();
+  });
+
+  test("retry-ladder: two failures stack as rungs and Enter on Retry reaches the attempt that succeeds", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/retry-ladder");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const ladder = stage.getByRole("list", { name: "fetch_rates" });
+    const retry = stage.getByRole("button", { name: "Retry", exact: true });
+
+    await expect(status).toHaveText("Idle · press try");
+    await expect(stage.getByText("No attempts yet.")).toBeVisible();
+    await expect(retry).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+    await recordToolsTrail(announced);
+
+    // The first attempt runs as asked and times out.
+    await stage.getByRole("button", { name: "Try", exact: true }).click();
+    await expect(status).toHaveText("Attempt 1 failed · timed out after 4s", {
+      timeout: 10000,
+    });
+    await expect(announced).toHaveText("Attempt 1 failed: timed out after 4s");
+    await expect(ladder.getByRole("listitem")).toHaveCount(1);
+    await expect(ladder.getByRole("listitem").first()).toContainText(
+      "as asked",
+    );
+    await expect(ladder.getByRole("listitem").first()).toContainText("Failed");
+    // The control says how the next attempt will differ before it is pressed.
+    await expect(
+      stage.getByText("Next: half the date range", { exact: true }),
+    ).toBeVisible();
+
+    // Each retry differs, and the ladder keeps every attempt in sight.
+    await retry.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Attempt 2 failed · rate limited", {
+      timeout: 10000,
+    });
+    await expect(announced).toHaveText("Attempt 2 failed: rate limited");
+    await expect(ladder.getByRole("listitem")).toHaveCount(2);
+    await expect(
+      stage.getByText("Next: from the cached snapshot", { exact: true }),
+    ).toBeVisible();
+
+    // The third attempt succeeds, and the control retires to a plain line.
+    await retry.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Succeeded on attempt 3", {
+      timeout: 10000,
+    });
+    await expect(announced).toHaveText("Succeeded on attempt 3");
+    await expect(ladder.getByRole("listitem")).toHaveCount(3);
+    await expect(ladder.getByRole("listitem").last()).toContainText(
+      "from the cached snapshot",
+    );
+    await expect(retry).toHaveCount(0);
+    await expect(
+      stage.getByText("Succeeded on attempt 3.", { exact: true }),
+    ).toBeVisible();
+
+    // Once per start and once per outcome, never per tenth.
+    expect(await toolsTrailOf(page)()).toEqual([
+      "Attempt 1 running: as asked",
+      "Attempt 1 failed: timed out after 4s",
+      "Attempt 2 running: half the date range",
+      "Attempt 2 failed: rate limited",
+      "Attempt 3 running: from the cached snapshot",
+      "Succeeded on attempt 3",
+    ]);
+  });
+
+  test("shell-tail: a failing run stamps its exit code, and scrolling away from the tail raises the jump back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/shell-tail");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const output = stage.getByRole("region", { name: "Output" });
+    const jump = stage.getByRole("button", { name: "Jump to end" });
+
+    await expect(status).toHaveText("Idle · ready");
+    await expect(output).toHaveText("No output yet");
+    await expect(announced).toBeEmpty();
+    await recordToolsTrail(announced);
+
+    // The failing run: the stamp reads its code in words, and the count of
+    // error lines is part of what is announced.
+    await stage.getByRole("button", { name: "Run a failing one" }).click();
+    await expect(status).toHaveText("Exit 2 · 5 lines", { timeout: 12000 });
+    await expect(announced).toHaveText("Exited 2, 5 lines, 1 error line");
+    await expect(stage.getByText("exit 2", { exact: true })).toBeVisible();
+    await expect(output).toContainText(
+      "row 811: amount is not a number: 'twelve'",
+    );
+
+    // The passing run replaces it, stamp and all.
+    await stage.getByRole("button", { name: "Run", exact: true }).click();
+    await expect(status).toHaveText("Exit 0 · 9 lines", { timeout: 14000 });
+    await expect(announced).toHaveText("Exited 0, 9 lines");
+    await expect(stage.getByText("exit 0", { exact: true })).toBeVisible();
+    await expect(output).toContainText("index rebuilt in 118 ms");
+    // Nine lines past the 140px clamp: the box scrolls inside itself and has
+    // followed the tail down.
+    await expect.poll(toolsTailGapOf(output)).toBeLessThan(4);
+    await expect(jump).toHaveCount(0);
+
+    // Reading an earlier line pauses the follow and offers the way back.
+    await output.evaluate((element) => {
+      element.scrollTop = 0;
+    });
+    await expect(jump).toBeVisible();
+    await jump.click();
+    await expect(jump).toHaveCount(0, { timeout: 4000 });
+    await expect.poll(toolsTailGapOf(output)).toBeLessThan(4);
+
+    // Once per state change, never per line.
+    expect(await toolsTrailOf(page)()).toEqual([
+      "Running",
+      "Exited 2, 5 lines, 1 error line",
+      "Running",
+      "Exited 0, 9 lines",
+    ]);
+  });
+
+  test("file-touch: the write lands four files, and the arrows walk the rows whose diffs open one at a time", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/file-touch");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const list = stage.getByRole("list", { name: "Gaugeworks Reasoner" });
+    const rows = list.getByRole("button");
+
+    await expect(status).toHaveText("Idle · ready");
+    await expect(stage.getByText("No files touched.")).toBeVisible();
+    await expect(announced).toBeEmpty();
+    await recordToolsTrail(announced);
+
+    // The settled write: four files and the totals they add up to.
+    await stage.getByRole("button", { name: "Write", exact: true }).click();
+    await expect(status).toHaveText("Wrote 4 files · +38 −12", {
+      timeout: 14000,
+    });
+    await expect(announced).toHaveText("Wrote 4 files, 38 added, 12 removed");
+    await expect(rows).toHaveCount(4);
+    await expect(rows.first()).toContainText("src/ledger/parse.ts");
+    await expect(rows.first()).toContainText("modified");
+    await expect(rows.nth(1)).toContainText("created");
+
+    // ArrowDown walks the rows; Enter opens the one it lands on.
+    await rows.first().focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(rows.nth(1)).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(rows.nth(1)).toHaveAttribute("aria-expanded", "true");
+    const ratesDiff = stage.getByRole("region", {
+      name: "Diff of src/ledger/rates.ts",
+    });
+    await expect(ratesDiff).toBeVisible();
+    await expect(ratesDiff).toContainText("export const RATES = {");
+    await expect(status).toHaveText(
+      "Wrote 4 files · +38 −12 · viewing rates.ts",
+    );
+
+    // End jumps to the last row, and opening its diff folds the first: only
+    // one is ever open.
+    await page.keyboard.press("End");
+    await expect(rows.nth(3)).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(rows.nth(3)).toHaveAttribute("aria-expanded", "true");
+    await expect(rows.nth(1)).toHaveAttribute("aria-expanded", "false");
+    await expect(ratesDiff).toHaveCount(0, { timeout: 4000 });
+    await expect(
+      stage.getByRole("region", { name: "Diff of README.md" }),
+    ).toContainText("Amounts must be numbers; a word aborts the import.");
+    await expect(status).toHaveText(
+      "Wrote 4 files · +38 −12 · viewing README.md",
+    );
+
+    // Escape closes the open diff and keeps the keyboard on its row.
+    await page.keyboard.press("Escape");
+    await expect(rows.nth(3)).toHaveAttribute("aria-expanded", "false");
+    await expect(rows.nth(3)).toBeFocused();
+    await expect(status).toHaveText("Wrote 4 files · +38 −12");
+
+    // Once when the writing starts, once when it ends, never per file.
+    expect(await toolsTrailOf(page)()).toEqual([
+      "Writing",
+      "Wrote 4 files, 38 added, 12 removed",
+    ]);
+  });
+
+  test("browser-peek: Forward and Back walk the pages the agent saw, and a step by hand takes the walk over from the script", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/browser-peek");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const back = stage.getByRole("button", { name: "Back" });
+    const forward = stage.getByRole("button", { name: "Forward" });
+    const pageArea = stage.getByRole("img");
+
+    await expect(status).toHaveText(
+      "Page 1 of 4 · basinworks.example · clicked Rates",
+    );
+    await expect(pageArea).toHaveAttribute(
+      "aria-label",
+      "Basinworks, basinworks.example",
+    );
+    await expect(announced).toHaveText(
+      "Page 1 of 4, Basinworks, basinworks.example. Clicked Rates.",
+    );
+    // The ends of the history are disabled, not merely inert.
+    await expect(back).toBeDisabled();
+    await expect(forward).toBeEnabled();
+
+    await forward.click();
+    await expect(status).toHaveText(
+      "Page 2 of 4 · basinworks.example/rates · clicked Savings",
+    );
+    await expect(pageArea).toHaveAttribute(
+      "aria-label",
+      "Basin rates, basinworks.example/rates",
+    );
+    await expect(announced).toHaveText(
+      "Page 2 of 4, Basin rates, basinworks.example/rates. Clicked Savings.",
+    );
+    await expect(back).toBeEnabled();
+
+    await forward.click();
+    await forward.click();
+    await expect(status).toHaveText(
+      "Page 4 of 4 · basinworks.example/rates/savings?term=12",
+    );
+    // The last page has no click of its own, so nothing is claimed.
+    await expect(announced).toHaveText(
+      "Page 4 of 4, 12-month savings rate, basinworks.example/rates/savings?term=12.",
+    );
+    await expect(forward).toBeDisabled();
+
+    await back.click();
+    await expect(status).toHaveText(
+      "Page 3 of 4 · basinworks.example/rates/savings · clicked 12 months",
+    );
+    await expect(forward).toBeEnabled();
+
+    // The script walks from the top, and says so while it runs.
+    await stage.getByRole("button", { name: "Browse" }).click();
+    await expect(status).toHaveText(
+      "Page 1 of 4 · basinworks.example · browsing · clicked Rates",
+    );
+    await expect(status).toHaveText(
+      "Page 2 of 4 · basinworks.example/rates · browsing · clicked Savings",
+      { timeout: 8000 },
+    );
+
+    // Stepping by hand takes the walk over: the script stops where it was.
+    await back.click();
+    await expect(status).toHaveText(
+      "Page 1 of 4 · basinworks.example · clicked Rates",
+    );
+    await expect(pageArea).toHaveAttribute(
+      "aria-label",
+      "Basinworks, basinworks.example",
+    );
+    await expect(back).toBeDisabled();
+  });
+
+  test("approval-queue: a decision moves the queue and keeps the keyboard on the new head, and Approve all clears the rest", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/approval-queue");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const queue = stage.getByRole("list", {
+      name: "Fernworks Model 3 wants to",
+    });
+    const cards = queue.getByRole("listitem");
+    const approve = stage.getByRole("button", { name: "Approve", exact: true });
+    const deny = stage.getByRole("button", { name: "Deny", exact: true });
+    const approveAll = stage.getByRole("button", { name: "Approve all" });
+
+    await expect(status).toHaveText("Waiting 4 · approved 0 · denied 0");
+    await expect(cards).toHaveCount(4);
+    // The head is full; the cards behind it read their place in the queue.
+    await expect(cards.first()).toContainText(
+      "Run basin sync --ledger ledger.csv",
+    );
+    await expect(cards.first()).toContainText("medium risk");
+    await expect(cards.nth(1)).toHaveAttribute(
+      "aria-label",
+      "Queued 2 of 4: Write src/ledger/rates.ts",
+    );
+    await expect(announced).toBeEmpty();
+    await recordToolsTrail(announced);
+
+    // Approving moves the queue up and leaves the keyboard on the new head.
+    await approve.click();
+    await expect(status).toHaveText(
+      "Waiting 3 · approved 1 · denied 0 · last approved Run basin sync --ledger ledger.csv",
+    );
+    await expect(announced).toHaveText(
+      "Approved Run basin sync --ledger ledger.csv. 3 waiting.",
+    );
+    await expect(cards).toHaveCount(3, { timeout: 4000 });
+    await expect(approve).toBeFocused();
+    await expect(cards.first()).toContainText("Write src/ledger/rates.ts");
+
+    // So a run of approvals never loses it: Enter presses the same control.
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText(
+      "Waiting 2 · approved 2 · denied 0 · last approved Write src/ledger/rates.ts",
+    );
+    await expect(cards).toHaveCount(2, { timeout: 4000 });
+    await expect(approve).toBeFocused();
+
+    // Denying takes the other answer and the queue reads it back.
+    await deny.click();
+    await expect(status).toHaveText(
+      "Waiting 1 · approved 2 · denied 1 · last denied Open basinworks.example/rates",
+    );
+    await expect(announced).toHaveText(
+      "Denied Open basinworks.example/rates. 1 waiting.",
+    );
+    await expect(cards).toHaveCount(1, { timeout: 4000 });
+    await expect(stage.getByText("Last one.")).toBeVisible();
+    await expect(approveAll).toHaveCount(0);
+
+    await approve.click();
+    await expect(status).toHaveText(
+      "Queue clear · approved 3 · denied 1 · last approved Remove the build/ cache",
+    );
+    await expect(announced).toHaveText(
+      "Approved Remove the build/ cache. Queue clear.",
+    );
+    await expect(cards).toHaveCount(0, { timeout: 4000 });
+    await expect(stage.getByText("Nothing waiting.")).toBeVisible();
+
+    // Approve all empties the queue in one decision, and says how many.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toHaveText("Waiting 4 · approved 0 · denied 0");
+    await expect(cards).toHaveCount(4);
+    await approveAll.click();
+    await expect(status).toHaveText(
+      "Queue clear · approved 4 · denied 0 · last approved all 4",
+    );
+    await expect(announced).toHaveText("Approved all 4. Queue clear.");
+    await expect(cards).toHaveCount(0, { timeout: 6000 });
+
+    // Once per decision, never per card.
+    expect(await toolsTrailOf(page)()).toEqual([
+      "Approved Run basin sync --ledger ledger.csv. 3 waiting.",
+      "Approved Write src/ledger/rates.ts. 2 waiting.",
+      "Denied Open basinworks.example/rates. 1 waiting.",
+      "Approved Remove the build/ cache. Queue clear.",
+      "Approved all 4. Queue clear.",
+    ]);
+  });
+
+  test("tool-budget: the seeded run spends the budget to a lock, and a reset rail spends the next call from the keyboard", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tool-budget");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter");
+    const rail = stage.getByRole("toolbar", { name: "Tools" });
+    const shell = rail.getByRole("button", { name: /^Shell/ });
+    const file = rail.getByRole("button", { name: /^File/ });
+    const search = rail.getByRole("button", { name: /^Search/ });
+
+    await expect(status).toHaveText("10 of 10 left");
+    await expect(meter).toHaveAttribute("aria-valuenow", "10");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "10 of 10 calls left",
+    );
+    await expect(announced).toBeEmpty();
+    await recordToolsTrail(announced);
+
+    // The seeded run spends every call, and the rail keeps the tally.
+    await stage.getByRole("button", { name: "Run agent" }).click();
+    await expect(status).toHaveText(
+      "Locked · budget spent · shell 4 · file 3 · browser 2 · search 1",
+      { timeout: 20000 },
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "0");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "No calls left, tools locked",
+    );
+    // The lock is a word beside its glyph, never colour alone.
+    await expect(stage.getByText("Locked", { exact: true })).toBeVisible();
+    await expect(shell).toHaveAttribute("aria-disabled", "true");
+    // Each control carries its own tally in words beside its rolling digits.
+    await expect(shell).toContainText("4 calls");
+    await expect(search).toContainText("1 calls");
+
+    // A locked tool stays focusable and does nothing.
+    await shell.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText(
+      "Locked · budget spent · shell 4 · file 3 · browser 2 · search 1",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "0");
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toHaveText("10 of 10 left");
+    await expect(shell).not.toHaveAttribute("aria-disabled", "true");
+
+    // The rail is a toolbar with a roving tabindex: the arrows move, Home and
+    // End jump, and Enter spends the call the reader chose.
+    await shell.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(file).toBeFocused();
+    await expect(file).toHaveAttribute("tabindex", "0");
+    await expect(shell).toHaveAttribute("tabindex", "-1");
+    await page.keyboard.press("End");
+    await expect(search).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(shell).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("9 of 10 left · shell 1");
+    await expect(meter).toHaveAttribute("aria-valuenow", "9");
+    await expect(meter).toHaveAttribute("aria-valuetext", "9 of 10 calls left");
+
+    // On the threshold and at the lock, never per call.
+    expect(await toolsTrailOf(page)()).toEqual([
+      "Running low on calls",
+      "No calls left, tools locked",
+    ]);
+  });
+});

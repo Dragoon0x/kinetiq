@@ -73,17 +73,21 @@ export function ResultFold({
     onOpenChange?.(next);
   };
 
-  const tailRef = React.useRef<HTMLPreElement | null>(null);
+  // The tail is only in the tree once there is a result, so the node is held
+  // in state rather than a ref: an effect that ran only at mount would read
+  // null, never run again, and leave the open box measured at nothing.
+  const [tailNode, setTailNode] = React.useState<HTMLPreElement | null>(null);
   const [measured, setMeasured] = React.useState(0);
   React.useEffect(() => {
-    const node = tailRef.current;
-    if (!node) return;
+    if (!tailNode) return;
     // Fires once on observe and again for every line that lands in the tail,
     // so an open box grows with its result instead of clipping it.
-    const observer = new ResizeObserver(() => setMeasured(node.offsetHeight));
-    observer.observe(node);
+    const observer = new ResizeObserver(() =>
+      setMeasured(tailNode.offsetHeight),
+    );
+    observer.observe(tailNode);
     return () => observer.disconnect();
-  }, []);
+  }, [tailNode]);
 
   const lines = text === "" ? [] : text.split("\n");
   const keep = Math.max(1, Math.floor(previewLines));
@@ -171,7 +175,7 @@ export function ResultFold({
               className="overflow-hidden"
             >
               <pre
-                ref={tailRef}
+                ref={setTailNode}
                 className="px-3 pb-2 font-mono text-[11px] leading-relaxed whitespace-pre text-foreground"
               >
                 {tail.map(line)}
