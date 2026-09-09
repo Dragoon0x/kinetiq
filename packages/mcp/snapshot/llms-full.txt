@@ -15714,6 +15714,222 @@ Notes:
 - Under reduced motion the tail does not travel or morph: it appears on the new last bubble on a short fade and the corner radius swaps.
 - The tail's layoutId is scoped to the run, the id of its first message, so two runs never share a tail and only a message that extends a run triggers the hand-off.
 
+### Compose Bar (KQ-851) — `compose-bar`
+A bar that makes room.
+
+A chat composer that makes room. Two hidden mirrors measure the draft at the single-line and full columns, and the moment the narrow one wraps the well glides on glide to the full-width height plus a footer while the attach control slides on glide from beside send to the far left, so the two controls slide apart around the text. A dot beside the first line glows when the field is blurred with unsent text; Enter sends and Shift+Enter breaks a line.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/compose-bar`
+
+Props:
+- `value / defaultValue`: string (default "") — Controlled or initial draft.
+- `onValueChange`: (value: string) => void — Fires from every keystroke and from the clear after a send.
+- `onSend`: (text: string) => void — Fires from Enter or the Send control with the trimmed draft.
+- `onAttach`: () => void — Fires from the Attach control.
+- `onLinesChange`: (lines: number) => void — Fires from the observer whenever the measured line count changes.
+- `onFocusChange`: (focused: boolean) => void — Fires as the textarea gains and loses focus.
+- `maxRows`: number (default 6) — Lines the well grows to before the textarea scrolls.
+- `placeholder`: string (default "Message") — Keep it short: a placeholder that wraps reads as a second line.
+- `disabled`: boolean (default false) — Holds the composer and both controls.
+- `label`: string — Names the textarea for assistive technology.
+
+Notes:
+- A real textarea: Enter sends, Shift+Enter breaks the line, and the tab order runs textarea, Attach, Send; Send is aria-disabled while the draft is empty rather than removed from the order.
+- Under reduced motion the well's height and the attach control's position swap on fast tweens, and the draft dot holds a steady ring instead of pulsing.
+- An sr-only status announces "Draft kept, N words" once when the field blurs with text and "Message sent" on send.
+
+### Typing Echo (KQ-852) — `typing-echo`
+They are typing, honestly.
+
+A typing indicator that lives in the thread. A slot under the message list is measured by a ResizeObserver and glides open on glide while an echo of the coming bubble, with the typers' initial avatars, rises on snap; three dots ride one staggered keyframe wave so no two are ever at the same height, and a caption names exactly who is typing. When they stop, the echo fades on the exit ease and the slot collapses to give the room back. It has no controls; a persistent live region speaks each change of caption once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/typing-echo`
+
+Props:
+- `messages`: EchoMessage[] — The thread, oldest first: id, the sender's name, the text, and own for the viewer's messages.
+- `typing`: string[] — Who is typing now, in the order they started; an empty array collapses the slot.
+- `max`: number (default 2) — Names spelled out before "and N others".
+- `label`: string — Names the thread list for assistive technology.
+
+Notes:
+- The thread is an ordered list whose items carry "Marta: text" labels; the echo is decoration and hidden from assistive technology, while a persistent polite live region holds the caption so each change is announced exactly once and silence announces nothing.
+- Under reduced motion the slot height swaps on a fast tween, the echo fades in place, and the dots pulse opacity in the same stagger instead of travelling.
+- The dot wave is started in an effect, stopped on unmount, and held while the document is hidden; drive typing from your presence source, never from a clock in render.
+
+### Voice Bubble (KQ-853) — `voice-bubble`
+Hold, speak, send.
+
+Hold the mic and a waveform pill opens on snap; a 100ms tick advances a seeded level for each bar, re-targeted on flick so the wave reads as the voice, while a clock counts. Releasing after a real hold resamples the take into a 32-bar note that the parent appends, and its bubble rises on recoil with a play control and a wave that is a slider: press and drag scrub it, Arrow keys step a second, Home and End jump. No microphone is read; a tap shows a hold hint instead.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/voice-bubble`
+
+Props:
+- `notes`: VoiceNote[] — The thread, oldest first: id, from (me or peer), whole seconds, a wave of 0..1 levels, and an optional time.
+- `onSend`: (note: { seconds: number; wave: number[] }) => void — Fires from a release or a Space/Enter stop after a real hold, with the seconds and a 32-bar profile.
+- `onCancel`: () => void — Fires from Escape during a take, or a release that was only a tap.
+- `onRecording`: (seconds: number | null) => void — Fires at the start of a take and on each whole second; null when the take ends.
+- `onPlayChange`: (id: string | null) => void — Fires with the note that started playing, or null when playback stops.
+- `maxSeconds`: number (default 30) — The take stops itself here.
+- `peerName`: string (default "Them") — Names the other side in the bubbles' sentences.
+- `label`: string — Names the thread list for assistive technology.
+
+Notes:
+- The mic is a button with aria-pressed: pointer down holds and release sends, Space or Enter toggles the take, Escape discards it; each bubble's wave is a slider whose Arrow keys step one second and Home and End jump, and its play button is named Play or Pause.
+- Under reduced motion the pill fades in place, the live bars hold a static profile while the clock still counts, the bubble fades in without rising, and the playback fill still advances because position is information.
+- Both ticks live in effects with cleanup and hold while the document is hidden; the wave is procedural and the profile it records is seeded, so no microphone or clock is read during render.
+
+### Emoji Rise (KQ-854) — `emoji-rise`
+Emoji that rise to meet the caret.
+
+A composer that answers a colon. Typing `:` at the start of a word opens a picker in the slot above the field: the slot's measured height glides open on glide while the panel rises from distances.step on snap, and letters after the colon filter a named set whose survivors slide to their new cells on glide because every option is a layout item. Enter, Tab or a click replaces the token with the glyph and a space and pops a last-used tile on recoil; Escape closes the picker and keeps the text, and focus never leaves the textarea.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/emoji-rise`
+
+Props:
+- `value / defaultValue`: string (default "") — Controlled or initial draft.
+- `onValueChange`: (value: string) => void — Fires from every keystroke, from an insert, and from the clear after a send.
+- `onSend`: (text: string) => void — Fires from Enter with the picker closed, or the Send control, with the trimmed draft.
+- `onInsert`: (item: EmojiItem) => void — Fires with the item whose glyph was inserted.
+- `onPickerChange`: (state: { open: boolean; query: string; matches: number }) => void — Fires from an effect whenever the picker opens, closes, or its match count changes.
+- `items`: EmojiItem[] (default DEFAULT_EMOJI) — The set to search: glyph, name, and optional keywords. Defaults to the built-in sixteen.
+- `placeholder`: string (default "Message") — The textarea's placeholder.
+- `label`: string — Names the textarea for assistive technology.
+
+Notes:
+- Focus never leaves the textarea: it carries aria-autocomplete, aria-controls and aria-activedescendant while the listbox is open. Left and Right step, Up and Down move a row of eight, Home and End jump, Enter or Tab insert, Escape closes; Enter with the picker closed sends and Shift+Enter breaks a line.
+- Under reduced motion the slot and the panel fade on fast tweens with no rise, layout is off so survivors swap cells in place, the highlight takes the wash without lifting, and the last-used tile fades in without the pop.
+- An sr-only status announces the match count once per query, each insert by name, and "No match for :xyz"; the last-used tile is a named button, so the repeat has a keyboard path.
+
+### Attach Preview (KQ-855) — `attach-preview`
+What you are about to send.
+
+Attachments show themselves before they go. A strip above the composer is measured by a ResizeObserver and glides open on glide only when it holds something: a new slot widens from zero on glide while the drawn thumbnail inside rises from distances.step on snap. Removing one narrows its slot to zero and fades it on the exit ease so its neighbours slide together, and sending moves the files into a new own-side bubble in one commit, where a layoutId prefixed by useId flies each thumbnail from the strip into the thread on glide.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/attach-preview`
+
+Props:
+- `messages`: PreviewMessage[] — The thread, oldest first: id, from (me or peer), optional text, attachments and time.
+- `pending`: Attachment[] — The files waiting in the strip: id, name, kind (photo, doc or sheet) and the seed that draws the thumbnail.
+- `onAttach`: () => void — Fires from the Attach control; append the next file to pending.
+- `onRemove`: (id: string) => void — Fires once a thumbnail's slot has finished narrowing to zero, so the removal is seen before the file is dropped.
+- `onSend`: (draft: { text: string; attachments: Attachment[] }) => void — Fires from Enter or Send; clear pending and append the message in the same commit so the thumbnails fly.
+- `peerName`: string (default "Them") — Names the other side in the composer's label and the thread's sentences.
+- `placeholder`: string (default "Message") — The textarea's placeholder.
+- `label`: string — Names the thread list for assistive technology.
+
+Notes:
+- The thread is an ordered list whose own items read "You sent 2 attachments: pallet-a.jpg, pallet-b.jpg"; the strip is a labelled list of images named by kind and file, each with a named remove button, and focus moves to the next remove control or back to Attach as the strip empties.
+- The composer is a real textarea: Enter sends, Shift+Enter breaks a line, and Send is disabled while there is neither text nor a pending file.
+- Under reduced motion nothing flies and nothing rises — thumbnails fade in place — but the slots and the strip still open and close on fast tweens, because a slot collapsing is feedback rather than flourish.
+
+### Draft Badge (KQ-856) — `draft-badge`
+An unsent thought, remembered.
+
+A channel list that remembers what you did not send. Leaving a channel with unsent text puts a badge on its row — a pencil and the draft's first words rising from four pixels on snap in place of the topic line, so the row never changes height — and opening it again drops the badge out on the exit ease while the same text arrives in the composer from eight pixels above on glide, caret at the end. The rows are tabs with a roving tabindex: arrows move, Home and End jump, Enter or Space opens; Enter in the composer sends and Shift+Enter breaks the line.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/draft-badge`
+
+Props:
+- `channels`: DraftChannel[] — The rows: id, a name printed after a hash, and the topic shown while the channel holds no draft.
+- `drafts / defaultDrafts`: Record<string, string> (default {}) — Controlled or initial draft text per channel id.
+- `onDraftsChange`: (drafts: Record<string, string>) => void — Fires from every keystroke and from the clear after a send.
+- `active / defaultActive`: string — Controlled or initial open channel id; defaults to the first channel.
+- `onActiveChange`: (id: string) => void — Fires from a row press or the key that opened a channel.
+- `onSend`: (channelId: string, text: string) => void — Fires from Enter or the Send button with the trimmed text of the open channel.
+- `placeholder`: string (default "Message") — Composer placeholder.
+- `label`: string — Names the channel list for assistive technology; the composer is named after the open channel.
+
+Notes:
+- The channel rows are a vertical tablist with a roving tabindex: Up and Down (or Left and Right) move focus without wrapping, Home and End jump, Enter or Space opens the channel and puts the caret at the end of its draft. Enter in the composer sends, Shift+Enter breaks the line.
+- Under reduced motion the badge fades in and out in place and the restored text fades into the field without travelling.
+- Each badge is an image whose sentence reads "Draft: <first words>", and a status region announces a kept, restored or sent draft once per event, never per keystroke.
+
+### Mention Pop (KQ-857) — `mention-pop`
+Names that complete as you type.
+
+Names that complete as you type. An @ opens the room's members in a list that rises above the composer from eight pixels on snap, rows cascading in with a presence dot that says in words who is here; picking one wraps the typed name as a chip whose wash scales from the left edge on snap around glyphs the textarea already drew, and sending lands the message in the thread where its chips glow once — a fill flashes and a ring flares outward on a tween. Up and Down move the highlight, Home and End jump, Enter or Tab inserts, Escape closes; with the list shut Enter sends and Shift+Enter breaks the line.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mention-pop`
+
+Props:
+- `members`: MentionMember[] — Who can be mentioned: id, name, a mono handle searched alongside it, and presence (online, away or offline).
+- `messages`: MentionMessage[] — The thread, oldest first: id, from ("me" or a sender's name) and text with @Name tokens. Append the sent message here from onSend.
+- `value / defaultValue`: string (default "") — Controlled or initial composer text.
+- `onValueChange`: (text: string) => void — Fires on every edit and on the clear after a send.
+- `onSend`: (text: string, mentioned: string[]) => void — Fires from Enter or the Send button with the trimmed text and the member ids mentioned in it.
+- `placeholder`: string (default "Message the room") — Composer placeholder.
+- `label`: string — Names the thread and the composer for assistive technology.
+
+Notes:
+- The textarea is a combobox over a listbox driven by aria-activedescendant, so focus never leaves the text: Up and Down move the highlight, Home and End jump, Enter or Tab inserts the chip, Escape closes the list; with the list shut Enter sends and Shift+Enter breaks the line.
+- Under reduced motion the list fades in place without the rise or the cascade, the chip's wash appears by opacity, and the glow on send is a single fade with nothing flaring outward.
+- Presence dots are images with sentences ("Marta, online"), and a status region announces "Mentioned Marta" on insert and "Sent, pinged Marta, Rui" on send — never per keystroke.
+
+### Send Swoosh (KQ-858) — `send-swoosh`
+The send, felt.
+
+A composer whose send is felt. Pressing Send fires the arrow forward — fourteen pixels right and gone on the exit ease — and a fresh one returns from ten pixels behind on snap, one crisp overshoot into place; in the same moment the composer clears with a wipe, a clip inset sweeping the words away over an already-empty textarea. A status of sending holds the button dimmed under a ring, and failed wipes the text back in from the right, turns the button danger and puts the caret at the end. Enter sends, Shift+Enter breaks the line, and focus returns to the field on failure only when it was already inside the composer.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/send-swoosh`
+
+Props:
+- `value / defaultValue`: string (default "") — Controlled or initial composer text.
+- `onValueChange`: (text: string) => void — Fires from every edit, the clear on send, and the return of the words on a failure.
+- `status`: "idle" | "sending" | "sent" | "failed" (default "idle") — The parent's report on the last send: sending holds the button, sent lets it go, failed returns the text.
+- `onSend`: (text: string) => void — Fires from Enter or the Send button with the trimmed text.
+- `placeholder`: string (default "Message") — Composer placeholder.
+- `label`: string — Names the composer for assistive technology.
+
+Notes:
+- Enter sends and Shift+Enter breaks the line; Send is a real button, aria-disabled while the text is empty or a send is in flight, and described by the failure line while there is one. On a failure focus returns to the textarea only if it was already inside the composer.
+- Under reduced motion the arrow does not travel — it dims and returns by opacity — the wipe is a straight fade of the ghost layer, and the failure tint and the returned words arrive on a fast fade.
+- The verdict is the parent's to give: hold `status` at "sending" while the request is out, then set "sent" or "failed". A status region announces Sending, Sent and "Not sent, text returned to the composer" once per outcome.
+
+### Reply Cite (KQ-859) — `reply-cite`
+Replying to this.
+
+A thread that can point at itself. Reply on a message slides a cite card into the composer's head from eight pixels above on glide while the head's measured height glides open from nothing, and the original wears a cobalt bar that draws down its side on snap for as long as it is the target. Pressing the card carries the thread back to the original — scrollTop driven by glide rather than jumped — and moves focus onto the message, so it is both seen and read; Escape in the composer or on the card takes the target away, the card leaving upward on the exit ease as the head glides shut. Enter sends with the target id attached and the message that lands quotes what it answered.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/reply-cite`
+
+Props:
+- `messages`: ReplyMessage[] — The thread, oldest first: id, from ("me" or a sender's name), text, an optional formatted time, and replyTo — the id of the message it answers, which draws its cite line. Append the sent message here from onSend.
+- `replyTo / defaultReplyTo`: string | null (default null) — Controlled or initial reply target. A target the thread no longer holds shuts the head rather than citing a missing message.
+- `onReplyToChange`: (id: string | null) => void — Fires from a Reply press, the remove button, Escape and a send.
+- `onSend`: (text: string, replyTo: string | null) => void — Fires from Enter or the Send button with the trimmed text and the target it answers.
+- `placeholder`: string (default "Message") — Composer placeholder.
+- `label`: string — Names the thread and the composer for assistive technology.
+
+Notes:
+- Every message carries a Reply button named after it ("Reply to Marta: first words"), and taking a target moves the caret to the composer. Escape in the textarea or on the cite card removes the target; Enter sends and Shift+Enter breaks the line. Pressing the card scrolls the thread to the original and focuses it, so a screen reader lands on the message rather than on the space around it.
+- Under reduced motion the card fades in and out in place, the head's height swaps on a fast tween, the cited edge appears on a colour tween, and the thread jumps to the original instead of gliding.
+- The head reserves no room: a ResizeObserver measures the card's border box, so the composer is exactly as tall as the reply it holds and no taller when it holds none. A status region announces "Replying to Marta" and "Reply removed" once per change.
+
+### Schedule Chip (KQ-860) — `schedule-chip`
+Send it at nine.
+
+A composer whose send button can wear a clock. The schedule control opens a list of times that rises above the field from eight pixels on snap; choosing one puts the time in a chip on the composer's foot, scaling in from 0.9 on the same spring, and turns the send button into a clock — the arrow crosses out as a face crosses in and the two hands sweep from twelve to the hour and the minute on snap, each on its own rotation. Sending with a time queues instead: a card lands under the composer on glide with the text, the time in words, a ring that drains across the wait and a seconds readout, both holding where they are while the tab is hidden. Arrows move the list, Home and End jump, Enter or Space picks, Escape closes and hands focus back to the control.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/schedule-chip`
+
+Props:
+- `options`: ScheduleOption[] — The times offered: id, a label read on the chip and by the send button, the hour and minute the hands sweep to, and delayMs — the wait each one means.
+- `value / defaultValue`: string | null (default null) — Controlled or initial chosen option id. Null sends now.
+- `onValueChange`: (id: string | null) => void — Fires from a pick, a clear, and after a queue clears the chip.
+- `queue`: ScheduledMessage[] — The queued messages the parent holds, oldest first: id, text and the optionId that queued them. Each card runs its own wait.
+- `draft / defaultDraft`: string (default "") — Controlled or initial composer text.
+- `onDraftChange`: (text: string) => void — Fires from every edit and from the clear after a send or a queue.
+- `onSend`: (text: string) => void — Fires from Enter or Send with no time chosen.
+- `onQueue`: (text: string, option: ScheduleOption) => void — Fires from Enter or Send with a time chosen; append the message to queue.
+- `onDeliver`: (id: string) => void — Fires when a queued message's wait reaches zero; remove it from queue and deliver it.
+- `placeholder`: string (default "Message") — Composer placeholder.
+- `label`: string — Names the composer for assistive technology.
+
+Notes:
+- The schedule control is a listbox trigger: Up and Down move the highlight, Home and End jump, Enter or Space picks, Escape closes and hands focus back to the control, and a pointer down outside shuts it. Enter in the textarea sends or queues, Shift+Enter breaks the line. The send button's name reads "Send" or "Schedule for tomorrow 9:00", and the clock itself is hidden from assistive technology.
+- Under reduced motion the list and the chip fade in place and the hands swap to the time without sweeping, but the ring still drains and the seconds still count down, because the wait is information rather than flourish.
+- Each queue card holds its remainder in a motion value, so the ring and the readout cost no re-renders and a hidden tab stops the wait where it stood rather than restarting it. Queue cards are labelled sentences ("Queued for tomorrow 9:00: first words") with a role="timer" readout, and a status region announces the queue, the send and the delivery once each.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 849,
+      "components": 859,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -58675,6 +58675,860 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/bubble-tail",
         "bun": "bunx --bun shadcn@latest add @kinetiq/bubble-tail",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/bubble-tail.json"
+      }
+    },
+    {
+      "slug": "compose-bar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Compose Bar",
+      "serial": "KQ-851",
+      "tagline": "A bar that makes room.",
+      "description": "A chat composer that makes room. Two hidden mirrors measure the draft at the single-line and full columns, and the moment the narrow one wraps the well glides on glide to the full-width height plus a footer while the attach control slides on glide from beside send to the far left, so the two controls slide apart around the text. A dot beside the first line glows when the field is blurred with unsent text; Enter sends and Shift+Enter breaks a line.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "composer",
+        "textarea",
+        "chat",
+        "grow",
+        "draft",
+        "attach",
+        "send"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial draft."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires from every keystroke and from the clear after a send."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string) => void",
+          "description": "Fires from Enter or the Send control with the trimmed draft."
+        },
+        {
+          "name": "onAttach",
+          "type": "() => void",
+          "description": "Fires from the Attach control."
+        },
+        {
+          "name": "onLinesChange",
+          "type": "(lines: number) => void",
+          "description": "Fires from the observer whenever the measured line count changes."
+        },
+        {
+          "name": "onFocusChange",
+          "type": "(focused: boolean) => void",
+          "description": "Fires as the textarea gains and loses focus."
+        },
+        {
+          "name": "maxRows",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Lines the well grows to before the textarea scrolls."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Message\"",
+          "description": "Keep it short: a placeholder that wraps reads as a second line."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the composer and both controls."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the textarea for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "A real textarea: Enter sends, Shift+Enter breaks the line, and the tab order runs textarea, Attach, Send; Send is aria-disabled while the draft is empty rather than removed from the order.",
+        "Under reduced motion the well's height and the attach control's position swap on fast tweens, and the draft dot holds a steady ring instead of pulsing.",
+        "An sr-only status announces \"Draft kept, N words\" once when the field blurs with text and \"Message sent\" on send."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/compose-bar",
+      "registryItemUrl": "https://www.kinetiqui.com/r/compose-bar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/compose-bar",
+        "npm": "npx shadcn@latest add @kinetiq/compose-bar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/compose-bar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/compose-bar",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/compose-bar.json"
+      }
+    },
+    {
+      "slug": "typing-echo",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Typing Echo",
+      "serial": "KQ-852",
+      "tagline": "They are typing, honestly.",
+      "description": "A typing indicator that lives in the thread. A slot under the message list is measured by a ResizeObserver and glides open on glide while an echo of the coming bubble, with the typers' initial avatars, rises on snap; three dots ride one staggered keyframe wave so no two are ever at the same height, and a caption names exactly who is typing. When they stop, the echo fades on the exit ease and the slot collapses to give the room back. It has no controls; a persistent live region speaks each change of caption once.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "typing",
+        "indicator",
+        "presence",
+        "thread",
+        "dots",
+        "chat",
+        "live region"
+      ],
+      "props": [
+        {
+          "name": "messages",
+          "type": "EchoMessage[]",
+          "description": "The thread, oldest first: id, the sender's name, the text, and own for the viewer's messages."
+        },
+        {
+          "name": "typing",
+          "type": "string[]",
+          "description": "Who is typing now, in the order they started; an empty array collapses the slot."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Names spelled out before \"and N others\"."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the thread list for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The thread is an ordered list whose items carry \"Marta: text\" labels; the echo is decoration and hidden from assistive technology, while a persistent polite live region holds the caption so each change is announced exactly once and silence announces nothing.",
+        "Under reduced motion the slot height swaps on a fast tween, the echo fades in place, and the dots pulse opacity in the same stagger instead of travelling.",
+        "The dot wave is started in an effect, stopped on unmount, and held while the document is hidden; drive typing from your presence source, never from a clock in render."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/typing-echo",
+      "registryItemUrl": "https://www.kinetiqui.com/r/typing-echo.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/typing-echo",
+        "npm": "npx shadcn@latest add @kinetiq/typing-echo",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/typing-echo",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/typing-echo",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/typing-echo.json"
+      }
+    },
+    {
+      "slug": "voice-bubble",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Voice Bubble",
+      "serial": "KQ-853",
+      "tagline": "Hold, speak, send.",
+      "description": "Hold the mic and a waveform pill opens on snap; a 100ms tick advances a seeded level for each bar, re-targeted on flick so the wave reads as the voice, while a clock counts. Releasing after a real hold resamples the take into a 32-bar note that the parent appends, and its bubble rises on recoil with a play control and a wave that is a slider: press and drag scrub it, Arrow keys step a second, Home and End jump. No microphone is read; a tap shows a hold hint instead.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "voice",
+        "record",
+        "hold",
+        "waveform",
+        "scrub",
+        "playback",
+        "chat"
+      ],
+      "props": [
+        {
+          "name": "notes",
+          "type": "VoiceNote[]",
+          "description": "The thread, oldest first: id, from (me or peer), whole seconds, a wave of 0..1 levels, and an optional time."
+        },
+        {
+          "name": "onSend",
+          "type": "(note: { seconds: number; wave: number[] }) => void",
+          "description": "Fires from a release or a Space/Enter stop after a real hold, with the seconds and a 32-bar profile."
+        },
+        {
+          "name": "onCancel",
+          "type": "() => void",
+          "description": "Fires from Escape during a take, or a release that was only a tap."
+        },
+        {
+          "name": "onRecording",
+          "type": "(seconds: number | null) => void",
+          "description": "Fires at the start of a take and on each whole second; null when the take ends."
+        },
+        {
+          "name": "onPlayChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires with the note that started playing, or null when playback stops."
+        },
+        {
+          "name": "maxSeconds",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "The take stops itself here."
+        },
+        {
+          "name": "peerName",
+          "type": "string",
+          "defaultValue": "\"Them\"",
+          "description": "Names the other side in the bubbles' sentences."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the thread list for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The mic is a button with aria-pressed: pointer down holds and release sends, Space or Enter toggles the take, Escape discards it; each bubble's wave is a slider whose Arrow keys step one second and Home and End jump, and its play button is named Play or Pause.",
+        "Under reduced motion the pill fades in place, the live bars hold a static profile while the clock still counts, the bubble fades in without rising, and the playback fill still advances because position is information.",
+        "Both ticks live in effects with cleanup and hold while the document is hidden; the wave is procedural and the profile it records is seeded, so no microphone or clock is read during render."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/voice-bubble",
+      "registryItemUrl": "https://www.kinetiqui.com/r/voice-bubble.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/voice-bubble",
+        "npm": "npx shadcn@latest add @kinetiq/voice-bubble",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/voice-bubble",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/voice-bubble",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/voice-bubble.json"
+      }
+    },
+    {
+      "slug": "emoji-rise",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Emoji Rise",
+      "serial": "KQ-854",
+      "tagline": "Emoji that rise to meet the caret.",
+      "description": "A composer that answers a colon. Typing `:` at the start of a word opens a picker in the slot above the field: the slot's measured height glides open on glide while the panel rises from distances.step on snap, and letters after the colon filter a named set whose survivors slide to their new cells on glide because every option is a layout item. Enter, Tab or a click replaces the token with the glyph and a space and pops a last-used tile on recoil; Escape closes the picker and keeps the text, and focus never leaves the textarea.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "emoji",
+        "picker",
+        "composer",
+        "autocomplete",
+        "shortcode",
+        "chat",
+        "filter"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial draft."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires from every keystroke, from an insert, and from the clear after a send."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string) => void",
+          "description": "Fires from Enter with the picker closed, or the Send control, with the trimmed draft."
+        },
+        {
+          "name": "onInsert",
+          "type": "(item: EmojiItem) => void",
+          "description": "Fires with the item whose glyph was inserted."
+        },
+        {
+          "name": "onPickerChange",
+          "type": "(state: { open: boolean; query: string; matches: number }) => void",
+          "description": "Fires from an effect whenever the picker opens, closes, or its match count changes."
+        },
+        {
+          "name": "items",
+          "type": "EmojiItem[]",
+          "defaultValue": "DEFAULT_EMOJI",
+          "description": "The set to search: glyph, name, and optional keywords. Defaults to the built-in sixteen."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Message\"",
+          "description": "The textarea's placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the textarea for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Focus never leaves the textarea: it carries aria-autocomplete, aria-controls and aria-activedescendant while the listbox is open. Left and Right step, Up and Down move a row of eight, Home and End jump, Enter or Tab insert, Escape closes; Enter with the picker closed sends and Shift+Enter breaks a line.",
+        "Under reduced motion the slot and the panel fade on fast tweens with no rise, layout is off so survivors swap cells in place, the highlight takes the wash without lifting, and the last-used tile fades in without the pop.",
+        "An sr-only status announces the match count once per query, each insert by name, and \"No match for :xyz\"; the last-used tile is a named button, so the repeat has a keyboard path."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/emoji-rise",
+      "registryItemUrl": "https://www.kinetiqui.com/r/emoji-rise.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/emoji-rise",
+        "npm": "npx shadcn@latest add @kinetiq/emoji-rise",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/emoji-rise",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/emoji-rise",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/emoji-rise.json"
+      }
+    },
+    {
+      "slug": "attach-preview",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Attach Preview",
+      "serial": "KQ-855",
+      "tagline": "What you are about to send.",
+      "description": "Attachments show themselves before they go. A strip above the composer is measured by a ResizeObserver and glides open on glide only when it holds something: a new slot widens from zero on glide while the drawn thumbnail inside rises from distances.step on snap. Removing one narrows its slot to zero and fades it on the exit ease so its neighbours slide together, and sending moves the files into a new own-side bubble in one commit, where a layoutId prefixed by useId flies each thumbnail from the strip into the thread on glide.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "attachment",
+        "thumbnail",
+        "composer",
+        "chat",
+        "preview",
+        "upload",
+        "strip"
+      ],
+      "props": [
+        {
+          "name": "messages",
+          "type": "PreviewMessage[]",
+          "description": "The thread, oldest first: id, from (me or peer), optional text, attachments and time."
+        },
+        {
+          "name": "pending",
+          "type": "Attachment[]",
+          "description": "The files waiting in the strip: id, name, kind (photo, doc or sheet) and the seed that draws the thumbnail."
+        },
+        {
+          "name": "onAttach",
+          "type": "() => void",
+          "description": "Fires from the Attach control; append the next file to pending."
+        },
+        {
+          "name": "onRemove",
+          "type": "(id: string) => void",
+          "description": "Fires once a thumbnail's slot has finished narrowing to zero, so the removal is seen before the file is dropped."
+        },
+        {
+          "name": "onSend",
+          "type": "(draft: { text: string; attachments: Attachment[] }) => void",
+          "description": "Fires from Enter or Send; clear pending and append the message in the same commit so the thumbnails fly."
+        },
+        {
+          "name": "peerName",
+          "type": "string",
+          "defaultValue": "\"Them\"",
+          "description": "Names the other side in the composer's label and the thread's sentences."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Message\"",
+          "description": "The textarea's placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the thread list for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The thread is an ordered list whose own items read \"You sent 2 attachments: pallet-a.jpg, pallet-b.jpg\"; the strip is a labelled list of images named by kind and file, each with a named remove button, and focus moves to the next remove control or back to Attach as the strip empties.",
+        "The composer is a real textarea: Enter sends, Shift+Enter breaks a line, and Send is disabled while there is neither text nor a pending file.",
+        "Under reduced motion nothing flies and nothing rises — thumbnails fade in place — but the slots and the strip still open and close on fast tweens, because a slot collapsing is feedback rather than flourish."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/attach-preview",
+      "registryItemUrl": "https://www.kinetiqui.com/r/attach-preview.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/attach-preview",
+        "npm": "npx shadcn@latest add @kinetiq/attach-preview",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/attach-preview",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/attach-preview",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/attach-preview.json"
+      }
+    },
+    {
+      "slug": "draft-badge",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Draft Badge",
+      "serial": "KQ-856",
+      "tagline": "An unsent thought, remembered.",
+      "description": "A channel list that remembers what you did not send. Leaving a channel with unsent text puts a badge on its row — a pencil and the draft's first words rising from four pixels on snap in place of the topic line, so the row never changes height — and opening it again drops the badge out on the exit ease while the same text arrives in the composer from eight pixels above on glide, caret at the end. The rows are tabs with a roving tabindex: arrows move, Home and End jump, Enter or Space opens; Enter in the composer sends and Shift+Enter breaks the line.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "draft",
+        "badge",
+        "channel",
+        "composer",
+        "unsent",
+        "chat",
+        "tabs"
+      ],
+      "props": [
+        {
+          "name": "channels",
+          "type": "DraftChannel[]",
+          "description": "The rows: id, a name printed after a hash, and the topic shown while the channel holds no draft."
+        },
+        {
+          "name": "drafts / defaultDrafts",
+          "type": "Record<string, string>",
+          "defaultValue": "{}",
+          "description": "Controlled or initial draft text per channel id."
+        },
+        {
+          "name": "onDraftsChange",
+          "type": "(drafts: Record<string, string>) => void",
+          "description": "Fires from every keystroke and from the clear after a send."
+        },
+        {
+          "name": "active / defaultActive",
+          "type": "string",
+          "description": "Controlled or initial open channel id; defaults to the first channel."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(id: string) => void",
+          "description": "Fires from a row press or the key that opened a channel."
+        },
+        {
+          "name": "onSend",
+          "type": "(channelId: string, text: string) => void",
+          "description": "Fires from Enter or the Send button with the trimmed text of the open channel."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Message\"",
+          "description": "Composer placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the channel list for assistive technology; the composer is named after the open channel."
+        }
+      ],
+      "usageNotes": [
+        "The channel rows are a vertical tablist with a roving tabindex: Up and Down (or Left and Right) move focus without wrapping, Home and End jump, Enter or Space opens the channel and puts the caret at the end of its draft. Enter in the composer sends, Shift+Enter breaks the line.",
+        "Under reduced motion the badge fades in and out in place and the restored text fades into the field without travelling.",
+        "Each badge is an image whose sentence reads \"Draft: <first words>\", and a status region announces a kept, restored or sent draft once per event, never per keystroke."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/draft-badge",
+      "registryItemUrl": "https://www.kinetiqui.com/r/draft-badge.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/draft-badge",
+        "npm": "npx shadcn@latest add @kinetiq/draft-badge",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/draft-badge",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/draft-badge",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/draft-badge.json"
+      }
+    },
+    {
+      "slug": "mention-pop",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mention Pop",
+      "serial": "KQ-857",
+      "tagline": "Names that complete as you type.",
+      "description": "Names that complete as you type. An @ opens the room's members in a list that rises above the composer from eight pixels on snap, rows cascading in with a presence dot that says in words who is here; picking one wraps the typed name as a chip whose wash scales from the left edge on snap around glyphs the textarea already drew, and sending lands the message in the thread where its chips glow once — a fill flashes and a ring flares outward on a tween. Up and Down move the highlight, Home and End jump, Enter or Tab inserts, Escape closes; with the list shut Enter sends and Shift+Enter breaks the line.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "mention",
+        "autocomplete",
+        "combobox",
+        "chip",
+        "presence",
+        "composer",
+        "chat"
+      ],
+      "props": [
+        {
+          "name": "members",
+          "type": "MentionMember[]",
+          "description": "Who can be mentioned: id, name, a mono handle searched alongside it, and presence (online, away or offline)."
+        },
+        {
+          "name": "messages",
+          "type": "MentionMessage[]",
+          "description": "The thread, oldest first: id, from (\"me\" or a sender's name) and text with @Name tokens. Append the sent message here from onSend."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial composer text."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(text: string) => void",
+          "description": "Fires on every edit and on the clear after a send."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string, mentioned: string[]) => void",
+          "description": "Fires from Enter or the Send button with the trimmed text and the member ids mentioned in it."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Message the room\"",
+          "description": "Composer placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the thread and the composer for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The textarea is a combobox over a listbox driven by aria-activedescendant, so focus never leaves the text: Up and Down move the highlight, Home and End jump, Enter or Tab inserts the chip, Escape closes the list; with the list shut Enter sends and Shift+Enter breaks the line.",
+        "Under reduced motion the list fades in place without the rise or the cascade, the chip's wash appears by opacity, and the glow on send is a single fade with nothing flaring outward.",
+        "Presence dots are images with sentences (\"Marta, online\"), and a status region announces \"Mentioned Marta\" on insert and \"Sent, pinged Marta, Rui\" on send — never per keystroke."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/mention-pop",
+      "registryItemUrl": "https://www.kinetiqui.com/r/mention-pop.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mention-pop",
+        "npm": "npx shadcn@latest add @kinetiq/mention-pop",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mention-pop",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mention-pop",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/mention-pop.json"
+      }
+    },
+    {
+      "slug": "send-swoosh",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Send Swoosh",
+      "serial": "KQ-858",
+      "tagline": "The send, felt.",
+      "description": "A composer whose send is felt. Pressing Send fires the arrow forward — fourteen pixels right and gone on the exit ease — and a fresh one returns from ten pixels behind on snap, one crisp overshoot into place; in the same moment the composer clears with a wipe, a clip inset sweeping the words away over an already-empty textarea. A status of sending holds the button dimmed under a ring, and failed wipes the text back in from the right, turns the button danger and puts the caret at the end. Enter sends, Shift+Enter breaks the line, and focus returns to the field on failure only when it was already inside the composer.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "send",
+        "composer",
+        "wipe",
+        "arrow",
+        "failure",
+        "chat",
+        "textarea"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial composer text."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(text: string) => void",
+          "description": "Fires from every edit, the clear on send, and the return of the words on a failure."
+        },
+        {
+          "name": "status",
+          "type": "\"idle\" | \"sending\" | \"sent\" | \"failed\"",
+          "defaultValue": "\"idle\"",
+          "description": "The parent's report on the last send: sending holds the button, sent lets it go, failed returns the text."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string) => void",
+          "description": "Fires from Enter or the Send button with the trimmed text."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Message\"",
+          "description": "Composer placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the composer for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Enter sends and Shift+Enter breaks the line; Send is a real button, aria-disabled while the text is empty or a send is in flight, and described by the failure line while there is one. On a failure focus returns to the textarea only if it was already inside the composer.",
+        "Under reduced motion the arrow does not travel — it dims and returns by opacity — the wipe is a straight fade of the ghost layer, and the failure tint and the returned words arrive on a fast fade.",
+        "The verdict is the parent's to give: hold `status` at \"sending\" while the request is out, then set \"sent\" or \"failed\". A status region announces Sending, Sent and \"Not sent, text returned to the composer\" once per outcome."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/send-swoosh",
+      "registryItemUrl": "https://www.kinetiqui.com/r/send-swoosh.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/send-swoosh",
+        "npm": "npx shadcn@latest add @kinetiq/send-swoosh",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/send-swoosh",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/send-swoosh",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/send-swoosh.json"
+      }
+    },
+    {
+      "slug": "reply-cite",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Reply Cite",
+      "serial": "KQ-859",
+      "tagline": "Replying to this.",
+      "description": "A thread that can point at itself. Reply on a message slides a cite card into the composer's head from eight pixels above on glide while the head's measured height glides open from nothing, and the original wears a cobalt bar that draws down its side on snap for as long as it is the target. Pressing the card carries the thread back to the original — scrollTop driven by glide rather than jumped — and moves focus onto the message, so it is both seen and read; Escape in the composer or on the card takes the target away, the card leaving upward on the exit ease as the head glides shut. Enter sends with the target id attached and the message that lands quotes what it answered.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "reply",
+        "quote",
+        "cite",
+        "thread",
+        "composer",
+        "chat",
+        "scroll"
+      ],
+      "props": [
+        {
+          "name": "messages",
+          "type": "ReplyMessage[]",
+          "description": "The thread, oldest first: id, from (\"me\" or a sender's name), text, an optional formatted time, and replyTo — the id of the message it answers, which draws its cite line. Append the sent message here from onSend."
+        },
+        {
+          "name": "replyTo / defaultReplyTo",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial reply target. A target the thread no longer holds shuts the head rather than citing a missing message."
+        },
+        {
+          "name": "onReplyToChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from a Reply press, the remove button, Escape and a send."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string, replyTo: string | null) => void",
+          "description": "Fires from Enter or the Send button with the trimmed text and the target it answers."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Message\"",
+          "description": "Composer placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the thread and the composer for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Every message carries a Reply button named after it (\"Reply to Marta: first words\"), and taking a target moves the caret to the composer. Escape in the textarea or on the cite card removes the target; Enter sends and Shift+Enter breaks the line. Pressing the card scrolls the thread to the original and focuses it, so a screen reader lands on the message rather than on the space around it.",
+        "Under reduced motion the card fades in and out in place, the head's height swaps on a fast tween, the cited edge appears on a colour tween, and the thread jumps to the original instead of gliding.",
+        "The head reserves no room: a ResizeObserver measures the card's border box, so the composer is exactly as tall as the reply it holds and no taller when it holds none. A status region announces \"Replying to Marta\" and \"Reply removed\" once per change."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/reply-cite",
+      "registryItemUrl": "https://www.kinetiqui.com/r/reply-cite.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/reply-cite",
+        "npm": "npx shadcn@latest add @kinetiq/reply-cite",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/reply-cite",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/reply-cite",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/reply-cite.json"
+      }
+    },
+    {
+      "slug": "schedule-chip",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Schedule Chip",
+      "serial": "KQ-860",
+      "tagline": "Send it at nine.",
+      "description": "A composer whose send button can wear a clock. The schedule control opens a list of times that rises above the field from eight pixels on snap; choosing one puts the time in a chip on the composer's foot, scaling in from 0.9 on the same spring, and turns the send button into a clock — the arrow crosses out as a face crosses in and the two hands sweep from twelve to the hour and the minute on snap, each on its own rotation. Sending with a time queues instead: a card lands under the composer on glide with the text, the time in words, a ring that drains across the wait and a seconds readout, both holding where they are while the tab is hidden. Arrows move the list, Home and End jump, Enter or Space picks, Escape closes and hands focus back to the control.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "schedule",
+        "send later",
+        "queue",
+        "countdown",
+        "composer",
+        "clock",
+        "chat"
+      ],
+      "props": [
+        {
+          "name": "options",
+          "type": "ScheduleOption[]",
+          "description": "The times offered: id, a label read on the chip and by the send button, the hour and minute the hands sweep to, and delayMs — the wait each one means."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial chosen option id. Null sends now."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from a pick, a clear, and after a queue clears the chip."
+        },
+        {
+          "name": "queue",
+          "type": "ScheduledMessage[]",
+          "description": "The queued messages the parent holds, oldest first: id, text and the optionId that queued them. Each card runs its own wait."
+        },
+        {
+          "name": "draft / defaultDraft",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial composer text."
+        },
+        {
+          "name": "onDraftChange",
+          "type": "(text: string) => void",
+          "description": "Fires from every edit and from the clear after a send or a queue."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string) => void",
+          "description": "Fires from Enter or Send with no time chosen."
+        },
+        {
+          "name": "onQueue",
+          "type": "(text: string, option: ScheduleOption) => void",
+          "description": "Fires from Enter or Send with a time chosen; append the message to queue."
+        },
+        {
+          "name": "onDeliver",
+          "type": "(id: string) => void",
+          "description": "Fires when a queued message's wait reaches zero; remove it from queue and deliver it."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Message\"",
+          "description": "Composer placeholder."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the composer for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The schedule control is a listbox trigger: Up and Down move the highlight, Home and End jump, Enter or Space picks, Escape closes and hands focus back to the control, and a pointer down outside shuts it. Enter in the textarea sends or queues, Shift+Enter breaks the line. The send button's name reads \"Send\" or \"Schedule for tomorrow 9:00\", and the clock itself is hidden from assistive technology.",
+        "Under reduced motion the list and the chip fade in place and the hands swap to the time without sweeping, but the ring still drains and the seconds still count down, because the wait is information rather than flourish.",
+        "Each queue card holds its remainder in a motion value, so the ring and the readout cost no re-renders and a hidden tab stops the wait where it stood rather than restarting it. Queue cards are labelled sentences (\"Queued for tomorrow 9:00: first words\") with a role=\"timer\" readout, and a status region announces the queue, the send and the delivery once each."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/schedule-chip",
+      "registryItemUrl": "https://www.kinetiqui.com/r/schedule-chip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/schedule-chip",
+        "npm": "npx shadcn@latest add @kinetiq/schedule-chip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/schedule-chip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/schedule-chip",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/schedule-chip.json"
       }
     },
     {

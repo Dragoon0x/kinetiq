@@ -1040,6 +1040,16 @@ import { MessageGlowDemo } from "@/registry/demos/message-glow.demo";
 import { LongFoldDemo } from "@/registry/demos/long-fold.demo";
 import { ForwardSlipDemo } from "@/registry/demos/forward-slip.demo";
 import { BubbleTailDemo } from "@/registry/demos/bubble-tail.demo";
+import { ComposeBarDemo } from "@/registry/demos/compose-bar.demo";
+import { TypingEchoDemo } from "@/registry/demos/typing-echo.demo";
+import { VoiceBubbleDemo } from "@/registry/demos/voice-bubble.demo";
+import { EmojiRiseDemo } from "@/registry/demos/emoji-rise.demo";
+import { AttachPreviewDemo } from "@/registry/demos/attach-preview.demo";
+import { DraftBadgeDemo } from "@/registry/demos/draft-badge.demo";
+import { MentionPopDemo } from "@/registry/demos/mention-pop.demo";
+import { SendSwooshDemo } from "@/registry/demos/send-swoosh.demo";
+import { ReplyCiteDemo } from "@/registry/demos/reply-cite.demo";
+import { ScheduleChipDemo } from "@/registry/demos/schedule-chip.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2094,4 +2104,14 @@ export const demos: Record<string, ComponentType> = {
   "long-fold": LongFoldDemo,
   "forward-slip": ForwardSlipDemo,
   "bubble-tail": BubbleTailDemo,
+  "compose-bar": ComposeBarDemo,
+  "typing-echo": TypingEchoDemo,
+  "voice-bubble": VoiceBubbleDemo,
+  "emoji-rise": EmojiRiseDemo,
+  "attach-preview": AttachPreviewDemo,
+  "draft-badge": DraftBadgeDemo,
+  "mention-pop": MentionPopDemo,
+  "send-swoosh": SendSwooshDemo,
+  "reply-cite": ReplyCiteDemo,
+  "schedule-chip": ScheduleChipDemo,
 };

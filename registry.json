@@ -23596,6 +23596,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "compose-bar",
+      "type": "registry:ui",
+      "title": "Compose Bar",
+      "description": "A chat composer that makes room. Two hidden mirrors measure the draft at the single-line and full columns, and the moment the narrow one wraps the well glides on glide to the full-width height plus a footer while the attach control slides on glide from beside send to the far left, so the two controls slide apart around the text. A dot beside the first line glows when the field is blurred with unsent text; Enter sends and Shift+Enter breaks a line.",
+      "files": [
+        {
+          "path": "registry/ui/compose-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-851"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "typing-echo",
+      "type": "registry:ui",
+      "title": "Typing Echo",
+      "description": "A typing indicator that lives in the thread. A slot under the message list is measured by a ResizeObserver and glides open on glide while an echo of the coming bubble, with the typers' initial avatars, rises on snap; three dots ride one staggered keyframe wave so no two are ever at the same height, and a caption names exactly who is typing. When they stop, the echo fades on the exit ease and the slot collapses to give the room back. It has no controls; a persistent live region speaks each change of caption once.",
+      "files": [
+        {
+          "path": "registry/ui/typing-echo.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-852"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "voice-bubble",
+      "type": "registry:ui",
+      "title": "Voice Bubble",
+      "description": "Hold the mic and a waveform pill opens on snap; a 100ms tick advances a seeded level for each bar, re-targeted on flick so the wave reads as the voice, while a clock counts. Releasing after a real hold resamples the take into a 32-bar note that the parent appends, and its bubble rises on recoil with a play control and a wave that is a slider: press and drag scrub it, Arrow keys step a second, Home and End jump. No microphone is read; a tap shows a hold hint instead.",
+      "files": [
+        {
+          "path": "registry/ui/voice-bubble.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-853"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "emoji-rise",
+      "type": "registry:ui",
+      "title": "Emoji Rise",
+      "description": "A composer that answers a colon. Typing `:` at the start of a word opens a picker in the slot above the field: the slot's measured height glides open on glide while the panel rises from distances.step on snap, and letters after the colon filter a named set whose survivors slide to their new cells on glide because every option is a layout item. Enter, Tab or a click replaces the token with the glyph and a space and pops a last-used tile on recoil; Escape closes the picker and keeps the text, and focus never leaves the textarea.",
+      "files": [
+        {
+          "path": "registry/ui/emoji-rise.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-854"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "attach-preview",
+      "type": "registry:ui",
+      "title": "Attach Preview",
+      "description": "Attachments show themselves before they go. A strip above the composer is measured by a ResizeObserver and glides open on glide only when it holds something: a new slot widens from zero on glide while the drawn thumbnail inside rises from distances.step on snap. Removing one narrows its slot to zero and fades it on the exit ease so its neighbours slide together, and sending moves the files into a new own-side bubble in one commit, where a layoutId prefixed by useId flies each thumbnail from the strip into the thread on glide.",
+      "files": [
+        {
+          "path": "registry/ui/attach-preview.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-855"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "draft-badge",
+      "type": "registry:ui",
+      "title": "Draft Badge",
+      "description": "A channel list that remembers what you did not send. Leaving a channel with unsent text puts a badge on its row — a pencil and the draft's first words rising from four pixels on snap in place of the topic line, so the row never changes height — and opening it again drops the badge out on the exit ease while the same text arrives in the composer from eight pixels above on glide, caret at the end. The rows are tabs with a roving tabindex: arrows move, Home and End jump, Enter or Space opens; Enter in the composer sends and Shift+Enter breaks the line.",
+      "files": [
+        {
+          "path": "registry/ui/draft-badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-856"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mention-pop",
+      "type": "registry:ui",
+      "title": "Mention Pop",
+      "description": "Names that complete as you type. An @ opens the room's members in a list that rises above the composer from eight pixels on snap, rows cascading in with a presence dot that says in words who is here; picking one wraps the typed name as a chip whose wash scales from the left edge on snap around glyphs the textarea already drew, and sending lands the message in the thread where its chips glow once — a fill flashes and a ring flares outward on a tween. Up and Down move the highlight, Home and End jump, Enter or Tab inserts, Escape closes; with the list shut Enter sends and Shift+Enter breaks the line.",
+      "files": [
+        {
+          "path": "registry/ui/mention-pop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-857"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "send-swoosh",
+      "type": "registry:ui",
+      "title": "Send Swoosh",
+      "description": "A composer whose send is felt. Pressing Send fires the arrow forward — fourteen pixels right and gone on the exit ease — and a fresh one returns from ten pixels behind on snap, one crisp overshoot into place; in the same moment the composer clears with a wipe, a clip inset sweeping the words away over an already-empty textarea. A status of sending holds the button dimmed under a ring, and failed wipes the text back in from the right, turns the button danger and puts the caret at the end. Enter sends, Shift+Enter breaks the line, and focus returns to the field on failure only when it was already inside the composer.",
+      "files": [
+        {
+          "path": "registry/ui/send-swoosh.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-858"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reply-cite",
+      "type": "registry:ui",
+      "title": "Reply Cite",
+      "description": "A thread that can point at itself. Reply on a message slides a cite card into the composer's head from eight pixels above on glide while the head's measured height glides open from nothing, and the original wears a cobalt bar that draws down its side on snap for as long as it is the target. Pressing the card carries the thread back to the original — scrollTop driven by glide rather than jumped — and moves focus onto the message, so it is both seen and read; Escape in the composer or on the card takes the target away, the card leaving upward on the exit ease as the head glides shut. Enter sends with the target id attached and the message that lands quotes what it answered.",
+      "files": [
+        {
+          "path": "registry/ui/reply-cite.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-859"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "schedule-chip",
+      "type": "registry:ui",
+      "title": "Schedule Chip",
+      "description": "A composer whose send button can wear a clock. The schedule control opens a list of times that rises above the field from eight pixels on snap; choosing one puts the time in a chip on the composer's foot, scaling in from 0.9 on the same spring, and turns the send button into a clock — the arrow crosses out as a face crosses in and the two hands sweep from twelve to the hour and the minute on snap, each on its own rotation. Sending with a time queues instead: a card lands under the composer on glide with the text, the time in words, a ring that drains across the wait and a seconds readout, both holding where they are while the tab is hidden. Arrows move the list, Home and End jump, Enter or Space picks, Escape closes and hands focus back to the control.",
+      "files": [
+        {
+          "path": "registry/ui/schedule-chip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-860"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
