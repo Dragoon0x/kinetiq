@@ -8270,3 +8270,910 @@ test.describe("identity", () => {
     await expect(run).toBeEnabled();
   });
 });
+
+/**
+ * The credit family is about borrowing: what a loan costs, how far through it
+ * you are, a score, a limit, two offers side by side, a schedule of shares, an
+ * overdraft, a plan for clearing debts, a standing order and a grace period.
+ * Every test drives the mechanic through the keyboard where the component
+ * publishes one, and reads the outcome off the demo's status line and the ARIA
+ * the component publishes about itself. Every figure asserted here was run
+ * once by hand through the same amortisation the components use.
+ */
+test.describe("credit", () => {
+  test("loan-slider: keys step the amount, a click on the track sets it, the term chips rove, and every figure follows", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/loan-slider");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const slider = stage.getByRole("slider", { name: "Loan amount" });
+    const terms = stage.getByRole("radiogroup", { name: "Term" });
+    const chip = (months: number): Locator =>
+      terms.getByRole("radio", { name: `${months} mo`, exact: true });
+
+    await expect(status).toContainText(
+      "12,500.00 · 36 mo | 402.75 / mo | interest 1,999.12",
+    );
+    await expect(slider).toHaveAttribute("aria-valuemin", "1000");
+    await expect(slider).toHaveAttribute("aria-valuemax", "25000");
+    await expect(slider).toHaveAttribute("aria-valuenow", "12500");
+    await expect(slider).toHaveAttribute("aria-valuetext", "12,500.00");
+    await expect(chip(36)).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText(
+      "12,500.00 over 36 months at 9.9 percent: 402.75 a month, 1,999.12 interest, 14,499.12 repaid",
+    );
+
+    // An arrow is one step of 250; a Page key is ten of them.
+    await slider.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "12750");
+    await expect(status).toContainText(
+      "12,750.00 · 36 mo | 410.81 / mo | interest 2,039.10",
+    );
+    await page.keyboard.press("PageUp");
+    await expect(slider).toHaveAttribute("aria-valuenow", "15250");
+    await expect(status).toContainText(
+      "15,250.00 · 36 mo | 491.36 / mo | interest 2,438.92",
+    );
+
+    // End is the dearest loan on offer and the thumb does not step past it;
+    // Home is the cheapest.
+    await page.keyboard.press("End");
+    await expect(slider).toHaveAttribute("aria-valuenow", "25000");
+    await expect(status).toContainText(
+      "25,000.00 · 36 mo | 805.51 / mo | interest 3,998.23",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "25000");
+    await page.keyboard.press("Home");
+    await expect(slider).toHaveAttribute("aria-valuenow", "1000");
+    await expect(status).toContainText(
+      "1,000.00 · 36 mo | 32.22 / mo | interest 159.93",
+    );
+    await expect(announced).toHaveText(
+      "1,000.00 over 36 months at 9.9 percent: 32.22 a month, 159.93 interest, 1,159.93 repaid",
+    );
+
+    // A plain click on the middle of the track is halfway between the ends,
+    // and 13,000 is already on a step.
+    const box = await slider.boundingBox();
+    if (!box) throw new Error("the loan slider has no track to click");
+    await slider.click({ position: { x: box.width / 2, y: box.height / 2 } });
+    await expect(slider).toHaveAttribute("aria-valuenow", "13000");
+    await expect(status).toContainText(
+      "13,000.00 · 36 mo | 418.86 / mo | interest 2,079.08",
+    );
+
+    // The term chips rove: an arrow both moves and picks, and a longer term
+    // is a smaller month and more interest — the point of the rail.
+    await chip(36).focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(chip(48)).toBeFocused();
+    await expect(chip(48)).toHaveAttribute("aria-checked", "true");
+    await expect(chip(36)).toHaveAttribute("aria-checked", "false");
+    await expect(status).toContainText(
+      "13,000.00 · 48 mo | 329.09 / mo | interest 2,796.30",
+    );
+    await page.keyboard.press("End");
+    await expect(chip(60)).toBeFocused();
+    await expect(status).toContainText(
+      "13,000.00 · 60 mo | 275.57 / mo | interest 3,534.34",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(chip(60)).toBeFocused();
+    await expect(chip(60)).toHaveAttribute("aria-checked", "true");
+    await page.keyboard.press("Home");
+    await expect(chip(12)).toBeFocused();
+    await expect(chip(12)).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText(
+      "13,000.00 · 12 mo | 1,142.30 / mo | interest 707.62",
+    );
+    await expect(announced).toHaveText(
+      "13,000.00 over 12 months at 9.9 percent: 1,142.30 a month, 707.62 interest, 13,707.62 repaid",
+    );
+
+    // The pointer picks a chip the same way.
+    await chip(24).click();
+    await expect(chip(24)).toHaveAttribute("aria-checked", "true");
+    await expect(chip(12)).toHaveAttribute("aria-checked", "false");
+    await expect(status).toContainText(
+      "13,000.00 · 24 mo | 599.28 / mo | interest 1,382.82",
+    );
+  });
+
+  test("repayment-arc: a payment fills the arc and counts the centre, the due date moves on only once the fill has settled, and Reset takes it back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/repayment-arc");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const meter = stage.getByRole("meter", {
+      name: "Coldbrook Bank vehicle loan",
+    });
+    const pay = stage.getByRole("button", { name: "Make payment" });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText(
+      "14 of 36 paid | principal 6,530.96 · interest 1,296.24 | next 12 Dec",
+    );
+    await expect(meter).toHaveAttribute("aria-valuemin", "0");
+    await expect(meter).toHaveAttribute("aria-valuemax", "20127.08");
+    await expect(meter).toHaveAttribute("aria-valuenow", "7827.2");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "7,827.20 of 20,127.08 repaid, 39 percent: 6,530.96 principal, 1,296.24 interest. 14 of 36 instalments made, next due 12 Dec",
+    );
+    await expect(stage.getByText("Due 12 Dec")).toBeVisible();
+    // The arc is seeded at its shares, so the centre reads the paid figure
+    // at once rather than sweeping up from nothing.
+    await expect(stage.getByText("7,827.20", { exact: true })).toBeVisible();
+    await expect(stage.getByText("559.09", { exact: true })).toBeVisible();
+    await expect(reset).toBeDisabled();
+
+    // The next instalment lands: the meter and the demo's line move at once,
+    // the counted figures settle, and the date swaps only when they have.
+    await pay.click();
+    await expect(status).toContainText(
+      "15 of 36 paid | principal 7,019.32 · interest 1,366.97 | next 12 Jan",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "8386.29");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "8,386.29 of 20,127.08 repaid, 42 percent: 7,019.32 principal, 1,366.97 interest. 15 of 36 instalments made, next due 12 Jan",
+    );
+    await expect(stage.getByText("Due 12 Jan")).toBeVisible({ timeout: 5000 });
+    await expect(stage.getByText("Due 12 Dec")).toHaveCount(0);
+    await expect(stage.getByText("8,386.29", { exact: true })).toBeVisible({
+      timeout: 5000,
+    });
+    await expect(stage.getByText("7,019.32", { exact: true })).toBeVisible({
+      timeout: 5000,
+    });
+    await expect(stage.getByText("1,366.97", { exact: true })).toBeVisible({
+      timeout: 5000,
+    });
+    await expect(reset).toBeEnabled();
+
+    await pay.click();
+    await expect(status).toContainText(
+      "16 of 36 paid | principal 7,510.69 · interest 1,434.68 | next 12 Feb",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "8945.37");
+    await expect(stage.getByText("Due 12 Feb")).toBeVisible({ timeout: 5000 });
+    await expect(stage.getByText("Due 12 Jan")).toHaveCount(0);
+
+    // Reset retracts the fill to the opening fourteen, date and all.
+    await reset.click();
+    await expect(status).toContainText(
+      "14 of 36 paid | principal 6,530.96 · interest 1,296.24 | next 12 Dec",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "7827.2");
+    await expect(stage.getByText("Due 12 Dec")).toBeVisible({ timeout: 5000 });
+    await expect(stage.getByText("7,827.20", { exact: true })).toBeVisible({
+      timeout: 5000,
+    });
+    await expect(reset).toBeDisabled();
+    await expect(pay).toBeEnabled();
+  });
+
+  test("credit-dial: the needle sweeps up on mount, each reading settles into its band with its move announced once, and Reset drops the chip", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/credit-dial");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter", { name: "Basin score" });
+    const next = stage.getByRole("button", { name: "Next reading" });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    // The meter reports the score at once; the band, the chip and the demo's
+    // line wait for the needle to land.
+    await expect(meter).toHaveAttribute("aria-valuemin", "0");
+    await expect(meter).toHaveAttribute("aria-valuemax", "1000");
+    await expect(meter).toHaveAttribute("aria-valuenow", "612");
+    await expect(meter).toHaveAttribute("aria-valuetext", "612 of 1000, Good");
+    await expect(status).toContainText("612 · Good", { timeout: 5000 });
+    await expect(status).not.toContainText("sweeping");
+    await expect(announced).toHaveText("612 of 1000, Good");
+    await expect(stage.getByText("Good", { exact: true })).toBeVisible();
+    await expect(stage.getByText("612", { exact: true })).toBeVisible();
+    await expect(reset).toBeDisabled();
+
+    // A higher reading: the chip carries its sign in text, the status the word.
+    await next.click();
+    await expect(meter).toHaveAttribute("aria-valuenow", "668");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "668 of 1000, Good, up 56 since the last reading",
+    );
+    await expect(status).toContainText("668 · Good | up 56", { timeout: 5000 });
+    await expect(announced).toHaveText(
+      "668 of 1000, Good, up 56 since the last reading",
+    );
+    await expect(stage.getByText("+56", { exact: true })).toBeVisible();
+    await expect(stage.getByText("668", { exact: true })).toBeVisible();
+    await expect(reset).toBeEnabled();
+
+    // A fall gets the same physics and the same words in the other direction.
+    await next.click();
+    await expect(meter).toHaveAttribute("aria-valuenow", "655");
+    await expect(status).toContainText("655 · Good | down 13", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText(
+      "655 of 1000, Good, down 13 since the last reading",
+    );
+    await expect(stage.getByText("−13", { exact: true })).toBeVisible();
+    await expect(stage.getByText("+56", { exact: true })).toHaveCount(0);
+    await expect(stage.getByText("655", { exact: true })).toBeVisible();
+
+    // Reset is the first reading again, with nothing to compare it to.
+    await reset.click();
+    await expect(meter).toHaveAttribute("aria-valuenow", "612");
+    await expect(meter).toHaveAttribute("aria-valuetext", "612 of 1000, Good");
+    await expect(status).toContainText("612 · Good", { timeout: 5000 });
+    await expect(status).not.toContainText("down");
+    await expect(announced).toHaveText("612 of 1000, Good");
+    await expect(stage.getByText("−13", { exact: true })).toHaveCount(0);
+    await expect(next).toBeEnabled();
+    await expect(reset).toBeDisabled();
+  });
+
+  test("limit-raise: keys step the ask, a request goes under review and is approved into a higher limit, a bigger ask is declined, and Reset returns", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/limit-raise");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter", { name: "Basin card" });
+    const ask = stage.getByRole("spinbutton", { name: "Raise to" });
+    const lower = stage.getByRole("button", { name: "Lower the ask" });
+    const raise = stage.getByRole("button", { name: "Raise the ask" });
+    const request = stage.getByRole("button", { name: /^Request(ed)?$/ });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText(
+      "1,260.00 available of 4,000.00 | asking 4,500.00",
+    );
+    await expect(meter).toHaveAttribute("aria-valuemin", "0");
+    await expect(meter).toHaveAttribute("aria-valuemax", "4000");
+    await expect(meter).toHaveAttribute("aria-valuenow", "2740");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "2,740.00 of 4,000.00 used, 1,260.00 available",
+    );
+    await expect(ask).toHaveAttribute("aria-valuemin", "4500");
+    await expect(ask).toHaveAttribute("aria-valuemax", "10000");
+    await expect(ask).toHaveAttribute("aria-valuenow", "4500");
+    await expect(ask).toHaveAttribute("aria-valuetext", "4,500.00");
+    await expect(lower).toBeDisabled();
+    await expect(reset).toBeDisabled();
+    await expect(announced).toBeEmpty();
+
+    // Arrows step, Page keys move five, the ends clamp.
+    await ask.focus();
+    await page.keyboard.press("ArrowUp");
+    await expect(ask).toHaveAttribute("aria-valuenow", "5000");
+    await expect(status).toContainText("asking 5,000.00");
+    await expect(lower).toBeEnabled();
+    await page.keyboard.press("PageUp");
+    await expect(ask).toHaveAttribute("aria-valuenow", "7500");
+    await page.keyboard.press("End");
+    await expect(ask).toHaveAttribute("aria-valuenow", "10000");
+    await expect(raise).toBeDisabled();
+    await page.keyboard.press("ArrowUp");
+    await expect(ask).toHaveAttribute("aria-valuenow", "10000");
+    await page.keyboard.press("Home");
+    await expect(ask).toHaveAttribute("aria-valuenow", "4500");
+    await expect(lower).toBeDisabled();
+
+    // The + button is the same step; three presses ask for 6,000.
+    await raise.click();
+    await raise.click();
+    await raise.click();
+    await expect(ask).toHaveAttribute("aria-valuetext", "6,000.00");
+    await expect(status).toContainText(
+      "1,260.00 available of 4,000.00 | asking 6,000.00",
+    );
+
+    // Requesting freezes the stepper and says so in words.
+    await request.click();
+    await expect(status).toContainText("under review · 6,000.00");
+    await expect(request).toHaveText("Requested");
+    await expect(request).toBeDisabled();
+    await expect(ask).toHaveAttribute("aria-disabled", "true");
+    await expect(announced).toHaveText("raise to 6,000.00 under review");
+    await expect(
+      stage.getByText("Under review", { exact: true }),
+    ).toBeVisible();
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "2,740.00 of 4,000.00 used, 1,260.00 available, raise to 6,000.00 under review",
+    );
+
+    // The issuer approves after its beat: the limit is the ask, the ask
+    // starts again one step above it, and the chip lands.
+    await expect(status).toContainText("approved · limit 6,000.00", {
+      timeout: 6000,
+    });
+    await expect(meter).toHaveAttribute("aria-valuemax", "6000");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "2,740.00 of 6,000.00 used, 3,260.00 available, raise approved",
+    );
+    await expect(announced).toHaveText("raise approved");
+    await expect(stage.getByText("Approved", { exact: true })).toBeVisible();
+    await expect(ask).toHaveAttribute("aria-valuemin", "6500");
+    await expect(ask).toHaveAttribute("aria-valuenow", "6500");
+    await expect(request).toHaveText("Request");
+    await expect(request).toBeEnabled();
+    await expect(stage.getByText("6,000.00", { exact: true })).toBeVisible({
+      timeout: 5000,
+    });
+    await expect(reset).toBeEnabled();
+
+    // A new ask is a new question — the verdict clears — and one past the
+    // issuer's rule is declined, in words and in the meter.
+    await ask.focus();
+    await page.keyboard.press("PageUp");
+    await expect(ask).toHaveAttribute("aria-valuenow", "9000");
+    await expect(status).toContainText(
+      "3,260.00 available of 6,000.00 | asking 9,000.00",
+    );
+    await expect(announced).toBeEmpty();
+    await expect(stage.getByText("Approved", { exact: true })).toHaveCount(0);
+    await request.click();
+    await expect(status).toContainText("under review · 9,000.00");
+    await expect(status).toContainText("declined · 9,000.00", {
+      timeout: 6000,
+    });
+    await expect(announced).toHaveText("raise to 9,000.00 declined");
+    await expect(stage.getByText("Declined", { exact: true })).toBeVisible();
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "2,740.00 of 6,000.00 used, 3,260.00 available, raise to 9,000.00 declined",
+    );
+    await expect(meter).toHaveAttribute("aria-valuemax", "6000");
+    await expect(request).toBeEnabled();
+
+    await reset.click();
+    await expect(status).toContainText(
+      "1,260.00 available of 4,000.00 | asking 4,500.00",
+    );
+    await expect(meter).toHaveAttribute("aria-valuemax", "4000");
+    await expect(ask).toHaveAttribute("aria-valuenow", "4500");
+    await expect(announced).toBeEmpty();
+    await expect(stage.getByText("Declined", { exact: true })).toHaveCount(0);
+    await expect(reset).toBeDisabled();
+  });
+
+  test("apr-compare: Space picks a card, arrows move the pick without wrapping, the amount re-costs both, and fresh quotes move the lower-cost tag", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/apr-compare");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const group = stage.getByRole("radiogroup", { name: "Fieldline Loans" });
+    const coldbrook = group.getByRole("radio", { name: /^Coldbrook Bank/ });
+    const waylight = group.getByRole("radio", { name: /^Waylight Pay/ });
+    const five = stage.getByRole("button", { name: "5,000.00", exact: true });
+    const ten = stage.getByRole("button", { name: "10,000.00", exact: true });
+
+    // Each card reads itself once, in words; the cheaper one says so.
+    await expect(status).toContainText("10,000.00 | nothing picked");
+    await expect(coldbrook).toHaveAttribute("aria-checked", "false");
+    await expect(waylight).toHaveAttribute("aria-checked", "false");
+    await expect(coldbrook).toHaveAccessibleName(
+      "Coldbrook Bank, 8.4 percent APR over 60 months, 204.68 a month, 12,281.02 total",
+    );
+    await expect(waylight).toHaveAccessibleName(
+      "Waylight Pay, 9.9 percent APR over 48 months, 253.15 a month, 12,151.00 total, lower cost",
+    );
+    await expect(announced).toBeEmpty();
+    await expect(stage.getByText("Lower cost")).toHaveCount(1);
+    await expect(ten).toHaveAttribute("aria-pressed", "true");
+
+    // Space picks the card under focus.
+    await coldbrook.focus();
+    await page.keyboard.press(" ");
+    await expect(coldbrook).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText(
+      "10,000.00 | Coldbrook Bank 8.4% · 204.68 / mo | costs 130.02 more",
+    );
+    await expect(announced).toHaveText(
+      "Coldbrook Bank picked: 204.68 a month, 12,281.02 in total, 130.02 more than Waylight Pay",
+    );
+
+    // An arrow moves the pick with focus and does not wrap past the end.
+    await page.keyboard.press("ArrowRight");
+    await expect(waylight).toBeFocused();
+    await expect(waylight).toHaveAttribute("aria-checked", "true");
+    await expect(coldbrook).toHaveAttribute("aria-checked", "false");
+    await expect(status).toContainText(
+      "10,000.00 | Waylight Pay 9.9% · 253.15 / mo | saves 130.02",
+    );
+    await expect(announced).toHaveText(
+      "Waylight Pay picked: 253.15 a month, 12,151.00 in total, 130.02 less than Coldbrook Bank",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(waylight).toBeFocused();
+    await expect(waylight).toHaveAttribute("aria-checked", "true");
+    await page.keyboard.press("Home");
+    await expect(coldbrook).toBeFocused();
+    await expect(coldbrook).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText(
+      "Coldbrook Bank 8.4% · 204.68 / mo | costs 130.02 more",
+    );
+
+    // A smaller amount re-costs both cards against the same rates.
+    await five.click();
+    await expect(five).toHaveAttribute("aria-pressed", "true");
+    await expect(ten).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toContainText(
+      "5,000.00 | Coldbrook Bank 8.4% · 102.34 / mo | costs 65.01 more",
+    );
+    await expect(coldbrook).toHaveAccessibleName(
+      "Coldbrook Bank, 8.4 percent APR over 60 months, 102.34 a month, 6,140.51 total",
+    );
+    await expect(stage.getByText("Borrowing 5,000.00")).toBeVisible();
+
+    // Fresh quotes turn the comparison over: the picked card is now the
+    // cheaper one and the tag crosses to it.
+    await stage.getByRole("button", { name: "New quotes" }).click();
+    await expect(status).toContainText(
+      "5,000.00 | Coldbrook Bank 7.9% · 101.14 / mo | saves 64.66",
+    );
+    await expect(coldbrook).toHaveAccessibleName(
+      "Coldbrook Bank, 7.9 percent APR over 60 months, 101.14 a month, 6,068.57 total, lower cost",
+    );
+    await expect(waylight).toHaveAccessibleName(
+      "Waylight Pay, 10.4 percent APR over 48 months, 127.78 a month, 6,133.23 total",
+    );
+    await expect(announced).toHaveText(
+      "Coldbrook Bank picked: 101.14 a month, 6,068.57 in total, 64.66 less than Waylight Pay",
+    );
+    await expect(stage.getByText("Lower cost")).toHaveCount(1);
+    await expect(coldbrook).toHaveAttribute("aria-checked", "true");
+  });
+
+  test("amortise-stack: arrows walk the periods, Page keys move a year, the ends clamp, and a click reads the bar under it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/amortise-stack");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const slider = stage.getByRole("slider", { name: "Coldbrook Bank loan" });
+
+    // Until the cursor moves the demo prints the loan, not a split; the
+    // slider already reads the period it opened on.
+    await expect(status).toHaveText("Period 12 of 36 · $12,000.00 at 7.9%");
+    await expect(slider).toHaveAttribute("aria-valuemin", "1");
+    await expect(slider).toHaveAttribute("aria-valuemax", "36");
+    await expect(slider).toHaveAttribute("aria-valuenow", "12");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "Period 12 of 36: interest $56.81, principal $318.67, balance $8,310.51",
+    );
+    await expect(stage.getByText("$375.48 / mo")).toBeVisible();
+
+    await slider.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "13");
+    await expect(status).toHaveText(
+      "Period 13 of 36 · interest $54.71 · principal $320.77",
+    );
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "Period 13 of 36: interest $54.71, principal $320.77, balance $7,989.74",
+    );
+
+    // A Page key is a year on; the interest share has fallen by then.
+    await page.keyboard.press("PageUp");
+    await expect(slider).toHaveAttribute("aria-valuenow", "25");
+    await expect(status).toHaveText(
+      "Period 25 of 36 · interest $28.43 · principal $347.05",
+    );
+
+    // End is the last payment, which clears the balance; nothing steps past.
+    await page.keyboard.press("End");
+    await expect(slider).toHaveAttribute("aria-valuenow", "36");
+    await expect(status).toHaveText(
+      "Period 36 of 36 · interest $2.46 · principal $373.03",
+    );
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "Period 36 of 36: interest $2.46, principal $373.03, balance $0.00",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "36");
+    await page.keyboard.press("PageUp");
+    await expect(slider).toHaveAttribute("aria-valuenow", "36");
+
+    // Home is the first payment, where interest is at its heaviest.
+    await page.keyboard.press("Home");
+    await expect(slider).toHaveAttribute("aria-valuenow", "1");
+    await expect(status).toHaveText(
+      "Period 1 of 36 · interest $79.00 · principal $296.48",
+    );
+    await page.keyboard.press("PageDown");
+    await expect(slider).toHaveAttribute("aria-valuenow", "1");
+    await page.keyboard.press("PageUp");
+    await expect(slider).toHaveAttribute("aria-valuenow", "13");
+
+    // A click reads the bar under it: the nineteenth bar's middle is 18.5
+    // thirty-sixths of the way across.
+    const box = await slider.boundingBox();
+    if (!box) throw new Error("the chart has no box to click");
+    await slider.click({
+      position: { x: (box.width * 18.5) / 36, y: box.height / 2 },
+    });
+    await expect(slider).toHaveAttribute("aria-valuenow", "19");
+    await expect(status).toHaveText(
+      "Period 19 of 36 · interest $41.83 · principal $333.65",
+    );
+    await expect(
+      stage.getByText("Period 19 of 36", { exact: true }),
+    ).toBeVisible();
+    await expect(slider).toBeFocused();
+  });
+
+  test("overdraft-line: Next day draws the line on, keys scrub the days, below zero turns the reading and accrues the fee, a click lands on its day, and Reset retracts", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/overdraft-line");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const slider = stage.getByRole("slider", {
+      name: "Waylight Pay · Everyday",
+    });
+    const nextDay = stage.getByRole("button", { name: "Next day" });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toHaveText(
+      "Day 1 of 14 · balance $412.20 · fee $0.00",
+    );
+    await expect(slider).toHaveAttribute("aria-valuemin", "1");
+    await expect(slider).toHaveAttribute("aria-valuemax", "14");
+    await expect(slider).toHaveAttribute("aria-valuenow", "1");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "Day 1 of 14: balance $412.20, fee accrued $0.00",
+    );
+    await expect(announced).toBeEmpty();
+    await expect(reset).toBeDisabled();
+    await expect(stage.getByText("Limit -$500.00")).toBeVisible();
+
+    await nextDay.click();
+    await expect(slider).toHaveAttribute("aria-valuenow", "2");
+    await expect(status).toHaveText(
+      "Day 2 of 14 · balance $318.65 · fee $0.00",
+    );
+    await expect(reset).toBeEnabled();
+
+    // Three days on the balance dips below zero: the reading says so once,
+    // and the fee starts to accrue on the overdrawn amount.
+    await slider.focus();
+    for (let step = 0; step < 3; step += 1) {
+      await page.keyboard.press("ArrowRight");
+    }
+    await expect(slider).toHaveAttribute("aria-valuenow", "5");
+    await expect(status).toHaveText(
+      "Day 5 of 14 · balance -$52.30 · fee $0.03",
+    );
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "Day 5 of 14: balance -$52.30, overdrawn by $52.30, fee accrued $0.03",
+    );
+    await expect(announced).toHaveText("Below zero");
+    for (let step = 0; step < 3; step += 1) {
+      await page.keyboard.press("ArrowRight");
+    }
+    await expect(slider).toHaveAttribute("aria-valuenow", "8");
+    await expect(status).toHaveText(
+      "Day 8 of 14 · balance -$212.40 · fee $0.32",
+    );
+
+    // Pay lands: the balance climbs out, the fee stops growing, and the
+    // crossing is no longer announced. End is the last day; nothing past it.
+    await page.keyboard.press("End");
+    await expect(slider).toHaveAttribute("aria-valuenow", "14");
+    await expect(status).toHaveText(
+      "Day 14 of 14 · balance $910.15 · fee $0.65",
+    );
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "Day 14 of 14: balance $910.15, fee accrued $0.65",
+    );
+    await expect(announced).toBeEmpty();
+    await expect(nextDay).toBeDisabled();
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "14");
+    await page.keyboard.press("Home");
+    await expect(slider).toHaveAttribute("aria-valuenow", "1");
+    await page.keyboard.press("ArrowLeft");
+    await expect(slider).toHaveAttribute("aria-valuenow", "1");
+
+    // A click three-tenths of the way across is nearest the fifth day.
+    const box = await slider.boundingBox();
+    if (!box) throw new Error("the chart has no box to click");
+    await slider.click({ position: { x: box.width * 0.3, y: box.height / 2 } });
+    await expect(slider).toHaveAttribute("aria-valuenow", "5");
+    await expect(status).toHaveText(
+      "Day 5 of 14 · balance -$52.30 · fee $0.03",
+    );
+    await expect(announced).toHaveText("Below zero");
+
+    await reset.click();
+    await expect(slider).toHaveAttribute("aria-valuenow", "1");
+    await expect(status).toHaveText(
+      "Day 1 of 14 · balance $412.20 · fee $0.00",
+    );
+    await expect(announced).toBeEmpty();
+    await expect(reset).toBeDisabled();
+  });
+
+  test("paydown-plan: an arrow switches the order and the rows re-rank, the range moves the extra and the debt-free date with it, and Space picks", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/paydown-plan");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const order = stage.getByRole("radiogroup", { name: "Order" });
+    const smallest = order.getByRole("radio", { name: "Smallest first" });
+    const rate = order.getByRole("radio", { name: "Highest rate first" });
+    const extra = stage.getByLabel("Extra each month");
+    const list = stage.getByRole("list", { name: "Paydown plan" });
+    const rows = list.getByRole("listitem");
+
+    await expect(status).toHaveText(
+      "Highest rate first · extra $150 · debt-free Sep 2028",
+    );
+    await expect(rate).toHaveAttribute("aria-checked", "true");
+    await expect(smallest).toHaveAttribute("aria-checked", "false");
+    await expect(extra).toHaveValue("150");
+    await expect(stage.getByText("$150.00", { exact: true })).toBeVisible();
+    await expect(rows).toHaveCount(3);
+    // The rank is the DOM order, and each row carries its own clearing month.
+    await expect(rows.nth(0)).toContainText("Fernworks card");
+    await expect(rows.nth(0)).toContainText("Sep 2027");
+    await expect(rows.nth(1)).toContainText("Waylight Pay line");
+    await expect(rows.nth(1)).toContainText("Nov 2027");
+    await expect(rows.nth(2)).toContainText("Coldbrook Bank loan");
+    await expect(rows.nth(2)).toContainText("Sep 2028");
+    await expect(announced).toHaveText(
+      "Debt-free Sep 2028, 24 months, $926.28 interest",
+    );
+
+    // An arrow both moves and picks: smallest first puts the line at the
+    // top, and the same date costs more interest.
+    await rate.focus();
+    await page.keyboard.press("ArrowLeft");
+    await expect(smallest).toBeFocused();
+    await expect(smallest).toHaveAttribute("aria-checked", "true");
+    await expect(rate).toHaveAttribute("aria-checked", "false");
+    await expect(status).toHaveText(
+      "Smallest first · extra $150 · debt-free Sep 2028",
+    );
+    await expect(announced).toHaveText(
+      "Debt-free Sep 2028, 24 months, $969.52 interest",
+    );
+    await expect(rows.nth(0)).toContainText("Waylight Pay line");
+    await expect(rows.nth(0)).toContainText("Feb 2027");
+    await expect(rows.nth(1)).toContainText("Fernworks card");
+    await expect(rows.nth(1)).toContainText("Nov 2027");
+    await expect(rows.nth(2)).toContainText("Coldbrook Bank loan");
+    await expect(rows.nth(2)).toContainText("Sep 2028");
+    await page.keyboard.press("ArrowLeft");
+    await expect(smallest).toBeFocused();
+    await expect(smallest).toHaveAttribute("aria-checked", "true");
+
+    // The range is native: an arrow is one step of 25, End and Home the ends.
+    await extra.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(extra).toHaveValue("175");
+    await expect(status).toHaveText(
+      "Smallest first · extra $175 · debt-free Jul 2028",
+    );
+    await expect(announced).toHaveText(
+      "Debt-free Jul 2028, 22 months, $900.43 interest",
+    );
+    await expect(stage.getByText("$175.00", { exact: true })).toBeVisible();
+    await page.keyboard.press("End");
+    await expect(extra).toHaveValue("500");
+    await expect(status).toHaveText(
+      "Smallest first · extra $500 · debt-free Oct 2027",
+    );
+    await expect(rows.nth(0)).toContainText("Nov 2026");
+    await expect(rows.nth(1)).toContainText("Mar 2027");
+    await expect(rows.nth(2)).toContainText("Oct 2027");
+    await page.keyboard.press("Home");
+    await expect(extra).toHaveValue("0");
+    await expect(status).toHaveText(
+      "Smallest first · extra $0 · debt-free Jan 2030",
+    );
+    await expect(announced).toHaveText(
+      "Debt-free Jan 2030, 40 months, $2,121.24 interest",
+    );
+
+    // Space picks the stop under focus, and the rows travel back.
+    await rate.focus();
+    await page.keyboard.press(" ");
+    await expect(rate).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText(
+      "Highest rate first · extra $0 · debt-free Jan 2030",
+    );
+    await expect(rows.nth(0)).toContainText("Fernworks card");
+    await expect(rows.nth(0)).toContainText("Jan 2030");
+    await expect(rows.nth(1)).toContainText("Waylight Pay line");
+    await expect(rows.nth(1)).toContainText("Dec 2028");
+    await expect(rows.nth(2)).toContainText("Coldbrook Bank loan");
+    await expect(rows.nth(2)).toContainText("Nov 2029");
+  });
+
+  test("autopay-toggle: Space switches autopay on and slides the payment into its dated place, Enter takes it out again, and the switch says what on means", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/autopay-toggle");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const toggle = stage.getByRole("switch", { name: "Fernworks card" });
+    const list = stage.getByRole("list", { name: "Upcoming" });
+    const rows = list.getByRole("listitem");
+
+    await expect(status).toHaveText("Autopay off · pay by hand");
+    await expect(toggle).toHaveAttribute("aria-checked", "false");
+    await expect(toggle).toHaveAccessibleDescription("Pay by hand");
+    await expect(announced).toHaveText("Autopay off");
+    await expect(rows).toHaveCount(2);
+    await expect(rows.nth(0)).toContainText("3 Oct");
+    await expect(rows.nth(0)).toContainText("Waylight Pay top-up");
+    await expect(rows.nth(0)).toContainText("$50.00");
+    await expect(rows.nth(1)).toContainText("22 Oct");
+    await expect(rows.nth(1)).toContainText("Basinworks Freight invoice");
+    await expect(rows.nth(1)).toContainText("$340.00");
+
+    // Space switches it on: the payment takes its dated place between the
+    // two others, and the description says what "on" means.
+    await toggle.focus();
+    await page.keyboard.press(" ");
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Autopay on · next 15 Oct · $84.00");
+    await expect(announced).toHaveText("Autopay on, next payment 15 Oct");
+    await expect(toggle).toHaveAccessibleDescription("Pays $84.00 on 15 Oct");
+    await expect(rows).toHaveCount(3);
+    await expect(rows.nth(0)).toContainText("3 Oct");
+    await expect(rows.nth(1)).toContainText("15 Oct");
+    await expect(rows.nth(1)).toContainText("Fernworks card");
+    await expect(rows.nth(1)).toContainText("auto");
+    await expect(rows.nth(1)).toContainText("$84.00");
+    await expect(rows.nth(2)).toContainText("22 Oct");
+
+    // Enter switches it off: the row leaves and the list closes up.
+    await page.keyboard.press("Enter");
+    await expect(toggle).toHaveAttribute("aria-checked", "false");
+    await expect(status).toHaveText("Autopay off · pay by hand");
+    await expect(announced).toHaveText("Autopay off");
+    await expect(rows).toHaveCount(2, { timeout: 5000 });
+    await expect(list).not.toContainText("Fernworks card");
+    await expect(toggle).toHaveAccessibleDescription("Pay by hand");
+
+    // The pointer flips it the same way.
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
+    await expect(rows).toHaveCount(3);
+    await expect(rows.nth(1)).toContainText("Fernworks card");
+    await expect(status).toHaveText("Autopay on · next 15 Oct · $84.00");
+  });
+
+  test("grace-timer: Start drains the days, Pause holds them, Pay stops the drain and stamps the seal, Reset refills, and a run left alone warns and then expires", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/grace-timer");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter", { name: "Fernworks card" });
+    const run = stage.getByRole("button", { name: /^(Start|Pause)$/ });
+    const reset = stage.getByRole("button", { name: "Reset" });
+    const pay = stage.getByRole("button", { name: /^(Pay \$412\.60|Paid)$/ });
+    // The seal is decoration: its meaning is in the status line and the
+    // button's replaced label, so it is found by its hidden text.
+    const seal = stage
+      .locator("[aria-hidden='true']")
+      .filter({ hasText: /^Paid$/ });
+    const daysLeft = async (): Promise<number> =>
+      Number(await meter.getAttribute("aria-valuenow"));
+
+    // Six of twenty-one days are already used; nothing drains until Start.
+    await expect(status).toHaveText("Grace 15 days left · $412.60");
+    await expect(meter).toHaveAttribute("aria-valuemin", "0");
+    await expect(meter).toHaveAttribute("aria-valuemax", "21");
+    await expect(meter).toHaveAttribute("aria-valuenow", "15");
+    await expect(meter).toHaveAttribute("aria-valuetext", "15 days left");
+    await expect(run).toHaveText("Start");
+    await expect(run).toHaveAttribute("aria-pressed", "false");
+    await expect(pay).toHaveText("Pay $412.60");
+    await expect(announced).toBeEmpty();
+    await expect(seal).toHaveCount(0);
+    await expect(stage.getByText("Statement $412.60")).toBeVisible();
+
+    // At 0.7 s a day the first boundary is crossed within the second.
+    await run.click();
+    await expect(run).toHaveText("Pause");
+    await expect(run).toHaveAttribute("aria-pressed", "true");
+    await expect.poll(daysLeft, { timeout: 5000 }).toBeLessThan(15);
+
+    // Pause holds the drain where it stands.
+    await run.click();
+    await expect(run).toHaveText("Start");
+    await expect(run).toHaveAttribute("aria-pressed", "false");
+    await page.waitForTimeout(200);
+    const held = await daysLeft();
+    expect(held).toBeLessThan(15);
+    await page.waitForTimeout(800);
+    await expect(meter).toHaveAttribute("aria-valuenow", String(held));
+    await expect(status).toHaveText(`Grace ${held} days left · $412.60`);
+    await expect(meter).toHaveAttribute("aria-valuetext", `${held} days left`);
+
+    // Pay stops it for good: the seal stamps, the buttons close, the count
+    // it stopped at is the count it reports.
+    await pay.click();
+    await expect(status).toHaveText(`Paid · stopped at ${held} days`);
+    await expect(meter).toHaveAttribute("aria-valuenow", String(held));
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      `Paid with ${held} days left`,
+    );
+    await expect(announced).toHaveText(
+      `Paid. Grace period stopped with ${held} days left.`,
+    );
+    await expect(pay).toHaveText("Paid");
+    await expect(pay).toBeDisabled();
+    await expect(run).toBeDisabled();
+    await expect(seal).toBeVisible();
+
+    // Reset refills the bar and lifts the seal.
+    await reset.click();
+    await expect(status).toHaveText("Grace 15 days left · $412.60");
+    await expect(meter).toHaveAttribute("aria-valuenow", "15");
+    await expect(seal).toHaveCount(0);
+    await expect(pay).toHaveText("Pay $412.60");
+    await expect(pay).toBeEnabled();
+    await expect(run).toBeEnabled();
+    await expect(announced).toBeEmpty();
+
+    // Left running, the last five days are announced once, and at zero the
+    // bar is empty, interest applies, and nothing can be paid or started.
+    await run.click();
+    await expect(announced).toHaveText("Last 5 days of the grace period.", {
+      timeout: 15000,
+    });
+    await expect.poll(daysLeft, { timeout: 5000 }).toBeLessThanOrEqual(5);
+    await expect(status).toHaveText("Expired · interest applies", {
+      timeout: 10000,
+    });
+    await expect(meter).toHaveAttribute("aria-valuenow", "0");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "Grace period over, interest applies",
+    );
+    await expect(announced).toHaveText(
+      "Grace period over. Interest now applies.",
+    );
+    await expect(pay).toBeDisabled();
+    await expect(run).toHaveText("Start");
+    await expect(run).toBeDisabled();
+    await expect(
+      stage.getByText("Interest now applies", { exact: true }),
+    ).toBeVisible();
+    await expect(reset).toBeEnabled();
+  });
+});
