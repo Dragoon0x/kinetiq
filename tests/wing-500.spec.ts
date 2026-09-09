@@ -10129,3 +10129,1082 @@ test.describe("savings", () => {
     await expect(plot).toBeFocused();
   });
 });
+
+/**
+ * A phase that only lives for a beat — the "swinging" a dial reports between
+ * a print and its settle — is not something a poll can prove it saw. The
+ * trail is recorded in the page instead, by an observer installed before the
+ * press, and read back once the reading has settled.
+ */
+const recordMarketsTrail = async (target: Locator): Promise<void> => {
+  await target.evaluate((element) => {
+    const trail: string[] = [];
+    const read = () => {
+      const text = (element.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (trail[trail.length - 1] !== text) trail.push(text);
+    };
+    read();
+    new MutationObserver(read).observe(element, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    (window as unknown as { __marketsTrail: string[] }).__marketsTrail = trail;
+  });
+};
+
+/** Everything the recorded node has said so far, oldest first. */
+const marketsTrailOf = (page: Page) => async (): Promise<string[]> =>
+  page.evaluate(
+    () =>
+      (window as unknown as { __marketsTrail?: string[] }).__marketsTrail ?? [],
+  );
+
+/**
+ * Where a turned element is pointing, in degrees, read off the transform its
+ * motion value is driving. Folded into (-180, 180], the same fold the wheel
+ * uses to take the shorter way round, so a target past a half turn compares.
+ */
+const marketsTurnOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 0;
+    const matrix = new DOMMatrix(transform);
+    return (Math.atan2(matrix.b, matrix.a) * 180) / Math.PI;
+  });
+
+/** The same fold, applied to a target angle so both sides agree on the range. */
+const foldTurn = (degrees: number): number =>
+  (((degrees % 360) + 540) % 360) - 180;
+
+/** A poll target: the opacity a tint or a trace has tweened to. */
+const marketsOpacityOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => Number(getComputedStyle(element).opacity));
+
+/** A poll target: the horizontal translate a tape is currently at. */
+const marketsXOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 0;
+    return new DOMMatrix(transform).e;
+  });
+
+/**
+ * The markets family is a tape read ten ways: a board that re-seats its rows,
+ * a line that grows, a star that lets a row go, a threshold a print crosses,
+ * a grid that warms, a needle that swings, a wheel that finds its detent, a
+ * clock that lands, headlines that pass, and two lines with a gap between
+ * them. Every demo's tape is seeded, so each test drives the mechanic the
+ * component advertises — through the keyboard wherever it publishes one —
+ * parks anything that ticks before an exact reading, and reads the outcome
+ * off the demo's status line and the ARIA the component publishes about
+ * itself.
+ */
+test.describe("markets", () => {
+  test("mover-list: a tick re-seats the rows that moved, and the radio pair turns the board over from the keyboard", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/mover-list");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component's live region is a plain polite span, not a status.
+    const leader = stage.locator("[aria-live='polite']");
+    const rows = stage
+      .getByRole("list", { name: "Basinworks movers" })
+      .getByRole("listitem");
+    const gainers = stage.getByRole("radio", { name: "Gainers" });
+    const losers = stage.getByRole("radio", { name: "Losers" });
+    const tick = stage.getByRole("button", { name: "Tick" });
+
+    await expect(status).toHaveText("Leading BSN +2.41% · 0 ticks · 0 resorts");
+    await expect(rows).toHaveCount(5);
+    // Each row is one sentence: rank, name, price and the move in words.
+    await expect(rows.nth(0)).toHaveAttribute(
+      "aria-label",
+      "1, Basin BSN, $24.18, up 2.41 percent",
+    );
+    await expect(rows.nth(3)).toHaveAttribute(
+      "aria-label",
+      "4, Waylight WAY, $31.06, down 0.45 percent",
+    );
+    await expect(rows.nth(4)).toHaveAttribute(
+      "aria-label",
+      "5, Fernwork FRN, $8.42, down 1.06 percent",
+    );
+    await expect(gainers).toHaveAttribute("aria-checked", "true");
+    await expect(leader).toHaveText("Leading: Basin BSN, up 2.41 percent");
+
+    // The first tick prints FRN and WAY, and the two swap seats.
+    await tick.click();
+    await expect(status).toHaveText("Leading BSN +2.41% · 1 ticks · 1 resorts");
+    await expect(rows.nth(3)).toHaveAttribute(
+      "aria-label",
+      "4, Fernwork FRN, $8.50, down 0.12 percent",
+    );
+    await expect(rows.nth(4)).toHaveAttribute(
+      "aria-label",
+      "5, Waylight WAY, $31.09, down 0.35 percent",
+    );
+    await expect(rows.nth(0)).toHaveAttribute(
+      "aria-label",
+      "1, Basin BSN, $24.18, up 2.41 percent",
+    );
+
+    // The radio pair roves: Right both moves and picks, and the board turns
+    // over so the laggard leads.
+    await gainers.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(losers).toBeFocused();
+    await expect(losers).toHaveAttribute("aria-checked", "true");
+    await expect(gainers).toHaveAttribute("aria-checked", "false");
+    await expect(status).toHaveText("Falling WAY -0.35% · 1 ticks · 2 resorts");
+    await expect(rows.nth(0)).toHaveAttribute(
+      "aria-label",
+      "1, Waylight WAY, $31.09, down 0.35 percent",
+    );
+    await expect(rows.nth(4)).toHaveAttribute(
+      "aria-label",
+      "5, Basin BSN, $24.18, up 2.41 percent",
+    );
+    // The live region waits for the tape to be quiet, then names the leader.
+    await expect(leader).toHaveText(
+      "Falling most: Waylight WAY, down 0.35 percent",
+      { timeout: 4000 },
+    );
+
+    // The pair does not wrap past its end.
+    await page.keyboard.press("ArrowRight");
+    await expect(losers).toBeFocused();
+    await expect(losers).toHaveAttribute("aria-checked", "true");
+
+    await page.keyboard.press("Home");
+    await expect(gainers).toBeFocused();
+    await expect(gainers).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Leading BSN +2.41% · 1 ticks · 3 resorts");
+    await expect(rows.nth(0)).toHaveAttribute(
+      "aria-label",
+      "1, Basin BSN, $24.18, up 2.41 percent",
+    );
+
+    // The second tick prints BSN and CBK; every seat holds, so no resort.
+    await tick.click();
+    await expect(status).toHaveText("Leading BSN +3.05% · 2 ticks · 3 resorts");
+    await expect(rows.nth(0)).toHaveAttribute(
+      "aria-label",
+      "1, Basin BSN, $24.33, up 3.05 percent",
+    );
+    await expect(rows.nth(2)).toHaveAttribute(
+      "aria-label",
+      "3, Coldbrook CBK, $12.85, up 0.78 percent",
+    );
+    await expect(leader).toHaveText("Leading: Basin BSN, up 3.05 percent", {
+      timeout: 4000,
+    });
+
+    // The pointer picks the same way the keys do.
+    await losers.click();
+    await expect(losers).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Falling WAY -0.35% · 2 ticks · 4 resorts");
+  });
+
+  test("price-sparkline: the plot is a slider the arrows walk, Escape returns the reading to the latest print, and a tick extends the line", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/price-sparkline");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[aria-live='polite']");
+    const plot = stage.getByRole("slider", { name: "BSN/USD" });
+
+    await expect(status).toHaveText("BSN $24.29 · 12 points · reading last");
+    await expect(plot).toHaveAttribute("aria-orientation", "horizontal");
+    await expect(plot).toHaveAttribute("aria-valuemin", "0");
+    await expect(plot).toHaveAttribute("aria-valuemax", "11");
+    await expect(plot).toHaveAttribute("aria-valuenow", "11");
+    await expect(plot).toHaveAttribute("aria-valuetext", "11:20, $24.29");
+    await expect(announced).toHaveText("BSN/USD $24.29 at 11:20");
+    await expect(stage.getByText("12 / 48")).toBeVisible();
+
+    // Left walks one print back; the header and the demo read the same point.
+    await plot.focus();
+    await page.keyboard.press("ArrowLeft");
+    await expect(plot).toHaveAttribute("aria-valuenow", "10");
+    await expect(plot).toHaveAttribute("aria-valuetext", "11:10, $24.25");
+    await expect(status).toHaveText("BSN $24.29 · 12 points · reading 11:10");
+    await page.keyboard.press("ArrowLeft");
+    await expect(plot).toHaveAttribute("aria-valuetext", "11:00, $24.20");
+
+    // Home is the open, and the reading does not walk off its start.
+    await page.keyboard.press("Home");
+    await expect(plot).toHaveAttribute("aria-valuenow", "0");
+    await expect(plot).toHaveAttribute("aria-valuetext", "09:30, $24.06");
+    await expect(status).toHaveText("BSN $24.29 · 12 points · reading 09:30");
+    await page.keyboard.press("ArrowLeft");
+    await expect(plot).toHaveAttribute("aria-valuenow", "0");
+
+    // End is the latest print, still held as a reading; Escape lets it go.
+    await page.keyboard.press("End");
+    await expect(plot).toHaveAttribute("aria-valuenow", "11");
+    await expect(status).toHaveText("BSN $24.29 · 12 points · reading 11:20");
+    await page.keyboard.press("Escape");
+    await expect(status).toHaveText("BSN $24.29 · 12 points · reading last");
+    await expect(plot).toHaveAttribute("aria-valuenow", "11");
+    await expect(plot).toHaveAttribute("aria-valuetext", "11:20, $24.29");
+
+    // A tick appends one print: the slider's range grows and the reading
+    // follows the newest point, announced once the tape is quiet.
+    await stage.getByRole("button", { name: "Tick" }).click();
+    await expect(status).toHaveText("BSN $24.34 · 13 points · reading last");
+    await expect(plot).toHaveAttribute("aria-valuemax", "12");
+    await expect(plot).toHaveAttribute("aria-valuenow", "12");
+    await expect(plot).toHaveAttribute("aria-valuetext", "11:30, $24.34");
+    await expect(announced).toHaveText("BSN/USD $24.34 at 11:30", {
+      timeout: 4000,
+    });
+    await expect(stage.getByText("13 / 48")).toBeVisible();
+
+    // The pointer reads the same tape: the left inset is the open, and
+    // leaving the plot returns the reading to the latest print.
+    const box = await plot.boundingBox();
+    if (!box) throw new Error("The plot has no box to hover.");
+    await page.mouse.move(box.x + 8, box.y + box.height / 2);
+    await expect(status).toHaveText("BSN $24.34 · 13 points · reading 09:30");
+    await expect(plot).toHaveAttribute("aria-valuetext", "09:30, $24.06");
+    await page.mouse.move(box.x + box.width / 2, box.y - 60);
+    await expect(status).toHaveText("BSN $24.34 · 13 points · reading last");
+  });
+
+  test("watchlist-row: the star is a switch, a second press within the beat cancels the leave, and an unstarred row slides out of the list", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/watchlist-row");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const list = stage.getByRole("list", { name: "Basinworks watchlist" });
+    const rows = list.getByRole("listitem");
+    // Read by their text rather than their role: a leaving row goes
+    // aria-hidden for its slide, and its notice is the point of the read.
+    const frnRow = list.locator("li").filter({ hasText: "Fernwork" });
+    const cbkRow = list.locator("li").filter({ hasText: "Coldbrook" });
+    const watchFrn = stage.getByRole("switch", { name: "Watch FRN" });
+    const watchCbk = stage.getByRole("switch", { name: "Watch CBK" });
+    const tick = stage.getByRole("button", { name: "Tick" });
+
+    await expect(status).toHaveText(
+      "3 watched · last tick none · none removed",
+    );
+    await expect(rows).toHaveCount(3);
+    await expect(rows.nth(0)).toContainText(
+      "Basin BSN, $24.18, up 2.41 percent",
+    );
+    await expect(rows.nth(1)).toContainText(
+      "Fernwork FRN, $8.42, down 1.06 percent",
+    );
+    await expect(rows.nth(2)).toContainText(
+      "Coldbrook CBK, $12.90, up 1.18 percent",
+    );
+    await expect(watchCbk).toHaveAttribute("aria-checked", "true");
+
+    // Two prints: the second lands on CBK and the row's sentence re-reads.
+    await tick.click();
+    await expect(status).toHaveText(
+      "3 watched · last tick BSN $24.18 · none removed",
+    );
+    await tick.click();
+    await expect(status).toHaveText(
+      "3 watched · last tick CBK $12.95 · none removed",
+    );
+    await expect(cbkRow).toContainText(
+      "Coldbrook CBK, $12.95, up 1.57 percent",
+    );
+
+    // Enter unstars FRN and the row says so; a second Enter inside the beat
+    // takes it back, and a second later the row is still here.
+    await watchFrn.focus();
+    await page.keyboard.press("Enter");
+    await expect(watchFrn).toHaveAttribute("aria-checked", "false");
+    await expect(frnRow.locator("[role='status']")).toHaveText(
+      "FRN leaves the watchlist",
+    );
+    await page.keyboard.press("Enter");
+    await expect(watchFrn).toHaveAttribute("aria-checked", "true");
+    await expect(frnRow.locator("[role='status']")).toHaveText("Watching FRN");
+    await page.waitForTimeout(1000);
+    await expect(rows).toHaveCount(3);
+    await expect(status).toHaveText(
+      "3 watched · last tick CBK $12.95 · none removed",
+    );
+
+    // Space unstars CBK; after the beat the row slides out, collapses, and
+    // the demo drops it from the list.
+    await watchCbk.focus();
+    await page.keyboard.press(" ");
+    await expect(watchCbk).toHaveAttribute("aria-checked", "false");
+    await expect(cbkRow.locator("[role='status']")).toHaveText(
+      "CBK leaves the watchlist",
+    );
+    await expect(status).toHaveText(
+      "2 watched · last tick CBK $12.95 · removed CBK",
+      { timeout: 4000 },
+    );
+    await expect(rows).toHaveCount(2);
+    await expect(watchCbk).toHaveCount(0);
+    await expect(cbkRow).toHaveCount(0);
+
+    // Reset restores the row, starred, at its open.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toHaveText(
+      "3 watched · last tick none · none removed",
+    );
+    await expect(rows).toHaveCount(3);
+    await expect(watchCbk).toHaveAttribute("aria-checked", "true");
+    await expect(cbkRow).toContainText(
+      "Coldbrook CBK, $12.90, up 1.18 percent",
+    );
+  });
+
+  test("price-alert: keys step the threshold, a print landing on the other side counts one crossing, and moving the line re-arms it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/price-alert");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[aria-live='polite']");
+    const badge = stage.getByRole("slider", { name: "BSN/USD alert" });
+    const tick = stage.getByRole("button", { name: "Tick" });
+
+    await expect(status).toHaveText(
+      "Alert $24.40 · BSN $24.09 · waiting above · 0 crossings",
+    );
+    await expect(badge).toHaveAttribute("aria-orientation", "vertical");
+    await expect(badge).toHaveAttribute("aria-valuemin", "22.8");
+    await expect(badge).toHaveAttribute("aria-valuemax", "25.6");
+    await expect(badge).toHaveAttribute("aria-valuenow", "24.4");
+    await expect(badge).toHaveAttribute(
+      "aria-valuetext",
+      "$24.40, waiting for a rise",
+    );
+    await expect(announced).toBeEmpty();
+
+    // Arrows step a cent, the ends jump to the bounds, and the armed
+    // direction follows which side of the line the last print sits on.
+    await badge.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(badge).toHaveAttribute("aria-valuenow", "24.39");
+    await expect(status).toHaveText(
+      "Alert $24.39 · BSN $24.09 · waiting above · 0 crossings",
+    );
+    await page.keyboard.press("ArrowUp");
+    await expect(badge).toHaveAttribute("aria-valuenow", "24.4");
+    await page.keyboard.press("Home");
+    await expect(badge).toHaveAttribute("aria-valuenow", "22.8");
+    await expect(badge).toHaveAttribute(
+      "aria-valuetext",
+      "$22.80, waiting for a fall",
+    );
+    await expect(status).toHaveText(
+      "Alert $22.80 · BSN $24.09 · waiting below · 0 crossings",
+    );
+    await page.keyboard.press("ArrowDown");
+    await expect(badge).toHaveAttribute("aria-valuenow", "22.8");
+    await page.keyboard.press("End");
+    await expect(badge).toHaveAttribute("aria-valuenow", "25.6");
+    await expect(status).toHaveText(
+      "Alert $25.60 · BSN $24.09 · waiting above · 0 crossings",
+    );
+
+    // Fifteen page steps park the line a cent above the last print, so the
+    // next print (24.13) lands on the other side of it.
+    for (let step = 0; step < 15; step += 1) {
+      await page.keyboard.press("PageDown");
+    }
+    await expect(badge).toHaveAttribute("aria-valuenow", "24.1");
+    await expect(status).toHaveText(
+      "Alert $24.10 · BSN $24.09 · waiting above · 0 crossings",
+    );
+    await tick.click();
+    await expect(status).toHaveText(
+      "Alert $24.10 · BSN $24.13 · waiting below · 1 crossings",
+    );
+    await expect(badge).toHaveAttribute(
+      "aria-valuetext",
+      "$24.10, crossed, now above",
+    );
+    await expect(announced).toHaveText("Crossed $24.10, price now above");
+
+    // Moving the line re-arms it without a crossing: four cents up puts it
+    // a cent above the print again, waiting for a rise. The press on Tick
+    // took the focus, so the badge is handed it back first.
+    await badge.focus();
+    for (let step = 0; step < 4; step += 1) {
+      await page.keyboard.press("ArrowUp");
+    }
+    await expect(badge).toHaveAttribute("aria-valuenow", "24.14");
+    await expect(badge).toHaveAttribute(
+      "aria-valuetext",
+      "$24.14, waiting for a rise",
+    );
+    await expect(status).toHaveText(
+      "Alert $24.14 · BSN $24.13 · waiting above · 1 crossings",
+    );
+    await expect(announced).toBeEmpty();
+
+    // The next print (24.15) crosses it; the one after (24.17) stays on
+    // the same side and is not a second alert.
+    await tick.click();
+    await expect(status).toHaveText(
+      "Alert $24.14 · BSN $24.15 · waiting below · 2 crossings",
+    );
+    await expect(announced).toHaveText("Crossed $24.14, price now above");
+    await tick.click();
+    await expect(status).toHaveText(
+      "Alert $24.14 · BSN $24.17 · waiting below · 2 crossings",
+    );
+    await expect(badge).toHaveAttribute(
+      "aria-valuetext",
+      "$24.14, crossed, now above",
+    );
+
+    // A plain press on the plot puts the line under the hand: its middle
+    // is the middle of the range. A drag then tracks the pointer down, and
+    // neither counts as a crossing.
+    const plot = badge.locator("xpath=..");
+    const box = await plot.boundingBox();
+    if (!box) throw new Error("The plot has no box to press.");
+    const midX = box.x + box.width / 2;
+    const midY = box.y + box.height / 2;
+    await page.mouse.click(midX, midY);
+    await expect(badge).toHaveAttribute("aria-valuenow", "24.2");
+    await expect(status).toHaveText(
+      "Alert $24.20 · BSN $24.17 · waiting above · 2 crossings",
+    );
+    await page.mouse.move(midX, midY);
+    await page.mouse.down();
+    await page.mouse.move(midX, midY + 20, { steps: 4 });
+    await page.mouse.up();
+    await expect(badge).toHaveAttribute("aria-valuenow", "23.8");
+    await expect(badge).toHaveAttribute(
+      "aria-valuetext",
+      "$23.80, waiting for a fall",
+    );
+    await expect(status).toHaveText(
+      "Alert $23.80 · BSN $24.17 · waiting below · 2 crossings",
+    );
+  });
+
+  test("heat-tiles: arrows rove the board, Enter opens a tile in place with its figures, Escape closes it, and a tick re-tints every tile", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/heat-tiles");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component names the open tile before the demo's line.
+    const notice = stage.locator("[role='status']").first();
+    const tiles = stage
+      .getByRole("group", { name: "Basinworks board" })
+      .getByRole("button");
+    const bsn = tiles.nth(0);
+    const frn = tiles.nth(1);
+    const tdw = tiles.nth(5);
+    const msb = tiles.nth(7);
+
+    await expect(status).toHaveText(
+      "8 tiles · 0 ticks · warmest BSN +3.30% · none open",
+    );
+    await expect(tiles).toHaveCount(8);
+    await expect(bsn).toHaveAccessibleName("Basin BSN, up 3.30 percent");
+    await expect(frn).toHaveAccessibleName("Fernwork FRN, down 1.06 percent");
+    await expect(bsn).toHaveAttribute("tabindex", "0");
+    await expect(frn).toHaveAttribute("tabindex", "-1");
+    await expect(notice).toBeEmpty();
+    // The tint is a fraction of the move over the saturation point.
+    await expect
+      .poll(marketsOpacityOf(frn.locator("span.bg-danger")), { timeout: 4000 })
+      .toBeCloseTo(0.212, 2);
+
+    // Right roves to the next tile and Enter opens it: it spans two columns
+    // and its name gains the price, the low and the high.
+    await bsn.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(frn).toBeFocused();
+    await expect(frn).toHaveAttribute("tabindex", "0");
+    await page.keyboard.press("Enter");
+    await expect(frn).toHaveAttribute("aria-expanded", "true");
+    await expect(frn).toHaveAccessibleName(
+      "Fernwork FRN, down 1.06 percent, $8.42, low $8.23, high $8.46",
+    );
+    await expect(status).toHaveText(
+      "8 tiles · 0 ticks · warmest BSN +3.30% · open FRN",
+    );
+    await expect(notice).toHaveText("Fernwork FRN open");
+    await expect(frn).toContainText("Fernwork");
+    await expect(frn).toContainText("$8.42");
+    await expect
+      .poll(
+        async () => {
+          const wide = await frn.boundingBox();
+          const small = await bsn.boundingBox();
+          return wide && small ? wide.width / small.width : 0;
+        },
+        { timeout: 4000 },
+      )
+      .toBeGreaterThan(1.9);
+
+    // Down moves a row; Escape closes the open tile and leaves focus where
+    // it stands.
+    await page.keyboard.press("ArrowDown");
+    await expect(tdw).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(frn).toHaveAttribute("aria-expanded", "false");
+    await expect(tdw).toBeFocused();
+    await expect(status).toHaveText(
+      "8 tiles · 0 ticks · warmest BSN +3.30% · none open",
+    );
+    await expect(notice).toHaveText("Closed");
+    await expect(frn).toHaveAccessibleName("Fernwork FRN, down 1.06 percent");
+
+    // End jumps to the last tile and Space opens it.
+    await page.keyboard.press("End");
+    await expect(msb).toBeFocused();
+    await page.keyboard.press(" ");
+    await expect(msb).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toHaveText(
+      "8 tiles · 0 ticks · warmest BSN +3.30% · open MSB",
+    );
+
+    // A tick prints every asset: the open tile's figures re-read, the
+    // warmest changes hands, and the tints tween to the new moves.
+    await stage.getByRole("button", { name: "Tick" }).click();
+    await expect(status).toHaveText(
+      "8 tiles · 1 ticks · warmest KLN +4.40% · open MSB",
+    );
+    await expect(msb).toHaveAccessibleName(
+      "Mossbank MSB, down 1.70 percent, $9.85, low $9.74, high $9.87",
+    );
+    await expect(bsn).toHaveAccessibleName("Basin BSN, up 3.05 percent");
+    await expect(frn).toHaveAccessibleName("Fernwork FRN, down 1.53 percent");
+    await expect
+      .poll(marketsOpacityOf(frn.locator("span.bg-danger")), { timeout: 4000 })
+      .toBeCloseTo(0.306, 2);
+    await expect
+      .poll(marketsOpacityOf(tiles.nth(6).locator("span.bg-success")), {
+        timeout: 4000,
+      })
+      .toBeCloseTo(0.6, 2);
+
+    // Pressing the open tile again closes it.
+    await msb.click();
+    await expect(msb).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toHaveText(
+      "8 tiles · 1 ticks · warmest KLN +4.40% · none open",
+    );
+    await expect(notice).toHaveText("Closed");
+  });
+
+  test("index-dial: each print swings the needle through a swinging beat to a settled reading the meter and the status agree on", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/index-dial");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component announces the settled reading before the demo's line.
+    const settled = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter", { name: "Basin 40" });
+    const needle = stage.locator("line[stroke='var(--ink)']");
+    const nextPrint = stage.getByRole("button", { name: "Next print" });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    // The mount swing settles on the first print.
+    await expect(status).toHaveText("Basin 40 4,182.35 · +0.61% · settled");
+    await expect(meter).toHaveAttribute("aria-valuemin", "-3");
+    await expect(meter).toHaveAttribute("aria-valuemax", "3");
+    await expect(meter).toHaveAttribute("aria-valuenow", "0.61");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "Basin 40 at 4,182.35, up 0.61 percent on the previous close",
+    );
+    await expect(settled).toHaveText(
+      "Basin 40 at 4,182.35, up 0.61 percent on the previous close",
+    );
+    await expect(stage.getByText("Prev close 4,156.80 · +25.55")).toBeVisible();
+    await expect(reset).toBeDisabled();
+    // The needle's angle is the move over the range, across a half turn.
+    await expect
+      .poll(marketsTurnOf(needle), { timeout: 4000 })
+      .toBeCloseTo(18.4, 0);
+
+    // A print swings the needle: the demo reads "swinging" until the spring
+    // completes, and the settle is announced once.
+    await recordMarketsTrail(status);
+    await nextPrint.click();
+    await expect(status).toHaveText("Basin 40 4,171.02 · +0.34% · settled", {
+      timeout: 4000,
+    });
+    await expect
+      .poll(marketsTrailOf(page))
+      .toContain("Basin 40 4,171.02 · +0.34% · swinging");
+    await expect(meter).toHaveAttribute("aria-valuenow", "0.34");
+    await expect(settled).toHaveText(
+      "Basin 40 at 4,171.02, up 0.34 percent on the previous close",
+    );
+
+    // A fall swings it the other way, and the sign is in the words.
+    await nextPrint.click();
+    await expect(status).toHaveText("Basin 40 4,139.44 · -0.42% · settled", {
+      timeout: 4000,
+    });
+    await expect(meter).toHaveAttribute("aria-valuenow", "-0.42");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "Basin 40 at 4,139.44, down 0.42 percent on the previous close",
+    );
+    await expect(stage.getByText("Prev close 4,156.80 · -17.36")).toBeVisible();
+    await expect
+      .poll(marketsTurnOf(needle), { timeout: 4000 })
+      .toBeCloseTo(-12.5, 0);
+
+    // The script runs out, the button retires, and Reset returns the open.
+    await nextPrint.click();
+    await expect(status).toHaveText("Basin 40 4,160.91 · +0.10% · settled", {
+      timeout: 4000,
+    });
+    await nextPrint.click();
+    await expect(status).toHaveText("Basin 40 4,197.63 · +0.98% · settled", {
+      timeout: 4000,
+    });
+    await expect(nextPrint).toBeDisabled();
+    await reset.click();
+    await expect(status).toHaveText("Basin 40 4,182.35 · +0.61% · settled", {
+      timeout: 4000,
+    });
+    await expect(reset).toBeDisabled();
+  });
+
+  test("sector-wheel: arrows pick the sector and spin its wedge under the notch, the movers follow, and a tick re-proportions the ring", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/sector-wheel");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const group = stage.getByRole("radiogroup", {
+      name: "Basinworks Exchange",
+    });
+    const energy = group.getByRole("radio", { name: /^Energy,/ });
+    const tech = group.getByRole("radio", { name: /^Tech,/ });
+    const health = group.getByRole("radio", { name: /^Health,/ });
+    const goods = group.getByRole("radio", { name: /^Goods,/ });
+    const materials = group.getByRole("radio", { name: /^Materials,/ });
+    // The ring is the turned box around the wheel's own SVG.
+    const ring = stage
+      .locator("svg[viewBox='0 0 200 200']")
+      .locator("xpath=..");
+    const turn = marketsTurnOf(ring);
+
+    await expect(status).toHaveText("Tech +1.84% · top FRN +3.20%");
+    await expect(group.getByRole("radio")).toHaveCount(6);
+    await expect(tech).toHaveAttribute("aria-checked", "true");
+    await expect(tech).toHaveAccessibleName("Tech, up 1.84 percent");
+    await expect(announced).toHaveText(
+      "Tech, up 1.84 percent. Top mover FRN, up 3.20 percent.",
+    );
+    const techMovers = stage.getByRole("list", { name: "Tech movers" });
+    await expect(techMovers.getByRole("listitem")).toHaveCount(3);
+    await expect(techMovers.getByRole("listitem").nth(0)).toContainText(
+      "up 3.20 percent, +3.20%",
+    );
+    // Tech's wedge sits under the notch: the ring has turned its centre up.
+    await expect.poll(turn, { timeout: 4000 }).toBeCloseTo(foldTurn(-121.3), 0);
+
+    // Right both moves and picks; the ring finds the next detent.
+    await tech.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(health).toBeFocused();
+    await expect(health).toHaveAttribute("aria-checked", "true");
+    await expect(tech).toHaveAttribute("aria-checked", "false");
+    await expect(status).toHaveText("Health +0.42% · top CBK +0.88%");
+    await expect(announced).toHaveText(
+      "Health, up 0.42 percent. Top mover CBK, up 0.88 percent.",
+    );
+    await expect(
+      stage.getByRole("list", { name: "Health movers" }),
+    ).toBeVisible();
+    await expect(techMovers).toHaveCount(0);
+    await expect
+      .poll(turn, { timeout: 4000 })
+      .toBeCloseTo(foldTurn(-192.17), 0);
+
+    // End and Home jump the ends; Up at the first stays.
+    await page.keyboard.press("End");
+    await expect(materials).toBeFocused();
+    await expect(status).toHaveText("Materials -0.95% · top SLT -1.64%");
+    await expect
+      .poll(turn, { timeout: 4000 })
+      .toBeCloseTo(foldTurn(-328.48), 0);
+    await page.keyboard.press("Home");
+    await expect(energy).toBeFocused();
+    await expect(energy).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Energy -1.12% · top BSN -1.90%");
+    await expect(announced).toHaveText(
+      "Energy, down 1.12 percent. Top mover BSN, down 1.90 percent.",
+    );
+    await expect.poll(turn, { timeout: 4000 }).toBeCloseTo(foldTurn(-35.22), 0);
+    await page.keyboard.press("ArrowUp");
+    await expect(energy).toBeFocused();
+    await expect(energy).toHaveAttribute("aria-checked", "true");
+
+    // A tick reshapes the wedges: the chosen sector stays under the notch,
+    // so the ring glides to its new centre, and its chip re-reads.
+    await stage.getByRole("button", { name: "Next tick" }).click();
+    await expect(status).toHaveText("Energy +2.40% · top BSN +3.10%");
+    await expect(energy).toHaveAccessibleName("Energy, up 2.40 percent");
+    await expect(announced).toHaveText(
+      "Energy, up 2.40 percent. Top mover BSN, up 3.10 percent.",
+    );
+    await expect.poll(turn, { timeout: 4000 }).toBeCloseTo(foldTurn(-55.83), 0);
+
+    // The pointer picks a chip the same way.
+    await goods.click();
+    await expect(goods).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Goods +0.15% · top FLD +0.30%");
+    await expect
+      .poll(turn, { timeout: 4000 })
+      .toBeCloseTo(foldTurn(-260.86), 0);
+  });
+
+  test("earnings-countdown: the clock starts and pauses, a skip re-seeds the last minute, and landing the results rolls in a beat", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/earnings-countdown");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component's milestones come before the demo's line.
+    const milestone = stage.locator("[role='status']").first();
+    const card = stage.getByRole("group", { name: "Fernworks Q3" });
+    const timer = card.getByRole("timer");
+    const clock = stage.getByRole("button", {
+      name: /Start clock|Pause clock/,
+    });
+    const skip = stage.getByRole("button", { name: "Skip to last minute" });
+    const land = stage.getByRole("button", { name: "Land results" });
+    const unreported = card.getByRole("img", { name: "Not yet reported" });
+
+    await expect(status).toHaveText(
+      "Fernworks Q3 · 2d 14h 06m 12s · clock paused",
+    );
+    await expect(timer).toHaveAttribute("aria-live", "off");
+    await expect(timer).toHaveAttribute(
+      "aria-label",
+      "2 days 14 hours 6 minutes 12 seconds until Fernworks Q3 results",
+    );
+    await expect(unreported).toHaveCount(2);
+    await expect(milestone).toBeEmpty();
+    await expect(card.getByText("Beat", { exact: true })).toHaveCount(0);
+
+    // Starting the clock is a milestone; a second later the label has lost
+    // a second; pausing holds it there.
+    await clock.click();
+    await expect(clock).toHaveText("Pause clock");
+    await expect(status).toHaveText(
+      "Fernworks Q3 · 2d 14h 06m 12s · clock running",
+    );
+    await expect(milestone).toHaveText("Clock running");
+    await expect(timer).toHaveAttribute(
+      "aria-label",
+      "2 days 14 hours 6 minutes 11 seconds until Fernworks Q3 results",
+      { timeout: 4000 },
+    );
+    await clock.click();
+    await expect(clock).toHaveText("Start clock");
+    await expect(status).toHaveText(
+      "Fernworks Q3 · 2d 14h 06m 12s · clock paused",
+    );
+    const held = await timer.getAttribute("aria-label");
+    await page.waitForTimeout(1000);
+    await expect(timer).toHaveAttribute("aria-label", held ?? "");
+
+    // A skip re-seeds the clock at the last minute; started, it counts.
+    await skip.click();
+    await expect(status).toHaveText(
+      "Fernworks Q3 · 0d 00h 01m 00s · clock paused",
+    );
+    await expect(timer).toHaveAttribute(
+      "aria-label",
+      "0 days 0 hours 1 minutes 0 seconds until Fernworks Q3 results",
+    );
+    await expect(skip).toBeDisabled();
+    await clock.click();
+    await expect(timer).toHaveAttribute(
+      "aria-label",
+      "0 days 0 hours 0 minutes 59 seconds until Fernworks Q3 results",
+      { timeout: 4000 },
+    );
+
+    // Results land: the readout becomes "Reported", the dashes give way to
+    // the figures, the verdict is a beat, and the buttons retire.
+    await land.click();
+    await expect(status).toHaveText(
+      "Fernworks Q3 · 0d 00h 01m 00s · landed beat",
+    );
+    await expect(timer).toHaveAttribute(
+      "aria-label",
+      "Fernworks Q3 results reported",
+    );
+    await expect(card.getByText("Reported", { exact: true })).toBeVisible();
+    await expect(card.getByText("Beat", { exact: true })).toBeVisible();
+    await expect(unreported).toHaveCount(0);
+    await expect(card).toContainText("$1.24");
+    await expect(card).toContainText("$1.91B");
+    await expect(milestone).toHaveText(
+      "Results landed: beat. Earnings per share $1.24 against $1.20 estimated.",
+    );
+    await expect(clock).toBeDisabled();
+    await expect(land).toBeDisabled();
+
+    // Reset remounts the card at its seed.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toHaveText(
+      "Fernworks Q3 · 2d 14h 06m 12s · clock paused",
+    );
+    await expect(timer).toHaveAttribute(
+      "aria-label",
+      "2 days 14 hours 6 minutes 12 seconds until Fernworks Q3 results",
+    );
+    await expect(unreported).toHaveCount(2);
+    await expect(card.getByText("Beat", { exact: true })).toHaveCount(0);
+    await expect(clock).toBeEnabled();
+  });
+
+  test("news-ticker: the tape's own toggle stops it, focus holds it and Tab walks the headlines, and a push arrives with one announcement", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/news-ticker");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component announces arrivals before the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const feed = stage.getByRole("region", {
+      name: "Basinworks Exchange desk feed",
+    });
+    const pauseTape = feed.getByRole("button", { name: "Pause tape" });
+    // Only the first copy of the ring is in the tree; the loop copies are
+    // aria-hidden and inert, so the role query reads each headline once.
+    const headlines = feed.getByRole("list").getByRole("button");
+    // The tape is the translated track around the ring's copies.
+    const tape = feed.locator("ul").first().locator("xpath=..");
+    const push = stage.getByRole("button", { name: "Push headline" });
+
+    await expect(status).toHaveText(
+      "4 headlines · running · latest 09:40 Basin Wire",
+    );
+    await expect(pauseTape).toHaveAttribute("aria-pressed", "false");
+    await expect(headlines).toHaveCount(4);
+    await expect(headlines.nth(0)).toHaveAccessibleName(
+      "Basin 40 opens firmer as energy leads. Basin Wire, 09:31, up",
+    );
+    await expect(headlines.nth(3)).toHaveAccessibleName(
+      "Saltmoor Metals slips on a softer order book. Basin Wire, 09:40, down",
+    );
+    await expect(announced).toBeEmpty();
+    // The tape is moving.
+    const before = await marketsXOf(tape)();
+    await expect.poll(marketsXOf(tape), { timeout: 4000 }).not.toBe(before);
+
+    // The tape's own toggle stops it, and the demo's Play starts it again.
+    await pauseTape.click();
+    await expect(pauseTape).toHaveAttribute("aria-pressed", "true");
+    await expect(status).toHaveText(
+      "4 headlines · stopped · latest 09:40 Basin Wire",
+    );
+    const play = stage.getByRole("button", { name: "Play", exact: true });
+    await expect(play).toBeVisible();
+    // Friction eases it to rest rather than freezing it: within a couple of
+    // seconds two reads a beat apart agree.
+    await expect
+      .poll(
+        async () => {
+          const at = await marketsXOf(tape)();
+          await page.waitForTimeout(250);
+          return (await marketsXOf(tape)()) === at;
+        },
+        { timeout: 6000 },
+      )
+      .toBe(true);
+    await play.click();
+    await expect(pauseTape).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toHaveText(
+      "4 headlines · running · latest 09:40 Basin Wire",
+    );
+
+    // Tab from the toggle reaches the first headline, which holds the tape
+    // and glides into the viewport; a second Tab walks on; leaving lets go.
+    await pauseTape.focus();
+    await page.keyboard.press("Tab");
+    await expect(headlines.nth(0)).toBeFocused();
+    await expect(status).toHaveText(
+      "4 headlines · held · latest 09:40 Basin Wire",
+    );
+    await page.keyboard.press("Tab");
+    await expect(headlines.nth(1)).toBeFocused();
+    await expect(status).toHaveText(
+      "4 headlines · held · latest 09:40 Basin Wire",
+    );
+    // The glide brings the headline's start to the viewport's left margin —
+    // or to its edge, since every desk headline is wider than the viewport
+    // and the tape parks it as far in as it goes rather than past its start.
+    const viewport = tape.locator("xpath=..");
+    await expect
+      .poll(
+        async () => {
+          const item = await headlines.nth(1).boundingBox();
+          const frame = await viewport.boundingBox();
+          if (!item || !frame) return false;
+          const inset = item.x - frame.x;
+          return inset >= -0.5 && inset <= 12.5;
+        },
+        { timeout: 4000 },
+      )
+      .toBe(true);
+    await push.focus();
+    await expect(status).toHaveText(
+      "4 headlines · running · latest 09:40 Basin Wire",
+    );
+
+    // A push delivers the next headline: it joins the tree once, and is
+    // announced once.
+    await push.click();
+    await expect(status).toHaveText(
+      "5 headlines · running · latest 09:42 Basin Wire",
+    );
+    await expect(announced).toHaveText(
+      "New: Waylight Pay clears its first settlement window, Basin Wire",
+    );
+    await expect(headlines).toHaveCount(5);
+    await expect(
+      feed.getByRole("button", {
+        name: "Waylight Pay clears its first settlement window. Basin Wire, 09:42, up",
+      }),
+    ).toHaveCount(1);
+    await push.click();
+    await expect(status).toHaveText(
+      "6 headlines · running · latest 09:45 Fernline Desk",
+    );
+    await expect(announced).toHaveText(
+      "New: Gauge Systems trims its capacity plan, Fernline Desk",
+    );
+    await expect(headlines).toHaveCount(6);
+
+    // Reset restores the opening four.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toHaveText(
+      "4 headlines · running · latest 09:40 Basin Wire",
+    );
+    await expect(headlines).toHaveCount(4);
+  });
+
+  test("compare-lines: the plate is a keyboard cursor that reads both series and the gap, Escape clears it, and a legend toggle fades one line without moving the other", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/compare-lines");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component reads the cursor before the demo's line.
+    const readout = stage.locator("[role='status']").first();
+    const plate = stage.getByRole("group", {
+      name: "Basin BSN against Fernwork FRN",
+    });
+    const bsnToggle = stage.getByRole("button", { name: /Basin BSN$/ });
+    const frnToggle = stage.getByRole("button", { name: /Fernwork FRN$/ });
+    const baseline = plate.locator("line[stroke-dasharray='3 3']");
+    const frnTrace = plate.locator("svg > g").nth(1);
+
+    await expect(status).toHaveText(
+      "BSN +8.41% · FRN +3.11% · hover for the gap",
+    );
+    await expect(plate).toHaveAccessibleDescription(
+      "Basin BSN up 8.41 percent and Fernwork FRN up 3.11 percent over 24 sessions.",
+    );
+    await expect(bsnToggle).toHaveAccessibleName("Hide Basin BSN");
+    await expect(bsnToggle).toHaveAttribute("aria-pressed", "true");
+    await expect(frnToggle).toHaveAccessibleName("Hide Fernwork FRN");
+    await expect(frnToggle).toHaveAttribute("aria-pressed", "true");
+    await expect(readout).toBeEmpty();
+    const zeroLine = await baseline.getAttribute("y1");
+
+    // Left from no cursor starts at the last session and steps back; the
+    // chip prints both closes and the gap is in the words.
+    await plate.focus();
+    await page.keyboard.press("ArrowLeft");
+    await expect(status).toHaveText(
+      "BSN +8.41% · FRN +3.11% · gap +5.42 pts at Day 23",
+    );
+    await expect(readout).toHaveText(
+      "Day 23: Basin BSN up 8.74 percent, Fernwork FRN up 3.32 percent, gap +5.42 points.",
+    );
+    await expect(stage.getByText("$45.78")).toBeVisible();
+    await expect(stage.getByText("$18.96")).toBeVisible();
+    await page.keyboard.press("ArrowLeft");
+    await expect(status).toHaveText(
+      "BSN +8.41% · FRN +3.11% · gap +6.94 pts at Day 22",
+    );
+
+    // Home is the start, where both are flat; it does not walk off the edge.
+    await page.keyboard.press("Home");
+    await expect(status).toHaveText(
+      "BSN +8.41% · FRN +3.11% · gap 0.00 pts at Day 1",
+    );
+    await expect(readout).toHaveText(
+      "Day 1: Basin BSN flat, Fernwork FRN flat, gap 0.00 points.",
+    );
+    await page.keyboard.press("ArrowLeft");
+    await expect(status).toHaveText(
+      "BSN +8.41% · FRN +3.11% · gap 0.00 pts at Day 1",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(status).toHaveText(
+      "BSN +8.41% · FRN +3.11% · gap +0.21 pts at Day 2",
+    );
+    await page.keyboard.press("End");
+    await expect(status).toHaveText(
+      "BSN +8.41% · FRN +3.11% · gap +5.30 pts at Day 24",
+    );
+    await expect(readout).toHaveText(
+      "Day 24: Basin BSN up 8.41 percent, Fernwork FRN up 3.11 percent, gap +5.30 points.",
+    );
+    await page.keyboard.press("Escape");
+    await expect(status).toHaveText(
+      "BSN +8.41% · FRN +3.11% · hover for the gap",
+    );
+    await expect(readout).toBeEmpty();
+
+    // Hiding FRN fades its trace and leaves the baseline where it was: the
+    // domain is fixed across both series. The readout then has no gap.
+    await frnToggle.click();
+    await expect(frnToggle).toHaveAttribute("aria-pressed", "false");
+    await expect(frnToggle).toHaveAccessibleName("Show Fernwork FRN");
+    await expect.poll(marketsOpacityOf(frnTrace), { timeout: 4000 }).toBe(0);
+    await expect(baseline).toHaveAttribute("y1", zeroLine ?? "");
+    await plate.focus();
+    await page.keyboard.press("End");
+    await expect(readout).toHaveText("Day 24: Basin BSN up 8.41 percent.");
+    await frnToggle.click();
+    await expect(frnToggle).toHaveAttribute("aria-pressed", "true");
+    await expect(frnToggle).toHaveAccessibleName("Hide Fernwork FRN");
+    await expect.poll(marketsOpacityOf(frnTrace), { timeout: 4000 }).toBe(1);
+    // The press took focus off the plate, which clears the cursor.
+    await expect(readout).toBeEmpty();
+
+    // The pointer reads the nearest sample: the left edge is the start, and
+    // leaving the plate clears it.
+    const box = await plate.boundingBox();
+    if (!box) throw new Error("The plate has no box to hover.");
+    await page.mouse.move(box.x + 1, box.y + box.height / 2);
+    await expect(status).toHaveText(
+      "BSN +8.41% · FRN +3.11% · gap 0.00 pts at Day 1",
+    );
+    await page.mouse.move(box.x + box.width / 2, box.y - 80);
+    await expect(status).toHaveText(
+      "BSN +8.41% · FRN +3.11% · hover for the gap",
+    );
+  });
+});
