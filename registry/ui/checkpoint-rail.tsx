@@ -193,8 +193,11 @@ export function CheckpointRail({
 
         <AnimatePresence initial={false}>
           {stops.map((entry, k) => {
-            const current = k === count - 1;
             const discards = steps.length - entry.index - 1;
+            // Current means the run stands here, not merely that this is the
+            // newest checkpoint: once a step lands after it there is something
+            // to discard, so it is a rewind and must be named as one.
+            const current = discards === 0;
             const name = current
               ? `${entry.step.checkpoint}, current checkpoint ${k + 1} of ${count}`
               : `Rewind to ${entry.step.checkpoint}, checkpoint ${k + 1} of ${count}, discards ${discards} ${

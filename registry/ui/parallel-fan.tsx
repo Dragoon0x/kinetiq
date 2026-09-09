@@ -106,6 +106,15 @@ export function ParallelFan({
   const settled = attempts.filter((a) => (a.status ?? "running") !== "running");
   const winning = attempts.find((a) => a.id === winner);
 
+  // A gather from the host leaves every loser inert, so a tab stop parked on
+  // one would strand the group with nothing reachable: it moves to the winner.
+  const winnerIndex = attempts.findIndex((a) => a.id === winner);
+  const [seenWinner, setSeenWinner] = React.useState(winner);
+  if (winner !== seenWinner) {
+    setSeenWinner(winner);
+    if (winnerIndex >= 0 && winnerIndex !== focused) setFocused(winnerIndex);
+  }
+
   const moveTo = (index: number) => {
     const clamped = Math.min(count - 1, Math.max(0, index));
     setFocused(clamped);

@@ -37,7 +37,12 @@ const ANSWER: (string | PullQuote)[] = [
 ];
 
 const QUOTES = [Q1, Q2, Q3];
-const FOUND = QUOTES.filter((quote) => SOURCE.excerpt.includes(quote.text));
+// The component matches without case, so the line above the excerpt has to
+// as well; comparing exactly called a quote the mark had found missing.
+const EXCERPT_LOWER = SOURCE.excerpt.toLowerCase();
+const FOUND = QUOTES.filter((quote) =>
+  EXCERPT_LOWER.includes(quote.text.toLowerCase()),
+);
 
 const wordsOf = (id: string) =>
   QUOTES.find((quote) => quote.id === id)?.text.split(/\s+/).length ?? 0;
