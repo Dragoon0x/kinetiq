@@ -1020,6 +1020,16 @@ import { InpaintBrushDemo } from "@/registry/demos/inpaint-brush.demo";
 import { PromptEchoDemo } from "@/registry/demos/prompt-echo.demo";
 import { RenderQueueDemo } from "@/registry/demos/render-queue.demo";
 import { ExportStampDemo } from "@/registry/demos/export-stamp.demo";
+import { ConfidenceChipDemo } from "@/registry/demos/confidence-chip.demo";
+import { RefusalCardDemo } from "@/registry/demos/refusal-card.demo";
+import { RedactVeilDemo } from "@/registry/demos/redact-veil.demo";
+import { UncertaintyHedgeDemo } from "@/registry/demos/uncertainty-hedge.demo";
+import { PolicyNoteDemo } from "@/registry/demos/policy-note.demo";
+import { HumanHandoffDemo } from "@/registry/demos/human-handoff.demo";
+import { DisclaimerBarDemo } from "@/registry/demos/disclaimer-bar.demo";
+import { ReviewStampDemo } from "@/registry/demos/review-stamp.demo";
+import { RiskMeterDemo } from "@/registry/demos/risk-meter.demo";
+import { GuardRailDemo } from "@/registry/demos/guard-rail.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2054,4 +2064,14 @@ export const demos: Record<string, ComponentType> = {
   "prompt-echo": PromptEchoDemo,
   "render-queue": RenderQueueDemo,
   "export-stamp": ExportStampDemo,
+  "confidence-chip": ConfidenceChipDemo,
+  "refusal-card": RefusalCardDemo,
+  "redact-veil": RedactVeilDemo,
+  "uncertainty-hedge": UncertaintyHedgeDemo,
+  "policy-note": PolicyNoteDemo,
+  "human-handoff": HumanHandoffDemo,
+  "disclaimer-bar": DisclaimerBarDemo,
+  "review-stamp": ReviewStampDemo,
+  "risk-meter": RiskMeterDemo,
+  "guard-rail": GuardRailDemo,
 };

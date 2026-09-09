@@ -15308,6 +15308,220 @@ Notes:
 - Under reduced motion the bar still fills on a tween, the detail line swaps without gliding, and the seal fades in at rest with no tilt or bounce.
 - The live region speaks Exporting to <target> and Exported to <target> once each on stage change, never per percent; the seal is aria-hidden and the chip's own sr-only text says it was sent.
 
+### Confidence Chip (KQ-831) — `confidence-chip`
+How sure, in a chip.
+
+An answer that wears one chip saying how sure the model is. The chip's wash fills left to right to the confidence on glide and takes the tone of its value, and a low chip pulses once after the fill settles on a three-keyframe tween rather than a spring. Hovering or focusing the chip drops a reasoning card on snap over the answer's own text; Enter or Space pins it and Escape releases it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/confidence-chip`
+
+Props:
+- `confidence`: number — How sure the model is of this answer, 0 to 1.
+- `reasoning`: string — One sentence on why the value is what it is; shown in the read card and described to assistive technology.
+- `answer`: string — The answer the chip belongs to.
+- `model`: string — Whose answer it is; the header caption.
+- `lowAt`: number (default 0.5) — Below this the chip reads danger and pulses once on mount.
+- `highAt`: number (default 0.8) — At or above this the chip reads success.
+- `format`: (confidence: number) => string (default percent) — Formats the value for the chip label and its descriptions.
+- `pulseLow`: boolean (default true) — Whether a low chip pulses once after its fill settles.
+- `onReadChange`: (reading: boolean) => void — Fires when the reasoning starts or stops being read, by hover, focus or a pin.
+- `onPinChange`: (pinned: boolean) => void — Fires from the press or Escape that pinned or released the reading.
+- `label`: string — Names the answer region for assistive technology.
+
+Notes:
+- The chip is a real button: Tab reaches it, focus reads the reasoning like hover, Enter or Space pins the reading after the pointer leaves, and Escape releases the pin and hides the card.
+- Under reduced motion the fill appears at its width on a fast tween, the low pulse is still a single blink because a low answer is information, and the card fades in place without the drop.
+- An sr-only description carries the value and the reasoning whether or not the card is showing, and a polite live region names the value once when the fill settles.
+
+### Refusal Card (KQ-832) — `refusal-card`
+Not that, but here is what it can do.
+
+A refusal that arrives without drama and offers a way forward. The card lowers into place from eight pixels above on drift, with no overshoot because a refusal never celebrates, and once it has landed the alternatives slide in as chips on snap in a cascade. Picking a chip lifts it on flick, fades the others, and cross-fades the row to a sent line with a tick drawn on flick while the body glides to the measured height; the chips are a group with a roving tabindex where arrows step, Home and End jump, and Enter or Space sends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/refusal-card`
+
+Props:
+- `open`: boolean — Shows the card. Raise it when the model has refused.
+- `title`: string (default "Can't do that") — The refusal headline.
+- `reason`: string — One line on why, in the house voice.
+- `alternatives`: RefusalAlternative[] — What the model can do instead, as { id, label } in offer order.
+- `sent / defaultSent`: string | null (default null) — Controlled or initial id of the alternative that was sent, or null while nothing has been picked.
+- `onSend`: (id: string) => void — Fires from the click or key that picked a chip.
+- `label`: string — Names the card region for assistive technology.
+
+Notes:
+- The chips are a group with a roving tabindex: Tab enters once, Left and Right (or Up and Down) step without wrapping, Home and End jump, Enter or Space sends; after a pick the chips leave the tree and focus moves to the sent line.
+- Under reduced motion the card and chips fade in place without lowering or sliding, the pick is a cross-fade, and the body height changes on a fast tween.
+- A polite live region reads the refusal and the number of alternatives once when the card lands and the sent line once on a pick; every opening starts a fresh panel so a second refusal never inherits the last pick.
+
+### Redact Veil (KQ-833) — `redact-veil`
+Hidden until you need it.
+
+An answer whose sensitive spans sit under hatched bars until they are wanted. Hovering with a mouse or pen, or pressing, lifts a veil: the bar's clip rises from its bottom edge on glide like a curtain, and a hairline under the text then drains across revealFor and drops the veil back on glide, holding while the pointer or focus is on the span and while the tab is hidden. Each span is an inline button whose name is the kind rather than the secret while veiled; Enter or Space toggles it and focus alone never lifts one.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/redact-veil`
+
+Props:
+- `segments`: VeilSegment[] — The answer in order: plain strings and { id, text, kind } spans to veil.
+- `revealFor`: number (default 4000) — Milliseconds a lifted veil stays lifted after the pointer and focus leave; 0 or less never re-veils.
+- `revealed / defaultRevealed`: string[] (default []) — Controlled or initial ids of the spans currently lifted.
+- `onRevealChange`: (ids: string[], change: VeilChange) => void — Fires with the new lifted set and { id, revealed, by } for the span that changed, where by is "hover", "press" or "timer".
+- `label`: string — Names the answer region and prints as the header caption.
+
+Notes:
+- Each span is an inline button with aria-pressed: Tab reaches it in reading order, Enter or Space toggles the veil, and focus holds a lifted span's timer without lifting a veiled one, so a reader tabbing through never has a secret uncovered by focus alone.
+- Under reduced motion the bar swaps out and in on an opacity tween with no wipe; the timer hairline still drains, because the moment of re-veiling is information.
+- While veiled the covered text is hidden from assistive technology and unselectable; a polite live region reads "Revealed <kind>" and "Veiled <kind> again" once per change, never per tick.
+
+### Uncertainty Hedge (KQ-834) — `uncertainty-hedge`
+Where it is guessing.
+
+An answer that marks the phrases it is guessing at. Each guessed phrase carries a soft one-pixel warn underline drawn as a bottom-anchored background, so a wrapped phrase keeps its line on every fragment; the lines draw left to right on glide in a cascade, and hovering or focusing a phrase thickens its line to three pixels on snap. A legend rolls the count on snap, and pressing a phrase glides a note beneath the paragraph to its measured height with the model's reason; Enter or Space opens or swaps it and Escape folds it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/uncertainty-hedge`
+
+Props:
+- `segments`: HedgeSegment[] — The answer in order: plain strings and { id, phrase, why } guessed phrases.
+- `open / defaultOpen`: string | null (default null) — Controlled or initial id of the phrase whose reason is showing, or null.
+- `onOpenChange`: (id: string | null) => void — Fires from the press or Escape that opened, swapped or folded a reason.
+- `onHoverChange`: (id: string | null) => void — Fires when the phrase under the pointer or focus changes.
+- `legend`: boolean (default true) — Whether the count legend shows above the paragraph.
+- `label`: string — Names the answer region and prints as the legend caption.
+
+Notes:
+- The phrases are inline buttons with aria-expanded and aria-controls on the note: Tab reaches each in reading order, focus thickens the line like hover, Enter or Space opens or swaps the note, and Escape folds it while keeping focus on the phrase.
+- Under reduced motion the lines appear at full length with no stagger, the thickening is a fast swap rather than a spring, the note's height changes on a tween, and the legend digits swap in place.
+- A polite live region reads the count when the answer changes and the reason once when a note opens; the note is a region that is inert while folded.
+
+### Policy Note (KQ-835) — `policy-note`
+Why it answered this way.
+
+An answer with a small tag beneath it that unfolds into a note explaining the constraint. The note is a sheet hinged at its top edge: pressing the tag rotates it from -90° to flat on glide while its wrapper glides to the measured height, and a hairline along its bottom edge drains across the read time, holding while the pointer or focus is on the note. When it runs out the note folds itself on the exit ease and the tag reads "Read" with a tick drawn on flick; Enter or Space toggles the tag and Escape folds the note and returns focus to it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/policy-note`
+
+Props:
+- `answer`: string — The answer the note explains.
+- `model`: string — Whose answer it is; the header caption.
+- `code`: string — The policy's short code, printed in mono: "Coldbrook house policy 4.2".
+- `title`: string — The policy's name; labels the note region.
+- `note`: string — One or two sentences on the constraint.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial unfolded state.
+- `onOpenChange`: (open: boolean, by: PolicyNoteReason) => void — Fires from the press, Escape or the read-out timer that changed the state, with by as "press", "escape" or "read".
+- `readTime`: number (default from the word count) — Milliseconds the note stays open once unfolded, by default the note's word count at a reading pace floored at three seconds; 0 or less keeps it open.
+- `tagLabel`: string (default "Why this answer") — The tag's copy before the note has been read.
+- `label`: string — Names the answer region for assistive technology.
+
+Notes:
+- The tag is a real button with aria-expanded and aria-controls: Enter or Space toggles the note, Escape anywhere in the frame folds it and returns focus to the tag, and the read timer holds while focus is inside the note or the pointer is over it.
+- Under reduced motion the sheet fades in without the hinge, the height changes on a fast tween, and the hairline still drains, because the moment of folding is information.
+- A polite live region reads "Note open: <code>, <title>" once when it unfolds and "Note folded" once when it folds, never a tick; the note region is inert while folded.
+
+### Human Handoff (KQ-836) — `human-handoff`
+A person is taking over.
+
+A card that says who holds the thread. When the host moves the stage to waiting, the model's avatar leaves the seat to the left on the exit ease and an empty dashed seat breathes while a readout counts the wait; when the person arrives their avatar slides in from the right on snap and a ring lands around the seat on recoil, freezing the count. The cancel control is a real button and an sr-only status announces each stage once, never per second.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/human-handoff`
+
+Props:
+- `stage`: "model" | "waiting" | "human" — Who holds the thread; the host advances it.
+- `model`: string — The model's invented name, printed while it answers and as the seat's initials.
+- `person`: { name: string; team?: string } — Who takes over; the seat's initials come from the name.
+- `reason`: string — Why the thread is being handed off, shown from the waiting stage on.
+- `onWaitChange`: (seconds: number) => void — Fires from the interval with each counted second; the last value is the frozen wait.
+- `onCancel`: () => void — Fires from the cancel control while waiting.
+- `cancelLabel`: string (default "Cancel handoff") — Copy on the cancel control.
+- `label`: string — Names the card for assistive technology.
+
+Notes:
+- The cancel control is the only stop: Tab reaches it while waiting, Enter and Space fire it; the readout is aria-hidden because the status region carries the seconds in words.
+- Under reduced motion the avatars cross-fade in place, the empty seat does not breathe and the ring appears without a landing; the count still counts because the wait is information.
+- The count runs only while the stage is waiting, pauses while the tab is hidden, and resets when the stage returns to the model.
+
+### Disclaimer Bar (KQ-837) — `disclaimer-bar`
+Said once, kept out of the way.
+
+A disclaimer that arrives with the first answer as a full-width bar and, when the second answer lands, shrinks to a dot at the row's start: one button whose width and height glide to a 28px circle on glide while the text fades on a fast tween. Hovering or focusing the dot peeks the bar open on snap and leaving folds it again; pressing pins it open, pressing the open bar folds it, and Escape folds a pinned bar.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/disclaimer-bar`
+
+Props:
+- `text`: string — The disclaimer, one or two short sentences.
+- `answers`: number (default 0) — Answers given so far: 0 keeps the bar away, 1 shows it, 2 or more fold it to the dot.
+- `open / defaultOpen`: boolean — Controlled or initial pin: true holds the bar open past its fold, false holds it folded; omitted, the bar follows answers.
+- `onOpenChange`: (open: boolean) => void — Fires from a press or Escape with the new pin.
+- `onPeekChange`: (peeking: boolean) => void — Fires as hover or focus peeks the folded bar open and closed.
+- `label`: string (default "Disclaimer") — Names the folded dot for assistive technology.
+
+Notes:
+- One button in both states: Tab reaches it, Enter and Space toggle the pin, Escape folds a pinned bar, and focus peeks the dot open exactly as hover does. Folded, the text is aria-hidden and the button is named "<label>, folded".
+- Under reduced motion there is no width morph: the bar and the dot swap at once and only the text fades; the frame's height changes on a tween.
+- A new answer resets any pin, and the sr-only status announces shown or folded once per change, never per peek.
+
+### Review Stamp (KQ-838) — `review-stamp`
+Reviewed by a person.
+
+An answer card with a stamp that lands when a person approves it: the header's state chip fades and a tilted seal drops from 1.6× scale on recoil while its tick draws on flick and the card's border takes the success tone on a colour tween. The seal is a button whose tooltip reads who and when on hover, focus or press; Revoke peels it on rotateX toward the viewer on the exit ease, and Approve and Revoke share the footer at one height.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/review-stamp`
+
+Props:
+- `answer`: string — The answer's text.
+- `model`: string — The invented model that wrote it, printed in the header.
+- `review`: ReviewRecord | null (default null) — The approval on record — reviewer, team and a formatted time; present, the stamp is down.
+- `onApprove`: () => void — Fires from the Approve control; the host records who and when.
+- `onRevoke`: () => void — Fires from the Revoke control.
+- `stampText`: string (default "Reviewed") — The word on the seal.
+- `label`: string — Names the card for assistive technology.
+
+Notes:
+- The seal is a button named "Reviewed by <reviewer>" and described by an always-mounted sr-only line with the team and time; Tab reaches the seal and then the footer control, Enter and Space toggle the tooltip, Escape closes it.
+- Under reduced motion the seal fades in and out at rest — no drop, no tilt landing, no peel — and the tooltip fades without scaling; the success tint still tweens.
+- The component never reads a clock: the host records who and when in the review it passes, and the sr-only status announces the review and its revocation once each.
+
+### Risk Meter (KQ-839) — `risk-meter`
+How risky the action is.
+
+A meter beneath a proposed action that fills toward its risk: the fill is a scaleX on glide, toned cobalt, warn or danger by band, with two threshold ticks on the track, and a band label rides above it with its centre on the fill's leading edge while its word rolls up or down on snap. In the high band the action control arms a confirm — the first press rolls Run into Confirm on the destructive tone, the second runs, and Escape or a change of risk disarms.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/risk-meter`
+
+Props:
+- `risk`: number — The action's risk, 0 to 1.
+- `action`: string — What the model proposes to do, printed above the meter.
+- `thresholds`: [number, number] (default [0.35, 0.7]) — Where the moderate and high bands begin; the high band arms the confirm.
+- `bands`: [string, string, string] (default ["Low", "Moderate", "High"]) — The band words.
+- `runLabel`: string (default "Run") — Copy on the action control.
+- `confirmLabel`: string (default "Confirm") — Copy on the armed control.
+- `onRun`: () => void — Fires when the action runs: one press below the high band, the second press in it.
+- `onArmChange`: (armed: boolean) => void — Fires from the press or key that armed or disarmed the confirm.
+- `label`: string — Names the meter and its group for assistive technology.
+
+Notes:
+- The action control is one button: below the high band a press runs; in it the first press arms Confirm (described by an sr-only "Press again to confirm"), the second runs, and Escape disarms. The track is a role="meter" whose aria-valuetext reads the band and percentage.
+- Under reduced motion the fill still fills on a base tween, the label does not travel, and the band and control words cross-fade in place.
+- A new risk value disarms the confirm and clears the last run in the same commit, so a control never stays armed for an action it was not armed on.
+
+### Guard Rail (KQ-840) — `guard-rail`
+The line it will not cross.
+
+A rail that shows how close a conversation stands to a boundary: a round marker and the fill behind it move on glide as each message raises the proximity, taking the warn tone past warnAt, and a value of 1 or more is a crossing — that last stretch runs on recoil so the marker hits the line, overshoots into it and bounces back to rest against it, while the line flashes and the reason unfolds beneath in a measured frame. It is a role="meter" with the distance in words, and an sr-only status announces near and crossed once each.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/guard-rail`
+
+Props:
+- `proximity`: number — How close the conversation stands to the line: 0 is far, 1 or more has crossed.
+- `boundary`: string — The line's name, printed at the rail's end.
+- `reason`: string — Why the line stopped the thread, shown when crossed.
+- `warnAt`: number (default 0.7) — Fraction past which the rail turns warn.
+- `label`: string — Names the rail for assistive technology.
+
+Notes:
+- A display instrument with no pointer gesture: the rail is a role="meter" whose aria-valuetext reads the percentage of the way to the boundary, or that it was crossed, and the reason is a plain paragraph beneath it.
+- Under reduced motion the marker and fill still move, on a base tween, because the distance is information; the crossing does not bounce, the line still flashes and the reason fades in.
+- The marker and fill are placed by percentage inside a lane one marker narrower than the rail, so nothing is measured for position and a value of 1 rests the marker exactly against the line.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

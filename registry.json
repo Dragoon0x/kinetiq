@@ -23056,6 +23056,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "confidence-chip",
+      "type": "registry:ui",
+      "title": "Confidence Chip",
+      "description": "An answer that wears one chip saying how sure the model is. The chip's wash fills left to right to the confidence on glide and takes the tone of its value, and a low chip pulses once after the fill settles on a three-keyframe tween rather than a spring. Hovering or focusing the chip drops a reasoning card on snap over the answer's own text; Enter or Space pins it and Escape releases it.",
+      "files": [
+        {
+          "path": "registry/ui/confidence-chip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-831"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "refusal-card",
+      "type": "registry:ui",
+      "title": "Refusal Card",
+      "description": "A refusal that arrives without drama and offers a way forward. The card lowers into place from eight pixels above on drift, with no overshoot because a refusal never celebrates, and once it has landed the alternatives slide in as chips on snap in a cascade. Picking a chip lifts it on flick, fades the others, and cross-fades the row to a sent line with a tick drawn on flick while the body glides to the measured height; the chips are a group with a roving tabindex where arrows step, Home and End jump, and Enter or Space sends.",
+      "files": [
+        {
+          "path": "registry/ui/refusal-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-832"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "redact-veil",
+      "type": "registry:ui",
+      "title": "Redact Veil",
+      "description": "An answer whose sensitive spans sit under hatched bars until they are wanted. Hovering with a mouse or pen, or pressing, lifts a veil: the bar's clip rises from its bottom edge on glide like a curtain, and a hairline under the text then drains across revealFor and drops the veil back on glide, holding while the pointer or focus is on the span and while the tab is hidden. Each span is an inline button whose name is the kind rather than the secret while veiled; Enter or Space toggles it and focus alone never lifts one.",
+      "files": [
+        {
+          "path": "registry/ui/redact-veil.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-833"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "uncertainty-hedge",
+      "type": "registry:ui",
+      "title": "Uncertainty Hedge",
+      "description": "An answer that marks the phrases it is guessing at. Each guessed phrase carries a soft one-pixel warn underline drawn as a bottom-anchored background, so a wrapped phrase keeps its line on every fragment; the lines draw left to right on glide in a cascade, and hovering or focusing a phrase thickens its line to three pixels on snap. A legend rolls the count on snap, and pressing a phrase glides a note beneath the paragraph to its measured height with the model's reason; Enter or Space opens or swaps it and Escape folds it.",
+      "files": [
+        {
+          "path": "registry/ui/uncertainty-hedge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-834"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "policy-note",
+      "type": "registry:ui",
+      "title": "Policy Note",
+      "description": "An answer with a small tag beneath it that unfolds into a note explaining the constraint. The note is a sheet hinged at its top edge: pressing the tag rotates it from -90° to flat on glide while its wrapper glides to the measured height, and a hairline along its bottom edge drains across the read time, holding while the pointer or focus is on the note. When it runs out the note folds itself on the exit ease and the tag reads \"Read\" with a tick drawn on flick; Enter or Space toggles the tag and Escape folds the note and returns focus to it.",
+      "files": [
+        {
+          "path": "registry/ui/policy-note.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-835"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "human-handoff",
+      "type": "registry:ui",
+      "title": "Human Handoff",
+      "description": "A card that says who holds the thread. When the host moves the stage to waiting, the model's avatar leaves the seat to the left on the exit ease and an empty dashed seat breathes while a readout counts the wait; when the person arrives their avatar slides in from the right on snap and a ring lands around the seat on recoil, freezing the count. The cancel control is a real button and an sr-only status announces each stage once, never per second.",
+      "files": [
+        {
+          "path": "registry/ui/human-handoff.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-836"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "disclaimer-bar",
+      "type": "registry:ui",
+      "title": "Disclaimer Bar",
+      "description": "A disclaimer that arrives with the first answer as a full-width bar and, when the second answer lands, shrinks to a dot at the row's start: one button whose width and height glide to a 28px circle on glide while the text fades on a fast tween. Hovering or focusing the dot peeks the bar open on snap and leaving folds it again; pressing pins it open, pressing the open bar folds it, and Escape folds a pinned bar.",
+      "files": [
+        {
+          "path": "registry/ui/disclaimer-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-837"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "review-stamp",
+      "type": "registry:ui",
+      "title": "Review Stamp",
+      "description": "An answer card with a stamp that lands when a person approves it: the header's state chip fades and a tilted seal drops from 1.6× scale on recoil while its tick draws on flick and the card's border takes the success tone on a colour tween. The seal is a button whose tooltip reads who and when on hover, focus or press; Revoke peels it on rotateX toward the viewer on the exit ease, and Approve and Revoke share the footer at one height.",
+      "files": [
+        {
+          "path": "registry/ui/review-stamp.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-838"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "risk-meter",
+      "type": "registry:ui",
+      "title": "Risk Meter",
+      "description": "A meter beneath a proposed action that fills toward its risk: the fill is a scaleX on glide, toned cobalt, warn or danger by band, with two threshold ticks on the track, and a band label rides above it with its centre on the fill's leading edge while its word rolls up or down on snap. In the high band the action control arms a confirm — the first press rolls Run into Confirm on the destructive tone, the second runs, and Escape or a change of risk disarms.",
+      "files": [
+        {
+          "path": "registry/ui/risk-meter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-839"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "guard-rail",
+      "type": "registry:ui",
+      "title": "Guard Rail",
+      "description": "A rail that shows how close a conversation stands to a boundary: a round marker and the fill behind it move on glide as each message raises the proximity, taking the warn tone past warnAt, and a value of 1 or more is a crossing — that last stretch runs on recoil so the marker hits the line, overshoots into it and bounces back to rest against it, while the line flashes and the reason unfolds beneath in a measured frame. It is a role=\"meter\" with the distance in words, and an sr-only status announces near and crossed once each.",
+      "files": [
+        {
+          "path": "registry/ui/guard-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-840"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -44653,4 +44653,788 @@ export const components: KinetiqItem[] = [
       "The live region speaks Exporting to <target> and Exported to <target> once each on stage change, never per percent; the seal is aria-hidden and the chip's own sr-only text says it was sent.",
     ],
   },
+  {
+    name: "confidence-chip",
+    type: "registry:ui",
+    title: "Confidence Chip",
+    description:
+      "An answer that wears one chip saying how sure the model is. The chip's wash fills left to right to the confidence on glide and takes the tone of its value, and a low chip pulses once after the fill settles on a three-keyframe tween rather than a spring. Hovering or focusing the chip drops a reasoning card on snap over the answer's own text; Enter or Space pins it and Escape releases it.",
+    files: [
+      {
+        path: "registry/ui/confidence-chip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-831",
+    },
+    tagline: "How sure, in a chip.",
+    keywords: [
+      "confidence",
+      "chip",
+      "certainty",
+      "reasoning",
+      "tooltip",
+      "trust",
+      "answer",
+    ],
+    props: [
+      {
+        name: "confidence",
+        type: "number",
+        description: "How sure the model is of this answer, 0 to 1.",
+      },
+      {
+        name: "reasoning",
+        type: "string",
+        description:
+          "One sentence on why the value is what it is; shown in the read card and described to assistive technology.",
+      },
+      {
+        name: "answer",
+        type: "string",
+        description: "The answer the chip belongs to.",
+      },
+      {
+        name: "model",
+        type: "string",
+        description: "Whose answer it is; the header caption.",
+      },
+      {
+        name: "lowAt",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Below this the chip reads danger and pulses once on mount.",
+      },
+      {
+        name: "highAt",
+        type: "number",
+        defaultValue: "0.8",
+        description: "At or above this the chip reads success.",
+      },
+      {
+        name: "format",
+        type: "(confidence: number) => string",
+        defaultValue: "percent",
+        description:
+          "Formats the value for the chip label and its descriptions.",
+      },
+      {
+        name: "pulseLow",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Whether a low chip pulses once after its fill settles.",
+      },
+      {
+        name: "onReadChange",
+        type: "(reading: boolean) => void",
+        description:
+          "Fires when the reasoning starts or stops being read, by hover, focus or a pin.",
+      },
+      {
+        name: "onPinChange",
+        type: "(pinned: boolean) => void",
+        description:
+          "Fires from the press or Escape that pinned or released the reading.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the answer region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The chip is a real button: Tab reaches it, focus reads the reasoning like hover, Enter or Space pins the reading after the pointer leaves, and Escape releases the pin and hides the card.",
+      "Under reduced motion the fill appears at its width on a fast tween, the low pulse is still a single blink because a low answer is information, and the card fades in place without the drop.",
+      "An sr-only description carries the value and the reasoning whether or not the card is showing, and a polite live region names the value once when the fill settles.",
+    ],
+  },
+  {
+    name: "refusal-card",
+    type: "registry:ui",
+    title: "Refusal Card",
+    description:
+      "A refusal that arrives without drama and offers a way forward. The card lowers into place from eight pixels above on drift, with no overshoot because a refusal never celebrates, and once it has landed the alternatives slide in as chips on snap in a cascade. Picking a chip lifts it on flick, fades the others, and cross-fades the row to a sent line with a tick drawn on flick while the body glides to the measured height; the chips are a group with a roving tabindex where arrows step, Home and End jump, and Enter or Space sends.",
+    files: [
+      {
+        path: "registry/ui/refusal-card.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-832",
+    },
+    tagline: "Not that, but here is what it can do.",
+    keywords: [
+      "refusal",
+      "decline",
+      "alternatives",
+      "chips",
+      "safety",
+      "assistant",
+      "send",
+    ],
+    props: [
+      {
+        name: "open",
+        type: "boolean",
+        description: "Shows the card. Raise it when the model has refused.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"Can\'t do that"',
+        description: "The refusal headline.",
+      },
+      {
+        name: "reason",
+        type: "string",
+        description: "One line on why, in the house voice.",
+      },
+      {
+        name: "alternatives",
+        type: "RefusalAlternative[]",
+        description:
+          "What the model can do instead, as { id, label } in offer order.",
+      },
+      {
+        name: "sent / defaultSent",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial id of the alternative that was sent, or null while nothing has been picked.",
+      },
+      {
+        name: "onSend",
+        type: "(id: string) => void",
+        description: "Fires from the click or key that picked a chip.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the card region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The chips are a group with a roving tabindex: Tab enters once, Left and Right (or Up and Down) step without wrapping, Home and End jump, Enter or Space sends; after a pick the chips leave the tree and focus moves to the sent line.",
+      "Under reduced motion the card and chips fade in place without lowering or sliding, the pick is a cross-fade, and the body height changes on a fast tween.",
+      "A polite live region reads the refusal and the number of alternatives once when the card lands and the sent line once on a pick; every opening starts a fresh panel so a second refusal never inherits the last pick.",
+    ],
+  },
+  {
+    name: "redact-veil",
+    type: "registry:ui",
+    title: "Redact Veil",
+    description:
+      "An answer whose sensitive spans sit under hatched bars until they are wanted. Hovering with a mouse or pen, or pressing, lifts a veil: the bar's clip rises from its bottom edge on glide like a curtain, and a hairline under the text then drains across revealFor and drops the veil back on glide, holding while the pointer or focus is on the span and while the tab is hidden. Each span is an inline button whose name is the kind rather than the secret while veiled; Enter or Space toggles it and focus alone never lifts one.",
+    files: [
+      {
+        path: "registry/ui/redact-veil.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-833",
+    },
+    tagline: "Hidden until you need it.",
+    keywords: [
+      "redact",
+      "veil",
+      "sensitive",
+      "privacy",
+      "reveal",
+      "timer",
+      "hatch",
+    ],
+    props: [
+      {
+        name: "segments",
+        type: "VeilSegment[]",
+        description:
+          "The answer in order: plain strings and { id, text, kind } spans to veil.",
+      },
+      {
+        name: "revealFor",
+        type: "number",
+        defaultValue: "4000",
+        description:
+          "Milliseconds a lifted veil stays lifted after the pointer and focus leave; 0 or less never re-veils.",
+      },
+      {
+        name: "revealed / defaultRevealed",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "Controlled or initial ids of the spans currently lifted.",
+      },
+      {
+        name: "onRevealChange",
+        type: "(ids: string[], change: VeilChange) => void",
+        description:
+          'Fires with the new lifted set and { id, revealed, by } for the span that changed, where by is "hover", "press" or "timer".',
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the answer region and prints as the header caption.",
+      },
+    ],
+    usageNotes: [
+      "Each span is an inline button with aria-pressed: Tab reaches it in reading order, Enter or Space toggles the veil, and focus holds a lifted span's timer without lifting a veiled one, so a reader tabbing through never has a secret uncovered by focus alone.",
+      "Under reduced motion the bar swaps out and in on an opacity tween with no wipe; the timer hairline still drains, because the moment of re-veiling is information.",
+      'While veiled the covered text is hidden from assistive technology and unselectable; a polite live region reads "Revealed <kind>" and "Veiled <kind> again" once per change, never per tick.',
+    ],
+  },
+  {
+    name: "uncertainty-hedge",
+    type: "registry:ui",
+    title: "Uncertainty Hedge",
+    description:
+      "An answer that marks the phrases it is guessing at. Each guessed phrase carries a soft one-pixel warn underline drawn as a bottom-anchored background, so a wrapped phrase keeps its line on every fragment; the lines draw left to right on glide in a cascade, and hovering or focusing a phrase thickens its line to three pixels on snap. A legend rolls the count on snap, and pressing a phrase glides a note beneath the paragraph to its measured height with the model's reason; Enter or Space opens or swaps it and Escape folds it.",
+    files: [
+      {
+        path: "registry/ui/uncertainty-hedge.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-834",
+    },
+    tagline: "Where it is guessing.",
+    keywords: [
+      "uncertainty",
+      "hedge",
+      "guess",
+      "underline",
+      "legend",
+      "reasoning",
+      "answer",
+    ],
+    props: [
+      {
+        name: "segments",
+        type: "HedgeSegment[]",
+        description:
+          "The answer in order: plain strings and { id, phrase, why } guessed phrases.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial id of the phrase whose reason is showing, or null.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the press or Escape that opened, swapped or folded a reason.",
+      },
+      {
+        name: "onHoverChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires when the phrase under the pointer or focus changes.",
+      },
+      {
+        name: "legend",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Whether the count legend shows above the paragraph.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the answer region and prints as the legend caption.",
+      },
+    ],
+    usageNotes: [
+      "The phrases are inline buttons with aria-expanded and aria-controls on the note: Tab reaches each in reading order, focus thickens the line like hover, Enter or Space opens or swaps the note, and Escape folds it while keeping focus on the phrase.",
+      "Under reduced motion the lines appear at full length with no stagger, the thickening is a fast swap rather than a spring, the note's height changes on a tween, and the legend digits swap in place.",
+      "A polite live region reads the count when the answer changes and the reason once when a note opens; the note is a region that is inert while folded.",
+    ],
+  },
+  {
+    name: "policy-note",
+    type: "registry:ui",
+    title: "Policy Note",
+    description:
+      'An answer with a small tag beneath it that unfolds into a note explaining the constraint. The note is a sheet hinged at its top edge: pressing the tag rotates it from -90° to flat on glide while its wrapper glides to the measured height, and a hairline along its bottom edge drains across the read time, holding while the pointer or focus is on the note. When it runs out the note folds itself on the exit ease and the tag reads "Read" with a tick drawn on flick; Enter or Space toggles the tag and Escape folds the note and returns focus to it.',
+    files: [
+      {
+        path: "registry/ui/policy-note.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-835",
+    },
+    tagline: "Why it answered this way.",
+    keywords: [
+      "policy",
+      "note",
+      "constraint",
+      "explanation",
+      "unfold",
+      "disclosure",
+      "read",
+    ],
+    props: [
+      {
+        name: "answer",
+        type: "string",
+        description: "The answer the note explains.",
+      },
+      {
+        name: "model",
+        type: "string",
+        description: "Whose answer it is; the header caption.",
+      },
+      {
+        name: "code",
+        type: "string",
+        description:
+          'The policy\'s short code, printed in mono: "Coldbrook house policy 4.2".',
+      },
+      {
+        name: "title",
+        type: "string",
+        description: "The policy's name; labels the note region.",
+      },
+      {
+        name: "note",
+        type: "string",
+        description: "One or two sentences on the constraint.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial unfolded state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean, by: PolicyNoteReason) => void",
+        description:
+          'Fires from the press, Escape or the read-out timer that changed the state, with by as "press", "escape" or "read".',
+      },
+      {
+        name: "readTime",
+        type: "number",
+        defaultValue: "from the word count",
+        description:
+          "Milliseconds the note stays open once unfolded, by default the note's word count at a reading pace floored at three seconds; 0 or less keeps it open.",
+      },
+      {
+        name: "tagLabel",
+        type: "string",
+        defaultValue: '"Why this answer"',
+        description: "The tag's copy before the note has been read.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the answer region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The tag is a real button with aria-expanded and aria-controls: Enter or Space toggles the note, Escape anywhere in the frame folds it and returns focus to the tag, and the read timer holds while focus is inside the note or the pointer is over it.",
+      "Under reduced motion the sheet fades in without the hinge, the height changes on a fast tween, and the hairline still drains, because the moment of folding is information.",
+      'A polite live region reads "Note open: <code>, <title>" once when it unfolds and "Note folded" once when it folds, never a tick; the note region is inert while folded.',
+    ],
+  },
+  {
+    name: "human-handoff",
+    type: "registry:ui",
+    title: "Human Handoff",
+    description:
+      "A card that says who holds the thread. When the host moves the stage to waiting, the model's avatar leaves the seat to the left on the exit ease and an empty dashed seat breathes while a readout counts the wait; when the person arrives their avatar slides in from the right on snap and a ring lands around the seat on recoil, freezing the count. The cancel control is a real button and an sr-only status announces each stage once, never per second.",
+    files: [
+      {
+        path: "registry/ui/human-handoff.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-836",
+    },
+    tagline: "A person is taking over.",
+    keywords: [
+      "handoff",
+      "escalation",
+      "human",
+      "support",
+      "avatar",
+      "wait",
+      "agent",
+    ],
+    props: [
+      {
+        name: "stage",
+        type: '"model" | "waiting" | "human"',
+        description: "Who holds the thread; the host advances it.",
+      },
+      {
+        name: "model",
+        type: "string",
+        description:
+          "The model's invented name, printed while it answers and as the seat's initials.",
+      },
+      {
+        name: "person",
+        type: "{ name: string; team?: string }",
+        description: "Who takes over; the seat's initials come from the name.",
+      },
+      {
+        name: "reason",
+        type: "string",
+        description:
+          "Why the thread is being handed off, shown from the waiting stage on.",
+      },
+      {
+        name: "onWaitChange",
+        type: "(seconds: number) => void",
+        description:
+          "Fires from the interval with each counted second; the last value is the frozen wait.",
+      },
+      {
+        name: "onCancel",
+        type: "() => void",
+        description: "Fires from the cancel control while waiting.",
+      },
+      {
+        name: "cancelLabel",
+        type: "string",
+        defaultValue: '"Cancel handoff"',
+        description: "Copy on the cancel control.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the card for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The cancel control is the only stop: Tab reaches it while waiting, Enter and Space fire it; the readout is aria-hidden because the status region carries the seconds in words.",
+      "Under reduced motion the avatars cross-fade in place, the empty seat does not breathe and the ring appears without a landing; the count still counts because the wait is information.",
+      "The count runs only while the stage is waiting, pauses while the tab is hidden, and resets when the stage returns to the model.",
+    ],
+  },
+  {
+    name: "disclaimer-bar",
+    type: "registry:ui",
+    title: "Disclaimer Bar",
+    description:
+      "A disclaimer that arrives with the first answer as a full-width bar and, when the second answer lands, shrinks to a dot at the row's start: one button whose width and height glide to a 28px circle on glide while the text fades on a fast tween. Hovering or focusing the dot peeks the bar open on snap and leaving folds it again; pressing pins it open, pressing the open bar folds it, and Escape folds a pinned bar.",
+    files: [
+      {
+        path: "registry/ui/disclaimer-bar.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-837",
+    },
+    tagline: "Said once, kept out of the way.",
+    keywords: [
+      "disclaimer",
+      "notice",
+      "fold",
+      "dot",
+      "peek",
+      "answer",
+      "agent",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "The disclaimer, one or two short sentences.",
+      },
+      {
+        name: "answers",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Answers given so far: 0 keeps the bar away, 1 shows it, 2 or more fold it to the dot.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        description:
+          "Controlled or initial pin: true holds the bar open past its fold, false holds it folded; omitted, the bar follows answers.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from a press or Escape with the new pin.",
+      },
+      {
+        name: "onPeekChange",
+        type: "(peeking: boolean) => void",
+        description:
+          "Fires as hover or focus peeks the folded bar open and closed.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Disclaimer"',
+        description: "Names the folded dot for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'One button in both states: Tab reaches it, Enter and Space toggle the pin, Escape folds a pinned bar, and focus peeks the dot open exactly as hover does. Folded, the text is aria-hidden and the button is named "<label>, folded".',
+      "Under reduced motion there is no width morph: the bar and the dot swap at once and only the text fades; the frame's height changes on a tween.",
+      "A new answer resets any pin, and the sr-only status announces shown or folded once per change, never per peek.",
+    ],
+  },
+  {
+    name: "review-stamp",
+    type: "registry:ui",
+    title: "Review Stamp",
+    description:
+      "An answer card with a stamp that lands when a person approves it: the header's state chip fades and a tilted seal drops from 1.6× scale on recoil while its tick draws on flick and the card's border takes the success tone on a colour tween. The seal is a button whose tooltip reads who and when on hover, focus or press; Revoke peels it on rotateX toward the viewer on the exit ease, and Approve and Revoke share the footer at one height.",
+    files: [
+      {
+        path: "registry/ui/review-stamp.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-838",
+    },
+    tagline: "Reviewed by a person.",
+    keywords: [
+      "review",
+      "stamp",
+      "seal",
+      "approve",
+      "revoke",
+      "tooltip",
+      "agent",
+    ],
+    props: [
+      {
+        name: "answer",
+        type: "string",
+        description: "The answer's text.",
+      },
+      {
+        name: "model",
+        type: "string",
+        description: "The invented model that wrote it, printed in the header.",
+      },
+      {
+        name: "review",
+        type: "ReviewRecord | null",
+        defaultValue: "null",
+        description:
+          "The approval on record — reviewer, team and a formatted time; present, the stamp is down.",
+      },
+      {
+        name: "onApprove",
+        type: "() => void",
+        description:
+          "Fires from the Approve control; the host records who and when.",
+      },
+      {
+        name: "onRevoke",
+        type: "() => void",
+        description: "Fires from the Revoke control.",
+      },
+      {
+        name: "stampText",
+        type: "string",
+        defaultValue: '"Reviewed"',
+        description: "The word on the seal.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the card for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'The seal is a button named "Reviewed by <reviewer>" and described by an always-mounted sr-only line with the team and time; Tab reaches the seal and then the footer control, Enter and Space toggle the tooltip, Escape closes it.',
+      "Under reduced motion the seal fades in and out at rest — no drop, no tilt landing, no peel — and the tooltip fades without scaling; the success tint still tweens.",
+      "The component never reads a clock: the host records who and when in the review it passes, and the sr-only status announces the review and its revocation once each.",
+    ],
+  },
+  {
+    name: "risk-meter",
+    type: "registry:ui",
+    title: "Risk Meter",
+    description:
+      "A meter beneath a proposed action that fills toward its risk: the fill is a scaleX on glide, toned cobalt, warn or danger by band, with two threshold ticks on the track, and a band label rides above it with its centre on the fill's leading edge while its word rolls up or down on snap. In the high band the action control arms a confirm — the first press rolls Run into Confirm on the destructive tone, the second runs, and Escape or a change of risk disarms.",
+    files: [
+      {
+        path: "registry/ui/risk-meter.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-839",
+    },
+    tagline: "How risky the action is.",
+    keywords: [
+      "risk",
+      "meter",
+      "confirm",
+      "arm",
+      "threshold",
+      "action",
+      "agent",
+    ],
+    props: [
+      {
+        name: "risk",
+        type: "number",
+        description: "The action's risk, 0 to 1.",
+      },
+      {
+        name: "action",
+        type: "string",
+        description: "What the model proposes to do, printed above the meter.",
+      },
+      {
+        name: "thresholds",
+        type: "[number, number]",
+        defaultValue: "[0.35, 0.7]",
+        description:
+          "Where the moderate and high bands begin; the high band arms the confirm.",
+      },
+      {
+        name: "bands",
+        type: "[string, string, string]",
+        defaultValue: '["Low", "Moderate", "High"]',
+        description: "The band words.",
+      },
+      {
+        name: "runLabel",
+        type: "string",
+        defaultValue: '"Run"',
+        description: "Copy on the action control.",
+      },
+      {
+        name: "confirmLabel",
+        type: "string",
+        defaultValue: '"Confirm"',
+        description: "Copy on the armed control.",
+      },
+      {
+        name: "onRun",
+        type: "() => void",
+        description:
+          "Fires when the action runs: one press below the high band, the second press in it.",
+      },
+      {
+        name: "onArmChange",
+        type: "(armed: boolean) => void",
+        description:
+          "Fires from the press or key that armed or disarmed the confirm.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the meter and its group for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'The action control is one button: below the high band a press runs; in it the first press arms Confirm (described by an sr-only "Press again to confirm"), the second runs, and Escape disarms. The track is a role="meter" whose aria-valuetext reads the band and percentage.',
+      "Under reduced motion the fill still fills on a base tween, the label does not travel, and the band and control words cross-fade in place.",
+      "A new risk value disarms the confirm and clears the last run in the same commit, so a control never stays armed for an action it was not armed on.",
+    ],
+  },
+  {
+    name: "guard-rail",
+    type: "registry:ui",
+    title: "Guard Rail",
+    description:
+      'A rail that shows how close a conversation stands to a boundary: a round marker and the fill behind it move on glide as each message raises the proximity, taking the warn tone past warnAt, and a value of 1 or more is a crossing — that last stretch runs on recoil so the marker hits the line, overshoots into it and bounces back to rest against it, while the line flashes and the reason unfolds beneath in a measured frame. It is a role="meter" with the distance in words, and an sr-only status announces near and crossed once each.',
+    files: [
+      {
+        path: "registry/ui/guard-rail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-840",
+    },
+    tagline: "The line it will not cross.",
+    keywords: [
+      "guard",
+      "boundary",
+      "policy",
+      "rail",
+      "marker",
+      "safety",
+      "agent",
+    ],
+    props: [
+      {
+        name: "proximity",
+        type: "number",
+        description:
+          "How close the conversation stands to the line: 0 is far, 1 or more has crossed.",
+      },
+      {
+        name: "boundary",
+        type: "string",
+        description: "The line's name, printed at the rail's end.",
+      },
+      {
+        name: "reason",
+        type: "string",
+        description: "Why the line stopped the thread, shown when crossed.",
+      },
+      {
+        name: "warnAt",
+        type: "number",
+        defaultValue: "0.7",
+        description: "Fraction past which the rail turns warn.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the rail for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'A display instrument with no pointer gesture: the rail is a role="meter" whose aria-valuetext reads the percentage of the way to the boundary, or that it was crossed, and the reason is a plain paragraph beneath it.',
+      "Under reduced motion the marker and fill still move, on a base tween, because the distance is information; the crossing does not bounce, the line still flashes and the reason fades in.",
+      "The marker and fill are placed by percentage inside a lane one marker narrower than the rail, so nothing is measured for position and a value of 1 rests the marker exactly against the line.",
+    ],
+  },
 ];
