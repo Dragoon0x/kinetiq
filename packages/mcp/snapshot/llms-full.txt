@@ -14095,6 +14095,209 @@ Notes:
 - Under reduced motion segments tween empty, digits swap in place, nothing pulses, and the hatch and lock appear at once.
 - The status region speaks on threshold only: running low, then locked; never per call.
 
+### Cite Mark (KQ-771) — `cite-mark`
+A number that knows its source.
+
+A citation number that knows its source. Hovering or focusing a mark lifts it on flick and opens its source card in a measured slot under the paragraph, anchored beneath the mark on snap; pressing pins it, and the card travels on glide from under the mark into the margin rail where pinned sources stack in citation order. Marks are real buttons with an always-mounted description, so Tab reaches each one, Enter or Space pins, and Escape hides or unpins.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cite-mark`
+
+Props:
+- `text`: string — The answer; a [n] mark cites sources[n - 1].
+- `sources`: CiteSource[] — Sources in citation order: id, title, site, excerpt and an optional formatted date.
+- `pinned / defaultPinned`: string[] (default []) — Source ids pinned to the margin rail; controlled or initial.
+- `onPinnedChange`: (ids: string[]) => void — Fires from the press that pinned or unpinned a source.
+- `onHoverChange`: (id: string | null) => void — Fires when hover or focus shows or hides a source card.
+- `label`: string — Names the answer region for assistive technology.
+
+Notes:
+- Every mark is a real button in a superscript: Tab reaches each in reading order, focus shows the card like hover, Enter or Space pins, Escape hides the card or unpins a pinned mark; the rail's unpin control returns focus to its mark.
+- Under reduced motion marks colour without lifting, cards fade in place, pin and unpin cross-fade with no shared travel, and the slot and rail heights change on a fast tween.
+- The floating card lives in flow under the paragraph rather than over whatever sits below, so nothing is covered and the host's layout follows it.
+
+### Source Stack (KQ-772) — `source-stack`
+Every source, in a stack.
+
+Every source in one stack behind the answer: the front card shows in full and the others tuck behind it with only their title strips peeking out. Hovering or focusing a citation previews its card — y, scale and stacking order are derived from each card's rank and glide to their new values while the others tuck back — and pressing a citation, a strip, or an arrow key selects it so it stays in front; the stack's height is measured so a taller card glides rather than jumps. The strips carry a roving tabindex: Tab lands on the selected strip, the arrow keys move the selection, Home and End jump, Enter or Space selects.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/source-stack`
+
+Props:
+- `text`: string — The answer; a [n] mark cites sources[n - 1].
+- `sources`: StackSource[] — Sources in citation order: id, title, site and excerpt.
+- `value / defaultValue`: string (default the first source) — The id of the card kept in front; controlled or initial.
+- `onValueChange`: (id: string) => void — Fires from the press or arrow key that selected a source.
+- `onPreviewChange`: (id: string | null) => void — Fires when hover or focus previews a card, and null when the preview ends.
+- `label`: string — Names the answer region for assistive technology.
+
+Notes:
+- Citations in the answer are real buttons that preview on hover or focus and select on press; the stack is an ordered list whose strips carry a roving tabindex — arrow keys move the selection, Home and End jump, Enter or Space selects — and the live region reads a selection once, never a preview.
+- Under reduced motion cards swap depth without travel: transforms are set instantly, the front card's body fades in, and the stack's height changes on a fast tween.
+- An invisible in-flow copy of the front card gives the stack its natural height before any measurement runs, so the server's markup is already the right size.
+
+### Quote Pull (KQ-773) — `quote-pull`
+The exact words, highlighted.
+
+The exact words, highlighted where they came from. Hovering or focusing a quoted passage in the answer finds those words in the source excerpt and sweeps a marker in behind them on glide — the mark's background-size runs from 0% to 100% so a wrapped passage keeps sweeping onto its next line — while the surrounding text dims on a base tween; pressing pins the highlight and Escape releases it. A quote the excerpt does not contain gets a dashed danger underline and a not-in-source note instead.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/quote-pull`
+
+Props:
+- `answer`: (string | PullQuote)[] — The answer as plain runs and { id, text } quoted passages, in reading order.
+- `source`: PullSource — The source: title, site and the excerpt searched for each quote's words.
+- `pinned / defaultPinned`: string | null (default null) — The quote id held highlighted; controlled or initial.
+- `onPinnedChange`: (id: string | null) => void — Fires from the press that pinned or released a quote.
+- `onActiveChange`: (id: string | null) => void — Fires when hover or focus starts or ends a highlight.
+- `label`: string — Names the answer region for assistive technology.
+
+Notes:
+- Each quote is an inline element with the button role wrapping a q element, so it wraps with the sentence: Tab reaches each, focus highlights like hover, Enter or Space pins, Escape releases; the live region reads a pin or release once.
+- Under reduced motion the marker appears at full width on a fast opacity tween instead of sweeping, and the surrounding text dims on the same tween.
+- Quotes are matched exactly and then without case; a quote the excerpt does not contain is marked not in source rather than highlighted, because a quote that cannot be found is a claim.
+
+### Confidence Band (KQ-774) — `confidence-band`
+How sure, per claim.
+
+Every claim wears its confidence as a band under its words, sized by the value and coloured by tone. Bands fill left to right on glide in a cascade across the claims, and once the last settles every low-confidence band pulses once on a slow three-keyframe alpha tween; hovering or focusing a claim rolls the readout's digits to its value on snap while the other bands dim, and pressing holds the reading. Each claim takes the button role with an always-present description, so Tab reaches each in reading order and Enter or Space holds.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/confidence-band`
+
+Props:
+- `claims`: BandClaim[] — Claims in reading order: id, text and a confidence from 0 to 1.
+- `lowAt`: number (default 0.5) — Below this a band reads danger and pulses once on load.
+- `highAt`: number (default 0.8) — At or above this a band reads success; between the two it reads warn.
+- `format`: (confidence: number) => string (default percent) — Formats a confidence for the readout and the claim descriptions.
+- `pulseLow`: boolean (default true) — Whether low bands pulse once after the mount cascade.
+- `onReadChange`: (id: string | null) => void — Fires when the claim being read changes, by hover, focus or a hold.
+- `onHoldChange`: (id: string | null) => void — Fires from the press that held or released a claim.
+- `label`: string — Names the answer region for assistive technology.
+
+Notes:
+- Each claim is an inline element with the button role so it wraps with the paragraph: Tab reaches each in reading order, focus reads the value like hover, Enter or Space holds the reading; the live region reads the claim count once when the cascade settles.
+- Under reduced motion bands fill on a fast tween with no stagger, the low pulse is still a single opacity blink because a weak claim is information, and the readout digits swap in place.
+- The band is a bottom-anchored background with box-decoration-break clone, so a claim that wraps carries its share on every line.
+
+### Freshness Tag (KQ-775) — `freshness-tag`
+How old the source is.
+
+How old each source is, worn as a tag. Ages are measured from a now the host passes, never a clock; a source past the stale line turns amber on a colour tween and a re-fetch control slides open on snap. Pressing it fires onRefetch, the arrows turn on a linear loop while the host lists the id as fetching, and when a new fetchedAt arrives the date lands from 1.3× on recoil while the tag cools and the control folds away; when now moves every age rolls to its new reading on snap. The control is a real button with aria-busy, so Tab reaches each stale source and Enter or Space re-fetches it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/freshness-tag`
+
+Props:
+- `sources`: FreshSource[] — Sources with id, title, site and fetchedAt as an ISO date or date-time.
+- `now`: string | number — The moment ages are measured from — an ISO date or epoch milliseconds; pass it from an effect or the server, never from render.
+- `staleAfterDays`: number (default 30) — Age in days at which a source turns amber and offers a re-fetch.
+- `fetching`: string[] (default []) — Ids the host is re-fetching right now; their controls turn and their tags read fetching.
+- `onRefetch`: (id: string) => void — Fires from the press on a stale source's re-fetch control.
+- `formatDate`: (iso: string) => string (default 9 Sep 2026) — Formats a fetched date for the row and the descriptions; the default uses a fixed month table so server and browser agree.
+- `label`: string — Names the list for assistive technology.
+
+Notes:
+- The re-fetch control is a real button with aria-busy and disabled while fetching: Tab reaches each stale source's control and Enter or Space presses it; each tag carries a full sentence — fresh or stale, the date, the age — so the state is words, not colour.
+- Under reduced motion ages swap in place on a fast fade, the control fades in without sliding, the arrows hold at half opacity while fetching, and a new date fades in at full size.
+- The component keeps no clock: pass now from an effect or the server and stamp a new fetchedAt when your fetch resolves; the live region reads each stamp once, and the stale count once when now moves.
+
+### Source Map (KQ-776) — `source-map`
+Which sources fed which paragraph.
+
+Which sources fed which paragraph, drawn rather than footnoted. An overlay measures the answer's paragraphs and its source cards with a ResizeObserver and draws a curve from each paragraph to every source it draws on, self-drawing on glide in a cascade. Hovering or focusing a paragraph lights its lines and cards on a fast opacity tween and fades the rest; pressing pins the highlight, Up and Down walk the paragraphs, Home and End jump, and Escape unpins.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/source-map`
+
+Props:
+- `paragraphs`: SourceMapParagraph[] — The answer's paragraphs; each names the source ids it draws on.
+- `sources`: SourceMapSource[] — The source cards, in column order, with a label and a domain.
+- `value / defaultValue`: string | null (default null) — The pinned paragraph id, controlled or initial.
+- `onValueChange`: (id: string | null) => void — Fires when a paragraph is pinned or unpinned.
+- `onActiveChange`: (id: string | null) => void — Fires when the highlighted paragraph changes by hover, focus or pin.
+- `label`: string — Names the map for assistive technology.
+
+Notes:
+- Paragraphs are buttons in a roving tabindex: Up and Down move, Home and End jump, Enter and Space pin, Escape unpins; each is described by the sources it draws on, and each card by the paragraphs it fed.
+- Under reduced motion the lines mount already drawn and lighting is colour and opacity only; pinning still brightens and fades, because the mapping is the information.
+- The overlay is measured from the real boxes, so it redraws on any reflow and never reserves height; the source column is fixed-width so the paragraphs take the rest.
+
+### Verify Row (KQ-777) — `verify-row`
+Checked against the source.
+
+A claim checked against its source. Pressing Verify hands the check to the host; while verifying a narrow scan bar sweeps the claim on a linear tween and repeats until the verdict lands, then runs off the edge on the exit ease as a stamp lands beside the button: match on recoil, partial on snap, mismatch on glide, because a failed check never celebrates. The button is a real button, busy while checking, and the row announces the verdict once on the stamp.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/verify-row`
+
+Props:
+- `claim`: string — The claim being checked.
+- `source`: { label: string; domain: string } — What the claim is checked against.
+- `verifying`: boolean (default false) — The check is running: the scan bar sweeps until a verdict lands.
+- `verdict`: "match" | "partial" | "mismatch" | null (default null) — The outcome once known; stamps the row when set.
+- `onVerify`: () => void — Fires from the Verify or Recheck button.
+- `disabled`: boolean (default false) — Blocks the button, for hosts that check one row at a time.
+
+Notes:
+- Tab reaches the Verify button and Enter or Space presses it; it reads Checking and is busy while the check runs, then Recheck once a verdict has landed.
+- Under reduced motion no bar travels: the claim box breathes a wash on an opacity tween while checking and the stamp fades in place; the verdict still shows and still announces.
+- The stamp is a word beside a colour, never colour alone, and the row's live region announces the verdict once, on the stamp.
+
+### Footnote Drawer (KQ-778) — `footnote-drawer`
+Notes that rise from the bottom.
+
+Notes that rise from the bottom. The answer's [n] marks render as small buttons; pressing one raises a drawer from the frame's bottom edge on glide while a scrim fades over the prose, and inside it the list's scroll position is animated on glide so the pressed note comes into view under a wash that fades once seen. The drawer is a modal dialog: focus lands on the note, Tab cycles between the close button and the notes, Escape or the scrim lowers it on the exit ease, and focus returns to the mark.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/footnote-drawer`
+
+Props:
+- `text`: string — The answer; [n] marks the nth note and a blank line separates paragraphs.
+- `notes`: FootnoteEntry[] — The notes in mark order, each with its text and a source label and domain.
+- `value / defaultValue`: string | null (default null) — The open note's id, controlled or initial; null keeps the drawer lowered.
+- `onValueChange`: (id: string | null) => void — Fires when a mark is pressed or the drawer lowers.
+- `label`: string — Names the answer region for assistive technology.
+
+Notes:
+- Each mark is a button named Note n with aria-expanded; the drawer is a modal dialog where Tab and Shift+Tab cycle between the close button and the notes, Escape lowers it, and focus returns to the mark that opened it.
+- Under reduced motion the drawer and scrim fade in place and the list jumps to the note; the wash still fades, because which note opened is the information.
+- The drawer lives inside the answer's frame and is capped at the frame's height less a margin, so it never overflows the page; give the frame enough prose to stand under it.
+
+### Page Pin (KQ-779) — `page-pin`
+Pinned to the page it came from.
+
+Pinned to the page it came from. A procedural preview of the source draws a scroller of sheets under a header that reads the page with rolling digits; choosing a citation pin animates the scroller to its page on glide, the page number rolls on snap as sheets pass, and when the scroll settles a wash wipes across the cited lines on the enter ease. The pins are a radio group with a roving tabindex, and the scroller is a focusable region the keyboard scrolls natively.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/page-pin`
+
+Props:
+- `title`: string — The document's name in the header.
+- `pageCount`: number — How many sheets the preview draws.
+- `citations`: PagePinCitation[] — The pinned claims: an id, a label, the page and the first and last line cited.
+- `value / defaultValue`: string | null (default null) — The chosen citation id, controlled or initial.
+- `onValueChange`: (id: string) => void — Fires when a pin is chosen.
+- `onPageChange`: (page: number) => void — Fires when the page under the header changes, by pin or by hand.
+- `linesPerPage`: number (default 12) — Bars drawn per sheet.
+- `label`: string — Names the preview region for assistive technology.
+
+Notes:
+- Pins are radios with a roving tabindex: Left and Right move and choose, Home and End jump, Space and Enter choose; the scroller is a focusable region, so Up, Down, Page Up and Page Down scroll it natively.
+- Under reduced motion the scroller jumps to the page, the digits swap in place and the wash fades in; the page still changes and the live region still announces the settle.
+- The header reports the page under it from the scroll position, so scrolling by hand rolls the number as well as choosing a pin.
+
+### Citation Count (KQ-780) — `citation-count`
+How well-sourced this is.
+
+How well-sourced an answer is, as a badge: a ring that fills in proportion to claims covered on glide, a citation count whose digits roll on snap, and a word. Both turn success when every claim is covered. Pressing the badge opens a panel beneath whose height is measured by a ResizeObserver and animated on glide, listing the claims that still lack a source; rows leave on the exit ease as they become covered, and Escape closes the panel and returns focus to the badge.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/citation-count`
+
+Props:
+- `citations`: number — How many citation marks the answer carries.
+- `claims`: CitationClaim[] — Every claim the answer makes, and whether a source backs it.
+- `open / defaultOpen`: boolean (default false) — The uncovered list is shown, controlled or initial.
+- `onOpenChange`: (open: boolean) => void — Fires from the badge press or Escape.
+- `label`: string (default "Citations") — Names the badge for assistive technology.
+
+Notes:
+- The badge is a button whose name is the whole reading — count and coverage in one breath — with aria-expanded and aria-controls on the panel; Escape closes the panel and returns focus to the badge.
+- Under reduced motion the ring still fills on a tween, the digits swap in place, the panel height still animates and rows fade instead of collapsing; the count and coverage are the information.
+- Citations and covered claims are separate numbers on purpose: a second citation on an already-covered claim rolls the count without moving the ring.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

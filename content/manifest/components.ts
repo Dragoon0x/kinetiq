@@ -40392,4 +40392,717 @@ export const components: KinetiqItem[] = [
       "The pointer is captured only after four pixels of travel, inside a try/catch, so a plain click is never swallowed. The panel opens up and to the left, so place the button at a composer's right end and give it headroom.",
     ],
   },
+  {
+    name: "cite-mark",
+    type: "registry:ui",
+    title: "Cite Mark",
+    description:
+      "A citation number that knows its source. Hovering or focusing a mark lifts it on flick and opens its source card in a measured slot under the paragraph, anchored beneath the mark on snap; pressing pins it, and the card travels on glide from under the mark into the margin rail where pinned sources stack in citation order. Marks are real buttons with an always-mounted description, so Tab reaches each one, Enter or Space pins, and Escape hides or unpins.",
+    files: [
+      {
+        path: "registry/ui/cite-mark.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-771",
+    },
+    tagline: "A number that knows its source.",
+    keywords: [
+      "citation",
+      "source",
+      "footnote",
+      "pin",
+      "margin",
+      "card",
+      "agent",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "The answer; a [n] mark cites sources[n - 1].",
+      },
+      {
+        name: "sources",
+        type: "CiteSource[]",
+        description:
+          "Sources in citation order: id, title, site, excerpt and an optional formatted date.",
+      },
+      {
+        name: "pinned / defaultPinned",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Source ids pinned to the margin rail; controlled or initial.",
+      },
+      {
+        name: "onPinnedChange",
+        type: "(ids: string[]) => void",
+        description: "Fires from the press that pinned or unpinned a source.",
+      },
+      {
+        name: "onHoverChange",
+        type: "(id: string | null) => void",
+        description: "Fires when hover or focus shows or hides a source card.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the answer region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Every mark is a real button in a superscript: Tab reaches each in reading order, focus shows the card like hover, Enter or Space pins, Escape hides the card or unpins a pinned mark; the rail's unpin control returns focus to its mark.",
+      "Under reduced motion marks colour without lifting, cards fade in place, pin and unpin cross-fade with no shared travel, and the slot and rail heights change on a fast tween.",
+      "The floating card lives in flow under the paragraph rather than over whatever sits below, so nothing is covered and the host's layout follows it.",
+    ],
+  },
+  {
+    name: "source-stack",
+    type: "registry:ui",
+    title: "Source Stack",
+    description:
+      "Every source in one stack behind the answer: the front card shows in full and the others tuck behind it with only their title strips peeking out. Hovering or focusing a citation previews its card — y, scale and stacking order are derived from each card's rank and glide to their new values while the others tuck back — and pressing a citation, a strip, or an arrow key selects it so it stays in front; the stack's height is measured so a taller card glides rather than jumps. The strips carry a roving tabindex: Tab lands on the selected strip, the arrow keys move the selection, Home and End jump, Enter or Space selects.",
+    files: [
+      {
+        path: "registry/ui/source-stack.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-772",
+    },
+    tagline: "Every source, in a stack.",
+    keywords: [
+      "sources",
+      "stack",
+      "cards",
+      "citation",
+      "flip",
+      "preview",
+      "agent",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "The answer; a [n] mark cites sources[n - 1].",
+      },
+      {
+        name: "sources",
+        type: "StackSource[]",
+        description: "Sources in citation order: id, title, site and excerpt.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "the first source",
+        description: "The id of the card kept in front; controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from the press or arrow key that selected a source.",
+      },
+      {
+        name: "onPreviewChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires when hover or focus previews a card, and null when the preview ends.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the answer region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Citations in the answer are real buttons that preview on hover or focus and select on press; the stack is an ordered list whose strips carry a roving tabindex — arrow keys move the selection, Home and End jump, Enter or Space selects — and the live region reads a selection once, never a preview.",
+      "Under reduced motion cards swap depth without travel: transforms are set instantly, the front card's body fades in, and the stack's height changes on a fast tween.",
+      "An invisible in-flow copy of the front card gives the stack its natural height before any measurement runs, so the server's markup is already the right size.",
+    ],
+  },
+  {
+    name: "quote-pull",
+    type: "registry:ui",
+    title: "Quote Pull",
+    description:
+      "The exact words, highlighted where they came from. Hovering or focusing a quoted passage in the answer finds those words in the source excerpt and sweeps a marker in behind them on glide — the mark's background-size runs from 0% to 100% so a wrapped passage keeps sweeping onto its next line — while the surrounding text dims on a base tween; pressing pins the highlight and Escape releases it. A quote the excerpt does not contain gets a dashed danger underline and a not-in-source note instead.",
+    files: [
+      {
+        path: "registry/ui/quote-pull.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-773",
+    },
+    tagline: "The exact words, highlighted.",
+    keywords: [
+      "quote",
+      "highlight",
+      "source",
+      "excerpt",
+      "sweep",
+      "citation",
+      "agent",
+    ],
+    props: [
+      {
+        name: "answer",
+        type: "(string | PullQuote)[]",
+        description:
+          "The answer as plain runs and { id, text } quoted passages, in reading order.",
+      },
+      {
+        name: "source",
+        type: "PullSource",
+        description:
+          "The source: title, site and the excerpt searched for each quote's words.",
+      },
+      {
+        name: "pinned / defaultPinned",
+        type: "string | null",
+        defaultValue: "null",
+        description: "The quote id held highlighted; controlled or initial.",
+      },
+      {
+        name: "onPinnedChange",
+        type: "(id: string | null) => void",
+        description: "Fires from the press that pinned or released a quote.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(id: string | null) => void",
+        description: "Fires when hover or focus starts or ends a highlight.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the answer region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Each quote is an inline element with the button role wrapping a q element, so it wraps with the sentence: Tab reaches each, focus highlights like hover, Enter or Space pins, Escape releases; the live region reads a pin or release once.",
+      "Under reduced motion the marker appears at full width on a fast opacity tween instead of sweeping, and the surrounding text dims on the same tween.",
+      "Quotes are matched exactly and then without case; a quote the excerpt does not contain is marked not in source rather than highlighted, because a quote that cannot be found is a claim.",
+    ],
+  },
+  {
+    name: "confidence-band",
+    type: "registry:ui",
+    title: "Confidence Band",
+    description:
+      "Every claim wears its confidence as a band under its words, sized by the value and coloured by tone. Bands fill left to right on glide in a cascade across the claims, and once the last settles every low-confidence band pulses once on a slow three-keyframe alpha tween; hovering or focusing a claim rolls the readout's digits to its value on snap while the other bands dim, and pressing holds the reading. Each claim takes the button role with an always-present description, so Tab reaches each in reading order and Enter or Space holds.",
+    files: [
+      {
+        path: "registry/ui/confidence-band.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-774",
+    },
+    tagline: "How sure, per claim.",
+    keywords: [
+      "confidence",
+      "claim",
+      "band",
+      "underline",
+      "certainty",
+      "readout",
+      "agent",
+    ],
+    props: [
+      {
+        name: "claims",
+        type: "BandClaim[]",
+        description:
+          "Claims in reading order: id, text and a confidence from 0 to 1.",
+      },
+      {
+        name: "lowAt",
+        type: "number",
+        defaultValue: "0.5",
+        description: "Below this a band reads danger and pulses once on load.",
+      },
+      {
+        name: "highAt",
+        type: "number",
+        defaultValue: "0.8",
+        description:
+          "At or above this a band reads success; between the two it reads warn.",
+      },
+      {
+        name: "format",
+        type: "(confidence: number) => string",
+        defaultValue: "percent",
+        description:
+          "Formats a confidence for the readout and the claim descriptions.",
+      },
+      {
+        name: "pulseLow",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Whether low bands pulse once after the mount cascade.",
+      },
+      {
+        name: "onReadChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires when the claim being read changes, by hover, focus or a hold.",
+      },
+      {
+        name: "onHoldChange",
+        type: "(id: string | null) => void",
+        description: "Fires from the press that held or released a claim.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the answer region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Each claim is an inline element with the button role so it wraps with the paragraph: Tab reaches each in reading order, focus reads the value like hover, Enter or Space holds the reading; the live region reads the claim count once when the cascade settles.",
+      "Under reduced motion bands fill on a fast tween with no stagger, the low pulse is still a single opacity blink because a weak claim is information, and the readout digits swap in place.",
+      "The band is a bottom-anchored background with box-decoration-break clone, so a claim that wraps carries its share on every line.",
+    ],
+  },
+  {
+    name: "freshness-tag",
+    type: "registry:ui",
+    title: "Freshness Tag",
+    description:
+      "How old each source is, worn as a tag. Ages are measured from a now the host passes, never a clock; a source past the stale line turns amber on a colour tween and a re-fetch control slides open on snap. Pressing it fires onRefetch, the arrows turn on a linear loop while the host lists the id as fetching, and when a new fetchedAt arrives the date lands from 1.3× on recoil while the tag cools and the control folds away; when now moves every age rolls to its new reading on snap. The control is a real button with aria-busy, so Tab reaches each stale source and Enter or Space re-fetches it.",
+    files: [
+      {
+        path: "registry/ui/freshness-tag.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-775",
+    },
+    tagline: "How old the source is.",
+    keywords: [
+      "freshness",
+      "age",
+      "stale",
+      "refetch",
+      "source",
+      "date",
+      "agent",
+    ],
+    props: [
+      {
+        name: "sources",
+        type: "FreshSource[]",
+        description:
+          "Sources with id, title, site and fetchedAt as an ISO date or date-time.",
+      },
+      {
+        name: "now",
+        type: "string | number",
+        description:
+          "The moment ages are measured from — an ISO date or epoch milliseconds; pass it from an effect or the server, never from render.",
+      },
+      {
+        name: "staleAfterDays",
+        type: "number",
+        defaultValue: "30",
+        description:
+          "Age in days at which a source turns amber and offers a re-fetch.",
+      },
+      {
+        name: "fetching",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Ids the host is re-fetching right now; their controls turn and their tags read fetching.",
+      },
+      {
+        name: "onRefetch",
+        type: "(id: string) => void",
+        description:
+          "Fires from the press on a stale source's re-fetch control.",
+      },
+      {
+        name: "formatDate",
+        type: "(iso: string) => string",
+        defaultValue: "9 Sep 2026",
+        description:
+          "Formats a fetched date for the row and the descriptions; the default uses a fixed month table so server and browser agree.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The re-fetch control is a real button with aria-busy and disabled while fetching: Tab reaches each stale source's control and Enter or Space presses it; each tag carries a full sentence — fresh or stale, the date, the age — so the state is words, not colour.",
+      "Under reduced motion ages swap in place on a fast fade, the control fades in without sliding, the arrows hold at half opacity while fetching, and a new date fades in at full size.",
+      "The component keeps no clock: pass now from an effect or the server and stamp a new fetchedAt when your fetch resolves; the live region reads each stamp once, and the stale count once when now moves.",
+    ],
+  },
+  {
+    name: "source-map",
+    type: "registry:ui",
+    title: "Source Map",
+    description:
+      "Which sources fed which paragraph, drawn rather than footnoted. An overlay measures the answer's paragraphs and its source cards with a ResizeObserver and draws a curve from each paragraph to every source it draws on, self-drawing on glide in a cascade. Hovering or focusing a paragraph lights its lines and cards on a fast opacity tween and fades the rest; pressing pins the highlight, Up and Down walk the paragraphs, Home and End jump, and Escape unpins.",
+    files: [
+      {
+        path: "registry/ui/source-map.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-776",
+    },
+    tagline: "Which sources fed which paragraph.",
+    keywords: [
+      "source",
+      "citation",
+      "map",
+      "lines",
+      "provenance",
+      "paragraph",
+      "agent",
+    ],
+    props: [
+      {
+        name: "paragraphs",
+        type: "SourceMapParagraph[]",
+        description:
+          "The answer's paragraphs; each names the source ids it draws on.",
+      },
+      {
+        name: "sources",
+        type: "SourceMapSource[]",
+        description:
+          "The source cards, in column order, with a label and a domain.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description: "The pinned paragraph id, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description: "Fires when a paragraph is pinned or unpinned.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires when the highlighted paragraph changes by hover, focus or pin.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the map for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Paragraphs are buttons in a roving tabindex: Up and Down move, Home and End jump, Enter and Space pin, Escape unpins; each is described by the sources it draws on, and each card by the paragraphs it fed.",
+      "Under reduced motion the lines mount already drawn and lighting is colour and opacity only; pinning still brightens and fades, because the mapping is the information.",
+      "The overlay is measured from the real boxes, so it redraws on any reflow and never reserves height; the source column is fixed-width so the paragraphs take the rest.",
+    ],
+  },
+  {
+    name: "verify-row",
+    type: "registry:ui",
+    title: "Verify Row",
+    description:
+      "A claim checked against its source. Pressing Verify hands the check to the host; while verifying a narrow scan bar sweeps the claim on a linear tween and repeats until the verdict lands, then runs off the edge on the exit ease as a stamp lands beside the button: match on recoil, partial on snap, mismatch on glide, because a failed check never celebrates. The button is a real button, busy while checking, and the row announces the verdict once on the stamp.",
+    files: [
+      {
+        path: "registry/ui/verify-row.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-777",
+    },
+    tagline: "Checked against the source.",
+    keywords: ["verify", "claim", "source", "scan", "stamp", "match", "agent"],
+    props: [
+      {
+        name: "claim",
+        type: "string",
+        description: "The claim being checked.",
+      },
+      {
+        name: "source",
+        type: "{ label: string; domain: string }",
+        description: "What the claim is checked against.",
+      },
+      {
+        name: "verifying",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The check is running: the scan bar sweeps until a verdict lands.",
+      },
+      {
+        name: "verdict",
+        type: '"match" | "partial" | "mismatch" | null',
+        defaultValue: "null",
+        description: "The outcome once known; stamps the row when set.",
+      },
+      {
+        name: "onVerify",
+        type: "() => void",
+        description: "Fires from the Verify or Recheck button.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Blocks the button, for hosts that check one row at a time.",
+      },
+    ],
+    usageNotes: [
+      "Tab reaches the Verify button and Enter or Space presses it; it reads Checking and is busy while the check runs, then Recheck once a verdict has landed.",
+      "Under reduced motion no bar travels: the claim box breathes a wash on an opacity tween while checking and the stamp fades in place; the verdict still shows and still announces.",
+      "The stamp is a word beside a colour, never colour alone, and the row's live region announces the verdict once, on the stamp.",
+    ],
+  },
+  {
+    name: "footnote-drawer",
+    type: "registry:ui",
+    title: "Footnote Drawer",
+    description:
+      "Notes that rise from the bottom. The answer's [n] marks render as small buttons; pressing one raises a drawer from the frame's bottom edge on glide while a scrim fades over the prose, and inside it the list's scroll position is animated on glide so the pressed note comes into view under a wash that fades once seen. The drawer is a modal dialog: focus lands on the note, Tab cycles between the close button and the notes, Escape or the scrim lowers it on the exit ease, and focus returns to the mark.",
+    files: [
+      {
+        path: "registry/ui/footnote-drawer.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-778",
+    },
+    tagline: "Notes that rise from the bottom.",
+    keywords: [
+      "footnote",
+      "drawer",
+      "note",
+      "source",
+      "citation",
+      "dialog",
+      "agent",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description:
+          "The answer; [n] marks the nth note and a blank line separates paragraphs.",
+      },
+      {
+        name: "notes",
+        type: "FootnoteEntry[]",
+        description:
+          "The notes in mark order, each with its text and a source label and domain.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The open note's id, controlled or initial; null keeps the drawer lowered.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string | null) => void",
+        description: "Fires when a mark is pressed or the drawer lowers.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the answer region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Each mark is a button named Note n with aria-expanded; the drawer is a modal dialog where Tab and Shift+Tab cycle between the close button and the notes, Escape lowers it, and focus returns to the mark that opened it.",
+      "Under reduced motion the drawer and scrim fade in place and the list jumps to the note; the wash still fades, because which note opened is the information.",
+      "The drawer lives inside the answer's frame and is capped at the frame's height less a margin, so it never overflows the page; give the frame enough prose to stand under it.",
+    ],
+  },
+  {
+    name: "page-pin",
+    type: "registry:ui",
+    title: "Page Pin",
+    description:
+      "Pinned to the page it came from. A procedural preview of the source draws a scroller of sheets under a header that reads the page with rolling digits; choosing a citation pin animates the scroller to its page on glide, the page number rolls on snap as sheets pass, and when the scroll settles a wash wipes across the cited lines on the enter ease. The pins are a radio group with a roving tabindex, and the scroller is a focusable region the keyboard scrolls natively.",
+    files: [
+      {
+        path: "registry/ui/page-pin.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-779",
+    },
+    tagline: "Pinned to the page it came from.",
+    keywords: [
+      "page",
+      "pin",
+      "citation",
+      "preview",
+      "scroll",
+      "source",
+      "agent",
+    ],
+    props: [
+      {
+        name: "title",
+        type: "string",
+        description: "The document's name in the header.",
+      },
+      {
+        name: "pageCount",
+        type: "number",
+        description: "How many sheets the preview draws.",
+      },
+      {
+        name: "citations",
+        type: "PagePinCitation[]",
+        description:
+          "The pinned claims: an id, a label, the page and the first and last line cited.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description: "The chosen citation id, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires when a pin is chosen.",
+      },
+      {
+        name: "onPageChange",
+        type: "(page: number) => void",
+        description:
+          "Fires when the page under the header changes, by pin or by hand.",
+      },
+      {
+        name: "linesPerPage",
+        type: "number",
+        defaultValue: "12",
+        description: "Bars drawn per sheet.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the preview region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Pins are radios with a roving tabindex: Left and Right move and choose, Home and End jump, Space and Enter choose; the scroller is a focusable region, so Up, Down, Page Up and Page Down scroll it natively.",
+      "Under reduced motion the scroller jumps to the page, the digits swap in place and the wash fades in; the page still changes and the live region still announces the settle.",
+      "The header reports the page under it from the scroll position, so scrolling by hand rolls the number as well as choosing a pin.",
+    ],
+  },
+  {
+    name: "citation-count",
+    type: "registry:ui",
+    title: "Citation Count",
+    description:
+      "How well-sourced an answer is, as a badge: a ring that fills in proportion to claims covered on glide, a citation count whose digits roll on snap, and a word. Both turn success when every claim is covered. Pressing the badge opens a panel beneath whose height is measured by a ResizeObserver and animated on glide, listing the claims that still lack a source; rows leave on the exit ease as they become covered, and Escape closes the panel and returns focus to the badge.",
+    files: [
+      {
+        path: "registry/ui/citation-count.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-780",
+    },
+    tagline: "How well-sourced this is.",
+    keywords: [
+      "citation",
+      "count",
+      "ring",
+      "coverage",
+      "claims",
+      "badge",
+      "agent",
+    ],
+    props: [
+      {
+        name: "citations",
+        type: "number",
+        description: "How many citation marks the answer carries.",
+      },
+      {
+        name: "claims",
+        type: "CitationClaim[]",
+        description:
+          "Every claim the answer makes, and whether a source backs it.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The uncovered list is shown, controlled or initial.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the badge press or Escape.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Citations"',
+        description: "Names the badge for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The badge is a button whose name is the whole reading — count and coverage in one breath — with aria-expanded and aria-controls on the panel; Escape closes the panel and returns focus to the badge.",
+      "Under reduced motion the ring still fills on a tween, the digits swap in place, the panel height still animates and rows fade instead of collapsing; the count and coverage are the information.",
+      "Citations and covered claims are separate numbers on purpose: a second citation on an already-covered claim rolls the count without moving the ring.",
+    ],
+  },
 ];

@@ -960,6 +960,16 @@ import { PromptHistoryDemo } from "@/registry/demos/prompt-history.demo";
 import { DraftParkDemo } from "@/registry/demos/draft-park.demo";
 import { ModeSwitchDemo } from "@/registry/demos/mode-switch.demo";
 import { SendHoldDemo } from "@/registry/demos/send-hold.demo";
+import { CiteMarkDemo } from "@/registry/demos/cite-mark.demo";
+import { SourceStackDemo } from "@/registry/demos/source-stack.demo";
+import { QuotePullDemo } from "@/registry/demos/quote-pull.demo";
+import { ConfidenceBandDemo } from "@/registry/demos/confidence-band.demo";
+import { FreshnessTagDemo } from "@/registry/demos/freshness-tag.demo";
+import { SourceMapDemo } from "@/registry/demos/source-map.demo";
+import { VerifyRowDemo } from "@/registry/demos/verify-row.demo";
+import { FootnoteDrawerDemo } from "@/registry/demos/footnote-drawer.demo";
+import { PagePinDemo } from "@/registry/demos/page-pin.demo";
+import { CitationCountDemo } from "@/registry/demos/citation-count.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1934,4 +1944,14 @@ export const demos: Record<string, ComponentType> = {
   "draft-park": DraftParkDemo,
   "mode-switch": ModeSwitchDemo,
   "send-hold": SendHoldDemo,
+  "cite-mark": CiteMarkDemo,
+  "source-stack": SourceStackDemo,
+  "quote-pull": QuotePullDemo,
+  "confidence-band": ConfidenceBandDemo,
+  "freshness-tag": FreshnessTagDemo,
+  "source-map": SourceMapDemo,
+  "verify-row": VerifyRowDemo,
+  "footnote-drawer": FootnoteDrawerDemo,
+  "page-pin": PagePinDemo,
+  "citation-count": CitationCountDemo,
 };
