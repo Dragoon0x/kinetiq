@@ -41797,4 +41797,652 @@ export const components: KinetiqItem[] = [
       "sampleDistribution is exported so a host can read the same pick the chart shows without waiting for the settle; every probability is rounded to six decimals and every width to three before it reaches an attribute.",
     ],
   },
+  {
+    name: "plan-tree",
+    type: "registry:ui",
+    title: "Plan Tree",
+    description:
+      "A tree of steps that unfolds while an agent plans. Rows arrive from a nudge on the enter ease and a branch's group grows to a measured height on glide as sub-steps are planned; a running node breathes, a done node fills and ticks on flick, a failed one crosses in danger. Bumping a branch's plan revision folds it on the exit ease and regrows it on glide with a cascade. Arrow keys walk the tree, Right opens or enters a branch, Left folds or leaves it, Enter and Space toggle.",
+    files: [
+      {
+        path: "registry/ui/plan-tree.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-791",
+    },
+    tagline: "The task, broken down.",
+    keywords: [
+      "plan",
+      "tree",
+      "steps",
+      "agent",
+      "re-plan",
+      "branch",
+      "orchestration",
+    ],
+    props: [
+      {
+        name: "nodes",
+        type: "PlanNode[]",
+        description:
+          "The plan, root steps in order; append to unfold it. A node with a children array is a branch, and its plan revision re-plans it when bumped.",
+      },
+      {
+        name: "expanded / defaultExpanded",
+        type: "string[]",
+        description:
+          "Controlled or initial open branches; omitted, every branch starts open.",
+      },
+      {
+        name: "onExpandedChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires from a row press or an arrow key with every open branch id.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the tree.",
+      },
+    ],
+    usageNotes: [
+      "A role=tree with a roving tabindex: ArrowDown and ArrowUp move, ArrowRight opens a branch or enters it, ArrowLeft folds it or moves to the parent, Home and End jump, Enter and Space toggle; a row press toggles too.",
+      "Under reduced motion rows appear in place on an opacity tween, the running node holds at mid opacity, marks are drawn whole, and group heights change on a tween.",
+      "The live region speaks the running step's path, a failure, a re-plan, and completion once per change, never per tick.",
+    ],
+  },
+  {
+    name: "agent-lanes",
+    type: "registry:ui",
+    title: "Agent Lanes",
+    description:
+      "Parallel lanes for sub-agents, each with a bar the host fills on glide with no overshoot; a running lane's bar carries a sheen that breathes. A lane that turns done holds for a beat, then slides down out of the list on the exit ease while its measured height folds, and merges into the summary row beneath: its avatar slides into the stack on glide and the merged count rolls on snap. Stop is a real button on any running lane.",
+    files: [
+      {
+        path: "registry/ui/agent-lanes.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-792",
+    },
+    tagline: "Several agents, at once.",
+    keywords: [
+      "lanes",
+      "parallel",
+      "sub-agents",
+      "progress",
+      "merge",
+      "summary",
+      "agent",
+    ],
+    props: [
+      {
+        name: "lanes",
+        type: "AgentLane[]",
+        description:
+          "The sub-agents in lane order, each with a task, a 0..1 progress and a status of queued, running, done, failed or stopped.",
+      },
+      {
+        name: "onStop",
+        type: "(id: string) => void",
+        description:
+          "Offers a Stop control on running lanes and fires from it.",
+      },
+      {
+        name: "onMerge",
+        type: "(id: string) => void",
+        description:
+          "Fires when a done lane leaves its lane and joins the summary.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the lane list.",
+      },
+      {
+        name: "mergeLabel",
+        type: "string",
+        defaultValue: '"Merged"',
+        description: "The summary row's heading.",
+      },
+    ],
+    usageNotes: [
+      "Every bar is a role=progressbar whose value text reads the lane in words; Tab reaches each Stop button and Enter or Space presses it. There are no pointer gestures.",
+      "Under reduced motion bars fill on a tween with no sheen, a done lane fades and folds in place, and the avatar and count swap.",
+      "The live region says who finished and how many have merged, who stopped, and when all have merged, once per change.",
+    ],
+  },
+  {
+    name: "handoff-arrow",
+    type: "registry:ui",
+    title: "Handoff Arrow",
+    description:
+      "A row of agent avatars with the baton, a chip naming what is passed, perched above the holder. A handoff draws an arrow between the two avatar centres: the shaft extends on glide, the head lands on flick, then the chip travels the shaft on glide with a small lift and the receiver's ring lands on recoil while the arrow settles to a trace. Positions come from a ResizeObserver so the arrow fits any width. Left and Right move between agents, Enter or Space hands off.",
+    files: [
+      {
+        path: "registry/ui/handoff-arrow.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-793",
+    },
+    tagline: "Passed to the next one.",
+    keywords: [
+      "handoff",
+      "arrow",
+      "baton",
+      "agents",
+      "delegate",
+      "chip",
+      "avatar",
+    ],
+    props: [
+      {
+        name: "agents",
+        type: "HandoffAgent[]",
+        description:
+          "The agents in row order, two to five, each with a name and an optional model.",
+      },
+      {
+        name: "baton",
+        type: "string",
+        description: "What is being passed; printed on the chip.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial holder id; omitted, the first agent holds.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires from an avatar press or a key with the new holder.",
+      },
+      {
+        name: "onHandoff",
+        type: "(from: string, to: string) => void",
+        description: "Fires with both ends of a handoff.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the group.",
+      },
+    ],
+    usageNotes: [
+      "Each avatar is a button with aria-pressed on the holder; a roving tabindex lets ArrowLeft and ArrowRight move between agents without wrapping, Home and End jump, Enter or Space hand off. Pressing the holder does nothing.",
+      "Under reduced motion the arrow appears whole on an opacity tween and the chip fades out over the sender and in over the receiver, with no travel, lift or recoil.",
+      "The holder is stated in text beneath the row and each handoff is announced once.",
+    ],
+  },
+  {
+    name: "run-timeline",
+    type: "registry:ui",
+    title: "Run Timeline",
+    description:
+      "A timeline of run events that grows downward: each row fades in from a nudge on the enter ease and the spine segment above it draws on glide, so the line reaches the new event. While the run is live the last node breathes and the finish lands on flick. Collapse similar folds every run of same-kind events under a header that reads the count; members fold to a measured zero height on glide and a header can reopen its own group. Tab reaches the toggle and every header, Enter or Space presses.",
+    files: [
+      {
+        path: "registry/ui/run-timeline.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-794",
+    },
+    tagline: "Everything that happened, in order.",
+    keywords: [
+      "timeline",
+      "run",
+      "events",
+      "log",
+      "collapse",
+      "group",
+      "agent",
+    ],
+    props: [
+      {
+        name: "events",
+        type: "RunEvent[]",
+        description:
+          "The run so far, oldest first, each with a kind, an optional agent, text and a time in seconds owned by the host. Append to grow it.",
+      },
+      {
+        name: "live",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The last event breathes while true.",
+      },
+      {
+        name: "collapsed / defaultCollapsed",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial grouping of similar events.",
+      },
+      {
+        name: "onCollapsedChange",
+        type: "(collapsed: boolean) => void",
+        description: "Fires from the Collapse similar control.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the timeline.",
+      },
+    ],
+    usageNotes: [
+      "Collapse similar is a button with aria-pressed and each group header a button with aria-expanded; folded members are inert. There are no pointer gestures.",
+      "Under reduced motion rows appear in place, spine segments appear whole, the live node holds at mid opacity, and heights change on a tween.",
+      "The live region speaks the newest event, completion, and a grouping change, once each; errors and the finish never fold into a group.",
+    ],
+  },
+  {
+    name: "budget-ring",
+    type: "registry:ui",
+    title: "Budget Ring",
+    description:
+      "Two nested rings, the outer for time and the inner for cost; each arc is what remains and drains clockwise on glide with no overshoot as the host reports spend. Each ring has its own warn threshold and the inner ring's default is the higher one, so cost turns warn first; a crossing into warn or spent flashes a halo once on a tween. The instrument has no controls of its own; its two meters read their remainder in words.",
+    files: [
+      {
+        path: "registry/ui/budget-ring.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-795",
+    },
+    tagline: "Time and cost, spent.",
+    keywords: ["budget", "ring", "time", "cost", "meter", "drain", "agent"],
+    props: [
+      {
+        name: "timeBudget",
+        type: "number",
+        description: "Seconds allowed.",
+      },
+      {
+        name: "timeUsed",
+        type: "number",
+        description: "Seconds spent; clamped to the budget for the arc.",
+      },
+      {
+        name: "costBudget",
+        type: "number",
+        description: "Cost allowed, in the host's unit.",
+      },
+      {
+        name: "costUsed",
+        type: "number",
+        description: "Cost spent.",
+      },
+      {
+        name: "format",
+        type: "(cost: number) => string",
+        defaultValue: 'two decimals followed by " cr"',
+        description: "Prints a cost.",
+      },
+      {
+        name: "warnAt",
+        type: "{ time?: number; cost?: number }",
+        defaultValue: "{ time: 0.2, cost: 0.35 }",
+        description: "Remaining fraction at which each ring warns.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the instrument.",
+      },
+    ],
+    usageNotes: [
+      "Two role=meter rows with whole-number values and value text such as 1 minute 35 seconds left of 2 minutes; there are no controls, so the focus order is the host's.",
+      "Under reduced motion the arcs still drain, on a tween instead of the spring, because the remainder is information; the halo flash stays an opacity tween.",
+      "The live region says only that a budget is low or spent, never a number, so it does not re-announce each tick.",
+    ],
+  },
+  {
+    name: "step-card",
+    type: "registry:ui",
+    title: "Step Card",
+    description:
+      "One agent step as a card whose header opens a body of inputs, tool calls and output to a height measured by a ResizeObserver on glide, the chevron turning on snap and the three sections arriving in a cascade. A rail on the card's left edge fills from the top on glide as the host reports progress and reads cobalt, success or danger by status; a failure holds the fill where it stopped, opens an error line and brings a Retry control in on snap. The header is a disclosure button, so Enter and Space open and close it, and Tab reaches Retry.",
+    files: [
+      {
+        path: "registry/ui/step-card.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-796",
+    },
+    tagline: "One step, in full.",
+    keywords: [
+      "agent",
+      "step",
+      "card",
+      "disclosure",
+      "progress",
+      "tool calls",
+      "retry",
+    ],
+    props: [
+      {
+        name: "step",
+        type: "StepCardStep",
+        description:
+          "The step: id, title, agent, an optional model, inputs as name and value pairs, tool calls with their status, an output once it lands, and an error when it fails.",
+      },
+      {
+        name: "index",
+        type: "number",
+        description: "The step's number in its run, printed before the title.",
+      },
+      {
+        name: "status",
+        type: '"queued" | "running" | "done" | "failed"',
+        description:
+          "Drives the rail's tone, the status word and the live region.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "0..1, the rail's fill; clamped and rounded before it reaches the transform.",
+      },
+      {
+        name: "expanded / defaultExpanded",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial open state.",
+      },
+      {
+        name: "onExpandedChange",
+        type: "(expanded: boolean) => void",
+        description: "Fires from the header press or key.",
+      },
+      {
+        name: "onRetry",
+        type: "(id: string) => void",
+        description:
+          "Offers a Retry control on a failed step and fires from it.",
+      },
+    ],
+    usageNotes: [
+      "The header is a real disclosure button with aria-expanded and aria-controls; Enter and Space toggle it, a folded body is inert, and the rail is a progressbar whose valuetext reads the status and percentage.",
+      "The live region says Step running, Step failed with the reason, and Step done — once each, never a percentage per tick.",
+      "Under reduced motion the rail fills on a tween, heights change on a tween, the chevron swaps and the sections fade in place with no nudge and no stagger.",
+    ],
+  },
+  {
+    name: "parallel-fan",
+    type: "registry:ui",
+    title: "Parallel Fan",
+    description:
+      "A fan of parallel attempts spreading from one root: opening it sends each attempt to its place on the arc on glide in a cascade while its spoke draws behind it, each ring fills with its progress on glide and prints its score once done, and naming a winner gathers that node to the centre on glide with its ring landing on recoil while the rest fade on the exit ease. Positions are polar maths rounded to three decimals and laid out as percentages over an SVG underlay with a non-scaling stroke, so the fan fits any width. The attempts are buttons in a roving tabindex — Left and Right step, Home and End jump, Enter and Space pick.",
+    files: [
+      {
+        path: "registry/ui/parallel-fan.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-797",
+    },
+    tagline: "Fanned out, then gathered.",
+    keywords: [
+      "agent",
+      "fan",
+      "parallel",
+      "attempts",
+      "best of",
+      "sampling",
+      "ring",
+    ],
+    props: [
+      {
+        name: "attempts",
+        type: "FanAttempt[]",
+        description:
+          "Two to six attempts in fan order: id, a short label, an optional model, progress 0..1, a status of running, done or failed, and a score 0..1 printed as a whole percentage.",
+      },
+      {
+        name: "spread",
+        type: "boolean",
+        description:
+          "Whether the fan is open; false stacks every attempt on the root.",
+      },
+      {
+        name: "winner",
+        type: "string",
+        description:
+          "The attempt gathered to the centre; the rest fade and leave the tab order.",
+      },
+      {
+        name: "onSelect",
+        type: "(id: string) => void",
+        description:
+          "Fires from an attempt press or key; the host usually sets winner from it.",
+      },
+      {
+        name: "task",
+        type: "string",
+        description: "The root node's caption, printed under the stage.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the group for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "A labelled group of buttons with a roving tabindex: Left and Right (or Up and Down) step between attempts without wrapping, Home and End jump, Enter and Space pick the focused attempt; aria-pressed marks the winner and each name carries the model, status and score in words.",
+      "The live region speaks on spread, on each settle and on the gather — never per tick — and the rings stay aria-hidden because the names carry the numbers.",
+      "Under reduced motion attempts appear at their arc positions with an opacity tween, spokes appear whole, rings fill on a tween and the winner cross-fades to the centre with no recoil.",
+    ],
+  },
+  {
+    name: "checkpoint-rail",
+    type: "registry:ui",
+    title: "Checkpoint Rail",
+    description:
+      "A rail of checkpoints above the steps of a run, where steps that carry a checkpoint label become evenly spaced stops and a head ring rides the track at the latest one. Pressing an earlier stop rewinds: the head slides back on glide and the fill retracts with it while every later step folds up, its height closing on glide as its text lifts on the exit ease in a cascade that runs from the bottom up, and the stops past the rewind fade while the rest re-space on glide. The stops are buttons in a roving tabindex — Left and Right step, Home and End jump, Enter and Space rewind — and the host truncates its steps from onRewind.",
+    files: [
+      {
+        path: "registry/ui/checkpoint-rail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-798",
+    },
+    tagline: "Go back to a good state.",
+    keywords: [
+      "agent",
+      "checkpoint",
+      "rewind",
+      "rail",
+      "undo",
+      "run",
+      "timeline",
+    ],
+    props: [
+      {
+        name: "steps",
+        type: "RailStep[]",
+        description:
+          "The run so far, oldest first: id, text, an optional agent, and an optional checkpoint label that makes the step a stop on the rail.",
+      },
+      {
+        name: "onRewind",
+        type: "(stepId: string, discarded: number) => void",
+        description:
+          "Fires from a stop press or key with the checkpoint step's id and how many steps follow it; keep steps up to and including that id.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the rail and the list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The rail is a labelled group of buttons with a roving tabindex: Left and Right move between stops without wrapping, Home and End jump, Enter and Space rewind to the focused stop; the latest stop is aria-current and pressing it does nothing.",
+      "The live region speaks once per checkpoint taken and once per rewind, naming the checkpoint and how many steps were discarded.",
+      "Under reduced motion the head and fill swap on a tween, discarded rows fold on a tween with no lift and no stagger, faded stops disappear with an opacity tween and new rows fade in place.",
+    ],
+  },
+  {
+    name: "task-board",
+    type: "registry:ui",
+    title: "Task Board",
+    description:
+      "Three columns — queued, running, done — and the agent tasks that cross them. When the host changes a task's status its card travels from its old column to its new one on glide through a shared layoutId, the cards it leaves and lands among close and open the gap on glide, a done card's tick draws on flick, a failed card holds the running column with a cross, and each column's count rolls its digits on snap. The board scrolls inside its own box with edge fades on narrow screens, and with onAdvance each open card is a button in a roving tabindex — Up and Down move within a column, Left and Right cross columns, Home and End jump, Enter and Space advance.",
+    files: [
+      {
+        path: "registry/ui/task-board.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-799",
+    },
+    tagline: "Queued, running, done.",
+    keywords: [
+      "agent",
+      "board",
+      "columns",
+      "tasks",
+      "queue",
+      "status",
+      "layout",
+    ],
+    props: [
+      {
+        name: "tasks",
+        type: "BoardTask[]",
+        description:
+          "Every task in board order: id, title, an optional agent, and a status of queued, running, done or failed.",
+      },
+      {
+        name: "onAdvance",
+        type: '(id: string, next: "running" | "done") => void',
+        description:
+          "Makes each queued and running card a button that fires with the column it would move to.",
+      },
+      {
+        name: "columns",
+        type: "{ queued?: string; running?: string; done?: string }",
+        defaultValue: "Queued / Running / Done",
+        description: "Heading overrides for the three columns.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the board for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Three labelled lists inside a labelled group; with onAdvance the open cards are buttons in a roving tabindex where Up and Down move within a column, Left and Right cross to the nearest card in the next column, Home and End jump, and Enter and Space advance the card.",
+      "The live region names the card that moved and the new counts once per change; the rolling digits are aria-hidden and each heading carries its count in plain text.",
+      "Under reduced motion the shared layoutId is withheld so a moved card fades out of one column and into the other, siblings shift on a tween, the tick and cross appear whole and counts swap in place.",
+    ],
+  },
+  {
+    name: "orchestra-view",
+    type: "registry:ui",
+    title: "Orchestra View",
+    description:
+      "A ring of agent avatars around one task, laid out from polar maths rounded to three decimals. An active agent pulses toward the centre — its avatar rides its own radius inward and back on an ambient tween loop under a cobalt halo — while idle agents sit dim and done agents hold a success ring; a new contribution flies from its agent along the radius to a landing slot under the task disc on glide as the disc's count rolls on snap, and the previous chip fades on the exit ease. It is a radiogroup with a roving tabindex — arrows move around the ring, Home and End jump, Space selects — and selecting an avatar reads what that agent is doing in the caption.",
+    files: [
+      {
+        path: "registry/ui/orchestra-view.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-800",
+    },
+    tagline: "Who is doing what, now.",
+    keywords: [
+      "agent",
+      "orchestra",
+      "ring",
+      "avatars",
+      "activity",
+      "contributions",
+      "radiogroup",
+    ],
+    props: [
+      {
+        name: "task",
+        type: "string",
+        description: "The central task's name, printed on the disc.",
+      },
+      {
+        name: "agents",
+        type: "OrchestraAgent[]",
+        description:
+          "Three to eight agents around the ring: id, name, an optional model, a status of idle, active or done, and what the agent is doing now.",
+      },
+      {
+        name: "contributions",
+        type: "OrchestraContribution[]",
+        description:
+          "Received so far, oldest first: id, agentId and text. Append one to fly it in.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial selected agent id; omitted means none.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires from an avatar press or key.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the stage for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "A radiogroup with a roving tabindex: Right and Down move clockwise, Left and Up anticlockwise without wrapping past the ends of the agent order, Home and End jump, Space selects; each avatar's name carries the agent, model, status and current work in words.",
+      "The live region speaks when an agent becomes active, when a contribution lands with the running count, and when the last one arrives — never per tick; the disc's rolling digits are aria-hidden and the latest contributions are plain text beneath the stage.",
+      "Under reduced motion nothing pulses: an active avatar holds its halo at mid opacity, a chip fades in at the landing slot with no travel, the count swaps and the selection ring swaps colour.",
+    ],
+  },
 ];

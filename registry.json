@@ -21976,6 +21976,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "plan-tree",
+      "type": "registry:ui",
+      "title": "Plan Tree",
+      "description": "A tree of steps that unfolds while an agent plans. Rows arrive from a nudge on the enter ease and a branch's group grows to a measured height on glide as sub-steps are planned; a running node breathes, a done node fills and ticks on flick, a failed one crosses in danger. Bumping a branch's plan revision folds it on the exit ease and regrows it on glide with a cascade. Arrow keys walk the tree, Right opens or enters a branch, Left folds or leaves it, Enter and Space toggle.",
+      "files": [
+        {
+          "path": "registry/ui/plan-tree.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-791"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "agent-lanes",
+      "type": "registry:ui",
+      "title": "Agent Lanes",
+      "description": "Parallel lanes for sub-agents, each with a bar the host fills on glide with no overshoot; a running lane's bar carries a sheen that breathes. A lane that turns done holds for a beat, then slides down out of the list on the exit ease while its measured height folds, and merges into the summary row beneath: its avatar slides into the stack on glide and the merged count rolls on snap. Stop is a real button on any running lane.",
+      "files": [
+        {
+          "path": "registry/ui/agent-lanes.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-792"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "handoff-arrow",
+      "type": "registry:ui",
+      "title": "Handoff Arrow",
+      "description": "A row of agent avatars with the baton, a chip naming what is passed, perched above the holder. A handoff draws an arrow between the two avatar centres: the shaft extends on glide, the head lands on flick, then the chip travels the shaft on glide with a small lift and the receiver's ring lands on recoil while the arrow settles to a trace. Positions come from a ResizeObserver so the arrow fits any width. Left and Right move between agents, Enter or Space hands off.",
+      "files": [
+        {
+          "path": "registry/ui/handoff-arrow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-793"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "run-timeline",
+      "type": "registry:ui",
+      "title": "Run Timeline",
+      "description": "A timeline of run events that grows downward: each row fades in from a nudge on the enter ease and the spine segment above it draws on glide, so the line reaches the new event. While the run is live the last node breathes and the finish lands on flick. Collapse similar folds every run of same-kind events under a header that reads the count; members fold to a measured zero height on glide and a header can reopen its own group. Tab reaches the toggle and every header, Enter or Space presses.",
+      "files": [
+        {
+          "path": "registry/ui/run-timeline.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-794"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "budget-ring",
+      "type": "registry:ui",
+      "title": "Budget Ring",
+      "description": "Two nested rings, the outer for time and the inner for cost; each arc is what remains and drains clockwise on glide with no overshoot as the host reports spend. Each ring has its own warn threshold and the inner ring's default is the higher one, so cost turns warn first; a crossing into warn or spent flashes a halo once on a tween. The instrument has no controls of its own; its two meters read their remainder in words.",
+      "files": [
+        {
+          "path": "registry/ui/budget-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-795"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "step-card",
+      "type": "registry:ui",
+      "title": "Step Card",
+      "description": "One agent step as a card whose header opens a body of inputs, tool calls and output to a height measured by a ResizeObserver on glide, the chevron turning on snap and the three sections arriving in a cascade. A rail on the card's left edge fills from the top on glide as the host reports progress and reads cobalt, success or danger by status; a failure holds the fill where it stopped, opens an error line and brings a Retry control in on snap. The header is a disclosure button, so Enter and Space open and close it, and Tab reaches Retry.",
+      "files": [
+        {
+          "path": "registry/ui/step-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-796"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "parallel-fan",
+      "type": "registry:ui",
+      "title": "Parallel Fan",
+      "description": "A fan of parallel attempts spreading from one root: opening it sends each attempt to its place on the arc on glide in a cascade while its spoke draws behind it, each ring fills with its progress on glide and prints its score once done, and naming a winner gathers that node to the centre on glide with its ring landing on recoil while the rest fade on the exit ease. Positions are polar maths rounded to three decimals and laid out as percentages over an SVG underlay with a non-scaling stroke, so the fan fits any width. The attempts are buttons in a roving tabindex — Left and Right step, Home and End jump, Enter and Space pick.",
+      "files": [
+        {
+          "path": "registry/ui/parallel-fan.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-797"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "checkpoint-rail",
+      "type": "registry:ui",
+      "title": "Checkpoint Rail",
+      "description": "A rail of checkpoints above the steps of a run, where steps that carry a checkpoint label become evenly spaced stops and a head ring rides the track at the latest one. Pressing an earlier stop rewinds: the head slides back on glide and the fill retracts with it while every later step folds up, its height closing on glide as its text lifts on the exit ease in a cascade that runs from the bottom up, and the stops past the rewind fade while the rest re-space on glide. The stops are buttons in a roving tabindex — Left and Right step, Home and End jump, Enter and Space rewind — and the host truncates its steps from onRewind.",
+      "files": [
+        {
+          "path": "registry/ui/checkpoint-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-798"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "task-board",
+      "type": "registry:ui",
+      "title": "Task Board",
+      "description": "Three columns — queued, running, done — and the agent tasks that cross them. When the host changes a task's status its card travels from its old column to its new one on glide through a shared layoutId, the cards it leaves and lands among close and open the gap on glide, a done card's tick draws on flick, a failed card holds the running column with a cross, and each column's count rolls its digits on snap. The board scrolls inside its own box with edge fades on narrow screens, and with onAdvance each open card is a button in a roving tabindex — Up and Down move within a column, Left and Right cross columns, Home and End jump, Enter and Space advance.",
+      "files": [
+        {
+          "path": "registry/ui/task-board.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-799"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "orchestra-view",
+      "type": "registry:ui",
+      "title": "Orchestra View",
+      "description": "A ring of agent avatars around one task, laid out from polar maths rounded to three decimals. An active agent pulses toward the centre — its avatar rides its own radius inward and back on an ambient tween loop under a cobalt halo — while idle agents sit dim and done agents hold a success ring; a new contribution flies from its agent along the radius to a landing slot under the task disc on glide as the disc's count rolls on snap, and the previous chip fades on the exit ease. It is a radiogroup with a roving tabindex — arrows move around the ring, Home and End jump, Space selects — and selecting an avatar reads what that agent is doing in the caption.",
+      "files": [
+        {
+          "path": "registry/ui/orchestra-view.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-800"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

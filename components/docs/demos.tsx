@@ -980,6 +980,16 @@ import { ToolToggleDemo } from "@/registry/demos/tool-toggle.demo";
 import { SafetyDialDemo } from "@/registry/demos/safety-dial.demo";
 import { SeedLockDemo } from "@/registry/demos/seed-lock.demo";
 import { SamplingGraphDemo } from "@/registry/demos/sampling-graph.demo";
+import { PlanTreeDemo } from "@/registry/demos/plan-tree.demo";
+import { AgentLanesDemo } from "@/registry/demos/agent-lanes.demo";
+import { HandoffArrowDemo } from "@/registry/demos/handoff-arrow.demo";
+import { RunTimelineDemo } from "@/registry/demos/run-timeline.demo";
+import { BudgetRingDemo } from "@/registry/demos/budget-ring.demo";
+import { StepCardDemo } from "@/registry/demos/step-card.demo";
+import { ParallelFanDemo } from "@/registry/demos/parallel-fan.demo";
+import { CheckpointRailDemo } from "@/registry/demos/checkpoint-rail.demo";
+import { TaskBoardDemo } from "@/registry/demos/task-board.demo";
+import { OrchestraViewDemo } from "@/registry/demos/orchestra-view.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1974,4 +1984,14 @@ export const demos: Record<string, ComponentType> = {
   "safety-dial": SafetyDialDemo,
   "seed-lock": SeedLockDemo,
   "sampling-graph": SamplingGraphDemo,
+  "plan-tree": PlanTreeDemo,
+  "agent-lanes": AgentLanesDemo,
+  "handoff-arrow": HandoffArrowDemo,
+  "run-timeline": RunTimelineDemo,
+  "budget-ring": BudgetRingDemo,
+  "step-card": StepCardDemo,
+  "parallel-fan": ParallelFanDemo,
+  "checkpoint-rail": CheckpointRailDemo,
+  "task-board": TaskBoardDemo,
+  "orchestra-view": OrchestraViewDemo,
 };
