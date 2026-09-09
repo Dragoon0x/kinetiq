@@ -1030,6 +1030,16 @@ import { DisclaimerBarDemo } from "@/registry/demos/disclaimer-bar.demo";
 import { ReviewStampDemo } from "@/registry/demos/review-stamp.demo";
 import { RiskMeterDemo } from "@/registry/demos/risk-meter.demo";
 import { GuardRailDemo } from "@/registry/demos/guard-rail.demo";
+import { BubbleLandDemo } from "@/registry/demos/bubble-land.demo";
+import { ReadWaveDemo } from "@/registry/demos/read-wave.demo";
+import { EditTraceDemo } from "@/registry/demos/edit-trace.demo";
+import { DeleteFadeDemo } from "@/registry/demos/delete-fade.demo";
+import { GroupStackDemo } from "@/registry/demos/group-stack.demo";
+import { TimeDividerDemo } from "@/registry/demos/time-divider.demo";
+import { MessageGlowDemo } from "@/registry/demos/message-glow.demo";
+import { LongFoldDemo } from "@/registry/demos/long-fold.demo";
+import { ForwardSlipDemo } from "@/registry/demos/forward-slip.demo";
+import { BubbleTailDemo } from "@/registry/demos/bubble-tail.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2074,4 +2084,14 @@ export const demos: Record<string, ComponentType> = {
   "review-stamp": ReviewStampDemo,
   "risk-meter": RiskMeterDemo,
   "guard-rail": GuardRailDemo,
+  "bubble-land": BubbleLandDemo,
+  "read-wave": ReadWaveDemo,
+  "edit-trace": EditTraceDemo,
+  "delete-fade": DeleteFadeDemo,
+  "group-stack": GroupStackDemo,
+  "time-divider": TimeDividerDemo,
+  "message-glow": MessageGlowDemo,
+  "long-fold": LongFoldDemo,
+  "forward-slip": ForwardSlipDemo,
+  "bubble-tail": BubbleTailDemo,
 };

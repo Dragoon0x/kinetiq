@@ -23326,6 +23326,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bubble-land",
+      "type": "registry:ui",
+      "title": "Bubble Land",
+      "description": "A message thread with a composer whose new bubble rises into the list from the composer's side on recoil, the two bounces of something landing. The bubble's delivery mark walks the states the parent reports: a ring while sending, one check drawn on flick once sent, a second check that walks out on snap when delivered, and both tinted cobalt when read; failure shakes the bubble on a tween and offers Retry beneath it. The composer is a textarea where Enter sends and Shift+Enter breaks a line, every mark is an image with a sentence, and a status region speaks delivered, read, and failure once each.",
+      "files": [
+        {
+          "path": "registry/ui/bubble-land.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-841"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "read-wave",
+      "type": "registry:ui",
+      "title": "Read Wave",
+      "description": "A sent message with a row of reader discs beneath it. Each new reader slides in from below on snap and tucks into the overlapping tail while the \"Seen by\" count rolls its digits on the same spring; hovering, focusing, or pressing the row fans the discs apart with a layout FLIP on snap and unfolds a list of names and times whose measured height glides. The row is a button with aria-expanded named by the count, Escape folds it, and a status region speaks each arrival once.",
+      "files": [
+        {
+          "path": "registry/ui/read-wave.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-842"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "edit-trace",
+      "type": "registry:ui",
+      "title": "Edit Trace",
+      "description": "A message that keeps its previous versions. When a new version lands the text wipes in over the old on a clip-path tween and an Edited mark pops in on flick; pressing the mark unfolds every previous version beneath the bubble with measured height on glide, each with a strike that draws left to right on the same spring, while the current text replays its wipe over the last one. The mark is a button with aria-expanded, previous versions are del elements in a real list, Escape folds the trace and returns focus, and a status region speaks each edit once.",
+      "files": [
+        {
+          "path": "registry/ui/edit-trace.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-843"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "delete-fade",
+      "type": "registry:ui",
+      "title": "Delete Fade",
+      "description": "A thread whose messages can be deleted with a moment to undo. Deleting dims the bubble on a tween while the row's measured height glides on glide down to a chip with a ring that drains linearly across the undo window, the word Deleted, and an Undo button; hovering or keyboard-focusing the chip holds the ring. Undo brings the bubble back with a rise on recoil, while running out tells the parent to drop the message and the row exits on the exit ease with no bounce. Delete controls are buttons named by sender and first words, focus moves to Undo and back, and a status region speaks deleted, restored, and removed.",
+      "files": [
+        {
+          "path": "registry/ui/delete-fade.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-844"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "group-stack",
+      "type": "registry:ui",
+      "title": "Group Stack",
+      "description": "A thread whose consecutive messages from one sender stack as a run: the gap inside a run is 2px and between runs 12px, so a bubble that joins a run tightens against the one above while the corners between them lose their radius. The run's disc renders once on its last message under a shared layoutId, sliding down on glide as the run grows; a new sender opens the gap and mounts a fresh disc with a pop on snap, and every arriving bubble rises on snap. Continuation messages carry a hidden sender prefix so each list item reads with its sender, and a status region speaks each arrival once.",
+      "files": [
+        {
+          "path": "registry/ui/group-stack.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-845"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "time-divider",
+      "type": "registry:ui",
+      "title": "Time Divider",
+      "description": "A thread that draws a line where the day changes. A divider that mounts because a new message crossed into a new day draws its rule from the centre outward on glide, the layout spring, and its label fades in over the line once it is most of the way out; messages arrive with a four-pixel rise on glide. Nothing inside is focusable: each divider is a separator labelled with its day, so a reader walking the list hears the change where it happens.",
+      "files": [
+        {
+          "path": "registry/ui/time-divider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-846"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "message-glow",
+      "type": "registry:ui",
+      "title": "Message Glow",
+      "description": "A thread where a quote is a door. Pressing the quoted line in a reply, or the pinned chip at the head, drives the box's scrollTop on glide until the target bubble sits centred, and on settle the bubble glows once: a wash and a two-pixel ring at full strength that fade on the exit ease, keyed by a jump count so a repeat jump glows again. The target list item takes focus when the scroll settles, and a Back chip glides you to where you were.",
+      "files": [
+        {
+          "path": "registry/ui/message-glow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-847"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "long-fold",
+      "type": "registry:ui",
+      "title": "Long Fold",
+      "description": "A thread where a long message arrives folded. Any bubble taller than lines line boxes clamps to exactly that many, fades its last line out in the bubble's own colour and offers a read-more; unfolding joins the folded height to the measured one on glide while the fade lifts on a tween and the chevron turns on snap. Folding back runs the same spring in reverse and, if the bubble's top has scrolled away, glides the box to it at the same time, so the message you closed stays under your eye.",
+      "files": [
+        {
+          "path": "registry/ui/long-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-848"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "forward-slip",
+      "type": "registry:ui",
+      "title": "Forward Slip",
+      "description": "A thread where a message can have come from somewhere else. A forwarded message rises on glide and then its stamp, Forwarded from and the source thread's name, slides in from the bubble's outer edge on recoil, because a stamp is pressed on and lands with two bounces. The source name is a button that lifts two pixels on snap and draws a rule under itself on flick when hovered or focused; pressing it jumps, the host swaps the thread in, the list cross-fades and the original message takes focus.",
+      "files": [
+        {
+          "path": "registry/ui/forward-slip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-849"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bubble-tail",
+      "type": "registry:ui",
+      "title": "Bubble Tail",
+      "description": "Only the last message of a run wears the tail. Consecutive messages from one sender form a run, and the tail is one element per run with a shared layoutId, so when a new message extends the run it hands off, travelling from the old last bubble to the new one on snap while its path morphs from a tucked curve to the full point and the old bubble's corner rounds back on glide. A new sender starts a new run with its own tail, and nothing inside is focusable.",
+      "files": [
+        {
+          "path": "registry/ui/bubble-tail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-850"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

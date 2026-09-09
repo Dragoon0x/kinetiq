@@ -45437,4 +45437,657 @@ export const components: KinetiqItem[] = [
       "The marker and fill are placed by percentage inside a lane one marker narrower than the rail, so nothing is measured for position and a value of 1 rests the marker exactly against the line.",
     ],
   },
+  {
+    name: "bubble-land",
+    type: "registry:ui",
+    title: "Bubble Land",
+    description:
+      "A message thread with a composer whose new bubble rises into the list from the composer's side on recoil, the two bounces of something landing. The bubble's delivery mark walks the states the parent reports: a ring while sending, one check drawn on flick once sent, a second check that walks out on snap when delivered, and both tinted cobalt when read; failure shakes the bubble on a tween and offers Retry beneath it. The composer is a textarea where Enter sends and Shift+Enter breaks a line, every mark is an image with a sentence, and a status region speaks delivered, read, and failure once each.",
+    files: [
+      {
+        path: "registry/ui/bubble-land.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-841",
+    },
+    tagline: "Sent, and it shows.",
+    keywords: [
+      "chat",
+      "message",
+      "bubble",
+      "delivery",
+      "read receipt",
+      "retry",
+      "composer",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "BubbleMessage[]",
+        description:
+          'The thread, oldest first: id, from ("me" or "peer"), text, an optional formatted time, and for own messages a delivery of "sending", "sent", "delivered", "read", or "failed".',
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description:
+          'The other person; the mark\'s sentences name them ("Read by Marta").',
+      },
+      {
+        name: "onSend",
+        type: "(text: string) => void",
+        description:
+          'Fires from Enter or the Send control with the trimmed draft; append the message here with delivery "sending".',
+      },
+      {
+        name: "onRetry",
+        type: "(id: string) => void",
+        description:
+          'Fires from a failed bubble\'s Retry control; set that message back to "sending".',
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Message"',
+        description: "Composer placeholder.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Holds the composer while the parent is busy.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The composer is a real textarea: Enter sends, Shift+Enter inserts a newline, and the Send control disables while the draft is empty; Retry is a button named by the message's first words, and taking it hands focus to the composer.",
+      "Under reduced motion the bubble fades in place, the checks appear without drawing or walking, and failure changes colour without the shake; the thread's height still follows its content on a tween.",
+      "Delivery is the parent's to report: the component never reads a clock, so a real transport or a seeded script drives the walk through the delivery prop, and the status region speaks delivered, read, and failure once per hop.",
+    ],
+  },
+  {
+    name: "read-wave",
+    type: "registry:ui",
+    title: "Read Wave",
+    description:
+      'A sent message with a row of reader discs beneath it. Each new reader slides in from below on snap and tucks into the overlapping tail while the "Seen by" count rolls its digits on the same spring; hovering, focusing, or pressing the row fans the discs apart with a layout FLIP on snap and unfolds a list of names and times whose measured height glides. The row is a button with aria-expanded named by the count, Escape folds it, and a status region speaks each arrival once.',
+    files: [
+      {
+        path: "registry/ui/read-wave.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-842",
+    },
+    tagline: "Seen by whom, and when.",
+    keywords: [
+      "chat",
+      "read receipt",
+      "seen by",
+      "avatars",
+      "readers",
+      "message",
+      "count",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "The message body.",
+      },
+      {
+        name: "time",
+        type: "string",
+        description: "When it was sent, printed under the bubble.",
+      },
+      {
+        name: "readers",
+        type: "ReadReader[]",
+        description:
+          "Everyone who has read it, in read order: id, name, a formatted time, and optional initials (derived from the name when omitted). Append as people read.",
+      },
+      {
+        name: "total",
+        type: "number",
+        description:
+          'People who could read it; the count then reads "Seen by 3 of 5".',
+      },
+      {
+        name: "maxAvatars",
+        type: "number",
+        defaultValue: "5",
+        description:
+          'Discs shown before the rest collapse into a "+N" pip whose number also rolls.',
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial pinned state of the fan; hover and focus open it on their own.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires when a press or Escape pins or unpins the fan.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The readers row is a button: Tab reaches it, Enter or Space pins the fan open, Escape folds it and keeps focus, and focus or hover open it on their own; the fanned list is a real list of name and time rows.",
+      "Under reduced motion discs and rows fade in place, the digits swap instead of rolling, the fan does not spread, and the list's height changes on a tween.",
+      'Arrivals are the parent\'s to report through the readers prop; the component never reads a clock, and the status region speaks "Read by Marta at 15:02" once per reader.',
+    ],
+  },
+  {
+    name: "edit-trace",
+    type: "registry:ui",
+    title: "Edit Trace",
+    description:
+      "A message that keeps its previous versions. When a new version lands the text wipes in over the old on a clip-path tween and an Edited mark pops in on flick; pressing the mark unfolds every previous version beneath the bubble with measured height on glide, each with a strike that draws left to right on the same spring, while the current text replays its wipe over the last one. The mark is a button with aria-expanded, previous versions are del elements in a real list, Escape folds the trace and returns focus, and a status region speaks each edit once.",
+    files: [
+      {
+        path: "registry/ui/edit-trace.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-843",
+    },
+    tagline: "Edited, and what it said before.",
+    keywords: [
+      "chat",
+      "edited",
+      "message",
+      "history",
+      "versions",
+      "strike",
+      "wipe",
+    ],
+    props: [
+      {
+        name: "versions",
+        type: "EditVersion[]",
+        description:
+          "Oldest first, each with text and a formatted time; the last entry is what the message says now. A single entry means never edited and no mark.",
+      },
+      {
+        name: "author",
+        type: "string",
+        defaultValue: '"You"',
+        description: "Sender name printed above the bubble.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial trace state; it only shows once there is a previous version.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the mark or from Escape with the new trace state.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The Edited mark is a button: Tab reaches it, Enter or Space toggles the trace, and Escape anywhere in the message folds it and returns focus to the mark.",
+      "Under reduced motion the wipe becomes a cross-fade, the strikes and the mark appear without drawing or scaling, and the panel's height swaps on a tween.",
+      'Versions are the parent\'s: append a new one and the component notices the landing during render, wipes the text in, and speaks "Edited:" with the new text once.',
+    ],
+  },
+  {
+    name: "delete-fade",
+    type: "registry:ui",
+    title: "Delete Fade",
+    description:
+      "A thread whose messages can be deleted with a moment to undo. Deleting dims the bubble on a tween while the row's measured height glides on glide down to a chip with a ring that drains linearly across the undo window, the word Deleted, and an Undo button; hovering or keyboard-focusing the chip holds the ring. Undo brings the bubble back with a rise on recoil, while running out tells the parent to drop the message and the row exits on the exit ease with no bounce. Delete controls are buttons named by sender and first words, focus moves to Undo and back, and a status region speaks deleted, restored, and removed.",
+    files: [
+      {
+        path: "registry/ui/delete-fade.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-844",
+    },
+    tagline: "Gone, with a moment to undo.",
+    keywords: [
+      "chat",
+      "delete",
+      "undo",
+      "message",
+      "countdown",
+      "ring",
+      "collapse",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "DeleteMessage[]",
+        description:
+          'The thread, oldest first: id, from (a name, or "me" for the own bubble), text, and an optional formatted time. Drop a message here from onExpire.',
+      },
+      {
+        name: "undoWindow",
+        type: "number",
+        defaultValue: "5000",
+        description: "Milliseconds the ring drains before the delete is final.",
+      },
+      {
+        name: "onDelete",
+        type: "(id: string) => void",
+        description:
+          "Fires on the delete press; the message stays in the thread as a pending chip.",
+      },
+      {
+        name: "onUndo",
+        type: "(id: string) => void",
+        description: "Fires when Undo is pressed and the bubble is restored.",
+      },
+      {
+        name: "onExpire",
+        type: "(id: string) => void",
+        description:
+          "Fires when the ring runs out; remove the message from messages here.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Every delete control is a button: Enter or Space deletes and focus lands on Undo, where Enter or Space restores and focus returns to the delete control; keyboard focus on the chip holds the ring, and if the ring runs out under focus, focus moves to the thread list.",
+      "Under reduced motion the bubble fades back without rising, heights swap on a tween, and the ring still drains at the same rate because the countdown is information.",
+      "The ring pauses while the tab is hidden and resumes from where it stood; the pending and gone marks follow the ids in messages, so a reset thread with fresh ids comes back clean.",
+    ],
+  },
+  {
+    name: "group-stack",
+    type: "registry:ui",
+    title: "Group Stack",
+    description:
+      "A thread whose consecutive messages from one sender stack as a run: the gap inside a run is 2px and between runs 12px, so a bubble that joins a run tightens against the one above while the corners between them lose their radius. The run's disc renders once on its last message under a shared layoutId, sliding down on glide as the run grows; a new sender opens the gap and mounts a fresh disc with a pop on snap, and every arriving bubble rises on snap. Continuation messages carry a hidden sender prefix so each list item reads with its sender, and a status region speaks each arrival once.",
+    files: [
+      {
+        path: "registry/ui/group-stack.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-845",
+    },
+    tagline: "Same sender, stacked tight.",
+    keywords: [
+      "chat",
+      "thread",
+      "grouping",
+      "avatar",
+      "stack",
+      "messages",
+      "sender",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "StackMessage[]",
+        description:
+          "The thread, oldest first: id, sender (a display name; runs are cut wherever it changes), text, and an optional formatted time shown under the last bubble of a run.",
+      },
+      {
+        name: "self",
+        type: "string",
+        defaultValue: '"You"',
+        description:
+          "The sender rendered as own messages, right-aligned and without a disc.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The thread has no controls of its own: it is a list whose items each read with their sender, so the keyboard path is whatever appends to messages; the list scrolls inside a capped frame that follows the newest bubble.",
+      "Under reduced motion the gaps swap without a FLIP, the disc re-renders on the new last message without travelling, and bubbles fade in place.",
+      'Arrivals are the parent\'s: append to messages and the component notices during render, tightens or opens the gap, hands the disc down the run, and speaks "Marta: …" once.',
+    ],
+  },
+  {
+    name: "time-divider",
+    type: "registry:ui",
+    title: "Time Divider",
+    description:
+      "A thread that draws a line where the day changes. A divider that mounts because a new message crossed into a new day draws its rule from the centre outward on glide, the layout spring, and its label fades in over the line once it is most of the way out; messages arrive with a four-pixel rise on glide. Nothing inside is focusable: each divider is a separator labelled with its day, so a reader walking the list hears the change where it happens.",
+    files: [
+      {
+        path: "registry/ui/time-divider.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-846",
+    },
+    tagline: "Yesterday, drawn between.",
+    keywords: [
+      "chat",
+      "thread",
+      "divider",
+      "date",
+      "day",
+      "separator",
+      "timeline",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "TimeDividerMessage[]",
+        description:
+          "The thread in order: id, author, text, at as YYYY-MM-DDTHH:mm, optional mine.",
+      },
+      {
+        name: "today",
+        type: "string",
+        description:
+          "The current day as YYYY-MM-DD; Today and Yesterday are measured from it.",
+      },
+      {
+        name: "formatDay",
+        type: "(day: string, today: string) => string",
+        defaultValue: "describeDay",
+        description:
+          "Overrides the divider wording; the default gives Today, Yesterday, a weekday inside the week, and a date beyond it.",
+      },
+      {
+        name: "onDayCross",
+        type: "(label: string) => void",
+        description:
+          "Fires from an effect when a new day's divider mounts after the first render.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the thread for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Nothing inside is focusable; each divider is an li with role separator and an aria-label of its day, and one polite sentence per arrival names the day only when that message opened it.",
+      "Under reduced motion the line does not draw: line and label fade in together on a short tween and messages fade in place.",
+      "Timestamps are strings and day labels come from UTC arithmetic against today, so a prerender in one zone and a browser in another print the same divider.",
+    ],
+  },
+  {
+    name: "message-glow",
+    type: "registry:ui",
+    title: "Message Glow",
+    description:
+      "A thread where a quote is a door. Pressing the quoted line in a reply, or the pinned chip at the head, drives the box's scrollTop on glide until the target bubble sits centred, and on settle the bubble glows once: a wash and a two-pixel ring at full strength that fade on the exit ease, keyed by a jump count so a repeat jump glows again. The target list item takes focus when the scroll settles, and a Back chip glides you to where you were.",
+    files: [
+      {
+        path: "registry/ui/message-glow.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-847",
+    },
+    tagline: "Jump to it; it glows.",
+    keywords: ["chat", "thread", "jump", "scroll", "glow", "quote", "reply"],
+    props: [
+      {
+        name: "messages",
+        type: "GlowMessage[]",
+        description:
+          "The thread in order: id, author, text, at as HH:mm, optional mine, optional replyTo naming the message it answers.",
+      },
+      {
+        name: "pinned",
+        type: "string",
+        description:
+          "Id of a message offered as a sticky Pinned chip at the head of the thread.",
+      },
+      {
+        name: "onJump",
+        type: "(id: string) => void",
+        description: "Fires from the press that starts a jump.",
+      },
+      {
+        name: "onBack",
+        type: "() => void",
+        description: "Fires from the Back chip.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the scroll region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Quotes and the pinned chip are buttons: Enter or Space jumps, the target list item takes focus without scrolling again when the glide settles, and Back returns focus to the quote that started the jump.",
+      "Under reduced motion the scroll is set at once and the glow still fades, because it is the confirmation that the jump landed; the Back chip fades in place.",
+      "The scroll box is a labelled region with tabindex 0 so keyboard users can scroll it; it opens at the newest message.",
+    ],
+  },
+  {
+    name: "long-fold",
+    type: "registry:ui",
+    title: "Long Fold",
+    description:
+      "A thread where a long message arrives folded. Any bubble taller than lines line boxes clamps to exactly that many, fades its last line out in the bubble's own colour and offers a read-more; unfolding joins the folded height to the measured one on glide while the fade lifts on a tween and the chevron turns on snap. Folding back runs the same spring in reverse and, if the bubble's top has scrolled away, glides the box to it at the same time, so the message you closed stays under your eye.",
+    files: [
+      {
+        path: "registry/ui/long-fold.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-848",
+    },
+    tagline: "A long message, folded.",
+    keywords: [
+      "chat",
+      "thread",
+      "read more",
+      "fold",
+      "clamp",
+      "expand",
+      "height",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "FoldMessage[]",
+        description:
+          "The thread in order: id, author, text with newlines kept, at as HH:mm, optional mine.",
+      },
+      {
+        name: "lines",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "Lines shown while folded; a message that fits shows no control.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "Controlled or initial ids of unfolded messages.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string, open: boolean) => void",
+        description: "Fires from the press that folds or unfolds a message.",
+      },
+      {
+        name: "moreLabel",
+        type: "string",
+        defaultValue: '"Read more"',
+        description: "Disclosure copy while folded.",
+      },
+      {
+        name: "lessLabel",
+        type: "string",
+        defaultValue: '"Show less"',
+        description: "Disclosure copy while open.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the scroll region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The disclosure is a real button with aria-expanded and aria-controls: Enter and Space fold and unfold, and the folded text is never hidden from assistive technology, so a reader can hear the whole message without unfolding it.",
+      "Under reduced motion heights swap at once, the fade still lifts, the chevron flips without turning, and the scroll correction is set instantly.",
+      "Heights come from a ResizeObserver on the text's border box and the folded height from the line box, so nothing is reserved; scroll anchoring is off in the box so the fold-back correction owns the scroll position.",
+    ],
+  },
+  {
+    name: "forward-slip",
+    type: "registry:ui",
+    title: "Forward Slip",
+    description:
+      "A thread where a message can have come from somewhere else. A forwarded message rises on glide and then its stamp, Forwarded from and the source thread's name, slides in from the bubble's outer edge on recoil, because a stamp is pressed on and lands with two bounces. The source name is a button that lifts two pixels on snap and draws a rule under itself on flick when hovered or focused; pressing it jumps, the host swaps the thread in, the list cross-fades and the original message takes focus.",
+    files: [
+      {
+        path: "registry/ui/forward-slip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-849",
+    },
+    tagline: "Sent on, with a stamp.",
+    keywords: [
+      "chat",
+      "thread",
+      "forward",
+      "stamp",
+      "source",
+      "jump",
+      "recoil",
+    ],
+    props: [
+      {
+        name: "thread",
+        type: "SlipThread",
+        description:
+          "The visible thread: id, name, and messages carrying id, author, text, at, optional mine and optional forwardedFrom (threadId, threadName, messageId, author, at). Swapping the id cross-fades the list.",
+      },
+      {
+        name: "arriveAt",
+        type: "string",
+        description:
+          "A message id to focus once this thread mounts; the destination of a jump.",
+      },
+      {
+        name: "onJump",
+        type: "(target: SlipTarget) => void",
+        description:
+          "Fires from pressing a stamp's source name with the source threadId and messageId.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: "thread.name",
+        description: "Names the thread for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The source name in the stamp is a button: Tab reaches it, Enter or Space jumps, and the destination message takes focus without scrolling when the host mounts the source thread with arriveAt.",
+      "Under reduced motion the stamp fades in place with no travel or bounce, the name changes colour instead of lifting, and the thread swap is the same opacity cross-fade.",
+      "Everything present when a thread mounts is settled history; only a message added to that thread afterwards rises and gets its stamp slid in.",
+    ],
+  },
+  {
+    name: "bubble-tail",
+    type: "registry:ui",
+    title: "Bubble Tail",
+    description:
+      "Only the last message of a run wears the tail. Consecutive messages from one sender form a run, and the tail is one element per run with a shared layoutId, so when a new message extends the run it hands off, travelling from the old last bubble to the new one on snap while its path morphs from a tucked curve to the full point and the old bubble's corner rounds back on glide. A new sender starts a new run with its own tail, and nothing inside is focusable.",
+    files: [
+      {
+        path: "registry/ui/bubble-tail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-850",
+    },
+    tagline: "The last one gets the tail.",
+    keywords: ["chat", "bubble", "tail", "run", "group", "handoff", "morph"],
+    props: [
+      {
+        name: "messages",
+        type: "TailMessage[]",
+        description:
+          "The thread in order: id, author, text, at as HH:mm, optional mine.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the thread for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Nothing inside is focusable; the run boundary is carried by the printed sender at the head of each run and an sr-only sender on every bubble, never by the tail, which is aria-hidden decoration.",
+      "Under reduced motion the tail does not travel or morph: it appears on the new last bubble on a short fade and the corner radius swaps.",
+      "The tail's layoutId is scoped to the run, the id of its first message, so two runs never share a tail and only a message that extends a run triggers the hand-off.",
+    ],
+  },
 ];
