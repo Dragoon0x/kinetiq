@@ -53,8 +53,10 @@ const currency = new Intl.NumberFormat("en-US", {
 
 const defaultFormat = (value: number) => currency.format(value);
 
-const METHODS: { value: TenderMethod; label: string }[] = [
-  { value: "card", label: "Card" },
+type MethodOption = { value: TenderMethod; label: string };
+const CARD: MethodOption = { value: "card", label: "Card" };
+const METHODS: MethodOption[] = [
+  CARD,
   { value: "cash", label: "Cash" },
   { value: "split", label: "Split" },
 ];
@@ -216,8 +218,7 @@ export function TenderSwitch({
     setCard(field === "card" ? amount : total - amount);
   };
 
-  const chosen =
-    METHODS.find((option) => option.value === method) ?? METHODS[0];
+  const chosen = METHODS.find((option) => option.value === method) ?? CARD;
   const summary = isSplit
     ? `card ${format(card)} · cash ${format(cash)}`
     : format(total);
