@@ -1050,6 +1050,16 @@ import { MentionPopDemo } from "@/registry/demos/mention-pop.demo";
 import { SendSwooshDemo } from "@/registry/demos/send-swoosh.demo";
 import { ReplyCiteDemo } from "@/registry/demos/reply-cite.demo";
 import { ScheduleChipDemo } from "@/registry/demos/schedule-chip.demo";
+import { ReactBurstDemo } from "@/registry/demos/react-burst.demo";
+import { ReactionPickerDemo } from "@/registry/demos/reaction-picker.demo";
+import { ThreadOpenDemo } from "@/registry/demos/thread-open.demo";
+import { QuoteBlockDemo } from "@/registry/demos/quote-block.demo";
+import { ReplyThreadLineDemo } from "@/registry/demos/reply-thread-line.demo";
+import { ReactionTallyDemo } from "@/registry/demos/reaction-tally.demo";
+import { ReplyCountDemo } from "@/registry/demos/reply-count.demo";
+import { PinMessageDemo } from "@/registry/demos/pin-message.demo";
+import { StarMarkDemo } from "@/registry/demos/star-mark.demo";
+import { TranslateFlipDemo } from "@/registry/demos/translate-flip.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2114,4 +2124,14 @@ export const demos: Record<string, ComponentType> = {
   "send-swoosh": SendSwooshDemo,
   "reply-cite": ReplyCiteDemo,
   "schedule-chip": ScheduleChipDemo,
+  "react-burst": ReactBurstDemo,
+  "reaction-picker": ReactionPickerDemo,
+  "thread-open": ThreadOpenDemo,
+  "quote-block": QuoteBlockDemo,
+  "reply-thread-line": ReplyThreadLineDemo,
+  "reaction-tally": ReactionTallyDemo,
+  "reply-count": ReplyCountDemo,
+  "pin-message": PinMessageDemo,
+  "star-mark": StarMarkDemo,
+  "translate-flip": TranslateFlipDemo,
 };

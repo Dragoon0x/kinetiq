@@ -46898,4 +46898,800 @@ export const components: KinetiqItem[] = [
       'Each queue card holds its remainder in a motion value, so the ring and the readout cost no re-renders and a hidden tab stops the wait where it stood rather than restarting it. Queue cards are labelled sentences ("Queued for tomorrow 9:00: first words") with a role="timer" readout, and a status region announces the queue, the send and the delivery once each.',
     ],
   },
+  {
+    name: "react-burst",
+    type: "registry:ui",
+    title: "React Burst",
+    description:
+      "A row of reaction chips that answers the press. Taking a reaction bursts its drawn mark from 1.32 back to 1 on recoil while a ring the size of the chip drains on the exit ease and the count rolls in one grid cell on snap; withdrawing shrinks the mark on flick with no ring, and a chip that reaches zero leaves while the row re-flows on glide. Arrow keys move across the chips under a roving tabindex, Home and End jump, and Enter or Space toggles the reaction under the cursor.",
+    files: [
+      {
+        path: "registry/ui/react-burst.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-861",
+    },
+    tagline: "A reaction that bursts, then counts.",
+    keywords: [
+      "reaction",
+      "chat",
+      "tally",
+      "burst",
+      "count",
+      "toggle",
+      "chips",
+    ],
+    props: [
+      {
+        name: "reactions",
+        type: "ReactionTally[]",
+        description:
+          "The seeded tallies: id, label, glyph and the other people on each reaction.",
+      },
+      {
+        name: "mine / defaultMine",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Controlled or initial list of reaction ids you have taken.",
+      },
+      {
+        name: "onMineChange",
+        type: "(mine: string[]) => void",
+        description: "Fires with the whole next list on every press.",
+      },
+      {
+        name: "onReact",
+        type: "(id: string, reacted: boolean) => void",
+        description:
+          "Fires with the reaction pressed and whether it is now yours.",
+      },
+      {
+        name: "maxNames",
+        type: "number",
+        defaultValue: "3",
+        description: 'Names printed before the card reads "and 4 more".',
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Holds every chip while the row stays readable.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the reaction row for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Roving tabindex: the row costs one Tab stop, Left/Right and Up/Down step without wrapping, Home and End jump to the ends, Enter and Space toggle. Withdrawing the last of a reaction walks focus to the neighbouring chip.",
+      "Under reduced motion nothing bursts or shrinks — the chip's fill swaps on a fast tween — but the count still rolls, because a count is information.",
+      "State is never colour alone: every chip carries aria-pressed and a sentence naming who reacted, and an sr-only status announces each change once, frozen at the press.",
+    ],
+  },
+  {
+    name: "reaction-picker",
+    type: "registry:ui",
+    title: "Reaction Picker",
+    description:
+      "A quick-reaction bar that comes when you come near. Pointing at the message or focusing the React control raises the bar from eight pixels below on snap, and inside it the drawn marks lift toward the pointer on a measured 56px falloff; picking one sends a ghost of it flying to the reaction row on glide while the chip it lands on flashes. The tally commits at the press, so Arrow keys, Enter and Escape get the same instant truth as the pointer.",
+    files: [
+      {
+        path: "registry/ui/reaction-picker.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-862",
+    },
+    tagline: "Quick reactions, on hover.",
+    keywords: [
+      "reaction",
+      "picker",
+      "chat",
+      "hover",
+      "menu",
+      "proximity",
+      "message",
+    ],
+    props: [
+      {
+        name: "sender",
+        type: "string",
+        description: "Who wrote the message the picker sits on.",
+      },
+      {
+        name: "text",
+        type: "string",
+        description: "The message body.",
+      },
+      {
+        name: "time",
+        type: "string",
+        description: "Already formatted, printed beside the sender.",
+      },
+      {
+        name: "options",
+        type: "PickerOption[]",
+        defaultValue: "spark / agree / lift / watching / question",
+        description: "The pickable reactions: id, word and drawn mark.",
+      },
+      {
+        name: "baseCounts",
+        type: "Record<string, number>",
+        description:
+          "Seeded counts from other people, added to yours in the row.",
+      },
+      {
+        name: "picked / defaultPicked",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Controlled or initial list of reaction ids you have added.",
+      },
+      {
+        name: "onPickedChange",
+        type: "(picked: string[]) => void",
+        description: "Fires with the whole next list on every pick or removal.",
+      },
+      {
+        name: "onPick",
+        type: "(id: string) => void",
+        description:
+          "Fires with the reaction picked, before the ghost has landed.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial bar visibility; hover and focus drive it when uncontrolled.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from hover, focus, Escape and a pick.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the message region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The React control is always in the tab order: Enter or Arrow Down opens the bar and moves into it, Left/Right and Home/End walk the marks, Enter picks, and Escape closes and returns focus to the control.",
+      "Under reduced motion the bar cross-fades at its final position, the marks do not lift toward the pointer, and the pick lands on the chip at once instead of flying.",
+      "The row is a destination, not a control: each chip carries a sentence naming its reaction and count, and an sr-only status announces every pick once, frozen at the press.",
+    ],
+  },
+  {
+    name: "thread-open",
+    type: "registry:ui",
+    title: "Thread Open",
+    description:
+      "A thread whose side conversations open beside it. Pressing a message's reply count slides a panel in from the right edge of the component's own frame on glide while a scrim fades the thread behind it and the replies cascade in from eight pixels below on snap at cascade(count). The panel is modal within the frame: Tab cycles inside it, Escape closes, and closing folds it back on the exit ease and returns focus to the count control that opened it.",
+    files: [
+      {
+        path: "registry/ui/thread-open.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-863",
+    },
+    tagline: "A side conversation, opened.",
+    keywords: [
+      "thread",
+      "chat",
+      "panel",
+      "replies",
+      "dialog",
+      "cascade",
+      "side",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "ThreadMessage[]",
+        description:
+          "The thread, oldest first; a message's replies are its side conversation.",
+      },
+      {
+        name: "openId / defaultOpenId",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial id of the message whose panel is open.",
+      },
+      {
+        name: "onOpenIdChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from a count press, Escape, the close control and the scrim.",
+      },
+      {
+        name: "onReply",
+        type: "(parentId: string, text: string) => void",
+        description:
+          "Fires from Enter or Send in the panel with the trimmed text.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Reply in thread"',
+        description: "The panel composer's placeholder.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'The count control is a button with aria-expanded and aria-haspopup="dialog"; the panel is aria-modal, takes focus on open, traps Tab and Shift+Tab, closes on Escape, and hands focus back to the control it came from.',
+      "Under reduced motion the panel does not travel: it cross-fades at its final position and the replies arrive together without stagger or offset, because the content is information.",
+      "The composer is a real textarea — Enter sends, Shift+Enter breaks the line — and an sr-only status names each change once: opened, reply sent, closed.",
+    ],
+  },
+  {
+    name: "quote-block",
+    type: "registry:ui",
+    title: "Quote Block",
+    description:
+      "A message that carries someone else's words. The quote sits in the bubble as a card with a cobalt rule down its side, folded to one line until its disclosure glides it open on glide to a height a ResizeObserver measured; pointing at the card, or focusing either control, draws the wash across the matched words in the original with a scaleX from its left edge on snap. The second control carries the thread back to the source on glide and lands focus on it, and a quote whose words are not in the original says so in its own label.",
+    files: [
+      {
+        path: "registry/ui/quote-block.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-864",
+    },
+    tagline: "Their words, in your message.",
+    keywords: [
+      "quote",
+      "chat",
+      "blockquote",
+      "highlight",
+      "unfold",
+      "thread",
+      "cite",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "QuoteMessage[]",
+        description:
+          "The thread, oldest first; a message's quote names its source and the words taken from it.",
+      },
+      {
+        name: "expandedId / defaultExpandedId",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial id of the message whose quote card is unfolded; one at a time.",
+      },
+      {
+        name: "onExpandedChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the disclosure control with the next unfolded id.",
+      },
+      {
+        name: "onShowSource",
+        type: "(sourceId: string, quoteId: string) => void",
+        description: "Fires when the thread is carried back to the original.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The card holds two controls: a disclosure with aria-expanded and aria-controls that folds and unfolds the passage, and a jump that scrolls the thread to the source and lands focus on it. The quote is a real blockquote with a cite, and the marked run in the original is a real mark.",
+      "Under reduced motion the height swaps on a fast tween, the wash appears at full width rather than wiping, and the jump sets scrollTop directly — focus still lands on the source.",
+      "An sr-only status names each change once: the quote folded or unfolded, and whose message is being shown.",
+    ],
+  },
+  {
+    name: "reply-thread-line",
+    type: "registry:ui",
+    title: "Reply Line",
+    description:
+      "A thread that shows what a reply answers. Pointing at a reply, or walking to it with the arrow keys, draws a measured connector from its own edge up to its parent — one path of a fixed command count whose pathLength runs 0 to 1 on glide — while the answered message lifts four pixels on snap and takes a hairline ring. Leaving fades the line on the exit ease, and Enter on a reply moves focus to the message it answers.",
+    files: [
+      {
+        path: "registry/ui/reply-thread-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-865",
+    },
+    tagline: "Connected to the message it answers.",
+    keywords: ["reply", "thread", "chat", "connector", "line", "parent", "svg"],
+    props: [
+      {
+        name: "messages",
+        type: "LineMessage[]",
+        description:
+          "The thread, oldest first; replyTo names the message a reply answers.",
+      },
+      {
+        name: "activeId / defaultActiveId",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial id of the reply whose line is drawn.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(id: string | null) => void",
+        description: "Fires from hover, focus, blur and Escape.",
+      },
+      {
+        name: "onJumpToParent",
+        type: "(parentId: string, replyId: string) => void",
+        description:
+          "Fires when Enter on a reply moves focus to the message it answers.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Roving tabindex: the thread costs one Tab stop, Arrow Up and Down step between messages, Home and End jump, Enter on a reply moves focus to its parent, and Escape clears the line.",
+      "Under reduced motion the line appears at full length with a fade and the answered message takes its ring without travelling, because which message is answered is information.",
+      'Every message carries a sentence rather than a colour — "Rui at 07:44, replying to Marta at 07:12" — and the visible reading cross-fades in one grid cell so rapid arrow keys never leave it a step behind.',
+    ],
+  },
+  {
+    name: "reaction-tally",
+    type: "registry:ui",
+    title: "Reaction Tally",
+    description:
+      "A tally row that keeps reactions in standing order. A vote that overtakes reorders the row and every chip travels to its new slot as a layout FLIP on glide, while the chip in front pulses a cobalt ring on each new vote and the counts roll to their new face on snap. The chips are aria-pressed buttons on a roving tabindex: Left and Right step without wrapping, Home and End jump to the loudest and the quietest, Space toggles your own vote, and focus rides the chip rather than the slot so the chip you are on keeps focus while it moves.",
+    files: [
+      {
+        path: "registry/ui/reaction-tally.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-866",
+    },
+    tagline: "Every reaction, tallied.",
+    keywords: [
+      "reactions",
+      "tally",
+      "chat",
+      "flip",
+      "reorder",
+      "count",
+      "vote",
+    ],
+    props: [
+      {
+        name: "reactions",
+        type: "TallyReaction[]",
+        description:
+          "The kinds and other people's counts, in first-reacted order; ties keep that order so a level row never churns.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Controlled or initial set of ids you have reacted to; your vote adds one to that kind's total.",
+      },
+      {
+        name: "onValueChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires from a chip press or Space with the next set of your ids.",
+      },
+      {
+        name: "onRankChange",
+        type: "(rank: TallyRank) => void",
+        description:
+          "Fires with the order, the leader, its total and the margin over second place after every change.",
+      },
+      {
+        name: "text",
+        type: "string",
+        description: "The message body the tally hangs under.",
+      },
+      {
+        name: "author",
+        type: "string",
+        description: "Printed above the bubble.",
+      },
+      {
+        name: "time",
+        type: "string",
+        description: "Sent time, printed under the bubble, already formatted.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "A roving tabindex across the chips: Left and Right step without wrapping past the ends, Home and End jump to the loudest and the quietest, Space and Enter toggle your vote, and each chip's name is a sentence carrying its count and whether you reacted.",
+      "Under reduced motion the row reorders instantly and the leader holds a steady cobalt ring instead of pulsing — the standing still reads, only the travel is dropped.",
+      "Marks are drawn in a 16-unit box rather than typed, so a chip never depends on the reader's emoji font, and the count is spoken by the button's name rather than by the rolling digits.",
+    ],
+  },
+  {
+    name: "reply-count",
+    type: "registry:ui",
+    title: "Reply Count",
+    description:
+      "A thread badge that carries the count and the last replier's face. An arrival bumps the badge from 1.06 back to rest on recoil — two keyframes, driven imperatively, because a spring drops anything in between — while the disc and the number swap on snap, each pair stacked in one grid cell so the outgoing face cross-fades under the incoming one instead of being shoved sideways. Replies past the ones you have read open a chip out of the badge's edge on snap; Enter or Space opens the thread and collapses it.",
+    files: [
+      {
+        path: "registry/ui/reply-count.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-867",
+    },
+    tagline: "Replies, and the last one's face.",
+    keywords: [
+      "replies",
+      "thread",
+      "badge",
+      "chat",
+      "avatar",
+      "unread",
+      "count",
+    ],
+    props: [
+      {
+        name: "replies",
+        type: "ReplyEntry[]",
+        description:
+          "The thread's replies, oldest first; append to it as they land.",
+      },
+      {
+        name: "seenCount / defaultSeenCount",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Controlled or initial count of replies you have already read; the gap becomes the new chip.",
+      },
+      {
+        name: "onSeenCountChange",
+        type: "(count: number) => void",
+        description: "Fires when opening the thread marks everything read.",
+      },
+      {
+        name: "onOpen",
+        type: "(count: number) => void",
+        description: "Fires from a press or Enter with the reply count.",
+      },
+      {
+        name: "text",
+        type: "string",
+        description: "The parent message's body.",
+      },
+      {
+        name: "author",
+        type: "string",
+        description: "Printed above the bubble.",
+      },
+      {
+        name: "time",
+        type: "string",
+        description: "The parent's sent time, already formatted.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Reply"',
+        description:
+          "What the badge reads with no replies yet, beside a drawn reply arrow.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "One button in the tab order: Enter and Space open the thread and mark it read, and its name is a sentence — count, unread, last replier and time — so nothing is carried by colour or by a glyph.",
+      "Under reduced motion nothing bumps or slides: the disc and the number cross-fade in place and the new chip appears at full width rather than opening out of the edge.",
+      "An sr-only polite status speaks each arrival once, frozen at the moment it lands, so a host that later trims the list cannot make the region repeat a stale sentence.",
+    ],
+  },
+  {
+    name: "pin-message",
+    type: "registry:ui",
+    title: "Pin Message",
+    description:
+      "A thread with a bar at the top and a flight between them. Pressing a message's pin measures the gap between that row and the bar's floor at the moment of the press, and the copy enters the bar from exactly there, riding y to zero on glide, so it reads as lifted out of the thread rather than faded into a list; unpinning sends it back down the same distance on the exit ease. The bar's height comes from a ResizeObserver bound to its content, so an empty bar occupies nothing, and at the cap the remaining pin controls go aria-disabled with names that say why rather than leaving the tab order.",
+    files: [
+      {
+        path: "registry/ui/pin-message.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-868",
+    },
+    tagline: "Pinned to the top.",
+    keywords: ["pin", "pinned", "chat", "thread", "bar", "measured", "glide"],
+    props: [
+      {
+        name: "messages",
+        type: "PinnedMessage[]",
+        description:
+          "The thread, oldest first; each carries an id, author, text and formatted time.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Controlled or initial pinned ids, most recently pinned first.",
+      },
+      {
+        name: "onValueChange",
+        type: "(ids: string[]) => void",
+        description: "Fires from a pin or an unpin with the next pinned set.",
+      },
+      {
+        name: "onPinChange",
+        type: "(id: string, pinned: boolean) => void",
+        description: "Fires with the message that changed and its new state.",
+      },
+      {
+        name: "onJump",
+        type: "(id: string) => void",
+        description: "Fires when a bar row sends focus down to its message.",
+      },
+      {
+        name: "maxPinned",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How many the bar holds before the remaining pin controls refuse.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the thread list for assistive technology.",
+      },
+      {
+        name: "barLabel",
+        type: "string",
+        defaultValue: '"Pinned"',
+        description: "Names the pinned bar and heads it.",
+      },
+    ],
+    usageNotes: [
+      "Every control is a real button in the tab order: each message's pin is aria-pressed and names the message it holds, each bar row carries a jump button that moves focus to that message — which takes aria-current while it is the jumped-to row — and its own unpin.",
+      'At the cap the unpinned messages\' controls are aria-disabled rather than removed, and their names read "Bar full, unpin one first"; a polite status says the same.',
+      "Under reduced motion nothing flies: the copy appears with a fade and the bar's measured height changes on a fast tween, because what is pinned is information rather than flourish.",
+    ],
+  },
+  {
+    name: "star-mark",
+    type: "registry:ui",
+    title: "Star Mark",
+    description:
+      "A star, a folded corner, and the list that keeps them. Pressing a message's star grows a solid star out of the outline on recoil — two visible bounces, the one thing here that celebrates — while the bubble takes a corner mark scaling from its own corner on flick and the saved list gains the message, sliding in from 16px on glide with the newest save at the top. Unsaving reverses all three on the exit ease, and the panel's height comes from a ResizeObserver bound to its content so it is only ever as tall as what it holds.",
+    files: [
+      {
+        path: "registry/ui/star-mark.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-869",
+    },
+    tagline: "Saved for later.",
+    keywords: [
+      "star",
+      "save",
+      "bookmark",
+      "chat",
+      "saved list",
+      "recoil",
+      "mark",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "StarMessage[]",
+        description:
+          "The thread, oldest first; each carries an id, author, text and formatted time.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Controlled or initial saved ids, most recently saved first.",
+      },
+      {
+        name: "onValueChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires from a star press or Space with the next saved set.",
+      },
+      {
+        name: "onSaveChange",
+        type: "(id: string, saved: boolean) => void",
+        description: "Fires with the message that changed and its new state.",
+      },
+      {
+        name: "onJump",
+        type: "(id: string) => void",
+        description: "Fires when a saved row sends focus back to its message.",
+      },
+      {
+        name: "savedLabel",
+        type: "string",
+        defaultValue: '"Saved"',
+        description: "Names the saved list and heads it, beside the count.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Nothing saved yet"',
+        description:
+          "The panel's designed zero state, shown rather than reserved.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Each star is an aria-pressed button named for the message it saves, and each saved row carries a jump that moves focus back to that message — which takes aria-current while it is the jumped-to row — and its own remove control.",
+      "Under reduced motion the star fills in colour, the corner mark appears without a stamp and the saved row cross-fades in; the panel's height still changes, because the list is the record of what you saved.",
+      "The star's points are solved once and rounded to three decimals, so the same path string is drawn on the server and in the browser.",
+    ],
+  },
+  {
+    name: "translate-flip",
+    type: "registry:ui",
+    title: "Translate Flip",
+    description:
+      "A message that turns over into its translation. The card rotates about its horizontal axis on snap — one crisp overshoot, two keyframes — with the original and the translation as the two faces of one card, each hiding its back, while observers measure both faces so the card glides to the active one's height on glide rather than reserving room for the longer text. The original stays under a fold that opens at a measured height, Escape closes it and hands focus back, and a language chip rides the corner rail from one corner to the other as a layout FLIP.",
+    files: [
+      {
+        path: "registry/ui/translate-flip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-870",
+    },
+    tagline: "Their language, then yours.",
+    keywords: [
+      "translate",
+      "flip",
+      "chat",
+      "language",
+      "fold",
+      "measured",
+      "card",
+    ],
+    props: [
+      {
+        name: "text",
+        type: "string",
+        description: "The message as it arrived, in the source language.",
+      },
+      {
+        name: "translation",
+        type: "string",
+        description: "The rendering in the reader's language.",
+      },
+      {
+        name: "source / target",
+        type: "TranslateLanguage",
+        description:
+          "Where it came from and the reader's language; each is a code for the chip and a name for every control.",
+      },
+      {
+        name: "translated / defaultTranslated",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial face.",
+      },
+      {
+        name: "onTranslatedChange",
+        type: "(translated: boolean) => void",
+        description: "Fires from the control or Space with the next face.",
+      },
+      {
+        name: "originalOpen / defaultOriginalOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial state of the fold that holds the original.",
+      },
+      {
+        name: "onOriginalOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the fold control, from Escape, and when turning back closes the fold.",
+      },
+      {
+        name: "pending",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The host is still producing the translation: the chip turns an arc and the control refuses with aria-disabled.",
+      },
+      {
+        name: "author",
+        type: "string",
+        description: "Printed above the card.",
+      },
+      {
+        name: "time",
+        type: "string",
+        description: "Sent time, already formatted.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Translate is an aria-pressed button named for the language it will show; the fold is aria-expanded and aria-controls its region, and Escape anywhere in the card closes the fold and returns focus to the fold control.",
+      "Both faces stay in the DOM and the one that is turned away is aria-hidden and inert to the pointer, so a screen reader never reads the same message twice.",
+      "Under reduced motion the card does not turn: the faces cross-fade in place, the chip swaps corners at once and the pending arc holds still, while the measured height still changes because which language you are reading is information.",
+    ],
+  },
 ];

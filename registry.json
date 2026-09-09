@@ -23866,6 +23866,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "react-burst",
+      "type": "registry:ui",
+      "title": "React Burst",
+      "description": "A row of reaction chips that answers the press. Taking a reaction bursts its drawn mark from 1.32 back to 1 on recoil while a ring the size of the chip drains on the exit ease and the count rolls in one grid cell on snap; withdrawing shrinks the mark on flick with no ring, and a chip that reaches zero leaves while the row re-flows on glide. Arrow keys move across the chips under a roving tabindex, Home and End jump, and Enter or Space toggles the reaction under the cursor.",
+      "files": [
+        {
+          "path": "registry/ui/react-burst.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-861"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reaction-picker",
+      "type": "registry:ui",
+      "title": "Reaction Picker",
+      "description": "A quick-reaction bar that comes when you come near. Pointing at the message or focusing the React control raises the bar from eight pixels below on snap, and inside it the drawn marks lift toward the pointer on a measured 56px falloff; picking one sends a ghost of it flying to the reaction row on glide while the chip it lands on flashes. The tally commits at the press, so Arrow keys, Enter and Escape get the same instant truth as the pointer.",
+      "files": [
+        {
+          "path": "registry/ui/reaction-picker.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-862"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "thread-open",
+      "type": "registry:ui",
+      "title": "Thread Open",
+      "description": "A thread whose side conversations open beside it. Pressing a message's reply count slides a panel in from the right edge of the component's own frame on glide while a scrim fades the thread behind it and the replies cascade in from eight pixels below on snap at cascade(count). The panel is modal within the frame: Tab cycles inside it, Escape closes, and closing folds it back on the exit ease and returns focus to the count control that opened it.",
+      "files": [
+        {
+          "path": "registry/ui/thread-open.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-863"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "quote-block",
+      "type": "registry:ui",
+      "title": "Quote Block",
+      "description": "A message that carries someone else's words. The quote sits in the bubble as a card with a cobalt rule down its side, folded to one line until its disclosure glides it open on glide to a height a ResizeObserver measured; pointing at the card, or focusing either control, draws the wash across the matched words in the original with a scaleX from its left edge on snap. The second control carries the thread back to the source on glide and lands focus on it, and a quote whose words are not in the original says so in its own label.",
+      "files": [
+        {
+          "path": "registry/ui/quote-block.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-864"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reply-thread-line",
+      "type": "registry:ui",
+      "title": "Reply Line",
+      "description": "A thread that shows what a reply answers. Pointing at a reply, or walking to it with the arrow keys, draws a measured connector from its own edge up to its parent — one path of a fixed command count whose pathLength runs 0 to 1 on glide — while the answered message lifts four pixels on snap and takes a hairline ring. Leaving fades the line on the exit ease, and Enter on a reply moves focus to the message it answers.",
+      "files": [
+        {
+          "path": "registry/ui/reply-thread-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-865"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reaction-tally",
+      "type": "registry:ui",
+      "title": "Reaction Tally",
+      "description": "A tally row that keeps reactions in standing order. A vote that overtakes reorders the row and every chip travels to its new slot as a layout FLIP on glide, while the chip in front pulses a cobalt ring on each new vote and the counts roll to their new face on snap. The chips are aria-pressed buttons on a roving tabindex: Left and Right step without wrapping, Home and End jump to the loudest and the quietest, Space toggles your own vote, and focus rides the chip rather than the slot so the chip you are on keeps focus while it moves.",
+      "files": [
+        {
+          "path": "registry/ui/reaction-tally.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-866"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "reply-count",
+      "type": "registry:ui",
+      "title": "Reply Count",
+      "description": "A thread badge that carries the count and the last replier's face. An arrival bumps the badge from 1.06 back to rest on recoil — two keyframes, driven imperatively, because a spring drops anything in between — while the disc and the number swap on snap, each pair stacked in one grid cell so the outgoing face cross-fades under the incoming one instead of being shoved sideways. Replies past the ones you have read open a chip out of the badge's edge on snap; Enter or Space opens the thread and collapses it.",
+      "files": [
+        {
+          "path": "registry/ui/reply-count.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-867"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pin-message",
+      "type": "registry:ui",
+      "title": "Pin Message",
+      "description": "A thread with a bar at the top and a flight between them. Pressing a message's pin measures the gap between that row and the bar's floor at the moment of the press, and the copy enters the bar from exactly there, riding y to zero on glide, so it reads as lifted out of the thread rather than faded into a list; unpinning sends it back down the same distance on the exit ease. The bar's height comes from a ResizeObserver bound to its content, so an empty bar occupies nothing, and at the cap the remaining pin controls go aria-disabled with names that say why rather than leaving the tab order.",
+      "files": [
+        {
+          "path": "registry/ui/pin-message.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-868"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "star-mark",
+      "type": "registry:ui",
+      "title": "Star Mark",
+      "description": "A star, a folded corner, and the list that keeps them. Pressing a message's star grows a solid star out of the outline on recoil — two visible bounces, the one thing here that celebrates — while the bubble takes a corner mark scaling from its own corner on flick and the saved list gains the message, sliding in from 16px on glide with the newest save at the top. Unsaving reverses all three on the exit ease, and the panel's height comes from a ResizeObserver bound to its content so it is only ever as tall as what it holds.",
+      "files": [
+        {
+          "path": "registry/ui/star-mark.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-869"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "translate-flip",
+      "type": "registry:ui",
+      "title": "Translate Flip",
+      "description": "A message that turns over into its translation. The card rotates about its horizontal axis on snap — one crisp overshoot, two keyframes — with the original and the translation as the two faces of one card, each hiding its back, while observers measure both faces so the card glides to the active one's height on glide rather than reserving room for the longer text. The original stays under a fold that opens at a measured height, Escape closes it and hands focus back, and a language chip rides the corner rail from one corner to the other as a layout FLIP.",
+      "files": [
+        {
+          "path": "registry/ui/translate-flip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-870"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
