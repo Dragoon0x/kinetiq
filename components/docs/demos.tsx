@@ -920,6 +920,16 @@ import { SectorWheelDemo } from "@/registry/demos/sector-wheel.demo";
 import { EarningsCountdownDemo } from "@/registry/demos/earnings-countdown.demo";
 import { NewsTickerDemo } from "@/registry/demos/news-ticker.demo";
 import { CompareLinesDemo } from "@/registry/demos/compare-lines.demo";
+import { TipTerminalDemo } from "@/registry/demos/tip-terminal.demo";
+import { SplitWaysDemo } from "@/registry/demos/split-ways.demo";
+import { RefundFlowDemo } from "@/registry/demos/refund-flow.demo";
+import { ReceiptPrintDemo } from "@/registry/demos/receipt-print.demo";
+import { QueueNumberDemo } from "@/registry/demos/queue-number.demo";
+import { CashDrawerDemo } from "@/registry/demos/cash-drawer.demo";
+import { TapReaderDemo } from "@/registry/demos/tap-reader.demo";
+import { TenderSwitchDemo } from "@/registry/demos/tender-switch.demo";
+import { LineItemDemo } from "@/registry/demos/line-item.demo";
+import { DayCloseDemo } from "@/registry/demos/day-close.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1854,4 +1864,14 @@ export const demos: Record<string, ComponentType> = {
   "earnings-countdown": EarningsCountdownDemo,
   "news-ticker": NewsTickerDemo,
   "compare-lines": CompareLinesDemo,
+  "tip-terminal": TipTerminalDemo,
+  "split-ways": SplitWaysDemo,
+  "refund-flow": RefundFlowDemo,
+  "receipt-print": ReceiptPrintDemo,
+  "queue-number": QueueNumberDemo,
+  "cash-drawer": CashDrawerDemo,
+  "tap-reader": TapReaderDemo,
+  "tender-switch": TenderSwitchDemo,
+  "line-item": LineItemDemo,
+  "day-close": DayCloseDemo,
 };

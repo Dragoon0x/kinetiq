@@ -20356,6 +20356,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tip-terminal",
+      "type": "registry:ui",
+      "title": "Tip Terminal",
+      "description": "A customer-facing tip screen. Preset, no-tip and custom chips form one radio group whose highlight travels on snap; Custom opens a numeric pad grown to a measured height on glide, and the tip and total count to each figure on glide. The confirm is a slide: the knob follows the finger, springs back on snap from a short pull, and past 80% glides home and draws its check on flick. Arrows walk the chips; Enter, Space or End confirm.",
+      "files": [
+        {
+          "path": "registry/ui/tip-terminal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-729"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "split-ways",
+      "type": "registry:ui",
+      "title": "Split Ways",
+      "description": "A bill split by count, by item, or by amount. The mode switch's knob rides its track on snap, and each mode re-lays the people at the table as FLIP on glide: equal cards in a grid, full-width rows holding item chips that travel between seats under a shared layoutId, or rows with a stepper and an unassigned line beneath. Every share counts to its figure on glide and the list's height is measured, never reserved. Arrows walk the modes; chips and steppers are buttons.",
+      "files": [
+        {
+          "path": "registry/ui/split-ways.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-730"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "refund-flow",
+      "type": "registry:ui",
+      "title": "Refund Flow",
+      "description": "A refund card for one charge. The amount slider cannot pass the original — the track ends where the charge does — and pressing Refund sends the figure back along a route: the line fills and a pill carrying the amount travels to the customer's card on glide, then a REFUNDED stamp lands on it on recoil as onRefund fires. The slider takes arrows, Page keys, Home and End; the button is a real button.",
+      "files": [
+        {
+          "path": "registry/ui/refund-flow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-731"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "receipt-print",
+      "type": "registry:ui",
+      "title": "Receipt Print",
+      "description": "A till receipt out of a printer mouth. When printing turns on, lines feed out one at a time on a timer that pauses while the tab is hidden, each arriving on flick as the paper grows to a measured height on glide; the last line is a procedural barcode. Once printed the receipt tears: pulling it down follows the hand with resistance and past the tear distance the sheet leaves on the exit ease, a short pull springs back on snap, and a Tear off button tears by keyboard.",
+      "files": [
+        {
+          "path": "registry/ui/receipt-print.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-732"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "queue-number",
+      "type": "registry:ui",
+      "title": "Queue Number",
+      "description": "A branch queue display for one customer. The now-serving figure is an odometer whose digit columns roll up to each new face on snap, wrapping 9 to 0 without changing direction; beneath it the customer's own card counts an estimated wait down one second at a time, re-syncs whenever the served number changes, and when called tints cobalt and breathes on drift. The board is a labelled group and the card's status sentence changes per call, never per second.",
+      "files": [
+        {
+          "path": "registry/ui/queue-number.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-733"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cash-drawer",
+      "type": "registry:ui",
+      "title": "Cash Drawer",
+      "description": "A till whose face plate stays put while the tray beneath it opens on snap: the tray's measured height springs from zero with one crisp overshoot, the latch popping, while the slots ride down from under the face. Count walks the denominations top to bottom on a timed tick that pauses while the tab is hidden, each slot climbing in steps so none takes longer than 600ms while its count, its subtotal and the drawer total roll on snap together; Close slides the tray back and the padlock's shackle drops on flick. Open, Count and Close are real buttons, the tray is an inert region while closed, and a status line announces open, counting, counted with the variance, and locked.",
+      "files": [
+        {
+          "path": "registry/ui/cash-drawer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-734"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tap-reader",
+      "type": "registry:ui",
+      "title": "Tap Reader",
+      "description": "A card reader's display: the amount above, a ring in the middle, one line of state below. Ready, a short arc at the top breathes on a mirrored opacity tween; the ring is a real button that squashes on flick, and the host answers the tap by moving status to reading, which sets the arc spinning on a linear tween. On approved the spinner finishes its turn to the top and grows into a full ring on glide while a check draws inside it on flick; on declined the ring turns danger, shakes on a five-keyframe tween and a cross draws. The button's accessible name carries the state and the amount, Enter and Space press it, and the state line is a status region announced once per outcome.",
+      "files": [
+        {
+          "path": "registry/ui/tap-reader.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-735"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tender-switch",
+      "type": "registry:ui",
+      "title": "Tender Switch",
+      "description": "A three-stop radiogroup of tender methods whose one knob rides to the chosen stop on snap via a shared layoutId, while the chosen method's chip slides into the summary line from the left on snap as the old one leaves on the exit ease, so the method reads as having moved from the selector into the sale. Split unfolds two decimal fields below the summary, the region's measured height gliding open and the fields arriving in a cascade; they keep each other honest, editing one setting the other to the remainder clamped to the total, while a two-segment balance bar glides to the new proportion. Left and Right step without wrapping, Home and End jump, Space selects.",
+      "files": [
+        {
+          "path": "registry/ui/tender-switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-736"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "line-item",
+      "type": "registry:ui",
+      "title": "Line Item",
+      "description": "One basket row with a stepper pill whose quantity digit rolls on snap at each press while the pressed button squashes on flick, and whose line total rolls in the same beat because the total moves only because the quantity did. At the minimum the minus cross-fades into a bin; pressing it collapses the row, its measured height tweening to zero on the exit ease with the content fading, and onRemove fires only when the collapse completes so the host can drop the item without a jump. The quantity is a spinbutton: Up and Down step, Home and End jump to the limits.",
+      "files": [
+        {
+          "path": "registry/ui/line-item.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-737"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "day-close",
+      "type": "registry:ui",
+      "title": "Day Close",
+      "description": "An end-of-day card whose figures read as dashes until totalled, then reveal in sequence: each figure's digit columns mount at zero and roll up on snap, offset by cascade per figure and a shorter step per column, so the card reads as one sweep from top to bottom. Once the last column lands the category bars draw, each fill scaling from the left on glide in its own cascade with its share fading in behind, and closing stamps a rotated CLOSED over the figures on recoil, two bounces of ink hitting paper. One button carries the flow, Total the day, Close the day, Closed, and locks once closed.",
+      "files": [
+        {
+          "path": "registry/ui/day-close.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "finance"
+      ],
+      "meta": {
+        "serial": "KQ-738"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

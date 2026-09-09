@@ -13200,6 +13200,226 @@ Notes:
 - Under reduced motion both traces are simply there, complete; toggling still fades because opacity is the one motion allowed, and the cursor readout swaps position without a spring.
 - The gap is the first series' percent minus the second's, positive when the first leads; lead is carried in words and a sign, and the two series use cobalt and warn so neither reads as up or down.
 
+### Tip Terminal (KQ-729) — `tip-terminal`
+The customer's turn.
+
+A customer-facing tip screen. Preset, no-tip and custom chips form one radio group whose highlight travels on snap; Custom opens a numeric pad grown to a measured height on glide, and the tip and total count to each figure on glide. The confirm is a slide: the knob follows the finger, springs back on snap from a short pull, and past 80% glides home and draws its check on flick. Arrows walk the chips; Enter, Space or End confirm.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tip-terminal`
+
+Props:
+- `subtotal`: number — The bill before the tip.
+- `presets`: number[] (default [15, 18, 20]) — Percentages offered as chips, each printed with the money it comes to.
+- `value / defaultValue`: TipChoice (default the middle preset) — Controlled or initial choice: a preset percent, a custom amount, or none.
+- `onValueChange`: (choice: TipChoice, tip: number) => void — Fires from the chip or pad key that changed the tip.
+- `onConfirm`: (total: number, tip: number) => void — Fires from the release or key that confirmed the payment.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount the terminal prints.
+- `label`: string (default "Tip") — The merchant's name, printed above the subtotal.
+
+Notes:
+- The chips are a radio group with a roving tabindex: arrows move and select, Home and End jump, Space selects. The pad is a group of real buttons. The confirm knob is a button: Enter, Space or End confirm by keyboard, and a pointer must slide it past 80% of the track — a plain tap only nudges it.
+- Under reduced motion the pad still opens to its measured height on a fast tween, figures swap in place, the knob still tracks a drag and returns instantly, and the paid state swaps in by opacity alone.
+- Once confirmed every chip and key is disabled and the status region announces the paid total; mount a fresh terminal (a new key) for the next order.
+
+### Split Ways (KQ-730) — `split-ways`
+Split the bill any way you like.
+
+A bill split by count, by item, or by amount. The mode switch's knob rides its track on snap, and each mode re-lays the people at the table as FLIP on glide: equal cards in a grid, full-width rows holding item chips that travel between seats under a shared layoutId, or rows with a stepper and an unassigned line beneath. Every share counts to its figure on glide and the list's height is measured, never reserved. Arrows walk the modes; chips and steppers are buttons.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/split-ways`
+
+Props:
+- `total`: number — The bill.
+- `people`: SplitPerson[] — Who is at the table, in seat order: { id, name }.
+- `items`: SplitItem[] — What was ordered, { id, label, amount }; the item mode hands these between seats.
+- `mode / defaultMode`: "count" | "item" | "amount" (default "count") — Controlled or initial mode.
+- `onModeChange`: (mode: SplitMode) => void — Fires from the radio that changed the mode.
+- `defaultAssignments`: Record<string, string> — Item id to person id for the item mode; unlisted items start with the first seat.
+- `defaultAmounts`: Record<string, number> (default an even split) — Person id to amount for the amount mode.
+- `onSharesChange`: (shares: Record<string, number>, mode: SplitMode) => void — Fires from the event that changed any share, with every person's share and the mode they belong to.
+- `step`: number (default 1) — Amount the stepper moves per press.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount the control prints.
+- `label`: string (default "Split") — Printed above the mode switch.
+
+Notes:
+- The mode switch is a radio group with a roving tabindex: arrows move and select, Home and End jump, Space selects. Each item chip is a button that hands the item to the next seat; each stepper is a pair of buttons named for the person.
+- Under reduced motion rows and chips swap position instantly and every figure swaps in place; the shares and the unassigned line still update.
+- By count always sums to the bill; by item and by amount print what is unassigned or over beneath the list, so a split that does not add up says so.
+
+### Refund Flow (KQ-731) — `refund-flow`
+Money going back.
+
+A refund card for one charge. The amount slider cannot pass the original — the track ends where the charge does — and pressing Refund sends the figure back along a route: the line fills and a pill carrying the amount travels to the customer's card on glide, then a REFUNDED stamp lands on it on recoil as onRefund fires. The slider takes arrows, Page keys, Home and End; the button is a real button.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/refund-flow`
+
+Props:
+- `original`: number — The original charge; the slider's cap.
+- `value / defaultValue`: number (default the original) — Controlled or initial refund amount.
+- `onValueChange`: (amount: number) => void — Fires from the drag, click or key that moved the amount.
+- `onRefund`: (amount: number) => void — Fires when the refund lands on the card.
+- `step`: number (default 1) — Keyboard step and drag snap; Page keys move ten.
+- `merchant`: string (default "Merchant") — The payee the money leaves.
+- `cardLabel`: string (default "•• 4182") — The customer's card, as it should print.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount the card prints.
+
+Notes:
+- The slider is a role="slider" capped at the original: arrows step, Page keys move ten steps, Home and End reach zero and the whole charge. Capture is taken only after 4px, so a plain click sets the amount.
+- Under reduced motion the pill appears at the card instead of travelling and the stamp fades in without bouncing; the refund still lands and the status region still announces it.
+- The landing timer runs only while the document is visible, and once refunded the card locks — mount a fresh card (a new key) for the next charge.
+
+### Receipt Print (KQ-732) — `receipt-print`
+Printed, torn, done.
+
+A till receipt out of a printer mouth. When printing turns on, lines feed out one at a time on a timer that pauses while the tab is hidden, each arriving on flick as the paper grows to a measured height on glide; the last line is a procedural barcode. Once printed the receipt tears: pulling it down follows the hand with resistance and past the tear distance the sheet leaves on the exit ease, a short pull springs back on snap, and a Tear off button tears by keyboard.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/receipt-print`
+
+Props:
+- `lines`: ReceiptLine[] — The lines, top to bottom: { id, label, amount?, kind?: "item" | "total" | "note" }.
+- `printing`: boolean — Turning it on prints from the first line; turning it off clears the mouth for the next receipt.
+- `onPrinted`: () => void — Fires from the timer that printed the last line.
+- `onTear`: () => void — Fires from the release or key that tore the receipt away.
+- `interval`: number (default 160) — Milliseconds between lines.
+- `header`: string (default "Receipt") — The merchant's name at the head of the paper; it also seeds the barcode.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount the paper prints.
+
+Notes:
+- The paper is a labelled region of real list items; once printed, a Tear off button below it tears by keyboard, and the paper itself tears by a pull past 44px of resisted travel. Capture is taken only after 4px so the sweep of a pointer never throws.
+- Under reduced motion lines still appear on the same timer, opacity only, the paper still grows on a fast tween, and a tear fades the sheet out instead of dropping it.
+- The feed timer pauses while the document is hidden and resumes on the line it stopped at; flip printing off and on again to print a fresh receipt.
+
+### Queue Number (KQ-733) — `queue-number`
+Your number, called.
+
+A branch queue display for one customer. The now-serving figure is an odometer whose digit columns roll up to each new face on snap, wrapping 9 to 0 without changing direction; beneath it the customer's own card counts an estimated wait down one second at a time, re-syncs whenever the served number changes, and when called tints cobalt and breathes on drift. The board is a labelled group and the card's status sentence changes per call, never per second.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/queue-number`
+
+Props:
+- `serving`: number — The number now being served; the board rolls to it.
+- `ticket`: number — The customer's own number.
+- `secondsPerTicket`: number (default 90) — Estimated seconds per ticket ahead; the wait is this times the tickets that remain.
+- `running`: boolean (default true) — Whether the estimate counts down.
+- `format`: (value: number) => string (default "A-042" style, padded to three digits) — How a number prints; digits become odometer columns, other characters print as they are.
+- `label`: string (default "Now serving") — The counter's name, printed above the figure.
+
+Notes:
+- The board is a role="group" labelled by the counter's name with a plain-text copy of the served number; the customer's card is decoration over an sr-only status sentence that reads the ticket, how many are before it and the wait in minutes — announced when the served number changes, never per second.
+- Under reduced motion digits swap in place, the called card tints and changes its text without breathing, and the countdown still ticks because the wait is information.
+- The countdown runs only while running is true and the document is visible; drive serving from your own queue feed and the estimate re-syncs on every change.
+
+### Cash Drawer (KQ-734) — `cash-drawer`
+Open, count, close.
+
+A till whose face plate stays put while the tray beneath it opens on snap: the tray's measured height springs from zero with one crisp overshoot, the latch popping, while the slots ride down from under the face. Count walks the denominations top to bottom on a timed tick that pauses while the tab is hidden, each slot climbing in steps so none takes longer than 600ms while its count, its subtotal and the drawer total roll on snap together; Close slides the tray back and the padlock's shackle drops on flick. Open, Count and Close are real buttons, the tray is an inert region while closed, and a status line announces open, counting, counted with the variance, and locked.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cash-drawer`
+
+Props:
+- `denominations`: CashDenomination[] — What is in the tray, largest first: value, count, and an optional kind of note or coin.
+- `expected`: number — The float the drawer should hold; enables the variance line (level, over, short).
+- `open / defaultOpen`: boolean (default false) — Controlled or initial drawer state.
+- `onOpenChange`: (open: boolean) => void — Fires from the Open or Close press.
+- `onCount`: () => void — Fires from the Count press, as the tally begins.
+- `onTallied`: (total: number) => void — Fires from the tick that finishes the count, with the drawer total.
+- `onLock`: (total: number) => void — Fires from the Close press with the tallied total, 0 if uncounted.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every amount. The default pins an explicit locale so server and client agree.
+- `label`: string (default "Cash drawer") — Names the drawer for the group and the tray region.
+
+Notes:
+- Open, Count and Close are real buttons in Tab order; Count is aria-disabled while the tally runs, and the tray is inert while the drawer is closed so nothing inside it can take focus.
+- Under reduced motion the tray's height tweens with no travel or overshoot, the counts still tick and the totals still update, but the digits swap in place and the shackle appears already dropped.
+- The tally lives in an effect with cleanup and stops while the document is hidden; onTallied fires from the tick that finishes it, never per tick, and the status line announces only phase changes.
+
+### Tap Reader (KQ-735) — `tap-reader`
+Ready, reading, approved.
+
+A card reader's display: the amount above, a ring in the middle, one line of state below. Ready, a short arc at the top breathes on a mirrored opacity tween; the ring is a real button that squashes on flick, and the host answers the tap by moving status to reading, which sets the arc spinning on a linear tween. On approved the spinner finishes its turn to the top and grows into a full ring on glide while a check draws inside it on flick; on declined the ring turns danger, shakes on a five-keyframe tween and a cross draws. The button's accessible name carries the state and the amount, Enter and Space press it, and the state line is a status region announced once per outcome.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tap-reader`
+
+Props:
+- `status`: "ready" | "reading" | "approved" | "declined" — Controlled; the outcome comes from the host.
+- `amount`: number — The sale, in major units.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats the amount. The default pins an explicit locale so server and client agree.
+- `label`: string (default "Card reader") — Names the reader, top left.
+- `reference`: string — A sale reference shown top right.
+- `messages`: Partial<Record<TapReaderStatus, string>> — Overrides the state line copy per status.
+- `onTap`: () => void — Fires from the press while ready.
+- `onReset`: () => void — Fires from the press after an outcome, when the button reads New sale or Try again.
+
+Notes:
+- The ring is one button: Enter and Space press it; while reading it is aria-disabled and aria-busy and presses are ignored; after an outcome the same press fires onReset.
+- Under reduced motion nothing breathes, spins, shakes or squashes: reading shows a still three-quarter arc, and each outcome shows its ring and glyph at once, by colour and opacity alone.
+- The reader never times anything itself: the host moves status from reading to approved or declined from its own effect or response.
+
+### Tender Switch (KQ-736) — `tender-switch`
+Card, cash, or split.
+
+A three-stop radiogroup of tender methods whose one knob rides to the chosen stop on snap via a shared layoutId, while the chosen method's chip slides into the summary line from the left on snap as the old one leaves on the exit ease, so the method reads as having moved from the selector into the sale. Split unfolds two decimal fields below the summary, the region's measured height gliding open and the fields arriving in a cascade; they keep each other honest, editing one setting the other to the remainder clamped to the total, while a two-segment balance bar glides to the new proportion. Left and Right step without wrapping, Home and End jump, Space selects.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tender-switch`
+
+Props:
+- `total`: number — The sale total the tender must cover.
+- `value / defaultValue`: "card" | "cash" | "split" (default "card") — Controlled or initial method.
+- `onValueChange`: (method: TenderMethod) => void — Fires from the press or key that changed the method.
+- `cardAmount / defaultCardAmount`: number (default half the total, to cents) — Controlled or initial card share when split; cash is always the remainder.
+- `onCardAmountChange`: (amount: number) => void — Fires from the input that changed it, with the card share clamped to the total.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats the total and the summary amounts. The default pins an explicit locale so server and client agree.
+- `label`: string (default "Tender") — Names the radiogroup.
+
+Notes:
+- A radiogroup with a roving tabindex: Left and Right (or Up and Down) step without wrapping past the ends, Home and End jump to card and split, Space selects; the split fields are labelled decimal inputs that join Tab order only while split is chosen, because the folded region is inert.
+- Under reduced motion the knob swaps stops with no travel, the chip cross-fades in place, the split region's height tweens on durations.base, and the bar widths tween.
+- Amounts are kept to cents and clamped to the total; the summary is a polite live region, and the balance bar is hidden from assistive technology because the fields already carry the numbers.
+
+### Line Item (KQ-737) — `line-item`
+Quantity that ticks.
+
+One basket row with a stepper pill whose quantity digit rolls on snap at each press while the pressed button squashes on flick, and whose line total rolls in the same beat because the total moves only because the quantity did. At the minimum the minus cross-fades into a bin; pressing it collapses the row, its measured height tweening to zero on the exit ease with the content fading, and onRemove fires only when the collapse completes so the host can drop the item without a jump. The quantity is a spinbutton: Up and Down step, Home and End jump to the limits.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/line-item`
+
+Props:
+- `name`: string — The item; also names the spinbutton and the remove control.
+- `note`: string — A variant or detail under the name.
+- `unitPrice`: number — Price per unit, in major units.
+- `quantity / defaultQuantity`: number (default 1) — Controlled or initial quantity, clamped to min and max.
+- `onQuantityChange`: (quantity: number) => void — Fires from the press or key that changed it.
+- `min`: number (default 1) — The lowest quantity; at it the minus becomes remove when removable.
+- `max`: number (default 99) — The highest quantity; also sets the width reserved for the rolling figures.
+- `removable`: boolean (default true) — At the minimum, minus becomes a remove control.
+- `onRemove`: () => void — Fires when the collapse completes; drop the item from state here.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats the unit price and the line total. The default pins an explicit locale so server and client agree.
+
+Notes:
+- The quantity is a role=spinbutton with aria-valuenow, min and max: Up and Down step, Home and End jump to the limits; the buttons are named Decrease, Increase and Remove {name}, and a status line announces the quantity with its total, or Removed.
+- Under reduced motion the digits swap in place, the buttons do not squash, and removal fades the row on the exit ease before it collapses in one tween.
+- Render each LineItem inside its own li; onRemove fires after the collapse has finished, so dropping the item from state there causes no jump.
+
+### Day Close (KQ-738) — `day-close`
+The day, totalled.
+
+An end-of-day card whose figures read as dashes until totalled, then reveal in sequence: each figure's digit columns mount at zero and roll up on snap, offset by cascade per figure and a shorter step per column, so the card reads as one sweep from top to bottom. Once the last column lands the category bars draw, each fill scaling from the left on glide in its own cascade with its share fading in behind, and closing stamps a rotated CLOSED over the figures on recoil, two bounces of ink hitting paper. One button carries the flow, Total the day, Close the day, Closed, and locks once closed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/day-close`
+
+Props:
+- `figures`: DayFigure[] — The figures top to bottom: id, label, value and an optional tone of neutral, success or danger. The last one is announced as the net.
+- `categories`: DayCategory[] — The bars: id, label and value; shares are computed from their sum.
+- `state / defaultState`: "open" | "totalled" | "closed" (default "open") — Controlled or initial state.
+- `onStateChange`: (state: DayState) => void — Fires from the press that advanced it.
+- `heading`: string — The day, as text.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })) — Formats every figure and bar amount. The default pins an explicit locale so server and client agree.
+- `label`: string (default "Day close") — Names the card for the group.
+
+Notes:
+- One button carries the whole flow with a changing label and is disabled once closed; Enter and Space press it. The figures are a dl whose values carry the printed amount or not totalled as text, and the bars read label, amount and share.
+- Under reduced motion the figures appear complete with no roll and no stagger, the bars fill on a tween, and the stamp fades in without scale or bounce.
+- A card that mounts already totalled or closed shows its figures and stamp complete; only a change after mount earns the sweep, so a reopened day rolls again when it is totalled.
+
 ### Bill Calendar (KQ-739) — `bill-calendar`
 Every bill, on the day it lands.
 

@@ -37307,4 +37307,833 @@ export const components: KinetiqItem[] = [
       "The gap is the first series' percent minus the second's, positive when the first leads; lead is carried in words and a sign, and the two series use cobalt and warn so neither reads as up or down.",
     ],
   },
+  {
+    name: "tip-terminal",
+    type: "registry:ui",
+    title: "Tip Terminal",
+    description:
+      "A customer-facing tip screen. Preset, no-tip and custom chips form one radio group whose highlight travels on snap; Custom opens a numeric pad grown to a measured height on glide, and the tip and total count to each figure on glide. The confirm is a slide: the knob follows the finger, springs back on snap from a short pull, and past 80% glides home and draws its check on flick. Arrows walk the chips; Enter, Space or End confirm.",
+    files: [
+      {
+        path: "registry/ui/tip-terminal.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-729",
+    },
+    tagline: "The customer's turn.",
+    keywords: [
+      "tip",
+      "terminal",
+      "checkout",
+      "keypad",
+      "slide to confirm",
+      "payment",
+      "finance",
+    ],
+    props: [
+      {
+        name: "subtotal",
+        type: "number",
+        description: "The bill before the tip.",
+      },
+      {
+        name: "presets",
+        type: "number[]",
+        defaultValue: "[15, 18, 20]",
+        description:
+          "Percentages offered as chips, each printed with the money it comes to.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "TipChoice",
+        defaultValue: "the middle preset",
+        description:
+          "Controlled or initial choice: a preset percent, a custom amount, or none.",
+      },
+      {
+        name: "onValueChange",
+        type: "(choice: TipChoice, tip: number) => void",
+        description: "Fires from the chip or pad key that changed the tip.",
+      },
+      {
+        name: "onConfirm",
+        type: "(total: number, tip: number) => void",
+        description:
+          "Fires from the release or key that confirmed the payment.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description: "Formats every amount the terminal prints.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Tip"',
+        description: "The merchant's name, printed above the subtotal.",
+      },
+    ],
+    usageNotes: [
+      "The chips are a radio group with a roving tabindex: arrows move and select, Home and End jump, Space selects. The pad is a group of real buttons. The confirm knob is a button: Enter, Space or End confirm by keyboard, and a pointer must slide it past 80% of the track — a plain tap only nudges it.",
+      "Under reduced motion the pad still opens to its measured height on a fast tween, figures swap in place, the knob still tracks a drag and returns instantly, and the paid state swaps in by opacity alone.",
+      "Once confirmed every chip and key is disabled and the status region announces the paid total; mount a fresh terminal (a new key) for the next order.",
+    ],
+  },
+  {
+    name: "split-ways",
+    type: "registry:ui",
+    title: "Split Ways",
+    description:
+      "A bill split by count, by item, or by amount. The mode switch's knob rides its track on snap, and each mode re-lays the people at the table as FLIP on glide: equal cards in a grid, full-width rows holding item chips that travel between seats under a shared layoutId, or rows with a stepper and an unassigned line beneath. Every share counts to its figure on glide and the list's height is measured, never reserved. Arrows walk the modes; chips and steppers are buttons.",
+    files: [
+      {
+        path: "registry/ui/split-ways.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-730",
+    },
+    tagline: "Split the bill any way you like.",
+    keywords: [
+      "split",
+      "bill",
+      "shares",
+      "flip",
+      "table",
+      "restaurant",
+      "finance",
+    ],
+    props: [
+      {
+        name: "total",
+        type: "number",
+        description: "The bill.",
+      },
+      {
+        name: "people",
+        type: "SplitPerson[]",
+        description: "Who is at the table, in seat order: { id, name }.",
+      },
+      {
+        name: "items",
+        type: "SplitItem[]",
+        description:
+          "What was ordered, { id, label, amount }; the item mode hands these between seats.",
+      },
+      {
+        name: "mode / defaultMode",
+        type: '"count" | "item" | "amount"',
+        defaultValue: '"count"',
+        description: "Controlled or initial mode.",
+      },
+      {
+        name: "onModeChange",
+        type: "(mode: SplitMode) => void",
+        description: "Fires from the radio that changed the mode.",
+      },
+      {
+        name: "defaultAssignments",
+        type: "Record<string, string>",
+        description:
+          "Item id to person id for the item mode; unlisted items start with the first seat.",
+      },
+      {
+        name: "defaultAmounts",
+        type: "Record<string, number>",
+        defaultValue: "an even split",
+        description: "Person id to amount for the amount mode.",
+      },
+      {
+        name: "onSharesChange",
+        type: "(shares: Record<string, number>, mode: SplitMode) => void",
+        description:
+          "Fires from the event that changed any share, with every person's share and the mode they belong to.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "1",
+        description: "Amount the stepper moves per press.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description: "Formats every amount the control prints.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Split"',
+        description: "Printed above the mode switch.",
+      },
+    ],
+    usageNotes: [
+      "The mode switch is a radio group with a roving tabindex: arrows move and select, Home and End jump, Space selects. Each item chip is a button that hands the item to the next seat; each stepper is a pair of buttons named for the person.",
+      "Under reduced motion rows and chips swap position instantly and every figure swaps in place; the shares and the unassigned line still update.",
+      "By count always sums to the bill; by item and by amount print what is unassigned or over beneath the list, so a split that does not add up says so.",
+    ],
+  },
+  {
+    name: "refund-flow",
+    type: "registry:ui",
+    title: "Refund Flow",
+    description:
+      "A refund card for one charge. The amount slider cannot pass the original — the track ends where the charge does — and pressing Refund sends the figure back along a route: the line fills and a pill carrying the amount travels to the customer's card on glide, then a REFUNDED stamp lands on it on recoil as onRefund fires. The slider takes arrows, Page keys, Home and End; the button is a real button.",
+    files: [
+      {
+        path: "registry/ui/refund-flow.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-731",
+    },
+    tagline: "Money going back.",
+    keywords: [
+      "refund",
+      "chargeback",
+      "slider",
+      "stamp",
+      "card",
+      "payment",
+      "finance",
+    ],
+    props: [
+      {
+        name: "original",
+        type: "number",
+        description: "The original charge; the slider's cap.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "the original",
+        description: "Controlled or initial refund amount.",
+      },
+      {
+        name: "onValueChange",
+        type: "(amount: number) => void",
+        description: "Fires from the drag, click or key that moved the amount.",
+      },
+      {
+        name: "onRefund",
+        type: "(amount: number) => void",
+        description: "Fires when the refund lands on the card.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "1",
+        description: "Keyboard step and drag snap; Page keys move ten.",
+      },
+      {
+        name: "merchant",
+        type: "string",
+        defaultValue: '"Merchant"',
+        description: "The payee the money leaves.",
+      },
+      {
+        name: "cardLabel",
+        type: "string",
+        defaultValue: '"•• 4182"',
+        description: "The customer's card, as it should print.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description: "Formats every amount the card prints.",
+      },
+    ],
+    usageNotes: [
+      'The slider is a role="slider" capped at the original: arrows step, Page keys move ten steps, Home and End reach zero and the whole charge. Capture is taken only after 4px, so a plain click sets the amount.',
+      "Under reduced motion the pill appears at the card instead of travelling and the stamp fades in without bouncing; the refund still lands and the status region still announces it.",
+      "The landing timer runs only while the document is visible, and once refunded the card locks — mount a fresh card (a new key) for the next charge.",
+    ],
+  },
+  {
+    name: "receipt-print",
+    type: "registry:ui",
+    title: "Receipt Print",
+    description:
+      "A till receipt out of a printer mouth. When printing turns on, lines feed out one at a time on a timer that pauses while the tab is hidden, each arriving on flick as the paper grows to a measured height on glide; the last line is a procedural barcode. Once printed the receipt tears: pulling it down follows the hand with resistance and past the tear distance the sheet leaves on the exit ease, a short pull springs back on snap, and a Tear off button tears by keyboard.",
+    files: [
+      {
+        path: "registry/ui/receipt-print.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-732",
+    },
+    tagline: "Printed, torn, done.",
+    keywords: [
+      "receipt",
+      "printer",
+      "till",
+      "tear",
+      "perforation",
+      "barcode",
+      "finance",
+    ],
+    props: [
+      {
+        name: "lines",
+        type: "ReceiptLine[]",
+        description:
+          'The lines, top to bottom: { id, label, amount?, kind?: "item" | "total" | "note" }.',
+      },
+      {
+        name: "printing",
+        type: "boolean",
+        description:
+          "Turning it on prints from the first line; turning it off clears the mouth for the next receipt.",
+      },
+      {
+        name: "onPrinted",
+        type: "() => void",
+        description: "Fires from the timer that printed the last line.",
+      },
+      {
+        name: "onTear",
+        type: "() => void",
+        description:
+          "Fires from the release or key that tore the receipt away.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "160",
+        description: "Milliseconds between lines.",
+      },
+      {
+        name: "header",
+        type: "string",
+        defaultValue: '"Receipt"',
+        description:
+          "The merchant's name at the head of the paper; it also seeds the barcode.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description: "Formats every amount the paper prints.",
+      },
+    ],
+    usageNotes: [
+      "The paper is a labelled region of real list items; once printed, a Tear off button below it tears by keyboard, and the paper itself tears by a pull past 44px of resisted travel. Capture is taken only after 4px so the sweep of a pointer never throws.",
+      "Under reduced motion lines still appear on the same timer, opacity only, the paper still grows on a fast tween, and a tear fades the sheet out instead of dropping it.",
+      "The feed timer pauses while the document is hidden and resumes on the line it stopped at; flip printing off and on again to print a fresh receipt.",
+    ],
+  },
+  {
+    name: "queue-number",
+    type: "registry:ui",
+    title: "Queue Number",
+    description:
+      "A branch queue display for one customer. The now-serving figure is an odometer whose digit columns roll up to each new face on snap, wrapping 9 to 0 without changing direction; beneath it the customer's own card counts an estimated wait down one second at a time, re-syncs whenever the served number changes, and when called tints cobalt and breathes on drift. The board is a labelled group and the card's status sentence changes per call, never per second.",
+    files: [
+      {
+        path: "registry/ui/queue-number.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-733",
+    },
+    tagline: "Your number, called.",
+    keywords: [
+      "queue",
+      "ticket",
+      "odometer",
+      "counter",
+      "wait",
+      "branch",
+      "finance",
+    ],
+    props: [
+      {
+        name: "serving",
+        type: "number",
+        description: "The number now being served; the board rolls to it.",
+      },
+      {
+        name: "ticket",
+        type: "number",
+        description: "The customer's own number.",
+      },
+      {
+        name: "secondsPerTicket",
+        type: "number",
+        defaultValue: "90",
+        description:
+          "Estimated seconds per ticket ahead; the wait is this times the tickets that remain.",
+      },
+      {
+        name: "running",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Whether the estimate counts down.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: '"A-042" style, padded to three digits',
+        description:
+          "How a number prints; digits become odometer columns, other characters print as they are.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Now serving"',
+        description: "The counter's name, printed above the figure.",
+      },
+    ],
+    usageNotes: [
+      "The board is a role=\"group\" labelled by the counter's name with a plain-text copy of the served number; the customer's card is decoration over an sr-only status sentence that reads the ticket, how many are before it and the wait in minutes — announced when the served number changes, never per second.",
+      "Under reduced motion digits swap in place, the called card tints and changes its text without breathing, and the countdown still ticks because the wait is information.",
+      "The countdown runs only while running is true and the document is visible; drive serving from your own queue feed and the estimate re-syncs on every change.",
+    ],
+  },
+  {
+    name: "cash-drawer",
+    type: "registry:ui",
+    title: "Cash Drawer",
+    description:
+      "A till whose face plate stays put while the tray beneath it opens on snap: the tray's measured height springs from zero with one crisp overshoot, the latch popping, while the slots ride down from under the face. Count walks the denominations top to bottom on a timed tick that pauses while the tab is hidden, each slot climbing in steps so none takes longer than 600ms while its count, its subtotal and the drawer total roll on snap together; Close slides the tray back and the padlock's shackle drops on flick. Open, Count and Close are real buttons, the tray is an inert region while closed, and a status line announces open, counting, counted with the variance, and locked.",
+    files: [
+      {
+        path: "registry/ui/cash-drawer.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-734",
+    },
+    tagline: "Open, count, close.",
+    keywords: ["cash", "drawer", "till", "tally", "count", "float", "finance"],
+    props: [
+      {
+        name: "denominations",
+        type: "CashDenomination[]",
+        description:
+          "What is in the tray, largest first: value, count, and an optional kind of note or coin.",
+      },
+      {
+        name: "expected",
+        type: "number",
+        description:
+          "The float the drawer should hold; enables the variance line (level, over, short).",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial drawer state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the Open or Close press.",
+      },
+      {
+        name: "onCount",
+        type: "() => void",
+        description: "Fires from the Count press, as the tally begins.",
+      },
+      {
+        name: "onTallied",
+        type: "(total: number) => void",
+        description:
+          "Fires from the tick that finishes the count, with the drawer total.",
+      },
+      {
+        name: "onLock",
+        type: "(total: number) => void",
+        description:
+          "Fires from the Close press with the tallied total, 0 if uncounted.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats every amount. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Cash drawer"',
+        description: "Names the drawer for the group and the tray region.",
+      },
+    ],
+    usageNotes: [
+      "Open, Count and Close are real buttons in Tab order; Count is aria-disabled while the tally runs, and the tray is inert while the drawer is closed so nothing inside it can take focus.",
+      "Under reduced motion the tray's height tweens with no travel or overshoot, the counts still tick and the totals still update, but the digits swap in place and the shackle appears already dropped.",
+      "The tally lives in an effect with cleanup and stops while the document is hidden; onTallied fires from the tick that finishes it, never per tick, and the status line announces only phase changes.",
+    ],
+  },
+  {
+    name: "tap-reader",
+    type: "registry:ui",
+    title: "Tap Reader",
+    description:
+      "A card reader's display: the amount above, a ring in the middle, one line of state below. Ready, a short arc at the top breathes on a mirrored opacity tween; the ring is a real button that squashes on flick, and the host answers the tap by moving status to reading, which sets the arc spinning on a linear tween. On approved the spinner finishes its turn to the top and grows into a full ring on glide while a check draws inside it on flick; on declined the ring turns danger, shakes on a five-keyframe tween and a cross draws. The button's accessible name carries the state and the amount, Enter and Space press it, and the state line is a status region announced once per outcome.",
+    files: [
+      {
+        path: "registry/ui/tap-reader.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-735",
+    },
+    tagline: "Ready, reading, approved.",
+    keywords: [
+      "reader",
+      "tap",
+      "contactless",
+      "terminal",
+      "payment",
+      "ring",
+      "finance",
+    ],
+    props: [
+      {
+        name: "status",
+        type: '"ready" | "reading" | "approved" | "declined"',
+        description: "Controlled; the outcome comes from the host.",
+      },
+      {
+        name: "amount",
+        type: "number",
+        description: "The sale, in major units.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats the amount. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Card reader"',
+        description: "Names the reader, top left.",
+      },
+      {
+        name: "reference",
+        type: "string",
+        description: "A sale reference shown top right.",
+      },
+      {
+        name: "messages",
+        type: "Partial<Record<TapReaderStatus, string>>",
+        description: "Overrides the state line copy per status.",
+      },
+      {
+        name: "onTap",
+        type: "() => void",
+        description: "Fires from the press while ready.",
+      },
+      {
+        name: "onReset",
+        type: "() => void",
+        description:
+          "Fires from the press after an outcome, when the button reads New sale or Try again.",
+      },
+    ],
+    usageNotes: [
+      "The ring is one button: Enter and Space press it; while reading it is aria-disabled and aria-busy and presses are ignored; after an outcome the same press fires onReset.",
+      "Under reduced motion nothing breathes, spins, shakes or squashes: reading shows a still three-quarter arc, and each outcome shows its ring and glyph at once, by colour and opacity alone.",
+      "The reader never times anything itself: the host moves status from reading to approved or declined from its own effect or response.",
+    ],
+  },
+  {
+    name: "tender-switch",
+    type: "registry:ui",
+    title: "Tender Switch",
+    description:
+      "A three-stop radiogroup of tender methods whose one knob rides to the chosen stop on snap via a shared layoutId, while the chosen method's chip slides into the summary line from the left on snap as the old one leaves on the exit ease, so the method reads as having moved from the selector into the sale. Split unfolds two decimal fields below the summary, the region's measured height gliding open and the fields arriving in a cascade; they keep each other honest, editing one setting the other to the remainder clamped to the total, while a two-segment balance bar glides to the new proportion. Left and Right step without wrapping, Home and End jump, Space selects.",
+    files: [
+      {
+        path: "registry/ui/tender-switch.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-736",
+    },
+    tagline: "Card, cash, or split.",
+    keywords: [
+      "tender",
+      "payment",
+      "method",
+      "split",
+      "card",
+      "cash",
+      "radiogroup",
+    ],
+    props: [
+      {
+        name: "total",
+        type: "number",
+        description: "The sale total the tender must cover.",
+      },
+      {
+        name: "value / defaultValue",
+        type: '"card" | "cash" | "split"',
+        defaultValue: '"card"',
+        description: "Controlled or initial method.",
+      },
+      {
+        name: "onValueChange",
+        type: "(method: TenderMethod) => void",
+        description: "Fires from the press or key that changed the method.",
+      },
+      {
+        name: "cardAmount / defaultCardAmount",
+        type: "number",
+        defaultValue: "half the total, to cents",
+        description:
+          "Controlled or initial card share when split; cash is always the remainder.",
+      },
+      {
+        name: "onCardAmountChange",
+        type: "(amount: number) => void",
+        description:
+          "Fires from the input that changed it, with the card share clamped to the total.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats the total and the summary amounts. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Tender"',
+        description: "Names the radiogroup.",
+      },
+    ],
+    usageNotes: [
+      "A radiogroup with a roving tabindex: Left and Right (or Up and Down) step without wrapping past the ends, Home and End jump to card and split, Space selects; the split fields are labelled decimal inputs that join Tab order only while split is chosen, because the folded region is inert.",
+      "Under reduced motion the knob swaps stops with no travel, the chip cross-fades in place, the split region's height tweens on durations.base, and the bar widths tween.",
+      "Amounts are kept to cents and clamped to the total; the summary is a polite live region, and the balance bar is hidden from assistive technology because the fields already carry the numbers.",
+    ],
+  },
+  {
+    name: "line-item",
+    type: "registry:ui",
+    title: "Line Item",
+    description:
+      "One basket row with a stepper pill whose quantity digit rolls on snap at each press while the pressed button squashes on flick, and whose line total rolls in the same beat because the total moves only because the quantity did. At the minimum the minus cross-fades into a bin; pressing it collapses the row, its measured height tweening to zero on the exit ease with the content fading, and onRemove fires only when the collapse completes so the host can drop the item without a jump. The quantity is a spinbutton: Up and Down step, Home and End jump to the limits.",
+    files: [
+      {
+        path: "registry/ui/line-item.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-737",
+    },
+    tagline: "Quantity that ticks.",
+    keywords: [
+      "line item",
+      "basket",
+      "stepper",
+      "quantity",
+      "cart",
+      "remove",
+      "finance",
+    ],
+    props: [
+      {
+        name: "name",
+        type: "string",
+        description:
+          "The item; also names the spinbutton and the remove control.",
+      },
+      {
+        name: "note",
+        type: "string",
+        description: "A variant or detail under the name.",
+      },
+      {
+        name: "unitPrice",
+        type: "number",
+        description: "Price per unit, in major units.",
+      },
+      {
+        name: "quantity / defaultQuantity",
+        type: "number",
+        defaultValue: "1",
+        description: "Controlled or initial quantity, clamped to min and max.",
+      },
+      {
+        name: "onQuantityChange",
+        type: "(quantity: number) => void",
+        description: "Fires from the press or key that changed it.",
+      },
+      {
+        name: "min",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The lowest quantity; at it the minus becomes remove when removable.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "99",
+        description:
+          "The highest quantity; also sets the width reserved for the rolling figures.",
+      },
+      {
+        name: "removable",
+        type: "boolean",
+        defaultValue: "true",
+        description: "At the minimum, minus becomes a remove control.",
+      },
+      {
+        name: "onRemove",
+        type: "() => void",
+        description:
+          "Fires when the collapse completes; drop the item from state here.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats the unit price and the line total. The default pins an explicit locale so server and client agree.",
+      },
+    ],
+    usageNotes: [
+      "The quantity is a role=spinbutton with aria-valuenow, min and max: Up and Down step, Home and End jump to the limits; the buttons are named Decrease, Increase and Remove {name}, and a status line announces the quantity with its total, or Removed.",
+      "Under reduced motion the digits swap in place, the buttons do not squash, and removal fades the row on the exit ease before it collapses in one tween.",
+      "Render each LineItem inside its own li; onRemove fires after the collapse has finished, so dropping the item from state there causes no jump.",
+    ],
+  },
+  {
+    name: "day-close",
+    type: "registry:ui",
+    title: "Day Close",
+    description:
+      "An end-of-day card whose figures read as dashes until totalled, then reveal in sequence: each figure's digit columns mount at zero and roll up on snap, offset by cascade per figure and a shorter step per column, so the card reads as one sweep from top to bottom. Once the last column lands the category bars draw, each fill scaling from the left on glide in its own cascade with its share fading in behind, and closing stamps a rotated CLOSED over the figures on recoil, two bounces of ink hitting paper. One button carries the flow, Total the day, Close the day, Closed, and locks once closed.",
+    files: [
+      {
+        path: "registry/ui/day-close.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["finance"],
+    meta: {
+      serial: "KQ-738",
+    },
+    tagline: "The day, totalled.",
+    keywords: [
+      "day close",
+      "end of day",
+      "summary",
+      "totals",
+      "stamp",
+      "terminal",
+      "finance",
+    ],
+    props: [
+      {
+        name: "figures",
+        type: "DayFigure[]",
+        description:
+          "The figures top to bottom: id, label, value and an optional tone of neutral, success or danger. The last one is announced as the net.",
+      },
+      {
+        name: "categories",
+        type: "DayCategory[]",
+        description:
+          "The bars: id, label and value; shares are computed from their sum.",
+      },
+      {
+        name: "state / defaultState",
+        type: '"open" | "totalled" | "closed"',
+        defaultValue: '"open"',
+        description: "Controlled or initial state.",
+      },
+      {
+        name: "onStateChange",
+        type: "(state: DayState) => void",
+        description: "Fires from the press that advanced it.",
+      },
+      {
+        name: "heading",
+        type: "string",
+        description: "The day, as text.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue:
+          'Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })',
+        description:
+          "Formats every figure and bar amount. The default pins an explicit locale so server and client agree.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Day close"',
+        description: "Names the card for the group.",
+      },
+    ],
+    usageNotes: [
+      "One button carries the whole flow with a changing label and is disabled once closed; Enter and Space press it. The figures are a dl whose values carry the printed amount or not totalled as text, and the bars read label, amount and share.",
+      "Under reduced motion the figures appear complete with no roll and no stagger, the bars fill on a tween, and the stamp fades in without scale or bounce.",
+      "A card that mounts already totalled or closed shows its figures and stamp complete; only a change after mount earns the sweep, so a reopened day rolls again when it is totalled.",
+    ],
+  },
 ];
