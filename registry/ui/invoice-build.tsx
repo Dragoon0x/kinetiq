@@ -340,9 +340,11 @@ export function InvoiceBuild({
     document.getElementById(id)?.focus();
   }, [lines]);
 
+  // The last removal takes the list with it, so focus lands on the invoice
+  // itself rather than falling to the body.
   const remove = (id: string, position: number) => {
     const next = lines[position + 1] ?? lines[position - 1];
-    focusRef.current = next ? `${baseId}-remove-${next.id}` : null;
+    focusRef.current = next ? `${baseId}-remove-${next.id}` : `${baseId}-root`;
     onRemove?.(id);
   };
 
@@ -350,7 +352,15 @@ export function InvoiceBuild({
   const totalText = format(total);
 
   return (
-    <div ref={ref} className={cn("flex w-full flex-col gap-3", className)}>
+    <div
+      ref={ref}
+      id={`${baseId}-root`}
+      tabIndex={-1}
+      className={cn(
+        "flex w-full flex-col gap-3 rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring",
+        className,
+      )}
+    >
       <div className="flex items-baseline justify-between gap-3">
         <span id={labelId} className="truncate text-sm font-semibold">
           {label}

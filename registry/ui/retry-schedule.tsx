@@ -235,9 +235,13 @@ export function RetrySchedule({
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
 
-  const nextIndex = attempts.findIndex((item) => item.status === "pending");
-  const nextId = nextIndex < 0 ? null : (attempts[nextIndex]?.id ?? null);
+  // Once an attempt has succeeded nothing is next any more: the attempts that
+  // were still scheduled behind it stay scheduled, and the clock stops.
   const settled = attempts.some((item) => item.status === "succeeded");
+  const nextIndex = settled
+    ? -1
+    : attempts.findIndex((item) => item.status === "pending");
+  const nextId = nextIndex < 0 ? null : (attempts[nextIndex]?.id ?? null);
   const spent = nextIndex < 0 && !settled;
   const span = Math.max(1, waitSeconds);
 

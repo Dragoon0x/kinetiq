@@ -6499,3 +6499,918 @@ test.describe("budgeting", () => {
     await expect(header).toHaveText("$17,490 in · $14,880 out · $2,610 kept");
   });
 });
+
+/** A laid-out box's width in CSS pixels — read for a pill that closed. */
+const billingWidthOf = async (target: Locator): Promise<number> =>
+  (await target.boundingBox())?.width ?? 0;
+
+/** A laid-out box's height — read for a drawer that is measured, not reserved. */
+const billingHeightOf = async (target: Locator): Promise<number> =>
+  (await target.boundingBox())?.height ?? 0;
+
+/**
+ * How far along its track a stacked bar's last segment ends, as a fraction of
+ * the track. Measured rather than read off a style, because the bar's end
+ * settling back to the marker is the outcome the viewer is looking at.
+ */
+const barEndOf = (segment: Locator) => async (): Promise<number> =>
+  segment.evaluate((element) => {
+    const track = element.parentElement;
+    if (!track) return -1;
+    const box = track.getBoundingClientRect();
+    if (box.width === 0) return -1;
+    const end = element.getBoundingClientRect().right - box.left;
+    return Math.round((end / box.width) * 100) / 100;
+  });
+
+/**
+ * Where a draining ring stands. Motion drives its dash offset from one value,
+ * so the number holds exactly while the rail is paused and moves every frame
+ * while it runs — read as computed style, which is the same whether motion
+ * wrote it as an attribute or inline.
+ */
+const ringOffsetOf = (ring: Locator) => async (): Promise<number> =>
+  ring.evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).strokeDashoffset),
+  );
+
+/**
+ * The billing family is arithmetic that has to be seen to be believed: a
+ * total that re-sums when a row leaves, a charge split into whole cents, a
+ * countdown that holds when told to, a credit that travels from one document
+ * to another. Every test drives the mechanic through the keyboard where the
+ * component publishes one — and through the pointer where the gesture is the
+ * point — and reads the figures off the demo's status line and the ARIA the
+ * component publishes about itself.
+ */
+test.describe("billing", () => {
+  test("subscription-list: Enter cancels a row, focus and the clock pass to the next charge, and Restore brings it back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/subscription-list");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component announces its monthly total before the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const list = stage.getByRole("list", { name: "Subscriptions" });
+    const rows = list.getByRole("listitem");
+    // A cancelled row keeps its timer while it leaves, so the live one is last.
+    const timer = stage.getByRole("timer").last();
+    const cancelFernworks = stage.getByRole("button", {
+      name: "Cancel Fernworks Studio",
+    });
+    const cancelBasinworks = stage.getByRole("button", {
+      name: "Cancel Basinworks Data",
+    });
+    const pause = stage.getByRole("button", { name: /^(Pause|Resume)$/ });
+    const restore = stage.getByRole("button", { name: "Restore" });
+
+    // Four rows, the yearly plan counted as a twelfth, and the soonest charge
+    // — Fernworks, a day and two hours out — wears the clock.
+    await expect(status).toContainText(
+      /^Monthly \$111\.50 · next in 1d 02:1[34]:\d\d$/,
+    );
+    await expect(announced).toHaveText(
+      "$111.50 a month across 4 subscriptions",
+    );
+    await expect(rows).toHaveCount(4);
+    await expect(rows.first()).toContainText(
+      "Fernworks Studio, $18.00 a month",
+    );
+    await expect(rows.last()).toContainText(
+      /Gaugeworks Atlas, \$240\.00 a year, \$20\.00 a month, next charge in 2[01] days/,
+    );
+    await expect(timer).toHaveAccessibleName("Next charge in 1 day 2 hours");
+    await expect(stage.getByText("Monthly total, $111.50")).toHaveCount(1);
+    await expect(restore).toBeDisabled();
+
+    // Enter on the leading row's cancel: the row leaves, the next row's cancel
+    // takes the focus, and the clock restarts on the charge that now leads.
+    await cancelFernworks.focus();
+    await page.keyboard.press("Enter");
+    await expect(cancelBasinworks).toBeFocused();
+    await expect(status).toContainText("cancelled Fernworks Studio");
+    await expect(status).toContainText(
+      /^Monthly \$93\.50 · next in 5d 02:59:5\d · cancelled Fernworks Studio$/,
+      { timeout: 5000 },
+    );
+    await expect(announced).toHaveText("$93.50 a month across 3 subscriptions");
+    await expect(cancelFernworks).toHaveCount(0);
+    await expect(rows).toHaveCount(3);
+    await expect(rows.first()).toContainText("Basinworks Data, $64.00 a month");
+    await expect(timer).toHaveAccessibleName(
+      /^Next charge in 5 days [23] hours$/,
+    );
+    await expect(stage.getByText("Monthly total, $93.50")).toHaveCount(1);
+    await expect(restore).toBeEnabled();
+
+    // Pause holds the clock where it stands: the timer reads the same second
+    // a second later, and the button offers Resume.
+    await pause.click();
+    await expect(pause).toHaveText("Resume");
+    const held = (await timer.textContent()) ?? "";
+    expect(held).toMatch(/^5d 02:59:\d\d$/);
+    await page.waitForTimeout(1000);
+    await expect(timer).toHaveText(held);
+    await pause.click();
+    await expect(pause).toHaveText("Pause");
+
+    // Restore puts the cancelled row back at the top, and the total with it.
+    await restore.click();
+    await expect(status).toContainText(
+      /^Monthly \$111\.50 · next in 1d 02:1[34]:\d\d$/,
+    );
+    await expect(announced).toHaveText(
+      "$111.50 a month across 4 subscriptions",
+    );
+    await expect(rows).toHaveCount(4);
+    await expect(rows.first()).toContainText("Fernworks Studio");
+    await expect(cancelFernworks).toBeVisible();
+    await expect(timer).toHaveAccessibleName("Next charge in 1 day 2 hours");
+    await expect(restore).toBeDisabled();
+  });
+
+  test("invoice-build: Enter removes the line under focus and hands focus on, the figures follow, and the last removal must not drop focus", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/invoice-build");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const lines = stage.getByRole("list", { name: "Invoice FW-2214" });
+    const rows = lines.getByRole("listitem");
+    const removeRig = stage.getByRole("button", { name: "Remove Rig hire" });
+    const removeSurvey = stage.getByRole("button", {
+      name: "Remove Site survey",
+    });
+    const removeSpool = stage.getByRole("button", {
+      name: "Remove Cable spool",
+    });
+    const add = stage.getByRole("button", { name: "Add line" });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    // Three lines — 360 + 480 + 222 — taxed at 8%.
+    await expect(status).toContainText("Lines 3 · total $1,146.96");
+    await expect(announced).toHaveText("Total $1,146.96 across 3 lines");
+    await expect(rows).toHaveCount(3);
+    await expect(rows.first()).toContainText("Rig hire, 3 at $120.00, $360.00");
+    await expect(stage.getByText("Subtotal $1,062.00")).toHaveCount(1);
+    await expect(stage.getByText("Tax 8 percent, $84.96")).toHaveCount(1);
+    await expect(
+      stage.getByText("Total $1,146.96", { exact: true }),
+    ).toHaveCount(1);
+    await expect(reset).toBeDisabled();
+
+    // Enter on the first line's remove: the line goes, the next line's remove
+    // takes the focus, and every figure rolls down.
+    await removeRig.focus();
+    await page.keyboard.press("Enter");
+    await expect(removeSurvey).toBeFocused();
+    await expect(status).toContainText(
+      "Lines 2 · total $758.16 · removed Rig hire",
+    );
+    await expect(announced).toHaveText("Total $758.16 across 2 lines");
+    await expect(rows).toHaveCount(2);
+    await expect(stage.getByText("Subtotal $702.00")).toHaveCount(1);
+    await expect(stage.getByText("Tax 8 percent, $56.16")).toHaveCount(1);
+    await expect(reset).toBeEnabled();
+
+    // A second Enter without moving: focus is already on the next remove.
+    await page.keyboard.press("Enter");
+    await expect(removeSpool).toBeFocused();
+    await expect(status).toContainText(
+      "Lines 1 · total $239.76 · removed Site survey",
+    );
+    await expect(rows).toHaveCount(1);
+    await expect(rows.first()).toContainText(
+      "Cable spool, 12 at $18.50, $222.00",
+    );
+
+    // Add line walks the script: a fourth line opens and the figures rise.
+    await add.click();
+    await expect(status).toContainText(
+      "Lines 2 · total $810.00 · added Mast section",
+    );
+    await expect(announced).toHaveText("Total $810.00 across 2 lines");
+    await expect(rows).toHaveCount(2);
+    await expect(rows.last()).toContainText(
+      "Mast section, 2 at $264.00, $528.00",
+    );
+    await expect(stage.getByText("Subtotal $750.00")).toHaveCount(1);
+    await expect(stage.getByText("Tax 8 percent, $60.00")).toHaveCount(1);
+    await expect(stage.getByText("Total $810.00", { exact: true })).toHaveCount(
+      1,
+    );
+
+    // Reset restores the opening three and forgets the last change.
+    await reset.click();
+    await expect(status).toHaveText("Lines 3 · total $1,146.96");
+    await expect(rows).toHaveCount(3);
+    await expect(reset).toBeDisabled();
+    await expect(add).toBeEnabled();
+
+    // A keyboard run of deletions to the empty state. The contract says the
+    // last removal hands focus to the list rather than the body.
+    await removeRig.focus();
+    await page.keyboard.press("Enter");
+    await expect(removeSurvey).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(removeSpool).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(removeSpool).toHaveCount(0);
+    await expect(status).toContainText(
+      "Lines 0 · total $0.00 · removed Cable spool",
+    );
+    await expect(announced).toHaveText("Total $0.00 across 0 lines");
+    await expect(stage.getByText("No lines yet.")).toBeVisible();
+    await expect(page.locator("body")).not.toBeFocused();
+  });
+
+  test("due-badge: each state swaps the words and the glyph, only overdue breathes, and paid closes the pill", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/due-badge");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The badge speaks its whole standing through its own region, once.
+    const announced = stage.locator("[role='status']").first();
+    const pill = stage.locator("span.isolate");
+    const pulse = stage.locator("[class*='-inset-0.5']");
+    const due = stage.getByRole("button", { name: "Due", exact: true });
+    const overdue = stage.getByRole("button", { name: "Overdue" });
+    const paid = stage.getByRole("button", { name: "Paid" });
+
+    await expect(status).toContainText("Invoice 4821 · due · $340.00");
+    await expect(announced).toHaveText("Invoice 4821, due in 4 days, $340.00");
+    await expect(due).toHaveAttribute("aria-pressed", "true");
+    await expect(
+      pill.getByText("Due in 4 days", { exact: true }).last(),
+    ).toBeVisible();
+    await expect(pulse).toHaveCount(0);
+    const wide = await billingWidthOf(pill);
+
+    // Overdue: the words slide, the glyph changes, and a ring breathes outside
+    // the pill — the only state that gets ambient motion.
+    await overdue.click();
+    await expect(status).toContainText("Invoice 4821 · overdue · $340.00");
+    await expect(announced).toHaveText(
+      "Invoice 4821, overdue by 2 days, $340.00",
+    );
+    await expect(overdue).toHaveAttribute("aria-pressed", "true");
+    await expect(due).toHaveAttribute("aria-pressed", "false");
+    await expect(
+      pill.getByText("Overdue by 2 days", { exact: true }).last(),
+    ).toBeVisible();
+    await expect(pill.getByText("Due in 4 days", { exact: true })).toHaveCount(
+      0,
+    );
+    await expect(pulse).toHaveCount(1);
+
+    // The badge owes no keyboard path of its own; the buttons are reached as
+    // buttons are. Paid stops the pulse and closes the pill to its new words.
+    await overdue.focus();
+    await page.keyboard.press("Tab");
+    await expect(paid).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Invoice 4821 · paid · $340.00");
+    await expect(announced).toHaveText("Invoice 4821, paid, $340.00");
+    await expect(paid).toHaveAttribute("aria-pressed", "true");
+    await expect(pill.getByText("Paid", { exact: true }).last()).toBeVisible();
+    await expect(
+      pill.getByText("Overdue by 2 days", { exact: true }),
+    ).toHaveCount(0);
+    await expect(pulse).toHaveCount(0);
+    await expect
+      .poll(() => billingWidthOf(pill), { timeout: 5000 })
+      .toBeLessThan(wide - 30);
+
+    // Back to due, and the pill opens out to the longer label again.
+    await due.click();
+    await expect(announced).toHaveText("Invoice 4821, due in 4 days, $340.00");
+    await expect(status).toContainText("Invoice 4821 · due · $340.00");
+    await expect
+      .poll(() => billingWidthOf(pill), { timeout: 5000 })
+      .toBeGreaterThan(wide - 2);
+  });
+
+  test("payment-plan: arrows, Page keys and the ends re-split the charge in whole cents, and a click on the rail lands on its stop", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/payment-plan");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const slider = stage.getByRole("slider", { name: "Order BSX-3390" });
+    const plan = stage.getByRole("list", { name: "Order BSX-3390" });
+    const rows = plan.getByRole("listitem");
+
+    // $1,284 plus a 2% fee is 130,968 cents; three ways is exact.
+    await expect(status).toContainText("3 × $436.56 · charged $1,309.68");
+    await expect(slider).toHaveAttribute("aria-valuemin", "2");
+    await expect(slider).toHaveAttribute("aria-valuemax", "8");
+    await expect(slider).toHaveAttribute("aria-valuenow", "3");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "3 payments of $436.56 a month",
+    );
+    await expect(announced).toHaveText("3 payments of $436.56 a month");
+    await expect(rows).toHaveCount(3);
+    await expect(rows.first()).toContainText("Payment 1 of 3, today, $436.56");
+    await expect(stage.getByText("Plan fee 2%")).toBeVisible();
+    await expect(stage.getByText("$25.68", { exact: true })).toBeVisible();
+
+    await slider.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "4");
+    await expect(status).toContainText("4 × $327.42 · charged $1,309.68");
+    await expect(rows).toHaveCount(4);
+
+    // Page keys move by three; seven ways leaves five cents for the front.
+    await page.keyboard.press("PageUp");
+    await expect(slider).toHaveAttribute("aria-valuenow", "7");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "7 payments of $187.10 a month",
+    );
+    await expect(status).toContainText(
+      "7 × $187.09 · charged $1,309.68 · first $187.10",
+    );
+    await expect(rows).toHaveCount(7);
+    await expect(rows.first()).toContainText("Payment 1 of 7, today, $187.10");
+    await expect(rows.nth(4)).toContainText(
+      "Payment 5 of 7, in 4 months, $187.10",
+    );
+    await expect(rows.nth(5)).toContainText(
+      "Payment 6 of 7, in 5 months, $187.09",
+    );
+    await expect(rows.last()).toContainText(
+      "Payment 7 of 7, in 6 months, $187.09",
+    );
+    await expect(
+      stage.getByText("First payment, then $187.09 × 6"),
+    ).toBeVisible();
+
+    // End is the most instalments, and the slider does not step past it.
+    await page.keyboard.press("End");
+    await expect(slider).toHaveAttribute("aria-valuenow", "8");
+    await expect(status).toContainText("8 × $163.71 · charged $1,309.68");
+    await expect(status).not.toContainText("first");
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "8");
+    await expect(rows).toHaveCount(8);
+
+    await page.keyboard.press("Home");
+    await expect(slider).toHaveAttribute("aria-valuenow", "2");
+    await expect(status).toContainText("2 × $654.84 · charged $1,309.68");
+    await expect(rows).toHaveCount(2);
+    await page.keyboard.press("PageDown");
+    await expect(slider).toHaveAttribute("aria-valuenow", "2");
+
+    // A plain click on the rail lands on the stop it hit: the middle is five,
+    // and 130,968 over five hands three cents to the earliest payments.
+    const rail = stage.locator("div.touch-none");
+    const box = await rail.boundingBox();
+    if (!box) throw new Error("the plan has no rail to click");
+    await rail.click({ position: { x: box.width / 2, y: box.height / 2 } });
+    await expect(slider).toHaveAttribute("aria-valuenow", "5");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "5 payments of $261.94 a month",
+    );
+    await expect(status).toContainText(
+      "5 × $261.93 · charged $1,309.68 · first $261.94",
+    );
+    await expect(rows).toHaveCount(5);
+    await expect(rows.nth(2)).toContainText(
+      "Payment 3 of 5, in 2 months, $261.94",
+    );
+    await expect(rows.nth(3)).toContainText(
+      "Payment 4 of 5, in 3 months, $261.93",
+    );
+    await expect(announced).toHaveText("5 payments of $261.94 a month");
+  });
+
+  test("retry-schedule: Retry now runs the attempt early, a failure moves the wait on, and a success charges and ends the schedule", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/retry-schedule");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const schedule = stage.getByRole("list", { name: "Invoice WP-1180" });
+    const attempts = schedule.getByRole("listitem");
+    const timer = stage.getByRole("timer");
+    const retry = stage.getByRole("button", { name: /^(Retry now|Trying)$/ });
+    const succeed = stage.getByRole("button", { name: "Succeed next" });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText(
+      /^Attempt 2\/4 · waiting · next in 00:4\d$/,
+    );
+    await expect(announced).toHaveText(
+      /^Invoice WP-1180: attempt 2 of 4, in 4\d seconds\.$/,
+    );
+    await expect(timer).toHaveAccessibleName(/^Next attempt in 4\d seconds$/);
+    await expect(attempts).toHaveCount(4);
+    await expect(attempts.nth(0)).toContainText("Attempt 1, Now, failed");
+    await expect(attempts.nth(1)).toContainText("Attempt 2, +2h, next");
+    await expect(attempts.nth(2)).toContainText("Attempt 3, +1d, scheduled");
+    await expect(attempts.nth(3)).toContainText("Attempt 4, +3d, scheduled");
+    await expect(stage.getByText("Payment failed")).toBeVisible();
+    await expect(reset).toBeDisabled();
+
+    // Enter on Retry now: the button goes busy without being disabled, the
+    // wait holds, and the attempt comes back a failure — so the wait restarts
+    // on the next dot.
+    await retry.focus();
+    await page.keyboard.press("Enter");
+    await expect(retry).toHaveText("Trying");
+    await expect(retry).toHaveAttribute("aria-busy", "true");
+    await expect(retry).toHaveAttribute("aria-disabled", "true");
+    await expect(status).toContainText("Attempt 2/4 · trying");
+    await expect(announced).toHaveText("Invoice WP-1180: trying now.");
+    await expect(attempts.nth(1)).toContainText("Attempt 2, +2h, running now");
+    await expect(status).toContainText(
+      /^Attempt 3\/4 · waiting · next in 00:4\d$/,
+      { timeout: 5000 },
+    );
+    await expect(attempts.nth(1)).toContainText("Attempt 2, +2h, failed");
+    await expect(attempts.nth(2)).toContainText("Attempt 3, +1d, next");
+    await expect(announced).toHaveText(
+      /^Invoice WP-1180: attempt 3 of 4, in 4\d seconds\.$/,
+    );
+    await expect(retry).toHaveText("Retry now");
+    await expect(retry).not.toHaveAttribute("aria-busy", "true");
+    await expect(reset).toBeEnabled();
+
+    // Succeed next, and the same press: the tick lands, the rail turns, the
+    // button gives way to the final line, and nothing is next any more.
+    await succeed.click();
+    await expect(succeed).toHaveAttribute("aria-pressed", "true");
+    await retry.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Attempt 4/4 · charged", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText("Invoice WP-1180: payment succeeded.");
+    await expect(stage.getByText("Payment charged")).toBeVisible();
+    await expect(timer).toHaveAccessibleName("Charged");
+    await expect(retry).toHaveCount(0);
+    await expect(attempts.nth(2)).toContainText("Attempt 3, +1d, succeeded");
+    await expect(attempts.nth(3)).toContainText("Attempt 4, +3d, scheduled");
+
+    // Reset puts the card back on its first wait.
+    await reset.click();
+    await expect(status).toContainText(
+      /^Attempt 2\/4 · waiting · next in 00:4\d$/,
+    );
+    await expect(attempts.nth(1)).toContainText("Attempt 2, +2h, next");
+    await expect(retry).toHaveText("Retry now");
+    await expect(reset).toBeDisabled();
+  });
+
+  test("receipt-drawer: Enter opens a card where it stands, arrows walk the cards, the search filters them, and the front closes the drawer", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/receipt-drawer");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const front = stage.getByRole("button", { name: /^Fieldline expenses/ });
+    const body = stage.getByRole("region", { name: "Fieldline expenses" });
+    const search = stage.getByRole("searchbox", { name: "Search receipts" });
+    const cards = stage.locator("li > button[aria-expanded]");
+    const cafe = stage.getByRole("button", { name: /^Coldbrook Cafe Sep 2 / });
+    const transit = stage.getByRole("button", { name: /^Basin Transit/ });
+
+    await expect(status).toContainText("Drawer open · 5 of 5 · none open");
+    await expect(front).toHaveAttribute("aria-expanded", "true");
+    await expect(body).toBeVisible();
+    await expect(cards).toHaveCount(5);
+    await expect(cafe).toHaveAttribute("aria-expanded", "false");
+    await expect(announced).toBeEmpty();
+
+    // Enter on a card opens it where it stands, to a measured height.
+    await cafe.focus();
+    await page.keyboard.press("Enter");
+    await expect(cafe).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText(
+      "Drawer open · 5 of 5 · Coldbrook Cafe open",
+    );
+    await expect(announced).toHaveText("Coldbrook Cafe open");
+    const detail = stage.getByRole("region", { name: "Coldbrook Cafe" });
+    await expect(detail).toBeVisible();
+    await expect(detail).toContainText("Flat white × 2");
+    await expect(detail).toContainText("Client breakfast");
+    await expect
+      .poll(() => billingHeightOf(detail), { timeout: 5000 })
+      .toBeGreaterThan(40);
+
+    // Down moves to the next card and Up back; Escape on the open card closes
+    // it and keeps the focus there.
+    await page.keyboard.press("ArrowDown");
+    await expect(transit).toBeFocused();
+    await page.keyboard.press("ArrowUp");
+    await expect(cafe).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(cafe).toHaveAttribute("aria-expanded", "false");
+    await expect(cafe).toBeFocused();
+    await expect(status).toContainText("Drawer open · 5 of 5 · none open");
+    await expect(detail).toHaveCount(0);
+
+    // Typing filters by merchant, note or line: "cold" keeps both cafe visits.
+    await search.fill("cold");
+    await expect(status).toContainText(
+      'Drawer open · 2 match "cold" · none open',
+    );
+    await expect(announced).toHaveText("2 of 5 receipts shown");
+    await expect(cards).toHaveCount(2);
+    await expect(cards.first()).toContainText("Coldbrook Cafe");
+    await expect(cards.last()).toContainText("Coldbrook Cafe");
+    await expect(front).toContainText("2/ 5");
+
+    await search.fill("zzz");
+    await expect(status).toContainText(
+      'Drawer open · 0 match "zzz" · none open',
+    );
+    await expect(stage.getByText("No receipts match.")).toBeVisible();
+    await expect(cards).toHaveCount(0);
+
+    // Escape in a non-empty search clears it, and the cards come back.
+    await search.press("Escape");
+    await expect(search).toHaveValue("");
+    await expect(status).toContainText("Drawer open · 5 of 5 · none open");
+    await expect(cards).toHaveCount(5);
+    await expect(announced).toBeEmpty();
+
+    // The front closes the drawer: the region goes inert and its height closes.
+    await front.click();
+    await expect(front).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("Drawer closed · 5 filed");
+    await expect(body).toHaveCount(0);
+    const closed = stage.locator("[role='region'][inert]");
+    await expect(closed).toHaveCount(1);
+    await expect
+      .poll(() => billingHeightOf(closed), { timeout: 5000 })
+      .toBeLessThan(1);
+
+    // Space on the front pulls it open again.
+    await front.focus();
+    await page.keyboard.press(" ");
+    await expect(front).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("Drawer open · 5 of 5 · none open");
+    await expect(body).toBeVisible();
+    await expect
+      .poll(() => billingHeightOf(body), { timeout: 5000 })
+      .toBeGreaterThan(100);
+  });
+
+  test("tax-split: arrows switch the mode, Home and End jump, and the bar's end slides back to the marker when the tax moves inside", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/tax-split");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const modes = stage.getByRole("radiogroup", { name: "Studio plan mode" });
+    const inclusive = modes.getByRole("radio", { name: "Inclusive" });
+    const exclusive = modes.getByRole("radio", { name: "Exclusive" });
+    const bar = stage.getByRole("img", { name: /^Studio plan: / });
+    const barEnd = barEndOf(bar.locator("div.h-3 > span").nth(1));
+
+    // Exclusive: the amount is the net, and the bar runs past the marker.
+    await expect(status).toContainText(
+      "exclusive · net $120.00 · tax $24.00 · total $144.00",
+    );
+    await expect(announced).toHaveText(
+      "Studio plan exclusive: Net $120.00, Tax $24.00, Total $144.00",
+    );
+    await expect(bar).toHaveAccessibleName(
+      "Studio plan: Net $120.00, Tax $24.00, Total $144.00",
+    );
+    await expect(exclusive).toHaveAttribute("aria-checked", "true");
+    await expect(exclusive).toHaveAttribute("tabindex", "0");
+    await expect(inclusive).toHaveAttribute("tabindex", "-1");
+    await expect.poll(barEnd, { timeout: 5000 }).toBeGreaterThan(0.98);
+
+    // Left from Exclusive lands on Inclusive and selects it: the tax comes out
+    // of the amount, and the bar's end slides back to the marker.
+    await exclusive.focus();
+    await page.keyboard.press("ArrowLeft");
+    await expect(inclusive).toBeFocused();
+    await expect(inclusive).toHaveAttribute("aria-checked", "true");
+    await expect(exclusive).toHaveAttribute("aria-checked", "false");
+    await expect(inclusive).toHaveAttribute("tabindex", "0");
+    await expect(exclusive).toHaveAttribute("tabindex", "-1");
+    await expect(status).toContainText(
+      "inclusive · net $100.00 · tax $20.00 · total $120.00",
+    );
+    await expect(announced).toHaveText(
+      "Studio plan inclusive: Net $100.00, Tax $20.00, Total $120.00",
+    );
+    await expect.poll(barEnd, { timeout: 5000 }).toBeLessThan(0.86);
+    await expect.poll(barEnd, { timeout: 5000 }).toBeGreaterThan(0.8);
+
+    // The group does not wrap; End and Home reach the two stops; Space keeps.
+    await page.keyboard.press("ArrowLeft");
+    await expect(inclusive).toBeFocused();
+    await expect(inclusive).toHaveAttribute("aria-checked", "true");
+    await page.keyboard.press("End");
+    await expect(exclusive).toBeFocused();
+    await expect(exclusive).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText(
+      "exclusive · net $120.00 · tax $24.00 · total $144.00",
+    );
+    await page.keyboard.press("Home");
+    await expect(inclusive).toBeFocused();
+    await expect(inclusive).toHaveAttribute("aria-checked", "true");
+    await page.keyboard.press(" ");
+    await expect(inclusive).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("inclusive · net $100.00");
+
+    // A new amount keeps the mode: $1,080 inclusive carves $180 out of it.
+    await stage.getByRole("button", { name: "$1,080.00" }).click();
+    await expect(status).toContainText(
+      "inclusive · net $900.00 · tax $180.00 · total $1,080.00",
+    );
+    await expect(bar).toHaveAccessibleName(
+      "Studio plan: Net $900.00, Tax $180.00, Total $1,080.00",
+    );
+    await expect(stage.getByText("$900.00", { exact: true })).toHaveCount(1);
+
+    // The pointer takes the other stop, and the bar overshoots the marker again.
+    await exclusive.click();
+    await expect(exclusive).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText(
+      "exclusive · net $1,080.00 · tax $216.00 · total $1,296.00",
+    );
+    await expect(announced).toHaveText(
+      "Studio plan exclusive: Net $1,080.00, Tax $216.00, Total $1,296.00",
+    );
+    await expect.poll(barEnd, { timeout: 5000 }).toBeGreaterThan(0.98);
+  });
+
+  test("proration-bar: keys move the split a day or a week, the ends reach the period's edges, and a click or a drag sets the day", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/proration-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const thumb = stage.getByRole("slider", {
+      name: "Studio plan · Fieldline",
+    });
+    const earlier = stage.getByRole("button", { name: "A week earlier" });
+    const later = stage.getByRole("button", { name: "A week later" });
+    const track = stage.locator("div.touch-none");
+
+    // Thirty days at $48: eleven used is $17.60, and the rest comes back.
+    await expect(status).toContainText(
+      "Change Sep 12 · 11 days used $17.60 · 19 days credit $30.40",
+    );
+    await expect(thumb).toHaveAttribute("aria-valuemin", "0");
+    await expect(thumb).toHaveAttribute("aria-valuemax", "30");
+    await expect(thumb).toHaveAttribute("aria-valuenow", "11");
+    await expect(thumb).toHaveAttribute(
+      "aria-valuetext",
+      "Change on Sep 12: 11 days used, $17.60; 19 days credited, $30.40",
+    );
+    await expect(stage.getByText("30 days · $48.00")).toBeVisible();
+
+    await thumb.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(thumb).toHaveAttribute("aria-valuenow", "12");
+    await expect(status).toContainText(
+      "Change Sep 13 · 12 days used $19.20 · 18 days credit $28.80",
+    );
+    await page.keyboard.press("PageUp");
+    await expect(thumb).toHaveAttribute("aria-valuenow", "19");
+    await expect(status).toContainText(
+      "Change Sep 20 · 19 days used $30.40 · 11 days credit $17.60",
+    );
+
+    // End is the last day, and the split does not step past it.
+    await page.keyboard.press("End");
+    await expect(thumb).toHaveAttribute("aria-valuenow", "30");
+    await expect(thumb).toHaveAttribute(
+      "aria-valuetext",
+      "Change on Oct 1: 30 days used, $48.00; 0 days credited, $0.00",
+    );
+    await expect(status).toContainText(
+      "Change Oct 1 · 30 days used $48.00 · 0 days credit $0.00",
+    );
+    await expect(later).toBeDisabled();
+    await page.keyboard.press("ArrowRight");
+    await expect(thumb).toHaveAttribute("aria-valuenow", "30");
+
+    await page.keyboard.press("Home");
+    await expect(thumb).toHaveAttribute("aria-valuenow", "0");
+    await expect(thumb).toHaveAttribute(
+      "aria-valuetext",
+      "Change on Sep 1: 0 days used, $0.00; 30 days credited, $48.00",
+    );
+    await expect(earlier).toBeDisabled();
+    await page.keyboard.press("PageDown");
+    await expect(thumb).toHaveAttribute("aria-valuenow", "0");
+
+    // The host's nudge goes through the same value.
+    await later.click();
+    await expect(thumb).toHaveAttribute("aria-valuenow", "7");
+    await expect(status).toContainText(
+      "Change Sep 8 · 7 days used $11.20 · 23 days credit $36.80",
+    );
+    await expect(earlier).toBeEnabled();
+
+    // A plain click on the track sets the day it hit: the middle is the 15th.
+    const box = await track.boundingBox();
+    if (!box) throw new Error("the period has no track to click");
+    await track.click({ position: { x: box.width / 2, y: box.height / 2 } });
+    await expect(thumb).toHaveAttribute("aria-valuenow", "15");
+    await expect(status).toContainText(
+      "Change Sep 16 · 15 days used $24.00 · 15 days credit $24.00",
+    );
+
+    // Dragging the thumb follows the hand once it has moved 4px: released at
+    // four fifths of the track, the split is the 24th.
+    const grip = await thumb.boundingBox();
+    if (!grip) throw new Error("the split has no thumb to drag");
+    const startX = grip.x + grip.width / 2;
+    const startY = grip.y + grip.height / 2;
+    await page.mouse.move(startX, startY);
+    await page.mouse.down();
+    await page.mouse.move(startX + 12, startY, { steps: 3 });
+    await page.mouse.move(box.x + box.width * 0.8, startY, { steps: 10 });
+    await page.mouse.up();
+    await expect(thumb).toHaveAttribute("aria-valuenow", "24");
+    await expect(thumb).toHaveAttribute(
+      "aria-valuetext",
+      "Change on Sep 25: 24 days used, $38.40; 6 days credited, $9.60",
+    );
+    await expect(status).toContainText(
+      "Change Sep 25 · 24 days used $38.40 · 6 days credit $9.60",
+    );
+  });
+
+  test("dunning-steps: Run drains the first ring and stamps the step, Pause holds the ring where it is, Resume finishes the next", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/dunning-steps");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const steps = stage
+      .getByRole("list", { name: "Invoice 2041 · reminders" })
+      .getByRole("listitem");
+    const current = stage.locator("li[aria-current='step']");
+    // The draining ring is the second circle in the next step's badge.
+    const ringOffset = ringOffsetOf(current.locator("circle").nth(1));
+    const pause = stage.getByRole("button", { name: /^(Pause|Resume)$/ });
+    const run = stage.getByRole("button", { name: "Run" });
+    const reset = stage.getByRole("button", { name: "Reset" });
+
+    await expect(status).toContainText("idle · 0 of 4 sent");
+    await expect(steps).toHaveCount(4);
+    await expect(current).toContainText("Friendly reminder");
+    await expect(current).toContainText("Next");
+    await expect(steps.nth(1)).toContainText("Upcoming");
+    await expect(pause).toHaveAttribute("aria-pressed", "false");
+    await expect(reset).toBeDisabled();
+    await expect(announced).toBeEmpty();
+
+    // Run: the first ring drains across 3.2 seconds and the step is stamped.
+    await run.click();
+    await expect(status).toContainText(
+      "running · 0 of 4 sent · next Friendly reminder",
+    );
+    await expect(run).toBeDisabled();
+    await expect(status).toContainText(
+      "running · 1 of 4 sent · next Second notice",
+      { timeout: 6000 },
+    );
+    await expect(announced).toHaveText("Friendly reminder sent");
+    await expect(steps.first()).toContainText("Sent");
+    await expect(current).toContainText("Second notice");
+
+    // Enter on Pause freezes the rail: the ring reads the same offset a second
+    // later, and the next step says so in a word.
+    await pause.focus();
+    await page.keyboard.press("Enter");
+    await expect(pause).toHaveAttribute("aria-pressed", "true");
+    await expect(pause).toHaveText("Resume");
+    await expect(status).toContainText("paused · 1 of 4 sent");
+    await expect(announced).toHaveText("Invoice 2041 · reminders paused");
+    await expect(current).toContainText("Paused");
+    const held = await ringOffset();
+    expect(Number.isFinite(held)).toBe(true);
+    await page.waitForTimeout(1000);
+    expect(await ringOffset()).toBe(held);
+
+    // Enter again resumes from the remainder: the ring moves on, and the
+    // second notice goes out.
+    await page.keyboard.press("Enter");
+    await expect(pause).toHaveAttribute("aria-pressed", "false");
+    await expect(pause).toHaveText("Pause");
+    await expect(status).toContainText(
+      "running · 1 of 4 sent · next Second notice",
+    );
+    await expect(announced).toHaveText("Invoice 2041 · reminders resumed");
+    await expect.poll(ringOffset, { timeout: 3000 }).toBeGreaterThan(held);
+    await expect(status).toContainText(
+      "running · 2 of 4 sent · next Final notice",
+      { timeout: 6000 },
+    );
+    await expect(announced).toHaveText("Second notice sent");
+    await expect(steps.nth(1)).toContainText("Sent");
+    await expect(current).toContainText("Final notice");
+
+    // Reset stops the clock and puts every step back.
+    await reset.click();
+    await expect(status).toContainText("idle · 0 of 4 sent");
+    await expect(current).toContainText("Friendly reminder");
+    await expect(steps.first()).toContainText("Next");
+    await expect(run).toBeEnabled();
+    await expect(reset).toBeDisabled();
+  });
+
+  test("credit-note: Enter flies the applicable credit into the invoice, Remove flies it back, and a smaller note leaves a balance", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/credit-note");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter", { name: "Credit note remaining" });
+    const action = stage.getByRole("button", {
+      name: /^(Apply credit|Remove credit)/,
+    });
+    // The chip is aria-hidden decoration, so it is read off the page.
+    const chip = stage.locator("span.z-10");
+
+    await expect(status).toContainText("Applied $0.00 · invoice due $64.00");
+    await expect(action).toHaveText("Apply credit · $64.00");
+    await expect(meter).toHaveAttribute("aria-valuemax", "86");
+    await expect(meter).toHaveAttribute("aria-valuenow", "86");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "$0.00 applied, $86.00 remaining of $86.00",
+    );
+    await expect(announced).toBeEmpty();
+    await expect(chip).toHaveCount(0);
+
+    // Enter lifts a chip with the lesser of the credit and the balance; the
+    // button holds disabled until it lands, and only then do the figures roll.
+    await action.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText(
+      "Applied $64.00 · invoice due $0.00 · $22.00 carries",
+    );
+    await expect(action).toBeDisabled();
+    await expect(chip).toHaveText("−$64.00");
+    await expect(announced).toHaveText("Applied $64.00, invoice total $0.00", {
+      timeout: 5000,
+    });
+    await expect(chip).toHaveCount(0);
+    await expect(action).toBeEnabled();
+    await expect(action).toHaveText("Remove credit");
+    await expect(meter).toHaveAttribute("aria-valuenow", "22");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "$64.00 applied, $22.00 remaining of $86.00",
+    );
+    await expect(stage.getByText("−$64.00", { exact: true })).toHaveCount(1);
+
+    // Enter again sends the chip back up, and the figures roll back.
+    await action.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Applied $0.00 · invoice due $64.00");
+    await expect(chip).toHaveText("+$64.00");
+    await expect(announced).toHaveText("Credit removed, invoice total $64.00", {
+      timeout: 5000,
+    });
+    await expect(chip).toHaveCount(0);
+    await expect(action).toHaveText("Apply credit · $64.00");
+    await expect(meter).toHaveAttribute("aria-valuenow", "86");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "$0.00 applied, $86.00 remaining of $86.00",
+    );
+
+    // A smaller note: $40 against $64 applies whole and leaves $24 due.
+    await stage.getByRole("button", { name: "Credit $40.00" }).click();
+    await expect(action).toHaveText("Apply credit · $40.00");
+    await expect(meter).toHaveAttribute("aria-valuemax", "40");
+    await expect(meter).toHaveAttribute("aria-valuenow", "40");
+    await action.click();
+    await expect(status).toContainText("Applied $40.00 · invoice due $24.00");
+    await expect(status).not.toContainText("carries");
+    await expect(announced).toHaveText("Applied $40.00, invoice total $24.00", {
+      timeout: 5000,
+    });
+    await expect(action).toHaveText("Remove credit");
+    await expect(meter).toHaveAttribute("aria-valuenow", "0");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "$40.00 applied, $0.00 remaining of $40.00",
+    );
+    await expect(stage.getByText("$24.00", { exact: true })).toHaveCount(1);
+  });
+});
