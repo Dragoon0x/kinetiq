@@ -20626,6 +20626,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "token-stream",
+      "type": "registry:ui",
+      "title": "Token Stream",
+      "description": "A response surface where the words arrive, not the answer. Each token mounts with a fast fade and no travel while a caret rides the inline flow and breathes on an ambient loop; Stop arrives in the header on snap, and when the host marks the stream stopped the caret morphs into a full stop on the same spring. Tab reaches Stop while the stream is open, Enter or Space cuts it, and the live region reads one completed sentence at a time.",
+      "files": [
+        {
+          "path": "registry/ui/token-stream.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-741"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "thinking-fold",
+      "type": "registry:ui",
+      "title": "Thinking Fold",
+      "description": "A collapsed strip that stands in for the reasoning while the model thinks. A cobalt wash breathes across the strip on an ambient loop and a mono readout counts tenths from an interval that pauses in a hidden tab; when the answer starts the wash fades, the lamp becomes a tick drawn on flick, and the label cross-fades to the time it took. Enter or Space unfolds the strip to a measured height on glide, and folded lines are inert.",
+      "files": [
+        {
+          "path": "registry/ui/thinking-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-742"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "answer-settle",
+      "type": "registry:ui",
+      "title": "Answer Settle",
+      "description": "Streaming text that shows its own certainty. The paragraph still being written is provisional — lighter ink, raised two pixels — and settles the moment the next begins: the ink deepens on a slow colour tween while the paragraph drops into place on glide. When the stream closes a translucent wash travels over the whole answer on the move ease and onSettled fires from its completion; the live region reads each paragraph once as it settles, never a word.",
+      "files": [
+        {
+          "path": "registry/ui/answer-settle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-743"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stream-retry",
+      "type": "registry:ui",
+      "title": "Stream Retry",
+      "description": "A stream that can fail mid-answer and pick itself back up. When the host marks it failed the tail frays — the last characters step down in opacity, five dots cascade in after them and an inline Retry control arrives on snap; nothing bounces, because a failure is not an event to celebrate. Retry is a button reached by Tab, and when the stream reopens the seam heals with a hairline that brightens and fades on a slow tween so the reader can see where the answer was joined.",
+      "files": [
+        {
+          "path": "registry/ui/stream-retry.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-744"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "speed-scrub",
+      "type": "registry:ui",
+      "title": "Speed Scrub",
+      "description": "A finished answer whose arrival can be replayed at a chosen pace. The thumb sits inline at the replay position, so it rides the text through every line wrap; play advances by characters from a fixed-step interval, pause holds mid-word with the thumb swelling on snap, and the speed row's indicator glides between stops on snap. Pressing or dragging on the text scrubs to the character under the pointer; on the slider Left and Right step a word, Up and Down five, Home and End jump, and Space toggles play.",
+      "files": [
+        {
+          "path": "registry/ui/speed-scrub.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-745"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cursor-lead",
+      "type": "registry:ui",
+      "title": "Cursor Lead",
+      "description": "A streaming caret that steps ahead into the next word's slot before the word fills it. The slot is an invisible copy of the coming word with a faint underline that draws on flick as the caret arrives on snap; when the word lands it fades up with a nudge while the underline shrinks away beneath it, and the surface glides to its measured height. Assistive technology hears one sentence at a time, never a token.",
+      "files": [
+        {
+          "path": "registry/ui/cursor-lead.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-746"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "partial-table",
+      "type": "registry:ui",
+      "title": "Partial Table",
+      "description": "A real table that grows row by row as characters arrive: each row fades in with a nudge on glide, and every cell not yet whole shows a shimmer bar as long as its missing letters. The columns are held at equal widths while anything is incomplete, and only when the last character lands do the col widths glide to the measured proportions of their content. Assistive technology hears a row when it completes, never a character.",
+      "files": [
+        {
+          "path": "registry/ui/partial-table.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-747"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stream-branch",
+      "type": "registry:ui",
+      "title": "Stream Branch",
+      "description": "Two answers to one prompt racing in split panes, each behind a rail that fills to its progress on glide; the pane that lands first takes a First stamp on recoil. Keep lifts the chosen pane on snap and folds the other away, its measured height gliding to zero while the grid closes to one column, and Compare again unfolds it. Keep and Compare again are real buttons, so Tab reaches them and Enter or Space presses.",
+      "files": [
+        {
+          "path": "registry/ui/stream-branch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-748"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "latency-bar",
+      "type": "registry:ui",
+      "title": "Latency Bar",
+      "description": "A slim bar that fills while waiting for the first token and then snaps to done. The fill follows an asymptote smoothed on glide, so it rises fast and never finishes on its own; the first token snaps it full on snap and draws a check on flick, the time reads beside it in tabular digits, and a wait past the warn line turns the bar and readout amber with the word slow. The host passes state and elapsed time from its own clock.",
+      "files": [
+        {
+          "path": "registry/ui/latency-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-749"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stop-slab",
+      "type": "registry:ui",
+      "title": "Stop Slab",
+      "description": "An answer surface whose stop control grows into being: a dot pops in on snap when streaming starts and a beat later grows on glide into a slab as wide as its measured label. Pressing it squashes on flick, halts the stream, and shrinks the slab on glide to a round Regenerate control whose arrow draws on flick, while the words stay and a kept mark lands after the last one on snap. Enter or Space presses the control and Escape inside the surface stops.",
+      "files": [
+        {
+          "path": "registry/ui/stop-slab.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-750"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -930,6 +930,16 @@ import { TapReaderDemo } from "@/registry/demos/tap-reader.demo";
 import { TenderSwitchDemo } from "@/registry/demos/tender-switch.demo";
 import { LineItemDemo } from "@/registry/demos/line-item.demo";
 import { DayCloseDemo } from "@/registry/demos/day-close.demo";
+import { TokenStreamDemo } from "@/registry/demos/token-stream.demo";
+import { ThinkingFoldDemo } from "@/registry/demos/thinking-fold.demo";
+import { AnswerSettleDemo } from "@/registry/demos/answer-settle.demo";
+import { StreamRetryDemo } from "@/registry/demos/stream-retry.demo";
+import { SpeedScrubDemo } from "@/registry/demos/speed-scrub.demo";
+import { CursorLeadDemo } from "@/registry/demos/cursor-lead.demo";
+import { PartialTableDemo } from "@/registry/demos/partial-table.demo";
+import { StreamBranchDemo } from "@/registry/demos/stream-branch.demo";
+import { LatencyBarDemo } from "@/registry/demos/latency-bar.demo";
+import { StopSlabDemo } from "@/registry/demos/stop-slab.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1874,4 +1884,14 @@ export const demos: Record<string, ComponentType> = {
   "tender-switch": TenderSwitchDemo,
   "line-item": LineItemDemo,
   "day-close": DayCloseDemo,
+  "token-stream": TokenStreamDemo,
+  "thinking-fold": ThinkingFoldDemo,
+  "answer-settle": AnswerSettleDemo,
+  "stream-retry": StreamRetryDemo,
+  "speed-scrub": SpeedScrubDemo,
+  "cursor-lead": CursorLeadDemo,
+  "partial-table": PartialTableDemo,
+  "stream-branch": StreamBranchDemo,
+  "latency-bar": LatencyBarDemo,
+  "stop-slab": StopSlabDemo,
 };

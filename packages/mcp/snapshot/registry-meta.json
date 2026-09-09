@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 739,
+      "components": 749,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -49934,6 +49934,827 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/cashflow-river",
         "bun": "bunx --bun shadcn@latest add @kinetiq/cashflow-river",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/cashflow-river.json"
+      }
+    },
+    {
+      "slug": "token-stream",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Token Stream",
+      "serial": "KQ-741",
+      "tagline": "Words as they arrive, not after.",
+      "description": "A response surface where the words arrive, not the answer. Each token mounts with a fast fade and no travel while a caret rides the inline flow and breathes on an ambient loop; Stop arrives in the header on snap, and when the host marks the stream stopped the caret morphs into a full stop on the same spring. Tab reaches Stop while the stream is open, Enter or Space cuts it, and the live region reads one completed sentence at a time.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "stream",
+        "token",
+        "caret",
+        "cursor",
+        "stop",
+        "response",
+        "agent"
+      ],
+      "props": [
+        {
+          "name": "chunks",
+          "type": "string[]",
+          "description": "Tokens that have arrived so far, in order, carrying their own leading spaces. Append-only."
+        },
+        {
+          "name": "streaming",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The stream is open: the caret breathes and the Stop control shows."
+        },
+        {
+          "name": "stopped",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The reader cut the stream: the caret becomes a full stop."
+        },
+        {
+          "name": "onStop",
+          "type": "() => void",
+          "description": "Fires from the Stop control. The host closes the stream and sets stopped."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the response region for assistive technology."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "description": "The model's name for the header chip."
+        },
+        {
+          "name": "stopLabel",
+          "type": "string",
+          "defaultValue": "\"Stop\"",
+          "description": "Copy on the Stop control."
+        }
+      ],
+      "usageNotes": [
+        "The frame is a labelled region and the text a real paragraph; Stop is a button reached by Tab while the stream is open, and cutting the stream parks focus on the region rather than the document body.",
+        "Under reduced motion the component appends in sentences: tokens are held until one closes a sentence, then the sentence appears at once with a fade; the caret holds still at mid opacity and the stop morph is an instant swap.",
+        "The component keeps no clock. Feed it the tokens so far from your own stream, and the live region announces one completed sentence at a time — never a token."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/token-stream",
+      "registryItemUrl": "https://www.kinetiqui.com/r/token-stream.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/token-stream",
+        "npm": "npx shadcn@latest add @kinetiq/token-stream",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/token-stream",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/token-stream",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/token-stream.json"
+      }
+    },
+    {
+      "slug": "thinking-fold",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Thinking Fold",
+      "serial": "KQ-742",
+      "tagline": "The reasoning, folded away until asked.",
+      "description": "A collapsed strip that stands in for the reasoning while the model thinks. A cobalt wash breathes across the strip on an ambient loop and a mono readout counts tenths from an interval that pauses in a hidden tab; when the answer starts the wash fades, the lamp becomes a tick drawn on flick, and the label cross-fades to the time it took. Enter or Space unfolds the strip to a measured height on glide, and folded lines are inert.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "thinking",
+        "reasoning",
+        "fold",
+        "disclosure",
+        "elapsed",
+        "pulse",
+        "agent"
+      ],
+      "props": [
+        {
+          "name": "thinking",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The model is still reasoning: the strip pulses and the clock runs."
+        },
+        {
+          "name": "lines",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Reasoning lines that have arrived so far, in order. Append-only."
+        },
+        {
+          "name": "elapsed",
+          "type": "number",
+          "description": "Seconds of thinking owned by the host. Omit to count from the moment thinking turns true."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial unfolded state."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the strip's click or key press."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Thinking\"",
+          "description": "Copy while thinking."
+        },
+        {
+          "name": "idleLabel",
+          "type": "string",
+          "defaultValue": "\"Reasoning\"",
+          "description": "Copy before any thinking has happened; also names the panel."
+        },
+        {
+          "name": "settledLabel",
+          "type": "(seconds: number) => string",
+          "defaultValue": "s => `Thought for ${s.toFixed(1)}s`",
+          "description": "Copy once the answer has started."
+        }
+      ],
+      "usageNotes": [
+        "The strip is a disclosure button with aria-expanded and aria-controls; the panel is a region that is aria-hidden and inert while folded, so folded lines are neither read nor tabbed into.",
+        "Under reduced motion the wash and lamp hold at mid opacity, the settle is a colour swap with the tick appearing complete, and the panel's height changes on a tween. The clock keeps counting, because elapsed time is information.",
+        "The live region says the label once when thinking starts and the settled sentence once when it ends — never a tick, never a line. The clock never reads a wall clock; it counts from the moment thinking turns true."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/thinking-fold",
+      "registryItemUrl": "https://www.kinetiqui.com/r/thinking-fold.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/thinking-fold",
+        "npm": "npx shadcn@latest add @kinetiq/thinking-fold",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/thinking-fold",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/thinking-fold",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/thinking-fold.json"
+      }
+    },
+    {
+      "slug": "answer-settle",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Answer Settle",
+      "serial": "KQ-743",
+      "tagline": "Provisional, then final.",
+      "description": "Streaming text that shows its own certainty. The paragraph still being written is provisional — lighter ink, raised two pixels — and settles the moment the next begins: the ink deepens on a slow colour tween while the paragraph drops into place on glide. When the stream closes a translucent wash travels over the whole answer on the move ease and onSettled fires from its completion; the live region reads each paragraph once as it settles, never a word.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "stream",
+        "paragraph",
+        "settle",
+        "provisional",
+        "wash",
+        "final",
+        "agent"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The answer arrived so far; a blank line separates paragraphs. Append-only."
+        },
+        {
+          "name": "streaming",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The stream is open: the last paragraph stays provisional."
+        },
+        {
+          "name": "onSettled",
+          "type": "() => void",
+          "description": "Fires when the final wash has finished crossing the answer."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the answer region for assistive technology."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "description": "The model's name for the header chip."
+        }
+      ],
+      "usageNotes": [
+        "The frame is a labelled region and every paragraph a real element, so the answer so far is always readable; the wash is hidden decoration that never takes the pointer.",
+        "Under reduced motion provisional paragraphs are lighter ink only, a settle is a colour swap on a fast tween, and the wash blinks once in place instead of travelling — it still fires onSettled, because the settle is information.",
+        "Feed it the text so far from your own stream; the component keeps no clock and decides completeness from the blank lines and the streaming flag alone."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/answer-settle",
+      "registryItemUrl": "https://www.kinetiqui.com/r/answer-settle.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/answer-settle",
+        "npm": "npx shadcn@latest add @kinetiq/answer-settle",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/answer-settle",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/answer-settle",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/answer-settle.json"
+      }
+    },
+    {
+      "slug": "stream-retry",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Stream Retry",
+      "serial": "KQ-744",
+      "tagline": "Cut off; pick up where it stopped.",
+      "description": "A stream that can fail mid-answer and pick itself back up. When the host marks it failed the tail frays — the last characters step down in opacity, five dots cascade in after them and an inline Retry control arrives on snap; nothing bounces, because a failure is not an event to celebrate. Retry is a button reached by Tab, and when the stream reopens the seam heals with a hairline that brightens and fades on a slow tween so the reader can see where the answer was joined.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "stream",
+        "retry",
+        "resume",
+        "failure",
+        "seam",
+        "fray",
+        "agent"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The answer arrived so far. Append-only across a retry."
+        },
+        {
+          "name": "streaming",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The stream is open and words are arriving."
+        },
+        {
+          "name": "failed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The stream dropped: the tail frays and Retry shows."
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "defaultValue": "\"Connection dropped\"",
+          "description": "The short line beside the Retry control."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "description": "Fires from the Retry control. The host resumes from the seam."
+        },
+        {
+          "name": "retryLabel",
+          "type": "string",
+          "defaultValue": "\"Retry\"",
+          "description": "Copy on the Retry control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the answer region for assistive technology."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "description": "The model's name for the header chip."
+        }
+      ],
+      "usageNotes": [
+        "The frame is a labelled region and the text one real paragraph whose frayed characters keep their content; Retry is a button reached by Tab, and pressing it parks focus on the region while the control leaves.",
+        "Under reduced motion the fray is applied at once, the dots and the control appear without cascade or travel, and the heal is an opacity swap with the seam hairline fading in place.",
+        "The live region reports the drop, the resume and the close as sentences with word counts — never a word. The component records the seam itself from the moment failed turns true; the host only resumes appending."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/stream-retry",
+      "registryItemUrl": "https://www.kinetiqui.com/r/stream-retry.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stream-retry",
+        "npm": "npx shadcn@latest add @kinetiq/stream-retry",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stream-retry",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stream-retry",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/stream-retry.json"
+      }
+    },
+    {
+      "slug": "speed-scrub",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Speed Scrub",
+      "serial": "KQ-745",
+      "tagline": "Replay at any pace.",
+      "description": "A finished answer whose arrival can be replayed at a chosen pace. The thumb sits inline at the replay position, so it rides the text through every line wrap; play advances by characters from a fixed-step interval, pause holds mid-word with the thumb swelling on snap, and the speed row's indicator glides between stops on snap. Pressing or dragging on the text scrubs to the character under the pointer; on the slider Left and Right step a word, Up and Down five, Home and End jump, and Space toggles play.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "replay",
+        "scrub",
+        "speed",
+        "slider",
+        "playback",
+        "stream",
+        "agent"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The finished answer."
+        },
+        {
+          "name": "position / defaultPosition",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial replay position in characters."
+        },
+        {
+          "name": "onPositionChange",
+          "type": "(position: number) => void",
+          "description": "Fires from the interval, a key press, or a pointer scrub."
+        },
+        {
+          "name": "playing / defaultPlaying",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial play state."
+        },
+        {
+          "name": "onPlayingChange",
+          "type": "(playing: boolean) => void",
+          "description": "Fires from the play control, Space, a press on the text, or reaching the end."
+        },
+        {
+          "name": "speed / defaultSpeed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Controlled or initial multiplier."
+        },
+        {
+          "name": "onSpeedChange",
+          "type": "(speed: number) => void",
+          "description": "Fires from the speed row."
+        },
+        {
+          "name": "speeds",
+          "type": "number[]",
+          "defaultValue": "[0.5, 1, 2, 4]",
+          "description": "The multipliers offered."
+        },
+        {
+          "name": "charsPerSecond",
+          "type": "number",
+          "defaultValue": "40",
+          "description": "Characters per second at 1×."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the answer and the scrubber for assistive technology."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "description": "The model's name for the header chip."
+        }
+      ],
+      "usageNotes": [
+        "The paragraph is real text; a transparent slider sized by it carries the position with aria-valuetext in words (and the word it is held in). Left and Right step a word, Up and Down five, Home and End jump, Space toggles play; the play button and the speed radio group are real controls with a roving tabindex.",
+        "Under reduced motion the thumb marks the hold by opacity instead of scale, the speed indicator swaps without gliding, and the replay still runs — a replay is the content.",
+        "The interval is a fixed step that runs only while playing and the tab is visible; it never reads a clock, and reaching the end pauses through onPlayingChange. The live region announces play, pause and the end — never a character."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/speed-scrub",
+      "registryItemUrl": "https://www.kinetiqui.com/r/speed-scrub.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/speed-scrub",
+        "npm": "npx shadcn@latest add @kinetiq/speed-scrub",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/speed-scrub",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/speed-scrub",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/speed-scrub.json"
+      }
+    },
+    {
+      "slug": "cursor-lead",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cursor Lead",
+      "serial": "KQ-746",
+      "tagline": "A caret that arrives a beat before the word.",
+      "description": "A streaming caret that steps ahead into the next word's slot before the word fills it. The slot is an invisible copy of the coming word with a faint underline that draws on flick as the caret arrives on snap; when the word lands it fades up with a nudge while the underline shrinks away beneath it, and the surface glides to its measured height. Assistive technology hears one sentence at a time, never a token.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "caret",
+        "cursor",
+        "stream",
+        "typing",
+        "answer",
+        "agent",
+        "underline"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The full answer; words are split on whitespace."
+        },
+        {
+          "name": "landed",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "How many words have arrived, clamped to the word count. Drive it from your stream."
+        },
+        {
+          "name": "playing",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the stream is live; keeps the caret on the surface until the last word and sets aria-busy."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "description": "An invented model name for the header chip."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the surface for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "A display surface with no pointer gestures: the host drives landed from its own stream, and the status region announces each sentence as its final word lands and Answer complete on settle, never a word at a time.",
+        "Under reduced motion the caret swaps to its new slot without the spring, words fade in without the nudge, the underline fades instead of shrinking, and the height changes with a short tween.",
+        "The surface's height is measured with a ResizeObserver and animated on glide, never reserved, so a new line grows it rather than jumping it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/cursor-lead",
+      "registryItemUrl": "https://www.kinetiqui.com/r/cursor-lead.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cursor-lead",
+        "npm": "npx shadcn@latest add @kinetiq/cursor-lead",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cursor-lead",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cursor-lead",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/cursor-lead.json"
+      }
+    },
+    {
+      "slug": "partial-table",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Partial Table",
+      "serial": "KQ-747",
+      "tagline": "Rows fill as the model writes them.",
+      "description": "A real table that grows row by row as characters arrive: each row fades in with a nudge on glide, and every cell not yet whole shows a shimmer bar as long as its missing letters. The columns are held at equal widths while anything is incomplete, and only when the last character lands do the col widths glide to the measured proportions of their content. Assistive technology hears a row when it completes, never a character.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "table",
+        "stream",
+        "shimmer",
+        "rows",
+        "columns",
+        "agent",
+        "partial"
+      ],
+      "props": [
+        {
+          "name": "columns",
+          "type": "string[]",
+          "description": "Header labels, left to right."
+        },
+        {
+          "name": "rows",
+          "type": "string[][]",
+          "description": "The complete cell text, row-major."
+        },
+        {
+          "name": "arrived",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Characters received across the cells in row order. Drive it from your stream."
+        },
+        {
+          "name": "playing",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the stream is live; sets aria-busy on the table."
+        },
+        {
+          "name": "caption",
+          "type": "string",
+          "description": "Names the table; rendered as its caption."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "description": "An invented model name, shown beside the caption."
+        },
+        {
+          "name": "onSettle",
+          "type": "() => void",
+          "description": "Fires from the measurement observer once the columns have settled after completion."
+        }
+      ],
+      "usageNotes": [
+        "A display surface with no pointer gestures: a table with a caption, column headers and a body, aria-busy while playing; the status region announces Row N complete as each row's last character lands and Table complete on settle.",
+        "Under reduced motion rows fade in without the nudge, the shimmer bars are still muted blocks, and the column widths change with a short tween instead of the spring.",
+        "The layout is table-fixed with equal col widths until completion, so arriving characters never jog a neighbouring column; natural widths are measured off the cells' inner spans, never guessed."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/partial-table",
+      "registryItemUrl": "https://www.kinetiqui.com/r/partial-table.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/partial-table",
+        "npm": "npx shadcn@latest add @kinetiq/partial-table",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/partial-table",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/partial-table",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/partial-table.json"
+      }
+    },
+    {
+      "slug": "stream-branch",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Stream Branch",
+      "serial": "KQ-748",
+      "tagline": "Two answers, side by side, as they come.",
+      "description": "Two answers to one prompt racing in split panes, each behind a rail that fills to its progress on glide; the pane that lands first takes a First stamp on recoil. Keep lifts the chosen pane on snap and folds the other away, its measured height gliding to zero while the grid closes to one column, and Compare again unfolds it. Keep and Compare again are real buttons, so Tab reaches them and Enter or Space presses.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "branch",
+        "compare",
+        "race",
+        "stream",
+        "panes",
+        "agent",
+        "pick"
+      ],
+      "props": [
+        {
+          "name": "branches",
+          "type": "[StreamBranchItem, StreamBranchItem]",
+          "description": "Exactly two branches: { id, model, text, landed }. Drive landed from your streams."
+        },
+        {
+          "name": "playing",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the streams are live; sets aria-busy on unfinished panes."
+        },
+        {
+          "name": "picked / defaultPicked",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial kept branch id; null while comparing."
+        },
+        {
+          "name": "onPickedChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the Keep press with the id, or from Compare again with null."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the pair for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Two articles labelled by their model names inside a labelled section; each Keep is a button with aria-pressed, and the folded pane is inert so its control leaves the tab order. The status region announces the first finish, the pick, and the unfold, never a word.",
+        "Under reduced motion the rails still fill on a short tween, nothing lifts, the stamp appears without bouncing, and the fold is a fade with a tweened height.",
+        "Panes measure their own content with a ResizeObserver; the fold animates that measured height to zero rather than guessing, and the pair sits side by side only when its container is at least 24rem wide."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/stream-branch",
+      "registryItemUrl": "https://www.kinetiqui.com/r/stream-branch.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stream-branch",
+        "npm": "npx shadcn@latest add @kinetiq/stream-branch",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stream-branch",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stream-branch",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/stream-branch.json"
+      }
+    },
+    {
+      "slug": "latency-bar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Latency Bar",
+      "serial": "KQ-749",
+      "tagline": "Time to the first word.",
+      "description": "A slim bar that fills while waiting for the first token and then snaps to done. The fill follows an asymptote smoothed on glide, so it rises fast and never finishes on its own; the first token snaps it full on snap and draws a check on flick, the time reads beside it in tabular digits, and a wait past the warn line turns the bar and readout amber with the word slow. The host passes state and elapsed time from its own clock.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "latency",
+        "first token",
+        "wait",
+        "timer",
+        "bar",
+        "agent",
+        "slow"
+      ],
+      "props": [
+        {
+          "name": "state",
+          "type": "\"idle\" | \"waiting\" | \"done\"",
+          "defaultValue": "\"idle\"",
+          "description": "Where the wait is."
+        },
+        {
+          "name": "elapsedMs",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Milliseconds since the request, from the host's clock; freeze it at done."
+        },
+        {
+          "name": "budgetMs",
+          "type": "number",
+          "defaultValue": "1200",
+          "description": "Sets the fill curve, t / (t + budgetMs / 4)."
+        },
+        {
+          "name": "warnAfterMs",
+          "type": "number",
+          "defaultValue": "2000",
+          "description": "Past this the bar and readout turn warn and the readout gains the word slow."
+        },
+        {
+          "name": "typicalMs",
+          "type": "number",
+          "description": "Draws a tick on the track at the typical wait."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What is being waited on; names the timer."
+        }
+      ],
+      "usageNotes": [
+        "A display instrument with no pointer gestures: the readout is a role=\"timer\" with aria-live off so ticks are never spoken, and the status region announces First token in N s once on done, with slow appended when the wait crossed the warn line.",
+        "Under reduced motion the fill still fills on a short tween, done arrives without the snap, the check appears whole, and colour changes still tween.",
+        "The bar never reads a clock: drive elapsedMs from your own timer, pausing it when the document is hidden, and set state to done when the first token arrives."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/latency-bar",
+      "registryItemUrl": "https://www.kinetiqui.com/r/latency-bar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/latency-bar",
+        "npm": "npx shadcn@latest add @kinetiq/latency-bar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/latency-bar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/latency-bar",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/latency-bar.json"
+      }
+    },
+    {
+      "slug": "stop-slab",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Stop Slab",
+      "serial": "KQ-750",
+      "tagline": "Stop, and keep what you have.",
+      "description": "An answer surface whose stop control grows into being: a dot pops in on snap when streaming starts and a beat later grows on glide into a slab as wide as its measured label. Pressing it squashes on flick, halts the stream, and shrinks the slab on glide to a round Regenerate control whose arrow draws on flick, while the words stay and a kept mark lands after the last one on snap. Enter or Space presses the control and Escape inside the surface stops.",
+      "categories": [
+        "agent"
+      ],
+      "keywords": [
+        "stop",
+        "regenerate",
+        "stream",
+        "halt",
+        "control",
+        "agent",
+        "morph"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The words that have arrived so far. Drive it from your stream."
+        },
+        {
+          "name": "status",
+          "type": "\"idle\" | \"streaming\" | \"stopped\" | \"done\"",
+          "defaultValue": "\"idle\"",
+          "description": "Where the stream is; streaming shows the slab, stopped and done show Regenerate."
+        },
+        {
+          "name": "onStop",
+          "type": "() => void",
+          "description": "Fires from the Stop press, or Escape inside the surface, while streaming."
+        },
+        {
+          "name": "onRegenerate",
+          "type": "() => void",
+          "description": "Fires from the Regenerate press once the stream has stopped or finished."
+        },
+        {
+          "name": "model",
+          "type": "string",
+          "description": "An invented model name for the header chip."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the surface for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "One button the whole time, named Stop generating while streaming and Regenerate after; Enter and Space press it and Escape anywhere inside the surface stops. The status region announces Stopped, kept N words, or Answer complete, never a word.",
+        "Under reduced motion the control cross-fades between its sizes instead of growing or shrinking, nothing squashes, the arrow appears whole, and the kept mark fades in.",
+        "Both the surface's height and the slab's width are measured with ResizeObservers, never reserved; the host owns the stream and clears the text before restarting from onRegenerate."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/stop-slab",
+      "registryItemUrl": "https://www.kinetiqui.com/r/stop-slab.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/stop-slab",
+        "npm": "npx shadcn@latest add @kinetiq/stop-slab",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/stop-slab",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/stop-slab",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/stop-slab.json"
       }
     },
     {
