@@ -212,6 +212,9 @@ export function GoalTimeline({
     };
     setDragging(true);
     commitFromX(event.clientX);
+    // Cancelling the pointerdown suppresses the browser's own mousedown, whose
+    // default action would move focus off the thumb again onto the body.
+    event.preventDefault();
     thumbRef.current?.focus({ preventScroll: true });
   };
 

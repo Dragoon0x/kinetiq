@@ -9177,3 +9177,955 @@ test.describe("credit", () => {
     await expect(reset).toBeEnabled();
   });
 });
+
+/**
+ * The savings family puts money away, so its outcomes are the figure a coin
+ * landed on, the cell a week lit, the month a marker parked at. Every test
+ * drives the mechanic the component advertises — through the keyboard where
+ * it publishes one — and reads the result off the demo's status line, the
+ * ARIA the component publishes about itself, and the sentence it announces
+ * when a coin, a pill or a chip actually arrives rather than when it left.
+ */
+test.describe("savings", () => {
+  test("goal-pot: a quick-add drops a coin the level and the tag wait for, the goal is reached on the landing, and a reset drains the pot without one", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/goal-pot");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter", { name: "Camera body" });
+    const add20 = stage.getByRole("button", { name: "Add $20.00" });
+    const add50 = stage.getByRole("button", { name: "Add $50.00" });
+    const add100 = stage.getByRole("button", { name: "Add $100.00" });
+    // The tag is aria-hidden decoration beside the figure, and the quick-add
+    // button prints the same "+$50.00", so the tag is found by its hiddenness.
+    const tags = stage
+      .locator("[aria-hidden='true']")
+      .filter({ hasText: /^\+\$\d+\.\d\d$/ });
+    const tag50 = tags.filter({ hasText: /^\+\$50\.00$/ });
+
+    await expect(status).toHaveText(
+      "Saved $640.00 of $1,200.00 · $560.00 to go",
+    );
+    await expect(meter).toHaveAttribute("aria-valuemin", "0");
+    await expect(meter).toHaveAttribute("aria-valuemax", "1200");
+    await expect(meter).toHaveAttribute("aria-valuenow", "640");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "$640.00 of $1,200.00 saved, $560.00 to go",
+    );
+    await expect(
+      stage.getByText("$560.00 to go", { exact: true }),
+    ).toBeVisible();
+    await expect(announced).toBeEmpty();
+    await expect(tags).toHaveCount(0);
+
+    // Enter presses the quick-add: the meter and the announcement move from
+    // the press, the tag only once the coin has landed on the surface.
+    await add50.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Added $50.00 · $690.00 of $1,200.00");
+    await expect(announced).toHaveText(
+      "Added $50.00. $690.00 of $1,200.00 saved.",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "690");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "$690.00 of $1,200.00 saved, $510.00 to go",
+    );
+    await expect(tag50).toBeVisible({ timeout: 5000 });
+    await expect(
+      stage.getByText("$510.00 to go", { exact: true }),
+    ).toBeVisible();
+    await expect(add50).toBeFocused();
+
+    // Five hundreds stop ten short; each coin lands and the sentence follows.
+    for (let press = 0; press < 5; press += 1) await add100.click();
+    await expect(status).toHaveText("Added $100.00 · $1,190.00 of $1,200.00");
+    await expect(meter).toHaveAttribute("aria-valuenow", "1190");
+    await expect(stage.getByText("$10.00 to go", { exact: true })).toBeVisible({
+      timeout: 5000,
+    });
+
+    // Space on the twenty crosses the goal: the meter clamps to it, the
+    // sentence turns, and the landing says so after the press did.
+    await add20.focus();
+    await page.keyboard.press(" ");
+    await expect(status).toHaveText("Goal reached · $1,210.00 saved");
+    await expect(meter).toHaveAttribute("aria-valuenow", "1200");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "Goal reached, $1,210.00 saved",
+    );
+    await expect(announced).toHaveText("Goal reached. $1,210.00 saved.", {
+      timeout: 5000,
+    });
+    await expect(
+      stage.getByText("Goal reached", { exact: true }),
+    ).toBeVisible();
+
+    // A withdrawal has no coin: the level drops at once and the tag leaves.
+    await stage.getByRole("button", { name: "Reset pot" }).click();
+    await expect(status).toHaveText(
+      "Saved $640.00 of $1,200.00 · $560.00 to go",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "640");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "$640.00 of $1,200.00 saved, $560.00 to go",
+    );
+    await expect(
+      stage.getByText("$560.00 to go", { exact: true }),
+    ).toBeVisible();
+    await expect(tags).toHaveCount(0);
+  });
+
+  test("round-up: a new purchase lifts its change into the figure, a whole amount stays on the card, and the switch pauses the flight until it is back on", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/round-up");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const toggle = stage.getByRole("switch", { name: "Round up" });
+    const figure = stage.getByRole("group", { name: "Round-ups" });
+    const next = stage.getByRole("button", { name: "Next purchase" });
+    const card = (merchant: string) =>
+      stage.getByRole("region", { name: merchant });
+
+    await expect(status).toHaveText("Round-ups $14.20");
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
+    await expect(card("Coldbrook Coffee")).toContainText("$4.35");
+    await expect(stage.getByText("$0.65 spare", { exact: true })).toBeVisible();
+    await expect(figure).toContainText("$14.20");
+    await expect(announced).toBeEmpty();
+
+    // The next purchase's change flies; the total moves when it lands.
+    await next.click();
+    await expect(card("Fernworks Transit")).toContainText("$2.60");
+    await expect(status).toHaveText("Round-ups $14.60 · last +$0.40", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText(
+      "Rounded up $0.40 from Fernworks Transit. Round-ups $14.60.",
+    );
+    await expect(figure).toContainText("$14.60");
+    await expect(stage.getByText("$0.40 saved", { exact: true })).toBeVisible();
+    await expect(stage.getByText("+$0.40", { exact: true })).toBeVisible();
+
+    await next.click();
+    await expect(card("Basin Grocers")).toContainText("$23.12");
+    await expect(status).toHaveText("Round-ups $15.48 · last +$0.88", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText(
+      "Rounded up $0.88 from Basin Grocers. Round-ups $15.48.",
+    );
+
+    // A whole amount has no change: the chip says so and nothing flies.
+    await next.click();
+    await expect(card("Gaugeworks Parking")).toContainText("$6.00");
+    await expect(
+      stage.getByText("already whole", { exact: true }),
+    ).toBeVisible();
+    await expect(status).toHaveText("Round-ups $15.48 · last +$0.88");
+    await expect(figure).toContainText("$15.48");
+
+    // Space pauses the switch: the next purchase lands, its change does not.
+    await toggle.focus();
+    await page.keyboard.press(" ");
+    await expect(toggle).toHaveAttribute("aria-checked", "false");
+    await expect(status).toHaveText("Round-ups paused · $15.48");
+    await expect(announced).toHaveText("Round-up paused.");
+    await next.click();
+    await expect(card("Fieldline Books")).toContainText("$18.49");
+    await expect(
+      stage.getByText("$0.51 not rounded", { exact: true }),
+    ).toBeVisible();
+    await expect(status).toHaveText("Round-ups paused · $15.48");
+    await expect(figure).toContainText("$15.48");
+    await expect(announced).toHaveText("Round-up paused.");
+
+    // Enter switches it back on: the purchase already on the card is not
+    // rounded after the fact, the one after it flies.
+    await toggle.focus();
+    await page.keyboard.press("Enter");
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText("Round-up on.");
+    await expect(status).toHaveText("Round-ups $15.48 · last +$0.88");
+    await expect(stage.getByText("$0.51 spare", { exact: true })).toBeVisible();
+    await next.click();
+    await expect(card("Waylight Fuel")).toContainText("$41.20");
+    await expect(status).toHaveText("Round-ups $16.28 · last +$0.80", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText(
+      "Rounded up $0.80 from Waylight Fuel. Round-ups $16.28.",
+    );
+    await expect(figure).toContainText("$16.28");
+  });
+
+  test("interest-drip: Play counts the hours and drips the balance, Pause holds it and says so, the rate redraws the projection and the daily rate, and the figure raises its card on focus", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/interest-drip");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const spoken = stage.locator("[aria-live='polite']").first();
+    // The figure's name is its balance, which the first tick moves by a cent.
+    const figure = stage.getByRole("button", { name: /^\$12,480\.\d\d$/ });
+    const run = stage.getByRole("button", { name: /^(Play|Pause)$/ });
+    const chart = stage.getByRole("img", { name: /^Projected / });
+    const rateOf = (label: string) =>
+      stage.getByRole("group", { name: "Rate" }).getByRole("button", {
+        name: label,
+      });
+    const tipAt = (sentence: string) =>
+      stage.getByText(sentence, { exact: true });
+
+    await expect(status).toHaveText(
+      "Day 0.00 · earned 0.0000 · 3.05% APY · paused",
+    );
+    await expect(run).toHaveText("Play");
+    await expect(run).toHaveAttribute("aria-pressed", "false");
+    await expect(figure).toHaveAccessibleName("$12,480.37");
+    await expect(figure).toHaveAccessibleDescription(
+      "$1.03 a day at 3.05% APY",
+    );
+    await expect(chart).toHaveAccessibleName(
+      "Projected $12,861.02 after 365 days at 3.05% APY",
+    );
+    await expect(spoken).toBeEmpty();
+    // The sentence exists once, as the description; the card is not up.
+    await expect(tipAt("$1.03 a day at 3.05% APY")).toHaveCount(1);
+
+    // Play: at 900 ms an hour, the first tick lands inside the second and
+    // the count leaves zero with a fraction of a cent earned.
+    await run.click();
+    await expect(run).toHaveText("Pause");
+    await expect(run).toHaveAttribute("aria-pressed", "true");
+    await expect(status).toHaveText(
+      /^Day 0\.(?!00)\d\d · earned 0\.(?!0000)\d{4} · 3\.05% APY$/,
+      { timeout: 5000 },
+    );
+
+    // Pause holds the count where it stands and says so once.
+    await run.click();
+    await expect(run).toHaveText("Play");
+    await expect(run).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toHaveText(/ · 3\.05% APY · paused$/);
+    await expect(spoken).toHaveText(
+      /^Paused\. Balance \$12,480\.\d\d, earned \$0\.\d\d over 0\.\d days\.$/,
+    );
+    const held = (await status.textContent()) ?? "";
+    await page.waitForTimeout(1000);
+    await expect(status).toHaveText(held);
+
+    // The rate pair redraws the projection and the daily rate; the count
+    // stays where the pause left it.
+    await rateOf("4.10%").focus();
+    await page.keyboard.press("Enter");
+    await expect(rateOf("4.10%")).toHaveAttribute("aria-pressed", "true");
+    await expect(rateOf("3.05%")).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toHaveText(/ · 4\.10% APY · paused$/);
+    await expect(chart).toHaveAccessibleName(
+      "Projected $12,992.07 after 365 days at 4.10% APY",
+    );
+    await expect(figure).toHaveAccessibleDescription(
+      "$1.37 a day at 4.10% APY",
+    );
+
+    // Focus raises the rate card beside the description, Enter pins it,
+    // Escape lets go of the pin, and leaving takes the card down.
+    const tip = tipAt("$1.37 a day at 4.10% APY");
+    await expect(tip).toHaveCount(1);
+    await figure.focus();
+    await expect(tip).toHaveCount(2);
+    await expect(figure).toHaveAttribute("aria-pressed", "false");
+    await page.keyboard.press("Enter");
+    await expect(figure).toHaveAttribute("aria-pressed", "true");
+    await page.keyboard.press("Escape");
+    await expect(figure).toHaveAttribute("aria-pressed", "false");
+    await page.keyboard.press("Tab");
+    await expect(figure).not.toBeFocused();
+    await expect(tip).toHaveCount(1, { timeout: 5000 });
+  });
+
+  test("goal-timeline: arrows, page keys and the ends move the contribution and the marker's month with it, the floor parks it past the horizon, and a press on the track jumps", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/goal-timeline");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const slider = stage.getByRole("slider", { name: "House deposit" });
+    const timeline = stage.getByRole("img");
+
+    await expect(status).toHaveText("$400 a month · 29 months · Feb 2029");
+    await expect(slider).toHaveAttribute("aria-valuemin", "50");
+    await expect(slider).toHaveAttribute("aria-valuemax", "1000");
+    await expect(slider).toHaveAttribute("aria-valuenow", "400");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "$400 a month, 29 months",
+    );
+    await expect(timeline).toHaveAccessibleName(
+      "Goal reached in 29 months, Feb 2029",
+    );
+    await expect(stage.getByText("Feb 2029", { exact: true })).toBeVisible();
+    await expect(stage.getByText("29 months", { exact: true })).toBeVisible();
+    await expect(announced).toBeEmpty();
+
+    // One step earlier by a month; the release announces where it settled.
+    await slider.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "425");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "$425 a month, 28 months",
+    );
+    await expect(status).toHaveText("$425 a month · 28 months · Jan 2029");
+    await expect(announced).toHaveText(
+      "$425 a month. Goal reached in 28 months, Jan 2029.",
+    );
+    await expect(stage.getByText("Jan 2029", { exact: true })).toBeVisible();
+
+    // Ten steps at once.
+    await page.keyboard.press("PageUp");
+    await expect(slider).toHaveAttribute("aria-valuenow", "675");
+    await expect(status).toHaveText("$675 a month · 18 months · Mar 2028");
+    await expect(timeline).toHaveAccessibleName(
+      "Goal reached in 18 months, Mar 2028",
+    );
+
+    // End is the ceiling, and the slider does not run past it.
+    await page.keyboard.press("End");
+    await expect(slider).toHaveAttribute("aria-valuenow", "1000");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "$1,000 a month, 12 months",
+    );
+    await expect(status).toHaveText("$1,000 a month · 12 months · Sep 2027");
+    await expect(announced).toHaveText(
+      "$1,000 a month. Goal reached in 12 months, Sep 2027.",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "1000");
+
+    // Home is the floor, which is past the horizon: the marker parks at the
+    // end and the flag reads "after".
+    await page.keyboard.press("Home");
+    await expect(slider).toHaveAttribute("aria-valuenow", "50");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "$50 a month, beyond 36 months",
+    );
+    await expect(status).toHaveText("$50 a month · beyond 36 months");
+    await expect(timeline).toHaveAccessibleName(
+      "Not within 36 months at this rate",
+    );
+    await expect(announced).toHaveText(
+      "$50 a month. Not within 36 months at this rate.",
+    );
+    await expect(
+      stage.getByText("after Sep 2029", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      stage.getByText("Beyond 36 months", { exact: true }),
+    ).toBeVisible();
+    await page.keyboard.press("PageDown");
+    await expect(slider).toHaveAttribute("aria-valuenow", "50");
+
+    // A press on the track jumps to the value under it, focuses the thumb,
+    // and settles there. It lands last so nothing is measured after it.
+    const track = slider.locator("..");
+    await track.click();
+    await expect(slider).toHaveAttribute("aria-valuenow", "525");
+    await expect(status).toHaveText("$525 a month · 23 months · Aug 2028");
+    await expect(announced).toHaveText(
+      "$525 a month. Goal reached in 23 months, Aug 2028.",
+    );
+    // The press hands focus to the thumb so the arrows can take over from
+    // where the pointer left off — that is what the component's own
+    // pointerdown asks for, and what a slider owes a hand that just used it.
+    await expect(slider).toBeFocused();
+  });
+
+  test("pot-shuffle: Enter lifts a coin, arrows carry it along the row, Space drops it and both figures move, Escape walks it home, and two presses move it by pointer", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/pot-shuffle");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const row = stage.getByRole("list", { name: "Fernworks savings" });
+    // A pot's name carries its balance, so each is read by its name alone.
+    const pot = (name: string) =>
+      row.getByRole("button", { name: new RegExp(`^${name}, `) });
+    const holiday = pot("Holiday");
+    const rainy = pot("Rainy day");
+    const bike = pot("New bike");
+    const gifts = pot("Gifts");
+
+    await expect(status).toHaveText("4 pots · $2,540 total");
+    await expect(row.getByRole("button")).toHaveCount(4);
+    await expect(holiday).toHaveAccessibleName("Holiday, $1,240");
+    await expect(bike).toHaveAccessibleName("New bike, $360");
+    await expect(holiday).toHaveAttribute("aria-pressed", "false");
+    await expect(holiday).toHaveAccessibleDescription(
+      "Drag a pot onto another, or press one, to move $50.",
+    );
+    await expect(stage.getByText("$2,540 across 4")).toBeVisible();
+    await expect(announced).toBeEmpty();
+
+    // Enter lifts; the row walks under the coin; Space drops it two pots
+    // along, and the figures move only when the coin has dropped in.
+    await holiday.focus();
+    await page.keyboard.press("Enter");
+    await expect(holiday).toHaveAttribute("aria-pressed", "true");
+    await expect(announced).toHaveText(
+      "Lifted $50 from Holiday. Choose a pot.",
+    );
+    await expect(holiday).toHaveAccessibleDescription(
+      "Holding $50 — drop it on another pot, or press Escape.",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(rainy).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await expect(bike).toBeFocused();
+    await page.keyboard.press(" ");
+    await expect(status).toHaveText("moved $50 · Holiday → New bike", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText(
+      "Moved $50 from Holiday to New bike. Holiday $1,190, New bike $410.",
+    );
+    await expect(holiday).toHaveAccessibleName("Holiday, $1,190");
+    await expect(bike).toHaveAccessibleName("New bike, $410");
+    await expect(holiday).toHaveAttribute("aria-pressed", "false");
+    await expect(stage.getByText("$2,540 across 4")).toBeVisible();
+    await expect(bike).toHaveAccessibleDescription(
+      "Drag a pot onto another, or press one, to move $50.",
+    );
+
+    // Escape puts a lifted coin back and nothing moves.
+    await page.keyboard.press(" ");
+    await expect(bike).toHaveAttribute("aria-pressed", "true");
+    await expect(announced).toHaveText(
+      "Lifted $50 from New bike. Choose a pot.",
+    );
+    await page.keyboard.press("ArrowLeft");
+    await expect(rainy).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(announced).toHaveText("Move cancelled.");
+    await expect(bike).toHaveAttribute("aria-pressed", "false", {
+      timeout: 5000,
+    });
+    await expect(status).toHaveText("moved $50 · Holiday → New bike");
+    await expect(bike).toHaveAccessibleName("New bike, $410");
+    await expect(rainy).toHaveAccessibleName("Rainy day, $800");
+
+    // Two presses do the same by pointer: the first lifts, the second drops.
+    await gifts.click();
+    await expect(gifts).toHaveAttribute("aria-pressed", "true");
+    await expect(announced).toHaveText("Lifted $50 from Gifts. Choose a pot.");
+    await rainy.click();
+    await expect(status).toHaveText("moved $50 · Gifts → Rainy day", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText(
+      "Moved $50 from Gifts to Rainy day. Gifts $90, Rainy day $850.",
+    );
+    await expect(gifts).toHaveAccessibleName("Gifts, $90");
+    await expect(rainy).toHaveAccessibleName("Rainy day, $850");
+
+    await stage.getByRole("button", { name: "Reset pots" }).click();
+    await expect(status).toHaveText("4 pots · $2,540 total");
+    await expect(holiday).toHaveAccessibleName("Holiday, $1,240");
+    await expect(rainy).toHaveAccessibleName("Rainy day, $800");
+    await expect(bike).toHaveAccessibleName("New bike, $360");
+    await expect(gifts).toHaveAccessibleName("Gifts, $140");
+  });
+
+  test("streak-saver: Enter lights this week and rolls the run, the calendar carries the row left, a week left open ends the run, and the next save starts one", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/streak-saver");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const cells = stage
+      .getByRole("list", { name: "Rainy day" })
+      .getByRole("listitem");
+    const save = stage.getByRole("button", {
+      name: /^(Save \$25\.00 for this week|Saved this week)$/,
+    });
+    const nextWeek = stage.getByRole("button", { name: "Next week" });
+
+    await expect(status).toHaveText(
+      "6 in a row · This week open · $225.00 put away",
+    );
+    await expect(announced).toHaveText(
+      "6 weeks in a row, this week not yet saved",
+    );
+    await expect(cells).toHaveCount(12);
+    // Each cell reads as a sentence, oldest first, the open week last.
+    await expect(cells.first()).toHaveText("Week of Jun 15, saved");
+    await expect(cells.nth(4)).toHaveText("Week of Jul 13, missed");
+    await expect(cells.last()).toHaveText(
+      "Week of Aug 31, this week, not yet saved",
+    );
+    await expect(save).toHaveAccessibleName("Save $25.00 for this week");
+    await expect(save).not.toHaveAttribute("aria-disabled");
+    await expect(stage.getByText("Best 6 · $225.00 put away")).toBeVisible();
+    await expect(stage.getByText("Save to keep the run")).toBeVisible();
+
+    // Enter saves this week: the cell lights, the run rolls to seven, and
+    // the button turns aria-disabled under the focus it keeps.
+    await save.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText(
+      "7 in a row · This week saved · $250.00 put away",
+    );
+    await expect(announced).toHaveText("7 weeks in a row, this week saved");
+    await expect(cells.last()).toHaveText("Week of Aug 31, saved");
+    await expect(save).toHaveAccessibleName("Saved this week");
+    await expect(save).toHaveAttribute("aria-disabled", "true");
+    await expect(save).toBeFocused();
+    await expect(stage.getByText("Best 7 · $250.00 put away")).toBeVisible();
+    await expect(stage.getByText("Next week keeps the run")).toBeVisible();
+    // A second press saves nothing twice.
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText(
+      "7 in a row · This week saved · $250.00 put away",
+    );
+
+    // Next week: the oldest cell leaves, a new open one arrives, and the run
+    // holds because an open week is at risk, not broken.
+    await nextWeek.click();
+    await expect(cells).toHaveCount(12, { timeout: 5000 });
+    await expect(cells.first()).toHaveText("Week of Jun 22, saved");
+    await expect(cells.last()).toHaveText(
+      "Week of Sep 7, this week, not yet saved",
+    );
+    await expect(status).toHaveText(
+      "7 in a row · This week open · $225.00 put away",
+    );
+    await expect(announced).toHaveText(
+      "7 weeks in a row, this week not yet saved",
+    );
+    await expect(save).toHaveAccessibleName("Save $25.00 for this week");
+    await expect(save).not.toHaveAttribute("aria-disabled");
+
+    // Left open across another week, that week is missed and the run ends.
+    await nextWeek.click();
+    await expect(cells).toHaveCount(12, { timeout: 5000 });
+    await expect(cells.nth(10)).toHaveText("Week of Sep 7, missed");
+    await expect(cells.last()).toHaveText(
+      "Week of Sep 14, this week, not yet saved",
+    );
+    await expect(status).toHaveText(
+      "Streak ended · 0 in a row · This week open · $200.00 put away",
+    );
+    await expect(announced).toHaveText(
+      "0 weeks in a row, this week not yet saved",
+    );
+    await expect(stage.getByText("Best 7 · $200.00 put away")).toBeVisible();
+    await expect(stage.getByText("Save to start a run")).toBeVisible();
+
+    // A save starts a run of one, and the sentence knows it is singular.
+    await save.click();
+    await expect(status).toHaveText(
+      "1 in a row · This week saved · $225.00 put away",
+    );
+    await expect(announced).toHaveText("1 week in a row, this week saved");
+    await expect(cells.last()).toHaveText("Week of Sep 14, saved");
+
+    await stage.getByRole("button", { name: "Reset", exact: true }).click();
+    await expect(status).toHaveText(
+      "6 in a row · This week open · $225.00 put away",
+    );
+    await expect(cells).toHaveCount(12, { timeout: 5000 });
+    await expect(cells.first()).toHaveText("Week of Jun 15, saved");
+    await expect(cells.last()).toHaveText(
+      "Week of Aug 31, this week, not yet saved",
+    );
+  });
+
+  test("auto-sweep: Enter lifts the leftover out of spending, savings settles when the pill lands, the button empties, and a new month refills it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/auto-sweep");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const card = stage.getByRole("group", { name: "Month-end sweep" });
+    const sweep = card.getByRole("button", {
+      name: /^(Sweep \$[\d,.]+ into savings|Nothing to sweep)$/,
+    });
+    // The definition list: the spending figure, the floor, the savings
+    // figure, and the note under it. Each figure reads as one sr-only string
+    // ahead of its rolling columns.
+    const figures = card.locator("dd");
+    const spending = figures.nth(0);
+    const savings = figures.nth(2);
+    const note = figures.nth(3);
+
+    await expect(status).toHaveText("Leftover $84.20 · Savings $3,410.00");
+    await expect(sweep).toHaveAccessibleName("Sweep $84.20 into savings");
+    await expect(sweep).not.toHaveAttribute("aria-disabled");
+    await expect(spending).toContainText("$1,084.20");
+    await expect(figures.nth(1)).toHaveText("Keep $1,000.00");
+    await expect(savings).toContainText("$3,410.00");
+    await expect(note).toHaveText("Leftover $84.20");
+    await expect(card).toContainText("Month end · 30 Sep");
+    await expect(card).toContainText("Above the floor, ready to go");
+    await expect(announced).toBeEmpty();
+
+    // Enter sweeps: spending empties from the press, and the demo's line
+    // reads "Sweeping" until the pill lands, when it reads "Swept".
+    await sweep.focus();
+    await page.keyboard.press("Enter");
+    await expect(spending).toContainText("$1,000.00");
+    await expect(status).toHaveText(
+      /^(Sweeping \$84\.20|Swept \$84\.20 · Savings \$3,494\.20)$/,
+    );
+    await expect(status).toHaveText("Swept $84.20 · Savings $3,494.20", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText(
+      "Swept $84.20 into savings. Savings $3,494.20.",
+    );
+    await expect(savings).toContainText("$3,494.20");
+    await expect(note).toHaveText("Nothing left over");
+    await expect(sweep).toHaveAccessibleName("Nothing to sweep");
+    await expect(sweep).toHaveAttribute("aria-disabled", "true");
+    await expect(sweep).toBeFocused();
+    await expect(card).toContainText("Spending sits at the floor");
+    // With nothing to sweep, a press is not a sweep.
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Swept $84.20 · Savings $3,494.20");
+
+    // A new month pays in above the floor and the button fills again.
+    await stage.getByRole("button", { name: "Next month" }).click();
+    await expect(card).toContainText("Month end · 31 Oct");
+    await expect(status).toHaveText("Leftover $132.60 · Savings $3,494.20");
+    await expect(sweep).toHaveAccessibleName("Sweep $132.60 into savings");
+    await expect(sweep).not.toHaveAttribute("aria-disabled");
+    await expect(spending).toContainText("$1,132.60");
+    await expect(note).toHaveText("Leftover $132.60");
+
+    // The pointer sweeps the same way.
+    await sweep.click();
+    await expect(status).toHaveText("Swept $132.60 · Savings $3,626.80", {
+      timeout: 5000,
+    });
+    await expect(announced).toHaveText(
+      "Swept $132.60 into savings. Savings $3,626.80.",
+    );
+    await expect(spending).toContainText("$1,000.00");
+    await expect(savings).toContainText("$3,626.80");
+
+    // Reset lowers savings with nothing in the air, so the figure follows.
+    await stage.getByRole("button", { name: "Reset", exact: true }).click();
+    await expect(status).toHaveText("Leftover $84.20 · Savings $3,410.00");
+    await expect(sweep).toHaveAccessibleName("Sweep $84.20 into savings");
+    await expect(card).toContainText("Month end · 30 Sep");
+    await expect(spending).toContainText("$1,084.20");
+    await expect(savings).toContainText("$3,410.00");
+  });
+
+  test("goal-card: Enter drops a coin the ring waits for, Details unfolds a measured panel that is inert while shut, the last press closes the ring, and a reset shrinks it without a coin", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/goal-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter", { name: "Winter tyres" });
+    const add = stage.getByRole("button", {
+      name: /^(Add \$30\.00|Goal reached)$/,
+    });
+    const details = stage.getByRole("button", { name: "Details" });
+    // The panel is inert while closed, which keeps it out of role queries,
+    // so it is found by its element and read by its attributes.
+    const panel = stage.locator("section[aria-labelledby]");
+    const rows = panel.locator("dd");
+    // The fold is the clipped box two levels up whose height is animated.
+    const fold = panel.locator("..").locator("..");
+    const foldHeight = (): Promise<number> =>
+      fold.evaluate((node) => node.getBoundingClientRect().height);
+
+    await expect(status).toHaveText(
+      "Saved $360.00 of $600.00 · 60% · Details closed",
+    );
+    await expect(meter).toHaveAttribute("aria-valuemin", "0");
+    await expect(meter).toHaveAttribute("aria-valuemax", "600");
+    await expect(meter).toHaveAttribute("aria-valuenow", "360");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "$360.00 of $600.00 saved, 60 percent",
+    );
+    await expect(add).toHaveAccessibleName("Add $30.00");
+    await expect(details).toHaveAttribute("aria-expanded", "false");
+    await expect(details).toHaveAttribute(
+      "aria-controls",
+      (await panel.getAttribute("id")) ?? "",
+    );
+    await expect(panel).toHaveAttribute("inert", "");
+    await expect.poll(foldHeight).toBe(0);
+    await expect(stage.getByText("of $600.00 · $240.00 to go")).toBeVisible();
+    await expect(announced).toBeEmpty();
+
+    // Enter adds thirty: the announcement is from the press, the meter and
+    // the header figure from the landing.
+    await add.focus();
+    await page.keyboard.press("Enter");
+    await expect(status).toHaveText("Added $30.00 · 65% · Details closed");
+    await expect(announced).toHaveText("Added $30.00. 65 percent saved.");
+    await expect(meter).toHaveAttribute("aria-valuenow", "390", {
+      timeout: 5000,
+    });
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "$390.00 of $600.00 saved, 65 percent",
+    );
+    await expect(stage.getByText("of $600.00 · $210.00 to go")).toBeVisible();
+    await expect(add).toBeFocused();
+
+    // Details unfolds to the panel's own measured height and lifts inert.
+    await details.focus();
+    await page.keyboard.press("Enter");
+    await expect(details).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toHaveText("Added $30.00 · 65% · Details open");
+    await expect(panel).not.toHaveAttribute("inert");
+    await expect.poll(foldHeight, { timeout: 5000 }).toBeGreaterThan(40);
+    await expect(rows).toHaveCount(4);
+    await expect(rows.nth(0)).toHaveText("$600.00");
+    await expect(rows.nth(1)).toHaveText("$390.00");
+    await expect(rows.nth(2)).toHaveText("$210.00");
+    await expect(rows.nth(3)).toHaveText("7 at $30.00 a week");
+    await expect(panel).toContainText("By 30 Nov");
+
+    // Seven more close the ring: the last press lands on the goal, the
+    // button turns to "Goal reached" and the landing says so.
+    for (let press = 0; press < 7; press += 1) await add.click();
+    await expect(status).toHaveText("Goal reached · $600.00 saved");
+    await expect(add).toHaveAccessibleName("Goal reached");
+    await expect(add).toHaveAttribute("aria-disabled", "true");
+    await expect(meter).toHaveAttribute("aria-valuenow", "600", {
+      timeout: 5000,
+    });
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "Goal reached, $600.00 saved",
+    );
+    await expect(announced).toHaveText("Goal reached.");
+    await expect(rows.nth(1)).toHaveText("$600.00");
+    await expect(rows.nth(2)).toHaveText("$0.00");
+    await expect(rows.nth(3)).toHaveText("0 at $30.00 a week");
+    await expect(stage.getByText("of $600.00 · reached")).toBeVisible();
+
+    // Reset lowers the value: the ring shrinks at once, no coin, and the
+    // panel folds back to nothing and goes inert.
+    await stage.getByRole("button", { name: "Reset", exact: true }).click();
+    await expect(status).toHaveText(
+      "Saved $360.00 of $600.00 · 60% · Details closed",
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "360");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "$360.00 of $600.00 saved, 60 percent",
+    );
+    await expect(add).toHaveAccessibleName("Add $30.00");
+    await expect(add).not.toHaveAttribute("aria-disabled");
+    await expect(details).toHaveAttribute("aria-expanded", "false");
+    await expect(panel).toHaveAttribute("inert", "");
+    await expect.poll(foldHeight, { timeout: 5000 }).toBe(0);
+  });
+
+  test("rate-ladder: arrows climb and descend the rungs and pick as they go, Home and End reach the ends, and every pick re-dates the maturity and re-prices the interest", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/rate-ladder");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component's own readout is a status line reading the same
+    // sentence as the chosen rung, ahead of its rolling digits.
+    const readout = stage.locator("[role='status']").first();
+    const ladder = stage.getByRole("radiogroup", { name: "Term deposits" });
+    const rung = (months: number) =>
+      ladder.getByRole("radio", { name: new RegExp(`^${months} months, `) });
+
+    await expect(status).toHaveText(
+      "12 months · 4.30% · Matures Sep 8, 2027 · Earns $215.00",
+    );
+    await expect(readout).toContainText(
+      "12 months, 4.30 percent, matures Sep 8, 2027, earns $215.00",
+    );
+    await expect(ladder.getByRole("radio")).toHaveCount(5);
+    // The longest term is the top rung: the DOM order is the ladder's.
+    await expect(ladder.getByRole("radio").first()).toHaveAccessibleName(
+      /^36 months, /,
+    );
+    await expect(rung(12)).toHaveAttribute("aria-checked", "true");
+    await expect(rung(12)).toHaveAccessibleName(
+      "12 months, 4.30 percent, matures Sep 8, 2027",
+    );
+    await expect(stage.getByText("Sep 8, 2027", { exact: true })).toBeVisible();
+
+    // Up is a longer term, and the arrow picks as it moves.
+    await rung(12).focus();
+    await page.keyboard.press("ArrowUp");
+    await expect(rung(24)).toBeFocused();
+    await expect(rung(24)).toHaveAttribute("aria-checked", "true");
+    await expect(rung(12)).toHaveAttribute("aria-checked", "false");
+    await expect(status).toHaveText(
+      "24 months · 4.55% · Matures Sep 8, 2028 · Earns $455.00",
+    );
+    await expect(readout).toContainText(
+      "24 months, 4.55 percent, matures Sep 8, 2028, earns $455.00",
+    );
+    await expect(stage.getByText("Sep 8, 2028", { exact: true })).toBeVisible();
+
+    // End is the top, and the ladder does not wrap past it.
+    await page.keyboard.press("End");
+    await expect(rung(36)).toBeFocused();
+    await expect(rung(36)).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText(
+      "36 months · 4.70% · Matures Sep 8, 2029 · Earns $705.00",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(rung(36)).toBeFocused();
+    await expect(rung(36)).toHaveAttribute("aria-checked", "true");
+
+    // Home is the bottom, and Down does not fall off it.
+    await page.keyboard.press("Home");
+    await expect(rung(3)).toBeFocused();
+    await expect(rung(3)).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText(
+      "3 months · 3.60% · Matures Dec 8, 2026 · Earns $45.00",
+    );
+    await expect(stage.getByText("Dec 8, 2026", { exact: true })).toBeVisible();
+    await page.keyboard.press("ArrowDown");
+    await expect(rung(3)).toBeFocused();
+    await expect(rung(3)).toHaveAttribute("aria-checked", "true");
+
+    // Right is the same step as Up.
+    await page.keyboard.press("ArrowRight");
+    await expect(rung(6)).toBeFocused();
+    await expect(rung(6)).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText(
+      "6 months · 3.95% · Matures Mar 8, 2027 · Earns $98.75",
+    );
+    await expect(readout).toContainText(
+      "6 months, 3.95 percent, matures Mar 8, 2027, earns $98.75",
+    );
+
+    // The pointer picks a rung directly.
+    await rung(12).click();
+    await expect(rung(12)).toHaveAttribute("aria-checked", "true");
+    await expect(rung(6)).toHaveAttribute("aria-checked", "false");
+    await expect(status).toHaveText(
+      "12 months · 4.30% · Matures Sep 8, 2027 · Earns $215.00",
+    );
+  });
+
+  test("nest-egg: arrows walk the rate chips and bend the curve under the cursor, the plot is a slider whose keys scrub the year, and a press reads the nearest year", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/nest-egg");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const settled = stage.locator("[role='status']").first();
+    const chips = stage.getByRole("radiogroup", { name: "Annual rate" });
+    const chip = (rate: number) =>
+      chips.getByRole("radio", { name: `${rate}%`, exact: true });
+    const plot = stage.getByRole("slider", { name: "Nest egg" });
+
+    await expect(status).toHaveText("Year 20 · 5% · $88,988 · Growth $38,488");
+    await expect(settled).toHaveText(
+      "Year 20, $88,988, contributed $50,500, growth $38,488",
+    );
+    await expect(chips.getByRole("radio")).toHaveCount(4);
+    await expect(chip(5)).toHaveAttribute("aria-checked", "true");
+    await expect(plot).toHaveAttribute("aria-valuemin", "0");
+    await expect(plot).toHaveAttribute("aria-valuemax", "30");
+    await expect(plot).toHaveAttribute("aria-valuenow", "20");
+    await expect(plot).toHaveAttribute(
+      "aria-valuetext",
+      "Year 20, $88,988, contributed $50,500, growth $38,488",
+    );
+    await expect(stage.getByText("Year 20", { exact: true })).toBeVisible();
+
+    // An arrow both moves and picks a rate; the year under the cursor is
+    // re-priced and the split with it.
+    await chip(5).focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(chip(7)).toBeFocused();
+    await expect(chip(7)).toHaveAttribute("aria-checked", "true");
+    await expect(chip(5)).toHaveAttribute("aria-checked", "false");
+    await expect(status).toHaveText("Year 20 · 7% · $114,282 · Growth $63,782");
+    await expect(settled).toHaveText(
+      "Year 20, $114,282, contributed $50,500, growth $63,782",
+    );
+    await expect(plot).toHaveAttribute(
+      "aria-valuetext",
+      "Year 20, $114,282, contributed $50,500, growth $63,782",
+    );
+    await page.keyboard.press("End");
+    await expect(chip(9)).toBeFocused();
+    await expect(chip(9)).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Year 20 · 9% · $148,600 · Growth $98,100");
+    await page.keyboard.press("ArrowRight");
+    await expect(chip(9)).toBeFocused();
+    await expect(chip(9)).toHaveAttribute("aria-checked", "true");
+    await page.keyboard.press("Home");
+    await expect(chip(3)).toBeFocused();
+    await expect(chip(3)).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Year 20 · 3% · $70,212 · Growth $19,712");
+    await chip(5).click();
+    await expect(chip(5)).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText("Year 20 · 5% · $88,988 · Growth $38,488");
+
+    // The plot is a slider: an arrow is a year, a page key five, the ends
+    // the ends, and the settled sentence follows every key.
+    await plot.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(plot).toHaveAttribute("aria-valuenow", "21");
+    await expect(status).toHaveText("Year 21 · 5% · $95,997 · Growth $43,097");
+    await expect(settled).toHaveText(
+      "Year 21, $95,997, contributed $52,900, growth $43,097",
+    );
+    await expect(stage.getByText("Year 21", { exact: true })).toBeVisible();
+    await page.keyboard.press("PageUp");
+    await expect(plot).toHaveAttribute("aria-valuenow", "26");
+    await expect(status).toHaveText("Year 26 · 5% · $136,800 · Growth $71,900");
+    await page.keyboard.press("End");
+    await expect(plot).toHaveAttribute("aria-valuenow", "30");
+    await expect(status).toHaveText(
+      "Year 30 · 5% · $177,621 · Growth $103,121",
+    );
+    await page.keyboard.press("ArrowUp");
+    await expect(plot).toHaveAttribute("aria-valuenow", "30");
+    await page.keyboard.press("Home");
+    await expect(plot).toHaveAttribute("aria-valuenow", "0");
+    await expect(status).toHaveText("Year 0 · 5% · $2,500 · Growth $0");
+    await expect(settled).toHaveText(
+      "Year 0, $2,500, contributed $2,500, growth $0",
+    );
+    await page.keyboard.press("PageDown");
+    await expect(plot).toHaveAttribute("aria-valuenow", "0");
+
+    // A press on the plot's middle reads the nearest year, fifteen, and
+    // focuses the slider. It lands last so nothing is measured after it.
+    await plot.click();
+    await expect(plot).toHaveAttribute("aria-valuenow", "15");
+    await expect(status).toHaveText("Year 15 · 5% · $58,742 · Growth $20,242");
+    await expect(settled).toHaveText(
+      "Year 15, $58,742, contributed $38,500, growth $20,242",
+    );
+    await expect(plot).toBeFocused();
+  });
+});
