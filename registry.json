@@ -20896,6 +20896,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tool-call",
+      "type": "registry:ui",
+      "title": "Tool Call",
+      "description": "One tool call as a row the reader can open. While the call runs the ring's arc turns on a linear loop; marked done, the arc fades and a tick disc stamps in from 1.3× on recoil, while a failure stamps a danger disc on snap with no bounce. Enter, Space or a click expands the row on glide to a height measured by a ResizeObserver — the arguments as a definition list, then the result box growing with each line the host passes — and a polite live region says the status once per change, never per line.",
+      "files": [
+        {
+          "path": "registry/ui/tool-call.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-761"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "permission-ask",
+      "type": "registry:ui",
+      "title": "Permission Ask",
+      "description": "A risky tool call held at the gate. When the host opens the ask a card rises beneath the call row from 16px below on snap while the frame grows to a measured height on glide; Allow is disarmed as it arrives and a hairline fill runs along its foot on a linear tween for armDelay before the control enables. Deny sinks the card on the exit ease and greys the row; Allow lifts it away. It is an alert dialog: focus lands on Deny, Tab cycles the two answers, Escape denies, and focus returns to where it was.",
+      "files": [
+        {
+          "path": "registry/ui/permission-ask.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-762"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tool-chain",
+      "type": "registry:ui",
+      "title": "Tool Chain",
+      "description": "A vertical chain of tool calls where each link is earned. The connector beneath a step grows from its top on glide only once that step is done; the running node's dot breathes, a completed node fills on flick with its tick drawn on flick, and a failed node fills danger with a cross while its error line opens to a measured height on glide and the chain pauses — the steps beneath dim and read Paused. A Retry control arrives on snap inside the error line when the host offers one; Tab reaches it and Enter or Space presses it.",
+      "files": [
+        {
+          "path": "registry/ui/tool-chain.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-763"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "result-fold",
+      "type": "registry:ui",
+      "title": "Result Fold",
+      "description": "A tool result that shows what it can and folds the rest. The first lines are always printed; everything after them lives in a tail whose height is measured by a ResizeObserver and animated on glide between zero and full, so unfolding is a surface extending and a line landing while open grows the box smoothly. A fade sits over the last preview line while folded, and when the host passes a summary a gist chip arrives beside the name from 4px on snap. The fold control names what it will do and Enter or Space presses it.",
+      "files": [
+        {
+          "path": "registry/ui/result-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-764"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "retry-ladder",
+      "type": "registry:ui",
+      "title": "Retry Ladder",
+      "description": "A retry control that keeps its history in sight. Attempts stack upward as the rungs of a ladder, each reading its number, how it differed and the error it met; when the host appends a running attempt a new rung draws across the rails on glide while the ladder grows to a measured height on glide, a failure turns the rung danger on a colour tween, and a success lands a tick on flick. The control squashes on flick when pressed, is disabled while an attempt runs, and retires once an attempt succeeds or maxAttempts is reached.",
+      "files": [
+        {
+          "path": "registry/ui/retry-ladder.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-765"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "shell-tail",
+      "type": "registry:ui",
+      "title": "Shell Tail",
+      "description": "A command block whose output tails in line by line, each line landing with a fade and a 4px rise on flick while the box's measured height glides to fit until it scrolls and follows the tail. A ring turns in the header while the command runs; the exit code stamps on recoil when it is 0 and lands firmly on flick when it is not. The output is a focusable scrollable region, Jump to end is a real button, and the status region speaks only on state change.",
+      "files": [
+        {
+          "path": "registry/ui/shell-tail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-766"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "file-touch",
+      "type": "registry:ui",
+      "title": "File Touch",
+      "description": "A list of the files a tool has touched. Each row slides in from 8px left on glide as it is written, and its added and removed counts roll on snap as the tool keeps writing to it. Pressing a row opens its diff beneath it with a measured height that glides open; one diff is open at a time. Rows are buttons with aria-expanded, arrows walk them and Escape closes a diff.",
+      "files": [
+        {
+          "path": "registry/ui/file-touch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-767"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "browser-peek",
+      "type": "registry:ui",
+      "title": "Browser Peek",
+      "description": "A mini browser frame showing what an agent is looking at. The page is a procedural drawing laid out from a block list, never a live page; when the index changes the address slides in on snap while the page area cross-fades, and a cursor dot glides to the click point and presses once it settles. Back and Forward are real buttons that step through the pages.",
+      "files": [
+        {
+          "path": "registry/ui/browser-peek.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-768"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "approval-queue",
+      "type": "registry:ui",
+      "title": "Approval Queue",
+      "description": "A queue of actions an agent wants to take. Approving slides the head card out to the right on the exit ease while the next rises and expands to head on glide with a measured height; denying slides it out to the left and never bounces. Approve all runs the exits in a cascade stagger. Focus stays on the new head's Approve control across a decision, and each decision is announced once.",
+      "files": [
+        {
+          "path": "registry/ui/approval-queue.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-769"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tool-budget",
+      "type": "registry:ui",
+      "title": "Tool Budget",
+      "description": "A meter of tool calls and the rail that spends them. Each call drains the rightmost filled segment on glide and the count of calls left rolls on snap; at the warn line the remaining segments pulse and the readout says low; at zero the meter turns danger, a hatch fades over the rail and a lock lands on flick. The rail is a toolbar with a roving tabindex, and locked tools stay focusable with aria-disabled.",
+      "files": [
+        {
+          "path": "registry/ui/tool-budget.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "agent"
+      ],
+      "meta": {
+        "serial": "KQ-770"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

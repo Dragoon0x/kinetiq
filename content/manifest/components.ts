@@ -38880,4 +38880,710 @@ export const components: KinetiqItem[] = [
       "Both the surface's height and the slab's width are measured with ResizeObservers, never reserved; the host owns the stream and clears the text before restarting from onRegenerate.",
     ],
   },
+  {
+    name: "tool-call",
+    type: "registry:ui",
+    title: "Tool Call",
+    description:
+      "One tool call as a row the reader can open. While the call runs the ring's arc turns on a linear loop; marked done, the arc fades and a tick disc stamps in from 1.3× on recoil, while a failure stamps a danger disc on snap with no bounce. Enter, Space or a click expands the row on glide to a height measured by a ResizeObserver — the arguments as a definition list, then the result box growing with each line the host passes — and a polite live region says the status once per change, never per line.",
+    files: [
+      {
+        path: "registry/ui/tool-call.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-761",
+    },
+    tagline: "A call, its arguments, and its answer.",
+    keywords: ["tool", "call", "arguments", "result", "ring", "stamp", "agent"],
+    props: [
+      {
+        name: "name",
+        type: "string",
+        description: "The tool's name, printed in mono.",
+      },
+      {
+        name: "args",
+        type: "ToolCallArg[]",
+        defaultValue: "[]",
+        description:
+          "Key–value pairs, previewed on the row and listed when open.",
+      },
+      {
+        name: "status",
+        type: '"queued" | "running" | "done" | "error"',
+        defaultValue: '"queued"',
+        description: "Where the call is; drives the ring and the stamp.",
+      },
+      {
+        name: "result",
+        type: "string",
+        defaultValue: '""',
+        description:
+          "The result text arrived so far, one line per newline. Append-only.",
+      },
+      {
+        name: "error",
+        type: "string",
+        description:
+          "Why the call failed; printed in the result box with the word Error.",
+      },
+      {
+        name: "elapsed",
+        type: "number",
+        description:
+          "Milliseconds the call has taken, owned by the host. Shown once running.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial expanded state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the row press.",
+      },
+    ],
+    usageNotes: [
+      "The row is a disclosure button — Tab reaches it, Enter or Space toggles — and the panel is a region that is inert while folded; the ring is hidden decoration and the live region names the status in words.",
+      "Under reduced motion the arc holds at mid opacity instead of turning, the stamp fades in at full size with its mark drawn whole, and the panel's height changes on a fast tween.",
+      "Feed it the result so far and the elapsed time from your own run loop; the component keeps no clock and never reads one during render.",
+    ],
+  },
+  {
+    name: "permission-ask",
+    type: "registry:ui",
+    title: "Permission Ask",
+    description:
+      "A risky tool call held at the gate. When the host opens the ask a card rises beneath the call row from 16px below on snap while the frame grows to a measured height on glide; Allow is disarmed as it arrives and a hairline fill runs along its foot on a linear tween for armDelay before the control enables. Deny sinks the card on the exit ease and greys the row; Allow lifts it away. It is an alert dialog: focus lands on Deny, Tab cycles the two answers, Escape denies, and focus returns to where it was.",
+    files: [
+      {
+        path: "registry/ui/permission-ask.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-762",
+    },
+    tagline: "May it run this?",
+    keywords: [
+      "permission",
+      "allow",
+      "deny",
+      "risk",
+      "tool",
+      "dialog",
+      "agent",
+    ],
+    props: [
+      {
+        name: "open",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Raises the card. Close it from onAllow or onDeny.",
+      },
+      {
+        name: "tool",
+        type: "string",
+        description:
+          "The tool's name, printed in mono on the row and the card.",
+      },
+      {
+        name: "target",
+        type: "string",
+        description: "What the call acts on, printed after the name.",
+      },
+      {
+        name: "reason",
+        type: "string",
+        description: "Why the call needs asking, in one sentence.",
+      },
+      {
+        name: "risk",
+        type: '"low" | "medium" | "high"',
+        defaultValue: '"medium"',
+        description: "Risk level printed on the card's chip, by word and tone.",
+      },
+      {
+        name: "armDelay",
+        type: "number",
+        defaultValue: "700",
+        description:
+          "Milliseconds before Allow can be pressed. 0 arms it at once.",
+      },
+      {
+        name: "decision",
+        type: '"allowed" | "denied"',
+        description:
+          "The outcome, owned by the host; greys the row when denied.",
+      },
+      {
+        name: "onAllow",
+        type: "() => void",
+        description: "Fires from the armed Allow control.",
+      },
+      {
+        name: "onDeny",
+        type: "() => void",
+        description: "Fires from Deny or Escape.",
+      },
+      {
+        name: "onArmed",
+        type: "() => void",
+        description: "Fires once when the Allow control arms.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the frame for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The card is a modal alert dialog inside the frame: focus lands on Deny, Tab and Shift+Tab cycle between Deny and Allow, Escape denies, and focus returns to the element that had it once the card has left.",
+      "Under reduced motion the card fades in place and the frame's height changes on a fast tween; the arming fill still runs at the same linear rate, because the wait is information.",
+      "Keep open, decision and the arming honest in the host: close the ask from onAllow or onDeny, set decision from the same handler, and reset it before asking again.",
+    ],
+  },
+  {
+    name: "tool-chain",
+    type: "registry:ui",
+    title: "Tool Chain",
+    description:
+      "A vertical chain of tool calls where each link is earned. The connector beneath a step grows from its top on glide only once that step is done; the running node's dot breathes, a completed node fills on flick with its tick drawn on flick, and a failed node fills danger with a cross while its error line opens to a measured height on glide and the chain pauses — the steps beneath dim and read Paused. A Retry control arrives on snap inside the error line when the host offers one; Tab reaches it and Enter or Space presses it.",
+    files: [
+      {
+        path: "registry/ui/tool-chain.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-763",
+    },
+    tagline: "Calls that depend on each other.",
+    keywords: ["chain", "tool", "steps", "link", "pause", "retry", "agent"],
+    props: [
+      {
+        name: "steps",
+        type: "ToolChainStep[]",
+        description:
+          "The calls in chain order: id, name, detail, status (pending, running, done or failed) and an error for a failed step.",
+      },
+      {
+        name: "onRetry",
+        type: "(id: string) => void",
+        description:
+          "Offers a Retry control on a failed step and fires from it.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the chain for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The chain is an ordered list whose items carry their status in words, and Retry is a real button reached by Tab; the live region says which link is running, where the chain paused and why, and when it completes — once per change, never per tick.",
+      "Under reduced motion connectors appear whole on a fade, the running dot holds at mid opacity, ticks and crosses are drawn whole, and the error line's height changes on a fast tween.",
+      "Drive the statuses from your own run: mark a step running, then done or failed, and set the retried step back to running from onRetry.",
+    ],
+  },
+  {
+    name: "result-fold",
+    type: "registry:ui",
+    title: "Result Fold",
+    description:
+      "A tool result that shows what it can and folds the rest. The first lines are always printed; everything after them lives in a tail whose height is measured by a ResizeObserver and animated on glide between zero and full, so unfolding is a surface extending and a line landing while open grows the box smoothly. A fade sits over the last preview line while folded, and when the host passes a summary a gist chip arrives beside the name from 4px on snap. The fold control names what it will do and Enter or Space presses it.",
+    files: [
+      {
+        path: "registry/ui/result-fold.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-764",
+    },
+    tagline: "A long result, folded to its gist.",
+    keywords: [
+      "result",
+      "fold",
+      "collapse",
+      "summary",
+      "gist",
+      "tool",
+      "agent",
+    ],
+    props: [
+      {
+        name: "name",
+        type: "string",
+        description: "The tool's name, printed in mono.",
+      },
+      {
+        name: "text",
+        type: "string",
+        defaultValue: '""',
+        description: "The result so far, one line per newline. Append-only.",
+      },
+      {
+        name: "previewLines",
+        type: "number",
+        defaultValue: "3",
+        description: "Lines shown while folded.",
+      },
+      {
+        name: "summary",
+        type: "string",
+        description:
+          "The gist; when present it arrives as a chip beside the name.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial unfolded state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the fold control.",
+      },
+    ],
+    usageNotes: [
+      "The fold control is a disclosure button reached by Tab and pressed with Enter or Space; the tail is a region that is inert while folded, so a screen reader reads exactly what is shown, and wide lines scroll inside the box.",
+      "Under reduced motion the tail's height changes on a fast tween, the chip and lines fade in without travel, and the chevron swaps direction without turning.",
+      "The live region reads the summary once when it arrives, never a line — pass it when the result is complete.",
+    ],
+  },
+  {
+    name: "retry-ladder",
+    type: "registry:ui",
+    title: "Retry Ladder",
+    description:
+      "A retry control that keeps its history in sight. Attempts stack upward as the rungs of a ladder, each reading its number, how it differed and the error it met; when the host appends a running attempt a new rung draws across the rails on glide while the ladder grows to a measured height on glide, a failure turns the rung danger on a colour tween, and a success lands a tick on flick. The control squashes on flick when pressed, is disabled while an attempt runs, and retires once an attempt succeeds or maxAttempts is reached.",
+    files: [
+      {
+        path: "registry/ui/retry-ladder.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-765",
+    },
+    tagline: "Try again, a little differently.",
+    keywords: [
+      "retry",
+      "attempts",
+      "ladder",
+      "backoff",
+      "error",
+      "tool",
+      "agent",
+    ],
+    props: [
+      {
+        name: "attempts",
+        type: "RetryAttempt[]",
+        description:
+          "The attempts so far, oldest first: id, label, status (running, failed or succeeded) and an error. The host appends a running one from onRetry.",
+      },
+      {
+        name: "next",
+        type: "string",
+        description:
+          "How the next attempt will differ, printed beside the control.",
+      },
+      {
+        name: "maxAttempts",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "Rungs the ladder allows; the control retires when reached.",
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Fires from the control.",
+      },
+      {
+        name: "retryLabel",
+        type: "string",
+        defaultValue: '"Retry"',
+        description: "Copy on the control.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the ladder for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Retry is a real button reached by Tab and pressed with Enter or Space, disabled while an attempt runs and described by the next variation; the rungs are an ordered list, oldest first in the DOM, whose items carry their outcome in words.",
+      "Under reduced motion rungs fade in whole, the running dot holds at mid opacity, the ladder's height changes on a fast tween and nothing squashes.",
+      "The live region announces each attempt's start and outcome once; append a running attempt from onRetry and settle it from your own run.",
+    ],
+  },
+  {
+    name: "shell-tail",
+    type: "registry:ui",
+    title: "Shell Tail",
+    description:
+      "A command block whose output tails in line by line, each line landing with a fade and a 4px rise on flick while the box's measured height glides to fit until it scrolls and follows the tail. A ring turns in the header while the command runs; the exit code stamps on recoil when it is 0 and lands firmly on flick when it is not. The output is a focusable scrollable region, Jump to end is a real button, and the status region speaks only on state change.",
+    files: [
+      {
+        path: "registry/ui/shell-tail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-766",
+    },
+    tagline: "The command, and what it printed.",
+    keywords: [
+      "shell",
+      "terminal",
+      "command",
+      "output",
+      "tail",
+      "exit code",
+      "agent",
+    ],
+    props: [
+      {
+        name: "command",
+        type: "string",
+        description: "The command as typed, printed after the prompt.",
+      },
+      {
+        name: "prompt",
+        type: "string",
+        defaultValue: '"$"',
+        description: "Prompt glyph before the command.",
+      },
+      {
+        name: "cwd",
+        type: "string",
+        description: "A working-directory hint printed dim before the prompt.",
+      },
+      {
+        name: "lines",
+        type: "ShellLine[]",
+        description:
+          "Output so far, append-only; a string is stdout, an object may mark stderr.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "running" | "done"',
+        defaultValue: '"idle"',
+        description: "Where the run is; the host owns the clock.",
+      },
+      {
+        name: "exitCode",
+        type: "number",
+        defaultValue: "0",
+        description: "Read when done: 0 stamps success, anything else danger.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "192",
+        description:
+          "Pixels the output box grows to before it scrolls inside itself.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the block for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The output is a labelled region with tabIndex 0, so keyboard users can scroll it; scrolling away from the end pauses the follow and a Jump to end button resumes it.",
+      "Under reduced motion lines fade in place, the box tweens its height, the ring holds still as a static arc, and the stamp appears whole.",
+      "Nothing is announced per line: the status region says Running, then the exit code and line count.",
+    ],
+  },
+  {
+    name: "file-touch",
+    type: "registry:ui",
+    title: "File Touch",
+    description:
+      "A list of the files a tool has touched. Each row slides in from 8px left on glide as it is written, and its added and removed counts roll on snap as the tool keeps writing to it. Pressing a row opens its diff beneath it with a measured height that glides open; one diff is open at a time. Rows are buttons with aria-expanded, arrows walk them and Escape closes a diff.",
+    files: [
+      {
+        path: "registry/ui/file-touch.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-767",
+    },
+    tagline: "Which files it changed.",
+    keywords: [
+      "files",
+      "diff",
+      "changes",
+      "added",
+      "removed",
+      "write",
+      "agent",
+    ],
+    props: [
+      {
+        name: "files",
+        type: "TouchedFile[]",
+        description:
+          "The touched files so far, append-only; each carries path, kind, added, removed and an optional diff.",
+      },
+      {
+        name: "writing",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The tool is still writing: the header dot breathes.",
+      },
+      {
+        name: "openId / defaultOpenId",
+        type: "string | null",
+        defaultValue: "null",
+        description: "Controlled or initial id of the open diff.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string | null) => void",
+        description: "Fires from a row press or Escape.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the list.",
+      },
+    ],
+    usageNotes: [
+      "Tab reaches each row; Enter and Space toggle its diff; ArrowUp and ArrowDown move between rows, Home and End jump; Escape closes an open diff and keeps focus on its row.",
+      "Under reduced motion rows fade in without the slide, digits swap in place and the diff panel tweens its height.",
+      "The status region speaks on state change only: Writing, then the file and line totals.",
+    ],
+  },
+  {
+    name: "browser-peek",
+    type: "registry:ui",
+    title: "Browser Peek",
+    description:
+      "A mini browser frame showing what an agent is looking at. The page is a procedural drawing laid out from a block list, never a live page; when the index changes the address slides in on snap while the page area cross-fades, and a cursor dot glides to the click point and presses once it settles. Back and Forward are real buttons that step through the pages.",
+    files: [
+      {
+        path: "registry/ui/browser-peek.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-768",
+    },
+    tagline: "What the agent is looking at.",
+    keywords: [
+      "browser",
+      "page",
+      "snapshot",
+      "cursor",
+      "click",
+      "address",
+      "agent",
+    ],
+    props: [
+      {
+        name: "snapshots",
+        type: "PeekSnapshot[]",
+        description:
+          "The pages in visit order, each with a url, title, block list and an optional click point.",
+      },
+      {
+        name: "index / defaultIndex",
+        type: "number",
+        defaultValue: "0",
+        description: "Controlled or initial index of the shown page.",
+      },
+      {
+        name: "onIndexChange",
+        type: "(index: number) => void",
+        description: "Fires from Back and Forward.",
+      },
+      {
+        name: "live",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The agent is browsing now: a dot in the frame breathes.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the frame.",
+      },
+    ],
+    usageNotes: [
+      "Back and Forward are buttons with aria-labels, disabled at the ends; the page area is an image named by the page's title and address.",
+      "Under reduced motion the address and page swap with fades, and the dot appears at the click point with its ring already drawn.",
+      "The status region speaks once per page: its position, title, address and what was clicked.",
+    ],
+  },
+  {
+    name: "approval-queue",
+    type: "registry:ui",
+    title: "Approval Queue",
+    description:
+      "A queue of actions an agent wants to take. Approving slides the head card out to the right on the exit ease while the next rises and expands to head on glide with a measured height; denying slides it out to the left and never bounces. Approve all runs the exits in a cascade stagger. Focus stays on the new head's Approve control across a decision, and each decision is announced once.",
+    files: [
+      {
+        path: "registry/ui/approval-queue.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-769",
+    },
+    tagline: "Actions waiting for you.",
+    keywords: [
+      "approval",
+      "queue",
+      "permission",
+      "approve",
+      "deny",
+      "pending",
+      "agent",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "ApprovalItem[]",
+        description:
+          "Pending actions, head first; the host removes an item once decided.",
+      },
+      {
+        name: "onDecide",
+        type: '(id: string, decision: "approve" | "deny") => void',
+        description: "Fires from Approve or Deny on the head.",
+      },
+      {
+        name: "onApproveAll",
+        type: "() => void",
+        description: "Fires from Approve all.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the queue.",
+      },
+      {
+        name: "approveLabel",
+        type: "string",
+        defaultValue: '"Approve"',
+        description: "Copy on the approve control.",
+      },
+      {
+        name: "denyLabel",
+        type: "string",
+        defaultValue: '"Deny"',
+        description: "Copy on the deny control.",
+      },
+    ],
+    usageNotes: [
+      "Tab reaches Approve, Deny and Approve all; after a decision focus moves to the new head's Approve control, or rests on the queue when it empties.",
+      "Under reduced motion cards fade and fold in place with no slide, and Approve all fades every card together without a stagger.",
+      "Queued cards carry their place in the queue as an accessible label, so the list reads in order.",
+    ],
+  },
+  {
+    name: "tool-budget",
+    type: "registry:ui",
+    title: "Tool Budget",
+    description:
+      "A meter of tool calls and the rail that spends them. Each call drains the rightmost filled segment on glide and the count of calls left rolls on snap; at the warn line the remaining segments pulse and the readout says low; at zero the meter turns danger, a hatch fades over the rail and a lock lands on flick. The rail is a toolbar with a roving tabindex, and locked tools stay focusable with aria-disabled.",
+    files: [
+      {
+        path: "registry/ui/tool-budget.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["agent"],
+    meta: {
+      serial: "KQ-770",
+    },
+    tagline: "How many calls it has left.",
+    keywords: [
+      "budget",
+      "tool calls",
+      "meter",
+      "quota",
+      "limit",
+      "locked",
+      "agent",
+    ],
+    props: [
+      {
+        name: "budget",
+        type: "number",
+        description: "Total calls allowed; one segment each.",
+      },
+      {
+        name: "used",
+        type: "number",
+        description: "Calls spent so far, clamped to the budget.",
+      },
+      {
+        name: "tools",
+        type: "BudgetTool[]",
+        description: "The rail of tools; each may carry the calls it has made.",
+      },
+      {
+        name: "warnAt",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Calls left at which the remaining segments start to pulse.",
+      },
+      {
+        name: "onCall",
+        type: "(toolId: string) => void",
+        description: "Fires from a tool control while calls remain.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the meter and the rail.",
+      },
+    ],
+    usageNotes: [
+      "The rail is a toolbar: ArrowLeft and ArrowRight move, Home and End jump, Enter and Space press; locked tools stay focusable and do nothing.",
+      "Under reduced motion segments tween empty, digits swap in place, nothing pulses, and the hatch and lock appear at once.",
+      "The status region speaks on threshold only: running low, then locked; never per call.",
+    ],
+  },
 ];

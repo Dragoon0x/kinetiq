@@ -940,6 +940,16 @@ import { PartialTableDemo } from "@/registry/demos/partial-table.demo";
 import { StreamBranchDemo } from "@/registry/demos/stream-branch.demo";
 import { LatencyBarDemo } from "@/registry/demos/latency-bar.demo";
 import { StopSlabDemo } from "@/registry/demos/stop-slab.demo";
+import { ToolCallDemo } from "@/registry/demos/tool-call.demo";
+import { PermissionAskDemo } from "@/registry/demos/permission-ask.demo";
+import { ToolChainDemo } from "@/registry/demos/tool-chain.demo";
+import { ResultFoldDemo } from "@/registry/demos/result-fold.demo";
+import { RetryLadderDemo } from "@/registry/demos/retry-ladder.demo";
+import { ShellTailDemo } from "@/registry/demos/shell-tail.demo";
+import { FileTouchDemo } from "@/registry/demos/file-touch.demo";
+import { BrowserPeekDemo } from "@/registry/demos/browser-peek.demo";
+import { ApprovalQueueDemo } from "@/registry/demos/approval-queue.demo";
+import { ToolBudgetDemo } from "@/registry/demos/tool-budget.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -1894,4 +1904,14 @@ export const demos: Record<string, ComponentType> = {
   "stream-branch": StreamBranchDemo,
   "latency-bar": LatencyBarDemo,
   "stop-slab": StopSlabDemo,
+  "tool-call": ToolCallDemo,
+  "permission-ask": PermissionAskDemo,
+  "tool-chain": ToolChainDemo,
+  "result-fold": ResultFoldDemo,
+  "retry-ladder": RetryLadderDemo,
+  "shell-tail": ShellTailDemo,
+  "file-touch": FileTouchDemo,
+  "browser-peek": BrowserPeekDemo,
+  "approval-queue": ApprovalQueueDemo,
+  "tool-budget": ToolBudgetDemo,
 };

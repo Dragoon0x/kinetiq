@@ -13673,6 +13673,210 @@ Notes:
 - Under reduced motion the control cross-fades between its sizes instead of growing or shrinking, nothing squashes, the arrow appears whole, and the kept mark fades in.
 - Both the surface's height and the slab's width are measured with ResizeObservers, never reserved; the host owns the stream and clears the text before restarting from onRegenerate.
 
+### Tool Call (KQ-761) — `tool-call`
+A call, its arguments, and its answer.
+
+One tool call as a row the reader can open. While the call runs the ring's arc turns on a linear loop; marked done, the arc fades and a tick disc stamps in from 1.3× on recoil, while a failure stamps a danger disc on snap with no bounce. Enter, Space or a click expands the row on glide to a height measured by a ResizeObserver — the arguments as a definition list, then the result box growing with each line the host passes — and a polite live region says the status once per change, never per line.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tool-call`
+
+Props:
+- `name`: string — The tool's name, printed in mono.
+- `args`: ToolCallArg[] (default []) — Key–value pairs, previewed on the row and listed when open.
+- `status`: "queued" | "running" | "done" | "error" (default "queued") — Where the call is; drives the ring and the stamp.
+- `result`: string (default "") — The result text arrived so far, one line per newline. Append-only.
+- `error`: string — Why the call failed; printed in the result box with the word Error.
+- `elapsed`: number — Milliseconds the call has taken, owned by the host. Shown once running.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial expanded state.
+- `onOpenChange`: (open: boolean) => void — Fires from the row press.
+
+Notes:
+- The row is a disclosure button — Tab reaches it, Enter or Space toggles — and the panel is a region that is inert while folded; the ring is hidden decoration and the live region names the status in words.
+- Under reduced motion the arc holds at mid opacity instead of turning, the stamp fades in at full size with its mark drawn whole, and the panel's height changes on a fast tween.
+- Feed it the result so far and the elapsed time from your own run loop; the component keeps no clock and never reads one during render.
+
+### Permission Ask (KQ-762) — `permission-ask`
+May it run this?
+
+A risky tool call held at the gate. When the host opens the ask a card rises beneath the call row from 16px below on snap while the frame grows to a measured height on glide; Allow is disarmed as it arrives and a hairline fill runs along its foot on a linear tween for armDelay before the control enables. Deny sinks the card on the exit ease and greys the row; Allow lifts it away. It is an alert dialog: focus lands on Deny, Tab cycles the two answers, Escape denies, and focus returns to where it was.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/permission-ask`
+
+Props:
+- `open`: boolean (default false) — Raises the card. Close it from onAllow or onDeny.
+- `tool`: string — The tool's name, printed in mono on the row and the card.
+- `target`: string — What the call acts on, printed after the name.
+- `reason`: string — Why the call needs asking, in one sentence.
+- `risk`: "low" | "medium" | "high" (default "medium") — Risk level printed on the card's chip, by word and tone.
+- `armDelay`: number (default 700) — Milliseconds before Allow can be pressed. 0 arms it at once.
+- `decision`: "allowed" | "denied" — The outcome, owned by the host; greys the row when denied.
+- `onAllow`: () => void — Fires from the armed Allow control.
+- `onDeny`: () => void — Fires from Deny or Escape.
+- `onArmed`: () => void — Fires once when the Allow control arms.
+- `label`: string — Names the frame for assistive technology.
+
+Notes:
+- The card is a modal alert dialog inside the frame: focus lands on Deny, Tab and Shift+Tab cycle between Deny and Allow, Escape denies, and focus returns to the element that had it once the card has left.
+- Under reduced motion the card fades in place and the frame's height changes on a fast tween; the arming fill still runs at the same linear rate, because the wait is information.
+- Keep open, decision and the arming honest in the host: close the ask from onAllow or onDeny, set decision from the same handler, and reset it before asking again.
+
+### Tool Chain (KQ-763) — `tool-chain`
+Calls that depend on each other.
+
+A vertical chain of tool calls where each link is earned. The connector beneath a step grows from its top on glide only once that step is done; the running node's dot breathes, a completed node fills on flick with its tick drawn on flick, and a failed node fills danger with a cross while its error line opens to a measured height on glide and the chain pauses — the steps beneath dim and read Paused. A Retry control arrives on snap inside the error line when the host offers one; Tab reaches it and Enter or Space presses it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tool-chain`
+
+Props:
+- `steps`: ToolChainStep[] — The calls in chain order: id, name, detail, status (pending, running, done or failed) and an error for a failed step.
+- `onRetry`: (id: string) => void — Offers a Retry control on a failed step and fires from it.
+- `label`: string — Names the chain for assistive technology.
+
+Notes:
+- The chain is an ordered list whose items carry their status in words, and Retry is a real button reached by Tab; the live region says which link is running, where the chain paused and why, and when it completes — once per change, never per tick.
+- Under reduced motion connectors appear whole on a fade, the running dot holds at mid opacity, ticks and crosses are drawn whole, and the error line's height changes on a fast tween.
+- Drive the statuses from your own run: mark a step running, then done or failed, and set the retried step back to running from onRetry.
+
+### Result Fold (KQ-764) — `result-fold`
+A long result, folded to its gist.
+
+A tool result that shows what it can and folds the rest. The first lines are always printed; everything after them lives in a tail whose height is measured by a ResizeObserver and animated on glide between zero and full, so unfolding is a surface extending and a line landing while open grows the box smoothly. A fade sits over the last preview line while folded, and when the host passes a summary a gist chip arrives beside the name from 4px on snap. The fold control names what it will do and Enter or Space presses it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/result-fold`
+
+Props:
+- `name`: string — The tool's name, printed in mono.
+- `text`: string (default "") — The result so far, one line per newline. Append-only.
+- `previewLines`: number (default 3) — Lines shown while folded.
+- `summary`: string — The gist; when present it arrives as a chip beside the name.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial unfolded state.
+- `onOpenChange`: (open: boolean) => void — Fires from the fold control.
+
+Notes:
+- The fold control is a disclosure button reached by Tab and pressed with Enter or Space; the tail is a region that is inert while folded, so a screen reader reads exactly what is shown, and wide lines scroll inside the box.
+- Under reduced motion the tail's height changes on a fast tween, the chip and lines fade in without travel, and the chevron swaps direction without turning.
+- The live region reads the summary once when it arrives, never a line — pass it when the result is complete.
+
+### Retry Ladder (KQ-765) — `retry-ladder`
+Try again, a little differently.
+
+A retry control that keeps its history in sight. Attempts stack upward as the rungs of a ladder, each reading its number, how it differed and the error it met; when the host appends a running attempt a new rung draws across the rails on glide while the ladder grows to a measured height on glide, a failure turns the rung danger on a colour tween, and a success lands a tick on flick. The control squashes on flick when pressed, is disabled while an attempt runs, and retires once an attempt succeeds or maxAttempts is reached.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/retry-ladder`
+
+Props:
+- `attempts`: RetryAttempt[] — The attempts so far, oldest first: id, label, status (running, failed or succeeded) and an error. The host appends a running one from onRetry.
+- `next`: string — How the next attempt will differ, printed beside the control.
+- `maxAttempts`: number (default 4) — Rungs the ladder allows; the control retires when reached.
+- `onRetry`: () => void — Fires from the control.
+- `retryLabel`: string (default "Retry") — Copy on the control.
+- `label`: string — Names the ladder for assistive technology.
+
+Notes:
+- Retry is a real button reached by Tab and pressed with Enter or Space, disabled while an attempt runs and described by the next variation; the rungs are an ordered list, oldest first in the DOM, whose items carry their outcome in words.
+- Under reduced motion rungs fade in whole, the running dot holds at mid opacity, the ladder's height changes on a fast tween and nothing squashes.
+- The live region announces each attempt's start and outcome once; append a running attempt from onRetry and settle it from your own run.
+
+### Shell Tail (KQ-766) — `shell-tail`
+The command, and what it printed.
+
+A command block whose output tails in line by line, each line landing with a fade and a 4px rise on flick while the box's measured height glides to fit until it scrolls and follows the tail. A ring turns in the header while the command runs; the exit code stamps on recoil when it is 0 and lands firmly on flick when it is not. The output is a focusable scrollable region, Jump to end is a real button, and the status region speaks only on state change.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/shell-tail`
+
+Props:
+- `command`: string — The command as typed, printed after the prompt.
+- `prompt`: string (default "$") — Prompt glyph before the command.
+- `cwd`: string — A working-directory hint printed dim before the prompt.
+- `lines`: ShellLine[] — Output so far, append-only; a string is stdout, an object may mark stderr.
+- `state`: "idle" | "running" | "done" (default "idle") — Where the run is; the host owns the clock.
+- `exitCode`: number (default 0) — Read when done: 0 stamps success, anything else danger.
+- `maxHeight`: number (default 192) — Pixels the output box grows to before it scrolls inside itself.
+- `label`: string — Names the block for assistive technology.
+
+Notes:
+- The output is a labelled region with tabIndex 0, so keyboard users can scroll it; scrolling away from the end pauses the follow and a Jump to end button resumes it.
+- Under reduced motion lines fade in place, the box tweens its height, the ring holds still as a static arc, and the stamp appears whole.
+- Nothing is announced per line: the status region says Running, then the exit code and line count.
+
+### File Touch (KQ-767) — `file-touch`
+Which files it changed.
+
+A list of the files a tool has touched. Each row slides in from 8px left on glide as it is written, and its added and removed counts roll on snap as the tool keeps writing to it. Pressing a row opens its diff beneath it with a measured height that glides open; one diff is open at a time. Rows are buttons with aria-expanded, arrows walk them and Escape closes a diff.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/file-touch`
+
+Props:
+- `files`: TouchedFile[] — The touched files so far, append-only; each carries path, kind, added, removed and an optional diff.
+- `writing`: boolean (default false) — The tool is still writing: the header dot breathes.
+- `openId / defaultOpenId`: string | null (default null) — Controlled or initial id of the open diff.
+- `onOpenChange`: (id: string | null) => void — Fires from a row press or Escape.
+- `label`: string — Names the list.
+
+Notes:
+- Tab reaches each row; Enter and Space toggle its diff; ArrowUp and ArrowDown move between rows, Home and End jump; Escape closes an open diff and keeps focus on its row.
+- Under reduced motion rows fade in without the slide, digits swap in place and the diff panel tweens its height.
+- The status region speaks on state change only: Writing, then the file and line totals.
+
+### Browser Peek (KQ-768) — `browser-peek`
+What the agent is looking at.
+
+A mini browser frame showing what an agent is looking at. The page is a procedural drawing laid out from a block list, never a live page; when the index changes the address slides in on snap while the page area cross-fades, and a cursor dot glides to the click point and presses once it settles. Back and Forward are real buttons that step through the pages.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/browser-peek`
+
+Props:
+- `snapshots`: PeekSnapshot[] — The pages in visit order, each with a url, title, block list and an optional click point.
+- `index / defaultIndex`: number (default 0) — Controlled or initial index of the shown page.
+- `onIndexChange`: (index: number) => void — Fires from Back and Forward.
+- `live`: boolean (default false) — The agent is browsing now: a dot in the frame breathes.
+- `label`: string — Names the frame.
+
+Notes:
+- Back and Forward are buttons with aria-labels, disabled at the ends; the page area is an image named by the page's title and address.
+- Under reduced motion the address and page swap with fades, and the dot appears at the click point with its ring already drawn.
+- The status region speaks once per page: its position, title, address and what was clicked.
+
+### Approval Queue (KQ-769) — `approval-queue`
+Actions waiting for you.
+
+A queue of actions an agent wants to take. Approving slides the head card out to the right on the exit ease while the next rises and expands to head on glide with a measured height; denying slides it out to the left and never bounces. Approve all runs the exits in a cascade stagger. Focus stays on the new head's Approve control across a decision, and each decision is announced once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/approval-queue`
+
+Props:
+- `items`: ApprovalItem[] — Pending actions, head first; the host removes an item once decided.
+- `onDecide`: (id: string, decision: "approve" | "deny") => void — Fires from Approve or Deny on the head.
+- `onApproveAll`: () => void — Fires from Approve all.
+- `label`: string — Names the queue.
+- `approveLabel`: string (default "Approve") — Copy on the approve control.
+- `denyLabel`: string (default "Deny") — Copy on the deny control.
+
+Notes:
+- Tab reaches Approve, Deny and Approve all; after a decision focus moves to the new head's Approve control, or rests on the queue when it empties.
+- Under reduced motion cards fade and fold in place with no slide, and Approve all fades every card together without a stagger.
+- Queued cards carry their place in the queue as an accessible label, so the list reads in order.
+
+### Tool Budget (KQ-770) — `tool-budget`
+How many calls it has left.
+
+A meter of tool calls and the rail that spends them. Each call drains the rightmost filled segment on glide and the count of calls left rolls on snap; at the warn line the remaining segments pulse and the readout says low; at zero the meter turns danger, a hatch fades over the rail and a lock lands on flick. The rail is a toolbar with a roving tabindex, and locked tools stay focusable with aria-disabled.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tool-budget`
+
+Props:
+- `budget`: number — Total calls allowed; one segment each.
+- `used`: number — Calls spent so far, clamped to the budget.
+- `tools`: BudgetTool[] — The rail of tools; each may carry the calls it has made.
+- `warnAt`: number (default 3) — Calls left at which the remaining segments start to pulse.
+- `onCall`: (toolId: string) => void — Fires from a tool control while calls remain.
+- `label`: string — Names the meter and the rail.
+
+Notes:
+- The rail is a toolbar: ArrowLeft and ArrowRight move, Home and End jump, Enter and Space press; locked tools stay focusable and do nothing.
+- Under reduced motion segments tween empty, digits swap in place, nothing pulses, and the hatch and lock appear at once.
+- The status region speaks on threshold only: running low, then locked; never per call.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
