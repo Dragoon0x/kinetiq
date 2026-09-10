@@ -182,8 +182,10 @@ export function TrustLevel({
   }
 
   const changeRef = React.useRef(onLevelChange);
+  const shownOutRef = React.useRef(onShownLevelChange);
   React.useEffect(() => {
     changeRef.current = onLevelChange;
+    shownOutRef.current = onShownLevelChange;
   });
   React.useEffect(() => {
     if (seen.id === 0) return;
@@ -192,6 +194,11 @@ export function TrustLevel({
       label: seen.label,
       direction: seen.direction,
     });
+    // The reading followed the level in the render above, where a callback may
+    // not fire. It is reported here, one commit later, from the same latch that
+    // recorded the change — otherwise a host tracking the reading keeps saying
+    // the level the member left behind.
+    shownOutRef.current?.(seen.level);
   }, [seen]);
 
   const listRef = React.useRef<HTMLDivElement | null>(null);
