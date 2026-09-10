@@ -17281,3 +17281,792 @@ test.describe("evaluation", () => {
     await expect.poll(evalTurnOf(ring), { timeout: 5000 }).toBeCloseTo(60, 0);
   });
 });
+
+/**
+ * A row's ink: the opacity of the layer carrying its text and age label. The
+ * wash sits in its own layer before it, so the ink is the second child.
+ */
+const memoryInkOf = (row: Locator) => async (): Promise<number> =>
+  row
+    .locator("> span")
+    .nth(1)
+    .evaluate((node) => Number(getComputedStyle(node).opacity));
+
+/** A slab's thickness, which is the share it is drawing of the whole context. */
+const slabHeightOf = (slab: Locator) => async (): Promise<number> =>
+  (await slab.boundingBox())?.height ?? 0;
+
+/**
+ * The memory family is about what an assistant keeps: the fact it saved, the
+ * one it let go, the branch of the conversation a turn came from. Every
+ * outcome here is a settled state — the order of a rail, the index a thumb
+ * stopped on, the height a fold traded for, the ring that ran out — read off
+ * the demo's status line and the ARIA each component publishes about itself.
+ */
+test.describe("memory", () => {
+  test("memory-card: a saved fact lands in the rail, pins to the top and is forgotten", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/memory-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The rail announces its own settled change before the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const cards = stage.getByRole("listitem");
+    const fact = "Pays through Waylight Pay, net 30";
+
+    await expect(status).toHaveText("Nothing saved · press save next", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText("Nothing remembered yet")).toBeVisible();
+
+    const save = stage.getByRole("button", { name: "Save next", exact: true });
+    await save.click();
+    await save.click();
+    await save.click();
+    await expect(cards).toHaveCount(3, { timeout: 8000 });
+    await expect(status).toHaveText(`3 remembered · 0 pinned · saved ${fact}`, {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText(`Saved: ${fact}`, { timeout: 8000 });
+    // Arrival order: the first thing learned sits at the top of the rail.
+    await expect(cards.first()).toContainText("Ships from the Basinworks yard");
+
+    // A pin carries its card to the top and leaves the rest in arrival order.
+    await stage
+      .getByRole("button", { name: `Pin ${fact}`, exact: true })
+      .click();
+    const held = stage.getByRole("button", {
+      name: `Unpin ${fact}`,
+      exact: true,
+    });
+    await expect(held).toHaveAttribute("aria-pressed", "true", {
+      timeout: 8000,
+    });
+    await expect(status).toHaveText(
+      `3 remembered · 1 pinned · pinned ${fact}`,
+      { timeout: 8000 },
+    );
+    await expect(announced).toHaveText(`Pinned: ${fact}`, { timeout: 8000 });
+    await expect(cards.first()).toContainText(fact);
+    await expect(cards.nth(1)).toContainText("Ships from the Basinworks yard");
+
+    // The arrows walk the same control down the rail; Home and End are its ends.
+    await held.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(
+      stage.getByRole("button", {
+        name: "Pin Ships from the Basinworks yard",
+        exact: true,
+      }),
+    ).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(
+      stage.getByRole("button", {
+        name: "Pin Prefers PDF invoices",
+        exact: true,
+      }),
+    ).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(held).toBeFocused();
+
+    await stage
+      .getByRole("button", {
+        name: "Forget Ships from the Basinworks yard",
+        exact: true,
+      })
+      .click();
+    await expect(cards).toHaveCount(2, { timeout: 8000 });
+    await expect(status).toHaveText(
+      "2 remembered · 1 pinned · forgot Ships from the Basinworks yard",
+      { timeout: 8000 },
+    );
+    await expect(announced).toHaveText(
+      "Forgot: Ships from the Basinworks yard",
+      { timeout: 8000 },
+    );
+  });
+
+  test("recall-hint: the hint that applies becomes context and sends with the draft", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/recall-hint");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const area = stage.getByRole("textbox", {
+      name: "Reply to the Basinworks yard",
+    });
+
+    await expect(status).toHaveText(
+      "No memory applies · type invoice, yard or pay",
+      { timeout: 8000 },
+    );
+
+    await stage
+      .getByRole("button", { name: "Ask about the invoice", exact: true })
+      .click();
+    await expect(area).toHaveValue("Can you resend the March invoice?", {
+      timeout: 8000,
+    });
+    await expect(status).toHaveText("Hint · Prefers PDF invoices", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText(
+      "Memory available: Prefers PDF invoices",
+      { timeout: 8000 },
+    );
+    // While a hint stands the field says so, so the chip is reachable from it.
+    await expect(area).toHaveAttribute("aria-describedby", /.+/, {
+      timeout: 8000,
+    });
+
+    // Pressing the hint makes it the context rather than a second chip.
+    const hint = stage.getByRole("button", {
+      name: "Add memory: Prefers PDF invoices",
+      exact: true,
+    });
+    await hint.click();
+    await expect(hint).toHaveCount(0, { timeout: 8000 });
+    const context = stage.getByRole("list", { name: "Context" });
+    await expect(context.getByRole("listitem")).toHaveCount(1, {
+      timeout: 8000,
+    });
+    await expect(
+      context.getByRole("button", {
+        name: "Remove Prefers PDF invoices",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(status).toHaveText("Context 1 · Prefers PDF invoices", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText(
+      "Added to context: Prefers PDF invoices",
+      { timeout: 8000 },
+    );
+    // The caret goes back where the typing was.
+    await expect(area).toBeFocused();
+
+    // Another memory applies, and Escape in the field turns it down.
+    await stage
+      .getByRole("button", { name: "Ask about the yard", exact: true })
+      .click();
+    await expect(announced).toHaveText(
+      "Memory available: Ships from the Basinworks yard",
+      { timeout: 8000 },
+    );
+    await area.press("Escape");
+    await expect(
+      stage.getByRole("button", {
+        name: "Add memory: Ships from the Basinworks yard",
+        exact: true,
+      }),
+    ).toHaveCount(0, { timeout: 8000 });
+    await expect(announced).toHaveText("Hint dismissed", { timeout: 8000 });
+
+    // Enter sends the draft with whatever the context is holding.
+    await area.press("Enter");
+    await expect(status).toHaveText("Sent · 1 memory attached", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText("Sent", { timeout: 8000 });
+    await expect(area).toHaveValue("", { timeout: 8000 });
+    await expect(context.getByRole("listitem")).toHaveCount(0, {
+      timeout: 8000,
+    });
+  });
+
+  test("history-scrub: the thumb walks the thread and the pane follows the index", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/history-scrub");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const slider = stage.getByRole("slider", {
+      name: "Basinworks yard · invoicing",
+    });
+    const shown = stage.getByRole("listitem");
+
+    await expect(slider).toHaveAttribute("aria-valuenow", "7", {
+      timeout: 8000,
+    });
+    await expect(slider).toHaveAttribute("aria-valuemax", "7", {
+      timeout: 8000,
+    });
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "Thu 5 Mar, message 8 of 8, Fernworks Model 3",
+      { timeout: 8000 },
+    );
+    await expect(status).toHaveText(
+      "Msg 8 / 8 · Thu 5 Mar · Fernworks Model 3",
+      { timeout: 8000 },
+    );
+    // The current message and the two behind it.
+    await expect(shown).toHaveCount(3, { timeout: 8000 });
+
+    await slider.focus();
+    await page.keyboard.press("Home");
+    await expect(slider).toHaveAttribute(
+      "aria-valuetext",
+      "Mon 2 Mar, message 1 of 8, You",
+      { timeout: 8000 },
+    );
+    await expect(status).toHaveText("Msg 1 / 8 · Mon 2 Mar · You", {
+      timeout: 8000,
+    });
+    // Nothing sits before the first message, so the pane shrinks to one row.
+    await expect(shown).toHaveCount(1, { timeout: 8000 });
+
+    await page.keyboard.press("ArrowRight");
+    await expect(slider).toHaveAttribute("aria-valuenow", "1", {
+      timeout: 8000,
+    });
+    await page.keyboard.press("PageUp");
+    await expect(slider).toHaveAttribute("aria-valuenow", "6", {
+      timeout: 8000,
+    });
+    await expect(status).toHaveText("Msg 7 / 8 · Thu 5 Mar · You", {
+      timeout: 8000,
+    });
+    await page.keyboard.press("PageDown");
+    await expect(slider).toHaveAttribute("aria-valuenow", "1", {
+      timeout: 8000,
+    });
+    // A keyboard walk speaks through the value text, so the line stays quiet.
+    await expect(announced).toBeEmpty();
+
+    // A press on the track jumps to the nearest message and says so on release.
+    await slider.click({ position: { x: 8, y: 24 } });
+    await expect(slider).toHaveAttribute("aria-valuenow", "0", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText("Mon 2 Mar, message 1 of 8, You", {
+      timeout: 8000,
+    });
+    await expect(status).toHaveText("Msg 1 / 8 · Mon 2 Mar · You", {
+      timeout: 8000,
+    });
+  });
+
+  test("summary-fold: the fold trades six messages for a summary, and takes them back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/summary-fold");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const region = stage.getByRole("region", {
+      name: "Coldbrook Bank · duplicate charge",
+    });
+    const control = region.getByRole("button");
+    const messages = region.getByRole("listitem");
+
+    await expect(control).toHaveAttribute("aria-expanded", "false", {
+      timeout: 8000,
+    });
+    await expect(control).toHaveText("Unfold 6 messages", { timeout: 8000 });
+    await expect(status).toHaveText("Folded · 6 messages in the summary", {
+      timeout: 8000,
+    });
+    await expect(
+      region.getByText("Summarised by Fernworks Model 3"),
+    ).toBeVisible();
+    // The hidden face is inert, so the older messages are not there to read.
+    await expect(messages).toHaveCount(0, { timeout: 8000 });
+
+    await control.focus();
+    await page.keyboard.press("Enter");
+    await expect(control).toHaveAttribute("aria-expanded", "true", {
+      timeout: 8000,
+    });
+    await expect(control).toHaveText("Fold 6 older messages", {
+      timeout: 8000,
+    });
+    await expect(messages).toHaveCount(6, { timeout: 8000 });
+    await expect(messages.first()).toContainText(
+      "There are two charges of 84.00 on 3 Mar",
+    );
+    await expect(status).toHaveText("Unfolded · 6 messages shown", {
+      timeout: 8000,
+    });
+    // The component speaks once the height has settled, not when it was asked.
+    await expect(announced).toHaveText("Unfolded 6 messages", {
+      timeout: 8000,
+    });
+
+    // Space is the other half of the same press.
+    await page.keyboard.press(" ");
+    await expect(control).toHaveAttribute("aria-expanded", "false", {
+      timeout: 8000,
+    });
+    await expect(messages).toHaveCount(0, { timeout: 8000 });
+    await expect(status).toHaveText("Folded · 6 messages in the summary", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText("Folded 6 messages into a summary", {
+      timeout: 8000,
+    });
+  });
+
+  test("pin-board: pinning fills the board and a tile reads out where it came from", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/pin-board");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const tiles = stage.getByRole("listitem");
+    const pinNext = stage.getByRole("button", {
+      name: "Pin next",
+      exact: true,
+    });
+
+    await expect(status).toHaveText("Nothing pinned · press pin next", {
+      timeout: 8000,
+    });
+    await expect(stage.getByText("Nothing pinned yet")).toBeVisible();
+
+    await pinNext.click();
+    await pinNext.click();
+    await pinNext.click();
+    await expect(tiles).toHaveCount(3, { timeout: 8000 });
+    await expect(status).toHaveText("3 pinned · hover a fact for its source", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText("Pinned: Invoices to the yard office", {
+      timeout: 8000,
+    });
+
+    // Focus reads the source out, the way a hover would.
+    const gate = stage.getByRole("button", {
+      name: "Gate code rotates on the 1st",
+      exact: true,
+    });
+    const office = stage.getByRole("button", {
+      name: "Invoices to the yard office",
+      exact: true,
+    });
+    await gate.focus();
+    await expect(status).toHaveText("3 pinned · source turn 2, you", {
+      timeout: 8000,
+    });
+    await expect(
+      stage.getByText("The gate code changes on the first of every month."),
+    ).toBeVisible();
+
+    // A roving tabindex: the arrows step across the board.
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(office).toBeFocused();
+    await expect(status).toHaveText("3 pinned · source turn 4, you", {
+      timeout: 8000,
+    });
+
+    // Enter holds the source open so touch has a path; Escape lets it go.
+    await page.keyboard.press("Enter");
+    await expect(office).toHaveAttribute("aria-expanded", "true", {
+      timeout: 8000,
+    });
+    await page.keyboard.press("Escape");
+    await expect(office).toHaveAttribute("aria-expanded", "false", {
+      timeout: 8000,
+    });
+
+    // Delete unpins the focused tile and hands focus to its neighbour.
+    await page.keyboard.press("Delete");
+    await expect(tiles).toHaveCount(2, { timeout: 8000 });
+    await expect(announced).toHaveText(
+      "Unpinned: Invoices to the yard office",
+      { timeout: 8000 },
+    );
+    await expect(
+      stage.getByRole("button", {
+        name: "Deliveries after 14:00 only",
+        exact: true,
+      }),
+    ).toBeFocused();
+    await expect(status).toHaveText("2 pinned · source turn 3, you", {
+      timeout: 8000,
+    });
+  });
+
+  test("forget-sweep: the undo window either takes a fact back or lets it go", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/forget-sweep");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const rows = stage.getByRole("listitem");
+    const units = "Crew lead Ines wants quantities in metric";
+    const cadence = "Yard reports go out every Friday before noon";
+
+    await expect(rows).toHaveCount(4, { timeout: 8000 });
+    await expect(status).toHaveText("4 remembered · idle", { timeout: 8000 });
+
+    // The wipe opens the window; the row keeps its height while it is open.
+    await stage
+      .getByRole("button", { name: `Forget: ${units}`, exact: true })
+      .click();
+    await expect(status).toHaveText("3 remembered · undo open", {
+      timeout: 8000,
+    });
+    const undo = stage.getByRole("button", {
+      name: `Undo forgetting ${units}`,
+      exact: true,
+    });
+    await expect(undo).toBeVisible({ timeout: 8000 });
+    await expect(announced).toHaveText(`Forgot ${units}. Undo for 4 seconds`, {
+      timeout: 8000,
+    });
+
+    // Undo wipes the fact back in and hands focus to its Forget button.
+    await undo.click();
+    await expect(status).toHaveText(`Restored: ${units}`, { timeout: 8000 });
+    await expect(announced).toHaveText(`Restored ${units}`, { timeout: 8000 });
+    await expect(rows).toHaveCount(4, { timeout: 8000 });
+    await expect(
+      stage.getByRole("button", { name: `Forget: ${units}`, exact: true }),
+    ).toBeFocused();
+
+    // Left alone, the ring runs out and the fact goes for good.
+    await stage
+      .getByRole("button", { name: `Forget: ${cadence}`, exact: true })
+      .click();
+    // The pointer has to leave the row, or hovering the chip holds the ring.
+    await page.mouse.move(0, 0);
+    await expect(announced).toHaveText(`${cadence} gone`, { timeout: 12000 });
+    await expect(status).toHaveText(`Forgot: ${cadence}`, { timeout: 12000 });
+    await expect(rows).toHaveCount(3, { timeout: 12000 });
+    await expect(
+      stage.getByRole("button", { name: `Forget: ${cadence}`, exact: true }),
+    ).toHaveCount(0, { timeout: 8000 });
+  });
+
+  test("thread-tree: picking a branch lights its path and swaps the turns beneath", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/thread-tree");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const turns = stage.getByRole("listitem");
+    const node = (name: string) =>
+      stage.getByRole("treeitem", { name, exact: true });
+
+    const twoShifts = node(
+      "assistant: Two ten-hour shifts, nine crew each. Sunday stays closed and overtime falls to zero.",
+    );
+    await expect(twoShifts).toHaveAttribute("aria-selected", "true", {
+      timeout: 8000,
+    });
+    await expect(status).toHaveText("Branch Two shifts · 4 turns", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText("Branch 1 of 3, 4 turns", {
+      timeout: 8000,
+    });
+    await expect(turns).toHaveCount(4, { timeout: 8000 });
+
+    // A jump to another ending re-lights the path and slides its turns in.
+    await stage
+      .getByRole("button", { name: "Night crew", exact: true })
+      .click();
+    const nightCrew = node(
+      "assistant: A night crew of four from ten to four; the day shifts shorten to five hours to pay for it.",
+    );
+    await expect(nightCrew).toHaveAttribute("aria-selected", "true", {
+      timeout: 8000,
+    });
+    await expect(twoShifts).toHaveAttribute("aria-selected", "false", {
+      timeout: 8000,
+    });
+    await expect(status).toHaveText("Branch Night crew · 6 turns", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText("Branch 2 of 3, 6 turns", {
+      timeout: 8000,
+    });
+    await expect(turns).toHaveCount(6, { timeout: 8000 });
+    await expect(turns.last()).toContainText(
+      "A night crew of four from ten to four",
+    );
+
+    // The keyboard walks it: up to the fork, across to the sibling, and Enter
+    // moves the path to what it landed on.
+    const addNight = node("user: Add a night crew.");
+    const startSix = node("user: Start the first shift at six.");
+    await nightCrew.focus();
+    await page.keyboard.press("ArrowUp");
+    await expect(addNight).toBeFocused();
+    await expect(addNight).toHaveAttribute("aria-posinset", "1", {
+      timeout: 8000,
+    });
+    await expect(addNight).toHaveAttribute("aria-setsize", "2", {
+      timeout: 8000,
+    });
+    await page.keyboard.press("ArrowRight");
+    await expect(startSix).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(startSix).toHaveAttribute("aria-selected", "true", {
+      timeout: 8000,
+    });
+    await expect(status).toHaveText("Branch Six start · 5 turns", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText("Branch 3 of 3, 5 turns", {
+      timeout: 8000,
+    });
+    await expect(turns).toHaveCount(5, { timeout: 8000 });
+    await expect(turns.last()).toContainText("Start the first shift at six.");
+
+    // Home returns to the root, where the thread is one turn old.
+    await page.keyboard.press("Home");
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Branch 1 of 3, 1 turns", {
+      timeout: 8000,
+    });
+    await expect(turns).toHaveCount(1, { timeout: 8000 });
+  });
+
+  test("context-stack: a slab lifts to read its share and the meter follows the total", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/context-stack");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter", {
+      name: "Context · Fernworks Model 3",
+    });
+    const messages = stage.getByRole("button", { name: /^Messages,/ });
+    const memory = stage.getByRole("button", { name: /^Memory,/ });
+
+    // The size and the share live in the name, not only in the readout.
+    await expect(messages).toHaveAccessibleName(
+      "Messages, 1,840 tokens, 51 percent",
+      { timeout: 8000 },
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "3580", {
+      timeout: 8000,
+    });
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "3,580 of 8,192 tokens, 44 percent",
+      { timeout: 8000 },
+    );
+    await expect(status).toHaveText("3,580 of 8,192 tokens · hover a layer", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText("3,580 of 8,192 tokens", {
+      timeout: 8000,
+    });
+
+    // Focus lifts a slab the way a hover does, and the host hears which one.
+    await memory.focus();
+    await expect(status).toHaveText("3,580 of 8,192 tokens · Memory", {
+      timeout: 8000,
+    });
+    await expect(memory).toHaveAttribute("aria-pressed", "false", {
+      timeout: 8000,
+    });
+    await page.keyboard.press("Enter");
+    await expect(memory).toHaveAttribute("aria-pressed", "true", {
+      timeout: 8000,
+    });
+    await page.keyboard.press("Escape");
+    await expect(memory).toHaveAttribute("aria-pressed", "false", {
+      timeout: 8000,
+    });
+
+    // A turn and a recall grow their own strata, and every name says so.
+    await stage
+      .getByRole("button", { name: "Add a turn", exact: true })
+      .click();
+    await expect(messages).toHaveAccessibleName(
+      "Messages, 2,260 tokens, 56 percent",
+      { timeout: 8000 },
+    );
+    await expect(meter).toHaveAttribute("aria-valuenow", "4000", {
+      timeout: 8000,
+    });
+
+    await stage
+      .getByRole("button", { name: "Recall memory", exact: true })
+      .click();
+    await expect(memory).toHaveAccessibleName(
+      "Memory, 780 tokens, 19 percent",
+      {
+        timeout: 8000,
+      },
+    );
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "4,160 of 8,192 tokens, 51 percent",
+      { timeout: 8000 },
+    );
+    await expect(announced).toHaveText("4,160 of 8,192 tokens", {
+      timeout: 8000,
+    });
+
+    // Thickness is the share: messages hold half the context, memory a fifth.
+    await expect
+      .poll(slabHeightOf(messages), { timeout: 5000 })
+      .toBeGreaterThan(60);
+    await expect.poll(slabHeightOf(memory), { timeout: 5000 }).toBeLessThan(55);
+  });
+
+  test("recent-rail: a thread opens, renames in place and a new one lands on top", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/recent-rail");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const rows = stage.getByRole("listitem");
+    const refund = stage.getByRole("button", {
+      name: "Refund for a Waylight Pay order, 2h",
+      exact: true,
+    });
+    const statement = stage.getByRole("button", {
+      name: "Coldbrook Bank statement import, Yesterday",
+      exact: true,
+    });
+
+    await expect(rows).toHaveCount(4, { timeout: 8000 });
+    await expect(refund).toHaveAttribute("aria-current", "true", {
+      timeout: 8000,
+    });
+    await expect(status).toHaveText(
+      "Active · Refund for a Waylight Pay order",
+      {
+        timeout: 8000,
+      },
+    );
+
+    // The tab stop sits on the active row; Down steps and Enter opens.
+    await refund.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(statement).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(statement).toHaveAttribute("aria-current", "true", {
+      timeout: 8000,
+    });
+    await expect(refund).not.toHaveAttribute("aria-current", "true", {
+      timeout: 8000,
+    });
+    await expect(announced).toHaveText(
+      "Opened Coldbrook Bank statement import",
+      { timeout: 8000 },
+    );
+    await expect(status).toHaveText(
+      "Active · Coldbrook Bank statement import",
+      { timeout: 8000 },
+    );
+
+    // F2 edits the title in the same row; Enter commits and hands focus back.
+    await page.keyboard.press("F2");
+    const field = stage.getByRole("textbox", { name: "Rename conversation" });
+    await expect(field).toBeFocused({ timeout: 8000 });
+    await expect(field).toHaveValue("Coldbrook Bank statement import", {
+      timeout: 8000,
+    });
+    await field.fill("Statement import, March");
+    await page.keyboard.press("Enter");
+    const renamed = stage.getByRole("button", {
+      name: "Statement import, March, Yesterday",
+      exact: true,
+    });
+    await expect(renamed).toBeFocused({ timeout: 8000 });
+    await expect(announced).toHaveText("Renamed to Statement import, March", {
+      timeout: 8000,
+    });
+    await expect(status).toHaveText("Renamed · Statement import, March", {
+      timeout: 8000,
+    });
+
+    // A new conversation lands at the top and takes the plate with it.
+    await stage
+      .getByRole("button", { name: "New conversation", exact: true })
+      .click();
+    await expect(rows).toHaveCount(5, { timeout: 8000 });
+    await expect(
+      stage.getByRole("button", {
+        name: "Chargeback on a split payment, Now",
+        exact: true,
+      }),
+    ).toHaveAttribute("aria-current", "true", { timeout: 8000 });
+    await expect(rows.first()).toContainText("Chargeback on a split payment");
+    await expect(announced).toHaveText(
+      "New conversation: Chargeback on a split payment",
+      { timeout: 8000 },
+    );
+    await expect(status).toHaveText("Active · Chargeback on a split payment", {
+      timeout: 8000,
+    });
+  });
+
+  test("memory-age: ink tracks age, and a refresh carries the row back to the top", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/memory-age");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const rows = stage.getByRole("listitem");
+    const fees = "Coldbrook waives transfer fees over 5,000";
+
+    await expect(rows).toHaveCount(5, { timeout: 8000 });
+    await expect(status).toHaveText("2 fresh · 3 fading · oldest 27d", {
+      timeout: 8000,
+    });
+    // Freshest first, and each row states its age in words as well as in ink.
+    await expect(rows.first()).toHaveAttribute(
+      "aria-label",
+      "Coldbrook Bank statements arrive as CSV, 1d, fresh",
+      { timeout: 8000 },
+    );
+    await expect(rows.last()).toHaveAttribute(
+      "aria-label",
+      `${fees}, 4w, fading`,
+      { timeout: 8000 },
+    );
+
+    // A week of ageing pushes the oldest memory past the horizon.
+    await stage
+      .getByRole("button", { name: "Age a week", exact: true })
+      .click();
+    await expect(status).toHaveText("1 fresh · 4 fading · oldest 34d", {
+      timeout: 8000,
+    });
+    await expect(rows.last()).toHaveAttribute(
+      "aria-label",
+      `${fees}, 5w, faint`,
+      { timeout: 8000 },
+    );
+    // Faint is the floor the horizon sets: 35 percent of the ink, still legible.
+    await expect
+      .poll(memoryInkOf(rows.last()), { timeout: 5000 })
+      .toBeCloseTo(0.35, 2);
+
+    // A refresh restores the ink and travels the row to the top.
+    await stage
+      .getByRole("button", { name: `Refresh: ${fees}`, exact: true })
+      .click();
+    await expect(announced).toHaveText(`Refreshed ${fees}, moved to the top`, {
+      timeout: 8000,
+    });
+    await expect(status).toHaveText(`Refreshed: ${fees}`, { timeout: 8000 });
+    await expect(rows.first()).toHaveAttribute(
+      "aria-label",
+      `${fees}, today, fresh`,
+      { timeout: 8000 },
+    );
+    await expect
+      .poll(memoryInkOf(rows.first()), { timeout: 5000 })
+      .toBeCloseTo(1, 2);
+  });
+});
