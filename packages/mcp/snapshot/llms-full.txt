@@ -16148,6 +16148,229 @@ Notes:
 - Both faces stay in the DOM and the one that is turned away is aria-hidden and inert to the pointer, so a screen reader never reads the same message twice.
 - Under reduced motion the card does not turn: the faces cross-fade in place, the chip swaps corners at once and the pending arc holds still, while the measured height still changes because which language you are reading is information.
 
+### Presence Dot (KQ-871) — `presence-dot`
+Here, away, or gone.
+
+Four states drawn as four shapes, so colour is never the only signal: online fills, away takes a crescent bite, busy is crossed by a bar, offline is a hollow dimmed ring. The bite and the bar are holes in one SVG mask that scale in on snap, away breathes a slow mirrored ring, and every change rings once from a key rather than a timer. The sentence is frozen at the moment of the change and spoken once by a polite status region.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/presence-dot`
+
+Props:
+- `status`: "online" | "away" | "busy" | "offline" — The state; drives the shape, the colour, the breath and the ring.
+- `name`: string — Whose presence it is; opens the spoken sentence.
+- `label`: React.ReactNode — Visible text beside the mark. Omit it and the status word is drawn instead.
+- `detail`: string — A quieter trailing clause ("back at 15:30"), spoken with the status.
+- `size`: "sm" | "md" | "lg" (default "md") — 8, 10 or 14px marks; the breath and the ring scale with it.
+- `showWord`: boolean (default true) — Draws the status word beside the mark, so the shape is never alone.
+- `ring`: boolean (default true) — The one-shot ring on a change; turn it off in dense rosters.
+- `onAnnounce`: (sentence: string) => void — Fires from an effect once per frozen sentence, after a change.
+
+Notes:
+- No pointer gesture and no keyboard path of its own: the mark is role="img" naming the state, the status word is drawn beside it by default, and with no visible label the mark carries the whole sentence — so the colour is never alone.
+- Under reduced motion the shapes still swap and offline still dims — shape is information — but nothing breathes, rings or scales.
+- A polite sr-only status region speaks the frozen sentence once per change; onAnnounce fires alongside it, never from a state updater or during render.
+
+### Member List (KQ-872) — `member-list`
+Who is in the room.
+
+A roster in two groups whose rows carry layout, so a change of state re-sorts them on glide, and a useId-prefixed layoutId, so a member crossing from offline to online travels between the two lists as one row instead of blinking. Arrivals slide in from distances.step under a cobalt wash replayed by a key, departures only fade on the exit ease, and the frame's height comes from a ResizeObserver so an empty group reserves nothing. Rows are buttons under a roving tabindex: Down and Up step through both groups, Home and End jump to the ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/member-list`
+
+Props:
+- `members`: Member[] — The room; sorted into two groups, with ties keeping the array's order.
+- `label`: string — Names the roster for assistive technology; opens each group's list label.
+- `groupLabels`: { online: string; offline: string } (default { online: "In the room", offline: "Offline" }) — The two headings.
+- `onSelect`: (id: string) => void — Fires from a row's click, Enter or Space.
+- `onAnnounce`: (sentence: string) => void — Fires once per frozen change sentence ("Rui Baptista is online").
+- `emptyLabel`: string (default "No one is here") — Drawn when the room is empty.
+
+Notes:
+- Roving tabindex over both groups in visual order: ArrowDown and ArrowUp step, Home and End jump to the first and last member, Enter and Space select the focused row.
+- Under reduced motion nothing travels — rows cross-fade, the wash becomes one steady tint, and the measured frame changes height on a tween.
+- Every row's accessible name is a sentence ("Marta Ferreira, away, on dock three") and each state prints its word beside the dot, so presence is never carried by colour alone.
+
+### Avatar Cluster (KQ-873) — `avatar-cluster`
+The room, at a glance.
+
+Faces overlap by ten pixels until the cluster is hovered or holds focus, and then each face's own margin glides apart on glide so the cluster widens rather than sliding faces out from under each other. Avatars are procedural — initials over a rim signature hashed from the id into pathLength fractions, rounded before they reach an attribute — and the speaking member lifts on snap under a cobalt ring that breathes. The overflow count rolls in the direction it moved, and a roving tabindex over the faces is the keyboard's path to the spread.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/avatar-cluster`
+
+Props:
+- `people`: ClusterPerson[] — The room, in stacking order; the first face sits on top.
+- `label`: string — Names the cluster and the overflow chip ("Coldbrook standup").
+- `max`: number (default 4) — Faces drawn before the overflow chip.
+- `speakingId`: string | null (default null) — Who is speaking; that face lifts, rings and rises above its neighbours.
+- `onSelect`: (id: string) => void — Fires from a face's click, Enter or Space.
+- `onOverflowSelect`: () => void — Fires from the overflow chip.
+
+Notes:
+- Roving tabindex over the faces and the overflow chip: ArrowLeft and ArrowRight step, Home and End jump to the ends, Enter and Space select, Escape collapses the spread without moving focus.
+- Under reduced motion the spread is instant, the speaking ring holds steady instead of breathing, and the overflow count cross-fades in place.
+- Every face is a button whose accessible name is a sentence ("Rui Baptista, speaking"), and a polite status region speaks a change of speaker or of the head count once.
+
+### Status Line (KQ-874) — `status-line`
+What they are up to.
+
+A custom status under a name that types itself out from an effect with cleanup, holding where it stands while the tab is hidden, with a caret blinking beside the last character until it settles. Clearing wipes the line away left to right on an animated clipPath, and because the exiting node keeps the text it last drew the wipe erases the real sentence. An expiry ring drains on glide toward each remaining fraction the parent reports, rounded before it reaches the attribute, and the measured frame means no status reserves no room.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/status-line`
+
+Props:
+- `name`: string — The person the status belongs to; drawn as initials and spoken with the clear control.
+- `roleLabel`: string — A quiet second line under the name ("Coldbrook dispatch").
+- `status`: string | null (default null) — The custom line. A new value types itself; null wipes the old one away.
+- `expiry`: { label: string; remaining: number; total: number } — Ring plus printed remainder; the label is already formatted, and no clock is read.
+- `typeSpeed`: number (default 26) — Milliseconds per character while typing.
+- `clearLabel`: string (default "Clear") — Copy for the clear control.
+- `onClear`: () => void — Fires from the Clear control and from Escape; set status to null here.
+- `onSettle`: (text: string) => void — Fires once when the line finishes typing.
+- `onExpire`: () => void — Fires from an effect when expiry.remaining reaches zero.
+
+Notes:
+- Clear is a real button in the tab order; Escape from anywhere inside the block clears too, and the control names the person it clears for.
+- Under reduced motion the line is drawn whole with no caret and fades instead of wiping, while the expiry ring still drains — a countdown is information.
+- A polite status region speaks "Status set: …" once on settle and "Status cleared" once on the wipe, never per character.
+
+### Last Seen (KQ-875) — `last-seen`
+Seen, minutes ago.
+
+A wording rather than a clock: minutes arrive as a prop and the component only adds to them from a ticker it is asked to run, in an effect with cleanup that stops while the tab is hidden. As the total crosses a threshold the label re-writes itself — just now, a minute ago, an hour ago — with the old words leaving upward and the new arriving from below on glide, stacked in one grid cell and cross-faded so a fast ticker never leaves the reading behind. Coming online swaps the label for a dot that lands on recoil beside the word Online.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/last-seen`
+
+Props:
+- `name`: string — Whose presence it is; opens the spoken sentence.
+- `minutesAgo`: number (default 0) — Minutes since they were last seen, from the host — never from a clock.
+- `online`: boolean (default false) — Swaps the label for a dot and the word Online.
+- `at`: string — An already-formatted wall time ("14:52"), printed after the wording.
+- `ticking`: boolean (default false) — Runs the internal count-up; the host owns the decision.
+- `tickMs`: number (default 60000) — Milliseconds per added minute; a demo can shorten it to make the climb visible.
+- `label`: string (default "Last seen") — Leading words while offline.
+- `format`: (minutes: number) => string — Overrides the wording ladder for other locales.
+- `onWordingChange`: (wording: string) => void — Fires from an effect whenever the drawn reading changes.
+
+Notes:
+- A label with no pointer gesture and so no keyboard path of its own: the reading is role="img" with a full sentence, and the word Online is always drawn beside the dot.
+- Under reduced motion the wording cross-fades in place and the dot lands at full size, while the count still runs and still re-words itself.
+- The ticker stops while the tab is hidden and while the person is online, and a polite status region announces only the online swap and unit crossings — never the minute-by-minute climb.
+
+### Typing Cluster (KQ-876) — `typing-cluster`
+Several people, typing.
+
+One typer gets a row of their own, and so does a second; the moment a third starts the rows merge into one cluster, every disc keeping its own element and sliding into the overlapped stack on glide. The merged row's name slot rotates through the typers on snap, and pressing it spreads the stack back into the named rows — Escape re-merges without moving focus. The whole strip lives in a ResizeObserver-measured height, so one row, three rows and none of them are all the same glide.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/typing-cluster`
+
+Props:
+- `typing`: string[] (default []) — Who is typing, in the order they started. Empty collapses the strip.
+- `mergeAt`: number (default 3) — Typers needed before the separate rows merge into one cluster.
+- `rotateMs`: number (default 2200) — Milliseconds each name holds the merged row's slot.
+- `maxFaces`: number (default 4) — Discs drawn in the stack before the rest become a rolling +N.
+- `expanded / defaultExpanded`: boolean (default false) — Controlled or initial spread state of the merged cluster.
+- `onExpandedChange`: (expanded: boolean) => void — Fires when the cluster is spread or re-merged.
+- `onFocusNameChange`: (name: string | null) => void — Fires when the rotating slot lands on a different name; null when nobody types.
+- `label`: string — Names the strip for assistive technology.
+
+Notes:
+- Tab reaches the merged cluster, Enter or Space spreads it into the named rows, and Escape re-merges it without moving focus.
+- Under reduced motion nothing travels: the discs take their stacked or spread positions directly, the names cross-fade in the slot, and the caret holds steady instead of blinking.
+- Each spread row carries its own sentence and a polite status line speaks once per roster change, so the rotating name is decoration rather than the only way to know who is typing.
+
+### Join Toast (KQ-877) — `join-toast`
+Someone arrived.
+
+A card lands above the room's own content on recoil when a member joins, while the cards already there glide down through layout so the stack opens instead of reflowing. Each card drains a linear hairline timer and clears itself on the exit ease; past max the older arrivals fold into one summary line whose count rolls on snap and whose timers keep running. Pointer or focus holds every timer, Escape clears the stack, and the whole thing sits in a ResizeObserver-measured height inside the component's own box.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/join-toast`
+
+Props:
+- `arrivals`: Arrival[] — Who has joined, oldest first; { id, name, note? }. The host removes them in onDismiss.
+- `room`: string — The room's name, spoken in every card's sentence.
+- `duration`: number (default 4200) — Milliseconds a card stays before it clears itself; 0 or less keeps it up.
+- `max`: number (default 3) — Cards shown before the older ones fold into the summary line.
+- `onDismiss`: (id: string, reason: "timer" | "action") => void — Fires when a card's timer runs out or its close control is pressed.
+- `onClear`: () => void — Fires when Escape clears the whole stack.
+- `onHoldChange`: (held: boolean) => void — Fires as the pointer or focus enters and leaves the stack.
+- `children`: React.ReactNode — The room content the stack sits above and pushes down.
+
+Notes:
+- Every card is an li whose accessible name is a sentence, each carries a real dismiss button in newest-first tab order, and Escape anywhere in the stack clears it.
+- Focus inside the stack holds every timer, which is the keyboard's path to the hover pause.
+- Under reduced motion the cards fade in place with no travel and no bounce and the height swaps on a tween, but the timers still run because an arrival's expiry is information.
+
+### Role Badge (KQ-878) — `role-badge`
+Admin, mod, member.
+
+A role pill beside a member's name that morphs rather than swaps: the glyph and the word stack in one grid cell and cross-fade, the incoming glyph arriving from 0.6 on snap while the ink transitions on a colour tween. A promotion glints — a sheen sweeps the pill once while it lands from 1.06 on recoil — and a demotion only dims, because a demotion never celebrates. The pill opens the ladder as a real listbox in flow beneath the row, where arrows move, Enter chooses, and Escape returns focus to the pill.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/role-badge`
+
+Props:
+- `value / defaultValue`: string — Controlled or initial role value; defaults to the first role.
+- `onValueChange`: (value: string) => void — Fires with the chosen role's value.
+- `onRoleChange`: (change: RoleChange) => void — Fires with { value, label, direction } where direction is promoted, demoted or changed.
+- `roles`: Role[] (default Guest / Member / Mod / Admin) — The ladder, lowest rank first; { value, label, rank, description? }.
+- `name`: string — The member's name, shown and spoken in the change sentence.
+- `handle`: string — The member's handle, shown under the name.
+- `editable`: boolean (default true) — False renders the pill as a label with no list and no tab stop.
+- `disabled`: boolean (default false) — Holds the pill; the role still reads.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial state of the role list.
+- `onOpenChange`: (open: boolean) => void — Fires as the list opens and closes.
+
+Notes:
+- The pill is a listbox button: Enter or Space opens the ladder, Arrow keys move the active option, Home and End jump, Enter or Space chooses, and Escape closes and returns focus to the pill.
+- The list opens in flow under the row inside a ResizeObserver-measured height, so it never floats over what the host wrote below it.
+- Under reduced motion nothing sweeps or bounces, but a promotion still flashes its ink and a demotion still dims, because the direction of a role change is information.
+
+### Online Count (KQ-879) — `online-count`
+How many are here now.
+
+The figure is a row of ten-face wheels, so only the place that changed travels — up when the count rose, down when it fell, on snap. Beside it a graph of the window extends: one bar per sample, the newest growing in on snap while the rest slide left on glide through layout and the oldest pops out on the exit ease. Pressing the figure pins a name list open in flow inside the card, in a ResizeObserver-measured height, and Escape closes it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/online-count`
+
+Props:
+- `names`: string[] (default []) — Who is here now, in the order the list should read them.
+- `count`: number (default names.length) — The figure, when the host counts more people than it can name.
+- `history`: number[] (default []) — Samples across the window, oldest first; the graph draws the last `samples` of them.
+- `samples`: number (default 12) — Bars kept in the graph.
+- `windowLabel`: string (default "last hour") — Names the graph's span in the caption and in the spoken sentence.
+- `label`: string (default "Online now") — Names the instrument for assistive technology.
+- `maxNames`: number (default 6) — Names listed before the rest become an "and N more" line.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial state of the name list.
+- `onOpenChange`: (open: boolean) => void — Fires as the list opens and closes, by pointer or by key.
+- `onCountChange`: (count: number, delta: number) => void — Fires once per change of the figure, with the signed step.
+
+Notes:
+- The figure is a button whose accessible name is a sentence — the count, the step and the window; Enter or Space pins the name list open and Escape closes it.
+- A pointer opens the list softly and a press pins it, so moving the pointer away cannot snatch a pinned list back.
+- Under reduced motion the digits swap in place, the bars take their height where they stand and the list's room swaps on a tween, but the count, the graph and the names still update.
+
+### Away Timer (KQ-880) — `away-timer`
+Back in ten.
+
+Going away dims the disc, hangs a clock on its corner in place of the presence dot, and draws a ring that drains linearly across the period, because a minute is a minute and no easing may borrow from it. The remainder lives in one motion value the ring reads and the mm:ss figure steps from, so the two can never disagree and no clock is read during render. Expiry returns the presence dot with a pop from 0.4 on recoil, and coming back early plays the same pop.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/away-timer`
+
+Props:
+- `name`: string — The member, shown and spoken.
+- `seconds`: number (default 600) — The away period counted from, in seconds. Changing it restarts the run.
+- `away / defaultAway`: boolean (default false) — Controlled or initial away state.
+- `onAwayChange`: (away: boolean) => void — Fires when away is set or cleared, including at expiry.
+- `note`: string (default "Back shortly") — The away note shown beside the countdown.
+- `warnSeconds`: number (default 60) — Remainder at which the ring and the figure warm to warn.
+- `onExpire`: () => void — Fires once when the remainder reaches zero.
+- `onRemainingChange`: (seconds: number) => void — Fires from the timer each time the whole second changes.
+- `disabled`: boolean (default false) — Holds the control; the countdown still runs and still reads.
+
+Notes:
+- The state is a visible sentence — Away, the note and the remainder, or Online — so the ring, the dim and the dot are never the only signal; the figure is plain text rather than a live region, so nobody is read a number every second.
+- The period comes from the seconds prop and the run restarts when it changes or when away is set again; a hidden tab holds the run where it stands rather than spending time it never showed.
+- Under reduced motion nothing pops and nothing travels, but the ring still drains and the figure still counts, because a countdown is information.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 869,
+      "components": 879,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -60396,6 +60396,905 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/translate-flip",
         "bun": "bunx --bun shadcn@latest add @kinetiq/translate-flip",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/translate-flip.json"
+      }
+    },
+    {
+      "slug": "presence-dot",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Presence Dot",
+      "serial": "KQ-871",
+      "tagline": "Here, away, or gone.",
+      "description": "Four states drawn as four shapes, so colour is never the only signal: online fills, away takes a crescent bite, busy is crossed by a bar, offline is a hollow dimmed ring. The bite and the bar are holes in one SVG mask that scale in on snap, away breathes a slow mirrored ring, and every change rings once from a key rather than a timer. The sentence is frozen at the moment of the change and spoken once by a polite status region.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "presence",
+        "status",
+        "dot",
+        "online",
+        "away",
+        "chat",
+        "roster"
+      ],
+      "props": [
+        {
+          "name": "status",
+          "type": "\"online\" | \"away\" | \"busy\" | \"offline\"",
+          "description": "The state; drives the shape, the colour, the breath and the ring."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Whose presence it is; opens the spoken sentence."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "description": "Visible text beside the mark. Omit it and the status word is drawn instead."
+        },
+        {
+          "name": "detail",
+          "type": "string",
+          "description": "A quieter trailing clause (\"back at 15:30\"), spoken with the status."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "8, 10 or 14px marks; the breath and the ring scale with it."
+        },
+        {
+          "name": "showWord",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Draws the status word beside the mark, so the shape is never alone."
+        },
+        {
+          "name": "ring",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The one-shot ring on a change; turn it off in dense rosters."
+        },
+        {
+          "name": "onAnnounce",
+          "type": "(sentence: string) => void",
+          "description": "Fires from an effect once per frozen sentence, after a change."
+        }
+      ],
+      "usageNotes": [
+        "No pointer gesture and no keyboard path of its own: the mark is role=\"img\" naming the state, the status word is drawn beside it by default, and with no visible label the mark carries the whole sentence — so the colour is never alone.",
+        "Under reduced motion the shapes still swap and offline still dims — shape is information — but nothing breathes, rings or scales.",
+        "A polite sr-only status region speaks the frozen sentence once per change; onAnnounce fires alongside it, never from a state updater or during render."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/presence-dot",
+      "registryItemUrl": "https://www.kinetiqui.com/r/presence-dot.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/presence-dot",
+        "npm": "npx shadcn@latest add @kinetiq/presence-dot",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/presence-dot",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/presence-dot",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/presence-dot.json"
+      }
+    },
+    {
+      "slug": "member-list",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Member List",
+      "serial": "KQ-872",
+      "tagline": "Who is in the room.",
+      "description": "A roster in two groups whose rows carry layout, so a change of state re-sorts them on glide, and a useId-prefixed layoutId, so a member crossing from offline to online travels between the two lists as one row instead of blinking. Arrivals slide in from distances.step under a cobalt wash replayed by a key, departures only fade on the exit ease, and the frame's height comes from a ResizeObserver so an empty group reserves nothing. Rows are buttons under a roving tabindex: Down and Up step through both groups, Home and End jump to the ends.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "members",
+        "roster",
+        "presence",
+        "chat",
+        "list",
+        "flip",
+        "room"
+      ],
+      "props": [
+        {
+          "name": "members",
+          "type": "Member[]",
+          "description": "The room; sorted into two groups, with ties keeping the array's order."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the roster for assistive technology; opens each group's list label."
+        },
+        {
+          "name": "groupLabels",
+          "type": "{ online: string; offline: string }",
+          "defaultValue": "{ online: \"In the room\", offline: \"Offline\" }",
+          "description": "The two headings."
+        },
+        {
+          "name": "onSelect",
+          "type": "(id: string) => void",
+          "description": "Fires from a row's click, Enter or Space."
+        },
+        {
+          "name": "onAnnounce",
+          "type": "(sentence: string) => void",
+          "description": "Fires once per frozen change sentence (\"Rui Baptista is online\")."
+        },
+        {
+          "name": "emptyLabel",
+          "type": "string",
+          "defaultValue": "\"No one is here\"",
+          "description": "Drawn when the room is empty."
+        }
+      ],
+      "usageNotes": [
+        "Roving tabindex over both groups in visual order: ArrowDown and ArrowUp step, Home and End jump to the first and last member, Enter and Space select the focused row.",
+        "Under reduced motion nothing travels — rows cross-fade, the wash becomes one steady tint, and the measured frame changes height on a tween.",
+        "Every row's accessible name is a sentence (\"Marta Ferreira, away, on dock three\") and each state prints its word beside the dot, so presence is never carried by colour alone."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/member-list",
+      "registryItemUrl": "https://www.kinetiqui.com/r/member-list.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/member-list",
+        "npm": "npx shadcn@latest add @kinetiq/member-list",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/member-list",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/member-list",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/member-list.json"
+      }
+    },
+    {
+      "slug": "avatar-cluster",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Avatar Cluster",
+      "serial": "KQ-873",
+      "tagline": "The room, at a glance.",
+      "description": "Faces overlap by ten pixels until the cluster is hovered or holds focus, and then each face's own margin glides apart on glide so the cluster widens rather than sliding faces out from under each other. Avatars are procedural — initials over a rim signature hashed from the id into pathLength fractions, rounded before they reach an attribute — and the speaking member lifts on snap under a cobalt ring that breathes. The overflow count rolls in the direction it moved, and a roving tabindex over the faces is the keyboard's path to the spread.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "avatars",
+        "cluster",
+        "stack",
+        "overflow",
+        "speaking",
+        "presence",
+        "chat"
+      ],
+      "props": [
+        {
+          "name": "people",
+          "type": "ClusterPerson[]",
+          "description": "The room, in stacking order; the first face sits on top."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the cluster and the overflow chip (\"Coldbrook standup\")."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Faces drawn before the overflow chip."
+        },
+        {
+          "name": "speakingId",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Who is speaking; that face lifts, rings and rises above its neighbours."
+        },
+        {
+          "name": "onSelect",
+          "type": "(id: string) => void",
+          "description": "Fires from a face's click, Enter or Space."
+        },
+        {
+          "name": "onOverflowSelect",
+          "type": "() => void",
+          "description": "Fires from the overflow chip."
+        }
+      ],
+      "usageNotes": [
+        "Roving tabindex over the faces and the overflow chip: ArrowLeft and ArrowRight step, Home and End jump to the ends, Enter and Space select, Escape collapses the spread without moving focus.",
+        "Under reduced motion the spread is instant, the speaking ring holds steady instead of breathing, and the overflow count cross-fades in place.",
+        "Every face is a button whose accessible name is a sentence (\"Rui Baptista, speaking\"), and a polite status region speaks a change of speaker or of the head count once."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/avatar-cluster",
+      "registryItemUrl": "https://www.kinetiqui.com/r/avatar-cluster.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/avatar-cluster",
+        "npm": "npx shadcn@latest add @kinetiq/avatar-cluster",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/avatar-cluster",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/avatar-cluster",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/avatar-cluster.json"
+      }
+    },
+    {
+      "slug": "status-line",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Status Line",
+      "serial": "KQ-874",
+      "tagline": "What they are up to.",
+      "description": "A custom status under a name that types itself out from an effect with cleanup, holding where it stands while the tab is hidden, with a caret blinking beside the last character until it settles. Clearing wipes the line away left to right on an animated clipPath, and because the exiting node keeps the text it last drew the wipe erases the real sentence. An expiry ring drains on glide toward each remaining fraction the parent reports, rounded before it reaches the attribute, and the measured frame means no status reserves no room.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "status",
+        "typing",
+        "expiry",
+        "presence",
+        "chat",
+        "wipe",
+        "ring"
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The person the status belongs to; drawn as initials and spoken with the clear control."
+        },
+        {
+          "name": "roleLabel",
+          "type": "string",
+          "description": "A quiet second line under the name (\"Coldbrook dispatch\")."
+        },
+        {
+          "name": "status",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The custom line. A new value types itself; null wipes the old one away."
+        },
+        {
+          "name": "expiry",
+          "type": "{ label: string; remaining: number; total: number }",
+          "description": "Ring plus printed remainder; the label is already formatted, and no clock is read."
+        },
+        {
+          "name": "typeSpeed",
+          "type": "number",
+          "defaultValue": "26",
+          "description": "Milliseconds per character while typing."
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "defaultValue": "\"Clear\"",
+          "description": "Copy for the clear control."
+        },
+        {
+          "name": "onClear",
+          "type": "() => void",
+          "description": "Fires from the Clear control and from Escape; set status to null here."
+        },
+        {
+          "name": "onSettle",
+          "type": "(text: string) => void",
+          "description": "Fires once when the line finishes typing."
+        },
+        {
+          "name": "onExpire",
+          "type": "() => void",
+          "description": "Fires from an effect when expiry.remaining reaches zero."
+        }
+      ],
+      "usageNotes": [
+        "Clear is a real button in the tab order; Escape from anywhere inside the block clears too, and the control names the person it clears for.",
+        "Under reduced motion the line is drawn whole with no caret and fades instead of wiping, while the expiry ring still drains — a countdown is information.",
+        "A polite status region speaks \"Status set: …\" once on settle and \"Status cleared\" once on the wipe, never per character."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/status-line",
+      "registryItemUrl": "https://www.kinetiqui.com/r/status-line.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/status-line",
+        "npm": "npx shadcn@latest add @kinetiq/status-line",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/status-line",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/status-line",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/status-line.json"
+      }
+    },
+    {
+      "slug": "last-seen",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Last Seen",
+      "serial": "KQ-875",
+      "tagline": "Seen, minutes ago.",
+      "description": "A wording rather than a clock: minutes arrive as a prop and the component only adds to them from a ticker it is asked to run, in an effect with cleanup that stops while the tab is hidden. As the total crosses a threshold the label re-writes itself — just now, a minute ago, an hour ago — with the old words leaving upward and the new arriving from below on glide, stacked in one grid cell and cross-faded so a fast ticker never leaves the reading behind. Coming online swaps the label for a dot that lands on recoil beside the word Online.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "last seen",
+        "presence",
+        "relative time",
+        "chat",
+        "online",
+        "ticker"
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "Whose presence it is; opens the spoken sentence."
+        },
+        {
+          "name": "minutesAgo",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Minutes since they were last seen, from the host — never from a clock."
+        },
+        {
+          "name": "online",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Swaps the label for a dot and the word Online."
+        },
+        {
+          "name": "at",
+          "type": "string",
+          "description": "An already-formatted wall time (\"14:52\"), printed after the wording."
+        },
+        {
+          "name": "ticking",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Runs the internal count-up; the host owns the decision."
+        },
+        {
+          "name": "tickMs",
+          "type": "number",
+          "defaultValue": "60000",
+          "description": "Milliseconds per added minute; a demo can shorten it to make the climb visible."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Last seen\"",
+          "description": "Leading words while offline."
+        },
+        {
+          "name": "format",
+          "type": "(minutes: number) => string",
+          "description": "Overrides the wording ladder for other locales."
+        },
+        {
+          "name": "onWordingChange",
+          "type": "(wording: string) => void",
+          "description": "Fires from an effect whenever the drawn reading changes."
+        }
+      ],
+      "usageNotes": [
+        "A label with no pointer gesture and so no keyboard path of its own: the reading is role=\"img\" with a full sentence, and the word Online is always drawn beside the dot.",
+        "Under reduced motion the wording cross-fades in place and the dot lands at full size, while the count still runs and still re-words itself.",
+        "The ticker stops while the tab is hidden and while the person is online, and a polite status region announces only the online swap and unit crossings — never the minute-by-minute climb."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/last-seen",
+      "registryItemUrl": "https://www.kinetiqui.com/r/last-seen.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/last-seen",
+        "npm": "npx shadcn@latest add @kinetiq/last-seen",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/last-seen",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/last-seen",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/last-seen.json"
+      }
+    },
+    {
+      "slug": "typing-cluster",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Typing Cluster",
+      "serial": "KQ-876",
+      "tagline": "Several people, typing.",
+      "description": "One typer gets a row of their own, and so does a second; the moment a third starts the rows merge into one cluster, every disc keeping its own element and sliding into the overlapped stack on glide. The merged row's name slot rotates through the typers on snap, and pressing it spreads the stack back into the named rows — Escape re-merges without moving focus. The whole strip lives in a ResizeObserver-measured height, so one row, three rows and none of them are all the same glide.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "typing",
+        "presence",
+        "chat",
+        "cluster",
+        "avatars",
+        "indicator"
+      ],
+      "props": [
+        {
+          "name": "typing",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Who is typing, in the order they started. Empty collapses the strip."
+        },
+        {
+          "name": "mergeAt",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Typers needed before the separate rows merge into one cluster."
+        },
+        {
+          "name": "rotateMs",
+          "type": "number",
+          "defaultValue": "2200",
+          "description": "Milliseconds each name holds the merged row's slot."
+        },
+        {
+          "name": "maxFaces",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Discs drawn in the stack before the rest become a rolling +N."
+        },
+        {
+          "name": "expanded / defaultExpanded",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial spread state of the merged cluster."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(expanded: boolean) => void",
+          "description": "Fires when the cluster is spread or re-merged."
+        },
+        {
+          "name": "onFocusNameChange",
+          "type": "(name: string | null) => void",
+          "description": "Fires when the rotating slot lands on a different name; null when nobody types."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the strip for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the merged cluster, Enter or Space spreads it into the named rows, and Escape re-merges it without moving focus.",
+        "Under reduced motion nothing travels: the discs take their stacked or spread positions directly, the names cross-fade in the slot, and the caret holds steady instead of blinking.",
+        "Each spread row carries its own sentence and a polite status line speaks once per roster change, so the rotating name is decoration rather than the only way to know who is typing."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/typing-cluster",
+      "registryItemUrl": "https://www.kinetiqui.com/r/typing-cluster.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/typing-cluster",
+        "npm": "npx shadcn@latest add @kinetiq/typing-cluster",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/typing-cluster",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/typing-cluster",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/typing-cluster.json"
+      }
+    },
+    {
+      "slug": "join-toast",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Join Toast",
+      "serial": "KQ-877",
+      "tagline": "Someone arrived.",
+      "description": "A card lands above the room's own content on recoil when a member joins, while the cards already there glide down through layout so the stack opens instead of reflowing. Each card drains a linear hairline timer and clears itself on the exit ease; past max the older arrivals fold into one summary line whose count rolls on snap and whose timers keep running. Pointer or focus holds every timer, Escape clears the stack, and the whole thing sits in a ResizeObserver-measured height inside the component's own box.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "toast",
+        "join",
+        "presence",
+        "chat",
+        "stack",
+        "arrival",
+        "room"
+      ],
+      "props": [
+        {
+          "name": "arrivals",
+          "type": "Arrival[]",
+          "description": "Who has joined, oldest first; { id, name, note? }. The host removes them in onDismiss."
+        },
+        {
+          "name": "room",
+          "type": "string",
+          "description": "The room's name, spoken in every card's sentence."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "4200",
+          "description": "Milliseconds a card stays before it clears itself; 0 or less keeps it up."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "3",
+          "description": "Cards shown before the older ones fold into the summary line."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string, reason: \"timer\" | \"action\") => void",
+          "description": "Fires when a card's timer runs out or its close control is pressed."
+        },
+        {
+          "name": "onClear",
+          "type": "() => void",
+          "description": "Fires when Escape clears the whole stack."
+        },
+        {
+          "name": "onHoldChange",
+          "type": "(held: boolean) => void",
+          "description": "Fires as the pointer or focus enters and leaves the stack."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "The room content the stack sits above and pushes down."
+        }
+      ],
+      "usageNotes": [
+        "Every card is an li whose accessible name is a sentence, each carries a real dismiss button in newest-first tab order, and Escape anywhere in the stack clears it.",
+        "Focus inside the stack holds every timer, which is the keyboard's path to the hover pause.",
+        "Under reduced motion the cards fade in place with no travel and no bounce and the height swaps on a tween, but the timers still run because an arrival's expiry is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/join-toast",
+      "registryItemUrl": "https://www.kinetiqui.com/r/join-toast.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/join-toast",
+        "npm": "npx shadcn@latest add @kinetiq/join-toast",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/join-toast",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/join-toast",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/join-toast.json"
+      }
+    },
+    {
+      "slug": "role-badge",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Role Badge",
+      "serial": "KQ-878",
+      "tagline": "Admin, mod, member.",
+      "description": "A role pill beside a member's name that morphs rather than swaps: the glyph and the word stack in one grid cell and cross-fade, the incoming glyph arriving from 0.6 on snap while the ink transitions on a colour tween. A promotion glints — a sheen sweeps the pill once while it lands from 1.06 on recoil — and a demotion only dims, because a demotion never celebrates. The pill opens the ladder as a real listbox in flow beneath the row, where arrows move, Enter chooses, and Escape returns focus to the pill.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "role",
+        "badge",
+        "permissions",
+        "chat",
+        "member",
+        "promotion"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "description": "Controlled or initial role value; defaults to the first role."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires with the chosen role's value."
+        },
+        {
+          "name": "onRoleChange",
+          "type": "(change: RoleChange) => void",
+          "description": "Fires with { value, label, direction } where direction is promoted, demoted or changed."
+        },
+        {
+          "name": "roles",
+          "type": "Role[]",
+          "defaultValue": "Guest / Member / Mod / Admin",
+          "description": "The ladder, lowest rank first; { value, label, rank, description? }."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The member's name, shown and spoken in the change sentence."
+        },
+        {
+          "name": "handle",
+          "type": "string",
+          "description": "The member's handle, shown under the name."
+        },
+        {
+          "name": "editable",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "False renders the pill as a label with no list and no tab stop."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the pill; the role still reads."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial state of the role list."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires as the list opens and closes."
+        }
+      ],
+      "usageNotes": [
+        "The pill is a listbox button: Enter or Space opens the ladder, Arrow keys move the active option, Home and End jump, Enter or Space chooses, and Escape closes and returns focus to the pill.",
+        "The list opens in flow under the row inside a ResizeObserver-measured height, so it never floats over what the host wrote below it.",
+        "Under reduced motion nothing sweeps or bounces, but a promotion still flashes its ink and a demotion still dims, because the direction of a role change is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/role-badge",
+      "registryItemUrl": "https://www.kinetiqui.com/r/role-badge.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/role-badge",
+        "npm": "npx shadcn@latest add @kinetiq/role-badge",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/role-badge",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/role-badge",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/role-badge.json"
+      }
+    },
+    {
+      "slug": "online-count",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Online Count",
+      "serial": "KQ-879",
+      "tagline": "How many are here now.",
+      "description": "The figure is a row of ten-face wheels, so only the place that changed travels — up when the count rose, down when it fell, on snap. Beside it a graph of the window extends: one bar per sample, the newest growing in on snap while the rest slide left on glide through layout and the oldest pops out on the exit ease. Pressing the figure pins a name list open in flow inside the card, in a ResizeObserver-measured height, and Escape closes it.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "presence",
+        "count",
+        "online",
+        "chat",
+        "sparkline",
+        "roster"
+      ],
+      "props": [
+        {
+          "name": "names",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Who is here now, in the order the list should read them."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "names.length",
+          "description": "The figure, when the host counts more people than it can name."
+        },
+        {
+          "name": "history",
+          "type": "number[]",
+          "defaultValue": "[]",
+          "description": "Samples across the window, oldest first; the graph draws the last `samples` of them."
+        },
+        {
+          "name": "samples",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "Bars kept in the graph."
+        },
+        {
+          "name": "windowLabel",
+          "type": "string",
+          "defaultValue": "\"last hour\"",
+          "description": "Names the graph's span in the caption and in the spoken sentence."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Online now\"",
+          "description": "Names the instrument for assistive technology."
+        },
+        {
+          "name": "maxNames",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Names listed before the rest become an \"and N more\" line."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial state of the name list."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires as the list opens and closes, by pointer or by key."
+        },
+        {
+          "name": "onCountChange",
+          "type": "(count: number, delta: number) => void",
+          "description": "Fires once per change of the figure, with the signed step."
+        }
+      ],
+      "usageNotes": [
+        "The figure is a button whose accessible name is a sentence — the count, the step and the window; Enter or Space pins the name list open and Escape closes it.",
+        "A pointer opens the list softly and a press pins it, so moving the pointer away cannot snatch a pinned list back.",
+        "Under reduced motion the digits swap in place, the bars take their height where they stand and the list's room swaps on a tween, but the count, the graph and the names still update."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/online-count",
+      "registryItemUrl": "https://www.kinetiqui.com/r/online-count.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/online-count",
+        "npm": "npx shadcn@latest add @kinetiq/online-count",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/online-count",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/online-count",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/online-count.json"
+      }
+    },
+    {
+      "slug": "away-timer",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Away Timer",
+      "serial": "KQ-880",
+      "tagline": "Back in ten.",
+      "description": "Going away dims the disc, hangs a clock on its corner in place of the presence dot, and draws a ring that drains linearly across the period, because a minute is a minute and no easing may borrow from it. The remainder lives in one motion value the ring reads and the mm:ss figure steps from, so the two can never disagree and no clock is read during render. Expiry returns the presence dot with a pop from 0.4 on recoil, and coming back early plays the same pop.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "away",
+        "presence",
+        "countdown",
+        "ring",
+        "status",
+        "chat"
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The member, shown and spoken."
+        },
+        {
+          "name": "seconds",
+          "type": "number",
+          "defaultValue": "600",
+          "description": "The away period counted from, in seconds. Changing it restarts the run."
+        },
+        {
+          "name": "away / defaultAway",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial away state."
+        },
+        {
+          "name": "onAwayChange",
+          "type": "(away: boolean) => void",
+          "description": "Fires when away is set or cleared, including at expiry."
+        },
+        {
+          "name": "note",
+          "type": "string",
+          "defaultValue": "\"Back shortly\"",
+          "description": "The away note shown beside the countdown."
+        },
+        {
+          "name": "warnSeconds",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "Remainder at which the ring and the figure warm to warn."
+        },
+        {
+          "name": "onExpire",
+          "type": "() => void",
+          "description": "Fires once when the remainder reaches zero."
+        },
+        {
+          "name": "onRemainingChange",
+          "type": "(seconds: number) => void",
+          "description": "Fires from the timer each time the whole second changes."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the control; the countdown still runs and still reads."
+        }
+      ],
+      "usageNotes": [
+        "The state is a visible sentence — Away, the note and the remainder, or Online — so the ring, the dim and the dot are never the only signal; the figure is plain text rather than a live region, so nobody is read a number every second.",
+        "The period comes from the seconds prop and the run restarts when it changes or when away is set again; a hidden tab holds the run where it stands rather than spending time it never showed.",
+        "Under reduced motion nothing pops and nothing travels, but the ring still drains and the figure still counts, because a countdown is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/away-timer",
+      "registryItemUrl": "https://www.kinetiqui.com/r/away-timer.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/away-timer",
+        "npm": "npx shadcn@latest add @kinetiq/away-timer",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/away-timer",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/away-timer",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/away-timer.json"
       }
     },
     {

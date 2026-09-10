@@ -24136,6 +24136,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "presence-dot",
+      "type": "registry:ui",
+      "title": "Presence Dot",
+      "description": "Four states drawn as four shapes, so colour is never the only signal: online fills, away takes a crescent bite, busy is crossed by a bar, offline is a hollow dimmed ring. The bite and the bar are holes in one SVG mask that scale in on snap, away breathes a slow mirrored ring, and every change rings once from a key rather than a timer. The sentence is frozen at the moment of the change and spoken once by a polite status region.",
+      "files": [
+        {
+          "path": "registry/ui/presence-dot.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-871"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "member-list",
+      "type": "registry:ui",
+      "title": "Member List",
+      "description": "A roster in two groups whose rows carry layout, so a change of state re-sorts them on glide, and a useId-prefixed layoutId, so a member crossing from offline to online travels between the two lists as one row instead of blinking. Arrivals slide in from distances.step under a cobalt wash replayed by a key, departures only fade on the exit ease, and the frame's height comes from a ResizeObserver so an empty group reserves nothing. Rows are buttons under a roving tabindex: Down and Up step through both groups, Home and End jump to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/member-list.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-872"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "avatar-cluster",
+      "type": "registry:ui",
+      "title": "Avatar Cluster",
+      "description": "Faces overlap by ten pixels until the cluster is hovered or holds focus, and then each face's own margin glides apart on glide so the cluster widens rather than sliding faces out from under each other. Avatars are procedural — initials over a rim signature hashed from the id into pathLength fractions, rounded before they reach an attribute — and the speaking member lifts on snap under a cobalt ring that breathes. The overflow count rolls in the direction it moved, and a roving tabindex over the faces is the keyboard's path to the spread.",
+      "files": [
+        {
+          "path": "registry/ui/avatar-cluster.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-873"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "status-line",
+      "type": "registry:ui",
+      "title": "Status Line",
+      "description": "A custom status under a name that types itself out from an effect with cleanup, holding where it stands while the tab is hidden, with a caret blinking beside the last character until it settles. Clearing wipes the line away left to right on an animated clipPath, and because the exiting node keeps the text it last drew the wipe erases the real sentence. An expiry ring drains on glide toward each remaining fraction the parent reports, rounded before it reaches the attribute, and the measured frame means no status reserves no room.",
+      "files": [
+        {
+          "path": "registry/ui/status-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-874"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "last-seen",
+      "type": "registry:ui",
+      "title": "Last Seen",
+      "description": "A wording rather than a clock: minutes arrive as a prop and the component only adds to them from a ticker it is asked to run, in an effect with cleanup that stops while the tab is hidden. As the total crosses a threshold the label re-writes itself — just now, a minute ago, an hour ago — with the old words leaving upward and the new arriving from below on glide, stacked in one grid cell and cross-faded so a fast ticker never leaves the reading behind. Coming online swaps the label for a dot that lands on recoil beside the word Online.",
+      "files": [
+        {
+          "path": "registry/ui/last-seen.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-875"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "typing-cluster",
+      "type": "registry:ui",
+      "title": "Typing Cluster",
+      "description": "One typer gets a row of their own, and so does a second; the moment a third starts the rows merge into one cluster, every disc keeping its own element and sliding into the overlapped stack on glide. The merged row's name slot rotates through the typers on snap, and pressing it spreads the stack back into the named rows — Escape re-merges without moving focus. The whole strip lives in a ResizeObserver-measured height, so one row, three rows and none of them are all the same glide.",
+      "files": [
+        {
+          "path": "registry/ui/typing-cluster.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-876"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "join-toast",
+      "type": "registry:ui",
+      "title": "Join Toast",
+      "description": "A card lands above the room's own content on recoil when a member joins, while the cards already there glide down through layout so the stack opens instead of reflowing. Each card drains a linear hairline timer and clears itself on the exit ease; past max the older arrivals fold into one summary line whose count rolls on snap and whose timers keep running. Pointer or focus holds every timer, Escape clears the stack, and the whole thing sits in a ResizeObserver-measured height inside the component's own box.",
+      "files": [
+        {
+          "path": "registry/ui/join-toast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-877"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "role-badge",
+      "type": "registry:ui",
+      "title": "Role Badge",
+      "description": "A role pill beside a member's name that morphs rather than swaps: the glyph and the word stack in one grid cell and cross-fade, the incoming glyph arriving from 0.6 on snap while the ink transitions on a colour tween. A promotion glints — a sheen sweeps the pill once while it lands from 1.06 on recoil — and a demotion only dims, because a demotion never celebrates. The pill opens the ladder as a real listbox in flow beneath the row, where arrows move, Enter chooses, and Escape returns focus to the pill.",
+      "files": [
+        {
+          "path": "registry/ui/role-badge.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-878"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "online-count",
+      "type": "registry:ui",
+      "title": "Online Count",
+      "description": "The figure is a row of ten-face wheels, so only the place that changed travels — up when the count rose, down when it fell, on snap. Beside it a graph of the window extends: one bar per sample, the newest growing in on snap while the rest slide left on glide through layout and the oldest pops out on the exit ease. Pressing the figure pins a name list open in flow inside the card, in a ResizeObserver-measured height, and Escape closes it.",
+      "files": [
+        {
+          "path": "registry/ui/online-count.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-879"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "away-timer",
+      "type": "registry:ui",
+      "title": "Away Timer",
+      "description": "Going away dims the disc, hangs a clock on its corner in place of the presence dot, and draws a ring that drains linearly across the period, because a minute is a minute and no easing may borrow from it. The remainder lives in one motion value the ring reads and the mm:ss figure steps from, so the two can never disagree and no clock is read during render. Expiry returns the presence dot with a pop from 0.4 on recoil, and coming back early plays the same pop.",
+      "files": [
+        {
+          "path": "registry/ui/away-timer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-880"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -1060,6 +1060,16 @@ import { ReplyCountDemo } from "@/registry/demos/reply-count.demo";
 import { PinMessageDemo } from "@/registry/demos/pin-message.demo";
 import { StarMarkDemo } from "@/registry/demos/star-mark.demo";
 import { TranslateFlipDemo } from "@/registry/demos/translate-flip.demo";
+import { PresenceDotDemo } from "@/registry/demos/presence-dot.demo";
+import { MemberListDemo } from "@/registry/demos/member-list.demo";
+import { AvatarClusterDemo } from "@/registry/demos/avatar-cluster.demo";
+import { StatusLineDemo } from "@/registry/demos/status-line.demo";
+import { LastSeenDemo } from "@/registry/demos/last-seen.demo";
+import { TypingClusterDemo } from "@/registry/demos/typing-cluster.demo";
+import { JoinToastDemo } from "@/registry/demos/join-toast.demo";
+import { RoleBadgeDemo } from "@/registry/demos/role-badge.demo";
+import { OnlineCountDemo } from "@/registry/demos/online-count.demo";
+import { AwayTimerDemo } from "@/registry/demos/away-timer.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2134,4 +2144,14 @@ export const demos: Record<string, ComponentType> = {
   "pin-message": PinMessageDemo,
   "star-mark": StarMarkDemo,
   "translate-flip": TranslateFlipDemo,
+  "presence-dot": PresenceDotDemo,
+  "member-list": MemberListDemo,
+  "avatar-cluster": AvatarClusterDemo,
+  "status-line": StatusLineDemo,
+  "last-seen": LastSeenDemo,
+  "typing-cluster": TypingClusterDemo,
+  "join-toast": JoinToastDemo,
+  "role-badge": RoleBadgeDemo,
+  "online-count": OnlineCountDemo,
+  "away-timer": AwayTimerDemo,
 };
