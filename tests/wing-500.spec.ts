@@ -21118,3 +21118,579 @@ test.describe("reactions", () => {
     await expect(fold).toHaveCount(0);
   });
 });
+
+/** Polls on a tight cadence: presence lands on a spring, not on a frame. */
+const presenceBeat = { intervals: [100], timeout: 8000 };
+
+/** A poll target: one laid-out box's width, in pixels. */
+const presenceWidthOf = (target: Locator) => async (): Promise<number> => {
+  const box = await target.boundingBox();
+  return box ? Math.round(box.width) : Number.NaN;
+};
+
+/** A poll target: the whole sentence a `role="img"` mark is currently naming. */
+const presenceNameOf = (target: Locator) => async (): Promise<string> =>
+  (await target.getAttribute("aria-label")) ?? "";
+
+/** A poll target: the figure an expiry ring is still reporting, in minutes. */
+const presenceMinutesOf = (target: Locator) => async (): Promise<number> =>
+  Number(((await target.getAttribute("aria-label")) ?? "").replace(/\D+/g, ""));
+
+/**
+ * The presence family is how a room says who is in it: the dot that carries a
+ * state in its shape, the roster that regroups as people cross between online
+ * and offline, the cluster that spreads to uncover its faces, the custom line
+ * someone types about themselves, the last-seen wording that counts up, the
+ * typing rows that merge into one, the card an arrival lands on, the pill that
+ * carries a rank and the direction it moved in, the figure that counts the room
+ * and names it, and the ring that drains across an away period. Every test
+ * drives the mechanic the component advertises — through the keyboard wherever
+ * it publishes one, and by pressing the demo's own controls rather than
+ * clicking them, since a pointer parked over a roster that grows would hover
+ * whatever slid under it — and reads the outcome off the demo's status line and
+ * the ARIA the component publishes about itself.
+ */
+test.describe("presence", () => {
+  test("presence-dot: each state redraws the mark, renames it, and is spoken exactly once", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/presence-dot");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The dot publishes its own frozen sentence ahead of the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const mark = stage.getByRole("img").first();
+
+    // The name is beside the mark already, so the mark names only the state.
+    await expect(mark).toHaveAccessibleName("Online");
+    await expect(announced).toHaveText("Ines Moreau is online");
+    await expect(status).toContainText("Ines Moreau — online · 0 changes");
+
+    // Away carries its detail into both the mark's name and the sentence.
+    await stage.getByRole("button", { name: "Away" }).press("Enter");
+    await expect(mark).toHaveAccessibleName("Away, back at 15:30");
+    await expect(announced).toHaveText("Ines Moreau is away, back at 15:30");
+    await expect(status).toContainText("Ines Moreau — away · 1 change");
+    await expect(stage.getByRole("button", { name: "Away" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+
+    await stage.getByRole("button", { name: "Busy" }).press("Enter");
+    await expect(mark).toHaveAccessibleName("Busy, on the yard call");
+    await expect(announced).toHaveText("Ines Moreau is busy, on the yard call");
+    await expect(status).toContainText("Ines Moreau — busy · 2 changes");
+
+    // Gone is the fourth shape, and it says offline rather than saying nothing.
+    await stage.getByRole("button", { name: "Gone" }).press("Enter");
+    await expect(mark).toHaveAccessibleName("Offline, left at 14:52");
+    await expect(announced).toHaveText("Ines Moreau is offline, left at 14:52");
+    await expect(status).toContainText("Ines Moreau — offline · 3 changes");
+
+    // Coming back is a change like any other, and the count proves it was one.
+    await stage.getByRole("button", { name: "Here" }).press("Enter");
+    await expect(mark).toHaveAccessibleName("Online");
+    await expect(announced).toHaveText("Ines Moreau is online");
+    await expect(status).toContainText("Ines Moreau — online · 4 changes");
+  });
+
+  test("member-list: arrows walk both groups, and coming online moves the row and the counts", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/member-list");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const here = stage.getByRole("list", {
+      name: "Coldbrook dispatch, In the room, 3",
+    });
+    const ines = stage.getByRole("button", {
+      name: "Ines Moreau, online, yard lead",
+    });
+    const marta = stage.getByRole("button", {
+      name: "Marta Ferreira, online, on dock three",
+    });
+    const noor = stage.getByRole("button", { name: "Noor Haddad, offline" });
+
+    await expect(status).toContainText("3 in the room · nothing has changed");
+    await expect(announced).toBeEmpty();
+    await expect(here.getByRole("listitem")).toHaveCount(3);
+    await expect(
+      stage.getByRole("list", { name: "Coldbrook dispatch, Offline, 2" }),
+    ).toBeVisible();
+
+    // One roving tab stop, and the arrows cross the group boundary as if the
+    // two lists were one column — which, to someone stepping down them, it is.
+    await ines.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(marta).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(noor).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("3 in the room · opened Noor Haddad");
+
+    // Rui crosses from offline to online: one row, moved, and one sentence.
+    await stage
+      .getByRole("button", { name: "Rui comes online" })
+      .press("Enter");
+    await expect(announced).toHaveText("Rui Baptista is online");
+    await expect(status).toContainText(
+      "4 in the room · Rui Baptista is online",
+    );
+    await expect(
+      stage.getByRole("button", { name: "Rui Baptista, online" }),
+    ).toBeVisible();
+    await expect(
+      stage.getByRole("list", { name: "Coldbrook dispatch, In the room, 4" }),
+    ).toBeVisible();
+    await expect(
+      stage.getByRole("list", { name: "Coldbrook dispatch, Offline, 1" }),
+    ).toBeVisible();
+
+    // Leaving is the other direction, and it is stated rather than celebrated.
+    await stage.getByRole("button", { name: "Tomas leaves" }).press("Enter");
+    await expect(announced).toHaveText("Tomas Lindqvist left");
+    await expect(status).toContainText("3 in the room · Tomas Lindqvist left");
+    await expect(
+      stage.getByRole("button", { name: /Tomas Lindqvist/ }),
+    ).toHaveCount(0);
+  });
+
+  test("avatar-cluster: focus spreads the faces, the floor passes, and the overflow chip counts", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/avatar-cluster");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const cluster = stage.getByRole("list", {
+      name: "Coldbrook standup, 6 people",
+    });
+    const ines = stage.getByRole("button", { name: "Ines Moreau, speaking" });
+    const rui = stage.getByRole("button", { name: "Rui Baptista" });
+
+    await expect(status).toContainText("6 in the room · speaking Ines");
+    await expect(announced).toBeEmpty();
+    await expect(
+      stage.getByRole("button", { name: "Marta Ferreira, on dock three" }),
+    ).toBeVisible();
+
+    // Focus is the keyboard's path to the hover: the cluster widens rather than
+    // the faces sliding out from under each other.
+    const closed = await presenceWidthOf(cluster)();
+    await ines.focus();
+    await expect
+      .poll(presenceWidthOf(cluster), presenceBeat)
+      .toBeGreaterThan(closed + 40);
+
+    // The arrows step along the row and onto the chip at the end of it.
+    await page.keyboard.press("ArrowRight");
+    await expect(rui).toBeFocused();
+    await page.keyboard.press("End");
+    const chip = stage.getByRole("button", {
+      name: "2 more people in Coldbrook standup",
+    });
+    await expect(chip).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("showing the rest");
+
+    // Escape gives the overlap back without taking focus off the chip.
+    await page.keyboard.press("Escape");
+    await expect(chip).toBeFocused();
+    await expect
+      .poll(presenceWidthOf(cluster), presenceBeat)
+      .toBeLessThan(closed + 20);
+
+    // Passing the floor renames one face and says who has it now.
+    await stage.getByRole("button", { name: "Pass the floor" }).press("Enter");
+    await expect(announced).toHaveText("Rui Baptista is speaking");
+    await expect(status).toContainText("6 in the room · speaking Rui");
+    await expect(
+      stage.getByRole("button", { name: "Rui Baptista, speaking" }),
+    ).toBeVisible();
+
+    // A departure re-counts the room, and the chip counts one fewer face —
+    // in words, singular, not "1 more people".
+    await stage.getByRole("button", { name: "Lea drops off" }).press("Enter");
+    await expect(announced).toHaveText("5 in Coldbrook standup");
+    await expect(status).toContainText("5 in the room · speaking Rui");
+    await expect(
+      stage.getByRole("button", { name: "1 more person in Coldbrook standup" }),
+    ).toBeVisible();
+    await expect(
+      stage.getByRole("list", { name: "Coldbrook standup, 5 people" }),
+    ).toBeVisible();
+  });
+
+  test("status-line: a status types itself out, the ring reports the remainder, and Escape wipes it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/status-line");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+
+    await expect(status).toContainText("Rui Baptista — no status");
+    await expect(announced).toBeEmpty();
+    // With no status the block is the name row alone, with no control waiting.
+    await expect(
+      stage.getByRole("button", { name: /^Clear status/ }),
+    ).toHaveCount(0);
+
+    // The line types itself, and the settled sentence is spoken once — never
+    // a character at a time.
+    await stage.getByRole("button", { name: "Set status" }).press("Enter");
+    await expect(announced).toHaveText(
+      "Status set: At the loading dock until four",
+      { timeout: 10_000 },
+    );
+    await expect(status).toContainText("Rui Baptista — status set");
+    const clear = stage.getByRole("button", {
+      name: "Clear status for Rui Baptista",
+    });
+    await expect(clear).toBeVisible();
+
+    // The ring is reinforcement: the remainder it draws is printed in its name
+    // as well, and the drain the host reports is what moves it.
+    const ring = stage.getByRole("img", { name: /^Expires in/ });
+    await expect.poll(presenceMinutesOf(ring), presenceBeat).toBeLessThan(45);
+    await stage
+      .getByRole("button", { name: "Skip a quarter hour" })
+      .press("Enter");
+    await expect
+      .poll(presenceMinutesOf(ring), presenceBeat)
+      .toBeLessThanOrEqual(30);
+
+    // Escape from inside the block erases the line and says so once.
+    await clear.focus();
+    await page.keyboard.press("Escape");
+    await expect(announced).toHaveText("Status cleared");
+    await expect(status).toContainText("Rui Baptista — cleared");
+    await expect(clear).toHaveCount(0);
+  });
+
+  test("last-seen: the wording climbs on its own, stays unspoken, and coming online swaps the label", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/last-seen");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const mark = stage.getByRole("img").first();
+
+    await expect(mark).toHaveAccessibleName(
+      "Ines Moreau was last seen 4 minutes ago, at 14:52",
+    );
+    await expect(status).toContainText("Ines Moreau — 4 minutes ago");
+
+    // The count is the component's own, and it re-words itself as it climbs.
+    await stage
+      .getByRole("button", { name: "Let the clock run" })
+      .press("Enter");
+    await expect
+      .poll(presenceNameOf(mark), presenceBeat)
+      .toMatch(/was last seen (?:[5-9]|[1-9]\d+) minutes ago, at 14:52$/);
+    await expect(status).not.toContainText("4 minutes ago");
+    // What is drawn is louder than what is spoken: the minute-by-minute climb
+    // never reaches the live region, which still holds the sentence it froze.
+    await expect(announced).toHaveText(
+      "Ines Moreau was last seen 4 minutes ago, at 14:52",
+    );
+
+    await stage.getByRole("button", { name: "Hold the clock" }).press("Enter");
+
+    // Coming online is worth hearing, and the word is drawn beside the dot.
+    await stage
+      .getByRole("button", { name: "Ines comes online" })
+      .press("Enter");
+    await expect(mark).toHaveAccessibleName("Ines Moreau is online");
+    await expect(mark).toContainText("Online");
+    await expect(announced).toHaveText("Ines Moreau is online");
+    await expect(status).toContainText("Ines Moreau — online since 14:52");
+
+    // And going offline hands the wording back at the base the host reports.
+    await stage
+      .getByRole("button", { name: "Ines goes offline" })
+      .press("Enter");
+    await expect(mark).toHaveAccessibleName(
+      "Ines Moreau was last seen just now, at 14:52",
+    );
+    await expect(status).toContainText("Ines Moreau — just now");
+  });
+
+  test("typing-cluster: a third typer merges the rows, the disclosure spreads them, and Escape re-merges", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/typing-cluster");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const strip = stage.getByRole("list", {
+      name: "Coldbrook depot, dispatch",
+    });
+
+    // Two typers get a row each, and each row says whose it is.
+    await expect(strip.getByRole("listitem")).toHaveCount(2);
+    await expect(strip.getByRole("listitem").first()).toHaveAccessibleName(
+      "Marta Vieira is typing",
+    );
+    await expect(announced).toHaveText(
+      "Marta Vieira and Rui Sequeira are typing",
+    );
+    await expect(status).toContainText("2 typing · Marta, Rui");
+
+    // The third merges the rows into one disclosure that still names everyone.
+    await stage.getByRole("button", { name: "Add typer" }).press("Enter");
+    const merged = stage.getByRole("button", { name: /are typing\./ });
+    await expect(merged).toHaveAccessibleName(
+      "Marta Vieira, Rui Sequeira and Ines Barbosa are typing. Show each",
+    );
+    await expect(merged).toHaveAttribute("aria-expanded", "false");
+    await expect(announced).toHaveText(
+      "Marta Vieira, Rui Sequeira and Ines Barbosa are typing",
+    );
+    await expect(status).toContainText("3 typing");
+    await expect(status).toContainText("merged");
+    // Merged, the stacked discs are decoration: the sentence carries the names.
+    await expect(strip.getByRole("listitem")).toHaveCount(0);
+
+    // Enter spreads it back into rows that are all legible at once.
+    await merged.press("Enter");
+    await expect(merged).toHaveAttribute("aria-expanded", "true");
+    await expect(merged).toHaveAccessibleName(
+      "Marta Vieira, Rui Sequeira and Ines Barbosa are typing. Merge",
+    );
+    await expect(status).toContainText("3 typing · spread");
+    await expect(strip.getByRole("listitem")).toHaveCount(3);
+    await expect(strip.getByRole("listitem").last()).toHaveAccessibleName(
+      "Ines Barbosa is typing",
+    );
+
+    // Escape re-merges without moving focus off the control that spread it.
+    await page.keyboard.press("Escape");
+    await expect(merged).toHaveAttribute("aria-expanded", "false");
+    await expect(merged).toBeFocused();
+    await expect(status).toContainText("merged");
+
+    // When everyone stops, the strip gives its room back and says nothing.
+    const stop = stage.getByRole("button", { name: "Stop one" });
+    await stop.press("Enter");
+    await stop.press("Enter");
+    await stop.press("Enter");
+    await expect(status).toContainText("Quiet · nobody typing");
+    await expect(strip.getByRole("listitem")).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+  });
+
+  test("join-toast: an arrival lands and speaks once, a burst folds, and focus holds the timers", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/join-toast");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const stack = stage.getByRole("list", {
+      name: "Arrivals in Coldbrook depot",
+    });
+    const cards = stack.getByRole("listitem");
+
+    await expect(status).toContainText("Nobody yet · the room is quiet");
+    await expect(cards).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+
+    await stage.getByRole("button", { name: "Someone joins" }).press("Enter");
+    await expect(announced).toHaveText("Rui Sequeira joined Coldbrook depot");
+    await expect(cards).toHaveCount(1);
+    await expect(cards.first()).toHaveAccessibleName(
+      "Rui Sequeira joined Coldbrook depot",
+    );
+    await expect(status).toContainText("1 showing · 1 joined · last Rui");
+
+    // Past the cap the older cards fold into one line, so a burst of arrivals
+    // cannot grow the box without bound.
+    await stage.getByRole("button", { name: "Three at once" }).press("Enter");
+    await expect(announced).toHaveText("Lena Corvo joined Coldbrook depot");
+    await expect(status).toContainText("4 showing · 4 joined · last Lena");
+    await expect(cards).toHaveCount(4);
+    await expect(cards.last()).toHaveAccessibleName("1 more joined earlier");
+
+    // Untouched, every card carries its own timer and clears itself, the
+    // folded one included: the box gives the room back on its own.
+    await expect(status).toContainText("0 showing · 4 joined · cleared", {
+      timeout: 10_000,
+    });
+    await expect(cards).toHaveCount(0);
+
+    // Focus in the stack is the keyboard's path to the hover pause.
+    await stage.getByRole("button", { name: "Someone joins" }).press("Enter");
+    await expect(announced).toHaveText("Marta Vieira joined Coldbrook depot");
+    await stage
+      .getByRole("button", { name: "Dismiss Marta Vieira joined" })
+      .focus();
+    await expect(status).toContainText("· held");
+
+    // Escape clears the room, and the arrival that landed is not re-read.
+    await page.keyboard.press("Escape");
+    await expect(cards).toHaveCount(0);
+    await expect(status).toContainText("0 showing · 5 joined · cleared");
+    await expect(announced).toHaveText("Marta Vieira joined Coldbrook depot");
+
+    // Leaving is the other half of the hold. With the stack empty, nothing
+    // focused inside it and no pointer near it, the next arrival's timer owes
+    // us the same four seconds the first one ran. DEFECT (KQ-877): the hold
+    // latches on when the focused control is removed with the card, so this
+    // arrival — and every one after it — never clears itself.
+    await stage.getByRole("button", { name: "Someone joins" }).press("Enter");
+    await expect(announced).toHaveText("Rui Sequeira joined Coldbrook depot");
+    await expect(status).toContainText("0 showing · 6 joined · cleared", {
+      timeout: 8000,
+    });
+  });
+
+  test("role-badge: the pill carries the rank and the direction, and the ladder chooses by key", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/role-badge");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const pill = stage.getByRole("button", { name: /^Role:/ });
+
+    await expect(pill).toHaveAccessibleName("Role: Member. Change role");
+    await expect(pill).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("Marta · Member · unchanged");
+    await expect(announced).toBeEmpty();
+
+    // A promotion states its direction rather than leaving it to the glint.
+    await stage.getByRole("button", { name: "Promote" }).press("Enter");
+    await expect(announced).toHaveText("Marta Vieira is now Mod, promoted");
+    await expect(pill).toHaveAccessibleName("Role: Mod. Change role");
+    await expect(status).toContainText("Marta · Mod · promoted");
+
+    // And a demotion says demoted, on the same words and the same beat.
+    await stage.getByRole("button", { name: "Demote" }).press("Enter");
+    await expect(announced).toHaveText("Marta Vieira is now Member, demoted");
+    await expect(pill).toHaveAccessibleName("Role: Member. Change role");
+    await expect(status).toContainText("Marta · Member · demoted");
+
+    // The pill is the control: it opens the ladder in flow and hands it focus.
+    await pill.press("Enter");
+    const ladder = stage.getByRole("listbox", {
+      name: "Role for Marta Vieira",
+    });
+    await expect(pill).toHaveAttribute("aria-expanded", "true");
+    await expect(ladder).toBeFocused();
+    await expect(status).toContainText("· list open");
+    await expect(ladder.getByRole("option")).toHaveCount(4);
+
+    // End jumps to the top of the ladder and Enter chooses it.
+    await page.keyboard.press("End");
+    await expect(ladder).toHaveAttribute(
+      "aria-activedescendant",
+      /-opt-admin$/,
+    );
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Marta Vieira is now Admin, promoted");
+    await expect(pill).toHaveAccessibleName("Role: Admin. Change role");
+    await expect(pill).toHaveAttribute("aria-expanded", "false");
+    await expect(pill).toBeFocused();
+    await expect(status).toContainText("Marta · Admin · promoted");
+
+    // Escape closes the ladder and returns focus to the pill it rose from.
+    await pill.press("Enter");
+    await expect(pill).toHaveAttribute("aria-expanded", "true");
+    await page.keyboard.press("Escape");
+    await expect(pill).toHaveAttribute("aria-expanded", "false");
+    await expect(pill).toBeFocused();
+    await expect(
+      stage.getByRole("listbox", { name: "Role for Marta Vieira" }),
+    ).toHaveCount(0);
+  });
+
+  test("online-count: a join rolls the figure and speaks the step, and the figure lists the room", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/online-count");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const figure = stage.getByRole("button", { name: /here now/ });
+
+    // The digits and the graph are aria-hidden, so the button's name is the
+    // whole reading: the count, its hour, and what pressing it does.
+    await expect(figure).toHaveAccessibleName(
+      "Coldbrook depot: 6 here now, up 2 in the last hour. Show names",
+    );
+    await expect(figure).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("6 here · steady · hour 4–7");
+    await expect(announced).toBeEmpty();
+
+    // A join moves the figure by one and the graph gains its sample.
+    await stage.getByRole("button", { name: "Someone joins" }).press("Enter");
+    await expect(announced).toHaveText("7 here now, up 1");
+    await expect(status).toContainText("7 here · up 1 · hour 5–7");
+    await expect(figure).toHaveAccessibleName(
+      "Coldbrook depot: 7 here now, up 2 in the last hour. Show names",
+    );
+
+    // Pressing the figure pins the names open, under it, in the box's own
+    // flow. DEFECT (KQ-879): with `open` controlled — which is how the demo
+    // and the props table use it — the press only moves the component's own
+    // `pinned` state, `onOpenChange` is never called, and the host is never
+    // told to open. The list cannot be opened at all here, by key or pointer.
+    await figure.press("Enter");
+    await expect(figure).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("· names open");
+    const names = stage.getByRole("list", {
+      name: "Here now in Coldbrook depot",
+    });
+    await expect(names.getByRole("listitem")).toHaveCount(7);
+    await expect(names.getByRole("listitem").first()).toContainText(
+      "Marta Vieira",
+    );
+    await expect(names.getByRole("listitem").last()).toHaveText(
+      "and 1 more here",
+    );
+
+    // Escape shuts the list and leaves focus on the figure that opened it.
+    await page.keyboard.press("Escape");
+    await expect(figure).toHaveAttribute("aria-expanded", "false");
+    await expect(figure).toBeFocused();
+    await expect(names).toHaveCount(0);
+  });
+
+  test("away-timer: an away period drains, warms inside the warn window, and expiry brings the dot back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/away-timer");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const chip = stage.getByRole("group", { name: "Marta Vieira presence" });
+
+    // The state is a sentence, so the ring and the dim are never the signal.
+    await expect(chip).toContainText("Online");
+    await expect(status).toContainText("Online · here");
+    await expect(announced).toBeEmpty();
+
+    await stage.getByRole("button", { name: "8 seconds" }).press("Enter");
+    await chip.getByRole("button", { name: "Set away" }).press("Enter");
+    await expect(announced).toHaveText("Marta Vieira is away for 8 seconds");
+    await expect(chip.getByRole("button", { name: "I am back" })).toBeVisible();
+    await expect(chip).toContainText("Away · Back in ten · 0:0");
+    await expect(status).toContainText("Away · 0:0");
+
+    // The countdown is drawn, not spoken: a screen reader is not read a number
+    // every second, and the warn window is reached on the one clock.
+    await expect(status).toContainText("warn", { timeout: 10_000 });
+    await expect(announced).toHaveText("Marta Vieira is away for 8 seconds");
+
+    // Zero returns the presence dot, and the return is what is announced.
+    await expect(announced).toHaveText("Marta Vieira is back", {
+      timeout: 12_000,
+    });
+    await expect(status).toContainText("Online · returned at zero");
+    await expect(chip).toContainText("Online");
+    await expect(chip.getByRole("button", { name: "Set away" })).toBeVisible();
+  });
+});

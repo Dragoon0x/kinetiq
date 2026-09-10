@@ -278,10 +278,23 @@ export function JoinToast({
   );
   const [held, setHeld] = React.useState(false);
 
+  const stackRef = React.useRef<HTMLUListElement | null>(null);
   const hold = (next: boolean) => {
     setHeld(next);
     onHoldChange?.(next);
   };
+  // A card dismissed while it holds focus is gone before React can deliver its
+  // blur, so the hold would latch on and every later arrival would sit unread
+  // for ever. The stack watches for focus leaving it in the DOM instead.
+  React.useEffect(() => {
+    const onFocusOut = () => {
+      const active = document.activeElement;
+      if (!stackRef.current?.contains(active)) hold(false);
+    };
+    document.addEventListener("focusout", onFocusOut);
+    return () => document.removeEventListener("focusout", onFocusOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const keep = Math.max(1, Math.floor(max));
   // Newest first: an arrival lands on top and pushes the rest down.
@@ -328,6 +341,7 @@ export function JoinToast({
       >
         <div ref={innerRef}>
           <ul
+            ref={stackRef}
             role="list"
             aria-label={`Arrivals in ${room}`}
             onPointerEnter={() => hold(true)}

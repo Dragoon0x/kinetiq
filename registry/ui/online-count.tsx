@@ -144,14 +144,16 @@ export function OnlineCount({
     countRef.current = onCountChange;
   });
 
-  const firstRun = React.useRef(true);
-  React.useEffect(() => {
-    if (firstRun.current) {
-      firstRun.current = false;
-      return;
+  // Reported from the setter, not from an effect on the derived value: under a
+  // controlled `open` the derived value cannot change until the host answers,
+  // so an effect watching it would never run and the list could never open.
+  const setOpen = (next: boolean) => {
+    if (!openControlled) {
+      setPinned(next);
+      if (!next) setHovered(false);
     }
-    openRef.current?.(isOpen);
-  }, [isOpen]);
+    if (next !== isOpen) openRef.current?.(next);
+  };
 
   // The spoken sentence is frozen at the moment the figure moved, so a quick
   // run of joins never leaves the announcement describing the wrong step.
@@ -195,13 +197,18 @@ export function OnlineCount({
   return (
     <div
       ref={ref}
-      onPointerEnter={() => setHovered(true)}
-      onPointerLeave={() => setHovered(false)}
+      onPointerEnter={() => {
+        if (openControlled) openRef.current?.(true);
+        else setHovered(true);
+      }}
+      onPointerLeave={() => {
+        if (openControlled) openRef.current?.(false);
+        else setHovered(false);
+      }}
       onKeyDown={(event) => {
         if (event.key === "Escape" && isOpen) {
           event.preventDefault();
-          setPinned(false);
-          setHovered(false);
+          setOpen(false);
         }
       }}
       className={cn(
@@ -217,7 +224,7 @@ export function OnlineCount({
           aria-label={`${label}: ${total} here now, ${stepPhrase} in the ${windowLabel}. ${
             isOpen ? "Hide names" : "Show names"
           }`}
-          onClick={() => setPinned(!pinned)}
+          onClick={() => setOpen(!isOpen)}
           className={cn(
             "flex items-center gap-2 rounded-2 px-1 py-0.5 outline-none",
             "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
