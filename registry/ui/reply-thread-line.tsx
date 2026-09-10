@@ -57,6 +57,10 @@ const round = (value: number): number => Number(value.toFixed(3));
 const nameOf = (message: LineMessage) =>
   message.from === "me" ? "You" : message.from;
 
+/** Closes a clause without doubling the stop the message already carries. */
+const sentence = (text: string): string =>
+  /[.!?…]$/.test(text.trim()) ? text.trim() : `${text.trim()}.`;
+
 const stamp = (message: LineMessage) =>
   message.time ? `${nameOf(message)} at ${message.time}` : nameOf(message);
 
@@ -256,9 +260,11 @@ export function ReplyThreadLine({
                   else itemRefs.current.delete(message.id);
                 }}
                 tabIndex={index === currentIndex ? 0 : -1}
-                aria-label={`${stamp(message)}${
-                  parent ? `, replying to ${stamp(parent)}` : ""
-                }: ${message.text}${lit ? `. Answered by ${activeReply ? stamp(activeReply) : ""}` : ""}`}
+                aria-label={`${sentence(
+                  `${stamp(message)}${
+                    parent ? `, replying to ${stamp(parent)}` : ""
+                  }: ${message.text}`,
+                )}${lit ? ` Answered by ${activeReply ? stamp(activeReply) : ""}` : ""}`}
                 onKeyDown={(event) => onKeyDown(event, message, index)}
                 onFocus={() => {
                   setFocusId(message.id);

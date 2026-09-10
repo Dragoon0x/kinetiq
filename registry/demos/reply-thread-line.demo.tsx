@@ -84,7 +84,7 @@ export function ReplyThreadLineDemo() {
         ) : (
           "no line"
         )}
-        {` · ${replies} replies · ${jumps} jumps`}
+        {` · ${replies} replies · ${jumps} ${jumps === 1 ? "jump" : "jumps"}`}
       </p>
     </div>
   );

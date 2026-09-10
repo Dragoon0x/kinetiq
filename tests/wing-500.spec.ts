@@ -20434,3 +20434,687 @@ test.describe("composing", () => {
     ).toHaveText([line]);
   });
 });
+
+/** Polls on a tight cadence: a reaction lands on a spring, not on a frame. */
+const reactionsBeat = { intervals: [100], timeout: 8000 };
+
+/** A poll target: one laid-out box's height, in pixels. */
+const reactionsHeightOf = (target: Locator) => async (): Promise<number> => {
+  const box = await target.boundingBox();
+  return box ? Math.round(box.height) : Number.NaN;
+};
+
+/** A poll target: how much of a decorative wash is actually drawn. */
+const reactionsOpacityOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) =>
+    Number(window.getComputedStyle(element).opacity),
+  );
+
+/**
+ * A line that only stands for a beat — the 900ms a host spends producing a
+ * translation — is not something a poll can prove it saw, and a miss would be
+ * a fact about the polling interval rather than about the component. The trail
+ * is recorded in the page instead, by an observer installed before the press
+ * and read back once the card has settled.
+ */
+const recordReactionsTrail = async (target: Locator): Promise<void> => {
+  await target.evaluate((element) => {
+    const trail: string[] = [];
+    const read = () => {
+      const text = (element.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (trail[trail.length - 1] !== text) trail.push(text);
+    };
+    read();
+    new MutationObserver(read).observe(element, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    (window as unknown as { __reactionsTrail: string[] }).__reactionsTrail =
+      trail;
+  });
+};
+
+/** Every line the recorded region has held, oldest first. */
+const reactionsTrail = async (page: Page): Promise<string[]> => {
+  const trail = await page.evaluate(
+    () =>
+      (window as unknown as { __reactionsTrail?: string[] }).__reactionsTrail ??
+      [],
+  );
+  // The empty line a region rests on is not something anyone hears.
+  return trail.filter((line) => line.length > 0);
+};
+
+/**
+ * The reactions family is what a thread grows on top of its messages: the
+ * chips a reaction is taken on, the bar that offers them on approach, the side
+ * conversation a count control opens, a quote that points back at the words it
+ * took, the line a reply draws to what it answers, the standing a tally keeps,
+ * the badge that counts replies you have not read, the bar a message is pinned
+ * to, the star that saves one for later, and the card that turns a message
+ * over into your own language. Every test drives the mechanic the component
+ * advertises — through the keyboard wherever it publishes one, and by pressing
+ * the demo's own controls rather than clicking them, since a pointer parked
+ * over a thread that grows would hover whatever slid under it — and reads the
+ * outcome off the demo's status line and the ARIA the component publishes
+ * about itself.
+ */
+test.describe("reactions", () => {
+  test("react-burst: a taken reaction rolls its count, and the last one withdrawn takes its chip out of the row", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/react-burst");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component speaks before the demo's line, so it is read off the first.
+    const announced = stage.locator("[role='status']").first();
+    const row = stage.getByRole("list", {
+      name: "Reactions on Marta's message",
+    });
+    const spark = stage.getByRole("button", { name: /^Spark,/ });
+    const watching = stage.getByRole("button", { name: /^Watching,/ });
+
+    await expect(status).toContainText(
+      "Spark 2 · Agree 1 · Lift 1 · Watching 1 · yours Lift",
+    );
+    // The chip's name is the whole sentence: who reacted, and what a press does.
+    await expect(spark).toHaveAccessibleName(
+      "Spark, 2 people: Marta and Ines. Press to react.",
+    );
+    await expect(spark).toHaveAttribute("aria-pressed", "false");
+    await expect(announced).toBeEmpty();
+
+    // One tab stop: the arrows walk the row and the ends do not wrap.
+    await spark.focus();
+    await page.keyboard.press("End");
+    await expect(watching).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await expect(watching).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(spark).toBeFocused();
+
+    // Enter takes the reaction: the count rolls and the sentence follows it.
+    await page.keyboard.press("Enter");
+    await expect(spark).toHaveAttribute("aria-pressed", "true");
+    await expect(spark).toHaveAccessibleName(
+      "Spark, 3 people: Marta, Ines and you. Press to withdraw.",
+    );
+    await expect(announced).toHaveText("Spark now 3, you reacted");
+    await expect(status).toContainText(
+      "Spark 3 · Agree 1 · Lift 1 · Watching 1 · yours Spark, Lift",
+    );
+    // The names card is aria-hidden decoration for words the chip already says.
+    await expect(
+      stage.getByText("Spark · Marta, Ines and you").first(),
+    ).toBeVisible();
+
+    // A host-side arrival rolls the count without touching the frozen line: a
+    // live region that re-read itself here would speak a press nobody made.
+    await stage.getByRole("button", { name: "Someone reacts" }).press("Enter");
+    await expect(status).toContainText("Spark 4 · Agree 1 · Lift 1");
+    await expect(spark).toHaveAccessibleName(
+      "Spark, 4 people: Marta, Ines, Rui and 1 more. Press to withdraw.",
+    );
+    await expect(announced).toHaveText("Spark now 3, you reacted");
+
+    // Withdrawing the only reaction on Lift takes its chip out of the row, and
+    // walks focus to the neighbour rather than dropping it on the document.
+    const lift = stage.getByRole("button", { name: /^Lift,/ });
+    await lift.press("Enter");
+    await expect(lift).toHaveCount(0);
+    await expect(announced).toHaveText("Lift withdrawn, no reactions left");
+    await expect(status).toContainText(
+      "Spark 4 · Agree 1 · Watching 1 · yours Spark",
+    );
+    await expect(row.getByRole("listitem")).toHaveCount(3);
+    await expect(watching).toBeFocused();
+  });
+
+  test("reaction-picker: the React control opens the bar into the keyboard, and a pick lands on the row", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/reaction-picker");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const react = stage.getByRole("button", { name: "React to Rui's message" });
+    const chips = stage
+      .getByRole("list", { name: "Reactions on Rui's message" })
+      .getByRole("listitem");
+
+    await expect(status).toContainText(
+      "picker closed · yours none · 4 reactions",
+    );
+    await expect(react).toHaveAttribute("aria-expanded", "false");
+    await expect(chips).toHaveCount(2);
+
+    // The bar is never hover-only: an arrow off the control opens it and moves
+    // into it, rather than leaving focus behind on what opened it.
+    await react.focus();
+    await page.keyboard.press("ArrowUp");
+    await expect(react).toHaveAttribute("aria-expanded", "true");
+    const menu = stage.getByRole("menu", {
+      name: "Quick reactions on Rui's message",
+    });
+    const marks = menu.getByRole("menuitemcheckbox");
+    await expect(marks).toHaveCount(5);
+    await expect(marks.first()).toBeFocused();
+    await expect(status).toContainText(
+      "picker open · yours none · 4 reactions",
+    );
+
+    await page.keyboard.press("ArrowRight");
+    await expect(marks.nth(1)).toBeFocused();
+    await expect(marks.nth(1)).toHaveAccessibleName("Agree");
+
+    // The tally commits at the press, not at the landing: the row and the
+    // spoken sentence are both true before any ghost has finished flying.
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Agree added, 5 reactions");
+    await expect(status).toContainText(
+      "picker closed · yours Agree · 5 reactions",
+    );
+    await expect(chips).toHaveCount(3);
+    await expect(chips.nth(1)).toHaveAccessibleName("Agree, 1");
+    // The pick hands the control back rather than leaving focus in a closed bar.
+    await expect(react).toBeFocused();
+    await expect(react).toHaveAttribute("aria-expanded", "false");
+
+    // Escape closes without picking, and gives the control back again.
+    await page.keyboard.press("ArrowDown");
+    await expect(react).toHaveAttribute("aria-expanded", "true");
+    await expect(marks.first()).toBeFocused();
+    await expect(marks.nth(1)).toHaveAccessibleName(
+      "Agree, added. Press to remove.",
+    );
+    await page.keyboard.press("Escape");
+    await expect(react).toHaveAttribute("aria-expanded", "false");
+    await expect(react).toBeFocused();
+    await expect(status).toContainText(
+      "picker closed · yours Agree · 5 reactions",
+    );
+  });
+
+  test("thread-open: a count control opens the side conversation, takes a reply and hands focus back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/thread-open");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const count = stage.getByRole("button", {
+      name: "3 replies to Marta, last from Ines. Opens the side conversation.",
+    });
+
+    await expect(status).toContainText(
+      "thread closed · 3 messages · 4 replies",
+    );
+    await expect(count).toHaveAttribute("aria-expanded", "false");
+
+    await count.press("Enter");
+    const panel = stage.getByRole("dialog", {
+      name: "Side conversation with Marta",
+    });
+    await expect(panel).toHaveAttribute("aria-modal", "true");
+    // The panel is focused from the commit it mounts in, not from a timer.
+    await expect(panel).toBeFocused();
+    await expect(announced).toHaveText(
+      "Side conversation with Marta open, 3 replies",
+    );
+    await expect(status).toContainText("thread Marta · 3 messages · 4 replies");
+    const replies = panel
+      .getByRole("list", { name: "Replies to Marta" })
+      .getByRole("listitem");
+    await expect(replies).toHaveCount(3);
+
+    // Send is held rather than removed from the order while there is nothing
+    // to send, and Enter in the composer is the path the hint advertises.
+    const send = panel.getByRole("button", { name: "Send" });
+    await expect(send).toHaveAttribute("aria-disabled", "true");
+    const field = panel.getByRole("textbox", { name: "Reply to Marta" });
+    await field.fill("I will bring the second docket.");
+    await expect(send).not.toHaveAttribute("aria-disabled", "true");
+    await field.press("Enter");
+    await expect(announced).toHaveText("Reply sent to Marta");
+    await expect(replies).toHaveCount(4);
+    await expect(replies.last()).toContainText(
+      "I will bring the second docket.",
+    );
+    await expect(field).toHaveValue("");
+    await expect(status).toContainText("thread Marta · 3 messages · 5 replies");
+
+    // Escape closes, and focus lands back on the exact control that opened it —
+    // which is now carrying the reply that landed.
+    await page.keyboard.press("Escape");
+    await expect(panel).toHaveCount(0);
+    await expect(announced).toHaveText("Side conversation closed");
+    await expect(status).toContainText(
+      "thread closed · 3 messages · 5 replies",
+    );
+    await expect(
+      stage.getByRole("button", {
+        name: "4 replies to Marta, last from You. Opens the side conversation.",
+      }),
+    ).toBeFocused();
+  });
+
+  test("quote-block: the card unfolds to a measured height, marks the words it took, and carries the thread back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/quote-block");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const disclosure = stage.getByRole("button", {
+      name: /^Quote from Marta, 07:12/,
+    });
+    // The card's own body, read off the control that discloses it.
+    const bodyId = await disclosure.getAttribute("aria-controls");
+    const body = stage.locator(`[id="${bodyId}"]`);
+    // The run the quote took out of Marta's message, and the wash behind it.
+    const mark = stage.locator("mark").first();
+    const wash = mark.locator("span[aria-hidden]").first();
+
+    await expect(status).toContainText("quote folded · no jump yet");
+    await expect(disclosure).toHaveAttribute("aria-expanded", "false");
+    await expect(mark).toHaveText("the loose crate never got a label");
+    await expect.poll(reactionsHeightOf(body), reactionsBeat).toBeLessThan(24);
+    await expect.poll(reactionsOpacityOf(wash), reactionsBeat).toBe(0);
+
+    // The disclosure glides to a height that was measured, not reserved, and
+    // focusing the card draws the wash across the exact words in the original.
+    await disclosure.press("Enter");
+    await expect(disclosure).toHaveAttribute("aria-expanded", "true");
+    await expect(disclosure).toHaveAccessibleName(
+      "Quote from Marta, 07:12: fold",
+    );
+    await expect(announced).toHaveText("Quote from Marta unfolded");
+    await expect(status).toContainText("quote open · no jump yet");
+    await expect
+      .poll(reactionsHeightOf(body), reactionsBeat)
+      .toBeGreaterThan(40);
+    await expect
+      .poll(reactionsOpacityOf(wash), reactionsBeat)
+      .toBeGreaterThan(0.9);
+
+    // The second control carries the thread back and lands focus on the source
+    // itself, so the words are where the reader is put, not merely scrolled to.
+    await stage
+      .getByRole("button", { name: "Show Marta's message in the thread" })
+      .press("Enter");
+    await expect(announced).toHaveText("Showing Marta's message from 07:12");
+    await expect(status).toContainText("quote open · showing Marta 07:12");
+    const source = stage.getByRole("listitem").first();
+    await expect(source).toBeFocused();
+    // The wash holds while it is the target, with focus off the card entirely.
+    await expect
+      .poll(reactionsOpacityOf(wash), reactionsBeat)
+      .toBeGreaterThan(0.9);
+
+    // The host folds the same card from outside, and the room goes back.
+    await stage
+      .getByRole("button", { name: "Fold Ines's quote" })
+      .press("Enter");
+    await expect(disclosure).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("quote folded · showing Marta 07:12");
+    await expect.poll(reactionsHeightOf(body), reactionsBeat).toBeLessThan(24);
+  });
+
+  test("reply-thread-line: an arrow draws the line to the message a reply answers, and Enter walks to it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/reply-thread-line");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const marta = stage.getByRole("listitem", { name: /^Marta at 07:12/ });
+    const rui = stage.getByRole("listitem", { name: /^Rui at 07:44/ });
+    const line = stage.locator("svg path");
+
+    await expect(status).toContainText("no line · 3 replies · 0 jumps");
+    await expect(line).toHaveCount(0);
+
+    // The column costs one Tab stop and the arrows walk it; only a reply draws.
+    await marta.focus();
+    await expect(announced).toBeEmpty();
+    for (let step = 0; step < 4; step += 1) {
+      await page.keyboard.press("ArrowDown");
+    }
+    await expect(rui).toBeFocused();
+    await expect(announced).toHaveText("Rui at 07:44 answers Marta at 07:12");
+    await expect(status).toContainText("Rui 07:44 answers Marta 07:12");
+
+    // One path of four commands whatever the distance, drawn from the reply's
+    // own gutter up to the message it answers.
+    await expect(line).toHaveCount(1);
+    await expect(line).toHaveAttribute(
+      "d",
+      /^M [\d.]+ [\d.]+ H [\d.]+ V [\d.]+ H [\d.]+$/,
+    );
+    // The answered message says so in its own name rather than in colour.
+    await expect(marta).toHaveAccessibleName(/Answered by Rui at 07:44$/);
+
+    // Enter on a reply moves to the message it answers, and the line goes out
+    // with it: the parent is not itself a reply, so there is nothing to draw.
+    await page.keyboard.press("Enter");
+    await expect(marta).toBeFocused();
+    await expect(line).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+
+    // Escape clears a line the keyboard drew, without moving off the message.
+    const yours = stage.getByRole("listitem", { name: /^You at 07:24/ });
+    await yours.focus();
+    await expect(announced).toHaveText("You at 07:24 answers Ines at 07:19");
+    await expect(line).toHaveCount(1);
+    await page.keyboard.press("Escape");
+    await expect(yours).toBeFocused();
+    await expect(line).toHaveCount(0);
+    await expect(announced).toBeEmpty();
+    await expect(status).toContainText("no line");
+  });
+
+  test("reaction-tally: a vote overtakes, the row re-seats it, and withdrawing the leader levels the standing", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/reaction-tally");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    // The chips sit in the standing, so their order is the reading.
+    const chips = stage
+      .getByRole("list", { name: "Coldbrook depot" })
+      .getByRole("button");
+
+    await expect(chips).toHaveCount(5);
+    await expect(chips.nth(0)).toHaveAccessibleName(
+      "Agree, 5 reactions, you reacted. Withdraw.",
+    );
+    await expect(chips.nth(1)).toHaveAccessibleName(
+      "Spark, 3 reactions, Add yours.",
+    );
+    await expect(status).toContainText("Agree 5 · leads by 2 · yours 1");
+
+    // A vote that overtakes re-seats the row: Lift passes Spark on its way to
+    // second, and focus travels with the chip rather than staying in the slot.
+    const lift = stage.getByRole("button", { name: /^Lift,/ });
+    await lift.press("Enter");
+    await expect(announced).toHaveText("You reacted with Lift, 4 total");
+    await expect(lift).toHaveAttribute("aria-pressed", "true");
+    await expect(chips.nth(1)).toHaveAccessibleName(
+      "Lift, 4 reactions, you reacted. Withdraw.",
+    );
+    await expect(chips.nth(2)).toHaveAccessibleName(
+      "Spark, 3 reactions, Add yours.",
+    );
+    await expect(status).toContainText("Agree 5 · leads by 1 · yours 2");
+    await expect(lift).toBeFocused();
+
+    // Home and End jump to the loudest and the quietest, by standing.
+    await page.keyboard.press("End");
+    await expect(chips.nth(4)).toBeFocused();
+    await expect(chips.nth(4)).toHaveAccessibleName(
+      "Hold, 0 reactions, Add yours.",
+    );
+    await page.keyboard.press("Home");
+    await expect(chips.nth(0)).toBeFocused();
+
+    // Withdrawing from the leader levels the row, and the standing says so
+    // rather than naming a leader that is no longer ahead of anything.
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("You withdrew Agree, 4 total");
+    await expect(chips.nth(0)).toHaveAccessibleName(
+      "Agree, 4 reactions, Add yours.",
+    );
+    await expect(status).toContainText("tied at 4 · yours 1");
+  });
+
+  test("reply-count: arrivals roll the badge and its new chip, and opening the thread closes the gap", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/reply-count");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    // The badge's name carries the count, the gap and the last face at once.
+    const badge = stage.getByRole("button", { name: /replies/ });
+    const oneMore = stage.getByRole("button", { name: "One more reply" });
+
+    await expect(badge).toHaveAccessibleName(
+      "2 replies, last from Rui Baptista at 14:46. Open thread.",
+    );
+    await expect(status).toContainText("2 replies · last Rui 14:46 · all read");
+    await expect(announced).toBeEmpty();
+
+    await oneMore.press("Enter");
+    await expect(announced).toHaveText("Tomas Lindqvist replied, 3 replies");
+    await expect(badge).toHaveAccessibleName(
+      "3 replies, 1 new, last from Tomas Lindqvist at 14:52. Open thread.",
+    );
+    await expect(status).toContainText("3 replies · last Tomas 14:52 · 1 new");
+
+    // A second arrival swaps the face and widens the gap on the same beat.
+    await oneMore.press("Enter");
+    await expect(announced).toHaveText("Marta Ferreira replied, 4 replies");
+    await expect(badge).toHaveAccessibleName(
+      "4 replies, 2 new, last from Marta Ferreira at 14:58. Open thread.",
+    );
+    await expect(status).toContainText("4 replies · last Marta 14:58 · 2 new");
+
+    // Opening the thread marks everything read: the chip collapses and the
+    // badge stops offering a gap it no longer has.
+    await badge.press("Enter");
+    await expect(badge).toHaveAccessibleName(
+      "4 replies, last from Marta Ferreira at 14:58. Open thread.",
+    );
+    await expect(status).toContainText(
+      "4 replies · last Marta 14:58 · all read · opened 1",
+    );
+    // The arrival is frozen where it landed, not re-spoken by the open.
+    await expect(announced).toHaveText("Marta Ferreira replied, 4 replies");
+  });
+
+  test("pin-message: a pin lifts a copy into the bar, the cap refuses politely, and a row sends focus down", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/pin-message");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Coldbrook operations" });
+    const bar = stage.getByRole("region", { name: "Pinned" });
+    const rows = bar.getByRole("listitem");
+
+    await expect(bar.getByRole("heading")).toHaveAccessibleName(
+      "Pinned 1 of 3",
+    );
+    await expect(status).toContainText(
+      "1 of 3 pinned · last pinned Ines 14:38",
+    );
+
+    // A pin lands its copy at the top of the bar and stamps the original.
+    await thread
+      .getByRole("button", { name: "Pin Marta Ferreira's message, sent 14:52" })
+      .press("Enter");
+    await expect(announced).toHaveText(
+      "Pinned Marta Ferreira's message. 2 pinned.",
+    );
+    await expect(status).toContainText(
+      "2 of 3 pinned · last pinned Marta 14:52",
+    );
+    await expect(rows).toHaveCount(2);
+    await expect(rows.first().getByRole("button").first()).toHaveAccessibleName(
+      "Go to Marta Ferreira's message, sent 14:52",
+    );
+    await expect(bar.getByRole("heading")).toHaveAccessibleName(
+      "Pinned 2 of 3",
+    );
+    await expect(
+      thread.getByRole("button", { name: /Marta Ferreira/ }),
+    ).toHaveAttribute("aria-pressed", "true");
+
+    // At the cap the remaining pin stays in the tab order, names the reason,
+    // and says so when pressed rather than doing nothing at all.
+    await thread
+      .getByRole("button", { name: "Pin Rui Baptista's message, sent 15:11" })
+      .press("Enter");
+    await expect(status).toContainText("bar full · unpin one to add");
+    await expect(rows).toHaveCount(3);
+    const refused = thread.getByRole("button", {
+      name: /Ines Moreau's message, sent 15:24/,
+    });
+    await expect(refused).toHaveAccessibleName(
+      "Bar full, unpin one first. Ines Moreau's message, sent 15:24",
+    );
+    await expect(refused).toHaveAttribute("aria-disabled", "true");
+    await refused.press("Enter");
+    await expect(announced).toHaveText(
+      "Pinned bar is full. Unpin one of 3 first.",
+    );
+    await expect(rows).toHaveCount(3);
+
+    // A bar row is a door back to the message it copied.
+    await bar
+      .getByRole("button", {
+        name: "Go to Marta Ferreira's message, sent 14:52",
+      })
+      .press("Enter");
+    const martaRow = thread.getByRole("listitem").nth(1);
+    await expect(martaRow).toBeFocused();
+    await expect(martaRow).toHaveAttribute("aria-current", "true");
+
+    // Cleared, the bar is genuinely nothing: no strip waiting for a pin.
+    await stage.getByRole("button", { name: "Clear the bar" }).press("Enter");
+    await expect(announced).toHaveText("Pinned bar cleared.");
+    await expect(status).toContainText("bar empty");
+    await expect(bar).toHaveCount(0);
+  });
+
+  test("star-mark: a star fills, the saved list takes the message, and removing the last leaves the panel saying so", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/star-mark");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Coldbrook handover" });
+    const saved = stage.getByRole("region", { name: "Saved" });
+    const rows = saved.getByRole("listitem");
+
+    await expect(saved.getByRole("heading")).toHaveAccessibleName("Saved 1");
+    await expect(status).toContainText("1 saved · last Rui 14:46");
+
+    // A star press saves the message and the newest save lands on top.
+    await thread
+      .getByRole("button", { name: "Save Ines Moreau's message, sent 15:02" })
+      .press("Enter");
+    await expect(announced).toHaveText("Saved Ines Moreau's message. 2 saved.");
+    await expect(status).toContainText("2 saved · last Ines 15:02");
+    await expect(
+      thread.getByRole("button", { name: /Ines Moreau/ }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(saved.getByRole("heading")).toHaveAccessibleName("Saved 2");
+    await expect(rows).toHaveCount(2);
+    await expect(rows.first().getByRole("button").first()).toHaveAccessibleName(
+      "Go to Ines Moreau's message, sent 15:02",
+    );
+
+    // The saved row sends focus back to the message it stands for.
+    await rows.first().getByRole("button").first().press("Enter");
+    const inesRow = thread.getByRole("listitem").nth(1);
+    await expect(inesRow).toBeFocused();
+    await expect(inesRow).toHaveAttribute("aria-current", "true");
+
+    // The star in the thread is the same switch as the row's own remove.
+    await thread
+      .getByRole("button", {
+        name: "Remove Rui Baptista's message, sent 14:46, from saved",
+      })
+      .press("Enter");
+    await expect(announced).toHaveText(
+      "Removed Rui Baptista's message. 1 saved.",
+    );
+    await expect(saved.getByRole("heading")).toHaveAccessibleName("Saved 1");
+    await expect(status).toContainText("1 saved · last Ines 15:02");
+
+    // Emptied, the panel says it is empty rather than showing a blank list.
+    await thread.getByRole("button", { name: /Ines Moreau/ }).press("Enter");
+    await expect(announced).toHaveText(
+      "Removed Ines Moreau's message. 0 saved.",
+    );
+    await expect(status).toContainText("nothing saved");
+    await expect(saved.getByRole("heading")).toHaveAccessibleName("Saved 0");
+    await expect(rows).toHaveText(["Nothing saved yet"]);
+  });
+
+  test("translate-flip: the card turns to the reader's language, keeps the original under a fold, and turns back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/translate-flip");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    // A toggle that keeps one name: its state is in aria-pressed, not in words.
+    const flip = stage.getByRole("button", { name: /^Translat/ });
+
+    await expect(flip).toHaveAccessibleName("Translate into Marin");
+    await expect(flip).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toContainText("showing cadran");
+    await expect(announced).toBeEmpty();
+
+    // The wait belongs to the host. It stands for 900ms, so the line it holds
+    // is recorded rather than polled for.
+    await recordReactionsTrail(status);
+    await stage
+      .getByRole("button", { name: "Ask for a translation" })
+      .press("Enter");
+    await expect(status).toContainText("showing marin · original folded", {
+      timeout: 10_000,
+    });
+    expect(await reactionsTrail(page)).toEqual([
+      "showing cadran",
+      "working",
+      "showing marin · original folded",
+    ]);
+    await expect(flip).toHaveAttribute("aria-pressed", "true");
+    await expect(flip).toHaveAccessibleName("Translate into Marin");
+    // The content is the announcement: the sentence you are now reading.
+    await expect(announced).toHaveText(
+      "Marin translation: Dock three opens at nine. The Basinworks pallets can go with the morning run, two of them.",
+    );
+
+    // The original is kept, not thrown away, and its fold is measured. The
+    // fold is the one control here that renames itself, so it is held by the
+    // word it keeps rather than by the name it is currently wearing.
+    const fold = stage.getByRole("button", { name: /original/i });
+    const foldId = await fold.getAttribute("aria-controls");
+    const well = stage.locator(`[id="${foldId}"]`).locator("xpath=..");
+    await expect(fold).toHaveAccessibleName("Show the original in Cadran");
+    await expect(fold).toHaveAttribute("aria-expanded", "false");
+    await expect.poll(reactionsHeightOf(well), reactionsBeat).toBe(0);
+
+    await fold.press("Enter");
+    await expect(fold).toHaveAccessibleName("Hide the original");
+    await expect(fold).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("showing marin · original open");
+    await expect
+      .poll(reactionsHeightOf(well), reactionsBeat)
+      .toBeGreaterThan(30);
+
+    // Escape folds it back and hands the control that opened it the focus.
+    await page.keyboard.press("Escape");
+    await expect(fold).toHaveAttribute("aria-expanded", "false");
+    await expect(fold).toBeFocused();
+    await expect(status).toContainText("showing marin · original folded");
+    await expect.poll(reactionsHeightOf(well), reactionsBeat).toBe(0);
+
+    // Turning back reads the face it landed on, and takes the fold with it.
+    await flip.press("Enter");
+    await expect(flip).toHaveAttribute("aria-pressed", "false");
+    await expect(announced).toHaveText(
+      "Original in Cadran: Dokka trei vandre nove uur. Pallets Basinworks kunn gaan mit morgen-run, twe stukk.",
+    );
+    await expect(status).toContainText("showing cadran");
+    await expect(fold).toHaveCount(0);
+  });
+});
