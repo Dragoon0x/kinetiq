@@ -24406,6 +24406,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "image-bubble",
+      "type": "registry:ui",
+      "title": "Image Bubble",
+      "description": "A photo message that develops in the thread. The picture is drawn from its seed — three bands of sky, water and shore that stand from the first frame, with the sun, stars and rocks settling onto them as progress climbs — while the frame's blur clears and its saturation lifts on a slow tween, because blur and colour are tweens rather than physics. Pressing a sharp picture grows it into a viewer inside the component's own box on glide via a shared layoutId, with the frame's height measured by a ResizeObserver; Escape closes it and focus returns to the tile.",
+      "files": [
+        {
+          "path": "registry/ui/image-bubble.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-881"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "file-card",
+      "type": "registry:ui",
+      "title": "File Card",
+      "description": "A file in a thread, and the distance it still has to travel. One control carries the whole journey: a round button with a down arrow on offer, a ring whose dash offset follows progress on glide with the arrow cross-faded to a stop square so the same press cancels, and at 1 a pill that widens in place with layout while a tick draws on flick. Failure freezes the ring, states \"Failed\" in words beside the name and offers Retry; the type tile is drawn from the file's own name and every size goes through a format prop.",
+      "files": [
+        {
+          "path": "registry/ui/file-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-882"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "link-unfurl",
+      "type": "registry:ui",
+      "title": "Link Unfurl",
+      "description": "A pasted link that unfolds its preview inside the bubble. While the host reports \"fetching\" a skeleton the shape of the card mounts in the fold, which glides open to that measured height on glide while a highlight sweeps across on a linear tween; the card then cross-fades in over the skeleton from distances.step on snap, both stacked in one grid cell so the fold never collapses between them. Removing folds it back to zero on glide, the thumbnail is drawn from a seed rather than loaded, and the card is a button so a sweep cannot navigate away.",
+      "files": [
+        {
+          "path": "registry/ui/link-unfurl.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-883"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gallery-strip",
+      "type": "registry:ui",
+      "title": "Gallery Strip",
+      "description": "Several pictures in one message, without leaving the message. The strip is a real overflow-x-auto box inside the bubble with a fade at whichever end still holds pictures, each following a measured edge on a fast tween. Pressing a thumbnail opens a viewer in flow beneath it — the fold glides from 0 to a ResizeObserver-measured height on glide — where pictures cross-fade with a 4px nudge on snap whose direction follows the index delta, while the strip drives the active thumbnail to the centre with animate on glide. A roving tabindex steps the strip and Escape closes the viewer.",
+      "files": [
+        {
+          "path": "registry/ui/gallery-strip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-884"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sticker-pop",
+      "type": "registry:ui",
+      "title": "Sticker Pop",
+      "description": "A sticker that lands with weight. Each figure is drawn — a waving hand, a five-point star from rounded polar coordinates, a cat, a bolt — and drops from 16px above at 0.86 scale on recoil, whose two visible bounces read as something dropped rather than placed, while the ellipse beneath widens and deepens on glide half a beat behind. Hovering or focusing nudges it 3px up with a seeded tilt on flick, and pressing replays the landing through animation controls rather than a remount, which would take the keyboard's focus with it.",
+      "files": [
+        {
+          "path": "registry/ui/sticker-pop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-885"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gif-loop",
+      "type": "registry:ui",
+      "title": "GIF Loop",
+      "description": "A looping picture that plays only where it can be seen. Each clip is drawn rather than fetched — a seeded hash turns the clip's seed and frame index into a skyline, ground stripes and a marker arcing across the frame — and an IntersectionObserver rooted on the thread's own scroll box stops the tick when a clip falls below the visible threshold, landing a play badge on snap behind a fading scrim while a rail head travels one loop's width on a linear tween. Space or Enter pauses a clip by hand, aria-pressed carries that state, and under reduced motion nothing plays itself: the button becomes a frame step, one press per frame.",
+      "files": [
+        {
+          "path": "registry/ui/gif-loop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-886"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "audio-wave",
+      "type": "registry:ui",
+      "title": "Audio Wave",
+      "description": "An audio attachment in a thread, with a seeded waveform that fills bar by bar. As the position crosses a bar that bar wakes to its full level and colour on flick, the fastest spring in the set, so the fill arrives like the sound passing rather than a wipe sliding over a picture, while the head follows on a linear tween matched to the host's tick. The rate control rolls a column of faces one face on snap; the wave is a real slider where Left and Right step five seconds, Up and Down one, and Home and End jump.",
+      "files": [
+        {
+          "path": "registry/ui/audio-wave.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-887"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "location-pin",
+      "type": "registry:ui",
+      "title": "Location Pin",
+      "description": "A place sent as a card, on a map that is drawn rather than fetched: a seeded hash lays out major roads, lanes, blocks, a park and a water bend. The pin drops the 16px shift onto its point on recoil, two visible bounces of an arrival, while its shadow scales up on the same spring; pressing expands the card in flow, the street group scaling toward the pin on glide and the detail animating to a ResizeObserver-measured height inside the card's own box. The toggle is a button with aria-expanded whose name carries the address and distance, and Escape collapses it and keeps focus.",
+      "files": [
+        {
+          "path": "registry/ui/location-pin.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-888"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "poll-card-chat",
+      "type": "registry:ui",
+      "title": "Chat Poll",
+      "description": "A poll sent into a thread, with the counts public from the first glance: every bar is already drawn, and every one re-flows the moment you vote, because your vote joins the total and drops everyone else's share. Bars take their new width on glide with a cascade delay so the re-flow reads top to bottom, the total rolls beneath on the same spring, and the leading rail travels between rows on snap through a useId-prefixed layoutId. The rows are a real radiogroup: arrows move focus without spending a vote, Home and End jump, Space or Enter casts, and pressing your own row again withdraws it.",
+      "files": [
+        {
+          "path": "registry/ui/poll-card-chat.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-889"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "code-snippet",
+      "type": "registry:ui",
+      "title": "Code Snippet",
+      "description": "A block of code sent into a thread, built to be taken. A hand tokeniser colours each line — comment, string, number, keyword — while the gutter of line numbers stays put and the body scrolls sideways inside its own box. Pressing copy writes the text, a hairline sweep takes the block top to bottom on a linear tween, and Copied stamps over the control on recoil, out of 1.5 and −6 degrees; a refused clipboard selects the block's own text and asks for Control or Command C instead. Long blocks fold to a height measured from one ResizeObserver, so the fold lands exactly on a line, and unfold on glide.",
+      "files": [
+        {
+          "path": "registry/ui/code-snippet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-890"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

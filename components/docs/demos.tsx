@@ -1070,6 +1070,16 @@ import { JoinToastDemo } from "@/registry/demos/join-toast.demo";
 import { RoleBadgeDemo } from "@/registry/demos/role-badge.demo";
 import { OnlineCountDemo } from "@/registry/demos/online-count.demo";
 import { AwayTimerDemo } from "@/registry/demos/away-timer.demo";
+import { ImageBubbleDemo } from "@/registry/demos/image-bubble.demo";
+import { FileCardDemo } from "@/registry/demos/file-card.demo";
+import { LinkUnfurlDemo } from "@/registry/demos/link-unfurl.demo";
+import { GalleryStripDemo } from "@/registry/demos/gallery-strip.demo";
+import { StickerPopDemo } from "@/registry/demos/sticker-pop.demo";
+import { GifLoopDemo } from "@/registry/demos/gif-loop.demo";
+import { AudioWaveDemo } from "@/registry/demos/audio-wave.demo";
+import { LocationPinDemo } from "@/registry/demos/location-pin.demo";
+import { PollCardChatDemo } from "@/registry/demos/poll-card-chat.demo";
+import { CodeSnippetDemo } from "@/registry/demos/code-snippet.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2154,4 +2164,14 @@ export const demos: Record<string, ComponentType> = {
   "role-badge": RoleBadgeDemo,
   "online-count": OnlineCountDemo,
   "away-timer": AwayTimerDemo,
+  "image-bubble": ImageBubbleDemo,
+  "file-card": FileCardDemo,
+  "link-unfurl": LinkUnfurlDemo,
+  "gallery-strip": GalleryStripDemo,
+  "sticker-pop": StickerPopDemo,
+  "gif-loop": GifLoopDemo,
+  "audio-wave": AudioWaveDemo,
+  "location-pin": LocationPinDemo,
+  "poll-card-chat": PollCardChatDemo,
+  "code-snippet": CodeSnippetDemo,
 };

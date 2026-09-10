@@ -48494,4 +48494,882 @@ export const components: KinetiqItem[] = [
       "Under reduced motion nothing pops and nothing travels, but the ring still drains and the figure still counts, because a countdown is information.",
     ],
   },
+  {
+    name: "image-bubble",
+    type: "registry:ui",
+    title: "Image Bubble",
+    description:
+      "A photo message that develops in the thread. The picture is drawn from its seed — three bands of sky, water and shore that stand from the first frame, with the sun, stars and rocks settling onto them as progress climbs — while the frame's blur clears and its saturation lifts on a slow tween, because blur and colour are tweens rather than physics. Pressing a sharp picture grows it into a viewer inside the component's own box on glide via a shared layoutId, with the frame's height measured by a ResizeObserver; Escape closes it and focus returns to the tile.",
+    files: [
+      {
+        path: "registry/ui/image-bubble.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-881",
+    },
+    tagline: "A picture, arriving.",
+    keywords: [
+      "photo",
+      "image",
+      "chat",
+      "blur-up",
+      "viewer",
+      "thread",
+      "media",
+    ],
+    props: [
+      {
+        name: "photos",
+        type: "PhotoMessage[]",
+        description:
+          "The pictures in the thread, oldest first: id, from, seed, caption, progress and time.",
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description: "The other person; every spoken sentence names them.",
+      },
+      {
+        name: "onOpen",
+        type: "(id: string) => void",
+        description: "Fires when a picture opens in the viewer.",
+      },
+      {
+        name: "onClose",
+        type: "(id: string) => void",
+        description:
+          "Fires when the viewer closes, from the control or from Escape.",
+      },
+      {
+        name: "onSharp",
+        type: "(id: string) => void",
+        description:
+          "Fires once, the first time a picture's progress reaches 1.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer column.",
+      },
+    ],
+    usageNotes: [
+      "Each picture is a button: it is disabled while it is still blurred, Enter or Space opens the viewer, focus moves to Close, Tab cycles inside the panel, and Escape closes it and returns focus to the tile it grew from.",
+      "Under reduced motion the blur still clears and the percentage still counts, on fast tweens, but no picture travels: the viewer cross-fades in and the frame's height moves on a tween.",
+      "The picture is procedural — a seeded harbour drawn in tokens, never an asset — and every coordinate is rounded to three decimals so it hydrates cleanly.",
+    ],
+  },
+  {
+    name: "file-card",
+    type: "registry:ui",
+    title: "File Card",
+    description:
+      'A file in a thread, and the distance it still has to travel. One control carries the whole journey: a round button with a down arrow on offer, a ring whose dash offset follows progress on glide with the arrow cross-faded to a stop square so the same press cancels, and at 1 a pill that widens in place with layout while a tick draws on flick. Failure freezes the ring, states "Failed" in words beside the name and offers Retry; the type tile is drawn from the file\'s own name and every size goes through a format prop.',
+    files: [
+      {
+        path: "registry/ui/file-card.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-882",
+    },
+    tagline: "A file, and how far it has come.",
+    keywords: [
+      "file",
+      "download",
+      "attachment",
+      "progress",
+      "ring",
+      "chat",
+      "transfer",
+    ],
+    props: [
+      {
+        name: "files",
+        type: "FileMessage[]",
+        description:
+          "The files in the thread, oldest first: id, from, name, bytes, kind, progress, state and time.",
+      },
+      {
+        name: "format",
+        type: "(bytes: number) => string",
+        defaultValue: "a KB/MB formatter",
+        description: "Renders every size, so a host's own units win.",
+      },
+      {
+        name: "onDownload",
+        type: "(id: string) => void",
+        description: "Fires from the round control while the file is on offer.",
+      },
+      {
+        name: "onCancel",
+        type: "(id: string) => void",
+        description: "Fires from the same control while it is loading.",
+      },
+      {
+        name: "onOpen",
+        type: "(id: string) => void",
+        description: "Fires from the Open pill once the file has landed.",
+      },
+      {
+        name: "onRetry",
+        type: "(id: string) => void",
+        description: "Fires from the Retry pill after a failure.",
+      },
+      {
+        name: "onSettle",
+        type: "(id: string) => void",
+        description: 'Fires once, when a file first reaches "ready".',
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description: "Names the sender under each card.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'Plain Tab order — one control per card, Enter and Space activate it; the control\'s accessible name states the action and the state ("Cancel download of site-survey.pdf, 58 percent"), and an sr-only progressbar beside it carries the value.',
+      "Under reduced motion the ring still fills and the tick still appears, on tweens rather than springs, and the control swaps its width outright instead of gliding.",
+      "Failure is stated in words as well as colour, and a status region announces each settle once.",
+    ],
+  },
+  {
+    name: "link-unfurl",
+    type: "registry:ui",
+    title: "Link Unfurl",
+    description:
+      'A pasted link that unfolds its preview inside the bubble. While the host reports "fetching" a skeleton the shape of the card mounts in the fold, which glides open to that measured height on glide while a highlight sweeps across on a linear tween; the card then cross-fades in over the skeleton from distances.step on snap, both stacked in one grid cell so the fold never collapses between them. Removing folds it back to zero on glide, the thumbnail is drawn from a seed rather than loaded, and the card is a button so a sweep cannot navigate away.',
+    files: [
+      {
+        path: "registry/ui/link-unfurl.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-883",
+    },
+    tagline: "A link that unfolds its preview.",
+    keywords: [
+      "link",
+      "preview",
+      "unfurl",
+      "chat",
+      "skeleton",
+      "fold",
+      "message",
+    ],
+    props: [
+      {
+        name: "url",
+        type: "string",
+        description:
+          "The address in the bubble, and the thing being previewed.",
+      },
+      {
+        name: "text",
+        type: "string",
+        description: "What was typed before the link.",
+      },
+      {
+        name: "from",
+        type: '"me" | "peer"',
+        defaultValue: '"peer"',
+        description: "Which side the bubble takes.",
+      },
+      {
+        name: "state",
+        type: '"idle" | "fetching" | "ready" | "none"',
+        defaultValue: '"idle"',
+        description: "The fold's state, owned by the host.",
+      },
+      {
+        name: "preview",
+        type: "LinkPreview",
+        description:
+          "Title, description, invented domain and the seed that draws the thumbnail.",
+      },
+      {
+        name: "onOpen",
+        type: "(url: string) => void",
+        description: "Fires from the preview card.",
+      },
+      {
+        name: "onRemove",
+        type: "() => void",
+        description:
+          'Fires from the card\'s remove control; set state back to "idle".',
+      },
+      {
+        name: "onRetry",
+        type: "() => void",
+        description: "Fires from Retry when no preview could be had.",
+      },
+      {
+        name: "onUnfurled",
+        type: "() => void",
+        description: "Fires once, when the card has finished opening.",
+      },
+      {
+        name: "time",
+        type: "string",
+        description: "Printed under the bubble, already formatted.",
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description: "Names the sender under the bubble.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The card and its remove control are two sibling buttons, never nested: Tab reaches the preview then Remove, Enter and Space activate, and the fold carries aria-busy while it waits.",
+      'Under reduced motion the fold still opens and closes on a tween, because a preview appearing is the information, but the sweep gives way to a steady "Fetching preview" line.',
+      'A status region announces "Preview loaded", "No preview available" and "Preview removed", one frozen sentence per change.',
+    ],
+  },
+  {
+    name: "gallery-strip",
+    type: "registry:ui",
+    title: "Gallery Strip",
+    description:
+      "Several pictures in one message, without leaving the message. The strip is a real overflow-x-auto box inside the bubble with a fade at whichever end still holds pictures, each following a measured edge on a fast tween. Pressing a thumbnail opens a viewer in flow beneath it — the fold glides from 0 to a ResizeObserver-measured height on glide — where pictures cross-fade with a 4px nudge on snap whose direction follows the index delta, while the strip drives the active thumbnail to the centre with animate on glide. A roving tabindex steps the strip and Escape closes the viewer.",
+    files: [
+      {
+        path: "registry/ui/gallery-strip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-884",
+    },
+    tagline: "Several pictures, one strip.",
+    keywords: [
+      "gallery",
+      "strip",
+      "photos",
+      "viewer",
+      "chat",
+      "scroll",
+      "thumbnails",
+    ],
+    props: [
+      {
+        name: "photos",
+        type: "GalleryPhoto[]",
+        description: "The pictures in the strip's order: id, seed and caption.",
+      },
+      {
+        name: "openId / defaultOpenId",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial open picture; null closes the viewer.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string | null) => void",
+        description: "Fires when the viewer opens, moves or closes.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(id: string) => void",
+        description:
+          "Fires as the cursor moves along the strip, viewer or not.",
+      },
+      {
+        name: "from",
+        type: '"me" | "peer"',
+        defaultValue: '"peer"',
+        description: "Which side the message takes.",
+      },
+      {
+        name: "text",
+        type: "string",
+        description: "A line above the strip.",
+      },
+      {
+        name: "time",
+        type: "string",
+        description: "Printed under the message, already formatted.",
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description: "Names the sender under the message.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Roving tabindex across the strip: Left and Right step without wrapping, Home and End jump to the ends, Enter or Space opens the viewer, and Escape closes it and returns focus to the thumbnail it grew from; the open thumbnail also carries aria-current and a cobalt ring.",
+      "The viewer is a non-modal group in flow, so the strip stays live behind it and Left and Right move the picture while focus sits on Previous or Next.",
+      "Under reduced motion the viewer still opens and the strip still scrolls to the active picture, instantly, and pictures cross-fade without the nudge.",
+    ],
+  },
+  {
+    name: "sticker-pop",
+    type: "registry:ui",
+    title: "Sticker Pop",
+    description:
+      "A sticker that lands with weight. Each figure is drawn — a waving hand, a five-point star from rounded polar coordinates, a cat, a bolt — and drops from 16px above at 0.86 scale on recoil, whose two visible bounces read as something dropped rather than placed, while the ellipse beneath widens and deepens on glide half a beat behind. Hovering or focusing nudges it 3px up with a seeded tilt on flick, and pressing replays the landing through animation controls rather than a remount, which would take the keyboard's focus with it.",
+    files: [
+      {
+        path: "registry/ui/sticker-pop.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-885",
+    },
+    tagline: "A sticker that lands with weight.",
+    keywords: [
+      "sticker",
+      "chat",
+      "recoil",
+      "landing",
+      "message",
+      "reaction",
+      "drawn",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "StickerMessage[]",
+        description:
+          "The thread, oldest first: id, from, art, an optional text for plain bubbles, seed and time.",
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description: "The other person; every spoken sentence names them.",
+      },
+      {
+        name: "onLand",
+        type: "(id: string) => void",
+        description:
+          "Fires when a landing finishes, on arrival and on every replay.",
+      },
+      {
+        name: "onReplay",
+        type: "(id: string) => void",
+        description:
+          "Fires from a press, or Enter or Space, on a landed sticker.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the outer column.",
+      },
+    ],
+    usageNotes: [
+      'Each sticker is a button named with a sentence ("Replay sticker: cat, from Marta") and the drawing inside is aria-hidden, so the picture is never read as a glyph; Enter and Space replay, and focus draws the same nudge hovering does.',
+      "Under reduced motion nothing drops and nothing tilts — the sticker fades in at rest — but a press is still answered by a ring that pulses once, because the acknowledgement is information even when the bounce is not.",
+      "Arrivals announce themselves once from a sentence frozen at the change, so a parent re-render never re-announces a sticker that landed long ago.",
+    ],
+  },
+  {
+    name: "gif-loop",
+    type: "registry:ui",
+    title: "GIF Loop",
+    description:
+      "A looping picture that plays only where it can be seen. Each clip is drawn rather than fetched — a seeded hash turns the clip's seed and frame index into a skyline, ground stripes and a marker arcing across the frame — and an IntersectionObserver rooted on the thread's own scroll box stops the tick when a clip falls below the visible threshold, landing a play badge on snap behind a fading scrim while a rail head travels one loop's width on a linear tween. Space or Enter pauses a clip by hand, aria-pressed carries that state, and under reduced motion nothing plays itself: the button becomes a frame step, one press per frame.",
+    files: [
+      {
+        path: "registry/ui/gif-loop.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-886",
+    },
+    tagline: "Loops until you look away.",
+    keywords: ["gif", "loop", "chat", "media", "in-view", "autoplay", "thread"],
+    props: [
+      {
+        name: "clips",
+        type: "GifClip[]",
+        description:
+          "The thread, oldest first: id, side, title, seed, frame count, time and delivery.",
+      },
+      {
+        name: "paused / defaultPaused",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "Controlled or initial ids of clips paused by hand.",
+      },
+      {
+        name: "onPausedChange",
+        type: "(id: string, paused: boolean) => void",
+        description:
+          "Fires from the press or key that pauses or resumes a clip by hand.",
+      },
+      {
+        name: "onFrameChange",
+        type: "(id: string, frame: number) => void",
+        description: "Fires on each frame a clip advances to.",
+      },
+      {
+        name: "onLoop",
+        type: "(id: string, loops: number) => void",
+        description:
+          "Fires as a clip wraps past its last frame, with its running loop count.",
+      },
+      {
+        name: "onInViewChange",
+        type: "(id: string, inView: boolean) => void",
+        description:
+          "Fires with the first reading and whenever a clip crosses the threshold.",
+      },
+      {
+        name: "fps",
+        type: "number",
+        defaultValue: "8",
+        description: "Frames a second while a clip plays.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "Visible share a clip must hold in the viewport to keep playing.",
+      },
+      {
+        name: "viewportHeight",
+        type: "number",
+        defaultValue: "264",
+        description: "Height of the thread's scroll viewport, in pixels.",
+      },
+      {
+        name: "viewportRef",
+        type: "React.RefObject<HTMLDivElement | null>",
+        description:
+          "Hands the scroll viewport to the host so it can scroll the thread itself.",
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description: "Names the other side in delivery and clip sentences.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the scrollable thread region for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'Each clip is a button whose accessible name is a sentence — "Looping clip from Rui, Bay 3 door cycle, paused, out of view" — with aria-pressed carrying the hand pause; Space or Enter toggles, and the scroll region is focusable so a keyboard can move the thread.',
+      "Under reduced motion nothing plays itself: every clip holds a still frame with the badge up and the press steps exactly one frame, the caption reading frame N of M.",
+      "The tick also stops while the document is hidden, so a backgrounded tab never animates a thread nobody is looking at.",
+    ],
+  },
+  {
+    name: "audio-wave",
+    type: "registry:ui",
+    title: "Audio Wave",
+    description:
+      "An audio attachment in a thread, with a seeded waveform that fills bar by bar. As the position crosses a bar that bar wakes to its full level and colour on flick, the fastest spring in the set, so the fill arrives like the sound passing rather than a wipe sliding over a picture, while the head follows on a linear tween matched to the host's tick. The rate control rolls a column of faces one face on snap; the wave is a real slider where Left and Right step five seconds, Up and Down one, and Home and End jump.",
+    files: [
+      {
+        path: "registry/ui/audio-wave.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-887",
+    },
+    tagline: "A message you can hear.",
+    keywords: [
+      "audio",
+      "waveform",
+      "chat",
+      "player",
+      "scrubber",
+      "speed",
+      "thread",
+    ],
+    props: [
+      {
+        name: "clips",
+        type: "AudioClip[]",
+        description:
+          "The thread, oldest first: id, side, title, seconds, seed, time and delivery.",
+      },
+      {
+        name: "playingId",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "The clip the host is playing; playback lives in the host, never in the component.",
+      },
+      {
+        name: "positions",
+        type: "Record<string, number>",
+        description:
+          "Seconds played per clip id; a clip with no entry sits at zero.",
+      },
+      {
+        name: "onPlayRequest",
+        type: "(id: string, playing: boolean) => void",
+        description:
+          "Fires from a transport press; the host decides what plays.",
+      },
+      {
+        name: "onSeek",
+        type: "(id: string, seconds: number) => void",
+        description:
+          "Fires from a scrub, a tap on the wave, or an arrow key, in whole seconds.",
+      },
+      {
+        name: "speed / defaultSpeed",
+        type: "number",
+        defaultValue: "1",
+        description: "Controlled or initial playback rate; one of speeds.",
+      },
+      {
+        name: "onSpeedChange",
+        type: "(speed: number) => void",
+        description: "Fires as the label rolls to the next rate.",
+      },
+      {
+        name: "speeds",
+        type: "number[]",
+        defaultValue: "[1, 1.5, 2]",
+        description: "The rates the control cycles through.",
+      },
+      {
+        name: "bars",
+        type: "number",
+        defaultValue: "36",
+        description:
+          "Bars drawn per waveform; the profile is seeded, so it never changes shape.",
+      },
+      {
+        name: "followMs",
+        type: "number",
+        defaultValue: "100",
+        description:
+          "How long the head takes to reach a new position; match the host's tick.",
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description:
+          "Names the other side in the group and delivery sentences.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'The wave is a role="slider" reading mm:ss of mm:ss: Left and Right step five seconds, Up and Down step one, Home and End jump to the ends, and a pointer scrub captures only after 4px of travel so a tap still seeks where it landed.',
+      "Under reduced motion the bars still fill and the head still moves, because position is information: the wake becomes an instant swap and the rate label changes without rolling.",
+      'Each bubble is a role="group" whose label is a sentence — "Audio from Marta, Roof deck walkthrough, 2 minutes 41 seconds" — and delivery is an aria-label sentence rather than a colour.',
+    ],
+  },
+  {
+    name: "location-pin",
+    type: "registry:ui",
+    title: "Location Pin",
+    description:
+      "A place sent as a card, on a map that is drawn rather than fetched: a seeded hash lays out major roads, lanes, blocks, a park and a water bend. The pin drops the 16px shift onto its point on recoil, two visible bounces of an arrival, while its shadow scales up on the same spring; pressing expands the card in flow, the street group scaling toward the pin on glide and the detail animating to a ResizeObserver-measured height inside the card's own box. The toggle is a button with aria-expanded whose name carries the address and distance, and Escape collapses it and keeps focus.",
+    files: [
+      {
+        path: "registry/ui/location-pin.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-888",
+    },
+    tagline: "Here, on a small map.",
+    keywords: ["location", "map", "pin", "chat", "place", "expand", "thread"],
+    props: [
+      {
+        name: "places",
+        type: "LocationPlace[]",
+        description:
+          "The thread, oldest first: id, side, name, address, seed, metres, time and delivery.",
+      },
+      {
+        name: "openId / defaultOpenId",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial id of the expanded card; one card opens at a time.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires from the press or key that expands or collapses a card.",
+      },
+      {
+        name: "onOpenPlace",
+        type: "(id: string) => void",
+        description:
+          "Fires from the expanded card's Open control, so the host can take the place.",
+      },
+      {
+        name: "zoom",
+        type: "number",
+        defaultValue: "1.9",
+        description: "How far the street group grows when a card expands.",
+      },
+      {
+        name: "format",
+        type: "(metres: number) => string",
+        description:
+          "Formats the distance chip; defaults to metres under a kilometre, one decimal above.",
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description: "Names the other side in the card and delivery sentences.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The toggle is a button with aria-expanded and aria-controls whose accessible name is a sentence carrying the place, the address and the distance; Space or Enter toggles and Escape collapses, leaving focus on the toggle.",
+      "The detail opens in flow at a ResizeObserver-measured height and is inert while closed, so nothing hidden is tabbable and no panel floats over what the host drew below.",
+      "Under reduced motion the pin appears at its point instead of dropping, and the height and the zoom swap on a tween rather than gliding.",
+    ],
+  },
+  {
+    name: "poll-card-chat",
+    type: "registry:ui",
+    title: "Chat Poll",
+    description:
+      "A poll sent into a thread, with the counts public from the first glance: every bar is already drawn, and every one re-flows the moment you vote, because your vote joins the total and drops everyone else's share. Bars take their new width on glide with a cascade delay so the re-flow reads top to bottom, the total rolls beneath on the same spring, and the leading rail travels between rows on snap through a useId-prefixed layoutId. The rows are a real radiogroup: arrows move focus without spending a vote, Home and End jump, Space or Enter casts, and pressing your own row again withdraws it.",
+    files: [
+      {
+        path: "registry/ui/poll-card-chat.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-889",
+    },
+    tagline: "Vote, and watch the bars.",
+    keywords: [
+      "poll",
+      "vote",
+      "chat",
+      "bars",
+      "results",
+      "radiogroup",
+      "share",
+    ],
+    props: [
+      {
+        name: "poll",
+        type: "ChatPoll",
+        description:
+          "The poll message: id, side, question, options with their votes, time, delivery and a closing note.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description: "Controlled or initial id of the reader's own vote.",
+      },
+      {
+        name: "onVote",
+        type: "(id: string | null, previous: string | null) => void",
+        description:
+          "Fires from the press or key that casts, moves or withdraws a vote.",
+      },
+      {
+        name: "allowChange",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Lets the reader move or withdraw a vote after casting it.",
+      },
+      {
+        name: "closed",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Locks the rows, keeps the winner lit and lets the rest fall back.",
+      },
+      {
+        name: "format",
+        type: "(votes: number) => string",
+        description:
+          "Formats every count and the rolling total; defaults to en-US thousands.",
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description: "Names the sender in the delivery sentence.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Thread"',
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "A roving tabindex over a radiogroup: Up and Down (or Left and Right) step rows without wrapping, Home and End jump, and Space or Enter votes — arrows move focus without casting, because arrowing through a poll should not spend your vote.",
+      "Every row's aria-label carries its count and share, and the live region speaks the sentence frozen at the vote, so nothing rests on the bar's colour.",
+      "Under reduced motion the bars still re-flow — a share is information — on a tween with no cascade, the rail swaps rows without travelling, and the total lands on its new figure.",
+    ],
+  },
+  {
+    name: "code-snippet",
+    type: "registry:ui",
+    title: "Code Snippet",
+    description:
+      "A block of code sent into a thread, built to be taken. A hand tokeniser colours each line — comment, string, number, keyword — while the gutter of line numbers stays put and the body scrolls sideways inside its own box. Pressing copy writes the text, a hairline sweep takes the block top to bottom on a linear tween, and Copied stamps over the control on recoil, out of 1.5 and −6 degrees; a refused clipboard selects the block's own text and asks for Control or Command C instead. Long blocks fold to a height measured from one ResizeObserver, so the fold lands exactly on a line, and unfold on glide.",
+    files: [
+      {
+        path: "registry/ui/code-snippet.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-890",
+    },
+    tagline: "Code that copies itself.",
+    keywords: [
+      "code",
+      "snippet",
+      "copy",
+      "chat",
+      "fold",
+      "syntax",
+      "clipboard",
+    ],
+    props: [
+      {
+        name: "snippets",
+        type: "CodeBlock[]",
+        description:
+          "The thread, oldest first: id, side, language, code, filename, time and delivery.",
+      },
+      {
+        name: "foldLines",
+        type: "number",
+        defaultValue: "8",
+        description: "Lines shown before a block folds behind its fade.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "Controlled or initial ids of unfolded blocks.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string, open: boolean) => void",
+        description: "Fires from the disclosure that folds or unfolds a block.",
+      },
+      {
+        name: "onCopy",
+        type: "(id: string, text: string) => void",
+        description: "Fires once the clipboard has taken a block's text.",
+      },
+      {
+        name: "onCopyFail",
+        type: "(id: string) => void",
+        description:
+          "Fires when the clipboard refuses and the block falls back to selection.",
+      },
+      {
+        name: "copiedHold",
+        type: "number",
+        defaultValue: "1600",
+        description:
+          "Milliseconds the stamp stays before the control reads Copy again.",
+      },
+      {
+        name: "peerName",
+        type: "string",
+        defaultValue: '"Them"',
+        description:
+          "Names the other side in the block and delivery sentences.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Tab order runs copy, the disclosure, then the code region: the copy control names the file, the disclosure is a real aria-expanded button, and the scrolling region is focusable so a keyboard can move a wide line.",
+      "When the clipboard refuses, the block selects its own text and the live region asks for Control or Command C, so the copy is still one keystroke away.",
+      "Under reduced motion the sweep is replaced by a single wash that fades, and the fold swaps its measured height on a tween rather than gliding.",
+    ],
+  },
 ];

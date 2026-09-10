@@ -16371,6 +16371,238 @@ Notes:
 - The period comes from the seconds prop and the run restarts when it changes or when away is set again; a hidden tab holds the run where it stands rather than spending time it never showed.
 - Under reduced motion nothing pops and nothing travels, but the ring still drains and the figure still counts, because a countdown is information.
 
+### Image Bubble (KQ-881) — `image-bubble`
+A picture, arriving.
+
+A photo message that develops in the thread. The picture is drawn from its seed — three bands of sky, water and shore that stand from the first frame, with the sun, stars and rocks settling onto them as progress climbs — while the frame's blur clears and its saturation lifts on a slow tween, because blur and colour are tweens rather than physics. Pressing a sharp picture grows it into a viewer inside the component's own box on glide via a shared layoutId, with the frame's height measured by a ResizeObserver; Escape closes it and focus returns to the tile.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/image-bubble`
+
+Props:
+- `photos`: PhotoMessage[] — The pictures in the thread, oldest first: id, from, seed, caption, progress and time.
+- `peerName`: string (default "Them") — The other person; every spoken sentence names them.
+- `onOpen`: (id: string) => void — Fires when a picture opens in the viewer.
+- `onClose`: (id: string) => void — Fires when the viewer closes, from the control or from Escape.
+- `onSharp`: (id: string) => void — Fires once, the first time a picture's progress reaches 1.
+- `label`: string — Names the thread list for assistive technology.
+- `className`: string — Classes for the outer column.
+
+Notes:
+- Each picture is a button: it is disabled while it is still blurred, Enter or Space opens the viewer, focus moves to Close, Tab cycles inside the panel, and Escape closes it and returns focus to the tile it grew from.
+- Under reduced motion the blur still clears and the percentage still counts, on fast tweens, but no picture travels: the viewer cross-fades in and the frame's height moves on a tween.
+- The picture is procedural — a seeded harbour drawn in tokens, never an asset — and every coordinate is rounded to three decimals so it hydrates cleanly.
+
+### File Card (KQ-882) — `file-card`
+A file, and how far it has come.
+
+A file in a thread, and the distance it still has to travel. One control carries the whole journey: a round button with a down arrow on offer, a ring whose dash offset follows progress on glide with the arrow cross-faded to a stop square so the same press cancels, and at 1 a pill that widens in place with layout while a tick draws on flick. Failure freezes the ring, states "Failed" in words beside the name and offers Retry; the type tile is drawn from the file's own name and every size goes through a format prop.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/file-card`
+
+Props:
+- `files`: FileMessage[] — The files in the thread, oldest first: id, from, name, bytes, kind, progress, state and time.
+- `format`: (bytes: number) => string (default a KB/MB formatter) — Renders every size, so a host's own units win.
+- `onDownload`: (id: string) => void — Fires from the round control while the file is on offer.
+- `onCancel`: (id: string) => void — Fires from the same control while it is loading.
+- `onOpen`: (id: string) => void — Fires from the Open pill once the file has landed.
+- `onRetry`: (id: string) => void — Fires from the Retry pill after a failure.
+- `onSettle`: (id: string) => void — Fires once, when a file first reaches "ready".
+- `peerName`: string (default "Them") — Names the sender under each card.
+- `label`: string — Names the thread list for assistive technology.
+
+Notes:
+- Plain Tab order — one control per card, Enter and Space activate it; the control's accessible name states the action and the state ("Cancel download of site-survey.pdf, 58 percent"), and an sr-only progressbar beside it carries the value.
+- Under reduced motion the ring still fills and the tick still appears, on tweens rather than springs, and the control swaps its width outright instead of gliding.
+- Failure is stated in words as well as colour, and a status region announces each settle once.
+
+### Link Unfurl (KQ-883) — `link-unfurl`
+A link that unfolds its preview.
+
+A pasted link that unfolds its preview inside the bubble. While the host reports "fetching" a skeleton the shape of the card mounts in the fold, which glides open to that measured height on glide while a highlight sweeps across on a linear tween; the card then cross-fades in over the skeleton from distances.step on snap, both stacked in one grid cell so the fold never collapses between them. Removing folds it back to zero on glide, the thumbnail is drawn from a seed rather than loaded, and the card is a button so a sweep cannot navigate away.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/link-unfurl`
+
+Props:
+- `url`: string — The address in the bubble, and the thing being previewed.
+- `text`: string — What was typed before the link.
+- `from`: "me" | "peer" (default "peer") — Which side the bubble takes.
+- `state`: "idle" | "fetching" | "ready" | "none" (default "idle") — The fold's state, owned by the host.
+- `preview`: LinkPreview — Title, description, invented domain and the seed that draws the thumbnail.
+- `onOpen`: (url: string) => void — Fires from the preview card.
+- `onRemove`: () => void — Fires from the card's remove control; set state back to "idle".
+- `onRetry`: () => void — Fires from Retry when no preview could be had.
+- `onUnfurled`: () => void — Fires once, when the card has finished opening.
+- `time`: string — Printed under the bubble, already formatted.
+- `peerName`: string (default "Them") — Names the sender under the bubble.
+- `label`: string — Names the thread list for assistive technology.
+
+Notes:
+- The card and its remove control are two sibling buttons, never nested: Tab reaches the preview then Remove, Enter and Space activate, and the fold carries aria-busy while it waits.
+- Under reduced motion the fold still opens and closes on a tween, because a preview appearing is the information, but the sweep gives way to a steady "Fetching preview" line.
+- A status region announces "Preview loaded", "No preview available" and "Preview removed", one frozen sentence per change.
+
+### Gallery Strip (KQ-884) — `gallery-strip`
+Several pictures, one strip.
+
+Several pictures in one message, without leaving the message. The strip is a real overflow-x-auto box inside the bubble with a fade at whichever end still holds pictures, each following a measured edge on a fast tween. Pressing a thumbnail opens a viewer in flow beneath it — the fold glides from 0 to a ResizeObserver-measured height on glide — where pictures cross-fade with a 4px nudge on snap whose direction follows the index delta, while the strip drives the active thumbnail to the centre with animate on glide. A roving tabindex steps the strip and Escape closes the viewer.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gallery-strip`
+
+Props:
+- `photos`: GalleryPhoto[] — The pictures in the strip's order: id, seed and caption.
+- `openId / defaultOpenId`: string | null (default null) — Controlled or initial open picture; null closes the viewer.
+- `onOpenChange`: (id: string | null) => void — Fires when the viewer opens, moves or closes.
+- `onActiveChange`: (id: string) => void — Fires as the cursor moves along the strip, viewer or not.
+- `from`: "me" | "peer" (default "peer") — Which side the message takes.
+- `text`: string — A line above the strip.
+- `time`: string — Printed under the message, already formatted.
+- `peerName`: string (default "Them") — Names the sender under the message.
+- `label`: string — Names the thread list for assistive technology.
+
+Notes:
+- Roving tabindex across the strip: Left and Right step without wrapping, Home and End jump to the ends, Enter or Space opens the viewer, and Escape closes it and returns focus to the thumbnail it grew from; the open thumbnail also carries aria-current and a cobalt ring.
+- The viewer is a non-modal group in flow, so the strip stays live behind it and Left and Right move the picture while focus sits on Previous or Next.
+- Under reduced motion the viewer still opens and the strip still scrolls to the active picture, instantly, and pictures cross-fade without the nudge.
+
+### Sticker Pop (KQ-885) — `sticker-pop`
+A sticker that lands with weight.
+
+A sticker that lands with weight. Each figure is drawn — a waving hand, a five-point star from rounded polar coordinates, a cat, a bolt — and drops from 16px above at 0.86 scale on recoil, whose two visible bounces read as something dropped rather than placed, while the ellipse beneath widens and deepens on glide half a beat behind. Hovering or focusing nudges it 3px up with a seeded tilt on flick, and pressing replays the landing through animation controls rather than a remount, which would take the keyboard's focus with it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sticker-pop`
+
+Props:
+- `messages`: StickerMessage[] — The thread, oldest first: id, from, art, an optional text for plain bubbles, seed and time.
+- `peerName`: string (default "Them") — The other person; every spoken sentence names them.
+- `onLand`: (id: string) => void — Fires when a landing finishes, on arrival and on every replay.
+- `onReplay`: (id: string) => void — Fires from a press, or Enter or Space, on a landed sticker.
+- `label`: string — Names the thread list for assistive technology.
+- `className`: string — Classes for the outer column.
+
+Notes:
+- Each sticker is a button named with a sentence ("Replay sticker: cat, from Marta") and the drawing inside is aria-hidden, so the picture is never read as a glyph; Enter and Space replay, and focus draws the same nudge hovering does.
+- Under reduced motion nothing drops and nothing tilts — the sticker fades in at rest — but a press is still answered by a ring that pulses once, because the acknowledgement is information even when the bounce is not.
+- Arrivals announce themselves once from a sentence frozen at the change, so a parent re-render never re-announces a sticker that landed long ago.
+
+### GIF Loop (KQ-886) — `gif-loop`
+Loops until you look away.
+
+A looping picture that plays only where it can be seen. Each clip is drawn rather than fetched — a seeded hash turns the clip's seed and frame index into a skyline, ground stripes and a marker arcing across the frame — and an IntersectionObserver rooted on the thread's own scroll box stops the tick when a clip falls below the visible threshold, landing a play badge on snap behind a fading scrim while a rail head travels one loop's width on a linear tween. Space or Enter pauses a clip by hand, aria-pressed carries that state, and under reduced motion nothing plays itself: the button becomes a frame step, one press per frame.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gif-loop`
+
+Props:
+- `clips`: GifClip[] — The thread, oldest first: id, side, title, seed, frame count, time and delivery.
+- `paused / defaultPaused`: string[] (default []) — Controlled or initial ids of clips paused by hand.
+- `onPausedChange`: (id: string, paused: boolean) => void — Fires from the press or key that pauses or resumes a clip by hand.
+- `onFrameChange`: (id: string, frame: number) => void — Fires on each frame a clip advances to.
+- `onLoop`: (id: string, loops: number) => void — Fires as a clip wraps past its last frame, with its running loop count.
+- `onInViewChange`: (id: string, inView: boolean) => void — Fires with the first reading and whenever a clip crosses the threshold.
+- `fps`: number (default 8) — Frames a second while a clip plays.
+- `threshold`: number (default 0.6) — Visible share a clip must hold in the viewport to keep playing.
+- `viewportHeight`: number (default 264) — Height of the thread's scroll viewport, in pixels.
+- `viewportRef`: React.RefObject<HTMLDivElement | null> — Hands the scroll viewport to the host so it can scroll the thread itself.
+- `peerName`: string (default "Them") — Names the other side in delivery and clip sentences.
+- `label`: string — Names the scrollable thread region for assistive technology.
+
+Notes:
+- Each clip is a button whose accessible name is a sentence — "Looping clip from Rui, Bay 3 door cycle, paused, out of view" — with aria-pressed carrying the hand pause; Space or Enter toggles, and the scroll region is focusable so a keyboard can move the thread.
+- Under reduced motion nothing plays itself: every clip holds a still frame with the badge up and the press steps exactly one frame, the caption reading frame N of M.
+- The tick also stops while the document is hidden, so a backgrounded tab never animates a thread nobody is looking at.
+
+### Audio Wave (KQ-887) — `audio-wave`
+A message you can hear.
+
+An audio attachment in a thread, with a seeded waveform that fills bar by bar. As the position crosses a bar that bar wakes to its full level and colour on flick, the fastest spring in the set, so the fill arrives like the sound passing rather than a wipe sliding over a picture, while the head follows on a linear tween matched to the host's tick. The rate control rolls a column of faces one face on snap; the wave is a real slider where Left and Right step five seconds, Up and Down one, and Home and End jump.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/audio-wave`
+
+Props:
+- `clips`: AudioClip[] — The thread, oldest first: id, side, title, seconds, seed, time and delivery.
+- `playingId`: string | null (default null) — The clip the host is playing; playback lives in the host, never in the component.
+- `positions`: Record<string, number> — Seconds played per clip id; a clip with no entry sits at zero.
+- `onPlayRequest`: (id: string, playing: boolean) => void — Fires from a transport press; the host decides what plays.
+- `onSeek`: (id: string, seconds: number) => void — Fires from a scrub, a tap on the wave, or an arrow key, in whole seconds.
+- `speed / defaultSpeed`: number (default 1) — Controlled or initial playback rate; one of speeds.
+- `onSpeedChange`: (speed: number) => void — Fires as the label rolls to the next rate.
+- `speeds`: number[] (default [1, 1.5, 2]) — The rates the control cycles through.
+- `bars`: number (default 36) — Bars drawn per waveform; the profile is seeded, so it never changes shape.
+- `followMs`: number (default 100) — How long the head takes to reach a new position; match the host's tick.
+- `peerName`: string (default "Them") — Names the other side in the group and delivery sentences.
+- `label`: string — Names the thread list for assistive technology.
+
+Notes:
+- The wave is a role="slider" reading mm:ss of mm:ss: Left and Right step five seconds, Up and Down step one, Home and End jump to the ends, and a pointer scrub captures only after 4px of travel so a tap still seeks where it landed.
+- Under reduced motion the bars still fill and the head still moves, because position is information: the wake becomes an instant swap and the rate label changes without rolling.
+- Each bubble is a role="group" whose label is a sentence — "Audio from Marta, Roof deck walkthrough, 2 minutes 41 seconds" — and delivery is an aria-label sentence rather than a colour.
+
+### Location Pin (KQ-888) — `location-pin`
+Here, on a small map.
+
+A place sent as a card, on a map that is drawn rather than fetched: a seeded hash lays out major roads, lanes, blocks, a park and a water bend. The pin drops the 16px shift onto its point on recoil, two visible bounces of an arrival, while its shadow scales up on the same spring; pressing expands the card in flow, the street group scaling toward the pin on glide and the detail animating to a ResizeObserver-measured height inside the card's own box. The toggle is a button with aria-expanded whose name carries the address and distance, and Escape collapses it and keeps focus.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/location-pin`
+
+Props:
+- `places`: LocationPlace[] — The thread, oldest first: id, side, name, address, seed, metres, time and delivery.
+- `openId / defaultOpenId`: string | null (default null) — Controlled or initial id of the expanded card; one card opens at a time.
+- `onOpenChange`: (id: string | null) => void — Fires from the press or key that expands or collapses a card.
+- `onOpenPlace`: (id: string) => void — Fires from the expanded card's Open control, so the host can take the place.
+- `zoom`: number (default 1.9) — How far the street group grows when a card expands.
+- `format`: (metres: number) => string — Formats the distance chip; defaults to metres under a kilometre, one decimal above.
+- `peerName`: string (default "Them") — Names the other side in the card and delivery sentences.
+- `label`: string — Names the thread list for assistive technology.
+
+Notes:
+- The toggle is a button with aria-expanded and aria-controls whose accessible name is a sentence carrying the place, the address and the distance; Space or Enter toggles and Escape collapses, leaving focus on the toggle.
+- The detail opens in flow at a ResizeObserver-measured height and is inert while closed, so nothing hidden is tabbable and no panel floats over what the host drew below.
+- Under reduced motion the pin appears at its point instead of dropping, and the height and the zoom swap on a tween rather than gliding.
+
+### Chat Poll (KQ-889) — `poll-card-chat`
+Vote, and watch the bars.
+
+A poll sent into a thread, with the counts public from the first glance: every bar is already drawn, and every one re-flows the moment you vote, because your vote joins the total and drops everyone else's share. Bars take their new width on glide with a cascade delay so the re-flow reads top to bottom, the total rolls beneath on the same spring, and the leading rail travels between rows on snap through a useId-prefixed layoutId. The rows are a real radiogroup: arrows move focus without spending a vote, Home and End jump, Space or Enter casts, and pressing your own row again withdraws it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/poll-card-chat`
+
+Props:
+- `poll`: ChatPoll — The poll message: id, side, question, options with their votes, time, delivery and a closing note.
+- `value / defaultValue`: string | null (default null) — Controlled or initial id of the reader's own vote.
+- `onVote`: (id: string | null, previous: string | null) => void — Fires from the press or key that casts, moves or withdraws a vote.
+- `allowChange`: boolean (default true) — Lets the reader move or withdraw a vote after casting it.
+- `closed`: boolean (default false) — Locks the rows, keeps the winner lit and lets the rest fall back.
+- `format`: (votes: number) => string — Formats every count and the rolling total; defaults to en-US thousands.
+- `peerName`: string (default "Them") — Names the sender in the delivery sentence.
+- `label`: string (default "Thread") — Names the thread list for assistive technology.
+
+Notes:
+- A roving tabindex over a radiogroup: Up and Down (or Left and Right) step rows without wrapping, Home and End jump, and Space or Enter votes — arrows move focus without casting, because arrowing through a poll should not spend your vote.
+- Every row's aria-label carries its count and share, and the live region speaks the sentence frozen at the vote, so nothing rests on the bar's colour.
+- Under reduced motion the bars still re-flow — a share is information — on a tween with no cascade, the rail swaps rows without travelling, and the total lands on its new figure.
+
+### Code Snippet (KQ-890) — `code-snippet`
+Code that copies itself.
+
+A block of code sent into a thread, built to be taken. A hand tokeniser colours each line — comment, string, number, keyword — while the gutter of line numbers stays put and the body scrolls sideways inside its own box. Pressing copy writes the text, a hairline sweep takes the block top to bottom on a linear tween, and Copied stamps over the control on recoil, out of 1.5 and −6 degrees; a refused clipboard selects the block's own text and asks for Control or Command C instead. Long blocks fold to a height measured from one ResizeObserver, so the fold lands exactly on a line, and unfold on glide.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/code-snippet`
+
+Props:
+- `snippets`: CodeBlock[] — The thread, oldest first: id, side, language, code, filename, time and delivery.
+- `foldLines`: number (default 8) — Lines shown before a block folds behind its fade.
+- `open / defaultOpen`: string[] (default []) — Controlled or initial ids of unfolded blocks.
+- `onOpenChange`: (id: string, open: boolean) => void — Fires from the disclosure that folds or unfolds a block.
+- `onCopy`: (id: string, text: string) => void — Fires once the clipboard has taken a block's text.
+- `onCopyFail`: (id: string) => void — Fires when the clipboard refuses and the block falls back to selection.
+- `copiedHold`: number (default 1600) — Milliseconds the stamp stays before the control reads Copy again.
+- `peerName`: string (default "Them") — Names the other side in the block and delivery sentences.
+- `label`: string — Names the thread list for assistive technology.
+
+Notes:
+- Tab order runs copy, the disclosure, then the code region: the copy control names the file, the disclosure is a real aria-expanded button, and the scrolling region is focusable so a keyboard can move a wide line.
+- When the clipboard refuses, the block selects its own text and the live region asks for Control or Command C, so the copy is still one keystroke away.
+- Under reduced motion the sweep is replaced by a single wash that fades, and the fold swaps its measured height on a tween rather than gliding.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
