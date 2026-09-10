@@ -22325,3 +22325,750 @@ test.describe("media", () => {
     await expect(fix.getByRole("button", { name: /^Show/ })).toHaveCount(0);
   });
 });
+
+/** Springs and measured heights settle at their own pace; polls get a beat. */
+const navBeat = { intervals: [100], timeout: 8000 };
+
+/**
+ * Row order read off the list's own accessible names rather than its pixels:
+ * each row's name opens with what it is, so a re-sort is readable without
+ * measuring anything.
+ */
+const navLeadsOf = (rows: Locator) => async (): Promise<string[]> =>
+  rows.evaluateAll((nodes) =>
+    nodes.map(
+      (node) => (node.getAttribute("aria-label") ?? "").split(/[,.]/)[0] ?? "",
+    ),
+  );
+
+const navHeightOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((node) => Math.round(node.getBoundingClientRect().height));
+
+/** How far a scroll box sits above its own floor. */
+const navFloorGapOf = (box: Locator) => async (): Promise<number> =>
+  box.evaluate((node) =>
+    Math.round(node.scrollHeight - node.scrollTop - node.clientHeight),
+  );
+
+/**
+ * The navigation family is how a chat client says where you are: which rooms
+ * are waiting, where you stopped reading, what was pinned, what is folded away.
+ * Every test drives the mechanic through the keyboard the component publishes
+ * and reads the outcome off the sentence it speaks, the ARIA it flips and the
+ * demo's own status line — never off colour.
+ */
+test.describe("navigation", () => {
+  test("channel-list: a delivered line climbs its room and the bell quiets it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/channel-list");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The list speaks its own change before the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const list = stage.getByRole("list", {
+      name: "Coldbrook Logistics rooms",
+    });
+    // Row buttons say their unread; the bells beside them say Mute or Unmute.
+    const order = navLeadsOf(list.getByRole("button", { name: /unread/ }));
+
+    await expect(status).toContainText("Coldbrook yard · 8 unread · 2 muted");
+    await expect
+      .poll(order, navBeat)
+      .toEqual([
+        "Coldbrook yard",
+        "Basinworks dock",
+        "Waylight Pay ops",
+        "Fernworks returns",
+        "Night shift",
+        "Announcements",
+      ]);
+    await expect(announced).toBeEmpty();
+
+    // A delivery re-sorts the list under the pointer, so the press is a key.
+    await stage
+      .getByRole("button", { name: "Deliver a message" })
+      .press("Enter");
+    await expect(announced).toHaveText("New in Fernworks returns. 1 unread.");
+    await expect
+      .poll(order, navBeat)
+      .toEqual([
+        "Fernworks returns",
+        "Coldbrook yard",
+        "Basinworks dock",
+        "Waylight Pay ops",
+        "Night shift",
+        "Announcements",
+      ]);
+    await expect(status).toContainText("Coldbrook yard · 9 unread · 2 muted");
+    // The whole row is one sentence, so unread is never colour alone.
+    await expect(
+      list.getByRole("button", { name: /^Fernworks returns/ }),
+    ).toHaveAccessibleName(
+      "Fernworks returns, 1 unread. Last message: Marta: two crates are short a label.",
+    );
+
+    // Two columns, one tab stop: Right crosses to the bell, Left comes back.
+    const yard = list.getByRole("button", { name: /^Coldbrook yard/ });
+    await yard.focus();
+    await page.keyboard.press("ArrowRight");
+    const bell = list.getByRole("button", { name: "Mute Coldbrook yard" });
+    await expect(bell).toBeFocused();
+    await page.keyboard.press("Enter");
+    const unbell = list.getByRole("button", { name: "Unmute Coldbrook yard" });
+    await expect(unbell).toHaveAttribute("aria-pressed", "true");
+    await expect(announced).toHaveText("Coldbrook yard muted.");
+    await expect(status).toContainText("· 3 muted");
+    // A muted room is quiet, not invisible: the count still reads.
+    await expect(yard).toHaveAccessibleName(
+      "Coldbrook yard, 2 unread, muted. Last message: Dock three is free from nine.",
+    );
+
+    await page.keyboard.press("ArrowLeft");
+    await expect(yard).toBeFocused();
+    await page.keyboard.press("Home");
+    const returns = list.getByRole("button", { name: /^Fernworks returns/ });
+    await expect(returns).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(returns).toHaveAttribute("aria-current", "true");
+    await expect(yard).not.toHaveAttribute("aria-current", "true");
+    await expect(status).toContainText(
+      "Fernworks returns · 9 unread · 3 muted",
+    );
+
+    // Reading the room empties its badge and says so once.
+    await stage
+      .getByRole("button", { name: "Mark this room read" })
+      .press("Enter");
+    await expect(announced).toHaveText("Fernworks returns is read.");
+    await expect(status).toContainText(
+      "Fernworks returns · 8 unread · 3 muted",
+    );
+    await expect(returns).toHaveAccessibleName(
+      "Fernworks returns, nothing unread. Last message: Marta: two crates are short a label.",
+    );
+  });
+
+  test("unread-line: the rule travels down the thread and the pill clears it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/unread-line");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("region", { name: "Coldbrook night shift" });
+    const rule = stage.getByRole("separator");
+
+    await expect(status).toContainText("4 unread · first from Marta Ferreira");
+    await expect(rule).toHaveAccessibleName(
+      "New messages, 4 unread, starting with Marta Ferreira.",
+    );
+    await expect(
+      stage.getByRole("button", { name: "Mark 4 messages read" }),
+    ).toBeVisible();
+    await expect(announced).toBeEmpty();
+
+    // Reading one advances the boundary: the same rule takes the next seat.
+    await stage
+      .getByRole("button", { name: "Read the next one" })
+      .press("Enter");
+    await expect(announced).toHaveText("3 messages are new.");
+    await expect(rule).toHaveAccessibleName(
+      "New messages, 3 unread, starting with Marta Ferreira.",
+    );
+    await expect(status).toContainText("3 unread · first from Marta Ferreira");
+
+    await stage
+      .getByRole("button", { name: "Read the next one" })
+      .press("Enter");
+    await expect(rule).toHaveAccessibleName(
+      "New messages, 2 unread, starting with Rui Baptista.",
+    );
+    await expect(status).toContainText("2 unread · first from Rui Baptista");
+    // Each row says its own state, so the rule is not the only reading.
+    await expect(
+      thread.getByText("Marta Ferreira, 02:16, read.", { exact: true }),
+    ).toHaveCount(1);
+    await expect(
+      thread.getByText("Rui Baptista, 02:31, unread.", { exact: true }),
+    ).toHaveCount(1);
+
+    // The pill is the keyboard path to the same result, and it takes the rule
+    // with it — the press changes the thread's height, so it is a key.
+    await stage
+      .getByRole("button", { name: "Mark 2 messages read" })
+      .press("Enter");
+    await expect(announced).toHaveText("You are up to date.");
+    await expect(rule).toHaveCount(0);
+    await expect(status).toContainText("up to date");
+    // The header's other reading is hidden from the name algorithm as well as
+    // the eye, so "0 new messages" is never read through the one showing.
+    await expect(
+      stage.getByText("You are up to date", { exact: true }),
+    ).toHaveAttribute("aria-hidden", "false");
+    await expect(
+      stage.getByText("0 new messages", { exact: true }),
+    ).toHaveAttribute("aria-hidden", "true");
+
+    // And the rule draws itself again when the boundary is put back.
+    await stage.getByRole("button", { name: "Put four back" }).press("Enter");
+    await expect(announced).toHaveText("4 messages are new.");
+    await expect(rule).toHaveAccessibleName(
+      "New messages, 4 unread, starting with Marta Ferreira.",
+    );
+  });
+
+  test("jump-latest: the pill rises off the floor and both paths slide back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/jump-latest");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("region", { name: "Coldbrook night shift" });
+    const gap = navFloorGapOf(thread);
+
+    await expect(status).toContainText("at the latest · 12 messages");
+    // At the floor the pill is not a focusable ghost: it is not in the DOM.
+    await expect(
+      stage.getByRole("button", { name: /^Jump to the latest/ }),
+    ).toHaveCount(0);
+    await expect.poll(gap, navBeat).toBeLessThanOrEqual(48);
+
+    // Home inside the thread is the keyboard's way up.
+    await thread.press("Home");
+    await expect.poll(gap, navBeat).toBeGreaterThan(48);
+    const pill = stage.getByRole("button", { name: /^Jump to the latest/ });
+    await expect(pill).toHaveAccessibleName("Jump to the latest message.");
+    await expect(status).toContainText("scrolled up · 12 messages");
+
+    // Arrivals while you are away are counted rather than chased.
+    await stage.getByRole("button", { name: "Three arrive" }).press("Enter");
+    await expect(pill).toHaveAccessibleName(
+      "Jump to the latest, 3 new messages below.",
+    );
+    await expect(announced).toHaveText("3 new messages below.");
+    await expect(status).toContainText("3 new below · 15 messages");
+    // The thread stayed where the reader put it.
+    await expect.poll(gap, navBeat).toBeGreaterThan(48);
+
+    // The pill slides the box to its floor, clears the count and leaves.
+    await pill.press("Enter");
+    await expect.poll(gap, navBeat).toBeLessThanOrEqual(48);
+    await expect(announced).toHaveText("You are at the latest message.");
+    await expect(pill).toHaveCount(0);
+    await expect(status).toContainText("at the latest · 15 messages");
+
+    // End is the same move from the keyboard.
+    await thread.press("Home");
+    await expect(pill).toHaveAccessibleName("Jump to the latest message.");
+    await thread.press("End");
+    await expect.poll(gap, navBeat).toBeLessThanOrEqual(48);
+    await expect(pill).toHaveCount(0);
+    await expect(status).toContainText("at the latest · 15 messages");
+  });
+
+  test("pinned-bar: the arrows walk the pins and the last one takes the strip", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/pinned-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const bar = stage.getByRole("region", { name: "Pinned in Coldbrook yard" });
+    const body = stage.getByRole("button", { name: /^Pinned by/ });
+    const height = navHeightOf(bar);
+
+    await expect(status).toContainText("pin 1 of 3 · Ines Moreau");
+    // The note is inside the name: a label would override the words it wraps.
+    await expect(body).toHaveAccessibleName(
+      "Pinned by Ines Moreau at 14:38, 1 of 3. Coldbrook depot closes Thursday from noon. Nothing leaves the yard after eleven. Press for the next pin.",
+    );
+    await expect(bar.getByRole("listitem")).toHaveAttribute(
+      "aria-setsize",
+      "3",
+    );
+    await expect(announced).toBeEmpty();
+
+    await body.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(announced).toHaveText("Pin 2 of 3, from Marta Ferreira.");
+    await expect(status).toContainText("pin 2 of 3 · Marta Ferreira");
+    await expect(body).toHaveAccessibleName(
+      "Pinned by Marta Ferreira at 14:52, 2 of 3. Waylight Pay reference for the yard fee is 4471-CB. Put it on the sheet. Press for the next pin.",
+    );
+
+    await page.keyboard.press("End");
+    await expect(announced).toHaveText("Pin 3 of 3, from Rui Baptista.");
+    await page.keyboard.press("Home");
+    await expect(announced).toHaveText("Pin 1 of 3, from Ines Moreau.");
+    await expect(bar.getByRole("listitem")).toHaveAttribute(
+      "aria-posinset",
+      "1",
+    );
+
+    // Delete unpins the pin on show, and the removed note can still be named.
+    const tall = await height();
+    await page.keyboard.press("Delete");
+    await expect(announced).toHaveText(
+      "Unpinned Ines Moreau's note. 2 pins left.",
+    );
+    await expect(status).toContainText("pin 1 of 2 · Marta Ferreira");
+    await expect(bar.getByRole("listitem")).toHaveAttribute(
+      "aria-setsize",
+      "2",
+    );
+
+    // Pinning another shows it at once, at the end of the rail.
+    await stage
+      .getByRole("button", { name: "Pin another note" })
+      .press("Enter");
+    await expect(announced).toHaveText("Pin 3 of 3, from Rui Baptista.");
+    await expect(status).toContainText("pin 3 of 3 · Rui Baptista");
+    await expect(body).toHaveAccessibleName(
+      "Pinned by Rui Baptista at 15:26, 3 of 3. Loader keys live on the hook by the office. Press for the next pin.",
+    );
+
+    // The last pin out takes the strip with it: no empty band above a thread.
+    await stage.getByRole("button", { name: "Clear the bar" }).press("Enter");
+    await expect(announced).toHaveText("No pins left.");
+    await expect(status).toContainText("bar empty");
+    await expect(body).toHaveCount(0);
+    await expect.poll(height, navBeat).toBeLessThan(Math.min(8, tall));
+  });
+
+  test("search-inline: Enter steps the marks and Escape gives the thread back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/search-inline");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const field = stage.getByRole("searchbox", { name: "Find in thread" });
+    const current = stage.locator("mark[aria-current='true']");
+
+    await expect(status).toContainText("dock · match 1 of 5");
+    await expect(stage.locator("mark")).toHaveCount(5);
+    await expect(current).toHaveText("dock");
+    await expect(announced).toBeEmpty();
+
+    // Enter steps forward inside the field, and the position is spoken.
+    await field.press("Enter");
+    await expect(announced).toHaveText("Match 2 of 5, from Rui Baptista.");
+    await expect(status).toContainText("dock · match 2 of 5");
+    await expect(current).toHaveText("Dock");
+
+    // Shift+Enter is the other half of the same key.
+    await field.press("Shift+Enter");
+    await expect(announced).toHaveText("Match 1 of 5, from Ines Moreau.");
+    await expect(current).toHaveText("dock");
+
+    // The step controls repeat the move for a pointer or a switch.
+    await stage.getByRole("button", { name: "Next match" }).press("Enter");
+    await expect(status).toContainText("dock · match 2 of 5");
+    await expect(current).toHaveText("Dock");
+
+    // Escape clears the term and keeps the caret where it was typed.
+    await field.press("Escape");
+    await expect(announced).toHaveText("Search cleared.");
+    await expect(field).toBeFocused();
+    await expect(field).toHaveValue("");
+    await expect(stage.locator("mark")).toHaveCount(0);
+    await expect(status).toContainText("no term · no matches");
+    await expect(
+      stage.getByRole("button", { name: "Next match" }),
+    ).toBeDisabled();
+
+    // A new term restarts at the first match rather than keeping a place that
+    // belonged to another set.
+    await stage
+      .getByRole("button", { name: "Search for pallets" })
+      .press("Enter");
+    await expect(announced).toHaveText("Match 1 of 3, from Marta Ferreira.");
+    await expect(status).toContainText("pallets · match 1 of 3");
+    await expect(stage.locator("mark")).toHaveCount(3);
+    await expect(current).toHaveText("pallets");
+  });
+
+  test("folder-tabs: arrows move the folder and the list re-filters under it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/folder-tabs");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const tabs = stage.getByRole("tablist", {
+      name: "Coldbrook depot channels",
+    });
+    const panel = stage.getByRole("tabpanel");
+    const rows = navLeadsOf(panel.getByRole("button"));
+
+    await expect(status).toContainText(
+      "All 6 · Unread 2 · Mentions 1 · #dispatch open",
+    );
+    await expect(
+      tabs.getByRole("tab", { name: "All, 6 channels" }),
+    ).toHaveAttribute("aria-selected", "true");
+    await expect.poll(rows, navBeat).toHaveLength(6);
+
+    // Left and Right move and activate: the folder changes with the focus.
+    await tabs.getByRole("tab", { name: "All, 6 channels" }).focus();
+    await page.keyboard.press("ArrowRight");
+    const unread = tabs.getByRole("tab", { name: "Unread, 2 channels" });
+    await expect(unread).toBeFocused();
+    await expect(unread).toHaveAttribute("aria-selected", "true");
+    await expect(announced).toHaveText("Unread, 2 channels.");
+    await expect.poll(rows, navBeat).toEqual(["#dispatch", "#returns"]);
+
+    await page.keyboard.press("ArrowRight");
+    await expect(announced).toHaveText("Mentions, 1 channel.");
+    await expect.poll(rows, navBeat).toEqual(["#dispatch"]);
+    await page.keyboard.press("Home");
+    await expect(
+      tabs.getByRole("tab", { name: "All, 6 channels" }),
+    ).toBeFocused();
+    await expect(announced).toHaveText("All, 6 channels.");
+
+    // A delivery lifts its channel and rolls the counts the tabs carry.
+    await stage
+      .getByRole("button", { name: "Deliver a message" })
+      .press("Enter");
+    await expect(status).toContainText("All 6 · Unread 3 · Mentions 1");
+    await expect(
+      tabs.getByRole("tab", { name: "Unread, 3 channels" }),
+    ).toBeVisible();
+    await expect
+      .poll(rows, navBeat)
+      .toEqual([
+        "#waylight-pay",
+        "#dispatch",
+        "#returns",
+        "#basinworks",
+        "#night-shift",
+        "#gate-b",
+      ]);
+
+    // A row press opens its channel and says which one.
+    const pay = panel.getByRole("button", { name: /^#waylight-pay/ });
+    await expect(pay).toHaveAccessibleName(
+      "#waylight-pay, 1 unread. Rui: Waylight Pay cleared week 36.",
+    );
+    await pay.press("Enter");
+    await expect(announced).toHaveText("Opened #waylight-pay.");
+    await expect(pay).toHaveAttribute("aria-current", "true");
+    await expect(status).toContainText("#waylight-pay open");
+    // A muted channel says so in its sentence rather than in its badge.
+    await expect(
+      panel.getByRole("button", { name: /^#night-shift/ }),
+    ).toHaveAccessibleName("#night-shift, muted. Rota for the week.");
+  });
+
+  test("mute-bell: the picker unfolds, a duration takes it and the bell says how long", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/mute-bell");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // One row, one region: the first bell's own line comes before the demo's.
+    const announced = stage.locator("[role='status']").first();
+    const bell = stage.getByRole("button", { name: "Mute #dispatch." });
+    const picker = stage.getByRole("group", { name: "Mute #dispatch for" });
+
+    await expect(status).toContainText("Both channels on · pick a duration");
+    await expect(bell).toHaveAttribute("aria-expanded", "false");
+    await expect(picker).toHaveCount(0);
+
+    // While notifications are on the bell is a disclosure, in flow.
+    await bell.press("Enter");
+    await expect(bell).toHaveAttribute("aria-expanded", "true");
+    await expect(picker).toBeVisible();
+    await expect(picker.getByRole("button")).toHaveCount(4);
+
+    // Escape folds it from inside and hands focus back to the bell.
+    await stage
+      .getByRole("button", { name: "Mute #dispatch for 30 minutes." })
+      .press("Escape");
+    await expect(bell).toHaveAttribute("aria-expanded", "false");
+    await expect(bell).toBeFocused();
+    await expect(picker).toHaveCount(0);
+
+    // The picker opens with focus still on the bell, so Escape answers there
+    // too — the row hears the key, not just the panel.
+    await bell.press("Enter");
+    await expect(picker).toBeVisible();
+    await bell.press("Escape");
+    await expect(bell).toHaveAttribute("aria-expanded", "false");
+    await expect(bell).toBeFocused();
+    await expect(picker).toHaveCount(0);
+
+    await bell.press("Enter");
+    await stage
+      .getByRole("button", { name: "Mute #dispatch for 8 hours." })
+      .press("Enter");
+
+    // Muted, the bell stops being a disclosure and becomes an action.
+    const muted = stage.getByRole("button", {
+      name: "Muted for 8 more hours. Turn notifications back on.",
+    });
+    await expect(muted).toBeVisible();
+    await expect(muted).not.toHaveAttribute("aria-expanded", /.*/);
+    await expect(announced).toHaveText("Muted for 8 hours.");
+    await expect(status).toContainText("#dispatch muted · 8 hours");
+    await expect(picker).toHaveCount(0);
+    // The row's second line swaps its reading, and only one of them is spoken.
+    await expect(
+      stage.getByText("Morning run, gate B", { exact: true }),
+    ).toHaveAttribute("aria-hidden", "true");
+    await expect(
+      stage.getByText("Muted · 8 h", { exact: true }),
+    ).toHaveAttribute("aria-hidden", "false");
+    // The other row keeps its own bell: the two are independent.
+    await expect(
+      stage.getByRole("button", { name: "Mute #night-shift." }),
+    ).toBeVisible();
+
+    // Pressing a muted bell brings notifications back at once.
+    await muted.press("Enter");
+    await expect(bell).toHaveAttribute("aria-expanded", "false");
+    await expect(announced).toHaveText("Notifications are on.");
+    await expect(status).toContainText("Both channels on · pick a duration");
+  });
+
+  test("archive-slide: a row slides away past the threshold and undo puts it back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/archive-slide");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const list = stage.getByRole("list", { name: "Coldbrook depot channels" });
+    const order = navLeadsOf(list.getByRole("button", { name: /^#/ }));
+
+    await expect(status).toContainText(
+      "5 showing · 0 archived · drag a row left",
+    );
+    await expect
+      .poll(order, navBeat)
+      .toEqual([
+        "#dispatch",
+        "#returns",
+        "#waylight-pay",
+        "#basinworks",
+        "#night-shift",
+      ]);
+
+    // The gesture is the mechanic: past the threshold the row commits.
+    const returns = list.getByRole("button", { name: /^#returns,/ });
+    const box = await returns.boundingBox();
+    if (!box) throw new Error("the #returns row has no box to drag");
+    const from = { x: box.x + box.width * 0.5, y: box.y + box.height / 2 };
+    await page.mouse.move(from.x, from.y);
+    await page.mouse.down();
+    await page.mouse.move(from.x - 120, from.y, { steps: 10 });
+    await page.mouse.up();
+    // A pointer parked over the list would hover whatever slid under it.
+    await page.mouse.move(4, 4);
+
+    await expect(announced).toHaveText("#returns archived.");
+    await expect
+      .poll(order, navBeat)
+      .toEqual(["#dispatch", "#waylight-pay", "#basinworks", "#night-shift"]);
+    await expect(status).toContainText(
+      "4 showing · 1 archived · last #returns",
+    );
+
+    // The undo chip unfolds in flow at the foot of the list, and names the row.
+    const undo = stage.getByRole("button", {
+      name: "Put #returns back in the list.",
+    });
+    await undo.press("Enter");
+    await expect(announced).toHaveText("#returns is back in the list.");
+    await expect
+      .poll(order, navBeat)
+      .toEqual([
+        "#dispatch",
+        "#returns",
+        "#waylight-pay",
+        "#basinworks",
+        "#night-shift",
+      ]);
+    await expect(status).toContainText("5 showing · 0 archived");
+    await expect(undo).toHaveCount(0);
+
+    // Nothing needs the gesture: Delete on a focused row does the same, and
+    // focus lands on the row that took its index rather than at the root.
+    await list.getByRole("button", { name: /^#basinworks/ }).press("Delete");
+    await expect(announced).toHaveText("#basinworks archived.");
+    await expect(
+      list.getByRole("button", { name: /^#night-shift\./ }),
+    ).toBeFocused();
+    await expect(status).toContainText(
+      "4 showing · 1 archived · last #basinworks",
+    );
+
+    await stage.getByRole("button", { name: "Restore all" }).press("Enter");
+    await expect(status).toContainText(
+      "5 showing · 0 archived · drag a row left",
+    );
+    await expect.poll(order, navBeat).toHaveLength(5);
+  });
+
+  test("section-collapse: a fold hides its rows and hands their count to the header", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/section-collapse");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const rooms = stage.getByRole("button", { name: /^Rooms,/ });
+    const direct = stage.getByRole("button", { name: /^Direct,/ });
+    const dispatch = stage.getByRole("button", {
+      name: "#dispatch, 2 unread.",
+    });
+
+    await expect(status).toContainText(
+      "Rooms open · Direct folded · Muted open · 1 unread hidden",
+    );
+    await expect(rooms).toHaveAccessibleName("Rooms, unfolded, 4 channels.");
+    // A folded section says what is waiting without being unfolded.
+    await expect(direct).toHaveAccessibleName(
+      "Direct, folded, 1 unread inside.",
+    );
+    await expect(direct).toHaveAttribute("aria-expanded", "false");
+    await expect(dispatch).toHaveAttribute("aria-current", "true");
+    await expect(
+      stage.getByRole("button", { name: "Ines Corta, 1 unread." }),
+    ).toHaveCount(0);
+
+    // Folding takes the rows out of the tree as well as out of the eye.
+    await rooms.press("Enter");
+    await expect(announced).toHaveText("Rooms folded, 3 unread inside.");
+    await expect(rooms).toHaveAccessibleName("Rooms, folded, 3 unread inside.");
+    await expect(dispatch).toHaveCount(0);
+    await expect(stage.getByRole("region", { name: /^Rooms/ })).toHaveCount(0);
+    await expect(status).toContainText(
+      "Rooms folded · Direct folded · Muted open · 4 unread hidden",
+    );
+
+    // Down and Up move between headers, per the accordion pattern.
+    await page.keyboard.press("ArrowDown");
+    await expect(direct).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Direct unfolded, 3 channels.");
+    await expect(
+      stage.getByRole("button", { name: "Ines Corta, 1 unread." }),
+    ).toBeVisible();
+    await expect(status).toContainText(
+      "Direct open · Muted open · 3 unread hidden",
+    );
+
+    // A delivery into a folded section climbs the badge it left behind.
+    await stage
+      .getByRole("button", { name: "Deliver a message" })
+      .press("Enter");
+    await expect(rooms).toHaveAccessibleName("Rooms, folded, 4 unread inside.");
+    await expect(status).toContainText("4 unread hidden");
+
+    await direct.press("Home");
+    await expect(rooms).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Rooms unfolded, 4 channels.");
+    await expect(status).toContainText("0 unread hidden");
+
+    // And a row inside it still opens its own channel.
+    const returns = stage.getByRole("button", { name: "#returns, 1 unread." });
+    await returns.press("Enter");
+    await expect(returns).toHaveAttribute("aria-current", "true");
+    await expect(dispatch).not.toHaveAttribute("aria-current", "true");
+  });
+
+  test("room-switcher: the hotkey raises the panel and a typed room takes the header", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/room-switcher");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const trigger = stage.getByRole("button", {
+      name: "Jump to a room, Ctrl K.",
+    });
+
+    await expect(status).toContainText(
+      "In #dispatch · 12 rooms · press Ctrl K",
+    );
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    await expect(stage.getByRole("dialog")).toHaveCount(0);
+
+    // The hotkey answers from anywhere on the page. The docs site binds the
+    // same Ctrl K to its own command deck, and that deck is a Radix modal that
+    // aria-hides the rest of the page while it is up — so the switcher's panel
+    // is read off the DOM here, and the deck is dismissed before the rest of
+    // the test reads anything by role.
+    await page.keyboard.press("Control+k");
+    await expect(status).toContainText("switcher up");
+    await expect(
+      stage.locator("[role='dialog'][aria-modal='true']"),
+    ).toHaveCount(1);
+    await page.keyboard.press("Escape");
+
+    const panel = stage.getByRole("dialog", { name: "Jump to a room" });
+    await expect(panel).toBeVisible();
+    await expect(panel).toHaveAttribute("aria-modal", "true");
+    const field = panel.getByRole("combobox");
+
+    // Escape folds the panel and hands focus back to the control that raised
+    // it, and the trigger raises it again with focus landing in the field.
+    await field.focus();
+    await page.keyboard.press("Escape");
+    await expect(stage.getByRole("dialog")).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+    await expect(status).toContainText("press Ctrl K");
+
+    await trigger.press("Enter");
+    await expect(panel).toBeVisible();
+    await expect(field).toBeFocused();
+    await expect(status).toContainText("switcher up");
+
+    const options = panel.getByRole("option");
+    await expect(options).toHaveCount(12);
+    await expect(options.first()).toHaveAccessibleName(
+      "#dispatch, 2 unread. Morning run, gate B.",
+    );
+    await expect(options.first()).toHaveAttribute("aria-selected", "true");
+
+    // Down and Up move the active option and wrap; focus stays in the field.
+    await field.press("ArrowDown");
+    await expect(options.nth(1)).toHaveAttribute("aria-selected", "true");
+    await field.press("ArrowUp");
+    await field.press("ArrowUp");
+    await expect(options.nth(11)).toHaveAttribute("aria-selected", "true");
+    await expect(field).toBeFocused();
+    await field.press("Home");
+    await expect(options.first()).toHaveAttribute("aria-selected", "true");
+
+    // Typing filters, and the panel closes to exactly what matched.
+    await field.fill("ret");
+    await expect(announced).toHaveText("1 room matches ret.");
+    await expect(options).toHaveCount(1);
+    await expect(options.first()).toHaveAccessibleName(
+      "#returns, 1 unread. Damaged crates from Basinworks.",
+    );
+    await expect(status).toContainText('1 matched "ret"');
+
+    // Enter switches, the panel falls away and the header carries the room.
+    await field.press("Enter");
+    await expect(announced).toHaveText("Now in #returns.");
+    await expect(panel).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("In #returns");
+
+    // Escape is the way out that changes nothing.
+    await trigger.press("Enter");
+    await expect(stage.getByRole("dialog")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(stage.getByRole("dialog")).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+    await expect(status).toContainText("In #returns");
+  });
+});

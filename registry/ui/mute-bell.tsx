@@ -252,6 +252,14 @@ export function MuteBell({
   return (
     <div
       ref={ref}
+      // Escape is handled for the whole row, not just the picker: the picker
+      // opens with focus still on the bell, so a handler on the picker alone
+      // would miss the very key press the reader is most likely to make.
+      onKeyDown={(event) => {
+        if (event.key !== "Escape" || !isOpen) return;
+        event.preventDefault();
+        closeToBell();
+      }}
       className={cn(
         "w-full rounded-3 border border-hairline bg-surface-1 p-2",
         className,
@@ -372,12 +380,7 @@ export function MuteBell({
       <motion.div
         id={pickerId}
         style={{ height }}
-        className="overflow-hidden"
-        onKeyDown={(event) => {
-          if (event.key !== "Escape") return;
-          event.preventDefault();
-          closeToBell();
-        }}
+        className="overflow-clip [contain:paint]"
       >
         <div ref={innerRef} className="px-1 pt-3 pb-1">
           <div

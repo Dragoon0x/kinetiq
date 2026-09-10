@@ -88,7 +88,11 @@ export function JumpLatestDemo() {
         className="border-t border-border pt-3 font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase"
       >
         <span className="text-signal">
-          {atBottom ? "at the latest" : `${count} new below`}
+          {atBottom
+            ? "at the latest"
+            : count === 0
+              ? "scrolled up"
+              : `${count} new below`}
         </span>
         {` · ${thread.length} messages`}
       </p>
