@@ -74,7 +74,7 @@ export function ImageBubbleDemo() {
         role="status"
         className="border-t border-border pt-3 font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase"
       >
-        {photos.length} photos ·{" "}
+        {photos.length} {photos.length === 1 ? "photo" : "photos"} ·{" "}
         <span className="text-signal">
           {openCaption
             ? `viewer · ${openCaption}`

@@ -21694,3 +21694,634 @@ test.describe("presence", () => {
     await expect(chip.getByRole("button", { name: "Set away" })).toBeVisible();
   });
 });
+
+/** The demo's line carries the running frame as `frame 07`. */
+const mediaFrameOf = (status: Locator) => async (): Promise<number> =>
+  Number(/frame (\d+)/.exec((await status.textContent()) ?? "")?.[1] ?? 0);
+
+/** A fold's outcome is its height, so it is measured rather than inferred. */
+const mediaHeightOf = (target: Locator) => async (): Promise<number> =>
+  (await target.boundingBox())?.height ?? 0;
+
+/**
+ * The media family is everything a thread sends that is not a sentence: a
+ * picture developing, a file crossing, a link unfolding, a strip of photos, a
+ * sticker landing, a loop running, a voice note, a place, a poll and a block of
+ * code. Every test drives the mechanic the component advertises — through the
+ * keyboard wherever it publishes one — and reads the outcome off the sentence
+ * the component speaks about itself and the demo's own status line.
+ */
+test.describe("media", () => {
+  test("image-bubble: a picture arrives byte by byte, settles sharp, and opens inside the component's own box", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/image-bubble");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component speaks first in the tree; the demo's line closes it.
+    const announced = stage.locator("[role='status']").first();
+
+    await expect(status).toContainText("all sharp");
+    await expect(announced).toBeEmpty();
+    await expect(
+      stage.getByRole("button", {
+        name: "Open photo: Dock four clear, from you",
+      }),
+    ).toBeEnabled();
+
+    // A received picture lands at the foot of the thread and grows it, so the
+    // press is a key rather than a pointer parked over what slides up.
+    await stage.getByRole("button", { name: "Receive photo" }).press("Enter");
+
+    // There is nothing to open while it is still arriving, and the percentage
+    // is a sentence rather than a chip's colour.
+    await expect(
+      stage.getByRole("button", {
+        name: /^Loading photo, \d+ percent: Quay at first light, from Ines$/,
+      }),
+    ).toBeDisabled();
+    await expect(stage.getByRole("progressbar")).toHaveAttribute(
+      "aria-valuetext",
+      /^\d+ percent of Quay at first light received$/,
+    );
+
+    // The settle is one frozen sentence, not one per tick.
+    await expect(announced).toHaveText("Photo sharp: Quay at first light", {
+      timeout: 12_000,
+    });
+    await expect(stage.getByRole("progressbar")).toHaveCount(0);
+    await expect(status).toContainText("all sharp");
+
+    const tile = stage.getByRole("button", {
+      name: "Open photo: Quay at first light, from Ines",
+    });
+    await expect(tile).toBeEnabled();
+
+    // The viewer grows into the box the list was using and takes the focus.
+    await tile.press("Enter");
+    const viewer = stage.getByRole("dialog", {
+      name: "Photo: Quay at first light, from Ines",
+    });
+    await expect(viewer.getByRole("button", { name: "Close" })).toBeFocused();
+    await expect(announced).toHaveText("Viewer open: Quay at first light");
+    await expect(status).toContainText("viewer · Quay at first light");
+    // The list behind it is out of the tree, so nothing under the viewer is
+    // reachable while the viewer is up.
+    await expect(
+      stage.getByRole("button", { name: /^Open photo/ }),
+    ).toHaveCount(0);
+
+    // Escape shuts it and puts the focus back on the tile it grew from.
+    await page.keyboard.press("Escape");
+    await expect(viewer).toHaveCount(0);
+    await expect(announced).toHaveText("Viewer closed");
+    await expect(tile).toBeFocused();
+    await expect(status).toContainText("all sharp");
+  });
+
+  test("file-card: a transfer runs to ready, a scripted fault fails in words, and a retry runs it clean", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/file-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Site thread with Rui" });
+
+    await expect(status).toContainText("two files offered");
+    await expect(announced).toBeEmpty();
+
+    // One control carries the whole journey, and its name says which leg it is
+    // on rather than leaving the state to the ring.
+    await stage
+      .getByRole("button", { name: "Download site-survey.pdf, 2.4 MB" })
+      .press("Enter");
+    await expect(
+      stage.getByRole("button", {
+        name: /^Cancel download of site-survey\.pdf, \d+ percent$/,
+      }),
+    ).toBeVisible();
+    await expect(stage.getByRole("progressbar")).toHaveAttribute(
+      "aria-valuetext",
+      /^\d+ percent, .+ of 2\.4 MB$/,
+    );
+
+    await expect(announced).toHaveText("site-survey.pdf downloaded", {
+      timeout: 15_000,
+    });
+    await expect(
+      stage.getByRole("button", { name: "Open site-survey.pdf" }),
+    ).toBeVisible();
+    await expect(thread).toContainText("Downloaded");
+    await expect(status).toContainText("site-survey.pdf ready");
+
+    // The counts file drops its line partway: the failure is a word beside the
+    // name, not a red border, and the control becomes the retry.
+    await stage
+      .getByRole("button", { name: "Download pallet-counts.csv, 48 KB" })
+      .press("Enter");
+    await expect(announced).toHaveText(
+      "pallet-counts.csv failed, retry available",
+      { timeout: 15_000 },
+    );
+    await expect(thread).toContainText("Failed");
+    await expect(status).toContainText("pallet-counts.csv failed");
+
+    await stage
+      .getByRole("button", { name: "Retry download of pallet-counts.csv" })
+      .press("Enter");
+    await expect(announced).toHaveText("pallet-counts.csv downloaded", {
+      timeout: 15_000,
+    });
+    await expect(
+      stage.getByRole("button", { name: "Open pallet-counts.csv" }),
+    ).toBeVisible();
+    await expect(status).toContainText("pallet-counts.csv ready");
+  });
+
+  test("link-unfurl: a pasted address fetches, unfolds its card, and remove puts the fold back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/link-unfurl");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Ops thread with Ines" });
+
+    await expect(status).toContainText("no preview");
+    await expect(announced).toBeEmpty();
+    // The address is read as part of the bubble, so a fold that never arrives
+    // still leaves the link in the message.
+    await expect(thread).toContainText(
+      "https://basinworks.example/status/quay-4",
+    );
+
+    // The fold opens under the message and moves it, so the press is a key.
+    await stage.getByRole("button", { name: "Paste link" }).press("Enter");
+    await expect(status).toContainText("fetching");
+
+    const card = stage.getByRole("button", {
+      name: "Open preview: Basinworks Status · Quay 4, basinworks.example",
+    });
+    await expect(card).toBeVisible({ timeout: 10_000 });
+    await expect(announced).toHaveText(
+      "Preview loaded: Basinworks Status · Quay 4",
+    );
+    await expect(card).toContainText("Shore power on quay 4 is down");
+    await expect(status).toContainText("ready · basinworks.example", {
+      timeout: 10_000,
+    });
+
+    // The card is a control rather than an anchor: pressing it reports the
+    // open and leaves the docs page where it was.
+    await card.press("Enter");
+    await expect(status).toContainText("opened · basinworks.example");
+    await expect(page).toHaveURL(/\/components\/link-unfurl$/);
+
+    // Remove folds the card away and says so, once.
+    await stage.getByRole("button", { name: "Remove preview" }).press("Enter");
+    await expect(card).toHaveCount(0);
+    await expect(announced).toHaveText("Preview removed");
+    await expect(status).toContainText("removed");
+  });
+
+  test("gallery-strip: arrows walk the strip without opening it, Enter opens the viewer, Escape lands on the thumbnail showing", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/gallery-strip");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const strip = stage.getByRole("list", { name: "6 pictures" });
+    const thumb = (index: number, caption: string): Locator =>
+      strip.getByRole("button", {
+        name: `Open picture ${index} of 6: ${caption}, from Rui`,
+      });
+    const viewer = (index: number, caption: string): Locator =>
+      stage.getByRole("group", { name: `Picture ${index} of 6: ${caption}` });
+
+    await expect(status).toContainText("6 pictures · Crane bay");
+    await expect(announced).toBeEmpty();
+
+    // Roving tabindex: the arrows move the cursor without opening anything.
+    await thumb(1, "Crane bay").focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(thumb(2, "Pallet run")).toBeFocused();
+    await expect(status).toContainText("6 pictures · Pallet run");
+    await page.keyboard.press("End");
+    await expect(thumb(6, "Gate house")).toBeFocused();
+    await expect(status).toContainText("6 pictures · Gate house");
+    // The strip does not wrap past its ends.
+    await page.keyboard.press("ArrowRight");
+    await expect(thumb(6, "Gate house")).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(thumb(1, "Crane bay")).toBeFocused();
+
+    // Enter opens the viewer under the strip, growing the bubble: a key.
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await thumb(3, "Dock four").press("Enter");
+    await expect(viewer(3, "Dock four")).toBeVisible();
+    await expect(announced).toHaveText("Picture 3 of 6, Dock four");
+    await expect(status).toContainText("viewer 3 of 6 · Dock four");
+    // The open thumbnail says so, rather than resting on its ring.
+    await expect(
+      strip.getByRole("button", { name: /picture 3 of 6/ }),
+    ).toHaveAttribute("aria-current", "true");
+
+    // Next moves the picture and the strip stays live behind it.
+    await viewer(3, "Dock four")
+      .getByRole("button", { name: "Next picture" })
+      .press("Enter");
+    await expect(viewer(4, "Rail spur")).toBeVisible();
+    await expect(announced).toHaveText("Picture 4 of 6, Rail spur");
+    await expect(status).toContainText("viewer 4 of 6 · Rail spur");
+
+    // Escape closes it and leaves the focus on the thumbnail it was showing.
+    await page.keyboard.press("Escape");
+    await expect(
+      stage.getByRole("group", { name: /^Picture \d of 6/ }),
+    ).toHaveCount(0);
+    await expect(announced).toHaveText("Viewer closed");
+    await expect(thumb(4, "Rail spur")).toBeFocused();
+    await expect(status).toContainText("6 pictures · Rail spur");
+  });
+
+  test("sticker-pop: a sticker lands with its own sentence and its control replays it in place", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/sticker-pop");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Shift thread with Marta" });
+
+    await expect(status).toContainText("cat landed");
+    await expect(announced).toBeEmpty();
+    // The art is aria-hidden, so a sticker is read as a sentence.
+    await expect(
+      thread.getByRole("button", { name: "Replay sticker: cat, from Marta" }),
+    ).toBeVisible();
+    await expect(thread).toContainText("Dock four is clear.");
+
+    // A sticker lands at the foot of the thread and moves it, so: a key.
+    await stage.getByRole("button", { name: "Send sticker" }).press("Enter");
+    await expect(announced).toHaveText("You sent a sticker: star");
+    await expect(status).toContainText("2 stickers · star sent");
+
+    const star = thread.getByRole("button", {
+      name: "Replay sticker: star, from you",
+    });
+    await expect(star).toBeVisible();
+
+    // The replay is a fresh drop rather than a remount, so the control keeps
+    // the focus that pressed it.
+    await star.press("Enter");
+    await expect(announced).toHaveText("Replayed: star");
+    await expect(status).toContainText("2 stickers · replayed");
+    await expect(star).toBeFocused();
+
+    // The ring walks on, and the next arrival gets its own sentence.
+    await stage.getByRole("button", { name: "Send sticker" }).press("Enter");
+    await expect(announced).toHaveText("You sent a sticker: hand wave");
+    await expect(status).toContainText("3 stickers · wave sent");
+    await expect(
+      thread.getByRole("button", {
+        name: "Replay sticker: hand wave, from you",
+      }),
+    ).toBeVisible();
+  });
+
+  test("gif-loop: a clip runs in view, a press holds it by hand, and scrolling it away stops it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/gif-loop");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const viewport = stage.getByRole("region", {
+      name: "Coldbrook depot clips",
+    });
+    const bay = viewport.getByRole("button", {
+      name: /^Looping clip from Rui, Bay 3 door cycle/,
+    });
+    const frame = mediaFrameOf(status);
+
+    await expect(status).toContainText("Bay 3 door cycle · playing");
+    await expect(bay).toHaveAttribute("aria-pressed", "false");
+    await expect(announced).toBeEmpty();
+
+    // It runs on its own: the frame moves without anyone pressing anything.
+    await expect.poll(frame, { timeout: 10_000 }).toBeGreaterThan(1);
+
+    // The picture is the control, and its name carries the state.
+    await bay.press("Enter");
+    await expect(bay).toHaveAttribute("aria-pressed", "true");
+    await expect(bay).toHaveAccessibleName(
+      "Looping clip from Rui, Bay 3 door cycle, paused",
+    );
+    await expect(announced).toHaveText("Bay 3 door cycle paused");
+    await expect(status).toContainText("Bay 3 door cycle · paused by hand");
+
+    // Held means held: the frame the demo reads stops moving.
+    const stopped = await frame();
+    await page.waitForTimeout(800);
+    expect(await frame()).toBe(stopped);
+
+    await bay.press("Enter");
+    await expect(bay).toHaveAttribute("aria-pressed", "false");
+    await expect(announced).toHaveText("Bay 3 door cycle playing");
+    await expect.poll(frame, { timeout: 10_000 }).toBeGreaterThan(stopped);
+
+    // A clip nobody can see stops rather than burning frames, and says which
+    // of the two it is: the one that left, or the one that arrived.
+    await stage.getByRole("button", { name: "Scroll to end" }).press("Enter");
+    await expect(
+      viewport.getByRole("button", {
+        name: "Looping clip from Rui, Bay 3 door cycle, paused, out of view",
+      }),
+    ).toHaveCount(1, { timeout: 10_000 });
+    await expect(
+      viewport.getByRole("button", {
+        name: "Looping clip from Rui, Belt run, north line, playing",
+      }),
+    ).toHaveCount(1, { timeout: 10_000 });
+    await expect(status).toContainText("Belt run, north line · playing", {
+      timeout: 10_000,
+    });
+    // One scroll crosses several clips, so the region holds the last state
+    // change it made rather than a sentence per threshold.
+    await expect(announced).toHaveText(
+      /^(Bay 3 door cycle|Yard gate, 07:12|Belt run, north line) (playing|paused, out of view)$/,
+    );
+  });
+
+  test("audio-wave: the wave is a slider, the rate cycles, and the transport freezes its sentence at the press", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/audio-wave");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const clip = stage.getByRole("group", {
+      name: "Audio from Marta, Roof deck walkthrough, 2 minutes 41 seconds",
+    });
+    const wave = clip.getByRole("slider", {
+      name: "Position in Roof deck walkthrough",
+    });
+
+    await expect(status).toContainText("Idle · 0:00 held");
+    await expect(announced).toBeEmpty();
+    await expect(wave).toHaveAttribute("aria-valuemin", "0");
+    await expect(wave).toHaveAttribute("aria-valuemax", "161");
+    await expect(wave).toHaveAttribute("aria-valuenow", "0");
+    await expect(wave).toHaveAttribute("aria-valuetext", "0:00 of 2:41");
+
+    // Right steps five seconds, Up one: the head is reachable without a mouse.
+    await wave.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(wave).toHaveAttribute("aria-valuetext", "0:05 of 2:41");
+    await page.keyboard.press("ArrowUp");
+    await expect(wave).toHaveAttribute("aria-valuetext", "0:06 of 2:41");
+    await expect(status).toContainText("0:06 held");
+
+    // End and Home are the ends of the clip, and neither runs past them.
+    await page.keyboard.press("End");
+    await expect(wave).toHaveAttribute("aria-valuenow", "161");
+    await expect(wave).toHaveAttribute("aria-valuetext", "2:41 of 2:41");
+    await page.keyboard.press("ArrowRight");
+    await expect(wave).toHaveAttribute("aria-valuenow", "161");
+    await page.keyboard.press("Home");
+    await expect(wave).toHaveAttribute("aria-valuetext", "0:00 of 2:41");
+
+    // The rate is a control with a sentence, not a rolling column: the column
+    // is aria-hidden and the button carries the reading.
+    await clip.getByRole("button", { name: /^Playback speed/ }).press("Enter");
+    await expect(
+      clip.getByRole("button", { name: /^Playback speed/ }),
+    ).toHaveAccessibleName("Playback speed, 1.5 times");
+    await expect(announced).toHaveText("Speed 1.5 times");
+    await expect(status).toContainText("1.5×");
+
+    // Playing speaks the rate it started at and the head starts moving.
+    await clip
+      .getByRole("button", { name: "Play Roof deck walkthrough" })
+      .press("Enter");
+    await expect(announced).toHaveText(
+      "Playing Roof deck walkthrough at 1.5 times",
+    );
+    await expect(status).toContainText("Roof deck walkthrough · 0:0");
+    await expect
+      .poll(
+        async () => Number((await wave.getAttribute("aria-valuenow")) ?? "0"),
+        { timeout: 10_000 },
+      )
+      .toBeGreaterThan(0);
+
+    await clip
+      .getByRole("button", { name: "Pause Roof deck walkthrough" })
+      .press("Enter");
+    await expect(announced).toHaveText("Paused");
+    await expect(status).toContainText("Idle");
+    await expect(status).toContainText("held");
+  });
+
+  test("location-pin: a card expands with its distance, hands off to maps, and Escape collapses it onto its toggle", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/location-pin");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const gate = stage.getByRole("button", {
+      name: /^Location from Rui: Coldbrook depot, gate 4/,
+    });
+    const collapseBoth = stage.getByRole("button", { name: "Collapse both" });
+
+    await expect(status).toContainText("2 places · collapsed · nearest 420 m");
+    await expect(gate).toHaveAttribute("aria-expanded", "false");
+    await expect(gate).toHaveAccessibleName(
+      "Location from Rui: Coldbrook depot, gate 4, Basin Wharf Road, 420 metres away. Expand the map.",
+    );
+    await expect(collapseBoth).toBeDisabled();
+    await expect(announced).toBeEmpty();
+
+    // The detail grows the card in the thread's own flow, so the press is a key.
+    await gate.press("Enter");
+    await expect(gate).toHaveAttribute("aria-expanded", "true");
+    await expect(gate).toHaveAccessibleName(
+      "Location from Rui: Coldbrook depot, gate 4, Basin Wharf Road, 420 metres away. Collapse the map.",
+    );
+    await expect(announced).toHaveText(
+      "Coldbrook depot, gate 4 expanded, 420 metres away",
+    );
+    await expect(status).toContainText(
+      "Coldbrook depot, gate 4 · expanded · 420 m · zoom 1.9×",
+    );
+
+    // The host owns `openId` here, so a host-driven collapse must land too.
+    await expect(collapseBoth).toBeEnabled();
+    await collapseBoth.press("Enter");
+    await expect(gate).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("2 places · collapsed");
+
+    // The hand-off control lives inside the detail and is only reachable while
+    // the detail is open.
+    await gate.press("Enter");
+    await expect(gate).toHaveAttribute("aria-expanded", "true");
+    const maps = stage.getByRole("button", { name: "Open in maps" }).first();
+    await maps.press("Enter");
+    await expect(status).toContainText("handed off");
+
+    // Escape from inside the detail collapses the card and leaves the focus on
+    // the toggle rather than in the region that just went inert.
+    await page.keyboard.press("Escape");
+    await expect(gate).toHaveAttribute("aria-expanded", "false");
+    await expect(gate).toBeFocused();
+    await expect(announced).toHaveText("Coldbrook depot, gate 4 collapsed");
+    await expect(status).toContainText("2 places · collapsed · nearest 420 m");
+    await expect(collapseBoth).toBeDisabled();
+  });
+
+  test("poll-card-chat: arrows move without spending the vote, Space casts and withdraws, and closing names the winner", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/poll-card-chat");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const group = stage.getByRole("radiogroup", {
+      name: "When should Friday's collection run?",
+    });
+    const early = group.getByRole("radio", {
+      name: /^07:00, before the yard fills/,
+    });
+    const noon = group.getByRole("radio", {
+      name: /^12:30, after the morning run/,
+    });
+
+    await expect(status).toContainText(
+      "not voted · 11 votes · 12:30, after the morning run leads",
+    );
+    await expect(noon).toHaveAccessibleName(
+      "12:30, after the morning run, 5 of 11 votes, 45 percent",
+    );
+    await expect(noon).toHaveAttribute("aria-checked", "false");
+    await expect(announced).toBeEmpty();
+
+    // Arrowing through a poll must not spend the vote.
+    await early.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(noon).toBeFocused();
+    await expect(noon).toHaveAttribute("aria-checked", "false");
+    await expect(status).toContainText("not voted");
+
+    // Space casts, and every share re-flows around the vote that joined.
+    await page.keyboard.press(" ");
+    await expect(noon).toHaveAttribute("aria-checked", "true");
+    await expect(noon).toHaveAccessibleName(
+      "12:30, after the morning run, 6 of 12 votes, 50 percent",
+    );
+    await expect(announced).toHaveText(
+      "Voted for 12:30, after the morning run. 12:30, after the morning run leads with 6 of 12 votes.",
+    );
+    await expect(status).toContainText(
+      "12:30, after the morning run · your vote · 50% of 12 votes",
+    );
+
+    // Pressing your own row again withdraws it, and the totals go back.
+    await page.keyboard.press(" ");
+    await expect(noon).toHaveAttribute("aria-checked", "false");
+    await expect(announced).toHaveText(
+      "Vote withdrawn. 12:30, after the morning run leads with 5 of 11 votes.",
+    );
+    await expect(status).toContainText("not voted · 11 votes");
+
+    await page.keyboard.press(" ");
+    await expect(noon).toHaveAttribute("aria-checked", "true");
+
+    // The room votes too, and the row labels carry the new counts.
+    await stage
+      .getByRole("button", { name: "A colleague votes" })
+      .press("Enter");
+    await expect(noon).toHaveAccessibleName(
+      "12:30, after the morning run, 6 of 13 votes, 46 percent",
+    );
+
+    // Closing names the winner in words, and every row goes aria-disabled
+    // without dropping out of the tab order.
+    await stage.getByRole("button", { name: "Close poll" }).press("Enter");
+    await expect(noon).toHaveAttribute("aria-disabled", "true");
+    await expect(early).toHaveAttribute("aria-disabled", "true");
+    await expect(noon).toHaveAccessibleName(
+      "12:30, after the morning run, 6 of 13 votes, 46 percent, winner",
+    );
+    await expect(announced).toHaveText(
+      "Poll closed. 12:30, after the morning run wins with 6 of 13 votes.",
+    );
+    await expect(status).toContainText(
+      "Closed · 12:30, after the morning run wins with 6 of 13",
+    );
+  });
+
+  test("code-snippet: the fold opens to the whole block, the host folds it back, and copy reports the answer it got", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/code-snippet");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const block = stage.getByRole("group", {
+      name: "Code from Rui, route, 14 lines",
+    });
+    const body = block.getByRole("region", { name: "hold-4471.route code" });
+    const height = mediaHeightOf(block);
+
+    await expect(status).toContainText(
+      "hold-4471.route · 14 lines · folded at 8 · not copied",
+    );
+    await expect(
+      block.getByRole("button", { name: "Show all 14 lines" }),
+    ).toHaveAttribute("aria-expanded", "false");
+    // The code is in a named region a keyboard can reach and scroll.
+    await expect(body).toContainText("route parcel to bay 3");
+    await expect(announced).toBeEmpty();
+
+    // The fold grows the block in the thread's own flow, so the press is a key.
+    const folded = await height();
+    await block
+      .getByRole("button", { name: "Show all 14 lines" })
+      .press("Enter");
+    await expect(
+      block.getByRole("button", { name: "Show fewer lines" }),
+    ).toHaveAttribute("aria-expanded", "true");
+    await expect(announced).toHaveText("Showing all 14 lines");
+    await expect(status).toContainText("unfolded");
+    await expect.poll(height, { timeout: 5000 }).toBeGreaterThan(folded + 60);
+
+    // Copy is the mechanic. Automation may refuse the clipboard, and the block
+    // is documented to say which answer it got rather than pretend it took it.
+    await block
+      .getByRole("button", { name: "Copy hold-4471.route" })
+      .press("Enter");
+    await expect(announced).toHaveText(
+      /^(Copied 14 lines|Copy blocked\. Select the code and press Control or Command C\.)$/,
+    );
+    await expect(status).toContainText(/(· copied|· copy blocked)$/);
+
+    // The host owns `open` here, so a host-driven fold must land as well.
+    await stage
+      .getByRole("button", { name: "Fold both", exact: true })
+      .press("Enter");
+    await expect(
+      block.getByRole("button", { name: "Show all 14 lines" }),
+    ).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("folded at 8");
+    await expect.poll(height, { timeout: 5000 }).toBeLessThan(folded + 30);
+
+    // The short block is under the fold line, so it never offers a disclosure.
+    const fix = stage.getByRole("group", { name: "Your code, route, 3 lines" });
+    await expect(fix).toBeVisible();
+    await expect(fix.getByRole("button", { name: /^Show/ })).toHaveCount(0);
+  });
+});

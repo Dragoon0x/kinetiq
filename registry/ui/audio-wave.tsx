@@ -115,8 +115,11 @@ const spoken = (seconds: number): string => {
 const rate = (speed: number): string =>
   `${Number.isInteger(speed) ? speed : speed.toFixed(1)}×`;
 
+/** "normal speed", "1.5 times", "2 times": ordinary speed is not "1 times". */
 const rateWords = (speed: number): string =>
-  `${Number.isInteger(speed) ? speed : speed.toFixed(1)} times`;
+  speed === 1
+    ? "normal speed"
+    : `${Number.isInteger(speed) ? speed : speed.toFixed(1)} times`;
 
 const deliverySentence = (delivery: AudioDelivery, peerName: string) =>
   ({

@@ -40,6 +40,7 @@ export function StickerPopDemo() {
       ].slice(-3),
     );
   };
+  const stickerCount = messages.filter((message) => message.art).length;
 
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
@@ -62,7 +63,7 @@ export function StickerPopDemo() {
         role="status"
         className="border-t border-border pt-3 font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase"
       >
-        {messages.filter((message) => message.art).length} stickers ·{" "}
+        {stickerCount} {stickerCount === 1 ? "sticker" : "stickers"} ·{" "}
         <span className="text-signal">{note}</span>
       </p>
     </div>
