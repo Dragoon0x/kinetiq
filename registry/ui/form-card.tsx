@@ -128,6 +128,12 @@ export function FormCard({
   const [missing, setMissing] = React.useState<string[]>([]);
   const [attempt, setAttempt] = React.useState(0);
 
+  // A field is only missing while it is still empty. Reading it this way means
+  // an answer arriving from a controlled parent clears the error too — the
+  // list alone would keep a filled field marked invalid for ever.
+  const isMissing = (id: string) =>
+    missing.includes(id) && (answers[id] ?? "").trim() === "";
+
   const answerOf = (id: string) => (answers[id] ?? "").trim();
   const answered = fields.filter((field) => answerOf(field.id) !== "").length;
 
@@ -161,25 +167,26 @@ export function FormCard({
     onSubmit?.({ ...answers });
   };
 
-  // The field cannot take focus until the summary has finished leaving and the
-  // open face has mounted, so the request waits for the swap rather than
-  // firing into an element that does not exist yet.
-  const pendingFocus = React.useRef<string | null>(null);
+  // The summary leaves before the open face mounts, so a focus fired on a
+  // guessed frame lands on an element that does not exist yet and the keyboard
+  // is dropped on the body. The wish is answered by the field itself, when its
+  // node arrives.
+  const pendingFocus = React.useRef(false);
+  const [firstField, setFirstField] = React.useState<
+    HTMLInputElement | HTMLSelectElement | null
+  >(null);
 
   const edit = () => {
     if (disabled) return;
-    pendingFocus.current = fields[0]?.id ?? null;
+    pendingFocus.current = true;
     setSent(false);
   };
 
-  const focusAfterSwap = () => {
-    const id = pendingFocus.current;
-    pendingFocus.current = null;
-    if (!id) return;
-    requestAnimationFrame(() =>
-      document.getElementById(`${baseId}-f-${id}`)?.focus(),
-    );
-  };
+  React.useEffect(() => {
+    if (!firstField || !pendingFocus.current) return;
+    pendingFocus.current = false;
+    firstField.focus();
+  }, [firstField]);
 
   // The box measures whichever face is live. A zero reading belongs to the
   // frame where one face has left and the next has not arrived; taking it
@@ -268,11 +275,7 @@ export function FormCard({
         className="-mx-1 overflow-hidden"
       >
         <div ref={innerRef} className="px-1">
-          <AnimatePresence
-            mode="wait"
-            initial={false}
-            onExitComplete={focusAfterSwap}
-          >
+          <AnimatePresence mode="wait" initial={false}>
             {sent ? (
               <motion.div
                 key="summary"
@@ -331,15 +334,16 @@ export function FormCard({
                 transition={FADE}
                 className="flex flex-col gap-2.5"
               >
-                {fields.map((field) => {
+                {fields.map((field, index) => {
                   const fieldId = `${baseId}-f-${field.id}`;
                   const noteId = `${baseId}-n-${field.id}`;
-                  const invalid = missing.includes(field.id);
+                  const invalid = isMissing(field.id);
                   const aside = invalid
                     ? `${field.label} still needs an answer.`
                     : field.hint;
                   const shared = {
                     id: fieldId,
+                    ref: index === 0 ? setFirstField : undefined,
                     disabled,
                     value: answers[field.id] ?? "",
                     "aria-invalid": invalid || undefined,

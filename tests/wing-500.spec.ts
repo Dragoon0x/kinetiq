@@ -25259,3 +25259,1178 @@ test.describe("safety", () => {
     await expect(status).toContainText("Ines · level 2 regular");
   });
 });
+
+/** Springs, measured heights and re-lays settle at their own pace; polls get a beat. */
+const cardBeat = { intervals: [250], timeout: 8000 };
+
+/** The height of one box, read in a single round trip. */
+const cardHeightOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((node) => Math.round(node.getBoundingClientRect().height));
+
+/**
+ * The sr-only sentence each row publishes, in DOM order. Every row in this
+ * family prints its figures behind `aria-hidden` and carries the words in a
+ * first child, so this reads what the row actually says.
+ */
+const cardSpokenRowsOf = (rows: Locator) => async (): Promise<string[]> =>
+  rows.evaluateAll((nodes) =>
+    nodes.map((node) => node.firstElementChild?.textContent?.trim() ?? ""),
+  );
+
+/**
+ * Who is standing in a strip of tiles, in strip order: each tile prints its
+ * initials for the eye and carries the person's name last, for the reader.
+ */
+const cardTileNamesOf = (tiles: Locator) => async (): Promise<string[]> =>
+  tiles.evaluateAll((nodes) =>
+    nodes
+      .map((node) => node.lastElementChild?.textContent?.trim() ?? "")
+      .filter((name) => name !== ""),
+  );
+
+/**
+ * How far along its track a confirm knob actually stands, in whole percent.
+ * One round trip on purpose: the knob's box and the track's are read together
+ * in the page rather than in two polls that would starve the settle.
+ */
+const cardKnobPercentOf = (knob: Locator) => async (): Promise<number> =>
+  knob.evaluate((node) => {
+    const track = node.parentElement as HTMLElement;
+    const knobBox = node.getBoundingClientRect();
+    const travel = track.clientWidth - 8 - knobBox.width;
+    if (travel <= 0) return -1;
+    const from = track.getBoundingClientRect().left + 4;
+    return Math.round(((knobBox.left - from) / travel) * 100);
+  });
+
+/** The pixels a confirm knob has to cross, measured off its own track. */
+const cardTrackTravelOf = (knob: Locator) => async (): Promise<number> =>
+  knob.evaluate((node) => {
+    const track = node.parentElement as HTMLElement;
+    return Math.round(
+      track.clientWidth - 8 - node.getBoundingClientRect().width,
+    );
+  });
+
+/**
+ * How far a slide sits from the left edge of the window its rail rides in: the
+ * figure the rail is gliding towards, so a reading taken before it lands is a
+ * reading of a rail still in the air.
+ */
+const cardRailOffsetOf = (slide: Locator) => async (): Promise<number> =>
+  slide.evaluate((node) => {
+    const rail = node.parentElement as HTMLElement;
+    const frame = rail.parentElement as HTMLElement;
+    return Math.round(
+      node.getBoundingClientRect().left - frame.getBoundingClientRect().left,
+    );
+  });
+
+/**
+ * The height of a box once it has stopped moving. A reading that matches the
+ * one before it is a box that has landed, and until then this answers with a
+ * figure no threshold accepts — so a poll on it waits for the settle rather
+ * than catching a glide on its way past.
+ */
+const cardSettledHeightOf = (target: Locator) => {
+  let last = -1;
+  return async (): Promise<number> => {
+    const now = await cardHeightOf(target)();
+    const steady = now === last ? now : -1;
+    last = now;
+    return steady;
+  };
+};
+
+/**
+ * One sideways drag with a real pointer, taken from the middle of what is
+ * grabbed. The grabbed thing is measured again once the press has landed,
+ * because the page's own shell can shift a few pixels under a press and a hand
+ * that then travelled along the old line would leave the rail behind.
+ */
+const cardDrag = async (
+  page: Page,
+  grabbed: Locator,
+  fromX: number,
+  by: number,
+): Promise<void> => {
+  await grabbed.scrollIntoViewIfNeeded();
+  const before = await grabbed.boundingBox();
+  if (!before) throw new Error("there is nothing there to grab");
+  await page.mouse.move(fromX, Math.round(before.y + before.height / 2));
+  await page.mouse.down();
+  const held = await grabbed.boundingBox();
+  if (!held) throw new Error("what was grabbed left the page");
+  await page.mouse.move(fromX + by, Math.round(held.y + held.height / 2), {
+    steps: 12,
+  });
+  await page.mouse.up();
+};
+
+/** How far the page itself can be scrolled sideways: zero, or a bug. */
+const cardPageSpill = (page: Page) => async (): Promise<number> =>
+  page.evaluate(() => {
+    const root = document.scrollingElement ?? document.documentElement;
+    return root.scrollWidth - root.clientWidth;
+  });
+
+/**
+ * The cards family is what a message can carry besides words: a poll written in
+ * the composer, an invitation answered in the room, a request for money settled
+ * by a deliberate gesture, a task that ticks, a countdown that turns over, a
+ * deck of goods, a form kept in the thread, a live pin, a receipt that unrolls
+ * and a grid the room fills in. Every test drives the mechanic through the
+ * keyboard path the component publishes — or with real pointer input, where the
+ * mechanic is a drag — and reads the outcome off the sentence the component
+ * speaks, the ARIA it flips, the order it lists people in and the demo's own
+ * status line. Nothing here waits on a clock: what is timed is started by a
+ * demo control and settled by a condition.
+ */
+test.describe("cards", () => {
+  test("poll-builder: a key adds a row and takes it back, and Control-Enter posts the draft", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/poll-builder");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The builder speaks its own settled change before the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const composer = stage.getByRole("region", { name: "Poll composer" });
+    const question = composer.getByRole("textbox", { name: "Question" });
+    const optionOne = composer.getByRole("textbox", { name: "Option 1" });
+    const optionTwo = composer.getByRole("textbox", { name: "Option 2" });
+    const optionThree = composer.getByRole("textbox", { name: "Option 3" });
+    // A row that has been taken away is still on its way out, so the count is
+    // what says the list has settled on its new length.
+    const rows = composer.getByRole("textbox", { name: /^Option \d+$/ });
+    const multiple = composer.getByRole("switch", { name: "Multiple answers" });
+    const add = composer.getByRole("button", { name: "Add option" });
+    const post = composer.getByRole("button", { name: /^Post the poll/ });
+    const asked = "Which slot should Friday's collection take?";
+
+    await expect(status).toContainText(
+      "2 options · multiple off · ready to post",
+    );
+    await expect(announced).toBeEmpty();
+    await expect(question).toHaveValue(asked);
+    await expect(post).toHaveAccessibleName("Post the poll with 2 options.");
+    // The preview is a message in the thread, and it says what it is not yet.
+    await expect(
+      stage.getByText("Poll from You, still a draft.", { exact: true }),
+    ).toHaveCount(1);
+
+    // A poll with no question is not postable, and Post says what is missing
+    // rather than leaving the tab order.
+    await question.fill("");
+    await expect(status).toContainText(
+      "2 options · multiple off · needs a question",
+    );
+    await expect(post).toHaveAttribute("aria-disabled", "true");
+    await expect(post).toHaveAccessibleName(
+      "Post the poll. Add a question and at least 2 options first.",
+    );
+    await question.fill(asked);
+    await expect(post).toHaveAccessibleName("Post the poll with 2 options.");
+
+    // Enter inside an option opens the row below it and takes the focus there.
+    await optionTwo.focus();
+    await page.keyboard.press("Enter");
+    await expect(optionThree).toBeFocused();
+    await expect(announced).toHaveText("Option 3 added, 3 of 6.");
+    await expect(status).toContainText(
+      "3 options · multiple off · ready to post",
+    );
+
+    // Backspace in an empty row takes it away again and hands the focus back
+    // to the row above: the undo of the key that made it.
+    await page.keyboard.press("Backspace");
+    await expect(optionThree).toHaveCount(0);
+    await expect(optionTwo).toBeFocused();
+    await expect(announced).toHaveText("Option 3 removed, 2 options left.");
+    await expect(rows).toHaveCount(2);
+    await expect(status).toContainText(
+      "2 options · multiple off · ready to post",
+    );
+
+    // The ceiling is a refusal in words, not a control that silently does
+    // nothing: Add option locks, and the key that adds says why it cannot.
+    for (const count of [3, 4, 5, 6]) {
+      await add.click();
+      await expect(announced).toHaveText(
+        `Option ${count} added, ${count} of 6.`,
+      );
+    }
+    await expect(add).toBeDisabled();
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("That is all 6 options.");
+    await expect(status).toContainText(
+      "6 options · multiple off · ready to post",
+    );
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(status).toContainText(
+      "2 options · multiple off · ready to post",
+    );
+    await expect(rows).toHaveCount(2);
+
+    // The demo's own seeded row, so the poll that posts is always the same one.
+    await stage.getByRole("button", { name: "Add the last slot" }).click();
+    await expect(rows).toHaveCount(3);
+    await expect(optionThree).toHaveValue("16:45, last slot");
+    await expect(status).toContainText(
+      "3 options · multiple off · ready to post",
+    );
+
+    // Space and Enter are the two halves of the switch's own press.
+    await multiple.press(" ");
+    await expect(multiple).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText("Multiple answers on.");
+    await expect(status).toContainText(
+      "3 options · multiple on · ready to post",
+    );
+    await multiple.press("Enter");
+    await expect(multiple).toHaveAttribute("aria-checked", "false");
+    await expect(announced).toHaveText("Multiple answers off.");
+
+    // Control or Command with Enter posts from anywhere in the composer.
+    await question.focus();
+    await page.keyboard.press("ControlOrMeta+Enter");
+    await expect(announced).toHaveText("Poll posted with 3 options.");
+    await expect(status).toContainText("posted · 3 options · single answer");
+    await expect(
+      stage.getByText("Poll from You, posted at 14:08.", { exact: true }),
+    ).toHaveCount(1);
+    // The composer closes to a single posted line, fields and all.
+    await expect(question).toHaveCount(0);
+    await expect(
+      composer.getByText("Posted with 3 options.", { exact: true }),
+    ).toBeVisible();
+
+    // New poll clears the draft and opens it again on an empty first option.
+    await composer.getByRole("button", { name: "New poll" }).press("Enter");
+    await expect(announced).toHaveText("Draft cleared, two empty options.");
+    await expect(status).toContainText(
+      "2 options · multiple off · needs a question",
+    );
+    await expect(rows).toHaveCount(2);
+    await expect(optionOne).toBeFocused();
+    // The floor is a refusal in words too: two options is as low as it goes.
+    await page.keyboard.press("Backspace");
+    await expect(announced).toHaveText("A poll needs at least 2 options.");
+    await expect(optionTwo).toHaveCount(1);
+  });
+
+  test("event-card: answering moves your tile into the going run and rolls the count", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/event-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const answers = stage.getByRole("radiogroup", {
+      name: "Walk-through of the new bay",
+    });
+    const going = answers.getByRole("radio", { name: /^Going\./ });
+    const maybe = answers.getByRole("radio", { name: /^Maybe\./ });
+    const cannot = answers.getByRole("radio", { name: "Cannot come." });
+    // Everyone sits in one strip inside the bubble — the only list nested in
+    // the thread — so an answer is a reorder rather than a jump between lists.
+    const strip = cardTileNamesOf(
+      stage.getByRole("list").last().getByRole("listitem"),
+    );
+
+    await expect(status).toContainText(
+      "no answer yet · 4 of 8 going · 1 maybe",
+    );
+    await expect(announced).toBeEmpty();
+    await expect(stage.getByText("4 of 8 going.", { exact: true })).toHaveCount(
+      1,
+    );
+    await expect(going).toHaveAccessibleName("Going. 4 of 8 places taken.");
+    await expect(maybe).toHaveAccessibleName("Maybe. 1 person might come.");
+    await expect(going).toHaveAttribute("aria-checked", "false");
+    // Unanswered, your tile waits at the end of the strip.
+    await expect
+      .poll(strip, cardBeat)
+      .toEqual([
+        "Ines Corvo",
+        "Rui Baptista",
+        "Ana Reis",
+        "Nuno Faro",
+        "Tomas Vale",
+        "You",
+      ]);
+    await expect(
+      stage.getByText("Tomas Vale might come.", { exact: true }),
+    ).toHaveCount(1);
+
+    // Space is the radio's own press, and it moves the tile into the run.
+    await going.focus();
+    await page.keyboard.press(" ");
+    await expect(going).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText("You are going. 5 of 8 places taken.");
+    await expect(status).toContainText("going · 5 of 8 going · 1 maybe");
+    await expect(going).toHaveAccessibleName("Going. 5 of 8 places taken.");
+    await expect(stage.getByText("5 of 8 going.", { exact: true })).toHaveCount(
+      1,
+    );
+    await expect
+      .poll(strip, cardBeat)
+      .toEqual([
+        "Ines Corvo",
+        "Rui Baptista",
+        "Ana Reis",
+        "Nuno Faro",
+        "You",
+        "Tomas Vale",
+      ]);
+    await expect(
+      stage.getByText(
+        "Ines Corvo, Rui Baptista, Ana Reis, Nuno Faro and you are going.",
+        { exact: true },
+      ),
+    ).toHaveCount(1);
+
+    // The radio-group convention: the arrow both moves and answers.
+    await page.keyboard.press("ArrowRight");
+    await expect(maybe).toBeFocused();
+    await expect(maybe).toHaveAttribute("aria-checked", "true");
+    await expect(going).toHaveAttribute("aria-checked", "false");
+    await expect(announced).toHaveText("You are a maybe. 4 of 8 places taken.");
+    await expect(status).toContainText("maybe · 4 of 8 going · 2 maybes");
+    await expect(maybe).toHaveAccessibleName("Maybe. 2 people might come.");
+    await expect(
+      stage.getByText("Tomas Vale and you might come.", { exact: true }),
+    ).toHaveCount(1);
+
+    // End jumps to the last answer, and the row does not wrap past it.
+    await page.keyboard.press("End");
+    await expect(cannot).toBeFocused();
+    await expect(announced).toHaveText("You cannot come. 4 of 8 places taken.");
+    await expect(status).toContainText("cannot come · 4 of 8 going · 1 maybe");
+    await page.keyboard.press("ArrowRight");
+    await expect(cannot).toBeFocused();
+    await expect(cannot).toHaveAttribute("aria-checked", "true");
+
+    // Home jumps back to the first, and the row does not wrap the other way.
+    await page.keyboard.press("Home");
+    await expect(going).toBeFocused();
+    await expect(going).toHaveAttribute("aria-checked", "true");
+    await page.keyboard.press("ArrowLeft");
+    await expect(going).toBeFocused();
+
+    // Pressing the answer you already gave withdraws it, and the tile goes
+    // back to its dashed parking place at the end of the strip.
+    await page.keyboard.press(" ");
+    await expect(going).toHaveAttribute("aria-checked", "false");
+    await expect(announced).toHaveText(
+      "Answer withdrawn. 4 of 8 places taken.",
+    );
+    await expect(status).toContainText(
+      "no answer yet · 4 of 8 going · 1 maybe",
+    );
+    await expect
+      .poll(strip, cardBeat)
+      .toEqual([
+        "Ines Corvo",
+        "Rui Baptista",
+        "Ana Reis",
+        "Nuno Faro",
+        "Tomas Vale",
+        "You",
+      ]);
+
+    // A late answer from the room rolls the count under the card, and every
+    // control's sentence takes the new figure with it.
+    await stage.getByRole("button", { name: "A colleague answers" }).click();
+    await expect(status).toContainText(
+      "no answer yet · 5 of 8 going · 1 maybe",
+    );
+    await expect(stage.getByText("5 of 8 going.", { exact: true })).toHaveCount(
+      1,
+    );
+    await expect(going).toHaveAccessibleName("Going. 5 of 8 places taken.");
+    await expect
+      .poll(strip, cardBeat)
+      .toEqual([
+        "Ines Corvo",
+        "Rui Baptista",
+        "Ana Reis",
+        "Nuno Faro",
+        "Elsa Mota",
+        "Tomas Vale",
+        "You",
+      ]);
+
+    // Enter is the other half of the press.
+    await going.press("Enter");
+    await expect(going).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText("You are going. 6 of 8 places taken.");
+    await expect(status).toContainText("going · 6 of 8 going · 1 maybe");
+  });
+
+  test("pay-request: a short slide returns the knob, and the far end marks the ask paid", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/pay-request");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const knob = stage.getByRole("slider", {
+      name: "Slide to mark 42.50 BSN paid to Ines, or press Enter.",
+    });
+    const at = cardKnobPercentOf(knob);
+
+    await expect(status).toContainText(
+      "42.50 BSN · requested by Ines · not paid",
+    );
+    await expect(announced).toBeEmpty();
+    // The headline is real text, so nothing rests on the rolling digits.
+    await expect(
+      stage.getByText("Ines is asking for 42.50 BSN.", { exact: true }),
+    ).toHaveCount(1);
+    await expect(
+      stage.getByText("Waylight Pay · a request, not a transfer", {
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(knob).toHaveAttribute("aria-valuemin", "0");
+    await expect(knob).toHaveAttribute("aria-valuemax", "100");
+    await expect(knob).toHaveAttribute("aria-valuenow", "0");
+    await expect(knob).toHaveAttribute("aria-valuetext", "0 percent");
+
+    // The gesture: the knob follows the hand one to one, and a release short of
+    // the threshold returns it rather than committing a request by accident.
+    const travel = await cardTrackTravelOf(knob)();
+    expect(travel).toBeGreaterThan(80);
+    // The hand can only reach what is on the screen, and the page's own shell
+    // can shift a few pixels under a press: the knob is found again once the
+    // press has landed, so the gesture stays on the track it grabbed.
+    await knob.scrollIntoViewIfNeeded();
+    const grip = await knob.boundingBox();
+    if (!grip) throw new Error("the knob has no box to grip");
+    const gripX = Math.round(grip.x + grip.width / 2);
+    await page.mouse.move(gripX, Math.round(grip.y + grip.height / 2));
+    await page.mouse.down();
+    const held = await knob.boundingBox();
+    if (!held) throw new Error("the knob left the page mid-press");
+    await page.mouse.move(
+      gripX + Math.round(travel * 0.4),
+      Math.round(held.y + held.height / 2),
+      { steps: 12 },
+    );
+    await expect(knob).toHaveAttribute("aria-valuenow", "40");
+    await expect(knob).toHaveAttribute("aria-valuetext", "40 percent");
+    await expect(status).toContainText(
+      "42.50 BSN · requested by Ines · slid 40%",
+    );
+    await page.mouse.up();
+    await expect(knob).toHaveAttribute("aria-valuenow", "0");
+    await expect(status).toContainText(
+      "42.50 BSN · requested by Ines · not paid",
+    );
+    await expect.poll(at, cardBeat).toBe(0);
+    await expect(announced).toBeEmpty();
+
+    // The keyboard is given the same deliberate action rather than a simulated
+    // drag: a step out, a step back, and Escape abandoning the gesture.
+    await knob.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(knob).toHaveAttribute("aria-valuenow", "10");
+    await expect(status).toContainText("slid 10%");
+    await expect.poll(at, cardBeat).toBe(10);
+    await page.keyboard.press("ArrowLeft");
+    await expect(knob).toHaveAttribute("aria-valuenow", "0");
+    await expect.poll(at, cardBeat).toBe(0);
+    await page.keyboard.press("ArrowUp");
+    await expect(knob).toHaveAttribute("aria-valuenow", "10");
+    await expect.poll(at, cardBeat).toBe(10);
+    await page.keyboard.press("Escape");
+    await expect(knob).toHaveAttribute("aria-valuenow", "0");
+    await expect(status).toContainText("not paid");
+    await expect.poll(at, cardBeat).toBe(0);
+
+    // A re-split rolls the headline, and every sentence takes the new figure.
+    await stage.getByRole("button", { name: "Split four ways" }).click();
+    await expect(
+      stage.getByText("Ines is asking for 31.88 BSN.", { exact: true }),
+    ).toHaveCount(1);
+    const asking = stage.getByRole("slider", {
+      name: "Slide to mark 31.88 BSN paid to Ines, or press Enter.",
+    });
+    await expect(asking).toHaveCount(1);
+    await expect(status).toContainText(
+      "31.88 BSN · requested by Ines · not paid",
+    );
+
+    // End takes the knob to the far end and commits there.
+    await asking.press("End");
+    await expect(announced).toHaveText("Marked paid, 31.88 BSN to Ines.");
+    await expect(status).toContainText(
+      "31.88 BSN · requested by Ines · marked paid 14:12",
+    );
+    await expect(
+      stage.getByText("Marked paid at 14:12", { exact: true }),
+    ).toBeVisible();
+    // A settled request offers no gesture: the track is out of the tree, and
+    // the row carries the outcome as words.
+    await expect(stage.getByRole("slider")).toHaveCount(0);
+    await expect(stage.locator("[role='slider']")).toHaveAttribute(
+      "tabindex",
+      "-1",
+    );
+
+    // Re-opened, the knob is back at the start and the region says nothing.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(announced).toBeEmpty();
+    await expect(status).toContainText(
+      "42.50 BSN · requested by Ines · not paid",
+    );
+    await expect(knob).toHaveAttribute("aria-valuenow", "0");
+    await expect.poll(at, cardBeat).toBe(0);
+
+    // Enter commits from wherever the knob stands.
+    await knob.press("Enter");
+    await expect(announced).toHaveText("Marked paid, 42.50 BSN to Ines.");
+    await expect(status).toContainText(
+      "42.50 BSN · requested by Ines · marked paid 14:12",
+    );
+  });
+
+  test("task-card-chat: the box ticks the job done and a second press reopens it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/task-card-chat");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const job = "Bring the bay-four gauges in before the Friday run";
+    const box = stage.getByRole("checkbox", { name: job });
+
+    await expect(status).toContainText(
+      "open · Rui · due Friday, before the run",
+    );
+    await expect(announced).toBeEmpty();
+    await expect(box).toHaveAttribute("aria-checked", "false");
+    // The name is the job and the description is whichever line is showing.
+    await expect(box).toHaveAccessibleDescription(
+      "Rui Baptista · due Friday, before the run",
+    );
+
+    // Late is a sentence rather than a colour.
+    await stage.getByRole("button", { name: "Let it run late" }).click();
+    await expect(box).toHaveAccessibleDescription(
+      "Rui Baptista · overdue since Friday, before the run",
+    );
+    await expect(status).toContainText("open · Rui · overdue");
+    await stage.getByRole("button", { name: "Back in time" }).click();
+    await expect(box).toHaveAccessibleDescription(
+      "Rui Baptista · due Friday, before the run",
+    );
+
+    // The checkbox is the card's only stop: Tab from it leaves for the demo.
+    await box.focus();
+    await page.keyboard.press("Tab");
+    await expect(
+      stage.getByRole("button", { name: "Let it run late" }),
+    ).toBeFocused();
+
+    // Space is the checkbox's own press, and everything in the card answers it.
+    await box.press(" ");
+    await expect(box).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText(`Marked done: ${job}.`);
+    await expect(box).toHaveAccessibleDescription(
+      "Rui Baptista marked this done at 14:12.",
+    );
+    await expect(status).toContainText("done · Rui · 14:12");
+    await expect(
+      stage.getByText("Rui Baptista marked this done at 14:12.", {
+        exact: true,
+      }),
+    ).toBeVisible();
+
+    // Enter is the other half of the press, and it puts the task back.
+    await box.press("Enter");
+    await expect(box).toHaveAttribute("aria-checked", "false");
+    await expect(announced).toHaveText(`Reopened: ${job}.`);
+    await expect(box).toHaveAccessibleDescription(
+      "Rui Baptista · due Friday, before the run",
+    );
+    await expect(status).toContainText(
+      "open · Rui · due Friday, before the run",
+    );
+  });
+
+  test("countdown-card: the run is held and reset by its controls, and zero turns the card", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/countdown-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const readout = stage.getByRole("timer");
+
+    await expect(status).toContainText("held · 01:24 left");
+    await expect(announced).toBeEmpty();
+    // The readout is a sentence that is never announced, because a region that
+    // spoke every second would be unusable.
+    await expect(readout).toHaveAttribute("aria-live", "off");
+    await expect(readout).toHaveAccessibleName(
+      "1 minute 24 seconds until bay four opens.",
+    );
+    await expect(
+      stage.getByText("Held at 1 minute 24 seconds", { exact: true }),
+    ).toBeVisible();
+
+    // Starting is spoken once, with the figure the run started from.
+    await stage.getByRole("button", { name: "Start" }).press("Enter");
+    await expect(announced).toHaveText(
+      "Counting down, 1 minute 24 seconds until bay four opens.",
+    );
+    await expect(status).toContainText("running · ");
+
+    // Holding is spoken once too, naming wherever it stopped.
+    await stage.getByRole("button", { name: "Hold" }).press("Enter");
+    await expect(announced).toHaveText(
+      /^Held at (1 minute( \d{1,2} seconds?)?|\d{1,2} seconds?)\.$/,
+    );
+    await expect(status).toContainText(/held · 0[01]:\d{2} left/);
+
+    // Reset from a held run of the SAME length is still a reset: the card is
+    // a new run, not the old one carried on from where it stopped.
+    await stage.getByRole("button", { name: "Reset" }).press("Enter");
+    await expect(status).toContainText("held · 01:24 left");
+    await expect(readout).toHaveAccessibleName(
+      "1 minute 24 seconds until bay four opens.",
+    );
+
+    // A new length is a new run rather than a stale one resumed.
+    await stage
+      .getByRole("button", { name: "Jump to five seconds" })
+      .press("Enter");
+    await expect(readout).toHaveAccessibleName(
+      "5 seconds until bay four opens.",
+    );
+
+    // Reaching zero turns the card: the face that is turned away leaves the
+    // tree, so a reader is never given both faces at once.
+    await expect(announced).toHaveText("Doors are open at bay four.", {
+      timeout: 20_000,
+    });
+    await expect(status).toContainText("doors open · bay four");
+    await expect(stage.getByRole("timer")).toHaveCount(0);
+    await expect(stage.locator("[role='timer']")).toHaveCount(1);
+    await expect(stage.getByText("Now on", { exact: true })).toBeVisible();
+    await expect(
+      stage.getByText("Basinworks yard, bay four", { exact: true }),
+    ).toBeVisible();
+
+    // Reset is the other reset: the run remounts at its full length, held.
+    await stage.getByRole("button", { name: "Reset" }).press("Enter");
+    await expect(status).toContainText("held · 01:24 left");
+    await expect(announced).toBeEmpty();
+    await expect(stage.getByRole("timer")).toHaveAccessibleName(
+      "1 minute 24 seconds until bay four opens.",
+    );
+  });
+
+  test("carousel-card: the deck steps by key and by drag without the page scrolling sideways", async ({
+    page,
+  }) => {
+    // A phone column, where a rail that leaked its width would take the page
+    // with it.
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoHydrated(page, "/components/carousel-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const deck = stage.getByRole("group", {
+      name: "Four goods from Coldbrook Supply",
+    });
+    const slides = deck.getByRole("listitem");
+    const spoken = cardSpokenRowsOf(slides);
+    const back = deck.getByRole("button", { name: "Previous card" });
+    const on = deck.getByRole("button", { name: "Next card" });
+    const dotTwo = deck.getByRole("button", {
+      name: "Show card 2 of 4, Fernworks tarp.",
+    });
+    const dotFour = deck.getByRole("button", {
+      name: "Show card 4 of 4, Coldbrook flask.",
+    });
+
+    await expect(deck).toHaveAttribute("aria-roledescription", "carousel");
+    await expect(status).toContainText("Card 1 of 4 · Basin Quay lantern");
+    await expect(announced).toBeEmpty();
+    await expect(slides).toHaveCount(4);
+    await expect
+      .poll(spoken, cardBeat)
+      .toEqual([
+        "Card 1 of 4, Basin Quay lantern, $48.",
+        "Card 2 of 4, Fernworks tarp, $34.",
+        "Card 3 of 4, Waylight head torch, $26.",
+        "Card 4 of 4, Coldbrook flask, $19.",
+      ]);
+    await expect(slides.first()).toHaveAttribute("aria-current", "true");
+    // Where the rail sits when it has landed on a card, so a later reading can
+    // tell a rail that has arrived from one still gliding.
+    const home = await cardRailOffsetOf(slides.first())();
+    // A deck of four in a thread has a first and a last, and does not wrap.
+    await expect(back).toBeDisabled();
+    await expect(on).toBeEnabled();
+
+    await on.press("Enter");
+    await expect(announced).toHaveText("Card 2 of 4, Fernworks tarp.");
+    await expect(status).toContainText("Card 2 of 4 · Fernworks tarp");
+    await expect(slides.nth(1)).toHaveAttribute("aria-current", "true");
+    await expect(slides.first()).not.toHaveAttribute("aria-current", "true");
+    await expect(back).toBeEnabled();
+
+    // The dots are a roving row: one stop, and the arrows do the walking.
+    await expect(dotTwo).toHaveAttribute("tabindex", "0");
+    await dotTwo.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(
+      deck.getByRole("button", {
+        name: "Show card 3 of 4, Waylight head torch.",
+      }),
+    ).toBeFocused();
+    await expect(status).toContainText("Card 3 of 4 · Waylight head torch");
+    await page.keyboard.press("End");
+    await expect(dotFour).toBeFocused();
+    await expect(announced).toHaveText("Card 4 of 4, Coldbrook flask.");
+    await expect(on).toBeDisabled();
+    await page.keyboard.press("ArrowRight");
+    await expect(dotFour).toBeFocused();
+    await expect(status).toContainText("Card 4 of 4 · Coldbrook flask");
+    await page.keyboard.press("Home");
+    await expect(
+      deck.getByRole("button", {
+        name: "Show card 1 of 4, Basin Quay lantern.",
+      }),
+    ).toBeFocused();
+    await expect(status).toContainText("Card 1 of 4 · Basin Quay lantern");
+    await expect(back).toBeDisabled();
+
+    // A finger takes the rail one to one, and the release lands on the card it
+    // was let go nearest — then the same drag the other way puts it back.
+    await expect.poll(cardRailOffsetOf(slides.first()), cardBeat).toBe(home);
+    const slide = await slides.first().boundingBox();
+    if (!slide) throw new Error("the first slide has no box to drag");
+    const railX = Math.round(slide.x + slide.width / 2);
+    const nudge = Math.round(slide.width * 0.5);
+    await cardDrag(page, slides.first(), railX, -nudge);
+    await expect(status).toContainText("Card 2 of 4 · Fernworks tarp");
+    await expect(slides.nth(1)).toHaveAttribute("aria-current", "true");
+    await expect.poll(cardRailOffsetOf(slides.nth(1)), cardBeat).toBe(home);
+    await cardDrag(page, slides.nth(1), railX, nudge);
+    await expect(status).toContainText("Card 1 of 4 · Basin Quay lantern");
+    await expect(slides.first()).toHaveAttribute("aria-current", "true");
+
+    // Every card's control stays reachable, and focusing one off to the side
+    // brings that card in rather than leaving the eye behind.
+    await deck.getByRole("button", { name: "View Coldbrook flask." }).focus();
+    await expect(status).toContainText("Card 4 of 4 · Coldbrook flask");
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Opened · Coldbrook flask");
+
+    // The deck is the width of the bubble, whatever it holds: stepped to its
+    // last card in a phone column, the page still does not scroll sideways.
+    await stage.getByRole("button", { name: "Reset" }).press("Enter");
+    await expect(status).toContainText("Card 1 of 4 · Basin Quay lantern");
+    await stage.getByRole("button", { name: "Last card" }).press("Enter");
+    await expect(status).toContainText("Card 4 of 4 · Coldbrook flask");
+    await expect(slides.nth(3)).toHaveAttribute("aria-current", "true");
+    await expect.poll(cardPageSpill(page), cardBeat).toBe(0);
+  });
+
+  test("form-card: an empty send is refused, and the answers stamp into a record you can edit", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/form-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const card = stage.getByRole("form", { name: "Delivery details" });
+    const name = card.getByLabel("Name");
+    const street = card.getByLabel("Street");
+    const slot = card.getByLabel("Delivery window");
+    const send = card.getByRole("button", { name: "Send details" });
+    const tall = cardHeightOf(card);
+
+    await expect(status).toContainText("Open · 0 of 4 answered · not sent");
+    await expect(announced).toBeEmpty();
+    await expect(name).toHaveValue("");
+    await expect(name).not.toHaveAttribute("aria-invalid", "true");
+
+    // A send with nothing in it is refused, named and handed back: the three
+    // required fields say so themselves, and focus lands on the first.
+    await send.press("Enter");
+    await expect(announced).toHaveText("3 fields still need an answer.");
+    await expect(status).toContainText("Open · 0 of 4 answered · not sent");
+    await expect(name).toHaveAttribute("aria-invalid", "true");
+    await expect(name).toHaveAccessibleDescription(
+      "Name still needs an answer.",
+    );
+    await expect(slot).toHaveAttribute("aria-invalid", "true");
+    await expect(name).toBeFocused();
+    // The optional field is not scolded for being empty.
+    await expect(card.getByLabel("Doorbell note")).toHaveAccessibleDescription(
+      "Optional, and read out by the driver.",
+    );
+
+    // Answering one clears its own message and nothing else.
+    await page.keyboard.type("Marta Ferreira");
+    await expect(name).not.toHaveAttribute("aria-invalid", "true");
+    await expect(street).toHaveAttribute("aria-invalid", "true");
+    await expect(status).toContainText("Open · 1 of 4 answered · not sent");
+
+    await stage.getByRole("button", { name: "Fill it in" }).press("Enter");
+    await expect(status).toContainText("Open · 4 of 4 answered · not sent");
+    await expect(slot).toHaveValue("Evening");
+    // Answers arriving from the host clear the scolding too: a field holding
+    // an answer is not a field still needing one.
+    await expect(street).toHaveValue("14 Basin Quay");
+    await expect(street).not.toHaveAttribute("aria-invalid", "true");
+    await expect(street).toHaveAccessibleDescription("");
+    const open = await tall();
+
+    // Enter inside a text field sends the form the way a form does.
+    await street.press("Enter");
+    await expect(announced).toHaveText(
+      "Details sent. 4 answers are in the thread.",
+    );
+    await expect(status).toContainText("Sent · Evening");
+    await expect(card.getByText("Sent", { exact: true })).toBeVisible();
+    // The record is read as question and answer, in the order it was asked.
+    await expect(card.getByRole("term")).toHaveText([
+      "Name",
+      "Street",
+      "Doorbell note",
+      "Delivery window",
+    ]);
+    await expect(card.getByRole("definition")).toHaveText([
+      "Marta Ferreira",
+      "14 Basin Quay",
+      "Second bell, marked Fernworks",
+      "Evening",
+    ]);
+    await expect(card.getByLabel("Name")).toHaveCount(0);
+    // The box took the height of the face that is live rather than reserving
+    // room for the taller one.
+    await expect.poll(tall, cardBeat).toBeLessThan(open - 40);
+    const closed = await tall();
+
+    // Editing runs the beat backwards, and the fields come back carrying the
+    // answers they were sent with.
+    await card.getByRole("button", { name: "Edit" }).press("Enter");
+    await expect(announced).toHaveText("Editing your answers.");
+    await expect(status).toContainText("Open · 4 of 4 answered · not sent");
+    await expect(name).toHaveValue("Marta Ferreira");
+    // The keyboard goes with it: the first field takes focus when its own node
+    // arrives, which is after the summary has finished leaving.
+    await expect(name).toBeFocused();
+    await expect(card.getByRole("textbox")).toHaveCount(3);
+    await expect.poll(tall, cardBeat).toBeGreaterThan(closed + 40);
+
+    // The window is a real select, and the record keeps what it is set to.
+    await slot.selectOption("Afternoon");
+    await send.press(" ");
+    await expect(announced).toHaveText(
+      "Details sent. 4 answers are in the thread.",
+    );
+    await expect(status).toContainText("Sent · Afternoon");
+    await expect(card.getByRole("definition").last()).toHaveText("Afternoon");
+  });
+
+  test("location-share: the pin follows the walk, and stopping ends the share for good", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/location-share");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const card = stage.getByRole("region", {
+      name: "Ines Aguiar is sharing a live location",
+    });
+    const map = card.getByRole("img");
+    const left = card.getByRole("timer");
+    const stop = card.getByRole("button", { name: "Stop" });
+    const extend = card.getByRole("button", { name: "Add 15 minutes" });
+
+    await expect(status).toContainText("Live · Basin Quay · 15 min left");
+    await expect(announced).toBeEmpty();
+    // The pin's place is readable without sight.
+    await expect(map).toHaveAccessibleName(
+      "Ines Aguiar is near Basin Quay, within 20 metres.",
+    );
+    // A readout that spoke every second is a readout nobody keeps on.
+    await expect(left).toHaveAttribute("aria-live", "off");
+    await expect(left).toHaveText("15:00");
+    await expect(
+      card.getByText("Within 20 metres of Basin Quay", { exact: true }),
+    ).toBeVisible();
+
+    // The share's length is the host's, and the ring reads what it is given.
+    await extend.press("Enter");
+    await expect(left).toHaveText("30:00");
+    await expect(status).toContainText("Live · Basin Quay · 30 min left");
+
+    // The walk is the demo's own script; the card only draws what it is handed,
+    // and speaks once per place rather than once per step.
+    await stage.getByRole("button", { name: "Walk" }).press("Enter");
+    await expect(announced).toHaveText("Ines Aguiar moved to Fernworks Yard.", {
+      timeout: 20_000,
+    });
+    await stage.getByRole("button", { name: "Pause" }).press("Enter");
+    await expect(map).toHaveAccessibleName(
+      "Ines Aguiar is near Fernworks Yard, within 20 metres.",
+    );
+    await expect(status).toContainText("Live · Fernworks Yard · ");
+
+    // Back at the quay, with the share still live.
+    await stage.getByRole("button", { name: "Reset" }).press("Enter");
+    await expect(announced).toHaveText("Ines Aguiar moved to Basin Quay.");
+    await expect(status).toContainText("Live · Basin Quay · 15 min left");
+    await expect(left).toHaveText("15:00");
+
+    // Stopping ends it: the pin dims to a last-seen marker and both controls
+    // give way to a line, because there is nothing left to stop.
+    await stop.press("Enter");
+    await expect(announced).toHaveText(
+      "Sharing ended. Ines Aguiar was last seen near Basin Quay at 14:05.",
+    );
+    await expect(status).toContainText("Ended · last seen 14:05");
+    await expect(map).toHaveAccessibleName(
+      "Ines Aguiar was last seen near Basin Quay.",
+    );
+    await expect(stop).toHaveCount(0);
+    await expect(extend).toHaveCount(0);
+    await expect(left).toHaveText("14:05");
+    await expect(
+      card.getByText("Last seen near Basin Quay at 14:05", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      card.getByText("Sharing ended", { exact: true }),
+    ).toBeVisible();
+  });
+
+  test("receipt-card: the summary unrolls the paper, and Escape folds it back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/receipt-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const paper = stage.getByRole("region", {
+      name: "Receipt from Coldbrook Supply",
+    });
+    const summary = paper.getByRole("button");
+    const lines = paper.getByRole("listitem");
+    const printed = cardSpokenRowsOf(lines);
+    const tall = cardHeightOf(paper);
+
+    await expect(status).toContainText("Folded · paid · $238.40");
+    await expect(announced).toBeEmpty();
+    // The whole summary is one sentence, so nothing rests on the chip's colour.
+    await expect(summary).toHaveAccessibleName(
+      "Coldbrook Supply, $238.40, paid on 4 March. Open the receipt.",
+    );
+    await expect(summary).toHaveAttribute("aria-expanded", "false");
+    await expect(lines).toHaveCount(0);
+    const folded = await tall();
+
+    // Enter is the control's own press, and the paper unrolls in its own box.
+    await summary.press("Enter");
+    await expect(summary).toHaveAttribute("aria-expanded", "true");
+    await expect(summary).toHaveAccessibleName(
+      "Coldbrook Supply, $238.40, paid on 4 March. Fold the receipt.",
+    );
+    await expect(announced).toHaveText("Receipt open. 6 lines, total $238.40.");
+    await expect(status).toContainText("Open · 6 lines · $238.40");
+    await expect
+      .poll(printed, cardBeat)
+      .toEqual([
+        "Basin Quay lantern, 2 of them, $96.00.",
+        "Fernworks tarp, $34.00.",
+        "Waylight head torch, $26.00.",
+        "Coldbrook flask, 3 of them, $57.00.",
+        "Basinworks rope, 20 metres, $18.00.",
+        "Depot delivery, $7.40.",
+      ]);
+    await expect(
+      paper.getByText("Total, $238.40.", { exact: true }),
+    ).toHaveCount(1);
+    await expect(
+      paper.getByText("Reference CBS-4471", { exact: true }),
+    ).toBeVisible();
+    await expect
+      .poll(cardSettledHeightOf(paper), cardBeat)
+      .toBeGreaterThan(folded + 100);
+    const open = await tall();
+
+    // Escape folds it from inside and gives the control its focus back.
+    await summary.press("Escape");
+    await expect(summary).toHaveAttribute("aria-expanded", "false");
+    await expect(summary).toBeFocused();
+    await expect(announced).toHaveText("Receipt folded.");
+    await expect(status).toContainText("Folded · paid · $238.40");
+    await expect(lines).toHaveCount(0);
+    await expect.poll(tall, cardBeat).toBeLessThan(folded + 8);
+
+    // Space is the other half of the press.
+    await summary.press(" ");
+    await expect(summary).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("Open · 6 lines · $238.40");
+    await expect.poll(tall, cardBeat).toBeGreaterThan(folded + 100);
+
+    // A shorter receipt is a shorter box: the height is measured, not assumed.
+    await stage.getByRole("button", { name: "Second receipt" }).press("Enter");
+    const shorter = stage.getByRole("region", {
+      name: "Receipt from Fernworks Canteen",
+    });
+    await expect(shorter.getByRole("button")).toHaveAccessibleName(
+      "Fernworks Canteen, $9.60, paid on 5 March. Fold the receipt.",
+    );
+    await expect(status).toContainText("Open · 2 lines · $9.60");
+    await expect
+      .poll(cardSpokenRowsOf(shorter.getByRole("listitem")), cardBeat)
+      .toEqual(["Long coffee, 2 of them, $6.40.", "Morning roll, $3.20."]);
+    await expect.poll(cardHeightOf(shorter), cardBeat).toBeLessThan(open - 60);
+  });
+
+  test("availability-grid: a cell takes your answer, the crown follows the count, and posting settles it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/availability-grid");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const grid = stage.getByRole("grid", {
+      name: "When the depot room is free",
+    });
+    const thu18 = grid.getByRole("button", { name: /^Thu at 18:00,/ });
+    const wed13 = grid.getByRole("button", { name: /^Wed at 13:00,/ });
+    const tue08 = grid.getByRole("button", { name: /^Tue at 08:00,/ });
+    const tue13 = grid.getByRole("button", { name: /^Tue at 13:00,/ });
+    const fri13 = grid.getByRole("button", { name: /^Fri at 13:00,/ });
+    const post = stage.getByRole("button", { name: "Post this time" });
+
+    await expect(grid.getByRole("columnheader")).toHaveText([
+      "Time",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+    ]);
+    await expect(grid.getByRole("rowheader")).toHaveText([
+      "08:00",
+      "13:00",
+      "18:00",
+    ]);
+    await expect(grid.getByRole("gridcell")).toHaveCount(12);
+    await expect(status).toContainText("4 of 6 · Thu 18:00 leads");
+    await expect(announced).toBeEmpty();
+    // Every cell says its slot, its count and where you stand in one sentence.
+    await expect(thu18).toHaveAccessibleName(
+      "Thu at 18:00, 4 of 6 free, you have not said yes, leading.",
+    );
+    await expect(thu18).toHaveAttribute("aria-pressed", "false");
+    await expect(
+      stage.getByText("4 of 6 can make the best slot so far", { exact: true }),
+    ).toBeVisible();
+
+    // Roving tabindex: one stop, and the arrows walk the grid without wrapping.
+    await expect(tue08).toHaveAttribute("tabindex", "0");
+    await tue08.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(
+      grid.getByRole("button", { name: /^Wed at 08:00,/ }),
+    ).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await expect(wed13).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(fri13).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await expect(fri13).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(tue13).toBeFocused();
+
+    // Space is the cell's own press: your answer is the one vote you can move.
+    await page.keyboard.press(" ");
+    await expect(tue13).toHaveAttribute("aria-pressed", "true");
+    await expect(announced).toHaveText(
+      "You are free on Tue at 13:00. That slot has 3 of 6.",
+    );
+    await expect(tue13).toHaveAccessibleName(
+      "Tue at 13:00, 3 of 6 free, you said yes.",
+    );
+    await expect(status).toContainText("4 of 6 · Thu 18:00 leads");
+
+    // And a second press takes it back off the count.
+    await page.keyboard.press(" ");
+    await expect(tue13).toHaveAttribute("aria-pressed", "false");
+    await expect(announced).toHaveText(
+      "You are not free on Tue at 13:00. That slot has 2 of 6.",
+    );
+    await expect(tue13).toHaveAccessibleName(
+      "Tue at 13:00, 2 of 6 free, you have not said yes.",
+    );
+
+    // A round of answers from the room raises the leader's count.
+    await stage.getByRole("button", { name: "Rui answers" }).press("Enter");
+    await expect(status).toContainText("5 of 6 · Thu 18:00 leads");
+    await expect(thu18).toHaveAccessibleName(
+      "Thu at 18:00, 5 of 6 free, you have not said yes, leading.",
+    );
+
+    // A tie falls to the earlier slot, deterministically, so the crown has no
+    // reason to flicker: answering Wed 13:00 levels it and takes the lead.
+    await wed13.press("Enter");
+    await expect(status).toContainText("5 of 6 · Wed 13:00 leads");
+    await expect(wed13).toHaveAccessibleName(
+      "Wed at 13:00, 5 of 6 free, you said yes, leading.",
+    );
+    await expect(thu18).toHaveAccessibleName(
+      "Thu at 18:00, 5 of 6 free, you have not said yes.",
+    );
+
+    // Withdrawing hands the lead back where it came from.
+    await wed13.press(" ");
+    await expect(status).toContainText("5 of 6 · Thu 18:00 leads");
+    await expect(thu18).toHaveAccessibleName(
+      "Thu at 18:00, 5 of 6 free, you have not said yes, leading.",
+    );
+
+    // Posting the leader ends the vote: the slot is named, the grid stops
+    // taking answers, and there is nothing left to post.
+    await post.press("Enter");
+    await expect(announced).toHaveText(
+      "Posted. Thu at 18:00, 5 of 6 can make it.",
+    );
+    await expect(status).toContainText("Posted · Thu 18:00");
+    await expect(thu18).toHaveAccessibleName(
+      "Thu at 18:00, 5 of 6 free, you have not said yes, this is the time.",
+    );
+    await expect(post).toHaveCount(0);
+    await expect(
+      stage.getByText("Thu at 18:00 it is, 5 of 6 can make it.", {
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(tue13).toHaveAttribute("aria-disabled", "true");
+    await tue13.press(" ");
+    await expect(tue13).toHaveAttribute("aria-pressed", "false");
+    await expect(announced).toHaveText(
+      "Posted. Thu at 18:00, 5 of 6 can make it.",
+    );
+
+    // Reset puts the room back to the answers it started with.
+    await stage.getByRole("button", { name: "Reset" }).press("Enter");
+    await expect(status).toContainText("4 of 6 · Thu 18:00 leads");
+    await expect(announced).toBeEmpty();
+    await expect(thu18).toHaveAccessibleName(
+      "Thu at 18:00, 4 of 6 free, you have not said yes, leading.",
+    );
+    await expect(post).toBeEnabled();
+  });
+});

@@ -22,9 +22,13 @@ export function CountdownCardDemo() {
   const [running, setRunning] = React.useState(false);
   const [left, setLeft] = React.useState(SPAN);
   const [open, setOpen] = React.useState(false);
+  // A new run is a new card. Resetting to the SAME length would otherwise
+  // change nothing the card can see, and the clock would carry on from where
+  // it was held.
+  const [runId, setRunId] = React.useState(0);
 
   const restart = (next: number, run: boolean) => {
-    // Changing the span is the card's reset: the run remounts and starts over.
+    setRunId((count) => count + 1);
     setSpan(next);
     setLeft(next);
     setOpen(false);
@@ -34,6 +38,7 @@ export function CountdownCardDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-4">
       <CountdownCard
+        key={runId}
         label="Basinworks yard thread"
         peerName="Marta"
         seconds={span}
