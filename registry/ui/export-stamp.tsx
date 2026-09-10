@@ -206,6 +206,9 @@ export function ExportStamp({
               role="radio"
               id={`${uid}-chip-${target.id}`}
               aria-checked={checked}
+              // Named in one string: two text nodes are joined with a space by
+              // the name algorithm, which would read "Inbox , sent".
+              aria-label={sent ? `${target.label}, sent` : target.label}
               aria-disabled={exporting || undefined}
               tabIndex={index === currentIndex ? 0 : -1}
               onClick={() => select(target.id)}
@@ -233,7 +236,6 @@ export function ExportStamp({
                 )}
               />
               {target.label}
-              {sent ? <span className="sr-only">, sent</span> : null}
               {/* The seal lands on the chip's shoulder and is decoration only;
                   the chip already says it was sent. */}
               <AnimatePresence initial={false}>

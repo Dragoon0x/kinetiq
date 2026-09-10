@@ -151,7 +151,10 @@ export function RenderQueue({
 
   // The waiting line is captured as each position lands, so a ticking
   // estimate never re-announces the same place in line.
-  const waitingText = `${ordinalWord(position)} in line, about ${seconds} seconds`;
+  // Sentence-initial, so the ordinal is capitalised: the region speaks this
+  // line on its own and a lower-case opening reads as a fragment.
+  const place = ordinalWord(position);
+  const waitingText = `${place.charAt(0).toUpperCase()}${place.slice(1)} in line, about ${seconds} seconds`;
   const [spoken, setSpoken] = React.useState({ position, text: waitingText });
   if (spoken.position !== position) setSpoken({ position, text: waitingText });
   const announcement = done

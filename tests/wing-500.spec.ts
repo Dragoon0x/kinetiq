@@ -18070,3 +18070,486 @@ test.describe("memory", () => {
       .toBeCloseTo(1, 2);
   });
 });
+
+/**
+ * The generation family is about output that arrives in stages: a picture
+ * sharpening, a scaffold becoming code, a queue counting down to a render.
+ * Every run here is demo-driven from a seeded script, so each test presses the
+ * control that opens the run and then reads the settled end of it — the stage
+ * the component announced, the ARIA it published, the figure the demo's line
+ * committed — never a percentage caught mid-flight.
+ */
+test.describe("generation", () => {
+  test("image-reveal: a render sharpens to resolved, and a retry wipes in a second take", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/image-reveal");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component speaks its own stage before the demo's line reports it.
+    const announced = stage.locator("[role='status']").first();
+    const picture = stage.getByRole("img");
+    // The component's own control: Generate before a picture, Retry after.
+    const shutter = stage.getByRole("button", { name: /Generate|Retry/ });
+
+    await expect(status).toContainText("Idle · press generate");
+    await expect(picture).toHaveAccessibleName(
+      "A lighthouse on a cold morning, not rendered yet",
+    );
+    await expect(announced).toBeEmpty();
+
+    await shutter.click();
+    // Rendering is a stage, not a step: the region says it once.
+    await expect(announced).toHaveText("Rendering", { timeout: 8000 });
+    await expect(picture).toHaveAccessibleName(
+      "A lighthouse on a cold morning",
+    );
+    await expect(picture).toHaveAttribute("aria-busy", "true");
+    // A render cannot be cancelled by accident.
+    await expect(shutter).toBeDisabled();
+
+    // The demo's line reads `onResolve`, which fires from the last blur tween.
+    await expect(status).toContainText("Resolved 4 steps · take 1", {
+      timeout: 20000,
+    });
+    await expect(announced).toHaveText("Image resolved");
+    await expect(picture).not.toHaveAttribute("aria-busy", "true");
+    await expect(shutter).toBeEnabled();
+    await expect(shutter).toHaveText("Retry");
+
+    // Retry is a native button, so Enter is the whole keyboard path; the new
+    // seed makes this a retake, and the region says so.
+    await shutter.press("Enter");
+    await expect(announced).toHaveText("Rendering again", { timeout: 8000 });
+    await expect(status).toContainText("Resolved 4 steps · take 2", {
+      timeout: 20000,
+    });
+    await expect(announced).toHaveText("Image resolved");
+  });
+
+  test("code-scaffold: bars develop into their lines and the copy control arrives with the last one", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/code-scaffold");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const block = stage.getByRole("region", {
+      name: "Deploy plan from Gaugeworks Reasoner",
+    });
+    // The copy control is the block's only interactive part, and it exists
+    // only once the code is complete — nothing partial can be copied.
+    const copy = block.getByRole("button");
+
+    await expect(status).toContainText("Idle · press write");
+    await expect(block).toContainText("Nothing written yet");
+    await expect(copy).toHaveCount(0);
+
+    await stage.getByRole("button", { name: "Write" }).click();
+    await expect(announced).toHaveText("Writing code", { timeout: 8000 });
+    await expect(block).toHaveAttribute("aria-busy", "true");
+
+    await expect(status).toContainText("Complete 12 lines", { timeout: 20000 });
+    await expect(announced).toHaveText("Code complete, 12 lines");
+    await expect(block).not.toHaveAttribute("aria-busy", "true");
+    // What arrived is real code, first line to last.
+    await expect(block).toContainText('plan "fieldline-deploy"');
+    await expect(block).toContainText("done -- ship it");
+
+    // Enter on the control copies the whole text and stamps the tick.
+    await expect(copy).toHaveText("Copy");
+    await copy.press("Enter");
+    await expect(announced).toHaveText("Copied");
+    await expect(copy).toHaveText("Copied");
+    await expect(status).toContainText("Complete 12 lines · copied");
+  });
+
+  test("table-build: rows land in arrival order, and a heading press re-seats them", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/table-build");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component keeps two regions: the build stage, then the sort.
+    const built = stage.locator("[role='status']").first();
+    const sorted = stage.locator("[role='status']").nth(1);
+    const rows = stage.getByRole("row");
+    const amount = stage.getByRole("columnheader", { name: "Amount" });
+    const amountButton = stage.getByRole("button", { name: "Amount" });
+
+    await expect(status).toContainText("Idle · press build");
+    await expect(rows).toHaveCount(0);
+
+    await stage.getByRole("button", { name: "Build" }).click();
+    await expect(built).toHaveText("Building table", { timeout: 8000 });
+
+    await expect(status).toContainText("Complete 6 rows · unsorted", {
+      timeout: 20000,
+    });
+    await expect(built).toHaveText("Table complete, 6 rows");
+    // The header row plus the six the model found, in the order it found them.
+    await expect(rows).toHaveCount(7);
+    await expect(rows.nth(1)).toContainText("Basinworks");
+    await expect(rows.nth(6)).toContainText("Gaugeworks");
+    await expect(amount).not.toHaveAttribute(
+      "aria-sort",
+      /ascending|descending/,
+    );
+
+    // Enter on a heading sorts that column, and the rows glide to new seats.
+    await amountButton.press("Enter");
+    await expect(amount).toHaveAttribute("aria-sort", "ascending");
+    await expect(sorted).toHaveText("Sorted by Amount, ascending");
+    await expect(status).toContainText("Complete 6 rows · Amount asc");
+    await expect(rows.nth(1)).toContainText("Coldbrook Print");
+    await expect(rows.nth(6)).toContainText("Fieldline");
+
+    // Space is the other half of the same press, and the cycle turns over.
+    await amountButton.press(" ");
+    await expect(amount).toHaveAttribute("aria-sort", "descending");
+    await expect(sorted).toHaveText("Sorted by Amount, descending");
+    await expect(rows.nth(1)).toContainText("Fieldline");
+    await expect(rows.nth(6)).toContainText("Coldbrook Print");
+
+    // A third press is none: the table returns to the order it arrived in.
+    await amountButton.press("Enter");
+    await expect(amount).not.toHaveAttribute(
+      "aria-sort",
+      /ascending|descending/,
+    );
+    await expect(sorted).toHaveText("Arrival order");
+    await expect(status).toContainText("Complete 6 rows · unsorted");
+    await expect(rows.nth(1)).toContainText("Basinworks");
+  });
+
+  test("outline-grow: the outline lands first, prose fills under it, and the rail carries focus", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/outline-grow");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const rail = stage.getByRole("navigation", { name: "Outline" });
+    const article = stage.getByRole("article");
+
+    await expect(status).toContainText("Idle · press draft");
+    await expect(rail).toHaveCount(0);
+
+    await stage.getByRole("button", { name: "Draft" }).click();
+    // Every heading is present before a sentence is: that is the promise.
+    await expect(announced).toHaveText("Outline ready, 4 sections", {
+      timeout: 8000,
+    });
+    await expect(rail.getByRole("button")).toHaveCount(4);
+    await expect(article.getByRole("heading")).toHaveCount(4);
+    await expect(article).toHaveAttribute("aria-busy", "true");
+
+    await expect(status).toContainText("Complete 4 sections · 12 sentences", {
+      timeout: 25000,
+    });
+    await expect(announced).toHaveText("Document complete");
+    await expect(article).not.toHaveAttribute("aria-busy", "true");
+    await expect(article).toContainText("The quarter closed ahead of plan");
+    await expect(article).toContainText("Guidance is unchanged.");
+
+    // The rail is a roving list: Down steps, End jumps, Enter hands the
+    // article's heading the focus.
+    await rail.getByRole("button", { name: "Summary" }).focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(rail.getByRole("button", { name: "Deposits" })).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(rail.getByRole("button", { name: "Outlook" })).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(
+      article.getByRole("heading", { name: "Outlook" }),
+    ).toBeFocused();
+  });
+
+  test("variation-grid: four takes reveal together and picking one folds the rest away", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/variation-grid");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const grid = stage.getByRole("radiogroup", {
+      name: "Cover takes from Fernworks Model 3",
+    });
+    const takes = grid.getByRole("radio");
+
+    await expect(status).toContainText("Idle · press generate");
+    // The layout is honest about what is coming, but nothing can be picked.
+    await expect(takes).toHaveCount(4);
+    await expect(takes.first()).toBeDisabled();
+
+    await stage.getByRole("button", { name: "Generate", exact: true }).click();
+    await expect(announced).toHaveText("Rendering four takes", {
+      timeout: 8000,
+    });
+    await expect(grid).toHaveAttribute("aria-busy", "true");
+
+    // The veils lift together: the takes are one delivery, not four.
+    await expect(status).toContainText("Revealed pick one", { timeout: 20000 });
+    await expect(announced).toHaveText("Four takes ready");
+    await expect(takes.first()).toBeEnabled();
+    await expect(takes.last()).toBeEnabled();
+
+    // Right steps the roving tabindex, Space picks the take it lands on.
+    await takes.first().focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(grid.getByRole("radio", { name: "Take B" })).toBeFocused();
+    await page.keyboard.press(" ");
+    await expect(grid.getByRole("radio", { name: "Take B" })).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect(takes).toHaveCount(1);
+    await expect(announced).toHaveText("Picked Take B");
+    await expect(status).toContainText("Picked Take B · 3 folded");
+
+    // Escape unfolds the other three and gives the seat its focus back.
+    await page.keyboard.press("Escape");
+    await expect(takes).toHaveCount(4);
+    await expect(announced).toHaveText("All four takes shown");
+    await expect(status).toContainText("Revealed pick one");
+    await expect(grid.getByRole("radio", { name: "Take B" })).toBeFocused();
+  });
+
+  test("generate-progress: stage names arrive as the model reaches them and the rail closes on Done", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/generate-progress");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const bar = stage.getByRole("progressbar", {
+      name: "Shift brief · Fernworks Model 3",
+    });
+    const steps = stage.getByRole("listitem");
+
+    await expect(status).toContainText("Press generate · 3 stages");
+    await expect(bar).toHaveAttribute("aria-valuemax", "3");
+    await expect(bar).toHaveAttribute("aria-valuenow", "0");
+    await expect(bar).toHaveAttribute("aria-valuetext", "Waiting");
+    // A stage that has not begun is only a node, named for the reader who
+    // cannot see it counted.
+    await expect(steps).toHaveCount(3);
+    await expect(steps.first()).toHaveText("Understanding, not started");
+
+    await stage.getByRole("button", { name: "Generate" }).click();
+    await expect(announced).toHaveText("Understanding, stage 1 of 3", {
+      timeout: 8000,
+    });
+    await expect(steps.first()).toHaveAttribute("aria-current", "step");
+
+    await expect(status).toContainText("Done · 3 stages", { timeout: 30000 });
+    await expect(announced).toHaveText("Done");
+    await expect(bar).toHaveAttribute("aria-valuenow", "3");
+    await expect(bar).toHaveAttribute("aria-valuetext", "Done, 3 stages");
+    await expect(steps.first()).toContainText("Understanding, done");
+    await expect(steps.last()).toContainText("Refining, done");
+    // Nothing is in flight once the fill has closed under the last node.
+    await expect(stage.locator("[aria-current='step']")).toHaveCount(0);
+  });
+
+  test("inpaint-brush: keyboard dabs build a mask, and the sweep keeps what it redrew", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/inpaint-brush");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const canvas = stage.getByRole("application", {
+      name: "Poster render · Fernworks Model 3",
+    });
+    const clear = stage.getByRole("button", { name: "Clear" });
+    const regenerate = stage.getByRole("button", {
+      name: /Regenerate|Regenerating/,
+    });
+
+    await expect(status).toContainText("Paint the part to redo");
+    // Both controls hold their places and wait for something to redo.
+    await expect(clear).toBeDisabled();
+    await expect(regenerate).toBeDisabled();
+
+    // The canvas is an application region: Space lays a dab where the brush is.
+    await canvas.focus();
+    await page.keyboard.press(" ");
+    await expect(announced).toHaveText("Mask covers 3 percent");
+    await expect(status).toContainText("Mask 3% · ready");
+    await expect(clear).toBeEnabled();
+    await expect(regenerate).toBeEnabled();
+
+    // Arrows move the brush half its size a press, so the next dab widens the
+    // same mask rather than starting another.
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press(" ");
+    await expect(announced).toHaveText("Mask covers 4 percent");
+    await expect(status).toContainText("Mask 4% · ready");
+
+    // Backspace takes back the last stroke, and the coverage goes with it.
+    await page.keyboard.press("Backspace");
+    await expect(status).toContainText("Mask 3% · ready");
+
+    await regenerate.click();
+    await expect(announced).toHaveText("Regenerating the masked area", {
+      timeout: 8000,
+    });
+    await expect(canvas).toHaveAttribute("aria-busy", "true");
+
+    await expect(status).toContainText("Regenerated · pass 1", {
+      timeout: 20000,
+    });
+    await expect(announced).toHaveText("Masked area regenerated");
+    await expect(canvas).not.toHaveAttribute("aria-busy", "true");
+    // The dabs were committed as a patch and the wash cleared, so there is
+    // nothing left to redo until the next stroke.
+    await expect(clear).toBeDisabled();
+    await expect(regenerate).toBeDisabled();
+  });
+
+  test("prompt-echo: the restatement types itself, an assumption is corrected, and confirm carries the count", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/prompt-echo");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const region = stage.getByRole("region", { name: "Dispatch request" });
+    const confirm = stage.getByRole("button", {
+      name: /Looks right|Confirmed/,
+    });
+
+    await expect(status).toContainText("Press echo");
+    // Nothing can be confirmed while the sentence is still arriving.
+    await expect(confirm).toBeDisabled();
+
+    await stage.getByRole("button", { name: "Echo", exact: true }).click();
+    await expect(region).toHaveAttribute("aria-busy", "true");
+
+    await expect(status).toContainText("Heard · 0 edits · 3 assumptions", {
+      timeout: 25000,
+    });
+    await expect(announced).toHaveText(
+      "Heard as: Find the deliveries that ran late last week for the north depot, then lay them out as a table.",
+    );
+    await expect(region).not.toHaveAttribute("aria-busy", "true");
+    await expect(confirm).toBeEnabled();
+
+    // Each assumption is a real button; Enter opens its alternatives with the
+    // current wording already selected and focused.
+    await region.getByRole("button", { name: "last week" }).press("Enter");
+    const options = region
+      .getByRole("listbox", { name: "Alternatives for last week" })
+      .getByRole("option");
+    await expect(options).toHaveCount(3);
+    await expect(options.first()).toHaveAttribute("aria-selected", "true");
+    await expect(options.first()).toBeFocused();
+
+    await page.keyboard.press("ArrowRight");
+    await expect(options.nth(1)).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Changed to this week");
+    await expect(status).toContainText("Edited · 1 of 3 assumptions");
+    // The row closes and hands the corrected part its focus back.
+    await expect(region.getByRole("listbox")).toHaveCount(0);
+    await expect(region.getByRole("button", { name: "this week" })).toBeFocused(
+      { timeout: 8000 },
+    );
+
+    await confirm.click();
+    await expect(announced).toHaveText("Confirmed");
+    await expect(status).toContainText("Confirmed · 1 edit");
+    await expect(confirm).toHaveText("Confirmed");
+    await expect(confirm).toBeDisabled();
+  });
+
+  test("render-queue: leaving is the waiting job's own control, and a run left alone closes on Done", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/render-queue");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const job = stage.getByRole("group", { name: "Render job" });
+
+    await expect(status).toContainText("Press queue");
+
+    await stage.getByRole("button", { name: "Queue", exact: true }).click();
+    // The place in line is announced as it lands, never as the estimate ticks.
+    await expect(announced).toHaveText("Third in line, about 48 seconds", {
+      timeout: 8000,
+    });
+    await expect(status).toContainText("Waiting · 3rd");
+    // Waiting shows no progress: the bar is hidden until the job starts.
+    await expect(stage.getByRole("progressbar")).toHaveCount(0);
+
+    // Leave is the only focusable part of the row while it waits.
+    await job.getByRole("button", { name: "Leave" }).press("Enter");
+    await expect(status).toContainText("Left the queue", { timeout: 8000 });
+    await expect(job).toHaveCount(0);
+
+    // Left alone, the queue runs down to the render and the render to Done.
+    await stage.getByRole("button", { name: "Queue again" }).click();
+    await expect(status).toContainText("Done · rendered", { timeout: 35000 });
+    await expect(announced).toHaveText("Done");
+    const bar = stage.getByRole("progressbar", { name: "Poster render" });
+    await expect(bar).toHaveAttribute("aria-valuenow", "100");
+    await expect(bar).toHaveAttribute("aria-valuetext", "Done");
+    // The control left with the waiting: a running job cannot be cancelled.
+    await expect(stage.getByRole("button", { name: "Leave" })).toHaveCount(0);
+  });
+
+  test("export-stamp: an arrow picks the destination and the stamp lands on the chip that took it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/export-stamp");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const targets = stage.getByRole("radiogroup", {
+      name: "Send the shift brief",
+    });
+    // Read by seat, not by name: the chosen chip's name grows once it is sent.
+    const chips = targets.getByRole("radio");
+    const drive = chips.first();
+    const inbox = chips.nth(1);
+    const exportButton = stage.getByRole("button", {
+      name: /Export|Exporting|Exported/,
+    });
+
+    await expect(chips).toHaveCount(3);
+    await expect(status).toContainText("Target · Drive");
+    await expect(drive).toHaveAttribute("aria-checked", "true");
+    await expect(stage).toContainText("Fieldline Drive · /briefs/shift");
+
+    // Activation follows focus: the arrow both steps and picks.
+    await drive.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(inbox).toBeFocused();
+    await expect(inbox).toHaveAttribute("aria-checked", "true");
+    await expect(drive).toHaveAttribute("aria-checked", "false");
+    await expect(status).toContainText("Target · Inbox");
+    await expect(stage).toContainText("Depot leads · 6 people");
+
+    await exportButton.click();
+    await expect(exportButton).toHaveAttribute("aria-busy", "true");
+    await expect(announced).toHaveText("Exporting to Inbox", { timeout: 8000 });
+
+    await expect(status).toContainText("Stamped · Inbox", { timeout: 20000 });
+    await expect(announced).toHaveText("Exported to Inbox");
+    // The seal is decoration; the chip's own name carries the fact.
+    await expect(inbox).toHaveAccessibleName("Inbox, sent");
+    await expect(exportButton).toHaveText("Exported");
+    await expect(exportButton).toBeDisabled();
+
+    // A different target is a different export, so the stage returns to idle.
+    await drive.click();
+    await expect(status).toContainText("Target · Drive");
+    await expect(inbox).toHaveAccessibleName("Inbox");
+    await expect(exportButton).toHaveText("Export");
+    await expect(exportButton).toBeEnabled();
+    await expect(announced).toBeEmpty();
+  });
+});
