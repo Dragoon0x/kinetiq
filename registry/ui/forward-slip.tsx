@@ -289,13 +289,41 @@ export function ForwardSlip({
       ? thread.messages.find((message) => message.id === arriveAt)
       : undefined;
   const latest = thread.messages[thread.messages.length - 1];
-  const announcement = landed
+  // Latched against what has already been spoken, the way the rest of this
+  // family does it. Derived fresh every render, a message that was merely
+  // still on screen was announced again on any turn that did not add one —
+  // going back, or resetting, read out an arrival from earlier in the day.
+  const arrival = landed
     ? `${thread.name}, landed on ${landed.author}'s message at ${landed.at}`
     : latest
       ? latest.forwardedFrom
         ? `Forwarded from ${latest.forwardedFrom.threadName}, ${latest.forwardedFrom.author}, ${latest.forwardedFrom.at}: ${latest.text}`
         : `${latest.author}: ${latest.text}`
       : "";
+  const [spoken, setSpoken] = React.useState({
+    threadId: thread.id,
+    size: thread.messages.length,
+    arriveAt,
+    text: "",
+  });
+  if (
+    spoken.threadId !== thread.id ||
+    spoken.size !== thread.messages.length ||
+    spoken.arriveAt !== arriveAt
+  ) {
+    // Only a thread that grew, or a jump that just landed, is news; going
+    // back or resetting changes what is on screen without anything arriving.
+    const grew =
+      spoken.threadId === thread.id && thread.messages.length > spoken.size;
+    const jumped = arriveAt !== undefined && arriveAt !== spoken.arriveAt;
+    setSpoken({
+      threadId: thread.id,
+      size: thread.messages.length,
+      arriveAt,
+      text: grew || jumped ? arrival : "",
+    });
+  }
+  const announcement = spoken.text;
   const count = thread.messages.length;
 
   return (

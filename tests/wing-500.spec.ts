@@ -19044,3 +19044,659 @@ test.describe("trust", () => {
     await expect(group).not.toContainText("Stopped.");
   });
 });
+
+/**
+ * A delivery state that only lives for a beat — the 900ms a mark spends
+ * delivered before it is read — is not something a poll can prove it saw, and
+ * a miss would be a fact about the polling interval rather than about the
+ * component. The trail is recorded in the page instead, by an observer
+ * installed before the press, and read back once the thread has settled.
+ */
+const recordBubblesTrail = async (target: Locator): Promise<void> => {
+  await target.evaluate((element) => {
+    const trail: string[] = [];
+    const read = () => {
+      const text = (element.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (trail[trail.length - 1] !== text) trail.push(text);
+    };
+    read();
+    new MutationObserver(read).observe(element, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    (window as unknown as { __bubblesTrail: string[] }).__bubblesTrail = trail;
+  });
+};
+
+/** Every sentence the recorded region has spoken, oldest first. */
+const spokenByBubbles = async (page: Page): Promise<string[]> => {
+  const trail = await page.evaluate(
+    () =>
+      (window as unknown as { __bubblesTrail?: string[] }).__bubblesTrail ?? [],
+  );
+  // The empty line a status region opens on is not something anyone hears.
+  return trail.filter((line) => line.length > 0);
+};
+
+/** Polls on a tight cadence: threads move on springs, not on frames. */
+const bubblesBeat = { intervals: [100], timeout: 8000 };
+
+/** A poll target: one computed length off a laid-out node, in pixels. */
+const bubblesPixelsOf =
+  (target: Locator, property: string) => async (): Promise<number> =>
+    target.evaluate(
+      (element, name) =>
+        Number.parseFloat(getComputedStyle(element).getPropertyValue(name)),
+      property,
+    );
+
+/** A poll target: how far a thread's scroll box has been scrolled. */
+const bubblesScrollOf = (box: Locator) => async (): Promise<number> =>
+  box.evaluate((element) => Math.round(element.scrollTop));
+
+/** Scroll a thread box to an absolute offset, the way a wheel would. */
+const scrollBubblesTo = async (box: Locator, top: number): Promise<void> => {
+  await box.evaluate((element, y) => {
+    element.scrollTo({ top: y, behavior: "auto" });
+  }, top);
+};
+
+/**
+ * How far a message's top sits below the top of its scroll box — negative
+ * once it has scrolled out of sight above. Both boxes are read together, so
+ * the two halves of the comparison belong to one moment.
+ */
+const bubblesTopGapOf =
+  (item: Locator, box: Locator) => async (): Promise<number> => {
+    const [message, frame] = await Promise.all([
+      item.boundingBox(),
+      box.boundingBox(),
+    ]);
+    return message && frame ? Math.round(message.y - frame.y) : Number.NaN;
+  };
+
+/**
+ * The bubble inside a thread item: the innermost box, since a stacked item
+ * wraps its bubble in the column that carries the sender's name and the time.
+ */
+const bubbleIn = (item: Locator): Locator => item.locator("div").last();
+
+/**
+ * The bubbles family is one chat thread taken apart: a send that walks its
+ * delivery marks, the readers who arrive under it, an edit and what it said
+ * before, a delete with a moment to undo, runs that stack and hand down their
+ * tail, the rule drawn where the day changes, a quote that jumps and glows, a
+ * long note that folds, and a message forwarded in from somewhere else. Every
+ * test drives the mechanic the component advertises — through the keyboard
+ * wherever it publishes one, and by pressing the demo's own controls rather
+ * than clicking them, since a pointer parked over a thread that grows would
+ * hover whatever slid under it — and reads the outcome off the demo's status
+ * line and the ARIA the component publishes about itself.
+ */
+test.describe("bubbles", () => {
+  test("bubble-land: a send walks its mark to read, and the third one fails into Retry", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/bubble-land");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component speaks each delivery hop before the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Depot chat with Marta" });
+    const composer = stage.getByRole("textbox", { name: "Message Marta" });
+
+    await expect(status).toContainText("0 sent");
+    await expect(thread.getByRole("listitem")).toHaveCount(2);
+
+    // Delivered lives for 900ms before read takes it, so the walk is
+    // recorded rather than polled for.
+    await recordBubblesTrail(announced);
+    await composer.fill("Send it on to Basinworks.");
+    await composer.press("Enter");
+    await expect(composer).toHaveValue("");
+    await expect(thread.getByRole("listitem")).toHaveCount(3);
+    await expect(status).toContainText("1 sent");
+
+    // The mark walks the states the parent reports and lands on read; the
+    // sending → sent hop is visible but not worth a voice.
+    await expect(announced).toHaveText("Read by Marta", { timeout: 8000 });
+    expect(await spokenByBubbles(page)).toEqual([
+      "Delivered to Marta",
+      "Read by Marta",
+    ]);
+    await expect(
+      thread.getByRole("img", { name: "Read by Marta" }),
+    ).toHaveCount(2);
+
+    // Marta answers a message she has read.
+    await expect(thread.getByRole("listitem")).toHaveCount(4, {
+      timeout: 5000,
+    });
+    await expect(thread.getByRole("listitem").last()).toContainText(
+      "Done. Held at Coldbrook until Friday.",
+    );
+
+    // Every third send stumbles: the mark swaps for the exclamation, the
+    // bubble takes a danger edge and Retry appears beneath it.
+    await composer.fill("And the pallet count?");
+    await composer.press("Enter");
+    await composer.fill("Third one, please.");
+    await composer.press("Enter");
+    const retry = stage.getByRole("button", { name: /^Retry sending/ });
+    await expect(retry).toHaveAccessibleName(
+      "Retry sending: Third one, please.",
+      { timeout: 8000 },
+    );
+    await expect(announced).toHaveText("Message not sent, retry available");
+    await expect(status).toContainText("failed · 3 sent");
+    await expect(thread.getByRole("img", { name: "Not sent" })).toHaveCount(1);
+
+    // Retry puts the message back on the wire; the control it was on leaves
+    // with the failure, so focus lands on the composer rather than the body.
+    await retry.press("Enter");
+    await expect(retry).toHaveCount(0);
+    await expect(composer).toBeFocused();
+    await expect(thread.getByRole("img", { name: /Sending|Sent/ })).toHaveCount(
+      1,
+    );
+  });
+
+  test("read-wave: focus fans the readers open and the wave rolls the count to five", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/read-wave");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Release channel" });
+    const row = stage.getByRole("button", { name: /^Seen by/ });
+    const fan = thread.getByRole("list");
+
+    await expect(status).toContainText("Seen by 2 of 5 · last Rui 15:04");
+    await expect(row).toHaveAccessibleName("Seen by 2 of 5");
+    await expect(row).toHaveAttribute("aria-expanded", "false");
+    await expect(fan).toHaveCount(0);
+
+    // Focus alone fans the row: the list is the names behind the discs.
+    await row.focus();
+    await expect(row).toHaveAttribute("aria-expanded", "true");
+    await expect(fan.getByRole("listitem")).toHaveCount(2);
+    await expect(fan.getByRole("listitem").first()).toContainText(
+      "Marta Ferreira",
+    );
+    await expect(fan.getByRole("listitem").first()).toContainText("15:02");
+
+    // Escape folds it and keeps the focus where it was.
+    await row.press("Escape");
+    await expect(row).toHaveAttribute("aria-expanded", "false");
+    await expect(row).toBeFocused();
+    await expect(fan).toHaveCount(0);
+
+    // The rest of the channel reads it, one arrival at a time.
+    await recordBubblesTrail(announced);
+    await stage
+      .getByRole("button", { name: "Let the rest read" })
+      .press("Enter");
+    await expect(row).toHaveAccessibleName("Seen by 5 of 5", { timeout: 8000 });
+    await expect(status).toContainText("Seen by 5 of 5 · last Noor 15:15");
+    await expect(announced).toHaveText("Read by Noor Haddad at 15:15");
+    expect(await spokenByBubbles(page)).toEqual([
+      "Read by Tomas Lindqvist at 15:09",
+      "Read by Lea Okafor at 15:11",
+      "Read by Noor Haddad at 15:15",
+    ]);
+
+    // Everyone who read it is in the fan, in the order they read it.
+    await row.focus();
+    await expect(fan.getByRole("listitem")).toHaveCount(5);
+    await expect(fan.getByRole("listitem").last()).toContainText("Noor Haddad");
+    await expect(fan.getByRole("listitem").last()).toContainText("15:15");
+  });
+
+  test("edit-trace: an edit wipes in and the mark unfolds what it said before", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/edit-trace");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Ops thread" });
+    const apply = stage.getByRole("button", { name: "Apply next edit" });
+    const mark = stage.getByRole("button", { name: /^Edited/ });
+
+    await expect(status).toContainText("Version 1 of 3 · not edited");
+    await expect(thread).toContainText("Refund window is 14 days.");
+    // Never edited is no mark at all, rather than a mark with nothing behind.
+    await expect(mark).toHaveCount(0);
+
+    await apply.press("Enter");
+    await expect(thread).toContainText("Refund window is 30 days.");
+    await expect(announced).toHaveText("Edited: Refund window is 30 days.");
+    await expect(status).toContainText("Version 2 of 3 · edited once");
+    await expect(mark).toHaveAccessibleName(
+      "Edited 14:07, show previous versions",
+    );
+    await expect(mark).toHaveAttribute("aria-expanded", "false");
+
+    // The mark is the door to the trace: what it said, struck, with the time
+    // it was replaced.
+    await mark.press("Enter");
+    await expect(mark).toHaveAttribute("aria-expanded", "true");
+    await expect(mark).toHaveAccessibleName(
+      "Edited 14:07, hide previous versions",
+    );
+    await expect(status).toContainText("trace open");
+    const trace = thread.getByRole("list");
+    await expect(trace.getByRole("listitem")).toHaveCount(1);
+    await expect(trace.getByRole("listitem").first()).toContainText(
+      "Refund window is 14 days.",
+    );
+    await expect(trace.getByRole("listitem").first()).toContainText(
+      "14:02 · replaced 14:07",
+    );
+
+    // Escape folds the trace and hands focus back to the mark.
+    await page.keyboard.press("Escape");
+    await expect(mark).toHaveAttribute("aria-expanded", "false");
+    await expect(mark).toBeFocused();
+    await expect(status).toContainText("trace folded");
+
+    // A second edit lands over the first, and the trace grows to two.
+    await apply.press("Enter");
+    await expect(announced).toHaveText(
+      "Edited: Refund window is 30 days from delivery, not from the order date.",
+    );
+    await expect(mark).toHaveAccessibleName(
+      "Edited 14:12, show previous versions",
+    );
+    await mark.press("Enter");
+    await expect(trace.getByRole("listitem")).toHaveCount(2);
+    await expect(trace.getByRole("listitem").first()).toContainText(
+      "Refund window is 30 days.",
+    );
+    await expect(trace.getByRole("listitem").last()).toContainText(
+      "Refund window is 14 days.",
+    );
+    await expect(status).toContainText("Version 3 of 3 · edited twice");
+    await expect(apply).toBeDisabled();
+  });
+
+  test("delete-fade: keyboard focus holds the ring, Undo restores, and the run-out removes", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/delete-fade");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Support thread" });
+    const remove = stage.getByRole("button", {
+      name: /^Delete message from Marta: Refund/,
+    });
+    const chip = stage.getByRole("group", {
+      name: "Deleted message, undo available",
+    });
+    const undo = chip.getByRole("button", { name: "Undo" });
+    const drained = bubblesPixelsOf(
+      chip.locator("circle").last(),
+      "stroke-dashoffset",
+    );
+
+    await expect(status).toContainText("4 messages · 0 pending · 0 removed");
+    await expect(thread.getByRole("listitem")).toHaveCount(4);
+    await expect(remove).toHaveAccessibleName(
+      "Delete message from Marta: Refund for order 4471 went…",
+    );
+
+    // The press swaps the bubble for the chip and hands focus to Undo.
+    await remove.press("Enter");
+    await expect(undo).toBeFocused();
+    await expect(announced).toHaveText(
+      'Deleted "Refund for order 4471 went…", undo for 4 seconds',
+    );
+    await expect(status).toContainText("1 pending");
+
+    // Keyboard focus holds the ring: a countdown nobody is watching would be
+    // a countdown that ran out under the person reading it.
+    const start = await drained();
+    await page.waitForTimeout(1000);
+    expect(await drained()).toBeLessThan(start + 0.05);
+
+    // Undo puts the bubble back and returns focus to the control it left.
+    await undo.press("Enter");
+    await expect(announced).toHaveText(
+      'Restored "Refund for order 4471 went…"',
+    );
+    await expect(chip).toHaveCount(0);
+    await expect(remove).toBeFocused();
+    await expect(status).toContainText("4 messages · 0 pending · 0 removed");
+
+    // With focus off the chip the ring drains, and the run-out is final.
+    await stage
+      .getByRole("button", { name: /^Delete message from Rui/ })
+      .press("Enter");
+    await expect(undo).toBeFocused();
+    await stage.getByRole("button", { name: "Reset thread" }).focus();
+    await expect.poll(drained, bubblesBeat).toBeGreaterThan(0.1);
+    await expect(announced).toHaveText(
+      'Removed "Sent from the Waylight Pay…"',
+      { timeout: 8000 },
+    );
+    await expect(thread.getByRole("listitem")).toHaveCount(3);
+    await expect(status).toContainText("3 messages · 0 pending · 1 removed");
+  });
+
+  test("group-stack: a message joining a run tightens against it, a new sender opens the gap", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/group-stack");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Depot channel" });
+    const items = thread.getByRole("listitem");
+    const next = stage.getByRole("button", { name: "Next message" });
+
+    await expect(status).toContainText("2 messages");
+    await expect(items).toHaveCount(2);
+    // A continuation carries its sender, so every item reads with a name.
+    await expect(items.nth(1)).toContainText(
+      "Marta: Two pallets for Fieldline, one for Coldbrook.",
+    );
+
+    await next.press("Enter");
+    await expect(items).toHaveCount(3);
+    await expect(announced).toHaveText(
+      "Marta: The Coldbrook one is held until Friday.",
+    );
+    await expect(status).toContainText("last Marta ×3");
+    // Inside a run the gap is two pixels and the corners between the bubbles
+    // lose their radius: one breath, not three.
+    await expect
+      .poll(bubblesPixelsOf(items.nth(2), "margin-top"), bubblesBeat)
+      .toBe(2);
+    await expect
+      .poll(
+        bubblesPixelsOf(bubbleIn(items.nth(2)), "border-top-left-radius"),
+        bubblesBeat,
+      )
+      .toBe(2);
+
+    // A new sender is a new paragraph: twelve pixels, a name, a full corner.
+    await next.press("Enter");
+    await expect(items).toHaveCount(4);
+    await expect(announced).toHaveText(
+      "Rui: On it. Loading the Fieldline pair first.",
+    );
+    await expect(status).toContainText("2 runs");
+    await expect(status).toContainText("last Rui ×1");
+    await expect(items.nth(3)).toContainText("Rui");
+    await expect
+      .poll(bubblesPixelsOf(items.nth(3), "margin-top"), bubblesBeat)
+      .toBe(12);
+    await expect
+      .poll(
+        bubblesPixelsOf(bubbleIn(items.nth(3)), "border-top-left-radius"),
+        bubblesBeat,
+      )
+      .toBe(10);
+    // The run above closed: its last bubble is round at the bottom again.
+    await expect
+      .poll(
+        bubblesPixelsOf(bubbleIn(items.nth(2)), "border-bottom-left-radius"),
+        bubblesBeat,
+      )
+      .toBe(10);
+  });
+
+  test("time-divider: the thread draws a rule where the day changes and names it once", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/time-divider");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const days = stage.getByRole("separator");
+
+    await expect(status).toContainText("Idle · 2 messages · 1 day");
+    // The history loaded with one day behind it, so one rule is drawn.
+    await expect(days).toHaveCount(1);
+    await expect(days.first()).toHaveAttribute("aria-label", "Monday");
+
+    await recordBubblesTrail(announced);
+    await stage.getByRole("button", { name: "Play" }).press("Enter");
+    await expect(status).toContainText("Settled · 6 messages · 3 days", {
+      timeout: 20_000,
+    });
+
+    // Every crossing left a labelled separator where it happened.
+    await expect(days).toHaveCount(3);
+    await expect(days.nth(1)).toHaveAttribute("aria-label", "Yesterday");
+    await expect(days.nth(2)).toHaveAttribute("aria-label", "Today");
+
+    // One sentence per arrival, with the day in front only on the message
+    // that opened it: a reader hears "Yesterday" once, not on every line.
+    expect(await spokenByBubbles(page)).toEqual([
+      "Ines: Noted. Basinworks pallets go on the first one.",
+      "Yesterday. Marta: First van loaded. Second is waiting on the cold chain seal.",
+      "Ines: Seal's in the office drawer, left side.",
+      "Today. Marta: Both back. One pallet short at Basinworks, they signed anyway.",
+      "Ines: I'll ring them before the invoice goes.",
+    ]);
+  });
+
+  test("message-glow: the pinned quote jumps the thread and Back returns it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/message-glow");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const box = stage.getByRole("region", { name: "Payouts incident" });
+    const report = box.getByRole("listitem").first();
+
+    await expect(status).toContainText("Latest · 14 messages · 3 quotes");
+    // A thread opens at its newest message.
+    await expect.poll(bubblesScrollOf(box), bubblesBeat).toBeGreaterThan(100);
+    const latest = await bubblesScrollOf(box)();
+
+    await stage
+      .getByRole("button", {
+        name: "Jump to pinned message from Rui at 08:41",
+      })
+      .press("Enter");
+    // The scroll settles on the report, and a reader lands on it too.
+    await expect(announced).toHaveText("Jumped to Rui, 08:41");
+    await expect(status).toContainText("Jumped · Rui 08:41");
+    await expect(report).toBeFocused();
+    await expect
+      .poll(bubblesScrollOf(box), bubblesBeat)
+      .toBeLessThan(latest - 100);
+    await expect(report).toContainText(
+      "Payout batch 4471 is stuck at signing.",
+    );
+
+    // Back is the way home, and it leaves once it has taken you there.
+    const back = stage.getByRole("button", { name: "Back" });
+    await back.press("Enter");
+    await expect(announced).toHaveText("Back where you were");
+    await expect(status).toContainText("Back · where you were");
+    await expect.poll(bubblesScrollOf(box), bubblesBeat).toBe(latest);
+    await expect(back).toHaveCount(0);
+
+    // A quote inside a reply is the same door.
+    await stage
+      .getByRole("button", { name: "Jump to Rui's message at 08:41" })
+      .press("Enter");
+    await expect(announced).toHaveText("Jumped to Rui, 08:41");
+    await expect(report).toBeFocused();
+    await expect(back).toHaveCount(1);
+  });
+
+  test("long-fold: the note unfolds to its measured height and folding keeps its top in view", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/long-fold");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const box = stage.getByRole("region", { name: "Payouts handover" });
+    const note = box.getByRole("listitem").nth(1);
+    const disclosure = stage.getByRole("button", {
+      name: /Read more|Show less/,
+    });
+
+    await expect(status).toContainText("Folded · Marta 17:02 · 4 lines");
+    // Only the long message earns a control; the three short ones do not.
+    await expect(box.getByRole("listitem")).toHaveCount(4);
+    await expect(disclosure).toHaveCount(1);
+    await expect(disclosure).toHaveAccessibleName("Read more");
+    await expect(disclosure).toHaveAttribute("aria-expanded", "false");
+    // The folded text is never hidden: a reader hears the note unopened.
+    await expect(note).toContainText("Anything else, ring me before eleven.");
+
+    const bodyId = await disclosure.getAttribute("aria-controls");
+    const body = stage.locator(`[id="${bodyId}"]`);
+    const folded = await bubblesPixelsOf(body, "height")();
+    // Four line boxes of a 14px column, and nothing reserved beyond them.
+    expect(folded).toBeGreaterThan(60);
+    expect(folded).toBeLessThan(110);
+
+    await disclosure.press("Enter");
+    await expect(disclosure).toHaveAccessibleName("Show less");
+    await expect(disclosure).toHaveAttribute("aria-expanded", "true");
+    await expect(announced).toHaveText("Marta's message unfolded");
+    await expect(status).toContainText("Unfolded · Marta 17:02");
+    await expect
+      .poll(bubblesPixelsOf(body, "height"), bubblesBeat)
+      .toBeGreaterThan(folded * 3);
+
+    // Folding back is the part a plain read-more gets wrong: the press comes
+    // from the keyboard with the box scrolled past the note's top, and the
+    // message just closed must still be under the eye.
+    await disclosure.focus();
+    await scrollBubblesTo(box, 99_999);
+    await expect.poll(bubblesTopGapOf(note, box), bubblesBeat).toBeLessThan(0);
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Marta's message folded");
+    await expect(status).toContainText("Folded · Marta 17:02 · top in view");
+    await expect
+      .poll(bubblesPixelsOf(body, "height"), bubblesBeat)
+      .toBeLessThan(folded + 4);
+    await expect
+      .poll(bubblesTopGapOf(note, box), bubblesBeat)
+      .toBeGreaterThanOrEqual(-1);
+  });
+
+  test("forward-slip: a forwarded message wears its stamp, and the stamp is a door", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/forward-slip");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const items = stage.getByRole("listitem");
+    const stamp = stage.getByRole("button", {
+      name: /^Jump to Coldbrook dispatch/,
+    });
+
+    await expect(status).toContainText("Rui · 2 messages");
+    await expect(stage.getByRole("group", { name: "Rui" })).toBeVisible();
+    await expect(items).toHaveCount(2);
+    await expect(stamp).toHaveCount(0);
+
+    // Forwarding stamps the message in words, never in colour alone.
+    await stage
+      .getByRole("button", { name: "Forward Marta's update" })
+      .press("Enter");
+    await expect(items).toHaveCount(3);
+    await expect(items.last()).toContainText("Forwarded from");
+    await expect(stamp).toHaveAccessibleName(
+      "Jump to Coldbrook dispatch, Marta's message at 08:41",
+    );
+    await expect(status).toContainText("Rui · forwarded from dispatch");
+    await expect(announced).toHaveText(
+      "Forwarded from Coldbrook dispatch, Marta, 08:41: Seal's on. Both vans out by 08:50, Basinworks first, then the Coldbrook depot.",
+    );
+
+    // Pressing the stamp swaps the source thread in and lands on the
+    // original, so the jump has a real destination.
+    await stamp.press("Enter");
+    await expect(
+      stage.getByRole("group", { name: "Coldbrook dispatch" }),
+    ).toBeVisible();
+    await expect(items).toHaveCount(3);
+    await expect(status).toContainText("Dispatch · landed on Marta 08:41");
+    await expect(announced).toHaveText(
+      "Coldbrook dispatch, landed on Marta's message at 08:41",
+    );
+    await expect(items.nth(1)).toBeFocused();
+    await expect(items.nth(1)).toContainText("Marta, 08:41.");
+
+    // Back returns to the thread the forward landed in, forward and all.
+    await stage.getByRole("button", { name: "Back to Rui" }).press("Enter");
+    await expect(stage.getByRole("group", { name: "Rui" })).toBeVisible();
+    await expect(items).toHaveCount(3);
+    await expect(stamp).toHaveCount(1);
+    await expect(status).toContainText("Rui · forwarded from dispatch");
+  });
+
+  test("bubble-tail: the tail hands down a run, and a new sender starts its own", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/bubble-tail");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Basinworks slot" });
+    const items = thread.getByRole("listitem");
+    const send = stage.getByRole("button", { name: "Send next" });
+    // The tail is the only drawing in this specimen.
+    const tails = stage.locator("svg");
+
+    await expect(status).toContainText("Marta · run of 2 · tail on 2");
+    await expect(items).toHaveCount(2);
+    await expect(tails).toHaveCount(1);
+    await expect(items.nth(1).locator("svg")).toHaveCount(1);
+    await expect(items.nth(0)).toContainText("Marta, 09:10.");
+
+    // A third message from the same sender extends the run: the tail travels
+    // to it and the bubble it left rounds its corner back.
+    await send.press("Enter");
+    await expect(items).toHaveCount(3);
+    await expect(announced).toHaveText(
+      "Marta: Rui can cover the desk while you're at Basinworks.",
+    );
+    await expect(status).toContainText("Marta · run of 3 · tail handed to 3");
+    await expect(tails).toHaveCount(1);
+    await expect(items.nth(2).locator("svg")).toHaveCount(1);
+    await expect
+      .poll(
+        bubblesPixelsOf(bubbleIn(items.nth(1)), "border-bottom-left-radius"),
+        bubblesBeat,
+      )
+      .toBe(10);
+    await expect
+      .poll(
+        bubblesPixelsOf(bubbleIn(items.nth(2)), "border-bottom-left-radius"),
+        bubblesBeat,
+      )
+      .toBe(4);
+
+    // A new sender opens a run of its own on the other side, and the run
+    // above keeps the tail it grew.
+    await send.press("Enter");
+    await expect(items).toHaveCount(4);
+    await expect(announced).toHaveText("Ines: Taking it. Thanks.");
+    await expect(status).toContainText("Ines · run of 1 · new run");
+    await expect(tails).toHaveCount(2);
+    await expect(items.nth(2).locator("svg")).toHaveCount(1);
+    await expect(items.nth(3).locator("svg")).toHaveCount(1);
+    await expect
+      .poll(
+        bubblesPixelsOf(bubbleIn(items.nth(3)), "border-bottom-right-radius"),
+        bubblesBeat,
+      )
+      .toBe(4);
+  });
+});

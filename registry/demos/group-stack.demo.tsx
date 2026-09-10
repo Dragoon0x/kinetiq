@@ -85,7 +85,7 @@ export function GroupStackDemo() {
         role="status"
         className="border-t border-border pt-3 font-mono text-[10px] tracking-[0.08em] text-muted-foreground uppercase"
       >
-        {count} messages · {runs} runs ·{" "}
+        {count} messages · {runs} {runs === 1 ? "run" : "runs"} ·{" "}
         <span className="text-[var(--signal,var(--primary))]">
           last {last?.sender ?? "nobody"} ×{runLength}
         </span>
