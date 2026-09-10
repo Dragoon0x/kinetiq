@@ -65,6 +65,10 @@ const nameOf = (message: ReplyMessage) =>
   message.from === "me" ? "You" : message.from;
 
 /** A cite is one line, so the first words stand in for the whole message. */
+/** Closes a clause without doubling the stop the quoted words already carry. */
+const sentence = (text: string): string =>
+  /[.!?…]$/.test(text.trim()) ? text.trim() : `${text.trim()}.`;
+
 const firstWords = (text: string, count: number): string => {
   const words = text.trim().split(/\s+/);
   return words.length > count
@@ -227,7 +231,7 @@ export function ReplyCite({
               tabIndex={-1}
               aria-label={
                 cited
-                  ? `${nameOf(message)}: ${message.text}. Cited by your reply`
+                  ? `${sentence(`${nameOf(message)}: ${message.text}`)} Cited by your reply`
                   : undefined
               }
               className={cn(
@@ -366,7 +370,7 @@ export function ReplyCite({
                   <button
                     type="button"
                     onClick={showOriginal}
-                    aria-label={`Replying to ${nameOf(target)}: ${firstWords(target.text, 6)}. Show the original`}
+                    aria-label={`${sentence(`Replying to ${nameOf(target)}: ${firstWords(target.text, 6)}`)} Show the original`}
                     className={cn(
                       quiet,
                       "h-8 min-w-0 flex-1 gap-2 bg-surface-1 px-2 text-left hover:bg-accent",

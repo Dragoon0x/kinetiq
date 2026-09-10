@@ -102,7 +102,7 @@ export function SendSwooshDemo() {
             {` · ${firstWords(pending)}`}
           </>
         ) : (
-          `Ready · ${count} sent`
+          `Ready · ${thread.length} sent`
         )}
       </p>
     </div>

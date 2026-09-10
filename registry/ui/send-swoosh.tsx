@@ -113,6 +113,7 @@ export function SendSwoosh({
   const [seenStatus, setSeenStatus] = React.useState(status);
   if (seenStatus !== status) {
     setSeenStatus(status);
+    if (status === "sent") setAnnounce("Sent");
     if (status === "failed" && held.length > 0) {
       const tick = returnTick + 1;
       setReturnTick(tick);
@@ -192,7 +193,10 @@ export function SendSwoosh({
     setGhost({ key: `out-${tick}`, text, direction: "out" });
     setSwooshTick(tick);
     setFailureSeen(true);
-    setAnnounce("Sent");
+    // The press has not sent anything yet: the parent answers with a status.
+    // Saying "Sent" here told a reader the message had landed a moment before
+    // telling them it had not.
+    setAnnounce("Sending");
     commit("");
     onSend?.(text.trim());
   };

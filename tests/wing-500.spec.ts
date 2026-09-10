@@ -19700,3 +19700,737 @@ test.describe("bubbles", () => {
       .toBe(4);
   });
 });
+
+/** Polls on a tight cadence: a composer moves on springs, not on frames. */
+const composingBeat = { intervals: [100], timeout: 8000 };
+
+/** A poll target: one laid-out box's height, in pixels. */
+const composingHeightOf = (target: Locator) => async (): Promise<number> => {
+  const box = await target.boundingBox();
+  return box ? Math.round(box.height) : Number.NaN;
+};
+
+/** A poll target: one laid-out box's left edge, in pixels. */
+const composingXOf = (target: Locator) => async (): Promise<number> => {
+  const box = await target.boundingBox();
+  return box ? Math.round(box.x) : Number.NaN;
+};
+
+/** A poll target: how far a thread's scroll box has been scrolled. */
+const composingScrollOf = (box: Locator) => async (): Promise<number> =>
+  box.evaluate((element) => Math.round(element.scrollTop));
+
+/**
+ * A line that only stands for a beat — the 700ms a send spends in flight, the
+ * stretch a name spends in a typing caption — is not something a poll can
+ * prove it saw, and a miss would be a fact about the polling interval rather
+ * than about the component. The trail is recorded in the page instead, by an
+ * observer installed before the press and read back once the desk has settled.
+ */
+const recordComposingTrail = async (target: Locator): Promise<void> => {
+  await target.evaluate((element) => {
+    const trail: string[] = [];
+    const read = () => {
+      const text = (element.textContent ?? "").replace(/\s+/g, " ").trim();
+      if (trail[trail.length - 1] !== text) trail.push(text);
+    };
+    read();
+    new MutationObserver(read).observe(element, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+    });
+    (window as unknown as { __composingTrail: string[] }).__composingTrail =
+      trail;
+  });
+};
+
+/** Every line the recorded region has held, oldest first. */
+const composingTrail = async (page: Page): Promise<string[]> => {
+  const trail = await page.evaluate(
+    () =>
+      (window as unknown as { __composingTrail?: string[] }).__composingTrail ??
+      [],
+  );
+  // The empty line a region rests on is not something anyone hears.
+  return trail.filter((line) => line.length > 0);
+};
+
+/**
+ * The composing family is the bottom of a chat window taken apart: a bar that
+ * makes room for a growing draft, the indicator that says who is typing, a
+ * held voice take, a colon that opens an emoji picker, the files waiting to
+ * go, the drafts a channel keeps while you are elsewhere, a name completed as
+ * you type, the send whose verdict can come back wrong, a reply that cites
+ * what it answers, and a message parked until nine. Every test drives the
+ * mechanic the component advertises — through the keyboard wherever it
+ * publishes one, and by pressing the demo's own controls rather than clicking
+ * them, since a pointer parked over a composer that grows would hover whatever
+ * slid under it — and reads the outcome off the demo's status line and the
+ * ARIA the component publishes about itself.
+ */
+test.describe("composing", () => {
+  test("compose-bar: a draft past one line opens the well and slides the controls apart", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/compose-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component speaks before the demo's line, so it is read off the first.
+    const announced = stage.locator("[role='status']").first();
+    const field = stage.getByRole("textbox", { name: "Message Marta" });
+    const attach = stage.getByRole("button", { name: "Attach" });
+    const send = stage.getByRole("button", { name: "Send" });
+    const addLine = stage.getByRole("button", { name: "Add a line" });
+
+    await expect(status).toContainText("1 line · empty · 0 sent");
+    await expect(send).toHaveAttribute("aria-disabled", "true");
+    await expect(announced).toBeEmpty();
+    const oneRow = await composingHeightOf(field)();
+    const restX = await composingXOf(attach)();
+
+    // Two seeded sentences wrap the narrow column, which is what puts the bar
+    // in block mode: the well makes room and attach leaves send's side.
+    await addLine.press("Enter");
+    await addLine.press("Enter");
+    await expect(status).toContainText("2 lines · draft kept · 0 sent");
+    await expect(send).not.toHaveAttribute("aria-disabled", "true");
+    await expect
+      .poll(composingHeightOf(field), composingBeat)
+      .toBeGreaterThan(oneRow + 40);
+    await expect
+      .poll(composingXOf(attach), composingBeat)
+      .toBeLessThan(restX - 200);
+
+    // A field with the caret in it is being written in, not walked away from.
+    await field.focus();
+    await expect(status).toContainText("2 lines · draft 18 words · 0 sent");
+
+    // Leaving the field with text in it is the state worth flagging, and the
+    // component says so once rather than counting keystrokes.
+    await attach.focus();
+    await expect(status).toContainText("2 lines · draft kept · 0 sent");
+    await expect(announced).toHaveText("Draft kept, 18 words");
+
+    // Enter sends, and the bar collapses back to the row it started on.
+    await field.focus();
+    await page.keyboard.press("Enter");
+    await expect(field).toHaveValue("");
+    await expect(announced).toHaveText("Message sent");
+    await expect(status).toContainText("1 line · empty · 1 sent");
+    await expect(send).toHaveAttribute("aria-disabled", "true");
+    await expect
+      .poll(composingHeightOf(field), composingBeat)
+      .toBeLessThan(oneRow + 4);
+    await expect
+      .poll(composingXOf(attach), composingBeat)
+      .toBeGreaterThan(restX - 4);
+
+    await attach.press("Enter");
+    await expect(status).toContainText("1 line · empty · 1 sent · 1 attached");
+  });
+
+  test("typing-echo: the echo opens in the thread, names who is typing, and gives the room back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/typing-echo");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const caption = stage.locator("[role='status']").first();
+    const arrival = stage.locator("[role='status']").nth(1);
+    const thread = stage.getByRole("list", {
+      name: "Depot group with Marta and Rui",
+    });
+    const items = thread.getByRole("listitem");
+    // The slot the echo lives in: the thread's own next sibling.
+    const slot = thread.locator("xpath=following-sibling::div[1]");
+
+    await expect(status).toContainText("Quiet · 2 messages");
+    await expect(items).toHaveCount(2);
+    await expect(items.first()).toHaveAccessibleName(
+      "You: Can the Friday run take 4471?",
+    );
+    await expect(items.last()).toHaveAccessibleName(
+      "Marta: Checking the dock sheet now.",
+    );
+    // Silence announces nothing, and holds no room in the thread.
+    await expect(caption).toBeEmpty();
+    await expect.poll(composingHeightOf(slot), composingBeat).toBe(0);
+
+    // Each wording stands for a beat at a time, so the announced caption is
+    // watched rather than sampled: every sentence it held is read back once
+    // the script has run out.
+    await recordComposingTrail(caption);
+    await stage.getByRole("button", { name: "Play script" }).press("Enter");
+
+    // The echo is a shape in the thread, not a line beside it: the slot glides
+    // open under the messages while someone is at the keyboard.
+    await expect
+      .poll(composingHeightOf(slot), composingBeat)
+      .toBeGreaterThan(20);
+
+    await expect(items).toHaveCount(5, { timeout: 20_000 });
+    await expect(status).toContainText("Quiet · 5 messages");
+    await expect(items.last()).toHaveAccessibleName(
+      "Marta: Booked, nine sharp.",
+    );
+    await expect(arrival).toHaveText("New message from Marta");
+
+    // The caption re-words itself as they come and go, and never says
+    // "Marta and Rui" while only one of them is at the keyboard.
+    expect(await composingTrail(page)).toEqual([
+      "Marta is typing",
+      "Marta and Rui are typing",
+      "Marta is typing",
+    ]);
+
+    // Everyone stopped, so the thread has the room back.
+    await expect(caption).toBeEmpty();
+    await expect.poll(composingHeightOf(slot), composingBeat).toBe(0);
+  });
+
+  test("voice-bubble: a held take lands as a note that plays and scrubs", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/voice-bubble");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const notes = stage
+      .getByRole("list", { name: "Depot chat with Marta" })
+      .getByRole("listitem");
+    const mic = stage.getByRole("button", { name: "Hold to record" });
+
+    await expect(status).toContainText("Idle · 1 note");
+    await expect(notes).toHaveCount(1);
+    await expect(
+      stage.getByRole("group", { name: "Voice note from Marta, 6 seconds" }),
+    ).toBeVisible();
+    await expect(mic).toHaveAttribute("aria-pressed", "false");
+
+    // Space is the keyboard's half of hold-and-release, and the clock counts
+    // the whole seconds held rather than every tick.
+    await mic.focus();
+    await page.keyboard.press(" ");
+    await expect(mic).toHaveAttribute("aria-pressed", "true");
+    await expect(announced).toHaveText("Recording");
+    await expect(status).toContainText("Holding · 0:00");
+    await expect(status).toContainText("Holding · 0:02", { timeout: 10_000 });
+
+    await page.keyboard.press(" ");
+    await expect(mic).toHaveAttribute("aria-pressed", "false");
+    await expect(notes).toHaveCount(2);
+    await expect(announced).toHaveText(/^Voice note sent, \d+ seconds$/);
+    // The take's length is a clock reading, so it is read once and then held
+    // to account everywhere the component reports it.
+    const spoken = (await announced.textContent()) ?? "";
+    const held = Number(/(\d+)/.exec(spoken)?.[1] ?? "0");
+    expect(held).toBeGreaterThanOrEqual(2);
+    await expect(status).toContainText(`Sent ${held} s · 2 notes`);
+    await expect(
+      stage.getByRole("group", { name: `Your voice note, ${held} seconds` }),
+    ).toBeVisible();
+
+    // Marta's note is the one with a fixed length, so it is the one scrubbed.
+    const position = stage.getByRole("slider", { name: "Position" }).first();
+    await expect(position).toHaveAttribute("aria-valuemax", "6");
+    await expect(position).toHaveAttribute("aria-valuenow", "0");
+    await position.focus();
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(position).toHaveAttribute("aria-valuetext", "2 of 6 seconds");
+    await page.keyboard.press("End");
+    await expect(position).toHaveAttribute("aria-valuenow", "6");
+    await page.keyboard.press("Home");
+    await expect(position).toHaveAttribute("aria-valuetext", "0 of 6 seconds");
+
+    // Play is a state the thread reports, not a colour on a button.
+    await stage.getByRole("button", { name: "Play" }).first().press("Enter");
+    await expect(announced).toHaveText("Playing");
+    await expect(status).toContainText("Playing · Marta");
+    await stage.getByRole("button", { name: "Pause" }).first().press("Enter");
+    await expect(announced).toHaveText("Paused");
+    await expect(status).toContainText(`Sent ${held} s · 2 notes`);
+  });
+
+  test("emoji-rise: a colon opens the picker and Enter drops the glyph at the caret", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/emoji-rise");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const field = stage.getByRole("textbox", { name: "Message Marta" });
+    const list = stage.getByRole("listbox", { name: "Emoji" });
+
+    await expect(status).toContainText("Picker closed · 0 inserted");
+    await expect(field).toHaveValue("Friday is on. ");
+    await expect(field).toHaveAttribute("aria-autocomplete", "list");
+    await expect(list).toHaveCount(0);
+
+    // The caret goes to the end of the seeded line by key, not by click: a
+    // pointer left over the composer would hover the panel that opens above
+    // it and move the highlight. Select-all then a right arrow collapses to
+    // the end on every platform, where End alone only scrolls on macOS.
+    await field.focus();
+    await page.keyboard.press("ControlOrMeta+a");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.type(":sm");
+
+    await expect(list).toBeVisible();
+    await expect(list.getByRole("option")).toHaveCount(3);
+    await expect(announced).toHaveText("3 matches for :sm");
+    await expect(status).toContainText("Picker open · 3 match :sm");
+    const smile = list.getByRole("option", { name: "smile", exact: true });
+    const smirk = list.getByRole("option", { name: "smirk", exact: true });
+    await expect(smile).toHaveAttribute("aria-selected", "true");
+    // Focus never leaves the field; the highlight is published on it instead.
+    await expect(field).toBeFocused();
+    await expect(field).toHaveAttribute("aria-activedescendant", /.+/);
+
+    // The arrows walk the grid, and the foot reads the shortcode of whatever
+    // the highlight is standing on.
+    await page.keyboard.press("ArrowRight");
+    await expect(smirk).toHaveAttribute("aria-selected", "true");
+    await expect(smile).toHaveAttribute("aria-selected", "false");
+    await expect(stage.getByText(":smirk:", { exact: true })).toBeVisible();
+    await page.keyboard.press("ArrowLeft");
+    await expect(smile).toHaveAttribute("aria-selected", "true");
+    await expect(stage.getByText(":smile:", { exact: true })).toBeVisible();
+
+    // Enter replaces the whole `:sm` token with the glyph and a space.
+    await page.keyboard.press("Enter");
+    await expect(list).toHaveCount(0);
+    await expect(field).toHaveValue("Friday is on. \u{1F600} ");
+    await expect(announced).toHaveText("Inserted smile");
+    await expect(status).toContainText("Inserted smile · 1 inserted");
+    await expect(
+      stage.getByRole("button", { name: "Insert smile again" }),
+    ).toBeVisible();
+
+    // With the picker closed the same key sends what the glyph landed in.
+    await expect(field).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(field).toHaveValue("");
+    await expect(announced).toHaveText("Message sent");
+    await expect(status).toContainText("Sent · 1 inserted");
+  });
+
+  test("attach-preview: files queue in the strip, one leaves, and the rest fly into the bubble", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/attach-preview");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Depot chat with Marta" });
+    const messages = thread.getByRole("listitem");
+    const strip = stage.getByRole("list", { name: "Attachments to send" });
+    const attach = stage.getByRole("button", { name: "Attach" });
+    const field = stage.getByRole("textbox", { name: "Message Marta" });
+
+    await expect(status).toContainText("Nothing to send · 0 sent");
+    await expect(messages).toHaveCount(1);
+    await expect(messages.first()).toHaveAccessibleName(
+      "Marta: Send me 4471 before it leaves the dock.",
+    );
+    // Nothing pending means no strip at all, not an empty one holding room.
+    await expect(strip).toHaveCount(0);
+
+    // Each file names itself by kind, so a thumbnail nobody can see still says
+    // what it is.
+    await attach.press("Enter");
+    await attach.press("Enter");
+    await expect(strip.getByRole("listitem")).toHaveCount(2);
+    await expect(
+      strip.getByRole("img", { name: "Photo pallet-a.jpg" }),
+    ).toBeVisible();
+    await expect(
+      strip.getByRole("img", { name: "Photo pallet-b.jpg" }),
+    ).toBeVisible();
+    await expect(announced).toHaveText("pallet-b.jpg added");
+    await expect(status).toContainText("2 to send · 0 sent");
+
+    // A removal takes the focus with it rather than dropping it on the body.
+    await stage
+      .getByRole("button", { name: "Remove pallet-a.jpg" })
+      .press("Enter");
+    await expect(announced).toHaveText("Removed pallet-a.jpg");
+    await expect(
+      stage.getByRole("button", { name: "Remove pallet-b.jpg" }),
+    ).toBeFocused();
+    await expect(strip.getByRole("listitem")).toHaveCount(1);
+    await expect(status).toContainText("1 to send · 0 sent");
+
+    // The queue moves on: the next file is a document, and says so.
+    await attach.press("Enter");
+    await expect(
+      strip.getByRole("img", { name: "Document packing-list.pdf" }),
+    ).toBeVisible();
+    await expect(status).toContainText("2 to send · 0 sent");
+
+    // Sending empties the strip into one message that names what it carried.
+    await field.focus();
+    await page.keyboard.type("Both pallets, wrapped.");
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Sent with 2 attachments");
+    await expect(messages).toHaveCount(2);
+    await expect(messages.last()).toHaveAccessibleName(
+      "You sent 2 attachments: pallet-b.jpg, packing-list.pdf. Both pallets, wrapped.",
+    );
+    await expect(strip).toHaveCount(0);
+    await expect(field).toHaveValue("");
+    await expect(status).toContainText("Nothing to send · 1 sent · 2 files");
+  });
+
+  test("draft-badge: a draft stays on the row you left and comes back when you return", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/draft-badge");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const tabs = stage.getByRole("tablist", {
+      name: "Coldbrook depot channels",
+    });
+    const dispatch = tabs.getByRole("tab", { name: /^dispatch/ });
+    const returns = tabs.getByRole("tab", { name: /^returns/ });
+    const seeded =
+      "Marta, the two crates from Basinworks came back split along the base. Photos attached once";
+
+    await expect(status).toContainText(
+      "#dispatch open · 2 drafts · open a badged row",
+    );
+    await expect(dispatch).toHaveAttribute("aria-selected", "true");
+    // The badge takes the topic's place in the row's name, so the tab reads
+    // as what is waiting in it rather than as what it is about.
+    await expect(dispatch).toHaveAccessibleName("dispatch Morning run, gate B");
+    await expect(returns).toHaveAccessibleName(
+      "returns Draft: Marta, the two crates…",
+    );
+
+    // Manual activation: the arrows only move focus, so a reader can walk the
+    // rows and hear their badges without opening every channel.
+    await dispatch.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(returns).toBeFocused();
+    await expect(returns).toHaveAttribute("aria-selected", "false");
+    await expect(dispatch).toHaveAttribute("aria-selected", "true");
+
+    // Enter opens it, and the draft travels from the row back into the field.
+    await page.keyboard.press("Enter");
+    await expect(returns).toHaveAttribute("aria-selected", "true");
+    await expect(announced).toHaveText("Draft restored in #returns");
+    await expect(status).toContainText(
+      "#returns open · 2 drafts · restored #returns",
+    );
+    await expect(returns).toHaveAccessibleName(
+      "returns Damaged crates from Basinworks",
+    );
+    const returnsField = stage.getByRole("textbox", {
+      name: "Message #returns",
+    });
+    await expect(returnsField).toHaveValue(seeded);
+    await expect(returnsField).toBeFocused();
+
+    // The caret comes back at the end, so a restored draft is ready to go on.
+    await page.keyboard.type(" more.");
+    await expect(returnsField).toHaveValue(`${seeded} more.`);
+
+    // Leaving again puts the longer text back on the row it belongs to.
+    await dispatch.press("Enter");
+    await expect(announced).toHaveText("Draft kept in #returns");
+    await expect(status).toContainText(
+      "#dispatch open · 2 drafts · kept #returns",
+    );
+    await expect(returns).toHaveAccessibleName(
+      "returns Draft: Marta, the two crates…",
+    );
+
+    // A send clears the open channel's draft and nobody else's.
+    const dispatchField = stage.getByRole("textbox", {
+      name: "Message #dispatch",
+    });
+    await dispatchField.focus();
+    await page.keyboard.type("Gate B at eight.");
+    await expect(status).toContainText("#dispatch open · 3 drafts");
+    await page.keyboard.press("Enter");
+    await expect(dispatchField).toHaveValue("");
+    await expect(announced).toHaveText("Sent to #dispatch");
+    await expect(status).toContainText(
+      "#dispatch open · 2 drafts · sent → #dispatch",
+    );
+    await expect(returns).toHaveAccessibleName(
+      "returns Draft: Marta, the two crates…",
+    );
+  });
+
+  test("mention-pop: an at-sign completes a name, and the send says who was pinged", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/mention-pop");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Basinworks crew room" });
+    const items = thread.getByRole("listitem");
+    const field = stage.getByRole("textbox", { name: "Basinworks crew room" });
+    const list = stage.getByRole("listbox", { name: "Members to mention" });
+
+    await expect(status).toContainText("Type @ to mention · 0 sent");
+    await expect(items).toHaveCount(2);
+    await expect(list).toHaveCount(0);
+
+    // Escape closes the list and keeps the text, so a mention can be abandoned.
+    await field.focus();
+    await page.keyboard.type("@te");
+    await expect(list).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(list).toHaveCount(0);
+    await expect(field).toHaveValue("@te");
+
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("Backspace");
+    await page.keyboard.press("Backspace");
+    await page.keyboard.type("Night check is on. @ma");
+    await expect(list).toBeVisible();
+    await expect(list.getByRole("option")).toHaveCount(1);
+    await expect(list.getByRole("option").first()).toHaveAttribute(
+      "aria-selected",
+      "true",
+    );
+    // The presence dot says in words whether the member is here.
+    await expect(
+      list.getByRole("img", { name: "Marta, online" }),
+    ).toBeVisible();
+    await expect(field).toHaveAttribute("aria-controls", /.+/);
+
+    // Enter wraps the typed name as a chip without moving the caret off it.
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Mentioned Marta");
+    await expect(list).toHaveCount(0);
+    await expect(field).toHaveValue("Night check is on. @Marta ");
+
+    // Tab is the other half of the same pick.
+    await page.keyboard.type("and @ru");
+    await expect(list.getByRole("option")).toHaveCount(1);
+    await expect(list.getByRole("img", { name: "Rui, away" })).toBeVisible();
+    await page.keyboard.press("Tab");
+    await expect(announced).toHaveText("Mentioned Rui");
+    await expect(field).toHaveValue("Night check is on. @Marta and @Rui ");
+
+    // The send carries the ids the chips stand for, not the words around them.
+    await page.keyboard.type("take it?");
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Sent, pinged Marta, Rui");
+    await expect(status).toContainText("pinged Marta, Rui · 1 sent");
+    await expect(items).toHaveCount(3);
+    await expect(items.last()).toContainText("@Marta");
+    await expect(items.last()).toContainText("@Rui");
+    await expect(field).toHaveValue("");
+  });
+
+  test("send-swoosh: the composer clears on the press and the failure hands the text back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/send-swoosh");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const field = stage.getByRole("textbox", { name: "Message Marta" });
+    const thread = stage.getByRole("list", { name: "Sent to Marta" });
+    const opening =
+      "Hi Marta, the payout for order 4471 left Waylight Pay this morning.";
+
+    await expect(status).toContainText("Ready · 0 sent");
+    await expect(field).toHaveValue(opening);
+    await expect(thread).toHaveCount(0);
+
+    // A verdict lives for 700ms, so the desk's line is watched rather than
+    // sampled: every outcome it printed is read back at the end.
+    await recordComposingTrail(status);
+
+    await field.focus();
+    await page.keyboard.press("Enter");
+    // The field is empty the instant the press lands: the words that are
+    // leaving are painted on a ghost, not still in the textarea.
+    await expect(field).toHaveValue("");
+    await expect(status).toContainText("Ready · 1 sent", { timeout: 15_000 });
+    await expect(thread.getByRole("listitem")).toHaveCount(1);
+    await expect(thread.getByRole("listitem").first()).toHaveText(opening);
+
+    await page.keyboard.type("Second line for the merchant.");
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Ready · 2 sent", { timeout: 15_000 });
+    await expect(thread.getByRole("listitem")).toHaveCount(2);
+
+    // Every third send fails, and a failed send is not a message: the text
+    // comes back to the field it left and nothing lands in the thread.
+    await page.keyboard.type("Third line for the merchant.");
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText(
+      "Not sent, text returned to the composer",
+      { timeout: 15_000 },
+    );
+    await expect(field).toHaveValue("Third line for the merchant.");
+    await expect(field).toBeFocused();
+    await expect(thread.getByRole("listitem")).toHaveCount(2);
+
+    expect(await composingTrail(page)).toEqual([
+      "Ready · 0 sent",
+      "Sending…",
+      "Sent · Hi Marta, the payout for order 4471…",
+      "Ready · 1 sent",
+      "Sending…",
+      "Sent · Second line for the merchant.",
+      "Ready · 2 sent",
+      "Sending…",
+      "Not sent · text returned",
+    ]);
+  });
+
+  test("reply-cite: a cite card carries the thread back to what it answers", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/reply-cite");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const thread = stage.getByRole("list", { name: "Coldbrook dispatch" });
+    const items = thread.getByRole("listitem");
+    const field = stage.getByRole("textbox", { name: "Coldbrook dispatch" });
+    const card = stage.getByRole("button", {
+      name: /^Replying to Marta: Gate B is clear from eight/,
+    });
+
+    await expect(status).toContainText("replying to Marta · 4 in thread");
+    await expect(items).toHaveCount(4);
+    await expect(card).toBeVisible();
+    // The cited original says it is cited, rather than only wearing a bar.
+    await expect(items.first()).toHaveAccessibleName(
+      /^Marta: Gate B is clear from eight\..* Cited by your reply$/,
+    );
+
+    // The desk opens pinned to the newest message, four messages down.
+    await expect
+      .poll(composingScrollOf(thread), composingBeat)
+      .toBeGreaterThan(20);
+
+    // Pressing the card carries the thread back and lands focus on the
+    // original, so it is both seen and read.
+    await card.press("Enter");
+    await expect.poll(composingScrollOf(thread), composingBeat).toBe(0);
+    await expect(items.first()).toBeFocused();
+
+    // Escape in the composer drops the target and shuts the head.
+    await field.focus();
+    await page.keyboard.press("Escape");
+    await expect(announced).toHaveText("Reply removed");
+    await expect(status).toContainText("no target · 4 in thread");
+    await expect(card).toHaveCount(0);
+
+    // Reply on another message takes a new target, named after the message.
+    await stage
+      .getByRole("button", {
+        name: "Reply to Rui: I can label the loose one,…",
+      })
+      .press("Enter");
+    await expect(announced).toHaveText("Replying to Rui");
+    await expect(status).toContainText("replying to Rui · 4 in thread");
+    await expect(field).toBeFocused();
+
+    // The sent message quotes what it answered.
+    await page.keyboard.type("Docket says 41 kilos, signed.");
+    await page.keyboard.press("Enter");
+    await expect(items).toHaveCount(5);
+    await expect(announced).toHaveText("Sent, replying to Rui");
+    await expect(status).toContainText("no target · 5 in thread");
+    await expect(items.last()).toContainText(
+      "Replying to Rui: I can label the loose one,…",
+    );
+    await expect(items.last()).toContainText("Docket says 41 kilos, signed.");
+  });
+
+  test("schedule-chip: a chosen time queues the message and the wait runs itself out", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/schedule-chip");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const field = stage.getByRole("textbox", {
+      name: "Message the Waylight Pay desk",
+    });
+    const schedule = stage.getByRole("button", {
+      name: "Schedule",
+      exact: true,
+    });
+    const times = stage.getByRole("listbox", { name: "Send time" });
+    const tonight = times.getByRole("option", { name: /^Tonight 18:00/ });
+    const line =
+      "Marta, the Waylight Pay batch for week 36 is cleared and ready to release.";
+
+    await expect(status).toContainText("ready · send now");
+    await expect(schedule).toHaveAttribute("aria-expanded", "false");
+    await expect(
+      stage.getByRole("button", { name: "Send", exact: true }),
+    ).toHaveAttribute("aria-disabled", "true");
+
+    await stage.getByRole("button", { name: "Paste a line" }).press("Enter");
+    await expect(field).toHaveValue(line);
+
+    // The control opens a list of times, and the pick turns the send button
+    // into a clock that says the hour in its own name.
+    await schedule.press("Enter");
+    await expect(schedule).toHaveAttribute("aria-expanded", "true");
+    await expect(times.getByRole("option")).toHaveCount(3);
+    await tonight.press("Enter");
+    await expect(announced).toHaveText("Sending at Tonight 18:00");
+    await expect(schedule).toHaveAttribute("aria-expanded", "false");
+    await expect(times).toHaveCount(0);
+    await expect(
+      stage.getByRole("button", { name: "Schedule for Tonight 18:00" }),
+    ).toBeVisible();
+
+    // Clearing the chip gives the plain send back.
+    await stage.getByRole("button", { name: "Clear schedule" }).press("Enter");
+    await expect(announced).toHaveText("Schedule cleared, sending now");
+    await expect(
+      stage.getByRole("button", { name: "Send", exact: true }),
+    ).toBeVisible();
+    await expect(schedule).toBeFocused();
+
+    // With a time on it, Enter queues the message instead of sending it.
+    await schedule.press("Enter");
+    await tonight.press("Enter");
+    await field.focus();
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Queued for Tonight 18:00");
+    await expect(status).toContainText("1 queued · next Tonight 18:00");
+    await expect(field).toHaveValue("");
+    const queued = stage
+      .getByRole("list", { name: "Queued messages" })
+      .getByRole("listitem");
+    await expect(queued).toHaveCount(1);
+    await expect(queued.first()).toHaveAccessibleName(
+      "Queued for Tonight 18:00: Marta, the Waylight Pay batch for…",
+    );
+    await expect(queued.first().getByRole("timer")).toHaveText(/^\ds$/);
+    // The queue took the time with it: the composer is ready to send now.
+    await expect(
+      stage.getByRole("button", { name: "Send", exact: true }),
+    ).toBeVisible();
+
+    // At zero the parent is told to deliver, and the card gives its room back.
+    await expect(announced).toHaveText("Delivered, Tonight 18:00", {
+      timeout: 20_000,
+    });
+    await expect(queued).toHaveCount(0);
+    await expect(status).toContainText("delivered · 1 sent");
+    await expect(
+      stage
+        .getByRole("list", { name: "Sent from the ops desk" })
+        .getByRole("listitem"),
+    ).toHaveText([line]);
+  });
+});

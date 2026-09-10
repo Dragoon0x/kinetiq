@@ -62,6 +62,10 @@ const FLAT: number[] = Array.from({ length: NOTE_BARS }, () => 0.3);
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 
 /** Whole seconds, so nothing raw reaches an aria value or a clock. */
+/** "1 second", "12 seconds": a short note floors to one, and one is singular. */
+const secondsWord = (n: number): string =>
+  `${n} ${n === 1 ? "second" : "seconds"}`;
+
 const wholeSeconds = (seconds: number) => Math.max(1, Math.round(seconds));
 
 /**
@@ -250,8 +254,8 @@ function NoteItem({
         role="group"
         aria-label={
           own
-            ? `Your voice note, ${seconds} seconds`
-            : `Voice note from ${peerName}, ${seconds} seconds`
+            ? `Your voice note, ${secondsWord(seconds)}`
+            : `Voice note from ${peerName}, ${secondsWord(seconds)}`
         }
         className={cn(
           "flex w-full max-w-[86%] items-center gap-2 rounded-3 py-2 pr-3 pl-2",
@@ -287,7 +291,7 @@ function NoteItem({
           aria-valuemin={0}
           aria-valuemax={seconds}
           aria-valuenow={at}
-          aria-valuetext={`${at} of ${seconds} seconds`}
+          aria-valuetext={`${at} of ${secondsWord(seconds)}`}
           onKeyDown={(event) => {
             const step =
               event.key === "ArrowRight" || event.key === "ArrowUp"
@@ -423,7 +427,7 @@ export function VoiceBubble({
     if (kind === "send") {
       const seconds = wholeSeconds(ticks / 10);
       latest.current.onSend?.({ seconds, wave: resample(profile, NOTE_BARS) });
-      setSpoken(`Voice note sent, ${seconds} seconds`);
+      setSpoken(`Voice note sent, ${secondsWord(seconds)}`);
     } else {
       setHint(kind === "tap");
       latest.current.onCancel?.();
