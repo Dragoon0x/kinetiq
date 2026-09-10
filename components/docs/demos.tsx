@@ -1100,6 +1100,16 @@ import { VoiceWaveRowDemo } from "@/registry/demos/voice-wave-row.demo";
 import { MuteAllDemo } from "@/registry/demos/mute-all.demo";
 import { CallEndDemo } from "@/registry/demos/call-end.demo";
 import { RingtonePulseDemo } from "@/registry/demos/ringtone-pulse.demo";
+import { ReportSheetDemo } from "@/registry/demos/report-sheet.demo";
+import { BlockFoldDemo } from "@/registry/demos/block-fold.demo";
+import { SlowModeDemo } from "@/registry/demos/slow-mode.demo";
+import { HideVeilDemo } from "@/registry/demos/hide-veil.demo";
+import { WarnStripDemo } from "@/registry/demos/warn-strip.demo";
+import { TimeoutRingDemo } from "@/registry/demos/timeout-ring.demo";
+import { AppealCardDemo } from "@/registry/demos/appeal-card.demo";
+import { FilterMaskDemo } from "@/registry/demos/filter-mask.demo";
+import { ModQueueDemo } from "@/registry/demos/mod-queue.demo";
+import { TrustLevelDemo } from "@/registry/demos/trust-level.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2214,4 +2224,14 @@ export const demos: Record<string, ComponentType> = {
   "mute-all": MuteAllDemo,
   "call-end": CallEndDemo,
   "ringtone-pulse": RingtonePulseDemo,
+  "report-sheet": ReportSheetDemo,
+  "block-fold": BlockFoldDemo,
+  "slow-mode": SlowModeDemo,
+  "hide-veil": HideVeilDemo,
+  "warn-strip": WarnStripDemo,
+  "timeout-ring": TimeoutRingDemo,
+  "appeal-card": AppealCardDemo,
+  "filter-mask": FilterMaskDemo,
+  "mod-queue": ModQueueDemo,
+  "trust-level": TrustLevelDemo,
 };

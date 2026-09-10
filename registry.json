@@ -25216,6 +25216,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "report-sheet",
+      "type": "registry:ui",
+      "title": "Report Sheet",
+      "description": "A report sheet that rises inside the component's own box. Pressing Report glides a ResizeObserver-measured height open on glide, the reasons arrive as radio chips from 8px on snap in a cascade stagger, and picking one unfolds a note field in that same measured height and hands it focus. Send stamps a mark that lands from 1.12x on recoil and lowers the sheet after a hold; arrows step the chips, Home and End jump, Escape closes and returns focus to the trigger.",
+      "files": [
+        {
+          "path": "registry/ui/report-sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-911"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "block-fold",
+      "type": "registry:ui",
+      "title": "Block Fold",
+      "description": "Blocking a member folds their messages instead of tearing a hole in the thread. Each run of consecutive messages holds two faces in one box — the messages and a single folded line — and one ResizeObserver measures whichever is in flow, so the run glides between the two heights on glide while the messages leave on the exit ease. The folded line is a button that peeks that run open without unblocking anyone, and the roster switches read as sentences.",
+      "files": [
+        {
+          "path": "registry/ui/block-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-912"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slow-mode",
+      "type": "registry:ui",
+      "title": "Slow Mode",
+      "description": "A slow-mode wait drawn on the control it is holding. A shutter fills the send button and drains on a linear tween one second per step while a mono countdown replaces the word, fed by a timeout that lives in an effect and never runs while the tab is hidden; when it empties the button wakes with one snap overshoot from 1.06x. Hovering or focusing Send swaps the hint line to the remainder — two readings in one grid cell, cross-faded — and Send stays in the tab order while held, with the wait spoken in its name.",
+      "files": [
+        {
+          "path": "registry/ui/slow-mode.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-913"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hide-veil",
+      "type": "registry:ui",
+      "title": "Hide Veil",
+      "description": "A message a host has hidden, covered by a hatched bar that carries the reason. Revealing wipes the veil rather than fading it — the clip's left inset walks from 0% to 100% on a base tween on the move ease, so the message is uncovered left to right — and an IntersectionObserver rooted on the thread's own scroll box wipes the veil back when the message leaves the box, unless focus is still inside it. Show and Hide again hand focus to each other, so no key is stranded on a clipped control.",
+      "files": [
+        {
+          "path": "registry/ui/hide-veil.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-914"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "warn-strip",
+      "type": "registry:ui",
+      "title": "Warn Strip",
+      "description": "A content warning that is a door, not a fog. A warned message renders as a bubble that is entirely strip, carrying the reason in words and a Show control, and pressing it lowers the strip by its own height on glide while the box glides in the same beat to a ResizeObserver-measured message height — the strip does not vanish, it goes down and the words are what is left. The line it casts thins on a tween as it drops, and the Show and Cover controls hand focus to each other.",
+      "files": [
+        {
+          "path": "registry/ui/warn-strip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-915"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "timeout-ring",
+      "type": "registry:ui",
+      "title": "Timeout Ring",
+      "description": "A moderator's timeout hung on a member's avatar as an arc that retreats linearly across the span, ticked at each minute, while the disc dims on glide and a mute glyph takes the corner. Extend does not restart the run: the arc springs back out to its new share on glide and hands over to the drain from its own onComplete, and either ending clears the ring with a pop as the disc returns on recoil. Extend and Lift are real buttons in the tab order, the state is a visible sentence rather than a colour, and a polite region speaks one frozen line per change.",
+      "files": [
+        {
+          "path": "registry/ui/timeout-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-916"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "appeal-card",
+      "type": "registry:ui",
+      "title": "Appeal Card",
+      "description": "A removed message asking for another look. The review's stages stamp in turn — the disc lands from 1.5 on recoil, the tick draws its pathLength on flick, and the rail down to the next stage fills on glide — and the decision slides in from 8px on snap inside a ResizeObserver-measured height that opens in flow rather than floating. Approval restores with a wash that sweeps the quote once on a slow tween while the strike lifts; a refusal gets no wash and no bounce. A real textarea sends the appeal, and a polite region speaks one frozen sentence per change, never before the host has answered.",
+      "files": [
+        {
+          "path": "registry/ui/appeal-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-917"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "filter-mask",
+      "type": "registry:ui",
+      "title": "Filter Mask",
+      "description": "Words a room filter caught, kept in place under opaque hatched blocks so uncovering one never reflows the line. Each cover is a motion span with its origin on the right whose scaleX runs to zero on snap, so it retreats rightward and the word appears in reading order; revealing everything runs the same wipe in a cascade, and masking again grows the covers back on glide. Every block is a real button with a whole-sentence label, and the count above the bubble reads as a pluralised sentence that cross-fades in one grid cell.",
+      "files": [
+        {
+          "path": "registry/ui/filter-mask.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-918"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mod-queue",
+      "type": "registry:ui",
+      "title": "Mod Queue",
+      "description": "Reported messages one at a time, with the rest of the queue named underneath and a toolbar that does not move. A verdict slides the card out on the exit ease — right for Keep, left for Hide and Time out — while the next rises from 8px on glide, so the button you pressed keeps your focus and a whole queue clears without re-finding it. The waiting count and the tallies roll their digits on snap, and the card area is a ResizeObserver-measured height that closes onto a cleared line rather than reserving room.",
+      "files": [
+        {
+          "path": "registry/ui/mod-queue.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-919"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "trust-level",
+      "type": "registry:ui",
+      "title": "Trust Level",
+      "description": "A ladder of level pips on a rail whose fill glides to the level held plus the way through the next one, its width rounded before it becomes a string motion paints. A level up stamps — the pip lands from 1.6 on recoil with its tick drawing on flick, and the bar badge beside the name cross-fades in one grid cell and lands on the same spring — while a level lost only dims, because losing standing must not celebrate. Hovering or focusing a pip reads what that level unlocked in a panel that opens in flow in a measured height, and the pips are a real tablist with Arrow, Home and End keys.",
+      "files": [
+        {
+          "path": "registry/ui/trust-level.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-920"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

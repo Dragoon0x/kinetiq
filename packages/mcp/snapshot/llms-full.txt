@@ -17059,6 +17059,266 @@ Notes:
 - The card is a group named in one sentence and sits in flow, never floating over the host's content; a polite status speaks each change once.
 - Under reduced motion no rings expand and nothing slides: the disc holds a steady ring, the two controls fade in together, and the words carry the state.
 
+### Report Sheet (KQ-911) — `report-sheet`
+Say what is wrong.
+
+A report sheet that rises inside the component's own box. Pressing Report glides a ResizeObserver-measured height open on glide, the reasons arrive as radio chips from 8px on snap in a cascade stagger, and picking one unfolds a note field in that same measured height and hands it focus. Send stamps a mark that lands from 1.12x on recoil and lowers the sheet after a hold; arrows step the chips, Home and End jump, Escape closes and returns focus to the trigger.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/report-sheet`
+
+Props:
+- `message`: { author: string; time: string; text: string } — The message under report, quoted at the top of the component.
+- `reasons`: ReportReason[] — The chips, in the order given; each carries a label and an optional hint sentence.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial sheet state.
+- `onOpenChange`: (open: boolean) => void — Fires from the trigger, Cancel, Escape, and the lower after a send.
+- `reason / defaultReason`: string (default "") — Controlled or initial reason id.
+- `onReasonChange`: (id: string) => void — Fires from a chip press or an arrow key, and with an empty string when the sheet lowers after a send.
+- `note / defaultNote`: string (default "") — Controlled or initial note.
+- `onNoteChange`: (note: string) => void — Fires from every keystroke in the note field.
+- `onSubmit`: (report: { reason: string; label: string; note: string }) => void — Fires once from Send with the frozen report.
+- `onCancel`: () => void — Fires from Cancel and from Escape.
+- `noteMaxLength`: number (default 140) — Characters the note field accepts.
+- `holdMs`: number (default 1100) — How long the stamp holds before the sheet lowers; the timer pauses while the tab is hidden.
+- `triggerLabel`: string (default "Report") — The trigger's word.
+- `title`: string (default "Why are you reporting this?") — The sheet's heading, which also names the radio group.
+- `sentLabel`: string (default "Report sent") — The stamp's word.
+- `label`: string — Names the sheet for assistive technology.
+
+Notes:
+- The chips are a radio group with a roving tabindex: Left and Right (or Up and Down) step without wrapping, Home and End jump to the ends, Space selects and opens the note. Escape closes the sheet and returns focus to the trigger, and Send returns focus there too, so no key lands on a removed control.
+- Under reduced motion the sheet's height swaps on a fast tween, the chips appear in place with no stagger, and the stamp fades in rather than landing from 1.12x — the confirmation still shows, because it is information.
+- The sheet opens in flow with a ResizeObserver-measured height, never as a panel positioned over the page, so it can sit anywhere in a thread without covering what the host drew below it.
+
+### Block Fold (KQ-912) — `block-fold`
+Blocked, and folded away.
+
+Blocking a member folds their messages instead of tearing a hole in the thread. Each run of consecutive messages holds two faces in one box — the messages and a single folded line — and one ResizeObserver measures whichever is in flow, so the run glides between the two heights on glide while the messages leave on the exit ease. The folded line is a button that peeks that run open without unblocking anyone, and the roster switches read as sentences.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/block-fold`
+
+Props:
+- `members`: BlockMember[] — The roster, in the order given; each member gets a switch.
+- `messages`: BlockMessage[] — The thread, oldest first; consecutive messages from one author form a run.
+- `blocked / defaultBlocked`: string[] (default []) — Controlled or initial blocked member ids.
+- `onBlockedChange`: (ids: string[]) => void — Fires with the next set from either switch direction.
+- `onBlock`: (id: string) => void — Fires when a member is blocked.
+- `onUnblock`: (id: string) => void — Fires when a member is unblocked.
+- `onPeekChange`: (runId: string, open: boolean) => void — Fires when a folded run is peeked open or folded back, and once per peek dropped by an unblock.
+- `maxHeight`: number (default 280) — Tallest the thread grows before it scrolls inside its own box.
+- `foldedNoun`: string (default "message") — The word the folded line counts; pluralised for anything but one.
+- `label`: string — Names the thread for assistive technology.
+- `rosterLabel`: string (default "Room members") — Names the roster group.
+
+Notes:
+- Every roster control is a real switch with a sentence for a name ("Block Rui Baptista."), and the folded line is a button with aria-expanded that Enter or Space peeks open; folded messages are aria-hidden while they cannot be seen.
+- Under reduced motion the run's height swaps on a fast tween and nothing travels — the fold still happens and the counts still change, because what is hidden is information.
+- A polite status region speaks one frozen, pluralised sentence per change: "Rui Baptista is blocked. 3 messages are folded."
+
+### Slow Mode (KQ-913) — `slow-mode`
+One message a minute.
+
+A slow-mode wait drawn on the control it is holding. A shutter fills the send button and drains on a linear tween one second per step while a mono countdown replaces the word, fed by a timeout that lives in an effect and never runs while the tab is hidden; when it empties the button wakes with one snap overshoot from 1.06x. Hovering or focusing Send swaps the hint line to the remainder — two readings in one grid cell, cross-faded — and Send stays in the tab order while held, with the wait spoken in its name.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slow-mode`
+
+Props:
+- `value / defaultValue`: string (default "") — Controlled or initial draft.
+- `onValueChange`: (value: string) => void — Fires from every keystroke and from the clear after a send.
+- `interval`: number (default 60) — The slow-mode window, in seconds; it also builds the default rule line.
+- `remaining / defaultRemaining`: number (default 0) — Seconds left. Passing `remaining` hands the clock to the host; `defaultRemaining` is a plain number for the first paint, never a clock.
+- `onRemainingChange`: (seconds: number) => void — Fires on every tick, on a send, and on the wake, with whole seconds.
+- `onSend`: (text: string) => void — Fires from Enter or the Send button with the trimmed draft.
+- `onWake`: () => void — Fires once when the wait reaches zero.
+- `ruleLabel`: string — The rest reading under the composer. Built from `interval` by default: "One message a minute." at 60.
+- `placeholder`: string (default "Message the room") — The textarea's placeholder.
+- `disabled`: boolean (default false) — Holds the composer and the button.
+- `label`: string — Names the textarea for assistive technology.
+
+Notes:
+- Enter sends and Shift+Enter breaks a line; an IME composition never sends. Send keeps its tab stop while held — it is aria-disabled with the wait in its name ("Send. Slow mode holds you for 6 seconds more.") rather than dropped from the order.
+- Under reduced motion the shutter still shows the remainder but steps once per second instead of draining, and the wake swaps colour without the overshoot; the countdown numerals change without rolling.
+- The countdown is one re-armed timeout inside an effect: it is torn down on unmount and stops while the document is hidden, and nothing reads a clock during render.
+
+### Hide Veil (KQ-914) — `hide-veil`
+Hidden until you choose.
+
+A message a host has hidden, covered by a hatched bar that carries the reason. Revealing wipes the veil rather than fading it — the clip's left inset walks from 0% to 100% on a base tween on the move ease, so the message is uncovered left to right — and an IntersectionObserver rooted on the thread's own scroll box wipes the veil back when the message leaves the box, unless focus is still inside it. Show and Hide again hand focus to each other, so no key is stranded on a clipped control.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hide-veil`
+
+Props:
+- `messages`: VeilMessage[] — The thread, oldest first; a message with a hiddenReason is veiled.
+- `revealed / defaultRevealed`: string[] (default []) — Controlled or initial revealed ids.
+- `onRevealedChange`: (ids: string[]) => void — Fires with the next set from any change.
+- `onRevealChange`: (id: string, revealed: boolean, cause: "press" | "scroll") => void — Fires once per change, saying which message moved and whether a press or a scroll moved it.
+- `reVeilOnScroll`: boolean (default true) — Whether a revealed message re-veils when it leaves the scroll box.
+- `maxHeight`: number (default 240) — Tallest the thread grows before it scrolls inside its own box.
+- `scrollRef`: (node: HTMLDivElement | null) => void — A callback ref for the scroll box, so a host can jump the thread from outside it.
+- `showLabel`: string (default "Show") — The veil's control.
+- `hideLabel`: string (default "Hide again") — The revealed message's control, which lives in the meta row.
+- `label`: string — Names the thread for assistive technology.
+
+Notes:
+- Show and Hide again are real buttons whose names are whole sentences carrying the reason, and pressing one moves focus to the other; the veiled text is aria-hidden while it cannot be seen, and the scroll box itself is focusable so a keyboard can scroll it.
+- Under reduced motion the veil swaps on a fast opacity tween with no clip travel; the re-veil on scroll still happens, because what is hidden is information.
+- The hatch is a procedural SVG pattern whose id is prefixed with useId(), so two instances on one page never collide, and it is sized entirely by the bubble it covers.
+
+### Warn Strip (KQ-915) — `warn-strip`
+A caution, before you read.
+
+A content warning that is a door, not a fog. A warned message renders as a bubble that is entirely strip, carrying the reason in words and a Show control, and pressing it lowers the strip by its own height on glide while the box glides in the same beat to a ResizeObserver-measured message height — the strip does not vanish, it goes down and the words are what is left. The line it casts thins on a tween as it drops, and the Show and Cover controls hand focus to each other.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/warn-strip`
+
+Props:
+- `messages`: WarnMessage[] — The thread, oldest first; a message with a caution is covered by a strip.
+- `shown / defaultShown`: string[] (default []) — Controlled or initial ids whose strips are down.
+- `onShownChange`: (ids: string[]) => void — Fires with the next set from either direction.
+- `onShow`: (id: string) => void — Fires when a strip is lowered.
+- `onCover`: (id: string) => void — Fires when a strip is raised again.
+- `showLabel`: string (default "Show message") — The strip's control.
+- `coverLabel`: string (default "Cover") — The meta row's control, which appears once the strip is down.
+- `cautionLead`: string (default "Caution") — The word before the reason, on the strip and in the control's name.
+- `maxHeight`: number (default 300) — Tallest the thread grows before it scrolls inside its own box.
+- `label`: string — Names the thread for assistive technology.
+
+Notes:
+- The strip's control is a button with aria-expanded whose name is a whole sentence carrying the reason; Enter or Space lowers it and focus moves to the Cover control in the meta row, and covering hands focus back.
+- While a strip is up the message text is aria-hidden — a caution a screen reader reads straight past is not a caution — and whichever face is out of flow is the absolutely positioned one, so the box is right on the first paint and no caution flashes the message it covers.
+- Under reduced motion the strip cross-fades instead of sliding and the box height swaps on a fast tween; the message still arrives and the box still fits it.
+
+### Timeout Ring (KQ-916) — `timeout-ring`
+Muted, for a while.
+
+A moderator's timeout hung on a member's avatar as an arc that retreats linearly across the span, ticked at each minute, while the disc dims on glide and a mute glyph takes the corner. Extend does not restart the run: the arc springs back out to its new share on glide and hands over to the drain from its own onComplete, and either ending clears the ring with a pop as the disc returns on recoil. Extend and Lift are real buttons in the tab order, the state is a visible sentence rather than a colour, and a polite region speaks one frozen line per change.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/timeout-ring`
+
+Props:
+- `name`: string — The member, shown and spoken.
+- `handle`: string — The member's handle, shown under the name.
+- `room`: string (default "Coldbrook") — Where the timeout applies; named in both sentences.
+- `reason`: string (default "Room rule 3") — The house rule cited on the row.
+- `seconds`: number (default 600) — The timeout span. Changing it starts a new run.
+- `active / defaultActive`: boolean (default false) — Controlled or initial timeout state.
+- `onActiveChange`: (active: boolean) => void — Fires when the timeout starts, is lifted, or runs out.
+- `extendSeconds`: number (default 300) — Seconds Extend adds to the remainder.
+- `onExtend`: (total: number) => void — Fires from Extend with the new whole span.
+- `onRemainingChange`: (seconds: number) => void — Fires each time the whole second changes.
+- `onExpire`: () => void — Fires once when the remainder reaches zero.
+- `onLift`: () => void — Fires when a moderator ends the timeout early.
+- `canModerate`: boolean (default true) — False hides Extend and Lift, for a member reading their own timeout.
+- `disabled`: boolean (default false) — Holds both controls; the ring still drains and still reads.
+- `className`: string — Extra classes on the row.
+
+Notes:
+- Extend and Lift are ordinary buttons in the tab order, genuinely disabled when there is no run to act on, so focus survives a timeout clearing itself.
+- Under reduced motion the arc still drains and the figure still counts, because a remainder is information; nothing pops, nothing travels, and the extend grows on a fast tween instead of glide.
+- The run pauses while the document is hidden and the mm:ss figure is plain text rather than a live region, so nobody is read a number once a second.
+
+### Appeal Card (KQ-917) — `appeal-card`
+Ask for another look.
+
+A removed message asking for another look. The review's stages stamp in turn — the disc lands from 1.5 on recoil, the tick draws its pathLength on flick, and the rail down to the next stage fills on glide — and the decision slides in from 8px on snap inside a ResizeObserver-measured height that opens in flow rather than floating. Approval restores with a wash that sweeps the quote once on a slow tween while the strike lifts; a refusal gets no wash and no bounce. A real textarea sends the appeal, and a polite region speaks one frozen sentence per change, never before the host has answered.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/appeal-card`
+
+Props:
+- `author`: string — Whose message is under appeal.
+- `messageText`: string — The removed line, quoted on the card.
+- `room`: string (default "Coldbrook") — The room the message was removed from.
+- `reason`: string (default "Room rule 3") — The house rule the removal cited.
+- `steps`: AppealStep[] — The review's stages: value, label and an optional note.
+- `step / defaultStep`: number (default 0) — Controlled or initial count of stamped stages.
+- `onStepChange`: (step: number) => void — Fires when sending the appeal stamps the first stage.
+- `note / defaultNote`: string (default "") — Controlled or initial appeal note.
+- `onNoteChange`: (note: string) => void — Fires from every keystroke in the textarea.
+- `onSubmit`: (note: string) => void — Fires from Send appeal with the trimmed note.
+- `maxLength`: number (default 180) — Cap on the note; the remainder reads beside the control.
+- `decision`: "pending" | "restored" | "upheld" (default "pending") — The outcome. Only the host sets it.
+- `decisionNote`: string — One line under the decision.
+- `onDecisionShown`: (decision: "restored" | "upheld") => void — Fires once when a decision first lands, after the state settles.
+- `disabled`: boolean (default false) — Holds the textarea and the control.
+- `className`: string — Extra classes on the card.
+
+Notes:
+- Tab reaches the textarea then Send appeal; Send is genuinely disabled while the note is empty or the appeal has already gone, and each stage carries its own sr-only sentence rather than a colour.
+- Under reduced motion the stamps still stamp and approval still restores — on fast tweens, with no scale and no travel — because a completed stage is information.
+- The decision only ever comes from the `decision` prop, so the polite status region can never announce an outcome before the host has answered with it.
+
+### Filter Mask (KQ-918) — `filter-mask`
+Words, masked.
+
+Words a room filter caught, kept in place under opaque hatched blocks so uncovering one never reflows the line. Each cover is a motion span with its origin on the right whose scaleX runs to zero on snap, so it retreats rightward and the word appears in reading order; revealing everything runs the same wipe in a cascade, and masking again grows the covers back on glide. Every block is a real button with a whole-sentence label, and the count above the bubble reads as a pluralised sentence that cross-fades in one grid cell.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/filter-mask`
+
+Props:
+- `text`: string — The message. Caught words are matched inside it.
+- `terms`: string[] — The words the room filter catches, matched whole-word and case-insensitively.
+- `author`: string (default "Ines Rocha") — The sender, shown above the bubble.
+- `time`: string (default "14:02") — A plain string: the component never reads a clock.
+- `filterName`: string (default "Coldbrook filter") — Who masked the words; named in the header sentence.
+- `revealed / defaultRevealed`: boolean (default false) — Controlled or initial reveal-all state.
+- `onRevealedChange`: (revealed: boolean) => void — Fires from the header toggle.
+- `onWordReveal`: (word: string, index: number) => void — Fires when a single block is uncovered.
+- `onMaskedCountChange`: (masked: number, total: number) => void — Fires from an effect whenever the masked count changes.
+- `disabled`: boolean (default false) — Holds the toggle and every block.
+- `className`: string — Extra classes on the wrapper.
+
+Notes:
+- Every masked word is an ordinary tab stop with aria-pressed: Space and Enter uncover one word, and the header toggle uncovers or covers them all.
+- A masked word is never readable while it is masked — the block's label names nothing until it is uncovered, and then names the word — so a screen reader hears what the sighted reader sees.
+- Under reduced motion the covers cross-fade instead of wiping and the cascade collapses, but the count and the header sentence still update.
+
+### Mod Queue (KQ-919) — `mod-queue`
+Waiting for a moderator.
+
+Reported messages one at a time, with the rest of the queue named underneath and a toolbar that does not move. A verdict slides the card out on the exit ease — right for Keep, left for Hide and Time out — while the next rises from 8px on glide, so the button you pressed keeps your focus and a whole queue clears without re-finding it. The waiting count and the tallies roll their digits on snap, and the card area is a ResizeObserver-measured height that closes onto a cleared line rather than reserving room.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mod-queue`
+
+Props:
+- `items`: ModQueueItem[] — The reported messages: id, author, text, reason and report count, front of the queue first.
+- `label`: string (default "Reported in Coldbrook") — The queue's heading.
+- `index / defaultIndex`: number (default 0) — Controlled or initial position in the queue.
+- `onIndexChange`: (index: number) => void — Fires each time the front card changes.
+- `onAct`: (verdict: ModVerdict, item: ModQueueItem) => void — Fires with "keep", "hide" or "timeout" and the item it was passed on.
+- `onEmpty`: () => void — Fires once when the last card leaves.
+- `emptyLabel`: string (default "Queue clear. Nothing waiting.") — The cleared line.
+- `disabled`: boolean (default false) — Holds the toolbar; the queue still reads.
+- `className`: string — Extra classes on the panel.
+
+Notes:
+- The verdicts are a role="toolbar" with a roving tabindex: Left and Right step without wrapping, Home and End jump, Space and Enter act, and each button's name is a sentence naming the member it would act on.
+- An empty queue marks the buttons aria-disabled rather than disabled, because a disabled button is blurred by the browser and clearing the last card must not cost you your place.
+- Under reduced motion nothing slides and the digits swap instead of rolling, but the queue still empties and the measured height still closes.
+
+### Trust Level (KQ-920) — `trust-level`
+Earned, over time.
+
+A ladder of level pips on a rail whose fill glides to the level held plus the way through the next one, its width rounded before it becomes a string motion paints. A level up stamps — the pip lands from 1.6 on recoil with its tick drawing on flick, and the bar badge beside the name cross-fades in one grid cell and lands on the same spring — while a level lost only dims, because losing standing must not celebrate. Hovering or focusing a pip reads what that level unlocked in a panel that opens in flow in a measured height, and the pips are a real tablist with Arrow, Home and End keys.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trust-level`
+
+Props:
+- `name`: string — The member, shown and spoken.
+- `handle`: string — The member's handle, shown under the name.
+- `room`: string (default "Coldbrook") — The room the trust is held in; named in the sentences.
+- `levels`: TrustLevelStep[] — The ladder, lowest first: a label and what it unlocks.
+- `level`: number (default 1) — The level reached, as an index into levels. Only the host earns it.
+- `progress`: number (default 0) — How far through the next level, 0 to 1.
+- `onLevelChange`: (change: TrustChange) => void — Fires after a level settles with its level, label and direction.
+- `shownLevel / defaultShownLevel`: number — Controlled or initial index of the level being read; defaults to the level held.
+- `onShownLevelChange`: (index: number) => void — Fires from hover, focus and the Arrow keys.
+- `disabled`: boolean (default false) — Holds the pips; the ladder and the fill still read.
+- `className`: string — Extra classes on the card.
+
+Notes:
+- The pips are a role="tablist" with a roving tabindex: Left and Right step without wrapping, Home and End jump, and selection follows focus, so the hover reveal is never a mouse-only feature.
+- The value lives on a role="meter" whose aria-valuetext is a whole sentence — "Level 3 of 4, Trusted, 62 percent of the way to Guide." — and the panel opens in flow in a measured height rather than floating over the host's content.
+- Under reduced motion the fill still fills and the panel still opens on fast tweens; nothing stamps, but a level lost still dims once so the direction of the change survives.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

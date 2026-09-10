@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 909,
+      "components": 919,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -64084,6 +64084,1105 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/ringtone-pulse",
         "bun": "bunx --bun shadcn@latest add @kinetiq/ringtone-pulse",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/ringtone-pulse.json"
+      }
+    },
+    {
+      "slug": "report-sheet",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Report Sheet",
+      "serial": "KQ-911",
+      "tagline": "Say what is wrong.",
+      "description": "A report sheet that rises inside the component's own box. Pressing Report glides a ResizeObserver-measured height open on glide, the reasons arrive as radio chips from 8px on snap in a cascade stagger, and picking one unfolds a note field in that same measured height and hands it focus. Send stamps a mark that lands from 1.12x on recoil and lowers the sheet after a hold; arrows step the chips, Home and End jump, Escape closes and returns focus to the trigger.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "report",
+        "moderation",
+        "sheet",
+        "reasons",
+        "chips",
+        "chat",
+        "safety"
+      ],
+      "props": [
+        {
+          "name": "message",
+          "type": "{ author: string; time: string; text: string }",
+          "description": "The message under report, quoted at the top of the component."
+        },
+        {
+          "name": "reasons",
+          "type": "ReportReason[]",
+          "description": "The chips, in the order given; each carries a label and an optional hint sentence."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial sheet state."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the trigger, Cancel, Escape, and the lower after a send."
+        },
+        {
+          "name": "reason / defaultReason",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial reason id."
+        },
+        {
+          "name": "onReasonChange",
+          "type": "(id: string) => void",
+          "description": "Fires from a chip press or an arrow key, and with an empty string when the sheet lowers after a send."
+        },
+        {
+          "name": "note / defaultNote",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial note."
+        },
+        {
+          "name": "onNoteChange",
+          "type": "(note: string) => void",
+          "description": "Fires from every keystroke in the note field."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(report: { reason: string; label: string; note: string }) => void",
+          "description": "Fires once from Send with the frozen report."
+        },
+        {
+          "name": "onCancel",
+          "type": "() => void",
+          "description": "Fires from Cancel and from Escape."
+        },
+        {
+          "name": "noteMaxLength",
+          "type": "number",
+          "defaultValue": "140",
+          "description": "Characters the note field accepts."
+        },
+        {
+          "name": "holdMs",
+          "type": "number",
+          "defaultValue": "1100",
+          "description": "How long the stamp holds before the sheet lowers; the timer pauses while the tab is hidden."
+        },
+        {
+          "name": "triggerLabel",
+          "type": "string",
+          "defaultValue": "\"Report\"",
+          "description": "The trigger's word."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Why are you reporting this?\"",
+          "description": "The sheet's heading, which also names the radio group."
+        },
+        {
+          "name": "sentLabel",
+          "type": "string",
+          "defaultValue": "\"Report sent\"",
+          "description": "The stamp's word."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the sheet for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The chips are a radio group with a roving tabindex: Left and Right (or Up and Down) step without wrapping, Home and End jump to the ends, Space selects and opens the note. Escape closes the sheet and returns focus to the trigger, and Send returns focus there too, so no key lands on a removed control.",
+        "Under reduced motion the sheet's height swaps on a fast tween, the chips appear in place with no stagger, and the stamp fades in rather than landing from 1.12x — the confirmation still shows, because it is information.",
+        "The sheet opens in flow with a ResizeObserver-measured height, never as a panel positioned over the page, so it can sit anywhere in a thread without covering what the host drew below it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/report-sheet",
+      "registryItemUrl": "https://www.kinetiqui.com/r/report-sheet.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/report-sheet",
+        "npm": "npx shadcn@latest add @kinetiq/report-sheet",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/report-sheet",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/report-sheet",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/report-sheet.json"
+      }
+    },
+    {
+      "slug": "block-fold",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Block Fold",
+      "serial": "KQ-912",
+      "tagline": "Blocked, and folded away.",
+      "description": "Blocking a member folds their messages instead of tearing a hole in the thread. Each run of consecutive messages holds two faces in one box — the messages and a single folded line — and one ResizeObserver measures whichever is in flow, so the run glides between the two heights on glide while the messages leave on the exit ease. The folded line is a button that peeks that run open without unblocking anyone, and the roster switches read as sentences.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "block",
+        "fold",
+        "thread",
+        "moderation",
+        "collapse",
+        "chat",
+        "roster"
+      ],
+      "props": [
+        {
+          "name": "members",
+          "type": "BlockMember[]",
+          "description": "The roster, in the order given; each member gets a switch."
+        },
+        {
+          "name": "messages",
+          "type": "BlockMessage[]",
+          "description": "The thread, oldest first; consecutive messages from one author form a run."
+        },
+        {
+          "name": "blocked / defaultBlocked",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Controlled or initial blocked member ids."
+        },
+        {
+          "name": "onBlockedChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires with the next set from either switch direction."
+        },
+        {
+          "name": "onBlock",
+          "type": "(id: string) => void",
+          "description": "Fires when a member is blocked."
+        },
+        {
+          "name": "onUnblock",
+          "type": "(id: string) => void",
+          "description": "Fires when a member is unblocked."
+        },
+        {
+          "name": "onPeekChange",
+          "type": "(runId: string, open: boolean) => void",
+          "description": "Fires when a folded run is peeked open or folded back, and once per peek dropped by an unblock."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "280",
+          "description": "Tallest the thread grows before it scrolls inside its own box."
+        },
+        {
+          "name": "foldedNoun",
+          "type": "string",
+          "defaultValue": "\"message\"",
+          "description": "The word the folded line counts; pluralised for anything but one."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the thread for assistive technology."
+        },
+        {
+          "name": "rosterLabel",
+          "type": "string",
+          "defaultValue": "\"Room members\"",
+          "description": "Names the roster group."
+        }
+      ],
+      "usageNotes": [
+        "Every roster control is a real switch with a sentence for a name (\"Block Rui Baptista.\"), and the folded line is a button with aria-expanded that Enter or Space peeks open; folded messages are aria-hidden while they cannot be seen.",
+        "Under reduced motion the run's height swaps on a fast tween and nothing travels — the fold still happens and the counts still change, because what is hidden is information.",
+        "A polite status region speaks one frozen, pluralised sentence per change: \"Rui Baptista is blocked. 3 messages are folded.\""
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/block-fold",
+      "registryItemUrl": "https://www.kinetiqui.com/r/block-fold.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/block-fold",
+        "npm": "npx shadcn@latest add @kinetiq/block-fold",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/block-fold",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/block-fold",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/block-fold.json"
+      }
+    },
+    {
+      "slug": "slow-mode",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Slow Mode",
+      "serial": "KQ-913",
+      "tagline": "One message a minute.",
+      "description": "A slow-mode wait drawn on the control it is holding. A shutter fills the send button and drains on a linear tween one second per step while a mono countdown replaces the word, fed by a timeout that lives in an effect and never runs while the tab is hidden; when it empties the button wakes with one snap overshoot from 1.06x. Hovering or focusing Send swaps the hint line to the remainder — two readings in one grid cell, cross-faded — and Send stays in the tab order while held, with the wait spoken in its name.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "slow mode",
+        "cooldown",
+        "composer",
+        "countdown",
+        "rate limit",
+        "chat",
+        "send"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial draft."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires from every keystroke and from the clear after a send."
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "The slow-mode window, in seconds; it also builds the default rule line."
+        },
+        {
+          "name": "remaining / defaultRemaining",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Seconds left. Passing `remaining` hands the clock to the host; `defaultRemaining` is a plain number for the first paint, never a clock."
+        },
+        {
+          "name": "onRemainingChange",
+          "type": "(seconds: number) => void",
+          "description": "Fires on every tick, on a send, and on the wake, with whole seconds."
+        },
+        {
+          "name": "onSend",
+          "type": "(text: string) => void",
+          "description": "Fires from Enter or the Send button with the trimmed draft."
+        },
+        {
+          "name": "onWake",
+          "type": "() => void",
+          "description": "Fires once when the wait reaches zero."
+        },
+        {
+          "name": "ruleLabel",
+          "type": "string",
+          "description": "The rest reading under the composer. Built from `interval` by default: \"One message a minute.\" at 60."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Message the room\"",
+          "description": "The textarea's placeholder."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the composer and the button."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the textarea for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Enter sends and Shift+Enter breaks a line; an IME composition never sends. Send keeps its tab stop while held — it is aria-disabled with the wait in its name (\"Send. Slow mode holds you for 6 seconds more.\") rather than dropped from the order.",
+        "Under reduced motion the shutter still shows the remainder but steps once per second instead of draining, and the wake swaps colour without the overshoot; the countdown numerals change without rolling.",
+        "The countdown is one re-armed timeout inside an effect: it is torn down on unmount and stops while the document is hidden, and nothing reads a clock during render."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/slow-mode",
+      "registryItemUrl": "https://www.kinetiqui.com/r/slow-mode.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/slow-mode",
+        "npm": "npx shadcn@latest add @kinetiq/slow-mode",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/slow-mode",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/slow-mode",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/slow-mode.json"
+      }
+    },
+    {
+      "slug": "hide-veil",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Hide Veil",
+      "serial": "KQ-914",
+      "tagline": "Hidden until you choose.",
+      "description": "A message a host has hidden, covered by a hatched bar that carries the reason. Revealing wipes the veil rather than fading it — the clip's left inset walks from 0% to 100% on a base tween on the move ease, so the message is uncovered left to right — and an IntersectionObserver rooted on the thread's own scroll box wipes the veil back when the message leaves the box, unless focus is still inside it. Show and Hide again hand focus to each other, so no key is stranded on a clipped control.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "hidden",
+        "veil",
+        "hatch",
+        "reveal",
+        "moderation",
+        "chat",
+        "wipe"
+      ],
+      "props": [
+        {
+          "name": "messages",
+          "type": "VeilMessage[]",
+          "description": "The thread, oldest first; a message with a hiddenReason is veiled."
+        },
+        {
+          "name": "revealed / defaultRevealed",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Controlled or initial revealed ids."
+        },
+        {
+          "name": "onRevealedChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires with the next set from any change."
+        },
+        {
+          "name": "onRevealChange",
+          "type": "(id: string, revealed: boolean, cause: \"press\" | \"scroll\") => void",
+          "description": "Fires once per change, saying which message moved and whether a press or a scroll moved it."
+        },
+        {
+          "name": "reVeilOnScroll",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Whether a revealed message re-veils when it leaves the scroll box."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "240",
+          "description": "Tallest the thread grows before it scrolls inside its own box."
+        },
+        {
+          "name": "scrollRef",
+          "type": "(node: HTMLDivElement | null) => void",
+          "description": "A callback ref for the scroll box, so a host can jump the thread from outside it."
+        },
+        {
+          "name": "showLabel",
+          "type": "string",
+          "defaultValue": "\"Show\"",
+          "description": "The veil's control."
+        },
+        {
+          "name": "hideLabel",
+          "type": "string",
+          "defaultValue": "\"Hide again\"",
+          "description": "The revealed message's control, which lives in the meta row."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the thread for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "Show and Hide again are real buttons whose names are whole sentences carrying the reason, and pressing one moves focus to the other; the veiled text is aria-hidden while it cannot be seen, and the scroll box itself is focusable so a keyboard can scroll it.",
+        "Under reduced motion the veil swaps on a fast opacity tween with no clip travel; the re-veil on scroll still happens, because what is hidden is information.",
+        "The hatch is a procedural SVG pattern whose id is prefixed with useId(), so two instances on one page never collide, and it is sized entirely by the bubble it covers."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/hide-veil",
+      "registryItemUrl": "https://www.kinetiqui.com/r/hide-veil.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hide-veil",
+        "npm": "npx shadcn@latest add @kinetiq/hide-veil",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hide-veil",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hide-veil",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/hide-veil.json"
+      }
+    },
+    {
+      "slug": "warn-strip",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Warn Strip",
+      "serial": "KQ-915",
+      "tagline": "A caution, before you read.",
+      "description": "A content warning that is a door, not a fog. A warned message renders as a bubble that is entirely strip, carrying the reason in words and a Show control, and pressing it lowers the strip by its own height on glide while the box glides in the same beat to a ResizeObserver-measured message height — the strip does not vanish, it goes down and the words are what is left. The line it casts thins on a tween as it drops, and the Show and Cover controls hand focus to each other.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "content warning",
+        "caution",
+        "cover",
+        "strip",
+        "chat",
+        "moderation",
+        "reveal"
+      ],
+      "props": [
+        {
+          "name": "messages",
+          "type": "WarnMessage[]",
+          "description": "The thread, oldest first; a message with a caution is covered by a strip."
+        },
+        {
+          "name": "shown / defaultShown",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Controlled or initial ids whose strips are down."
+        },
+        {
+          "name": "onShownChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires with the next set from either direction."
+        },
+        {
+          "name": "onShow",
+          "type": "(id: string) => void",
+          "description": "Fires when a strip is lowered."
+        },
+        {
+          "name": "onCover",
+          "type": "(id: string) => void",
+          "description": "Fires when a strip is raised again."
+        },
+        {
+          "name": "showLabel",
+          "type": "string",
+          "defaultValue": "\"Show message\"",
+          "description": "The strip's control."
+        },
+        {
+          "name": "coverLabel",
+          "type": "string",
+          "defaultValue": "\"Cover\"",
+          "description": "The meta row's control, which appears once the strip is down."
+        },
+        {
+          "name": "cautionLead",
+          "type": "string",
+          "defaultValue": "\"Caution\"",
+          "description": "The word before the reason, on the strip and in the control's name."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Tallest the thread grows before it scrolls inside its own box."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the thread for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The strip's control is a button with aria-expanded whose name is a whole sentence carrying the reason; Enter or Space lowers it and focus moves to the Cover control in the meta row, and covering hands focus back.",
+        "While a strip is up the message text is aria-hidden — a caution a screen reader reads straight past is not a caution — and whichever face is out of flow is the absolutely positioned one, so the box is right on the first paint and no caution flashes the message it covers.",
+        "Under reduced motion the strip cross-fades instead of sliding and the box height swaps on a fast tween; the message still arrives and the box still fits it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/warn-strip",
+      "registryItemUrl": "https://www.kinetiqui.com/r/warn-strip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/warn-strip",
+        "npm": "npx shadcn@latest add @kinetiq/warn-strip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/warn-strip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/warn-strip",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/warn-strip.json"
+      }
+    },
+    {
+      "slug": "timeout-ring",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Timeout Ring",
+      "serial": "KQ-916",
+      "tagline": "Muted, for a while.",
+      "description": "A moderator's timeout hung on a member's avatar as an arc that retreats linearly across the span, ticked at each minute, while the disc dims on glide and a mute glyph takes the corner. Extend does not restart the run: the arc springs back out to its new share on glide and hands over to the drain from its own onComplete, and either ending clears the ring with a pop as the disc returns on recoil. Extend and Lift are real buttons in the tab order, the state is a visible sentence rather than a colour, and a polite region speaks one frozen line per change.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "timeout",
+        "moderation",
+        "mute",
+        "countdown",
+        "ring",
+        "avatar"
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The member, shown and spoken."
+        },
+        {
+          "name": "handle",
+          "type": "string",
+          "description": "The member's handle, shown under the name."
+        },
+        {
+          "name": "room",
+          "type": "string",
+          "defaultValue": "\"Coldbrook\"",
+          "description": "Where the timeout applies; named in both sentences."
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "defaultValue": "\"Room rule 3\"",
+          "description": "The house rule cited on the row."
+        },
+        {
+          "name": "seconds",
+          "type": "number",
+          "defaultValue": "600",
+          "description": "The timeout span. Changing it starts a new run."
+        },
+        {
+          "name": "active / defaultActive",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial timeout state."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(active: boolean) => void",
+          "description": "Fires when the timeout starts, is lifted, or runs out."
+        },
+        {
+          "name": "extendSeconds",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "Seconds Extend adds to the remainder."
+        },
+        {
+          "name": "onExtend",
+          "type": "(total: number) => void",
+          "description": "Fires from Extend with the new whole span."
+        },
+        {
+          "name": "onRemainingChange",
+          "type": "(seconds: number) => void",
+          "description": "Fires each time the whole second changes."
+        },
+        {
+          "name": "onExpire",
+          "type": "() => void",
+          "description": "Fires once when the remainder reaches zero."
+        },
+        {
+          "name": "onLift",
+          "type": "() => void",
+          "description": "Fires when a moderator ends the timeout early."
+        },
+        {
+          "name": "canModerate",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "False hides Extend and Lift, for a member reading their own timeout."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds both controls; the ring still drains and still reads."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes on the row."
+        }
+      ],
+      "usageNotes": [
+        "Extend and Lift are ordinary buttons in the tab order, genuinely disabled when there is no run to act on, so focus survives a timeout clearing itself.",
+        "Under reduced motion the arc still drains and the figure still counts, because a remainder is information; nothing pops, nothing travels, and the extend grows on a fast tween instead of glide.",
+        "The run pauses while the document is hidden and the mm:ss figure is plain text rather than a live region, so nobody is read a number once a second."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/timeout-ring",
+      "registryItemUrl": "https://www.kinetiqui.com/r/timeout-ring.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/timeout-ring",
+        "npm": "npx shadcn@latest add @kinetiq/timeout-ring",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/timeout-ring",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/timeout-ring",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/timeout-ring.json"
+      }
+    },
+    {
+      "slug": "appeal-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Appeal Card",
+      "serial": "KQ-917",
+      "tagline": "Ask for another look.",
+      "description": "A removed message asking for another look. The review's stages stamp in turn — the disc lands from 1.5 on recoil, the tick draws its pathLength on flick, and the rail down to the next stage fills on glide — and the decision slides in from 8px on snap inside a ResizeObserver-measured height that opens in flow rather than floating. Approval restores with a wash that sweeps the quote once on a slow tween while the strike lifts; a refusal gets no wash and no bounce. A real textarea sends the appeal, and a polite region speaks one frozen sentence per change, never before the host has answered.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "appeal",
+        "moderation",
+        "review",
+        "steps",
+        "decision",
+        "restore"
+      ],
+      "props": [
+        {
+          "name": "author",
+          "type": "string",
+          "description": "Whose message is under appeal."
+        },
+        {
+          "name": "messageText",
+          "type": "string",
+          "description": "The removed line, quoted on the card."
+        },
+        {
+          "name": "room",
+          "type": "string",
+          "defaultValue": "\"Coldbrook\"",
+          "description": "The room the message was removed from."
+        },
+        {
+          "name": "reason",
+          "type": "string",
+          "defaultValue": "\"Room rule 3\"",
+          "description": "The house rule the removal cited."
+        },
+        {
+          "name": "steps",
+          "type": "AppealStep[]",
+          "description": "The review's stages: value, label and an optional note."
+        },
+        {
+          "name": "step / defaultStep",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial count of stamped stages."
+        },
+        {
+          "name": "onStepChange",
+          "type": "(step: number) => void",
+          "description": "Fires when sending the appeal stamps the first stage."
+        },
+        {
+          "name": "note / defaultNote",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "Controlled or initial appeal note."
+        },
+        {
+          "name": "onNoteChange",
+          "type": "(note: string) => void",
+          "description": "Fires from every keystroke in the textarea."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(note: string) => void",
+          "description": "Fires from Send appeal with the trimmed note."
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "defaultValue": "180",
+          "description": "Cap on the note; the remainder reads beside the control."
+        },
+        {
+          "name": "decision",
+          "type": "\"pending\" | \"restored\" | \"upheld\"",
+          "defaultValue": "\"pending\"",
+          "description": "The outcome. Only the host sets it."
+        },
+        {
+          "name": "decisionNote",
+          "type": "string",
+          "description": "One line under the decision."
+        },
+        {
+          "name": "onDecisionShown",
+          "type": "(decision: \"restored\" | \"upheld\") => void",
+          "description": "Fires once when a decision first lands, after the state settles."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the textarea and the control."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes on the card."
+        }
+      ],
+      "usageNotes": [
+        "Tab reaches the textarea then Send appeal; Send is genuinely disabled while the note is empty or the appeal has already gone, and each stage carries its own sr-only sentence rather than a colour.",
+        "Under reduced motion the stamps still stamp and approval still restores — on fast tweens, with no scale and no travel — because a completed stage is information.",
+        "The decision only ever comes from the `decision` prop, so the polite status region can never announce an outcome before the host has answered with it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/appeal-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/appeal-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/appeal-card",
+        "npm": "npx shadcn@latest add @kinetiq/appeal-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/appeal-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/appeal-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/appeal-card.json"
+      }
+    },
+    {
+      "slug": "filter-mask",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Filter Mask",
+      "serial": "KQ-918",
+      "tagline": "Words, masked.",
+      "description": "Words a room filter caught, kept in place under opaque hatched blocks so uncovering one never reflows the line. Each cover is a motion span with its origin on the right whose scaleX runs to zero on snap, so it retreats rightward and the word appears in reading order; revealing everything runs the same wipe in a cascade, and masking again grows the covers back on glide. Every block is a real button with a whole-sentence label, and the count above the bubble reads as a pluralised sentence that cross-fades in one grid cell.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "filter",
+        "mask",
+        "redaction",
+        "reveal",
+        "moderation",
+        "chat"
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "The message. Caught words are matched inside it."
+        },
+        {
+          "name": "terms",
+          "type": "string[]",
+          "description": "The words the room filter catches, matched whole-word and case-insensitively."
+        },
+        {
+          "name": "author",
+          "type": "string",
+          "defaultValue": "\"Ines Rocha\"",
+          "description": "The sender, shown above the bubble."
+        },
+        {
+          "name": "time",
+          "type": "string",
+          "defaultValue": "\"14:02\"",
+          "description": "A plain string: the component never reads a clock."
+        },
+        {
+          "name": "filterName",
+          "type": "string",
+          "defaultValue": "\"Coldbrook filter\"",
+          "description": "Who masked the words; named in the header sentence."
+        },
+        {
+          "name": "revealed / defaultRevealed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial reveal-all state."
+        },
+        {
+          "name": "onRevealedChange",
+          "type": "(revealed: boolean) => void",
+          "description": "Fires from the header toggle."
+        },
+        {
+          "name": "onWordReveal",
+          "type": "(word: string, index: number) => void",
+          "description": "Fires when a single block is uncovered."
+        },
+        {
+          "name": "onMaskedCountChange",
+          "type": "(masked: number, total: number) => void",
+          "description": "Fires from an effect whenever the masked count changes."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the toggle and every block."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes on the wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Every masked word is an ordinary tab stop with aria-pressed: Space and Enter uncover one word, and the header toggle uncovers or covers them all.",
+        "A masked word is never readable while it is masked — the block's label names nothing until it is uncovered, and then names the word — so a screen reader hears what the sighted reader sees.",
+        "Under reduced motion the covers cross-fade instead of wiping and the cascade collapses, but the count and the header sentence still update."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/filter-mask",
+      "registryItemUrl": "https://www.kinetiqui.com/r/filter-mask.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/filter-mask",
+        "npm": "npx shadcn@latest add @kinetiq/filter-mask",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/filter-mask",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/filter-mask",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/filter-mask.json"
+      }
+    },
+    {
+      "slug": "mod-queue",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mod Queue",
+      "serial": "KQ-919",
+      "tagline": "Waiting for a moderator.",
+      "description": "Reported messages one at a time, with the rest of the queue named underneath and a toolbar that does not move. A verdict slides the card out on the exit ease — right for Keep, left for Hide and Time out — while the next rises from 8px on glide, so the button you pressed keeps your focus and a whole queue clears without re-finding it. The waiting count and the tallies roll their digits on snap, and the card area is a ResizeObserver-measured height that closes onto a cleared line rather than reserving room.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "moderation",
+        "queue",
+        "reports",
+        "verdict",
+        "toolbar",
+        "chat"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "ModQueueItem[]",
+          "description": "The reported messages: id, author, text, reason and report count, front of the queue first."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Reported in Coldbrook\"",
+          "description": "The queue's heading."
+        },
+        {
+          "name": "index / defaultIndex",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial position in the queue."
+        },
+        {
+          "name": "onIndexChange",
+          "type": "(index: number) => void",
+          "description": "Fires each time the front card changes."
+        },
+        {
+          "name": "onAct",
+          "type": "(verdict: ModVerdict, item: ModQueueItem) => void",
+          "description": "Fires with \"keep\", \"hide\" or \"timeout\" and the item it was passed on."
+        },
+        {
+          "name": "onEmpty",
+          "type": "() => void",
+          "description": "Fires once when the last card leaves."
+        },
+        {
+          "name": "emptyLabel",
+          "type": "string",
+          "defaultValue": "\"Queue clear. Nothing waiting.\"",
+          "description": "The cleared line."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the toolbar; the queue still reads."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes on the panel."
+        }
+      ],
+      "usageNotes": [
+        "The verdicts are a role=\"toolbar\" with a roving tabindex: Left and Right step without wrapping, Home and End jump, Space and Enter act, and each button's name is a sentence naming the member it would act on.",
+        "An empty queue marks the buttons aria-disabled rather than disabled, because a disabled button is blurred by the browser and clearing the last card must not cost you your place.",
+        "Under reduced motion nothing slides and the digits swap instead of rolling, but the queue still empties and the measured height still closes."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/mod-queue",
+      "registryItemUrl": "https://www.kinetiqui.com/r/mod-queue.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mod-queue",
+        "npm": "npx shadcn@latest add @kinetiq/mod-queue",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mod-queue",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mod-queue",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/mod-queue.json"
+      }
+    },
+    {
+      "slug": "trust-level",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Trust Level",
+      "serial": "KQ-920",
+      "tagline": "Earned, over time.",
+      "description": "A ladder of level pips on a rail whose fill glides to the level held plus the way through the next one, its width rounded before it becomes a string motion paints. A level up stamps — the pip lands from 1.6 on recoil with its tick drawing on flick, and the bar badge beside the name cross-fades in one grid cell and lands on the same spring — while a level lost only dims, because losing standing must not celebrate. Hovering or focusing a pip reads what that level unlocked in a panel that opens in flow in a measured height, and the pips are a real tablist with Arrow, Home and End keys.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "trust",
+        "reputation",
+        "level",
+        "meter",
+        "profile",
+        "badge"
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The member, shown and spoken."
+        },
+        {
+          "name": "handle",
+          "type": "string",
+          "description": "The member's handle, shown under the name."
+        },
+        {
+          "name": "room",
+          "type": "string",
+          "defaultValue": "\"Coldbrook\"",
+          "description": "The room the trust is held in; named in the sentences."
+        },
+        {
+          "name": "levels",
+          "type": "TrustLevelStep[]",
+          "description": "The ladder, lowest first: a label and what it unlocks."
+        },
+        {
+          "name": "level",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "The level reached, as an index into levels. Only the host earns it."
+        },
+        {
+          "name": "progress",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "How far through the next level, 0 to 1."
+        },
+        {
+          "name": "onLevelChange",
+          "type": "(change: TrustChange) => void",
+          "description": "Fires after a level settles with its level, label and direction."
+        },
+        {
+          "name": "shownLevel / defaultShownLevel",
+          "type": "number",
+          "description": "Controlled or initial index of the level being read; defaults to the level held."
+        },
+        {
+          "name": "onShownLevelChange",
+          "type": "(index: number) => void",
+          "description": "Fires from hover, focus and the Arrow keys."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the pips; the ladder and the fill still read."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes on the card."
+        }
+      ],
+      "usageNotes": [
+        "The pips are a role=\"tablist\" with a roving tabindex: Left and Right step without wrapping, Home and End jump, and selection follows focus, so the hover reveal is never a mouse-only feature.",
+        "The value lives on a role=\"meter\" whose aria-valuetext is a whole sentence — \"Level 3 of 4, Trusted, 62 percent of the way to Guide.\" — and the panel opens in flow in a measured height rather than floating over the host's content.",
+        "Under reduced motion the fill still fills and the panel still opens on fast tweens; nothing stamps, but a level lost still dims once so the direction of the change survives."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/trust-level",
+      "registryItemUrl": "https://www.kinetiqui.com/r/trust-level.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/trust-level",
+        "npm": "npx shadcn@latest add @kinetiq/trust-level",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/trust-level",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/trust-level",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/trust-level.json"
       }
     },
     {
