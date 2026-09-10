@@ -1130,6 +1130,16 @@ import { QuietHoursDemo } from "@/registry/demos/quiet-hours.demo";
 import { SummaryStripDemo } from "@/registry/demos/summary-strip.demo";
 import { ThreadDigestDemo } from "@/registry/demos/thread-digest.demo";
 import { SnoozeChipDemo } from "@/registry/demos/snooze-chip.demo";
+import { LogTailDemo } from "@/registry/demos/log-tail.demo";
+import { LevelFilterDemo } from "@/registry/demos/level-filter.demo";
+import { LogExpandDemo } from "@/registry/demos/log-expand.demo";
+import { SearchHighlightDemo } from "@/registry/demos/search-highlight.demo";
+import { TraceWaterfallDemo } from "@/registry/demos/trace-waterfall.demo";
+import { SpanDetailDemo } from "@/registry/demos/span-detail.demo";
+import { LogGroupDemo } from "@/registry/demos/log-group.demo";
+import { TimestampRailDemo } from "@/registry/demos/timestamp-rail.demo";
+import { ErrorPinDemo } from "@/registry/demos/error-pin.demo";
+import { ContextLinesDemo } from "@/registry/demos/context-lines.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2274,4 +2284,14 @@ export const demos: Record<string, ComponentType> = {
   "summary-strip": SummaryStripDemo,
   "thread-digest": ThreadDigestDemo,
   "snooze-chip": SnoozeChipDemo,
+  "log-tail": LogTailDemo,
+  "level-filter": LevelFilterDemo,
+  "log-expand": LogExpandDemo,
+  "search-highlight": SearchHighlightDemo,
+  "trace-waterfall": TraceWaterfallDemo,
+  "span-detail": SpanDetailDemo,
+  "log-group": LogGroupDemo,
+  "timestamp-rail": TimestampRailDemo,
+  "error-pin": ErrorPinDemo,
+  "context-lines": ContextLinesDemo,
 };

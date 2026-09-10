@@ -26026,6 +26026,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "log-tail",
+      "type": "registry:ui",
+      "title": "Log Tail",
+      "description": "A log that follows its own floor. While it tails, each arriving line is pinned into view in a layout effect and travels 8px up on glide with its level rail drawing down beside it; scroll up and the tail breaks, holding the box where you left it while an opaque strip rises off the floor on snap counting what has arrived. The strip, End, and the Follow control all run scrollTop back down, and scrolling to the floor by hand latches the tail on again.",
+      "files": [
+        {
+          "path": "registry/ui/log-tail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-941"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "level-filter",
+      "type": "registry:ui",
+      "title": "Level Filter",
+      "description": "Four level chips and the log lines they let through. Turn a level off and its lines leave on a fast tween while everything below travels up under layout on glide — a FLIP, because the list is moving rather than repainting — and the box's measured height glides with it; each chip's count rolls a digit at a time on snap. Where a run has been hidden a rule opens in the gap and says what is missing, its hairlines growing outward from the centre.",
+      "files": [
+        {
+          "path": "registry/ui/level-filter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-942"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "log-expand",
+      "type": "registry:ui",
+      "title": "Log Expand",
+      "description": "One log line that opens in place. The panel unfolds in flow against a height a ResizeObserver measured from the content's own border box, joined on glide behind overflow-clip, while the chevron turns a quarter on snap. Inside, the fields are a real key-value list and the JSON is the same record printed whole; the two cross-fade with the leaving view taken out of flow, so the height is always the height of what is being read, and a secret field stays masked in both until an explicit reveal.",
+      "files": [
+        {
+          "path": "registry/ui/log-expand.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-943"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "search-highlight",
+      "type": "registry:ui",
+      "title": "Search Highlight",
+      "description": "A search field over a log, and the log lights up under it. Every match becomes a mark whose wash sweeps in from its left edge by its own background size — never a transform, so the text is not scaled — on snap, staggered by cascade so a screenful lights inside the choreography budget; the current match is ringed and seated into view by its own offset. The counter rolls a digit at a time and shares one grid cell with the pattern error, and Enter steps forward, Shift+Enter back, Escape clears.",
+      "files": [
+        {
+          "path": "registry/ui/search-highlight.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-944"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "trace-waterfall",
+      "type": "registry:ui",
+      "title": "Trace Waterfall",
+      "description": "A request drawn as the time each of its parts took. Every span is a bar on one shared axis — left is its start as a share of the trace, width is its duration — drawn in from its own left edge on glide and staggered by cascade, with every percentage rounded to three decimals before it reaches a style. Hover or focus reads a span back in a header whose two readings cross-fade in one grid cell, and collapsing a parent folds its descendants out under layout while the parent grows a quieter bar spanning what it now hides.",
+      "files": [
+        {
+          "path": "registry/ui/trace-waterfall.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-945"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "span-detail",
+      "type": "registry:ui",
+      "title": "Span Detail",
+      "description": "One span's own record, opened. A track draws the trace window with the span's extent laid on it at its offset, scaling from its left origin on glide, and the event ticks draw afterwards on flick in a cascade; pressing the head unfolds a ResizeObserver-measured body whose attribute rows and event list arrive from 4px away. Attributes marked secret stay masked until their own Reveal control is pressed, an errored span stamps on snap rather than recoil, and the event list is a roving-tabindex ol where Arrow keys step and Home and End jump.",
+      "files": [
+        {
+          "path": "registry/ui/span-detail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-946"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "log-group",
+      "type": "registry:ui",
+      "title": "Log Group",
+      "description": "Consecutive lines carrying the same level and message fold into one row whose count rolls on snap when the run grows, with a ring popping off the badge so the change reads without the row moving. Pressing a folded row unfolds it: a ResizeObserver measures the member list, the wrapper glides to that height, and the members cascade in from 4px away inside the choreography budget. The rows are a roving tabindex — Arrow Up and Down step, Home and End jump, Right unfolds and Left folds.",
+      "files": [
+        {
+          "path": "registry/ui/log-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-947"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "timestamp-rail",
+      "type": "registry:ui",
+      "title": "Timestamp Rail",
+      "description": "A gutter of clocks beside a log that a switch condenses to elapsed offsets, both readings sharing one grid cell so the column never changes width and the rows never move. Where two lines sit further apart than gapMs the rail grows a dashed stem sized to that gap's share of the largest; hovering or focusing one lifts it on snap, swaps its compact reading for a spoken one, and tints the lines it spans. Pressing a gap scrolls the box to the line after it and washes that row on a three-keyframe tween, and the gaps carry a roving tabindex.",
+      "files": [
+        {
+          "path": "registry/ui/timestamp-rail.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-948"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-pin",
+      "type": "registry:ui",
+      "title": "Error Pin",
+      "description": "A rail down the right edge of a log stands for the whole file: every error line puts a pin on it at its own share of the length, and a thumb tracks the visible slice from motion values written in the scroll handler, so scrolling never re-renders the list. A pin that arrives while you watch pops in on snap rather than recoil, because an error is not a landing to celebrate; pressing one scrolls the box to that line and washes the row on a three-keyframe tween. The pins are buttons under a roving tabindex.",
+      "files": [
+        {
+          "path": "registry/ui/error-pin.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-949"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "context-lines",
+      "type": "registry:ui",
+      "title": "Context Lines",
+      "description": "A search result that opens its neighbourhood. Pressing a matched line reveals the lines above and below: a ResizeObserver measures each side and both wrappers glide to their own heights, while the lines cascade outward from the match — nearest neighbour first, the ones above arriving from overhead and the ones below from under. A spinbutton sets how many lines each side shows, growing or trimming both wrappers on the same glide while the count rolls on snap, and the before block hangs from its bottom edge so trimming takes the far lines rather than the neighbours.",
+      "files": [
+        {
+          "path": "registry/ui/context-lines.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-950"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

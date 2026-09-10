@@ -17793,6 +17793,228 @@ Notes:
 - Choosing a duration moves focus to Undo, because the control that had it has just left with the card; Undo hands focus back to the chip. Whichever layer is not showing is out of the tab order and hidden from assistive technology.
 - Under reduced motion the two layers cross-fade in place, the block's height swaps rather than gliding and the clock's hands are drawn at the wake time without turning.
 
+### Log Tail (KQ-941) — `log-tail`
+Lines as they arrive, held when you look.
+
+A log that follows its own floor. While it tails, each arriving line is pinned into view in a layout effect and travels 8px up on glide with its level rail drawing down beside it; scroll up and the tail breaks, holding the box where you left it while an opaque strip rises off the floor on snap counting what has arrived. The strip, End, and the Follow control all run scrollTop back down, and scrolling to the floor by hand latches the tail on again.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/log-tail`
+
+Props:
+- `lines`: LogLine[] — The buffer, oldest first; each line carries id, level, service, time and text. Cap it in the host — nothing here virtualises.
+- `tailing / defaultTailing`: boolean (default true) — Controlled or initial follow state.
+- `onTailingChange`: (tailing: boolean) => void — Fires from the break, the strip, the Follow control, and End.
+- `onPendingChange`: (pending: number) => void — Fires when the count of lines that arrived while held changes.
+- `onAnnounce`: (sentence: string) => void — The sentence the polite region just spoke.
+- `maxHeight`: number (default 216) — Scroll ceiling for the box, in px.
+- `label`: string (default "Log") — Names the log region and heads the card.
+- `emptyLabel`: string (default "Waiting for lines.") — Printed while the buffer is empty.
+
+Notes:
+- The box is a role="log" with tabIndex 0: End jumps to the floor and resumes the tail, Home goes to the top and holds it, and the Follow control is a pressed-state button reachable by Tab.
+- The live region is polite while the tail follows and off while it is held; a second polite region speaks the held count on settle ("4 new lines below.") rather than once per arrival.
+- Under reduced motion lines still arrive and rails still mark the level, but nothing travels and the jump to the floor is seated in one step.
+- Arrivals belong to the host: pass lines from your own feed — the component never reads a clock.
+
+### Level Filter (KQ-942) — `level-filter`
+Show only what matters.
+
+Four level chips and the log lines they let through. Turn a level off and its lines leave on a fast tween while everything below travels up under layout on glide — a FLIP, because the list is moving rather than repainting — and the box's measured height glides with it; each chip's count rolls a digit at a time on snap. Where a run has been hidden a rule opens in the gap and says what is missing, its hairlines growing outward from the centre.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/level-filter`
+
+Props:
+- `lines`: LevelLine[] — The buffer, oldest first; each line carries id, level, service, time and text.
+- `levels / defaultLevels`: FilterLevel[] (default all four) — Controlled or initial set of shown levels.
+- `onLevelsChange`: (levels: FilterLevel[]) => void — Fires from a chip press with the new set, in level order.
+- `onAnnounce`: (sentence: string) => void — The sentence the polite region just spoke.
+- `maxHeight`: number (default 216) — Scroll ceiling for the list box, in px.
+- `label`: string (default "Log") — Names the toolbar ("<label> levels") and the list ("<label> lines").
+
+Notes:
+- The chips are a role="toolbar" with one roving tabindex: Left and Right step without wrapping past the ends, Home and End jump, Space and Enter toggle; each chip's name is a sentence ("Error, 3 lines, shown.") so the state never depends on colour.
+- Hidden runs are never closed over: a rule stays in the gap as its own list item, carrying a sentence that names what was removed.
+- Under reduced motion nothing FLIPs and no digit rolls, but the counts, the gaps and the list all still change.
+- The set is reported from the press that caused it, and the spoken summary is frozen from the settled set, so a controlled host is never announced ahead of its answer.
+
+### Log Expand (KQ-943) — `log-expand`
+One line, opened.
+
+One log line that opens in place. The panel unfolds in flow against a height a ResizeObserver measured from the content's own border box, joined on glide behind overflow-clip, while the chevron turns a quarter on snap. Inside, the fields are a real key-value list and the JSON is the same record printed whole; the two cross-fade with the leaving view taken out of flow, so the height is always the height of what is being read, and a secret field stays masked in both until an explicit reveal.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/log-expand`
+
+Props:
+- `entry`: LogEntry — The line and everything behind it: time, level, service, message, and its fields (a field may be marked secret).
+- `open / defaultOpen`: boolean (default false) — Controlled or initial disclosure state.
+- `onOpenChange`: (open: boolean) => void — Fires from the summary press and from Escape.
+- `view / defaultView`: "fields" | "json" (default "fields") — Controlled or initial body view.
+- `onViewChange`: (view: LogExpandView) => void — Fires from the view toggle.
+- `onRevealChange`: (revealed: boolean) => void — Fires when the masked field is shown or hidden again.
+- `onAnnounce`: (sentence: string) => void — The sentence the polite region just spoke.
+
+Notes:
+- The summary is a real disclosure (aria-expanded, aria-controls) named as one sentence; the view toggle is a radio group with a roving tabindex where Left and Right move, Home and End jump, and Space selects.
+- Escape closes the panel from wherever focus is — the handler sits on the wrapper, not inside the panel — and returns focus to the summary; a folded body is inert as well as aria-hidden.
+- Secrets are masked by default in both views and revealed only by the explicit control, which announces "Token shown." politely.
+- Under reduced motion the panel still opens and every field still shows, but the height swaps in one step and the views change without the fade.
+
+### Search Highlight (KQ-944) — `search-highlight`
+Matches, lit in order.
+
+A search field over a log, and the log lights up under it. Every match becomes a mark whose wash sweeps in from its left edge by its own background size — never a transform, so the text is not scaled — on snap, staggered by cascade so a screenful lights inside the choreography budget; the current match is ringed and seated into view by its own offset. The counter rolls a digit at a time and shares one grid cell with the pattern error, and Enter steps forward, Shift+Enter back, Escape clears.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/search-highlight`
+
+Props:
+- `lines`: SearchLine[] — The buffer, oldest first; matches are found in each line's text.
+- `query / defaultQuery`: string (default "") — Controlled or initial query.
+- `onQueryChange`: (query: string) => void — Fires from every keystroke and from the Escape clear.
+- `regex / defaultRegex`: boolean (default false) — Controlled or initial regular-expression mode.
+- `onRegexChange`: (regex: boolean) => void — Fires from the pattern chip.
+- `onMatchesChange`: (count: number) => void — Fires when the number of matches changes.
+- `onIndexChange`: (index: number) => void — Fires when the cursor steps; -1 when there is nothing to step to.
+- `onAnnounce`: (sentence: string) => void — The sentence the polite region just spoke.
+- `maxHeight`: number (default 216) — Scroll ceiling for the log box, in px.
+- `label`: string (default "Search log") — Names the search field.
+
+Notes:
+- A real input type="search": Enter steps to the next match, Shift+Enter to the previous, Escape clears the query where focus actually is; the steppers stay in the tab order as aria-disabled when there is nothing to step to.
+- An unparseable regular expression marks the field aria-invalid and stops the highlighting rather than throwing; the reason and the counter share one grid cell and cross-fade, so a fast typist never sees a blank readout.
+- The polite region speaks on settle — once typing stops — with the count pluralised, and each step speaks "Match 3 of 12."
+- Under reduced motion matches still light, but the wash appears without the sweep or the stagger and stepping seats the box in one move.
+
+### Trace Waterfall (KQ-945) — `trace-waterfall`
+Spans, stacked in time.
+
+A request drawn as the time each of its parts took. Every span is a bar on one shared axis — left is its start as a share of the trace, width is its duration — drawn in from its own left edge on glide and staggered by cascade, with every percentage rounded to three decimals before it reaches a style. Hover or focus reads a span back in a header whose two readings cross-fade in one grid cell, and collapsing a parent folds its descendants out under layout while the parent grows a quieter bar spanning what it now hides.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/trace-waterfall`
+
+Props:
+- `spans`: TraceSpan[] — The trace in start order; each span carries id, optional parentId, name, service, start and duration in ms, and an optional status.
+- `collapsed / defaultCollapsed`: string[] (default []) — Controlled or initial set of collapsed parent ids.
+- `onCollapsedChange`: (ids: string[]) => void — Fires from a press and from the Left and Right keys.
+- `onActiveChange`: (id: string | null) => void — Fires as hover or focus moves to a span, and with null when both leave.
+- `onAnnounce`: (sentence: string) => void — The sentence the polite region just spoke.
+- `unit`: string (default "ms") — Printed after every duration.
+- `label`: string (default "Trace") — Names the tree.
+
+Notes:
+- A real role="tree" with one roving tabindex: Up and Down move between visible rows, Right opens a parent or steps into it, Left closes it or steps out, Home and End jump, Enter and Space fold.
+- Each row names itself as one sentence — duration, start, status, children — so a failed span says "error" rather than only turning red, and the header readout stays out of the accessibility tree because the row already carries it.
+- Folding never hides time: a collapsed parent draws a second, quieter bar across the extent of everything beneath it.
+- Under reduced motion the bars are still drawn to full width, but they appear rather than draw and nothing FLIPs.
+
+### Span Detail (KQ-946) — `span-detail`
+One span, in full.
+
+One span's own record, opened. A track draws the trace window with the span's extent laid on it at its offset, scaling from its left origin on glide, and the event ticks draw afterwards on flick in a cascade; pressing the head unfolds a ResizeObserver-measured body whose attribute rows and event list arrive from 4px away. Attributes marked secret stay masked until their own Reveal control is pressed, an errored span stamps on snap rather than recoil, and the event list is a roving-tabindex ol where Arrow keys step and Home and End jump.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/span-detail`
+
+Props:
+- `span`: SpanRecord — The one span: service, operation, startMs, durationMs, status, attributes and events.
+- `windowMs`: number — The trace window the track represents; the extent is drawn as a share of it.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial unfolded state of the record.
+- `onOpenChange`: (open: boolean) => void — Fires from the press that folded or unfolded the record.
+- `onReveal`: (key: string) => void — Fires when a masked attribute is revealed by its own control.
+- `onEventSelect`: (id: string) => void — Fires when an event row is activated by pointer or keyboard.
+- `formatMs`: (ms: number) => string (default ms under a second, seconds above) — Renders every duration in the card, so a host changes units in one place.
+- `label`: string (default "Span") — Names the card for assistive technology.
+
+Notes:
+- The head is a real disclosure button with aria-expanded; inside the record the event rows carry a roving tabindex where Arrow Up and Down step, Home and End jump, and Enter or Space selects.
+- Secrets are masked by default: an attribute marked secret prints as dots until its Reveal control is pressed, and Mask puts it back.
+- Under reduced motion the extent bar still fills and the ticks still appear, on tweens with no stagger, and the error stamp arrives at full size as a colour wash.
+- Every millisecond comes from props — the card never reads a clock, so it renders the same on the server and the client.
+
+### Log Group (KQ-947) — `log-group`
+Repeated lines, folded.
+
+Consecutive lines carrying the same level and message fold into one row whose count rolls on snap when the run grows, with a ring popping off the badge so the change reads without the row moving. Pressing a folded row unfolds it: a ResizeObserver measures the member list, the wrapper glides to that height, and the members cascade in from 4px away inside the choreography budget. The rows are a roving tabindex — Arrow Up and Down step, Home and End jump, Right unfolds and Left folds.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/log-group`
+
+Props:
+- `lines`: LogLine[] — The log in order: id, level, a printed clock string, and the message.
+- `openIds / defaultOpenIds`: string[] (default []) — Controlled or initial unfolded runs, keyed by each run's first line.
+- `onOpenChange`: (ids: string[]) => void — Fires from the press that folded or unfolded a run.
+- `onGroupToggle`: (id: string, open: boolean, count: number) => void — Fires with the run that changed and its length, for a host's own readout.
+- `minRun`: number (default 2) — Repeats needed before a run folds; below it every line prints on its own.
+- `label`: string (default "Log") — Names the list for assistive technology.
+
+Notes:
+- The log is an ol of li with a roving tabindex over the folded rows: Arrow Up and Down step, Home and End jump, Right unfolds, Left folds, Enter and Space toggle.
+- This folds repetition rather than filtering it — every line stays in the list, and each row's name says how many times it repeated and between which two clocks.
+- Under reduced motion the count still rolls to its new value and the run still opens, on tweens, with no badge pop and no stagger.
+
+### Timestamp Rail (KQ-948) — `timestamp-rail`
+When each line happened.
+
+A gutter of clocks beside a log that a switch condenses to elapsed offsets, both readings sharing one grid cell so the column never changes width and the rows never move. Where two lines sit further apart than gapMs the rail grows a dashed stem sized to that gap's share of the largest; hovering or focusing one lifts it on snap, swaps its compact reading for a spoken one, and tints the lines it spans. Pressing a gap scrolls the box to the line after it and washes that row on a three-keyframe tween, and the gaps carry a roving tabindex.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/timestamp-rail`
+
+Props:
+- `lines`: RailLine[] — The log in order: id, a printed clock, ms from the first line, level and message.
+- `mode / defaultMode`: "clock" | "elapsed" (default "clock") — Controlled or initial reading in the gutter.
+- `onModeChange`: (mode: RailMode) => void — Fires from the press that flipped the reading.
+- `gapMs`: number (default 1000) — Distance between two lines before the rail draws a gap marker.
+- `onJump`: (id: string, gapMs: number) => void — Fires when a gap is activated, with the line it landed on.
+- `onGapFocus`: (gapMs: number | null) => void — Fires as a gap is hovered or focused, and with null when it is released.
+- `maxHeight`: number (default 208) — The scroller's height in pixels; the log scrolls inside it, never the page.
+- `label`: string (default "Log") — Names the scrollable log for assistive technology.
+
+Notes:
+- The gaps are real buttons under a roving tabindex: Arrow Up and Down step between them, Home and End jump to the first and last, Enter and Space land on the line after the gap; the scroller itself is a tab stop so the log can be scrolled from the keyboard.
+- The ref exposes jumpToLongestGap() so a host control outside the rail can land on the longest wait.
+- Under reduced motion the stems still size themselves to their durations, the jump scrolls without smoothing, and the landing wash only fades.
+- Every time comes from props — the rail never reads a clock, so it renders the same on the server and the client.
+
+### Error Pin (KQ-949) — `error-pin`
+Errors, pinned in the scrollbar.
+
+A rail down the right edge of a log stands for the whole file: every error line puts a pin on it at its own share of the length, and a thumb tracks the visible slice from motion values written in the scroll handler, so scrolling never re-renders the list. A pin that arrives while you watch pops in on snap rather than recoil, because an error is not a landing to celebrate; pressing one scrolls the box to that line and washes the row on a three-keyframe tween. The pins are buttons under a roving tabindex.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-pin`
+
+Props:
+- `lines`: PinLine[] — The log in order; every line at level "error" puts a pin on the rail.
+- `activeId / defaultActiveId`: string | null (default null) — Controlled or initial pinned error the rail treats as current.
+- `onActiveChange`: (id: string | null) => void — Fires from the press that made a pin current.
+- `onJump`: (id: string, index: number) => void — Fires when a pin is activated, with its position among the errors.
+- `maxHeight`: number (default 208) — The scroller's height in pixels; the log scrolls inside it, never the page.
+- `label`: string (default "Log") — Names the scrollable log for assistive technology.
+
+Notes:
+- The rail is a labelled group of real buttons under a roving tabindex: Arrow Up and Down step between errors, Home and End jump to the first and last, Enter and Space land; each pin's name reads "Error 2 of 3 at 09:41:12, hold rejected. Jump to it."
+- The ref exposes jumpToNextError() so a host control outside the rail can advance through the errors.
+- A new error announces itself once, politely, at the moment the lines prop brings it in; the current row also carries aria-current.
+- Under reduced motion a pin fades in at full size and the jump scrolls without smoothing — the pin still appears, because an error is information.
+
+### Context Lines (KQ-950) — `context-lines`
+The lines around it.
+
+A search result that opens its neighbourhood. Pressing a matched line reveals the lines above and below: a ResizeObserver measures each side and both wrappers glide to their own heights, while the lines cascade outward from the match — nearest neighbour first, the ones above arriving from overhead and the ones below from under. A spinbutton sets how many lines each side shows, growing or trimming both wrappers on the same glide while the count rolls on snap, and the before block hangs from its bottom edge so trimming takes the far lines rather than the neighbours.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/context-lines`
+
+Props:
+- `matches`: ContextMatch[] — The results: id, line number, text, and the surrounding before and after arrays.
+- `openIds / defaultOpenIds`: string[] (default []) — Controlled or initial ids of the opened matches.
+- `onOpenChange`: (ids: string[]) => void — Fires from the press that opened or folded a match.
+- `context / defaultContext`: number (default 2) — Controlled or initial number of lines shown on each side.
+- `onContextChange`: (context: number) => void — Fires from the step that changed the count.
+- `maxContext`: number (default 4) — The stepper's ceiling; the supplied arrays cap it further.
+- `query`: string — The matched term, marked inside the matched line.
+- `label`: string (default "Matches") — Names the list of matches for assistive technology.
+
+Notes:
+- Each match is a disclosure button whose aria-controls names both context wrappers, and whose name reads "Line 204, …. Show 4 lines of context."; while a match is folded its wrappers are aria-hidden, so a reader never meets lines that are not on screen.
+- The stepper is a role="spinbutton" with two buttons either side: Arrow Up and Right add a line, Arrow Down and Left take one, Home goes to none and End to the ceiling.
+- Under reduced motion the wrappers change height on tweens, the lines arrive on opacity with no stagger or travel, and the count swaps in place.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

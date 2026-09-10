@@ -53808,4 +53808,775 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the two layers cross-fade in place, the block's height swaps rather than gliding and the clock's hands are drawn at the wake time without turning.",
     ],
   },
+  {
+    name: "log-tail",
+    type: "registry:ui",
+    title: "Log Tail",
+    description:
+      "A log that follows its own floor. While it tails, each arriving line is pinned into view in a layout effect and travels 8px up on glide with its level rail drawing down beside it; scroll up and the tail breaks, holding the box where you left it while an opaque strip rises off the floor on snap counting what has arrived. The strip, End, and the Follow control all run scrollTop back down, and scrolling to the floor by hand latches the tail on again.",
+    files: [
+      {
+        path: "registry/ui/log-tail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["devtools"],
+    meta: {
+      serial: "KQ-941",
+    },
+    tagline: "Lines as they arrive, held when you look.",
+    keywords: ["log", "tail", "follow", "stream", "console", "devtools"],
+    props: [
+      {
+        name: "lines",
+        type: "LogLine[]",
+        description:
+          "The buffer, oldest first; each line carries id, level, service, time and text. Cap it in the host — nothing here virtualises.",
+      },
+      {
+        name: "tailing / defaultTailing",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Controlled or initial follow state.",
+      },
+      {
+        name: "onTailingChange",
+        type: "(tailing: boolean) => void",
+        description:
+          "Fires from the break, the strip, the Follow control, and End.",
+      },
+      {
+        name: "onPendingChange",
+        type: "(pending: number) => void",
+        description:
+          "Fires when the count of lines that arrived while held changes.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description: "The sentence the polite region just spoke.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "216",
+        description: "Scroll ceiling for the box, in px.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Log"',
+        description: "Names the log region and heads the card.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Waiting for lines."',
+        description: "Printed while the buffer is empty.",
+      },
+    ],
+    usageNotes: [
+      'The box is a role="log" with tabIndex 0: End jumps to the floor and resumes the tail, Home goes to the top and holds it, and the Follow control is a pressed-state button reachable by Tab.',
+      'The live region is polite while the tail follows and off while it is held; a second polite region speaks the held count on settle ("4 new lines below.") rather than once per arrival.',
+      "Under reduced motion lines still arrive and rails still mark the level, but nothing travels and the jump to the floor is seated in one step.",
+      "Arrivals belong to the host: pass lines from your own feed — the component never reads a clock.",
+    ],
+  },
+  {
+    name: "level-filter",
+    type: "registry:ui",
+    title: "Level Filter",
+    description:
+      "Four level chips and the log lines they let through. Turn a level off and its lines leave on a fast tween while everything below travels up under layout on glide — a FLIP, because the list is moving rather than repainting — and the box's measured height glides with it; each chip's count rolls a digit at a time on snap. Where a run has been hidden a rule opens in the gap and says what is missing, its hairlines growing outward from the centre.",
+    files: [
+      {
+        path: "registry/ui/level-filter.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["devtools"],
+    meta: {
+      serial: "KQ-942",
+    },
+    tagline: "Show only what matters.",
+    keywords: ["log", "filter", "levels", "severity", "flip", "devtools"],
+    props: [
+      {
+        name: "lines",
+        type: "LevelLine[]",
+        description:
+          "The buffer, oldest first; each line carries id, level, service, time and text.",
+      },
+      {
+        name: "levels / defaultLevels",
+        type: "FilterLevel[]",
+        defaultValue: "all four",
+        description: "Controlled or initial set of shown levels.",
+      },
+      {
+        name: "onLevelsChange",
+        type: "(levels: FilterLevel[]) => void",
+        description:
+          "Fires from a chip press with the new set, in level order.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description: "The sentence the polite region just spoke.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "216",
+        description: "Scroll ceiling for the list box, in px.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Log"',
+        description:
+          'Names the toolbar ("<label> levels") and the list ("<label> lines").',
+      },
+    ],
+    usageNotes: [
+      'The chips are a role="toolbar" with one roving tabindex: Left and Right step without wrapping past the ends, Home and End jump, Space and Enter toggle; each chip\'s name is a sentence ("Error, 3 lines, shown.") so the state never depends on colour.',
+      "Hidden runs are never closed over: a rule stays in the gap as its own list item, carrying a sentence that names what was removed.",
+      "Under reduced motion nothing FLIPs and no digit rolls, but the counts, the gaps and the list all still change.",
+      "The set is reported from the press that caused it, and the spoken summary is frozen from the settled set, so a controlled host is never announced ahead of its answer.",
+    ],
+  },
+  {
+    name: "log-expand",
+    type: "registry:ui",
+    title: "Log Expand",
+    description:
+      "One log line that opens in place. The panel unfolds in flow against a height a ResizeObserver measured from the content's own border box, joined on glide behind overflow-clip, while the chevron turns a quarter on snap. Inside, the fields are a real key-value list and the JSON is the same record printed whole; the two cross-fade with the leaving view taken out of flow, so the height is always the height of what is being read, and a secret field stays masked in both until an explicit reveal.",
+    files: [
+      {
+        path: "registry/ui/log-expand.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["devtools"],
+    meta: {
+      serial: "KQ-943",
+    },
+    tagline: "One line, opened.",
+    keywords: ["log", "expand", "disclosure", "fields", "json", "devtools"],
+    props: [
+      {
+        name: "entry",
+        type: "LogEntry",
+        description:
+          "The line and everything behind it: time, level, service, message, and its fields (a field may be marked secret).",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial disclosure state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the summary press and from Escape.",
+      },
+      {
+        name: "view / defaultView",
+        type: '"fields" | "json"',
+        defaultValue: '"fields"',
+        description: "Controlled or initial body view.",
+      },
+      {
+        name: "onViewChange",
+        type: "(view: LogExpandView) => void",
+        description: "Fires from the view toggle.",
+      },
+      {
+        name: "onRevealChange",
+        type: "(revealed: boolean) => void",
+        description: "Fires when the masked field is shown or hidden again.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description: "The sentence the polite region just spoke.",
+      },
+    ],
+    usageNotes: [
+      "The summary is a real disclosure (aria-expanded, aria-controls) named as one sentence; the view toggle is a radio group with a roving tabindex where Left and Right move, Home and End jump, and Space selects.",
+      "Escape closes the panel from wherever focus is — the handler sits on the wrapper, not inside the panel — and returns focus to the summary; a folded body is inert as well as aria-hidden.",
+      'Secrets are masked by default in both views and revealed only by the explicit control, which announces "Token shown." politely.',
+      "Under reduced motion the panel still opens and every field still shows, but the height swaps in one step and the views change without the fade.",
+    ],
+  },
+  {
+    name: "search-highlight",
+    type: "registry:ui",
+    title: "Search Highlight",
+    description:
+      "A search field over a log, and the log lights up under it. Every match becomes a mark whose wash sweeps in from its left edge by its own background size — never a transform, so the text is not scaled — on snap, staggered by cascade so a screenful lights inside the choreography budget; the current match is ringed and seated into view by its own offset. The counter rolls a digit at a time and shares one grid cell with the pattern error, and Enter steps forward, Shift+Enter back, Escape clears.",
+    files: [
+      {
+        path: "registry/ui/search-highlight.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["devtools"],
+    meta: {
+      serial: "KQ-944",
+    },
+    tagline: "Matches, lit in order.",
+    keywords: [
+      "search",
+      "highlight",
+      "log",
+      "regex",
+      "matches",
+      "find",
+      "devtools",
+    ],
+    props: [
+      {
+        name: "lines",
+        type: "SearchLine[]",
+        description:
+          "The buffer, oldest first; matches are found in each line's text.",
+      },
+      {
+        name: "query / defaultQuery",
+        type: "string",
+        defaultValue: '""',
+        description: "Controlled or initial query.",
+      },
+      {
+        name: "onQueryChange",
+        type: "(query: string) => void",
+        description: "Fires from every keystroke and from the Escape clear.",
+      },
+      {
+        name: "regex / defaultRegex",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial regular-expression mode.",
+      },
+      {
+        name: "onRegexChange",
+        type: "(regex: boolean) => void",
+        description: "Fires from the pattern chip.",
+      },
+      {
+        name: "onMatchesChange",
+        type: "(count: number) => void",
+        description: "Fires when the number of matches changes.",
+      },
+      {
+        name: "onIndexChange",
+        type: "(index: number) => void",
+        description:
+          "Fires when the cursor steps; -1 when there is nothing to step to.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description: "The sentence the polite region just spoke.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "216",
+        description: "Scroll ceiling for the log box, in px.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Search log"',
+        description: "Names the search field.",
+      },
+    ],
+    usageNotes: [
+      'A real input type="search": Enter steps to the next match, Shift+Enter to the previous, Escape clears the query where focus actually is; the steppers stay in the tab order as aria-disabled when there is nothing to step to.',
+      "An unparseable regular expression marks the field aria-invalid and stops the highlighting rather than throwing; the reason and the counter share one grid cell and cross-fade, so a fast typist never sees a blank readout.",
+      'The polite region speaks on settle — once typing stops — with the count pluralised, and each step speaks "Match 3 of 12."',
+      "Under reduced motion matches still light, but the wash appears without the sweep or the stagger and stepping seats the box in one move.",
+    ],
+  },
+  {
+    name: "trace-waterfall",
+    type: "registry:ui",
+    title: "Trace Waterfall",
+    description:
+      "A request drawn as the time each of its parts took. Every span is a bar on one shared axis — left is its start as a share of the trace, width is its duration — drawn in from its own left edge on glide and staggered by cascade, with every percentage rounded to three decimals before it reaches a style. Hover or focus reads a span back in a header whose two readings cross-fade in one grid cell, and collapsing a parent folds its descendants out under layout while the parent grows a quieter bar spanning what it now hides.",
+    files: [
+      {
+        path: "registry/ui/trace-waterfall.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["devtools"],
+    meta: {
+      serial: "KQ-945",
+    },
+    tagline: "Spans, stacked in time.",
+    keywords: ["trace", "waterfall", "spans", "latency", "tree", "devtools"],
+    props: [
+      {
+        name: "spans",
+        type: "TraceSpan[]",
+        description:
+          "The trace in start order; each span carries id, optional parentId, name, service, start and duration in ms, and an optional status.",
+      },
+      {
+        name: "collapsed / defaultCollapsed",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "Controlled or initial set of collapsed parent ids.",
+      },
+      {
+        name: "onCollapsedChange",
+        type: "(ids: string[]) => void",
+        description: "Fires from a press and from the Left and Right keys.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(id: string | null) => void",
+        description:
+          "Fires as hover or focus moves to a span, and with null when both leave.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description: "The sentence the polite region just spoke.",
+      },
+      {
+        name: "unit",
+        type: "string",
+        defaultValue: '"ms"',
+        description: "Printed after every duration.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Trace"',
+        description: "Names the tree.",
+      },
+    ],
+    usageNotes: [
+      'A real role="tree" with one roving tabindex: Up and Down move between visible rows, Right opens a parent or steps into it, Left closes it or steps out, Home and End jump, Enter and Space fold.',
+      'Each row names itself as one sentence — duration, start, status, children — so a failed span says "error" rather than only turning red, and the header readout stays out of the accessibility tree because the row already carries it.',
+      "Folding never hides time: a collapsed parent draws a second, quieter bar across the extent of everything beneath it.",
+      "Under reduced motion the bars are still drawn to full width, but they appear rather than draw and nothing FLIPs.",
+    ],
+  },
+  {
+    name: "span-detail",
+    type: "registry:ui",
+    title: "Span Detail",
+    description:
+      "One span's own record, opened. A track draws the trace window with the span's extent laid on it at its offset, scaling from its left origin on glide, and the event ticks draw afterwards on flick in a cascade; pressing the head unfolds a ResizeObserver-measured body whose attribute rows and event list arrive from 4px away. Attributes marked secret stay masked until their own Reveal control is pressed, an errored span stamps on snap rather than recoil, and the event list is a roving-tabindex ol where Arrow keys step and Home and End jump.",
+    files: [
+      {
+        path: "registry/ui/span-detail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["devtools"],
+    meta: {
+      serial: "KQ-946",
+    },
+    tagline: "One span, in full.",
+    keywords: [
+      "span",
+      "trace",
+      "duration",
+      "attributes",
+      "events",
+      "devtools",
+      "disclosure",
+    ],
+    props: [
+      {
+        name: "span",
+        type: "SpanRecord",
+        description:
+          "The one span: service, operation, startMs, durationMs, status, attributes and events.",
+      },
+      {
+        name: "windowMs",
+        type: "number",
+        description:
+          "The trace window the track represents; the extent is drawn as a share of it.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial unfolded state of the record.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the press that folded or unfolded the record.",
+      },
+      {
+        name: "onReveal",
+        type: "(key: string) => void",
+        description:
+          "Fires when a masked attribute is revealed by its own control.",
+      },
+      {
+        name: "onEventSelect",
+        type: "(id: string) => void",
+        description:
+          "Fires when an event row is activated by pointer or keyboard.",
+      },
+      {
+        name: "formatMs",
+        type: "(ms: number) => string",
+        defaultValue: "ms under a second, seconds above",
+        description:
+          "Renders every duration in the card, so a host changes units in one place.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Span"',
+        description: "Names the card for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The head is a real disclosure button with aria-expanded; inside the record the event rows carry a roving tabindex where Arrow Up and Down step, Home and End jump, and Enter or Space selects.",
+      "Secrets are masked by default: an attribute marked secret prints as dots until its Reveal control is pressed, and Mask puts it back.",
+      "Under reduced motion the extent bar still fills and the ticks still appear, on tweens with no stagger, and the error stamp arrives at full size as a colour wash.",
+      "Every millisecond comes from props — the card never reads a clock, so it renders the same on the server and the client.",
+    ],
+  },
+  {
+    name: "log-group",
+    type: "registry:ui",
+    title: "Log Group",
+    description:
+      "Consecutive lines carrying the same level and message fold into one row whose count rolls on snap when the run grows, with a ring popping off the badge so the change reads without the row moving. Pressing a folded row unfolds it: a ResizeObserver measures the member list, the wrapper glides to that height, and the members cascade in from 4px away inside the choreography budget. The rows are a roving tabindex — Arrow Up and Down step, Home and End jump, Right unfolds and Left folds.",
+    files: [
+      {
+        path: "registry/ui/log-group.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["devtools"],
+    meta: {
+      serial: "KQ-947",
+    },
+    tagline: "Repeated lines, folded.",
+    keywords: [
+      "log",
+      "repeat",
+      "fold",
+      "count",
+      "collapse",
+      "devtools",
+      "cascade",
+    ],
+    props: [
+      {
+        name: "lines",
+        type: "LogLine[]",
+        description:
+          "The log in order: id, level, a printed clock string, and the message.",
+      },
+      {
+        name: "openIds / defaultOpenIds",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Controlled or initial unfolded runs, keyed by each run's first line.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(ids: string[]) => void",
+        description: "Fires from the press that folded or unfolded a run.",
+      },
+      {
+        name: "onGroupToggle",
+        type: "(id: string, open: boolean, count: number) => void",
+        description:
+          "Fires with the run that changed and its length, for a host's own readout.",
+      },
+      {
+        name: "minRun",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "Repeats needed before a run folds; below it every line prints on its own.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Log"',
+        description: "Names the list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The log is an ol of li with a roving tabindex over the folded rows: Arrow Up and Down step, Home and End jump, Right unfolds, Left folds, Enter and Space toggle.",
+      "This folds repetition rather than filtering it — every line stays in the list, and each row's name says how many times it repeated and between which two clocks.",
+      "Under reduced motion the count still rolls to its new value and the run still opens, on tweens, with no badge pop and no stagger.",
+    ],
+  },
+  {
+    name: "timestamp-rail",
+    type: "registry:ui",
+    title: "Timestamp Rail",
+    description:
+      "A gutter of clocks beside a log that a switch condenses to elapsed offsets, both readings sharing one grid cell so the column never changes width and the rows never move. Where two lines sit further apart than gapMs the rail grows a dashed stem sized to that gap's share of the largest; hovering or focusing one lifts it on snap, swaps its compact reading for a spoken one, and tints the lines it spans. Pressing a gap scrolls the box to the line after it and washes that row on a three-keyframe tween, and the gaps carry a roving tabindex.",
+    files: [
+      {
+        path: "registry/ui/timestamp-rail.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["devtools"],
+    meta: {
+      serial: "KQ-948",
+    },
+    tagline: "When each line happened.",
+    keywords: [
+      "log",
+      "timestamp",
+      "elapsed",
+      "gap",
+      "jump",
+      "devtools",
+      "rail",
+    ],
+    props: [
+      {
+        name: "lines",
+        type: "RailLine[]",
+        description:
+          "The log in order: id, a printed clock, ms from the first line, level and message.",
+      },
+      {
+        name: "mode / defaultMode",
+        type: '"clock" | "elapsed"',
+        defaultValue: '"clock"',
+        description: "Controlled or initial reading in the gutter.",
+      },
+      {
+        name: "onModeChange",
+        type: "(mode: RailMode) => void",
+        description: "Fires from the press that flipped the reading.",
+      },
+      {
+        name: "gapMs",
+        type: "number",
+        defaultValue: "1000",
+        description:
+          "Distance between two lines before the rail draws a gap marker.",
+      },
+      {
+        name: "onJump",
+        type: "(id: string, gapMs: number) => void",
+        description:
+          "Fires when a gap is activated, with the line it landed on.",
+      },
+      {
+        name: "onGapFocus",
+        type: "(gapMs: number | null) => void",
+        description:
+          "Fires as a gap is hovered or focused, and with null when it is released.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "208",
+        description:
+          "The scroller's height in pixels; the log scrolls inside it, never the page.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Log"',
+        description: "Names the scrollable log for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The gaps are real buttons under a roving tabindex: Arrow Up and Down step between them, Home and End jump to the first and last, Enter and Space land on the line after the gap; the scroller itself is a tab stop so the log can be scrolled from the keyboard.",
+      "The ref exposes jumpToLongestGap() so a host control outside the rail can land on the longest wait.",
+      "Under reduced motion the stems still size themselves to their durations, the jump scrolls without smoothing, and the landing wash only fades.",
+      "Every time comes from props — the rail never reads a clock, so it renders the same on the server and the client.",
+    ],
+  },
+  {
+    name: "error-pin",
+    type: "registry:ui",
+    title: "Error Pin",
+    description:
+      "A rail down the right edge of a log stands for the whole file: every error line puts a pin on it at its own share of the length, and a thumb tracks the visible slice from motion values written in the scroll handler, so scrolling never re-renders the list. A pin that arrives while you watch pops in on snap rather than recoil, because an error is not a landing to celebrate; pressing one scrolls the box to that line and washes the row on a three-keyframe tween. The pins are buttons under a roving tabindex.",
+    files: [
+      {
+        path: "registry/ui/error-pin.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["devtools"],
+    meta: {
+      serial: "KQ-949",
+    },
+    tagline: "Errors, pinned in the scrollbar.",
+    keywords: [
+      "log",
+      "errors",
+      "scrollbar",
+      "pins",
+      "jump",
+      "devtools",
+      "minimap",
+    ],
+    props: [
+      {
+        name: "lines",
+        type: "PinLine[]",
+        description:
+          'The log in order; every line at level "error" puts a pin on the rail.',
+      },
+      {
+        name: "activeId / defaultActiveId",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial pinned error the rail treats as current.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(id: string | null) => void",
+        description: "Fires from the press that made a pin current.",
+      },
+      {
+        name: "onJump",
+        type: "(id: string, index: number) => void",
+        description:
+          "Fires when a pin is activated, with its position among the errors.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "208",
+        description:
+          "The scroller's height in pixels; the log scrolls inside it, never the page.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Log"',
+        description: "Names the scrollable log for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'The rail is a labelled group of real buttons under a roving tabindex: Arrow Up and Down step between errors, Home and End jump to the first and last, Enter and Space land; each pin\'s name reads "Error 2 of 3 at 09:41:12, hold rejected. Jump to it."',
+      "The ref exposes jumpToNextError() so a host control outside the rail can advance through the errors.",
+      "A new error announces itself once, politely, at the moment the lines prop brings it in; the current row also carries aria-current.",
+      "Under reduced motion a pin fades in at full size and the jump scrolls without smoothing — the pin still appears, because an error is information.",
+    ],
+  },
+  {
+    name: "context-lines",
+    type: "registry:ui",
+    title: "Context Lines",
+    description:
+      "A search result that opens its neighbourhood. Pressing a matched line reveals the lines above and below: a ResizeObserver measures each side and both wrappers glide to their own heights, while the lines cascade outward from the match — nearest neighbour first, the ones above arriving from overhead and the ones below from under. A spinbutton sets how many lines each side shows, growing or trimming both wrappers on the same glide while the count rolls on snap, and the before block hangs from its bottom edge so trimming takes the far lines rather than the neighbours.",
+    files: [
+      {
+        path: "registry/ui/context-lines.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["devtools"],
+    meta: {
+      serial: "KQ-950",
+    },
+    tagline: "The lines around it.",
+    keywords: [
+      "search",
+      "match",
+      "context",
+      "surrounding",
+      "expand",
+      "devtools",
+      "cascade",
+    ],
+    props: [
+      {
+        name: "matches",
+        type: "ContextMatch[]",
+        description:
+          "The results: id, line number, text, and the surrounding before and after arrays.",
+      },
+      {
+        name: "openIds / defaultOpenIds",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "Controlled or initial ids of the opened matches.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(ids: string[]) => void",
+        description: "Fires from the press that opened or folded a match.",
+      },
+      {
+        name: "context / defaultContext",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "Controlled or initial number of lines shown on each side.",
+      },
+      {
+        name: "onContextChange",
+        type: "(context: number) => void",
+        description: "Fires from the step that changed the count.",
+      },
+      {
+        name: "maxContext",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "The stepper's ceiling; the supplied arrays cap it further.",
+      },
+      {
+        name: "query",
+        type: "string",
+        description: "The matched term, marked inside the matched line.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Matches"',
+        description: "Names the list of matches for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'Each match is a disclosure button whose aria-controls names both context wrappers, and whose name reads "Line 204, …. Show 4 lines of context."; while a match is folded its wrappers are aria-hidden, so a reader never meets lines that are not on screen.',
+      'The stepper is a role="spinbutton" with two buttons either side: Arrow Up and Right add a line, Arrow Down and Left take one, Home goes to none and End to the ceiling.',
+      "Under reduced motion the wrappers change height on tweens, the lines arrive on opacity with no stagger or travel, and the count swaps in place.",
+    ],
+  },
 ];
