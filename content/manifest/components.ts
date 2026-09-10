@@ -50222,4 +50222,831 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the panel and scrim fade in place, the options stop travelling and the header cross-fades between the two room names without either of them moving.",
     ],
   },
+  {
+    name: "call-bar",
+    type: "registry:ui",
+    title: "Call Bar",
+    description:
+      "A call, ongoing, in the header. The bar lives in flow: a wrapper glides its ResizeObserver-measured height from zero on glide while the row rides down from 8px, so a call arriving pushes the thread rather than covering it. Ringing pulses a halo behind Join on a repeating tween; joining stops it, swaps to a plain Leave, and starts an elapsed figure held in one linearly driven motion value that pauses with the tab. Escape declines a ringing call but never hangs up a joined one.",
+    files: [
+      {
+        path: "registry/ui/call-bar.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-901",
+    },
+    tagline: "A call, ongoing, in the header.",
+    keywords: ["call", "header", "timer", "join", "ringing", "chat", "leave"],
+    props: [
+      {
+        name: "state / defaultState",
+        type: '"none" | "ringing" | "joined"',
+        defaultValue: '"none"',
+        description: "Controlled or initial call state.",
+      },
+      {
+        name: "onStateChange",
+        type: "(state: CallState) => void",
+        description: "Fires from Join, Decline and Leave.",
+      },
+      {
+        name: "title",
+        type: "string",
+        description:
+          "The room or caller the call belongs to; shown and spoken.",
+      },
+      {
+        name: "participants",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Names already in the call; drives the count sentence and the disc.",
+      },
+      {
+        name: "startSeconds",
+        type: "number",
+        defaultValue: "0",
+        description: "Seconds already elapsed when the bar joins.",
+      },
+      {
+        name: "onElapsedChange",
+        type: "(seconds: number) => void",
+        description: "Fires once per whole second while joined.",
+      },
+      {
+        name: "onJoin",
+        type: "() => void",
+        description: "Fires after the state settles on joined.",
+      },
+      {
+        name: "onLeave",
+        type: "(seconds: number) => void",
+        description:
+          "Fires after the state settles on none, with the run's final seconds.",
+      },
+      {
+        name: "joinLabel",
+        type: "string",
+        defaultValue: '"Join"',
+        description: "Copy on the primary control while ringing.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Holds both controls; a running call still counts and still reads.",
+      },
+    ],
+    usageNotes: [
+      "Tab reaches Join then Decline while ringing, and Leave alone once joined; Escape declines a ringing call but never hangs up a joined one, because leaving has to be deliberate.",
+      "Under reduced motion the bar's height still opens and closes — a call arriving is information — but on a tween, with no travel and no pulse; the elapsed figure counts exactly the same.",
+      "The mm:ss figure is plain text rather than a live region, so nobody is read a number every second; a polite status speaks one frozen sentence per change.",
+    ],
+  },
+  {
+    name: "mic-ring",
+    type: "registry:ui",
+    title: "Mic Ring",
+    description:
+      "Your voice, as a ring. One motion value holds the level and everything reads from it: a halo behind the button grows with it on flick, the rim fills a level arc by strokeDashoffset, and a thinner outer arc holds the recent peak and falls back linearly to the live level. Muting closes the ring on snap while a slash draws across the glyph on flick, and unmuting retracts it on the exit ease. The button is a real switch, so Space and Enter toggle it and the level sits beside it as a meter that can be queried but never announces.",
+    files: [
+      {
+        path: "registry/ui/mic-ring.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-902",
+    },
+    tagline: "Your voice, as a ring.",
+    keywords: ["microphone", "mute", "level", "meter", "call", "chat", "peak"],
+    props: [
+      {
+        name: "level",
+        type: "number",
+        description:
+          "Input level, 0 to 1, clamped. Supplied by the host; the component never reads a device.",
+      },
+      {
+        name: "muted / defaultMuted",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial mute state.",
+      },
+      {
+        name: "onMutedChange",
+        type: "(muted: boolean) => void",
+        description: "Fires from the button, from Space and from Enter.",
+      },
+      {
+        name: "onPeakChange",
+        type: "(peak: number) => void",
+        description:
+          "Fires when the held peak changes, as a rounded percentage 0 to 100.",
+      },
+      {
+        name: "peakDecay",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How fast a held peak falls back towards the live level, in level per second.",
+      },
+      {
+        name: "name",
+        type: "string",
+        defaultValue: '"You"',
+        description:
+          "Whose voice it is; owns the spoken sentences and the meter's label.",
+      },
+      {
+        name: "showReadout",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draws the level and peak figures beside the button instead of the band word.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Holds the button; the ring still shows the level.",
+      },
+    ],
+    usageNotes: [
+      'A real role="switch": Space and Enter mute and unmute, and no other key is stolen. The label names the microphone rather than its state, because aria-checked already carries on and off.',
+      'The level is a sibling role="meter" with an aria-valuetext sentence, deliberately not a live region — a level read aloud every frame is unusable. Only muting and unmuting are announced.',
+      "Under reduced motion the halo holds at one and carries the level as opacity, both arcs still fill because a level is information, and the slash swaps rather than drawing.",
+    ],
+  },
+  {
+    name: "speaker-grid",
+    type: "registry:ui",
+    title: "Speaker Grid",
+    description:
+      "Whoever speaks, comes forward. The speaker is derived rather than declared — the loudest participant at or above threshold — and when that changes every tile travels to its new cell with FLIP on glide, because all tiles are siblings of one list and keep their identity across a re-lay. The speaking tile lifts by 4px and rings on snap with the ring's opacity following the level. It is a listbox: arrows step across and down, Home and End jump, and Enter or Space pins a tile to the front whatever the levels do.",
+    files: [
+      {
+        path: "registry/ui/speaker-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-903",
+    },
+    tagline: "Whoever speaks, comes forward.",
+    keywords: [
+      "call",
+      "participants",
+      "speaker",
+      "grid",
+      "flip",
+      "chat",
+      "pin",
+    ],
+    props: [
+      {
+        name: "participants",
+        type: "SpeakerTile[]",
+        description:
+          "People on the call in join order, each with an id, a name, an optional 0–1 level and a muted flag.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "0.18",
+        description:
+          "Level at or above which a participant counts as speaking.",
+      },
+      {
+        name: "columns",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "Grid columns, clamped 1 to 4; also the stride Arrow Up and Down move by.",
+      },
+      {
+        name: "pinnedId / defaultPinnedId",
+        type: "string | null",
+        defaultValue: "null",
+        description:
+          "Controlled or initial pin; a pinned tile holds the front cell whatever the levels do.",
+      },
+      {
+        name: "onPinnedChange",
+        type: "(id: string | null) => void",
+        description: "Fires from a click, from Enter and from Space.",
+      },
+      {
+        name: "onSpeakerChange",
+        type: "(id: string | null) => void",
+        description: "Fires when the derived speaker changes.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the grid for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "A listbox with a roving tabindex: Arrow Left and Right step one tile, Arrow Up and Down move a whole row, Home and End jump to the first and last participant, and Enter or Space pins and unpins.",
+      "Speaking and muted are stated in words in every tile and in every option's label, so the ring and the lift are never the only signal; a polite status speaks one frozen sentence per speaker or pin change.",
+      "Under reduced motion the layout animation is switched off and tiles take their new cells instantly — the order is information and still changes — while nothing lifts and the ring appears on an opacity swap.",
+    ],
+  },
+  {
+    name: "hand-raise",
+    type: "registry:ui",
+    title: "Hand Raise",
+    description:
+      "A hand, raised. Pressing the control sends the glyph out of the button and into the queue rail on a shared layoutId prefixed by useId, travelling on recoil for ζ0.53's two visible bounces, while a chevron cross-fades into the slot it left and the label becomes Lower. The rail is an ordered list in flow whose height a ResizeObserver measures and glide opens from zero, and your place is frozen at the moment you raise, so later arrivals queue behind you and a hand lowering ahead moves you up.",
+    files: [
+      {
+        path: "registry/ui/hand-raise.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-904",
+    },
+    tagline: "A hand, raised.",
+    keywords: ["hand", "raise", "queue", "call", "chat", "order", "rail"],
+    props: [
+      {
+        name: "queue",
+        type: "RaisedHand[]",
+        description:
+          "Everyone but you, in raise order, each with an id and a name.",
+      },
+      {
+        name: "raised / defaultRaised",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial state of your own hand.",
+      },
+      {
+        name: "onRaisedChange",
+        type: "(raised: boolean) => void",
+        description: "Fires from the button, from Space and from Enter.",
+      },
+      {
+        name: "onPositionChange",
+        type: "(position: number) => void",
+        description:
+          "Fires with your 1-based place in the queue, or 0 once your hand is down.",
+      },
+      {
+        name: "youName",
+        type: "string",
+        defaultValue: '"You"',
+        description: "How your own entry is listed in the rail.",
+      },
+      {
+        name: "youId",
+        type: "string",
+        defaultValue: '"you"',
+        description: "The id your entry carries so a host can reconcile it.",
+      },
+      {
+        name: "maxVisible",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "Hands drawn before the rail folds the rest into a count; your own is never folded away.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Holds the button; the rail still lists and still reads.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Raise your hand"',
+        description: "Names the group for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'A real toggle button: Space and Enter raise and lower, and the label carries your place — "Lower your hand. You are 3rd in line." Every rail entry prints its ordinal and repeats the whole place as one sr-only sentence, so a place in the queue never depends on reading order alone.',
+      "The button's two readings stack in one grid cell and cross-fade rather than swapping, so rapid presses cannot queue a stale label and the width never jumps mid-press.",
+      "Under reduced motion the glyph does not fly — it cross-fades between the button and the rail — while the rail's height still opens and the positions still renumber, because a place in a queue is information.",
+    ],
+  },
+  {
+    name: "share-frame",
+    type: "registry:ui",
+    title: "Share Frame",
+    description:
+      "Your screen, shared. Pressing Share opens the preview in flow, its height measured by a ResizeObserver and glided from zero, while the border grows rather than appearing: one rounded-rect path with a fixed command count drawn by pathLength on glide, retracting on the exit ease when you stop. The surface inside is drawn from a hash of the source's id rather than captured, and choosing another source cross-fades the window under a frame that holds its shape. The sources are a real radiogroup on a roving tabindex.",
+    files: [
+      {
+        path: "registry/ui/share-frame.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-905",
+    },
+    tagline: "Your screen, shared.",
+    keywords: [
+      "share",
+      "screen",
+      "frame",
+      "preview",
+      "call",
+      "chat",
+      "viewers",
+    ],
+    props: [
+      {
+        name: "sources",
+        type: "ShareSource[]",
+        description:
+          "What can be shared: an id, a name and an optional kind of screen, window or board, each drawn procedurally from its id.",
+      },
+      {
+        name: "sourceId / defaultSourceId",
+        type: "string",
+        description:
+          "Controlled or initial chosen source; defaults to the first one.",
+      },
+      {
+        name: "onSourceChange",
+        type: "(id: string) => void",
+        description:
+          "Fires from a chip, from the arrows and from Home and End.",
+      },
+      {
+        name: "sharing / defaultSharing",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial sharing state.",
+      },
+      {
+        name: "onSharingChange",
+        type: "(sharing: boolean) => void",
+        description: "Fires from the Share and Stop sharing control.",
+      },
+      {
+        name: "viewers",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "How many people are watching; stated in words in the badge and in the frame's label.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Holds every control; a running share keeps its frame.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Screen share"',
+        description: "Names the group for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'The sources are a role="radiogroup" on a roving tabindex: Left and Right step without wrapping past the ends, Home and End jump, and Space selects. Share is one aria-pressed button whose label is a whole sentence naming the surface.',
+      "The frame opens in flow with a measured height and reserves its own space with an aspect ratio, so it never floats over what the host wrote below and never holds room for a share that is not happening.",
+      "Under reduced motion the frame still opens and closes because a share starting is information, but on a tween, with the border swapping in rather than drawing and the badge holding a steady ring instead of a pulse.",
+    ],
+  },
+  {
+    name: "call-quality",
+    type: "registry:ui",
+    title: "Call Quality",
+    description:
+      "How good the line is, as a staircase of bars that rise and fall with the grade on flick — a level meter follows the signal rather than settling into it — leaving the steps it lost behind as hairline ghosts. A reconnecting line flattens the bars and spins a ring around them at a constant linear rate, because a wait turns at a constant rate; a lost line holds a broken arc in danger. The pill is a real disclosure whose detail panel opens in flow on glide at a ResizeObserver-measured height, and Enter or Space opens it.",
+    files: [
+      {
+        path: "registry/ui/call-quality.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-906",
+    },
+    tagline: "How good the line is.",
+    keywords: [
+      "call",
+      "quality",
+      "signal",
+      "bars",
+      "reconnecting",
+      "meter",
+      "chat",
+    ],
+    props: [
+      {
+        name: "level",
+        type: "number",
+        description: "Grade 0–4, clamped and rounded; 4 is a clean line.",
+      },
+      {
+        name: "state",
+        type: '"live" | "reconnecting" | "lost"',
+        defaultValue: '"live"',
+        description:
+          "The transport's own state; anything but live flattens the bars and shows the ring.",
+      },
+      {
+        name: "rttMs",
+        type: "number",
+        description:
+          "Round-trip in milliseconds, printed in the pill and the panel.",
+      },
+      {
+        name: "lossPercent",
+        type: "number",
+        description: "Packet loss, printed with one decimal in the panel.",
+      },
+      {
+        name: "jitterMs",
+        type: "number",
+        description: "Jitter in milliseconds, printed in the panel.",
+      },
+      {
+        name: "dropNote",
+        type: "string",
+        description:
+          "One sentence about the last drop, at the foot of the panel.",
+      },
+      {
+        name: "bars",
+        type: "number",
+        defaultValue: "5",
+        description: "Steps in the staircase.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The detail panel, controlled or initial.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires as the panel opens and closes.",
+      },
+      {
+        name: "onGradeChange",
+        type: "(sentence: string) => void",
+        description:
+          'Fires once per frozen change sentence, such as "The line dropped to poor".',
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the meter for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'The grade is a role="meter" with an aria-valuetext sentence; the pill is a button with aria-expanded and aria-controls, and Enter or Space opens the panel in flow rather than over the page.',
+      "Under reduced motion the bars still change height on a tween — a grade is information — and the reconnecting ring holds a static broken arc instead of spinning.",
+      "A polite status speaks each change once, frozen at the moment it happened, so a re-render cannot repeat a past drop.",
+    ],
+  },
+  {
+    name: "voice-wave-row",
+    type: "registry:ui",
+    title: "Voice Row",
+    description:
+      "Who is talking, read off the waves. Each row's strip is driven entirely by the levels the host passes — there is no microphone here — with a fixed per-person profile so a voice keeps its shape, and the bars track the level on flick while silent rows flatten to a hairline. The loudest voice above the threshold takes the turn: its name lifts and turns cobalt on snap. Down and Up step the rows, Home and End jump, and Enter pins a row so its strip grows and holds contrast while others speak.",
+    files: [
+      {
+        path: "registry/ui/voice-wave-row.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-907",
+    },
+    tagline: "Who is talking, by the wave.",
+    keywords: [
+      "voice",
+      "waveform",
+      "speaking",
+      "call",
+      "participants",
+      "levels",
+      "chat",
+    ],
+    props: [
+      {
+        name: "participants",
+        type: "VoiceParticipant[]",
+        description:
+          "The people on the call as { id, name, muted? }, in the caller's order.",
+      },
+      {
+        name: "levels",
+        type: "Record<string, number>",
+        description:
+          "Level 0–1 per id, from the host; a missing id sits at zero.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "0.12",
+        description: "Level at or above which a row counts as speaking.",
+      },
+      {
+        name: "bars",
+        type: "number",
+        defaultValue: "12",
+        description: "Bars per strip.",
+      },
+      {
+        name: "pinnedId / defaultPinnedId",
+        type: "string | null",
+        defaultValue: "null",
+        description: "The pinned row, controlled or initial.",
+      },
+      {
+        name: "onPinnedChange",
+        type: "(id: string | null) => void",
+        description: "Fires as a row is pinned or unpinned.",
+      },
+      {
+        name: "onSpeakerChange",
+        type: "(sentence: string) => void",
+        description:
+          'Fires once per frozen change sentence, such as "Marta Ferreira is speaking".',
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the row list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "Rows are toggle buttons under a roving tabindex: Tab reaches the list once, Down and Up step, Home and End jump, Enter and Space pin the focused row.",
+      'Each row\'s name is one sentence — "Rui Baptista, microphone muted. Pin Rui Baptista." — so speaking, silent and muted never depend on colour, and levels are never announced.',
+      "Under reduced motion bars still rise and fall on a tween and the active name takes colour and weight instead of lifting.",
+    ],
+  },
+  {
+    name: "mute-all",
+    type: "registry:ui",
+    title: "Mute All",
+    description:
+      "Everyone, quiet — and a way back. Mute all commits every open microphone at once, because the state must never lag the promise, while each slash draws its pathLength on flick at a cascade() delay by row and a cobalt wash sweeps the list top to bottom. Undo restores exactly the microphones that sweep took, running the cascade bottom to top, so a mic somebody closed by hand stays closed. Down and Up step the mics under a roving tabindex and Space toggles one.",
+    files: [
+      {
+        path: "registry/ui/mute-all.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-908",
+    },
+    tagline: "Everyone, quiet.",
+    keywords: [
+      "mute",
+      "microphone",
+      "call",
+      "cascade",
+      "undo",
+      "roster",
+      "chat",
+    ],
+    props: [
+      {
+        name: "participants",
+        type: "MuteParticipant[]",
+        description:
+          "The people on the call as { id, name, role? }, in the caller's order.",
+      },
+      {
+        name: "mutedIds / defaultMutedIds",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "The muted set, controlled or initial.",
+      },
+      {
+        name: "onMutedIdsChange",
+        type: "(ids: string[]) => void",
+        description: "Fires from the sweep, the undo, and every row toggle.",
+      },
+      {
+        name: "onMuteAll",
+        type: "(count: number) => void",
+        description:
+          "Fires after a sweep with the number of microphones it muted.",
+      },
+      {
+        name: "onUndo",
+        type: "(count: number) => void",
+        description: "Fires after an undo with the number it unmuted.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description:
+          'Fires once per frozen change sentence, such as "Muted 4 microphones".',
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the roster for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The header control is one tab stop; the mic toggles share a roving tabindex where Down and Up step, Home and End jump, and Enter or Space toggles the focused microphone.",
+      'Every mic is a button with aria-pressed named "Mute Marta Ferreira" or "Unmute Marta Ferreira", so a closed microphone is never a red glyph alone, and counts are pluralised.',
+      "Under reduced motion nothing cascades and no wash travels: every slash swaps instantly, because which microphones are muted is information and the order they were taken in is flourish.",
+    ],
+  },
+  {
+    name: "call-end",
+    type: "registry:ui",
+    title: "Call End",
+    description:
+      "Hanging up costs a moment. Holding End drives a motion value from 0 to 1 at a linear rate over holdMs, and that value is the ring's pathLength, so the ring fills at the honest rate of the hold; releasing early stops it, drains the ring on the exit ease and says the call is still up. The call ends from the animation's completion callback, the bar leaves on the exit ease, and the frame glides to the ended line at a ResizeObserver-measured height. Space or Enter held fills the ring, releasing or Escape cancels.",
+    files: [
+      {
+        path: "registry/ui/call-end.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-909",
+    },
+    tagline: "Hang up, with a moment.",
+    keywords: ["call", "hang up", "hold", "confirm", "ring", "timer", "chat"],
+    props: [
+      {
+        name: "callName",
+        type: "string",
+        description: "The room, printed and spoken.",
+      },
+      {
+        name: "people",
+        type: "number",
+        defaultValue: "0",
+        description: "How many are on the call; printed and pluralised.",
+      },
+      {
+        name: "seconds",
+        type: "number",
+        description:
+          "Elapsed seconds from the host; this component never reads a clock.",
+      },
+      {
+        name: "holdMs",
+        type: "number",
+        defaultValue: "900",
+        description: "How long End must be held.",
+      },
+      {
+        name: "ended / defaultEnded",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The call's state, controlled or initial.",
+      },
+      {
+        name: "onEndedChange",
+        type: "(ended: boolean) => void",
+        description: "Fires as the call ends and as it is rejoined.",
+      },
+      {
+        name: "onEnd",
+        type: "(seconds: number) => void",
+        description:
+          "Fires once when a hold completes, with the elapsed seconds at that moment.",
+      },
+      {
+        name: "onCancel",
+        type: "() => void",
+        description: "Fires when a hold is released before it completes.",
+      },
+      {
+        name: "onHoldChange",
+        type: "(holding: boolean) => void",
+        description: "Fires as the hold starts and stops.",
+      },
+      {
+        name: "onRejoin",
+        type: "() => void",
+        description: "Fires from the Rejoin control on the ended line.",
+      },
+    ],
+    usageNotes: [
+      "Space or Enter held fills the ring and a key repeat cannot restart it; releasing the key, Escape, moving the pointer off the control, or losing focus all cancel and the hint reports that it cancelled.",
+      "The ring is aria-hidden and progress is never announced — a live percentage would talk over the hold — while a polite status speaks one frozen sentence per change.",
+      "Under reduced motion the ring still fills, because it is the only signal the gesture is working; the bar cross-fades to the ended line instead of sliding, and nothing bounces.",
+    ],
+  },
+  {
+    name: "ringtone-pulse",
+    type: "registry:ui",
+    title: "Ringtone Pulse",
+    description:
+      "Someone is calling, announced by light: this ringtone is a visual pulse and plays nothing. While the call is live, rings expand from the caller's procedural disc and fade on a repeating tween a third of a cycle apart, gated on document visibility so a hidden tab rings at nobody. Decline slides in from the left and Answer from the right on snap, a cascade(2) beat apart, because the choice should look like the choice; answering swaps the body to a connected line at a ResizeObserver-measured height, and Escape declines.",
+    files: [
+      {
+        path: "registry/ui/ringtone-pulse.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-910",
+    },
+    tagline: "Someone is calling.",
+    keywords: [
+      "call",
+      "incoming",
+      "ringtone",
+      "pulse",
+      "answer",
+      "decline",
+      "chat",
+    ],
+    props: [
+      {
+        name: "callerName",
+        type: "string",
+        description:
+          "Who is calling; drives the procedural initials and every sentence.",
+      },
+      {
+        name: "roomName",
+        type: "string",
+        description: "The room the call comes from, printed under the name.",
+      },
+      {
+        name: "status / defaultStatus",
+        type: '"ringing" | "answered" | "declined" | "missed"',
+        defaultValue: '"ringing"',
+        description: "The card's state, controlled or initial.",
+      },
+      {
+        name: "onStatusChange",
+        type: "(status: RingtoneStatus) => void",
+        description: "Fires from Answer, Decline and Escape.",
+      },
+      {
+        name: "onAnswer",
+        type: "() => void",
+        description: "Fires from the Answer control.",
+      },
+      {
+        name: "onDecline",
+        type: "() => void",
+        description: "Fires from the Decline control and from Escape.",
+      },
+      {
+        name: "rings",
+        type: "number",
+        defaultValue: "3",
+        description: "Expanding rings behind the disc.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the card for assistive technology; defaults to the calling sentence.",
+      },
+    ],
+    usageNotes: [
+      "Answer and Decline are real buttons sharing one height; Escape declines from anywhere inside the card, and focus lands on the line that replaces them rather than being dropped.",
+      "The card is a group named in one sentence and sits in flow, never floating over the host's content; a polite status speaks each change once.",
+      "Under reduced motion no rings expand and nothing slides: the disc holds a steady ring, the two controls fade in together, and the words carry the state.",
+    ],
+  },
 ];

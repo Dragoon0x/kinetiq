@@ -16833,6 +16833,232 @@ Notes:
 - The field is a combobox with aria-activedescendant over a listbox — Down and Up wrap, Home and End jump, Enter switches — and the active option is scrolled into view with block "nearest" rather than focused, so the field keeps taking keystrokes.
 - Under reduced motion the panel and scrim fade in place, the options stop travelling and the header cross-fades between the two room names without either of them moving.
 
+### Call Bar (KQ-901) — `call-bar`
+A call, ongoing, in the header.
+
+A call, ongoing, in the header. The bar lives in flow: a wrapper glides its ResizeObserver-measured height from zero on glide while the row rides down from 8px, so a call arriving pushes the thread rather than covering it. Ringing pulses a halo behind Join on a repeating tween; joining stops it, swaps to a plain Leave, and starts an elapsed figure held in one linearly driven motion value that pauses with the tab. Escape declines a ringing call but never hangs up a joined one.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/call-bar`
+
+Props:
+- `state / defaultState`: "none" | "ringing" | "joined" (default "none") — Controlled or initial call state.
+- `onStateChange`: (state: CallState) => void — Fires from Join, Decline and Leave.
+- `title`: string — The room or caller the call belongs to; shown and spoken.
+- `participants`: string[] (default []) — Names already in the call; drives the count sentence and the disc.
+- `startSeconds`: number (default 0) — Seconds already elapsed when the bar joins.
+- `onElapsedChange`: (seconds: number) => void — Fires once per whole second while joined.
+- `onJoin`: () => void — Fires after the state settles on joined.
+- `onLeave`: (seconds: number) => void — Fires after the state settles on none, with the run's final seconds.
+- `joinLabel`: string (default "Join") — Copy on the primary control while ringing.
+- `disabled`: boolean (default false) — Holds both controls; a running call still counts and still reads.
+
+Notes:
+- Tab reaches Join then Decline while ringing, and Leave alone once joined; Escape declines a ringing call but never hangs up a joined one, because leaving has to be deliberate.
+- Under reduced motion the bar's height still opens and closes — a call arriving is information — but on a tween, with no travel and no pulse; the elapsed figure counts exactly the same.
+- The mm:ss figure is plain text rather than a live region, so nobody is read a number every second; a polite status speaks one frozen sentence per change.
+
+### Mic Ring (KQ-902) — `mic-ring`
+Your voice, as a ring.
+
+Your voice, as a ring. One motion value holds the level and everything reads from it: a halo behind the button grows with it on flick, the rim fills a level arc by strokeDashoffset, and a thinner outer arc holds the recent peak and falls back linearly to the live level. Muting closes the ring on snap while a slash draws across the glyph on flick, and unmuting retracts it on the exit ease. The button is a real switch, so Space and Enter toggle it and the level sits beside it as a meter that can be queried but never announces.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mic-ring`
+
+Props:
+- `level`: number — Input level, 0 to 1, clamped. Supplied by the host; the component never reads a device.
+- `muted / defaultMuted`: boolean (default false) — Controlled or initial mute state.
+- `onMutedChange`: (muted: boolean) => void — Fires from the button, from Space and from Enter.
+- `onPeakChange`: (peak: number) => void — Fires when the held peak changes, as a rounded percentage 0 to 100.
+- `peakDecay`: number (default 0.6) — How fast a held peak falls back towards the live level, in level per second.
+- `name`: string (default "You") — Whose voice it is; owns the spoken sentences and the meter's label.
+- `showReadout`: boolean (default true) — Draws the level and peak figures beside the button instead of the band word.
+- `disabled`: boolean (default false) — Holds the button; the ring still shows the level.
+
+Notes:
+- A real role="switch": Space and Enter mute and unmute, and no other key is stolen. The label names the microphone rather than its state, because aria-checked already carries on and off.
+- The level is a sibling role="meter" with an aria-valuetext sentence, deliberately not a live region — a level read aloud every frame is unusable. Only muting and unmuting are announced.
+- Under reduced motion the halo holds at one and carries the level as opacity, both arcs still fill because a level is information, and the slash swaps rather than drawing.
+
+### Speaker Grid (KQ-903) — `speaker-grid`
+Whoever speaks, comes forward.
+
+Whoever speaks, comes forward. The speaker is derived rather than declared — the loudest participant at or above threshold — and when that changes every tile travels to its new cell with FLIP on glide, because all tiles are siblings of one list and keep their identity across a re-lay. The speaking tile lifts by 4px and rings on snap with the ring's opacity following the level. It is a listbox: arrows step across and down, Home and End jump, and Enter or Space pins a tile to the front whatever the levels do.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/speaker-grid`
+
+Props:
+- `participants`: SpeakerTile[] — People on the call in join order, each with an id, a name, an optional 0–1 level and a muted flag.
+- `threshold`: number (default 0.18) — Level at or above which a participant counts as speaking.
+- `columns`: number (default 2) — Grid columns, clamped 1 to 4; also the stride Arrow Up and Down move by.
+- `pinnedId / defaultPinnedId`: string | null (default null) — Controlled or initial pin; a pinned tile holds the front cell whatever the levels do.
+- `onPinnedChange`: (id: string | null) => void — Fires from a click, from Enter and from Space.
+- `onSpeakerChange`: (id: string | null) => void — Fires when the derived speaker changes.
+- `label`: string — Names the grid for assistive technology.
+
+Notes:
+- A listbox with a roving tabindex: Arrow Left and Right step one tile, Arrow Up and Down move a whole row, Home and End jump to the first and last participant, and Enter or Space pins and unpins.
+- Speaking and muted are stated in words in every tile and in every option's label, so the ring and the lift are never the only signal; a polite status speaks one frozen sentence per speaker or pin change.
+- Under reduced motion the layout animation is switched off and tiles take their new cells instantly — the order is information and still changes — while nothing lifts and the ring appears on an opacity swap.
+
+### Hand Raise (KQ-904) — `hand-raise`
+A hand, raised.
+
+A hand, raised. Pressing the control sends the glyph out of the button and into the queue rail on a shared layoutId prefixed by useId, travelling on recoil for ζ0.53's two visible bounces, while a chevron cross-fades into the slot it left and the label becomes Lower. The rail is an ordered list in flow whose height a ResizeObserver measures and glide opens from zero, and your place is frozen at the moment you raise, so later arrivals queue behind you and a hand lowering ahead moves you up.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hand-raise`
+
+Props:
+- `queue`: RaisedHand[] — Everyone but you, in raise order, each with an id and a name.
+- `raised / defaultRaised`: boolean (default false) — Controlled or initial state of your own hand.
+- `onRaisedChange`: (raised: boolean) => void — Fires from the button, from Space and from Enter.
+- `onPositionChange`: (position: number) => void — Fires with your 1-based place in the queue, or 0 once your hand is down.
+- `youName`: string (default "You") — How your own entry is listed in the rail.
+- `youId`: string (default "you") — The id your entry carries so a host can reconcile it.
+- `maxVisible`: number (default 5) — Hands drawn before the rail folds the rest into a count; your own is never folded away.
+- `disabled`: boolean (default false) — Holds the button; the rail still lists and still reads.
+- `label`: string (default "Raise your hand") — Names the group for assistive technology.
+
+Notes:
+- A real toggle button: Space and Enter raise and lower, and the label carries your place — "Lower your hand. You are 3rd in line." Every rail entry prints its ordinal and repeats the whole place as one sr-only sentence, so a place in the queue never depends on reading order alone.
+- The button's two readings stack in one grid cell and cross-fade rather than swapping, so rapid presses cannot queue a stale label and the width never jumps mid-press.
+- Under reduced motion the glyph does not fly — it cross-fades between the button and the rail — while the rail's height still opens and the positions still renumber, because a place in a queue is information.
+
+### Share Frame (KQ-905) — `share-frame`
+Your screen, shared.
+
+Your screen, shared. Pressing Share opens the preview in flow, its height measured by a ResizeObserver and glided from zero, while the border grows rather than appearing: one rounded-rect path with a fixed command count drawn by pathLength on glide, retracting on the exit ease when you stop. The surface inside is drawn from a hash of the source's id rather than captured, and choosing another source cross-fades the window under a frame that holds its shape. The sources are a real radiogroup on a roving tabindex.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/share-frame`
+
+Props:
+- `sources`: ShareSource[] — What can be shared: an id, a name and an optional kind of screen, window or board, each drawn procedurally from its id.
+- `sourceId / defaultSourceId`: string — Controlled or initial chosen source; defaults to the first one.
+- `onSourceChange`: (id: string) => void — Fires from a chip, from the arrows and from Home and End.
+- `sharing / defaultSharing`: boolean (default false) — Controlled or initial sharing state.
+- `onSharingChange`: (sharing: boolean) => void — Fires from the Share and Stop sharing control.
+- `viewers`: number (default 0) — How many people are watching; stated in words in the badge and in the frame's label.
+- `disabled`: boolean (default false) — Holds every control; a running share keeps its frame.
+- `label`: string (default "Screen share") — Names the group for assistive technology.
+
+Notes:
+- The sources are a role="radiogroup" on a roving tabindex: Left and Right step without wrapping past the ends, Home and End jump, and Space selects. Share is one aria-pressed button whose label is a whole sentence naming the surface.
+- The frame opens in flow with a measured height and reserves its own space with an aspect ratio, so it never floats over what the host wrote below and never holds room for a share that is not happening.
+- Under reduced motion the frame still opens and closes because a share starting is information, but on a tween, with the border swapping in rather than drawing and the badge holding a steady ring instead of a pulse.
+
+### Call Quality (KQ-906) — `call-quality`
+How good the line is.
+
+How good the line is, as a staircase of bars that rise and fall with the grade on flick — a level meter follows the signal rather than settling into it — leaving the steps it lost behind as hairline ghosts. A reconnecting line flattens the bars and spins a ring around them at a constant linear rate, because a wait turns at a constant rate; a lost line holds a broken arc in danger. The pill is a real disclosure whose detail panel opens in flow on glide at a ResizeObserver-measured height, and Enter or Space opens it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/call-quality`
+
+Props:
+- `level`: number — Grade 0–4, clamped and rounded; 4 is a clean line.
+- `state`: "live" | "reconnecting" | "lost" (default "live") — The transport's own state; anything but live flattens the bars and shows the ring.
+- `rttMs`: number — Round-trip in milliseconds, printed in the pill and the panel.
+- `lossPercent`: number — Packet loss, printed with one decimal in the panel.
+- `jitterMs`: number — Jitter in milliseconds, printed in the panel.
+- `dropNote`: string — One sentence about the last drop, at the foot of the panel.
+- `bars`: number (default 5) — Steps in the staircase.
+- `open / defaultOpen`: boolean (default false) — The detail panel, controlled or initial.
+- `onOpenChange`: (open: boolean) => void — Fires as the panel opens and closes.
+- `onGradeChange`: (sentence: string) => void — Fires once per frozen change sentence, such as "The line dropped to poor".
+- `label`: string — Names the meter for assistive technology.
+
+Notes:
+- The grade is a role="meter" with an aria-valuetext sentence; the pill is a button with aria-expanded and aria-controls, and Enter or Space opens the panel in flow rather than over the page.
+- Under reduced motion the bars still change height on a tween — a grade is information — and the reconnecting ring holds a static broken arc instead of spinning.
+- A polite status speaks each change once, frozen at the moment it happened, so a re-render cannot repeat a past drop.
+
+### Voice Row (KQ-907) — `voice-wave-row`
+Who is talking, by the wave.
+
+Who is talking, read off the waves. Each row's strip is driven entirely by the levels the host passes — there is no microphone here — with a fixed per-person profile so a voice keeps its shape, and the bars track the level on flick while silent rows flatten to a hairline. The loudest voice above the threshold takes the turn: its name lifts and turns cobalt on snap. Down and Up step the rows, Home and End jump, and Enter pins a row so its strip grows and holds contrast while others speak.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/voice-wave-row`
+
+Props:
+- `participants`: VoiceParticipant[] — The people on the call as { id, name, muted? }, in the caller's order.
+- `levels`: Record<string, number> — Level 0–1 per id, from the host; a missing id sits at zero.
+- `threshold`: number (default 0.12) — Level at or above which a row counts as speaking.
+- `bars`: number (default 12) — Bars per strip.
+- `pinnedId / defaultPinnedId`: string | null (default null) — The pinned row, controlled or initial.
+- `onPinnedChange`: (id: string | null) => void — Fires as a row is pinned or unpinned.
+- `onSpeakerChange`: (sentence: string) => void — Fires once per frozen change sentence, such as "Marta Ferreira is speaking".
+- `label`: string — Names the row list for assistive technology.
+
+Notes:
+- Rows are toggle buttons under a roving tabindex: Tab reaches the list once, Down and Up step, Home and End jump, Enter and Space pin the focused row.
+- Each row's name is one sentence — "Rui Baptista, microphone muted. Pin Rui Baptista." — so speaking, silent and muted never depend on colour, and levels are never announced.
+- Under reduced motion bars still rise and fall on a tween and the active name takes colour and weight instead of lifting.
+
+### Mute All (KQ-908) — `mute-all`
+Everyone, quiet.
+
+Everyone, quiet — and a way back. Mute all commits every open microphone at once, because the state must never lag the promise, while each slash draws its pathLength on flick at a cascade() delay by row and a cobalt wash sweeps the list top to bottom. Undo restores exactly the microphones that sweep took, running the cascade bottom to top, so a mic somebody closed by hand stays closed. Down and Up step the mics under a roving tabindex and Space toggles one.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mute-all`
+
+Props:
+- `participants`: MuteParticipant[] — The people on the call as { id, name, role? }, in the caller's order.
+- `mutedIds / defaultMutedIds`: string[] (default []) — The muted set, controlled or initial.
+- `onMutedIdsChange`: (ids: string[]) => void — Fires from the sweep, the undo, and every row toggle.
+- `onMuteAll`: (count: number) => void — Fires after a sweep with the number of microphones it muted.
+- `onUndo`: (count: number) => void — Fires after an undo with the number it unmuted.
+- `onAnnounce`: (sentence: string) => void — Fires once per frozen change sentence, such as "Muted 4 microphones".
+- `label`: string — Names the roster for assistive technology.
+
+Notes:
+- The header control is one tab stop; the mic toggles share a roving tabindex where Down and Up step, Home and End jump, and Enter or Space toggles the focused microphone.
+- Every mic is a button with aria-pressed named "Mute Marta Ferreira" or "Unmute Marta Ferreira", so a closed microphone is never a red glyph alone, and counts are pluralised.
+- Under reduced motion nothing cascades and no wash travels: every slash swaps instantly, because which microphones are muted is information and the order they were taken in is flourish.
+
+### Call End (KQ-909) — `call-end`
+Hang up, with a moment.
+
+Hanging up costs a moment. Holding End drives a motion value from 0 to 1 at a linear rate over holdMs, and that value is the ring's pathLength, so the ring fills at the honest rate of the hold; releasing early stops it, drains the ring on the exit ease and says the call is still up. The call ends from the animation's completion callback, the bar leaves on the exit ease, and the frame glides to the ended line at a ResizeObserver-measured height. Space or Enter held fills the ring, releasing or Escape cancels.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/call-end`
+
+Props:
+- `callName`: string — The room, printed and spoken.
+- `people`: number (default 0) — How many are on the call; printed and pluralised.
+- `seconds`: number — Elapsed seconds from the host; this component never reads a clock.
+- `holdMs`: number (default 900) — How long End must be held.
+- `ended / defaultEnded`: boolean (default false) — The call's state, controlled or initial.
+- `onEndedChange`: (ended: boolean) => void — Fires as the call ends and as it is rejoined.
+- `onEnd`: (seconds: number) => void — Fires once when a hold completes, with the elapsed seconds at that moment.
+- `onCancel`: () => void — Fires when a hold is released before it completes.
+- `onHoldChange`: (holding: boolean) => void — Fires as the hold starts and stops.
+- `onRejoin`: () => void — Fires from the Rejoin control on the ended line.
+
+Notes:
+- Space or Enter held fills the ring and a key repeat cannot restart it; releasing the key, Escape, moving the pointer off the control, or losing focus all cancel and the hint reports that it cancelled.
+- The ring is aria-hidden and progress is never announced — a live percentage would talk over the hold — while a polite status speaks one frozen sentence per change.
+- Under reduced motion the ring still fills, because it is the only signal the gesture is working; the bar cross-fades to the ended line instead of sliding, and nothing bounces.
+
+### Ringtone Pulse (KQ-910) — `ringtone-pulse`
+Someone is calling.
+
+Someone is calling, announced by light: this ringtone is a visual pulse and plays nothing. While the call is live, rings expand from the caller's procedural disc and fade on a repeating tween a third of a cycle apart, gated on document visibility so a hidden tab rings at nobody. Decline slides in from the left and Answer from the right on snap, a cascade(2) beat apart, because the choice should look like the choice; answering swaps the body to a connected line at a ResizeObserver-measured height, and Escape declines.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ringtone-pulse`
+
+Props:
+- `callerName`: string — Who is calling; drives the procedural initials and every sentence.
+- `roomName`: string — The room the call comes from, printed under the name.
+- `status / defaultStatus`: "ringing" | "answered" | "declined" | "missed" (default "ringing") — The card's state, controlled or initial.
+- `onStatusChange`: (status: RingtoneStatus) => void — Fires from Answer, Decline and Escape.
+- `onAnswer`: () => void — Fires from the Answer control.
+- `onDecline`: () => void — Fires from the Decline control and from Escape.
+- `rings`: number (default 3) — Expanding rings behind the disc.
+- `label`: string — Names the card for assistive technology; defaults to the calling sentence.
+
+Notes:
+- Answer and Decline are real buttons sharing one height; Escape declines from anywhere inside the card, and focus lands on the line that replaces them rather than being dropped.
+- The card is a group named in one sentence and sits in flow, never floating over the host's content; a polite status speaks each change once.
+- Under reduced motion no rings expand and nothing slides: the disc holds a steady ring, the two controls fade in together, and the words carry the state.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

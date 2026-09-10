@@ -1090,6 +1090,16 @@ import { MuteBellDemo } from "@/registry/demos/mute-bell.demo";
 import { ArchiveSlideDemo } from "@/registry/demos/archive-slide.demo";
 import { SectionCollapseDemo } from "@/registry/demos/section-collapse.demo";
 import { RoomSwitcherDemo } from "@/registry/demos/room-switcher.demo";
+import { CallBarDemo } from "@/registry/demos/call-bar.demo";
+import { MicRingDemo } from "@/registry/demos/mic-ring.demo";
+import { SpeakerGridDemo } from "@/registry/demos/speaker-grid.demo";
+import { HandRaiseDemo } from "@/registry/demos/hand-raise.demo";
+import { ShareFrameDemo } from "@/registry/demos/share-frame.demo";
+import { CallQualityDemo } from "@/registry/demos/call-quality.demo";
+import { VoiceWaveRowDemo } from "@/registry/demos/voice-wave-row.demo";
+import { MuteAllDemo } from "@/registry/demos/mute-all.demo";
+import { CallEndDemo } from "@/registry/demos/call-end.demo";
+import { RingtonePulseDemo } from "@/registry/demos/ringtone-pulse.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2194,4 +2204,14 @@ export const demos: Record<string, ComponentType> = {
   "archive-slide": ArchiveSlideDemo,
   "section-collapse": SectionCollapseDemo,
   "room-switcher": RoomSwitcherDemo,
+  "call-bar": CallBarDemo,
+  "mic-ring": MicRingDemo,
+  "speaker-grid": SpeakerGridDemo,
+  "hand-raise": HandRaiseDemo,
+  "share-frame": ShareFrameDemo,
+  "call-quality": CallQualityDemo,
+  "voice-wave-row": VoiceWaveRowDemo,
+  "mute-all": MuteAllDemo,
+  "call-end": CallEndDemo,
+  "ringtone-pulse": RingtonePulseDemo,
 };

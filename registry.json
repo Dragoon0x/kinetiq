@@ -24946,6 +24946,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "call-bar",
+      "type": "registry:ui",
+      "title": "Call Bar",
+      "description": "A call, ongoing, in the header. The bar lives in flow: a wrapper glides its ResizeObserver-measured height from zero on glide while the row rides down from 8px, so a call arriving pushes the thread rather than covering it. Ringing pulses a halo behind Join on a repeating tween; joining stops it, swaps to a plain Leave, and starts an elapsed figure held in one linearly driven motion value that pauses with the tab. Escape declines a ringing call but never hangs up a joined one.",
+      "files": [
+        {
+          "path": "registry/ui/call-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-901"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mic-ring",
+      "type": "registry:ui",
+      "title": "Mic Ring",
+      "description": "Your voice, as a ring. One motion value holds the level and everything reads from it: a halo behind the button grows with it on flick, the rim fills a level arc by strokeDashoffset, and a thinner outer arc holds the recent peak and falls back linearly to the live level. Muting closes the ring on snap while a slash draws across the glyph on flick, and unmuting retracts it on the exit ease. The button is a real switch, so Space and Enter toggle it and the level sits beside it as a meter that can be queried but never announces.",
+      "files": [
+        {
+          "path": "registry/ui/mic-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-902"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "speaker-grid",
+      "type": "registry:ui",
+      "title": "Speaker Grid",
+      "description": "Whoever speaks, comes forward. The speaker is derived rather than declared — the loudest participant at or above threshold — and when that changes every tile travels to its new cell with FLIP on glide, because all tiles are siblings of one list and keep their identity across a re-lay. The speaking tile lifts by 4px and rings on snap with the ring's opacity following the level. It is a listbox: arrows step across and down, Home and End jump, and Enter or Space pins a tile to the front whatever the levels do.",
+      "files": [
+        {
+          "path": "registry/ui/speaker-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-903"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hand-raise",
+      "type": "registry:ui",
+      "title": "Hand Raise",
+      "description": "A hand, raised. Pressing the control sends the glyph out of the button and into the queue rail on a shared layoutId prefixed by useId, travelling on recoil for ζ0.53's two visible bounces, while a chevron cross-fades into the slot it left and the label becomes Lower. The rail is an ordered list in flow whose height a ResizeObserver measures and glide opens from zero, and your place is frozen at the moment you raise, so later arrivals queue behind you and a hand lowering ahead moves you up.",
+      "files": [
+        {
+          "path": "registry/ui/hand-raise.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-904"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "share-frame",
+      "type": "registry:ui",
+      "title": "Share Frame",
+      "description": "Your screen, shared. Pressing Share opens the preview in flow, its height measured by a ResizeObserver and glided from zero, while the border grows rather than appearing: one rounded-rect path with a fixed command count drawn by pathLength on glide, retracting on the exit ease when you stop. The surface inside is drawn from a hash of the source's id rather than captured, and choosing another source cross-fades the window under a frame that holds its shape. The sources are a real radiogroup on a roving tabindex.",
+      "files": [
+        {
+          "path": "registry/ui/share-frame.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-905"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "call-quality",
+      "type": "registry:ui",
+      "title": "Call Quality",
+      "description": "How good the line is, as a staircase of bars that rise and fall with the grade on flick — a level meter follows the signal rather than settling into it — leaving the steps it lost behind as hairline ghosts. A reconnecting line flattens the bars and spins a ring around them at a constant linear rate, because a wait turns at a constant rate; a lost line holds a broken arc in danger. The pill is a real disclosure whose detail panel opens in flow on glide at a ResizeObserver-measured height, and Enter or Space opens it.",
+      "files": [
+        {
+          "path": "registry/ui/call-quality.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-906"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "voice-wave-row",
+      "type": "registry:ui",
+      "title": "Voice Row",
+      "description": "Who is talking, read off the waves. Each row's strip is driven entirely by the levels the host passes — there is no microphone here — with a fixed per-person profile so a voice keeps its shape, and the bars track the level on flick while silent rows flatten to a hairline. The loudest voice above the threshold takes the turn: its name lifts and turns cobalt on snap. Down and Up step the rows, Home and End jump, and Enter pins a row so its strip grows and holds contrast while others speak.",
+      "files": [
+        {
+          "path": "registry/ui/voice-wave-row.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-907"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mute-all",
+      "type": "registry:ui",
+      "title": "Mute All",
+      "description": "Everyone, quiet — and a way back. Mute all commits every open microphone at once, because the state must never lag the promise, while each slash draws its pathLength on flick at a cascade() delay by row and a cobalt wash sweeps the list top to bottom. Undo restores exactly the microphones that sweep took, running the cascade bottom to top, so a mic somebody closed by hand stays closed. Down and Up step the mics under a roving tabindex and Space toggles one.",
+      "files": [
+        {
+          "path": "registry/ui/mute-all.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-908"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "call-end",
+      "type": "registry:ui",
+      "title": "Call End",
+      "description": "Hanging up costs a moment. Holding End drives a motion value from 0 to 1 at a linear rate over holdMs, and that value is the ring's pathLength, so the ring fills at the honest rate of the hold; releasing early stops it, drains the ring on the exit ease and says the call is still up. The call ends from the animation's completion callback, the bar leaves on the exit ease, and the frame glides to the ended line at a ResizeObserver-measured height. Space or Enter held fills the ring, releasing or Escape cancels.",
+      "files": [
+        {
+          "path": "registry/ui/call-end.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-909"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ringtone-pulse",
+      "type": "registry:ui",
+      "title": "Ringtone Pulse",
+      "description": "Someone is calling, announced by light: this ringtone is a visual pulse and plays nothing. While the call is live, rings expand from the caller's procedural disc and fade on a repeating tween a third of a cycle apart, gated on document visibility so a hidden tab rings at nobody. Decline slides in from the left and Answer from the right on snap, a cascade(2) beat apart, because the choice should look like the choice; answering swaps the body to a connected line at a ResizeObserver-measured height, and Escape declines.",
+      "files": [
+        {
+          "path": "registry/ui/ringtone-pulse.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-910"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
