@@ -25756,6 +25756,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mention-list",
+      "type": "registry:ui",
+      "title": "Mention List",
+      "description": "The inbox of every place your name came up, with the line you were named in and your handle set as a chip inside it. Rows arrive from distances.step on snap in a cascade while layout on glide carries the rows already there down to make room, and opening one flares its own wash and drains it over durations.page on the exit ease before dimming the row to read. A roving tabindex moves with Down and Up, Home and End jump, and Enter or Space opens.",
+      "files": [
+        {
+          "path": "registry/ui/mention-list.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-931"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "digest-fold",
+      "type": "registry:ui",
+      "title": "Digest Fold",
+      "description": "What you missed, folded into one line: a count, the rooms and the hour it starts from, beside procedural author marks hashed from their names. Pressing the header unfolds the body against a ResizeObserver-measured height on glide while the chevron turns on snap and the rows fade in on a cascade, and pressing a row jumps to it, drawing a tick on flick before the row dims to opened. The header is a real disclosure, rows carry a roving tabindex, and Escape folds the card back to the header.",
+      "files": [
+        {
+          "path": "registry/ui/digest-fold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-932"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "notify-toggle",
+      "type": "registry:ui",
+      "title": "Notify Toggle",
+      "description": "The three honest answers to how much of a room you want: everything, only when you are named, nothing. One knob rides the three-stop track on a shared layoutId joined on glide, while under it a wheel of descriptions slides to match — a single ResizeObserver measures all three lines, so the strip travels by the heights above the chosen one and the window joins that line's own height with nothing reserved for the longest. The bell morphs on flick, drawing and undrawing its arcs, its at-mark and its clapper rather than interpolating a path; Left and Right step without wrapping, Home and End jump, and Space selects.",
+      "files": [
+        {
+          "path": "registry/ui/notify-toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-933"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "catchup-scroll",
+      "type": "registry:ui",
+      "title": "Catchup Scroll",
+      "description": "A catch-up control that reads the backlog to you at a stated pace: the run animates the box's own scrollTop imperatively across the words still to be read, linearly, because a reading speed that accelerates is a lie. Beside the thread a rail joins its fill on glide and marks a tick per message boundary, both measured from the rows themselves, and messages the rail has passed dim to read. Any touch stops it — a wheel, a pointer or a key inside the box — reported from the handler that caused it; Home and End jump to the top and the floor.",
+      "files": [
+        {
+          "path": "registry/ui/catchup-scroll.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-934"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "badge-count",
+      "type": "registry:ui",
+      "title": "Badge Count",
+      "description": "An app badge that behaves like one. The tile draws a procedural mark hashed from its own name, and an arrival bumps the pill from 1.25 back to 1 on recoil while the digits roll in strips of ten and a ResizeObserver-measured width joins on glide, so gaining a place widens the badge rather than jumping it. A count that falls never bumps, past max the strips hold at the cap and a plus arrives from distances.nudge on snap, and reading everything collapses the badge on the exit ease.",
+      "files": [
+        {
+          "path": "registry/ui/badge-count.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-935"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "priority-flag-chat",
+      "type": "registry:ui",
+      "title": "Priority Ping",
+      "description": "A thread whose urgent messages arrive louder and quieten when somebody says they have seen them. An urgent message settles into place on glide while a danger rail draws down its leading edge from scaleY 0 and a wash behind it breathes on a repeating tween, since a spring takes exactly two keyframes and a pulse has to come back. Acknowledging stops the wash, cools the rail to hairline, and swaps the flag's pennant for a tick on flick; the controls are one tab stop under a roving tabindex where Down and Up step, Home and End jump, and Enter or Space acknowledges without the control losing its place or its focus.",
+      "files": [
+        {
+          "path": "registry/ui/priority-flag-chat.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-936"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "quiet-hours",
+      "type": "registry:ui",
+      "title": "Quiet Hours",
+      "description": "A nightly window on a 24-hour rail, shaded as two segments when it crosses midnight because a night past the date line is still one window. Dragging a handle moves it 1:1 with the pointer and captures only after four pixels of travel, while a settled or keyed change re-shades on glide; inside the window the bell's two sound arcs retract by pathLength on flick and it dims, and underneath the next change counts down over a draining hairline. Each handle is a real slider: Arrow keys move by step, Page Up and Page Down by an hour, Home and End jump to the ends of the day.",
+      "files": [
+        {
+          "path": "registry/ui/quiet-hours.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-937"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "summary-strip",
+      "type": "registry:ui",
+      "title": "Summary Strip",
+      "description": "The gist of a long thread, sitting above it. A new summary types itself from an effect that holds while the tab is hidden, with the rest of the sentence laid out invisibly ahead of the caret so the box stays still, and the old line is wiped left to right by an animated clipPath on the exit ease rather than faded. A ResizeObserver measures the content and the strip's height joins it on glide, the refresh arrow turns one full turn per press on glide, and Enter or Space on that control refreshes while it stays aria-disabled rather than leaving the tab order.",
+      "files": [
+        {
+          "path": "registry/ui/summary-strip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-938"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "thread-digest",
+      "type": "registry:ui",
+      "title": "Thread Digest",
+      "description": "What moved while you were away, ordered by what moved last. Each row carries a column sparkline of when its messages landed, animated by each column's y and height on glide rather than by a path, and a thread that receives something climbs the list while every row it passes trades places on the same spring through position-only layout projection. The busiest column is tinted, a thread with nothing new dims and keeps its shape, and the list is one tab stop under a roving tabindex where Down and Up step, Home and End jump, and Enter or Space opens the focused thread.",
+      "files": [
+        {
+          "path": "registry/ui/thread-digest.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-939"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "snooze-chip",
+      "type": "registry:ui",
+      "title": "Snooze Chip",
+      "description": "One notification, put off until a stated time. The chip unfolds its durations in flow on a ResizeObserver-measured height joined on glide, and picking one slides the card sixteen pixels away on the exit ease while the block collapses to the stamp's own measured height and the stamp lands on recoil with a clock whose hands turn to the wake time. The wake time is arithmetic on a minute the host passes in, never a clock read: Left and Right rove the chips, Home and End jump, Escape folds and returns focus to the chip, and choosing one moves focus to Undo.",
+      "files": [
+        {
+          "path": "registry/ui/snooze-chip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-940"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

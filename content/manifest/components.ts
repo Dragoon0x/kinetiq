@@ -53028,4 +53028,784 @@ export const components: KinetiqItem[] = [
       "Ties break by the earliest slot, so the crown never flickers between two equal cells, and the spoken sentence is worked out by diffing the answer that actually arrived, never the one the press hoped for.",
     ],
   },
+  {
+    name: "mention-list",
+    type: "registry:ui",
+    title: "Mention List",
+    description:
+      "The inbox of every place your name came up, with the line you were named in and your handle set as a chip inside it. Rows arrive from distances.step on snap in a cascade while layout on glide carries the rows already there down to make room, and opening one flares its own wash and drains it over durations.page on the exit ease before dimming the row to read. A roving tabindex moves with Down and Up, Home and End jump, and Enter or Space opens.",
+    files: [
+      {
+        path: "registry/ui/mention-list.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-931",
+    },
+    tagline: "Where you were named.",
+    keywords: ["mentions", "inbox", "chat", "unread", "context", "jump"],
+    props: [
+      {
+        name: "mentions",
+        type: "Mention[]",
+        description:
+          "Newest first: id, author, room, time and the line you were named in.",
+      },
+      {
+        name: "handle",
+        type: "string",
+        defaultValue: '"@you"',
+        description: "The token marked as a chip inside each line.",
+      },
+      {
+        name: "openId / defaultOpenId",
+        type: "string | null",
+        defaultValue: "null",
+        description: "Controlled or initial open row.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string | null) => void",
+        description: "Fires from the press or key that opened a row.",
+      },
+      {
+        name: "onOpen",
+        type: "(mention: Mention) => void",
+        description:
+          "Fires with the whole mention so the host can jump its thread.",
+      },
+      {
+        name: "readIds / defaultReadIds",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "Controlled or initial read set.",
+      },
+      {
+        name: "onReadIdsChange",
+        type: "(ids: string[]) => void",
+        description:
+          "Fires from an open, or from the header's mark-all action.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description: "The frozen sentence the polite region just spoke.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Mentions"',
+        description: "Heads the card and names the list.",
+      },
+      {
+        name: "markAllLabel",
+        type: "string",
+        defaultValue: '"Mark all read"',
+        description: "Copy for the header action.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "280",
+        description: "Scroll ceiling for the list, in px.",
+      },
+    ],
+    usageNotes: [
+      "An ol of li whose rows are real buttons with a roving tabindex: Down and Up move, Home and End jump, Enter and Space open, and Mark all read keeps its own place in the tab order.",
+      'Each row is named as one sentence carrying its state in words — "Marta Ferreira named you in #coldbrook-yard, 02:14. … New." — so nothing depends on the dimmed ink alone.',
+      "Under reduced motion nothing travels or staggers; the glow still flares briefly, because it is the answer to where you just landed.",
+    ],
+  },
+  {
+    name: "digest-fold",
+    type: "registry:ui",
+    title: "Digest Fold",
+    description:
+      "What you missed, folded into one line: a count, the rooms and the hour it starts from, beside procedural author marks hashed from their names. Pressing the header unfolds the body against a ResizeObserver-measured height on glide while the chevron turns on snap and the rows fade in on a cascade, and pressing a row jumps to it, drawing a tick on flick before the row dims to opened. The header is a real disclosure, rows carry a roving tabindex, and Escape folds the card back to the header.",
+    files: [
+      {
+        path: "registry/ui/digest-fold.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-932",
+    },
+    tagline: "What you missed, folded.",
+    keywords: ["digest", "catch up", "chat", "fold", "summary", "missed"],
+    props: [
+      {
+        name: "groups",
+        type: "DigestGroup[]",
+        description: "What you missed, grouped by room, oldest first.",
+      },
+      {
+        name: "since",
+        type: "string",
+        description: "The time the digest starts from; printed and spoken.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial fold state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the header press or from Escape.",
+      },
+      {
+        name: "onJump",
+        type: "(message: DigestMessage, room: string) => void",
+        description: "Fires with the pressed row and the room it came from.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description: "The frozen sentence the polite region just spoke.",
+      },
+      {
+        name: "title",
+        type: "string",
+        defaultValue: '"While you were away"',
+        description: "The card's heading.",
+      },
+    ],
+    usageNotes: [
+      "The header is a disclosure with aria-expanded and aria-controls named as one sentence; the folded body is hidden from assistive technology and out of the tab order rather than merely clipped.",
+      "Rows carry a roving tabindex: Down and Up move, Home and End jump, Enter and Space jump to the message, and Escape folds the card and returns focus to the header.",
+      "Under reduced motion the height swaps, nothing cascades and the tick appears rather than drawing, but every count and mark still updates.",
+    ],
+  },
+  {
+    name: "notify-toggle",
+    type: "registry:ui",
+    title: "Notify Toggle",
+    description:
+      "The three honest answers to how much of a room you want: everything, only when you are named, nothing. One knob rides the three-stop track on a shared layoutId joined on glide, while under it a wheel of descriptions slides to match — a single ResizeObserver measures all three lines, so the strip travels by the heights above the chosen one and the window joins that line's own height with nothing reserved for the longest. The bell morphs on flick, drawing and undrawing its arcs, its at-mark and its clapper rather than interpolating a path; Left and Right step without wrapping, Home and End jump, and Space selects.",
+    files: [
+      {
+        path: "registry/ui/notify-toggle.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-933",
+    },
+    tagline: "All, mentions, nothing.",
+    keywords: [
+      "notifications",
+      "chat",
+      "bell",
+      "mentions",
+      "mute",
+      "radiogroup",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "NotifyLevel",
+        defaultValue: '"all"',
+        description: "Controlled or initial level: all, mentions or none.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: NotifyLevel) => void",
+        description:
+          "Fires from the press or key that chose the level, never from an effect.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description: "The frozen sentence the polite region just spoke.",
+      },
+      {
+        name: "room",
+        type: "string",
+        description:
+          "The room the setting belongs to; printed and spoken after a hash.",
+      },
+      {
+        name: "stops",
+        type: "[NotifyStop, NotifyStop, NotifyStop]",
+        description:
+          "Label and description per stop; defaults to All / Mentions / Nothing.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Notify me"',
+        description: "The group's visible heading.",
+      },
+    ],
+    usageNotes: [
+      "A real radio group with a roving tabindex: Left and Right (or Up and Down) step without wrapping past the ends, Home and End jump to all and nothing, Space and Enter select.",
+      "Each radio is named as one sentence including its description, so the description wheel stays out of the accessibility tree and a reader is never read all three.",
+      "Under reduced motion no knob travels — the checked stop draws its own pill — the wheel swaps, and the bell's marks cross-fade at full length rather than drawing.",
+    ],
+  },
+  {
+    name: "catchup-scroll",
+    type: "registry:ui",
+    title: "Catchup Scroll",
+    description:
+      "A catch-up control that reads the backlog to you at a stated pace: the run animates the box's own scrollTop imperatively across the words still to be read, linearly, because a reading speed that accelerates is a lie. Beside the thread a rail joins its fill on glide and marks a tick per message boundary, both measured from the rows themselves, and messages the rail has passed dim to read. Any touch stops it — a wheel, a pointer or a key inside the box — reported from the handler that caused it; Home and End jump to the top and the floor.",
+    files: [
+      {
+        path: "registry/ui/catchup-scroll.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-934",
+    },
+    tagline: "Read it all, at a pace.",
+    keywords: [
+      "catch up",
+      "autoscroll",
+      "chat",
+      "backlog",
+      "unread",
+      "progress",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "CatchupMessage[]",
+        description: "The backlog, oldest first: id, author, time and text.",
+      },
+      {
+        name: "playing / defaultPlaying",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial run state.",
+      },
+      {
+        name: "onPlayingChange",
+        type: "(playing: boolean) => void",
+        description:
+          "Fires from the control, from an interruption, and from the finish.",
+      },
+      {
+        name: "onProgressChange",
+        type: "(readCount: number) => void",
+        description: "Fires as the rail passes each message.",
+      },
+      {
+        name: "onFinish",
+        type: "() => void",
+        description: "Fires once when the run reaches the floor.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description: "The frozen sentence the polite region just spoke.",
+      },
+      {
+        name: "wordsPerMinute",
+        type: "number",
+        defaultValue: "220",
+        description: "Reading pace; sets how long the run takes.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Catch up"',
+        description: "Names the region and the control.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "240",
+        description: "Scroll ceiling for the thread, in px.",
+      },
+    ],
+    usageNotes: [
+      "The box is a region with tabIndex 0 so it scrolls from the keyboard: Home and End jump to the top and the floor, and any key, wheel or pointer press inside it stops the run where it stands.",
+      "The rail is a real progressbar with an aria-valuetext sentence, and a polite region speaks once per settle — on start, on stop, on finish — never once per row.",
+      "Under reduced motion the catch-up still runs but in steps: the box is seated on the next message at that message's reading time, so progress happens and nothing travels.",
+    ],
+  },
+  {
+    name: "badge-count",
+    type: "registry:ui",
+    title: "Badge Count",
+    description:
+      "An app badge that behaves like one. The tile draws a procedural mark hashed from its own name, and an arrival bumps the pill from 1.25 back to 1 on recoil while the digits roll in strips of ten and a ResizeObserver-measured width joins on glide, so gaining a place widens the badge rather than jumping it. A count that falls never bumps, past max the strips hold at the cap and a plus arrives from distances.nudge on snap, and reading everything collapses the badge on the exit ease.",
+    files: [
+      {
+        path: "registry/ui/badge-count.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-935",
+    },
+    tagline: "Unread, on the icon.",
+    keywords: ["badge", "unread", "count", "app icon", "chat", "overflow"],
+    props: [
+      {
+        name: "app",
+        type: "string",
+        description:
+          "The app's name: seeds the mark, captions the tile, and names the button.",
+      },
+      {
+        name: "count",
+        type: "number",
+        defaultValue: "0",
+        description: "Unread items. Zero collapses the badge.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "99",
+        description: "Cap; anything above reads as 99+.",
+      },
+      {
+        name: "noun",
+        type: "string",
+        defaultValue: '"unread message"',
+        description: "Pluralised into the spoken sentences.",
+      },
+      {
+        name: "tone",
+        type: '"signal" | "danger" | "neutral"',
+        defaultValue: '"signal"',
+        description: "The badge's ink.",
+      },
+      {
+        name: "onOpen",
+        type: "() => void",
+        description: "Fires from the press; clear the count in the host.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description: "The frozen sentence the polite region just spoke.",
+      },
+    ],
+    usageNotes: [
+      'The tile is a real button named as one properly pluralised sentence — "Coldbrook Threads, 12 unread messages." — so the badge itself stays aria-hidden and the number is never heard twice.',
+      "Enter and Space open the app; a polite region speaks one frozen sentence per change of the count.",
+      "Under reduced motion nothing bumps and nothing travels: the digits swap, the width swaps and the badge fades, but the number always updates.",
+    ],
+  },
+  {
+    name: "priority-flag-chat",
+    type: "registry:ui",
+    title: "Priority Ping",
+    description:
+      "A thread whose urgent messages arrive louder and quieten when somebody says they have seen them. An urgent message settles into place on glide while a danger rail draws down its leading edge from scaleY 0 and a wash behind it breathes on a repeating tween, since a spring takes exactly two keyframes and a pulse has to come back. Acknowledging stops the wash, cools the rail to hairline, and swaps the flag's pennant for a tick on flick; the controls are one tab stop under a roving tabindex where Down and Up step, Home and End jump, and Enter or Space acknowledges without the control losing its place or its focus.",
+    files: [
+      {
+        path: "registry/ui/priority-flag-chat.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-936",
+    },
+    tagline: "Marked urgent.",
+    keywords: ["urgent", "priority", "acknowledge", "thread", "chat", "alert"],
+    props: [
+      {
+        name: "messages",
+        type: "PriorityMessage[]",
+        description:
+          "The thread, oldest first: id, author, text, and the optional urgent, acknowledged and acknowledgedBy flags.",
+      },
+      {
+        name: "onAcknowledge",
+        type: "(id: string) => void",
+        description:
+          "Fires from a row's control and from Enter or Space on it; set acknowledged on that message here.",
+      },
+      {
+        name: "onPendingChange",
+        type: "(pending: number) => void",
+        description:
+          "Fires when the number of unacknowledged urgent messages changes.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description:
+          "Fires once per frozen change sentence, the same one the status region speaks.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread for assistive technology.",
+      },
+      {
+        name: "acknowledgeLabel",
+        type: "string",
+        defaultValue: '"Acknowledge"',
+        description: "Copy for the row control.",
+      },
+      {
+        name: "heading",
+        type: "string",
+        defaultValue: '"Priority"',
+        description: "The strip above the thread.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "260",
+        description:
+          "How tall the thread grows before it scrolls inside its own box.",
+      },
+    ],
+    usageNotes: [
+      "One tab stop into the thread: Down and Up step between urgent rows, Home and End jump to the ends, Enter and Space acknowledge. An acknowledged control keeps its place and its focus and becomes aria-disabled rather than leaving the tab order.",
+      'Urgency is a sentence, never colour alone: an urgent bubble carries a hidden "Urgent message." and the control is named "Acknowledge the urgent message from Ines."',
+      "Under reduced motion nothing travels and nothing breathes — the rail is drawn whole and the wash holds one steady tint — but it still cools on acknowledgement, because urgency is information.",
+    ],
+  },
+  {
+    name: "quiet-hours",
+    type: "registry:ui",
+    title: "Quiet Hours",
+    description:
+      "A nightly window on a 24-hour rail, shaded as two segments when it crosses midnight because a night past the date line is still one window. Dragging a handle moves it 1:1 with the pointer and captures only after four pixels of travel, while a settled or keyed change re-shades on glide; inside the window the bell's two sound arcs retract by pathLength on flick and it dims, and underneath the next change counts down over a draining hairline. Each handle is a real slider: Arrow keys move by step, Page Up and Page Down by an hour, Home and End jump to the ends of the day.",
+    files: [
+      {
+        path: "registry/ui/quiet-hours.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-937",
+    },
+    tagline: "Silent after ten.",
+    keywords: ["quiet", "notifications", "schedule", "range", "bell", "chat"],
+    props: [
+      {
+        name: "start / defaultStart",
+        type: "number",
+        defaultValue: "1320",
+        description: "Minutes past midnight when quiet begins.",
+      },
+      {
+        name: "end / defaultEnd",
+        type: "number",
+        defaultValue: "420",
+        description: "Minutes past midnight when quiet ends.",
+      },
+      {
+        name: "onRangeChange",
+        type: "(range: { start: number; end: number }) => void",
+        description:
+          "Fires from the setter that moved a handle, with both ends.",
+      },
+      {
+        name: "enabled / defaultEnabled",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Whether the window applies; the switch drives it.",
+      },
+      {
+        name: "onEnabledChange",
+        type: "(enabled: boolean) => void",
+        description: "Fires from the switch.",
+      },
+      {
+        name: "nowMinutes",
+        type: "number",
+        defaultValue: "1230",
+        description:
+          "The host's minute of the day, 0 to 1439. The component never reads a clock.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "15",
+        description: "Minutes per keyboard nudge and per pointer snap.",
+      },
+      {
+        name: "onQuietChange",
+        type: "(quiet: boolean) => void",
+        description:
+          "Fires each time the window opens or closes around nowMinutes.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Quiet hours"',
+        description: "The strip's heading, and the switch's name.",
+      },
+    ],
+    usageNotes: [
+      'Two role="slider" handles: Arrow keys move by step, Page Up and Page Down by an hour, Home and End jump to midnight and a quarter to midnight, and each speaks its value as "Quiet starts at 10:00 pm."',
+      "Nothing is scheduled in here: pass the minute of the day as nowMinutes and the countdown, the shade and the bell all derive from it.",
+      "Under reduced motion the handles and the shade repaint at once and the arcs swap without drawing, but the countdown and the draining hairline still run, because a countdown is information.",
+    ],
+  },
+  {
+    name: "summary-strip",
+    type: "registry:ui",
+    title: "Summary Strip",
+    description:
+      "The gist of a long thread, sitting above it. A new summary types itself from an effect that holds while the tab is hidden, with the rest of the sentence laid out invisibly ahead of the caret so the box stays still, and the old line is wiped left to right by an animated clipPath on the exit ease rather than faded. A ResizeObserver measures the content and the strip's height joins it on glide, the refresh arrow turns one full turn per press on glide, and Enter or Space on that control refreshes while it stays aria-disabled rather than leaving the tab order.",
+    files: [
+      {
+        path: "registry/ui/summary-strip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-938",
+    },
+    tagline: "The thread, in a line.",
+    keywords: ["summary", "thread", "typing", "wipe", "refresh", "chat"],
+    props: [
+      {
+        name: "summary",
+        type: "string",
+        description:
+          "The current summary. A new value wipes the old one and types itself.",
+      },
+      {
+        name: "covers",
+        type: "number",
+        description:
+          "How many messages this reading covers; printed and spoken, pluralised.",
+      },
+      {
+        name: "refreshing",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The host is writing a new one; the strip sweeps and reads busy.",
+      },
+      {
+        name: "typeSpeed",
+        type: "number",
+        defaultValue: "18",
+        description: "Milliseconds per character.",
+      },
+      {
+        name: "onRefresh",
+        type: "() => void",
+        description: "Fires from the refresh control.",
+      },
+      {
+        name: "onSettle",
+        type: "(text: string) => void",
+        description:
+          "Fires once, from an effect, when a summary finishes typing.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Summary"',
+        description: "The strip's small heading.",
+      },
+      {
+        name: "refreshLabel",
+        type: "string",
+        defaultValue: '"Write the summary again"',
+        description: "The control's spoken name.",
+      },
+    ],
+    usageNotes: [
+      "The refresh control is a real button reached by Tab and pressed with Enter or Space; while the host is writing it is aria-disabled rather than removed from the order.",
+      "While a summary types the strip is aria-busy and its text is hidden from assistive technology, and a status region says the whole sentence once when it settles — never a half-written word, never one announcement per character.",
+      "Under reduced motion the summary arrives whole, the old line cross-fades instead of wiping and the sweep holds steady, because the words are the information and the typing is the flourish.",
+    ],
+  },
+  {
+    name: "thread-digest",
+    type: "registry:ui",
+    title: "Thread Digest",
+    description:
+      "What moved while you were away, ordered by what moved last. Each row carries a column sparkline of when its messages landed, animated by each column's y and height on glide rather than by a path, and a thread that receives something climbs the list while every row it passes trades places on the same spring through position-only layout projection. The busiest column is tinted, a thread with nothing new dims and keeps its shape, and the list is one tab stop under a roving tabindex where Down and Up step, Home and End jump, and Enter or Space opens the focused thread.",
+    files: [
+      {
+        path: "registry/ui/thread-digest.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-939",
+    },
+    tagline: "Which threads moved.",
+    keywords: ["digest", "threads", "sparkline", "unread", "catch-up", "chat"],
+    props: [
+      {
+        name: "threads",
+        type: "DigestThread[]",
+        description:
+          "The threads: id, name, optional preview, unread, a monotonic activity rank, and one count per bucket.",
+      },
+      {
+        name: "bucketLabels",
+        type: "string[]",
+        description:
+          'Names for the buckets ("6 am", "7 am"), used in the row\'s spoken sentence.',
+      },
+      {
+        name: "onOpen",
+        type: "(id: string) => void",
+        description: "Fires from a row's press, and from Enter or Space on it.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description:
+          "Fires once per frozen change sentence, the same one the status region speaks.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the list for assistive technology.",
+      },
+      {
+        name: "heading",
+        type: "string",
+        defaultValue: '"While you were away"',
+        description: "The strip above the list.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Nothing moved"',
+        description: "Drawn when there are no threads.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "280",
+        description:
+          "How tall the list grows before it scrolls inside its own box.",
+      },
+    ],
+    usageNotes: [
+      "One tab stop into the list: Down and Up step rows, Home and End jump to the ends, Enter and Space open the focused thread. The roving index follows the row's identity, so a row that climbs while it holds focus keeps it.",
+      'The sparkline is aria-hidden and the row\'s name is one whole sentence — "Coldbrook yard, six new messages, busiest around 9 am." — so the shape is never the only copy of the information.',
+      "Sort by the activity rank you raise, never by a clock; under reduced motion the re-sort lands instantly and the columns still step to their new heights.",
+    ],
+  },
+  {
+    name: "snooze-chip",
+    type: "registry:ui",
+    title: "Snooze Chip",
+    description:
+      "One notification, put off until a stated time. The chip unfolds its durations in flow on a ResizeObserver-measured height joined on glide, and picking one slides the card sixteen pixels away on the exit ease while the block collapses to the stamp's own measured height and the stamp lands on recoil with a clock whose hands turn to the wake time. The wake time is arithmetic on a minute the host passes in, never a clock read: Left and Right rove the chips, Home and End jump, Escape folds and returns focus to the chip, and choosing one moves focus to Undo.",
+    files: [
+      {
+        path: "registry/ui/snooze-chip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-940",
+    },
+    tagline: "Remind me later.",
+    keywords: ["snooze", "notification", "remind", "later", "stamp", "chat"],
+    props: [
+      {
+        name: "title",
+        type: "string",
+        description: "Who or what the notification is from.",
+      },
+      {
+        name: "body",
+        type: "string",
+        description: "The one line of the notification.",
+      },
+      {
+        name: "meta",
+        type: "string",
+        description: "A quiet third line, such as the room it came from.",
+      },
+      {
+        name: "durations",
+        type: "SnoozeDuration[]",
+        defaultValue: "20 minutes / 1 hour / 3 hours / Tomorrow at 9",
+        description:
+          "The fold's stops: minutes from now, or an `at` minute of the day to wake at instead.",
+      },
+      {
+        name: "nowMinutes",
+        type: "number",
+        defaultValue: "945",
+        description:
+          "The host's minute of the day, 0 to 1439. The component never reads a clock.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial state of the duration fold.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the chip, from Escape, and from a chosen duration.",
+      },
+      {
+        name: "onSnooze",
+        type: "(snooze: { id: string; label: string; wakeMinutes: number } | null) => void",
+        description: "Fires with the chosen snooze, or null from Undo.",
+      },
+      {
+        name: "onWake",
+        type: "() => void",
+        description: "Fires once when nowMinutes reaches the wake time.",
+      },
+      {
+        name: "format",
+        type: "(minutes: number) => string",
+        description:
+          "Formats a minute of the day; defaults to a 12-hour clock.",
+      },
+      {
+        name: "snoozeLabel",
+        type: "string",
+        defaultValue: '"Snooze"',
+        description: "Copy for the chip.",
+      },
+    ],
+    usageNotes: [
+      "The chip is a disclosure with aria-expanded; inside the fold Left and Right rove the chips, Home and End jump to the ends, and Escape folds it and returns focus to the chip. Each chip is named with the time it produces, so the outcome is known before the press.",
+      "Choosing a duration moves focus to Undo, because the control that had it has just left with the card; Undo hands focus back to the chip. Whichever layer is not showing is out of the tab order and hidden from assistive technology.",
+      "Under reduced motion the two layers cross-fade in place, the block's height swaps rather than gliding and the clock's hands are drawn at the wake time without turning.",
+    ],
+  },
 ];

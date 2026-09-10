@@ -1120,6 +1120,16 @@ import { FormCardDemo } from "@/registry/demos/form-card.demo";
 import { LocationShareDemo } from "@/registry/demos/location-share.demo";
 import { ReceiptCardDemo } from "@/registry/demos/receipt-card.demo";
 import { AvailabilityGridDemo } from "@/registry/demos/availability-grid.demo";
+import { MentionListDemo } from "@/registry/demos/mention-list.demo";
+import { DigestFoldDemo } from "@/registry/demos/digest-fold.demo";
+import { NotifyToggleDemo } from "@/registry/demos/notify-toggle.demo";
+import { CatchupScrollDemo } from "@/registry/demos/catchup-scroll.demo";
+import { BadgeCountDemo } from "@/registry/demos/badge-count.demo";
+import { PriorityFlagChatDemo } from "@/registry/demos/priority-flag-chat.demo";
+import { QuietHoursDemo } from "@/registry/demos/quiet-hours.demo";
+import { SummaryStripDemo } from "@/registry/demos/summary-strip.demo";
+import { ThreadDigestDemo } from "@/registry/demos/thread-digest.demo";
+import { SnoozeChipDemo } from "@/registry/demos/snooze-chip.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2254,4 +2264,14 @@ export const demos: Record<string, ComponentType> = {
   "location-share": LocationShareDemo,
   "receipt-card": ReceiptCardDemo,
   "availability-grid": AvailabilityGridDemo,
+  "mention-list": MentionListDemo,
+  "digest-fold": DigestFoldDemo,
+  "notify-toggle": NotifyToggleDemo,
+  "catchup-scroll": CatchupScrollDemo,
+  "badge-count": BadgeCountDemo,
+  "priority-flag-chat": PriorityFlagChatDemo,
+  "quiet-hours": QuietHoursDemo,
+  "summary-strip": SummaryStripDemo,
+  "thread-digest": ThreadDigestDemo,
+  "snooze-chip": SnoozeChipDemo,
 };
