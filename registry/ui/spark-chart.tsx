@@ -318,20 +318,35 @@ export function SparkChart({
             </>
           )}
 
-          {/* The self-drawing trace. pathLength drives the reveal so stroke
-              width and joins are untouched; reduced motion paints it whole. */}
-          <motion.path
-            d={linePath}
-            fill="none"
-            stroke="var(--signal, var(--primary))"
-            strokeWidth={1.75}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            initial={motionSafe ? { pathLength: 0 } : false}
-            animate={{ pathLength: 1 }}
-            transition={motionSafe ? drawTransition : { duration: 0 }}
-          />
+          {/* The self-drawing trace. A clip sweeps across it, rather than a
+              `pathLength` dash: normalised dashes and
+              `vector-effect: non-scaling-stroke` disagree in a stretched box,
+              and the trace comes out short of its own last sample. Stroke
+              width and joins are untouched either way; reduced motion paints
+              it whole. */}
+          <defs>
+            <clipPath id={`${uid}-sweep`}>
+              <motion.rect
+                x="0"
+                y={-height}
+                height={height * 3}
+                initial={{ width: motionSafe ? 0 : VIEW_W }}
+                animate={{ width: VIEW_W }}
+                transition={motionSafe ? drawTransition : { duration: 0 }}
+              />
+            </clipPath>
+          </defs>
+          <g clipPath={`url(#${uid}-sweep)`}>
+            <path
+              d={linePath}
+              fill="none"
+              stroke="var(--signal, var(--primary))"
+              strokeWidth={1.75}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          </g>
 
           {/* Crosshair + highlighted sample. Snapping is instant — direct
               manipulation should track the pointer without lag. */}

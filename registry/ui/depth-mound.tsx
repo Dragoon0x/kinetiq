@@ -433,28 +433,33 @@ export function DepthMound({
         <span>{formatPrice(asks[asks.length - 1]?.price ?? 0)}</span>
       </div>
 
-      {/* The book in words, for anyone who cannot see the terrain. */}
-      <table className="sr-only">
-        <caption>{`${symbol ?? label} order book, ${summary}`}</caption>
-        <thead>
-          <tr>
-            <th scope="col">Side</th>
-            <th scope="col">Price</th>
-            <th scope="col">Size</th>
-            <th scope="col">Cumulative</th>
-          </tr>
-        </thead>
-        <tbody>
-          {columns.map((column) => (
-            <tr key={`${column.side}-${column.rank}`}>
-              <td>{column.side === "bid" ? "Bid" : "Ask"}</td>
-              <td>{formatPrice(column.price)}</td>
-              <td>{formatSize(column.size)}</td>
-              <td>{formatSize(column.cumulative)}</td>
+      {/* The book in words, for anyone who cannot see the terrain. The wrapper
+          carries the hiding, not the table: a table ignores a 1px width and
+          lays itself out at its content's size, so `sr-only` on the table
+          leaves a real box that can take the page sideways with it. */}
+      <div className="sr-only">
+        <table>
+          <caption>{`${symbol ?? label} order book, ${summary}`}</caption>
+          <thead>
+            <tr>
+              <th scope="col">Side</th>
+              <th scope="col">Price</th>
+              <th scope="col">Size</th>
+              <th scope="col">Cumulative</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {columns.map((column) => (
+              <tr key={`${column.side}-${column.rank}`}>
+                <td>{column.side === "bid" ? "Bid" : "Ask"}</td>
+                <td>{formatPrice(column.price)}</td>
+                <td>{formatSize(column.size)}</td>
+                <td>{formatSize(column.cumulative)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -486,21 +486,39 @@ export function NestEgg({
             vectorEffect="non-scaling-stroke"
             className="text-hairline-strong"
           />
-          <motion.path
-            d={curve}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            className="text-cobalt-bright"
-            // Drawn from year zero on mount, then bent in place by the rate:
-            // the same point count keeps the morph a morph, never a remount.
-            initial={motionSafe ? { d: curve, pathLength: 0 } : false}
-            animate={{ d: curve, pathLength: 1 }}
-            transition={{ d: glide, pathLength: glide }}
-          />
+          {/* The draw is a clip sweeping from year zero, not a dash: a
+              `pathLength` dash and `vector-effect: non-scaling-stroke` disagree
+              in a stretched box, and the curve ends up stopping a third of the
+              way along and staying there. */}
+          <defs>
+            <clipPath id={`${baseId}-sweep`}>
+              <motion.rect
+                x="0"
+                y="-20"
+                height="140"
+                initial={{ width: motionSafe ? 0 : 100 }}
+                animate={{ width: 100 }}
+                transition={glide}
+              />
+            </clipPath>
+          </defs>
+          <g clipPath={`url(#${baseId}-sweep)`}>
+            <motion.path
+              d={curve}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+              className="text-cobalt-bright"
+              // Bent in place by the rate: the same point count keeps the
+              // morph a morph, never a remount.
+              initial={motionSafe ? { d: curve } : false}
+              animate={{ d: curve }}
+              transition={{ d: glide }}
+            />
+          </g>
         </svg>
 
         <motion.span

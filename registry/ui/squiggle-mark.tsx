@@ -271,6 +271,33 @@ export function SquiggleMark({
                   preserveAspectRatio="none"
                   className="pointer-events-none absolute -bottom-1 left-0 h-1 w-full overflow-visible text-danger"
                 >
+                  {/* The mark is drawn and retracted by a clip travelling
+                      along it, not by a `pathLength` dash: normalised dashes
+                      and `vector-effect: non-scaling-stroke` disagree in a
+                      stretched box, and the squiggle stops short of the end of
+                      the word it is marking. */}
+                  <defs>
+                    <clipPath id={`${baseId}-wave-${index}`}>
+                      <motion.rect
+                        x="0"
+                        y="-4"
+                        height="12"
+                        initial={{ width: motionSafe ? 0 : wave.width }}
+                        animate={{
+                          // Accept retracts the mark along its own path;
+                          // ignore dissolves it where it lies.
+                          width: state?.status === "fixed" ? 0 : wave.width,
+                        }}
+                        transition={
+                          !motionSafe
+                            ? { duration: state ? durations.fast : 0 }
+                            : state
+                              ? exitFor(durations.base)
+                              : { ...springs.flick, delay: index * stagger }
+                        }
+                      />
+                    </clipPath>
+                  </defs>
                   <motion.path
                     d={wave.d}
                     fill="none"
@@ -278,12 +305,9 @@ export function SquiggleMark({
                     strokeWidth={1.2}
                     strokeLinecap="round"
                     vectorEffect="non-scaling-stroke"
-                    pathLength={1}
-                    initial={motionSafe ? { pathLength: 0, opacity: 1 } : false}
+                    clipPath={`url(#${baseId}-wave-${index})`}
+                    initial={false}
                     animate={{
-                      // Accept retracts the mark along its own path; ignore
-                      // dissolves it where it lies.
-                      pathLength: state?.status === "fixed" ? 0 : 1,
                       opacity: state?.status === "ignored" ? 0 : 1,
                     }}
                     transition={

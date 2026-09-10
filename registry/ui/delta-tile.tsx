@@ -247,19 +247,35 @@ export function DeltaTile({
             animate={{ opacity: 0.12 }}
             transition={{ duration: durations.base, ease: easings.enter }}
           />
-          <motion.path
-            key={`line-${seriesKey}`}
-            d={paths.line}
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.75}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            vectorEffect="non-scaling-stroke"
-            initial={motionSafe ? { pathLength: 0 } : false}
-            animate={{ pathLength: 1 }}
-            transition={motionSafe ? springs.glide : { duration: 0 }}
-          />
+          {/* The redraw is a clip sweeping across the tile rather than a
+              `pathLength` dash: normalised dashes and
+              `vector-effect: non-scaling-stroke` disagree in a stretched box,
+              and the line stops short of its own last reading. */}
+          <defs>
+            <clipPath id={`${baseId}-sweep`}>
+              <motion.rect
+                key={`sweep-${seriesKey}`}
+                x="0"
+                y={-VIEW_H}
+                height={VIEW_H * 3}
+                initial={{ width: motionSafe ? 0 : VIEW_W }}
+                animate={{ width: VIEW_W }}
+                transition={motionSafe ? springs.glide : { duration: 0 }}
+              />
+            </clipPath>
+          </defs>
+          <g clipPath={`url(#${baseId}-sweep)`}>
+            <path
+              key={`line-${seriesKey}`}
+              d={paths.line}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.75}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          </g>
         </svg>
 
         <motion.span
