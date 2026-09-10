@@ -1110,6 +1110,16 @@ import { AppealCardDemo } from "@/registry/demos/appeal-card.demo";
 import { FilterMaskDemo } from "@/registry/demos/filter-mask.demo";
 import { ModQueueDemo } from "@/registry/demos/mod-queue.demo";
 import { TrustLevelDemo } from "@/registry/demos/trust-level.demo";
+import { PollBuilderDemo } from "@/registry/demos/poll-builder.demo";
+import { EventCardDemo } from "@/registry/demos/event-card.demo";
+import { PayRequestDemo } from "@/registry/demos/pay-request.demo";
+import { TaskCardChatDemo } from "@/registry/demos/task-card-chat.demo";
+import { CountdownCardDemo } from "@/registry/demos/countdown-card.demo";
+import { CarouselCardDemo } from "@/registry/demos/carousel-card.demo";
+import { FormCardDemo } from "@/registry/demos/form-card.demo";
+import { LocationShareDemo } from "@/registry/demos/location-share.demo";
+import { ReceiptCardDemo } from "@/registry/demos/receipt-card.demo";
+import { AvailabilityGridDemo } from "@/registry/demos/availability-grid.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2234,4 +2244,14 @@ export const demos: Record<string, ComponentType> = {
   "filter-mask": FilterMaskDemo,
   "mod-queue": ModQueueDemo,
   "trust-level": TrustLevelDemo,
+  "poll-builder": PollBuilderDemo,
+  "event-card": EventCardDemo,
+  "pay-request": PayRequestDemo,
+  "task-card-chat": TaskCardChatDemo,
+  "countdown-card": CountdownCardDemo,
+  "carousel-card": CarouselCardDemo,
+  "form-card": FormCardDemo,
+  "location-share": LocationShareDemo,
+  "receipt-card": ReceiptCardDemo,
+  "availability-grid": AvailabilityGridDemo,
 };

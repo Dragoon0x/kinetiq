@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 919,
+      "components": 929,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -65183,6 +65183,1057 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/trust-level",
         "bun": "bunx --bun shadcn@latest add @kinetiq/trust-level",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/trust-level.json"
+      }
+    },
+    {
+      "slug": "poll-builder",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Poll Builder",
+      "serial": "KQ-921",
+      "tagline": "Ask the room.",
+      "description": "A poll written in the composer and watched from the thread. Each option added slides in from 8px on glide while the composer's box takes its new height from a ResizeObserver on its own content on the same spring, and the multiple-answers switch morphs the preview's marks between circles and squares on snap. Posting is the rise: the draft's dashed edge goes solid and the bubble comes up on recoil while the box closes to a posted line. Enter inside an option adds a row and takes focus into it, Backspace in an empty one removes it, and Control or Command with Enter posts.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "poll",
+        "composer",
+        "chat",
+        "options",
+        "preview",
+        "post"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "PollDraft",
+          "description": "Controlled or initial draft: question, options and whether multiple answers are allowed."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(draft: PollDraft) => void",
+          "description": "Fires from every keystroke, add, remove and switch, from the setter that made the change."
+        },
+        {
+          "name": "posted / defaultPosted",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial posted state; the composer closes while it is true."
+        },
+        {
+          "name": "onPostedChange",
+          "type": "(posted: boolean) => void",
+          "description": "Fires from Post and from the New poll control."
+        },
+        {
+          "name": "onSend",
+          "type": "(draft: PollDraft) => void",
+          "description": "Fires with the trimmed draft the moment Post is pressed."
+        },
+        {
+          "name": "maxOptions",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Options the poll may carry before Add option locks."
+        },
+        {
+          "name": "minOptions",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Rows the builder will not go below, and the count Post requires."
+        },
+        {
+          "name": "sender",
+          "type": "string",
+          "defaultValue": "\"You\"",
+          "description": "Name used in the preview bubble's sentence."
+        },
+        {
+          "name": "time",
+          "type": "string",
+          "description": "Already formatted; printed under the posted bubble. The component never reads a clock."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Thread\"",
+          "description": "Names the thread for assistive technology."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds every field and control; the preview still reads."
+        }
+      ],
+      "usageNotes": [
+        "Real inputs throughout: Tab runs question, option, its Remove, the next option, then Multiple, Add option and Post. Enter inside an option adds a row below and moves focus into it, Backspace in an empty option removes that row and returns focus above, and Control or Command with Enter posts from anywhere in the composer.",
+        "Post stays in the tab order while the draft is incomplete, carrying aria-disabled and an aria-label sentence naming what is missing rather than going silent.",
+        "Under reduced motion rows appear and vanish on opacity alone, the box resizes on a fast tween, and posting swaps the bubble's edge without the rise."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/poll-builder",
+      "registryItemUrl": "https://www.kinetiqui.com/r/poll-builder.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/poll-builder",
+        "npm": "npx shadcn@latest add @kinetiq/poll-builder",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/poll-builder",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/poll-builder",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/poll-builder.json"
+      }
+    },
+    {
+      "slug": "event-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Event Card",
+      "serial": "KQ-922",
+      "tagline": "Are you coming?",
+      "description": "An invitation sent into a thread, answered in the room. Your tile waits at the end of the attendee strip behind a dashed edge, and choosing moves it — motion reorders the same node into the going or maybe run on glide, ζ0.98, because joining a list is a layout shift and not a pop — while the going count rolls to its new figure on snap. The three controls are a real radio group: Left and Right move and select without wrapping, Home and End jump, and pressing the answer you already gave withdraws it.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "event",
+        "rsvp",
+        "invite",
+        "chat",
+        "attendees",
+        "avatar"
+      ],
+      "props": [
+        {
+          "name": "event",
+          "type": "ChatEvent",
+          "description": "The invitation: id, from, title, when, where, and an optional time and delivery mark."
+        },
+        {
+          "name": "attendees",
+          "type": "EventAttendee[]",
+          "description": "Everyone but you, each already going or a maybe."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "RsvpStatus | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial RSVP: going, maybe, no, or nothing yet."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(status: RsvpStatus | null, previous: RsvpStatus | null) => void",
+          "description": "Fires from the press or key that answers, and from the press that withdraws."
+        },
+        {
+          "name": "you",
+          "type": "string",
+          "defaultValue": "\"You\"",
+          "description": "Your display name; the initials on your own tile."
+        },
+        {
+          "name": "capacity",
+          "type": "number",
+          "description": "How many the event holds. Set, the chip reads 5 of 8 and Going locks with a sentence once it fills."
+        },
+        {
+          "name": "peerName",
+          "type": "string",
+          "defaultValue": "\"Them\"",
+          "description": "Names the sender in the delivery sentence."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Thread\"",
+          "description": "Names the thread for assistive technology."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the three controls; the card still reads."
+        }
+      ],
+      "usageNotes": [
+        "A radio group with a roving tabindex: Left and Up, Right and Down move and select without wrapping past the ends, Home and End jump, Space selects, and pressing the answer you already gave withdraws it.",
+        "Every control carries an aria-label sentence with the count in it and every attendee's name is real text, so no state rests on a fill or a tint.",
+        "Under reduced motion your tile does not travel — it is simply in its new place — and the count still changes, because a guest list is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/event-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/event-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/event-card",
+        "npm": "npx shadcn@latest add @kinetiq/event-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/event-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/event-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/event-card.json"
+      }
+    },
+    {
+      "slug": "pay-request",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pay Request",
+      "serial": "KQ-923",
+      "tagline": "Money, asked for in chat.",
+      "description": "A request for money sent as a message — a record of an ask, never a transfer. The amount rolls: each digit column takes its new position on snap so a re-split reads as the figure changing rather than the row redrawing. Under it a confirm track takes a deliberate gesture — the knob follows the pointer and captures it only after 4px of travel, returns on snap short of the threshold, and commits past it — and committing stamps a PAID mark from 1.16× on recoil while the track cross-fades to a settled row in one shared grid cell. The knob is a real slider: arrows step it, End commits, Escape abandons, Enter commits from where it stands.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "payment",
+        "request",
+        "chat",
+        "slide to confirm",
+        "amount",
+        "stamp"
+      ],
+      "props": [
+        {
+          "name": "request",
+          "type": "PayRequestMessage",
+          "description": "The message: id, from, who is asking, the amount, an optional note, time and delivery mark."
+        },
+        {
+          "name": "format",
+          "type": "(amount: number) => string",
+          "defaultValue": "en-US, two decimals",
+          "description": "Formats the amount; the figure is rounded to cents before it reaches it."
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "defaultValue": "\"BSN\"",
+          "description": "The unit printed beside the amount; it never rolls."
+        },
+        {
+          "name": "paid / defaultPaid",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial settled state; the track gives way to the settled row."
+        },
+        {
+          "name": "onPay",
+          "type": "() => void",
+          "description": "Fires once, the moment the gesture or key commits."
+        },
+        {
+          "name": "onProgressChange",
+          "type": "(percent: number) => void",
+          "description": "Fires with the knob's whole-percent position as it moves."
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "Share of the track the knob must pass to commit; short of it the knob returns."
+        },
+        {
+          "name": "paidAt",
+          "type": "string",
+          "description": "Already formatted; printed in the settled row. The component never reads a clock."
+        },
+        {
+          "name": "provider",
+          "type": "string",
+          "defaultValue": "\"Waylight Pay\"",
+          "description": "Printed in the footer beside the note that this is a request and not a transfer."
+        },
+        {
+          "name": "peerName",
+          "type": "string",
+          "defaultValue": "\"Them\"",
+          "description": "Names the sender in the delivery sentence."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Thread\"",
+          "description": "Names the thread for assistive technology."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the track; the card still reads."
+        }
+      ],
+      "usageNotes": [
+        "The knob is a real role=slider with aria-valuenow and an aria-label sentence: Right and Up step it 10 percent, Left and Down step back, Home returns it, End takes it to the far end and commits, Escape abandons the gesture, and Enter or Space commits from where it stands.",
+        "The pointer is captured only after 4px of travel, inside try/catch, so a plain click is never swallowed and a synthetic sweep cannot throw.",
+        "Under reduced motion the knob still follows the pointer but returns instantly, and the stamp fades on in place instead of bouncing — the outcome still shows, because it is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pay-request",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pay-request.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pay-request",
+        "npm": "npx shadcn@latest add @kinetiq/pay-request",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pay-request",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pay-request",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pay-request.json"
+      }
+    },
+    {
+      "slug": "task-card-chat",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Chat Task",
+      "serial": "KQ-924",
+      "tagline": "A task that ticks.",
+      "description": "A job handed to somebody in a thread, and the moment it is finished. The tick is drawn rather than revealed — its pathLength runs 0 to 1 on flick, the stroke arriving in the time a pen would take — then a rule strikes the line as a background wipe cloned onto every line fragment, so a wrapped title is struck line by line, and last the assignee's tile takes a check badge landing from 1.18× on recoil. The due line and the done line share one grid cell and cross-fade, so checking never moves the card. Space or Enter toggles the real checkbox.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "task",
+        "checkbox",
+        "tick",
+        "chat",
+        "assignee",
+        "done"
+      ],
+      "props": [
+        {
+          "name": "task",
+          "type": "ChatTask",
+          "description": "The message: id, from, title, assignee, and an optional due phrase, time and delivery mark."
+        },
+        {
+          "name": "checked / defaultChecked",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial done state."
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "(checked: boolean) => void",
+          "description": "Fires from the press or key that toggles the box, from the setter that made the change."
+        },
+        {
+          "name": "doneAt",
+          "type": "string",
+          "description": "Already formatted; printed in the done line. The component never reads a clock."
+        },
+        {
+          "name": "overdue",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Warms the due line and rewords it, so lateness is a sentence rather than a colour."
+        },
+        {
+          "name": "doneBy",
+          "type": "string",
+          "defaultValue": "the assignee's name",
+          "description": "Who is credited in the done line."
+        },
+        {
+          "name": "peerName",
+          "type": "string",
+          "defaultValue": "\"Them\"",
+          "description": "Names the sender in the delivery sentence."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Thread\"",
+          "description": "Names the thread for assistive technology."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds the checkbox; it keeps its place in the tab order and the card still reads."
+        }
+      ],
+      "usageNotes": [
+        "A real role=checkbox named by the task line and described by the line under it, so its name is the job and its description is the deadline; Space or Enter toggles it and it stays in the tab order while disabled, carrying aria-disabled.",
+        "The done state is spoken by aria-checked and by a real line of text, and lateness is worded rather than tinted, so nothing rests on the grey.",
+        "Under reduced motion the tick appears whole, the rule appears at full width and the badge fades on — all three still show, because a finished task is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/task-card-chat",
+      "registryItemUrl": "https://www.kinetiqui.com/r/task-card-chat.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/task-card-chat",
+        "npm": "npx shadcn@latest add @kinetiq/task-card-chat",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/task-card-chat",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/task-card-chat",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/task-card-chat.json"
+      }
+    },
+    {
+      "slug": "countdown-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Countdown Card",
+      "serial": "KQ-925",
+      "tagline": "Until the thing.",
+      "description": "A message that is counting, and the moment it stops. Each digit column is ten faces tall and takes its new position on snap, so the seconds column rolls every second while the minutes column sits still until it is its turn, and a rail under the digits drains linearly across the whole span. Reaching zero turns the card: the countdown face rotates from 0 to 90 degrees while the event face rotates from -90 to 0, both on glide with their back faces hidden, so one card turns over rather than two swapping. The run is one motion value started by a prop, held while the document is hidden, and never reads a clock.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "countdown",
+        "timer",
+        "chat",
+        "digits",
+        "flip",
+        "event"
+      ],
+      "props": [
+        {
+          "name": "event",
+          "type": "CountdownEvent",
+          "description": "The message: id, from, title, the line the event face shows on arrival, and an optional place, time and delivery mark."
+        },
+        {
+          "name": "seconds",
+          "type": "number",
+          "description": "The run's length in seconds. Changing it is the reset: the run remounts and starts over."
+        },
+        {
+          "name": "running",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Runs the countdown. The timing belongs to the host, never to a clock the card reads."
+        },
+        {
+          "name": "onRemainingChange",
+          "type": "(seconds: number) => void",
+          "description": "Fires from the run each time the whole second changes."
+        },
+        {
+          "name": "onReached",
+          "type": "() => void",
+          "description": "Fires once, when the remainder reaches zero and the card turns."
+        },
+        {
+          "name": "showHours",
+          "type": "boolean",
+          "defaultValue": "seconds >= 3600",
+          "description": "Forces the hours column for a run shorter than an hour."
+        },
+        {
+          "name": "peerName",
+          "type": "string",
+          "defaultValue": "\"Them\"",
+          "description": "Names the sender in the delivery sentence."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Thread\"",
+          "description": "Names the thread for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The readout is a role=timer whose aria-label is a sentence rebuilt each second but never announced; an sr-only status speaks only on settle and at coarse milestones — the run starting or being held, one minute left, ten seconds left, and zero.",
+        "The run lives in an effect with cleanup, holds where it stands while the document is hidden, and takes its length only from the seconds prop, so the card never reads Date.now().",
+        "Under reduced motion the card does not turn: the faces cross-fade in place and the digits swap without rolling, while the rail keeps draining at the same linear rate."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/countdown-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/countdown-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/countdown-card",
+        "npm": "npx shadcn@latest add @kinetiq/countdown-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/countdown-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/countdown-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/countdown-card.json"
+      }
+    },
+    {
+      "slug": "carousel-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Carousel Card",
+      "serial": "KQ-926",
+      "tagline": "Several cards, one message.",
+      "description": "A deck of cards carried by one message. The track glides to the chosen slide on glide while the dot row's pill travels between dots on snap through a useId-prefixed layoutId, so one pill moves rather than four dots blinking. A finger drags the rail one-to-one and the release snaps to the nearest card; Left and Right step the dots without wrapping, Home and End jump to the first and last, and focusing a card's control brings that card in.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "carousel",
+        "chat",
+        "cards",
+        "swipe",
+        "snap",
+        "deck",
+        "dots"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "CarouselCardItem[]",
+          "description": "The slides in rail order; each is { id, title, note?, price?, meta? } and draws a procedural swatch seeded from its id."
+        },
+        {
+          "name": "index / defaultIndex",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Controlled or initial slide index."
+        },
+        {
+          "name": "onIndexChange",
+          "type": "(index: number) => void",
+          "description": "Fires from the setter that moved the rail: an arrow, a dot, a key, or a settled drag."
+        },
+        {
+          "name": "onCardAction",
+          "type": "(item: CarouselCardItem) => void",
+          "description": "Fires from a slide's control with that slide's item."
+        },
+        {
+          "name": "actionLabel",
+          "type": "string",
+          "defaultValue": "\"View\"",
+          "description": "The word on each slide's control."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\")",
+          "description": "Money formatter for an item's price; the locale is pinned so the server's string matches the client's."
+        },
+        {
+          "name": "peek",
+          "type": "number",
+          "defaultValue": "28",
+          "description": "Pixels of the next card left showing, subtracted from the measured viewport width."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the carousel for assistive technology."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes on the bubble."
+        }
+      ],
+      "usageNotes": [
+        "Three tab stops: Previous, the dot row (roving tabindex, Left and Right step without wrapping, Home and End jump to the ends), and Next; every card's action control stays in the tab order and brings its card into view on focus.",
+        "Under reduced motion the track swaps on a fast tween instead of gliding and the dot pill drops its layoutId to fill in place; dragging still tracks the hand, because that motion is the viewer's own.",
+        "Pointer capture is taken only after 4px of travel and inside a try/catch, so a tap on a card's control still lands and a synthetic drag sweep never throws."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/carousel-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/carousel-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/carousel-card",
+        "npm": "npx shadcn@latest add @kinetiq/carousel-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/carousel-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/carousel-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/carousel-card.json"
+      }
+    },
+    {
+      "slug": "form-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Form Card",
+      "serial": "KQ-927",
+      "tagline": "A form, in the thread.",
+      "description": "A real form that lives in a thread and keeps its answer. Sending collapses the fields and stamps the values into a summary whose rows arrive from 8px on snap in a cascade while the box glides on glide to the height a ResizeObserver measured, and a Sent chip lands on recoil. An empty required field refuses the send instead of celebrating: it takes aria-invalid with a named message and focus, and Edit returns the fields with their values and puts focus back in the first one.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "form",
+        "chat",
+        "card",
+        "summary",
+        "fields",
+        "submit",
+        "edit"
+      ],
+      "props": [
+        {
+          "name": "fields",
+          "type": "FormCardField[]",
+          "description": "The questions in order; each is { id, label, kind?, options?, placeholder?, required?, hint? } and renders a real input or select."
+        },
+        {
+          "name": "values / defaultValues",
+          "type": "Record<string, string>",
+          "defaultValue": "{}",
+          "description": "Controlled or initial answers, keyed by field id."
+        },
+        {
+          "name": "onValuesChange",
+          "type": "(values: Record<string, string>) => void",
+          "description": "Fires from the change handler that caused it, with the next whole record."
+        },
+        {
+          "name": "submitted / defaultSubmitted",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial face: true shows the summary, false the fields."
+        },
+        {
+          "name": "onSubmittedChange",
+          "type": "(submitted: boolean) => void",
+          "description": "Fires from Send and from Edit, in that direction."
+        },
+        {
+          "name": "onSubmit",
+          "type": "(values: Record<string, string>) => void",
+          "description": "Fires once from a send that passed, with the frozen answers."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "defaultValue": "\"Delivery details\"",
+          "description": "The card's heading, which names the form for assistive technology."
+        },
+        {
+          "name": "note",
+          "type": "string",
+          "description": "One quieter line under the heading."
+        },
+        {
+          "name": "submitLabel",
+          "type": "string",
+          "defaultValue": "\"Send details\"",
+          "description": "The word on the submit control."
+        },
+        {
+          "name": "editLabel",
+          "type": "string",
+          "defaultValue": "\"Edit\"",
+          "description": "The word on the summary's control."
+        },
+        {
+          "name": "sentLabel",
+          "type": "string",
+          "defaultValue": "\"Sent\"",
+          "description": "The chip's word once the card is sent."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds every field and control."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes on the card."
+        }
+      ],
+      "usageNotes": [
+        "A real form: every field has a real label, Enter inside a text field submits, a refused send moves focus to the first field that still needs an answer, and Edit returns focus to the first field once the faces have swapped.",
+        "Under reduced motion the two faces cross-fade on a fast tween, the summary rows arrive together instead of cascading, and the Sent chip appears at full size with no bounce.",
+        "The box measures whichever face is live with a ResizeObserver and ignores the zero reading taken mid-swap, so no height is reserved for the taller face and the card never collapses for a frame."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/form-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/form-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/form-card",
+        "npm": "npx shadcn@latest add @kinetiq/form-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/form-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/form-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/form-card.json"
+      }
+    },
+    {
+      "slug": "location-share",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Location Share",
+      "serial": "KQ-928",
+      "tagline": "Where I am, live.",
+      "description": "A live location in the thread. The pin glides across a procedural map on glide as each new position arrives, the walked path draws behind it, and an accuracy halo breathes on a slow reversing tween. A ring around the sharer's initials empties as the share runs out, driven from a secondsLeft prop rather than a clock read during render, and stopping dims the pin to a last-seen marker; a polite region speaks one sentence per place change, never per tick.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "location",
+        "live",
+        "map",
+        "chat",
+        "share",
+        "countdown",
+        "pin"
+      ],
+      "props": [
+        {
+          "name": "person",
+          "type": "string",
+          "description": "Who is sharing; the puck's initials are taken from it."
+        },
+        {
+          "name": "position",
+          "type": "{ x: number; y: number }",
+          "description": "The pin, normalised 0 to 1 inside the map box; every derived coordinate is rounded before it reaches an attribute."
+        },
+        {
+          "name": "trail",
+          "type": "Array<{ x: number; y: number }>",
+          "defaultValue": "[]",
+          "description": "The path already walked, oldest first, drawn as a polyline behind the pin."
+        },
+        {
+          "name": "place",
+          "type": "string",
+          "description": "The nearest landmark in words; a change here is what the live region announces."
+        },
+        {
+          "name": "secondsLeft",
+          "type": "number",
+          "description": "Seconds of sharing left. The host counts it down; the card never reads a clock."
+        },
+        {
+          "name": "totalSeconds",
+          "type": "number",
+          "defaultValue": "900",
+          "description": "The share's full length, which the countdown ring is drawn against."
+        },
+        {
+          "name": "status",
+          "type": "\"live\" | \"ended\"",
+          "defaultValue": "\"live\"",
+          "description": "Ended dims the pin, stops the halo and replaces the controls with a last-seen line."
+        },
+        {
+          "name": "lastSeenTime",
+          "type": "string",
+          "description": "A preformatted time shown once the share has ended."
+        },
+        {
+          "name": "accuracyMeters",
+          "type": "number",
+          "defaultValue": "20",
+          "description": "Sizes the halo and is spoken in the map's accessible name."
+        },
+        {
+          "name": "seed",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "Picks the procedural map: streets, river and park all come from integers."
+        },
+        {
+          "name": "onStop",
+          "type": "() => void",
+          "description": "Fires from the Stop control."
+        },
+        {
+          "name": "onExtend",
+          "type": "(seconds: number) => void",
+          "description": "Fires from Add 15 minutes with 900."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the card for assistive technology."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes on the card."
+        }
+      ],
+      "usageNotes": [
+        "The map is a role=img named by one whole sentence, the countdown is a role=timer with aria-live off, and a polite status speaks only on a place change, on the last minute, and at the end.",
+        "Under reduced motion the pin swaps to its new position instantly and the halo holds a steady disc, but the countdown ring still empties: how long is left is information, not flourish.",
+        "Nothing here reads a clock. The host owns the tick and passes secondsLeft, so a demo's interval can live in an effect with cleanup and pause while the document is hidden."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/location-share",
+      "registryItemUrl": "https://www.kinetiqui.com/r/location-share.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/location-share",
+        "npm": "npx shadcn@latest add @kinetiq/location-share",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/location-share",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/location-share",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/location-share.json"
+      }
+    },
+    {
+      "slug": "receipt-card",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Receipt Card",
+      "serial": "KQ-929",
+      "tagline": "Paid, and here is the proof.",
+      "description": "A paid receipt folded into one line of a thread. Pressing it unrolls the paper: the body's height is measured through a callback ref and glides open on glide while the item lines arrive from 4px up in a cascade, and the total lands last and rolls its digits up from zero on snap. Enter and Space fold and unfold it, Escape folds it from anywhere inside and returns focus to the summary control, and the torn bottom edge is drawn from integer teeth sized by its container.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "receipt",
+        "chat",
+        "payment",
+        "unroll",
+        "total",
+        "fold",
+        "proof"
+      ],
+      "props": [
+        {
+          "name": "merchant",
+          "type": "string",
+          "description": "Who was paid; it heads the summary and names the card."
+        },
+        {
+          "name": "date",
+          "type": "string",
+          "description": "A preformatted date. The card never reads a clock."
+        },
+        {
+          "name": "method",
+          "type": "string",
+          "defaultValue": "\"Waylight Pay\"",
+          "description": "How it was paid, in words, printed beside the date."
+        },
+        {
+          "name": "reference",
+          "type": "string",
+          "description": "A reference code printed under the total."
+        },
+        {
+          "name": "lines",
+          "type": "ReceiptLine[]",
+          "description": "The item lines as { id, label, qty?, amount }, printed in order and summed into the total."
+        },
+        {
+          "name": "extras",
+          "type": "ReceiptLine[]",
+          "defaultValue": "[]",
+          "description": "Service, delivery and the like, printed under a dashed rule and summed with the rest."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial fold state."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the summary control and from Escape, with the next state."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "Intl.NumberFormat(\"en-US\")",
+          "description": "Money formatter for every figure; amounts are rounded to cents before they are summed or spoken."
+        },
+        {
+          "name": "paidLabel",
+          "type": "string",
+          "defaultValue": "\"Paid\"",
+          "description": "The chip's word, which says the state in words rather than in a colour."
+        },
+        {
+          "name": "totalLabel",
+          "type": "string",
+          "defaultValue": "\"Total\"",
+          "description": "The total row's word."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the receipt for assistive technology; falls back to a sentence naming the merchant."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes on the card."
+        }
+      ],
+      "usageNotes": [
+        "The summary is a real button with aria-expanded and aria-controls whose name is one whole sentence carrying the merchant, the total and the date; Enter and Space toggle it and Escape folds it from anywhere inside, returning focus to the control.",
+        "Under reduced motion the lines fade in together with no cascade and no travel, the height swaps on a fast tween, and the total appears at its value instead of rolling.",
+        "The body is unmounted while the receipt is folded, so its height is measured through a callback ref that attaches the observer when the node arrives rather than in a mount-only effect that would find nothing."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/receipt-card",
+      "registryItemUrl": "https://www.kinetiqui.com/r/receipt-card.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/receipt-card",
+        "npm": "npx shadcn@latest add @kinetiq/receipt-card",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/receipt-card",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/receipt-card",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/receipt-card.json"
+      }
+    },
+    {
+      "slug": "availability-grid",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Availability Grid",
+      "serial": "KQ-930",
+      "tagline": "When everyone is free.",
+      "description": "A message that asks a room when it is free and answers itself as the answers arrive. Each cell fills from its bottom edge on glide by the share of the room that can make that slot, the figure rolls to its new value on snap, and the crown ring travels from the old leader to the new one on snap through a useId-prefixed layoutId. It is a real role=grid with a roving tabindex — arrows move a cell, Home and End jump along the row, Space toggles your answer — and posting the leader stamps a tick on recoil.",
+      "categories": [
+        "chat"
+      ],
+      "keywords": [
+        "availability",
+        "grid",
+        "poll",
+        "chat",
+        "slots",
+        "vote",
+        "schedule"
+      ],
+      "props": [
+        {
+          "name": "days",
+          "type": "string[]",
+          "description": "Column headings in order; long names truncate with a title."
+        },
+        {
+          "name": "times",
+          "type": "string[]",
+          "description": "Row headings in order, one per time band."
+        },
+        {
+          "name": "people",
+          "type": "number",
+          "description": "The room's size. Every count is out of it, and it sizes each fill's share."
+        },
+        {
+          "name": "votes",
+          "type": "Record<string, number>",
+          "defaultValue": "{}",
+          "description": "Everyone else's answers, keyed \"<dayIndex>-<timeIndex>\"."
+        },
+        {
+          "name": "mine / defaultMine",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Controlled or initial list of slot keys you said yes to — the only vote a viewer can change."
+        },
+        {
+          "name": "onMineChange",
+          "type": "(keys: string[]) => void",
+          "description": "Fires from the setter that toggled a cell, with the next whole list."
+        },
+        {
+          "name": "decided",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "The posted slot key. Only the host sets it; it locks the grid and stamps the chosen cell."
+        },
+        {
+          "name": "onPost",
+          "type": "(key: string) => void",
+          "description": "Fires from the post control with the leading slot's key."
+        },
+        {
+          "name": "postLabel",
+          "type": "string",
+          "defaultValue": "\"Post this time\"",
+          "description": "The word on the post control."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Holds every cell and the post control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "Names the grid for assistive technology."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes on the card."
+        }
+      ],
+      "usageNotes": [
+        "A real role=grid with columnheaders, rowheaders and a roving tabindex: arrows move one cell, Home and End jump to the ends of the row, and Space or Enter toggles your answer. Each cell's name is one whole sentence naming the slot, the count and your own answer.",
+        "Under reduced motion the fills still fill and the figures still change — a count is information — but nothing travels, the crown appears on the leader rather than flying to it, and the posted tick lands at full size.",
+        "Ties break by the earliest slot, so the crown never flickers between two equal cells, and the spoken sentence is worked out by diffing the answer that actually arrived, never the one the press hoped for."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/availability-grid",
+      "registryItemUrl": "https://www.kinetiqui.com/r/availability-grid.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/availability-grid",
+        "npm": "npx shadcn@latest add @kinetiq/availability-grid",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/availability-grid",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/availability-grid",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/availability-grid.json"
       }
     },
     {

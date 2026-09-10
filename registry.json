@@ -25486,6 +25486,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "poll-builder",
+      "type": "registry:ui",
+      "title": "Poll Builder",
+      "description": "A poll written in the composer and watched from the thread. Each option added slides in from 8px on glide while the composer's box takes its new height from a ResizeObserver on its own content on the same spring, and the multiple-answers switch morphs the preview's marks between circles and squares on snap. Posting is the rise: the draft's dashed edge goes solid and the bubble comes up on recoil while the box closes to a posted line. Enter inside an option adds a row and takes focus into it, Backspace in an empty one removes it, and Control or Command with Enter posts.",
+      "files": [
+        {
+          "path": "registry/ui/poll-builder.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-921"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "event-card",
+      "type": "registry:ui",
+      "title": "Event Card",
+      "description": "An invitation sent into a thread, answered in the room. Your tile waits at the end of the attendee strip behind a dashed edge, and choosing moves it — motion reorders the same node into the going or maybe run on glide, ζ0.98, because joining a list is a layout shift and not a pop — while the going count rolls to its new figure on snap. The three controls are a real radio group: Left and Right move and select without wrapping, Home and End jump, and pressing the answer you already gave withdraws it.",
+      "files": [
+        {
+          "path": "registry/ui/event-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-922"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pay-request",
+      "type": "registry:ui",
+      "title": "Pay Request",
+      "description": "A request for money sent as a message — a record of an ask, never a transfer. The amount rolls: each digit column takes its new position on snap so a re-split reads as the figure changing rather than the row redrawing. Under it a confirm track takes a deliberate gesture — the knob follows the pointer and captures it only after 4px of travel, returns on snap short of the threshold, and commits past it — and committing stamps a PAID mark from 1.16× on recoil while the track cross-fades to a settled row in one shared grid cell. The knob is a real slider: arrows step it, End commits, Escape abandons, Enter commits from where it stands.",
+      "files": [
+        {
+          "path": "registry/ui/pay-request.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-923"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "task-card-chat",
+      "type": "registry:ui",
+      "title": "Chat Task",
+      "description": "A job handed to somebody in a thread, and the moment it is finished. The tick is drawn rather than revealed — its pathLength runs 0 to 1 on flick, the stroke arriving in the time a pen would take — then a rule strikes the line as a background wipe cloned onto every line fragment, so a wrapped title is struck line by line, and last the assignee's tile takes a check badge landing from 1.18× on recoil. The due line and the done line share one grid cell and cross-fade, so checking never moves the card. Space or Enter toggles the real checkbox.",
+      "files": [
+        {
+          "path": "registry/ui/task-card-chat.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-924"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "countdown-card",
+      "type": "registry:ui",
+      "title": "Countdown Card",
+      "description": "A message that is counting, and the moment it stops. Each digit column is ten faces tall and takes its new position on snap, so the seconds column rolls every second while the minutes column sits still until it is its turn, and a rail under the digits drains linearly across the whole span. Reaching zero turns the card: the countdown face rotates from 0 to 90 degrees while the event face rotates from -90 to 0, both on glide with their back faces hidden, so one card turns over rather than two swapping. The run is one motion value started by a prop, held while the document is hidden, and never reads a clock.",
+      "files": [
+        {
+          "path": "registry/ui/countdown-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-925"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "carousel-card",
+      "type": "registry:ui",
+      "title": "Carousel Card",
+      "description": "A deck of cards carried by one message. The track glides to the chosen slide on glide while the dot row's pill travels between dots on snap through a useId-prefixed layoutId, so one pill moves rather than four dots blinking. A finger drags the rail one-to-one and the release snaps to the nearest card; Left and Right step the dots without wrapping, Home and End jump to the first and last, and focusing a card's control brings that card in.",
+      "files": [
+        {
+          "path": "registry/ui/carousel-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-926"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "form-card",
+      "type": "registry:ui",
+      "title": "Form Card",
+      "description": "A real form that lives in a thread and keeps its answer. Sending collapses the fields and stamps the values into a summary whose rows arrive from 8px on snap in a cascade while the box glides on glide to the height a ResizeObserver measured, and a Sent chip lands on recoil. An empty required field refuses the send instead of celebrating: it takes aria-invalid with a named message and focus, and Edit returns the fields with their values and puts focus back in the first one.",
+      "files": [
+        {
+          "path": "registry/ui/form-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-927"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "location-share",
+      "type": "registry:ui",
+      "title": "Location Share",
+      "description": "A live location in the thread. The pin glides across a procedural map on glide as each new position arrives, the walked path draws behind it, and an accuracy halo breathes on a slow reversing tween. A ring around the sharer's initials empties as the share runs out, driven from a secondsLeft prop rather than a clock read during render, and stopping dims the pin to a last-seen marker; a polite region speaks one sentence per place change, never per tick.",
+      "files": [
+        {
+          "path": "registry/ui/location-share.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-928"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "receipt-card",
+      "type": "registry:ui",
+      "title": "Receipt Card",
+      "description": "A paid receipt folded into one line of a thread. Pressing it unrolls the paper: the body's height is measured through a callback ref and glides open on glide while the item lines arrive from 4px up in a cascade, and the total lands last and rolls its digits up from zero on snap. Enter and Space fold and unfold it, Escape folds it from anywhere inside and returns focus to the summary control, and the torn bottom edge is drawn from integer teeth sized by its container.",
+      "files": [
+        {
+          "path": "registry/ui/receipt-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-929"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "availability-grid",
+      "type": "registry:ui",
+      "title": "Availability Grid",
+      "description": "A message that asks a room when it is free and answers itself as the answers arrive. Each cell fills from its bottom edge on glide by the share of the room that can make that slot, the figure rolls to its new value on snap, and the crown ring travels from the old leader to the new one on snap through a useId-prefixed layoutId. It is a real role=grid with a roving tabindex — arrows move a cell, Home and End jump along the row, Space toggles your answer — and posting the leader stamps a tick on recoil.",
+      "files": [
+        {
+          "path": "registry/ui/availability-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-930"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

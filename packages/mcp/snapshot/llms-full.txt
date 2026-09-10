@@ -17319,6 +17319,256 @@ Notes:
 - The value lives on a role="meter" whose aria-valuetext is a whole sentence — "Level 3 of 4, Trusted, 62 percent of the way to Guide." — and the panel opens in flow in a measured height rather than floating over the host's content.
 - Under reduced motion the fill still fills and the panel still opens on fast tweens; nothing stamps, but a level lost still dims once so the direction of the change survives.
 
+### Poll Builder (KQ-921) — `poll-builder`
+Ask the room.
+
+A poll written in the composer and watched from the thread. Each option added slides in from 8px on glide while the composer's box takes its new height from a ResizeObserver on its own content on the same spring, and the multiple-answers switch morphs the preview's marks between circles and squares on snap. Posting is the rise: the draft's dashed edge goes solid and the bubble comes up on recoil while the box closes to a posted line. Enter inside an option adds a row and takes focus into it, Backspace in an empty one removes it, and Control or Command with Enter posts.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/poll-builder`
+
+Props:
+- `value / defaultValue`: PollDraft — Controlled or initial draft: question, options and whether multiple answers are allowed.
+- `onValueChange`: (draft: PollDraft) => void — Fires from every keystroke, add, remove and switch, from the setter that made the change.
+- `posted / defaultPosted`: boolean (default false) — Controlled or initial posted state; the composer closes while it is true.
+- `onPostedChange`: (posted: boolean) => void — Fires from Post and from the New poll control.
+- `onSend`: (draft: PollDraft) => void — Fires with the trimmed draft the moment Post is pressed.
+- `maxOptions`: number (default 6) — Options the poll may carry before Add option locks.
+- `minOptions`: number (default 2) — Rows the builder will not go below, and the count Post requires.
+- `sender`: string (default "You") — Name used in the preview bubble's sentence.
+- `time`: string — Already formatted; printed under the posted bubble. The component never reads a clock.
+- `label`: string (default "Thread") — Names the thread for assistive technology.
+- `disabled`: boolean (default false) — Holds every field and control; the preview still reads.
+
+Notes:
+- Real inputs throughout: Tab runs question, option, its Remove, the next option, then Multiple, Add option and Post. Enter inside an option adds a row below and moves focus into it, Backspace in an empty option removes that row and returns focus above, and Control or Command with Enter posts from anywhere in the composer.
+- Post stays in the tab order while the draft is incomplete, carrying aria-disabled and an aria-label sentence naming what is missing rather than going silent.
+- Under reduced motion rows appear and vanish on opacity alone, the box resizes on a fast tween, and posting swaps the bubble's edge without the rise.
+
+### Event Card (KQ-922) — `event-card`
+Are you coming?
+
+An invitation sent into a thread, answered in the room. Your tile waits at the end of the attendee strip behind a dashed edge, and choosing moves it — motion reorders the same node into the going or maybe run on glide, ζ0.98, because joining a list is a layout shift and not a pop — while the going count rolls to its new figure on snap. The three controls are a real radio group: Left and Right move and select without wrapping, Home and End jump, and pressing the answer you already gave withdraws it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/event-card`
+
+Props:
+- `event`: ChatEvent — The invitation: id, from, title, when, where, and an optional time and delivery mark.
+- `attendees`: EventAttendee[] — Everyone but you, each already going or a maybe.
+- `value / defaultValue`: RsvpStatus | null (default null) — Controlled or initial RSVP: going, maybe, no, or nothing yet.
+- `onValueChange`: (status: RsvpStatus | null, previous: RsvpStatus | null) => void — Fires from the press or key that answers, and from the press that withdraws.
+- `you`: string (default "You") — Your display name; the initials on your own tile.
+- `capacity`: number — How many the event holds. Set, the chip reads 5 of 8 and Going locks with a sentence once it fills.
+- `peerName`: string (default "Them") — Names the sender in the delivery sentence.
+- `label`: string (default "Thread") — Names the thread for assistive technology.
+- `disabled`: boolean (default false) — Holds the three controls; the card still reads.
+
+Notes:
+- A radio group with a roving tabindex: Left and Up, Right and Down move and select without wrapping past the ends, Home and End jump, Space selects, and pressing the answer you already gave withdraws it.
+- Every control carries an aria-label sentence with the count in it and every attendee's name is real text, so no state rests on a fill or a tint.
+- Under reduced motion your tile does not travel — it is simply in its new place — and the count still changes, because a guest list is information.
+
+### Pay Request (KQ-923) — `pay-request`
+Money, asked for in chat.
+
+A request for money sent as a message — a record of an ask, never a transfer. The amount rolls: each digit column takes its new position on snap so a re-split reads as the figure changing rather than the row redrawing. Under it a confirm track takes a deliberate gesture — the knob follows the pointer and captures it only after 4px of travel, returns on snap short of the threshold, and commits past it — and committing stamps a PAID mark from 1.16× on recoil while the track cross-fades to a settled row in one shared grid cell. The knob is a real slider: arrows step it, End commits, Escape abandons, Enter commits from where it stands.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pay-request`
+
+Props:
+- `request`: PayRequestMessage — The message: id, from, who is asking, the amount, an optional note, time and delivery mark.
+- `format`: (amount: number) => string (default en-US, two decimals) — Formats the amount; the figure is rounded to cents before it reaches it.
+- `currency`: string (default "BSN") — The unit printed beside the amount; it never rolls.
+- `paid / defaultPaid`: boolean (default false) — Controlled or initial settled state; the track gives way to the settled row.
+- `onPay`: () => void — Fires once, the moment the gesture or key commits.
+- `onProgressChange`: (percent: number) => void — Fires with the knob's whole-percent position as it moves.
+- `threshold`: number (default 0.6) — Share of the track the knob must pass to commit; short of it the knob returns.
+- `paidAt`: string — Already formatted; printed in the settled row. The component never reads a clock.
+- `provider`: string (default "Waylight Pay") — Printed in the footer beside the note that this is a request and not a transfer.
+- `peerName`: string (default "Them") — Names the sender in the delivery sentence.
+- `label`: string (default "Thread") — Names the thread for assistive technology.
+- `disabled`: boolean (default false) — Holds the track; the card still reads.
+
+Notes:
+- The knob is a real role=slider with aria-valuenow and an aria-label sentence: Right and Up step it 10 percent, Left and Down step back, Home returns it, End takes it to the far end and commits, Escape abandons the gesture, and Enter or Space commits from where it stands.
+- The pointer is captured only after 4px of travel, inside try/catch, so a plain click is never swallowed and a synthetic sweep cannot throw.
+- Under reduced motion the knob still follows the pointer but returns instantly, and the stamp fades on in place instead of bouncing — the outcome still shows, because it is information.
+
+### Chat Task (KQ-924) — `task-card-chat`
+A task that ticks.
+
+A job handed to somebody in a thread, and the moment it is finished. The tick is drawn rather than revealed — its pathLength runs 0 to 1 on flick, the stroke arriving in the time a pen would take — then a rule strikes the line as a background wipe cloned onto every line fragment, so a wrapped title is struck line by line, and last the assignee's tile takes a check badge landing from 1.18× on recoil. The due line and the done line share one grid cell and cross-fade, so checking never moves the card. Space or Enter toggles the real checkbox.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/task-card-chat`
+
+Props:
+- `task`: ChatTask — The message: id, from, title, assignee, and an optional due phrase, time and delivery mark.
+- `checked / defaultChecked`: boolean (default false) — Controlled or initial done state.
+- `onCheckedChange`: (checked: boolean) => void — Fires from the press or key that toggles the box, from the setter that made the change.
+- `doneAt`: string — Already formatted; printed in the done line. The component never reads a clock.
+- `overdue`: boolean (default false) — Warms the due line and rewords it, so lateness is a sentence rather than a colour.
+- `doneBy`: string (default the assignee's name) — Who is credited in the done line.
+- `peerName`: string (default "Them") — Names the sender in the delivery sentence.
+- `label`: string (default "Thread") — Names the thread for assistive technology.
+- `disabled`: boolean (default false) — Holds the checkbox; it keeps its place in the tab order and the card still reads.
+
+Notes:
+- A real role=checkbox named by the task line and described by the line under it, so its name is the job and its description is the deadline; Space or Enter toggles it and it stays in the tab order while disabled, carrying aria-disabled.
+- The done state is spoken by aria-checked and by a real line of text, and lateness is worded rather than tinted, so nothing rests on the grey.
+- Under reduced motion the tick appears whole, the rule appears at full width and the badge fades on — all three still show, because a finished task is information.
+
+### Countdown Card (KQ-925) — `countdown-card`
+Until the thing.
+
+A message that is counting, and the moment it stops. Each digit column is ten faces tall and takes its new position on snap, so the seconds column rolls every second while the minutes column sits still until it is its turn, and a rail under the digits drains linearly across the whole span. Reaching zero turns the card: the countdown face rotates from 0 to 90 degrees while the event face rotates from -90 to 0, both on glide with their back faces hidden, so one card turns over rather than two swapping. The run is one motion value started by a prop, held while the document is hidden, and never reads a clock.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/countdown-card`
+
+Props:
+- `event`: CountdownEvent — The message: id, from, title, the line the event face shows on arrival, and an optional place, time and delivery mark.
+- `seconds`: number — The run's length in seconds. Changing it is the reset: the run remounts and starts over.
+- `running`: boolean (default false) — Runs the countdown. The timing belongs to the host, never to a clock the card reads.
+- `onRemainingChange`: (seconds: number) => void — Fires from the run each time the whole second changes.
+- `onReached`: () => void — Fires once, when the remainder reaches zero and the card turns.
+- `showHours`: boolean (default seconds >= 3600) — Forces the hours column for a run shorter than an hour.
+- `peerName`: string (default "Them") — Names the sender in the delivery sentence.
+- `label`: string (default "Thread") — Names the thread for assistive technology.
+
+Notes:
+- The readout is a role=timer whose aria-label is a sentence rebuilt each second but never announced; an sr-only status speaks only on settle and at coarse milestones — the run starting or being held, one minute left, ten seconds left, and zero.
+- The run lives in an effect with cleanup, holds where it stands while the document is hidden, and takes its length only from the seconds prop, so the card never reads Date.now().
+- Under reduced motion the card does not turn: the faces cross-fade in place and the digits swap without rolling, while the rail keeps draining at the same linear rate.
+
+### Carousel Card (KQ-926) — `carousel-card`
+Several cards, one message.
+
+A deck of cards carried by one message. The track glides to the chosen slide on glide while the dot row's pill travels between dots on snap through a useId-prefixed layoutId, so one pill moves rather than four dots blinking. A finger drags the rail one-to-one and the release snaps to the nearest card; Left and Right step the dots without wrapping, Home and End jump to the first and last, and focusing a card's control brings that card in.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/carousel-card`
+
+Props:
+- `items`: CarouselCardItem[] — The slides in rail order; each is { id, title, note?, price?, meta? } and draws a procedural swatch seeded from its id.
+- `index / defaultIndex`: number (default 0) — Controlled or initial slide index.
+- `onIndexChange`: (index: number) => void — Fires from the setter that moved the rail: an arrow, a dot, a key, or a settled drag.
+- `onCardAction`: (item: CarouselCardItem) => void — Fires from a slide's control with that slide's item.
+- `actionLabel`: string (default "View") — The word on each slide's control.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US")) — Money formatter for an item's price; the locale is pinned so the server's string matches the client's.
+- `peek`: number (default 28) — Pixels of the next card left showing, subtracted from the measured viewport width.
+- `label`: string — Names the carousel for assistive technology.
+- `className`: string — Extra classes on the bubble.
+
+Notes:
+- Three tab stops: Previous, the dot row (roving tabindex, Left and Right step without wrapping, Home and End jump to the ends), and Next; every card's action control stays in the tab order and brings its card into view on focus.
+- Under reduced motion the track swaps on a fast tween instead of gliding and the dot pill drops its layoutId to fill in place; dragging still tracks the hand, because that motion is the viewer's own.
+- Pointer capture is taken only after 4px of travel and inside a try/catch, so a tap on a card's control still lands and a synthetic drag sweep never throws.
+
+### Form Card (KQ-927) — `form-card`
+A form, in the thread.
+
+A real form that lives in a thread and keeps its answer. Sending collapses the fields and stamps the values into a summary whose rows arrive from 8px on snap in a cascade while the box glides on glide to the height a ResizeObserver measured, and a Sent chip lands on recoil. An empty required field refuses the send instead of celebrating: it takes aria-invalid with a named message and focus, and Edit returns the fields with their values and puts focus back in the first one.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/form-card`
+
+Props:
+- `fields`: FormCardField[] — The questions in order; each is { id, label, kind?, options?, placeholder?, required?, hint? } and renders a real input or select.
+- `values / defaultValues`: Record<string, string> (default {}) — Controlled or initial answers, keyed by field id.
+- `onValuesChange`: (values: Record<string, string>) => void — Fires from the change handler that caused it, with the next whole record.
+- `submitted / defaultSubmitted`: boolean (default false) — Controlled or initial face: true shows the summary, false the fields.
+- `onSubmittedChange`: (submitted: boolean) => void — Fires from Send and from Edit, in that direction.
+- `onSubmit`: (values: Record<string, string>) => void — Fires once from a send that passed, with the frozen answers.
+- `title`: string (default "Delivery details") — The card's heading, which names the form for assistive technology.
+- `note`: string — One quieter line under the heading.
+- `submitLabel`: string (default "Send details") — The word on the submit control.
+- `editLabel`: string (default "Edit") — The word on the summary's control.
+- `sentLabel`: string (default "Sent") — The chip's word once the card is sent.
+- `disabled`: boolean (default false) — Holds every field and control.
+- `className`: string — Extra classes on the card.
+
+Notes:
+- A real form: every field has a real label, Enter inside a text field submits, a refused send moves focus to the first field that still needs an answer, and Edit returns focus to the first field once the faces have swapped.
+- Under reduced motion the two faces cross-fade on a fast tween, the summary rows arrive together instead of cascading, and the Sent chip appears at full size with no bounce.
+- The box measures whichever face is live with a ResizeObserver and ignores the zero reading taken mid-swap, so no height is reserved for the taller face and the card never collapses for a frame.
+
+### Location Share (KQ-928) — `location-share`
+Where I am, live.
+
+A live location in the thread. The pin glides across a procedural map on glide as each new position arrives, the walked path draws behind it, and an accuracy halo breathes on a slow reversing tween. A ring around the sharer's initials empties as the share runs out, driven from a secondsLeft prop rather than a clock read during render, and stopping dims the pin to a last-seen marker; a polite region speaks one sentence per place change, never per tick.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/location-share`
+
+Props:
+- `person`: string — Who is sharing; the puck's initials are taken from it.
+- `position`: { x: number; y: number } — The pin, normalised 0 to 1 inside the map box; every derived coordinate is rounded before it reaches an attribute.
+- `trail`: Array<{ x: number; y: number }> (default []) — The path already walked, oldest first, drawn as a polyline behind the pin.
+- `place`: string — The nearest landmark in words; a change here is what the live region announces.
+- `secondsLeft`: number — Seconds of sharing left. The host counts it down; the card never reads a clock.
+- `totalSeconds`: number (default 900) — The share's full length, which the countdown ring is drawn against.
+- `status`: "live" | "ended" (default "live") — Ended dims the pin, stops the halo and replaces the controls with a last-seen line.
+- `lastSeenTime`: string — A preformatted time shown once the share has ended.
+- `accuracyMeters`: number (default 20) — Sizes the halo and is spoken in the map's accessible name.
+- `seed`: number (default 7) — Picks the procedural map: streets, river and park all come from integers.
+- `onStop`: () => void — Fires from the Stop control.
+- `onExtend`: (seconds: number) => void — Fires from Add 15 minutes with 900.
+- `label`: string — Names the card for assistive technology.
+- `className`: string — Extra classes on the card.
+
+Notes:
+- The map is a role=img named by one whole sentence, the countdown is a role=timer with aria-live off, and a polite status speaks only on a place change, on the last minute, and at the end.
+- Under reduced motion the pin swaps to its new position instantly and the halo holds a steady disc, but the countdown ring still empties: how long is left is information, not flourish.
+- Nothing here reads a clock. The host owns the tick and passes secondsLeft, so a demo's interval can live in an effect with cleanup and pause while the document is hidden.
+
+### Receipt Card (KQ-929) — `receipt-card`
+Paid, and here is the proof.
+
+A paid receipt folded into one line of a thread. Pressing it unrolls the paper: the body's height is measured through a callback ref and glides open on glide while the item lines arrive from 4px up in a cascade, and the total lands last and rolls its digits up from zero on snap. Enter and Space fold and unfold it, Escape folds it from anywhere inside and returns focus to the summary control, and the torn bottom edge is drawn from integer teeth sized by its container.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/receipt-card`
+
+Props:
+- `merchant`: string — Who was paid; it heads the summary and names the card.
+- `date`: string — A preformatted date. The card never reads a clock.
+- `method`: string (default "Waylight Pay") — How it was paid, in words, printed beside the date.
+- `reference`: string — A reference code printed under the total.
+- `lines`: ReceiptLine[] — The item lines as { id, label, qty?, amount }, printed in order and summed into the total.
+- `extras`: ReceiptLine[] (default []) — Service, delivery and the like, printed under a dashed rule and summed with the rest.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial fold state.
+- `onOpenChange`: (open: boolean) => void — Fires from the summary control and from Escape, with the next state.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US")) — Money formatter for every figure; amounts are rounded to cents before they are summed or spoken.
+- `paidLabel`: string (default "Paid") — The chip's word, which says the state in words rather than in a colour.
+- `totalLabel`: string (default "Total") — The total row's word.
+- `label`: string — Names the receipt for assistive technology; falls back to a sentence naming the merchant.
+- `className`: string — Extra classes on the card.
+
+Notes:
+- The summary is a real button with aria-expanded and aria-controls whose name is one whole sentence carrying the merchant, the total and the date; Enter and Space toggle it and Escape folds it from anywhere inside, returning focus to the control.
+- Under reduced motion the lines fade in together with no cascade and no travel, the height swaps on a fast tween, and the total appears at its value instead of rolling.
+- The body is unmounted while the receipt is folded, so its height is measured through a callback ref that attaches the observer when the node arrives rather than in a mount-only effect that would find nothing.
+
+### Availability Grid (KQ-930) — `availability-grid`
+When everyone is free.
+
+A message that asks a room when it is free and answers itself as the answers arrive. Each cell fills from its bottom edge on glide by the share of the room that can make that slot, the figure rolls to its new value on snap, and the crown ring travels from the old leader to the new one on snap through a useId-prefixed layoutId. It is a real role=grid with a roving tabindex — arrows move a cell, Home and End jump along the row, Space toggles your answer — and posting the leader stamps a tick on recoil.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/availability-grid`
+
+Props:
+- `days`: string[] — Column headings in order; long names truncate with a title.
+- `times`: string[] — Row headings in order, one per time band.
+- `people`: number — The room's size. Every count is out of it, and it sizes each fill's share.
+- `votes`: Record<string, number> (default {}) — Everyone else's answers, keyed "<dayIndex>-<timeIndex>".
+- `mine / defaultMine`: string[] (default []) — Controlled or initial list of slot keys you said yes to — the only vote a viewer can change.
+- `onMineChange`: (keys: string[]) => void — Fires from the setter that toggled a cell, with the next whole list.
+- `decided`: string | null (default null) — The posted slot key. Only the host sets it; it locks the grid and stamps the chosen cell.
+- `onPost`: (key: string) => void — Fires from the post control with the leading slot's key.
+- `postLabel`: string (default "Post this time") — The word on the post control.
+- `disabled`: boolean (default false) — Holds every cell and the post control.
+- `label`: string — Names the grid for assistive technology.
+- `className`: string — Extra classes on the card.
+
+Notes:
+- A real role=grid with columnheaders, rowheaders and a roving tabindex: arrows move one cell, Home and End jump to the ends of the row, and Space or Enter toggles your answer. Each cell's name is one whole sentence naming the slot, the count and your own answer.
+- Under reduced motion the fills still fill and the figures still change — a count is information — but nothing travels, the crown appears on the leader rather than flying to it, and the posted tick lands at full size.
+- Ties break by the earliest slot, so the crown never flickers between two equal cells, and the spoken sentence is worked out by diffing the answer that actually arrived, never the one the press hoped for.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
