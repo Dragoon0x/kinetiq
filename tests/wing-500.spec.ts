@@ -18553,3 +18553,494 @@ test.describe("generation", () => {
     await expect(announced).toBeEmpty();
   });
 });
+
+/**
+ * The trust family is what an assistant says about its own answer: how sure it
+ * is, what it will not do, what it has covered up, where it is guessing, whose
+ * rule stopped it, who took over, who checked it and how close the last message
+ * stood to the line. The worth of each is in what it publishes — an ARIA state,
+ * an accessible name, a spoken line that changes once per change — so every
+ * test drives the mechanic from the keyboard where the component offers one and
+ * reads the outcome off the announcement and the demo's status line.
+ */
+test.describe("trust", () => {
+  test("confidence-chip: the low answer announces its level, pins its reasoning, and Escape lets it go", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/confidence-chip");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // Three chips, each announcing itself before the demo's own line.
+    const announced = stage.locator("[role='status']");
+    const low = stage.getByRole("button", { name: "34%", exact: true });
+    // The read card is aria-hidden decoration — the description carries its
+    // words — so it is read off the page rather than by role.
+    const card = stage.locator("[role='tooltip']");
+
+    await expect(status).toContainText("3 answers · 1 low · hover a chip");
+    // Each value is said once, when its fill has settled; never per frame.
+    await expect(announced.nth(0)).toHaveText("Confidence 91%, confident", {
+      timeout: 8000,
+    });
+    await expect(announced.nth(2)).toHaveText("Confidence 34%, low", {
+      timeout: 8000,
+    });
+    await expect(low).toHaveAttribute("aria-pressed", "false");
+    await expect(card).toHaveCount(0);
+
+    // Focus reads like hover, and the reasoning is described whether or not
+    // the card is the thing showing it.
+    await low.focus();
+    await expect(low).toHaveAccessibleDescription(
+      "34% confidence, low. Reasoning: The only fare I found is two seasons old and does not say whether Sunday is priced differently.",
+    );
+    await expect(card).toHaveCount(1);
+    await expect(card).toContainText(
+      "The only fare I found is two seasons old",
+    );
+    await expect(status).toContainText("Reading answer 3 · 34% · low");
+
+    // Enter pins the reading so it outlives the pointer.
+    await page.keyboard.press("Enter");
+    await expect(low).toHaveAttribute("aria-pressed", "true");
+    await expect(status).toContainText("Reading answer 3 · 34% · low · pinned");
+    await expect(card).toContainText("pinned");
+
+    // Escape releases the pin and takes the card with it.
+    await page.keyboard.press("Escape");
+    await expect(low).toHaveAttribute("aria-pressed", "false");
+    await expect(card).toHaveCount(0);
+    await expect(status).toContainText("3 answers · 1 low · hover a chip");
+  });
+
+  test("refusal-card: the offer lands after the refusal, and an arrow picks what it sends instead", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/refusal-card");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const card = stage.getByRole("region", {
+      name: "Refusal from Gaugeworks Reasoner",
+    });
+
+    await expect(status).toContainText("Idle · press refuse");
+    await expect(card).toHaveCount(0);
+
+    await stage.getByRole("button", { name: "Refuse", exact: true }).click();
+    await expect(card).toBeVisible();
+    const announced = card.locator("[role='status']");
+    await expect(status).toContainText("Refused · 3 alternatives");
+    // The refusal is read once as it lands, with the size of the offer.
+    await expect(announced).toHaveText(
+      "Refused: Card numbers stay out of the transcript. 3 alternatives.",
+      { timeout: 8000 },
+    );
+
+    const offer = card.getByRole("group", { name: "Instead" });
+    const chips = offer.getByRole("button");
+    await expect(chips).toHaveCount(3);
+    await expect(chips.nth(1)).toBeEnabled();
+
+    // A roving tabindex: the arrow steps without wrapping, Enter sends.
+    await chips.first().focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(chips.nth(1)).toBeFocused();
+    await page.keyboard.press("Enter");
+
+    await expect(status).toContainText("Sent · Show the last four");
+    await expect(announced).toHaveText("Sent: Show the last four", {
+      timeout: 8000,
+    });
+    // The chips leave with the offer, and the sent line is what is left.
+    await expect(offer).toHaveCount(0);
+    await expect(card).toContainText("Sent · Show the last four");
+  });
+
+  test("redact-veil: Enter lifts one bar, focus holds it up, and the timer drops it back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/redact-veil");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const region = stage.getByRole("region", { name: "Gaugeworks Reasoner" });
+    const announced = region.locator("[role='status']");
+    const account = region.getByRole("button", {
+      name: "account, veiled. Press to reveal.",
+    });
+
+    await expect(status).toContainText("3 veiled · hover or press a bar");
+    await expect(region).toContainText("3 of 3 veiled");
+    await expect(account).toHaveAttribute("aria-pressed", "false");
+
+    // Focus must not uncover a secret — a reader tabbing past is not asking.
+    await account.focus();
+    await expect(account).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toContainText("3 veiled · hover or press a bar");
+
+    // The press is the asking, and the lifted name carries what was under it.
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Lifted · account · 2 veiled");
+    await expect(announced).toHaveText("Revealed account");
+    await expect(region).toContainText("2 of 3 veiled");
+    const lifted = region.getByRole("button", {
+      name: "account: 40-22-71 18834902. Press to veil.",
+    });
+    await expect(lifted).toHaveAttribute("aria-pressed", "true");
+
+    // Focus holds the timer: a span still being read never re-veils itself.
+    await page.waitForTimeout(1000);
+    await expect(status).toContainText("Lifted · account · 2 veiled");
+
+    // Leaving hands the timer back, and the veil drops on its own.
+    await region
+      .getByRole("button", { name: "phone, veiled. Press to reveal." })
+      .focus();
+    await expect(status).toContainText(
+      "Re-veiled by timer · account · 3 veiled",
+      { timeout: 12000 },
+    );
+    await expect(announced).toHaveText("Veiled account again");
+    await expect(region).toContainText("3 of 3 veiled");
+  });
+
+  test("uncertainty-hedge: a guessed phrase opens its reason, Escape folds it, and the next answer recounts", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/uncertainty-hedge");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const region = stage.getByRole("region", { name: "Fernworks Model 3" });
+    // The count is published before the reason, and both before the demo's line.
+    const counted = region.locator("[role='status']").first();
+    const why = region.locator("[role='status']").nth(1);
+    const phrase = region.getByRole("button", { name: "by Thursday" });
+
+    await expect(status).toContainText("3 guesses · hover or press one");
+    await expect(counted).toHaveText("3 guessed phrases");
+    await expect(phrase).toHaveAttribute("aria-expanded", "false");
+    await expect(why).toBeEmpty();
+
+    // Focus thickens the line like hover, and says which guess it is.
+    await phrase.focus();
+    await expect(phrase).toHaveAccessibleDescription("Guessed phrase 1 of 3");
+    await expect(status).toContainText('Hovering · "by Thursday"');
+
+    await page.keyboard.press("Enter");
+    await expect(phrase).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText('Why · "by Thursday" · 3 guesses');
+    await expect(why).toHaveText(
+      "Why: The garage said two to three days, and I am counting from the drop-off on Monday.",
+    );
+    const note = region.getByRole("region", { name: "Why it guessed" });
+    await expect(note).toContainText("Guessing · by Thursday");
+
+    // Escape folds the note and leaves the phrase holding its focus.
+    await page.keyboard.press("Escape");
+    await expect(phrase).toHaveAttribute("aria-expanded", "false");
+    await expect(phrase).toBeFocused();
+    await expect(why).toBeEmpty();
+    await expect(status).toContainText('Hovering · "by Thursday"');
+
+    // Another answer is another count, and the legend says the new one. Asked
+    // from the keyboard: a shorter answer moves the row under a parked pointer,
+    // and a hovered phrase would be reported as one.
+    await stage.getByRole("button", { name: "Next answer" }).press("Enter");
+    await expect(status).toContainText("2 guesses · hover or press one");
+    await expect(counted).toHaveText("2 guessed phrases");
+    await expect(
+      region.getByRole("button", { name: "seems to take Saturday deliveries" }),
+    ).toBeVisible();
+  });
+
+  test("policy-note: the tag unfolds the rule, Escape folds it, and a read-out folds it on its own", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/policy-note");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const region = stage.getByRole("region", { name: "Fernworks Model 3" });
+    const announced = region.locator("[role='status']");
+    const tag = region.getByRole("button", { name: "Why this answer" });
+
+    await expect(status).toContainText("Folded · press why this answer");
+    await expect(tag).toHaveAttribute("aria-expanded", "false");
+    await expect(announced).toBeEmpty();
+
+    await tag.focus();
+    await page.keyboard.press("Enter");
+    await expect(tag).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("Unfolded · policy 4.2 · reading");
+    await expect(announced).toHaveText(
+      "Note open: Coldbrook house policy 4.2, Approvals stay with people",
+    );
+    await expect(
+      region.getByRole("region", { name: "Approvals stay with people" }),
+    ).toContainText("A named manager approves each one");
+
+    // Escape folds it early and hands the tag its focus back.
+    await page.keyboard.press("Escape");
+    await expect(tag).toHaveAttribute("aria-expanded", "false");
+    await expect(tag).toBeFocused();
+    await expect(announced).toHaveText("Note folded");
+    await expect(status).toContainText("Folded by escape · policy 4.2");
+
+    // Left open, the note times its own reading and folds itself; the tag
+    // then says it has been read, rather than asking again.
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Unfolded · policy 4.2 · reading");
+    await expect(status).toContainText("Folded after reading · policy 4.2", {
+      timeout: 20000,
+    });
+    await expect(announced).toHaveText("Note folded");
+    await expect(
+      region.getByRole("button", { name: "Read", exact: true }),
+    ).toBeVisible();
+  });
+
+  test("human-handoff: cancel gives the thread back to the model, and a wait left alone seats the person", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/human-handoff");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const card = stage.getByRole("group", { name: "Who holds the thread" });
+    const announced = card.locator("[role='status']");
+    const handOff = stage.getByRole("button", { name: "Hand off" });
+
+    await expect(status).toContainText("Model answering");
+    await expect(announced).toHaveText("Fernworks Model 3 is answering");
+
+    await handOff.click();
+    // The queue is announced once as it starts, never per counted second.
+    await expect(announced).toHaveText("Finding a person", { timeout: 8000 });
+    await expect(status).toContainText("Waiting ·");
+    const cancel = card.getByRole("button", { name: "Cancel handoff" });
+    await expect(cancel).toBeVisible();
+
+    // Cancel is the only stop, and it answers the keyboard.
+    await cancel.press("Enter");
+    await expect(status).toContainText("Handoff cancelled");
+    await expect(announced).toHaveText("Fernworks Model 3 is answering");
+    await expect(cancel).toHaveCount(0);
+
+    // Left alone, the seeded queue finds Ines; the count freezes on the wait
+    // it took, and the stop leaves with the waiting.
+    await handOff.click();
+    await expect(announced).toHaveText(
+      /^Ines from Coldbrook support has joined, waited \d+ seconds$/,
+      { timeout: 15000 },
+    );
+    await expect(status).toContainText(/Ines joined · waited 0:0\d/);
+    await expect(cancel).toHaveCount(0);
+  });
+
+  test("disclaimer-bar: the second answer folds the disclaimer to a dot, and focus peeks it open", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/disclaimer-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const text =
+      "Fernworks Model 3 can be wrong about balances. Check figures against your statement.";
+    // Read by its two names: open it is the disclaimer, folded it is a dot.
+    const bar = stage.getByRole("button", { name: text });
+    const dot = stage.getByRole("button", { name: "Disclaimer, folded" });
+
+    await expect(status).toContainText("No answer yet");
+    await expect(announced).toBeEmpty();
+
+    // Asked from the keyboard: each answer pushes the row down, and a pointer
+    // parked on the demo's own button would end up hovering — and so peeking —
+    // the bar it just folded.
+    await stage
+      .getByRole("button", { name: "Ask", exact: true })
+      .press("Enter");
+    await expect(bar).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toContainText("Answer 1 · disclaimer shown");
+    await expect(announced).toHaveText("Disclaimer shown");
+
+    // The second answer folds it: a dot says the disclaimer is still true
+    // without reading the paragraph out again.
+    await stage.getByRole("button", { name: "Ask again" }).press("Enter");
+    await expect(dot).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("Answer 2 · folded to a dot");
+    await expect(announced).toHaveText("Disclaimer folded");
+
+    // Focus peeks exactly as hover does — and a peek is not a change, so the
+    // live region says nothing new and the bar does not claim to be open.
+    await dot.focus();
+    await expect(status).toContainText("Answer 2 · peeking");
+    await expect(announced).toHaveText("Disclaimer folded");
+    await expect(bar).toHaveAttribute("aria-expanded", "false");
+
+    // Enter pins it open past its fold.
+    await page.keyboard.press("Enter");
+    await expect(status).toContainText("Answer 2 · pinned open");
+    await expect(announced).toHaveText("Disclaimer shown");
+    await expect(bar).toHaveAttribute("aria-expanded", "true");
+
+    // Escape folds the pin. Focus is still on it, so it stays peeked open
+    // until the focus that was peeking it leaves.
+    await page.keyboard.press("Escape");
+    await expect(announced).toHaveText("Disclaimer folded");
+    await expect(bar).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toContainText("Answer 2 · peeking");
+    await stage.getByRole("button", { name: "Reset" }).focus();
+    await expect(status).toContainText("Answer 2 · folded by hand");
+    await expect(dot).toHaveAttribute("aria-expanded", "false");
+  });
+
+  test("review-stamp: approve lands a stamp that says who and when, and revoke peels it away", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/review-stamp");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const card = stage.getByRole("article", { name: "Answer awaiting review" });
+    const announced = card.locator("[role='status']");
+    const stamp = card.getByRole("button", { name: "Reviewed by Ines Marlow" });
+    // The tooltip is the description's aria-hidden mirror, so it is read off
+    // the page by the line only it prints.
+    const tip = card.getByText("Coldbrook support · 14:32");
+
+    await expect(status).toContainText("Unreviewed");
+    await expect(card).toContainText("Unreviewed");
+    // A card that mounts unreviewed has no revocation to report.
+    await expect(announced).toBeEmpty();
+
+    await card.getByRole("button", { name: "Approve" }).click();
+    await expect(stamp).toBeVisible();
+    await expect(status).toContainText("Reviewed · Ines Marlow · 14:32");
+    await expect(announced).toHaveText("Reviewed by Ines Marlow at 14:32");
+    // The description is mounted with the stamp, so who and when are there
+    // the moment focus lands rather than when the tooltip catches up.
+    await expect(stamp).toHaveAccessibleDescription(
+      "Ines Marlow, Coldbrook support, at 14:32",
+    );
+
+    await expect(tip).toHaveCount(0);
+    await stamp.focus();
+    await expect(tip).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(tip).toHaveCount(0);
+
+    await card.getByRole("button", { name: "Revoke" }).click();
+    await expect(announced).toHaveText("Review revoked");
+    await expect(status).toContainText("Review revoked");
+    await expect(stamp).toHaveCount(0);
+    await expect(card).toContainText("Unreviewed");
+  });
+
+  test("risk-meter: a high-risk action arms a confirm, Escape disarms it, and two presses run it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/risk-meter");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const group = stage.getByRole("group", {
+      name: "Proposed action and its risk",
+    });
+    const announced = group.locator("[role='status']");
+    const next = stage.getByRole("button", { name: "Next action" });
+    // The control is read by the word it is showing: arming rolls Run to
+    // Confirm, and only the shown word is left readable.
+    const run = group.getByRole("button", { name: "Run" });
+    const confirm = group.getByRole("button", { name: "Confirm" });
+
+    const low = group.getByRole("meter", { name: "Reply to the customer" });
+    await expect(low).toHaveAttribute("aria-valuenow", "0.12");
+    await expect(low).toHaveAttribute("aria-valuetext", "Low risk, 12 percent");
+    await expect(announced).toHaveText("Low risk");
+    await expect(status).toContainText("Risk 0.12 · low");
+
+    await next.click();
+    await next.click();
+    const high = group.getByRole("meter", { name: "Delete 14 draft invoices" });
+    await expect(high).toHaveAttribute("aria-valuenow", "0.86");
+    await expect(high).toHaveAttribute(
+      "aria-valuetext",
+      "High risk, 86 percent",
+    );
+    await expect(announced).toHaveText("High risk");
+    await expect(status).toContainText("Risk 0.86 · high");
+
+    // In the high band the first press only arms: it asks a second time.
+    await run.click();
+    await expect(confirm).toHaveAccessibleDescription(
+      "Press again to confirm.",
+    );
+    await expect(announced).toHaveText("Confirm armed");
+    await expect(status).toContainText("Risk 0.86 · high · confirm armed");
+
+    // Escape puts the safety back on, and the band is what is left to say.
+    await confirm.press("Escape");
+    await expect(run).toBeVisible();
+    await expect(announced).toHaveText("High risk");
+    await expect(status).toContainText("Risk 0.86 · high");
+
+    await run.click();
+    await confirm.click();
+    await expect(announced).toHaveText("Ran Delete 14 draft invoices");
+    await expect(status).toContainText("Ran · Delete 14 draft invoices");
+  });
+
+  test("guard-rail: the rail warns before the line and names what stopped the thread at it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/guard-rail");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const group = stage.getByRole("group", {
+      name: "Distance to the house policy line",
+    });
+    const announced = group.locator("[role='status']");
+    const rail = group.getByRole("meter", {
+      name: "Distance to House policy 4.2",
+    });
+    const next = stage.getByRole("button", { name: "Next message" });
+
+    await expect(status).toContainText("No messages yet");
+    await expect(rail).toHaveAttribute("aria-valuenow", "0");
+    await expect(announced).toBeEmpty();
+
+    await next.click();
+    await expect(rail).toHaveAttribute("aria-valuenow", "0.15");
+    await expect(rail).toHaveAttribute(
+      "aria-valuetext",
+      "15 percent of the way to House policy 4.2",
+    );
+    await expect(status).toContainText("Message 1 of 4 · 0.15 to the line");
+    // Far from the line there is nothing to announce.
+    await expect(announced).toBeEmpty();
+
+    await next.click();
+    await next.click();
+    await expect(rail).toHaveAttribute("aria-valuenow", "0.8");
+    await expect(status).toContainText(
+      "Message 3 of 4 · 0.80 to the line · near",
+    );
+    await expect(announced).toHaveText("Near House policy 4.2");
+
+    // The crossing is the point: the rail names the line and reads the reason.
+    await next.click();
+    await expect(rail).toHaveAttribute("aria-valuenow", "1");
+    await expect(rail).toHaveAttribute(
+      "aria-valuetext",
+      "Crossed House policy 4.2",
+    );
+    await expect(status).toContainText("Crossed · House policy 4.2");
+    await expect(announced).toHaveText(
+      "Crossed House policy 4.2: Card details stay with the person who owns them, whoever else is on the account.",
+    );
+    await expect(group).toContainText("Stopped. Card details stay with");
+    await expect(next).toBeDisabled();
+
+    // Reset takes the rail back and folds the reason away with it.
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(rail).toHaveAttribute("aria-valuenow", "0");
+    await expect(announced).toBeEmpty();
+    await expect(status).toContainText("No messages yet");
+    await expect(group).not.toContainText("Stopped.");
+  });
+});
