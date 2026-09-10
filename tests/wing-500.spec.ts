@@ -16554,3 +16554,730 @@ test.describe("citations", () => {
     await expect(panel).toHaveCount(0);
   });
 });
+
+/** A poll target: how far a bar or a wash has grown, off its own transform. */
+const evalScaleXOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 1;
+    return new DOMMatrix(transform).a;
+  });
+
+/** A poll target: how far a card has lifted, in pixels, negative for up. */
+const evalYOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 0;
+    return new DOMMatrix(transform).f;
+  });
+
+/**
+ * Where a beam or a ring has turned to, in degrees, folded into (-180, 180]
+ * so a detent reached the short way round compares with the one it names.
+ */
+const evalTurnOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => {
+    const transform = getComputedStyle(element).transform;
+    if (!transform || transform === "none") return 0;
+    const matrix = new DOMMatrix(transform);
+    const degrees = (Math.atan2(matrix.b, matrix.a) * 180) / Math.PI;
+    return (((degrees % 360) + 540) % 360) - 180;
+  });
+
+/** A poll target: what a fold is currently reserving. */
+const evalHeightOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((element) => element.getBoundingClientRect().height);
+
+/**
+ * How much of a `pathLength`-normalised ring has filled. An animated
+ * `pathLength` is written as the leading length of the dash array — "0.848 1"
+ * — so the fraction is read from there rather than from an offset.
+ */
+const evalRingFillOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((node) =>
+    Number.parseFloat(getComputedStyle(node).strokeDasharray),
+  );
+
+/**
+ * The evaluation family answers one question ten ways: how good was that
+ * answer? Every test drives the judgement the instrument exists to record —
+ * a pick, a score, a verdict, a flag, a run — through the keyboard wherever
+ * the component publishes one, and reads the outcome off the demo's status
+ * line, the ARIA the component publishes about itself, and the geometry the
+ * motion actually committed. Runs are demo-button driven from seeded
+ * schedules, so every assertion lands on a settled state.
+ */
+test.describe("evaluation", () => {
+  test("rating-pair: the pick lifts a card, leans the beam and is remembered per pair", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/rating-pair");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The component announces its settled pick before the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const picks = stage.getByRole("radiogroup", {
+      name: "Support answer pair 1",
+    });
+    const left = picks.getByRole("radio", { name: "Prefer Fernworks Model 3" });
+    const tie = picks.getByRole("radio", { name: "Rate the same" });
+    const right = picks.getByRole("radio", {
+      name: "Prefer Gaugeworks Reasoner",
+    });
+    // The cards are named by their model, so a lift is read off the card the
+    // pick claims rather than off a position in the grid.
+    const leftCard = stage.getByRole("article", { name: "Fernworks Model 3" });
+    const rightCard = stage.getByRole("article", {
+      name: "Gaugeworks Reasoner",
+    });
+
+    await expect(status).toHaveText("Pair 1 of 3 · no pick");
+    await expect(announced).toBeEmpty();
+    await expect(left).toHaveAttribute("aria-checked", "false");
+
+    await left.click();
+    await expect(left).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText("Preferred Fernworks Model 3");
+    await expect(status).toHaveText(
+      "Pair 1 of 3 · preferred Fernworks Model 3",
+    );
+    // Two pixels: the chosen card lifts, the other stays level.
+    await expect.poll(evalYOf(leftCard), { timeout: 5000 }).toBeCloseTo(-2, 0);
+    await expect.poll(evalYOf(rightCard), { timeout: 5000 }).toBeCloseTo(0, 0);
+
+    // The arrow both moves and picks, as a native radio does, and a tie
+    // brings every card back down.
+    await left.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(tie).toBeFocused();
+    await expect(tie).toHaveAttribute("aria-checked", "true");
+    await expect(left).toHaveAttribute("aria-checked", "false");
+    await expect(announced).toHaveText("Rated the same");
+    await expect(status).toHaveText("Pair 1 of 3 · rated the same");
+    await expect.poll(evalYOf(leftCard), { timeout: 5000 }).toBeCloseTo(0, 0);
+
+    await page.keyboard.press("End");
+    await expect(right).toBeFocused();
+    await expect(right).toHaveAttribute("aria-checked", "true");
+    await expect(status).toHaveText(
+      "Pair 1 of 3 · preferred Gaugeworks Reasoner",
+    );
+    // The stops do not wrap: the outer one is the end of the walk.
+    await page.keyboard.press("ArrowRight");
+    await expect(right).toBeFocused();
+    await expect(right).toHaveAttribute("aria-checked", "true");
+
+    await page.keyboard.press("Home");
+    await expect(left).toBeFocused();
+    await expect(status).toHaveText(
+      "Pair 1 of 3 · preferred Fernworks Model 3",
+    );
+
+    // Each pair arrives unpicked, and going round again brings the earlier
+    // answer back with it.
+    const nextPair = stage.getByRole("button", { name: "Next pair" });
+    await nextPair.click();
+    await expect(status).toHaveText("Pair 2 of 3 · no pick");
+    await stage
+      .getByRole("radiogroup", { name: "Support answer pair 2" })
+      .getByRole("radio", { name: "Rate the same" })
+      .click();
+    await expect(status).toHaveText("Pair 2 of 3 · rated the same");
+    await nextPair.click();
+    await expect(status).toHaveText("Pair 3 of 3 · no pick");
+    await nextPair.click();
+    await expect(status).toHaveText(
+      "Pair 1 of 3 · preferred Fernworks Model 3",
+    );
+  });
+
+  test("rubric-grid: keys walk the cells, the row fills to its level and the total rolls", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/rubric-grid");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const grid = stage.getByRole("grid", {
+      name: "Gaugeworks Reasoner on a Coldbrook Bank statement query",
+    });
+    const cell = (criterion: string, level: string) =>
+      grid.getByRole("button", { name: `${criterion}, ${level}` });
+    // The wash is the row's first child, ahead of the header it fills behind.
+    const accuracyBar = grid.getByRole("row").nth(1).locator("span").first();
+    const accuracyHeader = grid.getByRole("rowheader").first();
+
+    await expect(status).toHaveText("Unscored · 0 / 20");
+    await expect(stage.getByText("5 to score")).toBeVisible();
+    await expect(accuracyHeader).toContainText(", unscored");
+
+    await cell("Accuracy", "Good").click();
+    await expect(cell("Accuracy", "Good")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    await expect(announced).toHaveText("Accuracy scored 3 of 4");
+    await expect(status).toHaveText("1 of 5 scored · 3 / 20");
+    await expect(accuracyHeader).toContainText(", scored 3 of 4");
+    // The wash ends at the chosen level's right edge: the name column is 2.4
+    // of the row's fr units and each level one, so three of four is 5.4/6.4.
+    await expect
+      .poll(evalScaleXOf(accuracyBar), { timeout: 5000 })
+      .toBeCloseTo(0.844, 2);
+
+    // Down steps criteria, Home jumps to the row's first level, and Space
+    // and Enter both score.
+    await cell("Accuracy", "Good").focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(cell("Completeness", "Good")).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Completeness scored 3 of 4");
+    await page.keyboard.press("Home");
+    await expect(cell("Completeness", "Weak")).toBeFocused();
+    await page.keyboard.press(" ");
+    await expect(announced).toHaveText("Completeness scored 1 of 4");
+    await expect(cell("Completeness", "Good")).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
+    await expect(status).toHaveText("2 of 5 scored · 4 / 20");
+
+    // The last criterion scored says so once, for the grid rather than the row.
+    await cell("Tone", "Strong").click();
+    await cell("Brevity", "Strong").click();
+    await cell("Sources", "Strong").click();
+    await expect(announced).toHaveText("All criteria scored, 16 of 20");
+    await expect(status).toHaveText("Complete · 16 / 20");
+    await expect(stage.getByText("Complete", { exact: true })).toBeVisible();
+
+    // Pressing the chosen level again clears the row and drains its bar.
+    await cell("Accuracy", "Good").click();
+    await expect(announced).toHaveText("Accuracy cleared");
+    await expect(status).toHaveText("4 of 5 scored · 13 / 20");
+    await expect(stage.getByText("1 to score")).toBeVisible();
+    await expect
+      .poll(evalScaleXOf(accuracyBar), { timeout: 5000 })
+      .toBeCloseTo(0, 2);
+
+    await stage.getByRole("button", { name: "Clear scores" }).click();
+    await expect(status).toHaveText("Unscored · 0 / 20");
+    await expect(stage.getByText("5 to score")).toBeVisible();
+  });
+
+  test("thumbs-morph: a down press fills the thumb and unfolds the reasons it asks for", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/thumbs-morph");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const rate = stage.getByRole("group", { name: "Rate this answer" });
+    const up = rate.getByRole("button", { name: "Good answer" });
+    const down = rate.getByRole("button", { name: "Poor answer" });
+    // The row is read by its role rather than its name: its caption counts
+    // what has been chosen, and a folded row is out of the tree entirely.
+    const row = rate.locator("[role='group']");
+    const upFill = up.locator("span[aria-hidden]");
+    const unclear = stage.getByRole("button", { name: "Unclear" });
+    const tooLong = stage.getByRole("button", { name: "Too long" });
+
+    await expect(status).toHaveText("No verdict");
+    await expect(up).toHaveAttribute("aria-pressed", "false");
+    await expect(down).toHaveAttribute("aria-expanded", "false");
+    await expect(unclear).toHaveCount(0);
+    await expect.poll(evalHeightOf(row), { timeout: 5000 }).toBeLessThan(1);
+
+    // Good is the whole answer: the fill rises and nothing is asked.
+    await up.click();
+    await expect(up).toHaveAttribute("aria-pressed", "true");
+    await expect(announced).toHaveText("Marked good");
+    await expect(status).toHaveText("Good answer");
+    await expect(down).toHaveAttribute("aria-expanded", "false");
+    await expect
+      .poll(evalHeightOf(upFill), { timeout: 5000 })
+      .toBeGreaterThan(18);
+
+    // Poor is a question, and the thumb is a real button, so Enter presses it.
+    await down.focus();
+    await page.keyboard.press("Enter");
+    await expect(down).toHaveAttribute("aria-pressed", "true");
+    await expect(up).toHaveAttribute("aria-pressed", "false");
+    await expect(down).toHaveAttribute("aria-expanded", "true");
+    await expect(announced).toHaveText("Marked poor, pick a reason");
+    await expect(status).toHaveText("Poor answer · pick a reason");
+    await expect.poll(evalHeightOf(upFill), { timeout: 5000 }).toBeLessThan(1);
+    await expect.poll(evalHeightOf(row), { timeout: 5000 }).toBeGreaterThan(30);
+
+    // The chips are multi-select: a reader may say two things at once.
+    await unclear.click();
+    await expect(unclear).toHaveAttribute("aria-pressed", "true");
+    await expect(announced).toHaveText("Unclear added");
+    await expect(status).toHaveText("Poor answer · Unclear");
+    await tooLong.click();
+    await expect(status).toHaveText("Poor answer · Unclear, Too long");
+    await expect(stage.getByText("Why · 2 chosen")).toBeVisible();
+    await tooLong.click();
+    await expect(tooLong).toHaveAttribute("aria-pressed", "false");
+    await expect(announced).toHaveText("Too long removed");
+    await expect(status).toHaveText("Poor answer · Unclear");
+
+    // Pressing the same thumb again clears the verdict and folds the
+    // question away with it.
+    await down.click();
+    await expect(down).toHaveAttribute("aria-pressed", "false");
+    await expect(down).toHaveAttribute("aria-expanded", "false");
+    await expect(announced).toHaveText("Verdict cleared");
+    await expect(status).toHaveText("No verdict");
+    await expect(unclear).toHaveCount(0);
+    await expect.poll(evalHeightOf(row), { timeout: 5000 }).toBeLessThan(1);
+  });
+
+  test("regression-diff: the run lands, holds a beat and lifts the regressions to the top", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/regression-diff");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const rows = stage.getByRole("list").getByRole("listitem");
+
+    await expect(status).toHaveText("Press run · 8 tests");
+    await expect(rows).toHaveCount(8);
+    // Every row is a sentence, and one still to score says so.
+    await expect(rows.first()).toHaveAttribute(
+      "aria-label",
+      "Refund window: previous 92, current pending",
+    );
+
+    await stage.getByRole("button", { name: "Run", exact: true }).click();
+    // The seeded schedule lands eight scores and then the sort settles.
+    await expect(status).toHaveText("3 regressions moved up", {
+      timeout: 25000,
+    });
+    await expect(announced).toHaveText("3 regressions moved to the top");
+    await expect(stage.getByText("3 regressions at the top")).toBeVisible();
+
+    // Regressions first, worst first, and everything else in its given order.
+    await expect(rows.nth(0)).toHaveAttribute(
+      "aria-label",
+      "Damage claims: previous 83, current 66, down 17, regression",
+    );
+    await expect(rows.nth(1)).toHaveAttribute(
+      "aria-label",
+      "Refund window: previous 92, current 78, down 14, regression",
+    );
+    await expect(rows.nth(2)).toHaveAttribute(
+      "aria-label",
+      "Customs codes: previous 64, current 61, down 3, regression",
+    );
+    await expect(rows.nth(3)).toHaveAttribute(
+      "aria-label",
+      "Plan advice: previous 71, current 84, up 13",
+    );
+    // A three-point fall is a regression at this threshold; a two-point one
+    // would not be, and the unchanged rows keep their zero.
+    await expect(rows.nth(0)).toContainText("−17");
+    await expect(rows.nth(3)).toContainText("+13");
+    await expect(rows).toHaveCount(8);
+  });
+
+  test("eval-progress: eighteen cases land and the bar reads the rate it settled on", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/eval-progress");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const bar = stage.getByRole("progressbar", { name: "Dispatch suite" });
+
+    await expect(status).toHaveText("Press run · 18 cases");
+    await expect(bar).toHaveAttribute("aria-valuemax", "18");
+    await expect(bar).toHaveAttribute("aria-valuenow", "0");
+    await expect(bar).toHaveAttribute(
+      "aria-valuetext",
+      "0 of 18 cases, 0 passed, 0 failed",
+    );
+    await expect(stage.getByText("Waiting")).toBeVisible();
+
+    await stage.getByRole("button", { name: "Run", exact: true }).click();
+    await expect(bar).toHaveAttribute("aria-busy", "true");
+    // The run is a timer chain in the demo; the bar's value is cases done.
+    await expect(bar).toHaveAttribute("aria-valuenow", "18", {
+      timeout: 25000,
+    });
+    await expect(bar).toHaveAttribute(
+      "aria-valuetext",
+      "18 of 18 cases, 14 passed, 4 failed",
+    );
+    // The live region speaks the end once, never a passing case.
+    await expect(announced).toHaveText("Done, 14 of 18 passed, 78 percent");
+    await expect(status).toHaveText("Done · 14 of 18 passed · 78%");
+    await expect(stage.getByText("Done", { exact: true })).toBeVisible();
+    await expect(bar).not.toHaveAttribute("aria-busy", "true");
+
+    // Each segment carries its own case and verdict, so the four failures
+    // are findable by name rather than by colour.
+    await expect(stage.locator('[title="Wrong postcode: fail"]')).toHaveCount(
+      1,
+    );
+    await expect(stage.locator('[title="Late trailer: pass"]')).toHaveCount(1);
+    await expect(stage.locator('[title$=": fail"]')).toHaveCount(4);
+  });
+
+  test("gold-compare: the diff scores the pair and the switch collapses what is shared", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/gold-compare");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const compare = stage.getByRole("group", {
+      name: "Answer against reference",
+    });
+    const answer = compare.getByRole("region", { name: "Answer" });
+    const reference = compare.getByRole("region", { name: "Reference" });
+    const only = compare.getByRole("switch", { name: "Differences only" });
+    // The ring's second circle carries the fill; the first is its track.
+    const ring = compare.locator("circle").nth(1);
+
+    // Fourteen of the pair's thirty-three words are shared, so the Dice
+    // similarity is 28/33 and five words differ across the two panes.
+    await expect(status).toHaveText(
+      "Case 1 · 85% alike · 5 differ · full text",
+    );
+    await expect(announced).toHaveText("Similarity 85 percent, 5 words differ");
+    await expect(only).toHaveAttribute("aria-checked", "false");
+    await expect(answer).toContainText("coast");
+    await expect(reference).toContainText("sea");
+    await expect
+      .poll(evalRingFillOf(ring), { timeout: 5000 })
+      .toBeCloseTo(0.848, 2);
+
+    // The switch is a real switch, so Space toggles it, and the shared runs
+    // collapse into chips that count what they hide.
+    await only.focus();
+    await page.keyboard.press(" ");
+    await expect(only).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText("Differences only");
+    await expect(status).toHaveText(
+      "Case 1 · 85% alike · 5 differ · differences only",
+    );
+    await expect(answer.getByText("5 same words")).toHaveCount(2);
+    await expect(answer.getByText("2 same words")).toHaveCount(2);
+    // The reference's tail is one run of seven, because the word the answer
+    // added is not in it to break the run.
+    await expect(reference.getByText("7 same words")).toHaveCount(1);
+    // What differs is still spelled out; only the agreement is hidden.
+    await expect(answer).toContainText("coast");
+    await expect(reference).toContainText("roughly");
+
+    await page.keyboard.press("Enter");
+    await expect(only).toHaveAttribute("aria-checked", "false");
+    await expect(announced).toHaveText("Full text");
+    await expect(status).toHaveText(
+      "Case 1 · 85% alike · 5 differ · full text",
+    );
+
+    // A new pair re-diffs, and the live region returns to the similarity.
+    await stage.getByRole("button", { name: "Case 2" }).click();
+    await expect(status).toHaveText(
+      "Case 2 · 93% alike · 2 differ · full text",
+    );
+    await expect(announced).toHaveText("Similarity 93 percent, 2 words differ");
+    await expect(answer).toContainText("three");
+    await expect(reference).toContainText("four");
+    await expect
+      .poll(evalRingFillOf(ring), { timeout: 5000 })
+      .toBeCloseTo(0.933, 2);
+  });
+
+  test("flag-note: the panel takes a reason and a note, and the badge carries them back", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/flag-note");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const flag = stage.getByRole("button", { name: "Flag", exact: true });
+    const panel = stage.getByRole("group", { name: "Flag note" });
+    // The panel is the content; the box that folds is the clip around it, so
+    // the fold is measured on the parent rather than on the measured child.
+    const fold = panel.locator("..");
+    const wrong = panel.getByRole("radio", { name: "Wrong" });
+    const unsafe = panel.getByRole("radio", { name: "Unsafe" });
+    const note = stage.getByRole("textbox", { name: "Note" });
+    const submit = stage.getByRole("button", { name: "Submit flag" });
+    const NOTE = "Refund window is ten days, not fourteen";
+
+    await expect(status).toHaveText("Unflagged");
+    await expect(flag).toHaveAttribute("aria-expanded", "false");
+
+    // Opening raises the panel and moves the focus into it.
+    await flag.click();
+    await expect(flag).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toHaveText("Note open");
+    await expect(wrong).toBeFocused();
+    await expect(submit).toBeDisabled();
+    await expect
+      .poll(evalHeightOf(fold), { timeout: 5000 })
+      .toBeGreaterThan(60);
+
+    // The reasons are a radiogroup with a roving tabindex: the arrow moves
+    // and picks, and Home comes back to the first.
+    await page.keyboard.press("ArrowRight");
+    await expect(unsafe).toBeFocused();
+    await expect(unsafe).toHaveAttribute("aria-checked", "true");
+    await expect(submit).toBeEnabled();
+    await page.keyboard.press("Home");
+    await expect(wrong).toBeFocused();
+    await expect(wrong).toHaveAttribute("aria-checked", "true");
+    await expect(unsafe).toHaveAttribute("aria-checked", "false");
+
+    await note.fill(NOTE);
+    await submit.click();
+    // The badge lands carrying the reason and the note, and takes the focus.
+    const badge = stage.getByRole("button", {
+      name: `Flagged as Wrong, note: ${NOTE}. Edit flag`,
+    });
+    await expect(badge).toBeVisible();
+    await expect(badge).toBeFocused();
+    await expect(announced).toHaveText("Flagged as Wrong");
+    await expect(status).toHaveText("Flagged · Wrong · 39 chars");
+    await expect(badge).toHaveAttribute("aria-expanded", "false");
+    await expect.poll(evalHeightOf(fold), { timeout: 5000 }).toBeLessThan(1);
+
+    // The badge reopens the panel on the flag it is carrying.
+    await badge.click();
+    await expect(badge).toHaveAttribute("aria-expanded", "true");
+    await expect(status).toHaveText("Note open");
+    await expect(wrong).toHaveAttribute("aria-checked", "true");
+    await expect(note).toHaveValue(NOTE);
+    await expect(
+      stage.getByRole("button", { name: "Update flag" }),
+    ).toBeVisible();
+
+    // Escape anywhere in the panel cancels and returns the focus it took.
+    await page.keyboard.press("Escape");
+    await expect(badge).toHaveAttribute("aria-expanded", "false");
+    await expect(badge).toBeFocused();
+    await expect(status).toHaveText("Flagged · Wrong · 39 chars");
+
+    await stage.getByRole("button", { name: "Remove flag" }).click();
+    await expect(announced).toHaveText("Flag removed");
+    await expect(status).toHaveText("Unflagged");
+    await expect(flag).toBeFocused();
+    await expect(badge).toHaveCount(0);
+  });
+
+  test("score-history: the plot reads a version by key and by pointer, and takes an append", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/score-history");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The plot's own announcer is an aria-live line, not a status role: it
+    // speaks the latest release from a timer, once the appends have stopped.
+    const live = stage.locator("[aria-live='polite']");
+    const plot = stage.getByRole("slider", { name: "Support replies" });
+
+    await expect(plot).toHaveAttribute("aria-valuemin", "0");
+    await expect(plot).toHaveAttribute("aria-valuemax", "6");
+    await expect(plot).toHaveAttribute("aria-valuenow", "6");
+    await expect(plot).toHaveAttribute(
+      "aria-valuetext",
+      "v1.6, score 84, 212 of 250 cases, up 6",
+    );
+    await expect(status).toHaveText("Latest v1.6 · 84 · 212/250 cases · +6");
+
+    // Left steps back a release, Home jumps to the first, Escape returns the
+    // reading to the latest.
+    await plot.focus();
+    await page.keyboard.press("ArrowLeft");
+    await expect(plot).toHaveAttribute("aria-valuenow", "5");
+    await expect(plot).toHaveAttribute(
+      "aria-valuetext",
+      "v1.5, score 78, 195 of 250 cases, up 9",
+    );
+    await expect(status).toHaveText("Reading v1.5 · 78 · 195/250 cases · +9");
+
+    await page.keyboard.press("Home");
+    await expect(plot).toHaveAttribute("aria-valuenow", "0");
+    // The oldest release has nothing to be compared against.
+    await expect(plot).toHaveAttribute(
+      "aria-valuetext",
+      "v1.0, score 61, 153 of 250 cases",
+    );
+    await expect(status).toHaveText("Reading v1.0 · 61 · 153/250 cases");
+
+    await page.keyboard.press("Escape");
+    await expect(plot).toHaveAttribute("aria-valuenow", "6");
+    await expect(status).toHaveText("Latest v1.6 · 84 · 212/250 cases · +6");
+
+    // The pointer reads the nearest point, and leaving the plot hands the
+    // reading back to the latest.
+    const add = stage.getByRole("button", { name: "Add release" });
+    await plot.hover({ position: { x: 14, y: 60 } });
+    await expect(plot).toHaveAttribute("aria-valuenow", "0");
+    await expect(status).toHaveText("Reading v1.0 · 61 · 153/250 cases");
+    await add.hover();
+    await expect(status).toHaveText("Latest v1.6 · 84 · 212/250 cases · +6");
+
+    // An appended release extends the domain and becomes the latest.
+    await add.click();
+    await expect(plot).toHaveAttribute("aria-valuemax", "7");
+    await expect(plot).toHaveAttribute("aria-valuenow", "7");
+    await expect(plot).toHaveAttribute(
+      "aria-valuetext",
+      "v1.7, score 86, 215 of 250 cases, up 2",
+    );
+    await expect(status).toHaveText("Latest v1.7 · 86 · 215/250 cases · +2");
+    await expect(stage.getByText("8 versions")).toBeVisible();
+    await expect(live).toHaveText(
+      "Support replies at v1.7: 86, 215 of 250 cases",
+      { timeout: 10000 },
+    );
+
+    await stage.getByRole("button", { name: "Reset" }).click();
+    await expect(plot).toHaveAttribute("aria-valuemax", "6");
+    await expect(status).toHaveText("Latest v1.6 · 84 · 212/250 cases · +6");
+  });
+
+  test("judge-verdict: the judge thinks, then lands a score, a word and its reasoning", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/judge-verdict");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const card = stage.getByRole("article", { name: "Gaugeworks Reasoner" });
+    const meter = card.getByRole("meter", { name: "Confidence" });
+    const reasoning = card.getByRole("button", { name: "Reasoning" });
+
+    // The first case is already judged: the count settles on its score and
+    // the live region speaks the verdict once.
+    await expect(status).toHaveText("Case 1 · 7.4/10 · pass · confidence 82%");
+    await expect(announced).toHaveText(
+      "Pass, 7.4 of 10, confidence 82 percent",
+    );
+    await expect(stage.getByText("7.4", { exact: true })).toBeVisible({
+      timeout: 10000,
+    });
+    await expect(meter).toHaveAttribute("aria-valuenow", "82");
+    await expect(meter).toHaveAttribute("aria-valuetext", "82 percent");
+    await expect(reasoning).toHaveAttribute("aria-expanded", "true");
+    await expect(card.getByRole("listitem")).toHaveCount(3);
+    await expect(card.getByRole("listitem").first()).toContainText(
+      "Names the seven-day rule and the thirty-day claim window correctly.",
+    );
+
+    // The disclosure stays a real button once the verdict has landed, and a
+    // folded list is inert and out of the tab order.
+    await reasoning.click();
+    await expect(reasoning).toHaveAttribute("aria-expanded", "false");
+    await expect(status).toHaveText(
+      "Case 1 · 7.4/10 · pass · confidence 82% · reasoning folded",
+    );
+    await expect(stage.locator("[inert]")).toHaveCount(1);
+
+    // The next case is waited on, and a fail lands on the same spring.
+    await stage.getByRole("button", { name: "Judge next case" }).click();
+    await expect(card).toHaveAttribute("aria-busy", "true");
+    await expect(announced).toHaveText("Judging");
+    await expect(status).toHaveText("Judging case 2");
+    await expect(meter).toHaveAttribute("aria-valuetext", "No verdict yet");
+
+    await expect(announced).toHaveText(
+      "Fail, 3.1 of 10, confidence 91 percent",
+      { timeout: 15000 },
+    );
+    await expect(status).toHaveText("Case 2 · 3.1/10 · fail · confidence 91%");
+    await expect(card).not.toHaveAttribute("aria-busy", "true");
+    await expect(stage.getByText("Fail", { exact: true })).toBeVisible();
+    await expect(stage.getByText("3.1", { exact: true })).toBeVisible({
+      timeout: 10000,
+    });
+    await expect(meter).toHaveAttribute("aria-valuenow", "91");
+    // A fresh verdict unfolds its own reasoning again.
+    await expect(reasoning).toHaveAttribute("aria-expanded", "true");
+    await expect(card.getByRole("listitem")).toHaveCount(2);
+    await expect(stage.locator("[inert]")).toHaveCount(0);
+  });
+
+  test("sample-wheel: the ring turns one detent at a time and the hub reads the front", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/sample-wheel");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    // The radiogroup is the ring itself: its angle is what the wheel turned.
+    const ring = stage.getByRole("radiogroup", { name: "Smoke run samples" });
+    const chip = (label: string, verdict: string, score: number) =>
+      ring.getByRole("radio", {
+        name: `Sample ${label}, ${verdict}, score ${score}`,
+      });
+    const accuracy = stage.getByRole("meter", { name: "Accuracy" });
+
+    await expect(status).toHaveText("Sample S-01 · 88 · pass · 3 of 12 failed");
+    await expect(chip("S-01", "pass", 88)).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect.poll(evalTurnOf(ring), { timeout: 5000 }).toBeCloseTo(0, 0);
+
+    // Next turns the ring by one detent — a twelfth of a turn — and the hub
+    // reads whatever arrived at the front.
+    await stage.getByRole("button", { name: "Next sample" }).click();
+    await expect(chip("S-02", "pass", 81)).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect(announced).toHaveText("Sample S-02, pass, score 81");
+    await expect(status).toHaveText("Sample S-02 · 81 · pass · 3 of 12 failed");
+    await expect.poll(evalTurnOf(ring), { timeout: 5000 }).toBeCloseTo(-30, 0);
+
+    // The arrows do the same, and a failed sample says so in its own name
+    // rather than in the colour of its chip.
+    await chip("S-02", "pass", 81).focus();
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(chip("S-04", "fail", 42)).toBeFocused();
+    await expect(chip("S-04", "fail", 42)).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect(announced).toHaveText("Sample S-04, fail, score 42");
+    await expect(status).toHaveText("Sample S-04 · 42 · fail · 3 of 12 failed");
+    await expect(stage.getByText("Wrong postcode")).toBeVisible();
+    await expect(accuracy).toHaveAttribute("aria-valuenow", "38");
+    await expect
+      .poll(evalScaleXOf(accuracy.locator("span").first()), { timeout: 5000 })
+      .toBeCloseTo(0.38, 2);
+    await expect.poll(evalTurnOf(ring), { timeout: 5000 }).toBeCloseTo(-90, 0);
+
+    await page.keyboard.press("Home");
+    await expect(chip("S-01", "pass", 88)).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect.poll(evalTurnOf(ring), { timeout: 5000 }).toBeCloseTo(0, 0);
+
+    // A wrap from the first sample to the last is one detent back, not a
+    // whole spin round the rim.
+    await page.keyboard.press("ArrowLeft");
+    await expect(chip("S-12", "pass", 87)).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect(status).toHaveText("Sample S-12 · 87 · pass · 3 of 12 failed");
+    await expect.poll(evalTurnOf(ring), { timeout: 5000 }).toBeCloseTo(30, 0);
+
+    await stage.getByRole("button", { name: "Previous sample" }).click();
+    await expect(chip("S-11", "fail", 39)).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await expect(status).toHaveText("Sample S-11 · 39 · fail · 3 of 12 failed");
+    await expect.poll(evalTurnOf(ring), { timeout: 5000 }).toBeCloseTo(60, 0);
+  });
+});
