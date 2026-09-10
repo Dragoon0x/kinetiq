@@ -174,16 +174,21 @@ export function CallQuality({
   }));
   if (seen.grade !== shown || seen.state !== state) {
     const fell = shown < seen.grade;
+    // The lowest grade is a state, not an adjective: "dropped to no line" is
+    // not a sentence a person would say, so grade zero is phrased whole.
+    const adjective = (WORDS[shown] ?? WORDS[0]).toLowerCase();
     const sentence =
       state === "reconnecting"
         ? "The line is reconnecting"
         : state === "lost"
           ? "The line dropped out"
-          : seen.state !== "live"
-            ? `The line is back, ${(WORDS[shown] ?? WORDS[0]).toLowerCase()}`
-            : fell
-              ? `The line dropped to ${(WORDS[shown] ?? WORDS[0]).toLowerCase()}`
-              : `The line is back to ${(WORDS[shown] ?? WORDS[0]).toLowerCase()}`;
+          : shown === 0
+            ? "The line dropped out"
+            : seen.state !== "live"
+              ? `The line is back, ${adjective}`
+              : fell
+                ? `The line dropped to ${adjective}`
+                : `The line is back to ${adjective}`;
     setSeen({
       grade: shown,
       state,
@@ -238,10 +243,14 @@ export function CallQuality({
     return () => observer.disconnect();
   }, []);
 
+  // Same reason as the sentence above: at grade zero the meter names the
+  // state rather than pretending "no line" is a quality the line has.
+  const reading =
+    word === "No line"
+      ? "There is no line"
+      : `The line is ${word.toLowerCase()}`;
   const valueText =
-    rttMs === undefined
-      ? `The line is ${word.toLowerCase()}`
-      : `The line is ${word.toLowerCase()}, round-trip ${ms(rttMs)}`;
+    rttMs === undefined ? reading : `${reading}, round-trip ${ms(rttMs)}`;
 
   const rows: [string, string][] = [
     ["Round-trip", rttMs === undefined ? "—" : `${Math.round(rttMs)} ms`],

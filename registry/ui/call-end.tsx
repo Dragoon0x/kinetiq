@@ -129,9 +129,16 @@ export function CallEnd({
   // Assigned in an effect rather than during render: the completion callback
   // fires long after commit, so it only needs to be fresh, never read early.
   const finish = React.useRef<() => void>(() => {});
+  // Raised the instant a hold lands. The bar that reports the hold leaves
+  // through popLayout, which takes it out from under the pointer and fires a
+  // pointerleave on a button still rendered from the pre-end tree — without
+  // this latch that stray leave would cancel a call that has already ended,
+  // and its sentence would replace the one the reader needs to hear.
+  const landed = React.useRef(false);
   React.useEffect(() => {
     finish.current = () => {
       const at = secondsRef.current;
+      landed.current = true;
       keyHeld.current = false;
       setHolding(false);
       setHint("idle");
@@ -168,13 +175,14 @@ export function CallEnd({
 
   const startHold = () => {
     if (isEnded || holding) return;
+    landed.current = false;
     setHolding(true);
     setHint("holding");
     setSaid("Ending the call");
   };
 
   const cancelHold = () => {
-    if (!holding) return;
+    if (!holding || landed.current) return;
     keyHeld.current = false;
     setHolding(false);
     setHint("cancelled");
@@ -183,6 +191,7 @@ export function CallEnd({
   };
 
   const rejoin = () => {
+    landed.current = false;
     if (ended === undefined) setUncontrolledEnded(false);
     setHint("idle");
     setSaid("Back on the call");

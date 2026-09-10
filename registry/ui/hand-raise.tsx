@@ -129,14 +129,19 @@ export function HandRaise({
     raised: isRaised,
     ahead: isRaised ? queue.map((hand) => hand.id) : [],
   }));
-  if (snapshot.raised !== isRaised) {
-    setSnapshot({
-      raised: isRaised,
-      ahead: isRaised ? queue.map((hand) => hand.id) : [],
-    });
-  }
+  // The render that flips the raise must read the NEW freeze, not the one it is
+  // replacing: the sentence below is frozen in this very render, and a stale
+  // snapshot would have it say you are first when two hands are ahead of you.
+  const live =
+    snapshot.raised === isRaised
+      ? snapshot
+      : {
+          raised: isRaised,
+          ahead: isRaised ? queue.map((hand) => hand.id) : [],
+        };
+  if (live !== snapshot) setSnapshot(live);
 
-  const aheadIds = new Set(snapshot.ahead);
+  const aheadIds = new Set(live.ahead);
   const before = queue.filter((hand) => aheadIds.has(hand.id));
   const after = queue.filter((hand) => !aheadIds.has(hand.id));
   const mine: Entry = { id: youId, name: youName, mine: true };

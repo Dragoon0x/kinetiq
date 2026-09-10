@@ -23072,3 +23072,966 @@ test.describe("navigation", () => {
     await expect(status).toContainText("In #returns");
   });
 });
+
+/** Springs, measured heights and re-lays settle at their own pace; polls get a beat. */
+const callBeat = { intervals: [250], timeout: 8000 };
+
+/** Every row's own sentence, in DOM order, read off the name it publishes. */
+const callLabelsOf = (rows: Locator) => async (): Promise<string[]> =>
+  rows.evaluateAll((nodes) =>
+    nodes.map((node) => node.getAttribute("aria-label") ?? ""),
+  );
+
+/** What a set of readings says right now, in DOM order. */
+const callReadingsOf = (rows: Locator) => async (): Promise<string[]> =>
+  rows.allTextContents();
+
+const callHeightOf = (target: Locator) => async (): Promise<number> =>
+  target.evaluate((node) => Math.round(node.getBoundingClientRect().height));
+
+/**
+ * The height of the frame an instrument holds open in the page, read off the
+ * box that wraps the part naming it. One round trip on purpose: a poll that
+ * measures two elements every hundred milliseconds starves this page badly
+ * enough that a glide stops part-way and never lands.
+ */
+const callFrameHeightOf = (inner: Locator) => async (): Promise<number> =>
+  inner.evaluate((node) =>
+    Math.round(
+      (node.parentElement as HTMLElement).getBoundingClientRect().height,
+    ),
+  );
+
+/**
+ * The calls family is a call living inside a chat: the bar that arrives in the
+ * header, the ring around your own voice, the grid that brings a speaker
+ * forward, the hand you raise and the hold that hangs up. Every test drives the
+ * mechanic through the keyboard the component publishes — or the pointer, where
+ * the mechanic is a hold — and reads the outcome off the sentence the component
+ * speaks, the ARIA it flips and the demo's own status line, never off colour or
+ * off a frame. Where a demo drives itself from a script, the test stops the
+ * script first: a level that moves under an assertion is not a level.
+ */
+test.describe("calls", () => {
+  test("call-bar: a ringing call opens the header in flow, and only Leave ends it", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/call-bar");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    // The bar speaks its own settled change before the demo's line.
+    const announced = stage.locator("[role='status']").first();
+    const bar = stage.getByRole("group", { name: "Call in Coldbrook depot" });
+    const ring = stage.getByRole("button", { name: "Ring the room" });
+    const join = stage.getByRole("button", {
+      name: "Join the call in Coldbrook depot",
+    });
+    const leave = stage.getByRole("button", {
+      name: "Leave the call in Coldbrook depot",
+    });
+    // The bar's own frame: the wrapper whose height the row is measured into.
+    const frame = callFrameHeightOf(
+      stage.locator("[aria-label='Call in Coldbrook depot']"),
+    );
+
+    await expect(status).toContainText("No call");
+    await expect(announced).toBeEmpty();
+    // A room with no call reserves nothing and offers nothing: the bar is out
+    // of the tab order while its row stays mounted to be measured.
+    await expect(bar).toHaveJSProperty("inert", true);
+    await join.focus();
+    await expect(join).not.toBeFocused();
+    const shut = await frame();
+
+    await ring.press("Enter");
+    await expect(bar).toHaveJSProperty("inert", false);
+    await expect(announced).toHaveText(
+      "Marta Reis is calling Coldbrook depot, with 2 people in the room.",
+    );
+    await expect(status).toContainText("Ringing · 2 in the room");
+    // Ringing is a word in the row, so the pulse is never the only signal.
+    await expect(
+      stage.getByText("Ringing · 2 people waiting", { exact: true }),
+    ).toBeVisible();
+    // The bar arrived in flow: what the demo wrote below it moved down.
+    await expect.poll(frame, callBeat).toBeGreaterThan(shut + 24);
+
+    // Escape, from inside the bar, declines a call that is only ringing.
+    await join.press("Escape");
+    await expect(announced).toHaveText(
+      "You declined the call in Coldbrook depot.",
+    );
+    await expect(status).toContainText("No call");
+    await expect(bar).toHaveJSProperty("inert", true);
+    await expect.poll(frame, callBeat).toBeLessThan(shut + 8);
+
+    await ring.press("Enter");
+    await expect(status).toContainText("Ringing · 2 in the room");
+
+    // Joining swaps the pair of controls for one, and starts the count.
+    await join.press("Enter");
+    await expect(announced).toHaveText(
+      "You joined the call in Coldbrook depot.",
+    );
+    await expect(status).toContainText(/Joined · \d+:\d{2} · 3 in the room/);
+    await expect(join).toHaveCount(0);
+    await expect(
+      stage.getByRole("button", {
+        name: "Decline the call in Coldbrook depot",
+      }),
+    ).toHaveCount(0);
+    await expect(leave).toBeVisible();
+    await expect(
+      stage.getByText("In the call · 3 people", { exact: true }),
+    ).toBeVisible();
+
+    // Escape never hangs up a call you are in: leaving has to be deliberate.
+    await leave.press("Escape");
+    await expect(leave).toBeVisible();
+    await expect(status).toContainText(/Joined · \d+:\d{2} · 3 in the room/);
+
+    // Leave is the only way out, and it takes the bar with it.
+    await leave.press("Enter");
+    await expect(announced).toHaveText(
+      /^You left the call after \d+ seconds?\.$/,
+    );
+    await expect(status).toContainText(/Left after \d+:\d{2}/);
+    await expect(bar).toHaveJSProperty("inert", true);
+    await expect(leave).toHaveCount(0);
+    await expect.poll(frame, callBeat).toBeLessThan(shut + 8);
+  });
+
+  test("mic-ring: the switch closes the ring, and the meter reads what the row says", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/mic-ring");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const mic = stage.getByRole("switch", { name: "Ines's microphone" });
+    const meter = stage.getByRole("meter", { name: "Ines's microphone level" });
+
+    // The demo feeds the level from a script on an interval. Stopping it is
+    // what turns the level into a figure an assertion can hold still.
+    await stage.getByRole("button", { name: "Pause the level" }).press("Enter");
+    await expect(mic).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toBeEmpty();
+    // The state is a word beside the button, not a colour on it.
+    await expect(stage.getByText("On", { exact: true })).toHaveCount(1);
+
+    // A level read aloud every frame is unusable, so the meter is there to be
+    // queried and never to announce.
+    await expect(meter).not.toHaveAttribute("aria-live", /.*/);
+    await expect(meter).toHaveAttribute("aria-valuemin", "0");
+    await expect(meter).toHaveAttribute("aria-valuemax", "100");
+    const held = Number(await meter.getAttribute("aria-valuenow"));
+    expect(held).toBeGreaterThan(0);
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      new RegExp(
+        `^Ines's level is (silent|quiet|moderate|loud|very loud), ${held} out of 100\\.$`,
+      ),
+    );
+    await expect(status).toContainText(`Mic on · level ${held} ·`);
+
+    // Space is the switch's native press, and it closes the whole ring.
+    await mic.press(" ");
+    await expect(mic).toHaveAttribute("aria-checked", "false");
+    await expect(announced).toHaveText("Ines's microphone is muted.");
+    await expect(stage.getByText("On", { exact: true })).toHaveCount(0);
+    await expect(
+      stage.getByText("Muted", { exact: true }).first(),
+    ).toBeVisible();
+    await expect(meter).toHaveAttribute("aria-valuenow", "0");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "Ines's level is silent, 0 out of 100.",
+    );
+    // The peak goes with the ring rather than draining on behind a shut mic.
+    await expect(status).toContainText("Muted · level 0 · peak 0");
+
+    // Enter is the other half of the same press, and the ring reopens from
+    // wherever the level stands — the peak can never sit under it.
+    await mic.press("Enter");
+    await expect(mic).toHaveAttribute("aria-checked", "true");
+    await expect(announced).toHaveText("Ines's microphone is on.");
+    await expect(meter).toHaveAttribute("aria-valuenow", String(held));
+    await expect(status).toContainText(`Mic on · level ${held} · peak ${held}`);
+  });
+
+  test("speaker-grid: whoever speaks holds the front cell, and a pin holds it instead", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/speaker-grid");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const grid = stage.getByRole("listbox", {
+      name: "People on the Coldbrook dispatch call",
+    });
+    const tiles = grid.getByRole("option");
+    const labels = callLabelsOf(tiles);
+
+    // The room's levels run from a script on an interval; pausing freezes the
+    // turn, so every reading below belongs to one moment of the call.
+    await stage.getByRole("button", { name: "Pause the room" }).press("Enter");
+    await expect(tiles).toHaveCount(3);
+    await expect(status).toContainText("3 on the call");
+
+    // The speaker is derived from the levels, not declared — and whoever it is
+    // holds the first cell. In a lull there is no speaking tile at all.
+    const frozen = await labels();
+    expect(
+      frozen.findIndex((label) => label.includes(" is speaking.")),
+    ).toBeLessThanOrEqual(0);
+    // Speaking and muted are stated in every tile's own sentence.
+    for (const label of frozen) {
+      expect(label).toMatch(
+        /^(Marta Reis|Rui Alvez|Ines Corda) is (speaking|listening|muted)\. Pin this tile\.$/,
+      );
+    }
+
+    // Roving tabindex: one tile is tabbable, and the arrows do the walking.
+    await expect(grid.locator("[tabindex='0']")).toHaveCount(1);
+    const rui = grid.getByRole("option", { name: /^Rui Alvez is / });
+    await tiles.first().focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(tiles.nth(1)).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(tiles.nth(2)).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(tiles.first()).toBeFocused();
+    // Two columns, so Down moves a whole row rather than one cell.
+    await page.keyboard.press("ArrowDown");
+    await expect(tiles.nth(2)).toBeFocused();
+    await expect(grid.locator("[tabindex='0']")).toHaveCount(1);
+
+    // A pin holds the front cell whatever the levels do; the speaker takes
+    // second rather than pushing the pin out of the way.
+    await rui.press("Enter");
+    await expect(announced).toHaveText("Rui Alvez is pinned to the front.");
+    await expect(status).toContainText("Pinned Rui Alvez");
+    await expect(tiles.first()).toHaveAccessibleName(/^Rui Alvez is /);
+    await expect(tiles.first()).toHaveAttribute("aria-selected", "true");
+    await expect(tiles.first()).toHaveAccessibleName(/Unpin this tile\.$/);
+    const pinnedOrder = await labels();
+    expect(
+      pinnedOrder.findIndex((label) => label.includes(" is speaking.")),
+    ).toBeLessThanOrEqual(1);
+
+    // Someone arriving joins the grid without disturbing the pin.
+    await stage.getByRole("button", { name: "Dana joins" }).press("Enter");
+    await expect(tiles).toHaveCount(4);
+    await expect(status).toContainText("4 on the call");
+    await expect(tiles.first()).toHaveAccessibleName(/^Rui Alvez is /);
+    await expect(
+      grid.getByRole("option", { name: /^Dana Ferro is / }),
+    ).toHaveCount(1);
+
+    // A muted tile says so in its sentence and can never hold the turn.
+    await stage.getByRole("button", { name: "Mute Ines" }).press("Enter");
+    await expect(
+      grid.getByRole("option", { name: /^Ines Corda is / }),
+    ).toHaveAccessibleName("Ines Corda is muted. Pin this tile.");
+
+    // A second press gives the front back to whoever is loudest.
+    await rui.press("Enter");
+    await expect(announced).toHaveText("Rui Alvez is no longer pinned.");
+    await expect(status).not.toContainText("Pinned");
+    await expect(
+      grid.getByRole("option", { name: /^Rui Alvez is / }),
+    ).toHaveAttribute("aria-selected", "false");
+    const unpinned = await labels();
+    expect(
+      unpinned.findIndex((label) => label.includes(" is speaking.")),
+    ).toBeLessThanOrEqual(0);
+  });
+
+  test("hand-raise: your place is frozen when you raise, and the rail closes behind you", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/hand-raise");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const hand = stage.getByRole("button", { name: /your hand/ });
+    const another = stage.getByRole("button", { name: /raises$/ });
+    const callFirst = stage.getByRole("button", {
+      name: "Call the first hand",
+    });
+    // The instrument's own root: the raise row plus whatever rail is open.
+    const frame = callFrameHeightOf(
+      stage.locator("[aria-label='Raise your hand']"),
+    );
+
+    await expect(status).toContainText("Hand down · 2 raised");
+    await expect(announced).toBeEmpty();
+    await expect(hand).toHaveAttribute("aria-pressed", "false");
+    await expect(hand).toHaveAccessibleName("Raise your hand.");
+    await expect(
+      stage.getByText("2 hands raised", { exact: true }),
+    ).toBeVisible();
+    // Each entry carries its place in one string, so a position never depends
+    // on reading order alone.
+    await expect(
+      stage.getByText("1st in line, Marta Reis", { exact: true }),
+    ).toHaveCount(1);
+    await expect(
+      stage.getByText("2nd in line, Rui Alvez", { exact: true }),
+    ).toHaveCount(1);
+    const railOpen = await frame();
+
+    // Space raises, and the place you take is spoken with the raise.
+    await hand.press(" ");
+    await expect(hand).toHaveAttribute("aria-pressed", "true");
+    await expect(hand).toHaveAccessibleName(
+      "Lower your hand. You are 3rd in line.",
+    );
+    // The sentence is frozen in the render that flips the raise, and it reads
+    // the freeze that render is taking rather than the one it replaces.
+    await expect(announced).toHaveText(
+      "Your hand is raised. You are 3rd in line.",
+    );
+    const frozen = (await announced.textContent()) ?? "";
+    await expect(status).toContainText("You are number 3 in line · 3 raised");
+    await expect(
+      stage.getByText("3rd in line, You", { exact: true }),
+    ).toHaveCount(1);
+
+    // A hand raised after yours queues behind you rather than ahead of you,
+    // and the rail's own comings and goings are never announced.
+    await another.press("Enter");
+    await expect(
+      stage.getByText("4th in line, Dana Ferro", { exact: true }),
+    ).toHaveCount(1);
+    await expect(
+      stage.getByText("3rd in line, You", { exact: true }),
+    ).toHaveCount(1);
+    await expect(status).toContainText("You are number 3 in line · 4 raised");
+    await expect(announced).toHaveText(frozen);
+
+    // A hand called ahead of you moves you up rather than reshuffling the room.
+    await callFirst.press("Enter");
+    await expect(
+      stage.getByText("2nd in line, You", { exact: true }),
+    ).toHaveCount(1);
+    await expect(hand).toHaveAccessibleName(
+      "Lower your hand. You are 2nd in line.",
+    );
+    await expect(status).toContainText("You are number 2 in line · 3 raised");
+    // Still the sentence your own raise froze, not a fresh one.
+    await expect(announced).toHaveText(frozen);
+
+    // Lowering takes your chip out and renumbers what is left.
+    await hand.press(" ");
+    await expect(hand).toHaveAttribute("aria-pressed", "false");
+    await expect(announced).toHaveText("Your hand is down.");
+    await expect(status).toContainText("Hand down · 2 raised");
+    await expect(
+      stage.getByText("1st in line, Rui Alvez", { exact: true }),
+    ).toHaveCount(1);
+    await expect(
+      stage.getByText("2nd in line, Dana Ferro", { exact: true }),
+    ).toHaveCount(1);
+
+    // The last hand out takes the rail with it: an empty queue reserves nothing.
+    await callFirst.press("Enter");
+    await callFirst.press("Enter");
+    await expect(status).toContainText("Hand down · 0 raised");
+    await expect(
+      stage.getByText("No hands raised", { exact: true }),
+    ).toBeVisible();
+    await expect.poll(frame, callBeat).toBeLessThan(railOpen - 20);
+
+    // And it opens again for a hand raised into an empty room.
+    await hand.press("Enter");
+    await expect(announced).toHaveText(
+      "Your hand is raised. You are 1st in line.",
+    );
+    await expect(status).toContainText("You are number 1 in line · 1 raised");
+    await expect(
+      stage.getByText("1st in line, You", { exact: true }),
+    ).toHaveCount(1);
+    await expect.poll(frame, callBeat).toBeGreaterThan(railOpen - 20);
+  });
+
+  test("share-frame: a source takes the preview, and stopping folds the frame away", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/share-frame");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const group = stage.getByRole("group", {
+      name: "Share your screen to the Coldbrook dispatch call",
+    });
+    const sources = stage.getByRole("radiogroup", { name: "What to share" });
+    const whole = sources.getByRole("radio", { name: "Whole screen" });
+    const board = sources.getByRole("radio", { name: "Dispatch board" });
+    const order = sources.getByRole("radio", { name: "Order 4471" });
+    const share = stage.getByRole("button", {
+      name: /^(Share|Stop sharing) /,
+    });
+    const height = callHeightOf(group);
+
+    await expect(status).toContainText("Not sharing · Dispatch board");
+    await expect(announced).toBeEmpty();
+    await expect(board).toHaveAttribute("aria-checked", "true");
+    await expect(share).toHaveAttribute("aria-pressed", "false");
+    await expect(share).toHaveAccessibleName("Share Dispatch board.");
+    // Nothing is held open for a share that is not happening.
+    await expect(stage.getByRole("img")).toHaveCount(0);
+    await expect(stage.getByText("Not sharing", { exact: true })).toHaveCount(
+      1,
+    );
+    const closed = await height();
+
+    // The chips are a real radiogroup on a roving tabindex, and they do not
+    // wrap past either end.
+    await board.press("ArrowRight");
+    await expect(order).toBeFocused();
+    await expect(order).toHaveAttribute("aria-checked", "true");
+    await page.keyboard.press("ArrowRight");
+    await expect(order).toBeFocused();
+    await expect(order).toHaveAttribute("aria-checked", "true");
+    await page.keyboard.press("Home");
+    await expect(whole).toBeFocused();
+    await expect(whole).toHaveAttribute("aria-checked", "true");
+    await expect(status).toContainText("Not sharing · Whole screen");
+    await page.keyboard.press("ArrowLeft");
+    await expect(whole).toBeFocused();
+    // Space picks the chip the focus is on.
+    await board.press(" ");
+    await expect(board).toHaveAttribute("aria-checked", "true");
+    // Choosing a source while nothing is shared announces nothing.
+    await expect(announced).toBeEmpty();
+
+    // Sharing opens the preview in flow and names what is in it.
+    await share.press("Enter");
+    await expect(announced).toHaveText("You are sharing Dispatch board.");
+    await expect(share).toHaveAttribute("aria-pressed", "true");
+    await expect(share).toHaveAccessibleName("Stop sharing Dispatch board.");
+    await expect(status).toContainText("Sharing Dispatch board · 2 watching");
+    const frame = stage.getByRole("img");
+    await expect(frame).toHaveAccessibleName(
+      "A preview of Dispatch board, the surface you are sharing. 2 people are watching.",
+    );
+    // Sharing is a word in the badge, not the pulse or the colour.
+    await expect(
+      stage.getByText("Sharing · 2 people watching", { exact: true }),
+    ).toBeVisible();
+    await expect.poll(height, callBeat).toBeGreaterThan(closed + 100);
+
+    // Changing source under a running share swaps the window and says so.
+    await order.press(" ");
+    await expect(announced).toHaveText("You are now sharing Order 4471.");
+    await expect(status).toContainText("Sharing Order 4471 · 2 watching");
+    await expect(frame).toHaveAccessibleName(
+      "A preview of Order 4471, the surface you are sharing. 2 people are watching.",
+    );
+
+    // A viewer leaving re-counts the audience without re-announcing the share.
+    await stage.getByRole("button", { name: "One drops off" }).press("Enter");
+    await expect(frame).toHaveAccessibleName(
+      "A preview of Order 4471, the surface you are sharing. 1 person is watching.",
+    );
+    await expect(
+      stage.getByText("Sharing · 1 person watching", { exact: true }),
+    ).toBeVisible();
+    await expect(status).toContainText("Sharing Order 4471 · 1 watching");
+    await expect(announced).toHaveText("You are now sharing Order 4471.");
+
+    // Stopping folds the frame away and takes the badge with it.
+    await share.press("Enter");
+    await expect(announced).toHaveText("You stopped sharing.");
+    await expect(share).toHaveAttribute("aria-pressed", "false");
+    await expect(status).toContainText("Not sharing · Order 4471");
+    await expect(stage.getByRole("img")).toHaveCount(0);
+    await expect(stage.getByText("Not sharing", { exact: true })).toHaveCount(
+      1,
+    );
+    await expect.poll(height, callBeat).toBeLessThan(closed + 8);
+  });
+
+  test("call-quality: the grade walks down the script, and the details open in flow", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/call-quality");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const meter = stage.getByRole("meter", {
+      name: "Line to Coldbrook dispatch",
+    });
+    const details = stage.getByRole("button", {
+      name: /^(Show|Hide) line details$/,
+    });
+    const step = stage.getByRole("button", { name: "Step", exact: true });
+
+    await expect(status).toContainText("38 ms · 0.1% loss · the line is good");
+    await expect(announced).toBeEmpty();
+    await expect(meter).toHaveAttribute("aria-valuemin", "0");
+    await expect(meter).toHaveAttribute("aria-valuemax", "4");
+    await expect(meter).toHaveAttribute("aria-valuenow", "4");
+    // The grade is a sentence, so it is never carried by the bars alone.
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "The line is excellent, round-trip 38 milliseconds",
+    );
+
+    // The pill is a real disclosure whose panel is in flow, not a layer.
+    await expect(details).toHaveAttribute("aria-expanded", "false");
+    const panelId = await details.getAttribute("aria-controls");
+    expect(panelId).toBeTruthy();
+    const panel = stage.locator(`[id="${panelId}"]`);
+    await expect(panel).toHaveAttribute("aria-hidden", "true");
+    const shut = callHeightOf(panel);
+    await expect.poll(shut, callBeat).toBeLessThanOrEqual(1);
+
+    await details.press("Enter");
+    await expect(details).toHaveAttribute("aria-expanded", "true");
+    await expect(details).toHaveAccessibleName("Hide line details");
+    await expect(panel).toHaveAttribute("aria-hidden", "false");
+    await expect.poll(shut, callBeat).toBeGreaterThan(40);
+    await expect(panel).toContainText("Round-trip");
+    await expect(panel).toContainText("38 ms");
+    await expect(panel).toContainText("0.1%");
+    await expect(panel).toContainText("6 ms");
+    await expect(panel).toContainText(
+      "Ines dropped for six seconds on the yard relay.",
+    );
+
+    // One step down the script is one grade down the staircase, spoken once.
+    await step.press("Enter");
+    await expect(announced).toHaveText("The line dropped to good");
+    await expect(meter).toHaveAttribute("aria-valuenow", "3");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "The line is good, round-trip 62 milliseconds",
+    );
+    await expect(status).toContainText(
+      "62 ms · 0.4% loss · the line dropped to good",
+    );
+
+    await step.press("Enter");
+    await expect(announced).toHaveText("The line dropped to fair");
+    await step.press("Enter");
+    await expect(announced).toHaveText("The line dropped to poor");
+    await expect(meter).toHaveAttribute("aria-valuenow", "1");
+
+    // A reconnecting line flattens to nothing and says the word.
+    await step.press("Enter");
+    await expect(announced).toHaveText("The line is reconnecting");
+    await expect(meter).toHaveAttribute("aria-valuenow", "0");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "The line is reconnecting, round-trip 210 milliseconds",
+    );
+    await expect(status).toContainText(
+      "210 ms · 4.8% loss · the line is reconnecting",
+    );
+    // The panel is reading the same line, live.
+    await expect(panel).toContainText("210 ms");
+    await expect(panel).toContainText("4.8%");
+    await expect(panel).toContainText("31 ms");
+
+    // A second reconnecting frame is not a second event, so nothing is said
+    // again — the figures move underneath the same sentence.
+    await step.press("Enter");
+    await expect(status).toContainText(
+      "236 ms · 5.2% loss · the line is reconnecting",
+    );
+    await expect(announced).toHaveText("The line is reconnecting");
+
+    await step.press("Enter");
+    await expect(announced).toHaveText("The line dropped out");
+    await expect(meter).toHaveAttribute(
+      "aria-valuetext",
+      "There is no line, round-trip 240 milliseconds",
+    );
+
+    // Coming back is its own sentence rather than another fall.
+    await step.press("Enter");
+    await expect(announced).toHaveText("The line is back, fair");
+    await expect(meter).toHaveAttribute("aria-valuenow", "2");
+
+    await stage.getByRole("button", { name: "Reset" }).press("Enter");
+    await expect(meter).toHaveAttribute("aria-valuenow", "4");
+    await expect(status).toContainText(
+      "38 ms · 0.1% loss · the line is back to excellent",
+    );
+
+    // And the disclosure closes the way it opened.
+    await details.press("Enter");
+    await expect(details).toHaveAttribute("aria-expanded", "false");
+    await expect(details).toHaveAccessibleName("Show line details");
+    await expect(panel).toHaveAttribute("aria-hidden", "true");
+    await expect.poll(shut, callBeat).toBeLessThanOrEqual(1);
+  });
+
+  test("voice-wave-row: the turn moves to the loudest row, and a pin holds its own", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/voice-wave-row");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const rows = stage.getByRole("list", { name: "Coldbrook dispatch" });
+    const people = rows.getByRole("button");
+    const ines = rows.getByRole("button", { name: /^Ines Moreau,/ });
+    const marta = rows.getByRole("button", { name: /^Marta Ferreira,/ });
+    const rui = rows.getByRole("button", { name: /^Rui Baptista,/ });
+
+    // The demo starts with the call paused, so every row is at zero.
+    await expect(people).toHaveCount(3);
+    await expect(
+      stage.getByText("3 on the call", { exact: true }),
+    ).toBeVisible();
+    await expect(status).toContainText("nobody speaking · pinned nothing");
+    await expect(announced).toBeEmpty();
+    await expect(ines).toHaveAccessibleName(
+      "Ines Moreau, silent. Pin Ines Moreau.",
+    );
+    await expect(marta).toHaveAccessibleName(
+      "Marta Ferreira, silent. Pin Marta Ferreira.",
+    );
+
+    // Roving tabindex: the list is one tab stop and the arrows step inside it.
+    await expect(rows.locator("[tabindex='0']")).toHaveCount(1);
+    await ines.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(marta).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(rui).toBeFocused();
+    await page.keyboard.press("ArrowUp");
+    await expect(marta).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(ines).toBeFocused();
+    await expect(rows.locator("[tabindex='0']")).toHaveCount(1);
+
+    // Enter pins the focused row, and the pin is stated in its own sentence.
+    await marta.press("Enter");
+    await expect(marta).toHaveAttribute("aria-pressed", "true");
+    await expect(marta).toHaveAccessibleName(
+      "Marta Ferreira, silent. Unpin Marta Ferreira.",
+    );
+    await expect(status).toContainText("pinned Marta Ferreira");
+
+    // A muted row says so in words and can never take the turn.
+    await stage.getByRole("button", { name: "Mute Rui" }).press("Enter");
+    await expect(rui).toHaveAccessibleName(
+      "Rui Baptista, microphone muted. Pin Rui Baptista.",
+    );
+
+    // The script's first frame is Ines, so the turn lands on her the moment
+    // the levels arrive — and it is spoken once, not per level.
+    await stage.getByRole("button", { name: "Play the call" }).press("Enter");
+    await expect(announced).toHaveText("Ines Moreau is speaking");
+    await expect(ines).toHaveAccessibleName(
+      "Ines Moreau, speaking. Pin Ines Moreau.",
+    );
+    await expect(status).toContainText(
+      "ines moreau is speaking · pinned Marta",
+    );
+
+    // Silence is a state of its own rather than an absence.
+    await stage
+      .getByRole("button", { name: "Pause", exact: true })
+      .press("Enter");
+    await expect(announced).toHaveText("Nobody is speaking");
+    await expect(ines).toHaveAccessibleName(
+      "Ines Moreau, silent. Pin Ines Moreau.",
+    );
+    await expect(status).toContainText(
+      "nobody is speaking · pinned Marta Ferreira",
+    );
+
+    // A second press hands the row back.
+    await marta.press(" ");
+    await expect(marta).toHaveAttribute("aria-pressed", "false");
+    await expect(marta).toHaveAccessibleName(
+      "Marta Ferreira, silent. Pin Marta Ferreira.",
+    );
+    await expect(status).toContainText("pinned nothing");
+  });
+
+  test("mute-all: the sweep quiets the room, and undo returns only what it took", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/mute-all");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const head = stage.getByRole("button", {
+      name: /^(Mute all microphones|Undo, unmute .*)$/,
+    });
+    const list = stage.getByRole("list", { name: "Coldbrook dispatch" });
+    const marta = list.getByRole("button", { name: /Marta Ferreira$/ });
+    const rui = list.getByRole("button", { name: /Rui Baptista$/ });
+    // The count rolls between readings, so it is read once the roll has landed.
+    const reading = callReadingsOf(stage.getByText(/^\d+ of 5 muted$/));
+
+    await expect(status).toContainText(
+      "5 on the call · 1 muted · rui baptista muted",
+    );
+    await expect(announced).toBeEmpty();
+    await expect.poll(reading, callBeat).toEqual(["1 of 5 muted"]);
+    await expect(head).toHaveAccessibleName("Mute all microphones");
+    await expect(rui).toHaveAttribute("aria-pressed", "true");
+    await expect(rui).toHaveAccessibleName("Unmute Rui Baptista");
+    await expect(marta).toHaveAttribute("aria-pressed", "false");
+
+    // Roving tabindex across the mic buttons; the header is its own tab stop.
+    await expect(list.locator("[tabindex='0']")).toHaveCount(1);
+    await list.getByRole("button").first().focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(marta).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(
+      list.getByRole("button", { name: /Tomas Lindqvist$/ }),
+    ).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(
+      list.getByRole("button", { name: /Ines Moreau$/ }),
+    ).toBeFocused();
+
+    // The sweep commits every open microphone at once, and counts what it took.
+    await head.press("Enter");
+    await expect(announced).toHaveText("Muted 4 microphones");
+    await expect(status).toContainText(
+      "5 on the call · 5 muted · muted 4 microphones",
+    );
+    await expect.poll(reading, callBeat).toEqual(["5 of 5 muted"]);
+    await expect(marta).toHaveAccessibleName("Unmute Marta Ferreira");
+    await expect(head).toHaveAccessibleName("Undo, unmute 4 microphones");
+
+    // Undo gives back exactly what the sweep took: a microphone somebody shut
+    // by hand before it stays shut.
+    await head.press("Enter");
+    await expect(announced).toHaveText("Unmuted 4 microphones");
+    await expect(status).toContainText(
+      "5 on the call · 1 muted · unmuted 4 microphones",
+    );
+    await expect(rui).toHaveAttribute("aria-pressed", "true");
+    await expect(marta).toHaveAttribute("aria-pressed", "false");
+    await expect(head).toHaveAccessibleName("Mute all microphones");
+
+    // A hand toggle after a sweep clears the undo: the set it would give back
+    // no longer exists.
+    await head.press("Enter");
+    await expect(head).toHaveAccessibleName("Undo, unmute 4 microphones");
+    await marta.press("Enter");
+    await expect(announced).toHaveText("Marta Ferreira unmuted");
+    await expect(marta).toHaveAttribute("aria-pressed", "false");
+    await expect(head).toHaveAccessibleName("Mute all microphones");
+    await expect(status).toContainText(
+      "5 on the call · 4 muted · marta ferreira unmuted",
+    );
+
+    // With nothing left to mute and no undo standing, the control goes
+    // aria-disabled rather than disabled, so it keeps its place in the tab
+    // order — and pressing it changes nothing.
+    await marta.press(" ");
+    await expect(announced).toHaveText("Marta Ferreira muted");
+    await expect.poll(reading, callBeat).toEqual(["5 of 5 muted"]);
+    await expect(head).toHaveAttribute("aria-disabled", "true");
+    await expect(head).toHaveAccessibleName("Mute all microphones");
+    await head.focus();
+    await expect(head).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(announced).toHaveText("Marta Ferreira muted");
+    await expect.poll(reading, callBeat).toEqual(["5 of 5 muted"]);
+
+    await stage.getByRole("button", { name: "Reset the call" }).press("Enter");
+    await expect(status).toContainText(
+      "5 on the call · 1 muted · back to the start",
+    );
+    await expect(head).toHaveAttribute("aria-disabled", "false");
+  });
+
+  test("call-end: a hold released early says it cancelled, and one that lands ends the call", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/call-end");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const bar = stage.getByRole("group", {
+      name: /^Coldbrook dispatch, live,/,
+    });
+    const end = stage.getByRole("button", { name: "Hold to end the call" });
+
+    await expect(status).toContainText(
+      /live \d+:\d{2} · 3 on the call · hold to end/,
+    );
+    await expect(announced).toBeEmpty();
+    // The ticking figure is not read: the bar's own label carries the length.
+    await expect(bar).toHaveAccessibleName(
+      /^Coldbrook dispatch, live, 3 people on the call, \d+ seconds so far$/,
+    );
+    // The contract is spoken with the control that asks for it.
+    await expect(end).toHaveAccessibleDescription("Hold to end the call");
+
+    // The keyboard path: Space held starts the fill, and the key going up
+    // cancels it — a cancelled destructive action must say that it cancelled.
+    await end.focus();
+    await page.keyboard.down(" ");
+    await expect(announced).toHaveText("Ending the call");
+    await expect(end).toHaveAccessibleDescription("Keep holding to end");
+    await page.keyboard.up(" ");
+    await expect(announced).toHaveText(
+      "Held for a moment, the call is still up",
+    );
+    await expect(end).toHaveAccessibleDescription(
+      "Held for a moment, not ended",
+    );
+    await expect(status).toContainText("released early");
+    await expect(end).toBeVisible();
+
+    // Escape cancels a hold from under the same finger.
+    await page.keyboard.down("Enter");
+    await expect(announced).toHaveText("Ending the call");
+    await page.keyboard.press("Escape");
+    await expect(announced).toHaveText(
+      "Held for a moment, the call is still up",
+    );
+    await page.keyboard.up("Enter");
+    await expect(end).toBeVisible();
+
+    // The pointer asks for the same contract: the press starts the fill, and
+    // letting go before it lands leaves the call exactly where it was.
+    const box = await end.boundingBox();
+    if (!box) throw new Error("the End control has no box to hold");
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.down();
+    await expect(announced).toHaveText("Ending the call");
+    await expect(end).toHaveAccessibleDescription("Keep holding to end");
+    await page.mouse.up();
+    await expect(announced).toHaveText(
+      "Held for a moment, the call is still up",
+    );
+    await expect(end).toBeVisible();
+    // A pointer parked on the control would keep hovering what replaces it.
+    await page.mouse.move(4, 4);
+
+    // Held to the end, the call ends from the fill's own completion rather
+    // than from the press — and it says how long the call ran.
+    await end.focus();
+    await page.keyboard.down(" ");
+    const rejoin = stage.getByRole("button", {
+      name: "Rejoin Coldbrook dispatch",
+    });
+    await expect(rejoin).toBeVisible({ timeout: 10_000 });
+    await expect(announced).toHaveText(/^The call ended after \d+ seconds$/);
+    await page.keyboard.up(" ");
+    await expect(announced).toHaveText(/^The call ended after \d+ seconds$/);
+    await expect(status).toContainText(
+      /ended · 3 on the call · ended at \d+:\d{2}/,
+    );
+    await expect(end).toHaveCount(0);
+    await expect(bar).toHaveCount(0);
+    // The hint belongs to the live bar, and leaves with it.
+    await expect(
+      stage.getByText("Hold to end the call", { exact: true }),
+    ).toHaveCount(0);
+    await expect(stage.getByText("Call ended", { exact: true })).toBeVisible();
+
+    // Rejoining is the way back, and the bar comes with it.
+    await rejoin.press("Enter");
+    await expect(announced).toHaveText("Back on the call");
+    await expect(status).toContainText("back on the call");
+    await expect(bar).toBeVisible();
+    await expect(end).toHaveAccessibleDescription("Hold to end the call");
+    await expect(rejoin).toHaveCount(0);
+
+    // The pointer reaches the same end. The bar it was resting on leaves out
+    // of flow as the call ends, which fires a pointerleave on a control that
+    // has already finished — the reading must still be the one that landed.
+    const held = await end.boundingBox();
+    if (!held) throw new Error("the End control has no box to hold");
+    await page.mouse.move(held.x + held.width / 2, held.y + held.height / 2);
+    await page.mouse.down();
+    await expect(announced).toHaveText("Ending the call");
+    await expect(rejoin).toBeVisible({ timeout: 10_000 });
+    await page.mouse.up();
+    // Rejoining restarted the clock, so this end lands seconds in — and one
+    // second is one second, never "1 seconds".
+    await expect(announced).toHaveText(
+      /^The call ended after (1 second|\d+ seconds)$/,
+    );
+    await expect(status).toContainText("ended ·");
+    await expect(end).toHaveCount(0);
+  });
+
+  test("ringtone-pulse: answering swaps the card and lands focus on the line it left", async ({
+    page,
+  }) => {
+    await gotoHydrated(page, "/components/ringtone-pulse");
+    const stage = stageOf(page);
+    const status = demoStatus(stage);
+    const announced = stage.locator("[role='status']").first();
+    const card = stage.getByRole("group");
+    const answer = stage.getByRole("button", { name: "Answer the call" });
+    const decline = stage.getByRole("button", { name: "Decline the call" });
+    const again = stage.getByRole("button", { name: "Call again" });
+    const giveUp = stage.getByRole("button", { name: "They give up" });
+
+    await expect(status).toContainText(
+      "ringing · ines moreau · coldbrook dispatch",
+    );
+    await expect(announced).toBeEmpty();
+    // The state is a sentence on the card, so the pulse is never the reading.
+    await expect(card).toHaveAccessibleName(
+      "Ines Moreau is calling from Coldbrook dispatch",
+    );
+    await expect(answer).toBeVisible();
+    await expect(decline).toBeVisible();
+
+    // Escape, from inside the card, is the decline.
+    await decline.press("Escape");
+    await expect(announced).toHaveText("Call declined");
+    await expect(card).toHaveAccessibleName("Call declined");
+    await expect(status).toContainText("declined · ines moreau");
+    const line = stage.getByText("You declined the call", { exact: true });
+    await expect(line).toBeVisible();
+    // Focus lands on the line that replaced the controls rather than dropping.
+    await expect(line).toBeFocused();
+    await expect(answer).toHaveCount(0);
+
+    await again.press("Enter");
+    await expect(announced).toHaveText(
+      "Ines Moreau is calling from Coldbrook dispatch",
+    );
+    await expect(status).toContainText("ringing · ines moreau");
+    await expect(answer).toBeVisible();
+
+    // Answering swaps the body to the connected line and keeps the focus.
+    await answer.press("Enter");
+    await expect(announced).toHaveText("Call answered");
+    await expect(card).toHaveAccessibleName("Call answered");
+    await expect(status).toContainText("answered · ines moreau");
+    const onCall = stage.getByText("On the call with Ines Moreau", {
+      exact: true,
+    });
+    await expect(onCall).toBeVisible();
+    await expect(onCall).toBeFocused();
+    await expect(decline).toHaveCount(0);
+
+    // A call that gives up lands on the missed line — and a status that
+    // arrived from the host never steals the focus a control did not move.
+    await again.press("Enter");
+    await expect(answer).toBeVisible();
+    await giveUp.press("Enter");
+    await expect(announced).toHaveText("Missed call from Ines Moreau");
+    await expect(card).toHaveAccessibleName("Missed call from Ines Moreau");
+    await expect(status).toContainText("missed · ines moreau");
+    // The line and the status speak the same sentence here, and the line is
+    // the one the card draws, first in the tree.
+    const missed = stage
+      .getByText("Missed call from Ines Moreau", { exact: true })
+      .first();
+    await expect(missed).toBeVisible();
+    await expect(missed).not.toBeFocused();
+    await expect(answer).toHaveCount(0);
+  });
+});
