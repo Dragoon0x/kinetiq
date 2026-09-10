@@ -18015,6 +18015,245 @@ Notes:
 - The stepper is a role="spinbutton" with two buttons either side: Arrow Up and Right add a line, Arrow Down and Left take one, Home goes to none and End to the ceiling.
 - Under reduced motion the wrappers change height on tweens, the lines arrive on opacity with no stagger or travel, and the count swaps in place.
 
+### Latency Histogram (KQ-951) — `latency-hist`
+Where the requests fall.
+
+A distribution of response times whose bars scale up from their baselines on glide in a cascade sweep, so a new window re-shapes the same bars rather than mounting a new chart. The p50, p95 and p99 marks stand on the same axis and slide to their places on snap; pressing a percentile chip pins it, washing the plot to the mark and dropping every bar past it to the hairline. The bars are a roving-tabindex list of buttons where Left and Right step, Home and End jump, and Enter or Space latches a bucket's reading.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/latency-hist`
+
+Props:
+- `buckets`: LatencyBucket[] — Ordered buckets of { from, to, count }; the last may leave `to` off to run open-ended.
+- `pinned / defaultPinned`: "p50" | "p95" | "p99" | null (default null) — Controlled or initial pinned percentile.
+- `onPinnedChange`: (pinned: Percentile | null) => void — Fires from the press or key that pinned or released a percentile.
+- `onPercentilesChange`: (marks: PercentileMarks) => void — The computed p50, p95 and p99 — a reading, so it also fires on the first commit.
+- `onBucketChange`: (bucket: BucketReading | null) => void — The bucket under pointer or focus; also fires on the first commit.
+- `unit`: string (default "ms") — Printed after every latency figure.
+- `unitLong`: string (default "milliseconds") — The same unit spoken in full, so every accessible name is a sentence.
+- `windowLabel`: string — The window these buckets cover, printed in the header.
+- `label`: string (default "Latency") — Names the chart and its bar list.
+- `height`: number (default 96) — Plot height in px; the width is fluid.
+
+Notes:
+- The bars carry a roving tabindex: Left and Right step, Home and End jump to the ends, Enter or Space latches a bucket so its reading survives the pointer leaving.
+- Each bar names itself as one sentence — range, count and share of the window — so the distribution is available in words, and the percentile chips are aria-pressed toggles in the normal tab order.
+- Under reduced motion the bars still take their heights, because a distribution is information, but on a tween with no stagger and with the marks swapping in place.
+- Every percentage is rounded to three decimals before it reaches a style, so the chart hydrates against the markup the server sent.
+
+### SLO Burn (KQ-952) — `slo-burn`
+How fast the budget goes.
+
+An error budget drawn as the minutes it has left and the pace it is spending them at. The bar drains from the right on glide — a budget settling, never a bounce — while a pace rule slides on snap to where the budget should stand at this point in the window, and a burn-rate line carries its marker past a ticked fast mark. Above the fast rate the bar and chip turn warn and the chip pulses on a mirrored tween, and the Project switch, flipped with Enter or Space, opens the slice this rate would take by window end.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slo-burn`
+
+Props:
+- `remaining`: number — Share of the error budget left, 0 to 1.
+- `elapsed`: number — Share of the compliance window elapsed, 0 to 1; the pace rule stands at what is left of it.
+- `budgetMinutes`: number (default 43.2) — The whole budget in minutes, so the readout names real minutes.
+- `windowHours`: number (default 720) — Length of the compliance window, used for the time to exhaustion.
+- `objective`: number (default 99.9) — The objective, printed in the header.
+- `fastAt`: number (default 2) — Burn rate at or above which the meter reads fast.
+- `maxRate`: number (default 10) — Top of the burn-rate line; the marker clamps there and the reading says so.
+- `projected / defaultProjected`: boolean (default false) — Controlled or initial state of the projection switch.
+- `onProjectedChange`: (projected: boolean) => void — Fires from the press or key that flipped the switch.
+- `onBurnChange`: (reading: BurnReading) => void — Rate, state, minutes left, minutes projected at window end and hours to exhaustion — a state, so it also fires on the first commit.
+- `label`: string (default "Error budget") — Names the meter.
+
+Notes:
+- Both bars are real role="meter"s whose aria-valuetext is a sentence, and the projection control is a role="switch" reached by Tab and flipped with Enter or Space.
+- The state word — Ahead, On pace, Fast, Spent — is printed beside the rate, so the reading never rests on colour alone, and a polite region speaks only threshold crossings.
+- Every figure comes from props: the meter never reads a clock, so it renders the same on the server as after hydration.
+- Under reduced motion the fill still drains and the markers still take their places on tweens, and the fast-burn pulse does not run.
+
+### Heat Week (KQ-953) — `heat-week`
+Every hour of the week, coloured.
+
+Seven days by twenty-four hours, each cell carrying an hour's reading as opacity over one token — cobalt below the hot mark, warn at or above it. The cells warm in column by column, staggered by cascade across the 24 hours rather than all 168 cells, and hovering or focusing one lifts it on flick while the header reads it back in a cross-faded cell. It is a real grid: Arrow keys move in two dimensions, Home and End reach the ends of a row, Ctrl+Home and Ctrl+End the corners, and Enter or Space isolates a day so the other six fade.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/heat-week`
+
+Props:
+- `values`: number[][] — One row per day, one reading per hour; a short row reads as gaps.
+- `days`: string[] (default Monday through Sunday) — Row names in full — spoken whole, abbreviated for the rail.
+- `hotAt`: number (default 0.8 of the peak) — Value at or above which a cell reads warn rather than cobalt.
+- `unit`: string (default "rps") — Printed after every value.
+- `unitLong`: string (default "requests per second") — The same unit spoken in full, so every cell name is a sentence.
+- `day / defaultDay`: number | null (default null) — Controlled or initial isolated row index.
+- `onDayChange`: (day: number | null) => void — Fires from the press or key that isolated or released a day.
+- `onCellChange`: (cell: CellReading | null) => void — The cell under pointer or focus; a reading, so it also fires on the first commit.
+- `format`: (value: number) => string (default rounded integer) — Renders every value, so a host changes units in one place.
+- `label`: string (default "Week") — Names the grid.
+
+Notes:
+- A real role="grid": each row is a role="row", its first cell a role="rowheader" that carries the isolation with aria-selected, and the rest role="gridcell". Arrow keys move in two dimensions, Home and End reach the ends of a row, Ctrl+Home and Ctrl+End the corners of the week, and Enter or Space isolates the focused cell's day.
+- Every cell names itself as one sentence — day, hour and value — so the heat is available in words and not only as colour.
+- The stagger runs across the 24 columns rather than all 168 cells, which keeps the sweep inside the 600ms choreography budget.
+- Under reduced motion the cells arrive at their intensity with no stagger and no lift, and isolation is a plain opacity change.
+
+### Percentile Lines (KQ-954) — `percentile-lines`
+p50, p95, p99, drawn together.
+
+Three percentiles over one window, drawn together: each line arrives by pathLength on glide, offset by cascade so they read as three strokes rather than one. The gap between neighbouring lines is the point — hovering a band shades it and thickens its two boundary lines on flick, and the spread row below names the same gap in words as roving-tabindex buttons where Left and Right step, Home and End jump, and a press latches the shading. Every path's d is set and never animated, because a hidden series re-pairs the bands.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/percentile-lines`
+
+Props:
+- `series`: PercentileSeries[] — Ordered low to high: id, label and one value per sample.
+- `samples`: string[] — The x labels, one per value — the chart never reads a clock.
+- `hidden / defaultHidden`: string[] (default []) — Controlled or initial ids of the hidden series.
+- `onHiddenChange`: (ids: string[]) => void — Fires from the press or key that hid or showed a series.
+- `onBandChange`: (band: BandReading | null) => void — The band under pointer or focus, with its widest spread; also fires on the first commit.
+- `unit`: string (default "ms") — Printed after every figure.
+- `unitLong`: string (default "milliseconds") — The same unit spoken in full, so every name and table cell is a sentence.
+- `format`: (value: number) => string (default rounded integer) — Renders every value in the chart and its hidden table.
+- `height`: number (default 128) — Plot height in px; the width is fluid.
+- `label`: string (default "Percentiles") — Names the chart and its hidden table.
+
+Notes:
+- The legend is a group of aria-pressed toggles; the spread row is a roving-tabindex group where Left and Right step, Home and End jump, focus shades a band and Enter or Space latches it.
+- Every number behind the picture lives in a visually hidden table with a caption, a header row of series names and one row per sample, so a screen reader can walk the whole window.
+- No path's d is animated: motion cannot interpolate a path whose command count changes, and hiding a series re-pairs the bands.
+- Under reduced motion the lines arrive already drawn and only fade in, and the shading is a plain opacity change.
+
+### Rate Dial (KQ-955) — `rate-dial`
+Requests per second.
+
+Requests per second, read as a position. The needle swings to the rate on snap around a 240° arc whose every coordinate is rounded before it reaches an attribute, and the figure under the hub rolls its digits on the same spring, keyed from the right so the units column keeps its identity. A peak marker holds the highest reading seen, moving only outward and flaring once on a three-keyframe tween when it is beaten; the dial is a focusable role="meter" whose value text is a sentence, and Reset peak drops the mark back to the current rate.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rate-dial`
+
+Props:
+- `value`: number — The current rate; the host owns it, so the dial never reads a clock.
+- `max`: number (default 600) — Full scale of the arc.
+- `warnAt`: number (default 0.75 × max) — Value at or above which the dial reads busy and the warn band bites.
+- `defaultPeak`: number (default 0) — Peak the dial mounts with, so a host with history shows its high at once.
+- `onPeakChange`: (peak: number) => void — The held high — a reading, so it also fires on the first commit.
+- `onZoneChange`: (zone: RateZone) => void — Calm, busy or over scale; a reading, so it also fires on the first commit.
+- `unit`: string (default "rps") — Printed under the rolling figure.
+- `unitLong`: string (default "requests per second") — The same unit spoken in full, so the value text is a sentence.
+- `format`: (value: number) => string (default rounded integer) — Renders the figure and every spoken number.
+- `label`: string (default "Rate") — Names the dial.
+
+Notes:
+- The dial is a role="meter" carrying tabIndex 0, so a keyboard reader can land on the reading itself; Reset peak is a real button, disabled while the peak equals the current rate.
+- The zone word — Calm, Busy, Over scale — is printed beside the figure, so the band never rests on colour alone, and a polite region speaks a new peak from a sentence frozen at the moment it moved.
+- Every arc coordinate is rounded to three decimals before it reaches an attribute, because trig differs in its last digits between Node and the browser.
+- Under reduced motion the needle takes its angle instantly and the digits swap in place, but the peak still moves and still holds — a held high is information.
+
+### Error Ratio (KQ-956) — `error-ratio`
+Good against bad.
+
+Good against bad on one rail. The two runs re-proportion on glide as each window arrives and the error ratio's digits roll on snap beside them, while a window whose bad share rose washes the bad run once on a three-keyframe tween and prints the word rising. The two legend controls are a roving-tabindex group where Left and Right step, Home and End jump, and Enter or Space latches the header reading to one side.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/error-ratio`
+
+Props:
+- `good`: number — Requests answered successfully in this window.
+- `bad`: number — Requests that failed in this window.
+- `warnAt`: number (default 0.01) — Error ratio at which the level word becomes elevated.
+- `failAt`: number (default 0.05) — Error ratio at which the level word becomes breaking.
+- `windowLabel`: string (default "last 60 s") — The window's printed name; the meter never computes one from a clock.
+- `label`: string (default "Requests") — Names the meter for assistive technology.
+- `held / defaultHeld`: "good" | "bad" | null (default null) — Controlled or initial side the header reading is latched to.
+- `onHeldChange`: (held: "good" | "bad" | null) => void — Fires from the press that latched or released the header reading.
+- `onLevelChange`: (level: RatioLevel) => void — Reports the level from the first commit as well as every change, because a level is a state.
+- `onRise`: (ratio: number) => void — A settled event: fires when a window's bad share sits above the last one's.
+- `format`: (value: number) => string (default grouped integer) — Renders every request count, so a host changes units in one place.
+
+Notes:
+- The legend is a roving-tabindex group: Left and Right step without wrapping past the ends, Home and End jump, and Enter or Space latches the header reading to that side or releases it.
+- Under reduced motion the runs still re-proportion and the ratio still updates, on a tween rather than a spring, and the rise wash is dropped in favour of the printed word rising.
+- Every count arrives as a prop from a seeded script, so the meter never reads a clock and renders the same on the server and the client.
+
+### Apdex Ring (KQ-957) — `apdex-ring`
+Satisfied, tolerating, frustrated.
+
+A satisfaction score drawn as one ring cut into three. The component cuts the latency distribution it is handed by its threshold and draws satisfied, tolerating and frustrated as three stacked arcs of the same circle whose lengths ease on glide, while the score rolls on snap in the middle. The threshold's own radiogroup lives inside the ring: Left and Right step and select without wrapping past the ends, Home and End jump, and the selected pill travels behind the words on snap.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/apdex-ring`
+
+Props:
+- `samples`: LatencySample[] — The seeded distribution the ring cuts: a response time and how many requests landed there.
+- `thresholdMs / defaultThresholdMs`: number (default the first preset) — Controlled or initial T; satisfied is at or under it, tolerating up to four times it.
+- `onThresholdChange`: (ms: number) => void — Fires from the press or arrow key that chose a preset, never from an effect.
+- `presets`: number[] (default [250, 500, 1000]) — The thresholds the radiogroup offers.
+- `onScoreChange`: (score: number) => void — Reports the score from the first commit as well as every re-cut, because a score is a state.
+- `label`: string (default "Apdex") — Names the ring for assistive technology and opens its spoken sentence.
+- `formatMs`: (ms: number) => string (default ms under a second, seconds above) — Renders every threshold, so a host changes units in one place.
+
+Notes:
+- The presets are a real radiogroup: Left and Right step and select as they go without wrapping past the ends, Home and End jump to the first and last, and Space or Enter selects.
+- Under reduced motion the arcs still re-proportion, on a tween rather than glide, the score's digits swap in place, and the selected pill appears rather than travelling.
+- Every band is printed in a definition list under the ring, so the arcs' colours are never the only way to read the cut.
+
+### Sparkline Grid (KQ-958) — `sparkline-grid`
+Many metrics, small.
+
+Many metrics, each one tile. Every line draws itself left to right on glide, staggered across the grid by cascade, and draws again whenever a new window replaces its readings; pressing a tile expands it in place, growing its line and gliding open a ResizeObserver-measured body of low, high, mean and sample count. It is a real grid: Left and Right step within a row, Up and Down keep the column, Home and End reach the row's ends, Control with them reaches the first or last tile, and Enter or Space opens.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sparkline-grid`
+
+Props:
+- `metrics`: SparkMetric[] — The tiles: id, name, unit, seeded series, an optional anomaly flag and note.
+- `columns`: number (default 2) — Tiles per row; the arrow-key geometry follows it exactly.
+- `expandedId / defaultExpandedId`: string | null (default null) — Controlled or initial expanded tile.
+- `onExpandedChange`: (id: string | null) => void — Fires from the press or key that expanded or folded a tile, never from an effect.
+- `onActiveChange`: (id: string | null) => void — Fires as hover or focus moves between tiles, and with null when both leave.
+- `format`: (value: number, unit: string) => string (default one decimal, then the unit) — Renders every reading in the grid, so a host changes units in one place.
+- `label`: string (default "Metrics") — Names the grid for assistive technology.
+
+Notes:
+- One roving tabindex across a real grid: Left and Right step within a row, Up and Down move a row keeping the column, Home and End jump to the row's ends, Control with Home or End jumps to the first or last tile, and Enter or Space expands or folds.
+- Under reduced motion the lines still arrive at full length with a fade and no stagger, the tile expands to its measured height on a tween, and the anomaly wash is dropped in favour of the printed word.
+- The expanded body is measured by a ResizeObserver on the node when it arrives, so a shut tile reserves no space at all.
+
+### Capacity Bar (KQ-959) — `capacity-bar`
+Used, reserved, free.
+
+Used, reserved and free share one rail, each run easing its own width on glide so a filling pool reads as the free run giving ground. A threshold rides the rail as a real slider whose handle captures the pointer only after four pixels of travel, and the moment committed capacity reaches the line the overhang past it shades warn on a tween while the printed state turns to over the line. Hovering a run names it in the header reading, which cross-fades in one cell inside the component's own box; arrow keys, Page keys and Home or End move the line and name the run it now sits in.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/capacity-bar`
+
+Props:
+- `used`: number — Cores in use.
+- `reserved`: number — Cores held for reservations but not running.
+- `total`: number — The pool's size; the rail is this wide.
+- `unit`: string (default "cores") — Printed after every figure, and made singular when the figure is one.
+- `threshold / defaultThreshold`: number (default 0.8) — Controlled or initial line, as a share of total from 0 to 1.
+- `onThresholdChange`: (value: number) => void — Fires from the drag or key that moved the line, never from an effect.
+- `onOverChange`: (over: boolean) => void — A settled event: committed capacity crossing the line.
+- `onSegmentChange`: (id: SegmentId | null) => void — Fires as a run is hovered, or as the line enters one while the handle is held.
+- `format`: (value: number) => string (default one decimal, trailing zero trimmed) — Renders every core figure, so a host changes units in one place.
+- `label`: string (default "Capacity") — Names the rail and its line for assistive technology.
+
+Notes:
+- The line is a real slider: Left and Down step one percent, Right and Up step one, Shift with an arrow steps five, Page Up and Page Down step ten, and Home and End go to the ends.
+- Under reduced motion the runs still re-size, on a tween rather than glide, the handle jumps to its place with no spring, and the overhang's shade cross-fades rather than growing.
+- Every run is printed in a definition list under the rail, so the hover tint never carries a reading on its own.
+
+### Anomaly Band (KQ-960) — `anomaly-band`
+What normal looks like.
+
+A metric line with normal drawn behind it: the band is the mean plus and minus sigma standard deviations of the readings handed in, and it glides to new bounds whenever the window or the width changes, while the line draws itself left to right on glide. Readings outside the band pop on snap and ring out on a tween staggered by cascade, and a selected outlier draws its whisker from the band's edge to the point. Every reading is also a row in a scroller with a roving tabindex where the arrows step, Home and End jump, Enter or Space selects and Escape clears.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/anomaly-band`
+
+Props:
+- `series`: BandPoint[] — The window, oldest first: an id, the printed clock and the value.
+- `sigma`: number (default 2) — Half-width of the normal band, in standard deviations.
+- `unit`: string (default "ms") — Printed after every value.
+- `selectedId / defaultSelectedId`: string | null (default null) — Controlled or initial selected reading, shared by the chart and the list.
+- `onSelectedChange`: (id: string | null) => void — Fires from the press or key that selected or cleared a reading, never from an effect.
+- `onOutliersChange`: (count: number) => void — Reports the count from the first commit as well as every window, because a count is a state.
+- `format`: (value: number) => string (default one decimal, trailing zero trimmed) — Renders every value in the chart and the list.
+- `label`: string (default "Readings") — Names the chart and the list for assistive technology.
+
+Notes:
+- The readings carry a roving tabindex: Arrow Up and Left step back, Arrow Down and Right step on, Home and End jump to the ends, Enter or Space selects and Escape clears the selection.
+- Under reduced motion the band still moves to its bounds and the line still reaches full length, on a tween rather than glide, the outlier dots arrive with a fade and no stagger, and the ring pulse does not play.
+- Every clock comes from props, so the chart never reads one; the mean, the band and every deviation are rounded before they reach an attribute.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

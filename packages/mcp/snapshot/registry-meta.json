@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 949,
+      "components": 959,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -67989,6 +67989,983 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/context-lines",
         "bun": "bunx --bun shadcn@latest add @kinetiq/context-lines",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/context-lines.json"
+      }
+    },
+    {
+      "slug": "latency-hist",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Latency Histogram",
+      "serial": "KQ-951",
+      "tagline": "Where the requests fall.",
+      "description": "A distribution of response times whose bars scale up from their baselines on glide in a cascade sweep, so a new window re-shapes the same bars rather than mounting a new chart. The p50, p95 and p99 marks stand on the same axis and slide to their places on snap; pressing a percentile chip pins it, washing the plot to the mark and dropping every bar past it to the hairline. The bars are a roving-tabindex list of buttons where Left and Right step, Home and End jump, and Enter or Space latches a bucket's reading.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "latency",
+        "histogram",
+        "percentile",
+        "distribution",
+        "p95",
+        "devtools",
+        "chart"
+      ],
+      "props": [
+        {
+          "name": "buckets",
+          "type": "LatencyBucket[]",
+          "description": "Ordered buckets of { from, to, count }; the last may leave `to` off to run open-ended."
+        },
+        {
+          "name": "pinned / defaultPinned",
+          "type": "\"p50\" | \"p95\" | \"p99\" | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial pinned percentile."
+        },
+        {
+          "name": "onPinnedChange",
+          "type": "(pinned: Percentile | null) => void",
+          "description": "Fires from the press or key that pinned or released a percentile."
+        },
+        {
+          "name": "onPercentilesChange",
+          "type": "(marks: PercentileMarks) => void",
+          "description": "The computed p50, p95 and p99 — a reading, so it also fires on the first commit."
+        },
+        {
+          "name": "onBucketChange",
+          "type": "(bucket: BucketReading | null) => void",
+          "description": "The bucket under pointer or focus; also fires on the first commit."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "defaultValue": "\"ms\"",
+          "description": "Printed after every latency figure."
+        },
+        {
+          "name": "unitLong",
+          "type": "string",
+          "defaultValue": "\"milliseconds\"",
+          "description": "The same unit spoken in full, so every accessible name is a sentence."
+        },
+        {
+          "name": "windowLabel",
+          "type": "string",
+          "description": "The window these buckets cover, printed in the header."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Latency\"",
+          "description": "Names the chart and its bar list."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "96",
+          "description": "Plot height in px; the width is fluid."
+        }
+      ],
+      "usageNotes": [
+        "The bars carry a roving tabindex: Left and Right step, Home and End jump to the ends, Enter or Space latches a bucket so its reading survives the pointer leaving.",
+        "Each bar names itself as one sentence — range, count and share of the window — so the distribution is available in words, and the percentile chips are aria-pressed toggles in the normal tab order.",
+        "Under reduced motion the bars still take their heights, because a distribution is information, but on a tween with no stagger and with the marks swapping in place.",
+        "Every percentage is rounded to three decimals before it reaches a style, so the chart hydrates against the markup the server sent."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/latency-hist",
+      "registryItemUrl": "https://www.kinetiqui.com/r/latency-hist.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/latency-hist",
+        "npm": "npx shadcn@latest add @kinetiq/latency-hist",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/latency-hist",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/latency-hist",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/latency-hist.json"
+      }
+    },
+    {
+      "slug": "slo-burn",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "SLO Burn",
+      "serial": "KQ-952",
+      "tagline": "How fast the budget goes.",
+      "description": "An error budget drawn as the minutes it has left and the pace it is spending them at. The bar drains from the right on glide — a budget settling, never a bounce — while a pace rule slides on snap to where the budget should stand at this point in the window, and a burn-rate line carries its marker past a ticked fast mark. Above the fast rate the bar and chip turn warn and the chip pulses on a mirrored tween, and the Project switch, flipped with Enter or Space, opens the slice this rate would take by window end.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "slo",
+        "error budget",
+        "burn rate",
+        "reliability",
+        "meter",
+        "devtools"
+      ],
+      "props": [
+        {
+          "name": "remaining",
+          "type": "number",
+          "description": "Share of the error budget left, 0 to 1."
+        },
+        {
+          "name": "elapsed",
+          "type": "number",
+          "description": "Share of the compliance window elapsed, 0 to 1; the pace rule stands at what is left of it."
+        },
+        {
+          "name": "budgetMinutes",
+          "type": "number",
+          "defaultValue": "43.2",
+          "description": "The whole budget in minutes, so the readout names real minutes."
+        },
+        {
+          "name": "windowHours",
+          "type": "number",
+          "defaultValue": "720",
+          "description": "Length of the compliance window, used for the time to exhaustion."
+        },
+        {
+          "name": "objective",
+          "type": "number",
+          "defaultValue": "99.9",
+          "description": "The objective, printed in the header."
+        },
+        {
+          "name": "fastAt",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Burn rate at or above which the meter reads fast."
+        },
+        {
+          "name": "maxRate",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "Top of the burn-rate line; the marker clamps there and the reading says so."
+        },
+        {
+          "name": "projected / defaultProjected",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial state of the projection switch."
+        },
+        {
+          "name": "onProjectedChange",
+          "type": "(projected: boolean) => void",
+          "description": "Fires from the press or key that flipped the switch."
+        },
+        {
+          "name": "onBurnChange",
+          "type": "(reading: BurnReading) => void",
+          "description": "Rate, state, minutes left, minutes projected at window end and hours to exhaustion — a state, so it also fires on the first commit."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Error budget\"",
+          "description": "Names the meter."
+        }
+      ],
+      "usageNotes": [
+        "Both bars are real role=\"meter\"s whose aria-valuetext is a sentence, and the projection control is a role=\"switch\" reached by Tab and flipped with Enter or Space.",
+        "The state word — Ahead, On pace, Fast, Spent — is printed beside the rate, so the reading never rests on colour alone, and a polite region speaks only threshold crossings.",
+        "Every figure comes from props: the meter never reads a clock, so it renders the same on the server as after hydration.",
+        "Under reduced motion the fill still drains and the markers still take their places on tweens, and the fast-burn pulse does not run."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/slo-burn",
+      "registryItemUrl": "https://www.kinetiqui.com/r/slo-burn.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/slo-burn",
+        "npm": "npx shadcn@latest add @kinetiq/slo-burn",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/slo-burn",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/slo-burn",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/slo-burn.json"
+      }
+    },
+    {
+      "slug": "heat-week",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Heat Week",
+      "serial": "KQ-953",
+      "tagline": "Every hour of the week, coloured.",
+      "description": "Seven days by twenty-four hours, each cell carrying an hour's reading as opacity over one token — cobalt below the hot mark, warn at or above it. The cells warm in column by column, staggered by cascade across the 24 hours rather than all 168 cells, and hovering or focusing one lifts it on flick while the header reads it back in a cross-faded cell. It is a real grid: Arrow keys move in two dimensions, Home and End reach the ends of a row, Ctrl+Home and Ctrl+End the corners, and Enter or Space isolates a day so the other six fade.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "heatmap",
+        "week",
+        "hourly",
+        "traffic",
+        "grid",
+        "devtools"
+      ],
+      "props": [
+        {
+          "name": "values",
+          "type": "number[][]",
+          "description": "One row per day, one reading per hour; a short row reads as gaps."
+        },
+        {
+          "name": "days",
+          "type": "string[]",
+          "defaultValue": "Monday through Sunday",
+          "description": "Row names in full — spoken whole, abbreviated for the rail."
+        },
+        {
+          "name": "hotAt",
+          "type": "number",
+          "defaultValue": "0.8 of the peak",
+          "description": "Value at or above which a cell reads warn rather than cobalt."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "defaultValue": "\"rps\"",
+          "description": "Printed after every value."
+        },
+        {
+          "name": "unitLong",
+          "type": "string",
+          "defaultValue": "\"requests per second\"",
+          "description": "The same unit spoken in full, so every cell name is a sentence."
+        },
+        {
+          "name": "day / defaultDay",
+          "type": "number | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial isolated row index."
+        },
+        {
+          "name": "onDayChange",
+          "type": "(day: number | null) => void",
+          "description": "Fires from the press or key that isolated or released a day."
+        },
+        {
+          "name": "onCellChange",
+          "type": "(cell: CellReading | null) => void",
+          "description": "The cell under pointer or focus; a reading, so it also fires on the first commit."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "rounded integer",
+          "description": "Renders every value, so a host changes units in one place."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Week\"",
+          "description": "Names the grid."
+        }
+      ],
+      "usageNotes": [
+        "A real role=\"grid\": each row is a role=\"row\", its first cell a role=\"rowheader\" that carries the isolation with aria-selected, and the rest role=\"gridcell\". Arrow keys move in two dimensions, Home and End reach the ends of a row, Ctrl+Home and Ctrl+End the corners of the week, and Enter or Space isolates the focused cell's day.",
+        "Every cell names itself as one sentence — day, hour and value — so the heat is available in words and not only as colour.",
+        "The stagger runs across the 24 columns rather than all 168 cells, which keeps the sweep inside the 600ms choreography budget.",
+        "Under reduced motion the cells arrive at their intensity with no stagger and no lift, and isolation is a plain opacity change."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/heat-week",
+      "registryItemUrl": "https://www.kinetiqui.com/r/heat-week.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/heat-week",
+        "npm": "npx shadcn@latest add @kinetiq/heat-week",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/heat-week",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/heat-week",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/heat-week.json"
+      }
+    },
+    {
+      "slug": "percentile-lines",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Percentile Lines",
+      "serial": "KQ-954",
+      "tagline": "p50, p95, p99, drawn together.",
+      "description": "Three percentiles over one window, drawn together: each line arrives by pathLength on glide, offset by cascade so they read as three strokes rather than one. The gap between neighbouring lines is the point — hovering a band shades it and thickens its two boundary lines on flick, and the spread row below names the same gap in words as roving-tabindex buttons where Left and Right step, Home and End jump, and a press latches the shading. Every path's d is set and never animated, because a hidden series re-pairs the bands.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "percentile",
+        "latency",
+        "lines",
+        "spread",
+        "p99",
+        "devtools",
+        "chart"
+      ],
+      "props": [
+        {
+          "name": "series",
+          "type": "PercentileSeries[]",
+          "description": "Ordered low to high: id, label and one value per sample."
+        },
+        {
+          "name": "samples",
+          "type": "string[]",
+          "description": "The x labels, one per value — the chart never reads a clock."
+        },
+        {
+          "name": "hidden / defaultHidden",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Controlled or initial ids of the hidden series."
+        },
+        {
+          "name": "onHiddenChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the press or key that hid or showed a series."
+        },
+        {
+          "name": "onBandChange",
+          "type": "(band: BandReading | null) => void",
+          "description": "The band under pointer or focus, with its widest spread; also fires on the first commit."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "defaultValue": "\"ms\"",
+          "description": "Printed after every figure."
+        },
+        {
+          "name": "unitLong",
+          "type": "string",
+          "defaultValue": "\"milliseconds\"",
+          "description": "The same unit spoken in full, so every name and table cell is a sentence."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "rounded integer",
+          "description": "Renders every value in the chart and its hidden table."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "defaultValue": "128",
+          "description": "Plot height in px; the width is fluid."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Percentiles\"",
+          "description": "Names the chart and its hidden table."
+        }
+      ],
+      "usageNotes": [
+        "The legend is a group of aria-pressed toggles; the spread row is a roving-tabindex group where Left and Right step, Home and End jump, focus shades a band and Enter or Space latches it.",
+        "Every number behind the picture lives in a visually hidden table with a caption, a header row of series names and one row per sample, so a screen reader can walk the whole window.",
+        "No path's d is animated: motion cannot interpolate a path whose command count changes, and hiding a series re-pairs the bands.",
+        "Under reduced motion the lines arrive already drawn and only fade in, and the shading is a plain opacity change."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/percentile-lines",
+      "registryItemUrl": "https://www.kinetiqui.com/r/percentile-lines.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/percentile-lines",
+        "npm": "npx shadcn@latest add @kinetiq/percentile-lines",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/percentile-lines",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/percentile-lines",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/percentile-lines.json"
+      }
+    },
+    {
+      "slug": "rate-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rate Dial",
+      "serial": "KQ-955",
+      "tagline": "Requests per second.",
+      "description": "Requests per second, read as a position. The needle swings to the rate on snap around a 240° arc whose every coordinate is rounded before it reaches an attribute, and the figure under the hub rolls its digits on the same spring, keyed from the right so the units column keeps its identity. A peak marker holds the highest reading seen, moving only outward and flaring once on a three-keyframe tween when it is beaten; the dial is a focusable role=\"meter\" whose value text is a sentence, and Reset peak drops the mark back to the current rate.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "rate",
+        "dial",
+        "gauge",
+        "throughput",
+        "peak",
+        "devtools",
+        "meter"
+      ],
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "description": "The current rate; the host owns it, so the dial never reads a clock."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "600",
+          "description": "Full scale of the arc."
+        },
+        {
+          "name": "warnAt",
+          "type": "number",
+          "defaultValue": "0.75 × max",
+          "description": "Value at or above which the dial reads busy and the warn band bites."
+        },
+        {
+          "name": "defaultPeak",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "Peak the dial mounts with, so a host with history shows its high at once."
+        },
+        {
+          "name": "onPeakChange",
+          "type": "(peak: number) => void",
+          "description": "The held high — a reading, so it also fires on the first commit."
+        },
+        {
+          "name": "onZoneChange",
+          "type": "(zone: RateZone) => void",
+          "description": "Calm, busy or over scale; a reading, so it also fires on the first commit."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "defaultValue": "\"rps\"",
+          "description": "Printed under the rolling figure."
+        },
+        {
+          "name": "unitLong",
+          "type": "string",
+          "defaultValue": "\"requests per second\"",
+          "description": "The same unit spoken in full, so the value text is a sentence."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "rounded integer",
+          "description": "Renders the figure and every spoken number."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Rate\"",
+          "description": "Names the dial."
+        }
+      ],
+      "usageNotes": [
+        "The dial is a role=\"meter\" carrying tabIndex 0, so a keyboard reader can land on the reading itself; Reset peak is a real button, disabled while the peak equals the current rate.",
+        "The zone word — Calm, Busy, Over scale — is printed beside the figure, so the band never rests on colour alone, and a polite region speaks a new peak from a sentence frozen at the moment it moved.",
+        "Every arc coordinate is rounded to three decimals before it reaches an attribute, because trig differs in its last digits between Node and the browser.",
+        "Under reduced motion the needle takes its angle instantly and the digits swap in place, but the peak still moves and still holds — a held high is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/rate-dial",
+      "registryItemUrl": "https://www.kinetiqui.com/r/rate-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rate-dial",
+        "npm": "npx shadcn@latest add @kinetiq/rate-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rate-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rate-dial",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/rate-dial.json"
+      }
+    },
+    {
+      "slug": "error-ratio",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Error Ratio",
+      "serial": "KQ-956",
+      "tagline": "Good against bad.",
+      "description": "Good against bad on one rail. The two runs re-proportion on glide as each window arrives and the error ratio's digits roll on snap beside them, while a window whose bad share rose washes the bad run once on a three-keyframe tween and prints the word rising. The two legend controls are a roving-tabindex group where Left and Right step, Home and End jump, and Enter or Space latches the header reading to one side.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "error rate",
+        "requests",
+        "ratio",
+        "meter",
+        "devtools",
+        "observability"
+      ],
+      "props": [
+        {
+          "name": "good",
+          "type": "number",
+          "description": "Requests answered successfully in this window."
+        },
+        {
+          "name": "bad",
+          "type": "number",
+          "description": "Requests that failed in this window."
+        },
+        {
+          "name": "warnAt",
+          "type": "number",
+          "defaultValue": "0.01",
+          "description": "Error ratio at which the level word becomes elevated."
+        },
+        {
+          "name": "failAt",
+          "type": "number",
+          "defaultValue": "0.05",
+          "description": "Error ratio at which the level word becomes breaking."
+        },
+        {
+          "name": "windowLabel",
+          "type": "string",
+          "defaultValue": "\"last 60 s\"",
+          "description": "The window's printed name; the meter never computes one from a clock."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Requests\"",
+          "description": "Names the meter for assistive technology."
+        },
+        {
+          "name": "held / defaultHeld",
+          "type": "\"good\" | \"bad\" | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial side the header reading is latched to."
+        },
+        {
+          "name": "onHeldChange",
+          "type": "(held: \"good\" | \"bad\" | null) => void",
+          "description": "Fires from the press that latched or released the header reading."
+        },
+        {
+          "name": "onLevelChange",
+          "type": "(level: RatioLevel) => void",
+          "description": "Reports the level from the first commit as well as every change, because a level is a state."
+        },
+        {
+          "name": "onRise",
+          "type": "(ratio: number) => void",
+          "description": "A settled event: fires when a window's bad share sits above the last one's."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "grouped integer",
+          "description": "Renders every request count, so a host changes units in one place."
+        }
+      ],
+      "usageNotes": [
+        "The legend is a roving-tabindex group: Left and Right step without wrapping past the ends, Home and End jump, and Enter or Space latches the header reading to that side or releases it.",
+        "Under reduced motion the runs still re-proportion and the ratio still updates, on a tween rather than a spring, and the rise wash is dropped in favour of the printed word rising.",
+        "Every count arrives as a prop from a seeded script, so the meter never reads a clock and renders the same on the server and the client."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/error-ratio",
+      "registryItemUrl": "https://www.kinetiqui.com/r/error-ratio.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/error-ratio",
+        "npm": "npx shadcn@latest add @kinetiq/error-ratio",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/error-ratio",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/error-ratio",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/error-ratio.json"
+      }
+    },
+    {
+      "slug": "apdex-ring",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Apdex Ring",
+      "serial": "KQ-957",
+      "tagline": "Satisfied, tolerating, frustrated.",
+      "description": "A satisfaction score drawn as one ring cut into three. The component cuts the latency distribution it is handed by its threshold and draws satisfied, tolerating and frustrated as three stacked arcs of the same circle whose lengths ease on glide, while the score rolls on snap in the middle. The threshold's own radiogroup lives inside the ring: Left and Right step and select without wrapping past the ends, Home and End jump, and the selected pill travels behind the words on snap.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "apdex",
+        "satisfaction",
+        "latency",
+        "threshold",
+        "ring",
+        "devtools",
+        "score"
+      ],
+      "props": [
+        {
+          "name": "samples",
+          "type": "LatencySample[]",
+          "description": "The seeded distribution the ring cuts: a response time and how many requests landed there."
+        },
+        {
+          "name": "thresholdMs / defaultThresholdMs",
+          "type": "number",
+          "defaultValue": "the first preset",
+          "description": "Controlled or initial T; satisfied is at or under it, tolerating up to four times it."
+        },
+        {
+          "name": "onThresholdChange",
+          "type": "(ms: number) => void",
+          "description": "Fires from the press or arrow key that chose a preset, never from an effect."
+        },
+        {
+          "name": "presets",
+          "type": "number[]",
+          "defaultValue": "[250, 500, 1000]",
+          "description": "The thresholds the radiogroup offers."
+        },
+        {
+          "name": "onScoreChange",
+          "type": "(score: number) => void",
+          "description": "Reports the score from the first commit as well as every re-cut, because a score is a state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Apdex\"",
+          "description": "Names the ring for assistive technology and opens its spoken sentence."
+        },
+        {
+          "name": "formatMs",
+          "type": "(ms: number) => string",
+          "defaultValue": "ms under a second, seconds above",
+          "description": "Renders every threshold, so a host changes units in one place."
+        }
+      ],
+      "usageNotes": [
+        "The presets are a real radiogroup: Left and Right step and select as they go without wrapping past the ends, Home and End jump to the first and last, and Space or Enter selects.",
+        "Under reduced motion the arcs still re-proportion, on a tween rather than glide, the score's digits swap in place, and the selected pill appears rather than travelling.",
+        "Every band is printed in a definition list under the ring, so the arcs' colours are never the only way to read the cut."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/apdex-ring",
+      "registryItemUrl": "https://www.kinetiqui.com/r/apdex-ring.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/apdex-ring",
+        "npm": "npx shadcn@latest add @kinetiq/apdex-ring",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/apdex-ring",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/apdex-ring",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/apdex-ring.json"
+      }
+    },
+    {
+      "slug": "sparkline-grid",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sparkline Grid",
+      "serial": "KQ-958",
+      "tagline": "Many metrics, small.",
+      "description": "Many metrics, each one tile. Every line draws itself left to right on glide, staggered across the grid by cascade, and draws again whenever a new window replaces its readings; pressing a tile expands it in place, growing its line and gliding open a ResizeObserver-measured body of low, high, mean and sample count. It is a real grid: Left and Right step within a row, Up and Down keep the column, Home and End reach the row's ends, Control with them reaches the first or last tile, and Enter or Space opens.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "sparkline",
+        "metrics",
+        "grid",
+        "tiles",
+        "anomaly",
+        "devtools",
+        "dashboard"
+      ],
+      "props": [
+        {
+          "name": "metrics",
+          "type": "SparkMetric[]",
+          "description": "The tiles: id, name, unit, seeded series, an optional anomaly flag and note."
+        },
+        {
+          "name": "columns",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Tiles per row; the arrow-key geometry follows it exactly."
+        },
+        {
+          "name": "expandedId / defaultExpandedId",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial expanded tile."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the press or key that expanded or folded a tile, never from an effect."
+        },
+        {
+          "name": "onActiveChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires as hover or focus moves between tiles, and with null when both leave."
+        },
+        {
+          "name": "format",
+          "type": "(value: number, unit: string) => string",
+          "defaultValue": "one decimal, then the unit",
+          "description": "Renders every reading in the grid, so a host changes units in one place."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Metrics\"",
+          "description": "Names the grid for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "One roving tabindex across a real grid: Left and Right step within a row, Up and Down move a row keeping the column, Home and End jump to the row's ends, Control with Home or End jumps to the first or last tile, and Enter or Space expands or folds.",
+        "Under reduced motion the lines still arrive at full length with a fade and no stagger, the tile expands to its measured height on a tween, and the anomaly wash is dropped in favour of the printed word.",
+        "The expanded body is measured by a ResizeObserver on the node when it arrives, so a shut tile reserves no space at all."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/sparkline-grid",
+      "registryItemUrl": "https://www.kinetiqui.com/r/sparkline-grid.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sparkline-grid",
+        "npm": "npx shadcn@latest add @kinetiq/sparkline-grid",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sparkline-grid",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sparkline-grid",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/sparkline-grid.json"
+      }
+    },
+    {
+      "slug": "capacity-bar",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Capacity Bar",
+      "serial": "KQ-959",
+      "tagline": "Used, reserved, free.",
+      "description": "Used, reserved and free share one rail, each run easing its own width on glide so a filling pool reads as the free run giving ground. A threshold rides the rail as a real slider whose handle captures the pointer only after four pixels of travel, and the moment committed capacity reaches the line the overhang past it shades warn on a tween while the printed state turns to over the line. Hovering a run names it in the header reading, which cross-fades in one cell inside the component's own box; arrow keys, Page keys and Home or End move the line and name the run it now sits in.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "capacity",
+        "headroom",
+        "cores",
+        "threshold",
+        "slider",
+        "devtools",
+        "cluster"
+      ],
+      "props": [
+        {
+          "name": "used",
+          "type": "number",
+          "description": "Cores in use."
+        },
+        {
+          "name": "reserved",
+          "type": "number",
+          "description": "Cores held for reservations but not running."
+        },
+        {
+          "name": "total",
+          "type": "number",
+          "description": "The pool's size; the rail is this wide."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "defaultValue": "\"cores\"",
+          "description": "Printed after every figure, and made singular when the figure is one."
+        },
+        {
+          "name": "threshold / defaultThreshold",
+          "type": "number",
+          "defaultValue": "0.8",
+          "description": "Controlled or initial line, as a share of total from 0 to 1."
+        },
+        {
+          "name": "onThresholdChange",
+          "type": "(value: number) => void",
+          "description": "Fires from the drag or key that moved the line, never from an effect."
+        },
+        {
+          "name": "onOverChange",
+          "type": "(over: boolean) => void",
+          "description": "A settled event: committed capacity crossing the line."
+        },
+        {
+          "name": "onSegmentChange",
+          "type": "(id: SegmentId | null) => void",
+          "description": "Fires as a run is hovered, or as the line enters one while the handle is held."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "one decimal, trailing zero trimmed",
+          "description": "Renders every core figure, so a host changes units in one place."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Capacity\"",
+          "description": "Names the rail and its line for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The line is a real slider: Left and Down step one percent, Right and Up step one, Shift with an arrow steps five, Page Up and Page Down step ten, and Home and End go to the ends.",
+        "Under reduced motion the runs still re-size, on a tween rather than glide, the handle jumps to its place with no spring, and the overhang's shade cross-fades rather than growing.",
+        "Every run is printed in a definition list under the rail, so the hover tint never carries a reading on its own."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/capacity-bar",
+      "registryItemUrl": "https://www.kinetiqui.com/r/capacity-bar.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/capacity-bar",
+        "npm": "npx shadcn@latest add @kinetiq/capacity-bar",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/capacity-bar",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/capacity-bar",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/capacity-bar.json"
+      }
+    },
+    {
+      "slug": "anomaly-band",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Anomaly Band",
+      "serial": "KQ-960",
+      "tagline": "What normal looks like.",
+      "description": "A metric line with normal drawn behind it: the band is the mean plus and minus sigma standard deviations of the readings handed in, and it glides to new bounds whenever the window or the width changes, while the line draws itself left to right on glide. Readings outside the band pop on snap and ring out on a tween staggered by cascade, and a selected outlier draws its whisker from the band's edge to the point. Every reading is also a row in a scroller with a roving tabindex where the arrows step, Home and End jump, Enter or Space selects and Escape clears.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "anomaly",
+        "outlier",
+        "band",
+        "deviation",
+        "metric",
+        "devtools",
+        "baseline"
+      ],
+      "props": [
+        {
+          "name": "series",
+          "type": "BandPoint[]",
+          "description": "The window, oldest first: an id, the printed clock and the value."
+        },
+        {
+          "name": "sigma",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Half-width of the normal band, in standard deviations."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "defaultValue": "\"ms\"",
+          "description": "Printed after every value."
+        },
+        {
+          "name": "selectedId / defaultSelectedId",
+          "type": "string | null",
+          "defaultValue": "null",
+          "description": "Controlled or initial selected reading, shared by the chart and the list."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(id: string | null) => void",
+          "description": "Fires from the press or key that selected or cleared a reading, never from an effect."
+        },
+        {
+          "name": "onOutliersChange",
+          "type": "(count: number) => void",
+          "description": "Reports the count from the first commit as well as every window, because a count is a state."
+        },
+        {
+          "name": "format",
+          "type": "(value: number) => string",
+          "defaultValue": "one decimal, trailing zero trimmed",
+          "description": "Renders every value in the chart and the list."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Readings\"",
+          "description": "Names the chart and the list for assistive technology."
+        }
+      ],
+      "usageNotes": [
+        "The readings carry a roving tabindex: Arrow Up and Left step back, Arrow Down and Right step on, Home and End jump to the ends, Enter or Space selects and Escape clears the selection.",
+        "Under reduced motion the band still moves to its bounds and the line still reaches full length, on a tween rather than glide, the outlier dots arrive with a fade and no stagger, and the ring pulse does not play.",
+        "Every clock comes from props, so the chart never reads one; the mean, the band and every deviation are rounded before they reach an attribute."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/anomaly-band",
+      "registryItemUrl": "https://www.kinetiqui.com/r/anomaly-band.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/anomaly-band",
+        "npm": "npx shadcn@latest add @kinetiq/anomaly-band",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/anomaly-band",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/anomaly-band",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/anomaly-band.json"
       }
     },
     {

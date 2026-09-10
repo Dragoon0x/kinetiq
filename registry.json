@@ -26296,6 +26296,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "latency-hist",
+      "type": "registry:ui",
+      "title": "Latency Histogram",
+      "description": "A distribution of response times whose bars scale up from their baselines on glide in a cascade sweep, so a new window re-shapes the same bars rather than mounting a new chart. The p50, p95 and p99 marks stand on the same axis and slide to their places on snap; pressing a percentile chip pins it, washing the plot to the mark and dropping every bar past it to the hairline. The bars are a roving-tabindex list of buttons where Left and Right step, Home and End jump, and Enter or Space latches a bucket's reading.",
+      "files": [
+        {
+          "path": "registry/ui/latency-hist.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-951"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slo-burn",
+      "type": "registry:ui",
+      "title": "SLO Burn",
+      "description": "An error budget drawn as the minutes it has left and the pace it is spending them at. The bar drains from the right on glide — a budget settling, never a bounce — while a pace rule slides on snap to where the budget should stand at this point in the window, and a burn-rate line carries its marker past a ticked fast mark. Above the fast rate the bar and chip turn warn and the chip pulses on a mirrored tween, and the Project switch, flipped with Enter or Space, opens the slice this rate would take by window end.",
+      "files": [
+        {
+          "path": "registry/ui/slo-burn.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-952"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "heat-week",
+      "type": "registry:ui",
+      "title": "Heat Week",
+      "description": "Seven days by twenty-four hours, each cell carrying an hour's reading as opacity over one token — cobalt below the hot mark, warn at or above it. The cells warm in column by column, staggered by cascade across the 24 hours rather than all 168 cells, and hovering or focusing one lifts it on flick while the header reads it back in a cross-faded cell. It is a real grid: Arrow keys move in two dimensions, Home and End reach the ends of a row, Ctrl+Home and Ctrl+End the corners, and Enter or Space isolates a day so the other six fade.",
+      "files": [
+        {
+          "path": "registry/ui/heat-week.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-953"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "percentile-lines",
+      "type": "registry:ui",
+      "title": "Percentile Lines",
+      "description": "Three percentiles over one window, drawn together: each line arrives by pathLength on glide, offset by cascade so they read as three strokes rather than one. The gap between neighbouring lines is the point — hovering a band shades it and thickens its two boundary lines on flick, and the spread row below names the same gap in words as roving-tabindex buttons where Left and Right step, Home and End jump, and a press latches the shading. Every path's d is set and never animated, because a hidden series re-pairs the bands.",
+      "files": [
+        {
+          "path": "registry/ui/percentile-lines.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-954"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rate-dial",
+      "type": "registry:ui",
+      "title": "Rate Dial",
+      "description": "Requests per second, read as a position. The needle swings to the rate on snap around a 240° arc whose every coordinate is rounded before it reaches an attribute, and the figure under the hub rolls its digits on the same spring, keyed from the right so the units column keeps its identity. A peak marker holds the highest reading seen, moving only outward and flaring once on a three-keyframe tween when it is beaten; the dial is a focusable role=\"meter\" whose value text is a sentence, and Reset peak drops the mark back to the current rate.",
+      "files": [
+        {
+          "path": "registry/ui/rate-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-955"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "error-ratio",
+      "type": "registry:ui",
+      "title": "Error Ratio",
+      "description": "Good against bad on one rail. The two runs re-proportion on glide as each window arrives and the error ratio's digits roll on snap beside them, while a window whose bad share rose washes the bad run once on a three-keyframe tween and prints the word rising. The two legend controls are a roving-tabindex group where Left and Right step, Home and End jump, and Enter or Space latches the header reading to one side.",
+      "files": [
+        {
+          "path": "registry/ui/error-ratio.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-956"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "apdex-ring",
+      "type": "registry:ui",
+      "title": "Apdex Ring",
+      "description": "A satisfaction score drawn as one ring cut into three. The component cuts the latency distribution it is handed by its threshold and draws satisfied, tolerating and frustrated as three stacked arcs of the same circle whose lengths ease on glide, while the score rolls on snap in the middle. The threshold's own radiogroup lives inside the ring: Left and Right step and select without wrapping past the ends, Home and End jump, and the selected pill travels behind the words on snap.",
+      "files": [
+        {
+          "path": "registry/ui/apdex-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-957"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sparkline-grid",
+      "type": "registry:ui",
+      "title": "Sparkline Grid",
+      "description": "Many metrics, each one tile. Every line draws itself left to right on glide, staggered across the grid by cascade, and draws again whenever a new window replaces its readings; pressing a tile expands it in place, growing its line and gliding open a ResizeObserver-measured body of low, high, mean and sample count. It is a real grid: Left and Right step within a row, Up and Down keep the column, Home and End reach the row's ends, Control with them reaches the first or last tile, and Enter or Space opens.",
+      "files": [
+        {
+          "path": "registry/ui/sparkline-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-958"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "capacity-bar",
+      "type": "registry:ui",
+      "title": "Capacity Bar",
+      "description": "Used, reserved and free share one rail, each run easing its own width on glide so a filling pool reads as the free run giving ground. A threshold rides the rail as a real slider whose handle captures the pointer only after four pixels of travel, and the moment committed capacity reaches the line the overhang past it shades warn on a tween while the printed state turns to over the line. Hovering a run names it in the header reading, which cross-fades in one cell inside the component's own box; arrow keys, Page keys and Home or End move the line and name the run it now sits in.",
+      "files": [
+        {
+          "path": "registry/ui/capacity-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-959"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "anomaly-band",
+      "type": "registry:ui",
+      "title": "Anomaly Band",
+      "description": "A metric line with normal drawn behind it: the band is the mean plus and minus sigma standard deviations of the readings handed in, and it glides to new bounds whenever the window or the width changes, while the line draws itself left to right on glide. Readings outside the band pop on snap and ring out on a tween staggered by cascade, and a selected outlier draws its whisker from the band's edge to the point. Every reading is also a row in a scroller with a roving tabindex where the arrows step, Home and End jump, Enter or Space selects and Escape clears.",
+      "files": [
+        {
+          "path": "registry/ui/anomaly-band.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "devtools"
+      ],
+      "meta": {
+        "serial": "KQ-960"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

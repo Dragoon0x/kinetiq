@@ -1140,6 +1140,16 @@ import { LogGroupDemo } from "@/registry/demos/log-group.demo";
 import { TimestampRailDemo } from "@/registry/demos/timestamp-rail.demo";
 import { ErrorPinDemo } from "@/registry/demos/error-pin.demo";
 import { ContextLinesDemo } from "@/registry/demos/context-lines.demo";
+import { LatencyHistDemo } from "@/registry/demos/latency-hist.demo";
+import { SloBurnDemo } from "@/registry/demos/slo-burn.demo";
+import { HeatWeekDemo } from "@/registry/demos/heat-week.demo";
+import { PercentileLinesDemo } from "@/registry/demos/percentile-lines.demo";
+import { RateDialDemo } from "@/registry/demos/rate-dial.demo";
+import { ErrorRatioDemo } from "@/registry/demos/error-ratio.demo";
+import { ApdexRingDemo } from "@/registry/demos/apdex-ring.demo";
+import { SparklineGridDemo } from "@/registry/demos/sparkline-grid.demo";
+import { CapacityBarDemo } from "@/registry/demos/capacity-bar.demo";
+import { AnomalyBandDemo } from "@/registry/demos/anomaly-band.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2294,4 +2304,14 @@ export const demos: Record<string, ComponentType> = {
   "timestamp-rail": TimestampRailDemo,
   "error-pin": ErrorPinDemo,
   "context-lines": ContextLinesDemo,
+  "latency-hist": LatencyHistDemo,
+  "slo-burn": SloBurnDemo,
+  "heat-week": HeatWeekDemo,
+  "percentile-lines": PercentileLinesDemo,
+  "rate-dial": RateDialDemo,
+  "error-ratio": ErrorRatioDemo,
+  "apdex-ring": ApdexRingDemo,
+  "sparkline-grid": SparklineGridDemo,
+  "capacity-bar": CapacityBarDemo,
+  "anomaly-band": AnomalyBandDemo,
 };
