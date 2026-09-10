@@ -49372,4 +49372,854 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the sweep is replaced by a single wash that fades, and the fold swaps its measured height on a tween rather than gliding.",
     ],
   },
+  {
+    name: "channel-list",
+    type: "registry:ui",
+    title: "Channel List",
+    description:
+      "The rooms you are in, ordered by what just happened in them. Rows carry layout, so a room that receives a message climbs and every row it passes trades places on glide, while the badge replays a landing from scale 1.18 on recoil and muted rows dim to a hollow badge that still shows its count. The list is one tab stop: Down and Up step rows, Home and End jump to the ends, Right moves to the row's bell and Left comes back.",
+    files: [
+      {
+        path: "registry/ui/channel-list.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-891",
+    },
+    tagline: "Rooms, with their unread.",
+    keywords: ["channels", "rooms", "unread", "badge", "mute", "chat", "list"],
+    props: [
+      {
+        name: "channels",
+        type: "Channel[]",
+        description:
+          "The rooms. Each carries an id, name, optional preview, unread count, an activity rank and a muted flag.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial id of the open room; the default is the most active one.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires from a row's click, Enter or Space.",
+      },
+      {
+        name: "onMuteToggle",
+        type: "(id: string, muted: boolean) => void",
+        description:
+          "Fires from a row's bell with the state the host should store.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description:
+          "Fires once per frozen change sentence, for a parent's own status line.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the list for assistive technology.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "280",
+        description:
+          "Tallest the list grows before it scrolls inside its own box.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"No rooms yet"',
+        description: "Drawn when there are no rooms.",
+      },
+    ],
+    usageNotes: [
+      "One tab stop under a two-column roving tabindex: Down and Up step rows, Home and End jump to the ends, Right moves from the row to its bell and Left returns, Enter and Space open a room.",
+      "Under reduced motion the re-sort lands instantly and the badge does not bounce, but the count still changes and muted rows still dim, because what is unread is information.",
+      "Order comes from each room's `activity` rank, a monotonic number the host raises when a message lands — the component never reads a clock, so it renders the same on the server and the client.",
+    ],
+  },
+  {
+    name: "unread-line",
+    type: "registry:ui",
+    title: "Unread Line",
+    description:
+      "The rule that says where you stopped. The separator draws itself with a scaleX from its left origin on glide while the pill beside it arrives 4px up on flick, and as you read it keeps its key inside one AnimatePresence so the same rule travels to its new seat under layout while the messages re-seat around it. The pill is a real button that marks everything below it read, and when the last unread goes the rule fades and lifts away on the exit ease rather than springing.",
+    files: [
+      {
+        path: "registry/ui/unread-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-892",
+    },
+    tagline: "New messages start here.",
+    keywords: [
+      "unread",
+      "divider",
+      "separator",
+      "thread",
+      "chat",
+      "read",
+      "new",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "UnreadMessage[]",
+        description:
+          "The thread, oldest first: id, author, text and a preformatted time.",
+      },
+      {
+        name: "readCount / defaultReadCount",
+        type: "number",
+        defaultValue: "messages.length",
+        description:
+          "Controlled or initial count of messages read from the top; the rule sits after them.",
+      },
+      {
+        name: "onReadCountChange",
+        type: "(count: number) => void",
+        description: "Fires when the rule's own pill advances the boundary.",
+      },
+      {
+        name: "onMarkAllRead",
+        type: "() => void",
+        description: "Fires from the pill, alongside onReadCountChange.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description:
+          "Fires once per frozen change sentence, for a parent's own status line.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread for assistive technology.",
+      },
+      {
+        name: "dividerLabel",
+        type: "string",
+        defaultValue: '"New messages"',
+        description: "The pill's word.",
+      },
+      {
+        name: "upToDateLabel",
+        type: "string",
+        defaultValue: '"You are up to date"',
+        description: "What the header reads when nothing is unread.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "300",
+        description:
+          "Tallest the thread grows before it scrolls inside its own box.",
+      },
+    ],
+    usageNotes: [
+      "The pill is the component's one control: Enter or Space marks everything below the rule read, and the thread's scroll box is focusable so the list can be read from the keyboard.",
+      "Under reduced motion the rule appears at full width with no draw and no travel, and it leaves on a plain fade — but the count still changes, because what is unread is information.",
+      'The header stacks "4 new messages" and "You are up to date" in one grid cell and cross-fades them, so no height is held for a state that is not showing.',
+    ],
+  },
+  {
+    name: "jump-latest",
+    type: "registry:ui",
+    title: "Jump Latest",
+    description:
+      "The way back down. While the thread sits at its floor nothing shows; scroll up past revealDistance and a pill rises from the box's bottom edge on snap, counting the messages that landed while you were away with digits that roll on snap. Pressing it, or pressing End inside the thread, animates scrollTop to the floor on glide with every frame rounded, and the slide stops on unmount, on a new press, and when the document is hidden.",
+    files: [
+      {
+        path: "registry/ui/jump-latest.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-893",
+    },
+    tagline: "Back to the bottom.",
+    keywords: ["scroll", "jump", "thread", "unread", "chat", "latest", "pill"],
+    props: [
+      {
+        name: "messages",
+        type: "JumpMessage[]",
+        description:
+          "The thread, oldest first: id, author, text, a preformatted time and an own flag.",
+      },
+      {
+        name: "onJump",
+        type: "() => void",
+        description: "Fires when a jump starts, from the pill or from End.",
+      },
+      {
+        name: "onNewCountChange",
+        type: "(count: number) => void",
+        description:
+          "Fires when the count of messages that arrived while you were away changes.",
+      },
+      {
+        name: "onAtBottomChange",
+        type: "(atBottom: boolean) => void",
+        description: "Fires as the box reaches or leaves its floor.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description:
+          "Fires once per frozen change sentence, for a parent's own status line.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the thread for assistive technology.",
+      },
+      {
+        name: "jumpLabel",
+        type: "string",
+        defaultValue: '"Latest"',
+        description: "The pill's word when nothing new has arrived.",
+      },
+      {
+        name: "revealDistance",
+        type: "number",
+        defaultValue: "48",
+        description: "Pixels above the floor before the pill rises.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "260",
+        description:
+          "Tallest the thread grows before it scrolls inside its own box.",
+      },
+    ],
+    usageNotes: [
+      "The thread is a focusable region: End slides to the floor — the same move the pill makes — and Home slides to the top; the pill itself is a real button that leaves the DOM at the floor rather than lingering as a focusable ghost.",
+      "Under reduced motion the pill fades in place and the jump lands in one step, but the count still rolls, because what arrived is information.",
+      "A thread already at its floor stays pinned there as messages land; one that is scrolled up is left where the reader put it and counts what it missed.",
+    ],
+  },
+  {
+    name: "pinned-bar",
+    type: "registry:ui",
+    title: "Pinned Bar",
+    description:
+      "The strip above the thread, holding everything pinned to it. One note shows at a time and pressing the bar cycles to the next with a slide in the direction of travel on snap, under AnimatePresence popLayout so the outgoing line leaves the flow while the incoming one sets the height a ResizeObserver hands the strip to glide to. The active tick travels its rail on a layoutId and the index digit rolls; unpinning fades the line out on the exit ease and collapses the strip, to nothing at all when the last pin goes.",
+    files: [
+      {
+        path: "registry/ui/pinned-bar.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-894",
+    },
+    tagline: "The important ones, up top.",
+    keywords: ["pinned", "bar", "cycle", "chat", "notes", "carousel", "unpin"],
+    props: [
+      {
+        name: "pins",
+        type: "PinnedNote[]",
+        description:
+          "What the bar holds, most recently pinned first: id, author, text and a preformatted time.",
+      },
+      {
+        name: "index / defaultIndex",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Controlled or initial index of the pin on show; clamped for display whenever the array shrinks.",
+      },
+      {
+        name: "onIndexChange",
+        type: "(index: number) => void",
+        description: "Fires from the body press and the arrow keys.",
+      },
+      {
+        name: "onUnpin",
+        type: "(id: string) => void",
+        description:
+          "Fires from the unpin control or Delete; the host removes the note.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description:
+          "Fires once per frozen change sentence, for a parent's own status line.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Pinned"',
+        description: "Names the bar for assistive technology.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        description:
+          "A word for the empty bar; unset, the bar collapses to nothing.",
+      },
+    ],
+    usageNotes: [
+      "The body is one button: Enter and Space cycle forward, Right and Down step forward, Left and Up step back, Home and End jump to the ends, and Delete or Backspace unpins the note on show; the unpin control is the second tab stop.",
+      "Under reduced motion nothing slides — notes cross-fade, the strip's height changes on a tween and the tick is drawn on its new seat — but the count still changes, because which pin you are on is information.",
+      "The strip's height comes from a ResizeObserver on its inner column, so notes of different lengths never make it jump and an empty bar occupies nothing.",
+    ],
+  },
+  {
+    name: "search-inline",
+    type: "registry:ui",
+    title: "Search Inline",
+    description:
+      "Find in the thread, without leaving it. Every occurrence takes a wash that sweeps in from its left edge — scaleX on a layer behind the words, staggered by cascade and capped at the 600ms budget — while messages with no match recede on a tween, so the hits read as a set. Enter steps to the next match and the box slides to it on glide with every scroll frame rounded, Shift+Enter steps back, Escape clears the term, and the 3 / 7 readout rolls a digit at a time on snap.",
+    files: [
+      {
+        path: "registry/ui/search-inline.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-895",
+    },
+    tagline: "Find it in the thread.",
+    keywords: [
+      "search",
+      "find",
+      "thread",
+      "highlight",
+      "matches",
+      "chat",
+      "sweep",
+    ],
+    props: [
+      {
+        name: "messages",
+        type: "SearchMessage[]",
+        description:
+          "The thread, oldest first: id, author, text, a preformatted time and an own flag.",
+      },
+      {
+        name: "query / defaultQuery",
+        type: "string",
+        defaultValue: '""',
+        description: "Controlled or initial search term.",
+      },
+      {
+        name: "onQueryChange",
+        type: "(query: string) => void",
+        description: "Fires from every keystroke and from Escape's clear.",
+      },
+      {
+        name: "onMatchChange",
+        type: "(index: number, total: number) => void",
+        description:
+          "Fires when the current match or the total changes; index is 1-based and 0 when there is nothing to step to. Memoise it.",
+      },
+      {
+        name: "onAnnounce",
+        type: "(sentence: string) => void",
+        description:
+          "Fires once per frozen change sentence, for a parent's own status line.",
+      },
+      {
+        name: "caseSensitive",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Match case.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Find in thread"',
+        description: "Names the field for assistive technology.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Find in thread"',
+        description: "Placeholder text in the field.",
+      },
+      {
+        name: "threadLabel",
+        type: "string",
+        description: "Names the thread's scroll region.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "260",
+        description:
+          "Tallest the thread grows before it scrolls inside its own box.",
+      },
+    ],
+    usageNotes: [
+      "Enter steps to the next match and Shift+Enter to the previous; Escape clears the term and keeps focus in the field; the two step buttons repeat the same moves and go aria-disabled when there is nothing to step to.",
+      "Under reduced motion nothing sweeps or slides — marks appear at full wash and the step sets the scroll in one move — but the count still changes and unmatched messages still recede, because both are information.",
+      "Matching is capped at 200 marks and the current match carries aria-current, so the position is never colour alone.",
+    ],
+  },
+  {
+    name: "folder-tabs",
+    type: "registry:ui",
+    title: "Folder Tabs",
+    description:
+      "Three folders over one channel list. A single pill keyed by a useId-prefixed layoutId glides between All, Unread and Mentions on snap, and the filter it applies re-lays the list beneath it: the rows that stay travel to their new places on glide, the rows that no longer match leave on the exit ease, and the box animates to a ResizeObserver-measured height so a folder holding one row closes to one row. Each tab's count is a strip of digits that rolls on snap; Left and Right move and activate the folders, Home and End jump.",
+    files: [
+      {
+        path: "registry/ui/folder-tabs.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-896",
+    },
+    tagline: "All, unread, mentions.",
+    keywords: [
+      "tabs",
+      "filter",
+      "channels",
+      "unread",
+      "mentions",
+      "chat",
+      "flip",
+    ],
+    props: [
+      {
+        name: "channels",
+        type: "FolderChannel[]",
+        description:
+          "Rows to filter: id, name, preview, unread and mentions decide which folders show them.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "FolderId",
+        defaultValue: '"all"',
+        description: "Controlled or initial folder: all, unread or mentions.",
+      },
+      {
+        name: "onValueChange",
+        type: "(folder: FolderId) => void",
+        description: "Fires from a tab press or an arrow key.",
+      },
+      {
+        name: "activeChannel / defaultActiveChannel",
+        type: "string",
+        description: "Controlled or initial open channel id.",
+      },
+      {
+        name: "onChannelSelect",
+        type: "(id: string) => void",
+        description: "Fires from a row press with the channel that was opened.",
+      },
+      {
+        name: "labels",
+        type: "Record<FolderId, string>",
+        description: "Tab copy; defaults to All, Unread and Mentions.",
+      },
+      {
+        name: "emptyLabels",
+        type: "Record<FolderId, string>",
+        description: "The sentence a folder shows when it holds nothing.",
+      },
+      {
+        name: "maxHeight",
+        type: "number",
+        defaultValue: "216",
+        description:
+          "Pixels the list grows to before it scrolls inside its own box.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the tablist and the list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "A real tablist with a roving tabindex: Left and Right move and activate the folder, Home and End jump to the first and last, and the panel is focusable so the list can be scrolled from the keyboard.",
+      'Every tab and every row is named by a single string — "Unread, 2 channels", "#returns, 2 unread, 1 mention. Marta: Two crates came back split." — and a status region reads the folder you switched to and the channel you opened.',
+      "Under reduced motion the pill appears under its tab without a layoutId, the rows stop travelling, the list height is set rather than glided, and the counts swap without rolling.",
+    ],
+  },
+  {
+    name: "mute-bell",
+    type: "registry:ui",
+    title: "Mute Bell",
+    description:
+      "A bell that goes quiet for a stated length of time. Pressing it unfolds a duration picker in flow below the row on glide against a ResizeObserver-measured height, and choosing one folds the picker, swings the bell on a four-keyframe tween and draws the slash across it on flick. A ring around the bell then drains a second at a time while the row's second line reads the time left in place of the topic, cross-faded in one grid cell; Escape folds the picker and returns focus to the bell.",
+    files: [
+      {
+        path: "registry/ui/mute-bell.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-897",
+    },
+    tagline: "Quiet, until you say.",
+    keywords: ["mute", "bell", "notifications", "countdown", "chat", "channel"],
+    props: [
+      {
+        name: "channel",
+        type: "string",
+        description: "The channel's name, printed after a hash.",
+      },
+      {
+        name: "topic",
+        type: "string",
+        description: "The row's second line while notifications are on.",
+      },
+      {
+        name: "durations",
+        type: "MuteDuration[]",
+        defaultValue: "30 minutes / 1 hour / 8 hours / Until I say",
+        description:
+          "The picker's stops; an ms of 0 means until it is turned back on.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial picker state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description: "Fires from the bell, Escape, or a chosen duration.",
+      },
+      {
+        name: "onMuteChange",
+        type: "(mute: MuteDuration | null) => void",
+        description:
+          "Fires with the chosen duration, or null when notifications come back on.",
+      },
+      {
+        name: "onExpire",
+        type: "() => void",
+        description: "Fires once when the countdown reaches zero.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "Countdown milliseconds per real millisecond; the demo runs it fast so the ring drains while you watch.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the channel in the spoken sentences; defaults to the hashed channel.",
+      },
+    ],
+    usageNotes: [
+      "The bell is a disclosure while notifications are on — aria-expanded and aria-controls on the picker — and an action while they are off; Escape folds the picker and returns focus to the bell, and every chip is a real button named with a whole sentence.",
+      'The countdown lives in one interval with cleanup, pauses while the document is hidden, and never reads a clock during render; a status region says "Muted for 1 hour.", "Notifications are on." and "The mute ran out. Notifications are back on." as each happens.',
+      "Under reduced motion the picker's height swaps, the bell does not swing and the slash appears whole, but the ring still drains, because a countdown is information.",
+    ],
+  },
+  {
+    name: "archive-slide",
+    type: "registry:ui",
+    title: "Archive Slide",
+    description:
+      "A channel list where a row can be pushed aside. Dragging a row left uncovers the one action parked under it, whose ink and glyph grow straight from the travel so the commit point is felt before the finger lifts; a short release returns the row on snap, and a release past the threshold hands the rest of the travel to a tween on the exit ease before the rows below close the gap on glide. An undo chip unfolds in flow at the foot of the list against a measured height, and every row keeps an archive button so Delete or Backspace archives without the gesture.",
+    files: [
+      {
+        path: "registry/ui/archive-slide.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-898",
+    },
+    tagline: "Out of the way.",
+    keywords: [
+      "archive",
+      "swipe",
+      "channel",
+      "list",
+      "undo",
+      "chat",
+      "gesture",
+    ],
+    props: [
+      {
+        name: "channels",
+        type: "ArchiveChannel[]",
+        description:
+          "The rows in list order: id, name, preview and an optional unread count.",
+      },
+      {
+        name: "archived / defaultArchived",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Controlled or initial archived ids; those rows leave the list.",
+      },
+      {
+        name: "onArchivedChange",
+        type: "(ids: string[]) => void",
+        description: "Fires with the next set from an archive or an undo.",
+      },
+      {
+        name: "onArchive",
+        type: "(id: string) => void",
+        description:
+          "Fires when a row commits, from the gesture or the button.",
+      },
+      {
+        name: "onRestore",
+        type: "(id: string) => void",
+        description:
+          "Fires from the undo chip with the channel that came back.",
+      },
+      {
+        name: "activeChannel / defaultActiveChannel",
+        type: "string",
+        description: "Controlled or initial open channel id.",
+      },
+      {
+        name: "onChannelSelect",
+        type: "(id: string) => void",
+        description: "Fires from a row press that was a press, not a drag.",
+      },
+      {
+        name: "threshold",
+        type: "number",
+        defaultValue: "88",
+        description: "Pixels of travel that commit the archive.",
+      },
+      {
+        name: "actionLabel",
+        type: "string",
+        defaultValue: '"Archive"',
+        description: "The parked action's copy.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"Every channel is archived."',
+        description: "The sentence shown when every channel has been put away.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the list for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'Every row carries an archive button named "Archive #returns." and Delete or Backspace on a focused row archives it, so the gesture is a shortcut rather than the only path; after a row leaves, focus lands on the row that took its index, or on the undo chip when the list empties.',
+      "The pointer is captured only after 4px of horizontal travel, only when the drag is more horizontal than vertical, and inside try/catch, so a plain press still opens the channel and a vertical scroll still belongs to the page.",
+      "Under reduced motion the row still follows the pointer — direct manipulation is not animation — but nothing springs: a commit fades the row out where it stands and the gap closes without a FLIP.",
+    ],
+  },
+  {
+    name: "section-collapse",
+    type: "registry:ui",
+    title: "Section Collapse",
+    description:
+      "A sidebar of sections that fold their own rooms. A header press joins the body to zero on glide against a height a ResizeObserver measured from the body's own content, the caret turns a quarter on snap, and the rows fade on a tween rather than sliding. What the fold hides comes back to the header: the unread inside rises into a badge from 4px on snap with its digits rolling, and unfolding drops it on the exit ease; Down and Up move between headers while Home and End jump.",
+    files: [
+      {
+        path: "registry/ui/section-collapse.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-899",
+    },
+    tagline: "Fold a group of rooms.",
+    keywords: [
+      "sidebar",
+      "sections",
+      "collapse",
+      "rooms",
+      "unread",
+      "chat",
+      "disclosure",
+    ],
+    props: [
+      {
+        name: "sections",
+        type: "RoomSection[]",
+        description:
+          "Each section is an id, a title and its channels; a channel carries an unread count and direct or muted marks.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "string[]",
+        defaultValue: "every section",
+        description: "Controlled or initial ids of the unfolded sections.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(id: string, open: boolean) => void",
+        description:
+          "Fires from the press or key that folded or unfolded a section.",
+      },
+      {
+        name: "activeChannel / defaultActiveChannel",
+        type: "string",
+        description: "Controlled or initial selected channel id.",
+      },
+      {
+        name: "onChannelSelect",
+        type: "(id: string) => void",
+        description: "Fires from a row press with the channel that was opened.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"No rooms in here yet."',
+        description:
+          "The sentence shown inside a section that holds no channels.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "Names the whole sidebar for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      'Each header is a real disclosure with aria-expanded, aria-controls and a name that is one sentence including the count — "Direct, folded, 2 unread inside." — so what a fold hides can be heard without unfolding it.',
+      "Down and Up move focus between headers and Home and End jump, while the headers stay ordinary tab stops so Tab still reaches the rows; a folded body is hidden from assistive technology and taken out of the tab order rather than merely clipped.",
+      "Under reduced motion the heights swap, the caret turns without a spring and the badge fades in place, but every count still updates, because what is waiting behind a fold is information.",
+    ],
+  },
+  {
+    name: "room-switcher",
+    type: "registry:ui",
+    title: "Room Switcher",
+    description:
+      "A room header with a switcher behind a hotkey. Ctrl or Cmd with K raises a panel inside the component's own frame that rises from 8px on snap behind a fading scrim, and typing filters the rooms: the matches carry layout and travel on glide while the rest leave on the exit ease, against a ResizeObserver-measured list height. Enter switches and the header slides — the room you left rises out while the one you chose arrives from below, both stacked in one grid cell and keyed by a jump counter — then focus returns to the trigger.",
+    files: [
+      {
+        path: "registry/ui/room-switcher.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: ["utils", "motion", "use-motion-safe"],
+    categories: ["chat"],
+    meta: {
+      serial: "KQ-900",
+    },
+    tagline: "Jump by typing.",
+    keywords: [
+      "switcher",
+      "hotkey",
+      "rooms",
+      "combobox",
+      "filter",
+      "chat",
+      "dialog",
+    ],
+    props: [
+      {
+        name: "rooms",
+        type: "SwitcherRoom[]",
+        description:
+          "Every room: id, name, topic, its last line and who wrote it, plus optional direct and unread marks.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "Controlled or initial room id; defaults to the first room.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires from Enter or an option press.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial panel state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the hotkey, the trigger, Escape, the scrim, or a chosen room.",
+      },
+      {
+        name: "onQueryChange",
+        type: "(query: string, matches: number) => void",
+        description:
+          "Fires from every keystroke with the trimmed query and how many rooms matched.",
+      },
+      {
+        name: "hotkey",
+        type: "string",
+        defaultValue: '"k"',
+        description: "The key that raises the panel, pressed with Ctrl or Cmd.",
+      },
+      {
+        name: "hotkeyHint",
+        type: "string",
+        defaultValue: '"Ctrl K"',
+        description: "What the trigger prints in its keycaps, space separated.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Jump to a room"',
+        description: "The field's placeholder, which also names it.",
+      },
+      {
+        name: "emptyLabel",
+        type: "string",
+        defaultValue: '"No room matches that."',
+        description: "The sentence shown when nothing matches.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "Names the switcher, its dialog and its listbox for assistive technology.",
+      },
+    ],
+    usageNotes: [
+      "The panel is a modal dialog raised by Ctrl or Cmd with K: Tab cycles inside it, Escape closes it, the scrim closes it, and focus returns to the trigger every time.",
+      'The field is a combobox with aria-activedescendant over a listbox — Down and Up wrap, Home and End jump, Enter switches — and the active option is scrolled into view with block "nearest" rather than focused, so the field keeps taking keystrokes.',
+      "Under reduced motion the panel and scrim fade in place, the options stop travelling and the header cross-fades between the two room names without either of them moving.",
+    ],
+  },
 ];

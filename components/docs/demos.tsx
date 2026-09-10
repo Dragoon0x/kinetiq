@@ -1080,6 +1080,16 @@ import { AudioWaveDemo } from "@/registry/demos/audio-wave.demo";
 import { LocationPinDemo } from "@/registry/demos/location-pin.demo";
 import { PollCardChatDemo } from "@/registry/demos/poll-card-chat.demo";
 import { CodeSnippetDemo } from "@/registry/demos/code-snippet.demo";
+import { ChannelListDemo } from "@/registry/demos/channel-list.demo";
+import { UnreadLineDemo } from "@/registry/demos/unread-line.demo";
+import { JumpLatestDemo } from "@/registry/demos/jump-latest.demo";
+import { PinnedBarDemo } from "@/registry/demos/pinned-bar.demo";
+import { SearchInlineDemo } from "@/registry/demos/search-inline.demo";
+import { FolderTabsDemo } from "@/registry/demos/folder-tabs.demo";
+import { MuteBellDemo } from "@/registry/demos/mute-bell.demo";
+import { ArchiveSlideDemo } from "@/registry/demos/archive-slide.demo";
+import { SectionCollapseDemo } from "@/registry/demos/section-collapse.demo";
+import { RoomSwitcherDemo } from "@/registry/demos/room-switcher.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2174,4 +2184,14 @@ export const demos: Record<string, ComponentType> = {
   "location-pin": LocationPinDemo,
   "poll-card-chat": PollCardChatDemo,
   "code-snippet": CodeSnippetDemo,
+  "channel-list": ChannelListDemo,
+  "unread-line": UnreadLineDemo,
+  "jump-latest": JumpLatestDemo,
+  "pinned-bar": PinnedBarDemo,
+  "search-inline": SearchInlineDemo,
+  "folder-tabs": FolderTabsDemo,
+  "mute-bell": MuteBellDemo,
+  "archive-slide": ArchiveSlideDemo,
+  "section-collapse": SectionCollapseDemo,
+  "room-switcher": RoomSwitcherDemo,
 };

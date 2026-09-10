@@ -24676,6 +24676,276 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "channel-list",
+      "type": "registry:ui",
+      "title": "Channel List",
+      "description": "The rooms you are in, ordered by what just happened in them. Rows carry layout, so a room that receives a message climbs and every row it passes trades places on glide, while the badge replays a landing from scale 1.18 on recoil and muted rows dim to a hollow badge that still shows its count. The list is one tab stop: Down and Up step rows, Home and End jump to the ends, Right moves to the row's bell and Left comes back.",
+      "files": [
+        {
+          "path": "registry/ui/channel-list.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-891"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "unread-line",
+      "type": "registry:ui",
+      "title": "Unread Line",
+      "description": "The rule that says where you stopped. The separator draws itself with a scaleX from its left origin on glide while the pill beside it arrives 4px up on flick, and as you read it keeps its key inside one AnimatePresence so the same rule travels to its new seat under layout while the messages re-seat around it. The pill is a real button that marks everything below it read, and when the last unread goes the rule fades and lifts away on the exit ease rather than springing.",
+      "files": [
+        {
+          "path": "registry/ui/unread-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-892"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "jump-latest",
+      "type": "registry:ui",
+      "title": "Jump Latest",
+      "description": "The way back down. While the thread sits at its floor nothing shows; scroll up past revealDistance and a pill rises from the box's bottom edge on snap, counting the messages that landed while you were away with digits that roll on snap. Pressing it, or pressing End inside the thread, animates scrollTop to the floor on glide with every frame rounded, and the slide stops on unmount, on a new press, and when the document is hidden.",
+      "files": [
+        {
+          "path": "registry/ui/jump-latest.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-893"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pinned-bar",
+      "type": "registry:ui",
+      "title": "Pinned Bar",
+      "description": "The strip above the thread, holding everything pinned to it. One note shows at a time and pressing the bar cycles to the next with a slide in the direction of travel on snap, under AnimatePresence popLayout so the outgoing line leaves the flow while the incoming one sets the height a ResizeObserver hands the strip to glide to. The active tick travels its rail on a layoutId and the index digit rolls; unpinning fades the line out on the exit ease and collapses the strip, to nothing at all when the last pin goes.",
+      "files": [
+        {
+          "path": "registry/ui/pinned-bar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-894"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "search-inline",
+      "type": "registry:ui",
+      "title": "Search Inline",
+      "description": "Find in the thread, without leaving it. Every occurrence takes a wash that sweeps in from its left edge — scaleX on a layer behind the words, staggered by cascade and capped at the 600ms budget — while messages with no match recede on a tween, so the hits read as a set. Enter steps to the next match and the box slides to it on glide with every scroll frame rounded, Shift+Enter steps back, Escape clears the term, and the 3 / 7 readout rolls a digit at a time on snap.",
+      "files": [
+        {
+          "path": "registry/ui/search-inline.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-895"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "folder-tabs",
+      "type": "registry:ui",
+      "title": "Folder Tabs",
+      "description": "Three folders over one channel list. A single pill keyed by a useId-prefixed layoutId glides between All, Unread and Mentions on snap, and the filter it applies re-lays the list beneath it: the rows that stay travel to their new places on glide, the rows that no longer match leave on the exit ease, and the box animates to a ResizeObserver-measured height so a folder holding one row closes to one row. Each tab's count is a strip of digits that rolls on snap; Left and Right move and activate the folders, Home and End jump.",
+      "files": [
+        {
+          "path": "registry/ui/folder-tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-896"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mute-bell",
+      "type": "registry:ui",
+      "title": "Mute Bell",
+      "description": "A bell that goes quiet for a stated length of time. Pressing it unfolds a duration picker in flow below the row on glide against a ResizeObserver-measured height, and choosing one folds the picker, swings the bell on a four-keyframe tween and draws the slash across it on flick. A ring around the bell then drains a second at a time while the row's second line reads the time left in place of the topic, cross-faded in one grid cell; Escape folds the picker and returns focus to the bell.",
+      "files": [
+        {
+          "path": "registry/ui/mute-bell.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-897"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "archive-slide",
+      "type": "registry:ui",
+      "title": "Archive Slide",
+      "description": "A channel list where a row can be pushed aside. Dragging a row left uncovers the one action parked under it, whose ink and glyph grow straight from the travel so the commit point is felt before the finger lifts; a short release returns the row on snap, and a release past the threshold hands the rest of the travel to a tween on the exit ease before the rows below close the gap on glide. An undo chip unfolds in flow at the foot of the list against a measured height, and every row keeps an archive button so Delete or Backspace archives without the gesture.",
+      "files": [
+        {
+          "path": "registry/ui/archive-slide.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-898"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "section-collapse",
+      "type": "registry:ui",
+      "title": "Section Collapse",
+      "description": "A sidebar of sections that fold their own rooms. A header press joins the body to zero on glide against a height a ResizeObserver measured from the body's own content, the caret turns a quarter on snap, and the rows fade on a tween rather than sliding. What the fold hides comes back to the header: the unread inside rises into a badge from 4px on snap with its digits rolling, and unfolding drops it on the exit ease; Down and Up move between headers while Home and End jump.",
+      "files": [
+        {
+          "path": "registry/ui/section-collapse.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-899"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "room-switcher",
+      "type": "registry:ui",
+      "title": "Room Switcher",
+      "description": "A room header with a switcher behind a hotkey. Ctrl or Cmd with K raises a panel inside the component's own frame that rises from 8px on snap behind a fading scrim, and typing filters the rooms: the matches carry layout and travel on glide while the rest leave on the exit ease, against a ResizeObserver-measured list height. Enter switches and the header slides — the room you left rises out while the one you chose arrives from below, both stacked in one grid cell and keyed by a jump counter — then focus returns to the trigger.",
+      "files": [
+        {
+          "path": "registry/ui/room-switcher.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "chat"
+      ],
+      "meta": {
+        "serial": "KQ-900"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
