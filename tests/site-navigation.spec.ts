@@ -50,13 +50,14 @@ test("mobile menu opens, navigates, and closes", async ({ page }) => {
           !!((a as HTMLElement).offsetWidth || (a as HTMLElement).offsetHeight),
       ).length,
   );
-  expect(count).toBe(8);
+  expect(count).toBe(9);
 
   // Every destination reachable.
   for (const label of [
     "Components",
     "Explore",
     "Spatial",
+    "Tactile",
     "Blocks",
     "Pages",
     "Templates",
