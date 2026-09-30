@@ -29407,6 +29407,292 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hourglass-turn",
+      "type": "registry:ui",
+      "title": "Hourglass Turn",
+      "description": "An inline loader drawn as a small hourglass: sand runs from the top bulb onto a growing pile as a falling thread, conserved as drawn area so the top's level races where the bulb narrows, and when the top is empty the glass rests a beat and turns itself over on the snap spring while the sand rides the turn and slumps onto the neck. Drag it sideways and it follows the pointer, the thread breaks, and a release past a quarter turn completes the half turn with the release velocity so the sand stays where it was; with progress the pile is the progress and a turn by hand is a full tumble on glide. It is a real button — Enter or Space turns it — beside a status or progressbar label, and the landing thocks only when the visitor turned it.",
+      "files": [
+        {
+          "path": "registry/ui/hourglass-turn.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1191"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "knot-tie",
+      "type": "registry:ui",
+      "title": "Knot Tie",
+      "description": "An inline loader drawn as a short rope that ties itself: one Catmull-Rom path through a fixed set of points is blended every frame through four stages of the knot — slack, the first loop lifted over, loosely tied, snug — on move tweens, cinched on the rope's own spring (jute glides, nylon snaps one overshoot past, silk flicks), then loosened and untied. Where the rope crosses itself the upper strand is redrawn on top with its lay continuing unbroken, so the overhand, bow and figure-eight alternate over and under like real knots. Dragging the rope sideways tightens it early 1:1 with the pull, rubber-banding past snug, and a release cinches it with the release velocity; Enter or Space on the rope's button tugs it snug the same way, and the rope creaks only while the visitor pulls.",
+      "files": [
+        {
+          "path": "registry/ui/knot-tie.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1192"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "radio-tune",
+      "type": "registry:ui",
+      "title": "Radio Tune",
+      "description": "An inline loader drawn as a small tabletop radio whose needle scans the dial like a seek radio: it sweeps up the band, catches each strong station with a hunting settle on the snap spring, dwells while the signal bars stand up, sweeps on and glides back to the bottom on glide, while the meter — the signal at the needle plus the band's own seeded static — wavers between stations. With progress the needle travels to the home station as the work goes on and at 1 locks on, a hair past the mark and back on snap, with the meter full and the backlight warm. It is a real slider: a drag moves the needle 1:1 under the pointer while the knob turns, a release coasts and is pulled onto a station within reach, arrow keys turn it finely, Page Up and Page Down seek, Home and End reach the ends, and focus stops the search.",
+      "files": [
+        {
+          "path": "registry/ui/radio-tune.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1193"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "abacus-count",
+      "type": "registry:ui",
+      "title": "Abacus Count",
+      "description": "An inline loader drawn as a small counting frame: ten beads on each wire, the highest place on the left, one motion value per bead. The work counts up a bead at a time — each rises to the beam on the spring its material calls for (wood on springs.snap, glass on springs.recoil, stone on springs.glide) — and at ten the wire clears in a rattle while a bead rises on the next wire, so a determinate count (rows of a total, or percent) reads as beads and big jumps glide on springs.glide; without progress it counts to a seeded number and clears. The frame is a button: drag up and the next units bead follows the finger 1:1, a release past halfway flicks it home with the throw's velocity, and a tap, Enter, Space or the Up arrow does the same — free-running the flick adds one, determinate the bead is only lent and slides home if the work has not reached it.",
+      "files": [
+        {
+          "path": "registry/ui/abacus-count.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1194"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "yarn-knit",
+      "type": "registry:ui",
+      "title": "Yarn Knit",
+      "description": "An inline loader drawn as knitting: a needle holds a row of stitches, the working needle crosses it at the last one, and the yarn hangs from there to a ball on the floor. Each stitch the working needle stabs in and back on two tweens, the new V grows down from the needle on the fibre's spring (wool springs.snap, cotton springs.flick, mohair springs.drift), and the yarn tugs the ball, which jerks toward the work and rolls back on springs.snap, turning as it unwinds and shrinking as the row grows; given progress the row is that share knitted and glides on springs.glide, otherwise it knits to the end, holds and unravels. The glyph is a button: drag the yarn and its middle follows the finger 1:1 with a loop forming where it is pinched, and letting go of a long pull has the needles take the loop with a click — the next stitch when free-running, wound back when determinate — while a tap, Enter or Space pulls one loop.",
+      "files": [
+        {
+          "path": "registry/ui/yarn-knit.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1195"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "geared-pen",
+      "type": "registry:ui",
+      "title": "Geared Pen",
+      "description": "An inline loader drawn by a geared pen: a wheel rolls inside a toothed ring and its pen traces a hypotrochoid with as many lobes as the ratio, the wheel's own turn accumulated rather than computed so a changing ratio never makes the pen jump. Free-running, a frame loop writes the geometry into motion values, the trail fades behind the pen in tapered chunks, and the ratio drifts on a slow sine so the rosette precesses and never quite repeats; given progress, the ratio holds and the figure is drawn solid on springs.glide, closing at 1 as the pen lifts. The glyph is a button: drag around its centre and the wheel follows the pointer's angle 1:1, a free wheel keeps the throw and eases back to its pace while a determinate one glides home on springs.glide with the release velocity, and arrow keys turn it a notch (springs.snap) while Enter or Space spins it round.",
+      "files": [
+        {
+          "path": "registry/ui/geared-pen.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1196"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "kettle-steam",
+      "type": "registry:ui",
+      "title": "Kettle Steam",
+      "description": "An inline loader drawn as a stovetop kettle coming to the boil: bubbles rise in its round sight glass, faster and more of them as it heats, and steam curls from the spout as filled ribbons whose curl travels up them, leaning away from the pointer on the drift spring. Given progress, heat is the progress — the bezel round the glass fills like a dial and the lid rattles near the top — and at 1 the whistle flips open on the recoil spring while the steam straightens into a jet, then settles into a still wisp and the frame loop stops; without it, the kettle simmers. The kettle is a real button: held with the pointer, Space or Enter it turns up the flame (a boost in on snap, out on drift, the body dipping on flick), and pressed at the boil it blows the whistle.",
+      "files": [
+        {
+          "path": "registry/ui/kettle-steam.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1197"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tape-reels",
+      "type": "registry:ui",
+      "title": "Tape Reels",
+      "description": "An inline loader drawn as a cassette whose tape winds from one reel to the other. The two packs are sized from the tape itself — their areas always add up to the same length — and each reel turns by the tape that moves over its own pack's radius, so the emptying reel speeds up while the filling one slows, as real tape does; given progress the tape follows it on the glide spring, and without it a motor winds at a steady tape speed and rewinds fast on a move ease. Dragging the cassette sideways pulls the tape 1:1, rubber-banded at the ends, and a release coasts to where the throw would rest on glide with the release velocity (or glides back to the progress, since the job owns the tape); holding Left or Right winds it the same way.",
+      "files": [
+        {
+          "path": "registry/ui/tape-reels.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1198"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lava-drift",
+      "type": "registry:ui",
+      "title": "Lava Drift",
+      "description": "An inline loader drawn as a small lava lamp whose wax really convects: each blob carries a temperature, heats on the bulb, floats once it is half-warm and loses heat as it climbs — faster near the cool cap — so it rises, lingers, cools and sinks back into the pool, every blob on its own time, and blobs that touch pull their speed and heat together and travel as one mass until their heat parts them. The wax is circles joined by analytic metaball necks, so it merges and splits crisply with no blur. The pointer is a warm hand that heats the nearest blob while the glass glows under it (a warmth that rises on the drift spring), Space or Enter warms the blob on the bulb, and given progress the pool drains into a cap under the top on the glide spring while blobs ride up between them until the lamp goes still.",
+      "files": [
+        {
+          "path": "registry/ui/lava-drift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1199"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sundial-hour",
+      "type": "registry:ui",
+      "title": "Sundial",
+      "description": "An inline loader drawn as a garden sundial seen from above. The time of day — the progress, or a looping day — sets the gnomon's shadow by the real horizontal-dial formula, so hour lines crowd towards noon, and the sun's altitude sets its length: long and faint at morning and evening, short and dark at noon; a small sun rides the rim opposite, lighting that side of the plate, and the light warms from a cool dawn to a gold evening before a short dusk. With progress the time follows it on the drift spring and rests in the evening at 1. Dragging on the dial walks the shadow — a flick swing to the finger, then 1:1, ticking at every hour line it crosses — and letting go drifts it back to the real hour, or lets the looping day carry on from there; Left and Right walk it an hour at a time on glide.",
+      "files": [
+        {
+          "path": "registry/ui/sundial-hour.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1200"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

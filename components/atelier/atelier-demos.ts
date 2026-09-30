@@ -127,4 +127,44 @@ export const ATELIER_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/liquid-tabbar.demo").then((m) =>
       mod(m.LiquidTabbarDemo, m.tweaks),
     ),
+  "hourglass-turn": () =>
+    import("@/registry/demos/hourglass-turn.demo").then((m) =>
+      mod(m.HourglassTurnDemo, m.tweaks),
+    ),
+  "knot-tie": () =>
+    import("@/registry/demos/knot-tie.demo").then((m) =>
+      mod(m.KnotTieDemo, m.tweaks),
+    ),
+  "radio-tune": () =>
+    import("@/registry/demos/radio-tune.demo").then((m) =>
+      mod(m.RadioTuneDemo, m.tweaks),
+    ),
+  "abacus-count": () =>
+    import("@/registry/demos/abacus-count.demo").then((m) =>
+      mod(m.AbacusCountDemo, m.tweaks),
+    ),
+  "yarn-knit": () =>
+    import("@/registry/demos/yarn-knit.demo").then((m) =>
+      mod(m.YarnKnitDemo, m.tweaks),
+    ),
+  "geared-pen": () =>
+    import("@/registry/demos/geared-pen.demo").then((m) =>
+      mod(m.GearedPenDemo, m.tweaks),
+    ),
+  "kettle-steam": () =>
+    import("@/registry/demos/kettle-steam.demo").then((m) =>
+      mod(m.KettleSteamDemo, m.tweaks),
+    ),
+  "tape-reels": () =>
+    import("@/registry/demos/tape-reels.demo").then((m) =>
+      mod(m.TapeReelsDemo, m.tweaks),
+    ),
+  "lava-drift": () =>
+    import("@/registry/demos/lava-drift.demo").then((m) =>
+      mod(m.LavaDriftDemo, m.tweaks),
+    ),
+  "sundial-hour": () =>
+    import("@/registry/demos/sundial-hour.demo").then((m) =>
+      mod(m.SundialHourDemo, m.tweaks),
+    ),
 };

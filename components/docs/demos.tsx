@@ -1250,6 +1250,16 @@ import { JukeboxMenuDemo } from "@/registry/demos/jukebox-menu.demo";
 import { ViewMorphDemo } from "@/registry/demos/view-morph.demo";
 import { PocketNavDemo } from "@/registry/demos/pocket-nav.demo";
 import { LiquidTabbarDemo } from "@/registry/demos/liquid-tabbar.demo";
+import { HourglassTurnDemo } from "@/registry/demos/hourglass-turn.demo";
+import { KnotTieDemo } from "@/registry/demos/knot-tie.demo";
+import { RadioTuneDemo } from "@/registry/demos/radio-tune.demo";
+import { AbacusCountDemo } from "@/registry/demos/abacus-count.demo";
+import { YarnKnitDemo } from "@/registry/demos/yarn-knit.demo";
+import { GearedPenDemo } from "@/registry/demos/geared-pen.demo";
+import { KettleSteamDemo } from "@/registry/demos/kettle-steam.demo";
+import { TapeReelsDemo } from "@/registry/demos/tape-reels.demo";
+import { LavaDriftDemo } from "@/registry/demos/lava-drift.demo";
+import { SundialHourDemo } from "@/registry/demos/sundial-hour.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2514,4 +2524,14 @@ export const demos: Record<string, ComponentType> = {
   "view-morph": ViewMorphDemo,
   "pocket-nav": PocketNavDemo,
   "liquid-tabbar": LiquidTabbarDemo,
+  "hourglass-turn": HourglassTurnDemo,
+  "knot-tie": KnotTieDemo,
+  "radio-tune": RadioTuneDemo,
+  "abacus-count": AbacusCountDemo,
+  "yarn-knit": YarnKnitDemo,
+  "geared-pen": GearedPenDemo,
+  "kettle-steam": KettleSteamDemo,
+  "tape-reels": TapeReelsDemo,
+  "lava-drift": LavaDriftDemo,
+  "sundial-hour": SundialHourDemo,
 };

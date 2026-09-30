@@ -20970,6 +20970,249 @@ Notes:
 - Under reduced motion the drop moves in one piece on a short tween with no neck, squash or bounce; the tint and the tinted icon still move, because which tab is chosen is the information.
 - The drop is geometry, not a blur filter, so its edge stays crisp at any size; before the bar is measured (the server's render) a still drop sits on the chosen tab.
 
+### Hourglass Turn (KQ-1191) — `hourglass-turn`
+Sand runs out, then it turns itself.
+
+An inline loader drawn as a small hourglass: sand runs from the top bulb onto a growing pile as a falling thread, conserved as drawn area so the top's level races where the bulb narrows, and when the top is empty the glass rests a beat and turns itself over on the snap spring while the sand rides the turn and slumps onto the neck. Drag it sideways and it follows the pointer, the thread breaks, and a release past a quarter turn completes the half turn with the release velocity so the sand stays where it was; with progress the pile is the progress and a turn by hand is a full tumble on glide. It is a real button — Enter or Space turns it — beside a status or progressbar label, and the landing thocks only when the visitor turned it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hourglass-turn`
+
+Props:
+- `label`: string — Visible text beside the glyph, and the loader's accessible name ("Loading" when omitted).
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only.
+- `size`: number (default 32) — The glyph's box in px, 16 to 64. Detail is chosen by size: posts and a pile shadow from 24, falling grains from 32, a glass highlight from 40.
+- `speed`: number (default 1) — How fast the sand runs (3.2 s a run at 1) and how long it rests before turning, 0.5 to 2.
+- `sand`: "sand" | "rose" | "mint" (default "sand") — The sand's pigment, at a fixed lightness so it reads the same in both themes.
+- `progress`: number — Determinate share run through, 0 to 1: the pile holds that share and the sand runs to each new value at the glass's own rate. Omit for a glass that keeps turning.
+- `sound`: boolean (default false) — Play a thock when the glass lands after the visitor turned it (and a quiet one when a short drag rocks back). The self-turn is silent.
+- `disabled`: boolean (default false) — Keeps running, but cannot be turned by hand or key.
+- `className`: string — Classes for the inline root; the label inherits its font size and colour.
+
+Notes:
+- Keyboard: the glass is a button — Enter or Space turns it over, exactly as a drag past a quarter turn does; the loader's role (status, or progressbar with a value) sits on the label beside it, so no control is nested in a progressbar.
+- Reduced motion: the sand still runs, because the level is the information, but the thread is a still line, nothing rotates or slumps, and every turn is a quick cross-fade to the other way up; a drag still tilts under the finger and settles with a short tween.
+- Nothing runs off screen or in a hidden page; the run picks up from the same grain when it returns. Give it `size` to match the text it sits in — it reads at 16 px.
+
+### Knot Tie (KQ-1192) — `knot-tie`
+A rope that ties itself.
+
+An inline loader drawn as a short rope that ties itself: one Catmull-Rom path through a fixed set of points is blended every frame through four stages of the knot — slack, the first loop lifted over, loosely tied, snug — on move tweens, cinched on the rope's own spring (jute glides, nylon snaps one overshoot past, silk flicks), then loosened and untied. Where the rope crosses itself the upper strand is redrawn on top with its lay continuing unbroken, so the overhand, bow and figure-eight alternate over and under like real knots. Dragging the rope sideways tightens it early 1:1 with the pull, rubber-banding past snug, and a release cinches it with the release velocity; Enter or Space on the rope's button tugs it snug the same way, and the rope creaks only while the visitor pulls.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/knot-tie`
+
+Props:
+- `label`: string — Visible text beside the glyph, and the loader's accessible name ("Loading" when omitted).
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only.
+- `size`: number (default 32) — The glyph's box in px, 16 to 64. Detail is chosen by size: crossings from 20, the rope's lay from 28, frayed or sealed ends and a shadow from 40.
+- `speed`: number (default 1) — How fast it ties, holds, loosens and lets go, 0.5 to 2.
+- `knot`: "overhand" | "bow" | "figure" (default "overhand") — Which knot it ties: an overhand, a shoelace bow or a figure eight.
+- `rope`: "jute" | "nylon" | "silk" (default "jute") — What the rope is: its thickness, pigment, lay, end finish, snug spring and how quickly it slides loose.
+- `progress`: number — Determinate share done, 0 to 1: the knot is tied that far and snug at 1. Omit for a rope that keeps tying and untying.
+- `sound`: boolean (default false) — Play a creak loop while the visitor pulls the rope, pitched by the tension and loud as the rope moves; it stops on release. The self-tying cycle is silent.
+- `disabled`: boolean (default false) — Keeps tying itself, but cannot be tugged.
+- `className`: string — Classes for the inline root; the label inherits its font size and colour.
+
+Notes:
+- Keyboard: the rope is a button — Enter or Space tugs it snug on the rope's spring, the same end state as a drag; the loader's role (status, or progressbar with a value) sits on the label beside it.
+- Reduced motion: the rope does not morph; it holds whole stages — slack, loose, snug — and cross-fades between them on the same beats, and with progress it shows the whole stage the progress has reached.
+- The creak loop stops on release, on cancel, when sound is switched off, on disable and on unmount; nothing animates off screen or in a hidden page.
+
+### Radio Tune (KQ-1193) — `radio-tune`
+Searching the dial.
+
+An inline loader drawn as a small tabletop radio whose needle scans the dial like a seek radio: it sweeps up the band, catches each strong station with a hunting settle on the snap spring, dwells while the signal bars stand up, sweeps on and glides back to the bottom on glide, while the meter — the signal at the needle plus the band's own seeded static — wavers between stations. With progress the needle travels to the home station as the work goes on and at 1 locks on, a hair past the mark and back on snap, with the meter full and the backlight warm. It is a real slider: a drag moves the needle 1:1 under the pointer while the knob turns, a release coasts and is pulled onto a station within reach, arrow keys turn it finely, Page Up and Page Down seek, Home and End reach the ends, and focus stops the search.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/radio-tune`
+
+Props:
+- `label`: string — Visible text beside the glyph, and the loader's accessible name ("Loading" when omitted).
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only.
+- `size`: number (default 32) — The glyph's box in px, 16 to 64. Detail is chosen by size: scale marks, stations and five signal bars from 24, scale numbers, band name, feet and walnut grain from 40.
+- `speed`: number (default 1) — How fast it sweeps, dwells and flickers, 0.5 to 2.
+- `band`: "fm" | "am" | "sw" (default "fm") — The waveband: FM 88–108 MHz with evenly spread stations and hiss, AM 530–1700 kHz on a compressed scale with stations crowded low and crackle, or SW 5.9–18 MHz with stations bunched in broadcast bands and a fading warble.
+- `dial`: "cream" | "walnut" | "black" (default "walnut") — The cabinet: cream bakelite, walnut or black bakelite, fixed pigments that read the same in both themes.
+- `progress`: number — Determinate share done, 0 to 1: the needle travels toward the home station and locks on at 1. Omit for a radio that keeps searching.
+- `sound`: boolean (default false) — While the visitor drags, play a hum loop as a heterodyne whistle that falls toward zero-beat on a station, a click for each scale mark passed and a brighter click when a hand, key or tap lands on a station. The search and the final lock are silent.
+- `disabled`: boolean (default false) — Keeps searching, but cannot be tuned by hand or key.
+- `className`: string — Classes for the inline root; the label inherits its font size and colour.
+
+Notes:
+- Keyboard: the radio is role="slider" named "Tuning" with the frequency as its value and text ("97.5 MHz, on a station") — Left and Right step finely, Page Up and Page Down seek the next or previous station, Home and End reach the ends of the band, and while it has keyboard focus the search pauses; the loader's role sits on the label beside it.
+- Reduced motion: the needle steps from mark to mark on the same rhythm instead of sweeping, the static holds still, the lock is an instant move plus a fade of the backlight, and a release lands at once — on a station when within reach.
+- After a hand has tuned it the search resumes 1.4 s later from where it was left; nothing runs off screen or in a hidden page, and the hum stops on release, blur, disable and unmount.
+
+### Abacus Count (KQ-1194) — `abacus-count`
+Beads slide as the work counts up.
+
+An inline loader drawn as a small counting frame: ten beads on each wire, the highest place on the left, one motion value per bead. The work counts up a bead at a time — each rises to the beam on the spring its material calls for (wood on springs.snap, glass on springs.recoil, stone on springs.glide) — and at ten the wire clears in a rattle while a bead rises on the next wire, so a determinate count (rows of a total, or percent) reads as beads and big jumps glide on springs.glide; without progress it counts to a seeded number and clears. The frame is a button: drag up and the next units bead follows the finger 1:1, a release past halfway flicks it home with the throw's velocity, and a tap, Enter, Space or the Up arrow does the same — free-running the flick adds one, determinate the bead is only lent and slides home if the work has not reached it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/abacus-count`
+
+Props:
+- `label`: string (default "Loading") — What is loading. Shown beside the glyph and the loader's accessible name: the status's, or the progressbar's when progress is given.
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only, for a glyph inline in a sentence or a row.
+- `size`: number (default 24) — The glyph's box in px, crisp from 16 to 64: detail simplifies below 40 and below 24 so it still reads at text size.
+- `speed`: number (default 1) — How fast it counts, 0.5 to 2: the pace between beads, the hold and the clear.
+- `rods`: number (default 3) — Wires on the frame, 2 to 5: the places the count can show (fewer are drawn below 40px and 24px). The leftmost wire can hold all ten, which reads as full.
+- `beads`: "wood" | "glass" | "stone" (default "wood") — What the beads are made of: how they look and how they land — wood snaps with one overshoot, glass rings in two bounces, stone lands dead.
+- `progress`: number — Determinate, 0 to 1: the frame shows round(progress × min(total, 10^rods)) in beads, stepping bead by bead for small moves and gliding for big ones. Without it the frame counts and clears on its own.
+- `total`: number (default 100) — What a full progress counts to, so rows read as rows (480 rows on three wires shows 212 as 2·1·2) and the progressbar's value text reads "212 of 480".
+- `onFlick`: () => void — A bead was flicked across by hand, tap or key.
+- `sound`: boolean (default false) — Play what the visitor causes: a click as a flicked bead lands (pitched by material), a tick at the drag's halfway detent and a rattle of ticks for a carry the flick causes. Counting and clearing are silent.
+- `disabled`: boolean (default false) — Keep counting, but refuse the hand: the frame is drawn as a picture with no button, for loaders that should not be a tab stop.
+- `className`: string — Classes for the inline root; text size set here reaches the label.
+
+Notes:
+- Keyboard: the frame is a button named "Flick a bead" — Enter, Space or the Up arrow flick the next units bead across, the same end state as a drag up past halfway or a tap. The label sits beside it as role="progressbar" (with the percent and a value text) when progress is given, otherwise as a polite role="status"; it is a sibling of the button because a progressbar's children are presentational.
+- Reduced motion: beads swap into place instead of sliding and carries clear at once, but the count still steps (at a third of the pace) and determinate counts still update, because the count is the information; a drag still moves the bead under the finger and settles at once.
+- The count loop runs only while the frame is on screen in a visible page, and stopping always lands every bead where the count says, so a scroll or a StrictMode re-run resumes cleanly.
+
+### Yarn Knit (KQ-1195) — `yarn-knit`
+Knitting while it thinks.
+
+An inline loader drawn as knitting: a needle holds a row of stitches, the working needle crosses it at the last one, and the yarn hangs from there to a ball on the floor. Each stitch the working needle stabs in and back on two tweens, the new V grows down from the needle on the fibre's spring (wool springs.snap, cotton springs.flick, mohair springs.drift), and the yarn tugs the ball, which jerks toward the work and rolls back on springs.snap, turning as it unwinds and shrinking as the row grows; given progress the row is that share knitted and glides on springs.glide, otherwise it knits to the end, holds and unravels. The glyph is a button: drag the yarn and its middle follows the finger 1:1 with a loop forming where it is pinched, and letting go of a long pull has the needles take the loop with a click — the next stitch when free-running, wound back when determinate — while a tap, Enter or Space pulls one loop.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/yarn-knit`
+
+Props:
+- `label`: string (default "Loading") — What is loading. Shown beside the glyph and the loader's accessible name: the status's, or the progressbar's when progress is given.
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only, for a glyph inline in a sentence or a row.
+- `size`: number (default 24) — The glyph's box in px, crisp from 16 to 64: detail simplifies below 40 and below 24 so it still reads at text size.
+- `speed`: number (default 1) — How fast it knits, 0.5 to 2: the stitch rhythm, the stab, the hold and the unravel.
+- `yarn`: "wool" | "cotton" | "mohair" (default "wool") — The fibre, which sets the look and the spring: wool is springy with a ply twist, cotton thin, taut and quick, mohair soft and lazy with a halo and loose fibres.
+- `colour`: "rose" | "sage" | "navy" (default "rose") — The yarn's dye, as fixed pigments that look the same in both themes; the needles are theme ink.
+- `progress`: number — Determinate, 0 to 1: how much of the row is knitted, the partial stitch growing smoothly and the needle stabbing as each whole stitch completes. Without it the row knits, holds and unravels on its own.
+- `onTug`: () => void — A loop was pulled by hand, tap or key.
+- `sound`: boolean (default false) — Play the needles taking a pulled loop (pitched by fibre), and a softer knock when a determinate loop is wound back. Knitting and unravelling are silent.
+- `disabled`: boolean (default false) — Keep knitting, but refuse the hand: the glyph is drawn as a picture with no button, for loaders that should not be a tab stop.
+- `className`: string — Classes for the inline root; text size set here reaches the label.
+
+Notes:
+- Keyboard: the glyph is a button named "Pull a loop" — Enter or Space draws the yarn out and lets it go, the same end state as a long drag or a tap; a key's tug interrupted by a scroll or a hidden page is finished at once, never lost. The label beside it is role="progressbar" with the percent when progress is given, otherwise a polite role="status".
+- Reduced motion: no stab, roll or spring — stitches appear with an instant swap at half the pace and the row clears at once after its hold, while determinate progress still sets the row, because the row is the information; a drag still moves the yarn under the finger and it returns at once.
+- Everything that moves is derived from five motion values (stitches, stab, tug and the pull's x and y), so there is no React state per frame; the knitting rhythm runs only while the glyph is on screen in a visible page.
+
+### Geared Pen (KQ-1196) — `geared-pen`
+A pen that never draws the same loop twice.
+
+An inline loader drawn by a geared pen: a wheel rolls inside a toothed ring and its pen traces a hypotrochoid with as many lobes as the ratio, the wheel's own turn accumulated rather than computed so a changing ratio never makes the pen jump. Free-running, a frame loop writes the geometry into motion values, the trail fades behind the pen in tapered chunks, and the ratio drifts on a slow sine so the rosette precesses and never quite repeats; given progress, the ratio holds and the figure is drawn solid on springs.glide, closing at 1 as the pen lifts. The glyph is a button: drag around its centre and the wheel follows the pointer's angle 1:1, a free wheel keeps the throw and eases back to its pace while a determinate one glides home on springs.glide with the release velocity, and arrow keys turn it a notch (springs.snap) while Enter or Space spins it round.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/geared-pen`
+
+Props:
+- `label`: string (default "Loading") — What is loading. Shown beside the glyph and the loader's accessible name: the status's, or the progressbar's when progress is given.
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only, for a glyph inline in a sentence or a row.
+- `size`: number (default 24) — The glyph's box in px, crisp from 16 to 64: detail simplifies below 40 and below 24 so it still reads at text size.
+- `speed`: number (default 1) — How fast the wheel goes round, 0.5 to 2.
+- `ratio`: number (default 5) — The ring's size over the wheel's, 2 to 9: the figure's lobes. Half steps weave two orbits before the figure closes.
+- `trail`: number (default 0.6) — How long the fading trail is, 0 (a short comet) to 1 (three orbits), and the length of the comet a hand's turn leaves on a determinate figure.
+- `ink`: "cobalt" | "rose" | "lime" (default "cobalt") — The pen's colour: the theme's bright accent, or the danger and success tokens' lightness and chroma at the ink's own hue, so the thin line keeps its contrast in both themes.
+- `progress`: number — Determinate, 0 to 1: how much of the closed figure is drawn, solid, with the pen at its head. Without it the pen never stops.
+- `onTurn`: () => void — The wheel was turned by hand, tap or key.
+- `disabled`: boolean (default false) — Keep drawing, but refuse the hand: the glyph is drawn as a picture with no button, for loaders that should not be a tab stop.
+- `className`: string — Classes for the inline root; text size set here reaches the label.
+
+Notes:
+- Keyboard: the glyph is a button named "Turn the wheel" — ArrowRight or ArrowUp turn it an eighth forward, ArrowLeft or ArrowDown back, Enter or Space spin it a full turn; free-running these are impulses that ease back into the wheel's pace, determinate the pen turns away and glides home, the same end states as a drag. The label beside it is role="progressbar" with the percent when progress is given, otherwise a polite role="status".
+- Reduced motion: no frame loop and no drift — the whole figure is drawn faintly and a bright stretch the trail's length steps along it every 650ms / speed, the wheel and pen jumping with it; a determinate figure updates at once. Dragging still turns the wheel 1:1.
+- The frame loop runs only while the glyph is on screen in a visible page and a determinate figure draws only while it changes; stopping gives a spin still easing out all at once, so a scroll never loses a turn.
+
+### Kettle Steam (KQ-1197) — `kettle-steam`
+Nearly boiled.
+
+An inline loader drawn as a stovetop kettle coming to the boil: bubbles rise in its round sight glass, faster and more of them as it heats, and steam curls from the spout as filled ribbons whose curl travels up them, leaning away from the pointer on the drift spring. Given progress, heat is the progress — the bezel round the glass fills like a dial and the lid rattles near the top — and at 1 the whistle flips open on the recoil spring while the steam straightens into a jet, then settles into a still wisp and the frame loop stops; without it, the kettle simmers. The kettle is a real button: held with the pointer, Space or Enter it turns up the flame (a boost in on snap, out on drift, the body dipping on flick), and pressed at the boil it blows the whistle.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/kettle-steam`
+
+Props:
+- `label`: string (default "Loading") — What is on the boil: the loader's accessible name, shown beside the kettle unless hideLabel.
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only.
+- `size`: number (default 24) — The glyph's box in px, crisp from 16 to 64. Below 24 the sight glass, knob and handle grip drop out; below 44 the whistle flap, sheen and third wisp.
+- `speed`: number (default 1) — How fast the water churns, the steam curls and the jet runs, 0.5 to 2.
+- `progress`: number — How close to the boil, 0 to 1; the label becomes a progressbar. Omitted, the kettle simmers. At 1 the whistle flips open and the steam jets, then everything comes to rest.
+- `steam`: number (default 0.6) — How much steam, 0 (a faint thread) to 1 (a dense plume of three wisps at 44 px and up).
+- `body`: "steel" | "enamel" | "copper" (default "steel") — The kettle's finish, as fixed pigments that read the same in both themes.
+- `sound`: boolean (default false) — A hum while the kettle is held, pitched by the heat, and the whistle when it is pressed at the boil. Reaching the boil by itself is silent.
+- `disabled`: boolean (default false) — The kettle keeps boiling but takes no presses and the steam ignores the pointer.
+- `className`: string — Classes for the root, an inline-flex row of the kettle and its label.
+
+Notes:
+- Keyboard: the kettle is a button — hold Space or Enter to turn up the flame (released on key up or blur), and at the boil press either to blow the whistle; assistive-technology activation is a short tap.
+- Reduced motion: nothing travels — the steam is one still ribbon whose opacity breathes while it heats, the bubbles are still dots whose count follows the heat, the bezel still fills, and the jet fades in as a still plume with the flap shown open.
+- The label lives in a role="progressbar" (aria-valuenow 0–100) when progress is given, otherwise a role="status" named by it; the frame loop runs only while the kettle is on screen in a visible page and stops once the boiled kettle is still.
+
+### Tape Reels (KQ-1198) — `tape-reels`
+Tape winding from one reel to the other.
+
+An inline loader drawn as a cassette whose tape winds from one reel to the other. The two packs are sized from the tape itself — their areas always add up to the same length — and each reel turns by the tape that moves over its own pack's radius, so the emptying reel speeds up while the filling one slows, as real tape does; given progress the tape follows it on the glide spring, and without it a motor winds at a steady tape speed and rewinds fast on a move ease. Dragging the cassette sideways pulls the tape 1:1, rubber-banded at the ends, and a release coasts to where the throw would rest on glide with the release velocity (or glides back to the progress, since the job owns the tape); holding Left or Right winds it the same way.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tape-reels`
+
+Props:
+- `label`: string (default "Loading") — What is loading: the loader's accessible name, shown beside the cassette unless hideLabel. On this glyph label is the cassette's paper label, so the text is the label.
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only.
+- `size`: number (default 24) — The glyph's box in px, crisp from 16 to 64. Below 24 each hub shows one notch and the tape path drops out; below 44 the screws, rollers' detail, handwriting and window glint.
+- `speed`: number (default 1) — How fast the motor winds (about 9 s for the whole tape at 1) and rewinds, 0.5 to 2.
+- `progress`: number — How much tape is on the take-up reel, 0 to 1; the caption becomes a progressbar. Omitted, the tape winds and rewinds on a loop.
+- `shell`: "clear" | "smoke" | "ivory" (default "clear") — The cassette's plastic: clear shows the whole mechanism in the page's own tint, smoke darkens it, ivory is opaque so only the window shows the packs.
+- `sticker`: boolean (default true) — The paper label across the shell — a colour band, ruled lines and handwriting at 44 px and up — with the window cut through it.
+- `sound`: boolean (default false) — A click when a scrub grabs and lets go of the tape (and on a jog), and a whir while it is pulled that follows the faster reel's spin. The motor is silent.
+- `disabled`: boolean (default false) — The tape keeps winding but cannot be scrubbed or jogged.
+- `className`: string — Classes for the root, an inline-flex row of the cassette and its caption.
+
+Notes:
+- Keyboard: the cassette is a button — hold Left or Right to wind the tape by hand (key up lets go, as releasing a drag does), Home and End rewind or wind it through, and Space or Enter jogs it forward.
+- Reduced motion: the reels do not turn and nothing coasts — the motor advances the packs in steps and resets at the end, determinate packs jump to the progress, and a scrub still follows the hand 1:1 and returns at once.
+- The glyph set's text prop is label on every other glyph; here label is the cassette's paper label (a tweak), so the text is caption. The caption lives in a role="progressbar" (aria-valuenow 0–100) or a role="status"; the motor's frame loop runs only on screen in a visible page.
+
+### Lava Drift (KQ-1199) — `lava-drift`
+Warm blobs rising and falling.
+
+An inline loader drawn as a small lava lamp whose wax really convects: each blob carries a temperature, heats on the bulb, floats once it is half-warm and loses heat as it climbs — faster near the cool cap — so it rises, lingers, cools and sinks back into the pool, every blob on its own time, and blobs that touch pull their speed and heat together and travel as one mass until their heat parts them. The wax is circles joined by analytic metaball necks, so it merges and splits crisply with no blur. The pointer is a warm hand that heats the nearest blob while the glass glows under it (a warmth that rises on the drift spring), Space or Enter warms the blob on the bulb, and given progress the pool drains into a cap under the top on the glide spring while blobs ride up between them until the lamp goes still.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lava-drift`
+
+Props:
+- `label`: string (default "Loading") — What is warming up: the loader's accessible name, shown beside the lamp unless hideLabel.
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only.
+- `size`: number (default 24) — The glyph's box in px, crisp from 16 to 64. Below 24 at most three blobs and no halo; below 44 no shine, glass highlight or base band.
+- `speed`: number (default 1) — How fast the wax heats, rises, cools and sinks (a cycle of about seven seconds at 1), 0.5 to 2.
+- `progress`: number — The share of the wax that has risen, 0 to 1; the label becomes a progressbar. The pool drains, a cap gathers under the top and blobs ride up between them; at 1 the lamp goes still. Omitted, the blobs rise and fall on their own.
+- `wax`: "amber" | "rose" | "teal" (default "amber") — The wax and the liquid it floats in — amber in red, rose in violet, teal in blue — as fixed pigments that read the same in both themes.
+- `blobs`: number (default 4) — How many blobs rise and fall, 2 to 6; with progress, how many ride up at once.
+- `glow`: number (default 0.6) — How much the lamp glows, 0 to 1: the halo round the glass, the bulb's light up the liquid and the shine on the wax.
+- `disabled`: boolean (default false) — The lamp keeps flowing but cannot be warmed by the pointer or a press.
+- `className`: string — Classes for the root, an inline-flex row of the lamp and its label.
+
+Notes:
+- Keyboard: the lamp is a button — Space or Enter warms the blob sitting on the bulb (or hurries the lowest rising blob while it fills), the same heat the pointer gives the blob nearest it.
+- Reduced motion: the wax does not travel — it is drawn still, the glow breathes while the lamp works, the pool and cap still follow the progress at once, and a warm brightens the glow instead of moving wax.
+- No sound. The label lives in a role="progressbar" (aria-valuenow 0–100) or a role="status"; the frame loop runs only on screen in a visible page and stops once a filled lamp is still.
+
+### Sundial (KQ-1200) — `sundial-hour`
+The shadow walks the hours.
+
+An inline loader drawn as a garden sundial seen from above. The time of day — the progress, or a looping day — sets the gnomon's shadow by the real horizontal-dial formula, so hour lines crowd towards noon, and the sun's altitude sets its length: long and faint at morning and evening, short and dark at noon; a small sun rides the rim opposite, lighting that side of the plate, and the light warms from a cool dawn to a gold evening before a short dusk. With progress the time follows it on the drift spring and rests in the evening at 1. Dragging on the dial walks the shadow — a flick swing to the finger, then 1:1, ticking at every hour line it crosses — and letting go drifts it back to the real hour, or lets the looping day carry on from there; Left and Right walk it an hour at a time on glide.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sundial-hour`
+
+Props:
+- `label`: string (default "Loading") — What is waiting on the day: the loader's accessible name, shown beside the dial unless hideLabel.
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only.
+- `size`: number (default 24) — The glyph's box in px, crisp from 16 to 64. Below 24 only the plate, fin, shadow and sun; below 44 plain hour lines with no numerals, ticks or penumbra.
+- `speed`: number (default 1) — How fast the looping day passes (about eight seconds and a short dusk at 1), 0.5 to 2.
+- `progress`: number — How far through the day, 0 (06:00) to 1 (18:00); the label becomes a progressbar and the dial rests in the evening light at 1. Omitted, a day passes on a loop.
+- `dial`: "stone" | "brass" | "slate" (default "stone") — The plate: weathered stone, polished brass or dark slate with light engraving, as fixed pigments that read the same in both themes.
+- `numerals`: "roman" | "arabic" | "ticks" (default "roman") — How the quarters are marked round the rim at 44 px and up: VI IX XII III VI, 6 9 12 3 6, or longer ticks.
+- `sound`: boolean (default false) — A tick for every hour line the shadow crosses while the visitor walks it, bright in the morning and low in the evening, loudest at noon. The running day is silent.
+- `disabled`: boolean (default false) — The day keeps passing but the shadow cannot be walked.
+- `className`: string — Classes for the root, an inline-flex row of the dial and its label.
+
+Notes:
+- Keyboard: the dial is a button — Left/Right (or Down/Up) walk the shadow an hour, Page Up and Page Down three, Home and End to morning and evening, held keys keep walking and key up lets go, as releasing a drag does; Space or Enter walks it one hour on. With progress the shadow then drifts back to the real hour after a beat.
+- Reduced motion: the shadow never sweeps — the looping day steps it hour by hour and dusk is a fade, a determinate dial jumps to the hour, and walking it still follows the hand and the keys and returns at once.
+- The label lives in a role="progressbar" (aria-valuenow 0–100) or a role="status"; the looping day's frame loop runs only on screen in a visible page and pauses while a hand holds the shadow.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
