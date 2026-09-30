@@ -140,4 +140,28 @@ export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/clip-trim.demo").then((m) =>
       mod(m.ClipTrimDemo, m.tweaks),
     ),
+  "mood-swipe": () =>
+    import("@/registry/demos/mood-swipe.demo").then((m) =>
+      mod(m.MoodSwipeDemo, m.tweaks),
+    ),
+  "day-strip": () =>
+    import("@/registry/demos/day-strip.demo").then((m) =>
+      mod(m.DayStripDemo, m.tweaks),
+    ),
+  "slot-swipe": () =>
+    import("@/registry/demos/slot-swipe.demo").then((m) =>
+      mod(m.SlotSwipeDemo, m.tweaks),
+    ),
+  "story-cube": () =>
+    import("@/registry/demos/story-cube.demo").then((m) =>
+      mod(m.StoryCubeDemo, m.tweaks),
+    ),
+  "filter-swipe": () =>
+    import("@/registry/demos/filter-swipe.demo").then((m) =>
+      mod(m.FilterSwipeDemo, m.tweaks),
+    ),
+  "gesture-player": () =>
+    import("@/registry/demos/gesture-player.demo").then((m) =>
+      mod(m.GesturePlayerDemo, m.tweaks),
+    ),
 };

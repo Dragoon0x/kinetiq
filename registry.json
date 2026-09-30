@@ -27693,6 +27693,180 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mood-swipe",
+      "type": "registry:ui",
+      "title": "Mood Swipe",
+      "description": "A satisfaction input drawn as one face that you swipe from a frown to a grin: the mouth bends and opens, the eyes go from drooping half-moons to squinting crescents, the brows lift and the cheeks rise, all rebuilt each frame from one number on paths whose commands never change, so the morph is a real interpolation. It follows the finger 1:1, rubber-bands into a deeper frown or a wider grin past the ends, and a release is projected and lands on the nearest stop on the snap spring with its velocity (or coasts on the glide spring when snap is off), while a hum glides an octave with the mood and each stop rings a note. It is a slider: arrow keys step a stop, Page keys jump, Home and End reach frown and grin, with the same flight and sound.",
+      "files": [
+        {
+          "path": "registry/ui/mood-swipe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1121"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "day-strip",
+      "type": "registry:ui",
+      "title": "Day Strip",
+      "description": "A horizontal strip of days you throw under a still centre lens. It follows the finger 1:1 and rubber-bands past the first and last day; on release the throw is projected with a deceleration set by friction to the day it would rest on, and the strip decays onto exactly that day with the throw's own momentum, then the lens catches it with a small swell on the recoil spring. The lens magnifies as a fisheye, a tick sounds for every day that passes it (a ratchet that slows as the throw dies), and taps glide a day to the lens on the glide spring. It is a listbox: Left and Right move a day, PageUp and PageDown a week, Home and End the ends, with the same flight and sounds.",
+      "files": [
+        {
+          "path": "registry/ui/day-strip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1122"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slot-swipe",
+      "type": "registry:ui",
+      "title": "Slot Swipe",
+      "description": "An inbox whose rows sit between a mail slot and a drawer. Swipe a row toward the slot and the slit opens to meet it while the row feeds in edgewise, clipped at the slit and squashed thinner the deeper it goes; past the threshold (or thrown past it, by projection) it runs in on the snap spring with its release velocity and the slot shuts on the recoil spring with a thwup. Swipe toward the drawer and the drawer slides out with a clock that winds and ticks as you pull; the row drops in, the clock spins round to the snooze hour and the drawer shuts. A short swipe springs back, Delete and S do the same as the swipes with the same frames and sounds, and Undo brings the last row back out of wherever it went.",
+      "files": [
+        {
+          "path": "registry/ui/slot-swipe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1123"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "story-cube",
+      "type": "registry:ui",
+      "title": "Story Cube",
+      "description": "A stories viewer on a real CSS 3D cube inside its own phone-shaped screen: a tap on the right steps forward and on the left steps back, a held press pauses, and the bars fill and advance on their own. A sideways swipe turns the cube to the next person 1:1 under the finger, projects the throw and lands on the glide spring with the release velocity, each face darkening as it turns away; a downward swipe lifts and shrinks the frame, and let go far enough it folds into a circle and glides back into that person's avatar in the tray, otherwise it snaps back. The viewer is a focusable group whose arrow keys step, Shift with them turns, Space pauses and Escape closes, with the same tick per story and whoosh per turn.",
+      "files": [
+        {
+          "path": "registry/ui/story-cube.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1124"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "filter-swipe",
+      "type": "registry:ui",
+      "title": "Filter Swipe",
+      "description": "A photo whose look changes as you swipe across it: the boundary between the current look and the incoming one sits under the finger 1:1 with the incoming look's name riding it, and a release that carries or throws it past the threshold runs on to the far edge on the glide spring with the release velocity, while a short one slides back. The incoming look is the same picture under another CSS filter, revealed by a mask that is crisp or feathered, and past the first or last look the picture rubber-bands. The looks are also a radio group of dots whose arrow keys slide each look in from the side a swipe would, with the same swish and click.",
+      "files": [
+        {
+          "path": "registry/ui/filter-swipe.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1125"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gesture-player",
+      "type": "registry:ui",
+      "title": "Gesture Player",
+      "description": "A player whose picture is the control: a sideways swipe seeks 1:1 with a time bubble riding the bar that shows where you are and how far you have jumped, and its release is projected and glides on the glide spring with the release velocity. Swipes up and down set volume on the right half and brightness on the left, a side meter filling and stretching a little past either end before it snaps back, and a double tap on a side skips with a ripple that adds up as you keep tapping. The host draws the picture from a motion value of the time, so a scrub moves the scene at frame rate without a render, and the focusable picture takes Space, the arrows and Shift with them along the same paths, with a tick per second scrubbed and a click per skip.",
+      "files": [
+        {
+          "path": "registry/ui/gesture-player.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1126"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -19324,6 +19324,173 @@ Notes:
 - Under reduced motion the handles still follow the finger, but beat snaps, spring-backs, throws and key moves land in one frame; the preview's playhead still runs because it is progress, and the ticks and blips are unchanged.
 - The preview runs on one linear tween with no frame loop of its own, and stops on a drag, a value change, a hidden page, window blur, disable and unmount; preview starts and stops are announced politely.
 
+### Mood Swipe (KQ-1121) — `mood-swipe`
+Swipe the face from frown to grin.
+
+A satisfaction input drawn as one face that you swipe from a frown to a grin: the mouth bends and opens, the eyes go from drooping half-moons to squinting crescents, the brows lift and the cheeks rise, all rebuilt each frame from one number on paths whose commands never change, so the morph is a real interpolation. It follows the finger 1:1, rubber-bands into a deeper frown or a wider grin past the ends, and a release is projected and lands on the nearest stop on the snap spring with its velocity (or coasts on the glide spring when snap is off), while a hum glides an octave with the mood and each stop rings a note. It is a slider: arrow keys step a stop, Page keys jump, Home and End reach frown and grin, with the same flight and sound.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mood-swipe`
+
+Props:
+- `label`: string — The question being answered: the slider's accessible name.
+- `value / defaultValue`: number (default 0.5) — The mood, 0 (frown) to 1 (grin). With snap on, a value between stops is shown and read at its nearest stop. Controlled or uncontrolled; a refused change flies back.
+- `onValueChange`: (value: number) => void — Fires from the swipe, tap or key that changed the mood, with the new value (a stop, or a score to 2 dp with snap off).
+- `stops`: number (default 5) — How many detents from frown to grin, 2 to 9. The rail's dots, the words and the note scale follow.
+- `labels`: readonly string[] — A word per stop, frown first. Used when there is exactly one per stop; otherwise built-in words (Awful, Poor, Okay, Good, Great for five).
+- `face`: "filled" | "line" | "duo" (default "filled") — A solid tinted disc with dark features, an outline face in the tint, or a tinted wash with outline features.
+- `colour`: "mood" | "accent" | "ink" (default "mood") — The tint: travels from danger through warn to success with the mood, or stays the accent, or stays ink.
+- `snap`: boolean (default true) — Land on stops with one crisp overshoot. Off, the face coasts and rests wherever it stops, and the value is a continuous score.
+- `sound`: boolean (default false) — A hum that glides an octave with the mood while the face moves, and a note on a rising scale at each stop it reaches. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the face, takes it out of the tab order and stops every swipe and key.
+- `className`: string — Merged onto the outer wrapper.
+
+Notes:
+- The face is a role="slider" named by label, with aria-valuetext such as "Good, 4 of 5". Right and Up step a stop happier, Left and Down a stop sadder (5% steps with snap off), PageUp and PageDown jump, Home and End reach the frown and the grin. A value set by pointer is also spoken once through a polite live region.
+- Under reduced motion the face still follows the finger, but a release or a key sets it at its stop in one step, with no lean, no overshoot and no glide, while the note, the word and the value still change.
+- A tap on the rail goes to the nearest stop; a tap on the face nudges one stop toward the side tapped. The swipe claims only horizontal travel, so a vertical scroll that starts on the face still scrolls the page.
+
+### Day Strip (KQ-1122) — `day-strip`
+Flick through the week.
+
+A horizontal strip of days you throw under a still centre lens. It follows the finger 1:1 and rubber-bands past the first and last day; on release the throw is projected with a deceleration set by friction to the day it would rest on, and the strip decays onto exactly that day with the throw's own momentum, then the lens catches it with a small swell on the recoil spring. The lens magnifies as a fisheye, a tick sounds for every day that passes it (a ratchet that slows as the throw dies), and taps glide a day to the lens on the glide spring. It is a listbox: Left and Right move a day, PageUp and PageDown a week, Home and End the ends, with the same flight and sounds.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/day-strip`
+
+Props:
+- `start`: string — The first day on the strip, as an ISO date (2026-09-28). Dates are handled in UTC arithmetic, so the server and the browser draw the same days.
+- `days`: number (default 35) — How many days the strip holds.
+- `value / defaultValue`: string (default today if it is on the strip, else start) — The ISO date under the lens. Controlled or uncontrolled; a refused change flies back.
+- `onValueChange`: (day: string) => void — Fires from the throw, tap, key or wheel that chose a day, with its ISO date — at release, before the strip has landed.
+- `events`: Readonly<Record<string, number>> — Event counts by ISO date: up to three dots are drawn under a day, and the count shows in the header and the day's accessible name.
+- `today`: string — The ISO date to mark as today: its date is drawn in the accent and its name says so.
+- `label`: string (default "Day") — The strip's accessible name.
+- `friction`: number (default 0.5) — How quickly a throw dies, 0 to 1: a light strip coasts through a couple of weeks from a hard flick, a heavy one stops in a few days.
+- `lens`: number (default 1.3) — The lens's magnification, 1 to 1.6. The day under it swells and its neighbours part to make room; at 1 the frame marks the day and nothing swells. The strip grows taller to fit.
+- `visible`: number (default 7) — How many days fit across the strip, 3 to 15.
+- `dots`: boolean (default true) — Dots under days with events, and the event count in the header.
+- `sound`: boolean (default false) — A tick for every day that passes the lens, higher and louder the faster it goes, and a detent as a day lands. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the strip, takes it out of the tab order and stops every throw, tap, key and wheel.
+- `className`: string — Merged onto the outer wrapper.
+
+Notes:
+- The strip is a role="listbox" with one tab stop and aria-activedescendant on the day under the lens; every day is an option named in full ("Tuesday 6 October 2026, today, 2 events"). Left and Right move a day, PageUp and PageDown a week, Home and End the first and last day, and Escape during a drag puts the strip back.
+- Under reduced motion the strip still follows the finger, but a release, a tap or a key puts the chosen day under the lens in one step, with no coasting and no swell; the magnification, the header and the landing detent are unchanged.
+- The swipe claims only horizontal travel (a vertical scroll that starts on the strip still scrolls the page), and a sideways trackpad swipe or shift-wheel scrolls the strip and settles on the nearest day when it stops.
+
+### Slot Swipe (KQ-1123) — `slot-swipe`
+Swipe it into the slot.
+
+An inbox whose rows sit between a mail slot and a drawer. Swipe a row toward the slot and the slit opens to meet it while the row feeds in edgewise, clipped at the slit and squashed thinner the deeper it goes; past the threshold (or thrown past it, by projection) it runs in on the snap spring with its release velocity and the slot shuts on the recoil spring with a thwup. Swipe toward the drawer and the drawer slides out with a clock that winds and ticks as you pull; the row drops in, the clock spins round to the snooze hour and the drawer shuts. A short swipe springs back, Delete and S do the same as the swipes with the same frames and sounds, and Undo brings the last row back out of wherever it went.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slot-swipe`
+
+Props:
+- `items`: { id: string; from: string; subject: string; time?: string }[] — Every row that can appear.
+- `value / defaultValue`: string[] (default every item, in order) — The ids still in the inbox, in order. Controlled or uncontrolled; a row the host keeps after a swipe comes back out of the slot or drawer.
+- `onValueChange`: (ids: string[]) => void — Fires from the swipe, key or Undo that changed the list, with the ids left — at the commit, while the row is still going in.
+- `onAction`: (id: string, action: "archive" | "snooze") => void — Fires with what happened to a row: into the slot (archive) or into the drawer (snooze).
+- `onOpen`: (id: string) => void — A row pressed without a swipe, or Enter or Space on it.
+- `label`: string (default "Inbox") — The list's name, shown in the header with the count.
+- `snoozeHour`: number (default 9) — The hour the drawer's clock spins to, 0 to 23; also the time in the announcement and the header.
+- `threshold`: number (default 0.35) — How far a row must go, or be thrown, as a share of its lane (0.2 to 0.6) before it commits. The slot and drawer are fully open, and light up, at this point.
+- `side`: "right" | "left" (default "right") — Which end of each lane the slot is on; the drawer takes the other.
+- `squash`: number (default 0.5) — How much a row squeezes to fit the slot or the drawer, 0 to 1: up to 60% thinner, and a little longer along the swipe.
+- `undo`: boolean (default true) — An Undo button in the header after each swipe, which brings the row back out of where it went.
+- `empty`: ReactNode (default "Inbox zero") — Shown when nothing is left.
+- `sound`: boolean (default false) — A detent as a row arms, paper as it feeds into the slot and a thwup as the slot shuts; the drawer's clock ticks as it winds and spins, and the drawer shuts with a clack. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the rows and stops every swipe, key and Undo.
+- `className`: string — Merged onto the outer wrapper.
+
+Notes:
+- Rows are buttons in a role="list" with one tab stop: Up and Down (and Home and End) move between them, Delete or Backspace sends the focused row into the slot, S into the drawer, and Enter or Space opens it. Focus moves to the next row (or Undo) as a row leaves, what happened is spoken once through a polite live region, and Escape during a drag puts the row back.
+- Under reduced motion the row still follows the finger and the slot and drawer still open with it, but a commit fades the row out in place and closes its lane in one step, the clock's hands jump to the snooze hour, and every sound and announcement is unchanged.
+- The swipe claims only horizontal travel, so a vertical scroll that starts on a row still scrolls the page; every lane clips its own row, so nothing draws outside the list.
+
+### Story Cube (KQ-1124) — `story-cube`
+Tap through; swipe to the next person.
+
+A stories viewer on a real CSS 3D cube inside its own phone-shaped screen: a tap on the right steps forward and on the left steps back, a held press pauses, and the bars fill and advance on their own. A sideways swipe turns the cube to the next person 1:1 under the finger, projects the throw and lands on the glide spring with the release velocity, each face darkening as it turns away; a downward swipe lifts and shrinks the frame, and let go far enough it folds into a circle and glides back into that person's avatar in the tray, otherwise it snaps back. The viewer is a focusable group whose arrow keys step, Shift with them turns, Space pauses and Escape closes, with the same tick per story and whoosh per turn.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/story-cube`
+
+Props:
+- `people`: StoryCubePerson[] — Everyone with stories, in the order the cube turns through them: { id, name, posted?, stories: { id, label, content, caption? }[] }. A story's label is its picture's accessible name; content is the picture.
+- `value / defaultValue`: { person: string; story: number } (default { person: <first id>, story: 0 }) — Whose story is on show, by person id, and which of theirs. Controlled or uncontrolled; the cube turns when the person changes, whoever changed it.
+- `onValueChange`: (value: StoryCubeValue) => void — Fires from the tap, swipe, key or autoplay that moved it, with the new position.
+- `open / defaultOpen`: boolean (default false) — Whether the viewer is open over the tray. Opening grows it out of the person's avatar; closing folds it back in. A refused close springs back.
+- `onOpenChange`: (open: boolean) => void — Fires from the swipe, key, button, tray face or end of the last story that opened or closed the viewer.
+- `duration`: number (default 5) — Seconds each story plays before the next one, 2 to 10.
+- `depth`: number (default 0.5) — How deep the cube reads when it turns, 0 to 1: the perspective runs from four frame widths (almost flat) to 1.1 (steep), and the turning face darkens more.
+- `bars`: "split" | "single" | "ring" (default "split") — How progress is drawn: a bar per story, one bar notched at each story, or arcs around the avatar in the header.
+- `autoplay`: boolean (default true) — Stories play on their own and advance when their bar is full. Off, each waits for a tap and its bar shows full to mark the place.
+- `label`: string (default "Stories") — The tray's name, shown above it and used as its accessible name.
+- `children`: ReactNode — The screen under the tray: the host's feed, shown while the viewer is closed.
+- `sound`: boolean (default false) — A tick for every story a tap, key or open starts, climbing the scale, and a whoosh when a swipe, key or tap turns the cube (a low one when it closes). Automatic advances are silent. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the screen, stops the bars, and ignores taps, swipes and keys.
+- `className`: string — Merged onto the screen's classes; the screen is w-full at 9:16 unless an aspect class here says otherwise.
+
+Notes:
+- The viewer is a focusable group: Left and Right step through stories, Shift with Left or Right (or Page Up and Page Down) turns to the previous or next person, Space pauses and plays, and Escape closes, handing focus back to that person's face in the tray. The header's Pause and Close are real buttons, and each tap zone is a button a screen reader can press. New stories, pauses and closing are announced.
+- Under reduced motion nothing rotates, flies or shrinks: a sideways drag fades in a chip naming who is next and a release swaps with a short dip in opacity, a downward drag fades the frame, and opening and closing cross-fade. The bars still fill, the hold still pauses and the sounds still play.
+- The bars run only while the viewer is open, on screen and in a visible tab, and not while it is held, dragged or turning. On touch the viewer takes sideways and downward swipes while a finger moving up still scrolls the page.
+
+### Filter Swipe (KQ-1125) — `filter-swipe`
+Swipe across; the next look slides over.
+
+A photo whose look changes as you swipe across it: the boundary between the current look and the incoming one sits under the finger 1:1 with the incoming look's name riding it, and a release that carries or throws it past the threshold runs on to the far edge on the glide spring with the release velocity, while a short one slides back. The incoming look is the same picture under another CSS filter, revealed by a mask that is crisp or feathered, and past the first or last look the picture rubber-bands. The looks are also a radio group of dots whose arrow keys slide each look in from the side a swipe would, with the same swish and click.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/filter-swipe`
+
+Props:
+- `children`: ReactNode — The picture. It is drawn twice, the look underneath and the look coming in, so keep ids out of it.
+- `alt`: string — What the picture shows: its accessible name, followed by the current look ("Coldbrook harbour at dawn, Harvest look").
+- `filters`: "film" | "mono" | "tone" | { name: string; filter: string }[] (default "film") — A built-in set of five looks, or your own list of named CSS filter values. Names must be unique.
+- `value / defaultValue`: number (default 0) — The look on the photo, by index. Controlled or uncontrolled; a slide runs on while the value agrees with it and slides back when it does not.
+- `onValueChange`: (index: number, look: FilterSwipeLook) => void — Fires from the release, key or dot that chose a look, with its index and the look.
+- `threshold`: number (default 0.5) — How far across the boundary must be carried, or thrown, to commit: 0.2 to 0.8 of the width, judged on the projected throw. Notches on the frame's edges mark it while dragging.
+- `label`: boolean (default true) — The incoming look's name rides the boundary in a pill that turns light once a release would commit, and the current look's name sits in the corner at rest.
+- `edge`: "hard" | "soft" (default "hard") — A crisp boundary with a light rule on it, or a feathered blend with no rule.
+- `sound`: boolean (default false) — A swish as a released slide sets off (higher and louder when it commits, low and soft when it goes back) and a click on the frame the new look lands. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the photo and ignores swipes, dots and keys.
+- `className`: string — Merged onto the frame's classes; the frame is w-full at 4:3 unless an aspect class here says otherwise.
+
+Notes:
+- The looks are a radio group of dots inside the frame with a roving tab stop: Arrow Right and Down choose the next look, Arrow Left and Up the previous one, Home and End the first and last, and a click on a dot chooses it. Each slides the look in from the side a swipe would bring it, with the same swish and click, and the chosen look is announced.
+- Under reduced motion the boundary never travels and the picture never rubber-bands: a drag fades the incoming look over the whole photo in proportion, with its name centred, and a release, key or dot cross-fades.
+- The frame takes horizontal swipes and leaves vertical ones to the page (touch-action pan-y), so it can sit in a scrolling feed.
+
+### Gesture Player (KQ-1126) — `gesture-player`
+Swipe the picture to seek.
+
+A player whose picture is the control: a sideways swipe seeks 1:1 with a time bubble riding the bar that shows where you are and how far you have jumped, and its release is projected and glides on the glide spring with the release velocity. Swipes up and down set volume on the right half and brightness on the left, a side meter filling and stretching a little past either end before it snaps back, and a double tap on a side skips with a ripple that adds up as you keep tapping. The host draws the picture from a motion value of the time, so a scrub moves the scene at frame rate without a render, and the focusable picture takes Space, the arrows and Shift with them along the same paths, with a tick per second scrubbed and a click per skip.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gesture-player`
+
+Props:
+- `children`: (time: MotionValue<number>) => ReactNode — The picture, drawn from the playback time in seconds. Bind it with useTransform so a scrub moves the scene every frame without a render.
+- `label`: string — The clip's title: the player's accessible name.
+- `duration`: number — Length of the clip, in seconds.
+- `value / defaultValue`: number (default 0) — Position in seconds. A new value from the host seeks there; the player reports every seek and skip, and each whole second as it plays.
+- `onValueChange`: (seconds: number) => void — Fires with the landing of every seek and skip, and with each whole second passed while playing.
+- `playing / defaultPlaying`: boolean (default false) — Whether it plays. Playback runs only while the page is visible and nothing is being scrubbed, and stops at the end.
+- `onPlayingChange`: (playing: boolean) => void — Fires from the tap, key or button that played or paused, and with false at the end.
+- `volume / defaultVolume`: number (default 0.7) — Volume, 0 to 1. Reported as a swipe moves it; after the release the meter settles on the host's value, so a refused change springs back.
+- `onVolumeChange`: (volume: number) => void — Fires as a vertical swipe or an arrow key changes the volume.
+- `brightness / defaultBrightness`: number (default 0.6) — Brightness, 0 to 1, applied as a CSS brightness from 0.4 to 1.4: 0.6 shows the picture as drawn.
+- `onBrightnessChange`: (brightness: number) => void — Fires as a vertical swipe on the left half or Shift with an arrow key changes the brightness.
+- `sensitivity`: number (default 1) — How far a swipe goes, 0.5 to 2: a swipe across the picture seeks sensitivity × 90 seconds, and one of 80% of its height sweeps a level from end to end at 1.
+- `zones`: boolean (default true) — A brightness half on the left and a volume half on the right, the active half washed while it is set. Off, a vertical swipe anywhere sets the volume.
+- `skip`: number (default 10) — Seconds a double tap or an arrow key skips, 5 to 15. Further taps on the same side while the ripple is up add another skip each.
+- `hints`: boolean (default true) — Faint glyphs over the paused, idle picture showing what it answers to: the skips on the sides and the levels at the top.
+- `sound`: boolean (default false) — A tick for every whole second a seek crosses (a ratchet at most every 35 ms, pitched and panned by position), a tick per tenth of a level, and a click per skip. Playback is silent. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the player, holds playback, and ignores taps, swipes and keys.
+- `className`: string — Merged onto the player's classes; it is w-full at 16:9 unless an aspect class here says otherwise.
+
+Notes:
+- The picture is a focusable group: Space or K plays and pauses, Left and Right (or J and L) skip, Shift with Left or Right seeks one second, Home and End jump to the start and end, Up and Down set the volume and, with zones, Shift with Up or Down sets the brightness. Each shows the gesture's bubble, meter or ripple and makes its sound. A real Play button sits in the bar, and settled results are announced.
+- Under reduced motion the bubble, meter and ripple appear and fade without travelling or swelling, a released seek or a skip lands at once, and levels settle without springing; the scrub still follows the finger and the readout still counts.
+- The picture takes both axes (touch-action none), as a full-bleed player does; a middle tap plays at once, while a lone tap on a side waits a moment for a second tap.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

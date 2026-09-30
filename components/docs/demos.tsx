@@ -1190,6 +1190,12 @@ import { RulerTapeDemo } from "@/registry/demos/ruler-tape.demo";
 import { FaderSweepDemo } from "@/registry/demos/fader-sweep.demo";
 import { StretchSliderDemo } from "@/registry/demos/stretch-slider.demo";
 import { ClipTrimDemo } from "@/registry/demos/clip-trim.demo";
+import { MoodSwipeDemo } from "@/registry/demos/mood-swipe.demo";
+import { DayStripDemo } from "@/registry/demos/day-strip.demo";
+import { SlotSwipeDemo } from "@/registry/demos/slot-swipe.demo";
+import { StoryCubeDemo } from "@/registry/demos/story-cube.demo";
+import { FilterSwipeDemo } from "@/registry/demos/filter-swipe.demo";
+import { GesturePlayerDemo } from "@/registry/demos/gesture-player.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2394,4 +2400,10 @@ export const demos: Record<string, ComponentType> = {
   "fader-sweep": FaderSweepDemo,
   "stretch-slider": StretchSliderDemo,
   "clip-trim": ClipTrimDemo,
+  "mood-swipe": MoodSwipeDemo,
+  "day-strip": DayStripDemo,
+  "slot-swipe": SlotSwipeDemo,
+  "story-cube": StoryCubeDemo,
+  "filter-swipe": FilterSwipeDemo,
+  "gesture-player": GesturePlayerDemo,
 };
