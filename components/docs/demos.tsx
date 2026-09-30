@@ -1178,6 +1178,12 @@ import { FuseButtonDemo } from "@/registry/demos/fuse-button.demo";
 import { PrintHoldDemo } from "@/registry/demos/print-hold.demo";
 import { JiggleModeDemo } from "@/registry/demos/jiggle-mode.demo";
 import { DropPinDemo } from "@/registry/demos/drop-pin.demo";
+import { NodeWireDemo } from "@/registry/demos/node-wire.demo";
+import { FlingSortDemo } from "@/registry/demos/fling-sort.demo";
+import { SlingSendDemo } from "@/registry/demos/sling-send.demo";
+import { SnapGuidesDemo } from "@/registry/demos/snap-guides.demo";
+import { MeldTagsDemo } from "@/registry/demos/meld-tags.demo";
+import { CornerPipDemo } from "@/registry/demos/corner-pip.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2370,4 +2376,10 @@ export const demos: Record<string, ComponentType> = {
   "print-hold": PrintHoldDemo,
   "jiggle-mode": JiggleModeDemo,
   "drop-pin": DropPinDemo,
+  "node-wire": NodeWireDemo,
+  "fling-sort": FlingSortDemo,
+  "sling-send": SlingSendDemo,
+  "snap-guides": SnapGuidesDemo,
+  "meld-tags": MeldTagsDemo,
+  "corner-pip": CornerPipDemo,
 };

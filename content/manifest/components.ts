@@ -58640,4 +58640,724 @@ export const components: KinetiqItem[] = [
       "The town, its street names and its survey grid (columns A to T, rows 1 to 4, easting and northing to one decimal) are invented and drawn from a fixed hash, 1:1, so a narrower box shows less of the town, centred. dropPinPlace(point) returns the same cell, easting, northing and text the callout shows. A long press never selects text or opens the browser's menu; the map keeps touch-pan-y so the page scrolls past it, and the pin is touch-none so it drags.",
     ],
   },
+  {
+    name: "node-wire",
+    type: "registry:ui",
+    title: "Node Wire",
+    description:
+      "A node editor whose cables are real cables: drag from an output jack and a Verlet rope pays out 1:1 under the finger, every compatible input shows its capture ring, and within the snap radius the plug is caught, flicks into the jack and seats with a jack snap; let go anywhere else and the cable reels back into its output. Nodes drag by their headers and glide on springs.glide, carrying the release velocity to where a light throw would rest, while their cables swing behind them on a fixed-step loop that runs only while something moves. Enter picks up a cable, Arrow keys choose among the inputs that take it, Enter plugs in and Escape lets it reel back; on a node's grip, Arrow keys move the node.",
+    files: [
+      {
+        path: "registry/ui/node-wire.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1109",
+    },
+    tagline: "Drag a wire from one node to the next.",
+    keywords: [
+      "node editor",
+      "wiring",
+      "ports",
+      "cables",
+      "verlet rope",
+      "automation",
+      "graph",
+    ],
+    props: [
+      {
+        name: "nodes",
+        type: "NodeWireNode[]",
+        description:
+          "The node cards: { id, label, x, y, inputs?, outputs? }, with x and y as fractions (0 to 1) of the free space and ports as { id, label, type }. Ids contain no dots.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "NodeWireLink[]",
+        defaultValue: "[]",
+        description:
+          'The cables, each { from, to } written "node.port" from an output to an input. Controlled or uncontrolled.',
+      },
+      {
+        name: "onValueChange",
+        type: "(links: NodeWireLink[]) => void",
+        description:
+          "Fires from the plug or unplug that changed the cables, with all of them. A plugged cable waits at its jack for a controlled host and reels back if the host does not take it.",
+      },
+      {
+        name: "canConnect",
+        type: "(from: string, to: string) => boolean",
+        description:
+          'An extra rule on top of matching types, given "node.port" of each end.',
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The canvas's accessible name.",
+      },
+      {
+        name: "sag",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Slack in each cable, 0 to 1: 0 is a straight wire, 1 hangs in a deep loop that lies on the canvas floor. In curve mode, the droop of the curve.",
+      },
+      {
+        name: "stiffness",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "0 to 1: a limp string that swings long, up to a thick lead that arcs and settles fast (constraint passes, bending and damping). In curve mode, how hard the cable is pulled onto its curve.",
+      },
+      {
+        name: "snap",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "Capture radius around a compatible input, in px, 12 to 40, drawn as a ring while a cable is carried.",
+      },
+      {
+        name: "wire",
+        type: '"rope" | "curve"',
+        defaultValue: '"rope"',
+        description:
+          "rope hangs free under gravity; curve springs the same cable onto the tidy editor curve that leaves each jack horizontally.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "200",
+        description: "Canvas height in px.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the cable's synthesised sounds: a slither while a cable or a wired node moves, a detent when a ring catches the plug, a jack snap when it seats, a pop when it comes out. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the canvas and blocks every drag, press and key.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the canvas's classes.",
+      },
+    ],
+    usageNotes: [
+      "Every port and node grip is a real button with a one-string name that says what it is wired to. Enter or Space on an output picks up a cable and moves focus to the nearest input that takes it; Arrow keys move between those inputs with the plug gliding along, Enter plugs in, and Escape (or focus leaving the canvas) lets the cable reel back. Enter on a wired input unplugs it and carries it the same way; Delete unplugs it. Arrow keys on a grip move the node 8px, Shift 32px. Changes are announced in a polite live region.",
+      "Under reduced motion every cable is drawn straight onto its resting shape with no swing, a released node stays where it was dropped, a plug goes straight into its jack and a put-back cable disappears; rings, dimming, sounds and the wiring itself are unchanged.",
+      "The loop runs on requestAnimationFrame only while something moves, stops once every cable is still, and never runs while the page is hidden. Only ports of the same type join; each input holds one plug, and plugging into a wired input pulls the old one out.",
+    ],
+  },
+  {
+    name: "fling-sort",
+    type: "registry:ui",
+    title: "Fling Sort",
+    description:
+      "A sorting tray you throw things into: grab the top chip of the inbox or of any bin and it lifts 1:1 under the finger; let go and it flies with the hand's speed on a real trajectory with gravity, air drag and spin, bouncing off rims, walls and the frame until it lands in the bin it reaches. The landing is heard, counted and reported on the frame the chip touches down with too little rebound to leave, then it docks into its pile on springs.glide carrying its landing speed, and the count rolls in on springs.snap. Number keys throw the focused box's top chip into that bin on a solved arc and 0 throws it back to the inbox.",
+    files: [
+      {
+        path: "registry/ui/fling-sort.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1110",
+    },
+    tagline: "Throw it where it belongs.",
+    keywords: [
+      "sort",
+      "throw",
+      "fling",
+      "bins",
+      "categorize",
+      "physics",
+      "triage",
+    ],
+    props: [
+      {
+        name: "items",
+        type: "FlingSortItem[]",
+        description:
+          "Everything to sort: { id, label, detail? }. Keep labels to a word; detail is a short second line such as an amount.",
+      },
+      {
+        name: "categories",
+        type: "FlingSortCategory[]",
+        description:
+          "The bins, in order: { id, label }. The first `bins` of them stand on the floor.",
+      },
+      {
+        name: "bins",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How many of categories are open, 2 to 4. Items filed under a bin that is not shown sit in the inbox.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "Record<string, string>",
+        defaultValue: "{}",
+        description:
+          "The filing, item id to category id; an item that is absent is in the inbox. Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: Record<string, string>, change: { item: string; bin: string | null }) => void",
+        description:
+          "Fires on the frame a throw is decided, with the whole filing and what changed (bin null: back to the inbox). A controlled chip docks wherever the host's value says once it settles, so a refused change flies home.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The tray's accessible name.",
+      },
+      {
+        name: "gravity",
+        type: "number",
+        defaultValue: "2000",
+        description:
+          "Downward pull in px/s², 800 to 3200: low values float long, lazy arcs; high ones drop the chip fast and short.",
+      },
+      {
+        name: "bounce",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "Restitution off the floor, rims and walls, 0 to 0.8: dead-stop landings at 0, lively rebounds near 0.8.",
+      },
+      {
+        name: "drag",
+        type: "number",
+        defaultValue: "0.8",
+        description:
+          "Air drag per second, 0 to 3: at 0 a throw carries far, at 3 it dies in the air and drops short.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "200",
+        description: "Tray height in px.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the throw's synthesised sounds: a paper rustle on pickup, a whoosh by speed on release, a rim clang, a thunk on a bin landing and a thud on the floor. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the tray and blocks throws and keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the tray's classes.",
+      },
+    ],
+    usageNotes: [
+      'The inbox and every bin are buttons named by their contents ("Travel, 2 items, top: Taxi 24.80"). Number keys 1 to 4 throw the focused box\'s top chip into that bin on an arc that is flown through the same integrator and collisions as a real throw, so it lands where it was aimed; 0 or Backspace throws it back to the inbox. Each landing is announced politely.',
+      "Under reduced motion nothing flies: a release or a key works the throw out at once through the same physics and the chip fades into its place, while counts, the landing sound and the announcement are unchanged. Dragging still follows the finger.",
+      "The flight runs at a fixed 120Hz on requestAnimationFrame only while something is in the air, never while the page is hidden (hiding it lands every throw at once), and every throw stays inside the tray: its walls and ceiling bounce.",
+    ],
+  },
+  {
+    name: "sling-send",
+    type: "registry:ui",
+    title: "Sling Send",
+    description:
+      "A composer whose send button is a slingshot: the draft rides as a bubble in the pouch of a rubber band, and pulling it back (and to one side to aim) stretches the band 1:1 with the finger, thinning and warming it as it goes, with a creak pitched by the stretch. Let go past a third of the way and the band fires as a real spring, the bubble leaves the pouch at that speed and flies out through the frame's own clipped edge while the band wobbles back on springs.recoil; a short pull snaps back on springs.snap carrying the release velocity, nothing sent. Enter in the text field sends with a full pull; on the bubble, Arrow keys pull and aim, Enter lets go and Escape lets the band down.",
+    files: [
+      {
+        path: "registry/ui/sling-send.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1111",
+    },
+    tagline: "Pull it back; let it fly.",
+    keywords: [
+      "composer",
+      "send",
+      "message",
+      "slingshot",
+      "rubber band",
+      "chat",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description: "The draft. Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description:
+          'Fires as the draft is typed, and with "" the moment the band fires.',
+      },
+      {
+        name: "onSend",
+        type: "(message: string) => void",
+        description: "Fires the moment the band fires, with the message.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Message"',
+        description: "The text field's accessible name.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Write a message"',
+        description: "Shown in the empty field and on the empty bubble.",
+      },
+      {
+        name: "stiffness",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The band's spring, 0 to 1: a slack band pushes slowly and lobs the bubble, a stiff one fires it fast. It also sets the snap-back and the band's thickness.",
+      },
+      {
+        name: "maxStretch",
+        type: "number",
+        defaultValue: "100",
+        description:
+          "How far the band pulls before it resists, in px, 60 to 140. The launch frame grows with it.",
+      },
+      {
+        name: "trajectory",
+        type: '"straight" | "arc" | "guided"',
+        defaultValue: '"arc"',
+        description:
+          "How the bubble flies once it leaves the band: along the aim, under gravity so an angled shot curves, or turning upright so every shot leaves through the top.",
+      },
+      {
+        name: "trail",
+        type: "boolean",
+        defaultValue: "true",
+        description: "A fading streak behind the bubble in flight.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the band's synthesised sounds: a creak pitched by the stretch while it moves, a twang when it fires, a whoosh as the bubble leaves, a slap when it snaps back. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the composer and disables the field and the bubble.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the frame's classes.",
+      },
+    ],
+    usageNotes: [
+      "The field is a real textarea: Enter (not Shift, not while composing) sends with a full pull — the band draws back on its own, then fires exactly as a release does, same sounds — and Shift+Enter is a newline. The bubble is a button named with its message: Enter or Space sends with a full pull, Arrow Down and Up pull back or ease off by a tenth, Arrow Left and Right aim by 10°, Enter then lets go (short pulls are put back), and Escape lets the band down. Outcomes are announced politely.",
+      "Under reduced motion the bubble still follows the finger and the band still stretches, but nothing travels on its own: Enter sends at once, a sent bubble fades where it was let go, a short pull jumps back to rest, the band returns without a wobble and there is no trail. Sounds and the send itself are unchanged.",
+      "The flight runs on requestAnimationFrame only while the bubble is in the band or the air and ends at once if the page is hidden; the bubble always leaves through the frame's own clipped edge. onSend is where the message is actually sent.",
+    ],
+  },
+  {
+    name: "snap-guides",
+    type: "registry:ui",
+    title: "Snap Guides",
+    description:
+      "A small design canvas whose layers line themselves up: drag one and, within a few pixels, its edges and centre are pulled onto the edges and centres of the other layers and the artboard on a quick critically damped spring (the flick), with a guide drawn across both objects, a tick, and live labels measuring the gap to the nearest neighbour on each side. The layer is 1:1 under the finger when nothing pulls it, rubber-bands past the artboard's edge and glides back in carrying its release velocity. Arrow keys nudge the focused layer by 1 and Shift+Arrow by 10, with the same snapping and the same tick.",
+    files: [
+      {
+        path: "registry/ui/snap-guides.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1112",
+    },
+    tagline: "Edges that find each other.",
+    keywords: [
+      "smart guides",
+      "snapping",
+      "alignment",
+      "canvas",
+      "layers",
+      "design tool",
+      "drag",
+    ],
+    props: [
+      {
+        name: "layers",
+        type: "SnapGuidesLayer[]",
+        description:
+          "The layers, in paint order: id, label (the accessible name), width and height in artboard px, and content, which scales with the artboard and never takes pointer events.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "Record<string, { x: number; y: number }>",
+        defaultValue: "{}",
+        description:
+          "Where each layer sits, by id, in artboard px from the top-left corner. Controlled or uncontrolled; a layer with no entry starts at 0, 0.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: SnapGuidesValue, change: { id: string; x: number; y: number; alignedWith: string[] }) => void",
+        description:
+          "Fires from the release or the key that moved a layer, with every position and the labels of the layers the moved one now lines up with. A controlled layer waits for the host: a refused move glides back.",
+      },
+      {
+        name: "boardWidth",
+        type: "number",
+        defaultValue: "400",
+        description:
+          "The artboard's width in artboard px. The artboard keeps its aspect ratio and scales to fit its box.",
+      },
+      {
+        name: "boardHeight",
+        type: "number",
+        defaultValue: "200",
+        description: "The artboard's height in artboard px.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Artboard"',
+        description: "The artboard's accessible name.",
+      },
+      {
+        name: "snap",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "How close, in artboard px, a line must come before it pulls the layer into line, 2 to 16.",
+      },
+      {
+        name: "guides",
+        type: '"edges" | "centres" | "both"',
+        defaultValue: '"both"',
+        description:
+          "Which lines snap and draw guides: left, right, top and bottom edges, the centres, or all of them.",
+      },
+      {
+        name: "distances",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Live measurement lines and labels from the moving layer to its nearest neighbour, or the artboard edge, on each side.",
+      },
+      {
+        name: "grid",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Shows an 8 px grid and, when no alignment is in reach, snaps the layer's corner to it, so it steps along the grid.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Tick when an edge finds another: higher for centres, lower for the artboard, softest for grid steps. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the artboard and stops every drag and nudge.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the artboard's classes.",
+      },
+    ],
+    usageNotes: [
+      'Every layer is a native button in the tab order, named by its label and described by its position and the keys: arrow keys nudge it by 1 px and Shift+Arrow by 10, a nudge that lands within the snap distance of a line ahead of it finishes the move and ticks, and each move is announced ("Headline at 192, 24, in line with Photo."). Escape during a drag puts the layer back and is claimed.',
+      "Under reduced motion snaps and returns land in one step with no spring, while the guides, the distance labels and the ticks still show and sound, because alignment is information.",
+      "Layers are placed, not thrown: inside the artboard a release keeps the exact position; only a layer pulled past the edge glides back, carrying its release velocity.",
+      "The artboard is a coordinate space: positions and sizes are artboard px whatever the rendered width, so values stay stable across screens.",
+    ],
+  },
+  {
+    name: "meld-tags",
+    type: "registry:ui",
+    title: "Meld Tags",
+    description:
+      "Tags you group by hand with a liquid that does the grouping: drag one near another tag or group and a neck of liquid reaches out between them, drawn analytically as a metaball bridge from motion values each frame; let go and the neck draws it in on a spring that carries the release velocity, and it melds with a gloop while the row reflows on the glide. Drag a member out of its group and it stretches against the neck until it tears with a pop and snaps back as a droplet, the group closing the gap; an unseated member springs home on the recoil. The keyboard picks a tag up with Enter, chooses its new group with the arrows and drops it with the same sound.",
+    files: [
+      {
+        path: "registry/ui/meld-tags.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1113",
+    },
+    tagline: "Drop one on another; they merge.",
+    keywords: [
+      "tags",
+      "grouping",
+      "filter",
+      "merge",
+      "liquid",
+      "drag",
+      "metaball",
+    ],
+    props: [
+      {
+        name: "tags",
+        type: "{ id: string; label: string }[]",
+        description: "Every tag, with its id and the label shown and spoken.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[][]",
+        defaultValue: "every tag on its own",
+        description:
+          "The groups, in order, as arrays of tag ids; a tag on its own is a group of one. Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: '(value: string[][], change: { kind: "meld" | "free"; id: string; group: string[] }) => void',
+        description:
+          "Fires from the drop or the key that changed the groups, with the new groups and what happened: the tag that moved and the group it is in now.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Tags"',
+        description: "The set's accessible name.",
+      },
+      {
+        name: "goo",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How thick the liquid runs, 0 to 1: a thicker neck, a longer stretch before a member tears free, and a slower, bouncier settle.",
+      },
+      {
+        name: "radius",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "The meld radius in px, 8 to 48: how near a dragged tag must come before the neck reaches out and a drop melds.",
+      },
+      {
+        name: "tint",
+        type: '"mono" | "tint"',
+        defaultValue: '"tint"',
+        description:
+          "Groups in neutral ink, or each group in its own hue from the theme.",
+      },
+      {
+        name: "maxGroup",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "The most tags a group takes, 2 to 6. A full group grows no neck and shows a dashed ring instead.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A gloop when a tag melds (higher for bigger groups) and a pop when one tears free. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the set and stops every drag and pick-up.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the panel's classes.",
+      },
+    ],
+    usageNotes: [
+      'Every tag is a native button in one roving tab stop (Left, Right, Home and End move focus), named by its label and its group ("Refunds, grouped with Billing"). Enter or Space picks it up; Left and Right choose another tag or group, or on its own for a member; Enter or Space drops it with the same gloop or pop; Escape puts it back and is claimed. Focus follows the tag to its new place, and every change is announced.',
+      "Under reduced motion a drop lands in one step and the row reflows instantly; the neck is drawn only as a still connection while a target is in reach, and colours, counts, rings and sounds still answer.",
+      "Tags in one group read as alternatives in the demo (a pill matches any of its tags); the component only keeps the groups, so the meaning is the host's to give.",
+    ],
+  },
+  {
+    name: "corner-pip",
+    type: "registry:ui",
+    title: "Corner PiP",
+    description:
+      "A floating player inside its own frame that you throw into a corner: it follows the finger 1:1 and rubber-bands past the edges, and on release its momentum is projected with a deceleration set by friction, the corner whose quadrant the projected centre lands in is where it goes, and a landing spring that takes the release velocity carries it there, overshooting more the more slippery it is. A throw off a side edge tucks it into a tab you pull or press to bring back. The grip is a button whose arrow keys move it corner to corner and into the edge, with the same flight, swish and soft thud.",
+    files: [
+      {
+        path: "registry/ui/corner-pip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1114",
+    },
+    tagline: "Fling it; it finds a corner.",
+    keywords: [
+      "picture in picture",
+      "floating player",
+      "fling",
+      "momentum",
+      "corner snap",
+      "video call",
+      "drag",
+    ],
+    props: [
+      {
+        name: "player",
+        type: "ReactNode",
+        description:
+          "What plays inside the floating player. Its own controls work as usual; a drag that starts on them still moves the player.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The screen behind the player: whatever the frame shows.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          'The player\'s name: its accessible label, and the names of its grip ("Move …") and tab ("Show …").',
+      },
+      {
+        name: "value / defaultValue",
+        type: '{ corner: "top-left" | "top-right" | "bottom-left" | "bottom-right"; tucked: boolean }',
+        defaultValue: '{ corner: "bottom-right", tucked: false }',
+        description:
+          "Where the player sits: a corner, and whether it is tucked into that corner's side edge. Controlled or uncontrolled; a refused move flies back.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: CornerPipValue) => void",
+        description:
+          "Fires from the throw or the key that moved the player, with its new place.",
+      },
+      {
+        name: "friction",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How quickly a throw dies, 0 to 1. Low friction coasts further and overshoots the corner; high friction needs a hard fling and settles flat.",
+      },
+      {
+        name: "inset",
+        type: "number",
+        defaultValue: "12",
+        description: "The corner margin in px, 0 to 24.",
+      },
+      {
+        name: "tuck",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A throw whose projection leaves through a side edge tucks the player into that edge, leaving a 22 px tab.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description:
+          "The player's width: 112, 144 or 176 px at 16:9, never more than 44% of the frame.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A swish on a fast throw (higher and louder the faster) and a soft thud on the frame it lands. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the frame and stops every drag and key.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Merged onto the frame's classes; the frame is 2:1 unless an aspect class here says otherwise.",
+      },
+    ],
+    usageNotes: [
+      "The player's grip is a button: Left and Right change column, Up and Down change row, pushing on through a side edge tucks it, and Enter or Space moves it clockwise to the next corner. While tucked, the player's contents are inert and the tab is a button that brings it back on click, Enter, Space or an inward arrow; focus moves to the tab when a key tucks it and back to the grip when a key brings it out. Every move is announced, and Escape during a drag puts it back.",
+      "Under reduced motion the player still follows the finger, but a release or a key places it in one step with a short dip in opacity, and the thud still sounds.",
+      "The player lives inside the frame and never uses fixed positioning, so it can sit in any panel, preview or card; its resting place is plain CSS, so the server markup is right at any width.",
+    ],
+  },
 ];

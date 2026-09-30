@@ -27345,6 +27345,180 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "node-wire",
+      "type": "registry:ui",
+      "title": "Node Wire",
+      "description": "A node editor whose cables are real cables: drag from an output jack and a Verlet rope pays out 1:1 under the finger, every compatible input shows its capture ring, and within the snap radius the plug is caught, flicks into the jack and seats with a jack snap; let go anywhere else and the cable reels back into its output. Nodes drag by their headers and glide on springs.glide, carrying the release velocity to where a light throw would rest, while their cables swing behind them on a fixed-step loop that runs only while something moves. Enter picks up a cable, Arrow keys choose among the inputs that take it, Enter plugs in and Escape lets it reel back; on a node's grip, Arrow keys move the node.",
+      "files": [
+        {
+          "path": "registry/ui/node-wire.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1109"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fling-sort",
+      "type": "registry:ui",
+      "title": "Fling Sort",
+      "description": "A sorting tray you throw things into: grab the top chip of the inbox or of any bin and it lifts 1:1 under the finger; let go and it flies with the hand's speed on a real trajectory with gravity, air drag and spin, bouncing off rims, walls and the frame until it lands in the bin it reaches. The landing is heard, counted and reported on the frame the chip touches down with too little rebound to leave, then it docks into its pile on springs.glide carrying its landing speed, and the count rolls in on springs.snap. Number keys throw the focused box's top chip into that bin on a solved arc and 0 throws it back to the inbox.",
+      "files": [
+        {
+          "path": "registry/ui/fling-sort.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1110"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sling-send",
+      "type": "registry:ui",
+      "title": "Sling Send",
+      "description": "A composer whose send button is a slingshot: the draft rides as a bubble in the pouch of a rubber band, and pulling it back (and to one side to aim) stretches the band 1:1 with the finger, thinning and warming it as it goes, with a creak pitched by the stretch. Let go past a third of the way and the band fires as a real spring, the bubble leaves the pouch at that speed and flies out through the frame's own clipped edge while the band wobbles back on springs.recoil; a short pull snaps back on springs.snap carrying the release velocity, nothing sent. Enter in the text field sends with a full pull; on the bubble, Arrow keys pull and aim, Enter lets go and Escape lets the band down.",
+      "files": [
+        {
+          "path": "registry/ui/sling-send.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1111"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "snap-guides",
+      "type": "registry:ui",
+      "title": "Snap Guides",
+      "description": "A small design canvas whose layers line themselves up: drag one and, within a few pixels, its edges and centre are pulled onto the edges and centres of the other layers and the artboard on a quick critically damped spring (the flick), with a guide drawn across both objects, a tick, and live labels measuring the gap to the nearest neighbour on each side. The layer is 1:1 under the finger when nothing pulls it, rubber-bands past the artboard's edge and glides back in carrying its release velocity. Arrow keys nudge the focused layer by 1 and Shift+Arrow by 10, with the same snapping and the same tick.",
+      "files": [
+        {
+          "path": "registry/ui/snap-guides.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1112"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "meld-tags",
+      "type": "registry:ui",
+      "title": "Meld Tags",
+      "description": "Tags you group by hand with a liquid that does the grouping: drag one near another tag or group and a neck of liquid reaches out between them, drawn analytically as a metaball bridge from motion values each frame; let go and the neck draws it in on a spring that carries the release velocity, and it melds with a gloop while the row reflows on the glide. Drag a member out of its group and it stretches against the neck until it tears with a pop and snaps back as a droplet, the group closing the gap; an unseated member springs home on the recoil. The keyboard picks a tag up with Enter, chooses its new group with the arrows and drops it with the same sound.",
+      "files": [
+        {
+          "path": "registry/ui/meld-tags.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1113"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "corner-pip",
+      "type": "registry:ui",
+      "title": "Corner PiP",
+      "description": "A floating player inside its own frame that you throw into a corner: it follows the finger 1:1 and rubber-bands past the edges, and on release its momentum is projected with a deceleration set by friction, the corner whose quadrant the projected centre lands in is where it goes, and a landing spring that takes the release velocity carries it there, overshooting more the more slippery it is. A throw off a side edge tucks it into a tab you pull or press to bring back. The grip is a button whose arrow keys move it corner to corner and into the edge, with the same flight, swish and soft thud.",
+      "files": [
+        {
+          "path": "registry/ui/corner-pip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1114"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

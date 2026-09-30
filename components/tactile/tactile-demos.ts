@@ -92,4 +92,28 @@ export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/drop-pin.demo").then((m) =>
       mod(m.DropPinDemo, m.tweaks),
     ),
+  "node-wire": () =>
+    import("@/registry/demos/node-wire.demo").then((m) =>
+      mod(m.NodeWireDemo, m.tweaks),
+    ),
+  "fling-sort": () =>
+    import("@/registry/demos/fling-sort.demo").then((m) =>
+      mod(m.FlingSortDemo, m.tweaks),
+    ),
+  "sling-send": () =>
+    import("@/registry/demos/sling-send.demo").then((m) =>
+      mod(m.SlingSendDemo, m.tweaks),
+    ),
+  "snap-guides": () =>
+    import("@/registry/demos/snap-guides.demo").then((m) =>
+      mod(m.SnapGuidesDemo, m.tweaks),
+    ),
+  "meld-tags": () =>
+    import("@/registry/demos/meld-tags.demo").then((m) =>
+      mod(m.MeldTagsDemo, m.tweaks),
+    ),
+  "corner-pip": () =>
+    import("@/registry/demos/corner-pip.demo").then((m) =>
+      mod(m.CornerPipDemo, m.tweaks),
+    ),
 };
