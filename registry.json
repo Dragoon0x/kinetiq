@@ -28838,6 +28838,289 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tumbler-code",
+      "type": "registry:ui",
+      "title": "Tumbler Code",
+      "description": "A one-time-code field drawn as a pin-tumbler lock: each digit raises its spring-loaded pin stack on snap to a height set by the digit, the coil compressing above it, and a paste raises them left to right on a cascade. When check accepts the code every split glides onto the shear line and the plug turns a quarter on snap with a clunk, folding the key pins away; a refused code jiggles the pins on a tween and drops them on recoil so they bounce as they land. The cells are real inputs in one tab stop: digits type in and advance, Backspace and Delete remove, arrows and Home/End move, and paste or one-time-code autofill fills them all.",
+      "files": [
+        {
+          "path": "registry/ui/tumbler-code.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1161"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vault-password",
+      "type": "registry:ui",
+      "title": "Vault Password",
+      "description": "A new-password field beside a vault door seen from the inside, one bolt per strength rule: meeting a rule shoots its bolt across the seam into the frame on snap with a thock as it hits its stop, and breaking it pulls the bolt back on glide, the linkage arms following every frame. With every bolt home the wheel spins a turn and a quarter on drift, clicking as its spokes pass, then the latch turns in the hub on flick and the lamp lights; the show/hide control is a peephole whose shutter swings aside on snap. The input, its label, hint, error and rules list are real form semantics, and a polite status speaks once per change of rule state.",
+      "files": [
+        {
+          "path": "registry/ui/vault-password.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1162"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "globe-phone",
+      "type": "registry:ui",
+      "title": "Globe Phone",
+      "description": "A phone number field whose country picker is a small orthographic globe: choosing a country turns it there the short way round on a spring derived from drift and scaled by spin, the country's pin drops onto the centre on recoil, and the dial code rolls digit by digit on glide. The globe also follows a horizontal drag 1:1 and a throw comes to rest on the country nearest where it would stop; the number formats for its country as it is typed and keeps its caret. Pressing the globe opens a searchable combobox and listbox whose highlight previews each country on the globe; arrows move, Enter chooses, Escape closes and turns it back, and Left/Right on the globe step east and west.",
+      "files": [
+        {
+          "path": "registry/ui/globe-phone.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1163"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "swatch-mixer",
+      "type": "registry:ui",
+      "title": "Swatch Mixer",
+      "description": "A colour input you fill by mixing paint: a pigment dragged off its pot follows the pointer 1:1 and, let go over the well, sinks in with a ripple while the well lands on the recoil spring; a tap hops a blob in along a short arc. The colour is the parts-weighted average of the pigments in OKLab and it does not swap: the new pigment curls in as a streak, stir lines sweep round, and the paint travels from the old mix to the new one over a stir whose length is `swirl`, while the dish's rim, a ring of one segment per pigment, re-divides on the glide spring and a segment dragged out of the dish takes that pigment away. Each pot is a slider: Left and Right move between pigments, Up, Enter and Space add a part, Down takes one away, Delete or Home take the pigment out and End fills it.",
+      "files": [
+        {
+          "path": "registry/ui/swatch-mixer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1164"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "folder-drop",
+      "type": "registry:ui",
+      "title": "Folder Drop",
+      "description": "A file field drawn as a paper folder: files dragged over it open its mouth, the front flap tipping toward you on the snap spring, and each accepted file falls in as a sheet of paper behind the flap on a cascade, after which the flap shuts and the folder lands on the recoil spring. A file it will not take, the wrong type, over `maxSize`, a duplicate or one too many, falls onto the shut edge, jumps and tumbles away and is listed with the reason, while every filed file gets a row whose swallowtail progress ribbon follows the host's upload progress on the glide spring. The folder is a real button over a real file input, so click, Enter or Space open the system picker and the picked files go through the same checks and the same fall.",
+      "files": [
+        {
+          "path": "registry/ui/folder-drop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1165"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slug-field",
+      "type": "registry:ui",
+      "title": "Slug Field",
+      "description": "A title and the URL slug that follows it: each new slug letter drops out of the title as a ghost of the character as typed, capital or accent and all, and becomes the lowercase letter as it lands in its cell on the flick spring, while characters a slug cannot hold fall away before they arrive and later letters slide to their new cells on the glide spring. Typing in the slug itself folds the text the same way and unlinks it from the title, snapping the tether and chain beside the label on the snap spring, and the Follow title toggle relinks it with the letters dropping in again. An availability check marks a taken slug and offers the first free numbered one; both fields are real inputs with the platform's own caret, selection and undo, reached with Tab, and every control is a button pressed with Enter or Space.",
+      "files": [
+        {
+          "path": "registry/ui/slug-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1166"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "coin-amount",
+      "type": "registry:ui",
+      "title": "Coin Amount",
+      "description": "A currency amount field that counts the cash out as you type: beside the figure a tray keeps one pile per place value — coins for cents and ones, notes for tens and hundreds, strapped bundles from thousands — each holding exactly its digit, and every new piece falls under gravity and lands with a squash on springs.recoil while the figure's own digits roll into place on springs.snap. Clearing sweeps the tray off to the right on the exit ease, and a conversion odometer under the field rolls on springs.snap. It is a real text input that places the grouping as you type and keeps the caret among the digits; Escape or the clear button empties it.",
+      "files": [
+        {
+          "path": "registry/ui/coin-amount.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1167"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "catalog-select",
+      "type": "registry:ui",
+      "title": "Catalog Select",
+      "description": "A select whose options are index cards in a catalog drawer: opening pulls the drawer out on springs.glide (or by hand, 1:1, committing by projection), the card being read stands tipped toward you, and moving on makes it fall forward over its bottom edge while the file glides a place nearer — moving back flips the last fallen card up on springs.snap, and jumps riffle card by card on cascade(). Choosing lifts the card up into the field on springs.glide as the drawer shuts under it. It is the select-only combobox pattern: focus stays on the field, arrows, Page keys, Home and End move, typing jumps by first letters, Enter chooses and Escape shuts.",
+      "files": [
+        {
+          "path": "registry/ui/catalog-select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1168"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ink-checklist",
+      "type": "registry:ui",
+      "title": "Ink Checklist",
+      "description": "A checklist on a notepad where each tick is drawn by a pen: a filled outline rebuilt every frame from a stroke with pressure — light where the nib lands, heaviest at the corner, lifting to a hairline as it flicks — on springs.flick, followed by a wavering pen line through the words at the pen's own pace, struck line by line when they wrap. Unticking rubs both out with a small eraser that leaves a fading smudge, and a margin bar fills with ink to the share done on springs.glide. Every item is a native checkbox in a fieldset, so Tab reaches each box and Space ticks it exactly as a press does.",
+      "files": [
+        {
+          "path": "registry/ui/ink-checklist.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1169"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mail-field",
+      "type": "registry:ui",
+      "title": "Mail Field",
+      "description": "An email field that checks as you type and catches a slipped domain: when the domain looks finished but sits an edit or two from a known one (a swap counts as one), a row folds open under the field at its measured height on springs.glide, and using the fix morphs the address in place — kept letters slide on springs.glide, swapped letters trade places with one arcing over the other, a wrong letter drops out as the right one drops in on springs.snap, one after another on cascade(). A committed valid address is stamped with a postmark that lands on springs.recoil. The fix is the next thing Tab reaches, Enter or Space uses it, and Escape in the field declines it.",
+      "files": [
+        {
+          "path": "registry/ui/mail-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1170"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

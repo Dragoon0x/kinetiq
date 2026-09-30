@@ -47,4 +47,44 @@ export const ATELIER_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/pneumatic-tube.demo").then((m) =>
       mod(m.PneumaticTubeDemo, m.tweaks),
     ),
+  "tumbler-code": () =>
+    import("@/registry/demos/tumbler-code.demo").then((m) =>
+      mod(m.TumblerCodeDemo, m.tweaks),
+    ),
+  "vault-password": () =>
+    import("@/registry/demos/vault-password.demo").then((m) =>
+      mod(m.VaultPasswordDemo, m.tweaks),
+    ),
+  "globe-phone": () =>
+    import("@/registry/demos/globe-phone.demo").then((m) =>
+      mod(m.GlobePhoneDemo, m.tweaks),
+    ),
+  "swatch-mixer": () =>
+    import("@/registry/demos/swatch-mixer.demo").then((m) =>
+      mod(m.SwatchMixerDemo, m.tweaks),
+    ),
+  "folder-drop": () =>
+    import("@/registry/demos/folder-drop.demo").then((m) =>
+      mod(m.FolderDropDemo, m.tweaks),
+    ),
+  "slug-field": () =>
+    import("@/registry/demos/slug-field.demo").then((m) =>
+      mod(m.SlugFieldDemo, m.tweaks),
+    ),
+  "coin-amount": () =>
+    import("@/registry/demos/coin-amount.demo").then((m) =>
+      mod(m.CoinAmountDemo, m.tweaks),
+    ),
+  "catalog-select": () =>
+    import("@/registry/demos/catalog-select.demo").then((m) =>
+      mod(m.CatalogSelectDemo, m.tweaks),
+    ),
+  "ink-checklist": () =>
+    import("@/registry/demos/ink-checklist.demo").then((m) =>
+      mod(m.InkChecklistDemo, m.tweaks),
+    ),
+  "mail-field": () =>
+    import("@/registry/demos/mail-field.demo").then((m) =>
+      mod(m.MailFieldDemo, m.tweaks),
+    ),
 };

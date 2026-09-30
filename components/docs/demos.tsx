@@ -1230,6 +1230,16 @@ import { LiveActivityDemo } from "@/registry/demos/live-activity.demo";
 import { PaperSlipDemo } from "@/registry/demos/paper-slip.demo";
 import { CorkNotesDemo } from "@/registry/demos/cork-notes.demo";
 import { PneumaticTubeDemo } from "@/registry/demos/pneumatic-tube.demo";
+import { TumblerCodeDemo } from "@/registry/demos/tumbler-code.demo";
+import { VaultPasswordDemo } from "@/registry/demos/vault-password.demo";
+import { GlobePhoneDemo } from "@/registry/demos/globe-phone.demo";
+import { SwatchMixerDemo } from "@/registry/demos/swatch-mixer.demo";
+import { FolderDropDemo } from "@/registry/demos/folder-drop.demo";
+import { SlugFieldDemo } from "@/registry/demos/slug-field.demo";
+import { CoinAmountDemo } from "@/registry/demos/coin-amount.demo";
+import { CatalogSelectDemo } from "@/registry/demos/catalog-select.demo";
+import { InkChecklistDemo } from "@/registry/demos/ink-checklist.demo";
+import { MailFieldDemo } from "@/registry/demos/mail-field.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2474,4 +2484,14 @@ export const demos: Record<string, ComponentType> = {
   "paper-slip": PaperSlipDemo,
   "cork-notes": CorkNotesDemo,
   "pneumatic-tube": PneumaticTubeDemo,
+  "tumbler-code": TumblerCodeDemo,
+  "vault-password": VaultPasswordDemo,
+  "globe-phone": GlobePhoneDemo,
+  "swatch-mixer": SwatchMixerDemo,
+  "folder-drop": FolderDropDemo,
+  "slug-field": SlugFieldDemo,
+  "coin-amount": CoinAmountDemo,
+  "catalog-select": CatalogSelectDemo,
+  "ink-checklist": InkChecklistDemo,
+  "mail-field": MailFieldDemo,
 };

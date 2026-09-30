@@ -20409,6 +20409,313 @@ Notes:
 - Under reduced motion the vehicle moves to each report at once, stops light without a ring, the minutes swap without rolling and the map opens on a short tween with its route drawn whole; the ETA still counts and the stages still light.
 - Each newly reached stage is announced once in a polite live region; the per-second ETA is never announced. Sounds only answer the visitor: a live update that reaches a stage lights it silently.
 
+### Tumbler Code (KQ-1161) — `tumbler-code`
+The pins line up when it's right.
+
+A one-time-code field drawn as a pin-tumbler lock: each digit raises its spring-loaded pin stack on snap to a height set by the digit, the coil compressing above it, and a paste raises them left to right on a cascade. When check accepts the code every split glides onto the shear line and the plug turns a quarter on snap with a clunk, folding the key pins away; a refused code jiggles the pins on a tween and drops them on recoil so they bounce as they land. The cells are real inputs in one tab stop: digits type in and advance, Backspace and Delete remove, arrows and Home/End move, and paste or one-time-code autofill fills them all.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tumbler-code`
+
+Props:
+- `label`: string — What the code is for: the visible label and the name of the group of cells.
+- `value / defaultValue`: string (default "") — Controlled or initial code: digits only, never longer than length.
+- `onValueChange`: (value: string) => void — Fires from the key, paste or refusal that changed the code, with the new digits.
+- `length`: number (default 6) — How many digits, and so how many pins the cylinder has, 4 to 8.
+- `brass`: "brass" | "nickel" | "black" (default "brass") — The metal of the housing, the plug and the face. The pins stay nickel over brass so the split always reads.
+- `verify`: boolean (default true) — Check the code when its last digit lands and turn or refuse the lock. Needs check; off, the field only collects the code.
+- `check`: (code: string) => boolean | Promise<boolean> — The host's verifier. A promise holds the plug in a test turn until it settles; a rejected one leaves the pins where they are.
+- `onComplete`: (code: string) => void — Fires from the key or paste that filled the last cell, with the whole code.
+- `onResult`: (accepted: boolean, code: string) => void — Fires once check has answered, before the lock turns or the pins drop.
+- `name`: string — The form field name; a hidden input carries the code under it.
+- `hint`: string — Helper text under the cells, wired to every cell with aria-describedby.
+- `error`: string | null — What is wrong, from the host: shown under the cells, marked on them with aria-invalid, and announced once.
+- `wrongText`: string (default "That code didn't turn the lock. Try again.") — What a refused code says.
+- `required`: boolean (default false) — Marks every cell required, so a form will not submit with an empty one.
+- `sound`: boolean (default false) — Play each pin's click, the plug's clunk and the refusal's shrug. Nothing plays, and no audio context exists, unless this is on; sounds only ever answer the visitor.
+- `disabled`: boolean (default false) — Disables the field and dims it.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- Each digit is a native input named "Digit n of N" inside a labelled group, with one tab stop on the next cell to fill: digits type straight in and advance, Backspace clears the digit before or under the caret, Delete clears in place, Left/Right move and Home/End jump, and a paste (or the platform's one-time-code autofill on the first cell) fills from the start.
+- Under reduced motion the pins take their digit heights, alignment and rest at once with no springs, no jiggle and no sweep, and the plug's open state is a swap; the words under the cells and the polite status ("Checking the code.", "Code accepted. The lock is open.", the refusal) are unchanged.
+- Controlled use reports every change from the key, paste or refusal that made it and then follows the host; a code the host sets itself moves the pins in silence and is not checked.
+
+### Vault Password (KQ-1162) — `vault-password`
+Every rule shoots a bolt.
+
+A new-password field beside a vault door seen from the inside, one bolt per strength rule: meeting a rule shoots its bolt across the seam into the frame on snap with a thock as it hits its stop, and breaking it pulls the bolt back on glide, the linkage arms following every frame. With every bolt home the wheel spins a turn and a quarter on drift, clicking as its spokes pass, then the latch turns in the hub on flick and the lamp lights; the show/hide control is a peephole whose shutter swings aside on snap. The input, its label, hint, error and rules list are real form semantics, and a polite status speaks once per change of rule state.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/vault-password`
+
+Props:
+- `label`: string (default "Password") — What the password is for: the visible label and the input's accessible name.
+- `value / defaultValue`: string (default "") — Controlled or initial password.
+- `onValueChange`: (value: string) => void — Fires with the new password on every edit.
+- `rules`: number (default 4) — How many rules the door enforces, taken in order, 3 to 6: one bolt each.
+- `checks`: VaultRule[] (default 12+ characters, lowercase, uppercase, a number, a symbol, not a common password) — The rules to take them from, each { id, label, test }.
+- `door`: "steel" | "brass" | "matte" (default "steel") — The metal of the door, its frame and the peephole shutter.
+- `spin`: boolean (default true) — Spin the wheel before the latch drops once every bolt is home; off, the latch drops as the last bolt lands.
+- `onLockedChange`: (locked: boolean) => void — Fires from the edit that shot the last bolt home (true) or pulled one back from a locked door (false).
+- `name`: string — The form field name of the native input.
+- `hint`: string — Helper text under the field, wired with aria-describedby.
+- `error`: string | null — What is wrong, from the host: shown under the field, marked with aria-invalid, and announced once.
+- `placeholder`: string — The input's placeholder.
+- `autoComplete`: string (default "new-password") — The input's autocomplete token.
+- `required`: boolean (default false) — Marks the input required.
+- `sound`: boolean (default false) — Play the bolts' thocks, the wheel's clicks and the shutter. Nothing plays, and no audio context exists, unless this is on; sounds only ever answer the visitor.
+- `disabled`: boolean (default false) — Disables the field and dims it.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- The field is a native password input with a visible label; its description carries the hint, the rules list and any error. The peephole is a real toggle button (aria-pressed, "Show password") reached with Tab and pressed with Space or Enter, and the rules are a real list whose items say met or not met yet.
+- Under reduced motion the bolts, latch, lamp and shutter take their states without travel and the wheel never spins; the rules list, the status sentences and the sounds still answer typing, because met and unmet are information.
+- The status speaks one frozen sentence per change of rule state, never per keystroke — "A number: met. 3 of 4 rules met." or "All 4 rules met. The vault is locked." — and a host that clears the field moves the bolts in silence.
+
+### Globe Phone (KQ-1163) — `globe-phone`
+Spin to the country.
+
+A phone number field whose country picker is a small orthographic globe: choosing a country turns it there the short way round on a spring derived from drift and scaled by spin, the country's pin drops onto the centre on recoil, and the dial code rolls digit by digit on glide. The globe also follows a horizontal drag 1:1 and a throw comes to rest on the country nearest where it would stop; the number formats for its country as it is typed and keeps its caret. Pressing the globe opens a searchable combobox and listbox whose highlight previews each country on the globe; arrows move, Enter chooses, Escape closes and turns it back, and Left/Right on the globe step east and west.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/globe-phone`
+
+Props:
+- `label`: string (default "Phone number") — What the number is for: the visible label and the input's accessible name.
+- `value / defaultValue`: string (default "") — Controlled or initial national number: digits only, without the country code.
+- `onValueChange`: (value: string, international: string) => void — Fires with the digits and the full international number on every edit.
+- `country / defaultCountry`: string (default "GB") — Controlled or initial country, by ISO code.
+- `onCountryChange`: (code: string) => void — Fires from the list, the throw or the arrow key that chose a country.
+- `countries`: PhoneCountry[] (default thirty, from Argentina to the United States) — The countries on offer, each { code, name, dial, pattern, lat, lon, alias? }; # in a pattern is a digit.
+- `spin`: number (default 1) — How fast the globe turns to a country, 0.3 to 1.5; the whir runs higher with it.
+- `grid`: boolean (default true) — Draw the graticule: meridians and parallels every 30 degrees.
+- `format`: boolean (default true) — Format the number for its country as it is typed; off keeps bare digits.
+- `name`: string — The form field name; a hidden input carries the international number under it.
+- `hint`: string — Helper text under the field, wired with aria-describedby.
+- `error`: string | null — What is wrong, from the host: shown under the field, marked with aria-invalid, and announced once. A number short for its country is flagged on blur the same way.
+- `required`: boolean (default false) — Marks the number input required.
+- `sound`: boolean (default false) — Play the globe's whir while it turns and the ticks of countries passing and dial digits landing. Nothing plays, and no audio context exists, unless this is on; sounds only ever answer the visitor.
+- `disabled`: boolean (default false) — Disables the field and dims it.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- The globe is a button with aria-haspopup="listbox" named for the country and its code: Enter, Space, Up or Down open the list with focus in its search box (a combobox with aria-activedescendant); Up/Down and Page keys move, Enter chooses and moves focus to the number, Escape closes with preventDefault and returns focus to the globe, and Left/Right on the globe turn it to the next country west or east — the keyboard path of the throw.
+- Under reduced motion the globe and the dial code change without travel and the list appears with a fade instead of a height glide; search, formatting and the chosen country behave the same.
+- The number input is a native tel input whose text is formatted for the country; Backspace or Delete over a space or bracket removes the digit beyond it, and the caret stays after the same digit through every reformat.
+
+### Swatch Mixer (KQ-1164) — `swatch-mixer`
+Mix the colour you want.
+
+A colour input you fill by mixing paint: a pigment dragged off its pot follows the pointer 1:1 and, let go over the well, sinks in with a ripple while the well lands on the recoil spring; a tap hops a blob in along a short arc. The colour is the parts-weighted average of the pigments in OKLab and it does not swap: the new pigment curls in as a streak, stir lines sweep round, and the paint travels from the old mix to the new one over a stir whose length is `swirl`, while the dish's rim, a ring of one segment per pigment, re-divides on the glide spring and a segment dragged out of the dish takes that pigment away. Each pot is a slider: Left and Right move between pigments, Up, Enter and Space add a part, Down takes one away, Delete or Home take the pigment out and End fills it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/swatch-mixer`
+
+Props:
+- `value / defaultValue`: string (default "") — The colour in the well as `#rrggbb`, or an empty string for an empty well. Controlled or uncontrolled; a value the host sets is shown exactly, with the nearest recipe the palette can make on the rim.
+- `onValueChange`: (value: string) => void — Fires from the drop, key or press that changed the mix, with the new colour.
+- `label`: string — The field's visible label and the accessible name of its group.
+- `name`: string — Form field name; the colour rides a hidden input inside a surrounding form.
+- `hint`: string — Guidance under the well, wired to the field with aria-describedby.
+- `error`: string — An error from the host, shown under the well and announced once.
+- `required`: boolean (default false) — Marks the field required; once the visitor empties the well it says so unless the host passes its own error.
+- `disabled`: boolean (default false) — Stops every drag, key and press, and dims the field.
+- `pigments`: number (default 4) — How many pigment pots the palette offers, 3 to 6: the primaries, then white, black and a green.
+- `swirl`: number (default 0.6) — How much the well swirls as a part mixes in, 0 to 1: at 0 the colour simply cross-fades, at 1 the stir lasts about 1.4 s and the streak makes more than a full turn.
+- `readout`: "hex" | "oklch" (default "hex") — The format of the readout beside the label and of the recent mixes' names.
+- `sound`: boolean (default false) — A plip as a part lands, pitched by the pigment's lightness, and a gloop as one is pulled out. Only ever in answer to the visitor.
+- `className`: string — Classes for the field's root.
+
+Notes:
+- Keyboard: the palette is one tab stop. Left and Right move between pigments; Up, Enter and Space add a part (the same hop and drop as a tap); Down takes one away; Delete, Backspace or Home take the pigment out, the same end state as dragging its rim segment out of the dish; End fills it to eight parts. Recent mixes are a toolbar reached with Tab, where Left, Right, Home and End move and Enter restores.
+- Reduced motion: nothing travels, swirls or bounces. A dropped blob vanishes where it was let go, a tap adds the part without the hop, and there is no streak, stir or landing; the rim still re-divides and the paint still cross-fades to the new mix in oklab, because the mix is the value.
+- The settled mix is announced once in a polite live region and kept in the recent strip after it has stood still for 700 ms; a value the palette cannot make exactly is kept as given, and the rim shows the closest recipe.
+
+### Folder Drop (KQ-1165) — `folder-drop`
+Drop files, watch them go in.
+
+A file field drawn as a paper folder: files dragged over it open its mouth, the front flap tipping toward you on the snap spring, and each accepted file falls in as a sheet of paper behind the flap on a cascade, after which the flap shuts and the folder lands on the recoil spring. A file it will not take, the wrong type, over `maxSize`, a duplicate or one too many, falls onto the shut edge, jumps and tumbles away and is listed with the reason, while every filed file gets a row whose swallowtail progress ribbon follows the host's upload progress on the glide spring. The folder is a real button over a real file input, so click, Enter or Space open the system picker and the picked files go through the same checks and the same fall.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/folder-drop`
+
+Props:
+- `value / defaultValue`: FolderDropItem[] (default []) — The files in the folder: `{ id, name, size, type?, progress?, file? }`. Controlled or uncontrolled; the host owns `progress`, and files it adds itself fall in silently.
+- `onValueChange`: (items: FolderDropItem[]) => void — Fires from the drop, pick or removal that changed the list.
+- `onReject`: (rejections: { name: string; reason: string }[]) => void — The files that bounced off a drop or pick, with the reason for each.
+- `label`: string — The field's visible label; with "Choose files" it names the folder button.
+- `name`: string — Form field name for the real file input, whose files are rebuilt from the list after every change.
+- `hint`: string — Guidance under the folder. Defaults to what it takes and how large, such as "Images up to 10 MB."
+- `error`: string — An error from the host, shown under the folder and announced once.
+- `required`: boolean (default false) — The form needs at least one file; set on the file input while the folder is empty.
+- `disabled`: boolean (default false) — Refuses drops and picks and dims the field.
+- `maxSize`: number (default 10) — The largest file it takes, in MB; a larger one bounces with its size and the limit.
+- `accept`: "images" | "docs" | "any" (default "any") — Which files it takes; also sets the picker's filter and the default hint.
+- `folder`: "manila" | "blue" | "kraft" (default "manila") — The folder's paper, the same in either theme.
+- `maxFiles`: number (default 8) — How many files the folder holds; the rest of a drop bounces.
+- `sound`: boolean (default false) — A swish as sheets go in, a thud as the flap shuts and a shrug for each bounce. Only ever in answer to the visitor.
+- `className`: string — Classes for the field's root.
+
+Notes:
+- Keyboard: the folder is a button, so Tab reaches it and Enter or Space open the system file picker, the same end state as a drop. Each row's remove button is named by its file; removing one moves focus to the next row, or back to the folder when none are left.
+- Reduced motion: the flap swaps between shut and open and no sheet falls or bounces; rows and reasons still arrive, the ribbons still fill on a short tween and the count on the folder still changes.
+- Each drop is announced once in a polite live region, such as "1 file added. drone-pass.tif bounced: 12.4 MB, over the 10 MB limit.", and a finished upload once as "roof-east.png filed."; upload progress itself is the host's, passed back on each item.
+
+### Slug Field (KQ-1166) — `slug-field`
+Titles become tidy URLs.
+
+A title and the URL slug that follows it: each new slug letter drops out of the title as a ghost of the character as typed, capital or accent and all, and becomes the lowercase letter as it lands in its cell on the flick spring, while characters a slug cannot hold fall away before they arrive and later letters slide to their new cells on the glide spring. Typing in the slug itself folds the text the same way and unlinks it from the title, snapping the tether and chain beside the label on the snap spring, and the Follow title toggle relinks it with the letters dropping in again. An availability check marks a taken slug and offers the first free numbered one; both fields are real inputs with the platform's own caret, selection and undo, reached with Tab, and every control is a button pressed with Enter or Space.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/slug-field`
+
+Props:
+- `title / defaultTitle`: string (default "") — The title the slug follows. Controlled or uncontrolled.
+- `onTitleChange`: (title: string) => void — Fires as the title is typed.
+- `titleLabel`: string (default "Title") — The title field's visible label.
+- `titleName`: string — Form field name for the title input.
+- `titlePlaceholder`: string — Placeholder for an empty title.
+- `value / defaultValue`: string — The slug. Controlled or uncontrolled; uncontrolled, it defaults to the title's slug.
+- `onValueChange`: (slug: string) => void — Fires from the keystroke, press or offer that changed the slug, including a title keystroke while it is linked.
+- `label`: string (default "URL") — The slug field's visible label.
+- `name`: string — Form field name for the slug input.
+- `prefix`: string — What comes before the slug, shown in the box and truncated first when space is short, such as "fernworks.journal/posts/".
+- `linked / defaultLinked`: boolean (default true) — Whether the slug follows the title. Uncontrolled, it starts unlinked when `defaultValue` differs from the title's slug.
+- `onLinkedChange`: (linked: boolean) => void — Fires when a hand edit unlinks the slug or the toggle links or unlinks it.
+- `separator`: "-" | "_" (default "-") — The character between words.
+- `max`: number (default 48) — The longest slug the title makes, cut on a word boundary; hand typing past it is flagged, never blocked.
+- `check`: boolean (default true) — Check the slug with `isTaken` once it has stood still for 300 ms, and offer a numbered one when it is taken.
+- `isTaken`: (slug: string) => boolean | Promise<boolean> — The host's availability check, synchronous or not.
+- `hint`: string — Guidance under the slug. Defaults to what a slug may contain.
+- `error`: string — An error from the host, shown under the slug and announced once.
+- `required`: boolean (default false) — Marks the slug input required.
+- `disabled`: boolean (default false) — Disables both inputs and every control.
+- `sound`: boolean (default false) — A tick as each letter lands and a pop when the slug relinks or takes a numbered offer. Only ever in answer to the visitor.
+- `className`: string — Classes for the field's root.
+
+Notes:
+- Keyboard: Tab moves from the title to the Follow title toggle (aria-pressed, Enter or Space) to the slug, and to the numbered offer when one is shown; both fields are native inputs, so selection, undo, paste and IME behave as the platform does.
+- Reduced motion: no letter flies, falls or slides and the tether and chain swap between joined and broken at once; letters fade into their cells, and the slug, the availability and the counter still update.
+- A polite live region says, once each, when a slug is taken and which number is free, when it is available, and when the slug stops or starts following the title; never per keystroke.
+
+### Coin Amount (KQ-1167) — `coin-amount`
+The amount stacks up as you type.
+
+A currency amount field that counts the cash out as you type: beside the figure a tray keeps one pile per place value — coins for cents and ones, notes for tens and hundreds, strapped bundles from thousands — each holding exactly its digit, and every new piece falls under gravity and lands with a squash on springs.recoil while the figure's own digits roll into place on springs.snap. Clearing sweeps the tray off to the right on the exit ease, and a conversion odometer under the field rolls on springs.snap. It is a real text input that places the grouping as you type and keeps the caret among the digits; Escape or the clear button empties it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/coin-amount`
+
+Props:
+- `label`: string — What the amount is for. The field's visible label.
+- `value / defaultValue`: number | null (default null) — The amount, controlled or initial; null is an empty field.
+- `onValueChange`: (value: number | null) => void — Fires from the key, paste or clear that changed the amount.
+- `currency`: "usd" | "eur" | "inr" | "gbp" (default "usd") — The currency typed in: its symbol, grouping (lakh for rupees), notes and conversion pair.
+- `convert`: boolean (default true) — Show the live conversion to a second currency under the field.
+- `stack`: number (default 0.4) — How loosely the cash piles, 0 to 1: squared-off stacks at 0, a casual heap that lands harder at 1.
+- `convertTo`: "usd" | "eur" | "inr" | "gbp" — The currency converted to. Defaults to the usual pair: euros for dollars and pounds, dollars for euros and rupees.
+- `rate`: number — Units of convertTo per unit of currency. The default is an illustrative fixed rate; pass a live one.
+- `locale`: string — The locale that groups and formats the figure. Defaults to the currency's own.
+- `min`: number — The least amount accepted. Checked, never enforced while typing.
+- `max`: number — The most accepted. Checked, never enforced while typing.
+- `name`: string — Form field name; a hidden input carries the amount with two decimals.
+- `placeholder`: string (default "0.00") — Shown in an empty field.
+- `hint`: string — Helper text under the field.
+- `error`: string — An error from the host; replaces the hint and marks the field invalid.
+- `required`: boolean (default false) — An empty field is invalid once it has been left.
+- `disabled`: boolean (default false) — Turns the field off.
+- `sound`: boolean (default false) — Play the coins and notes landing and the sweep. Only the visitor's own edits are heard.
+- `className`: string — Classes for the root.
+
+Notes:
+- Keyboard: it is a text input — digits and one point ("." or ",") type in, the grouping is placed for you, any delete works across it, a pasted "1.284,35" or "$1,284.35" lands as 1284.35, and Escape (or the clear button) empties the field and sweeps the tray.
+- Reduced motion: nothing falls, rolls or sweeps — pieces fade onto and off their piles and digits change in place; the piles and the conversion still follow the figure.
+- Validation never blocks typing: over max or under min shows an error that is announced once; nine whole digits and two decimals are the format limit.
+
+### Catalog Select (KQ-1168) — `catalog-select`
+Flip through the drawer.
+
+A select whose options are index cards in a catalog drawer: opening pulls the drawer out on springs.glide (or by hand, 1:1, committing by projection), the card being read stands tipped toward you, and moving on makes it fall forward over its bottom edge while the file glides a place nearer — moving back flips the last fallen card up on springs.snap, and jumps riffle card by card on cascade(). Choosing lifts the card up into the field on springs.glide as the drawer shuts under it. It is the select-only combobox pattern: focus stays on the field, arrows, Page keys, Home and End move, typing jumps by first letters, Enter chooses and Escape shuts.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/catalog-select`
+
+Props:
+- `label`: string — What is being chosen. The visible label and the listbox's name.
+- `options`: CatalogOption[] — The cards: { value, label, detail?, disabled? }. The label is the card's heading and tab and what typing jumps by.
+- `value / defaultValue`: string | null (default null) — The chosen option's value, controlled or initial.
+- `onValueChange`: (value: string) => void — Fires from the key, click or tap that chose a card.
+- `open / defaultOpen`: boolean (default false) — Whether the drawer is pulled out, controlled or initial.
+- `onOpenChange`: (open: boolean) => void — Fires from the key, pull or press that opened or shut the drawer.
+- `placeholder`: string (default "Choose one") — Shown in the field before anything is chosen.
+- `drawerLabel`: string — The label in the holder on the drawer's front. Defaults to the first and last initials, "A – Z".
+- `cards`: number (default 7) — How many cards stand in view in the open drawer, 4 to 12: wide tabs at 4, a packed file at 12.
+- `drawer`: "oak" | "steel" | "card" (default "oak") — The drawer's material: grained oak with brass, brushed steel, or kraft board.
+- `flip`: number (default 0.7) — How far the card being read tips toward you, 0 to 1; the paper is louder with it.
+- `name`: string — Form field name; a hidden input carries the chosen value.
+- `hint`: string — Helper text under the drawer.
+- `error`: string — An error from the host; replaces the hint and marks the field invalid.
+- `required`: boolean (default false) — Shutting the drawer with nothing chosen shows "Choose one to continue."
+- `disabled`: boolean (default false) — Turns the field and the drawer off.
+- `sound`: boolean (default false) — Play the paper of each flip and the drawer's thock. Heard only just after the visitor's own input.
+- `className`: string — Classes for the root.
+
+Notes:
+- Keyboard: on the field, Down, Enter or Space opens the drawer on the chosen card, Up and Home open on the first, End on the last, and typing opens and jumps by first letters. Open: Up and Down flip a card, PageUp and PageDown a drawer-full, Home and End jump (disabled cards are skipped), Enter, Space or Alt+Up choose, Tab chooses and moves on, Escape shuts without choosing.
+- Reduced motion: the drawer opens and shuts in one step, cards change places without falling or flipping, and choosing updates the field without the flight.
+- Pointer: the drawer's front can be pulled out and pushed back by hand; the wheel over the open drawer flips a card per notch, a vertical drag riffles, a click on a card or tab chooses it and a press on the fallen pile flips one back.
+
+### Ink Checklist (KQ-1169) — `ink-checklist`
+Ticked by hand.
+
+A checklist on a notepad where each tick is drawn by a pen: a filled outline rebuilt every frame from a stroke with pressure — light where the nib lands, heaviest at the corner, lifting to a hairline as it flicks — on springs.flick, followed by a wavering pen line through the words at the pen's own pace, struck line by line when they wrap. Unticking rubs both out with a small eraser that leaves a fading smudge, and a margin bar fills with ink to the share done on springs.glide. Every item is a native checkbox in a fieldset, so Tab reaches each box and Space ticks it exactly as a press does.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ink-checklist`
+
+Props:
+- `label`: string — What the list is for. The fieldset's legend.
+- `items`: InkChecklistItem[] — The items: { id, label, disabled? }.
+- `value / defaultValue`: string[] (default []) — The ids of the ticked items, controlled or initial.
+- `onValueChange`: (value: string[]) => void — Fires from the press or key that ticked or unticked an item, with every ticked id in list order.
+- `ink`: "blue" | "black" | "red" (default "blue") — The pen.
+- `strike`: boolean (default true) — Strike an item's words through when it is ticked.
+- `wobble`: number (default 0.4) — How unsteady the hand is, 0 to 1: the boxes' corners, the tick's path and the strike's waver.
+- `name`: string — Form field name; each ticked item submits its id under it.
+- `hint`: string — Helper text under the legend.
+- `error`: string — An error from the host; replaces the hint.
+- `required`: boolean (default false) — Every item must be ticked before the form submits; a refused submit says how many are left.
+- `disabled`: boolean (default false) — Turns the whole list off.
+- `sound`: boolean (default false) — Play the pen's tick and scratch and the eraser's rub. Only the visitor's own ticks are heard.
+- `className`: string — Classes for the pad.
+
+Notes:
+- Keyboard: every item is a native checkbox — Tab reaches each box and Space ticks or unticks it with the same drawing or rubbing out as a press; the focus ring sits on the box itself.
+- Reduced motion: no drawing or rubbing — the tick and strike appear whole with a short fade and leave with one, with no eraser or smudge; the margin bar and the count still change.
+- Every stroke is seeded from the item's id, so the server and the browser draw the same hand; progress ("3 of 5 done.") and a required list's error are announced once each in a polite live region.
+
+### Mail Field (KQ-1170) — `mail-field`
+Catches the typo before you do.
+
+An email field that checks as you type and catches a slipped domain: when the domain looks finished but sits an edit or two from a known one (a swap counts as one), a row folds open under the field at its measured height on springs.glide, and using the fix morphs the address in place — kept letters slide on springs.glide, swapped letters trade places with one arcing over the other, a wrong letter drops out as the right one drops in on springs.snap, one after another on cascade(). A committed valid address is stamped with a postmark that lands on springs.recoil. The fix is the next thing Tab reaches, Enter or Space uses it, and Escape in the field declines it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mail-field`
+
+Props:
+- `label`: string — What the address is for. The field's visible label.
+- `value / defaultValue`: string (default "") — The address, controlled or initial.
+- `onValueChange`: (value: string) => void — Fires from the key, paste or accepted fix that changed the address.
+- `onStamp`: (value: string) => void — Fires when a valid address is stamped: the field was left, Enter pressed, or a fix used or declined.
+- `suggest`: boolean (default true) — Offer a fix when the domain looks like a slip of a known one.
+- `stamp`: boolean (default true) — Stamp a committed valid address; off, it gets a quiet check.
+- `domains`: "common" | "work" (default "common") — Which built-in (invented) domains the field knows and suggests: personal mail hosts or company domains.
+- `knownDomains`: string[] — The host's own known domains, in place of the built-in list.
+- `name`: string — Form field name; the input itself carries the address.
+- `placeholder`: string (default "name@fernmail.com") — Shown in an empty field.
+- `hint`: string — Helper text under the field.
+- `error`: string — An error from the host; replaces the hint and marks the field invalid.
+- `required`: boolean (default false) — An empty field is invalid once it has been left.
+- `disabled`: boolean (default false) — Turns the field off.
+- `sound`: boolean (default false) — Play the letters landing and the stamp. Only the visitor's own actions are heard.
+- `className`: string — Classes for the root.
+
+Notes:
+- Keyboard: when a fix is offered, Tab from the field reaches "Use it" (then "Keep mine"); Enter or Space uses it and returns focus to the field with the caret at the end; Escape in the field declines it. Enter or leaving the field stamps a valid address.
+- Reduced motion: no letters travel — the corrected address replaces the old one at once with its changed letters tinted and fading to ink, the suggestion row opens without travel, and the stamp fades in without the bounce.
+- Certain mistakes (a space, a second @, a character an address cannot hold) are said at once; an unfinished address only once the field is left; the suggestion, errors and the stamp are each announced once in one polite live region.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -65123,4 +65123,1417 @@ export const components: KinetiqItem[] = [
       "Controlled: onDismiss fires at the tap or key. Remove the notice and the capsule goes; keep it and it comes round again in its turn. A notice removed while it is in the cup is rolled up and sent back by itself. Arrivals are announced once (alerts assertively).",
     ],
   },
+  {
+    name: "tumbler-code",
+    type: "registry:ui",
+    title: "Tumbler Code",
+    files: [
+      {
+        path: "registry/ui/tumbler-code.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1161",
+    },
+    tagline: "The pins line up when it's right.",
+    description:
+      "A one-time-code field drawn as a pin-tumbler lock: each digit raises its spring-loaded pin stack on snap to a height set by the digit, the coil compressing above it, and a paste raises them left to right on a cascade. When check accepts the code every split glides onto the shear line and the plug turns a quarter on snap with a clunk, folding the key pins away; a refused code jiggles the pins on a tween and drops them on recoil so they bounce as they land. The cells are real inputs in one tab stop: digits type in and advance, Backspace and Delete remove, arrows and Home/End move, and paste or one-time-code autofill fills them all.",
+    keywords: [
+      "one-time code",
+      "otp",
+      "verification",
+      "pin tumbler",
+      "lock",
+      "code input",
+      "two-step",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What the code is for: the visible label and the name of the group of cells.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description:
+          "Controlled or initial code: digits only, never longer than length.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description:
+          "Fires from the key, paste or refusal that changed the code, with the new digits.",
+      },
+      {
+        name: "length",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "How many digits, and so how many pins the cylinder has, 4 to 8.",
+      },
+      {
+        name: "brass",
+        type: '"brass" | "nickel" | "black"',
+        defaultValue: '"brass"',
+        description:
+          "The metal of the housing, the plug and the face. The pins stay nickel over brass so the split always reads.",
+      },
+      {
+        name: "verify",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Check the code when its last digit lands and turn or refuse the lock. Needs check; off, the field only collects the code.",
+      },
+      {
+        name: "check",
+        type: "(code: string) => boolean | Promise<boolean>",
+        description:
+          "The host's verifier. A promise holds the plug in a test turn until it settles; a rejected one leaves the pins where they are.",
+      },
+      {
+        name: "onComplete",
+        type: "(code: string) => void",
+        description:
+          "Fires from the key or paste that filled the last cell, with the whole code.",
+      },
+      {
+        name: "onResult",
+        type: "(accepted: boolean, code: string) => void",
+        description:
+          "Fires once check has answered, before the lock turns or the pins drop.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "The form field name; a hidden input carries the code under it.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description:
+          "Helper text under the cells, wired to every cell with aria-describedby.",
+      },
+      {
+        name: "error",
+        type: "string | null",
+        description:
+          "What is wrong, from the host: shown under the cells, marked on them with aria-invalid, and announced once.",
+      },
+      {
+        name: "wrongText",
+        type: "string",
+        defaultValue: '"That code didn\'t turn the lock. Try again."',
+        description: "What a refused code says.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Marks every cell required, so a form will not submit with an empty one.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play each pin's click, the plug's clunk and the refusal's shrug. Nothing plays, and no audio context exists, unless this is on; sounds only ever answer the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the field and dims it.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      'Each digit is a native input named "Digit n of N" inside a labelled group, with one tab stop on the next cell to fill: digits type straight in and advance, Backspace clears the digit before or under the caret, Delete clears in place, Left/Right move and Home/End jump, and a paste (or the platform\'s one-time-code autofill on the first cell) fills from the start.',
+      'Under reduced motion the pins take their digit heights, alignment and rest at once with no springs, no jiggle and no sweep, and the plug\'s open state is a swap; the words under the cells and the polite status ("Checking the code.", "Code accepted. The lock is open.", the refusal) are unchanged.',
+      "Controlled use reports every change from the key, paste or refusal that made it and then follows the host; a code the host sets itself moves the pins in silence and is not checked.",
+    ],
+  },
+  {
+    name: "vault-password",
+    type: "registry:ui",
+    title: "Vault Password",
+    files: [
+      {
+        path: "registry/ui/vault-password.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1162",
+    },
+    tagline: "Every rule shoots a bolt.",
+    description:
+      "A new-password field beside a vault door seen from the inside, one bolt per strength rule: meeting a rule shoots its bolt across the seam into the frame on snap with a thock as it hits its stop, and breaking it pulls the bolt back on glide, the linkage arms following every frame. With every bolt home the wheel spins a turn and a quarter on drift, clicking as its spokes pass, then the latch turns in the hub on flick and the lamp lights; the show/hide control is a peephole whose shutter swings aside on snap. The input, its label, hint, error and rules list are real form semantics, and a polite status speaks once per change of rule state.",
+    keywords: [
+      "password",
+      "strength",
+      "rules",
+      "vault",
+      "bolts",
+      "show password",
+      "sign-up",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Password"',
+        description:
+          "What the password is for: the visible label and the input's accessible name.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description: "Controlled or initial password.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires with the new password on every edit.",
+      },
+      {
+        name: "rules",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "How many rules the door enforces, taken in order, 3 to 6: one bolt each.",
+      },
+      {
+        name: "checks",
+        type: "VaultRule[]",
+        defaultValue:
+          "12+ characters, lowercase, uppercase, a number, a symbol, not a common password",
+        description: "The rules to take them from, each { id, label, test }.",
+      },
+      {
+        name: "door",
+        type: '"steel" | "brass" | "matte"',
+        defaultValue: '"steel"',
+        description:
+          "The metal of the door, its frame and the peephole shutter.",
+      },
+      {
+        name: "spin",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Spin the wheel before the latch drops once every bolt is home; off, the latch drops as the last bolt lands.",
+      },
+      {
+        name: "onLockedChange",
+        type: "(locked: boolean) => void",
+        description:
+          "Fires from the edit that shot the last bolt home (true) or pulled one back from a locked door (false).",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "The form field name of the native input.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description:
+          "Helper text under the field, wired with aria-describedby.",
+      },
+      {
+        name: "error",
+        type: "string | null",
+        description:
+          "What is wrong, from the host: shown under the field, marked with aria-invalid, and announced once.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        description: "The input's placeholder.",
+      },
+      {
+        name: "autoComplete",
+        type: "string",
+        defaultValue: '"new-password"',
+        description: "The input's autocomplete token.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Marks the input required.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the bolts' thocks, the wheel's clicks and the shutter. Nothing plays, and no audio context exists, unless this is on; sounds only ever answer the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the field and dims it.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      'The field is a native password input with a visible label; its description carries the hint, the rules list and any error. The peephole is a real toggle button (aria-pressed, "Show password") reached with Tab and pressed with Space or Enter, and the rules are a real list whose items say met or not met yet.',
+      "Under reduced motion the bolts, latch, lamp and shutter take their states without travel and the wheel never spins; the rules list, the status sentences and the sounds still answer typing, because met and unmet are information.",
+      'The status speaks one frozen sentence per change of rule state, never per keystroke — "A number: met. 3 of 4 rules met." or "All 4 rules met. The vault is locked." — and a host that clears the field moves the bolts in silence.',
+    ],
+  },
+  {
+    name: "globe-phone",
+    type: "registry:ui",
+    title: "Globe Phone",
+    files: [
+      {
+        path: "registry/ui/globe-phone.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1163",
+    },
+    tagline: "Spin to the country.",
+    description:
+      "A phone number field whose country picker is a small orthographic globe: choosing a country turns it there the short way round on a spring derived from drift and scaled by spin, the country's pin drops onto the centre on recoil, and the dial code rolls digit by digit on glide. The globe also follows a horizontal drag 1:1 and a throw comes to rest on the country nearest where it would stop; the number formats for its country as it is typed and keeps its caret. Pressing the globe opens a searchable combobox and listbox whose highlight previews each country on the globe; arrows move, Enter chooses, Escape closes and turns it back, and Left/Right on the globe step east and west.",
+    keywords: [
+      "phone",
+      "telephone",
+      "country code",
+      "dial code",
+      "globe",
+      "country picker",
+      "international",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Phone number"',
+        description:
+          "What the number is for: the visible label and the input's accessible name.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description:
+          "Controlled or initial national number: digits only, without the country code.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string, international: string) => void",
+        description:
+          "Fires with the digits and the full international number on every edit.",
+      },
+      {
+        name: "country / defaultCountry",
+        type: "string",
+        defaultValue: '"GB"',
+        description: "Controlled or initial country, by ISO code.",
+      },
+      {
+        name: "onCountryChange",
+        type: "(code: string) => void",
+        description:
+          "Fires from the list, the throw or the arrow key that chose a country.",
+      },
+      {
+        name: "countries",
+        type: "PhoneCountry[]",
+        defaultValue: "thirty, from Argentina to the United States",
+        description:
+          "The countries on offer, each { code, name, dial, pattern, lat, lon, alias? }; # in a pattern is a digit.",
+      },
+      {
+        name: "spin",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the globe turns to a country, 0.3 to 1.5; the whir runs higher with it.",
+      },
+      {
+        name: "grid",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw the graticule: meridians and parallels every 30 degrees.",
+      },
+      {
+        name: "format",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Format the number for its country as it is typed; off keeps bare digits.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "The form field name; a hidden input carries the international number under it.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description:
+          "Helper text under the field, wired with aria-describedby.",
+      },
+      {
+        name: "error",
+        type: "string | null",
+        description:
+          "What is wrong, from the host: shown under the field, marked with aria-invalid, and announced once. A number short for its country is flagged on blur the same way.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Marks the number input required.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the globe's whir while it turns and the ticks of countries passing and dial digits landing. Nothing plays, and no audio context exists, unless this is on; sounds only ever answer the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the field and dims it.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      'The globe is a button with aria-haspopup="listbox" named for the country and its code: Enter, Space, Up or Down open the list with focus in its search box (a combobox with aria-activedescendant); Up/Down and Page keys move, Enter chooses and moves focus to the number, Escape closes with preventDefault and returns focus to the globe, and Left/Right on the globe turn it to the next country west or east — the keyboard path of the throw.',
+      "Under reduced motion the globe and the dial code change without travel and the list appears with a fade instead of a height glide; search, formatting and the chosen country behave the same.",
+      "The number input is a native tel input whose text is formatted for the country; Backspace or Delete over a space or bracket removes the digit beyond it, and the caret stays after the same digit through every reformat.",
+    ],
+  },
+  {
+    name: "swatch-mixer",
+    type: "registry:ui",
+    title: "Swatch Mixer",
+    description:
+      "A colour input you fill by mixing paint: a pigment dragged off its pot follows the pointer 1:1 and, let go over the well, sinks in with a ripple while the well lands on the recoil spring; a tap hops a blob in along a short arc. The colour is the parts-weighted average of the pigments in OKLab and it does not swap: the new pigment curls in as a streak, stir lines sweep round, and the paint travels from the old mix to the new one over a stir whose length is `swirl`, while the dish's rim, a ring of one segment per pigment, re-divides on the glide spring and a segment dragged out of the dish takes that pigment away. Each pot is a slider: Left and Right move between pigments, Up, Enter and Space add a part, Down takes one away, Delete or Home take the pigment out and End fills it.",
+    files: [
+      {
+        path: "registry/ui/swatch-mixer.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1164",
+    },
+    tagline: "Mix the colour you want.",
+    keywords: ["colour", "color", "paint", "mix", "oklab", "picker", "swatch"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description:
+          "The colour in the well as `#rrggbb`, or an empty string for an empty well. Controlled or uncontrolled; a value the host sets is shown exactly, with the nearest recipe the palette can make on the rim.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description:
+          "Fires from the drop, key or press that changed the mix, with the new colour.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The field's visible label and the accessible name of its group.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Form field name; the colour rides a hidden input inside a surrounding form.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description:
+          "Guidance under the well, wired to the field with aria-describedby.",
+      },
+      {
+        name: "error",
+        type: "string",
+        description:
+          "An error from the host, shown under the well and announced once.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Marks the field required; once the visitor empties the well it says so unless the host passes its own error.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Stops every drag, key and press, and dims the field.",
+      },
+      {
+        name: "pigments",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "How many pigment pots the palette offers, 3 to 6: the primaries, then white, black and a green.",
+      },
+      {
+        name: "swirl",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much the well swirls as a part mixes in, 0 to 1: at 0 the colour simply cross-fades, at 1 the stir lasts about 1.4 s and the streak makes more than a full turn.",
+      },
+      {
+        name: "readout",
+        type: '"hex" | "oklch"',
+        defaultValue: '"hex"',
+        description:
+          "The format of the readout beside the label and of the recent mixes' names.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A plip as a part lands, pitched by the pigment's lightness, and a gloop as one is pulled out. Only ever in answer to the visitor.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the field's root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the palette is one tab stop. Left and Right move between pigments; Up, Enter and Space add a part (the same hop and drop as a tap); Down takes one away; Delete, Backspace or Home take the pigment out, the same end state as dragging its rim segment out of the dish; End fills it to eight parts. Recent mixes are a toolbar reached with Tab, where Left, Right, Home and End move and Enter restores.",
+      "Reduced motion: nothing travels, swirls or bounces. A dropped blob vanishes where it was let go, a tap adds the part without the hop, and there is no streak, stir or landing; the rim still re-divides and the paint still cross-fades to the new mix in oklab, because the mix is the value.",
+      "The settled mix is announced once in a polite live region and kept in the recent strip after it has stood still for 700 ms; a value the palette cannot make exactly is kept as given, and the rim shows the closest recipe.",
+    ],
+  },
+  {
+    name: "folder-drop",
+    type: "registry:ui",
+    title: "Folder Drop",
+    description:
+      "A file field drawn as a paper folder: files dragged over it open its mouth, the front flap tipping toward you on the snap spring, and each accepted file falls in as a sheet of paper behind the flap on a cascade, after which the flap shuts and the folder lands on the recoil spring. A file it will not take, the wrong type, over `maxSize`, a duplicate or one too many, falls onto the shut edge, jumps and tumbles away and is listed with the reason, while every filed file gets a row whose swallowtail progress ribbon follows the host's upload progress on the glide spring. The folder is a real button over a real file input, so click, Enter or Space open the system picker and the picked files go through the same checks and the same fall.",
+    files: [
+      {
+        path: "registry/ui/folder-drop.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1165",
+    },
+    tagline: "Drop files, watch them go in.",
+    keywords: ["file", "upload", "drop", "dropzone", "attachment", "folder"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "FolderDropItem[]",
+        defaultValue: "[]",
+        description:
+          "The files in the folder: `{ id, name, size, type?, progress?, file? }`. Controlled or uncontrolled; the host owns `progress`, and files it adds itself fall in silently.",
+      },
+      {
+        name: "onValueChange",
+        type: "(items: FolderDropItem[]) => void",
+        description:
+          "Fires from the drop, pick or removal that changed the list.",
+      },
+      {
+        name: "onReject",
+        type: "(rejections: { name: string; reason: string }[]) => void",
+        description:
+          "The files that bounced off a drop or pick, with the reason for each.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          'The field\'s visible label; with "Choose files" it names the folder button.',
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Form field name for the real file input, whose files are rebuilt from the list after every change.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description:
+          'Guidance under the folder. Defaults to what it takes and how large, such as "Images up to 10 MB."',
+      },
+      {
+        name: "error",
+        type: "string",
+        description:
+          "An error from the host, shown under the folder and announced once.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The form needs at least one file; set on the file input while the folder is empty.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Refuses drops and picks and dims the field.",
+      },
+      {
+        name: "maxSize",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "The largest file it takes, in MB; a larger one bounces with its size and the limit.",
+      },
+      {
+        name: "accept",
+        type: '"images" | "docs" | "any"',
+        defaultValue: '"any"',
+        description:
+          "Which files it takes; also sets the picker's filter and the default hint.",
+      },
+      {
+        name: "folder",
+        type: '"manila" | "blue" | "kraft"',
+        defaultValue: '"manila"',
+        description: "The folder's paper, the same in either theme.",
+      },
+      {
+        name: "maxFiles",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "How many files the folder holds; the rest of a drop bounces.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A swish as sheets go in, a thud as the flap shuts and a shrug for each bounce. Only ever in answer to the visitor.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the field's root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the folder is a button, so Tab reaches it and Enter or Space open the system file picker, the same end state as a drop. Each row's remove button is named by its file; removing one moves focus to the next row, or back to the folder when none are left.",
+      "Reduced motion: the flap swaps between shut and open and no sheet falls or bounces; rows and reasons still arrive, the ribbons still fill on a short tween and the count on the folder still changes.",
+      'Each drop is announced once in a polite live region, such as "1 file added. drone-pass.tif bounced: 12.4 MB, over the 10 MB limit.", and a finished upload once as "roof-east.png filed."; upload progress itself is the host\'s, passed back on each item.',
+    ],
+  },
+  {
+    name: "slug-field",
+    type: "registry:ui",
+    title: "Slug Field",
+    description:
+      "A title and the URL slug that follows it: each new slug letter drops out of the title as a ghost of the character as typed, capital or accent and all, and becomes the lowercase letter as it lands in its cell on the flick spring, while characters a slug cannot hold fall away before they arrive and later letters slide to their new cells on the glide spring. Typing in the slug itself folds the text the same way and unlinks it from the title, snapping the tether and chain beside the label on the snap spring, and the Follow title toggle relinks it with the letters dropping in again. An availability check marks a taken slug and offers the first free numbered one; both fields are real inputs with the platform's own caret, selection and undo, reached with Tab, and every control is a button pressed with Enter or Space.",
+    files: [
+      {
+        path: "registry/ui/slug-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1166",
+    },
+    tagline: "Titles become tidy URLs.",
+    keywords: ["slug", "url", "permalink", "kebab", "title", "input"],
+    props: [
+      {
+        name: "title / defaultTitle",
+        type: "string",
+        defaultValue: '""',
+        description: "The title the slug follows. Controlled or uncontrolled.",
+      },
+      {
+        name: "onTitleChange",
+        type: "(title: string) => void",
+        description: "Fires as the title is typed.",
+      },
+      {
+        name: "titleLabel",
+        type: "string",
+        defaultValue: '"Title"',
+        description: "The title field's visible label.",
+      },
+      {
+        name: "titleName",
+        type: "string",
+        description: "Form field name for the title input.",
+      },
+      {
+        name: "titlePlaceholder",
+        type: "string",
+        description: "Placeholder for an empty title.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        description:
+          "The slug. Controlled or uncontrolled; uncontrolled, it defaults to the title's slug.",
+      },
+      {
+        name: "onValueChange",
+        type: "(slug: string) => void",
+        description:
+          "Fires from the keystroke, press or offer that changed the slug, including a title keystroke while it is linked.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"URL"',
+        description: "The slug field's visible label.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "Form field name for the slug input.",
+      },
+      {
+        name: "prefix",
+        type: "string",
+        description:
+          'What comes before the slug, shown in the box and truncated first when space is short, such as "fernworks.journal/posts/".',
+      },
+      {
+        name: "linked / defaultLinked",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Whether the slug follows the title. Uncontrolled, it starts unlinked when `defaultValue` differs from the title's slug.",
+      },
+      {
+        name: "onLinkedChange",
+        type: "(linked: boolean) => void",
+        description:
+          "Fires when a hand edit unlinks the slug or the toggle links or unlinks it.",
+      },
+      {
+        name: "separator",
+        type: '"-" | "_"',
+        defaultValue: '"-"',
+        description: "The character between words.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "48",
+        description:
+          "The longest slug the title makes, cut on a word boundary; hand typing past it is flagged, never blocked.",
+      },
+      {
+        name: "check",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Check the slug with `isTaken` once it has stood still for 300 ms, and offer a numbered one when it is taken.",
+      },
+      {
+        name: "isTaken",
+        type: "(slug: string) => boolean | Promise<boolean>",
+        description: "The host's availability check, synchronous or not.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description:
+          "Guidance under the slug. Defaults to what a slug may contain.",
+      },
+      {
+        name: "error",
+        type: "string",
+        description:
+          "An error from the host, shown under the slug and announced once.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Marks the slug input required.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables both inputs and every control.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick as each letter lands and a pop when the slug relinks or takes a numbered offer. Only ever in answer to the visitor.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the field's root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Tab moves from the title to the Follow title toggle (aria-pressed, Enter or Space) to the slug, and to the numbered offer when one is shown; both fields are native inputs, so selection, undo, paste and IME behave as the platform does.",
+      "Reduced motion: no letter flies, falls or slides and the tether and chain swap between joined and broken at once; letters fade into their cells, and the slug, the availability and the counter still update.",
+      "A polite live region says, once each, when a slug is taken and which number is free, when it is available, and when the slug stops or starts following the title; never per keystroke.",
+    ],
+  },
+  {
+    name: "coin-amount",
+    type: "registry:ui",
+    title: "Coin Amount",
+    description:
+      "A currency amount field that counts the cash out as you type: beside the figure a tray keeps one pile per place value — coins for cents and ones, notes for tens and hundreds, strapped bundles from thousands — each holding exactly its digit, and every new piece falls under gravity and lands with a squash on springs.recoil while the figure's own digits roll into place on springs.snap. Clearing sweeps the tray off to the right on the exit ease, and a conversion odometer under the field rolls on springs.snap. It is a real text input that places the grouping as you type and keeps the caret among the digits; Escape or the clear button empties it.",
+    files: [
+      {
+        path: "registry/ui/coin-amount.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1167",
+    },
+    tagline: "The amount stacks up as you type.",
+    keywords: [
+      "amount",
+      "currency",
+      "money",
+      "coins",
+      "transfer",
+      "conversion",
+      "input",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description: "What the amount is for. The field's visible label.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number | null",
+        defaultValue: "null",
+        description:
+          "The amount, controlled or initial; null is an empty field.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number | null) => void",
+        description:
+          "Fires from the key, paste or clear that changed the amount.",
+      },
+      {
+        name: "currency",
+        type: '"usd" | "eur" | "inr" | "gbp"',
+        defaultValue: '"usd"',
+        description:
+          "The currency typed in: its symbol, grouping (lakh for rupees), notes and conversion pair.",
+      },
+      {
+        name: "convert",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the live conversion to a second currency under the field.",
+      },
+      {
+        name: "stack",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How loosely the cash piles, 0 to 1: squared-off stacks at 0, a casual heap that lands harder at 1.",
+      },
+      {
+        name: "convertTo",
+        type: '"usd" | "eur" | "inr" | "gbp"',
+        description:
+          "The currency converted to. Defaults to the usual pair: euros for dollars and pounds, dollars for euros and rupees.",
+      },
+      {
+        name: "rate",
+        type: "number",
+        description:
+          "Units of convertTo per unit of currency. The default is an illustrative fixed rate; pass a live one.",
+      },
+      {
+        name: "locale",
+        type: "string",
+        description:
+          "The locale that groups and formats the figure. Defaults to the currency's own.",
+      },
+      {
+        name: "min",
+        type: "number",
+        description:
+          "The least amount accepted. Checked, never enforced while typing.",
+      },
+      {
+        name: "max",
+        type: "number",
+        description: "The most accepted. Checked, never enforced while typing.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Form field name; a hidden input carries the amount with two decimals.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"0.00"',
+        description: "Shown in an empty field.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description: "Helper text under the field.",
+      },
+      {
+        name: "error",
+        type: "string",
+        description:
+          "An error from the host; replaces the hint and marks the field invalid.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description: "An empty field is invalid once it has been left.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Turns the field off.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the coins and notes landing and the sweep. Only the visitor's own edits are heard.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: it is a text input — digits and one point ("." or ",") type in, the grouping is placed for you, any delete works across it, a pasted "1.284,35" or "$1,284.35" lands as 1284.35, and Escape (or the clear button) empties the field and sweeps the tray.',
+      "Reduced motion: nothing falls, rolls or sweeps — pieces fade onto and off their piles and digits change in place; the piles and the conversion still follow the figure.",
+      "Validation never blocks typing: over max or under min shows an error that is announced once; nine whole digits and two decimals are the format limit.",
+    ],
+  },
+  {
+    name: "catalog-select",
+    type: "registry:ui",
+    title: "Catalog Select",
+    description:
+      "A select whose options are index cards in a catalog drawer: opening pulls the drawer out on springs.glide (or by hand, 1:1, committing by projection), the card being read stands tipped toward you, and moving on makes it fall forward over its bottom edge while the file glides a place nearer — moving back flips the last fallen card up on springs.snap, and jumps riffle card by card on cascade(). Choosing lifts the card up into the field on springs.glide as the drawer shuts under it. It is the select-only combobox pattern: focus stays on the field, arrows, Page keys, Home and End move, typing jumps by first letters, Enter chooses and Escape shuts.",
+    files: [
+      {
+        path: "registry/ui/catalog-select.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1168",
+    },
+    tagline: "Flip through the drawer.",
+    keywords: [
+      "select",
+      "listbox",
+      "combobox",
+      "index cards",
+      "drawer",
+      "dropdown",
+      "picker",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What is being chosen. The visible label and the listbox's name.",
+      },
+      {
+        name: "options",
+        type: "CatalogOption[]",
+        description:
+          "The cards: { value, label, detail?, disabled? }. The label is the card's heading and tab and what typing jumps by.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string | null",
+        defaultValue: "null",
+        description: "The chosen option's value, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires from the key, click or tap that chose a card.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Whether the drawer is pulled out, controlled or initial.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the key, pull or press that opened or shut the drawer.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"Choose one"',
+        description: "Shown in the field before anything is chosen.",
+      },
+      {
+        name: "drawerLabel",
+        type: "string",
+        description:
+          'The label in the holder on the drawer\'s front. Defaults to the first and last initials, "A – Z".',
+      },
+      {
+        name: "cards",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "How many cards stand in view in the open drawer, 4 to 12: wide tabs at 4, a packed file at 12.",
+      },
+      {
+        name: "drawer",
+        type: '"oak" | "steel" | "card"',
+        defaultValue: '"oak"',
+        description:
+          "The drawer's material: grained oak with brass, brushed steel, or kraft board.",
+      },
+      {
+        name: "flip",
+        type: "number",
+        defaultValue: "0.7",
+        description:
+          "How far the card being read tips toward you, 0 to 1; the paper is louder with it.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Form field name; a hidden input carries the chosen value.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description: "Helper text under the drawer.",
+      },
+      {
+        name: "error",
+        type: "string",
+        description:
+          "An error from the host; replaces the hint and marks the field invalid.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          'Shutting the drawer with nothing chosen shows "Choose one to continue."',
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Turns the field and the drawer off.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the paper of each flip and the drawer's thock. Heard only just after the visitor's own input.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: on the field, Down, Enter or Space opens the drawer on the chosen card, Up and Home open on the first, End on the last, and typing opens and jumps by first letters. Open: Up and Down flip a card, PageUp and PageDown a drawer-full, Home and End jump (disabled cards are skipped), Enter, Space or Alt+Up choose, Tab chooses and moves on, Escape shuts without choosing.",
+      "Reduced motion: the drawer opens and shuts in one step, cards change places without falling or flipping, and choosing updates the field without the flight.",
+      "Pointer: the drawer's front can be pulled out and pushed back by hand; the wheel over the open drawer flips a card per notch, a vertical drag riffles, a click on a card or tab chooses it and a press on the fallen pile flips one back.",
+    ],
+  },
+  {
+    name: "ink-checklist",
+    type: "registry:ui",
+    title: "Ink Checklist",
+    description:
+      "A checklist on a notepad where each tick is drawn by a pen: a filled outline rebuilt every frame from a stroke with pressure — light where the nib lands, heaviest at the corner, lifting to a hairline as it flicks — on springs.flick, followed by a wavering pen line through the words at the pen's own pace, struck line by line when they wrap. Unticking rubs both out with a small eraser that leaves a fading smudge, and a margin bar fills with ink to the share done on springs.glide. Every item is a native checkbox in a fieldset, so Tab reaches each box and Space ticks it exactly as a press does.",
+    files: [
+      {
+        path: "registry/ui/ink-checklist.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1169",
+    },
+    tagline: "Ticked by hand.",
+    keywords: [
+      "checklist",
+      "checkbox",
+      "todo",
+      "handwritten",
+      "strikethrough",
+      "progress",
+      "form",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description: "What the list is for. The fieldset's legend.",
+      },
+      {
+        name: "items",
+        type: "InkChecklistItem[]",
+        description: "The items: { id, label, disabled? }.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        defaultValue: "[]",
+        description: "The ids of the ticked items, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string[]) => void",
+        description:
+          "Fires from the press or key that ticked or unticked an item, with every ticked id in list order.",
+      },
+      {
+        name: "ink",
+        type: '"blue" | "black" | "red"',
+        defaultValue: '"blue"',
+        description: "The pen.",
+      },
+      {
+        name: "strike",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Strike an item's words through when it is ticked.",
+      },
+      {
+        name: "wobble",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How unsteady the hand is, 0 to 1: the boxes' corners, the tick's path and the strike's waver.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Form field name; each ticked item submits its id under it.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description: "Helper text under the legend.",
+      },
+      {
+        name: "error",
+        type: "string",
+        description: "An error from the host; replaces the hint.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Every item must be ticked before the form submits; a refused submit says how many are left.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Turns the whole list off.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the pen's tick and scratch and the eraser's rub. Only the visitor's own ticks are heard.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the pad.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: every item is a native checkbox — Tab reaches each box and Space ticks or unticks it with the same drawing or rubbing out as a press; the focus ring sits on the box itself.",
+      "Reduced motion: no drawing or rubbing — the tick and strike appear whole with a short fade and leave with one, with no eraser or smudge; the margin bar and the count still change.",
+      "Every stroke is seeded from the item's id, so the server and the browser draw the same hand; progress (\"3 of 5 done.\") and a required list's error are announced once each in a polite live region.",
+    ],
+  },
+  {
+    name: "mail-field",
+    type: "registry:ui",
+    title: "Mail Field",
+    description:
+      "An email field that checks as you type and catches a slipped domain: when the domain looks finished but sits an edit or two from a known one (a swap counts as one), a row folds open under the field at its measured height on springs.glide, and using the fix morphs the address in place — kept letters slide on springs.glide, swapped letters trade places with one arcing over the other, a wrong letter drops out as the right one drops in on springs.snap, one after another on cascade(). A committed valid address is stamped with a postmark that lands on springs.recoil. The fix is the next thing Tab reaches, Enter or Space uses it, and Escape in the field declines it.",
+    files: [
+      {
+        path: "registry/ui/mail-field.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1170",
+    },
+    tagline: "Catches the typo before you do.",
+    keywords: [
+      "email",
+      "validation",
+      "typo",
+      "suggestion",
+      "input",
+      "form",
+      "domain",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description: "What the address is for. The field's visible label.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: '""',
+        description: "The address, controlled or initial.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description:
+          "Fires from the key, paste or accepted fix that changed the address.",
+      },
+      {
+        name: "onStamp",
+        type: "(value: string) => void",
+        description:
+          "Fires when a valid address is stamped: the field was left, Enter pressed, or a fix used or declined.",
+      },
+      {
+        name: "suggest",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Offer a fix when the domain looks like a slip of a known one.",
+      },
+      {
+        name: "stamp",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Stamp a committed valid address; off, it gets a quiet check.",
+      },
+      {
+        name: "domains",
+        type: '"common" | "work"',
+        defaultValue: '"common"',
+        description:
+          "Which built-in (invented) domains the field knows and suggests: personal mail hosts or company domains.",
+      },
+      {
+        name: "knownDomains",
+        type: "string[]",
+        description:
+          "The host's own known domains, in place of the built-in list.",
+      },
+      {
+        name: "name",
+        type: "string",
+        description: "Form field name; the input itself carries the address.",
+      },
+      {
+        name: "placeholder",
+        type: "string",
+        defaultValue: '"name@fernmail.com"',
+        description: "Shown in an empty field.",
+      },
+      {
+        name: "hint",
+        type: "string",
+        description: "Helper text under the field.",
+      },
+      {
+        name: "error",
+        type: "string",
+        description:
+          "An error from the host; replaces the hint and marks the field invalid.",
+      },
+      {
+        name: "required",
+        type: "boolean",
+        defaultValue: "false",
+        description: "An empty field is invalid once it has been left.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Turns the field off.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the letters landing and the stamp. Only the visitor's own actions are heard.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: when a fix is offered, Tab from the field reaches "Use it" (then "Keep mine"); Enter or Space uses it and returns focus to the field with the caret at the end; Escape in the field declines it. Enter or leaving the field stamps a valid address.',
+      "Reduced motion: no letters travel — the corrected address replaces the old one at once with its changed letters tinted and fading to ink, the suggestion row opens without travel, and the stamp fades in without the bounce.",
+      "Certain mistakes (a space, a second @, a character an address cannot hold) are said at once; an unfinished address only once the field is left; the suggestion, errors and the stamp are each announced once in one polite live region.",
+    ],
+  },
 ];
