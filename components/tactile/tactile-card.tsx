@@ -26,6 +26,24 @@ export type TactileItem = {
   isNew: boolean;
 };
 
+/**
+ * On hover the card's glyph acts out its verb once: a press dips, a spin
+ * turns, a drag nudges. A hint, not a loop — it plays when the pointer
+ * arrives and then keeps still.
+ */
+const HINT: Record<TactileVerb, Record<string, number[]>> = {
+  hover: { x: [0, 2, 0], y: [0, -1, 0] },
+  press: { scale: [1, 0.78, 1] },
+  hold: { scale: [1, 0.84, 0.84, 1] },
+  drag: { x: [0, 3, 0], y: [0, -1, 0] },
+  slide: { x: [0, -2, 2, 0] },
+  swipe: { x: [0, 4, 0], opacity: [1, 0.35, 1] },
+  type: { opacity: [1, 0.2, 1, 0.2, 1] },
+  select: { scale: [1, 1.2, 1] },
+  draw: { rotate: [0, -14, 0] },
+  spin: { rotate: [0, 360] },
+};
+
 const SPAN: Record<TactileAspect, string> = {
   square: "",
   wide: "sm:col-span-2",
@@ -79,6 +97,7 @@ export const TactileCard = React.memo(function TactileCard({
           : { opacity: 0, transition: { duration: 0 } }
       }
       transition={motionSafe ? springs.glide : { duration: 0 }}
+      whileHover={motionSafe ? "hint" : undefined}
       className={cn(
         "group relative flex min-w-0 flex-col overflow-clip rounded-4 border border-hairline bg-surface-1 transition-colors [contain:paint] hover:border-hairline-strong",
         SPAN[item.aspect],
@@ -86,7 +105,18 @@ export const TactileCard = React.memo(function TactileCard({
     >
       <div className="flex h-11 shrink-0 items-center justify-between gap-2 pr-2 pl-4">
         <span className="inline-flex min-w-0 items-center gap-2 font-mono text-[10px] tracking-[0.08em] text-ink-3 uppercase">
-          <VerbGlyph verb={item.verb} className="size-3.5 shrink-0" />
+          <motion.span
+            aria-hidden
+            className="inline-flex shrink-0"
+            variants={{
+              hint: {
+                ...HINT[item.verb],
+                transition: { duration: 0.55, ease: easings.move },
+              },
+            }}
+          >
+            <VerbGlyph verb={item.verb} className="size-3.5" />
+          </motion.span>
           <span className="truncate">{item.verbLabel}</span>
           {item.isNew ? (
             <span className="rounded-full bg-cobalt-wash px-1.5 py-0.5 text-cobalt-bright">
