@@ -172,14 +172,23 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
     return () => window.removeEventListener("popstate", onPop);
   }, [items]);
 
-  const openItem = (item: TactileItem, origin: HTMLElement) => {
-    window.history.pushState(
-      { ...window.history.state, tactile: item.name },
-      "",
-      urlFor({ verb, sort, open: item.name, tweaks: "" }),
-    );
-    setOpen({ slug: item.name, origin, pushed: true });
-  };
+  // Stable, so the memoised cards never re-render just because the gallery
+  // did; it reads the current filter from a ref at the moment it is used.
+  const view = React.useRef({ verb, sort });
+  React.useEffect(() => {
+    view.current = { verb, sort };
+  });
+  const openItem = React.useCallback(
+    (item: TactileItem, origin: HTMLElement) => {
+      window.history.pushState(
+        { ...window.history.state, tactile: item.name },
+        "",
+        urlFor({ ...view.current, open: item.name, tweaks: "" }),
+      );
+      setOpen({ slug: item.name, origin, pushed: true });
+    },
+    [],
+  );
 
   const requestClose = () => {
     if (open?.pushed && window.history.state?.tactile) {

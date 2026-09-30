@@ -209,8 +209,11 @@ test.describe("tactile gallery", () => {
     await page
       .getByRole("button", { name: "Open Gel Switch on the stage" })
       .click();
-    const box = await dialogOf(page, "Gel Switch").boundingBox();
-    expect(box?.width).toBeGreaterThanOrEqual(389);
+    // The stage grows out of the card, so its width is read once it lands.
+    const dialog = dialogOf(page, "Gel Switch");
+    await expect
+      .poll(async () => (await dialog.boundingBox())?.width ?? 0)
+      .toBeGreaterThanOrEqual(389);
   });
 });
 

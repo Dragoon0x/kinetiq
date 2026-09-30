@@ -37,8 +37,11 @@ const SPAN: Record<TactileAspect, string> = {
  * near the viewport and is fully interactive in place; the corner button and
  * the title open it on the stage. Until the demo arrives the card shows its
  * verb, so the grid never jumps when a demo lands.
+ *
+ * Memoised: the gallery re-renders on every tweak made on the stage, and a
+ * wall of live demos must not re-render underneath each one.
  */
-export function TactileCard({
+export const TactileCard = React.memo(function TactileCard({
   item,
   sound,
   onOpen,
@@ -138,4 +141,4 @@ export function TactileCard({
       </div>
     </motion.article>
   );
-}
+});
