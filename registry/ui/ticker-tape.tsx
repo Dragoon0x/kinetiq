@@ -84,7 +84,9 @@ export function TickerTape({
     const measure = () => {
       const w = sequence.offsetWidth + gap;
       loopWidth.current = w;
-      setCopies(Math.max(2, Math.ceil((viewport.offsetWidth * 2) / Math.max(w, 1))));
+      setCopies(
+        Math.max(2, Math.ceil((viewport.offsetWidth * 2) / Math.max(w, 1))),
+      );
       applyX();
     };
     measure();
@@ -117,7 +119,8 @@ export function TickerTape({
           : duty;
       // Exponential approach: friction toward target, framerate-independent.
       const tau = momentum.current ? MOMENTUM_TAU : FRICTION_TAU;
-      velocity.current += (target - velocity.current) * (1 - Math.exp(-dt / tau));
+      velocity.current +=
+        (target - velocity.current) * (1 - Math.exp(-dt / tau));
       if (momentum.current && Math.abs(velocity.current - target) < SETTLED) {
         momentum.current = false;
       }
@@ -204,7 +207,7 @@ export function TickerTape({
   }
 
   return (
-    <div className={cn("group relative w-full", className)}>
+    <div className={cn("group/ticker-tape relative w-full", className)}>
       <div
         ref={viewportRef}
         className={cn(
@@ -244,10 +247,10 @@ export function TickerTape({
         onClick={togglePaused}
         onPointerDown={(event) => event.stopPropagation()}
         className={cn(
-          "border-border bg-background/90 text-muted-foreground absolute top-1 right-1 z-10 inline-flex size-6 items-center justify-center rounded-1 border backdrop-blur-sm",
-          "hover:text-foreground pointer-events-none opacity-0 transition-opacity duration-150",
-          "group-focus-within:pointer-events-auto group-focus-within:opacity-100",
-          "group-hover:pointer-events-auto group-hover:opacity-100",
+          "absolute top-1 right-1 z-10 inline-flex size-6 items-center justify-center rounded-1 border border-border bg-background/90 text-muted-foreground backdrop-blur-sm",
+          "pointer-events-none opacity-0 transition-opacity duration-150 hover:text-foreground",
+          "group-focus-within/ticker-tape:pointer-events-auto group-focus-within/ticker-tape:opacity-100",
+          "group-hover/ticker-tape:pointer-events-auto group-hover/ticker-tape:opacity-100",
           "focus-visible:pointer-events-auto focus-visible:opacity-100",
         )}
       >

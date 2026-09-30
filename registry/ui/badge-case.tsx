@@ -288,7 +288,7 @@ function BadgeMedallion({
 
   return (
     <motion.div
-      className="group relative flex flex-col items-center gap-1.5 text-center"
+      className="group/badge-case relative flex flex-col items-center gap-1.5 text-center"
       initial={motionSafe ? { opacity: 0, y: distances.step } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={
@@ -419,7 +419,7 @@ function BadgeMedallion({
       </span>
 
       {isLockedDisplay ? (
-        <span className="max-w-[104px] text-label text-ink-3 transition-colors group-hover:text-ink-2">
+        <span className="max-w-[104px] text-label text-ink-3 transition-colors group-hover/badge-case:text-ink-2">
           {showSecret ? "found by accident" : badge.hint}
         </span>
       ) : (

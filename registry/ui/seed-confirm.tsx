@@ -377,7 +377,7 @@ export function SeedConfirm({
                     onFocus={() => setFocusIndex(index)}
                     onClick={() => pick(word, index, false)}
                     onKeyDown={(event) => handleKeyDown(event, index)}
-                    className="group rounded-2 outline-none"
+                    className="group/seed-confirm rounded-2 outline-none"
                     animate={{ x: shaking && motionSafe ? shakeKeys : 0 }}
                     transition={{
                       duration: durations.base,
@@ -391,10 +391,10 @@ export function SeedConfirm({
                       transition={chipTransition}
                       className={cn(
                         chipClass,
-                        "group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-ring group-focus-visible:outline-solid",
+                        "group-focus-visible/seed-confirm:outline-2 group-focus-visible/seed-confirm:outline-offset-2 group-focus-visible/seed-confirm:outline-ring group-focus-visible/seed-confirm:outline-solid",
                         shaking
                           ? "border-danger bg-surface-1 text-danger"
-                          : "border-hairline-strong bg-surface-1 text-foreground group-hover:border-cobalt-bright group-hover:bg-cobalt-wash",
+                          : "border-hairline-strong bg-surface-1 text-foreground group-hover/seed-confirm:border-cobalt-bright group-hover/seed-confirm:bg-cobalt-wash",
                       )}
                     >
                       {word}

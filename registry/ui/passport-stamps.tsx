@@ -329,7 +329,7 @@ export function PassportStamps({
     return (
       <div
         key={`${destination.id}-mark`}
-        className="group absolute -translate-x-1/2 -translate-y-1/2"
+        className="group/passport-stamps absolute -translate-x-1/2 -translate-y-1/2"
         style={{ left: `${slot.x}%`, top: `${slot.y}%` }}
       >
         <motion.div
@@ -360,7 +360,7 @@ export function PassportStamps({
             {destination.name}
           </span>
         </motion.div>
-        <span className="pointer-events-none absolute top-full left-1/2 mt-1 -translate-x-1/2 font-mono text-[8px] whitespace-nowrap text-ink-3 tabular-nums opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+        <span className="pointer-events-none absolute top-full left-1/2 mt-1 -translate-x-1/2 font-mono text-[8px] whitespace-nowrap text-ink-3 tabular-nums opacity-0 transition-opacity duration-150 group-hover/passport-stamps:opacity-100">
           {destination.date}
         </span>
       </div>

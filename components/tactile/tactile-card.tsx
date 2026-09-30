@@ -99,7 +99,7 @@ export const TactileCard = React.memo(function TactileCard({
       transition={motionSafe ? springs.glide : { duration: 0 }}
       whileHover={motionSafe ? "hint" : undefined}
       className={cn(
-        "group relative flex min-w-0 flex-col overflow-clip rounded-4 border border-hairline bg-surface-1 transition-colors [contain:paint] hover:border-hairline-strong",
+        "group/card relative flex min-w-0 flex-col overflow-clip rounded-4 border border-hairline bg-surface-1 transition-colors [contain:paint] hover:border-hairline-strong",
         SPAN[item.aspect],
       )}
     >
@@ -128,7 +128,7 @@ export const TactileCard = React.memo(function TactileCard({
           type="button"
           onClick={open}
           aria-label={`Open ${item.title} on the stage`}
-          className="inline-flex size-8 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none group-hover:text-ink-2 hover:bg-surface-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
+          className="inline-flex size-8 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none group-hover/card:text-ink-2 hover:bg-surface-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <Maximize2 aria-hidden className="size-4" />
         </button>

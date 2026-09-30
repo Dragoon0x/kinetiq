@@ -124,7 +124,7 @@ export function SplitPane({
         }}
         onPointerCancel={() => setDragging(false)}
         onKeyDown={handleKeyDown}
-        className="group relative flex w-2.5 shrink-0 cursor-col-resize items-center justify-center bg-surface-2 outline-none focus-visible:outline-2 focus-visible:outline-[-2px] focus-visible:outline-ring focus-visible:outline-solid"
+        className="group/split-pane relative flex w-2.5 shrink-0 cursor-col-resize items-center justify-center bg-surface-2 outline-none focus-visible:outline-2 focus-visible:outline-[-2px] focus-visible:outline-ring focus-visible:outline-solid"
       >
         <span
           aria-hidden
@@ -132,7 +132,7 @@ export function SplitPane({
             "w-1 rounded-full transition-all duration-150",
             dragging
               ? "h-12 bg-primary"
-              : "h-8 bg-border group-hover:h-12 group-hover:bg-muted-foreground",
+              : "h-8 bg-border group-hover/split-pane:h-12 group-hover/split-pane:bg-muted-foreground",
           )}
         />
       </div>

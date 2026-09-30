@@ -147,7 +147,7 @@ export function EditBubble({
   const shell = "absolute inset-0 rounded-2 border transition-colors";
   const shellOpen = "border-cobalt-bright/60 bg-surface-0";
   const shellIdle =
-    "border-transparent group-hover:border-hairline-strong group-hover:bg-surface-2 group-focus-visible:border-hairline-strong";
+    "border-transparent group-hover/edit-bubble:border-hairline-strong group-hover/edit-bubble:bg-surface-2 group-focus-visible/edit-bubble:border-hairline-strong";
 
   return (
     <div className={cn("flex w-full flex-col gap-1", className)}>
@@ -233,7 +233,7 @@ export function EditBubble({
               setReason(null);
               setEditing(true);
             }}
-            className="group relative inline-flex h-8 max-w-full items-center gap-2 rounded-2 px-2 text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
+            className="group/edit-bubble relative inline-flex h-8 max-w-full items-center gap-2 rounded-2 px-2 text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             {motionSafe ? (
               <motion.span
@@ -279,7 +279,7 @@ export function EditBubble({
                 className={cn(
                   "col-start-1 row-start-1 size-4 text-ink-3 opacity-0 transition-opacity",
                   !stamped &&
-                    "group-hover:opacity-100 group-focus-visible:opacity-100",
+                    "group-hover/edit-bubble:opacity-100 group-focus-visible/edit-bubble:opacity-100",
                 )}
               >
                 <path d={PENCIL} />

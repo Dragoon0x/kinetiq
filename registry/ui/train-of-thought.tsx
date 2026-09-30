@@ -90,14 +90,14 @@ export function TrainOfThought({
         onClick={toggle}
         aria-expanded={open}
         aria-controls={panelId}
-        className="group inline-flex items-center gap-1.5 text-sm text-ink-2 transition-colors hover:text-ink"
+        className="group/train-of-thought inline-flex items-center gap-1.5 text-sm text-ink-2 transition-colors hover:text-ink"
       >
         <span>{summary}</span>
         <motion.span
           aria-hidden
           animate={{ rotate: open ? 180 : 0 }}
           transition={motionSafe ? springs.snap : { duration: 0 }}
-          className="text-ink-3 transition-colors group-hover:text-ink"
+          className="text-ink-3 transition-colors group-hover/train-of-thought:text-ink"
         >
           <ChevronDown className="size-3.5" />
         </motion.span>

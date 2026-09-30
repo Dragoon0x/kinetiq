@@ -241,7 +241,7 @@ export function BalanceRoll({
           aria-describedby={labelId}
           onClick={toggle}
           className={cn(
-            "group -mx-1 flex items-center gap-2 rounded-2 px-1 py-0.5 outline-none",
+            "group/balance-roll -mx-1 flex items-center gap-2 rounded-2 px-1 py-0.5 outline-none",
             "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
@@ -261,7 +261,7 @@ export function BalanceRoll({
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="size-4 shrink-0 text-ink-3 transition-colors group-hover:text-foreground"
+            className="size-4 shrink-0 text-ink-3 transition-colors group-hover/balance-roll:text-foreground"
           >
             <path d="M1.9 10S4.8 4.9 10 4.9 18.1 10 18.1 10 15.2 15.1 10 15.1 1.9 10 1.9 10Z" />
             <circle cx="10" cy="10" r="2.3" />

@@ -645,7 +645,7 @@ export function KeycapPress({
         onPress?.("keyboard");
       }}
       className={cn(
-        "group relative inline-flex shrink-0 cursor-pointer touch-manipulation rounded-3 outline-none select-none [-webkit-touch-callout:none]",
+        "group/keycap-press relative inline-flex shrink-0 cursor-pointer touch-manipulation rounded-3 outline-none select-none [-webkit-touch-callout:none]",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         "disabled:cursor-not-allowed disabled:opacity-50",
         className,
@@ -654,7 +654,7 @@ export function KeycapPress({
     >
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 overflow-clip rounded-3 border border-hairline-strong transition-colors group-enabled:group-hover:border-ink-3/60"
+        className="pointer-events-none absolute inset-0 overflow-clip rounded-3 border border-hairline-strong transition-colors group-enabled/keycap-press:group-hover/keycap-press:border-ink-3/60"
         style={{ background: WELL, boxShadow: WELL_SHADE }}
       >
         {glow ? (

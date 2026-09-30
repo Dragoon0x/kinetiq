@@ -270,7 +270,8 @@ function FaceLabel({
         data-icon=""
         className={cn(
           "inline-flex size-4 shrink-0 items-center justify-center",
-          hoverTurn && "transition-[rotate] duration-300 group-hover:rotate-45",
+          hoverTurn &&
+            "transition-[rotate] duration-300 group-hover/conjure-button:rotate-45",
           iconClassName,
         )}
         style={{ ...iconStyle, opacity: iconOpacity, y: iconY }}
@@ -907,7 +908,7 @@ export function ConjureButton({
         transition={springs.flick}
         style={{ x: shake }}
         className={cn(
-          "group relative inline-grid h-11 cursor-pointer place-items-center overflow-clip rounded-full border bg-surface-2 px-5 text-sm font-medium text-foreground outline-none select-none",
+          "group/conjure-button relative inline-grid h-11 cursor-pointer place-items-center overflow-clip rounded-full border bg-surface-2 px-5 text-sm font-medium text-foreground outline-none select-none",
           "transition-colors duration-200",
           "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           "disabled:cursor-not-allowed disabled:opacity-50",

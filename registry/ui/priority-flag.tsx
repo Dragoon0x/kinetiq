@@ -217,7 +217,7 @@ export function PriorityFlag({
               onClick={() => select(level.value)}
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
-                "group relative flex h-9 w-full items-center rounded-2 pr-2 pl-12 text-left text-sm outline-none",
+                "group/priority-flag relative flex h-9 w-full items-center rounded-2 pr-2 pl-12 text-left text-sm outline-none",
                 "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "font-medium text-foreground"
@@ -230,7 +230,7 @@ export function PriorityFlag({
                   "absolute top-1/2 left-3 h-px w-2 -translate-y-1/2 transition-colors",
                   checked
                     ? "bg-hairline-strong"
-                    : "bg-hairline group-hover:bg-hairline-strong",
+                    : "bg-hairline group-hover/priority-flag:bg-hairline-strong",
                 )}
               />
               <span className="truncate">{level.label}</span>

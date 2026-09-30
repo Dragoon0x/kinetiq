@@ -171,7 +171,10 @@ export function TurnWord({
             transition={{ duration: durations.fast, ease: easings.enter }}
           >
             {cells.map((cell, index) => (
-              <span key={index} className="inline-flex w-[1.2ch] justify-center">
+              <span
+                key={index}
+                className="inline-flex w-[1.2ch] justify-center"
+              >
                 {current === 1 ? cell.b : cell.a}
               </span>
             ))}
@@ -179,7 +182,7 @@ export function TurnWord({
         </AnimatePresence>
       )}
       {/* Baseline hairline — the print bed the letters turn over. */}
-      <span className="border-hairline absolute inset-x-0 bottom-0 border-t" />
+      <span className="absolute inset-x-0 bottom-0 border-t border-hairline" />
     </span>
   );
 
@@ -189,9 +192,9 @@ export function TurnWord({
     <span
       aria-hidden
       className={cn(
-        "border-hairline text-ink-3 rounded-1 border px-1 py-px font-mono text-[9px] tracking-[0.1em] tabular-nums transition-colors",
+        "rounded-1 border border-hairline px-1 py-px font-mono text-[9px] tracking-[0.1em] text-ink-3 tabular-nums transition-colors",
         interactive &&
-          "group-hover:border-hairline-strong group-hover:text-ink-2",
+          "group-hover/turn-word:border-hairline-strong group-hover/turn-word:text-ink-2",
       )}
     >
       {current === 1 ? "B" : "A"}
@@ -237,8 +240,8 @@ export function TurnWord({
         data-active={current}
         onClick={handleTurn}
         className={cn(
-          "group cursor-pointer outline-none",
-          "focus-visible:ring-ring/60 focus-visible:ring-offset-surface-1 focus-visible:ring-2 focus-visible:ring-offset-2",
+          "group/turn-word cursor-pointer outline-none",
+          "focus-visible:ring-2 focus-visible:ring-ring/60 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-1",
           baseClass,
         )}
       >

@@ -728,7 +728,7 @@ export function FuseButton({
   return (
     <span
       className={cn(
-        "group relative inline-flex shrink-0 select-none [-webkit-touch-callout:none]",
+        "group/fuse-button relative inline-flex shrink-0 select-none [-webkit-touch-callout:none]",
         disabled && "opacity-50",
         className,
       )}
@@ -817,7 +817,7 @@ export function FuseButton({
         }}
         className={cn(
           "relative inline-flex h-11 touch-none items-center justify-center rounded-3 px-5 text-sm font-medium text-foreground outline-none",
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           "enabled:cursor-pointer disabled:cursor-not-allowed",
         )}
       >
@@ -872,7 +872,7 @@ export function FuseButton({
           </defs>
           <motion.g style={{ opacity: cordOpacity }}>
             <g
-              className="opacity-80 transition-opacity group-hover:opacity-100"
+              className="opacity-80 transition-opacity group-hover/fuse-button:opacity-100"
               fill="none"
               strokeWidth={2}
               strokeDasharray="3.5 2"
