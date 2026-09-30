@@ -282,6 +282,11 @@ export function CrossGrid({
     if (appearing) {
       chipDown.set(motionSafe ? homeDown : down);
       chipAcross.set(motionSafe ? homeAcross : across);
+    }
+    // Every move stops what was running, the fade included, so the fade is
+    // resumed whenever it has not finished — a quick second move must not
+    // strand the crosshair half-lit.
+    if (lit.get() < 1) {
       running.current.push(
         animate(lit, 1, { duration: durations.fast, ease: easings.enter }),
       );

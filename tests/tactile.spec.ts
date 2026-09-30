@@ -1005,3 +1005,1573 @@ test.describe("tactile press", () => {
     expect(long).toBeLessThan(4600);
   });
 });
+
+type HoverPoint = { x: number; y: number };
+
+/**
+ * Puts an element in the middle of the viewport, so the pointer can reach it
+ * and whatever opens around it. The pointer is parked in the corner first, so
+ * the scroll's own hover update lands on nothing, and two frames pass so a
+ * touch is hit-tested against the scrolled page.
+ */
+const hoverCentre = async (page: Page, target: Locator) => {
+  await page.mouse.move(1, 1);
+  await target.evaluate(
+    (el) =>
+      new Promise<void>((done) => {
+        el.scrollIntoView({
+          block: "center",
+          inline: "center",
+          behavior: "instant",
+        });
+        requestAnimationFrame(() => requestAnimationFrame(() => done()));
+      }),
+  );
+};
+
+const hoverBox = async (target: Locator) => {
+  const box = await target.boundingBox();
+  if (!box) throw new Error("nothing there to point at");
+  return box;
+};
+
+const hoverMidX = async (target: Locator) => {
+  const box = await hoverBox(target);
+  return box.x + box.width / 2;
+};
+
+const hoverMidY = async (target: Locator) => {
+  const box = await hoverBox(target);
+  return box.y + box.height / 2;
+};
+
+/**
+ * Polls a geometric reading until the motion behind it settles within `tol`
+ * px of `want`. A miss reports the reading itself.
+ */
+const hoverAbout = (read: () => Promise<number>, want: number, tol = 1) =>
+  expect
+    .poll(async () => {
+      const got = await read();
+      return Math.abs(got - want) <= tol ? want : Math.round(got * 100) / 100;
+    })
+    .toBe(want);
+
+/**
+ * A pointer press on wherever the target is now — in, down, a waver under any
+ * drag threshold, up — without scrolling, for targets inside clipped, moving
+ * surfaces.
+ */
+const hoverPress = async (page: Page, target: Locator) => {
+  const box = await hoverBox(target);
+  const x = box.x + box.width / 2;
+  const y = box.y + box.height / 2;
+  await page.mouse.move(x, y, { steps: 4 });
+  await page.mouse.down();
+  await page.mouse.move(x + 1, y + 1, { steps: 2 });
+  await page.mouse.up();
+};
+
+/** Polls a reading until two in a row agree, and returns it. */
+const hoverStill = async (read: () => Promise<number>) => {
+  let last = Number.NaN;
+  await expect
+    .poll(
+      async () => {
+        const now = await read();
+        const still = Math.abs(now - last) < 0.05;
+        last = now;
+        return still;
+      },
+      { intervals: [100] },
+    )
+    .toBe(true);
+  return last;
+};
+
+/** Lets `ms` pass on the page's own clock: for what must not happen within a window. */
+const hoverFor = async (page: Page, ms: number) => {
+  const from = await pressNow(page);
+  await expect
+    .poll(() => pressNow(page), { intervals: [50] })
+    .toBeGreaterThan(from + ms);
+};
+
+/** When a text first showed in a log, on the page's clock. */
+const hoverAt = (log: PressLog, text: string) => pressTook(log, text, 0);
+
+/**
+ * A finger on the glass: down at `from`, several moves, then — after `held`,
+ * if given, runs with the finger still down — up at `to`.
+ */
+const hoverSwipe = async (
+  page: Page,
+  from: HoverPoint,
+  to: HoverPoint,
+  steps = 10,
+  held?: () => Promise<void>,
+) => {
+  const cdp = await page.context().newCDPSession(page);
+  const touch = (
+    type: "touchStart" | "touchMove" | "touchEnd",
+    at?: HoverPoint,
+  ) =>
+    cdp.send("Input.dispatchTouchEvent", {
+      type,
+      touchPoints: at ? [{ x: at.x, y: at.y }] : [],
+    });
+  await touch("touchStart", from);
+  for (let k = 1; k <= steps; k += 1) {
+    await touch("touchMove", {
+      x: from.x + ((to.x - from.x) * k) / steps,
+      y: from.y + ((to.y - from.y) * k) / steps,
+    });
+  }
+  await held?.();
+  await touch("touchEnd");
+  await cdp.detach();
+};
+
+/** Edge Peek's lean: 6px of sliver, plus `lean` × smoothstep(1 − distance / reach). */
+const hoverLean = (distance: number, reach = 160, lean = 24) => {
+  const t = Math.min(1, Math.max(0, 1 - distance / reach));
+  return 6 + lean * t * t * (3 - 2 * t);
+};
+
+/**
+ * How far an edge handle's visible face stands out past a surface's inner
+ * edge, in px. The face is what slides out; the button around it (the hit
+ * box) stays inside the surface until the lean passes its width.
+ */
+const hoverOut = async (
+  handle: Locator,
+  edge: number,
+  side: "left" | "right" = "right",
+) => {
+  const box = await hoverBox(handle.locator(":scope > span").first());
+  return side === "right" ? edge - box.x : box.x + box.width - edge;
+};
+
+/** The eyedropper's reading: the last part of the picture's description. */
+const hoverReading = (picture: Locator) =>
+  picture.evaluate((el) => {
+    const ids = (el.getAttribute("aria-describedby") ?? "").split(/\s+/);
+    return (
+      document.getElementById(ids[ids.length - 1] ?? "")?.textContent ?? ""
+    );
+  });
+
+const hoverEscape = (text: string) =>
+  text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+test.describe("tactile hover", () => {
+  test("underline-peek: a resting pointer and keyboard focus each drop the link's own preview after the delay, it follows the pointer and folds on leave or Escape, and Enter follows the link", async ({
+    page,
+  }) => {
+    await countAudio(page);
+    await gotoHydrated(page, "/components/underline-peek");
+    const stage = pressStage(page);
+    const line = stage.getByRole("status").last();
+    const article = stage.getByRole("article", {
+      name: "Waylight Pay help: payouts",
+    });
+    const cut = stage.getByRole("link", { name: "cut-off time" });
+    const recon = stage.getByRole("link", { name: "reconciliation" });
+    const shown = stage.getByRole("tooltip");
+    const cutCard = stage.getByRole("tooltip", { name: /^Cut-off times/ });
+    const reconCard = stage.getByRole("tooltip", { name: /^Reconciliation/ });
+
+    // At rest nothing is shown, yet each link is described by its preview.
+    await expect(line).toHaveText("hover or focus a link");
+    await expect(shown).toHaveCount(0);
+    await expect(cut).toHaveAccessibleDescription(
+      /The last minute a sale can join tonight’s payout\./,
+    );
+    await expect(recon).toHaveAccessibleDescription(
+      /How each payout is matched to the card sales behind it\./,
+    );
+
+    // Pointer: it comes in from above and stops just short of the word…
+    await hoverCentre(page, article);
+    const a = await hoverBox(cut);
+    const log = await pressLog(line);
+    await page.mouse.move(a.x - 40, a.y - 60);
+    await page.mouse.move(a.x + a.width / 2, a.y - 8, { steps: 6 });
+    const arrived = await pressNow(page);
+    // …then rests on it, and the sheet drops only after the 300 ms delay.
+    await page.mouse.move(a.x + a.width / 2, a.y + a.height / 2, {
+      steps: 3,
+    });
+    await expect(line).toHaveText("preview · cut-off time · open");
+    await expect(shown).toHaveCount(1);
+    await expect(cutCard).toBeVisible();
+    const waited = pressTook(
+      await log(),
+      "preview · cut-off time · open",
+      arrived,
+    );
+    expect(waited).toBeGreaterThan(300);
+    expect(waited).toBeLessThan(900);
+
+    // The pointer crosses the tab into the card; past the 140 ms grace it is
+    // still open, and leaving both folds it back into the line.
+    const k = await hoverBox(cutCard);
+    await page.mouse.move(a.x + a.width / 2, k.y + k.height / 2, {
+      steps: 6,
+    });
+    await hoverFor(page, 400);
+    await expect(line).toHaveText("preview · cut-off time · open");
+    await expect(cutCard).toBeVisible();
+    await page.mouse.move(k.x + k.width + 120, k.y + k.height + 60, {
+      steps: 6,
+    });
+    await expect(line).toHaveText("hover or focus a link");
+    await expect(shown).toHaveCount(0);
+
+    // Open, the card slides along under the pointer: centred on it at the
+    // far end of the word, and as far as the article lets it at the near end.
+    const art = await hoverBox(article);
+    const r = await hoverBox(recon);
+    const far = r.x + r.width - 4;
+    await page.mouse.move(far, r.y + r.height / 2, { steps: 8 });
+    await expect(line).toHaveText("preview · reconciliation · open");
+    await expect(reconCard).toBeVisible();
+    await hoverAbout(() => hoverMidX(reconCard), far);
+    await page.mouse.move(r.x + 4, r.y + r.height / 2, { steps: 8 });
+    await hoverAbout(async () => (await hoverBox(reconCard)).x, art.x + 1);
+    // Its tab stays with the word, so the card still covers it.
+    const card = await hoverBox(reconCard);
+    expect(card.x).toBeLessThanOrEqual(r.x);
+    expect(card.x + card.width).toBeGreaterThanOrEqual(r.x + r.width);
+    await page.mouse.move(r.x + r.width / 2, r.y - 60, { steps: 6 });
+    await expect(line).toHaveText("hover or focus a link");
+
+    // Keyboard: focus opens the same card after the same delay…
+    await cut.focus();
+    await expect(line).toHaveText("preview · cut-off time · open");
+    await expect(cutCard).toBeVisible();
+    // …Escape folds it, and it stays folded while focus stays…
+    await page.keyboard.press("Escape");
+    await expect(line).toHaveText("hover or focus a link");
+    await expect(shown).toHaveCount(0);
+    await expect(cut).toBeFocused();
+    await hoverFor(page, 600);
+    await expect(shown).toHaveCount(0);
+    // …Tab takes it to the next link, and coming back opens this one again.
+    await page.keyboard.press("Tab");
+    await expect(recon).toBeFocused();
+    await expect(line).toHaveText("preview · reconciliation · open");
+    await expect(reconCard).toBeVisible();
+    await page.keyboard.press("Shift+Tab");
+    await expect(cut).toBeFocused();
+    await expect(line).toHaveText("preview · cut-off time · open");
+    await expect(cutCard).toBeVisible();
+    await expect(shown).toHaveCount(1);
+    // Enter follows the link (the demo keeps it on the page).
+    await page.keyboard.press("Enter");
+    await page.keyboard.press("Escape");
+    await expect(line).toHaveText(
+      "followed · cut-off time · kept on this page",
+    );
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on, the unfurl is heard.
+    await page.getByRole("switch", { name: "Sound" }).click();
+    expect(await audioContexts(page)).toBe(0);
+    await hoverCentre(page, article);
+    const again = await hoverBox(recon);
+    await page.mouse.move(again.x + again.width / 2, again.y - 40);
+    await page.mouse.move(
+      again.x + again.width / 2,
+      again.y + again.height / 2,
+      { steps: 6 },
+    );
+    await expect(line).toHaveText("preview · reconciliation · open");
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+
+    // Tweaks: no delay and a 360px card…
+    let tuned = await pressOnStage(
+      page,
+      "underline-peek",
+      "Underline Peek",
+      "delay:0,width:360",
+    );
+    let link = tuned.getByRole("link", { name: "reconciliation" });
+    let tip = tuned.getByRole("tooltip", { name: /^Reconciliation/ });
+    let tunedLine = tuned.getByRole("status").last();
+    let box = await hoverBox(link);
+    let tunedLog = await pressLog(tunedLine);
+    await page.mouse.move(box.x + box.width / 2, box.y - 40);
+    await page.mouse.move(box.x + box.width / 2, box.y - 8, { steps: 6 });
+    let at = await pressNow(page);
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, {
+      steps: 3,
+    });
+    await expect(tunedLine).toHaveText("preview · reconciliation · open");
+    expect(
+      pressTook(await tunedLog(), "preview · reconciliation · open", at),
+    ).toBeLessThan(200);
+    await hoverAbout(async () => (await hoverBox(tip)).width, 360);
+    // Escape folds it and nothing else: the stage stays for the next Escape.
+    await page.keyboard.press("Escape");
+    await expect(tunedLine).toHaveText("hover or focus a link");
+    const dialog = dialogOf(page, "Underline Peek");
+    await expect(dialog).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(dialog).toHaveCount(0);
+
+    // …then a deliberate 800 ms, and a card that stays centred under the word.
+    tuned = await pressOnStage(
+      page,
+      "underline-peek",
+      "Underline Peek",
+      "follow:off,delay:800",
+    );
+    link = tuned.getByRole("link", { name: "reconciliation" });
+    tip = tuned.getByRole("tooltip", { name: /^Reconciliation/ });
+    tunedLine = tuned.getByRole("status").last();
+    box = await hoverBox(link);
+    const end = box.x + box.width - 4;
+    const middle = box.x + box.width / 2;
+    tunedLog = await pressLog(tunedLine);
+    await page.mouse.move(end, box.y - 40);
+    await page.mouse.move(end, box.y - 8, { steps: 6 });
+    at = await pressNow(page);
+    await page.mouse.move(end, box.y + box.height / 2, { steps: 3 });
+    await expect(tunedLine).toHaveText("preview · reconciliation · open");
+    const slow = pressTook(
+      await tunedLog(),
+      "preview · reconciliation · open",
+      at,
+    );
+    expect(slow).toBeGreaterThan(800);
+    expect(slow).toBeLessThan(1400);
+    await hoverAbout(() => hoverMidX(tip), middle);
+    await page.mouse.move(box.x + 4, box.y + box.height / 2, { steps: 8 });
+    await hoverFor(page, 600);
+    await hoverAbout(() => hoverMidX(tip), middle);
+  });
+
+  test("edge-peek: the handle leans out as the pointer nears the edge, a press or a drag opens the panel and the tint closes it, and focus, Enter, Space and Escape do the same from the keyboard", async ({
+    page,
+  }) => {
+    await countAudio(page);
+    await gotoHydrated(page, "/components/edge-peek");
+    const stage = pressStage(page);
+    const line = stage.getByRole("status").last();
+    const handle = stage.getByRole("button", { name: "Layers" });
+    const surface = handle.locator("xpath=..");
+    const panel = stage.getByRole("region", { name: "Layers" });
+
+    await expect(handle).toHaveAttribute("aria-expanded", "false");
+    await expect(handle).toHaveAttribute(
+      "aria-controls",
+      (await panel.getAttribute("id")) ?? "",
+    );
+    await expect(line).toHaveText("layers tucked · 3 of 3 shown");
+
+    await hoverCentre(page, surface);
+    const s = await hoverBox(surface);
+    // The pointer's distance is from the surface's outer edge; the handle
+    // and panel sit inside its 1px frame.
+    const edge = s.x + s.width;
+    const inner = edge - 1;
+    const mid = s.y + s.height / 2;
+    const out = () => hoverOut(handle, inner);
+    // Tucked, a 6px sliver shows.
+    await hoverAbout(out, 6, 0.5);
+
+    // Pointer: it comes in from the far side. Half the reach away, the
+    // lean is half; at the edge, it is all the way out and the panel peeks.
+    await page.mouse.move(s.x - 40, mid);
+    await page.mouse.move(edge - 200, mid, { steps: 6 });
+    await hoverAbout(out, 6);
+    await page.mouse.move(edge - 80, mid, { steps: 6 });
+    await hoverAbout(out, hoverLean(80));
+    await page.mouse.move(edge - 4, mid, { steps: 6 });
+    await hoverAbout(out, hoverLean(4));
+    await hoverAbout(
+      async () => inner - (await hoverBox(panel)).x,
+      hoverLean(4) - 20,
+    );
+    // Leaving the surface lets it settle back.
+    await page.mouse.move(s.x - 40, mid, { steps: 8 });
+    await hoverAbout(out, 6);
+    await expect(handle).toHaveAttribute("aria-expanded", "false");
+
+    // A press on the leaning handle slides the panel fully open; the handle
+    // rides its outer edge, 220 + 20 px from the surface's edge.
+    await page.mouse.move(edge - 20, mid, { steps: 8 });
+    await hoverAbout(out, hoverLean(20));
+    let grip = await hoverBox(handle);
+    await page.mouse.move(grip.x + grip.width / 2, mid, { steps: 2 });
+    await page.mouse.down();
+    await page.mouse.move(grip.x + grip.width / 2 + 1, mid + 1, { steps: 2 });
+    await page.mouse.up();
+    await expect(handle).toHaveAttribute("aria-expanded", "true");
+    await expect(line).toHaveText("layers open · 3 of 3 shown");
+    await hoverAbout(out, 240);
+    await hoverAbout(async () => (await hoverBox(panel)).x, inner - 220);
+    await hoverPress(page, panel.getByRole("checkbox", { name: "Water" }));
+    await expect(line).toHaveText("layers open · 2 of 3 shown");
+    // A press on the tint over the map closes it.
+    await page.mouse.move(s.x + 60, mid, { steps: 6 });
+    await page.mouse.down();
+    await page.mouse.up();
+    await expect(handle).toHaveAttribute("aria-expanded", "false");
+    await expect(line).toHaveText("layers tucked · 2 of 3 shown");
+    await hoverAbout(out, 6);
+
+    // A drag: the panel follows the hand 1:1, and let go past halfway it opens.
+    await page.mouse.move(edge - 20, mid, { steps: 8 });
+    await hoverAbout(out, hoverLean(20));
+    grip = await hoverBox(handle);
+    const gx = grip.x + grip.width / 2;
+    await page.mouse.move(gx, mid, { steps: 2 });
+    const before = await hoverStill(out);
+    await page.mouse.down();
+    await page.mouse.move(gx - 120, mid, { steps: 30 });
+    await hoverAbout(out, before + 120, 1.5);
+    await page.mouse.up();
+    await expect(handle).toHaveAttribute("aria-expanded", "true");
+    await expect(line).toHaveText("layers open · 2 of 3 shown");
+    await hoverAbout(out, 240);
+    // Dragged back past halfway, it tucks away again.
+    grip = await hoverBox(handle);
+    const ox = grip.x + grip.width / 2;
+    await page.mouse.move(ox, mid, { steps: 4 });
+    await page.mouse.down();
+    await page.mouse.move(ox + 160, mid, { steps: 40 });
+    await page.mouse.up();
+    await expect(handle).toHaveAttribute("aria-expanded", "false");
+    await expect(line).toHaveText("layers tucked · 2 of 3 shown");
+    expect(await audioContexts(page)).toBe(0);
+
+    // Keyboard, from a fresh map: focus leans it out as a near pointer does…
+    await gotoHydrated(page, "/components/edge-peek");
+    await hoverCentre(page, surface);
+    const f = await hoverBox(surface);
+    const keyOut = () => hoverOut(handle, f.x + f.width - 1);
+    await handle.focus();
+    await hoverAbout(keyOut, 30);
+    // …Enter opens it where the press did…
+    await page.keyboard.press("Enter");
+    await expect(handle).toHaveAttribute("aria-expanded", "true");
+    await expect(line).toHaveText("layers open · 3 of 3 shown");
+    await hoverAbout(keyOut, 240);
+    // …Tab goes on into the panel, and its checkboxes work…
+    await page.keyboard.press("Tab");
+    const trails = panel.getByRole("checkbox", { name: "Trails" });
+    await expect(trails).toBeFocused();
+    await page.keyboard.press("Space");
+    await expect(trails).not.toBeChecked();
+    await expect(line).toHaveText("layers open · 2 of 3 shown");
+    // …and Escape from inside closes it and hands focus back to the handle,
+    // which, still keyboard-focused, leans back out.
+    await page.keyboard.press("Escape");
+    await expect(handle).toBeFocused();
+    await expect(handle).toHaveAttribute("aria-expanded", "false");
+    await expect(line).toHaveText("layers tucked · 2 of 3 shown");
+    await hoverAbout(keyOut, 30);
+    // Space opens it too, and Escape on the handle closes it: leaned out.
+    await page.keyboard.press("Space");
+    await expect(handle).toHaveAttribute("aria-expanded", "true");
+    await expect(line).toHaveText("layers open · 2 of 3 shown");
+    await hoverAbout(keyOut, 240);
+    await page.keyboard.press("Escape");
+    await expect(handle).toHaveAttribute("aria-expanded", "false");
+    await expect(handle).toBeFocused();
+    await hoverAbout(keyOut, 30);
+    // Enter opens it and Enter closes it: leaned out again.
+    await page.keyboard.press("Enter");
+    await expect(handle).toHaveAttribute("aria-expanded", "true");
+    await hoverAbout(keyOut, 240);
+    await page.keyboard.press("Enter");
+    await expect(handle).toHaveAttribute("aria-expanded", "false");
+    await expect(line).toHaveText("layers tucked · 2 of 3 shown");
+    await hoverAbout(keyOut, 30);
+    // Tucked, the panel is out of the tab order: Tab passes it by, and the
+    // handle, no longer focused, settles back.
+    await page.keyboard.press("Tab");
+    await expect(handle).not.toBeFocused();
+    await expect(trails).not.toBeFocused();
+    await hoverAbout(keyOut, 6);
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on, the opening is heard.
+    await page.getByRole("switch", { name: "Sound" }).click();
+    expect(await audioContexts(page)).toBe(0);
+    await handle.focus();
+    await page.keyboard.press("Enter");
+    await expect(handle).toHaveAttribute("aria-expanded", "true");
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+
+    // Tweaks: the left edge and a 48px lean…
+    let tuned = await pressOnStage(
+      page,
+      "edge-peek",
+      "Edge Peek",
+      "side:left,lean:48",
+    );
+    let pill = tuned.getByRole("button", { name: "Layers" });
+    let frame = await hoverBox(pill.locator("xpath=.."));
+    const left = frame.x + 1;
+    const leftOut = () => hoverOut(pill, left, "left");
+    const fy = frame.y + frame.height / 2;
+    await hoverAbout(leftOut, 6, 0.5);
+    await page.mouse.move(frame.x + frame.width + 40, fy);
+    await page.mouse.move(frame.x + 4, fy, { steps: 10 });
+    await hoverAbout(leftOut, hoverLean(4, 160, 48));
+    grip = await hoverBox(pill);
+    await page.mouse.move(grip.x + grip.width / 2, fy, { steps: 4 });
+    await page.mouse.down();
+    await page.mouse.up();
+    await expect(pill).toHaveAttribute("aria-expanded", "true");
+    const leftPanel = tuned.getByRole("region", { name: "Layers" });
+    await hoverAbout(async () => (await hoverBox(leftPanel)).x, left);
+    await hoverAbout(leftOut, 240);
+
+    // …and a reach of 80: 40px away is half the lean, where the default
+    // reach would already lean three quarters of the way.
+    tuned = await pressOnStage(page, "edge-peek", "Edge Peek", "reach:80");
+    pill = tuned.getByRole("button", { name: "Layers" });
+    frame = await hoverBox(pill.locator("xpath=.."));
+    const right = frame.x + frame.width;
+    await page.mouse.move(frame.x - 40, frame.y + frame.height / 2);
+    await page.mouse.move(right - 40, frame.y + frame.height / 2, {
+      steps: 10,
+    });
+    await hoverAbout(() => hoverOut(pill, right - 1), hoverLean(40, 80));
+  });
+
+  test("cross-grid: pointing at a cell and moving focus to it both light its row and column and bring its labels beside it, and the arrows, Home/End and the page keys walk the grid", async ({
+    page,
+  }) => {
+    await countAudio(page);
+    await gotoHydrated(page, "/components/cross-grid");
+    const stage = pressStage(page);
+    const line = stage.getByRole("status").last();
+    const grid = stage.getByRole("grid", {
+      name: "Fernworks parcels shipped by depot and weekday",
+    });
+    const cell = (depot: string, day: number) =>
+      grid
+        .getByRole("row")
+        .filter({
+          has: page.getByRole("rowheader", { name: depot, exact: true }),
+        })
+        .getByRole("gridcell")
+        .nth(day);
+    const labels = grid.locator("xpath=..").locator(":scope > [aria-hidden]");
+    const chip = (text: string) =>
+      labels
+        .locator(":scope > div")
+        .filter({ hasText: new RegExp(`^${text}$`) });
+    const idle = "point at a cell or use the arrow keys";
+
+    await expect(line).toHaveText(idle);
+    await expect(grid.getByRole("columnheader", { name: "Wed" })).toHaveCount(
+      1,
+    );
+    await expect(grid.getByRole("gridcell")).toHaveCount(25);
+    // One tab stop in the body.
+    await expect(grid.locator("[role='gridcell'][tabindex='0']")).toHaveCount(
+      1,
+    );
+
+    // Pointer: onto the table at Coldbrook, Mon, then across to Gauge Row, Wed.
+    await hoverCentre(page, grid);
+    const home = await hoverBox(cell("Coldbrook", 0));
+    const target = await hoverBox(cell("Gauge Row", 2));
+    // Cosy rows are 36px.
+    expect(target.height).toBeCloseTo(36, 0);
+    await page.mouse.move(home.x - 60, home.y - 60);
+    await page.mouse.move(home.x + home.width / 2, home.y + home.height / 2, {
+      steps: 4,
+    });
+    await expect(line).toHaveText("Coldbrook · Mon · 412 parcels");
+    await page.mouse.move(
+      target.x + target.width / 2,
+      target.y + target.height / 2,
+      { steps: 10 },
+    );
+    await expect(line).toHaveText("Gauge Row · Wed · 412 parcels");
+    // The labels travel to sit beside it: the day just above, the depot
+    // just left.
+    const wed = chip("Wed");
+    const gauge = chip("Gauge Row");
+    const band = labels.first().locator(":scope > div").first();
+    // Both paths move on within the 150 ms fade-in, and the crosshair and the
+    // labels still come fully up.
+    const labelsLand = async () => {
+      await expect.poll(() => pressOpacity(band)).toBe(1);
+      await expect.poll(() => pressOpacity(wed.locator("xpath=.."))).toBe(1);
+      await expect.poll(() => pressOpacity(gauge.locator("xpath=.."))).toBe(1);
+      await hoverAbout(() => hoverMidX(wed), target.x + target.width / 2);
+      await hoverAbout(
+        async () => {
+          const b = await hoverBox(wed);
+          return b.y + b.height;
+        },
+        target.y - 3,
+        1.5,
+      );
+      await hoverAbout(
+        async () => {
+          const b = await hoverBox(gauge);
+          return b.x + b.width;
+        },
+        target.x - 3,
+        1.5,
+      );
+      await hoverAbout(
+        () => hoverMidY(gauge),
+        target.y + target.height / 2,
+        1.5,
+      );
+    };
+    await labelsLand();
+    // Leaving the table puts the crosshair away.
+    const table = await hoverBox(grid);
+    await page.mouse.move(table.x - 60, target.y + target.height / 2, {
+      steps: 6,
+    });
+    await expect(line).toHaveText(idle);
+
+    // Keyboard: from the tab stop, the arrows land on the same cell, and the
+    // labels land in the same places.
+    await cell("Coldbrook", 0).focus();
+    await expect(line).toHaveText("Coldbrook · Mon · 412 parcels");
+    for (const key of [
+      "ArrowDown",
+      "ArrowDown",
+      "ArrowDown",
+      "ArrowRight",
+      "ArrowRight",
+    ]) {
+      await page.keyboard.press(key);
+    }
+    await expect(cell("Gauge Row", 2)).toBeFocused();
+    await expect(line).toHaveText("Gauge Row · Wed · 412 parcels");
+    await labelsLand();
+    // The tab stop roves with focus.
+    await expect(cell("Gauge Row", 2)).toHaveAttribute("tabindex", "0");
+    await expect(grid.locator("[role='gridcell'][tabindex='0']")).toHaveCount(
+      1,
+    );
+    for (const [key, [depot, day], said] of [
+      ["End", ["Gauge Row", 4], "Gauge Row · Fri · 451 parcels"],
+      ["Home", ["Gauge Row", 0], "Gauge Row · Mon · 367 parcels"],
+      ["PageUp", ["Coldbrook", 0], "Coldbrook · Mon · 412 parcels"],
+      ["PageDown", ["Waylight", 0], "Waylight · Mon · 523 parcels"],
+      ["Control+End", ["Waylight", 4], "Waylight · Fri · 604 parcels"],
+      ["ArrowUp", ["Gauge Row", 4], "Gauge Row · Fri · 451 parcels"],
+      ["Control+Home", ["Coldbrook", 0], "Coldbrook · Mon · 412 parcels"],
+    ] as const) {
+      await page.keyboard.press(key);
+      await expect(cell(depot, day)).toBeFocused();
+      await expect(line).toHaveText(said);
+    }
+    // A pointer over another cell borrows the crosshair; leaving gives it
+    // back to the focused cell.
+    const fri = await hoverBox(cell("Waylight", 4));
+    await page.mouse.move(fri.x + fri.width / 2, fri.y + fri.height / 2, {
+      steps: 8,
+    });
+    await expect(line).toHaveText("Waylight · Fri · 604 parcels");
+    await page.mouse.move(fri.x + fri.width + 80, fri.y + fri.height / 2, {
+      steps: 4,
+    });
+    await expect(line).toHaveText("Coldbrook · Mon · 412 parcels");
+    // Focus leaving the grid clears it.
+    await page.keyboard.press("Tab");
+    await expect(cell("Coldbrook", 0)).not.toBeFocused();
+    await expect(line).toHaveText(idle);
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on, a move is heard.
+    await page.getByRole("switch", { name: "Sound" }).click();
+    expect(await audioContexts(page)).toBe(0);
+    await cell("Coldbrook", 0).focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(line).toHaveText("Coldbrook · Tue · 388 parcels");
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+
+    // Tweaks: compact 28px rows, and labels that stay home.
+    const tuned = await pressOnStage(
+      page,
+      "cross-grid",
+      "Cross Grid",
+      "density:compact,followLabels:off",
+    );
+    const tunedGrid = tuned.getByRole("grid", {
+      name: "Fernworks parcels shipped by depot and weekday",
+    });
+    const tunedCell = tunedGrid
+      .getByRole("row")
+      .filter({
+        has: page.getByRole("rowheader", { name: "Gauge Row", exact: true }),
+      })
+      .getByRole("gridcell")
+      .nth(2);
+    const tb = await hoverBox(tunedCell);
+    expect(tb.height).toBeCloseTo(28, 0);
+    await page.mouse.move(tb.x - 80, tb.y - 80);
+    await page.mouse.move(tb.x + tb.width / 2, tb.y + tb.height / 2, {
+      steps: 8,
+    });
+    await expect(tuned.getByRole("status").last()).toHaveText(
+      "Gauge Row · Wed · 412 parcels",
+    );
+    const tunedWed = tunedGrid
+      .locator("xpath=..")
+      .locator(":scope > [aria-hidden] > div")
+      .filter({ hasText: /^Wed$/ });
+    await hoverFor(page, 300);
+    expect(await pressOpacity(tunedWed.locator("xpath=.."))).toBe(0);
+  });
+
+  test("overflow-glide: pointing at a cut name or tabbing to its row glides it to its end at reading pace, holds, and eases home, and leaving mid-read turns it home at once", async ({
+    page,
+  }) => {
+    const NAME =
+      "Coldbrook weir survey — spring flow at the upper and lower gauges, final.pdf";
+    const idle = "7 files · point at a name to read the rest";
+    await countAudio(page);
+    await gotoHydrated(page, "/components/overflow-glide");
+    const stage = pressStage(page);
+    const line = stage.getByRole("status").last();
+    const row = stage.getByRole("button", { name: /^Coldbrook weir survey/ });
+    const third = stage.getByRole("button", { name: /^Basin sediment cores/ });
+    const fits = stage.getByRole("button", { name: /^Site map\.png/ });
+    const text = row.getByText(NAME, { exact: true });
+    const view = text.locator("xpath=..");
+
+    // The row's name is the whole file name; the ellipsis is not read.
+    await expect(row).toHaveAccessibleName(
+      new RegExp(`^${hoverEscape(NAME)}\\s?PDF · 2\\.4 MB · Sep 12$`),
+    );
+    await expect(line).toHaveText(idle);
+
+    await hoverCentre(page, stage.getByRole("list"));
+    const w = await hoverBox(view);
+    const t = await hoverBox(text);
+    // Cut: the name runs well past its window.
+    expect(t.width).toBeGreaterThan(w.width + 40);
+    await hoverAbout(async () => (await hoverBox(text)).x, w.x, 0.5);
+    // A word is five characters: at `speed` words a second, the overflow
+    // takes this long to pass.
+    const chars = Array.from(NAME).length;
+    const readFor = (speed: number) =>
+      ((t.width - w.width) / (speed * 5 * (t.width / chars))) * 1000;
+
+    // Pointer: onto the row.
+    const log = await pressLog(line);
+    const rb = await hoverBox(row);
+    await page.mouse.move(rb.x - 40, rb.y + rb.height / 2);
+    await page.mouse.move(rb.x + 40, rb.y + rb.height / 2, { steps: 6 });
+    await expect(line).toHaveText("reading file 1 of 7 · 3 words a second");
+    await expect(line).toHaveText("end of the name · file 1 of 7");
+    // Held at the end, the last character sits on the window's right edge.
+    await hoverAbout(async () => {
+      const b = await hoverBox(text);
+      return b.x + b.width;
+    }, w.x + w.width);
+    await expect(line).toHaveText("easing home · file 1 of 7");
+    await expect(line).toHaveText(idle);
+    await hoverAbout(async () => (await hoverBox(text)).x, w.x, 0.5);
+    // Three words a second, then the 0.8 s hold.
+    let entries = await log();
+    const read =
+      hoverAt(entries, "end of the name · file 1 of 7") -
+      hoverAt(entries, "reading file 1 of 7 · 3 words a second");
+    expect(read).toBeGreaterThan(readFor(3) * 0.9);
+    expect(read).toBeLessThan(readFor(3) * 1.2 + 150);
+    const held =
+      hoverAt(entries, "easing home · file 1 of 7") -
+      hoverAt(entries, "end of the name · file 1 of 7");
+    expect(held).toBeGreaterThan(780);
+    expect(held).toBeLessThan(1200);
+    // Still pointed at, it reads once per visit.
+    await hoverFor(page, 1200);
+    await expect(line).toHaveText(idle);
+
+    // Leaving mid-read turns it home at once, before it reaches the end.
+    const b3 = await hoverBox(third);
+    await page.mouse.move(b3.x + 40, b3.y + b3.height / 2, { steps: 8 });
+    await expect(line).toHaveText("reading file 3 of 7 · 3 words a second");
+    await page.mouse.move(b3.x - 60, b3.y + b3.height / 2, { steps: 4 });
+    await expect(line).toHaveText("easing home · file 3 of 7");
+    await expect(line).toHaveText(idle);
+    entries = await log();
+    expect(
+      entries.some(([said]) => said === "end of the name · file 3 of 7"),
+    ).toBe(false);
+    expect(await audioContexts(page)).toBe(0);
+
+    // Keyboard, from a fresh folder: Tab's focus reads the same name to the
+    // same end.
+    await gotoHydrated(page, "/components/overflow-glide");
+    await hoverCentre(page, stage.getByRole("list"));
+    const kw = await hoverBox(view);
+    const keyLog = await pressLog(line);
+    await row.focus();
+    await expect(line).toHaveText("reading file 1 of 7 · 3 words a second");
+    await expect(line).toHaveText("end of the name · file 1 of 7");
+    await hoverAbout(async () => {
+      const b = await hoverBox(text);
+      return b.x + b.width;
+    }, kw.x + kw.width);
+    await expect(line).toHaveText("easing home · file 1 of 7");
+    await expect(line).toHaveText(idle);
+    // Enter acts on the row at once.
+    await page.keyboard.press("Enter");
+    await expect(line).toHaveText("opened file 1 of 7");
+    // A name that fits does not move; the next cut one reads, and Shift+Tab
+    // away mid-read sends it home before the end.
+    await page.keyboard.press("Tab");
+    await expect(fits).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(third).toBeFocused();
+    await expect(line).toHaveText("reading file 3 of 7 · 3 words a second");
+    await page.keyboard.press("Shift+Tab");
+    await expect(fits).toBeFocused();
+    await expect(line).toHaveText("easing home · file 3 of 7");
+    await expect(line).toHaveText(idle);
+    const keyed = await keyLog();
+    expect(
+      keyed.some(([said]) => said === "end of the name · file 3 of 7"),
+    ).toBe(false);
+    // Nothing read while the fitting name had focus.
+    expect(keyed.some(([said]) => said.startsWith("reading file 2"))).toBe(
+      false,
+    );
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on, a glide is heard.
+    await page.getByRole("switch", { name: "Sound" }).click();
+    expect(await audioContexts(page)).toBe(0);
+    await hoverCentre(page, stage.getByRole("list"));
+    const sb = await hoverBox(row);
+    await page.mouse.move(sb.x - 40, sb.y + sb.height / 2);
+    await page.mouse.move(sb.x + 40, sb.y + sb.height / 2, { steps: 6 });
+    await expect(line).toHaveText("reading file 1 of 7 · 3 words a second");
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+
+    // Tweaks: six words a second, no pause, and a loop.
+    const tuned = await pressOnStage(
+      page,
+      "overflow-glide",
+      "Overflow Glide",
+      "speed:6,pause:0,loop:on",
+    );
+    const tunedLine = tuned.getByRole("status").last();
+    const tunedRow = tuned.getByRole("button", {
+      name: /^Coldbrook weir survey/,
+    });
+    const tunedLog = await pressLog(tunedLine);
+    const tr = await hoverBox(tunedRow);
+    await page.mouse.move(tr.x - 40, tr.y + tr.height / 2);
+    await page.mouse.move(tr.x + 40, tr.y + tr.height / 2, { steps: 6 });
+    await expect(tunedLine).toHaveText(
+      "reading file 1 of 7 · 6 words a second",
+    );
+    // Still pointed at, it reads again.
+    await expect
+      .poll(
+        async () =>
+          (await tunedLog()).filter(
+            ([said]) => said === "reading file 1 of 7 · 6 words a second",
+          ).length,
+        { timeout: 10_000 },
+      )
+      .toBeGreaterThanOrEqual(2);
+    // Half the time to read, and no hold: it turns home the moment it
+    // arrives (so fast that the demo's line may skip "end of the name").
+    const tunedEntries = await tunedLog();
+    const fast =
+      hoverAt(tunedEntries, "easing home · file 1 of 7") -
+      hoverAt(tunedEntries, "reading file 1 of 7 · 6 words a second");
+    expect(fast).toBeGreaterThan(readFor(6) * 0.9);
+    expect(fast).toBeLessThan(readFor(6) * 1.2 + 150);
+  });
+
+  test("try-on: pointing at a swatch tries it on and moving off takes it back, a click, Enter or Space keeps it, and the arrows try each in turn while Escape puts the kept look back", async ({
+    page,
+  }) => {
+    await countAudio(page);
+    await gotoHydrated(page, "/components/try-on");
+    const stage = pressStage(page);
+    const line = stage.getByRole("status").last();
+    const list = stage.getByRole("listbox", { name: "Accent" });
+    const swatch = (name: string) =>
+      list.getByRole("option", { name, exact: true });
+
+    await expect(list).toHaveAttribute("aria-orientation", "horizontal");
+    await expect(list.getByRole("option")).toHaveCount(5);
+    await expect(swatch("Cobalt")).toHaveAttribute("aria-selected", "true");
+    await expect(swatch("Moss")).toHaveAttribute("aria-selected", "false");
+    await expect(line).toHaveText(
+      "accent cobalt · point at a swatch to try it",
+    );
+
+    // Pointer: onto Moss from below the row.
+    await hoverCentre(page, list.locator("xpath=../.."));
+    const moss = await hoverBox(swatch("Moss"));
+    const amber = await hoverBox(swatch("Amber"));
+    await page.mouse.move(moss.x + moss.width / 2, moss.y + 60);
+    await page.mouse.move(moss.x + moss.width / 2, moss.y + moss.height / 2, {
+      steps: 6,
+    });
+    await expect(line).toHaveText("trying moss · click to keep");
+    await expect(stage.getByText("Trying Moss", { exact: true })).toBeVisible();
+    await expect(swatch("Moss")).toHaveAttribute("aria-selected", "false");
+    // Hopping to the next swatch tries that one instead.
+    await page.mouse.move(
+      amber.x + amber.width / 2,
+      amber.y + amber.height / 2,
+      { steps: 6 },
+    );
+    await expect(line).toHaveText("trying amber · click to keep");
+    await expect(
+      stage.getByText("Trying Amber", { exact: true }),
+    ).toBeVisible();
+    // Off the row, the kept look comes back.
+    await page.mouse.move(amber.x + amber.width / 2, amber.y + 60, {
+      steps: 6,
+    });
+    await expect(line).toHaveText(
+      "accent cobalt · point at a swatch to try it",
+    );
+    await expect(stage.getByText(/^Trying /)).toHaveCount(0);
+    await expect(swatch("Cobalt")).toHaveAttribute("aria-selected", "true");
+    // A click keeps it.
+    await pressTap(page, swatch("Moss"));
+    await expect(swatch("Moss")).toHaveAttribute("aria-selected", "true");
+    await expect(swatch("Cobalt")).toHaveAttribute("aria-selected", "false");
+    await expect(line).toHaveText("kept moss · the preview is the accent now");
+    await expect(list.getByRole("option", { selected: true })).toHaveCount(1);
+    expect(await audioContexts(page)).toBe(0);
+
+    // Keyboard, from a fresh picker: the arrows try, Enter keeps the same one.
+    await gotoHydrated(page, "/components/try-on");
+    await swatch("Cobalt").focus();
+    await expect(line).toHaveText(
+      "accent cobalt · point at a swatch to try it",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(swatch("Moss")).toBeFocused();
+    await expect(line).toHaveText("trying moss · enter to keep");
+    for (const [key, name] of [
+      ["ArrowRight", "Amber"],
+      ["ArrowDown", "Ember"],
+      ["ArrowRight", "Ink"],
+      ["End", "Ember"],
+      ["Home", "Ink"],
+      ["ArrowLeft", "Ember"],
+      ["ArrowUp", "Amber"],
+    ] as const) {
+      await page.keyboard.press(key);
+      await expect(swatch(name)).toBeFocused();
+      await expect(line).toHaveText(
+        `trying ${name.toLowerCase()} · enter to keep`,
+      );
+      await expect(swatch(name)).toHaveAttribute("aria-selected", "false");
+    }
+    // Escape puts the kept look back and returns to the kept swatch.
+    await page.keyboard.press("Escape");
+    await expect(swatch("Cobalt")).toBeFocused();
+    await expect(line).toHaveText(
+      "accent cobalt · point at a swatch to try it",
+    );
+    await page.keyboard.press("ArrowRight");
+    await expect(line).toHaveText("trying moss · enter to keep");
+    await page.keyboard.press("Enter");
+    await expect(swatch("Moss")).toHaveAttribute("aria-selected", "true");
+    await expect(swatch("Cobalt")).toHaveAttribute("aria-selected", "false");
+    await expect(line).toHaveText("kept moss · the preview is the accent now");
+    // Space keeps too.
+    await page.keyboard.press("ArrowRight");
+    await expect(line).toHaveText("trying amber · enter to keep");
+    await page.keyboard.press("Space");
+    await expect(swatch("Amber")).toHaveAttribute("aria-selected", "true");
+    await expect(line).toHaveText("kept amber · the preview is the accent now");
+    // Focus leaving the list takes a tried look back, and the tab stop
+    // returns to the kept swatch.
+    await page.keyboard.press("ArrowLeft");
+    await expect(line).toHaveText("trying moss · enter to keep");
+    await page.keyboard.press("Tab");
+    await expect(line).toHaveText("accent amber · point at a swatch to try it");
+    await expect(list.locator("[tabindex='0']")).toHaveAccessibleName("Amber");
+    await expect(list.locator("[tabindex='0']")).toHaveCount(1);
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on, a try is heard.
+    await page.getByRole("switch", { name: "Sound" }).click();
+    expect(await audioContexts(page)).toBe(0);
+    await hoverCentre(page, list.locator("xpath=../.."));
+    const ember = await hoverBox(swatch("Ember"));
+    await page.mouse.move(ember.x + ember.width / 2, ember.y + 60);
+    await page.mouse.move(
+      ember.x + ember.width / 2,
+      ember.y + ember.height / 2,
+      { steps: 6 },
+    );
+    await expect(line).toHaveText("trying ember · click to keep");
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+
+    // Tweaks: tried on a button at half pace, a look wipes in over 0.8 s and
+    // is drawn back in 0.6 × that…
+    const drawBack = async (tuned: Locator, sample: string) => {
+      const tunedList = tuned.getByRole("listbox", { name: "Accent" });
+      const mirror = tunedList.locator("xpath=../../*[1]");
+      await expect(tuned.getByText(sample)).toHaveCount(1);
+      const m = await hoverBox(
+        tunedList.getByRole("option", { name: "Moss", exact: true }),
+      );
+      await page.mouse.move(m.x + m.width / 2, m.y + 60);
+      await page.mouse.move(m.x + m.width / 2, m.y + m.height / 2, {
+        steps: 6,
+      });
+      await expect(tuned.getByRole("status").last()).toHaveText(
+        "trying moss · click to keep",
+      );
+      // A second copy of the sample wipes over the first.
+      await expect(tuned.getByText(sample)).toHaveCount(2);
+      await hoverFor(page, 1000);
+      const mirrorLog = await pressLog(mirror);
+      const rest = (await mirrorLog())[0]?.[0] ?? "";
+      const left = await pressNow(page);
+      await page.mouse.move(m.x + m.width / 2, m.y + 60, { steps: 3 });
+      await expect(tuned.getByText(sample)).toHaveCount(1);
+      const trail = await mirrorLog();
+      const after = trail[trail.length - 1]?.[0] ?? "";
+      expect(rest.length).toBeGreaterThan(after.length);
+      return pressTook(await mirrorLog(), after, left);
+    };
+    /**
+     * Arrow from Moss (landed) to Amber: Amber wipes in over Moss, and the
+     * moment it has covered the sample, Moss's copy is dropped. Returns how
+     * long that took from the key.
+     */
+    const wipeIn = async (tuned: Locator, sample: string) => {
+      const tunedList = tuned.getByRole("listbox", { name: "Accent" });
+      const tunedLine = tuned.getByRole("status").last();
+      const mirror = tunedList.locator("xpath=../../*[1]");
+      const copies = (text: string) => text.split(sample).length - 1;
+      await tunedList
+        .getByRole("option", { name: "Cobalt", exact: true })
+        .focus();
+      await page.keyboard.press("ArrowRight");
+      await expect(tunedLine).toHaveText("trying moss · enter to keep");
+      await expect(tuned.getByText(sample)).toHaveCount(2);
+      await hoverFor(page, 1000);
+      const mirrorLog = await pressLog(mirror);
+      const hop = await pressNow(page);
+      await page.keyboard.press("ArrowRight");
+      await expect(tunedLine).toHaveText("trying amber · enter to keep");
+      const landed = async () => {
+        const log = await mirrorLog();
+        const over = log.find(([text, at]) => at >= hop && copies(text) === 3);
+        const drop =
+          over && log.find(([text, at]) => at > over[1] && copies(text) === 2);
+        return drop ? drop[1] - hop : null;
+      };
+      await expect.poll(landed).not.toBeNull();
+      return (await landed()) ?? Number.NaN;
+    };
+    let tuned = await pressOnStage(
+      page,
+      "try-on",
+      "Try On",
+      "sample:button,speed:0.5",
+    );
+    await expect(tuned.getByText("Fieldline Studio")).toHaveCount(0);
+    const slow = await drawBack(tuned, "Invite teammates");
+    expect(slow).toBeGreaterThan(400);
+    expect(slow).toBeLessThan(900);
+    const slowIn = await wipeIn(tuned, "Invite teammates");
+    expect(slowIn).toBeGreaterThan(750);
+    expect(slowIn).toBeLessThan(1300);
+    // …and on a badge at double pace, 0.2 s in and 0.6 × that back.
+    tuned = await pressOnStage(
+      page,
+      "try-on",
+      "Try On",
+      "sample:badge,speed:2",
+    );
+    const quick = await drawBack(tuned, "Pro plan");
+    expect(quick).toBeLessThan(350);
+    const quickIn = await wipeIn(tuned, "Pro plan");
+    expect(quickIn).toBeGreaterThan(150);
+    expect(quickIn).toBeLessThan(450);
+
+    // Escape while trying is the picker's; with nothing tried, the stage's.
+    await page.keyboard.press("Escape");
+    await expect(tuned.getByRole("status").last()).toHaveText(
+      "accent cobalt · point at a swatch to try it",
+    );
+    const dialog = dialogOf(page, "Try On");
+    await expect(dialog).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(dialog).toHaveCount(0);
+  });
+
+  test("eyedropper: the loupe reads the pixel under the pointer and the arrow keys read the same pixel, a click or Enter drops it on the shelf, and a colour already there moves to the front", async ({
+    page,
+  }) => {
+    await countAudio(page);
+    await page
+      .context()
+      .grantPermissions(["clipboard-read", "clipboard-write"]);
+    await gotoHydrated(page, "/components/eyedropper");
+    const stage = pressStage(page);
+    const picture = stage.getByRole("button", {
+      name: "Coldbrook at dusk, reference photo",
+    });
+    const said = stage.getByRole("status").first();
+    const line = stage.getByRole("status").last();
+    const shelf = stage.getByRole("list", { name: "Picked colours" });
+    const picks = shelf.getByRole("button");
+    const lens = stage.locator("canvas:not([aria-hidden])");
+    const reading = () => hoverReading(picture);
+
+    await expect(picture).toHaveAccessibleDescription(
+      /^Arrow keys move the loupe one pixel, Shift moves ten\. Enter picks the colour\. #[0-9A-F]{6}$/,
+    );
+    await expect(line).toHaveText("0 of 6 picked · point at the photo");
+    await expect(said).toHaveText("");
+    await expect(picks).toHaveCount(0);
+    // The loupe is 112px by default.
+    await hoverAbout(async () => (await hoverBox(lens)).width, 112, 0.5);
+
+    // Pointer: one CSS pixel of the picture is one of its pixels, inside a
+    // 1px frame. The pointer comes in from below and rests on (150, 100).
+    await hoverCentre(page, picture.locator("xpath=.."));
+    const pic = await hoverBox(picture);
+    const px = (i: number, j: number) => ({
+      x: pic.x + 1 + i + 0.5,
+      y: pic.y + 1 + j + 0.5,
+    });
+    const p1 = px(150, 100);
+    await page.mouse.move(pic.x + 40, pic.y + pic.height + 60);
+    await page.mouse.move(p1.x, p1.y, { steps: 10 });
+    // The loupe follows it 1:1.
+    await hoverAbout(() => hoverMidX(lens), p1.x, 0.5);
+    await hoverAbout(() => hoverMidY(lens), p1.y, 0.5);
+    const first = await reading();
+    expect(first).toMatch(/^#[0-9A-F]{6}$/);
+    // A click drops it on the shelf; the slot is live once the drop lands.
+    await page.mouse.down();
+    await page.mouse.up();
+    await expect(
+      shelf.getByRole("button", { name: `Copy ${first}` }),
+    ).toBeEnabled();
+    await expect(line).toHaveText(`1 of 6 picked · last ${first}`);
+    await expect(said).toHaveText(
+      new RegExp(`^Picked [a-z ]+, ${first}\\. 1 on the shelf\\.$`),
+    );
+
+    // Keyboard: one pixel right and back reads the very pixel the pointer did.
+    await expect(picture).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowLeft");
+    await expect(said).toHaveText(
+      new RegExp(`^[a-z ]+, ${first}, at 150, 100\\.$`),
+    );
+    await expect(picture).toHaveAccessibleDescription(new RegExp(`${first}$`));
+    // Enter picks it again: already in front, it is not added twice.
+    await page.keyboard.press("Enter");
+    await expect(said).toHaveText(
+      new RegExp(`^Picked [a-z ]+, ${first}, again\\.$`),
+    );
+    await expect(picks).toHaveCount(1);
+    // Shift moves ten: a new pixel, and Enter drops it in front.
+    await page.keyboard.press("Shift+ArrowDown");
+    await expect(said).toHaveText(/^[a-z ]+, #[0-9A-F]{6}, at 150, 110\.$/);
+    const second = await reading();
+    expect(second).not.toBe(first);
+    await page.keyboard.press("Enter");
+    await expect(
+      shelf.getByRole("button", { name: `Copy ${second}` }),
+    ).toBeEnabled();
+    await expect(picks).toHaveCount(2);
+    await expect(picks.first()).toHaveAccessibleName(`Copy ${second}`);
+    await expect(line).toHaveText(`2 of 6 picked · last ${second}`);
+    await expect(said).toHaveText(
+      new RegExp(`^Picked [a-z ]+, ${second}\\. 2 on the shelf\\.$`),
+    );
+
+    // The pointer on that pixel reads what the keys did.
+    const p2 = px(150, 110);
+    await page.mouse.move(p2.x, p2.y, { steps: 4 });
+    await expect.poll(reading).toBe(second);
+    // Back on the first pixel, a click moves that colour to the front.
+    await page.mouse.move(p1.x, p1.y, { steps: 4 });
+    await expect.poll(reading).toBe(first);
+    await page.mouse.down();
+    await page.mouse.up();
+    await expect(picks.first()).toHaveAccessibleName(`Copy ${first}`);
+    await expect(picks).toHaveCount(2);
+    await expect(line).toHaveText(`2 of 6 picked · last ${first}`);
+    await expect(said).toHaveText(
+      new RegExp(`^Picked [a-z ]+, ${first}\\. 2 on the shelf\\.$`),
+    );
+
+    // A swatch copies its value.
+    await shelf.getByRole("button", { name: `Copy ${second}` }).click();
+    await expect(said).toHaveText(`Copied ${second}.`);
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      second,
+    );
+
+    // The keys stop at the picture's edge, and never scroll the page.
+    await picture.focus();
+    const scrolled = await page.evaluate(() => window.scrollY);
+    for (let step = 0; step < 16; step += 1) {
+      await page.keyboard.press("Shift+ArrowLeft");
+    }
+    await expect(said).toHaveText(/, at 0, 100\.$/);
+    for (let step = 0; step < 12; step += 1) {
+      await page.keyboard.press("Shift+ArrowUp");
+    }
+    await expect(said).toHaveText(/, at 0, 0\.$/);
+    expect(await page.evaluate(() => window.scrollY)).toBe(scrolled);
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on, a key's pip is heard.
+    await page.getByRole("switch", { name: "Sound" }).click();
+    expect(await audioContexts(page)).toBe(0);
+    await picture.focus();
+    await page.keyboard.press("ArrowRight");
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+
+    // Tweaks: written as RGB, in a 160px loupe…
+    let tuned = await pressOnStage(
+      page,
+      "eyedropper",
+      "Eyedropper",
+      "format:rgb,loupe:160",
+    );
+    let tunedPicture = tuned.getByRole("button", {
+      name: "Coldbrook at dusk, reference photo",
+    });
+    await expect(tunedPicture).toHaveAccessibleDescription(
+      /\. rgb\(\d{1,3}, \d{1,3}, \d{1,3}\)$/,
+    );
+    await hoverAbout(
+      async () =>
+        (await hoverBox(tuned.locator("canvas:not([aria-hidden])"))).width,
+      160,
+      0.5,
+    );
+    const rgb = await hoverReading(tunedPicture);
+    await tunedPicture.focus();
+    await page.keyboard.press("Enter");
+    await expect(tuned.getByRole("status").last()).toHaveText(
+      `1 of 6 picked · last ${rgb}`,
+    );
+    await expect(
+      tuned
+        .getByRole("list", { name: "Picked colours" })
+        .getByRole("button", { name: `Copy ${rgb}` }),
+    ).toBeEnabled();
+    // …then as HSL, in an 80px loupe.
+    tuned = await pressOnStage(
+      page,
+      "eyedropper",
+      "Eyedropper",
+      "format:hsl,loupe:80",
+    );
+    tunedPicture = tuned.getByRole("button", {
+      name: "Coldbrook at dusk, reference photo",
+    });
+    await expect(tunedPicture).toHaveAccessibleDescription(
+      /\. hsl\(\d{1,3}, \d{1,3}%, \d{1,3}%\)$/,
+    );
+    await hoverAbout(
+      async () =>
+        (await hoverBox(tuned.locator("canvas:not([aria-hidden])"))).width,
+      80,
+      0.5,
+    );
+  });
+
+  test.describe("on touch", () => {
+    test.use({ hasTouch: true });
+
+    test("underline-peek: on touch, the first tap shows the preview, the second follows the link, and a tap outside folds it", async ({
+      page,
+    }) => {
+      await countAudio(page);
+      await gotoHydrated(page, "/components/underline-peek");
+      const stage = pressStage(page);
+      const line = stage.getByRole("status").last();
+      const article = stage.getByRole("article", {
+        name: "Waylight Pay help: payouts",
+      });
+      const cut = stage.getByRole("link", { name: "cut-off time" });
+      const card = stage.getByRole("tooltip", { name: /^Cut-off times/ });
+      await hoverCentre(page, article);
+      const art = await hoverBox(article);
+      const outside = {
+        x: art.x + art.width - 20,
+        y: art.y + art.height - 6,
+      };
+
+      // The first tap shows the preview instead of following the link…
+      await cut.tap();
+      await expect(line).toHaveText("preview · cut-off time · open");
+      await expect(card).toBeVisible();
+      // …and a tap outside folds it, with nothing followed.
+      await page.touchscreen.tap(outside.x, outside.y);
+      await expect(line).toHaveText("hover or focus a link");
+      await expect(card).toHaveCount(0);
+      // Tap, then tap again: the second is the link.
+      await cut.tap();
+      await expect(line).toHaveText("preview · cut-off time · open");
+      await cut.tap();
+      await page.touchscreen.tap(outside.x, outside.y);
+      await expect(line).toHaveText(
+        "followed · cut-off time · kept on this page",
+      );
+      expect(await audioContexts(page)).toBe(0);
+    });
+
+    test("edge-peek: on touch, a first tap at the edge leans the handle out, the second opens the panel, and a tap on the tint closes it or on the map lets it settle", async ({
+      page,
+    }) => {
+      await countAudio(page);
+      await gotoHydrated(page, "/components/edge-peek");
+      const stage = pressStage(page);
+      const line = stage.getByRole("status").last();
+      const handle = stage.getByRole("button", { name: "Layers" });
+      const surface = handle.locator("xpath=..");
+      await hoverCentre(page, surface);
+      const s = await hoverBox(surface);
+      const edge = s.x + s.width;
+      const inner = edge - 1;
+      const mid = s.y + s.height / 2;
+      const out = () => hoverOut(handle, inner);
+      await hoverAbout(out, 6, 0.5);
+
+      // A tap anywhere on the sliver, out to its last pixel, leans the handle
+      // all the way out and no more; a tap far from the edge lets it settle.
+      for (const dx of [1, 2, 3, 4]) {
+        await page.touchscreen.tap(inner - dx, mid);
+        await hoverAbout(out, 30);
+        await expect(handle).toHaveAttribute("aria-expanded", "false");
+        await page.touchscreen.tap(s.x + 60, mid);
+        await hoverAbout(out, 6);
+      }
+      await page.touchscreen.tap(inner - 2, mid);
+      await hoverAbout(out, 30);
+      await expect(handle).toHaveAttribute("aria-expanded", "false");
+      await expect(line).toHaveText("layers tucked · 3 of 3 shown");
+      // The second tap, on the handle, opens the panel.
+      const grip = await hoverBox(handle);
+      await page.touchscreen.tap(grip.x + grip.width / 2, mid);
+      await expect(handle).toHaveAttribute("aria-expanded", "true");
+      await expect(line).toHaveText("layers open · 3 of 3 shown");
+      await hoverAbout(out, 240);
+      // A tap on the tint over the map closes it.
+      await page.touchscreen.tap(s.x + 60, mid);
+      await expect(handle).toHaveAttribute("aria-expanded", "false");
+      await expect(line).toHaveText("layers tucked · 3 of 3 shown");
+      await hoverAbout(out, 6);
+      // Near the edge, off the handle, a tap leans it too; a tap far from
+      // the edge lets it settle back.
+      await page.touchscreen.tap(edge - 16, s.y + 24);
+      await hoverAbout(out, 30);
+      await page.touchscreen.tap(s.x + 60, mid);
+      await hoverAbout(out, 6);
+      await expect(handle).toHaveAttribute("aria-expanded", "false");
+      expect(await audioContexts(page)).toBe(0);
+    });
+
+    test("edge-peek: on touch, a finger dragging leftwards from the sliver pulls the panel out 1:1 and opens it, and dragged back it tucks away", async ({
+      page,
+    }) => {
+      await countAudio(page);
+      await gotoHydrated(page, "/components/edge-peek");
+      const stage = pressStage(page);
+      const line = stage.getByRole("status").last();
+      const handle = stage.getByRole("button", { name: "Layers" });
+      const surface = handle.locator("xpath=..");
+      await hoverCentre(page, surface);
+      const s = await hoverBox(surface);
+      const inner = s.x + s.width - 1;
+      const mid = s.y + s.height / 2;
+      const out = () => hoverOut(handle, inner);
+      await hoverAbout(out, 6, 0.5);
+
+      // From the sliver, 160px left: the handle is under the finger all the
+      // way (6 + 160), and let go it opens.
+      await hoverSwipe(
+        page,
+        { x: inner - 3, y: mid },
+        { x: inner - 163, y: mid },
+        16,
+        () => hoverAbout(out, 166, 1.5),
+      );
+      await expect(handle).toHaveAttribute("aria-expanded", "true");
+      await expect(line).toHaveText("layers open · 3 of 3 shown");
+      await hoverAbout(out, 240);
+      // Dragged back 160px from the open handle: under the finger again
+      // (240 − 160), and let go it tucks away.
+      const grip = await hoverBox(handle);
+      const gx = grip.x + grip.width / 2;
+      await hoverSwipe(
+        page,
+        { x: gx, y: mid },
+        { x: gx + 160, y: mid },
+        16,
+        () => hoverAbout(out, 80, 1.5),
+      );
+      await expect(handle).toHaveAttribute("aria-expanded", "false");
+      await expect(line).toHaveText("layers tucked · 3 of 3 shown");
+      await hoverAbout(out, 6);
+      expect(await audioContexts(page)).toBe(0);
+    });
+
+    test("cross-grid: on touch, a tap puts the crosshair on a cell and a tap outside the table clears it", async ({
+      page,
+    }) => {
+      await countAudio(page);
+      await gotoHydrated(page, "/components/cross-grid");
+      const stage = pressStage(page);
+      const line = stage.getByRole("status").last();
+      const grid = stage.getByRole("grid", {
+        name: "Fernworks parcels shipped by depot and weekday",
+      });
+      const cell = (depot: string, day: number) =>
+        grid
+          .getByRole("row")
+          .filter({
+            has: page.getByRole("rowheader", { name: depot, exact: true }),
+          })
+          .getByRole("gridcell")
+          .nth(day);
+      await hoverCentre(page, grid);
+
+      await cell("Gauge Row", 2).tap();
+      await expect(line).toHaveText("Gauge Row · Wed · 412 parcels");
+      await cell("Waylight", 4).tap();
+      await expect(line).toHaveText("Waylight · Fri · 604 parcels");
+      const g = await hoverBox(grid);
+      await page.touchscreen.tap(g.x + g.width / 2, g.y + g.height + 60);
+      await expect(line).toHaveText("point at a cell or use the arrow keys");
+      expect(await audioContexts(page)).toBe(0);
+    });
+
+    test("overflow-glide: on touch, the first tap on a cut name reads it and the second opens its row, and a name that fits opens at once", async ({
+      page,
+    }) => {
+      await countAudio(page);
+      await gotoHydrated(page, "/components/overflow-glide");
+      const stage = pressStage(page);
+      const line = stage.getByRole("status").last();
+      const row = stage.getByRole("button", { name: /^Coldbrook weir survey/ });
+      const fits = stage.getByRole("button", { name: /^Site map\.png/ });
+      await hoverCentre(page, stage.getByRole("list"));
+
+      // The first tap reads the name to its end and back, and opens nothing.
+      await row.tap();
+      await expect(line).toHaveText("reading file 1 of 7 · 3 words a second");
+      await expect(line).toHaveText("end of the name · file 1 of 7");
+      await expect(line).toHaveText(
+        "7 files · point at a name to read the rest",
+      );
+      // The second opens the row.
+      await row.tap();
+      await expect(line).toHaveText("opened file 1 of 7");
+      // A name that fits has nothing to reveal: its first tap opens it.
+      await fits.tap();
+      await expect(line).toHaveText("opened file 2 of 7");
+      // Having pressed elsewhere, the cut name reveals first again.
+      await row.tap();
+      await expect(line).toHaveText("reading file 1 of 7 · 3 words a second");
+      expect(await audioContexts(page)).toBe(0);
+    });
+
+    test("try-on: on touch, the first tap tries a swatch on, the second keeps it, and a tap elsewhere takes a tried look back", async ({
+      page,
+    }) => {
+      await countAudio(page);
+      await gotoHydrated(page, "/components/try-on");
+      const stage = pressStage(page);
+      const line = stage.getByRole("status").last();
+      const list = stage.getByRole("listbox", { name: "Accent" });
+      const swatch = (name: string) =>
+        list.getByRole("option", { name, exact: true });
+      await hoverCentre(page, list.locator("xpath=../.."));
+
+      await swatch("Moss").tap();
+      await expect(line).toHaveText("trying moss · tap again to keep");
+      await expect(swatch("Moss")).toHaveAttribute("aria-selected", "false");
+      await swatch("Moss").tap();
+      await expect(swatch("Moss")).toHaveAttribute("aria-selected", "true");
+      await expect(swatch("Cobalt")).toHaveAttribute("aria-selected", "false");
+      await expect(line).toHaveText(
+        "kept moss · the preview is the accent now",
+      );
+      // A tried look goes back on a tap anywhere else.
+      await swatch("Amber").tap();
+      await expect(line).toHaveText("trying amber · tap again to keep");
+      const l = await hoverBox(list);
+      await page.touchscreen.tap(l.x + l.width / 2, l.y + l.height + 80);
+      await expect(line).toHaveText(
+        "accent moss · point at a swatch to try it",
+      );
+      await expect(swatch("Amber")).toHaveAttribute("aria-selected", "false");
+      await expect(swatch("Moss")).toHaveAttribute("aria-selected", "true");
+      expect(await audioContexts(page)).toBe(0);
+    });
+
+    test("eyedropper: on touch, a tap sends the loupe there and reads, a drag moves it by the finger's travel, and a tap on the loupe picks", async ({
+      page,
+    }) => {
+      await countAudio(page);
+      await gotoHydrated(page, "/components/eyedropper");
+      const stage = pressStage(page);
+      const picture = stage.getByRole("button", {
+        name: "Coldbrook at dusk, reference photo",
+      });
+      const said = stage.getByRole("status").first();
+      const line = stage.getByRole("status").last();
+      const shelf = stage.getByRole("list", { name: "Picked colours" });
+      const lens = stage.locator("canvas:not([aria-hidden])");
+      await hoverCentre(page, picture.locator("xpath=.."));
+      const pic = await hoverBox(picture);
+      // A finger lands on whole pixels: these fall in picture pixel (300, 60).
+      const p = {
+        x: Math.ceil(pic.x + 1 + 300),
+        y: Math.ceil(pic.y + 1 + 60),
+      };
+
+      // A tap away from the loupe sends it there; nothing is picked.
+      await page.touchscreen.tap(p.x, p.y);
+      await hoverAbout(() => hoverMidX(lens), p.x, 0.5);
+      await hoverAbout(() => hoverMidY(lens), p.y, 0.5);
+      await expect(line).toHaveText("0 of 6 picked · point at the photo");
+      await expect(shelf.getByRole("button")).toHaveCount(0);
+      // The finger drags the loupe 20px right: it reads 20 pixels on.
+      await hoverSwipe(page, p, { x: p.x + 20, y: p.y }, 8);
+      await hoverAbout(() => hoverMidX(lens), p.x + 20, 0.5);
+      await picture.focus();
+      await page.keyboard.press("ArrowLeft");
+      await page.keyboard.press("ArrowRight");
+      await expect(said).toHaveText(/^[a-z ]+, #[0-9A-F]{6}, at 320, 60\.$/);
+      const dragged = await hoverReading(picture);
+      // A tap on the loupe picks what it reads.
+      await expect(shelf.getByRole("button")).toHaveCount(0);
+      const l = await hoverBox(lens);
+      await page.touchscreen.tap(l.x + l.width / 2, l.y + l.height / 2);
+      await expect(
+        shelf.getByRole("button", { name: `Copy ${dragged}` }),
+      ).toBeEnabled();
+      await expect(line).toHaveText(`1 of 6 picked · last ${dragged}`);
+      expect(await audioContexts(page)).toBe(0);
+    });
+  });
+});

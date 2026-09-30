@@ -368,11 +368,13 @@ function WipeLayer({
     const transition =
       layer.phase === "in"
         ? {
+            // The wipe in runs at the chosen pace; reduced motion shortens
+            // it to a quick fade rather than a travel.
             duration: layer.fast
               ? durations.fast * left
               : motionSafe
-                ? durations.fast
-                : Math.max(durations.blink, pace * left),
+                ? Math.max(durations.blink, pace * left)
+                : durations.fast,
             ease: easings.enter,
           }
         : exitFor(

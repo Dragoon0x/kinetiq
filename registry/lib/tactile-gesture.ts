@@ -247,7 +247,12 @@ export function useDrag(options: DragOptions) {
     onPointerUp: (event: React.PointerEvent) => finish(event, false),
     onPointerCancel: (event: React.PointerEvent) => finish(event, true),
     onLostPointerCapture: (event: React.PointerEvent) => {
-      if (state.current?.active) finish(event, true);
+      // Only the element this drag captured on can lose the drag. A child
+      // that held the pointer first (touch captures implicitly to whatever
+      // the finger landed on) loses it the moment the drag takes capture,
+      // and that event bubbles here — it is the drag starting, not ending.
+      const s = state.current;
+      if (s?.active && event.target === s.target) finish(event, true);
     },
   };
 }

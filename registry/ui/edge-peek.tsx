@@ -233,6 +233,17 @@ export function EdgePeek({
         closing.current = motionSafe
           ? extent.get() > SLIVER + 0.5
           : fade.get() > 0.01;
+        // Closed with keyboard focus still on the handle (Escape, Enter):
+        // focus leans it out, the same as when it arrived there.
+        if (keyFocus.current && !disabled) {
+          animate(
+            near,
+            1,
+            motionSafe
+              ? feel.lean
+              : { duration: durations.fast, ease: easings.enter },
+          );
+        }
       }
       if (!motionSafe) {
         if (to) {
@@ -263,7 +274,19 @@ export function EdgePeek({
           : animate(extent, target, exitFor(durations.slow)),
       ];
     },
-    [audio, extent, fade, feel, halt, motionSafe, near, openAt, pan, stopHum],
+    [
+      audio,
+      disabled,
+      extent,
+      fade,
+      feel,
+      halt,
+      motionSafe,
+      near,
+      openAt,
+      pan,
+      stopHum,
+    ],
   );
 
   // The clack belongs to the frame the panel lands home, whatever brought it
@@ -381,8 +404,16 @@ export function EdgePeek({
     const shownPx = Math.max(0, o - HANDLE_W);
     return r2(dir * (shownPx - width));
   });
+  // The button (the hit box) never leaves the surface: at rest it sits flush
+  // inside the edge and only its visual pill slides out, clipped to the
+  // sliver. Touch aims at a target's centre, and a button mostly outside
+  // the surface was being aimed past the edge; this keeps the whole handle
+  // width tappable. Once the lean passes the handle's width both move.
   const pillX = useTransform(out, (o) =>
-    r2(dir * (Math.max(SLIVER, o) - HANDLE_W)),
+    r2(dir * Math.max(0, Math.max(SLIVER, o) - HANDLE_W)),
+  );
+  const faceX = useTransform(out, (o) =>
+    r2(dir * Math.min(0, Math.max(SLIVER, o) - HANDLE_W)),
   );
   const openness = useTransform(out, (o) =>
     clamp01((o - SLIVER) / (openAt - SLIVER)),
@@ -504,24 +535,30 @@ export function EdgePeek({
         }}
         {...drag}
         className={cn(
-          "absolute top-[calc(50%-2rem)] z-30 flex h-16 w-5 cursor-pointer touch-pan-y items-center justify-center border border-hairline-strong outline-none select-none",
+          "absolute top-[calc(50%-2rem)] z-30 flex h-16 w-5 cursor-pointer touch-pan-y items-center justify-center outline-none select-none",
           "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
           "disabled:cursor-not-allowed disabled:opacity-50",
-          side === "left"
-            ? "left-0 rounded-r-3 border-l-0"
-            : "right-0 rounded-l-3 border-r-0",
+          side === "left" ? "left-0 rounded-r-3" : "right-0 rounded-l-3",
         )}
         style={{ x: pillX }}
       >
         <motion.span
           aria-hidden
-          className="absolute inset-0 rounded-[inherit]"
-          style={{ backgroundColor: pillFill }}
+          className={cn(
+            // Not a hit target: only the button, which never leaves the
+            // surface, may catch a touch — a face shifted past the edge
+            // would pull touch retargeting past it too.
+            "pointer-events-none absolute inset-0 border border-hairline-strong",
+            side === "left"
+              ? "rounded-r-3 border-l-0"
+              : "rounded-l-3 border-r-0",
+          )}
+          style={{ x: faceX, backgroundColor: pillFill }}
         />
         <motion.span
           aria-hidden
-          className="relative flex size-3 shrink-0"
-          style={{ rotate: turn, color: pillInk }}
+          className="pointer-events-none relative flex size-3 shrink-0"
+          style={{ x: faceX, rotate: turn, color: pillInk }}
         >
           <svg viewBox="0 0 12 12" className="size-3">
             <path
