@@ -44,4 +44,28 @@ export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/copy-slip.demo").then((m) =>
       mod(m.CopySlipDemo, m.tweaks),
     ),
+  "underline-peek": () =>
+    import("@/registry/demos/underline-peek.demo").then((m) =>
+      mod(m.UnderlinePeekDemo, m.tweaks),
+    ),
+  "edge-peek": () =>
+    import("@/registry/demos/edge-peek.demo").then((m) =>
+      mod(m.EdgePeekDemo, m.tweaks),
+    ),
+  "cross-grid": () =>
+    import("@/registry/demos/cross-grid.demo").then((m) =>
+      mod(m.CrossGridDemo, m.tweaks),
+    ),
+  "overflow-glide": () =>
+    import("@/registry/demos/overflow-glide.demo").then((m) =>
+      mod(m.OverflowGlideDemo, m.tweaks),
+    ),
+  "try-on": () =>
+    import("@/registry/demos/try-on.demo").then((m) =>
+      mod(m.TryOnDemo, m.tweaks),
+    ),
+  eyedropper: () =>
+    import("@/registry/demos/eyedropper.demo").then((m) =>
+      mod(m.EyedropperDemo, m.tweaks),
+    ),
 };

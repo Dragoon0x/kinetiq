@@ -18515,6 +18515,171 @@ Notes:
 - The countdown comes from headSeconds, so the queue never reads a clock; stop the host's timer while held is true.
 - Under reduced motion nothing FLIPs and a promotion is an instant exchange, while the rule still drains and the counts still change, because how much is waiting is information.
 
+### Underline Peek (KQ-1091) — `underline-peek`
+The underline opens into the page.
+
+A link whose underline opens into its preview: after a short rest the line drops away from the word as a ribbon its exact width on snap, then spreads into a card that hangs from a tab under the word, one outline rebuilt each frame with concave fillets where tab and card meet. While open, the card slides along beneath the link toward the pointer on a lagging glide (drift when soft), and it folds back into the line on exit tweens when the pointer leaves, focus moves on or Escape is pressed. Focus opens it after the same delay and the preview is the link's description; on touch the first tap shows the preview and the second follows the link.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/underline-peek`
+
+Props:
+- `href`: string — Where the link goes.
+- `children`: ReactNode — The link text.
+- `preview`: ReactNode — The card's content. Phrasing content only (spans styled as blocks), since the link usually sits inside a paragraph.
+- `delay`: number (default 300) — Milliseconds the pointer or keyboard focus must rest on the link before the preview drops.
+- `follow`: boolean (default true) — The open card slides along beneath the link toward the pointer, on a lag; off, it sits centred under the word.
+- `width`: number (default 280) — Card width in px, capped to the boundary.
+- `stiffness`: "soft" | "firm" (default "firm") — Firm drops on snap and follows on glide; soft drops on glide and follows on drift, a longer lag.
+- `open / defaultOpen`: boolean (default — / false) — Controlled / uncontrolled open state.
+- `onOpenChange`: (open: boolean) => void — Fires from the hover, focus, tap or key that opened or closed the preview.
+- `boundary`: HTMLElement | null (default the viewport) — The box the card must stay inside; it opens below the word, or above when only that side has room.
+- `target`: string — Passed to the anchor.
+- `rel`: string — Passed to the anchor.
+- `onClick`: MouseEventHandler<HTMLAnchorElement> — The link's click, after the touch first-tap guard.
+- `sound`: boolean (default false) — A soft swish as it unfurls and a paper fold as it closes, panned to the link.
+- `disabled`: boolean (default false) — The preview never opens; the link still works.
+- `className`: string — Classes for the link itself.
+
+Notes:
+- Keyboard: focusing the link opens the preview after `delay`; Escape folds it and is marked handled, so a dialog around it stays open; Enter follows the link. The preview is the link's accessible description.
+- Touch: the first tap opens the preview instead of navigating, the second tap follows the link, and a tap anywhere else folds it.
+- Under reduced motion the finished card cross-fades in place: no drop, no spread, no sliding with the pointer.
+- Pass the surrounding text block as `boundary` so the card never leaves it; the card is clamped to cover the whole word, so the tab always lands on it.
+
+### Edge Peek (KQ-1092) — `edge-peek`
+It leans out as you come near.
+
+A side panel tucked into the edge of a surface whose handle leans out as the pointer comes near: distance from the edge is mapped continuously to a lean and sprung on drift (soft) or snap (firm), and past the handle's own width the lean pulls the panel's edge out behind it. A press slides the panel open on glide or snap; the handle can also be dragged 1:1, rubber-bands at both ends and commits by projection with its release velocity, while a plain close accelerates home on an exit tween. The handle is a real disclosure button: keyboard focus leans it out as a near pointer does, Enter or Space opens it, and Escape closes it and returns focus to the handle.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/edge-peek`
+
+Props:
+- `label`: string — The panel's name: the handle's and the panel's accessible name, and the panel's heading.
+- `panel`: ReactNode — What the panel holds.
+- `children`: ReactNode — The surface the panel is tucked into.
+- `reach`: number (default 160) — How far from the edge, in px, the handle starts to notice the pointer.
+- `lean`: number (default 24) — How far the handle leans out at its closest, in px; past the handle's width it pulls the panel's edge out too.
+- `side`: "left" | "right" (default "right") — Which edge the panel lives on.
+- `pull`: "soft" | "firm" (default "soft") — Soft leans on drift and opens on glide; firm leans and opens on snap.
+- `panelWidth`: number (default 220) — Panel width in px, capped to the surface width less 56.
+- `open / defaultOpen`: boolean (default — / false) — Controlled / uncontrolled open state.
+- `onOpenChange`: (open: boolean) => void — Fires from the press, drag, key or tint press that changed it.
+- `sound`: boolean (default false) — A hum that tracks the lean while the pointer is within reach, a whoosh as it opens and a clack as it lands home.
+- `disabled`: boolean (default false) — The handle neither leans nor opens.
+- `className`: string — Classes for the surface frame; the host sizes it.
+
+Notes:
+- Keyboard: Tab to the handle leans it out; Enter or Space opens the panel; Tab moves into it; Escape closes it from anywhere inside and returns focus to the handle. The panel is inert while closed.
+- Touch: a first tap near the edge, or on the handle's sliver, leans the handle out; the second tap opens. Dragging the handle pulls the panel directly.
+- Under reduced motion nothing travels: the handle sits fully out and proximity only brightens it, and the panel cross-fades in and out in place.
+- Size the surface with `className` (for example `h-52 w-full`); the handle and panel are clipped to it.
+
+### Cross Grid (KQ-1093) — `cross-grid`
+The row and the column meet where you point.
+
+A data table with a crosshair: the pointed cell lights a band along its row and a band down its column, and moving from cell to cell slides both on a spring at the house snap ratio (stiffness is a prop; its default is snap itself) rather than jumping. With followLabels, copies of the column header and the row label detach from their home and travel to sit just above and just left of the cell, so a far corner reads without tracing; appear and disappear are opacity tweens. It is a real grid: one cell is the tab stop, arrow keys, Home/End, Ctrl+Home/End and PageUp/PageDown move focus, and focus drives the same crosshair, labels and tick.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cross-grid`
+
+Props:
+- `label`: string — The table's accessible name.
+- `columns`: { id: string; label: string }[] — Column headers, in order.
+- `rows`: { id: string; label: string; values: number[] }[] — Row labels and one value per column, in column order.
+- `corner`: string (default "") — Text for the top-left header cell, over the row labels.
+- `format`: (value: number) => string (default Intl.NumberFormat("en-US")) — How a value is printed.
+- `density`: "compact" | "cosy" (default "cosy") — Row height (28 or 36px) and type size.
+- `followLabels`: boolean (default true) — Copies of the column header and row label travel to sit beside the pointed cell.
+- `highlight`: "bar" | "glow" (default "bar") — Uniform bands, or bands that glow brightest where they cross.
+- `stiffness`: number (default 640) — Spring stiffness for the crosshair and the travelling labels, at the house snap damping ratio.
+- `active / defaultActive`: { row: string; column: string } | null (default — / null) — Controlled / uncontrolled crosshair cell, by row and column id.
+- `onActiveChange`: (cell: { row: string; column: string } | null) => void — Fires from the pointer, tap or key that moved or cleared the crosshair.
+- `sound`: boolean (default false) — A tick per cell, climbing a pentatonic step per column and panned by the column's place.
+- `className`: string — Classes for the table's frame.
+
+Notes:
+- Keyboard: Tab reaches one cell; arrow keys move, Home/End go to the row's ends, Ctrl+Home/End to the first and last cells, PageUp/PageDown to the column's ends. Focus drives the crosshair; leaving the grid clears it.
+- Touch: a tap puts the crosshair on a cell, another tap moves it, and a tap outside the table clears it.
+- Under reduced motion nothing slides: the crosshair and the travelling labels appear at the cell and cross-fade.
+- Keep ids stable: the crosshair, focus and the label chips are keyed by row and column id.
+
+### Overflow Glide (KQ-1094) — `overflow-glide`
+The rest of the line, when you ask.
+
+A line cut to its box that, pointed at or tabbed to, glides left at reading speed until its last character reaches the edge, holds there, and eases home on the glide spring, which takes the pan's velocity, so a line let go mid-read slows, turns and returns. Speed is words per second, a word being five characters, and the ellipsis dissolves within its own width of travel while masked edges follow what is hidden on each side. It answers to the hover and keyboard focus of the link, button or row around it; on touch the first tap reads and the second acts.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/overflow-glide`
+
+Props:
+- `children`: string — The line. Cut to its box at rest; the rest glides into view when asked for.
+- `speed`: number (default 3) — Reading pace in words per second, where a word is five characters, so a name with no spaces reads at the same pace as a sentence.
+- `pause`: number (default 0.8) — Seconds held at the end of the line before it eases home.
+- `fade`: boolean (default true) — Soft ramps at the cut edges, following how much text is hidden on each side, instead of hard edges.
+- `loop`: boolean (default false) — Keep reading, again and again, while the line is pointed at or focused.
+- `active`: boolean — Drive the glide from outside. Leave undefined and the line follows the hover and keyboard focus of the nearest link, button, option, tab, menu item, row or label around it, or its own.
+- `onPhaseChange`: (phase: "rest" | "reading" | "holding" | "returning") => void — Reports each phase of the glide as it begins.
+- `sound`: boolean (default false) — Play a soft swish as a glide starts. Nothing plays, and no audio context exists, unless this is on; a hover-born swish also waits for the page's first press.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- Keyboard: tabbing to the host (a row button, a link) starts the glide on focus-visible and tabbing away sends it home. A cut line with no interactive host is itself a tab stop; a line that fits is never one, and never glides.
+- The full text is always in the DOM and the ellipsis is aria-hidden, so assistive technology reads the whole name through the host; the glide is for eyes. On touch, the first tap on a cut line is stopped before the host's handler and reads it; the second tap acts.
+- Under reduced motion the line does not travel: it pages through with fades, one window less 15% at a time, holding each page for its reading time at the same words per second, then fades home.
+- The window is masked, never covered, so the line sits on any background, a hovered row included.
+
+### Try On (KQ-1095) — `try-on`
+Hover to try it; click to keep.
+
+A picker whose options preview on a sample the moment you point at them: the look wipes over the sample from the swatch's own side, as a straight edge sweeping away from it or a circle grown from it, on the enter curve, and draws back into its swatch on the exit curve when you move off. Click and it stays: a stamp lands on the sample on the recoil spring, the sample dips under it on a flick and snaps back, and the kept ring slides over on the snap spring. The swatches are a listbox: arrow keys move focus and focus previews, Enter or Space keeps, Escape puts the tried look back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/try-on`
+
+Props:
+- `options`: { value: string; label: string; color: string }[] (default Ink, Cobalt, Moss, Amber, Ember) — What can be tried on. color is any CSS colour; text laid on it uses var(--background).
+- `value / defaultValue`: string (default the first option) — Controlled or initial kept option.
+- `onValueChange`: (value: string) => void — Fires from the click, key or tap that kept a new option.
+- `onPreviewChange`: (value: string | null) => void — The option being tried on, as it changes; null when the sample is back to the kept one. For previewing the choice somewhere else as well.
+- `label`: string (default "Colour") — Names the list of swatches and heads the caption.
+- `sampleText`: string (default "Preview") — The card's title, the button's label, the badge's text.
+- `renderSample`: (option: TryOnOption, sample: "card" | "button" | "badge") => ReactNode — Draw your own sample for an option instead of the built-in ones.
+- `wipe`: "side" | "radial" (default "side") — How a preview arrives: a straight edge from the swatch's side, or a circle grown from the swatch.
+- `speed`: number (default 1) — Wipe speed as a multiple of the house pace, 0.5 to 2.
+- `sample`: "card" | "button" | "badge" (default "card") — What the options are tried on.
+- `sound`: boolean (default false) — Play a swish as each preview wipes in (a softer one as it draws back) and a click as a keep lands. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Disables every swatch and dims the picker; the kept look stays.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- Keyboard: the swatches are a role="listbox" with roving focus. Arrow keys move focus (wrapping) and Home/End jump; focus previews, Enter or Space keeps through the button's own click, Escape puts a tried look back (and is left alone when nothing is being tried), and leaving the list reverts and returns the tab stop to the kept swatch.
+- On touch the first tap tries an option on and holds it, a second tap on the same swatch keeps it, and a press anywhere else puts the kept look back.
+- Controlled use reports the keep from the gesture and waits for the host: the stamp and the new resting state arrive with the new value, so a refused change never stamps. A value the host sets itself wipes in from its own swatch.
+- Under reduced motion there is no travelling edge and no bounce: previews cross-fade in and out, the stamp fades without scaling, the sample does not dip, and the kept ring moves at once.
+
+### Eyedropper (KQ-1096) — `eyedropper`
+Point at a colour; it reads it.
+
+A loupe over a picture drawn in code that shows the pixels under the pointer as a magnified grid, the one being read framed at its centre and its value on a tag pinned to the loupe; the loupe follows the pointer 1:1 and pips as the colour changes, pitched by lightness. Click and the colour drops out of the loupe onto a swatch shelf: the droplet falls on the exit curve while the shelf glides open a slot, and the swatch lands on the recoil spring. Arrow keys move the loupe one pixel (Shift, ten) and Enter picks.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/eyedropper`
+
+Props:
+- `value / defaultValue`: string[] (default []) — Controlled or initial shelf of picked colours, newest first, as #rrggbb.
+- `onValueChange`: (colors: string[]) => void — Fires from the pick that changed the shelf, with the new shelf. Picking a colour already on it moves it to the front.
+- `max`: number (default 6) — How many colours the shelf keeps; the oldest drops off.
+- `label`: string (default "Picture") — The picture's accessible name.
+- `zoom`: number (default 8) — How many times larger a pixel is in the loupe, 4 to 16.
+- `grid`: boolean (default true) — Lines between the magnified pixels.
+- `loupe`: number (default 112) — The loupe's side in px, 80 to 160.
+- `format`: "hex" | "rgb" | "hsl" (default "hex") — How a colour is written: on the tag, the shelf, copies and announcements.
+- `sound`: boolean (default false) — Play a pip for each new pixel, pitched by lightness, and a drop for each pick. Nothing plays, and no audio context exists, unless this is on; pointer pips also wait for the page's first press.
+- `disabled`: boolean (default false) — Stops sampling and picking and dims the eyedropper.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- Keyboard: the picture is a button. Arrow keys move the loupe one pixel (Shift moves ten) without scrolling the page, and Enter or Space picks through the button's own click. A polite live region names each reading once the keys settle ("muted violet, #583C71, at 76, 122.") and each pick and copy; each shelf swatch is a button that copies its value.
+- On touch, a tap places the loupe and reads, dragging the loupe moves it by the finger's travel so the finger never hides the pixel, and a tap on the loupe picks. The picture itself still scrolls the page.
+- The picture is painted once per size, one image pixel per CSS pixel, with the device pixel ratio capped at 2, only while it is on screen and the page is visible, and nothing loops. Its colours are its own, the same in light and dark; everything themed (frame, grid, reticle, tag) is DOM with tokens.
+- Under reduced motion the loupe still follows the pointer, which is direct manipulation, but the drop does not fly: the swatch fades into its slot and the shelf reorders without gliding.
+
 ### Gel Switch (KQ-1097) — `gel-switch`
 A droplet that crosses.
 

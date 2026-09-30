@@ -57218,4 +57218,716 @@ export const components: KinetiqItem[] = [
       "Presses during a flight are absorbed, since the same copy is already on its way; a press while the clip is shut starts the whole thing over, hold clock included.",
     ],
   },
+  {
+    name: "underline-peek",
+    type: "registry:ui",
+    title: "Underline Peek",
+    description:
+      "A link whose underline opens into its preview: after a short rest the line drops away from the word as a ribbon its exact width on snap, then spreads into a card that hangs from a tab under the word, one outline rebuilt each frame with concave fillets where tab and card meet. While open, the card slides along beneath the link toward the pointer on a lagging glide (drift when soft), and it folds back into the line on exit tweens when the pointer leaves, focus moves on or Escape is pressed. Focus opens it after the same delay and the preview is the link's description; on touch the first tap shows the preview and the second follows the link.",
+    files: [
+      {
+        path: "registry/ui/underline-peek.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1091",
+    },
+    tagline: "The underline opens into the page.",
+    keywords: [
+      "link preview",
+      "hover card",
+      "underline",
+      "inline link",
+      "unfold",
+      "tooltip",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "href",
+        type: "string",
+        description: "Where the link goes.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The link text.",
+      },
+      {
+        name: "preview",
+        type: "ReactNode",
+        description:
+          "The card's content. Phrasing content only (spans styled as blocks), since the link usually sits inside a paragraph.",
+      },
+      {
+        name: "delay",
+        type: "number",
+        defaultValue: "300",
+        description:
+          "Milliseconds the pointer or keyboard focus must rest on the link before the preview drops.",
+      },
+      {
+        name: "follow",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The open card slides along beneath the link toward the pointer, on a lag; off, it sits centred under the word.",
+      },
+      {
+        name: "width",
+        type: "number",
+        defaultValue: "280",
+        description: "Card width in px, capped to the boundary.",
+      },
+      {
+        name: "stiffness",
+        type: '"soft" | "firm"',
+        defaultValue: '"firm"',
+        description:
+          "Firm drops on snap and follows on glide; soft drops on glide and follows on drift, a longer lag.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "Controlled / uncontrolled open state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the hover, focus, tap or key that opened or closed the preview.",
+      },
+      {
+        name: "boundary",
+        type: "HTMLElement | null",
+        defaultValue: "the viewport",
+        description:
+          "The box the card must stay inside; it opens below the word, or above when only that side has room.",
+      },
+      {
+        name: "target",
+        type: "string",
+        description: "Passed to the anchor.",
+      },
+      {
+        name: "rel",
+        type: "string",
+        description: "Passed to the anchor.",
+      },
+      {
+        name: "onClick",
+        type: "MouseEventHandler<HTMLAnchorElement>",
+        description: "The link's click, after the touch first-tap guard.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A soft swish as it unfurls and a paper fold as it closes, panned to the link.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The preview never opens; the link still works.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the link itself.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: focusing the link opens the preview after `delay`; Escape folds it and is marked handled, so a dialog around it stays open; Enter follows the link. The preview is the link's accessible description.",
+      "Touch: the first tap opens the preview instead of navigating, the second tap follows the link, and a tap anywhere else folds it.",
+      "Under reduced motion the finished card cross-fades in place: no drop, no spread, no sliding with the pointer.",
+      "Pass the surrounding text block as `boundary` so the card never leaves it; the card is clamped to cover the whole word, so the tab always lands on it.",
+    ],
+  },
+  {
+    name: "edge-peek",
+    type: "registry:ui",
+    title: "Edge Peek",
+    description:
+      "A side panel tucked into the edge of a surface whose handle leans out as the pointer comes near: distance from the edge is mapped continuously to a lean and sprung on drift (soft) or snap (firm), and past the handle's own width the lean pulls the panel's edge out behind it. A press slides the panel open on glide or snap; the handle can also be dragged 1:1, rubber-bands at both ends and commits by projection with its release velocity, while a plain close accelerates home on an exit tween. The handle is a real disclosure button: keyboard focus leans it out as a near pointer does, Enter or Space opens it, and Escape closes it and returns focus to the handle.",
+    files: [
+      {
+        path: "registry/ui/edge-peek.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1092",
+    },
+    tagline: "It leans out as you come near.",
+    keywords: [
+      "side panel",
+      "drawer",
+      "edge",
+      "proximity",
+      "handle",
+      "layers panel",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The panel's name: the handle's and the panel's accessible name, and the panel's heading.",
+      },
+      {
+        name: "panel",
+        type: "ReactNode",
+        description: "What the panel holds.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description: "The surface the panel is tucked into.",
+      },
+      {
+        name: "reach",
+        type: "number",
+        defaultValue: "160",
+        description:
+          "How far from the edge, in px, the handle starts to notice the pointer.",
+      },
+      {
+        name: "lean",
+        type: "number",
+        defaultValue: "24",
+        description:
+          "How far the handle leans out at its closest, in px; past the handle's width it pulls the panel's edge out too.",
+      },
+      {
+        name: "side",
+        type: '"left" | "right"',
+        defaultValue: '"right"',
+        description: "Which edge the panel lives on.",
+      },
+      {
+        name: "pull",
+        type: '"soft" | "firm"',
+        defaultValue: '"soft"',
+        description:
+          "Soft leans on drift and opens on glide; firm leans and opens on snap.",
+      },
+      {
+        name: "panelWidth",
+        type: "number",
+        defaultValue: "220",
+        description: "Panel width in px, capped to the surface width less 56.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "— / false",
+        description: "Controlled / uncontrolled open state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the press, drag, key or tint press that changed it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A hum that tracks the lean while the pointer is within reach, a whoosh as it opens and a clack as it lands home.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The handle neither leans nor opens.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the surface frame; the host sizes it.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Tab to the handle leans it out; Enter or Space opens the panel; Tab moves into it; Escape closes it from anywhere inside and returns focus to the handle. The panel is inert while closed.",
+      "Touch: a first tap near the edge, or on the handle's sliver, leans the handle out; the second tap opens. Dragging the handle pulls the panel directly.",
+      "Under reduced motion nothing travels: the handle sits fully out and proximity only brightens it, and the panel cross-fades in and out in place.",
+      "Size the surface with `className` (for example `h-52 w-full`); the handle and panel are clipped to it.",
+    ],
+  },
+  {
+    name: "cross-grid",
+    type: "registry:ui",
+    title: "Cross Grid",
+    description:
+      "A data table with a crosshair: the pointed cell lights a band along its row and a band down its column, and moving from cell to cell slides both on a spring at the house snap ratio (stiffness is a prop; its default is snap itself) rather than jumping. With followLabels, copies of the column header and the row label detach from their home and travel to sit just above and just left of the cell, so a far corner reads without tracing; appear and disappear are opacity tweens. It is a real grid: one cell is the tab stop, arrow keys, Home/End, Ctrl+Home/End and PageUp/PageDown move focus, and focus drives the same crosshair, labels and tick.",
+    files: [
+      {
+        path: "registry/ui/cross-grid.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1093",
+    },
+    tagline: "The row and the column meet where you point.",
+    keywords: [
+      "data table",
+      "crosshair",
+      "grid",
+      "row highlight",
+      "column highlight",
+      "hover table",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description: "The table's accessible name.",
+      },
+      {
+        name: "columns",
+        type: "{ id: string; label: string }[]",
+        description: "Column headers, in order.",
+      },
+      {
+        name: "rows",
+        type: "{ id: string; label: string; values: number[] }[]",
+        description: "Row labels and one value per column, in column order.",
+      },
+      {
+        name: "corner",
+        type: "string",
+        defaultValue: '""',
+        description: "Text for the top-left header cell, over the row labels.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        defaultValue: 'Intl.NumberFormat("en-US")',
+        description: "How a value is printed.",
+      },
+      {
+        name: "density",
+        type: '"compact" | "cosy"',
+        defaultValue: '"cosy"',
+        description: "Row height (28 or 36px) and type size.",
+      },
+      {
+        name: "followLabels",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Copies of the column header and row label travel to sit beside the pointed cell.",
+      },
+      {
+        name: "highlight",
+        type: '"bar" | "glow"',
+        defaultValue: '"bar"',
+        description:
+          "Uniform bands, or bands that glow brightest where they cross.",
+      },
+      {
+        name: "stiffness",
+        type: "number",
+        defaultValue: "640",
+        description:
+          "Spring stiffness for the crosshair and the travelling labels, at the house snap damping ratio.",
+      },
+      {
+        name: "active / defaultActive",
+        type: "{ row: string; column: string } | null",
+        defaultValue: "— / null",
+        description:
+          "Controlled / uncontrolled crosshair cell, by row and column id.",
+      },
+      {
+        name: "onActiveChange",
+        type: "(cell: { row: string; column: string } | null) => void",
+        description:
+          "Fires from the pointer, tap or key that moved or cleared the crosshair.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick per cell, climbing a pentatonic step per column and panned by the column's place.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the table's frame.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Tab reaches one cell; arrow keys move, Home/End go to the row's ends, Ctrl+Home/End to the first and last cells, PageUp/PageDown to the column's ends. Focus drives the crosshair; leaving the grid clears it.",
+      "Touch: a tap puts the crosshair on a cell, another tap moves it, and a tap outside the table clears it.",
+      "Under reduced motion nothing slides: the crosshair and the travelling labels appear at the cell and cross-fade.",
+      "Keep ids stable: the crosshair, focus and the label chips are keyed by row and column id.",
+    ],
+  },
+  {
+    name: "overflow-glide",
+    type: "registry:ui",
+    title: "Overflow Glide",
+    description:
+      "A line cut to its box that, pointed at or tabbed to, glides left at reading speed until its last character reaches the edge, holds there, and eases home on the glide spring, which takes the pan's velocity, so a line let go mid-read slows, turns and returns. Speed is words per second, a word being five characters, and the ellipsis dissolves within its own width of travel while masked edges follow what is hidden on each side. It answers to the hover and keyboard focus of the link, button or row around it; on touch the first tap reads and the second acts.",
+    files: [
+      {
+        path: "registry/ui/overflow-glide.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1094",
+    },
+    tagline: "The rest of the line, when you ask.",
+    keywords: [
+      "truncate",
+      "ellipsis",
+      "overflow",
+      "file name",
+      "hover",
+      "reveal",
+      "text",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "string",
+        description:
+          "The line. Cut to its box at rest; the rest glides into view when asked for.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Reading pace in words per second, where a word is five characters, so a name with no spaces reads at the same pace as a sentence.",
+      },
+      {
+        name: "pause",
+        type: "number",
+        defaultValue: "0.8",
+        description:
+          "Seconds held at the end of the line before it eases home.",
+      },
+      {
+        name: "fade",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Soft ramps at the cut edges, following how much text is hidden on each side, instead of hard edges.",
+      },
+      {
+        name: "loop",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Keep reading, again and again, while the line is pointed at or focused.",
+      },
+      {
+        name: "active",
+        type: "boolean",
+        description:
+          "Drive the glide from outside. Leave undefined and the line follows the hover and keyboard focus of the nearest link, button, option, tab, menu item, row or label around it, or its own.",
+      },
+      {
+        name: "onPhaseChange",
+        type: '(phase: "rest" | "reading" | "holding" | "returning") => void',
+        description: "Reports each phase of the glide as it begins.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a soft swish as a glide starts. Nothing plays, and no audio context exists, unless this is on; a hover-born swish also waits for the page's first press.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: tabbing to the host (a row button, a link) starts the glide on focus-visible and tabbing away sends it home. A cut line with no interactive host is itself a tab stop; a line that fits is never one, and never glides.",
+      "The full text is always in the DOM and the ellipsis is aria-hidden, so assistive technology reads the whole name through the host; the glide is for eyes. On touch, the first tap on a cut line is stopped before the host's handler and reads it; the second tap acts.",
+      "Under reduced motion the line does not travel: it pages through with fades, one window less 15% at a time, holding each page for its reading time at the same words per second, then fades home.",
+      "The window is masked, never covered, so the line sits on any background, a hovered row included.",
+    ],
+  },
+  {
+    name: "try-on",
+    type: "registry:ui",
+    title: "Try On",
+    description:
+      "A picker whose options preview on a sample the moment you point at them: the look wipes over the sample from the swatch's own side, as a straight edge sweeping away from it or a circle grown from it, on the enter curve, and draws back into its swatch on the exit curve when you move off. Click and it stays: a stamp lands on the sample on the recoil spring, the sample dips under it on a flick and snaps back, and the kept ring slides over on the snap spring. The swatches are a listbox: arrow keys move focus and focus previews, Enter or Space keeps, Escape puts the tried look back.",
+    files: [
+      {
+        path: "registry/ui/try-on.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1095",
+    },
+    tagline: "Hover to try it; click to keep.",
+    keywords: [
+      "picker",
+      "preview",
+      "theme",
+      "swatch",
+      "accent",
+      "wipe",
+      "hover",
+    ],
+    props: [
+      {
+        name: "options",
+        type: "{ value: string; label: string; color: string }[]",
+        defaultValue: "Ink, Cobalt, Moss, Amber, Ember",
+        description:
+          "What can be tried on. color is any CSS colour; text laid on it uses var(--background).",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "the first option",
+        description: "Controlled or initial kept option.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string) => void",
+        description: "Fires from the click, key or tap that kept a new option.",
+      },
+      {
+        name: "onPreviewChange",
+        type: "(value: string | null) => void",
+        description:
+          "The option being tried on, as it changes; null when the sample is back to the kept one. For previewing the choice somewhere else as well.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Colour"',
+        description: "Names the list of swatches and heads the caption.",
+      },
+      {
+        name: "sampleText",
+        type: "string",
+        defaultValue: '"Preview"',
+        description: "The card's title, the button's label, the badge's text.",
+      },
+      {
+        name: "renderSample",
+        type: '(option: TryOnOption, sample: "card" | "button" | "badge") => ReactNode',
+        description:
+          "Draw your own sample for an option instead of the built-in ones.",
+      },
+      {
+        name: "wipe",
+        type: '"side" | "radial"',
+        defaultValue: '"side"',
+        description:
+          "How a preview arrives: a straight edge from the swatch's side, or a circle grown from the swatch.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "Wipe speed as a multiple of the house pace, 0.5 to 2.",
+      },
+      {
+        name: "sample",
+        type: '"card" | "button" | "badge"',
+        defaultValue: '"card"',
+        description: "What the options are tried on.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a swish as each preview wipes in (a softer one as it draws back) and a click as a keep lands. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Disables every swatch and dims the picker; the kept look stays.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the swatches are a role="listbox" with roving focus. Arrow keys move focus (wrapping) and Home/End jump; focus previews, Enter or Space keeps through the button\'s own click, Escape puts a tried look back (and is left alone when nothing is being tried), and leaving the list reverts and returns the tab stop to the kept swatch.',
+      "On touch the first tap tries an option on and holds it, a second tap on the same swatch keeps it, and a press anywhere else puts the kept look back.",
+      "Controlled use reports the keep from the gesture and waits for the host: the stamp and the new resting state arrive with the new value, so a refused change never stamps. A value the host sets itself wipes in from its own swatch.",
+      "Under reduced motion there is no travelling edge and no bounce: previews cross-fade in and out, the stamp fades without scaling, the sample does not dip, and the kept ring moves at once.",
+    ],
+  },
+  {
+    name: "eyedropper",
+    type: "registry:ui",
+    title: "Eyedropper",
+    description:
+      "A loupe over a picture drawn in code that shows the pixels under the pointer as a magnified grid, the one being read framed at its centre and its value on a tag pinned to the loupe; the loupe follows the pointer 1:1 and pips as the colour changes, pitched by lightness. Click and the colour drops out of the loupe onto a swatch shelf: the droplet falls on the exit curve while the shelf glides open a slot, and the swatch lands on the recoil spring. Arrow keys move the loupe one pixel (Shift, ten) and Enter picks.",
+    files: [
+      {
+        path: "registry/ui/eyedropper.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1096",
+    },
+    tagline: "Point at a colour; it reads it.",
+    keywords: [
+      "eyedropper",
+      "colour picker",
+      "loupe",
+      "pixel",
+      "palette",
+      "sample",
+      "magnifier",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "Controlled or initial shelf of picked colours, newest first, as #rrggbb.",
+      },
+      {
+        name: "onValueChange",
+        type: "(colors: string[]) => void",
+        description:
+          "Fires from the pick that changed the shelf, with the new shelf. Picking a colour already on it moves it to the front.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "6",
+        description: "How many colours the shelf keeps; the oldest drops off.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Picture"',
+        description: "The picture's accessible name.",
+      },
+      {
+        name: "zoom",
+        type: "number",
+        defaultValue: "8",
+        description: "How many times larger a pixel is in the loupe, 4 to 16.",
+      },
+      {
+        name: "grid",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Lines between the magnified pixels.",
+      },
+      {
+        name: "loupe",
+        type: "number",
+        defaultValue: "112",
+        description: "The loupe's side in px, 80 to 160.",
+      },
+      {
+        name: "format",
+        type: '"hex" | "rgb" | "hsl"',
+        defaultValue: '"hex"',
+        description:
+          "How a colour is written: on the tag, the shelf, copies and announcements.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a pip for each new pixel, pitched by lightness, and a drop for each pick. Nothing plays, and no audio context exists, unless this is on; pointer pips also wait for the page's first press.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Stops sampling and picking and dims the eyedropper.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the picture is a button. Arrow keys move the loupe one pixel (Shift moves ten) without scrolling the page, and Enter or Space picks through the button\'s own click. A polite live region names each reading once the keys settle ("muted violet, #583C71, at 76, 122.") and each pick and copy; each shelf swatch is a button that copies its value.',
+      "On touch, a tap places the loupe and reads, dragging the loupe moves it by the finger's travel so the finger never hides the pixel, and a tap on the loupe picks. The picture itself still scrolls the page.",
+      "The picture is painted once per size, one image pixel per CSS pixel, with the device pixel ratio capped at 2, only while it is on screen and the page is visible, and nothing loops. Its colours are its own, the same in light and dark; everything themed (frame, grid, reticle, tag) is DOM with tokens.",
+      "Under reduced motion the loupe still follows the pointer, which is direct manipulation, but the drop does not fly: the swatch fades into its slot and the shelf reorders without gliding.",
+    ],
+  },
 ];

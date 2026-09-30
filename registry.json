@@ -27005,6 +27005,176 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "underline-peek",
+      "type": "registry:ui",
+      "title": "Underline Peek",
+      "description": "A link whose underline opens into its preview: after a short rest the line drops away from the word as a ribbon its exact width on snap, then spreads into a card that hangs from a tab under the word, one outline rebuilt each frame with concave fillets where tab and card meet. While open, the card slides along beneath the link toward the pointer on a lagging glide (drift when soft), and it folds back into the line on exit tweens when the pointer leaves, focus moves on or Escape is pressed. Focus opens it after the same delay and the preview is the link's description; on touch the first tap shows the preview and the second follows the link.",
+      "files": [
+        {
+          "path": "registry/ui/underline-peek.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1091"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "edge-peek",
+      "type": "registry:ui",
+      "title": "Edge Peek",
+      "description": "A side panel tucked into the edge of a surface whose handle leans out as the pointer comes near: distance from the edge is mapped continuously to a lean and sprung on drift (soft) or snap (firm), and past the handle's own width the lean pulls the panel's edge out behind it. A press slides the panel open on glide or snap; the handle can also be dragged 1:1, rubber-bands at both ends and commits by projection with its release velocity, while a plain close accelerates home on an exit tween. The handle is a real disclosure button: keyboard focus leans it out as a near pointer does, Enter or Space opens it, and Escape closes it and returns focus to the handle.",
+      "files": [
+        {
+          "path": "registry/ui/edge-peek.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1092"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cross-grid",
+      "type": "registry:ui",
+      "title": "Cross Grid",
+      "description": "A data table with a crosshair: the pointed cell lights a band along its row and a band down its column, and moving from cell to cell slides both on a spring at the house snap ratio (stiffness is a prop; its default is snap itself) rather than jumping. With followLabels, copies of the column header and the row label detach from their home and travel to sit just above and just left of the cell, so a far corner reads without tracing; appear and disappear are opacity tweens. It is a real grid: one cell is the tab stop, arrow keys, Home/End, Ctrl+Home/End and PageUp/PageDown move focus, and focus drives the same crosshair, labels and tick.",
+      "files": [
+        {
+          "path": "registry/ui/cross-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1093"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "overflow-glide",
+      "type": "registry:ui",
+      "title": "Overflow Glide",
+      "description": "A line cut to its box that, pointed at or tabbed to, glides left at reading speed until its last character reaches the edge, holds there, and eases home on the glide spring, which takes the pan's velocity, so a line let go mid-read slows, turns and returns. Speed is words per second, a word being five characters, and the ellipsis dissolves within its own width of travel while masked edges follow what is hidden on each side. It answers to the hover and keyboard focus of the link, button or row around it; on touch the first tap reads and the second acts.",
+      "files": [
+        {
+          "path": "registry/ui/overflow-glide.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1094"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "try-on",
+      "type": "registry:ui",
+      "title": "Try On",
+      "description": "A picker whose options preview on a sample the moment you point at them: the look wipes over the sample from the swatch's own side, as a straight edge sweeping away from it or a circle grown from it, on the enter curve, and draws back into its swatch on the exit curve when you move off. Click and it stays: a stamp lands on the sample on the recoil spring, the sample dips under it on a flick and snaps back, and the kept ring slides over on the snap spring. The swatches are a listbox: arrow keys move focus and focus previews, Enter or Space keeps, Escape puts the tried look back.",
+      "files": [
+        {
+          "path": "registry/ui/try-on.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1095"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "eyedropper",
+      "type": "registry:ui",
+      "title": "Eyedropper",
+      "description": "A loupe over a picture drawn in code that shows the pixels under the pointer as a magnified grid, the one being read framed at its centre and its value on a tag pinned to the loupe; the loupe follows the pointer 1:1 and pips as the colour changes, pitched by lightness. Click and the colour drops out of the loupe onto a swatch shelf: the droplet falls on the exit curve while the shelf glides open a slot, and the swatch lands on the recoil spring. Arrow keys move the loupe one pixel (Shift, ten) and Enter picks.",
+      "files": [
+        {
+          "path": "registry/ui/eyedropper.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1096"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

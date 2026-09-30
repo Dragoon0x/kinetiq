@@ -1166,6 +1166,12 @@ import { SplitConfirmDemo } from "@/registry/demos/split-confirm.demo";
 import { ClickerCountDemo } from "@/registry/demos/clicker-count.demo";
 import { KeycapPressDemo } from "@/registry/demos/keycap-press.demo";
 import { CopySlipDemo } from "@/registry/demos/copy-slip.demo";
+import { UnderlinePeekDemo } from "@/registry/demos/underline-peek.demo";
+import { EdgePeekDemo } from "@/registry/demos/edge-peek.demo";
+import { CrossGridDemo } from "@/registry/demos/cross-grid.demo";
+import { OverflowGlideDemo } from "@/registry/demos/overflow-glide.demo";
+import { TryOnDemo } from "@/registry/demos/try-on.demo";
+import { EyedropperDemo } from "@/registry/demos/eyedropper.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2346,4 +2352,10 @@ export const demos: Record<string, ComponentType> = {
   "clicker-count": ClickerCountDemo,
   "keycap-press": KeycapPressDemo,
   "copy-slip": CopySlipDemo,
+  "underline-peek": UnderlinePeekDemo,
+  "edge-peek": EdgePeekDemo,
+  "cross-grid": CrossGridDemo,
+  "overflow-glide": OverflowGlideDemo,
+  "try-on": TryOnDemo,
+  eyedropper: EyedropperDemo,
 };
