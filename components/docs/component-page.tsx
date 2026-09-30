@@ -8,6 +8,7 @@ import { InstallCommand } from "@/components/docs/install-command";
 import { PropTable } from "@/components/docs/prop-table";
 import { SpecimenPlate } from "@/components/lab/specimen-plate";
 import { SectionFrame } from "@/components/sections/section-frame";
+import { TactileDocPreview } from "@/components/tactile/tactile-doc-preview";
 import { isSection } from "@/content/block-categories";
 import { categoryBySlug, categoryOf } from "@/content/categories";
 import type { KinetiqItem } from "@/content/manifest/types";
@@ -45,6 +46,11 @@ export function ComponentDocPage({
       slug={item.name}
       base={kind === "blocks" ? "blocks" : kind}
     />
+  ) : category?.slug === "tactile" && Demo ? (
+    // Tactile components carry their tweaks and sound onto their own page.
+    <TactileDocPreview slug={item.name} serial={serial} label={plateLabel}>
+      <Demo />
+    </TactileDocPreview>
   ) : (
     <SpecimenPlate serial={serial} label={plateLabel} minHeight={380}>
       {Demo ? (

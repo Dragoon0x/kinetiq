@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/components",
     "/explore",
     "/spatial",
+    "/tactile",
     "/blocks",
     "/pages",
     "/templates",

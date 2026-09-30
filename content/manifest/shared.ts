@@ -147,4 +147,31 @@ export const shared: KinetiqItem[] = [
     tagline: "A texture you can trust the version of.",
     keywords: ["effects", "paint", "hook", "texture"],
   },
+  {
+    name: "tactile-sound",
+    type: "registry:lib",
+    title: "Tactile Sound",
+    description:
+      "Interface sounds synthesised on the spot with Web Audio: ticks, clacks, pops, whooshes, chimes and continuous voices, built from oscillators, noise and filters when they play. Silent by default, no audio context until a sound is asked for inside a gesture, quiet when the page is hidden, throttled per voice, and compressed on the master bus.",
+    files: [{ path: "registry/lib/tactile-sound.ts", type: "registry:lib" }],
+    tagline: "Sounds made on the spot, only when asked.",
+    keywords: ["sound", "audio", "web audio", "synth", "feedback", "tactile"],
+  },
+  {
+    name: "tactile-gesture",
+    type: "registry:lib",
+    title: "Tactile Gesture",
+    description:
+      "The hand-feel the Tactile components share: a drag that follows the pointer 1:1 and captures it only after a few pixels, release velocity measured over the last moments of the drag, throw projection, and rubber-band resistance past an edge.",
+    files: [{ path: "registry/lib/tactile-gesture.ts", type: "registry:lib" }],
+    tagline: "One drag, one throw, one edge.",
+    keywords: [
+      "gesture",
+      "drag",
+      "velocity",
+      "momentum",
+      "rubber band",
+      "tactile",
+    ],
+  },
 ];

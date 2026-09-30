@@ -144,6 +144,21 @@ async function main() {
     },
     {
       s: "x",
+      t: "Tactile",
+      d: "Components you can feel — live, with physics, sound and tweaks.",
+      h: "/tactile",
+      k: [
+        "tactile",
+        "interactive",
+        "gesture",
+        "drag",
+        "press",
+        "sound",
+        "tweak",
+      ],
+    },
+    {
+      s: "x",
       t: "Blocks",
       d: "Larger assemblies — complete, product-ready sections.",
       h: "/blocks",

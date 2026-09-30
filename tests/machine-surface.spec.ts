@@ -69,6 +69,7 @@ test.describe("share metadata", () => {
     "/templates",
     "/explore",
     "/spatial",
+    "/tactile",
     "/showcase",
     "/showcase/feedback",
     "/playground",

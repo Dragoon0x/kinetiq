@@ -56530,4 +56530,114 @@ export const components: KinetiqItem[] = [
       "Under reduced motion nothing FLIPs and a promotion is an instant exchange, while the rule still drains and the counts still change, because how much is waiting is information.",
     ],
   },
+  {
+    name: "gel-switch",
+    type: "registry:ui",
+    title: "Gel Switch",
+    description:
+      "A switch whose knob is a drop of gel. Pressed, the droplet reaches toward its new side while the rest holds back, a neck forms and pinches, and the tail lets go and catches up; it lands with a jiggle and the track fills with liquid behind it. It can be dragged 1:1, rubber-bands past either end, and a thrown release commits to the side it was heading for.",
+    files: [{ path: "registry/ui/gel-switch.tsx", type: "registry:ui" }],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: { serial: "KQ-1097" },
+    tagline: "A droplet that crosses.",
+    keywords: [
+      "switch",
+      "toggle",
+      "liquid",
+      "gel",
+      "metaball",
+      "drag",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "checked / defaultChecked",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial on/off state.",
+      },
+      {
+        name: "onCheckedChange",
+        type: "(checked: boolean) => void",
+        description:
+          "Fires from the press, key or drag that changed it, with the new state.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What the switch controls: its accessible name, and shown beside it unless hideLabel.",
+      },
+      {
+        name: "hideLabel",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Keep the label for assistive technology only.",
+      },
+      {
+        name: "viscosity",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How thick the gel is, 0 to 1: runny gel is quick and splashy, thick gel slow and composed.",
+      },
+      {
+        name: "stretch",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far the droplet reaches toward its new side before the rest of it follows, 0 to 1.",
+      },
+      {
+        name: "wobble",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How much the droplet jiggles when it lands, 0 to 1.",
+      },
+      {
+        name: "fill",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Fill the track with liquid behind the droplet while on.",
+      },
+      {
+        name: "size",
+        type: '"sm" | "md" | "lg"',
+        defaultValue: '"md"',
+        description: "The switch's size; the droplet's sounds pitch with it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the droplet's synthesised sounds. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the switch and dims its label.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      'It is a real role="switch" button labelled by its label: Space and Enter toggle it through the same path as a tap, so the droplet and the sound match whichever way it was pressed.',
+      "Controlled use reports the change from the press and then waits for the host: if the host takes the new value the droplet crosses, and if it refuses the droplet settles back, so the switch never shows a state the app does not hold.",
+      "The droplet is two circles and the metaball bridge between them, rebuilt each frame from two springs — no blur filter — so its edge stays crisp at every size and in both themes.",
+      "Under reduced motion the droplet moves in one piece on a short tween with no neck and no jiggle, and the colour still changes, because on and off are information.",
+    ],
+  },
 ];

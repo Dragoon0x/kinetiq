@@ -1,0 +1,27 @@
+import type { ComponentType } from "react";
+
+import type { TactileDemoProps, TweakSchema } from "@/registry/lib/tweaks";
+
+/** What a Tactile demo module gives the gallery: the demo and its tweaks. */
+export type TactileModule = {
+  Demo: ComponentType<TactileDemoProps<TweakSchema> & { chrome?: boolean }>;
+  tweaks: TweakSchema;
+};
+
+const mod = (Demo: unknown, tweaks: TweakSchema): TactileModule => ({
+  Demo: Demo as TactileModule["Demo"],
+  tweaks,
+});
+
+/**
+ * One dynamic import per component, so /tactile ships none of them up front:
+ * a card loads its own demo when it comes near the viewport. This map is the
+ * only thing the gallery imports — never components/docs/demos.tsx, which
+ * would pull every demo in the catalogue into the page.
+ */
+export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
+  "gel-switch": () =>
+    import("@/registry/demos/gel-switch.demo").then((m) =>
+      mod(m.GelSwitchDemo, m.tweaks),
+    ),
+};

@@ -1,5 +1,5 @@
 /**
- * The presentation taxonomy: fourteen ordered categories that drive the docs
+ * The presentation taxonomy: the ordered categories that drive the docs
  * nav, the index chip rails, the explorer filters, and the landing pages.
  *
  * This is an ADDITIVE layer. The manifest `categories` strings are a published
@@ -32,7 +32,8 @@ export type CategorySlug =
   | "game"
   | "finance"
   | "chat"
-  | "devtools";
+  | "devtools"
+  | "tactile";
 
 export type Category = {
   slug: CategorySlug;
@@ -167,6 +168,12 @@ export const CATEGORIES: Category[] = [
     label: "Devtools",
     blurb:
       "The instruments behind the product \u2014 logs, traces, pipelines, keys, deploys, and the consoles that read them.",
+  },
+  {
+    slug: "tactile",
+    label: "Tactile",
+    blurb:
+      "Components you can feel \u2014 pressed, held, dragged, thrown and turned, each with its own physics, sound, and live tweaks.",
   },
 ];
 

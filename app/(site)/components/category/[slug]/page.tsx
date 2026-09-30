@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { CATEGORIES, categoryBySlug, categoryOf } from "@/content/categories";
 import { itemsByCollection } from "@/content/collections";
 import { catalogComponents } from "@/content/manifest";
-import { showcaseBySlug } from "@/content/showcases";
+import { OWN_ROOM, showcaseBySlug } from "@/content/showcases";
 import type { KinetiqItem } from "@/content/manifest/types";
 import { JsonLd } from "@/components/seo/json-ld";
 import { pageMeta } from "@/lib/seo";
@@ -91,18 +91,12 @@ export default async function ComponentCategoryPage({
 
       {/* A category offers its room only once one exists; a young category
           has no showcase yet and should not link to a door that is not there. */}
-      {(category.slug === "spatial" || showcaseBySlug(category.slug)) && (
+      {(OWN_ROOM[category.slug] || showcaseBySlug(category.slug)) && (
         <Link
-          href={
-            category.slug === "spatial"
-              ? "/spatial"
-              : `/showcase/${category.slug}`
-          }
+          href={OWN_ROOM[category.slug]?.href ?? `/showcase/${category.slug}`}
           className="mt-4 inline-flex items-center gap-2 text-sm text-cobalt-bright transition-colors hover:text-ink"
         >
-          {category.slug === "spatial"
-            ? "Enter the Spatial Wing"
-            : `See the ${category.label} showcase`}
+          {OWN_ROOM[category.slug]?.cta ?? `See the ${category.label} showcase`}
           <span aria-hidden>→</span>
         </Link>
       )}

@@ -43,6 +43,7 @@ const STARTING_POINTS = [
   { href: "/components", label: "Components", hint: "The instrument index" },
   { href: "/blocks", label: "Blocks", hint: "Assembled sections" },
   { href: "/explore", label: "Explore", hint: "The whole catalog, live" },
+  { href: "/tactile", label: "Tactile", hint: "Components you can feel" },
   { href: "/guides", label: "Guides", hint: "The field manuals" },
 ];
 

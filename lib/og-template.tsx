@@ -104,6 +104,7 @@ const CATEGORY_LOOK: Record<
   finance: { spring: "glide", accent: "mint" },
   chat: { spring: "snap", accent: "sky" },
   devtools: { spring: "flick", accent: "amber" },
+  tactile: { spring: "recoil", accent: "sky" },
 };
 
 export type OgItemKind = "components" | "blocks" | "pages" | "templates";

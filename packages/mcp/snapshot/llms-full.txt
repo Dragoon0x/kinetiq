@@ -18515,6 +18515,33 @@ Notes:
 - The countdown comes from headSeconds, so the queue never reads a clock; stop the host's timer while held is true.
 - Under reduced motion nothing FLIPs and a promotion is an instant exchange, while the rule still drains and the counts still change, because how much is waiting is information.
 
+### Gel Switch (KQ-1097) — `gel-switch`
+A droplet that crosses.
+
+A switch whose knob is a drop of gel. Pressed, the droplet reaches toward its new side while the rest holds back, a neck forms and pinches, and the tail lets go and catches up; it lands with a jiggle and the track fills with liquid behind it. It can be dragged 1:1, rubber-bands past either end, and a thrown release commits to the side it was heading for.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/gel-switch`
+
+Props:
+- `checked / defaultChecked`: boolean (default false) — Controlled or initial on/off state.
+- `onCheckedChange`: (checked: boolean) => void — Fires from the press, key or drag that changed it, with the new state.
+- `label`: string — What the switch controls: its accessible name, and shown beside it unless hideLabel.
+- `hideLabel`: boolean (default false) — Keep the label for assistive technology only.
+- `viscosity`: number (default 0.5) — How thick the gel is, 0 to 1: runny gel is quick and splashy, thick gel slow and composed.
+- `stretch`: number (default 0.6) — How far the droplet reaches toward its new side before the rest of it follows, 0 to 1.
+- `wobble`: number (default 0.5) — How much the droplet jiggles when it lands, 0 to 1.
+- `fill`: boolean (default true) — Fill the track with liquid behind the droplet while on.
+- `size`: "sm" | "md" | "lg" (default "md") — The switch's size; the droplet's sounds pitch with it.
+- `sound`: boolean (default false) — Play the droplet's synthesised sounds. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Disables the switch and dims its label.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- It is a real role="switch" button labelled by its label: Space and Enter toggle it through the same path as a tap, so the droplet and the sound match whichever way it was pressed.
+- Controlled use reports the change from the press and then waits for the host: if the host takes the new value the droplet crosses, and if it refuses the droplet settles back, so the switch never shows a state the app does not hold.
+- The droplet is two circles and the metaball bridge between them, rebuilt each frame from two springs — no blur filter — so its edge stays crisp at every size and in both themes.
+- Under reduced motion the droplet moves in one piece on a short tween with no neck and no jiggle, and the colour still changes, because on and off are information.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
@@ -21598,3 +21625,17 @@ A texture you can trust the version of.
 Owns a painter for a ref and mirrors its version into React, so an effect uploads a texture only after a completed paint and never samples a half-drawn one.
 
 Install: `pnpm dlx shadcn@latest add @kinetiq/use-painted-surface`
+
+### Tactile Sound — `tactile-sound`
+Sounds made on the spot, only when asked.
+
+Interface sounds synthesised on the spot with Web Audio: ticks, clacks, pops, whooshes, chimes and continuous voices, built from oscillators, noise and filters when they play. Silent by default, no audio context until a sound is asked for inside a gesture, quiet when the page is hidden, throttled per voice, and compressed on the master bus.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tactile-sound`
+
+### Tactile Gesture — `tactile-gesture`
+One drag, one throw, one edge.
+
+The hand-feel the Tactile components share: a drag that follows the pointer 1:1 and captures it only after a few pixels, release velocity measured over the last moments of the drag, throw projection, and rubber-band resistance past an edge.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tactile-gesture`

@@ -26836,6 +26836,35 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "gel-switch",
+      "type": "registry:ui",
+      "title": "Gel Switch",
+      "description": "A switch whose knob is a drop of gel. Pressed, the droplet reaches toward its new side while the rest holds back, a neck forms and pinches, and the tail lets go and catches up; it lands with a jiggle and the track fills with liquid behind it. It can be dragged 1:1, rubber-bands past either end, and a thrown release commits to the side it was heading for.",
+      "files": [
+        {
+          "path": "registry/ui/gel-switch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1097"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
@@ -32497,6 +32526,32 @@
       ],
       "registryDependencies": [
         "https://www.kinetiqui.com/r/paint.json"
+      ]
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tactile-sound",
+      "type": "registry:lib",
+      "title": "Tactile Sound",
+      "description": "Interface sounds synthesised on the spot with Web Audio: ticks, clacks, pops, whooshes, chimes and continuous voices, built from oscillators, noise and filters when they play. Silent by default, no audio context until a sound is asked for inside a gesture, quiet when the page is hidden, throttled per voice, and compressed on the master bus.",
+      "files": [
+        {
+          "path": "registry/lib/tactile-sound.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tactile-gesture",
+      "type": "registry:lib",
+      "title": "Tactile Gesture",
+      "description": "The hand-feel the Tactile components share: a drag that follows the pointer 1:1 and captures it only after a few pixels, release velocity measured over the last moments of the drag, throw projection, and rubber-band resistance past an edge.",
+      "files": [
+        {
+          "path": "registry/lib/tactile-gesture.ts",
+          "type": "registry:lib"
+        }
       ]
     }
   ]

@@ -93,6 +93,73 @@
     0 1px 2px oklch(0.2 0.02 258 / 0.08), 0 8px 24px oklch(0.2 0.02 258 / 0.08);
 }
 
+/*
+ * A stage may wear the other theme from the page (Tactile's light/dark stage
+ * switch, the explorer's preview theme). Custom properties inherit as
+ * computed values, so a nested wrapper has to re-declare the primitives AND
+ * re-resolve the semantic layer against them; without the second rule,
+ * `bg-card` inside a light stage on a dark page keeps the page's dark card.
+ * On <html> these repeat what :root and .light already say.
+ */
+.dark {
+  --bg-0: oklch(0.145 0.02 258);
+  --bg-1: oklch(0.175 0.022 258);
+  --bg-2: oklch(0.21 0.024 258);
+
+  --hairline: oklch(0.92 0.02 258 / 0.09);
+  --hairline-strong: oklch(0.92 0.02 258 / 0.16);
+  --grid-minor: oklch(0.92 0.02 258 / 0.045);
+  --grid-major: oklch(0.92 0.02 258 / 0.08);
+
+  --ink: oklch(0.95 0.008 258);
+  --ink-2: oklch(0.72 0.015 258);
+  --ink-3: oklch(0.55 0.02 258);
+
+  --accent: oklch(0.6 0.2 262);
+  --accent-bright: oklch(0.68 0.17 262);
+  --accent-wash: oklch(0.6 0.2 262 / 0.12);
+  --signal: oklch(0.84 0.16 162);
+
+  --success: oklch(0.72 0.15 158);
+  --warn: oklch(0.79 0.14 80);
+  --danger: oklch(0.64 0.2 25);
+
+  --primary-foreground: oklch(0.98 0.005 262);
+  --destructive-foreground: oklch(0.98 0.005 25);
+
+  --edge-highlight: inset 0 1px 0 oklch(1 0 0 / 0.06);
+  --shadow-raised: none;
+}
+
+.light,
+.dark {
+  --background: var(--bg-0);
+  --foreground: var(--ink);
+  --card: var(--bg-1);
+  --card-foreground: var(--ink);
+  --popover: var(--bg-2);
+  --popover-foreground: var(--ink);
+  --primary: var(--accent);
+  --secondary: var(--bg-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--bg-1);
+  --muted-foreground: var(--ink-2);
+  --accent-hover: var(--accent-wash);
+  --destructive: var(--danger);
+  --border: var(--hairline);
+  --input: var(--hairline-strong);
+  --ring: var(--accent);
+}
+
+/* Native controls inside a nested stage (scrollbars, inputs) follow it too. */
+.dark {
+  color-scheme: dark;
+}
+
+.light {
+  color-scheme: light;
+}
+
 @theme inline {
   --font-sans:
     var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;

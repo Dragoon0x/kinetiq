@@ -11,6 +11,7 @@ const routes = [
   "/components",
   "/explore",
   "/spatial",
+  "/tactile",
   "/blocks",
   "/playground",
   "/guides",

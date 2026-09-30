@@ -46,10 +46,21 @@ export type Showcase = {
  */
 export const SHOWCASE_PENDING: CategorySlug[] = ["finance", "chat", "devtools"];
 
-/** Spatial keeps /spatial; every other category gets a showcase. */
+/**
+ * Categories with a room of their own rather than a showcase: the page a
+ * category links to, and what the link says.
+ */
+export const OWN_ROOM: Partial<
+  Record<CategorySlug, { href: string; cta: string }>
+> = {
+  spatial: { href: "/spatial", cta: "Enter the Spatial Wing" },
+  tactile: { href: "/tactile", cta: "Open Tactile" },
+};
+
+/** Every category without a room of its own gets a showcase. */
 export const SHOWCASE_SLUGS: CategorySlug[] = CATEGORIES.map(
   (c) => c.slug,
-).filter((slug) => slug !== "spatial" && !SHOWCASE_PENDING.includes(slug));
+).filter((slug) => !OWN_ROOM[slug] && !SHOWCASE_PENDING.includes(slug));
 
 /** Ordered to match CATEGORIES. */
 export const SHOWCASES: Showcase[] = [
@@ -231,8 +242,13 @@ export function assertShowcases(
   for (const slug of SHOWCASE_SLUGS) {
     if (!covered.has(slug)) problems.push(`no showcase for category "${slug}"`);
   }
-  if (SHOWCASES.some((s) => s.slug === "spatial")) {
-    problems.push("spatial must not have a showcase — it has /spatial");
+  for (const showcase of SHOWCASES) {
+    const room = OWN_ROOM[showcase.slug];
+    if (room) {
+      problems.push(
+        `${showcase.slug} must not have a showcase — it has ${room.href}`,
+      );
+    }
   }
 
   for (const showcase of SHOWCASES) {

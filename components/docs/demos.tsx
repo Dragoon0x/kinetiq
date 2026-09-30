@@ -1160,6 +1160,7 @@ import { ReleaseNotesDemo } from "@/registry/demos/release-notes.demo";
 import { HealthCheckDemo } from "@/registry/demos/health-check.demo";
 import { RollbackArcDemo } from "@/registry/demos/rollback-arc.demo";
 import { QueueDepthDemo } from "@/registry/demos/queue-depth.demo";
+import { GelSwitchDemo } from "@/registry/demos/gel-switch.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2334,4 +2335,5 @@ export const demos: Record<string, ComponentType> = {
   "health-check": HealthCheckDemo,
   "rollback-arc": RollbackArcDemo,
   "queue-depth": QueueDepthDemo,
+  "gel-switch": GelSwitchDemo,
 };
