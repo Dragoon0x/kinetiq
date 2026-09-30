@@ -87,4 +87,44 @@ export const ATELIER_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/mail-field.demo").then((m) =>
       mod(m.MailFieldDemo, m.tweaks),
     ),
+  "ribbon-tabs": () =>
+    import("@/registry/demos/ribbon-tabs.demo").then((m) =>
+      mod(m.RibbonTabsDemo, m.tweaks),
+    ),
+  "cabinet-menu": () =>
+    import("@/registry/demos/cabinet-menu.demo").then((m) =>
+      mod(m.CabinetMenuDemo, m.tweaks),
+    ),
+  "cantilever-menu": () =>
+    import("@/registry/demos/cantilever-menu.demo").then((m) =>
+      mod(m.CantileverMenuDemo, m.tweaks),
+    ),
+  "thumb-index": () =>
+    import("@/registry/demos/thumb-index.demo").then((m) =>
+      mod(m.ThumbIndexDemo, m.tweaks),
+    ),
+  "key-ring": () =>
+    import("@/registry/demos/key-ring.demo").then((m) =>
+      mod(m.KeyRingDemo, m.tweaks),
+    ),
+  "blind-menu": () =>
+    import("@/registry/demos/blind-menu.demo").then((m) =>
+      mod(m.BlindMenuDemo, m.tweaks),
+    ),
+  "jukebox-menu": () =>
+    import("@/registry/demos/jukebox-menu.demo").then((m) =>
+      mod(m.JukeboxMenuDemo, m.tweaks),
+    ),
+  "view-morph": () =>
+    import("@/registry/demos/view-morph.demo").then((m) =>
+      mod(m.ViewMorphDemo, m.tweaks),
+    ),
+  "pocket-nav": () =>
+    import("@/registry/demos/pocket-nav.demo").then((m) =>
+      mod(m.PocketNavDemo, m.tweaks),
+    ),
+  "liquid-tabbar": () =>
+    import("@/registry/demos/liquid-tabbar.demo").then((m) =>
+      mod(m.LiquidTabbarDemo, m.tweaks),
+    ),
 };

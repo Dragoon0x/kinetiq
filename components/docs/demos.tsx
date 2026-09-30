@@ -1240,6 +1240,16 @@ import { CoinAmountDemo } from "@/registry/demos/coin-amount.demo";
 import { CatalogSelectDemo } from "@/registry/demos/catalog-select.demo";
 import { InkChecklistDemo } from "@/registry/demos/ink-checklist.demo";
 import { MailFieldDemo } from "@/registry/demos/mail-field.demo";
+import { RibbonTabsDemo } from "@/registry/demos/ribbon-tabs.demo";
+import { CabinetMenuDemo } from "@/registry/demos/cabinet-menu.demo";
+import { CantileverMenuDemo } from "@/registry/demos/cantilever-menu.demo";
+import { ThumbIndexDemo } from "@/registry/demos/thumb-index.demo";
+import { KeyRingDemo } from "@/registry/demos/key-ring.demo";
+import { BlindMenuDemo } from "@/registry/demos/blind-menu.demo";
+import { JukeboxMenuDemo } from "@/registry/demos/jukebox-menu.demo";
+import { ViewMorphDemo } from "@/registry/demos/view-morph.demo";
+import { PocketNavDemo } from "@/registry/demos/pocket-nav.demo";
+import { LiquidTabbarDemo } from "@/registry/demos/liquid-tabbar.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2494,4 +2504,14 @@ export const demos: Record<string, ComponentType> = {
   "catalog-select": CatalogSelectDemo,
   "ink-checklist": InkChecklistDemo,
   "mail-field": MailFieldDemo,
+  "ribbon-tabs": RibbonTabsDemo,
+  "cabinet-menu": CabinetMenuDemo,
+  "cantilever-menu": CantileverMenuDemo,
+  "thumb-index": ThumbIndexDemo,
+  "key-ring": KeyRingDemo,
+  "blind-menu": BlindMenuDemo,
+  "jukebox-menu": JukeboxMenuDemo,
+  "view-morph": ViewMorphDemo,
+  "pocket-nav": PocketNavDemo,
+  "liquid-tabbar": LiquidTabbarDemo,
 };

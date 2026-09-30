@@ -20716,6 +20716,260 @@ Notes:
 - Reduced motion: no letters travel — the corrected address replaces the old one at once with its changed letters tinted and fading to ink, the suggestion row opens without travel, and the stamp fades in without the bounce.
 - Certain mistakes (a space, a second @, a character an address cannot hold) are said at once; an unfinished address only once the field is left; the suggestion, errors and the stamp are each announced once in one polite live region.
 
+### Ribbon Tabs (KQ-1171) — `ribbon-tabs`
+Tabs that hang like ribbons.
+
+Tabs drawn as lengths of fabric hanging from a rail: the chosen ribbon drops further on a spring set by the cloth and its colour deepens on a tween, while every ribbon is a pendulum that the change of tab tugs into a swing, the new one hardest, with a wave of smaller kicks running along the rail and each tail lagging so the cloth bends. The panel below cross-fades in the direction of travel and its height glides; brushing the pointer across the ribbons sets them swinging, and a ribbon pulled down like a cord follows the hand 1:1 and is chosen past half its drop. It is a real tablist: arrow keys move and choose with the same sway, Home and End jump.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ribbon-tabs`
+
+Props:
+- `tabs`: { id: string; label: string; content: ReactNode; disabled?: boolean }[] — The ribbons, left to right, and what each one's panel shows.
+- `value / defaultValue`: string (default the first enabled tab) — The chosen tab's id, controlled or initial.
+- `onValueChange`: (id: string) => void — Fires from the tap, tug or key that chose a tab, with its id.
+- `label`: string — The tab list's accessible name.
+- `sway`: number (default 0.5) — How freely the ribbons swing, 0 to 1: 0 hangs rigid, 1 swings long and lazily.
+- `fabric`: "satin" | "linen" | "velvet" (default "satin") — The cloth: glossy satin with a swallowtail, matte linen with a stitched hem, or heavy velvet with a pointed end. Sets the look, the cut and the weight of the swing.
+- `length`: number (default 40) — How much further the chosen ribbon drops than the rest, in px (24 to 64).
+- `color`: string (default "var(--accent)") — The fabric's colour, any CSS colour; the pale and deep shades are drawn from it at fixed lightness.
+- `sound`: boolean (default false) — Play a swish when the visitor changes tab, and a soft one when a fast brush crosses a ribbon.
+- `disabled`: boolean (default false) — Every ribbon can be read but not chosen, tugged or brushed.
+- `className`: string — Classes for the root, which holds the rail and the panel.
+
+Notes:
+- A role="tablist" of role="tab" buttons with roving tabindex: ArrowLeft and ArrowRight move and choose (wrapping, skipping disabled tabs), Home and End jump, Enter and Space choose the focused tab; the panel is a labelled, focusable role="tabpanel".
+- Under reduced motion nothing swings, drops or brushes: the chosen ribbon's length switches at once and its colour still deepens on a short tween, and the panel cross-fades in place without sliding.
+- Ribbons pull down with touch-action pan-x, so a vertical drag on them tugs rather than scrolls; a sideways brush never chooses a tab.
+
+### Cabinet Menu (KQ-1172) — `cabinet-menu`
+Drawers within drawers.
+
+A nested menu drawn as a filing cabinet: each top item is a drawer that slides out toward you on its runners, the front coming down and growing a hair nearer while the inside is revealed above it with walls, runners and hanging folders, and at depth 3 a folder opens on the glide spring to fan out its sheets. The slide is one spring per drawer set by runners, from wooden slides that stop dead to ball-bearing slides that bump the end-stop and rebound when shut hard, with a thock timed to the stop; the pull follows the hand 1:1 and a throw is projected open or shut. It is a vertical menubar: Up and Down walk a level, Right, Enter or Space open and step in, and Left or Escape push the innermost drawer or folder home one at a time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cabinet-menu`
+
+Props:
+- `drawers`: { id: string; label: string; folders: { id: string; label: string; items?: { id: string; label: string; meta?: string }[] }[] }[] — The cabinet, top drawer first: each drawer's folders and each folder's sheets.
+- `value / defaultValue`: string | null (default null) — The chosen leaf's id (a sheet, or a folder that is a leaf), controlled or initial.
+- `onValueChange`: (id: string, path: string[]) => void — Fires from the press or key that chose a leaf, with its id and the labels from drawer to leaf.
+- `onOpenChange`: (drawerId: string | null) => void — Fires when a drawer comes out, with its id, or when every drawer is home, with null.
+- `label`: string — The menu's accessible name.
+- `depth`: number (default 3) — How many levels the menu has: 2 (drawers, folders as leaves) or 3 (drawers, folders, sheets).
+- `runners`: number (default 0.6) — The runners, 0 to 1: plain wooden slides that stop dead, up to ball-bearing slides that glide, bump the end-stop and rebound when shut hard. Also changes the runner hardware drawn.
+- `finish`: "steel" | "oak" | "mint" (default "steel") — The cabinet's material: brushed steel with chrome pulls, oak with grain and brass pulls, or mint enamel.
+- `sound`: boolean (default false) — Play a thock when a drawer the visitor moved meets its stop, and paper as folders open and a leaf is chosen.
+- `disabled`: boolean (default false) — The cabinet can be read but no drawer opens.
+- `className`: string — Classes for the cabinet's carcass.
+
+Notes:
+- A vertical role="menubar" of drawer fronts (roving tabindex), each owning a role="menu" of folders; folders with sheets own a nested menu and leaves are menuitemradio with aria-checked. Up and Down walk a level, Home and End jump, a letter jumps ahead, Right, Enter or Space open and step in, Left or Escape push the innermost open level home one per press (Escape calls preventDefault whenever it closes something); a press outside or tabbing away shuts the cabinet.
+- Under reduced motion nothing slides or bounces: a drawer's inside appears at full height with a short fade and a folder's sheets appear together; the chosen leaf is still marked and the drawer's label holder still names it.
+- The bar pull is the only touch-action none area, so the rest of the cabinet still scrolls a page; the choice is announced once, politely.
+
+### Cantilever Menu (KQ-1173) — `cantilever-menu`
+Every tool, one lift away.
+
+An actions menu drawn as a cantilever toolbox: opening lifts the trays up and outward on parallelogram arms, each tray staying level while it rides a true circular arc over the top and out into a staircase, and its tools stand up out of it as it clears the tray below. One spring per tray drives the arc, the arms and the tools; arms sets the linkage from one stiff unit to springy arms that stagger and bounce at their stops with a clack each, and closing folds the trays back from the bottom up until the latch clicks. Choosing a tool lifts it out on snap before the box shuts; arrow keys walk the tools and cross trays, Up and Down move between trays, and Escape hands focus back to the latch.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cantilever-menu`
+
+Props:
+- `groups`: { id: string; label: string; actions: { id: string; label: string; icon?: ReactNode; shortcut?: string; tone?: "default" | "danger" }[] }[] — One group per tray, top tray first, up to four actions each; groups beyond the trays share the box's own compartment.
+- `label`: string — The menu's name: the latch's accessible name, shown on its plate while shut.
+- `onAction`: (id: string) => void — A tool was chosen. Fires as it lifts out, before the box folds shut.
+- `open / defaultOpen`: boolean (default false) — Whether the box is open, controlled or initial.
+- `onOpenChange`: (open: boolean) => void — Fires from the press, pull or key that opened or shut the box.
+- `trays`: number (default 3) — How many tiers of trays the box has, 1 to 3. With fewer tiers than groups, the rest sit in the box.
+- `arms`: number (default 0.5) — How springy the linked arms are, 0 to 1: 0 moves the trays as one stout, stiff unit; 1 has slender arms that let each tray lag the one above and bounce at its stop.
+- `finish`: "red" | "steel" | "green" (default "red") — The paint: red enamel, bare steel or green.
+- `sound`: boolean (default false) — Play a clack as each tray the visitor opened reaches its stop and as a tool lifts out, and a click when the latch catches.
+- `disabled`: boolean (default false) — The box stays shut and the latch cannot be pressed.
+- `className`: string — Classes for the root, which is as tall as the box's tallest pose and scales down below 300 px wide.
+
+Notes:
+- The latch is a menu button (aria-haspopup, aria-expanded, aria-controls): Enter, Space or ArrowDown open it on the first tool and ArrowUp on the last. Inside the role="menu", ArrowLeft and ArrowRight walk the tools and cross trays, ArrowUp and ArrowDown move to the nearest tool in the tray above or below, Home and End jump, a letter jumps ahead, Enter or Space chooses, and Escape or Tab shut the box (with preventDefault) and return focus to the latch.
+- Under reduced motion there are no arcs, bounces or rising tools: the trays fade out of the stack and into the staircase and back, the tools already standing; the highlight, the latch plate and the sounds still answer.
+- The grip on top of the shut box pulls it open 1:1 (touch-action pan-x on the grip only) and a throw commits open or shut; while shut, the trays are inert and hidden from assistive technology.
+
+### Thumb Index (KQ-1174) — `thumb-index`
+Jump straight to the letter.
+
+Section navigation cut into a book's fore-edge: half-moon notches run down the page's edge, each with a printed tab, and a drawn thumb rests in the current one. Pressing a tab lifts the thumb on flick, carries it down the edge on glide and drops it into the new notch on snap, whose one overshoot is the press; the tab stays down and the pages riffle to the section, leaves hinged at the spine turning over one after another on a single staggered clock while the running heads of the sections passed flick by. Arrow keys move between tabs, Home and End jump, a letter moves to the tab that holds it, Enter or Space presses, and the thumb can be dragged down the edge to scrub.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/thumb-index`
+
+Props:
+- `sections`: number | { id: string; label: string; title?: string; letters?: string; href?: string }[] (default 8) — How many sections to split A–Z into (4 to 12, balanced by how much of a dictionary each letter fills), or the sections themselves. A section with an href makes its tab a link.
+- `value / defaultValue`: string — The current section's id. An id that is not found falls back to the section holding its first letter, so a letter id survives a change of section count.
+- `onValueChange`: (id: string) => void — Fires from the press, key or scrub that chose a section, with its id.
+- `children`: (section: ThumbIndexSection, index: number) => ReactNode — What the page shows for a section, under its running head. Rendered again on the leaf that carries the page during a riffle.
+- `label`: string (default "Sections") — The navigation's accessible name.
+- `tabs`: "round" | "square" (default "round") — Half-moon notches with round tabs, or square-cut notches with square tabs.
+- `riffle`: number (default 0.6) — How many leaves turn on the way to a section, and how slowly, 0 to 1. A longer jump turns more leaves; 0 changes the page with a fade.
+- `sound`: boolean (default false) — Play a thock when the thumb lands in a notch and a paper riffle for the turning leaves, only in answer to the visitor.
+- `disabled`: boolean (default false) — The page can be read but the tabs cannot be pressed or scrubbed.
+- `className`: string — Classes for the root, which sets the page's size. Defaults to h-104 w-full; the notches spread down whatever height it is given.
+
+Notes:
+- A nav of links or buttons with aria-current="page" on the current section and a roving tabindex: ArrowUp and ArrowDown (or Left and Right) move between tabs, Home and End jump, a letter key moves focus to the tab whose section holds that letter, and Enter or Space presses it. The new section is said once in a polite live region.
+- Under reduced motion the thumb fades between notches instead of travelling and the page cross-fades instead of riffling; the pressed tab, the page and the announcement still change. Scrubbing still follows the finger.
+- alphabetSections(count) is exported for hosts that want the same balanced A–Z split to filter their own content by each section's letters.
+
+### Key Ring (KQ-1175) — `key-ring`
+Pick the key for the workspace.
+
+A workspace switcher drawn as keys hanging from a split ring, each bow capped in the workspace's colour and printed with its initial, each blade cut with teeth seeded from its id. Choosing turns the ring the short way on snap so the chosen key hangs at the front, a click ticking as each key passes; the keys are pendulums that trail the ring, swing and knock when it stops with a damping set by jingle, and a new workspace threads on at the split and slides round to its place on glide. The ring is a focusable listbox: arrow keys turn it and choose, Home and End go to the ends, a letter turns to the next workspace with that initial, and a horizontal drag spins it 1:1 and settles on the key the throw was heading for.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/key-ring`
+
+Props:
+- `workspaces`: { id: string; name: string; detail?: string; initial?: string; color?: string }[] — The workspaces, one key each. detail is the second line under the chosen name; color is any CSS colour for the bow, one of six pigments by default.
+- `value / defaultValue`: string — The chosen workspace's id, whose key hangs at the front.
+- `onValueChange`: (id: string) => void — Fires from the key, click or drag that chose a workspace, with its id. A controlled ring that is refused turns back.
+- `onAdd`: () => void — Shows an Add button at the ring's split end. A workspace the host then adds threads onto the ring there.
+- `addLabel`: string (default "Add workspace") — The Add button's accessible name.
+- `label`: string (default "Workspaces") — The listbox's accessible name.
+- `keys`: number (default 5) — How many keys hang on the ring at once, 3 to 7. With more workspaces the ring turns through all of them, a key re-cut for the next one as it passes behind.
+- `ring`: "steel" | "brass" | "black" (default "steel") — The metal of the ring and the blades, drawn as fixed pigments so both themes read the same.
+- `jingle`: number (default 0.5) — How freely the keys swing and knock when the ring turns, 0 (stiff and silent) to 1.
+- `sound`: boolean (default false) — Play a click as keys pass the front and when a key is threaded, and a clack when keys knock, only after the visitor's own turn.
+- `disabled`: boolean (default false) — The ring cannot be turned and Add is off.
+- `className`: string — Classes for the root: a 272 px drawing over the chosen name.
+
+Notes:
+- A focusable listbox with one option per workspace and aria-activedescendant on the chosen one: ArrowLeft and ArrowRight (or Up and Down) turn the ring one key and choose, Home and End go to the first and last workspace, and a letter turns to the next workspace with that initial. Pointer and drag choices are said once in a polite live region.
+- Under reduced motion the ring does not turn and nothing swings: keys fade into their new places, a threaded key fades in where it hangs, and the chosen key is still the front one. A drag still turns the ring under the finger.
+- The swing runs on a small frame loop only while the ring moves or a key still swings, and stops on a hidden page.
+
+### Blind Menu (KQ-1176) — `blind-menu`
+Opens slat by slat.
+
+An account menu that hangs from its button like a window blind. Opened, the frame lowers to its length on glide while each slat, one item each, turns from nearly edge-on to face you on snap from the top down, stagger apart; the slat under the pointer or the focus leans toward you and catches the light, and closing draws the blind back up, slats turning shut from the bottom and rising into a stack under the headrail on exit tweens. It is the menu-button pattern: arrows move and wrap, Home and End jump, typing jumps to an item, Enter or Space chooses, and Escape closes and hands focus back to the trigger.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/blind-menu`
+
+Props:
+- `items`: { id: string; label: string; icon?: ReactNode; shortcut?: string; tone?: "default" | "danger"; disabled?: boolean }[] — The menu, one slat per item. A danger item is drawn in the danger colour; a disabled one is skipped by the arrows.
+- `onSelect`: (id: string) => void — An item was chosen. Fires before the blind goes up.
+- `label`: string — The account's name: the trigger's text and the menu's name.
+- `detail`: string — A second line under the name: an email, a plan, a role.
+- `avatar`: ReactNode — Before the name, 28 px. Defaults to the name's initials in a circle.
+- `open / defaultOpen`: boolean (default false) — Whether the blind is down.
+- `onOpenChange`: (open: boolean) => void — Fires from the press, key or outside press that opened or closed it.
+- `slats`: number (default 5) — The most slats the blind lowers, 4 to 8. A longer menu scrolls inside it a slat at a time, with a mark on the bottom rail while there is more.
+- `stagger`: number (default 0.5) — How far apart the slats turn open, 0 (all at once) to 1 (a slow wave), kept inside the 600 ms budget.
+- `finish`: "wood" | "aluminium" | "fabric" (default "aluminium") — What the slats are made of: grained wood and curved aluminium are fixed pigments; fabric is woven from the menu's own surface colours.
+- `align`: "start" | "end" (default "end") — Which edge of the trigger the blind hangs from.
+- `sound`: boolean (default false) — Play a swish when the visitor lowers or raises the blind (pitched down going up) and a click when an item is chosen.
+- `disabled`: boolean (default false) — The trigger cannot be pressed.
+- `className`: string — Classes for the root, which wraps the trigger; the blind hangs below it.
+
+Notes:
+- The trigger has aria-haspopup="menu", aria-expanded and aria-controls; Enter, Space or ArrowDown opens with focus on the first item and ArrowUp on the last. Inside the menu of menuitems with a roving tabindex, arrows move and wrap, Home and End jump, typed letters jump, Enter or Space chooses, Escape closes with preventDefault and returns focus to the trigger, and Tab or a press outside closes it.
+- Under reduced motion the blind fades in and out without lowering or turning, and a hovered or focused slat changes shade instead of leaning.
+- Focus moves into the menu when its node arrives, and only when the visitor opened it: a host that opens it does not steal focus.
+
+### Jukebox Menu (KQ-1177) — `jukebox-menu`
+Pick a record.
+
+A single-choice picker dressed as a jukebox: the catalogue sits on title strips in a book-style rack whose leaves turn about the spine on glide, riffling a leaf at a time across several pages, and every record has a letter-and-number code. A pick sends the changer arm round the fan of edge-on records on glide while its motor whirs, reaches in and grips the record, pulls it down to the spindle as it turns from edge-on to lying flat, and drops it on the platter on recoil before the tonearm swings on with snap. Under the chrome it is a listbox: arrows walk the strips and turn pages at the ends, Page keys turn a spread, a page letter and a strip number pick by code, and Enter picks the active strip.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/jukebox-menu`
+
+Props:
+- `records`: { id: string; title: string; artist?: string }[] — The catalogue, in rack order. Each record gets a code from its page letter and strip number.
+- `value / defaultValue`: string | null (default null) — The id of the record on the turntable, controlled or initial.
+- `onValueChange`: (id: string) => void — Fires from the strip, key or code that picked a record, with its id.
+- `label`: string (default "Records") — The listbox's accessible name.
+- `pages`: number (default 2) — How many pages the rack splits the catalogue across, 2 to 4; a page holds up to eight strips, and a longer catalogue adds pages.
+- `finish`: "gold" | "silver" | "candy" (default "gold") — The cabinet's trim, rack frame and key tops, as pigments that read the same in both themes.
+- `arm`: boolean (default true) — A changer arm fetches each record; off, the record rises from its slot and travels to the turntable by itself.
+- `sound`: boolean (default false) — Clack for keys, strips and landings, and a whir while the arm travels. Only for the visitor's own picks and keys.
+- `disabled`: boolean (default false) — The rack and keys can be read but not used.
+- `className`: string — Classes for the cabinet, which is w-full up to 360px.
+
+Notes:
+- The rack is a listbox with aria-activedescendant: ArrowUp and ArrowDown step through the strips and turn the page at either end, ArrowLeft and ArrowRight cross the spine, PageUp and PageDown turn a spread, Home and End jump, Enter or Space picks. Typing a page letter turns to that spread and waits; a digit then picks that strip. Escape clears a waiting letter. The selector keys are a toolbar with one tab stop.
+- Under reduced motion nothing travels, turns or spins: the rack cross-fades between pages and the record appears on the platter, while the readout, the lit strip and the spoken 'Now playing' still change.
+- Use jukeboxCodes(records, pages) to show the same codes elsewhere. The label turns only while the jukebox is on screen and the page is visible; a host changing value animates the arm silently.
+
+### View Morph (KQ-1178) — `view-morph`
+Grid, list, board — the items move themselves.
+
+A collection with a switch for its layout: choosing Grid, List or Board re-lays every entry, and each one travels to its new place on the glide spring through motion's shared layout while its cover grows into a tile, shrinks to a thumbnail or thins to a colour strip, the details only one view has fading in and out and the measured height gliding with them. The switch is a radiogroup whose thumb slides on snap, and the chosen view's glyph starts as the view being left and morphs its six bars into its own shape on the same spring. Arrow keys move and choose a view, Home and End jump, and each entry is a button when onOpen is given.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/view-morph`
+
+Props:
+- `collection`: { id: string; title: string; meta?: string; status?: string; tone?: "accent" | "signal" | "warn" | "danger" | "success" | "ink" }[] — The entries. meta is the second line, status the board column's id, tone the cover's colour.
+- `columns`: { id: string; label: string }[] — The board's columns, in order. Defaults to the statuses in order of appearance.
+- `value / defaultValue`: "grid" | "list" | "board" (default "grid") — The view, controlled or initial.
+- `onValueChange`: (view: "grid" | "list" | "board") => void — Fires from the press or key that chose a view.
+- `label`: string (default "Collection") — The collection's heading and the name of its list and view switch.
+- `stagger`: number (default 0.5) — How far apart the entries set off, 0 (all at once) to 1 (a ripple inside the 600ms budget).
+- `items`: number — How many entries of the collection show; the header counts them against the whole. Defaults to all.
+- `views`: 2 | 3 | "2" | "3" (default 3) — Offer grid and list, or grid, list and board.
+- `maxHeight`: number — The most the collection grows to, in px; past it, it scrolls with a fade at the bottom edge.
+- `onOpen`: (id: string) => void — An entry was opened. When given, every entry is a button named by its title, meta and status.
+- `sound`: boolean (default false) — A click for the switch and a swish as the entries move, only when the visitor chose the view.
+- `disabled`: boolean (default false) — The switch and the entries cannot be used.
+- `className`: string — Classes for the root, a container-query box that fills its width.
+
+Notes:
+- The switch is a radiogroup with one tab stop: ArrowLeft and ArrowRight (or Up and Down) move and choose, Home and End jump, and each radio is named by its view; labels beside the glyphs hide below 26rem and stay for assistive technology. A polite status says the new view and how many entries show.
+- Under reduced motion the entries do not travel and the glyph does not morph: the collection fades up in its new layout and the height changes at once, while the chosen view and the announcement still change.
+- Every entry stays one element across the three views, so focus on an entry survives a change of view; the list takes two columns above 34rem.
+
+### Pocket Nav (KQ-1179) — `pocket-nav`
+What doesn't fit tucks away.
+
+A navigation bar that never wraps or scrolls: a ResizeObserver reads its room and every link's natural width, and the links that no longer fit slide along the bar into a pocket at its end on the exit ease, shrinking as they go, in priority order and a cascade apart, while the links behind them close the gap on glide. The pocket takes each one with a squeeze on snap as its count rolls, links slide back out on snap as room returns, and the current page is never tucked. The bar is one tab stop whose arrows move between links and the pocket; the pocket is a menu button whose menu of tucked links opens on ArrowDown, Enter or Space, moves with arrows, Home, End and first letters, and closes on Escape or Tab with focus back on the pocket.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pocket-nav`
+
+Props:
+- `links`: { id: string; label: string; href?: string; usage?: number }[] — The links, in bar order. With href a link is an anchor; usage ranks it for priority="usage".
+- `value / defaultValue`: string (default the first link) — The current link's id, controlled or initial. It carries aria-current="page" and is never tucked.
+- `onValueChange`: (id: string) => void — Fires from the press, key or menu choice that made a link current.
+- `onPocketChange`: (ids: string[]) => void — The links in the pocket, in bar order: once measured, then each time the set changes.
+- `label`: string (default "Main") — The navigation's accessible name.
+- `items`: number — The most links the bar shows at once, 4 to 9; the rest wait in the pocket even with room to spare. Defaults to all.
+- `priority`: "order" | "usage" (default "order") — Tuck from the end of the bar backwards, or the least used links first wherever they sit.
+- `pocket`: "more" | "dots" (default "more") — A More button with a count and chevron, or a round three-dot button with a count dot.
+- `sound`: boolean (default false) — A swish for each link that slides into or out of the pocket and a tick as its count moves, only while the visitor is dragging or pressing keys; a swish when the pocket opens.
+- `disabled`: boolean (default false) — The links and the pocket can be read but not used.
+- `className`: string — Classes for the nav, which fills its width.
+
+Notes:
+- The bar is one tab stop with a roving tabindex over its links and the pocket: ArrowLeft and ArrowRight move, Home and End jump, Enter or Space follows a link. On the pocket, ArrowDown, Enter or Space open the menu on its first item and ArrowUp on its last; in the menu, arrows, Home, End and first letters move, Enter chooses, and Escape or Tab close it with preventDefault and hand focus back. A press outside closes it; a chosen link takes focus once it has arrived in the bar.
+- Under reduced motion links fade out and in where they stand, the gap closes at once and the pocket does not squeeze, while its count and the announcement still change.
+- Widths come from a clipped, zero-height measuring row, so late-loading fonts re-measure and nothing hidden adds scroll width. The first fit after measuring is instant and silent; when even the current link and the pocket cannot fit, the current link's label truncates.
+
+### Liquid Tab Bar (KQ-1180) — `liquid-tabbar`
+The indicator flows between tabs.
+
+A bottom tab bar whose indicator is a drop of liquid behind the chosen icon: choosing a tab sends the drop's head racing there on a spring that keeps its velocity while the tail holds back on a softer, later spring, and the neck between them is drawn every frame as a metaball bridge that thins as it stretches and pinches off when stretched too far. The head squashes along its speed and lands with a jiggle whose size is set by the viscosity, and the icon it lands on bounces on recoil; the icons are drawn a second time in the tint's contrast colour, clipped to the drop's live shape. The drop can be dragged 1:1 and thrown to a tab, and the tablist's arrows move and choose, Home and End jump.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/liquid-tabbar`
+
+Props:
+- `items`: { id: string; label: string; icon: "home" | "search" | "inbox" | "chart" | "wallet" | "card" | "bell" | "calendar" | "person" }[] — The tabs, in order, each with a label and a built-in glyph.
+- `value / defaultValue`: string (default the first item) — The chosen tab's id, controlled or initial.
+- `onValueChange`: (id: string) => void — Fires from the tap, drag or key that chose a tab.
+- `label`: string (default "Sections") — The tablist's accessible name.
+- `panelId`: string — The id of the panel the tabs control, for aria-controls.
+- `viscosity`: number (default 0.5) — Runny (0) to thick (1): quick and splashy with a short neck and more jiggle, or slow and composed with a neck that stretches much further before it pinches.
+- `tabs`: number — How many of items the bar holds, 3 to 5. Defaults to all, up to 5.
+- `tint`: "accent" | "ink" | "signal" (default "accent") — The drop's colour and the contrast colour of the icon it covers; accent and signal are fixed pigments, ink follows the theme.
+- `sound`: boolean (default false) — A blup when the drop lands on a tab the visitor chose, pitched by the tab and the viscosity.
+- `disabled`: boolean (default false) — The tabs and the drag cannot be used.
+- `className`: string — Classes for the root, which is w-full up to max-w-md.
+
+Notes:
+- It is a tablist with one tab stop: ArrowLeft and ArrowRight move and choose (wrapping), Home and End jump, Enter and Space choose the focused tab. Dragging the drop along the bar follows the finger, rubber-bands past either end, and a release commits to the tab the throw was heading for; the bar uses touch-action pan-y so the page still scrolls.
+- Under reduced motion the drop moves in one piece on a short tween with no neck, squash or bounce; the tint and the tinted icon still move, because which tab is chosen is the information.
+- The drop is geometry, not a blur filter, so its edge stays crisp at any size; before the bar is measured (the server's render) a still drop sits on the chosen tab.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -29121,6 +29121,292 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ribbon-tabs",
+      "type": "registry:ui",
+      "title": "Ribbon Tabs",
+      "description": "Tabs drawn as lengths of fabric hanging from a rail: the chosen ribbon drops further on a spring set by the cloth and its colour deepens on a tween, while every ribbon is a pendulum that the change of tab tugs into a swing, the new one hardest, with a wave of smaller kicks running along the rail and each tail lagging so the cloth bends. The panel below cross-fades in the direction of travel and its height glides; brushing the pointer across the ribbons sets them swinging, and a ribbon pulled down like a cord follows the hand 1:1 and is chosen past half its drop. It is a real tablist: arrow keys move and choose with the same sway, Home and End jump.",
+      "files": [
+        {
+          "path": "registry/ui/ribbon-tabs.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1171"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cabinet-menu",
+      "type": "registry:ui",
+      "title": "Cabinet Menu",
+      "description": "A nested menu drawn as a filing cabinet: each top item is a drawer that slides out toward you on its runners, the front coming down and growing a hair nearer while the inside is revealed above it with walls, runners and hanging folders, and at depth 3 a folder opens on the glide spring to fan out its sheets. The slide is one spring per drawer set by runners, from wooden slides that stop dead to ball-bearing slides that bump the end-stop and rebound when shut hard, with a thock timed to the stop; the pull follows the hand 1:1 and a throw is projected open or shut. It is a vertical menubar: Up and Down walk a level, Right, Enter or Space open and step in, and Left or Escape push the innermost drawer or folder home one at a time.",
+      "files": [
+        {
+          "path": "registry/ui/cabinet-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1172"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cantilever-menu",
+      "type": "registry:ui",
+      "title": "Cantilever Menu",
+      "description": "An actions menu drawn as a cantilever toolbox: opening lifts the trays up and outward on parallelogram arms, each tray staying level while it rides a true circular arc over the top and out into a staircase, and its tools stand up out of it as it clears the tray below. One spring per tray drives the arc, the arms and the tools; arms sets the linkage from one stiff unit to springy arms that stagger and bounce at their stops with a clack each, and closing folds the trays back from the bottom up until the latch clicks. Choosing a tool lifts it out on snap before the box shuts; arrow keys walk the tools and cross trays, Up and Down move between trays, and Escape hands focus back to the latch.",
+      "files": [
+        {
+          "path": "registry/ui/cantilever-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1173"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "thumb-index",
+      "type": "registry:ui",
+      "title": "Thumb Index",
+      "description": "Section navigation cut into a book's fore-edge: half-moon notches run down the page's edge, each with a printed tab, and a drawn thumb rests in the current one. Pressing a tab lifts the thumb on flick, carries it down the edge on glide and drops it into the new notch on snap, whose one overshoot is the press; the tab stays down and the pages riffle to the section, leaves hinged at the spine turning over one after another on a single staggered clock while the running heads of the sections passed flick by. Arrow keys move between tabs, Home and End jump, a letter moves to the tab that holds it, Enter or Space presses, and the thumb can be dragged down the edge to scrub.",
+      "files": [
+        {
+          "path": "registry/ui/thumb-index.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1174"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "key-ring",
+      "type": "registry:ui",
+      "title": "Key Ring",
+      "description": "A workspace switcher drawn as keys hanging from a split ring, each bow capped in the workspace's colour and printed with its initial, each blade cut with teeth seeded from its id. Choosing turns the ring the short way on snap so the chosen key hangs at the front, a click ticking as each key passes; the keys are pendulums that trail the ring, swing and knock when it stops with a damping set by jingle, and a new workspace threads on at the split and slides round to its place on glide. The ring is a focusable listbox: arrow keys turn it and choose, Home and End go to the ends, a letter turns to the next workspace with that initial, and a horizontal drag spins it 1:1 and settles on the key the throw was heading for.",
+      "files": [
+        {
+          "path": "registry/ui/key-ring.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1175"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "blind-menu",
+      "type": "registry:ui",
+      "title": "Blind Menu",
+      "description": "An account menu that hangs from its button like a window blind. Opened, the frame lowers to its length on glide while each slat, one item each, turns from nearly edge-on to face you on snap from the top down, stagger apart; the slat under the pointer or the focus leans toward you and catches the light, and closing draws the blind back up, slats turning shut from the bottom and rising into a stack under the headrail on exit tweens. It is the menu-button pattern: arrows move and wrap, Home and End jump, typing jumps to an item, Enter or Space chooses, and Escape closes and hands focus back to the trigger.",
+      "files": [
+        {
+          "path": "registry/ui/blind-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1176"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "jukebox-menu",
+      "type": "registry:ui",
+      "title": "Jukebox Menu",
+      "description": "A single-choice picker dressed as a jukebox: the catalogue sits on title strips in a book-style rack whose leaves turn about the spine on glide, riffling a leaf at a time across several pages, and every record has a letter-and-number code. A pick sends the changer arm round the fan of edge-on records on glide while its motor whirs, reaches in and grips the record, pulls it down to the spindle as it turns from edge-on to lying flat, and drops it on the platter on recoil before the tonearm swings on with snap. Under the chrome it is a listbox: arrows walk the strips and turn pages at the ends, Page keys turn a spread, a page letter and a strip number pick by code, and Enter picks the active strip.",
+      "files": [
+        {
+          "path": "registry/ui/jukebox-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1177"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "view-morph",
+      "type": "registry:ui",
+      "title": "View Morph",
+      "description": "A collection with a switch for its layout: choosing Grid, List or Board re-lays every entry, and each one travels to its new place on the glide spring through motion's shared layout while its cover grows into a tile, shrinks to a thumbnail or thins to a colour strip, the details only one view has fading in and out and the measured height gliding with them. The switch is a radiogroup whose thumb slides on snap, and the chosen view's glyph starts as the view being left and morphs its six bars into its own shape on the same spring. Arrow keys move and choose a view, Home and End jump, and each entry is a button when onOpen is given.",
+      "files": [
+        {
+          "path": "registry/ui/view-morph.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1178"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pocket-nav",
+      "type": "registry:ui",
+      "title": "Pocket Nav",
+      "description": "A navigation bar that never wraps or scrolls: a ResizeObserver reads its room and every link's natural width, and the links that no longer fit slide along the bar into a pocket at its end on the exit ease, shrinking as they go, in priority order and a cascade apart, while the links behind them close the gap on glide. The pocket takes each one with a squeeze on snap as its count rolls, links slide back out on snap as room returns, and the current page is never tucked. The bar is one tab stop whose arrows move between links and the pocket; the pocket is a menu button whose menu of tucked links opens on ArrowDown, Enter or Space, moves with arrows, Home, End and first letters, and closes on Escape or Tab with focus back on the pocket.",
+      "files": [
+        {
+          "path": "registry/ui/pocket-nav.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1179"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "liquid-tabbar",
+      "type": "registry:ui",
+      "title": "Liquid Tab Bar",
+      "description": "A bottom tab bar whose indicator is a drop of liquid behind the chosen icon: choosing a tab sends the drop's head racing there on a spring that keeps its velocity while the tail holds back on a softer, later spring, and the neck between them is drawn every frame as a metaball bridge that thins as it stretches and pinches off when stretched too far. The head squashes along its speed and lands with a jiggle whose size is set by the viscosity, and the icon it lands on bounces on recoil; the icons are drawn a second time in the tint's contrast colour, clipped to the drop's live shape. The drop can be dragged 1:1 and thrown to a tab, and the tablist's arrows move and choose, Home and End jump.",
+      "files": [
+        {
+          "path": "registry/ui/liquid-tabbar.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1180"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
