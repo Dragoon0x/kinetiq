@@ -157,6 +157,7 @@ export function FilterSwipeDemo({
   return (
     <div className="flex w-full max-w-80 flex-col gap-3">
       <FilterSwipe
+        className="w-full max-w-72 self-center"
         alt="Coldbrook harbour at dawn"
         value={look}
         onValueChange={setLook}
