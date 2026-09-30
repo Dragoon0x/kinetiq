@@ -450,7 +450,7 @@ export function TxStatus({
                 onPointerEnter={() => setHovered(block.id)}
                 className={cn(
                   "flex h-9 flex-col items-center justify-center rounded-2 border font-mono text-[10px] tabular-nums transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isActive
                     ? "border-cobalt-bright bg-cobalt-wash text-cobalt-bright"
                     : "border-hairline-strong bg-surface-2 text-ink-2 hover:bg-accent",

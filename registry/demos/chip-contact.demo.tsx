@@ -12,7 +12,7 @@ const TICK_MS = 240;
 const STEP = 0.2;
 
 const CONTROL =
-  "flex h-8 shrink-0 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-8 shrink-0 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function ChipContactDemo() {
   const [running, setRunning] = React.useState(false);

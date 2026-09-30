@@ -159,7 +159,7 @@ function Segments<T extends string>({
             onKeyDown={(event) => handleKeyDown(event, index)}
             className={cn(
               "relative flex min-w-0 flex-1 cursor-pointer items-center justify-center rounded-full px-2 text-xs font-medium transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               checked
                 ? "text-foreground"
                 : "text-muted-foreground hover:text-foreground",
@@ -206,7 +206,7 @@ function StepButton({
       onClick={onPress}
       className={cn(
         "flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full border border-input bg-surface-1 text-ink-2 transition-colors outline-none",
-        "hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         "disabled:pointer-events-none disabled:opacity-40",
       )}
     >
@@ -365,7 +365,7 @@ export function ScheduleSend({
               onKeyDown={handleDateKeys}
               className={cn(
                 "flex h-9 min-w-0 flex-1 items-center justify-center gap-2 rounded-full border border-hairline bg-surface-1 px-3 outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               <span className="truncate font-mono text-xs text-ink tabular-nums">

@@ -285,7 +285,7 @@ export function ActivityRings({
                 onPointerEnter={() => setHovered(ring.id)}
                 onPointerLeave={() => setHovered(null)}
                 onKeyDown={(event) => handleKeyDown(event, index)}
-                className="flex h-9 w-full cursor-pointer items-center gap-2 rounded-2 px-2 text-left outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="flex h-9 w-full cursor-pointer items-center gap-2 rounded-2 px-2 text-left outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               >
                 <span
                   aria-hidden

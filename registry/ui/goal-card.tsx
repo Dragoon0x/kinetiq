@@ -365,7 +365,7 @@ export function GoalCard({
           onClick={add}
           className={cn(
             "flex h-9 items-center justify-center gap-1.5 rounded-2 px-3 text-sm font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             canAdd
               ? "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/95"
               : "cursor-default border border-hairline-strong bg-surface-2 text-ink-2",
@@ -393,7 +393,7 @@ export function GoalCard({
           onClick={toggle}
           className={cn(
             "flex h-9 items-center justify-center gap-1.5 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-sm font-medium text-ink transition-colors outline-none hover:bg-accent",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <span>Details</span>

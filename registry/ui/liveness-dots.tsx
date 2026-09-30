@@ -337,7 +337,7 @@ export function LivenessDots({
             }}
             className={cn(
               "absolute size-6 cursor-pointer rounded-full bg-cobalt-bright shadow-raised outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           />
         ) : null}
@@ -393,7 +393,7 @@ export function LivenessDots({
                 onClick={begin}
                 className={cn(
                   "flex h-9 items-center justify-center rounded-2 px-4 text-sm font-medium transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   failed
                     ? "border border-hairline-strong bg-surface-1 text-foreground hover:bg-accent"
                     : "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/95",

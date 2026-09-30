@@ -175,7 +175,7 @@ function coverage(dabs: Dab[]): number {
 }
 
 const buttonBase =
-  "flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-default disabled:opacity-50";
+  "flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-default disabled:opacity-50";
 
 /**
  * Paint the part to redo. A procedural picture with a round brush: dragging
@@ -419,7 +419,7 @@ export function InpaintBrush({
         }}
         className={cn(
           "relative w-full overflow-hidden rounded-2 border border-hairline bg-surface-2 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           paintable ? "cursor-crosshair" : "cursor-progress",
         )}
       >

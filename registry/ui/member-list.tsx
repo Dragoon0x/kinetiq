@@ -163,7 +163,7 @@ function MemberRow({
         onKeyDown={onKeyDown}
         className={cn(
           "relative flex w-full items-center gap-3 overflow-hidden rounded-2 px-2 py-2 text-left transition-colors outline-none",
-          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         {washing ? (

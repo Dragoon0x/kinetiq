@@ -209,7 +209,7 @@ function ToastPanel({
           transition={fade}
           className={cn(
             "flex h-7 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent active:bg-cobalt-wash",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           {actionLabel}
@@ -220,7 +220,7 @@ function ToastPanel({
           onClick={() => onDismiss?.()}
           className={cn(
             "flex size-7 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <svg

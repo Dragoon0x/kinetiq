@@ -61,12 +61,12 @@ const PAD_Y = 8;
 const FALLBACK_LINE = 20;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** For controls flush with a clipped card's edge: an offset ring would be cut
  *  off by the card's own `overflow-hidden`, so those draw theirs inside. */
 const focusRingInset =
-  "outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-ring";
 
 /** The dozen words of the house routing language that earn a colour. */
 const KEYWORDS = new Set([

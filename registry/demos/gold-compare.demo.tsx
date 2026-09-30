@@ -63,7 +63,7 @@ export function GoldCompareDemo() {
             aria-pressed={position === index}
             onClick={() => setIndex(position)}
             className={
-              "flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring " +
+              "flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid " +
               (position === index
                 ? "border-primary bg-primary text-primary-foreground"
                 : "border-hairline-strong hover:bg-accent")

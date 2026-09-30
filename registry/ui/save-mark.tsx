@@ -228,7 +228,7 @@ export function SaveMark({
           <button
             type="button"
             onClick={onRetry}
-            className="shrink-0 rounded-1 text-xs font-medium text-danger underline underline-offset-2 outline-none hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="shrink-0 rounded-1 text-xs font-medium text-danger underline underline-offset-2 outline-none hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             Retry
           </button>

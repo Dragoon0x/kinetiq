@@ -44,7 +44,7 @@ const SLOP = 4;
 const TICKS = ["12a", "6a", "12p", "6p", "12a"];
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const wrap = (minute: number): number => ((minute % DAY) + DAY) % DAY;
 const round3 = (value: number): number => Number(value.toFixed(3));

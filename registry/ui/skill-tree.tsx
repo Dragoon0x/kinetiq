@@ -501,7 +501,7 @@ function SkillNodeView({
             disabled={!interactive}
             className={cn(
               "relative flex size-9 items-center justify-center rounded-full border bg-surface-1 shadow-raised transition-colors",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               available
                 ? cn(
                     "border-2",

@@ -35,7 +35,7 @@ export function AmountPadDemo() {
               setAmount(0);
               setRefused(null);
             }}
-            className="flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             Clear
           </button>
@@ -46,7 +46,7 @@ export function AmountPadDemo() {
               setAmount(rounded);
               setRefused(null);
             }}
-            className="flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             Round up
           </button>

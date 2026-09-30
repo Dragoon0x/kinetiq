@@ -2,12 +2,7 @@
 
 import * as React from "react";
 
-import {
-  AnimatePresence,
-  animate,
-  motion,
-  useMotionValue,
-} from "motion/react";
+import { AnimatePresence, animate, motion, useMotionValue } from "motion/react";
 
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
 import { durations, easings, springs } from "@/registry/lib/motion";
@@ -91,7 +86,7 @@ export function RetryPulse({
         }}
         className={cn(
           "inline-flex h-9 items-center gap-2 rounded-2 px-3.5 text-sm font-medium transition-colors",
-          "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           "disabled:cursor-default",
           status === "success"
             ? "bg-success/15 text-success"
@@ -138,7 +133,11 @@ export function RetryPulse({
                     originX: "8px",
                     originY: "8px",
                   }}
-                  transition={{ duration: 0.8, ease: easings.linear, repeat: Infinity }}
+                  transition={{
+                    duration: 0.8,
+                    ease: easings.linear,
+                    repeat: Infinity,
+                  }}
                 />
               </motion.svg>
             )}
@@ -162,7 +161,11 @@ export function RetryPulse({
                   animate={{ pathLength: 1 }}
                   transition={
                     motionSafe
-                      ? { duration: durations.fast, ease: easings.enter, delay: 0.05 }
+                      ? {
+                          duration: durations.fast,
+                          ease: easings.enter,
+                          delay: 0.05,
+                        }
                       : { duration: 0 }
                   }
                 />

@@ -366,7 +366,7 @@ export function LoanSlider({
               if (gesture.current?.dragging === false) endGesture(event);
             }}
             onKeyDown={handleKeyDown}
-            className="relative h-6 w-full cursor-pointer touch-none rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="relative h-6 w-full cursor-pointer touch-none rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             <span className="absolute inset-x-0 top-1/2 h-1.5 -translate-y-1/2 overflow-hidden rounded-full bg-hairline-strong">
               <motion.span
@@ -413,7 +413,7 @@ export function LoanSlider({
                 onKeyDown={(event) => handleTermKeyDown(event, index)}
                 className={cn(
                   "relative flex min-w-0 flex-1 items-center justify-center rounded-1 px-1 text-xs font-medium transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   checked
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground",

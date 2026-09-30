@@ -77,14 +77,14 @@ export function LaunchChecklist({
   return (
     <div
       className={cn(
-        "border-border bg-card relative w-full max-w-md rounded-3 border",
+        "relative w-full max-w-md rounded-3 border border-border bg-card",
         className,
       )}
     >
-      <div className="border-border flex items-center justify-between border-b px-4 py-3">
+      <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <h3 className="text-sm font-semibold">{title}</h3>
         <span
-          className="text-muted-foreground font-mono text-xs tabular-nums"
+          className="font-mono text-xs text-muted-foreground tabular-nums"
           aria-hidden
         >
           {completed.length}/{steps.length}
@@ -99,10 +99,10 @@ export function LaunchChecklist({
         aria-valuemax={steps.length}
         aria-valuenow={completed.length}
         aria-valuetext={`${completed.length} of ${steps.length} steps complete`}
-        className="border-border relative mx-4 mt-3 h-1.5 rounded-full border"
+        className="relative mx-4 mt-3 h-1.5 rounded-full border border-border"
       >
         <motion.span
-          className="bg-primary absolute inset-y-0 left-0 rounded-full"
+          className="absolute inset-y-0 left-0 rounded-full bg-primary"
           initial={false}
           animate={{
             width: `${steps.length === 0 ? 0 : (completed.length / steps.length) * 100}%`,
@@ -113,7 +113,7 @@ export function LaunchChecklist({
           <span
             key={index}
             aria-hidden
-            className="bg-border absolute inset-y-0 w-px"
+            className="absolute inset-y-0 w-px bg-border"
             style={{ left: `${((index + 1) / steps.length) * 100}%` }}
           />
         ))}
@@ -131,7 +131,7 @@ export function LaunchChecklist({
             >
               <label
                 className={cn(
-                  "hover:bg-accent flex cursor-pointer items-start gap-3 rounded-2 px-2 py-2.5 transition-colors",
+                  "flex cursor-pointer items-start gap-3 rounded-2 px-2 py-2.5 transition-colors hover:bg-accent",
                   isDone && "opacity-60",
                 )}
               >
@@ -144,8 +144,8 @@ export function LaunchChecklist({
                 <span
                   aria-hidden
                   className={cn(
-                    "border-input mt-0.5 flex size-4.5 shrink-0 items-center justify-center rounded-1 border transition-colors",
-                    "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring",
+                    "mt-0.5 flex size-4.5 shrink-0 items-center justify-center rounded-1 border border-input transition-colors",
+                    "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring peer-focus-visible:outline-solid",
                     isDone && "border-primary bg-primary",
                   )}
                 >
@@ -159,9 +159,7 @@ export function LaunchChecklist({
                       strokeLinejoin="round"
                       initial={false}
                       animate={{ pathLength: isDone ? 1 : 0 }}
-                      transition={
-                        motionSafe ? springs.flick : { duration: 0 }
-                      }
+                      transition={motionSafe ? springs.flick : { duration: 0 }}
                     />
                   </svg>
                 </span>
@@ -170,7 +168,7 @@ export function LaunchChecklist({
                     {step.title}
                     <motion.span
                       aria-hidden
-                      className="bg-muted-foreground absolute top-1/2 left-0 h-px w-full origin-left"
+                      className="absolute top-1/2 left-0 h-px w-full origin-left bg-muted-foreground"
                       initial={false}
                       animate={{ scaleX: isDone ? 1 : 0 }}
                       transition={
@@ -181,7 +179,7 @@ export function LaunchChecklist({
                     />
                   </span>
                   {step.description && (
-                    <span className="text-muted-foreground mt-0.5 block text-xs">
+                    <span className="mt-0.5 block text-xs text-muted-foreground">
                       {step.description}
                     </span>
                   )}
@@ -203,14 +201,14 @@ export function LaunchChecklist({
                 : { opacity: 0 }
             }
             animate={
-              motionSafe
-                ? { opacity: 1, scale: 1, rotate: -8 }
-                : { opacity: 1 }
+              motionSafe ? { opacity: 1, scale: 1, rotate: -8 } : { opacity: 1 }
             }
             exit={{ opacity: 0, transition: { duration: durations.fast } }}
-            transition={motionSafe ? springs.recoil : { duration: durations.fast }}
+            transition={
+              motionSafe ? springs.recoil : { duration: durations.fast }
+            }
           >
-            <span className="border-primary text-primary bg-card/80 rounded-1 border-2 px-4 py-1 font-mono text-lg font-bold tracking-[0.2em] uppercase backdrop-blur-sm">
+            <span className="rounded-1 border-2 border-primary bg-card/80 px-4 py-1 font-mono text-lg font-bold tracking-[0.2em] text-primary uppercase backdrop-blur-sm">
               Calibrated
             </span>
           </motion.div>

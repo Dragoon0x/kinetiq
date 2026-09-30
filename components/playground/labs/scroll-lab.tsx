@@ -90,7 +90,12 @@ const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
     <LabBody
       controls={
         <>
-          <LabChips label="Mode" options={MODES} value={mode} onChange={setMode} />
+          <LabChips
+            label="Mode"
+            options={MODES}
+            value={mode}
+            onChange={setMode}
+          />
           <LabSlider
             label="Offset · start"
             value={offStart}
@@ -117,7 +122,7 @@ const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
             value={smoothing}
             onChange={setSmoothing}
           />
-          <div className="border-hairline rounded-2 border p-3">
+          <div className="rounded-2 border border-hairline p-3">
             <p className="text-label text-ink-3">READING</p>
             <dl className="mt-2 space-y-1 font-mono text-xs">
               <div className="flex justify-between">
@@ -129,7 +134,7 @@ const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
                 <dd className="text-cobalt-bright">{mode}</dd>
               </div>
             </dl>
-            <p className="text-ink-3 mt-2 font-mono text-[10px] tracking-wide uppercase">
+            <p className="mt-2 font-mono text-[10px] tracking-wide text-ink-3 uppercase">
               LINKED = REVERSIBLE · TRIGGERED = COMMITTED
             </p>
           </div>
@@ -143,15 +148,15 @@ const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
               ref={containerRef}
               tabIndex={0}
               aria-label="Demo page, scrollable"
-              className="border-hairline bg-surface-0 h-[330px] overflow-y-auto rounded-2 border p-4 focus-visible:outline-2"
+              className="h-[330px] overflow-y-auto rounded-2 border border-hairline bg-surface-0 p-4 focus-visible:outline-2 focus-visible:outline-solid"
             >
-              <div className="text-ink-3 flex h-24 items-center justify-center font-mono text-[11px] tracking-wide uppercase">
+              <div className="flex h-24 items-center justify-center font-mono text-[11px] tracking-wide text-ink-3 uppercase">
                 Scroll down ↓
               </div>
-              <div className="bg-surface-1 border-hairline mb-4 h-28 rounded-2 border" />
+              <div className="mb-4 h-28 rounded-2 border border-hairline bg-surface-1" />
               <div
                 ref={targetRef}
-                className="bg-surface-2 border-hairline-strong relative overflow-hidden rounded-2 border p-4"
+                className="relative overflow-hidden rounded-2 border border-hairline-strong bg-surface-2 p-4"
               >
                 <p className="text-label text-ink-3">TARGET SECTION</p>
                 <div className="flex h-24 items-center">
@@ -162,7 +167,7 @@ const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
                           ? { rotate: badgeRotate, x: badgeX }
                           : { rotate: 180, x: 80 }
                       }
-                      className="bg-cobalt flex size-12 items-center justify-center rounded-2 font-mono text-xs font-bold text-white"
+                      className="flex size-12 items-center justify-center rounded-2 bg-cobalt font-mono text-xs font-bold text-white"
                     >
                       KQ
                     </motion.div>
@@ -175,35 +180,77 @@ const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
                             : { opacity: 1, rotate: 180 }
                           : { opacity: 0.35, rotate: 0, scale: 1 }
                       }
-                      transition={motionSafe ? springs.snap : { duration: 0.15 }}
-                      className="bg-cobalt flex size-12 items-center justify-center rounded-2 font-mono text-xs font-bold text-white"
+                      transition={
+                        motionSafe ? springs.snap : { duration: 0.15 }
+                      }
+                      className="flex size-12 items-center justify-center rounded-2 bg-cobalt font-mono text-xs font-bold text-white"
                     >
                       KQ
                     </motion.div>
                   )}
                 </div>
-                <span className="text-signal absolute right-3 bottom-2 font-mono text-[10px] tabular-nums">
+                <span className="absolute right-3 bottom-2 font-mono text-[10px] text-signal tabular-nums">
                   {pct}%
                 </span>
               </div>
-              <div className="bg-surface-1 border-hairline mt-4 h-40 rounded-2 border" />
-              <div className="bg-surface-1 border-hairline mt-4 h-40 rounded-2 border" />
+              <div className="mt-4 h-40 rounded-2 border border-hairline bg-surface-1" />
+              <div className="mt-4 h-40 rounded-2 border border-hairline bg-surface-1" />
             </div>
 
             {/* the track diagram */}
-            <div aria-hidden className="hidden flex-col items-center gap-3 md:flex">
+            <div
+              aria-hidden
+              className="hidden flex-col items-center gap-3 md:flex"
+            >
               <svg
                 viewBox="0 0 60 200"
-                className="border-hairline bg-surface-0 h-[240px] rounded-2 border"
+                className="h-[240px] rounded-2 border border-hairline bg-surface-0"
               >
                 {/* page rail */}
-                <rect x={26} y={8} width={8} height={184} rx={2} fill="var(--hairline)" />
+                <rect
+                  x={26}
+                  y={8}
+                  width={8}
+                  height={184}
+                  rx={2}
+                  fill="var(--hairline)"
+                />
                 {/* target band (approximate position on the rail) */}
-                <rect x={26} y={78} width={8} height={34} rx={2} fill="var(--accent-wash)" />
-                <rect x={26} y={78} width={8} height={34} rx={2} fill="none" stroke="var(--accent)" strokeWidth={0.75} />
+                <rect
+                  x={26}
+                  y={78}
+                  width={8}
+                  height={34}
+                  rx={2}
+                  fill="var(--accent-wash)"
+                />
+                <rect
+                  x={26}
+                  y={78}
+                  width={8}
+                  height={34}
+                  rx={2}
+                  fill="none"
+                  stroke="var(--accent)"
+                  strokeWidth={0.75}
+                />
                 {/* offset trigger lines */}
-                <line x1={10} x2={50} y1={78 + 34 * (1 - offStart) + 20} y2={78 + 34 * (1 - offStart) + 20} stroke="var(--hairline-strong)" strokeDasharray="3 3" />
-                <line x1={10} x2={50} y1={78 - 34 * offEnd} y2={78 - 34 * offEnd} stroke="var(--hairline-strong)" strokeDasharray="3 3" />
+                <line
+                  x1={10}
+                  x2={50}
+                  y1={78 + 34 * (1 - offStart) + 20}
+                  y2={78 + 34 * (1 - offStart) + 20}
+                  stroke="var(--hairline-strong)"
+                  strokeDasharray="3 3"
+                />
+                <line
+                  x1={10}
+                  x2={50}
+                  y1={78 - 34 * offEnd}
+                  y2={78 - 34 * offEnd}
+                  stroke="var(--hairline-strong)"
+                  strokeDasharray="3 3"
+                />
                 {/* viewport window */}
                 <motion.rect
                   x={20}
@@ -218,7 +265,14 @@ const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
               </svg>
               {/* progress dial */}
               <svg viewBox="0 0 48 48" className="size-16">
-                <circle cx={24} cy={24} r={19} fill="none" stroke="var(--hairline)" strokeWidth={3} />
+                <circle
+                  cx={24}
+                  cy={24}
+                  r={19}
+                  fill="none"
+                  stroke="var(--hairline)"
+                  strokeWidth={3}
+                />
                 <motion.circle
                   cx={24}
                   cy={24}
@@ -230,7 +284,14 @@ const rotate = useTransform(scrollYProgress, [0, 1], [0, 180]);
                   transform="rotate(-90 24 24)"
                   style={{ pathLength: dialLength }}
                 />
-                <text x={24} y={28} textAnchor="middle" fontSize={10} fill="var(--ink-2)" className="font-mono">
+                <text
+                  x={24}
+                  y={28}
+                  textAnchor="middle"
+                  fontSize={10}
+                  fill="var(--ink-2)"
+                  className="font-mono"
+                >
                   {pct}
                 </text>
               </svg>

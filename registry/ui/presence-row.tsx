@@ -114,7 +114,7 @@ export function PresenceRow({
         onKeyDown={(event) => {
           if (event.key === "Escape") setOpen(false);
         }}
-        className="inline-flex rounded-full py-0.5 outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+        className="inline-flex rounded-full py-0.5 outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring focus-visible:outline-solid"
       >
         <ul className="flex items-center">
           <AnimatePresence initial={false} mode="popLayout">
@@ -179,7 +179,7 @@ export function PresenceRow({
                   aria-label={`Show ${overflow} more ${
                     overflow === 1 ? "person" : "people"
                   }`}
-                  className="flex size-8 items-center justify-center rounded-full border-2 border-card bg-surface-2 font-mono text-[11px] font-medium text-ink-2 outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  className="flex size-8 items-center justify-center rounded-full border-2 border-card bg-surface-2 font-mono text-[11px] font-medium text-ink-2 outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                 >
                   <span aria-hidden className="flex items-center leading-none">
                     +

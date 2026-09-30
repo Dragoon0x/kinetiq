@@ -60,7 +60,7 @@ const DRAG_SLOP = 4;
 const GAP = 8;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** Capture throws on a synthetic pointer id; the gesture works without it. */
 const setCapture = (element: Element, pointerId: number, on: boolean) => {

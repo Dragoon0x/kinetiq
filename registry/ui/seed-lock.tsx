@@ -256,7 +256,7 @@ export function SeedLock({
           onClick={toggleLock}
           className={cn(
             "flex size-9 shrink-0 items-center justify-center rounded-2 border transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             isLocked
               ? "border-cobalt-bright/50 bg-cobalt-wash text-cobalt-bright"
               : "border-hairline-strong bg-surface-0 text-ink-2 hover:bg-accent hover:text-foreground",
@@ -288,7 +288,7 @@ export function SeedLock({
           onClick={roll}
           className={cn(
             "flex h-9 shrink-0 items-center gap-2 rounded-2 border px-2.5 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             isLocked
               ? "cursor-not-allowed border-hairline text-ink-3"
               : "border-hairline-strong bg-surface-0 text-foreground hover:bg-accent active:bg-cobalt-wash",

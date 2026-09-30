@@ -303,7 +303,7 @@ export function SeedConfirm({
           type="button"
           disabled={placed.length === 0}
           onClick={() => undo(false)}
-          className="flex h-7 shrink-0 items-center rounded-2 border border-input px-2.5 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50"
+          className="flex h-7 shrink-0 items-center rounded-2 border border-input px-2.5 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50"
         >
           Undo
         </button>
@@ -391,7 +391,7 @@ export function SeedConfirm({
                       transition={chipTransition}
                       className={cn(
                         chipClass,
-                        "group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-ring",
+                        "group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-ring group-focus-visible:outline-solid",
                         shaking
                           ? "border-danger bg-surface-1 text-danger"
                           : "border-hairline-strong bg-surface-1 text-foreground group-hover:border-cobalt-bright group-hover:bg-cobalt-wash",

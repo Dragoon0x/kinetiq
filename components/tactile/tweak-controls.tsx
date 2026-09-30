@@ -14,7 +14,7 @@ import {
 import { cn } from "@/registry/lib/utils";
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const pct = (spec: RangeTweak, value: number) =>
   Number(

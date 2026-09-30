@@ -43,7 +43,7 @@ export function HueRingDemo() {
           </span>
           <button
             type="button"
-            className="flex h-9 items-center justify-center rounded-2 px-4 text-sm font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex h-9 items-center justify-center rounded-2 px-4 text-sm font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             style={{
               backgroundColor: hex,
               color: `hsl(${accent.h} 30% ${accent.l > 58 ? 12 : 96}%)`,

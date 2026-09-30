@@ -423,7 +423,7 @@ export function BridgeHop({
                     onKeyDown={(event) => handleKeyDown(event, index)}
                     className={cn(
                       "relative z-10 grid size-5 shrink-0 cursor-pointer place-items-center rounded-full border-2 bg-surface-1 transition-colors outline-none",
-                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       isFailed
                         ? "border-danger"
                         : isDone

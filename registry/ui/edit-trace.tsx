@@ -198,7 +198,7 @@ export function EditTrace({
                   transition={motionSafe ? springs.flick : FADE}
                   className={cn(
                     "flex h-5 items-center gap-1 rounded-full border border-hairline-strong px-1.5 text-[10px] font-medium tracking-[0.04em] text-ink-2 uppercase transition-colors outline-none hover:bg-accent",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     isOpen && "bg-accent text-foreground",
                   )}
                 >

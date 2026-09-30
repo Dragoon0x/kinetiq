@@ -98,7 +98,7 @@ const waitShort = (seconds: number): string =>
     : `${Math.round(seconds)} s`;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-ring";
 
 /**
  * What is waiting to go out, in the order it will go. The head carries a rule

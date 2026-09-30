@@ -20,7 +20,7 @@ const SEED_NAMES = ROSTER.slice(0, 6);
 const SEED_HISTORY = [4, 5, 5, 6, 5, 6, 7, 6, 6, 5, 6, 6];
 
 const chip =
-  "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
+  "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
 
 export function OnlineCountDemo() {
   const [names, setNames] = React.useState<string[]>(SEED_NAMES);

@@ -411,7 +411,7 @@ export function BillCalendar({
                       onPointerCancel={(event) => endDrag(event, false)}
                       className={cn(
                         "flex h-11 w-full cursor-pointer flex-col items-stretch gap-0.5 rounded-2 border p-1 text-left transition-colors outline-none",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         isTarget
                           ? "border-cobalt-bright bg-cobalt-wash"
                           : short

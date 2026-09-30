@@ -25,7 +25,7 @@ const SCAFFOLD_HOLD_MS = 700;
 const DELAYS = [120, 90, 160, 110, 140, 100, 180, 130, 90, 150, 120, 100];
 
 const button =
-  "flex h-8 items-center rounded-2 border border-primary bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
+  "flex h-8 items-center rounded-2 border border-primary bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
 
 export function CodeScaffoldDemo() {
   const [arrived, setArrived] = React.useState(0);

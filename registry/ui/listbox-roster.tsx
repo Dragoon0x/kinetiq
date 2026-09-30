@@ -116,7 +116,7 @@ export function ListboxRoster({
         aria-multiselectable
         aria-labelledby={label ? labelId : undefined}
         aria-label={label ? undefined : ariaLabel}
-        className="border-hairline bg-surface-1 flex max-h-64 flex-col gap-0.5 overflow-auto rounded-3 border p-1"
+        className="flex max-h-64 flex-col gap-0.5 overflow-auto rounded-3 border border-hairline bg-surface-1 p-1"
       >
         {options.map((option, index) => {
           const isSelected = selectedSet.has(option.id);
@@ -134,7 +134,7 @@ export function ListboxRoster({
                 toggle(option.id);
               }}
               onKeyDown={(event) => handleKeyDown(event, index)}
-              className="relative flex cursor-pointer items-center gap-2.5 rounded-2 px-2.5 py-2 outline-none focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
+              className="relative flex cursor-pointer items-center gap-2.5 rounded-2 px-2.5 py-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring focus-visible:outline-solid"
             >
               {isActive &&
                 (motionSafe ? (
@@ -142,12 +142,12 @@ export function ListboxRoster({
                     aria-hidden
                     layoutId={markerId}
                     transition={springs.snap}
-                    className="bg-surface-2 absolute inset-0 rounded-2"
+                    className="absolute inset-0 rounded-2 bg-surface-2"
                   />
                 ) : (
                   <span
                     aria-hidden
-                    className="bg-surface-2 absolute inset-0 rounded-2"
+                    className="absolute inset-0 rounded-2 bg-surface-2"
                   />
                 ))}
 
@@ -181,11 +181,11 @@ export function ListboxRoster({
               </span>
 
               <span className="relative min-w-0 flex-1">
-                <span className="text-ink block truncate text-sm">
+                <span className="block truncate text-sm text-ink">
                   {option.label}
                 </span>
                 {option.hint && (
-                  <span className="text-ink-3 block truncate text-xs">
+                  <span className="block truncate text-xs text-ink-3">
                     {option.hint}
                   </span>
                 )}
@@ -198,7 +198,7 @@ export function ListboxRoster({
       <p
         role="status"
         aria-live="polite"
-        className="text-ink-3 font-mono text-[10px] tracking-[0.08em] uppercase"
+        className="font-mono text-[10px] tracking-[0.08em] text-ink-3 uppercase"
       >
         <span className="text-[var(--signal,var(--primary))]">
           {selected.length}

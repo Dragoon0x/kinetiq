@@ -291,7 +291,7 @@ export function FreshnessTag({
                     transition={rise}
                     className={cn(
                       "flex h-6 shrink-0 items-center justify-center overflow-hidden rounded-2 border border-hairline bg-surface-1 text-ink-2 transition-colors outline-none hover:border-hairline-strong hover:text-ink disabled:cursor-default",
-                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     )}
                   >
                     <motion.svg

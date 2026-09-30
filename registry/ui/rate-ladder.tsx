@@ -315,7 +315,7 @@ export function RateLadder({
                 transition={motionSafe ? springs.snap : { duration: 0 }}
                 className={cn(
                   "flex h-9 w-full items-center justify-between gap-3 rounded-2 border px-3 text-sm transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   checked
                     ? "border-cobalt-bright bg-surface-0 font-medium text-ink shadow-raised"
                     : "border-hairline bg-surface-2 text-ink-2 hover:bg-accent hover:text-ink",

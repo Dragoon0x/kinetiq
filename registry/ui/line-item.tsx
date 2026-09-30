@@ -53,7 +53,7 @@ const DIGITS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 const toCents = (value: number) => Math.round(value * 100) / 100;
 
 const STEP_BUTTON =
-  "flex size-8 shrink-0 items-center justify-center rounded-full text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-35";
+  "flex size-8 shrink-0 items-center justify-center rounded-full text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-35";
 
 /** Keeps a callback out of an effect's dependencies so a re-render cannot re-fire it. */
 function useLatest<T>(value: T) {
@@ -335,7 +335,7 @@ export function LineItem({
               style={{ minWidth: quantityWidth }}
               className={cn(
                 "flex h-8 items-center justify-center rounded-full font-mono text-sm font-medium tabular-nums outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               <Digits text={String(current)} motionSafe={motionSafe} />

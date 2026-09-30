@@ -118,7 +118,7 @@ function QuoteCard({
   }, [node]);
 
   const quiet =
-    "flex items-center rounded-2 outline-none transition-colors focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2";
+    "flex items-center rounded-2 outline-none transition-colors focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2";
 
   return (
     <div
@@ -355,7 +355,7 @@ export function QuoteBlock({
               tabIndex={-1}
               className={cn(
                 "flex flex-col gap-0.5 rounded-3 outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 own ? "items-end" : "items-start",
               )}
             >

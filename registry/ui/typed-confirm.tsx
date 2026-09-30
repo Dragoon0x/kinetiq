@@ -297,7 +297,7 @@ export function TypedConfirm({
               <button
                 type="button"
                 onClick={cancel}
-                className="flex h-9 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-sm font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="flex h-9 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-sm font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               >
                 Cancel
               </button>
@@ -305,7 +305,7 @@ export function TypedConfirm({
                 type="button"
                 disabled={!exact}
                 onClick={confirm}
-                className="relative flex h-9 flex-1 items-center justify-center overflow-hidden rounded-2 border border-danger/40 text-sm font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed"
+                className="relative flex h-9 flex-1 items-center justify-center overflow-hidden rounded-2 border border-danger/40 text-sm font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:cursor-not-allowed"
               >
                 {/* Fills from the left in proportion to the match. A tween, not
                     a spring: this button must never overshoot. */}

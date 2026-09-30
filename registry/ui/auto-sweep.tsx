@@ -460,7 +460,7 @@ export function AutoSweep({
           onClick={sweep}
           className={cn(
             "flex h-9 items-center justify-center gap-2 rounded-2 px-3 text-sm font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             canSweep
               ? "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/95"
               : "cursor-default border border-hairline-strong bg-surface-2 text-ink-2",

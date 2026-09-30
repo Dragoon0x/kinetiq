@@ -379,7 +379,7 @@ export function DayClose({
         disabled={current === "closed"}
         className={cn(
           "flex h-9 w-full items-center justify-center rounded-2 border border-primary bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-45",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-45",
         )}
       >
         {CONTROL_LABELS[current]}

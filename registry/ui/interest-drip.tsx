@@ -303,7 +303,7 @@ export function InterestDrip({
           }}
           className={cn(
             "-mx-1 flex items-end gap-1 rounded-2 px-1 py-0.5 text-left outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <span className="font-mono text-2xl leading-none font-medium text-ink">

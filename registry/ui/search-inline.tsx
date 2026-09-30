@@ -104,7 +104,7 @@ function useLatest<T>(value: T) {
 }
 
 const STEP =
-  "grid size-8 shrink-0 place-items-center rounded-2 border border-input text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
+  "grid size-8 shrink-0 place-items-center rounded-2 border border-input text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
 
 /** The two steps share one shell, so they share one height and one focus ring. */
 function StepButton({
@@ -401,7 +401,7 @@ export function SearchInline({
           spellCheck={false}
           className={cn(
             "h-8 min-w-0 flex-1 rounded-2 border border-input bg-surface-0 px-2.5 text-sm text-foreground placeholder:text-ink-3",
-            "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         />
         <span
@@ -434,7 +434,7 @@ export function SearchInline({
         style={{ maxHeight: Math.round(maxHeight) }}
         className={cn(
           "overflow-y-auto overscroll-contain rounded-3 border border-hairline bg-surface-1 p-3 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <ol role="list" className="flex flex-col gap-3">

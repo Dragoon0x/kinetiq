@@ -56,7 +56,7 @@ export function LiveRowsDemo() {
         <button
           type="button"
           onClick={() => setRunning((was) => !was)}
-          className="inline-flex h-8 items-center rounded-2 border border-input px-3 text-xs font-medium outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="inline-flex h-8 items-center rounded-2 border border-input px-3 text-xs font-medium outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           {running ? "Pause feed" : "Start feed"}
         </button>
@@ -64,7 +64,7 @@ export function LiveRowsDemo() {
           type="button"
           onClick={() => setTrades([])}
           disabled={trades.length === 0}
-          className="inline-flex h-8 items-center rounded-2 border border-input px-3 text-xs font-medium outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-40"
+          className="inline-flex h-8 items-center rounded-2 border border-input px-3 text-xs font-medium outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:opacity-40"
         >
           Clear
         </button>

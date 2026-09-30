@@ -392,7 +392,7 @@ export function GoldCompare({
             onClick={() => setMode(!current)}
             className={cn(
               "relative h-5 w-9 shrink-0 rounded-full border transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               current
                 ? "border-primary bg-primary"
                 : "border-hairline-strong bg-surface-2",

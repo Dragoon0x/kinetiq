@@ -417,7 +417,7 @@ export function AppealCard({
                 onChange={(event) => setDraft(event.target.value)}
                 className={cn(
                   "w-full resize-none rounded-2 border border-input bg-surface-0 px-2.5 py-2 text-sm leading-snug outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:opacity-50",
                 )}
               />
               <span id={hintId} className="sr-only">
@@ -436,7 +436,7 @@ export function AppealCard({
                   onClick={send}
                   className={cn(
                     "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:opacity-50",
                   )}
                 >
                   Send appeal

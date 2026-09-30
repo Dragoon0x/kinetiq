@@ -259,7 +259,7 @@ export function WaveScrub({
         onPointerLeave={() => {
           if (!grab.current) setHoverAt(null);
         }}
-        className="relative h-12 w-full cursor-pointer touch-pan-y rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="relative h-12 w-full cursor-pointer touch-pan-y rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         <div
           aria-hidden
@@ -310,7 +310,7 @@ export function WaveScrub({
           type="button"
           aria-label={isPlaying ? "Pause" : "Play"}
           onClick={() => setPlaying(!isPlaying)}
-          className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <svg viewBox="0 0 16 16" aria-hidden className="size-4 shrink-0">
             <motion.path

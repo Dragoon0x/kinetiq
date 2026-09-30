@@ -41,7 +41,7 @@ export type CallQualityProps = {
 const WORDS = ["No line", "Poor", "Fair", "Good", "Excellent"] as const;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const clampGrade = (value: number): number =>
   Math.min(4, Math.max(0, Math.round(value)));

@@ -304,7 +304,7 @@ export function ToolBudget({
               }}
               className={cn(
                 "flex h-8 items-center gap-1.5 rounded-2 border border-hairline-strong bg-surface-0 px-2.5 text-xs font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 locked
                   ? "cursor-not-allowed text-ink-3"
                   : "text-foreground hover:bg-accent active:bg-cobalt-wash",

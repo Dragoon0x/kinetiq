@@ -61,7 +61,7 @@ const STROKE = {
 } as const;
 
 const ICON_BUTTON =
-  "grid size-7 shrink-0 place-items-center rounded-2 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-ink focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2";
+  "grid size-7 shrink-0 place-items-center rounded-2 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-ink focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2";
 
 /** Keeps callbacks out of effect dependencies so a re-render cannot restart the ring. */
 function useLatest<T>(value: T) {
@@ -280,7 +280,7 @@ export function KeyVault({
             onClick={() => setUnlocked(!isUnlocked)}
             className={cn(
               "grid size-9 place-items-center rounded-full border transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               isUnlocked
                 ? "border-cobalt-bright/50 bg-cobalt-wash text-cobalt-bright"
                 : "border-hairline bg-surface-2 text-ink-2 hover:bg-accent",

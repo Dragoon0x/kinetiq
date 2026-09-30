@@ -56,7 +56,7 @@ const total = (list: FlowStream[]) =>
   list.reduce((all, stream) => all + stream.amount, 0);
 
 const tab =
-  "inline-flex h-8 items-center justify-center rounded-2 border px-3 text-xs font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "inline-flex h-8 items-center justify-center rounded-2 border px-3 text-xs font-medium outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function CashflowRiverDemo() {
   const [monthId, setMonthId] = React.useState(NOVEMBER.id);

@@ -238,7 +238,7 @@ export function TabBar({
             onKeyDown={(event) => handleKeyDown(event, index)}
             className={cn(
               "relative flex min-w-0 flex-1 cursor-pointer flex-col items-center justify-center gap-1 rounded-2 px-1 py-2 transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               isActive
                 ? "text-cobalt-bright"
                 : "text-ink-3 hover:text-ink-2 active:text-ink",

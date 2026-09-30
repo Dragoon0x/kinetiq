@@ -324,7 +324,7 @@ export function SwipeTabs({
             onKeyDown={handleKeyDown}
             className={cn(
               "flex h-9 min-w-0 flex-1 cursor-pointer items-center justify-center rounded-t-2 px-3 text-sm font-medium outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               "transition-colors",
               i === index
                 ? "text-foreground"

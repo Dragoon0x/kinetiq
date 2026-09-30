@@ -245,7 +245,7 @@ export function TimestampRail({
           aria-checked={elapsed}
           aria-label="Elapsed times"
           onClick={() => setMode(elapsed ? "clock" : "elapsed")}
-          className="flex h-7 shrink-0 items-center gap-1.5 rounded-full border border-hairline-strong pr-2 pl-1 transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex h-7 shrink-0 items-center gap-1.5 rounded-full border border-hairline-strong pr-2 pl-1 transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <span
             aria-hidden
@@ -275,7 +275,7 @@ export function TimestampRail({
         style={{ maxHeight }}
         className={cn(
           "relative flex w-full flex-col overflow-x-clip overflow-y-auto rounded-3 border border-hairline bg-surface-1 p-1.5 [contain:paint] focus-visible:outline-ring",
-          "focus-visible:outline-2 focus-visible:-outline-offset-2",
+          "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid",
         )}
       >
         {lines.map((line, index) => {
@@ -306,7 +306,7 @@ export function TimestampRail({
                   onPointerLeave={() => holdGap(null, null)}
                   onFocus={() => holdGap(gap, gapIndex)}
                   onBlur={() => holdGap(null, null)}
-                  className="flex w-full items-center gap-2 rounded-2 px-1.5 py-0.5 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
+                  className="flex w-full items-center gap-2 rounded-2 px-1.5 py-0.5 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                 >
                   <span className="flex w-[3.4rem] shrink-0 justify-center">
                     <motion.span

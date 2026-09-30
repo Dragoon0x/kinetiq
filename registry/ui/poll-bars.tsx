@@ -235,7 +235,7 @@ export function PollBars({
               onFocus={() => setFocusIndex(index)}
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
-                "relative flex h-11 w-full items-center gap-2.5 overflow-hidden rounded-2 border px-3 text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "relative flex h-11 w-full items-center gap-2.5 overflow-hidden rounded-2 border px-3 text-left outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked ? "border-cobalt-bright/60" : "border-hairline",
                 locked && !checked
                   ? "cursor-default"

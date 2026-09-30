@@ -345,7 +345,7 @@ export function TimeDial({
               aria-pressed={phase === target}
               onClick={() => goPhase(target)}
               className={cn(
-                "rounded-1 border-b-2 px-1 font-mono text-2xl leading-8 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "rounded-1 border-b-2 px-1 font-mono text-2xl leading-8 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 phase === target
                   ? "border-primary text-foreground"
                   : "border-transparent text-ink-3 hover:text-foreground",
@@ -448,7 +448,7 @@ export function TimeDial({
           aria-valuetext={spoken(hour, minute, format)}
           onKeyDown={onKeyDown}
           {...drag}
-          className="absolute inset-0 cursor-pointer rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="absolute inset-0 cursor-pointer rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         />
       </div>
 
@@ -472,7 +472,7 @@ export function TimeDial({
                 commit(to24(hour, half === "AM" ? "PM" : "AM"), minute);
               }}
               className={cn(
-                "relative flex w-12 items-center justify-center rounded-full font-mono text-[11px] tracking-[0.08em] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "relative flex w-12 items-center justify-center rounded-full font-mono text-[11px] tracking-[0.08em] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 meridiem === half
                   ? "text-foreground"
                   : "text-ink-3 hover:text-foreground",

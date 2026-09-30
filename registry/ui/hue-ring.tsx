@@ -273,7 +273,7 @@ export function HueRing({
             dragOrigin.current = null;
             captured.current = false;
           }}
-          className="absolute inset-0 cursor-pointer rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="absolute inset-0 cursor-pointer rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <div
             aria-hidden
@@ -369,7 +369,7 @@ export function HueRing({
           barDrag.current = null;
           barCaptured.current = false;
         }}
-        className="relative h-6 w-full cursor-pointer rounded-full border border-hairline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="relative h-6 w-full cursor-pointer rounded-full border border-hairline outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         style={{
           background: `linear-gradient(90deg, hsl(${hue} 82% 0%), hsl(${hue} 82% 50%), hsl(${hue} 82% 100%))`,
         }}

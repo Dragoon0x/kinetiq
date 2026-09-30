@@ -358,7 +358,7 @@ export function TokenBudget({
           transition={thumbTransition}
           className={cn(
             "absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 bg-surface-0 shadow-sm transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             cut ? "border-warn" : "border-cobalt-bright",
             dragging ? "cursor-grabbing" : "cursor-grab",
           )}

@@ -63,12 +63,12 @@ const MAP_W = 120;
 const MAP_H = 60;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** For controls flush with a clipped card's edge: an offset ring would be cut
  *  off by the card's own `overflow-hidden`, so those draw theirs inside. */
 const focusRingInset =
-  "outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-ring";
 
 /**
  * A 32-bit integer hash. No trigonometry, so the drawn street grid is identical

@@ -383,7 +383,7 @@ export function TwoFactor({
               onKeyDown={(event) => handleTabKey(event, index)}
               className={cn(
                 "relative flex min-w-0 flex-auto items-center justify-center rounded-full px-2 text-xs font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 selected
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground",

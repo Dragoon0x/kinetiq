@@ -234,7 +234,7 @@ export function ZoomGallery({
           hovered.current = false;
           setZoom(false);
         }}
-        className="relative aspect-[4/3] w-full overflow-hidden rounded-3 border border-hairline bg-surface-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="relative aspect-[4/3] w-full overflow-hidden rounded-3 border border-hairline bg-surface-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         <AnimatePresence initial={false}>
           {active ? (
@@ -326,7 +326,7 @@ export function ZoomGallery({
           onKeyDown={onZoomKeyDown}
           className={cn(
             "inline-flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-full border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             zoomed
               ? "bg-cobalt-wash text-cobalt-bright"
               : "bg-surface-1 text-ink-2 hover:bg-accent hover:text-foreground",
@@ -369,7 +369,7 @@ export function ZoomGallery({
               tabIndex={selected ? 0 : -1}
               onClick={() => select(image.id)}
               onKeyDown={onTabKeyDown}
-              className="relative aspect-square cursor-pointer overflow-hidden rounded-2 border border-hairline bg-surface-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="relative aspect-square cursor-pointer overflow-hidden rounded-2 border border-hairline bg-surface-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             >
               <span className="absolute inset-0">{image.art}</span>
               {selected &&

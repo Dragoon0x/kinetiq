@@ -273,7 +273,7 @@ function NoteItem({
           }}
           className={cn(
             "grid size-8 shrink-0 place-items-center rounded-full bg-current/15 transition-colors outline-none hover:bg-current/25",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <svg viewBox="0 0 16 16" aria-hidden className="size-3.5">
@@ -322,7 +322,7 @@ function NoteItem({
           onPointerCancel={(event) => capture.up(event)}
           className={cn(
             "relative h-7 min-w-0 flex-1 cursor-pointer touch-none rounded-1 outline-none select-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <span
@@ -633,7 +633,7 @@ export function VoiceBubble({
           }}
           className={cn(
             "grid size-9 shrink-0 touch-none place-items-center rounded-full transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             recording
               ? "bg-danger text-primary-foreground"
               : "bg-primary text-primary-foreground hover:opacity-90",

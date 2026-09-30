@@ -37,7 +37,7 @@ const CAPTURE_AT = 4;
 
 /** Undo and Clear are one row, so they are one control at one height. */
 const CONTROL =
-  "inline-flex h-8 items-center rounded-2 border border-hairline-strong bg-surface-0 px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
+  "inline-flex h-8 items-center rounded-2 border border-hairline-strong bg-surface-0 px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
 
 /** The ink body: one side out, the other side back, closed. */
 function ribbon(stroke: SignatureStroke): string {
@@ -430,7 +430,7 @@ export function SignaturePad({
             }}
             className={cn(
               "h-9 w-full min-w-0 rounded-2 border border-input bg-surface-1 px-3 text-sm text-foreground italic outline-none placeholder:text-muted-foreground",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           />
           <p id={noteId} className="mt-1.5 text-xs text-muted-foreground">

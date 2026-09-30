@@ -340,7 +340,7 @@ export function ContextLines({
   };
 
   const stepButton =
-    "flex size-6 shrink-0 items-center justify-center rounded-1 font-mono text-xs text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-40 disabled:hover:bg-transparent";
+    "flex size-6 shrink-0 items-center justify-center rounded-1 font-mono text-xs text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-40 disabled:hover:bg-transparent";
 
   return (
     <div className={cn("flex w-full flex-col gap-2", className)}>
@@ -367,7 +367,7 @@ export function ContextLines({
             aria-valuemax={ceiling}
             aria-valuetext={`${plural(shown, "line", "lines")} either side`}
             onKeyDown={handleStepperKeys}
-            className="flex h-6 items-center rounded-1 px-1 font-mono text-[11px] font-medium text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex h-6 items-center rounded-1 px-1 font-mono text-[11px] font-medium text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             <span aria-hidden className="text-ink-3">
               ±
@@ -434,7 +434,7 @@ export function ContextLines({
                 aria-label={`Line ${match.line}, ${match.text}. ${sides}`}
                 onClick={() => toggle(match)}
                 className={cn(
-                  "flex w-full items-center gap-2 px-2 py-1 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                  "flex w-full items-center gap-2 px-2 py-1 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isOpen && "bg-surface-2",
                 )}
               >

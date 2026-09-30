@@ -477,7 +477,7 @@ export function CashflowRiver({
                 onKeyDown={(event) => handleKeyDown(event, index)}
                 className={cn(
                   "flex h-6 cursor-pointer items-center gap-1.5 rounded-full border px-2 text-[11px] font-medium transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isActive
                     ? "border-cobalt-bright bg-cobalt-wash text-foreground"
                     : "border-hairline bg-surface-2 text-ink-2 hover:border-hairline-strong",

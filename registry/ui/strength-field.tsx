@@ -190,7 +190,7 @@ export function StrengthField({
               onClick={() => setRevealed((shown) => !shown)}
               className={cn(
                 "flex size-8 shrink-0 items-center justify-center rounded-2 text-muted-foreground transition-colors outline-none hover:text-foreground",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               <svg

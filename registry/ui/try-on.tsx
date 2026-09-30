@@ -867,7 +867,7 @@ export function TryOn({
                   preview(option.value);
                 }}
                 onClick={(event) => onPress(option.value, event)}
-                className="relative inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed"
+                className="relative inline-flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:cursor-not-allowed"
               >
                 {kept ? (
                   <motion.span

@@ -88,7 +88,7 @@ export function SplitConfirmDemo({
                     setDone(false);
                     setLast(null);
                   }}
-                  className="rounded-1 text-foreground underline underline-offset-2 outline-none hover:text-cobalt-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  className="rounded-1 text-foreground underline underline-offset-2 outline-none hover:text-cobalt-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                 >
                   Undo
                 </button>

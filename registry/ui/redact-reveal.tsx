@@ -75,7 +75,7 @@ export function RedactReveal({
         onClick={() => setPressedOpen((value) => !value)}
         className={cn(
           "inline-block cursor-pointer rounded-[0.15em]",
-          "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           className,
         )}
       >
@@ -93,7 +93,7 @@ export function RedactReveal({
       onBlur={() => setHovering(false)}
       className={cn(
         "inline-block cursor-default rounded-[0.15em] outline-none",
-        "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         className,
       )}
     >

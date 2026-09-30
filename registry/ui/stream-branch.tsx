@@ -202,7 +202,7 @@ function Pane({
               onClick={onKeep}
               className={cn(
                 "flex h-7 items-center rounded-2 border px-2.5 text-xs font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 kept
                   ? "border-primary bg-primary text-primary-foreground"
                   : "border-hairline-strong hover:bg-accent",
@@ -333,7 +333,7 @@ export function StreamBranch({
               onClick={() => choose(null)}
               className={cn(
                 "flex h-7 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               Compare again

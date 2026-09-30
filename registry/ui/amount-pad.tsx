@@ -465,7 +465,7 @@ export function AmountPad({
               transition={springs.flick}
               className={cn(
                 "flex h-12 items-center justify-center rounded-2 border font-mono text-lg tabular-nums transition-colors outline-none select-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 inactive && "cursor-default opacity-40",
                 lit && !inactive
                   ? "border-cobalt-bright bg-cobalt-wash text-cobalt-bright"

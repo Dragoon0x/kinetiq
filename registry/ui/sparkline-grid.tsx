@@ -47,7 +47,7 @@ const VIEW_H = 24;
 const PAD = 3;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** A word unit takes a space, a symbol does not: "41 jobs", "3.4%". */
 const defaultFormat = (value: number, unit: string): string =>

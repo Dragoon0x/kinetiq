@@ -184,7 +184,7 @@ export function StarMark({
               }}
               tabIndex={-1}
               aria-current={jumped === message.id ? "true" : undefined}
-              className="flex flex-col rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="flex flex-col rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             >
               <div className="flex items-center gap-1.5 px-1">
                 <span className="text-[11px] font-medium text-ink-2">
@@ -204,7 +204,7 @@ export function StarMark({
                       : `Save ${message.author}'s message, sent ${message.time}`
                   }
                   className={cn(
-                    "grid size-7 shrink-0 place-items-center rounded-full transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "grid size-7 shrink-0 place-items-center rounded-full transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     isSaved ? "text-warn" : "text-ink-3",
                   )}
                 >
@@ -359,7 +359,7 @@ export function StarMark({
                       onClick={() => jump(message)}
                       title={message.text}
                       aria-label={`Go to ${message.author}'s message, sent ${message.time}`}
-                      className="flex h-8 min-w-0 flex-1 items-center gap-2 rounded-2 px-2 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                      className="flex h-8 min-w-0 flex-1 items-center gap-2 rounded-2 px-2 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                     >
                       <span className="shrink-0 text-[11px] font-medium text-ink-2">
                         {message.author}
@@ -375,7 +375,7 @@ export function StarMark({
                       type="button"
                       onClick={() => toggle(message)}
                       aria-label={`Remove ${message.author}'s message, sent ${message.time}, from saved`}
-                      className="grid size-8 shrink-0 place-items-center rounded-2 text-warn transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                      className="grid size-8 shrink-0 place-items-center rounded-2 text-warn transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                     >
                       <svg viewBox="0 0 16 16" aria-hidden className="size-4">
                         <path d={STAR} fill="currentColor" />

@@ -472,7 +472,7 @@ export function LiquidityRange({
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
                 "absolute inset-y-0 z-10 w-0.5 -translate-x-1/2 cursor-grab rounded-full bg-primary outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 dragIndex === index && "cursor-grabbing",
               )}
               initial={false}

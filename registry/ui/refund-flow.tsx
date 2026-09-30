@@ -350,7 +350,7 @@ export function RefundFlow({
             }}
             onKeyDown={handleKeyDown}
             className={cn(
-              "relative h-6 w-full touch-none rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "relative h-6 w-full touch-none rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               locked ? "cursor-default opacity-60" : "cursor-pointer",
             )}
           >
@@ -469,7 +469,7 @@ export function RefundFlow({
         onClick={refund}
         className={cn(
           "flex h-9 w-full items-center justify-center rounded-2 px-4 text-sm font-medium transition-colors outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           phase === "landed"
             ? "border border-hairline-strong bg-surface-2 text-ink-2"
             : "bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60",

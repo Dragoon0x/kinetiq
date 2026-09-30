@@ -77,7 +77,7 @@ export function CopySlipDemo({
               type="button"
               aria-pressed={blocked}
               onClick={() => setBlocked((b) => !b)}
-              className="group inline-flex h-8 items-center gap-2 rounded-2 border border-hairline-strong px-3 text-xs font-medium text-ink-2 transition-colors outline-none hover:bg-surface-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-danger/50 aria-pressed:text-danger"
+              className="group inline-flex h-8 items-center gap-2 rounded-2 border border-hairline-strong px-3 text-xs font-medium text-ink-2 transition-colors outline-none hover:bg-surface-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid aria-pressed:border-danger/50 aria-pressed:text-danger"
             >
               <span
                 aria-hidden

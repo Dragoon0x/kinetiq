@@ -356,7 +356,7 @@ export function SplitBill({
                 onKeyDown={(event) => handleKeyDown(event, index)}
                 className={cn(
                   "relative h-2 w-full cursor-ew-resize touch-none rounded-full bg-hairline-strong outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 <motion.span
@@ -388,7 +388,7 @@ export function SplitBill({
           disabled={isEven}
           className={cn(
             "flex h-8 shrink-0 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             isEven ? "cursor-not-allowed text-ink-3" : "hover:bg-accent",
           )}
         >

@@ -71,7 +71,7 @@ const defaultFormat = (value: number) => money.format(value);
 const DEFAULT_WEEKDAYS = ["M", "T", "W", "T", "F", "S", "S"];
 
 const ICON_BUTTON =
-  "flex size-8 shrink-0 items-center justify-center rounded-2 border border-input bg-surface-1 text-ink-2 outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
+  "flex size-8 shrink-0 items-center justify-center rounded-2 border border-input bg-surface-1 text-ink-2 outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
 
 /**
  * The month total, rolling.
@@ -586,7 +586,7 @@ export function DividendCalendar({
                           onKeyDown={(event) => handleKeyDown(event, day)}
                           className={cn(
                             "relative flex aspect-square w-full items-center justify-center rounded-2 border transition-colors outline-none",
-                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                             payout
                               ? "border-hairline-strong bg-surface-2"
                               : "border-transparent hover:border-hairline",

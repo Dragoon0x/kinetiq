@@ -238,7 +238,7 @@ function ForgetRow({
           onClick={forget}
           className={cn(
             "flex h-7 shrink-0 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           Forget
@@ -336,7 +336,7 @@ function ForgetRow({
                 onClick={undo}
                 className={cn(
                   "flex h-7 shrink-0 items-center rounded-2 border border-hairline-strong bg-surface-0 px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent active:bg-cobalt-wash",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 Undo
@@ -451,7 +451,7 @@ export function ForgetSweep({
             aria-labelledby={labelId}
             className={cn(
               "flex flex-col gap-1.5 rounded-2 outline-none empty:hidden",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             <AnimatePresence initial={false}>

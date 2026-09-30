@@ -416,7 +416,7 @@ export function ModQueue({
             onClick={() => act(action.verdict)}
             className={cn(
               "flex h-8 w-full items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               inactive
                 ? "cursor-default text-ink-3 opacity-50"
                 : cn("hover:bg-accent", action.tone),

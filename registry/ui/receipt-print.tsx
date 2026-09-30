@@ -446,7 +446,7 @@ export function ReceiptPrint({
               onClick={tear}
               className={cn(
                 "flex h-8 items-center gap-1.5 rounded-2 border border-hairline-strong px-3 text-xs font-medium text-ink transition-colors outline-none hover:bg-accent",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               <svg

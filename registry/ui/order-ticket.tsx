@@ -433,7 +433,7 @@ export function OrderTicket({
               }}
               className={cn(
                 "relative flex items-center justify-center rounded-2 text-sm font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? option === "buy"
                     ? "text-success"
@@ -496,7 +496,7 @@ export function OrderTicket({
           }}
           className={cn(
             "relative flex h-9 touch-none items-center rounded-2 outline-none select-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             disabled ? "cursor-default" : "cursor-grab active:cursor-grabbing",
           )}
         >
@@ -549,7 +549,7 @@ export function OrderTicket({
               onClick={() => setPercent(detent)}
               className={cn(
                 "flex h-7 items-center justify-center rounded-2 border border-hairline font-mono text-[11px] transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 Math.round(percent) === detent
                   ? "bg-surface-2 text-foreground"
                   : "text-ink-3 hover:bg-accent hover:text-foreground",
@@ -643,7 +643,7 @@ export function OrderTicket({
           transition={slideMove}
           className={cn(
             "absolute top-1 left-1 flex size-9 touch-none items-center justify-center rounded-full outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             buying ? "bg-success" : "bg-danger",
             "text-background",
             live ? "cursor-grab active:cursor-grabbing" : "cursor-default",

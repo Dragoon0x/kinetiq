@@ -278,7 +278,7 @@ export function HandoffArrow({
                   onClick={() => handOff(agent.id)}
                   className={cn(
                     "relative grid size-10 shrink-0 place-items-center rounded-full border text-sm font-semibold transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     holds
                       ? "border-cobalt-bright bg-cobalt-wash text-cobalt-bright"
                       : "border-hairline-strong bg-surface-2 text-ink-2 hover:bg-accent",

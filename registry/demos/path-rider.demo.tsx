@@ -45,7 +45,7 @@ export function PathRiderDemo() {
         <button
           type="button"
           onClick={() => setPlaying((was) => !was)}
-          className="flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-2 border border-hairline-strong bg-surface-1 px-3 text-xs font-medium text-ink transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-2 border border-hairline-strong bg-surface-1 px-3 text-xs font-medium text-ink transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <svg
             viewBox="0 0 24 24"

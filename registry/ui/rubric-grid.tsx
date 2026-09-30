@@ -366,7 +366,7 @@ export function RubricGrid({
                       }
                       className={cn(
                         "flex h-7 w-full max-w-9 items-center justify-center rounded-2 border font-mono text-xs tabular-nums transition-colors duration-150 outline-none",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         chosen
                           ? "border-primary bg-primary text-primary-foreground"
                           : scored && level < current

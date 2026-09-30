@@ -253,7 +253,7 @@ export function CiteMark({
                   }}
                   className={cn(
                     "inline-flex h-4 min-w-4 translate-y-[-3px] items-center justify-center rounded-1 border px-1 font-mono text-[10px] tabular-nums transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     isPinned
                       ? "border-cobalt-bright/40 bg-cobalt-wash text-cobalt-bright"
                       : active
@@ -370,7 +370,7 @@ export function CiteMark({
                       onClick={() => setPin(source, index, false, true)}
                       className={cn(
                         "flex size-6 shrink-0 items-center justify-center rounded-1 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       )}
                     >
                       <svg

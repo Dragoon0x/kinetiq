@@ -338,7 +338,7 @@ export function VirtualMint({
         aria-busy={busy}
         className={cn(
           "flex h-9 w-full items-center justify-center rounded-2 bg-primary px-3 text-sm font-medium text-primary-foreground transition-opacity outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           busy ? "cursor-not-allowed opacity-60" : "hover:opacity-90",
         )}
       >
@@ -350,7 +350,7 @@ export function VirtualMint({
           role="group"
           aria-labelledby={labelId}
           tabIndex={0}
-          className="overflow-x-auto outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="overflow-x-auto outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <ul className="flex w-max gap-2">
             <AnimatePresence initial={false}>

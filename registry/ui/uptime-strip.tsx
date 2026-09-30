@@ -271,7 +271,7 @@ export function UptimeStrip({
           onBlur={() => read(null)}
           onPointerMove={handlePointerMove}
           onPointerLeave={() => read(null)}
-          className="flex h-10 w-full items-end gap-px outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex h-10 w-full items-end gap-px outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           {days.map((day, index) => {
             const meta = STATUS[day.status];

@@ -395,7 +395,7 @@ export function RhythmTap({
           type="button"
           onClick={togglePlay}
           aria-label={playing ? "Pause the pattern" : "Play the pattern"}
-          className="rounded-2 border border-hairline bg-surface-1 px-3 py-1.5 font-mono text-[11px] font-medium tracking-[0.08em] text-ink-2 uppercase transition-colors hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="rounded-2 border border-hairline bg-surface-1 px-3 py-1.5 font-mono text-[11px] font-medium tracking-[0.08em] text-ink-2 uppercase transition-colors hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           {playing ? "Pause" : "Play"}
         </button>

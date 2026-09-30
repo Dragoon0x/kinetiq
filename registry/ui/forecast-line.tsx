@@ -392,7 +392,7 @@ export function ForecastLine({
                 onClick={() => toggle(bill.id)}
                 className={cn(
                   "inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 font-mono text-[11px] transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   checked
                     ? "border-cobalt-bright/50 bg-cobalt-wash text-ink"
                     : "border-hairline-strong bg-surface-2 text-ink-3 hover:text-ink",

@@ -241,7 +241,7 @@ export function LetterIndex({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         onKeyDown={handleKeyDown}
-        className="pointer-events-auto relative flex w-6 touch-none flex-col rounded-full outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="pointer-events-auto relative flex w-6 touch-none flex-col rounded-full outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         {ALPHABET.map((letter) => {
           const has = available.has(letter);

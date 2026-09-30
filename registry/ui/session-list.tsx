@@ -275,7 +275,7 @@ export function SessionList({
                     onClick={() => signOut(session)}
                     className={cn(
                       "flex h-7 shrink-0 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent active:bg-cobalt-wash",
-                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     )}
                   >
                     Sign out
@@ -320,7 +320,7 @@ export function SessionList({
                 onClick={signOutAll}
                 className={cn(
                   "flex h-9 w-full items-center justify-center rounded-2 border border-hairline-strong bg-surface-2 px-3 text-sm font-medium transition-colors outline-none hover:bg-accent active:bg-cobalt-wash",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 {signOutAllLabel}

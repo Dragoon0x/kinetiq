@@ -536,7 +536,7 @@ export function EdgePeek({
         {...drag}
         className={cn(
           "absolute top-[calc(50%-2rem)] z-30 flex h-16 w-5 cursor-pointer touch-pan-y items-center justify-center outline-none select-none",
-          "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           "disabled:cursor-not-allowed disabled:opacity-50",
           side === "left" ? "left-0 rounded-r-3" : "right-0 rounded-l-3",
         )}

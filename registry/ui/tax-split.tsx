@@ -270,7 +270,7 @@ export function TaxSplit({
                 onKeyDown={(event) => handleKeyDown(event, index)}
                 className={cn(
                   "relative flex items-center justify-center rounded-full px-2.5 text-xs font-medium transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   checked
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground",

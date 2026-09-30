@@ -286,7 +286,7 @@ export function PagePin({
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
                 "flex h-8 max-w-full items-center gap-1.5 rounded-full border px-2.5 text-xs transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "border-cobalt-bright/60 bg-cobalt-wash text-foreground"
                   : "border-hairline bg-surface-0 text-ink-2 hover:bg-accent hover:text-foreground",
@@ -332,7 +332,7 @@ export function PagePin({
         tabIndex={0}
         className={cn(
           "relative flex h-56 flex-col gap-2 overflow-y-auto rounded-2 border border-hairline bg-surface-2 p-2 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         {Array.from({ length: pages }, (_, pageIndex) => {

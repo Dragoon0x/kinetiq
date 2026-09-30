@@ -33,7 +33,7 @@ const addDays = (iso: string, days: number) =>
   new Date(Date.parse(iso) + days * DAY_MS).toISOString().slice(0, 10);
 
 const button =
-  "flex h-8 items-center rounded-2 border border-hairline bg-surface-1 px-3 text-xs font-medium text-foreground transition-colors outline-none hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-8 items-center rounded-2 border border-hairline bg-surface-1 px-3 text-xs font-medium text-foreground transition-colors outline-none hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function FreshnessTagDemo() {
   const [sources, setSources] = React.useState(SOURCES);

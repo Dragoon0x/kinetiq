@@ -374,7 +374,7 @@ export function MerchantCluster({
                 }
                 className={cn(
                   "absolute top-0 left-0 flex cursor-pointer items-center justify-center rounded-full border text-center outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isOpen
                     ? "border-cobalt-bright bg-cobalt-wash text-foreground"
                     : "border-hairline-strong bg-surface-0 text-ink-2 hover:border-cobalt-bright",

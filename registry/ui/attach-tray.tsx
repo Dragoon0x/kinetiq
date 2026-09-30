@@ -342,7 +342,7 @@ export function AttachTray({
                       type="button"
                       aria-label={`Remove ${file.name}`}
                       onClick={() => remove(file)}
-                      className="grid size-6 shrink-0 place-items-center rounded-1 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+                      className="grid size-6 shrink-0 place-items-center rounded-1 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid"
                     >
                       <svg
                         viewBox="0 0 16 16"
@@ -371,7 +371,7 @@ export function AttachTray({
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="flex h-8 shrink-0 items-center gap-1.5 rounded-2 border border-hairline-strong bg-surface-2 px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex h-8 shrink-0 items-center gap-1.5 rounded-2 border border-hairline-strong bg-surface-2 px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <svg
             viewBox="0 0 16 16"

@@ -59,7 +59,7 @@ export type MentionListProps = {
 };
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** One string per reading, so the name algorithm never splices two nodes — and
  *  a line that already ends in a full stop never gains a second one. */

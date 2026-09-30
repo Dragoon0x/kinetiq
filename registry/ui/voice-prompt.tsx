@@ -268,7 +268,7 @@ export function VoicePrompt({
           }}
           className={cn(
             "relative z-10 grid size-11 touch-none place-items-center rounded-full border transition-colors outline-none select-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             holding
               ? "border-cobalt-bright bg-primary text-primary-foreground"
               : "border-hairline-strong bg-surface-2 text-foreground hover:bg-accent",

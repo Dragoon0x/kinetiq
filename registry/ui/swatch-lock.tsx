@@ -80,7 +80,9 @@ export function SwatchLock({
   const focusAt = (index: number, group: Element | null) => {
     if (!group) return;
     const buttons = Array.from(
-      group.querySelectorAll<HTMLButtonElement>('[role="radio"]:not(:disabled)'),
+      group.querySelectorAll<HTMLButtonElement>(
+        '[role="radio"]:not(:disabled)',
+      ),
     );
     const target = buttons[(index + buttons.length) % buttons.length];
     if (!target) return;
@@ -148,14 +150,14 @@ export function SwatchLock({
                 onClick={() => select(swatch.id)}
                 onKeyDown={(event) => handleKeyDown(event, index)}
                 className={cn(
-                  "relative aspect-square rounded-2 outline-none transition-opacity",
-                  "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+                  "relative aspect-square rounded-2 transition-opacity outline-none",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isPicked ? "opacity-100" : "opacity-55 hover:opacity-85",
                 )}
               >
                 <span
                   aria-hidden
-                  className="border-hairline absolute inset-0 rounded-2 border"
+                  className="absolute inset-0 rounded-2 border border-hairline"
                   style={{ background: swatch.color }}
                 />
                 {isPicked && (

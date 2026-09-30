@@ -279,7 +279,7 @@ export function AccessMatrix({
                       }
                       className={cn(
                         "flex size-5 items-center justify-center rounded-1 border transition-colors duration-150 outline-none",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         all || mixed
                           ? "border-primary bg-primary text-primary-foreground"
                           : "border-hairline-strong hover:border-cobalt-bright/60",
@@ -341,7 +341,7 @@ export function AccessMatrix({
                           }
                           className={cn(
                             "relative h-5 w-9 shrink-0 rounded-full border transition-colors duration-150 outline-none",
-                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                             on
                               ? "border-primary bg-primary"
                               : "border-hairline-strong bg-surface-2 hover:border-cobalt-bright/60",

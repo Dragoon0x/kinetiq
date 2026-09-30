@@ -296,7 +296,7 @@ export function JumpLatest({
         style={{ maxHeight: Math.round(maxHeight) }}
         className={cn(
           "overflow-y-auto overscroll-contain rounded-3 border border-hairline bg-surface-1 p-3 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <ol ref={innerRef} role="list" className="flex flex-col gap-3">
@@ -357,7 +357,7 @@ export function JumpLatest({
                 "pointer-events-auto border-hairline-strong bg-popover text-popover-foreground shadow-raised",
                 "flex h-8 items-center gap-1.5 rounded-full border pr-3 pl-2.5 text-xs font-medium",
                 "transition-colors outline-none hover:bg-accent",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               <svg

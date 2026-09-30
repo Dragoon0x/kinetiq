@@ -223,7 +223,7 @@ function Claim({
       }}
       className={cn(
         "cursor-pointer rounded-1 [box-decoration-break:clone] pb-px transition-colors outline-none",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         read ? "text-ink" : "text-ink-2",
       )}
     >

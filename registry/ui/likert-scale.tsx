@@ -159,7 +159,7 @@ export function LikertScale({
                 onPointerLeave={() => setHovered(null)}
                 className={cn(
                   "flex h-11 w-7 items-center justify-center rounded-full outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 <motion.span

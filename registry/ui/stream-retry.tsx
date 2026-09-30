@@ -156,7 +156,7 @@ export function StreamRetry({
       tabIndex={-1}
       className={cn(
         "flex w-full flex-col gap-3 rounded-3 border border-hairline bg-surface-1 p-4 outline-none",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         className,
       )}
     >
@@ -285,7 +285,7 @@ export function StreamRetry({
                 }}
                 className={cn(
                   "inline-flex h-6 items-center gap-1 rounded-full border border-hairline-strong bg-surface-0 px-2 text-[11px] font-medium text-foreground transition-colors outline-none hover:bg-accent",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 <svg

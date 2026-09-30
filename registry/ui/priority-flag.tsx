@@ -218,7 +218,7 @@ export function PriorityFlag({
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
                 "group relative flex h-9 w-full items-center rounded-2 pr-2 pl-12 text-left text-sm outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "font-medium text-foreground"
                   : "text-muted-foreground hover:text-foreground",

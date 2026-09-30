@@ -487,7 +487,7 @@ export function HardwareNudge({
           }}
           className={cn(
             "flex h-8 shrink-0 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             "disabled:pointer-events-none disabled:opacity-50",
             "border-input bg-surface-1 hover:bg-accent",
           )}

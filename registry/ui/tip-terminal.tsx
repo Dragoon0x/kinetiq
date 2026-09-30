@@ -441,7 +441,7 @@ export function TipTerminal({
                 style={{ gridColumn: `span ${chip.sub ? 2 : columns / 2}` }}
                 className={cn(
                   "relative flex min-w-0 flex-col items-center justify-center rounded-2 border border-hairline-strong bg-surface-2 transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-60",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:opacity-60",
                   chip.sub ? "h-14 gap-0.5" : "h-9",
                   checked ? "text-ink" : "text-ink-2 hover:bg-accent",
                 )}
@@ -505,7 +505,7 @@ export function TipTerminal({
                   onClick={() => pressPad(key)}
                   className={cn(
                     "flex h-9 items-center justify-center rounded-2 border border-hairline bg-surface-2 font-mono text-sm text-ink tabular-nums transition-colors outline-none hover:bg-accent active:bg-cobalt-wash",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-60",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:opacity-60",
                   )}
                 >
                   {key === "delete" ? (
@@ -611,7 +611,7 @@ export function TipTerminal({
           style={{ x: knobX }}
           className={cn(
             "absolute top-1 left-1 flex size-9 cursor-grab touch-none items-center justify-center rounded-full text-primary-foreground shadow-sm transition-colors outline-none active:cursor-grabbing",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             confirmed ? "bg-success" : "bg-primary",
           )}
         >

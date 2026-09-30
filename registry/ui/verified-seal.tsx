@@ -249,7 +249,7 @@ export function VerifiedSeal({
                   }}
                   className={cn(
                     "relative grid size-5 shrink-0 cursor-pointer place-items-center overflow-hidden rounded-full text-primary outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   )}
                 >
                   <svg viewBox="0 0 24 24" aria-hidden className="size-full">

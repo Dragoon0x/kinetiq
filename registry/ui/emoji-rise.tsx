@@ -433,7 +433,7 @@ export function EmojiRise({
           rows={1}
           className={cn(
             "h-9 min-w-0 flex-1 resize-none rounded-3 border border-input bg-surface-0 px-3 py-2 text-sm leading-5 text-foreground outline-none placeholder:text-ink-3",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         />
 
@@ -450,7 +450,7 @@ export function EmojiRise({
             }
             className={cn(
               "grid size-9 shrink-0 place-items-center rounded-3 border border-hairline bg-surface-1 text-lg leading-none transition-colors outline-none hover:bg-accent",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             <span aria-hidden>{last.item.glyph}</span>
@@ -463,7 +463,7 @@ export function EmojiRise({
           disabled={trimmed === ""}
           className={cn(
             "flex h-9 shrink-0 items-center rounded-3 bg-primary px-3.5 text-sm font-medium text-primary-foreground transition-opacity outline-none hover:opacity-90 disabled:opacity-50",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           Send

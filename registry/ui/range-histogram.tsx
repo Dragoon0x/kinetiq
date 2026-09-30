@@ -387,7 +387,7 @@ export function RangeHistogram({
                 onKeyDown={(event) => handleKeyDown(event, index)}
                 className={cn(
                   "absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-2 border-primary bg-surface-0 outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   dragIndex === index && "cursor-grabbing shadow-raised",
                 )}
                 style={{ left: `${pct(at)}%` }}

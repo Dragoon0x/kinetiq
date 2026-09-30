@@ -280,7 +280,7 @@ export function ModelPick({
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
                 "flex w-full items-center gap-2.5 rounded-2 border px-2.5 py-2 text-left transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "border-cobalt-bright/50 bg-cobalt-wash"
                   : "border-hairline bg-surface-0 hover:bg-accent",

@@ -232,7 +232,7 @@ export function TapReader({
         transition={springs.flick}
         className={cn(
           "relative flex aspect-square w-32 items-center justify-center rounded-full outline-none select-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring focus-visible:outline-solid",
           reading ? "cursor-default" : "cursor-pointer",
         )}
       >

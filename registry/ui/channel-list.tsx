@@ -196,7 +196,7 @@ function ChannelRow({
   }, [bump, motionSafe, scale]);
 
   const cell =
-    "transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+    "transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
   return (
     <motion.li

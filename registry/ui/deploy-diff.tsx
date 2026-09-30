@@ -77,7 +77,7 @@ const KNOB = 48;
 const PAD = 4;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const clamp01 = (value: number): number => Math.min(1, Math.max(0, value));
 

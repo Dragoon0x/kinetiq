@@ -200,7 +200,7 @@ export function FootnoteDrawer({
                   onClick={(event) => raise(note, index, event.currentTarget)}
                   className={cn(
                     "relative -top-px mx-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-1 border px-1 align-baseline font-mono text-[10px] leading-none transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     isOpen
                       ? "border-cobalt-bright/60 bg-cobalt-wash text-cobalt-bright"
                       : "border-hairline bg-surface-0 text-cobalt-bright hover:bg-cobalt-wash",
@@ -255,7 +255,7 @@ export function FootnoteDrawer({
                   onClick={lower}
                   className={cn(
                     "flex size-7 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   )}
                 >
                   <svg
@@ -289,7 +289,7 @@ export function FootnoteDrawer({
                       aria-current={isCurrent ? "true" : undefined}
                       className={cn(
                         "relative flex gap-2.5 px-3 py-2 outline-none",
-                        "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       )}
                     >
                       {isCurrent ? (

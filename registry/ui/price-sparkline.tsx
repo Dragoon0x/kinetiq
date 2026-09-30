@@ -291,7 +291,7 @@ export function PriceSparkline({
         style={{ height }}
         className={cn(
           "relative w-full cursor-crosshair touch-none rounded-2 text-cobalt-bright outline-none select-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         {width > 0 && count > 0 ? (

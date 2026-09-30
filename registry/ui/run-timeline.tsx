@@ -278,7 +278,7 @@ function GroupRow({
           className={cn(
             COLUMNS,
             "w-full items-center rounded-2 pr-1 text-left transition-colors outline-none hover:bg-accent",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <span className="flex h-4 items-center font-mono text-[11px] text-ink-3 tabular-nums">
@@ -410,7 +410,7 @@ export function RunTimeline({
             onClick={toggleAll}
             className={cn(
               "flex h-7 items-center rounded-2 border border-hairline-strong px-2.5 text-[11px] font-medium transition-colors outline-none hover:bg-accent disabled:opacity-50",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               collapsed && "bg-accent",
             )}
           >

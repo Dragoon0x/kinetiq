@@ -261,7 +261,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
                   onClick={() => setVerb(chip.slug)}
                   onKeyDown={(event) => onChipKey(event, index)}
                   className={cn(
-                    "relative inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "relative inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     active ? "text-foreground" : "text-ink-3 hover:text-ink-2",
                   )}
                 >
@@ -302,7 +302,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search"
-                className="h-9 w-full rounded-2 border border-hairline bg-surface-1 pr-2 pl-8 text-xs text-foreground outline-none placeholder:text-ink-3 focus-visible:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="h-9 w-full rounded-2 border border-hairline bg-surface-1 pr-2 pl-8 text-xs text-foreground outline-none placeholder:text-ink-3 focus-visible:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               />
             </label>
             <div className="w-36 shrink-0">

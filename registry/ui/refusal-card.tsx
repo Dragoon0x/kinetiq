@@ -277,7 +277,7 @@ function RefusalPanel({
                           chosen
                             ? "border-hairline-strong bg-cobalt-wash text-foreground"
                             : "border-hairline bg-surface-0 text-foreground hover:border-hairline-strong hover:bg-accent",
-                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         )}
                       >
                         {item.label}

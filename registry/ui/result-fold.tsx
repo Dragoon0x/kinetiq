@@ -201,7 +201,7 @@ export function ResultFold({
             onClick={toggle}
             className={cn(
               "flex h-7 items-center gap-1.5 rounded-2 px-2 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             <span>

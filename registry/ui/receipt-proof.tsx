@@ -416,7 +416,7 @@ export function ReceiptProof({
                 onKeyDown={(event) => handleKeyDown(event, level, index)}
                 className={cn(
                   "absolute grid -translate-x-1/2 -translate-y-1/2 cursor-pointer place-items-center rounded-full border-2 transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isRoot ? "size-6" : "size-5",
                   isRoot && verified
                     ? "border-success bg-success text-primary-foreground"

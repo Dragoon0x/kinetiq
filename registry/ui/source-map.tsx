@@ -267,7 +267,7 @@ export function SourceMap({
                   onKeyDown={(event) => handleKeyDown(event, index)}
                   className={cn(
                     "block w-full rounded-2 border px-2 py-1.5 text-left text-xs leading-relaxed transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     isPinned
                       ? "border-cobalt-bright/50 bg-cobalt-wash text-foreground"
                       : isActive

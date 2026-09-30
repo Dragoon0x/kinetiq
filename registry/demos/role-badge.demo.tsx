@@ -7,7 +7,7 @@ import { RoleBadge, type RoleChange } from "@/registry/ui/role-badge";
 const LADDER = ["guest", "member", "moderator", "admin"];
 
 const chip =
-  "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
+  "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
 
 export function RoleBadgeDemo() {
   const [role, setRole] = React.useState("member");

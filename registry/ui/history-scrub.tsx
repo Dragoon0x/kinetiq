@@ -299,7 +299,7 @@ export function HistoryScrub({
           onKeyDown={onKeyDown}
           className={cn(
             "relative h-12 w-full cursor-pointer touch-none rounded-2 outline-none select-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <div className="absolute inset-x-2 inset-y-0">

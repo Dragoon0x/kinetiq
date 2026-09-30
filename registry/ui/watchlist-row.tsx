@@ -258,7 +258,7 @@ export function WatchlistRow({
           onClick={toggle}
           className={cn(
             "flex size-8 shrink-0 items-center justify-center rounded-2 transition-colors outline-none hover:bg-accent",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             current ? "text-warn" : "text-ink-3 hover:text-ink",
           )}
         >

@@ -135,7 +135,7 @@ function Phrase({
       }}
       className={cn(
         "cursor-pointer rounded-1 outline-none",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
       )}
     >
       <motion.span

@@ -176,7 +176,7 @@ export function KaraokeLine({
                 seek(word.start);
               }}
               onKeyDown={(event) => handleKeyDown(event, index)}
-              className="relative inline-block cursor-pointer rounded-1 align-baseline leading-none outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+              className="relative inline-block cursor-pointer rounded-1 align-baseline leading-none outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring focus-visible:outline-solid"
             >
               {/* The inflate sits inside the button so the caret, which is the
                   button's own child, never inherits the scale. */}

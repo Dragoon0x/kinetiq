@@ -5,7 +5,7 @@ import * as React from "react";
 import { AvailabilityGrid } from "@/registry/ui/availability-grid";
 
 const chip =
-  "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
+  "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
 
 const DAYS = ["Tue", "Wed", "Thu", "Fri"];
 const TIMES = ["08:00", "13:00", "18:00"];

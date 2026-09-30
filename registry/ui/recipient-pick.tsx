@@ -203,7 +203,7 @@ export function RecipientPick({
           }}
           className={cn(
             "h-9 min-w-0 flex-1 rounded-2 border border-input bg-surface-0 px-3 text-sm transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         />
       </div>
@@ -252,7 +252,7 @@ export function RecipientPick({
                 }
                 className={cn(
                   "flex h-11 cursor-pointer items-center rounded-full border transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isChosen
                     ? "gap-2 border-cobalt-bright bg-cobalt-wash pr-1 pl-1"
                     : "border-transparent p-0.5 hover:bg-accent",

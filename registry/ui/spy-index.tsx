@@ -199,7 +199,7 @@ export function SpyIndex({
                   transition={springs.glide}
                   className={cn(
                     "block truncate rounded-1 py-1 text-xs transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     isActive
                       ? "font-medium text-foreground"
                       : "text-ink-3 hover:text-ink-2",

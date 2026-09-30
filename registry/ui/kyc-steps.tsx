@@ -468,7 +468,7 @@ export function KycSteps({
                         }}
                         className={cn(
                           "inline-flex h-8 w-fit items-center justify-center gap-2 rounded-2 px-3 text-xs font-medium transition-colors outline-none",
-                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                           busy
                             ? "cursor-default bg-cobalt-wash text-foreground"
                             : "bg-primary text-primary-foreground hover:bg-primary/90",

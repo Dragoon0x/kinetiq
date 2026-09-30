@@ -58,7 +58,7 @@ export type SnoozeChipProps = {
 const DAY = 1440;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const DEFAULT_DURATIONS: SnoozeDuration[] = [
   { id: "20m", label: "20 minutes", minutes: 20 },

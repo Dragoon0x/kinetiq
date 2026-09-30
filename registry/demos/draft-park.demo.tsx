@@ -17,7 +17,7 @@ const DRAFT_B = "List the retry backoff steps with their reasons.";
 const RUN_MS = 2000;
 
 const buttonClass =
-  "h-8 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "h-8 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 type Phase = "idle" | "live" | "done";
 type Last =

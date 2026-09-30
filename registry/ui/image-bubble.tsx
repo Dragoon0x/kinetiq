@@ -410,7 +410,7 @@ export function ImageBubble({
                             ? `Open photo: ${photo.caption}, from ${sender}`
                             : `Loading photo, ${percent} percent: ${photo.caption}, from ${sender}`
                         }
-                        className="block w-full rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                        className="block w-full rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                       >
                         {hidden ? (
                           <span className="block aspect-[4/3] w-full rounded-3 border border-hairline bg-surface-2" />
@@ -521,7 +521,7 @@ export function ImageBubble({
                     type="button"
                     ref={closeRef}
                     onClick={closeViewer}
-                    className="flex h-7 shrink-0 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:bg-cobalt-wash"
+                    className="flex h-7 shrink-0 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid active:bg-cobalt-wash"
                   >
                     Close
                   </button>

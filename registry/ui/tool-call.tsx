@@ -131,7 +131,7 @@ export function ToolCall({
         onClick={toggle}
         className={cn(
           "flex h-9 w-full items-center gap-2.5 rounded-2 border border-hairline bg-surface-1 px-3 text-left transition-colors outline-none hover:border-hairline-strong",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <span

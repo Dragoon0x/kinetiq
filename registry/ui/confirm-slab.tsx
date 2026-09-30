@@ -343,7 +343,7 @@ export function ConfirmSlab({
               disabled={disabled}
               className={cn(
                 "flex h-7 shrink-0 cursor-pointer items-center rounded-2 px-2 text-xs font-medium text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50",
               )}
             >
               Cancel
@@ -481,7 +481,7 @@ export function ConfirmSlab({
               }}
               style={{ x, width: THUMB, height: THUMB, top: PAD, left: PAD }}
               className={cn(
-                "absolute flex items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "absolute flex items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 sent
                   ? "bg-success text-background"
                   : "bg-primary text-primary-foreground",

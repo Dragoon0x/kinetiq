@@ -646,7 +646,7 @@ export function KeycapPress({
       }}
       className={cn(
         "group relative inline-flex shrink-0 cursor-pointer touch-manipulation rounded-3 outline-none select-none [-webkit-touch-callout:none]",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         "disabled:cursor-not-allowed disabled:opacity-50",
         className,
       )}

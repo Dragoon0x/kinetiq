@@ -153,7 +153,7 @@ export function FoldText({
           onClick={toggle}
           className={cn(
             "inline-flex h-8 items-center gap-1.5 rounded-2 px-2 text-xs font-medium text-cobalt-bright transition-colors outline-none",
-            "hover:bg-cobalt-wash focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "hover:bg-cobalt-wash focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           {isOpen ? lessLabel : moreLabel}

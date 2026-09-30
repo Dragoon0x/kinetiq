@@ -487,7 +487,7 @@ export function MentionPop({
           aria-disabled={canSend ? undefined : true}
           className={cn(
             "flex h-9 shrink-0 items-center rounded-3 bg-primary px-3.5 text-sm font-medium text-primary-foreground transition-opacity outline-none hover:opacity-90",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             !canSend && "opacity-40",
           )}
         >

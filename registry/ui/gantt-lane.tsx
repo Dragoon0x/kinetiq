@@ -386,7 +386,7 @@ export function GanttLane({
   const barClass = (id: string, lit: boolean, isSource: boolean) =>
     cn(
       "absolute top-0 left-0 cursor-grab touch-pan-y rounded-full border outline-none",
-      "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+      "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2",
       drag?.id === id && "shadow-raised cursor-grabbing",
       isSource
         ? "bg-primary border-cobalt-bright"

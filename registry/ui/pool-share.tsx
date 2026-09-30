@@ -122,7 +122,7 @@ const STAMP_MS = 1400;
 const SETTLE_MS = 500;
 
 const BUTTON_CLASS =
-  "flex h-8 items-center justify-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-8 items-center justify-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * A liquidity position drawn as one wedge of a ring. The wedge is a single

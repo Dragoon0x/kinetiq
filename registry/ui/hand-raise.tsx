@@ -233,7 +233,7 @@ export function HandRaise({
           }
           className={cn(
             "flex h-8 shrink-0 items-center gap-2 rounded-2 border px-3 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             isRaised
               ? "border-cobalt-bright bg-cobalt-wash text-cobalt-bright"
               : "border-hairline-strong hover:bg-accent",

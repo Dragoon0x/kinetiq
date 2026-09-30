@@ -274,7 +274,7 @@ export function CardStack({
               }
               className={cn(
                 "absolute top-0 left-0 flex w-full origin-top flex-col justify-between rounded-3 border p-[4.5%] text-left text-ink shadow-sm outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 chosen
                   ? "border-cobalt-bright"
                   : "border-hairline-strong hover:border-ink-3",

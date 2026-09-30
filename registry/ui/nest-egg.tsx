@@ -408,7 +408,7 @@ export function NestEgg({
                 }}
                 className={cn(
                   "flex min-w-9 items-center justify-center rounded-full px-2 font-mono text-xs font-medium tabular-nums transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   checked
                     ? "bg-primary text-primary-foreground"
                     : "text-ink-2 hover:text-ink",
@@ -457,7 +457,7 @@ export function NestEgg({
         onKeyDown={handleKeyDown}
         className={cn(
           "relative h-40 w-full cursor-crosshair touch-none rounded-2 border border-hairline bg-surface-2 outline-none select-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <svg

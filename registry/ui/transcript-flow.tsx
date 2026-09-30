@@ -133,7 +133,7 @@ export function TranscriptFlow({
         tabIndex={0}
         onScroll={handleScroll}
         style={{ maxHeight }}
-        className="overflow-y-auto rounded-3 border border-border bg-surface-1 p-3 text-sm leading-6 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="overflow-y-auto rounded-3 border border-border bg-surface-1 p-3 text-sm leading-6 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         {segments.length === 0 ? (
           <p className="text-ink-3">
@@ -191,7 +191,7 @@ export function TranscriptFlow({
             transition={
               motionSafe ? springs.snap : { duration: durations.fast }
             }
-            className="absolute right-3 bottom-3 flex h-7 cursor-pointer items-center gap-1.5 rounded-full border border-hairline bg-popover px-3 text-xs font-medium text-popover-foreground shadow-raised outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="absolute right-3 bottom-3 flex h-7 cursor-pointer items-center gap-1.5 rounded-full border border-hairline bg-popover px-3 text-xs font-medium text-popover-foreground shadow-raised outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             <span aria-hidden className="size-1.5 rounded-full bg-signal" />
             Latest

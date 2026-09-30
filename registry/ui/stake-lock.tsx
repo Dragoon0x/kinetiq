@@ -121,7 +121,7 @@ const ARM_MS = 4000;
 const SLOP = 4;
 
 const BUTTON_CLASS =
-  "flex h-8 shrink-0 items-center justify-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-8 shrink-0 items-center justify-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * Mounted only while the lock is shut, so a second lock is a second clock
@@ -464,7 +464,7 @@ export function StakeLock({
           onKeyDown={handleKeyDown}
           className={cn(
             "relative mx-2.5 h-6 touch-none rounded-full outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             isLocked ? "cursor-not-allowed opacity-60" : "cursor-pointer",
           )}
         >

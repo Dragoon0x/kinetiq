@@ -431,7 +431,7 @@ export function YieldCurve({
             if (gesture.current?.dragging === false) endGesture(event);
           }}
           onKeyDown={handleKeyDown}
-          className="mt-1 w-full cursor-pointer touch-none rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="mt-1 w-full cursor-pointer touch-none rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <svg
             viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}

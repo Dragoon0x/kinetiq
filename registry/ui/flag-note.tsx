@@ -74,7 +74,7 @@ function FlagGlyph({
 }
 
 const CONTROL =
-  "flex h-7 items-center gap-1.5 rounded-2 border px-2.5 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-7 items-center gap-1.5 rounded-2 border px-2.5 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * An answer with a Flag control. Pressing it raises a note panel beneath the
@@ -279,7 +279,7 @@ export function FlagNote({
                 onClick={remove}
                 className={cn(
                   "flex size-7 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 <svg
@@ -397,7 +397,7 @@ export function FlagNote({
             }
             className={cn(
               "w-full resize-none rounded-2 border border-input bg-surface-0 px-2.5 py-2 text-sm leading-snug text-foreground outline-none placeholder:text-ink-3",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           />
 

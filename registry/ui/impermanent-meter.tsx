@@ -329,7 +329,7 @@ export function ImpermanentMeter({
           }}
           className={cn(
             "flex h-8 w-full items-center justify-between gap-2 rounded-2 border border-hairline bg-surface-2 px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <span className="min-w-0 truncate">Difference</span>

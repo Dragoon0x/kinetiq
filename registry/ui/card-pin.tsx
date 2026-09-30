@@ -242,7 +242,7 @@ export function CardPin({
         onBlur={() => hide("hold")}
         className={cn(
           "flex h-9 w-full items-center justify-center gap-2 rounded-2 border border-hairline-strong px-3 text-sm font-medium transition-colors outline-none select-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           disabled
             ? "cursor-not-allowed opacity-50"
             : "hover:bg-accent active:bg-cobalt-wash",

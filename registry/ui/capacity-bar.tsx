@@ -38,7 +38,7 @@ export type CapacityBarProps = {
 };
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** Three decimals before a percentage reaches a style: motion re-serialises
  *  what it painted on the server, so an unrounded string never hydrates. */

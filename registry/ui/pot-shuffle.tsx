@@ -488,7 +488,7 @@ export function PotShuffle({
                   onPointerCancel={endDrag}
                   className={cn(
                     "flex w-full cursor-grab touch-none flex-col items-center gap-1.5 rounded-2 px-1 pt-2 pb-1.5 transition-colors outline-none select-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     isHeld && "bg-cobalt-wash",
                     isOver && "bg-accent",
                   )}

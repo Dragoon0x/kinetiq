@@ -20,7 +20,7 @@ const SCRIPT: MemoryItem[] = [
 type Event = { verb: "saved" | "pinned" | "unpinned" | "forgot"; fact: string };
 
 const buttonClass =
-  "flex h-8 items-center rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-disabled:opacity-50 disabled:opacity-50";
+  "flex h-8 items-center rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring aria-disabled:opacity-50 disabled:opacity-50";
 
 export function MemoryCardDemo() {
   const [items, setItems] = React.useState<MemoryItem[]>([]);

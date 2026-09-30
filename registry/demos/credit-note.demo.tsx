@@ -15,7 +15,7 @@ const money = new Intl.NumberFormat("en-US", {
 });
 
 const BUTTON =
-  "inline-flex h-8 items-center justify-center rounded-2 border px-3 font-mono text-xs tabular-nums outline-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "inline-flex h-8 items-center justify-center rounded-2 border px-3 font-mono text-xs tabular-nums outline-none transition-colors focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function CreditNoteDemo() {
   const [credit, setCredit] = React.useState(CREDITS[0] ?? 86);

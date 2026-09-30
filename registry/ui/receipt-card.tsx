@@ -252,7 +252,7 @@ export function ReceiptCard({
           isOpen ? "Fold the receipt." : "Open the receipt."
         }`}
         onClick={() => setOpen(!isOpen)}
-        className="-m-1 flex items-center gap-2.5 rounded-2 p-1 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="-m-1 flex items-center gap-2.5 rounded-2 p-1 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         <motion.svg
           viewBox="0 0 16 16"

@@ -334,7 +334,7 @@ export function ContextChips({
                       aria-expanded={isShown}
                       aria-describedby={isShown ? previewId : undefined}
                       onClick={() => toggle(item.id)}
-                      className="flex h-full min-w-0 items-center gap-1.5 rounded-l-2 pl-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+                      className="flex h-full min-w-0 items-center gap-1.5 rounded-l-2 pl-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid"
                     >
                       <Glyph kind={item.kind} />
                       <span className="min-w-0 truncate text-xs font-medium text-foreground">
@@ -348,7 +348,7 @@ export function ContextChips({
                       type="button"
                       aria-label={`Remove ${item.name}`}
                       onClick={() => remove(item)}
-                      className="ml-0.5 grid size-6 shrink-0 place-items-center rounded-1 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+                      className="ml-0.5 grid size-6 shrink-0 place-items-center rounded-1 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid"
                     >
                       <svg
                         viewBox="0 0 16 16"

@@ -355,7 +355,7 @@ export function TxFlow({
               onPointerLeave={() => hover(null)}
               className={cn(
                 "flex w-full flex-col gap-0.5 rounded-2 border px-2 py-1.5 text-left transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 isActive
                   ? "border-cobalt-bright bg-cobalt-wash"
                   : "border-hairline-strong bg-surface-1 hover:bg-accent",

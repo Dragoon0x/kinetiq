@@ -316,7 +316,7 @@ export function CandleBrush({
           style={{ height }}
           className={cn(
             "relative w-full touch-none overflow-hidden rounded-2 outline-none select-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <motion.div

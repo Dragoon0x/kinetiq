@@ -267,7 +267,7 @@ export function SlotGrid({
                         transition={springs.glide}
                         className={cn(
                           "relative flex h-9 w-full items-center justify-center rounded-2 border outline-none",
-                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                           isTaken
                             ? "cursor-not-allowed border-hairline"
                             : "cursor-pointer border-hairline-strong bg-surface-2 hover:border-cobalt-bright/60",

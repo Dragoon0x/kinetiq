@@ -344,7 +344,7 @@ export function OtpCells({
                 onBlur={() => setFocused(null)}
                 // The input keeps the real value for the caret and assistive
                 // technology; the visible digit is the animated span above it.
-                className="absolute inset-0 size-full rounded-2 bg-transparent text-center font-mono text-lg text-transparent caret-transparent outline-none selection:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="absolute inset-0 size-full rounded-2 bg-transparent text-center font-mono text-lg text-transparent caret-transparent outline-none selection:bg-transparent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               />
               <span
                 aria-hidden

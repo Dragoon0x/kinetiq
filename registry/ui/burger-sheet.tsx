@@ -157,7 +157,7 @@ export function BurgerSheet({
         aria-controls={open ? sheetId : undefined}
         onClick={() => setOpen(!open)}
         className={cn(
-          "relative z-50 flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-2 text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "relative z-50 flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-2 text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           className,
         )}
       >
@@ -231,7 +231,7 @@ export function BurgerSheet({
                 type="button"
                 aria-label="Close menu"
                 onClick={() => setOpen(false)}
-                className="flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-2 text-muted-foreground outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-2 text-muted-foreground outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               >
                 <svg
                   viewBox="0 0 16 16"
@@ -267,7 +267,7 @@ export function BurgerSheet({
                     <a
                       href={item.href}
                       onClick={() => setOpen(false)}
-                      className="flex h-10 items-center rounded-2 px-3 text-sm font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                      className="flex h-10 items-center rounded-2 px-3 text-sm font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                     >
                       <span className="min-w-0 truncate">{item.label}</span>
                     </a>

@@ -49,7 +49,7 @@ const MARK_INKS = [
 ] as const;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** Smallest the pill may be: a single digit sits in a circle. */
 const MIN_WIDTH = 20;

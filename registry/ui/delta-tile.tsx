@@ -173,7 +173,7 @@ export function DeltaTile({
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
       className={cn(
-        "flex w-full cursor-pointer flex-col gap-1.5 rounded-3 border border-hairline bg-surface-1 p-3 text-left outline-none hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "flex w-full cursor-pointer flex-col gap-1.5 rounded-3 border border-hairline bg-surface-1 p-3 text-left outline-none hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         className,
       )}
     >

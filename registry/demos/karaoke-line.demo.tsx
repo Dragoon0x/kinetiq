@@ -22,7 +22,7 @@ const WORDS: KaraokeWord[] = [
 const END = WORDS.reduce((last, word) => Math.max(last, word.end), 0);
 
 const CONTROL =
-  "flex h-8 flex-1 cursor-pointer items-center justify-center rounded-2 border border-hairline px-3 text-xs font-medium transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-8 flex-1 cursor-pointer items-center justify-center rounded-2 border border-hairline px-3 text-xs font-medium transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function KaraokeLineDemo() {
   const [time, setTime] = React.useState(0);

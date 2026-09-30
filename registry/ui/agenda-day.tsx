@@ -481,7 +481,7 @@ export function AgendaDay({
                 }}
                 className={cn(
                   "absolute flex flex-col justify-center overflow-hidden rounded-2 border border-l-[3px] px-1.5 text-left outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   dragging
                     ? "cursor-grabbing shadow-lg"
                     : "cursor-grab hover:shadow-md",

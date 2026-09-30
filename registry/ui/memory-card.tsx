@@ -199,7 +199,7 @@ export function MemoryCard({
     ? springs.glide
     : { duration: durations.fast, ease: easings.move };
   const control =
-    "grid size-8 shrink-0 place-items-center rounded-1 transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+    "grid size-8 shrink-0 place-items-center rounded-1 transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
   return (
     <div

@@ -254,7 +254,7 @@ export function AutopayToggle({
           onClick={toggle}
           className={cn(
             "relative flex h-6 w-10 shrink-0 items-center rounded-full border p-0.5 transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             on
               ? "border-primary bg-primary"
               : "border-hairline-strong bg-surface-2",

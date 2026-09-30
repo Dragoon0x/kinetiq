@@ -352,7 +352,7 @@ export function RoleBadge({
             onClick={() => setOpen(!isOpen)}
             className={cn(
               "shrink-0 rounded-full outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               disabled ? "opacity-50" : "hover:brightness-105",
             )}
           >

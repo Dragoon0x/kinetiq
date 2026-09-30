@@ -211,7 +211,7 @@ export function SourceStack({
               onClick={() => select(source)}
               className={cn(
                 "mx-0.5 inline-flex h-4 min-w-4 translate-y-[-1px] items-center justify-center rounded-1 border px-1 align-middle font-mono text-[10px] tabular-nums transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 isFront
                   ? "border-cobalt-bright/40 bg-cobalt-wash text-cobalt-bright"
                   : "border-hairline bg-surface-1 text-ink-2 hover:text-ink",
@@ -287,7 +287,7 @@ export function SourceStack({
                 onKeyDown={(event) => onStripKeyDown(event, index)}
                 className={cn(
                   "flex h-5 w-full min-w-0 items-center gap-2 rounded-1 text-left outline-none",
-                  "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 <span

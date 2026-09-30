@@ -302,7 +302,7 @@ export function MempoolQueue({
                         }
                         className={cn(
                           "relative flex h-6 shrink-0 items-center rounded-2 border border-hairline-strong bg-surface-2 px-2 text-[11px] font-medium transition-colors outline-none hover:bg-accent active:bg-cobalt-wash",
-                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         )}
                       >
                         {bumpLabel}

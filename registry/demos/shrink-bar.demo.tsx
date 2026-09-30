@@ -62,7 +62,7 @@ export function ShrinkBarDemo() {
           actions={
             <button
               type="button"
-              className="flex h-8 cursor-pointer items-center rounded-full border border-hairline-strong px-3 text-xs font-medium text-foreground outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="flex h-8 cursor-pointer items-center rounded-full border border-hairline-strong px-3 text-xs font-medium text-foreground outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             >
               Follow
             </button>

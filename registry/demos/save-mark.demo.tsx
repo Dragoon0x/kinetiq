@@ -64,7 +64,7 @@ export function SaveMarkDemo() {
           setText(event.target.value);
           setState("dirty");
         }}
-        className="w-full resize-none rounded-2 border border-input bg-surface-1 p-3 text-sm leading-relaxed outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="w-full resize-none rounded-2 border border-input bg-surface-1 p-3 text-sm leading-relaxed outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       />
 
       <p

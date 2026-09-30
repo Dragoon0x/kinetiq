@@ -77,7 +77,7 @@ function Chevron({ forward }: { forward?: boolean }) {
 }
 
 const STEP_BUTTON =
-  "flex size-8 shrink-0 items-center justify-center rounded-2 border border-hairline-strong text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex size-8 shrink-0 items-center justify-center rounded-2 border border-hairline-strong text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * The thumbnail becomes the picture. Tile and viewer share one `layoutId`, so
@@ -225,7 +225,7 @@ export function LightBox({
                 setAnchorId(image.id);
                 setOpenId(image.id);
               }}
-              className="relative block aspect-square w-full overflow-hidden rounded-3 border border-hairline transition-colors outline-none hover:border-cobalt-bright/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="relative block aspect-square w-full overflow-hidden rounded-3 border border-hairline transition-colors outline-none hover:border-cobalt-bright/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             >
               {/* The tile keeps its layout node while the viewer is open: motion
                   morphs from it, and relegates back to it on close. */}

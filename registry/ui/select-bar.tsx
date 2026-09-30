@@ -353,7 +353,7 @@ export function SelectBar({
           "rounded-2 border border-hairline bg-surface-1 px-3 py-2.5 text-sm leading-relaxed text-ink-2 outline-none",
           "[&_a]:text-cobalt-bright [&_a]:underline [&_a]:underline-offset-2",
           "[&_code]:rounded-1 [&_code]:bg-surface-2 [&_code]:px-1 [&_code]:font-mono [&_code]:text-[13px]",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&_strong]:text-foreground",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid [&_strong]:text-foreground",
         )}
       >
         {seed}
@@ -405,7 +405,7 @@ export function SelectBar({
                   // link before this click lands.
                   onPointerDown={(event) => event.preventDefault()}
                   onClick={() => closeLink(true)}
-                  className="h-7 shrink-0 rounded-full bg-primary px-2.5 text-[11px] font-medium text-primary-foreground outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  className="h-7 shrink-0 rounded-full bg-primary px-2.5 text-[11px] font-medium text-primary-foreground outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                 >
                   Apply
                 </button>
@@ -428,7 +428,7 @@ export function SelectBar({
                   }
                   className={cn(
                     "flex size-7 items-center justify-center rounded-full text-xs transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     anchor.active[action]
                       ? "bg-cobalt-wash text-cobalt-bright"
                       : "text-ink-2 hover:bg-surface-2 hover:text-foreground",

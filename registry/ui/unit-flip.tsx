@@ -135,7 +135,7 @@ export function UnitFlip({
           aria-label={`Unit ${current.label}, switch to ${units[other].label}`}
           onClick={flip}
           style={{ perspective: PERSPECTIVE }}
-          className="relative h-7 w-12 shrink-0 cursor-pointer rounded-2 border border-hairline bg-surface-2 text-xs font-medium text-ink transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="relative h-7 w-12 shrink-0 cursor-pointer rounded-2 border border-hairline bg-surface-2 text-xs font-medium text-ink transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           {motionSafe ? (
             <motion.span

@@ -50,7 +50,7 @@ export type BlockFoldProps = {
 const NONE: string[] = [];
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const FADE = { duration: durations.fast, ease: easings.enter } as const;
 

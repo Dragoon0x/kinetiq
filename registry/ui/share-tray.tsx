@@ -238,7 +238,7 @@ export function ShareTray({
         onClick={() => setOpen(true)}
         className={cn(
           "pointer-events-auto absolute top-3 right-3 flex h-8 items-center gap-1.5 rounded-2 border border-hairline-strong bg-card px-2.5 text-xs font-medium text-foreground shadow-sm transition-colors outline-none hover:bg-accent hover:text-accent-foreground",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <Glyph name="send" />
@@ -322,7 +322,7 @@ export function ShareTray({
                       }
                       className={cn(
                         "flex w-full flex-col items-center gap-1.5 rounded-2 px-1 py-2 transition-colors outline-none hover:bg-accent hover:text-accent-foreground",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       )}
                     >
                       <span
@@ -400,7 +400,7 @@ export function ShareTray({
               onClick={closeTray}
               className={cn(
                 "flex h-9 w-full items-center justify-center rounded-2 border border-hairline-strong bg-surface-2 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent hover:text-accent-foreground",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               Cancel

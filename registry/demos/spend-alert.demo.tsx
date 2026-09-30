@@ -26,7 +26,7 @@ const levelOf = (spent: number) =>
   spent > LIMIT ? "over" : spent / LIMIT >= WARN_AT ? "near" : "clear";
 
 const control =
-  "h-8 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "h-8 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function SpendAlertDemo() {
   const [rows, setRows] = React.useState(OPENING);

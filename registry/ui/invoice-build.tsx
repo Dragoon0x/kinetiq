@@ -219,7 +219,7 @@ function Line({
           className={cn(
             "flex size-7 shrink-0 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none",
             "hover:bg-accent hover:text-foreground active:bg-cobalt-wash",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <svg
@@ -357,7 +357,7 @@ export function InvoiceBuild({
       id={`${baseId}-root`}
       tabIndex={-1}
       className={cn(
-        "flex w-full flex-col gap-3 rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring",
+        "flex w-full flex-col gap-3 rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring focus-visible:outline-solid",
         className,
       )}
     >

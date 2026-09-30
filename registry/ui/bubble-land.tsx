@@ -235,7 +235,7 @@ function BubbleItem({ message, peerName, motionSafe, onRetry }: ItemProps) {
               onClick={() => onRetry?.(message.id)}
               className={cn(
                 "flex h-7 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent active:bg-cobalt-wash",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               Retry
@@ -394,7 +394,7 @@ export function BubbleLand({
           rows={1}
           className={cn(
             "h-9 min-w-0 flex-1 resize-none rounded-3 border border-input bg-surface-0 px-3 py-2 text-sm leading-5 text-foreground outline-none placeholder:text-ink-3",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             "disabled:opacity-60",
           )}
         />
@@ -404,7 +404,7 @@ export function BubbleLand({
           disabled={disabled || draft.trim().length === 0}
           className={cn(
             "flex h-9 shrink-0 items-center rounded-3 bg-primary px-3.5 text-sm font-medium text-primary-foreground transition-opacity outline-none hover:opacity-90 disabled:opacity-50",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           Send

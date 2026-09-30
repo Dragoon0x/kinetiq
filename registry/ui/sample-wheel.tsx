@@ -66,7 +66,7 @@ const KEYS: Record<string, (index: number, last: number) => number> = {
 };
 
 const CONTROL =
-  "flex size-8 shrink-0 items-center justify-center rounded-2 border border-hairline-strong bg-surface-0 text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50 disabled:hover:bg-surface-0";
+  "flex size-8 shrink-0 items-center justify-center rounded-2 border border-hairline-strong bg-surface-0 text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50 disabled:hover:bg-surface-0";
 
 function Chevron({ back }: { back?: boolean }) {
   return (
@@ -185,7 +185,7 @@ function WheelChip({
         style={{ rotate: upright }}
         className={cn(
           "flex h-6 items-center rounded-full border px-2 font-mono text-[10px] font-medium tabular-nums transition-colors outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           checked
             ? sample.passed
               ? "border-primary bg-primary text-primary-foreground"

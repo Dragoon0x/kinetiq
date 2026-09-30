@@ -233,7 +233,7 @@ export function TableBuild({
                         onClick={() => cycle(column.key)}
                         className={cn(
                           "flex h-8 w-full items-center gap-1 px-2 font-mono text-[10px] tracking-[0.08em] uppercase transition-colors outline-none hover:text-foreground",
-                          "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                          "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                           column.numeric ? "justify-end" : "justify-start",
                           active ? "text-foreground" : "text-ink-3",
                         )}

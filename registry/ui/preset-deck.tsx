@@ -232,7 +232,7 @@ function FieldSlider({
             onKeyDown={handleKeyDown}
             className={cn(
               "block size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-cobalt-bright bg-surface-0 shadow-sm outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           />
         </motion.span>
@@ -466,7 +466,7 @@ export function PresetDeck({
                   onKeyDown={(event) => handleCardKey(event, index)}
                   className={cn(
                     "flex min-w-0 items-center gap-2 rounded-2 border px-2.5 py-2 text-left transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     checked
                       ? "border-cobalt-bright/50 bg-cobalt-wash"
                       : "border-hairline bg-surface-0 hover:bg-accent",
@@ -534,14 +534,14 @@ export function PresetDeck({
                       closeForm();
                     }
                   }}
-                  className="h-8 min-w-0 flex-1 rounded-2 border border-input bg-surface-0 px-2.5 text-xs text-foreground outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  className="h-8 min-w-0 flex-1 rounded-2 border border-input bg-surface-0 px-2.5 text-xs text-foreground outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                 />
                 <button
                   type="submit"
                   aria-disabled={!name.trim() || undefined}
                   className={cn(
                     "flex h-8 shrink-0 items-center rounded-2 bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     !name.trim() && "opacity-40",
                   )}
                 >
@@ -562,7 +562,7 @@ export function PresetDeck({
             }}
             className={cn(
               "ml-auto flex h-8 shrink-0 items-center rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium text-foreground transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               !saving && checkedIndex >= 0
                 ? "cursor-default opacity-40"
                 : "hover:bg-accent",

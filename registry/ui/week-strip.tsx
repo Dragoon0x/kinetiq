@@ -282,7 +282,7 @@ export function WeekStrip({
       : `Week ${format(weekTotal)}`;
 
   const chevron =
-    "flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-2 border border-hairline-strong text-ink-2 transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
+    "flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-2 border border-hairline-strong text-ink-2 transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
 
   return (
     <div
@@ -405,7 +405,7 @@ export function WeekStrip({
                 onKeyDown={(event) => handleKeyDown(event, dayIndex)}
                 className={cn(
                   "relative flex min-w-0 flex-1 cursor-pointer items-end rounded-2 px-1 transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isChosen ? "bg-cobalt-wash" : "hover:bg-accent",
                 )}
               >

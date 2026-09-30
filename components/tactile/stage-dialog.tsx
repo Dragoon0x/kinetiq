@@ -48,7 +48,7 @@ const layoutBox = (panel: HTMLElement) => {
 type StageView = "preview" | "code";
 
 const iconButton =
-  "inline-flex size-9 items-center justify-center rounded-2 text-ink-2 transition-colors outline-none hover:bg-surface-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
+  "inline-flex size-9 items-center justify-center rounded-2 text-ink-2 transition-colors outline-none hover:bg-surface-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
 
 /** Copies `value` and says so for a moment, in words, not only with a tick. */
 function CopyAction({
@@ -78,7 +78,7 @@ function CopyAction({
           // Clipboard refused (insecure context, permissions): nothing to say.
         }
       }}
-      className="inline-flex h-9 flex-1 items-center justify-center gap-2 rounded-2 border border-hairline-strong px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      className="inline-flex h-9 flex-1 items-center justify-center gap-2 rounded-2 border border-hairline-strong px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
     >
       {copied ? <Check aria-hidden className="size-3.5 text-success" /> : icon}
       <span aria-live="polite">{copied ? done : label}</span>
@@ -489,7 +489,7 @@ export function StageDialog({
                 </div>
                 <Link
                   href={`/components/${item.name}`}
-                  className="inline-flex h-9 items-center justify-center gap-1.5 rounded-2 text-xs text-ink-2 transition-colors outline-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  className="inline-flex h-9 items-center justify-center gap-1.5 rounded-2 text-xs text-ink-2 transition-colors outline-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                 >
                   Props, source and install
                   <ArrowUpRight aria-hidden className="size-3.5" />

@@ -18,7 +18,7 @@ const REPLY =
   "The sync fix ships in 4.2. Crews in the field now see a queued badge while a report waits for signal, and the retry runs on a backoff of 2, 8 and 30 seconds instead of every minute, so a dead spot no longer drains the battery. The desk app is unchanged; the only visible difference there is a last-synced time under each report.";
 
 const buttonClass =
-  "h-8 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "h-8 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 type Last = { kind: "Inserted" | "Removed"; label: string } | null;
 

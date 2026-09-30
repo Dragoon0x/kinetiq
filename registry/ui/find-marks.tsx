@@ -69,7 +69,7 @@ function Roll({ value, motionSafe }: { value: number; motionSafe: boolean }) {
 }
 
 const STEP =
-  "flex size-9 shrink-0 items-center justify-center rounded-2 border border-input text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
+  "flex size-9 shrink-0 items-center justify-center rounded-2 border border-input text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40";
 
 /**
  * Find in text, with the finding visible. Every match takes a wash that sweeps

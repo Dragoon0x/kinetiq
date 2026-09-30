@@ -76,7 +76,7 @@ const KEY_STEPS: Record<string, number> = {
 };
 
 const STEP_BUTTON =
-  "flex size-8 shrink-0 items-center justify-center rounded-2 border border-input bg-surface-1 text-ink transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50";
+  "flex size-8 shrink-0 items-center justify-center rounded-2 border border-input bg-surface-1 text-ink transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50";
 
 const clamp = (value: number, low: number, high: number) =>
   Math.min(high, Math.max(low, value));
@@ -440,7 +440,7 @@ export function LimitRaise({
               onKeyDown={handleKeyDown}
               className={cn(
                 "flex h-8 min-w-0 flex-1 items-center justify-center rounded-2 border border-input bg-surface-1 px-2 font-mono text-sm font-medium text-ink tabular-nums outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 pending && "opacity-50",
               )}
             >
@@ -472,7 +472,7 @@ export function LimitRaise({
             onClick={() => onRequest?.(ask)}
             className={cn(
               "inline-flex h-8 shrink-0 items-center justify-center rounded-2 bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50",
             )}
           >
             {pending ? "Requested" : "Request"}

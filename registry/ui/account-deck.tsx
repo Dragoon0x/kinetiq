@@ -375,7 +375,7 @@ export function AccountDeck({
                   }
                   className={cn(
                     "flex shrink-0 flex-col gap-2 rounded-3 border p-3 text-left outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     chosen
                       ? "border-hairline-strong bg-surface-0 shadow-raised"
                       : "border-hairline bg-surface-2",

@@ -199,7 +199,7 @@ export function SideScroll({
         <button
           type="button"
           onClick={skip}
-          className="sr-only rounded-2 border border-hairline-strong bg-surface-1 px-3 py-1.5 text-xs font-medium text-ink outline-none focus-visible:not-sr-only focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="sr-only rounded-2 border border-hairline-strong bg-surface-1 px-3 py-1.5 text-xs font-medium text-ink outline-none focus-visible:not-sr-only focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           {skipLabel}
         </button>

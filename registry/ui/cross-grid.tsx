@@ -593,7 +593,7 @@ export function CrossGrid({
                     className={cn(
                       sizes.cell,
                       "px-1 text-center align-middle font-mono tabular-nums transition-colors duration-150 outline-none",
-                      "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                      "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       here ? "font-medium text-foreground" : "text-ink-2",
                     )}
                   >

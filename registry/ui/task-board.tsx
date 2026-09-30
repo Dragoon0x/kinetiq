@@ -450,7 +450,7 @@ export function TaskBoard({
                                 className={cn(
                                   surface,
                                   "border-hairline-strong transition-colors outline-none hover:border-cobalt-bright/60 hover:bg-accent/40",
-                                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                                 )}
                               >
                                 {face}

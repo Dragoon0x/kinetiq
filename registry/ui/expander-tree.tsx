@@ -6,7 +6,13 @@ import { ChevronRight } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
-import { cascade, distances, durations, easings, springs } from "@/registry/lib/motion";
+import {
+  cascade,
+  distances,
+  durations,
+  easings,
+  springs,
+} from "@/registry/lib/motion";
 import { cn } from "@/registry/lib/utils";
 
 export type TreeNode = {
@@ -94,11 +100,11 @@ function Branch({
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={() => onToggle(node.id)}
-          className="text-ink hover:bg-surface-1 flex w-full items-center gap-1.5 rounded-2 px-1.5 py-1.5 text-left text-sm transition-colors focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
+          className="flex w-full items-center gap-1.5 rounded-2 px-1.5 py-1.5 text-left text-sm text-ink transition-colors hover:bg-surface-1 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring focus-visible:outline-solid"
         >
           <motion.span
             aria-hidden
-            className="text-ink-3 shrink-0"
+            className="shrink-0 text-ink-3"
             animate={{ rotate: isOpen ? 90 : 0 }}
             transition={motionSafe ? springs.snap : { duration: 0 }}
           >
@@ -107,8 +113,11 @@ function Branch({
           {node.label}
         </button>
       ) : (
-        <div className="text-ink-2 flex items-center gap-1.5 px-1.5 py-1.5 text-sm">
-          <span aria-hidden className="ml-1 size-1 rounded-full bg-[var(--border)]" />
+        <div className="flex items-center gap-1.5 px-1.5 py-1.5 text-sm text-ink-2">
+          <span
+            aria-hidden
+            className="ml-1 size-1 rounded-full bg-[var(--border)]"
+          />
           {node.label}
         </div>
       )}

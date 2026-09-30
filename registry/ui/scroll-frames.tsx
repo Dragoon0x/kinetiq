@@ -225,7 +225,7 @@ export function ScrollFrames({
                 setScrubIndex(next);
                 onFrameChange?.(next);
               }}
-              className="h-4 min-w-0 flex-1 cursor-pointer accent-primary outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="h-4 min-w-0 flex-1 cursor-pointer accent-primary outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             />
           )}
         </motion.div>

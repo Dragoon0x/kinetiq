@@ -21,7 +21,7 @@ export function ExpiryRingDemo() {
           <button
             type="button"
             onClick={() => setRunning((on) => !on)}
-            className="inline-flex h-8 shrink-0 items-center rounded-2 border border-input px-3 text-xs font-medium outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="inline-flex h-8 shrink-0 items-center rounded-2 border border-input px-3 text-xs font-medium outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             {running ? "Pause" : "Resume"}
           </button>

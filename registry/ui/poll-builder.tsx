@@ -57,7 +57,7 @@ export type PollBuilderProps = {
 };
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const chip =
   "flex h-8 shrink-0 items-center gap-2 rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors hover:bg-accent disabled:opacity-50";

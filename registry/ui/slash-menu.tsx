@@ -349,7 +349,7 @@ export function SlashMenu({
                         type="button"
                         aria-label={`Remove /${chipLabel}`}
                         onClick={() => remove(index)}
-                        className="grid size-5 shrink-0 place-items-center rounded-full transition-colors outline-none hover:bg-cobalt-bright/15 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+                        className="grid size-5 shrink-0 place-items-center rounded-full transition-colors outline-none hover:bg-cobalt-bright/15 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid"
                       >
                         <svg
                           viewBox="0 0 16 16"

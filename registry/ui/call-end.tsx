@@ -41,7 +41,7 @@ export type CallEndProps = {
 };
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const mmss = (seconds: number): string => {
   const whole = Math.max(0, Math.floor(seconds));

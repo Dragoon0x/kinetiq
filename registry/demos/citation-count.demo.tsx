@@ -20,7 +20,7 @@ const START = { citations: 3, covered: ["c1", "c2"] };
 const ORDER = ["c4", "c3", "c5"];
 
 const button =
-  "flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function CitationCountDemo() {
   const [citations, setCitations] = React.useState(START.citations);

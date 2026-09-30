@@ -272,7 +272,7 @@ export function OrderBook({
           ROW,
           "cursor-default transition-colors",
           held ? "bg-surface-2" : "hover:bg-surface-2/60",
-          "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         {/* The bar is the drain: cumulative depth scaled from the outer edge,
@@ -389,7 +389,7 @@ export function OrderBook({
             className={cn(
               ROW,
               "my-1 h-8 grid-cols-[auto_minmax(0,1fr)] border-y border-hairline",
-              "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             <motion.span

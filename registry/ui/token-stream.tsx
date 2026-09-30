@@ -128,7 +128,7 @@ export function TokenStream({
       tabIndex={-1}
       className={cn(
         "flex w-full flex-col gap-3 rounded-3 border border-hairline bg-surface-1 p-4 outline-none",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         className,
       )}
     >
@@ -177,7 +177,7 @@ export function TokenStream({
               }
               className={cn(
                 "flex h-7 shrink-0 items-center gap-1.5 rounded-full border border-hairline-strong bg-surface-0 px-2.5 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               <svg viewBox="0 0 16 16" aria-hidden className="size-3 shrink-0">

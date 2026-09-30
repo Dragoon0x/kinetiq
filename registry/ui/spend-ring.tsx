@@ -335,7 +335,7 @@ export function SpendRing({
                 onKeyDown={(event) => handleKeyDown(event, index)}
                 className={cn(
                   "relative flex min-w-14 items-center justify-center rounded-full px-3 text-xs font-medium transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   checked ? "text-foreground" : "text-ink-3 hover:text-ink",
                 )}
               >

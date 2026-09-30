@@ -54,7 +54,7 @@ export function StickerPopDemo() {
       <button
         type="button"
         onClick={send}
-        className="h-9 self-start rounded-3 border border-hairline-strong px-3 text-sm font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:bg-cobalt-wash"
+        className="h-9 self-start rounded-3 border border-hairline-strong px-3 text-sm font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid active:bg-cobalt-wash"
       >
         Send sticker
       </button>

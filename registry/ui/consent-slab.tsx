@@ -162,7 +162,7 @@ export function ConsentSlab({
 
   const actionButton = cn(
     "flex h-9 flex-1 items-center justify-center rounded-2 text-xs font-medium outline-none transition-colors",
-    "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+    "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2",
   );
 
   return (
@@ -182,7 +182,7 @@ export function ConsentSlab({
             transition={{ duration: durations.fast, delay: durations.fast }}
             className={cn(
               "pointer-events-auto absolute bottom-3 left-3 flex h-8 items-center gap-2 rounded-full border border-hairline-strong bg-card px-3 text-xs font-medium text-foreground shadow-sm transition-colors outline-none hover:bg-accent hover:text-accent-foreground",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             <span
@@ -229,7 +229,7 @@ export function ConsentSlab({
               onClick={() => setExpanded((value) => !value)}
               className={cn(
                 "flex h-8 w-full items-center justify-between gap-2 text-xs font-medium text-ink-2 transition-colors outline-none hover:text-foreground",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               Customise
@@ -299,7 +299,7 @@ export function ConsentSlab({
                           }}
                           className={cn(
                             "relative flex h-5 w-9 shrink-0 items-center rounded-full px-0.5 transition-colors outline-none",
-                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                             on ? "bg-primary" : "bg-hairline-strong",
                             category.locked && "cursor-not-allowed opacity-60",
                           )}

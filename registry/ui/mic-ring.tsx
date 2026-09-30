@@ -260,7 +260,7 @@ export function MicRing({
           onClick={toggle}
           className={cn(
             "relative col-start-1 row-start-1 grid size-11 place-items-center rounded-full border transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             isMuted
               ? "border-hairline-strong bg-surface-0 text-ink-3"
               : "border-hairline bg-surface-0 text-cobalt-bright hover:bg-cobalt-wash",

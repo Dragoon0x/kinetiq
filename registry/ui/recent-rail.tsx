@@ -98,7 +98,7 @@ function RenameField({
       onBlur={(event) => finish(event.currentTarget.value, false)}
       className={cn(
         "h-8 min-w-0 flex-1 rounded-1 border border-input bg-surface-0 px-2 text-sm text-foreground outline-none",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
       )}
     />
   );
@@ -327,7 +327,7 @@ export function RecentRail({
                           onKeyDown={(event) => handleKeyDown(event, index)}
                           className={cn(
                             "flex h-8 min-w-0 flex-1 items-center gap-2 rounded-1 px-2 text-left outline-none",
-                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                           )}
                         >
                           {/* Old and new titles share one grid cell so the
@@ -363,7 +363,7 @@ export function RecentRail({
                           onClick={() => setEditing(item.id)}
                           className={cn(
                             "flex size-7 shrink-0 items-center justify-center rounded-1 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground",
-                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                           )}
                         >
                           <svg

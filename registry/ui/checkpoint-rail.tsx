@@ -219,7 +219,7 @@ export function CheckpointRail({
                 style={{ maxWidth: `calc(${pct(100 / (count + 1))} - 4px)` }}
                 className={cn(
                   "absolute top-0 flex h-12 -translate-x-1/2 flex-col items-center gap-1.5 rounded-2 px-1 outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
                 initial={{ left: pct(slot(k)), opacity: 0 }}
                 animate={{ left: pct(slot(k)), opacity: 1 }}

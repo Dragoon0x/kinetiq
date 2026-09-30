@@ -481,7 +481,7 @@ export function PaymentPlan({
                 onKeyDown={handleKeyDown}
                 className={cn(
                   "pointer-events-auto block size-4 -translate-x-1/2 -translate-y-1/2 cursor-ew-resize rounded-full border-2 border-cobalt-bright bg-background outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               />
             </motion.span>

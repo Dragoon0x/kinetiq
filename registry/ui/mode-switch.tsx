@@ -200,7 +200,7 @@ export function ModeSwitch({
               onKeyDown={(event) => handleSegmentKey(event, index)}
               className={cn(
                 "relative flex min-w-16 flex-1 items-center justify-center rounded-full px-3 text-sm font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground",
@@ -330,7 +330,7 @@ export function ModeSwitch({
                       onClick={submit}
                       className={cn(
                         "flex h-8 shrink-0 items-center rounded-2 bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         !canSubmit && "opacity-40",
                       )}
                     >

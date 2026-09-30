@@ -151,7 +151,7 @@ const CANCEL =
   "bg-surface-2 text-foreground ring-hairline-strong hover:ring-ink-3";
 const LATCHED = "bg-surface-2 text-ink-2 ring-hairline";
 const FOCUS =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 function Half({
   side,

@@ -137,7 +137,7 @@ function FoldGroup({
           onClick={() => setOpen((value) => !value)}
           className={cn(
             "mt-1 flex h-6 w-full cursor-pointer items-center gap-2.5 rounded-2 px-2.5 text-ink-3 transition-colors outline-none hover:text-ink-2",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <span className="flex size-5 shrink-0 items-center justify-center">
@@ -186,7 +186,7 @@ function FoldGroup({
                 onBlur={() => onTip(null, null)}
                 className={cn(
                   "relative flex h-9 w-full cursor-pointer items-center gap-2.5 overflow-hidden rounded-2 px-2.5 transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isActive
                     ? "text-cobalt-bright"
                     : "text-ink-2 hover:bg-surface-2 hover:text-ink",
@@ -348,7 +348,7 @@ export function FoldSidebar({
           onBlur={() => setTip(null)}
           className={cn(
             "flex h-9 w-full cursor-pointer items-center gap-2.5 overflow-hidden rounded-2 px-2.5 text-ink-3 transition-colors outline-none hover:bg-surface-2 hover:text-ink",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <svg viewBox="0 0 24 24" aria-hidden className="size-5 shrink-0">

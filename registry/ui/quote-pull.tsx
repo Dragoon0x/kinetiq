@@ -266,7 +266,7 @@ export function QuotePull({
               }}
               className={cn(
                 "-mx-0.5 cursor-pointer rounded-1 [box-decoration-break:clone] px-0.5 underline decoration-1 underline-offset-4 transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 found
                   ? isLit
                     ? "bg-warn/15 decoration-warn decoration-solid"

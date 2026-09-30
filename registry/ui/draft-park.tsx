@@ -218,7 +218,7 @@ export function DraftPark({
   const layerClass =
     "pointer-events-none absolute inset-0 overflow-hidden px-3 py-2.5 text-sm leading-5 break-words whitespace-pre-wrap";
   const buttonClass =
-    "flex h-8 shrink-0 items-center rounded-2 px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+    "flex h-8 shrink-0 items-center rounded-2 px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
   return (
     <div className={cn("flex w-full flex-col gap-2", className)}>
@@ -371,7 +371,7 @@ export function DraftPark({
                         aria-label={`Restore: ${summary}`}
                         title={draft.text}
                         onClick={() => restore(draft)}
-                        className="flex h-full min-w-0 items-center gap-1.5 rounded-l-2 pr-1 pl-2 text-xs font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+                        className="flex h-full min-w-0 items-center gap-1.5 rounded-l-2 pr-1 pl-2 text-xs font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid"
                       >
                         <svg
                           viewBox="0 0 16 16"
@@ -391,7 +391,7 @@ export function DraftPark({
                         type="button"
                         aria-label={`Discard: ${summary}`}
                         onClick={() => discard(draft)}
-                        className="grid size-6 shrink-0 place-items-center rounded-1 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+                        className="grid size-6 shrink-0 place-items-center rounded-1 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid"
                       >
                         <svg
                           viewBox="0 0 16 16"

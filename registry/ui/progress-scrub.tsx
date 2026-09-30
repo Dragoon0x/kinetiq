@@ -108,14 +108,14 @@ export function ProgressScrub({
           draggingRef.current = false;
         }}
         onKeyDown={handleKeyDown}
-        className="bg-surface-2 relative h-2.5 cursor-pointer touch-none rounded-full outline-none focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="relative h-2.5 cursor-pointer touch-none rounded-full bg-surface-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         <div
-          className="bg-primary absolute inset-y-0 left-0 rounded-full"
+          className="absolute inset-y-0 left-0 rounded-full bg-primary"
           style={{ width: pct }}
         />
         <div
-          className="bg-surface-0 border-hairline-strong absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
+          className="absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-hairline-strong bg-surface-0"
           style={{ left: pct }}
         />
       </div>
@@ -125,7 +125,7 @@ export function ProgressScrub({
         ref={scrollRef}
         onScroll={handleScroll}
         style={{ height }}
-        className="border-hairline bg-surface-1 overflow-y-auto rounded-3 border p-4"
+        className="overflow-y-auto rounded-3 border border-hairline bg-surface-1 p-4"
       >
         {children}
       </div>

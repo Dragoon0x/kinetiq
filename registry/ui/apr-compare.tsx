@@ -339,7 +339,7 @@ export function AprCompare({
               }}
               className={cn(
                 "flex min-w-0 cursor-pointer flex-col gap-2 rounded-3 border p-3 text-left transition-[border-color,box-shadow,background-color] outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 isPicked
                   ? "border-cobalt-bright bg-surface-0 shadow-raised"
                   : "border-hairline bg-surface-1 hover:border-hairline-strong",

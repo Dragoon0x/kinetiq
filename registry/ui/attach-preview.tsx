@@ -222,7 +222,7 @@ function Slot({
         onClick={onRemove}
         className={cn(
           "absolute top-1 left-9 grid size-5 place-items-center rounded-full bg-background/85 text-ink-2 transition-colors outline-none hover:text-foreground",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <svg
@@ -503,7 +503,7 @@ export function AttachPreview({
             onClick={() => onAttach?.()}
             className={cn(
               "grid size-9 shrink-0 place-items-center rounded-3 border border-input bg-surface-0 text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             <svg
@@ -538,7 +538,7 @@ export function AttachPreview({
             rows={1}
             className={cn(
               "h-9 min-w-0 flex-1 resize-none rounded-3 border border-input bg-surface-0 px-3 py-2 text-sm leading-5 text-foreground outline-none placeholder:text-ink-3",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           />
 
@@ -548,7 +548,7 @@ export function AttachPreview({
             disabled={draft.trim() === "" && pending.length === 0}
             className={cn(
               "flex h-9 shrink-0 items-center rounded-3 bg-primary px-3.5 text-sm font-medium text-primary-foreground transition-opacity outline-none hover:opacity-90 disabled:opacity-50",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             Send

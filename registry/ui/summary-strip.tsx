@@ -30,7 +30,7 @@ export type SummaryStripProps = {
 };
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** One string per reading: no doubled full stop, no "1 messages". */
 const settleSentence = (text: string, covers?: number): string => {

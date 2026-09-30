@@ -246,7 +246,7 @@ export function CanopyMenu({
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
                 "flex h-9 cursor-pointer items-center gap-1.5 rounded-2 px-3 text-sm font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 expanded
                   ? "bg-cobalt-wash text-cobalt-bright"
                   : "text-ink-2 hover:bg-surface-2 hover:text-ink",
@@ -344,7 +344,7 @@ export function CanopyMenu({
                       href={link.href}
                       className={cn(
                         "truncate rounded-1 text-xs text-ink-2 transition-colors outline-none hover:text-ink",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       )}
                       initial={{
                         opacity: 0,

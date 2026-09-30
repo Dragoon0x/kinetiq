@@ -384,7 +384,7 @@ export function PromptHistory({
           }}
           className={cn(
             "grid size-8 shrink-0 place-items-center rounded-2 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             (count === 0 || text !== "") && "opacity-40",
           )}
         >

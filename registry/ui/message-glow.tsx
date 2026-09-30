@@ -53,7 +53,7 @@ const initialsOf = (name: string) =>
     .join("");
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * A thread where a quote is a door. Pressing the quoted line in a reply, or

@@ -41,7 +41,7 @@ const LINES: PinLine[] = SCRIPT.map(([at, level, message], index) => ({
 const START = 13;
 
 const chip =
-  "border-hairline-strong hover:bg-accent focus-visible:outline-ring flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50";
+  "border-hairline-strong hover:bg-accent focus-visible:outline-ring flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 disabled:opacity-50";
 
 export function ErrorPinDemo() {
   const pins = React.useRef<ErrorPinHandle | null>(null);

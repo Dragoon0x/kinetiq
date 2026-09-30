@@ -206,7 +206,7 @@ export function UnfoldCard({
                 onClick={() => setOpen(isOpen ? null : item.id)}
                 className={cn(
                   "flex w-full cursor-pointer items-center gap-3 px-3 py-2.5 text-left outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 <span className="min-w-0 flex-1">{item.summary}</span>

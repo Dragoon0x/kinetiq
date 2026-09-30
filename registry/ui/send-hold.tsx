@@ -488,7 +488,7 @@ export function SendHold({
         transition={springs.flick}
         className={cn(
           "relative grid size-9 shrink-0 touch-none place-items-center rounded-full bg-primary text-primary-foreground outline-none select-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           disabled && "opacity-40",
         )}
       >

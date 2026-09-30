@@ -257,7 +257,7 @@ export function RatingPair({
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
                 "flex h-8 items-center justify-center rounded-full text-xs font-medium transition-colors duration-150 outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:bg-accent hover:text-foreground",

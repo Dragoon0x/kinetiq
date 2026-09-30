@@ -61,7 +61,7 @@ export function ActivityRingsDemo() {
         <button
           type="button"
           onClick={() => setValues(START)}
-          className="cursor-pointer font-mono text-[10px] tracking-[0.08em] text-ink-2 uppercase outline-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="cursor-pointer font-mono text-[10px] tracking-[0.08em] text-ink-2 uppercase outline-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           Reset
         </button>
@@ -81,7 +81,7 @@ export function ActivityRingsDemo() {
                 ),
               )
             }
-            className="flex h-9 flex-1 basis-0 cursor-pointer items-center justify-center rounded-2 border border-hairline bg-surface-2 px-2 text-xs font-medium text-foreground outline-none hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex h-9 flex-1 basis-0 cursor-pointer items-center justify-center rounded-2 border border-hairline bg-surface-2 px-2 text-xs font-medium text-foreground outline-none hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             +{ring.add} {ring.unit}
           </button>

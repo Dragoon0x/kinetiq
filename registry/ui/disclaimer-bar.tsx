@@ -183,7 +183,7 @@ export function DisclaimerBar({
                 }}
                 className={cn(
                   "relative block max-w-full overflow-hidden rounded-full border border-hairline-strong bg-surface-1 text-left transition-colors outline-none hover:bg-accent",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 {/* Laid out at the row's width regardless of the button's,

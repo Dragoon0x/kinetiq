@@ -559,7 +559,7 @@ export function CopySlip({
           transition={springs.flick}
           className={cn(
             "inline-flex h-10 shrink-0 cursor-pointer items-center justify-center gap-2 rounded-2 border border-hairline-strong bg-card px-3 text-sm font-medium transition-colors outline-none select-none enabled:hover:bg-surface-2",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             "disabled:cursor-not-allowed disabled:opacity-50",
             phase === "copied"
               ? "text-success"

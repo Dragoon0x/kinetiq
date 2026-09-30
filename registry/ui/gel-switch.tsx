@@ -404,7 +404,7 @@ export function GelSwitch({
         {...drag}
         className={cn(
           "relative shrink-0 cursor-pointer touch-pan-y rounded-full outline-none select-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           "disabled:cursor-not-allowed disabled:opacity-50",
         )}
         style={{ width: g.width, height: g.height }}

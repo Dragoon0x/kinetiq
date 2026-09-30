@@ -331,7 +331,7 @@ export function HeatWeek({
                 onFocus={() => setFocusCell({ row: rowIndex, col: 0 })}
                 className={cn(
                   "w-9 shrink-0 cursor-pointer rounded-1 pr-1 text-right font-mono text-[10px] transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid",
                   chosen ? "text-ink" : "text-ink-3 hover:text-ink",
                 )}
               >
@@ -393,7 +393,7 @@ export function HeatWeek({
                     }
                     className={cn(
                       "relative aspect-square min-w-0 flex-1 rounded-[2px] bg-hairline outline-none",
-                      "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring",
+                      "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid",
                       isActive && "z-10",
                       // Reduced motion loses the lift, so the held cell is
                       // marked with a ring instead — the readout must never be

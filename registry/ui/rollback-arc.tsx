@@ -95,7 +95,7 @@ const STATUS_TEXT: Record<VersionStatus, string> = {
 };
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * Every version a service has worn, laid on one arc with the newest at the

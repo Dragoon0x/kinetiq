@@ -256,7 +256,7 @@ export function RateDial({
         aria-valuemax={scale}
         aria-valuenow={Math.min(scale, reading)}
         aria-valuetext={valueText}
-        className="relative mx-auto w-full max-w-[264px] rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="relative mx-auto w-full max-w-[264px] rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         style={{ aspectRatio: `${VIEW_W} / ${VIEW_H}` }}
       >
         <svg
@@ -387,7 +387,7 @@ export function RateDial({
           disabled={peak.value <= reading}
           aria-label={`Reset peak, currently ${print(peak.value)} ${unitLong}.`}
           onClick={resetPeak}
-          className="flex h-8 shrink-0 items-center rounded-2 border border-hairline-strong px-3 font-mono text-[10px] font-medium text-ink transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50"
+          className="flex h-8 shrink-0 items-center rounded-2 border border-hairline-strong px-3 font-mono text-[10px] font-medium text-ink transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:opacity-50"
         >
           Reset peak
         </button>

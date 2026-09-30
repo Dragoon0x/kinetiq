@@ -23,17 +23,17 @@ export function SlipstreamDemo() {
   return (
     <div className="flex w-[400px] max-w-full flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <span className="text-muted-foreground font-mono text-[11px] font-medium tracking-[0.08em] uppercase">
+        <span className="font-mono text-[11px] font-medium tracking-[0.08em] text-muted-foreground uppercase">
           Docs
         </span>
         <nav aria-label="Documentation">
-          <Slipstream className="border-border flex items-center gap-1 border-b pb-1.5">
+          <Slipstream className="flex items-center gap-1 border-b border-border pb-1.5">
             {DOCS.map((link) => (
               <SlipstreamItem key={link.href}>
                 <a
                   href={link.href}
                   onClick={(event) => event.preventDefault()}
-                  className="text-muted-foreground hover:text-foreground focus-visible:outline-ring block rounded-2 px-2.5 py-1.5 text-sm font-medium whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="block rounded-2 px-2.5 py-1.5 text-sm font-medium whitespace-nowrap text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                 >
                   {link.label}
                 </a>
@@ -44,26 +44,26 @@ export function SlipstreamDemo() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <span className="text-muted-foreground font-mono text-[11px] font-medium tracking-[0.08em] uppercase">
+        <span className="font-mono text-[11px] font-medium tracking-[0.08em] text-muted-foreground uppercase">
           Settings
         </span>
-        <Slipstream className="border-border bg-card flex flex-col gap-0.5 rounded-3 border p-1.5">
+        <Slipstream className="flex flex-col gap-0.5 rounded-3 border border-border bg-card p-1.5">
           {SETTINGS.map((row) => (
             <SlipstreamItem key={row.label}>
               <button
                 type="button"
-                className="text-muted-foreground hover:text-foreground focus-visible:outline-ring flex w-full items-center gap-2.5 rounded-2 px-2.5 py-2 text-left text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="flex w-full items-center gap-2.5 rounded-2 px-2.5 py-2 text-left text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               >
                 <row.icon className="size-4 opacity-70" aria-hidden />
                 {row.label}
               </button>
             </SlipstreamItem>
           ))}
-          <hr className="border-border mx-2 my-1" />
+          <hr className="mx-2 my-1 border-border" />
           <SlipstreamItem>
             <button
               type="button"
-              className="text-destructive focus-visible:outline-ring flex w-full items-center gap-2.5 rounded-2 px-2.5 py-2 text-left text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2"
+              className="flex w-full items-center gap-2.5 rounded-2 px-2.5 py-2 text-left text-sm font-medium text-destructive focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             >
               <TriangleAlert className="size-4 opacity-70" aria-hidden />
               Danger zone
@@ -72,7 +72,7 @@ export function SlipstreamDemo() {
         </Slipstream>
       </div>
 
-      <p className="text-muted-foreground text-center font-mono text-xs">
+      <p className="text-center font-mono text-xs text-muted-foreground">
         Hover or Tab through
       </p>
     </div>

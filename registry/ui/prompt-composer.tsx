@@ -263,7 +263,7 @@ export function PromptComposer({
           }
           className={cn(
             "grid size-9 shrink-0 place-items-center bg-primary text-primary-foreground transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             !live && !canSend && "opacity-40",
           )}
         >

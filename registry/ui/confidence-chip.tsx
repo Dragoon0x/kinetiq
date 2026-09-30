@@ -195,7 +195,7 @@ export function ConfidenceChip({
           className={cn(
             "relative flex h-7 shrink-0 items-center gap-1.5 overflow-hidden rounded-full border px-2.5 font-mono text-[11px] font-medium tabular-nums transition-colors outline-none",
             pinned ? "border-hairline-strong" : "border-hairline",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           {/* The wash is clipped from the right rather than scaled, so the

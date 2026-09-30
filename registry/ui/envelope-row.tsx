@@ -347,7 +347,7 @@ export function EnvelopeRow({
                     onClick={() => activate(item.id)}
                     className={cn(
                       "relative flex h-28 w-36 shrink-0 flex-col justify-between overflow-hidden rounded-3 border p-2.5 text-left transition-colors outline-none",
-                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       held
                         ? "border-cobalt-bright bg-cobalt-wash"
                         : "border-hairline-strong bg-surface-2 hover:border-cobalt-bright/60",

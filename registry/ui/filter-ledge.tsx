@@ -204,7 +204,7 @@ export function FilterLedge({
                 style={{ transitionDelay: `${delay}s` }}
                 className={cn(
                   "relative flex h-8 shrink-0 items-center rounded-full border px-3 text-xs font-medium transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   on
                     ? "border-primary text-primary-foreground"
                     : "border-hairline bg-surface-1 text-ink-2 hover:border-hairline-strong hover:text-ink",
@@ -307,7 +307,7 @@ export function FilterLedge({
           disabled={active.length === 0}
           className={cn(
             "flex h-8 shrink-0 items-center rounded-full border border-hairline px-3 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             "text-ink-2 hover:border-hairline-strong hover:text-ink",
             "disabled:pointer-events-none disabled:opacity-40",
           )}

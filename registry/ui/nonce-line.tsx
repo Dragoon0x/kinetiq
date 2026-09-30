@@ -331,7 +331,7 @@ export function NonceLine({
                       onKeyDown={(event) => handleKeyDown(event, index)}
                       className={cn(
                         "relative flex h-[62px] w-[88px] cursor-pointer flex-col justify-between rounded-2 border p-2 text-left transition-colors outline-none",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         isGap
                           ? "border-dashed border-hairline-strong bg-transparent hover:bg-accent"
                           : "border-hairline-strong bg-surface-2 hover:border-cobalt-bright/60",

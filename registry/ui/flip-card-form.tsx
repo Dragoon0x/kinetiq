@@ -114,7 +114,7 @@ function ChipMark() {
 
 const LABEL = "mb-1.5 block text-xs font-medium text-ink-2";
 const INPUT =
-  "h-9 w-full min-w-0 rounded-2 border border-input bg-surface-1 px-3 text-sm text-foreground outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "h-9 w-full min-w-0 rounded-2 border border-input bg-surface-1 px-3 text-sm text-foreground outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 const FACE_LABEL =
   "font-mono text-[9px] tracking-[0.14em] text-ink-3 uppercase";
 const FACE =
@@ -397,7 +397,7 @@ export function FlipCardForm({
 
         <button
           type="submit"
-          className="mt-1 inline-flex h-9 w-full items-center justify-center rounded-2 bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="mt-1 inline-flex h-9 w-full items-center justify-center rounded-2 bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           {submitLabel}
         </button>

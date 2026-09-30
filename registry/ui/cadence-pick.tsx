@@ -222,7 +222,7 @@ export function CadencePick({
                   onKeyDown={(event) => handleRailKeyDown(event, index)}
                   className={cn(
                     "relative flex flex-1 items-center justify-center rounded-full px-2 text-xs font-medium transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     selected ? "text-ink" : "text-ink-3 hover:text-ink-2",
                   )}
                 >
@@ -320,7 +320,7 @@ export function CadencePick({
             onKeyDown={handleStepperKeyDown}
             className={cn(
               "flex h-9 flex-1 items-center justify-center rounded-full border border-hairline bg-surface-1 px-3 font-mono text-xs text-ink tabular-nums outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             {describe("custom", days)}
@@ -354,7 +354,7 @@ function StepButton({
       className={cn(
         "flex size-9 shrink-0 items-center justify-center rounded-full border border-hairline bg-surface-1 text-ink-2 transition-colors outline-none",
         "hover:border-hairline-strong hover:text-ink",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         "disabled:pointer-events-none disabled:opacity-40",
       )}
     >

@@ -96,7 +96,7 @@ export function ScrollFramesDemo() {
         tabIndex={0}
         role="region"
         aria-label="Gaugeworks rotor sequence, scroll to scrub"
-        className="h-[300px] w-full overflow-y-auto rounded-3 border border-hairline bg-surface-1 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="h-[300px] w-full overflow-y-auto rounded-3 border border-hairline bg-surface-1 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         <ScrollFrames
           frames={FRAMES}

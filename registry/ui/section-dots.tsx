@@ -200,7 +200,7 @@ export function SectionDots({
                 onBlur={() => setRevealed(null)}
                 onPointerEnter={() => setRevealed(section.id)}
                 onPointerLeave={() => setRevealed(null)}
-                className="flex size-6 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+                className="flex size-6 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid"
               >
                 <motion.span
                   aria-hidden

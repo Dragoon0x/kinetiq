@@ -362,7 +362,7 @@ export function StopRail({
                 transition={move}
                 className={cn(
                   "absolute inset-y-0 -ml-3 flex w-6 cursor-grab flex-col items-center justify-start rounded-2 outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   dragging && active === key && "cursor-grabbing",
                 )}
               >

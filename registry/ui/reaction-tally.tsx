@@ -345,7 +345,7 @@ export function ReactionTally({
                       transition={springs.flick}
                       className={cn(
                         "relative flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[11px] font-medium transition-colors outline-none",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         entry.mine
                           ? "border-cobalt-bright bg-cobalt-wash text-cobalt-bright"
                           : "border-hairline-strong text-ink-2 hover:bg-accent",

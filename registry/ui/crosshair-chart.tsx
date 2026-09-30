@@ -352,7 +352,7 @@ export function CrosshairChart({
         onPointerLeave={handlePointerLeave}
         className={cn(
           "relative w-full rounded-3 border border-hairline bg-surface-1 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
         // pan-y keeps the page scrollable through the plot while horizontal
         // travel belongs to the crosshair.

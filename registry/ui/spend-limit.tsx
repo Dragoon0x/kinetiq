@@ -349,7 +349,7 @@ export function SpendLimit({
             style={{ touchAction: "none" }}
             className={cn(
               "absolute inset-x-0 -top-3 flex h-6 items-center outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               disabled ? "cursor-not-allowed" : "cursor-ns-resize",
             )}
           >

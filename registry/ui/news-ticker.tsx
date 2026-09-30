@@ -389,7 +389,7 @@ export function NewsTicker({
         onFocus={live && motionSafe ? () => reveal(index) : undefined}
         className={cn(
           "relative flex items-center gap-2 rounded-full border border-hairline bg-surface-1 px-3 text-xs transition-colors outline-none",
-          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           // On the tape a headline is one unbroken line inside a clipped
           // viewport; as a chip in the reduced-motion row it wraps, so a long
           // one still fits 342px.
@@ -460,7 +460,7 @@ export function NewsTicker({
         aria-label="Pause tape"
         aria-pressed={!isPlaying}
         onClick={() => setPlaying(!isPlaying)}
-        className="order-last inline-flex size-8 shrink-0 items-center justify-center rounded-full border border-hairline bg-surface-1 text-ink transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="order-last inline-flex size-8 shrink-0 items-center justify-center rounded-full border border-hairline bg-surface-1 text-ink transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         <svg viewBox="0 0 12 12" aria-hidden className="size-3">
           {isPlaying ? (

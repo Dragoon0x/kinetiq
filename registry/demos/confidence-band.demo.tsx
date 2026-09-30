@@ -35,7 +35,7 @@ const toneOf = (confidence: number) =>
   confidence < LOW_AT ? "low" : confidence < HIGH_AT ? "unsure" : "confident";
 
 const button =
-  "flex h-8 items-center rounded-2 border border-hairline bg-surface-1 px-3 text-xs font-medium text-foreground transition-colors outline-none hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-8 items-center rounded-2 border border-hairline bg-surface-1 px-3 text-xs font-medium text-foreground transition-colors outline-none hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function ConfidenceBandDemo() {
   const [read, setRead] = React.useState<string | null>(null);

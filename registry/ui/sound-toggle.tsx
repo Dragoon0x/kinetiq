@@ -65,11 +65,16 @@ export function SoundToggle({
       aria-label={isOn ? "Mute" : "Unmute"}
       onClick={toggle}
       className={cn(
-        "border-hairline bg-surface-1 hover:bg-surface-2 relative flex size-11 items-center justify-center rounded-full border transition-colors focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+        "relative flex size-11 items-center justify-center rounded-full border border-hairline bg-surface-1 transition-colors hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         className,
       )}
     >
-      <svg viewBox="0 0 24 24" className="text-ink size-6" fill="none" aria-hidden>
+      <svg
+        viewBox="0 0 24 24"
+        className="size-6 text-ink"
+        fill="none"
+        aria-hidden
+      >
         <path d="M4 9 h3 l4 -3.2 v12.4 l-4 -3.2 H4 Z" fill="currentColor" />
         {WAVES.map((d, index) => (
           <motion.path

@@ -210,7 +210,7 @@ export function SnapCarousel({
   const atEnd = !loop && index === count - 1;
 
   const arrowClass =
-    "flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-hairline-strong bg-surface-1 text-ink outline-none transition-colors hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:text-ink-3 disabled:opacity-50";
+    "flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full border border-hairline-strong bg-surface-1 text-ink outline-none transition-colors hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed disabled:text-ink-3 disabled:opacity-50";
 
   return (
     <section
@@ -232,7 +232,7 @@ export function SnapCarousel({
         aria-label={`${label} slides`}
         tabIndex={0}
         onKeyDown={handleScrollerKeyDown}
-        className="relative flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto overscroll-x-contain rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&::-webkit-scrollbar]:hidden"
+        className="relative flex snap-x snap-mandatory [scrollbar-width:none] gap-3 overflow-x-auto overscroll-x-contain rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid [&::-webkit-scrollbar]:hidden"
       >
         {slides.map((slide, i) => (
           <div
@@ -292,7 +292,7 @@ export function SnapCarousel({
               tabIndex={i === index ? 0 : -1}
               onClick={() => goTo(i)}
               onKeyDown={(event) => handleDotKeyDown(event, i)}
-              className="flex size-8 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring"
+              className="flex size-8 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid"
             >
               <motion.span
                 aria-hidden

@@ -62,7 +62,7 @@ const TICK_MS = 110;
 const TICKS_PER_SLOT = 5;
 
 const CONTROL =
-  "flex h-8 items-center justify-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-45";
+  "flex h-8 items-center justify-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-45";
 
 const toCents = (value: number) => Math.round(value * 100) / 100;
 

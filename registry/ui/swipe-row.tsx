@@ -417,7 +417,7 @@ export function SwipeRow({
             onClick={() => setMenuOpen((wasOpen) => !wasOpen)}
             className={cn(
               "flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-2 text-ink-3 outline-none hover:bg-surface-2 hover:text-foreground",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             <svg viewBox="0 0 16 16" className="size-4" aria-hidden>
@@ -462,7 +462,7 @@ export function SwipeRow({
                 onKeyDown={(event) => onMenuKeyDown(event, at)}
                 className={cn(
                   "flex h-8 cursor-pointer items-center gap-2 rounded-1 px-2 text-left text-sm outline-none hover:bg-accent",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   action.tone === "danger" ? "text-danger" : "text-foreground",
                 )}
               >

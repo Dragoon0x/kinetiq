@@ -498,7 +498,7 @@ export function GasDial({
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
                 "flex h-8 flex-1 items-center justify-center rounded-2 border px-2 text-xs font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 chosen
                   ? "border-cobalt-bright/50 bg-cobalt-wash text-ink"
                   : "border-hairline text-ink-3 hover:bg-accent hover:text-ink",

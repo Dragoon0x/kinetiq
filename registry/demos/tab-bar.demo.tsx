@@ -75,7 +75,7 @@ export function TabBarDemo() {
         <button
           type="button"
           onClick={() => setUnread((count) => count + 1)}
-          className="flex h-8 cursor-pointer items-center rounded-2 border border-input bg-surface-1 px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex h-8 cursor-pointer items-center rounded-2 border border-input bg-surface-1 px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           Deliver a statement
         </button>

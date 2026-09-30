@@ -320,7 +320,7 @@ export function SwapPair({
                       type="button"
                       onClick={() => commitAmount(asset.balance)}
                       aria-label={`Pay maximum, ${format(asset.balance, asset.symbol)} ${asset.symbol}`}
-                      className="flex h-5 items-center rounded-1 px-1 font-mono text-[10px] font-medium tracking-[0.08em] text-cobalt-bright uppercase transition-colors outline-none hover:bg-cobalt-wash focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                      className="flex h-5 items-center rounded-1 px-1 font-mono text-[10px] font-medium tracking-[0.08em] text-cobalt-bright uppercase transition-colors outline-none hover:bg-cobalt-wash focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                     >
                       Max
                     </button>
@@ -342,7 +342,7 @@ export function SwapPair({
                     onChange={handleInput}
                     aria-invalid={overBalance || undefined}
                     aria-describedby={overBalance ? noteId : undefined}
-                    className="h-8 min-w-0 flex-1 rounded-1 bg-transparent font-mono text-lg text-foreground tabular-nums outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    className="h-8 min-w-0 flex-1 rounded-1 bg-transparent font-mono text-lg text-foreground tabular-nums outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                   />
                 ) : (
                   <output
@@ -386,7 +386,7 @@ export function SwapPair({
             type="button"
             onClick={flip}
             aria-label={`Pay ${receiveAsset.name}, receive ${payAsset.name}`}
-            className="pointer-events-auto flex size-8 items-center justify-center rounded-full border border-hairline-strong bg-surface-0 text-ink-2 shadow-raised transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:bg-cobalt-wash"
+            className="pointer-events-auto flex size-8 items-center justify-center rounded-full border border-hairline-strong bg-surface-0 text-ink-2 shadow-raised transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid active:bg-cobalt-wash"
           >
             <motion.span
               aria-hidden

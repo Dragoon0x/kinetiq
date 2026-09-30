@@ -374,7 +374,7 @@ export function WalletConnect({
         onClick={press}
         className={cn(
           "flex h-9 items-center justify-center rounded-2 border text-xs font-medium transition-colors outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           connected || pending
             ? "border-input bg-surface-1 text-foreground hover:bg-accent"
             : "border-primary bg-primary text-primary-foreground hover:bg-primary/90",

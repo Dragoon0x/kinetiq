@@ -403,7 +403,7 @@ export function MarketClock({
                 onClick={() => pick(on ? null : session.label)}
                 className={cn(
                   "flex h-8 w-full items-center gap-2 rounded-2 px-2 text-left transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   on ? "bg-cobalt-wash" : "hover:bg-accent",
                 )}
               >

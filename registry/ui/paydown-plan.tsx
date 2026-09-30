@@ -388,7 +388,7 @@ export function PaydownPlan({
                 onKeyDown={(event) => handleStrategyKey(event, index)}
                 className={cn(
                   "relative flex items-center justify-center rounded-full px-2.5 text-[11px] font-medium whitespace-nowrap transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   checked
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground",
@@ -426,7 +426,7 @@ export function PaydownPlan({
           step={step}
           value={currentExtra}
           onChange={(event) => setExtra(Number(event.target.value))}
-          className="h-4 w-full cursor-pointer accent-cobalt-bright outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="h-4 w-full cursor-pointer accent-cobalt-bright outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         />
       </div>
 

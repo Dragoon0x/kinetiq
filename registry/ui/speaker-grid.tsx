@@ -306,7 +306,7 @@ export function SpeakerGrid({
                     ? springs.glide
                     : { duration: durations.fast, ease: easings.enter }
                 }
-                className="cursor-pointer rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="cursor-pointer rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               >
                 <motion.div
                   className="flex flex-col gap-1.5"

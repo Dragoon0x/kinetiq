@@ -563,7 +563,7 @@ export function LaneBoard({
                               style={{ touchAction: "none" }}
                               className={cn(
                                 "w-full cursor-grab rounded-2 border bg-surface-0 p-2 text-left transition-colors outline-none",
-                                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                                 open || held
                                   ? "border-cobalt-bright"
                                   : "border-hairline hover:border-hairline-strong",
@@ -620,7 +620,7 @@ export function LaneBoard({
                                   onClick={() => runMove(card.id, move)}
                                   className={cn(
                                     "flex h-7 items-center justify-center rounded-1 border border-hairline bg-surface-2 text-[10px] font-medium transition-colors outline-none",
-                                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                                     move.enabled
                                       ? "text-ink-2 hover:bg-accent hover:text-accent-foreground"
                                       : "cursor-not-allowed text-ink-3 opacity-50",

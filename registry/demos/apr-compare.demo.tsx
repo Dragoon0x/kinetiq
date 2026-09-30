@@ -24,7 +24,7 @@ const monthly = (principal: number, apr: number, months: number) => {
 };
 
 const BUTTON =
-  "inline-flex h-8 items-center justify-center rounded-2 border border-input bg-surface-1 px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-cobalt-bright/50 aria-pressed:bg-cobalt-wash";
+  "inline-flex h-8 items-center justify-center rounded-2 border border-input bg-surface-1 px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring aria-pressed:border-cobalt-bright/50 aria-pressed:bg-cobalt-wash";
 
 export function AprCompareDemo() {
   const [amount, setAmount] = React.useState(AMOUNTS[1]!);

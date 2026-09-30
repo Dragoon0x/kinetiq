@@ -43,7 +43,7 @@ const LINES: RailLine[] = SCRIPT.map(([at, clock, level, message], index) => ({
 }));
 
 const chip =
-  "border-hairline-strong hover:bg-accent focus-visible:outline-ring flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2";
+  "border-hairline-strong hover:bg-accent focus-visible:outline-ring flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2";
 
 const seconds = (ms: number) => (ms / 1000).toFixed(1);
 

@@ -85,8 +85,8 @@ export function Checkbox({
       <span
         aria-hidden
         className={cn(
-          "border-input mt-0.5 flex size-4.5 shrink-0 items-center justify-center rounded-1 border transition-colors",
-          "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring",
+          "mt-0.5 flex size-4.5 shrink-0 items-center justify-center rounded-1 border border-input transition-colors",
+          "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring peer-focus-visible:outline-solid",
           (checked || indeterminate) && "border-primary bg-primary",
         )}
       >
@@ -155,7 +155,7 @@ export function Checkbox({
       <span className="min-w-0">
         <span className="block text-sm font-medium">{label}</span>
         {description && (
-          <span className="text-muted-foreground mt-0.5 block text-xs">
+          <span className="mt-0.5 block text-xs text-muted-foreground">
             {description}
           </span>
         )}
@@ -225,7 +225,10 @@ export function CheckboxGroup({
   return (
     <fieldset disabled={disabled} className={cn("min-w-0", className)}>
       <legend
-        className={cn("text-sm font-semibold", srOnlyLegend ? "sr-only" : "mb-3")}
+        className={cn(
+          "text-sm font-semibold",
+          srOnlyLegend ? "sr-only" : "mb-3",
+        )}
       >
         {legend}
       </legend>
@@ -242,7 +245,7 @@ export function CheckboxGroup({
               commit(next ? items.map((i) => i.id) : []);
             }}
           />
-          <div aria-hidden className="border-border my-2.5 border-t" />
+          <div aria-hidden className="my-2.5 border-t border-border" />
         </>
       )}
 

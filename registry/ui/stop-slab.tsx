@@ -264,7 +264,7 @@ export function StopSlab({
               }
               className={cn(
                 "relative flex shrink-0 items-center justify-center overflow-hidden rounded-full outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 streaming
                   ? "bg-primary text-primary-foreground"
                   : "border border-hairline-strong bg-surface-2 text-foreground hover:bg-accent",

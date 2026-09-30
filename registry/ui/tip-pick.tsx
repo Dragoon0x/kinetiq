@@ -330,7 +330,7 @@ export function TipPick({
               onKeyDown={(event) => onChipKeyDown(event, index)}
               className={cn(
                 "relative flex h-9 min-w-0 grow basis-[calc(33.333%_-_0.334rem)] items-center justify-center rounded-2 border px-3 text-sm font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "border-transparent text-primary-foreground"
                   : "border-hairline-strong bg-surface-1 text-ink-2 hover:text-foreground",
@@ -388,7 +388,7 @@ export function TipPick({
             placeholder="0.00"
             value={draft}
             onChange={handleAmount}
-            className="h-9 w-full min-w-0 rounded-2 border border-input bg-surface-1 px-3 font-mono text-sm text-foreground outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="h-9 w-full min-w-0 rounded-2 border border-input bg-surface-1 px-3 font-mono text-sm text-foreground outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           />
         </div>
       </motion.div>

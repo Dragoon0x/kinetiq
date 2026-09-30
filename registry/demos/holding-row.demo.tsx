@@ -127,7 +127,7 @@ export function HoldingRowDemo() {
         role="switch"
         aria-checked={live}
         onClick={() => setLive((current) => !current)}
-        className="inline-flex h-8 w-fit items-center justify-center gap-2 rounded-2 border border-input bg-surface-1 px-3 text-xs font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="inline-flex h-8 w-fit items-center justify-center gap-2 rounded-2 border border-input bg-surface-1 px-3 text-xs font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         <span
           aria-hidden

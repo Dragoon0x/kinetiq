@@ -298,7 +298,7 @@ export function PinBoard({
                       }
                       className={cn(
                         "flex h-7 min-w-0 items-center gap-1.5 rounded-full pr-2 pl-1.5 text-xs font-medium text-foreground outline-none",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       )}
                     >
                       <span
@@ -319,7 +319,7 @@ export function PinBoard({
                       onClick={() => unpin(item, position, false)}
                       className={cn(
                         "grid size-6 shrink-0 place-items-center rounded-full text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       )}
                     >
                       <svg

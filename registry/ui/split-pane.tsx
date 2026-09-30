@@ -87,13 +87,13 @@ export function SplitPane({
     <div
       ref={frameRef}
       className={cn(
-        "border-hairline flex w-full touch-none overflow-hidden rounded-3 border",
+        "flex w-full touch-none overflow-hidden rounded-3 border border-hairline",
         className,
       )}
       style={{ height }}
     >
       <div
-        className="bg-surface-1 min-w-0 overflow-auto"
+        className="min-w-0 overflow-auto bg-surface-1"
         style={{ flexBasis: `${split}%`, transition }}
       >
         {start}
@@ -124,20 +124,20 @@ export function SplitPane({
         }}
         onPointerCancel={() => setDragging(false)}
         onKeyDown={handleKeyDown}
-        className="bg-surface-2 group relative flex w-2.5 shrink-0 cursor-col-resize items-center justify-center outline-none focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-[-2px]"
+        className="group relative flex w-2.5 shrink-0 cursor-col-resize items-center justify-center bg-surface-2 outline-none focus-visible:outline-2 focus-visible:outline-[-2px] focus-visible:outline-ring focus-visible:outline-solid"
       >
         <span
           aria-hidden
           className={cn(
             "w-1 rounded-full transition-all duration-150",
             dragging
-              ? "bg-primary h-12"
-              : "bg-border group-hover:bg-muted-foreground h-8 group-hover:h-12",
+              ? "h-12 bg-primary"
+              : "h-8 bg-border group-hover:h-12 group-hover:bg-muted-foreground",
           )}
         />
       </div>
 
-      <div className="bg-surface-1 min-w-0 flex-1 overflow-auto">{end}</div>
+      <div className="min-w-0 flex-1 overflow-auto bg-surface-1">{end}</div>
     </div>
   );
 }

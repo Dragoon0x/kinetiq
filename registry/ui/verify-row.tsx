@@ -257,7 +257,7 @@ export function VerifyRow({
             className={cn(
               "flex h-8 min-w-20 items-center justify-center rounded-2 border border-hairline-strong bg-surface-0 px-3 text-xs font-medium transition-colors outline-none",
               "hover:bg-accent active:bg-cobalt-wash disabled:cursor-default disabled:opacity-60 disabled:hover:bg-surface-0",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             {buttonLabel}

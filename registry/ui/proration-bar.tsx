@@ -381,7 +381,7 @@ export function ProrationBar({
             onKeyDown={onKeyDown}
             className={cn(
               "absolute top-0 left-0 size-5 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-full border-2 border-cobalt-bright bg-surface-0 shadow-sm outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               dragging && "cursor-grabbing",
             )}
           />

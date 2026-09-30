@@ -33,7 +33,9 @@ function useSegmentedControlContext(
 ): SegmentedControlContextValue {
   const context = React.useContext(SegmentedControlContext);
   if (!context) {
-    throw new Error(`<${component}> must be rendered inside <SegmentedControl>.`);
+    throw new Error(
+      `<${component}> must be rendered inside <SegmentedControl>.`,
+    );
   }
   return context;
 }
@@ -171,7 +173,7 @@ export function SegmentedControl({
             ?.focus();
         }}
         className={cn(
-          "bg-surface-2 border-hairline inline-flex items-stretch rounded-3 border",
+          "inline-flex items-stretch rounded-3 border border-hairline bg-surface-2",
           sizeStyles[size].track,
           disabled && "opacity-50",
         )}
@@ -239,7 +241,9 @@ export function SegmentedControlItem({
     const group = event.currentTarget.closest('[role="radiogroup"]');
     if (!group) return;
     const radios = Array.from(
-      group.querySelectorAll<HTMLButtonElement>('[role="radio"]:not(:disabled)'),
+      group.querySelectorAll<HTMLButtonElement>(
+        '[role="radio"]:not(:disabled)',
+      ),
     );
     const index = radios.indexOf(event.currentTarget);
     if (index === -1 || radios.length === 0) return;
@@ -304,7 +308,7 @@ export function SegmentedControlItem({
         }}
         className={cn(
           "relative flex flex-1 cursor-pointer items-center justify-center rounded-2 font-medium whitespace-nowrap transition-colors",
-          "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-[-2px]",
+          "focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ring focus-visible:outline-solid",
           "disabled:pointer-events-none disabled:opacity-50",
           checked
             ? "text-foreground"
@@ -320,12 +324,12 @@ export function SegmentedControlItem({
               aria-hidden
               layoutId={context.thumbId}
               transition={springs.snap}
-              className="bg-surface-1 border-hairline absolute inset-0 rounded-2 border shadow-sm"
+              className="absolute inset-0 rounded-2 border border-hairline bg-surface-1 shadow-sm"
             />
           ) : (
             <span
               aria-hidden
-              className="bg-surface-1 border-hairline absolute inset-0 rounded-2 border shadow-sm"
+              className="absolute inset-0 rounded-2 border border-hairline bg-surface-1 shadow-sm"
             />
           ))}
         <motion.span

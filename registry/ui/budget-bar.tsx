@@ -273,7 +273,7 @@ export function BudgetBar({
               onPointerEnter={() => readHover(segment.id)}
               onPointerLeave={() => readHover(null)}
               onKeyDown={(event) => handleKeyDown(event, index)}
-              className="relative flex h-full min-w-0 basis-0 cursor-pointer items-center overflow-hidden border-r outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
+              className="relative flex h-full min-w-0 basis-0 cursor-pointer items-center overflow-hidden border-r outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               style={{
                 // The wash is mixed into the surface, so the reading inside a
                 // segment keeps its contrast in both themes.
@@ -327,7 +327,7 @@ export function BudgetBar({
                 aria-label={`${segment.label}, ${format(segment.value)}`}
                 onClick={() => toggleSegment(segment.id)}
                 className={cn(
-                  "flex h-7 cursor-pointer items-center gap-1.5 rounded-full border px-2 text-[11px] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "flex h-7 cursor-pointer items-center gap-1.5 rounded-full border px-2 text-[11px] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   off
                     ? "border-hairline text-ink-3"
                     : "border-hairline-strong text-ink-2 hover:text-foreground",

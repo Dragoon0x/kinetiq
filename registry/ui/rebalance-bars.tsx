@@ -355,7 +355,7 @@ export function RebalanceBars({
         transition={springs.flick}
         className={cn(
           "flex h-9 w-full items-center justify-center rounded-2 bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors outline-none",
-          "hover:bg-cobalt-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-cobalt-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           "disabled:pointer-events-none disabled:bg-secondary disabled:text-ink-3",
         )}
       >

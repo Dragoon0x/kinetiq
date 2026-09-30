@@ -329,7 +329,7 @@ export function ReserveGauge({
                     // children, so an outward offset would be cut off.
                     className={cn(
                       "h-full w-full border-l border-hairline-strong transition-colors outline-none",
-                      "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                      "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       isRead ? "bg-cobalt-wash" : "bg-surface-2",
                     )}
                   />

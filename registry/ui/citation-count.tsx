@@ -174,7 +174,7 @@ export function CitationCount({
         onClick={() => setOpen(!isOpen)}
         className={cn(
           "flex h-9 w-full items-center gap-2.5 rounded-full border border-hairline bg-surface-1 pr-3 pl-2.5 text-sm transition-colors outline-none hover:bg-accent",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <svg

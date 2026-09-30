@@ -119,7 +119,7 @@ const stopText = (value: number) => `${Number(value.toFixed(2))}%`;
 const SETTLE_MS = 600;
 
 const STOP_CLASS =
-  "relative flex h-8 min-w-0 flex-1 items-center justify-center rounded-1 font-mono text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "relative flex h-8 min-w-0 flex-1 items-center justify-center rounded-1 font-mono text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * How much you will tolerate, and what it costs. Three stops and a field share
@@ -364,7 +364,7 @@ export function SlippageDial({
             aria-describedby={note ? noteId : undefined}
             className={cn(
               "relative h-8 min-w-0 flex-1 rounded-1 bg-transparent pl-2 font-mono text-xs tabular-nums outline-none",
-              "placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               high ? "text-warn" : "text-foreground",
             )}
           />

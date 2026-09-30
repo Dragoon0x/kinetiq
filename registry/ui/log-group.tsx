@@ -192,7 +192,7 @@ function RunRow({
         onClick={onToggle}
         onKeyDown={onKeyDown}
         className={cn(
-          "flex w-full items-center gap-1.5 rounded-2 px-1.5 py-1 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+          "flex w-full items-center gap-1.5 rounded-2 px-1.5 py-1 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           open && "bg-surface-2",
         )}
       >

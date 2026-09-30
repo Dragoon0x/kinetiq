@@ -100,7 +100,7 @@ function clauseCut(text: string, typed: number): number {
 }
 
 const chip =
-  "flex h-7 items-center rounded-full border px-2.5 text-xs transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-7 items-center rounded-full border px-2.5 text-xs transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * What it heard you ask. The request sits at the top as a quoted line and
@@ -339,7 +339,7 @@ export function PromptEcho({
                 className={cn(
                   "inline-grid rounded-1 px-0.5 align-baseline transition-colors outline-none",
                   "underline decoration-dotted decoration-1 underline-offset-4",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   edited
                     ? "bg-cobalt-wash text-cobalt-bright decoration-cobalt-bright/60"
                     : "text-foreground decoration-ink-3 hover:bg-accent",
@@ -487,7 +487,7 @@ export function PromptEcho({
           disabled={!complete || confirmed}
           className={cn(
             "flex h-8 items-center gap-1.5 rounded-2 border px-3 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             "disabled:cursor-default disabled:opacity-50",
             confirmed
               ? "border-success/40 bg-success/10 text-success disabled:opacity-100"

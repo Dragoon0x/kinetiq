@@ -460,7 +460,7 @@ export function SectorWheel({
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
                 "inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "border-transparent bg-primary text-primary-foreground"
                   : "border-hairline-strong bg-surface-1 text-ink-2 hover:bg-accent hover:text-foreground",

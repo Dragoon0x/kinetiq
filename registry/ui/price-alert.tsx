@@ -455,7 +455,7 @@ export function PriceAlert({
           style={{ y: motionSafe ? badgeY : lineY }}
           className={cn(
             "absolute top-0 right-1 -translate-y-1/2 rounded-full outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           {/* Keyed by the crossing so each one mounts its own landing and

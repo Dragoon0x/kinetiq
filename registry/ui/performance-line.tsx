@@ -280,7 +280,7 @@ export function PerformanceLine({
                 onKeyDown={(event) => handleKeyDown(event, index)}
                 className={cn(
                   "relative flex min-w-10 items-center justify-center rounded-full px-2.5 font-mono text-[11px] transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   selected
                     ? "text-foreground"
                     : "text-ink-3 hover:text-foreground",
@@ -335,7 +335,7 @@ export function PerformanceLine({
         id={panelId}
         aria-labelledby={period ? `${baseId}-tab-${period.id}` : undefined}
         tabIndex={0}
-        className="relative w-full rounded-3 border border-hairline bg-surface-1 outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
+        className="relative w-full rounded-3 border border-hairline bg-surface-1 outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         style={{ height }}
       >
         <svg

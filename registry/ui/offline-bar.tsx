@@ -281,7 +281,7 @@ export function OfflineBar({
                 type="button"
                 onClick={check}
                 disabled={checking}
-                className="inline-flex h-7 shrink-0 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50"
+                className="inline-flex h-7 shrink-0 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:opacity-50"
               >
                 Retry now
               </button>

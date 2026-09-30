@@ -192,7 +192,7 @@ function PickerItem({
       onFocus={onFocus}
       className={cn(
         "flex h-11 w-9 shrink-0 flex-col items-center justify-center gap-0.5 rounded-2 transition-colors outline-none",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         picked
           ? "bg-cobalt-wash text-cobalt-bright"
           : "text-ink-2 hover:bg-accent hover:text-foreground",
@@ -504,7 +504,7 @@ export function ReactionPicker({
           }}
           className={cn(
             "flex size-7 shrink-0 items-center justify-center rounded-full border border-hairline-strong text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             isOpen && "bg-accent text-foreground",
           )}
         >

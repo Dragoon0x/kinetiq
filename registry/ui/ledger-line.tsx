@@ -179,7 +179,7 @@ export function LedgerLine({
         onClick={() => setOpen(!isOpen)}
         className={cn(
           "flex w-full items-center gap-3 px-3 py-2.5 text-left transition-colors outline-none",
-          "hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <motion.span

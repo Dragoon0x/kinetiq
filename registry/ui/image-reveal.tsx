@@ -382,7 +382,7 @@ export function ImageReveal({
           onClick={() => onRegenerate?.()}
           className={cn(
             "flex h-8 shrink-0 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent disabled:opacity-50 disabled:hover:bg-transparent",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           {active ? "Retry" : "Generate"}

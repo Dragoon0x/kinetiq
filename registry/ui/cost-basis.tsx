@@ -252,7 +252,7 @@ export function CostBasis({
           onClick={toggle}
           className={cn(
             "ml-auto flex h-8 shrink-0 items-center gap-2 rounded-full border border-input bg-surface-1 pr-1.5 pl-2.5 transition-colors outline-none hover:bg-accent",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <span className="text-[11px] font-medium whitespace-nowrap">

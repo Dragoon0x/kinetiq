@@ -280,7 +280,7 @@ export function SlideConfirm({
         }}
         style={{ x, width: THUMB, height: THUMB, top: PAD, left: PAD }}
         className={cn(
-          "absolute flex items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "absolute flex items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           confirmed
             ? "bg-success text-background"
             : "bg-primary text-primary-foreground",

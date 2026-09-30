@@ -226,7 +226,7 @@ export function DraftBadge({
               onKeyDown={(event) => handleTabKey(event, index, channel.id)}
               className={cn(
                 "flex w-full items-center gap-2.5 rounded-2 px-2 py-1.5 text-left transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 selected
                   ? "bg-surface-2 text-foreground"
                   : "text-ink-2 hover:bg-accent hover:text-foreground",
@@ -389,7 +389,7 @@ export function DraftBadge({
             aria-disabled={canSend ? undefined : true}
             className={cn(
               "flex h-8 shrink-0 items-center rounded-2 bg-primary px-3 text-xs font-medium text-primary-foreground transition-opacity outline-none hover:opacity-90",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               !canSend && "opacity-40",
             )}
           >

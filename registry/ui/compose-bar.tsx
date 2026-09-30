@@ -199,7 +199,7 @@ export function ComposeBar({
 
   const control = cn(
     "absolute bottom-1.5 grid size-9 place-items-center rounded-2 transition-colors outline-none",
-    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+    "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring",
     "disabled:opacity-50",
   );
 

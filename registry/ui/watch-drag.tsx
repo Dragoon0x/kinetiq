@@ -460,7 +460,7 @@ export function WatchDrag({
                   style={{ touchAction: "none" }}
                   className={cn(
                     "relative flex size-8 shrink-0 items-center justify-center rounded-2 transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     isHeld
                       ? "cursor-grabbing text-cobalt-bright"
                       : "cursor-grab text-ink-3 hover:bg-accent hover:text-foreground",

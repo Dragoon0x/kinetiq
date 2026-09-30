@@ -47,7 +47,7 @@ const DIGITS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"] as const;
 const MIN_SHARE = 2;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** Grouped by hand rather than by locale: a locale differs between the server
  *  and the browser, and a differing digit is a hydration error. */

@@ -377,7 +377,7 @@ export function FileTouch({
                   onKeyDown={(event) => handleKeyDown(event, index, file.id)}
                   className={cn(
                     "flex h-10 w-full items-center gap-2.5 px-3 text-left transition-colors outline-none hover:bg-accent",
-                    "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   )}
                 >
                   <span

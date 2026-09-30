@@ -97,7 +97,7 @@ export function VotePair({
         className={cn(
           // 150ms is durations.fast — the colour swap is a tween, never a spring.
           "flex shrink-0 items-center justify-center rounded-full border transition-colors duration-150 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           dimensions.control,
           active && up && "border-success/40 bg-success/10 text-success",
           active && !up && "border-danger/40 bg-danger/10 text-danger",

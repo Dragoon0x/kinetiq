@@ -342,7 +342,7 @@ export function RenderQueue({
               }
               className={cn(
                 "flex h-8 shrink-0 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               {cancelLabel}

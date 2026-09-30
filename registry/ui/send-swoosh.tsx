@@ -312,7 +312,7 @@ export function SendSwoosh({
             aria-describedby={failed ? failId : undefined}
             className={cn(
               "flex h-8 shrink-0 items-center gap-1.5 rounded-2 pr-2.5 pl-3 text-xs font-medium transition-[background-color,opacity,color] outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               failed
                 ? "bg-destructive text-destructive-foreground"
                 : "bg-primary text-primary-foreground hover:opacity-90",

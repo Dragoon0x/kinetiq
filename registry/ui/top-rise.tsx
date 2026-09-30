@@ -137,7 +137,7 @@ export function TopRise({
             className={cn(
               "relative flex size-11 cursor-pointer items-center justify-center rounded-full border border-hairline-strong bg-surface-1 text-ink shadow-raised outline-none",
               "transition-colors hover:bg-surface-2",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             {/* Sized by the button, never by pixels: inset-0 plus a viewBox

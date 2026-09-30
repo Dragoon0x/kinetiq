@@ -266,7 +266,7 @@ export function QrFold({
         onClick={() => setOpen(!isOpen)}
         className={cn(
           "flex h-9 w-full items-center justify-between gap-2 rounded-2 border border-hairline bg-surface-0 px-3 text-xs font-medium transition-colors outline-none",
-          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <span>{isOpen ? "Hide payment code" : "Show payment code"}</span>
@@ -351,7 +351,7 @@ export function QrFold({
         }}
         className={cn(
           "flex h-9 w-full items-center justify-between gap-2 rounded-2 border border-hairline bg-surface-0 px-3 transition-colors outline-none",
-          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <span

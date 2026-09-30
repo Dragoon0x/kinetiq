@@ -475,7 +475,7 @@ export function PercentileLines({
             onClick={() => toggleSeries(line.id)}
             className={cn(
               "flex h-8 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-2 border px-2 font-mono text-[10px] transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               line.shown
                 ? "border-hairline-strong text-ink hover:bg-accent"
                 : "border-hairline text-ink-3 hover:bg-accent",
@@ -530,7 +530,7 @@ export function PercentileLines({
                 onKeyDown={(event) => onBandKeyDown(event, index)}
                 className={cn(
                   "flex h-8 min-w-0 flex-1 items-center justify-between gap-1 rounded-2 border px-2 font-mono text-[10px] transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   lit
                     ? "border-transparent bg-cobalt-wash text-ink"
                     : "border-hairline-strong text-ink-2 hover:bg-accent",

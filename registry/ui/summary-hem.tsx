@@ -138,7 +138,7 @@ export function SummaryHem({
             aria-controls={condensed ? undefined : detailsId}
             className={cn(
               "flex h-8 w-full min-w-0 cursor-pointer items-center gap-2 rounded-2 text-left text-ink-2 outline-none hover:text-foreground",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             {/* Rotation lives on an inner element: a layout animation owns the
@@ -240,7 +240,7 @@ export function SummaryHem({
           style={{ borderRadius: 6 }}
           className={cn(
             "flex h-9 shrink-0 cursor-pointer items-center justify-center bg-primary px-4 text-sm font-medium text-primary-foreground outline-none hover:bg-primary/90 active:bg-primary/80",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             condensed ? "w-auto" : "w-full",
           )}
         >

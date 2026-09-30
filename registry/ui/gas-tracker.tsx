@@ -325,7 +325,7 @@ export function GasTracker({
           // Default stretch alignment, not items-end: the columns must fill the
           // row so each bar has a full-height box to scale inside.
           "relative grid h-16 gap-[2px] rounded-2 bg-surface-1 p-1 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
         style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))` }}
       >

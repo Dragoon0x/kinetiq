@@ -90,7 +90,7 @@ export function FitPanelDemo() {
                   step(-1);
                 }
               }}
-              className={`h-8 flex-1 rounded-2 border text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+              className={`h-8 flex-1 rounded-2 border text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid ${
                 tab.id === active
                   ? "border-cobalt-bright bg-surface-0 text-foreground"
                   : "border-hairline bg-surface-2 text-ink-3 hover:text-foreground"

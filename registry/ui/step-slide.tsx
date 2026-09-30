@@ -220,7 +220,7 @@ export function StepSlide({
           disabled={index === 0}
           className={cn(
             "flex h-9 flex-1 cursor-pointer items-center justify-center rounded-2 border border-hairline-strong bg-surface-2 px-4 text-sm font-medium text-foreground outline-none hover:bg-surface-0",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             "disabled:cursor-not-allowed disabled:opacity-45",
           )}
         >
@@ -231,7 +231,7 @@ export function StepSlide({
           onClick={onNext}
           className={cn(
             "flex h-9 flex-1 cursor-pointer items-center justify-center rounded-2 bg-primary px-4 text-sm font-medium text-primary-foreground outline-none hover:bg-primary/90 active:bg-primary/80",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           {index === last ? finishLabel : "Next"}

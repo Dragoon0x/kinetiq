@@ -327,7 +327,7 @@ export function ShareFrame({
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
                 "flex h-8 shrink-0 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "border-cobalt-bright bg-cobalt-wash text-cobalt-bright"
                   : "border-hairline-strong text-ink-2 hover:bg-accent",
@@ -351,7 +351,7 @@ export function ShareFrame({
           }
           className={cn(
             "flex h-8 shrink-0 items-center rounded-2 px-3 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             isSharing
               ? "border border-hairline-strong hover:bg-accent"
               : "bg-primary text-primary-foreground hover:opacity-90",

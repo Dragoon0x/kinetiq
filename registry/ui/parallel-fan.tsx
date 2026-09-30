@@ -265,7 +265,7 @@ export function ParallelFan({
               onKeyDown={(event) => onKeyDown(event, index)}
               className={cn(
                 "absolute flex w-16 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 outline-none",
-                "rounded-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "rounded-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
               initial={false}
               animate={{

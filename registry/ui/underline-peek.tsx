@@ -705,7 +705,7 @@ export function UnderlinePeek({
         }}
         className={cn(
           "relative z-20 block rounded-1 font-medium text-foreground no-underline outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           className,
         )}
       >

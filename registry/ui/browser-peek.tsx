@@ -225,7 +225,7 @@ export function BrowserPeek({
   const fade = { duration: durations.fast, ease: easings.enter } as const;
   const frameButton = cn(
     "flex size-7 shrink-0 items-center justify-center rounded-2 text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground disabled:pointer-events-none disabled:opacity-40",
-    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+    "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring",
   );
 
   return (

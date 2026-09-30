@@ -226,7 +226,7 @@ export function CartFly({
         className={cn(
           "inline-flex h-10 shrink-0 cursor-pointer items-center gap-2 rounded-3 border border-hairline-strong bg-surface-1 py-1 pr-3 pl-1 text-sm font-medium text-foreground transition-colors outline-none",
           "hover:border-cobalt-bright/60 hover:bg-accent",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           "disabled:cursor-default disabled:opacity-50",
           className,
         )}

@@ -369,7 +369,7 @@ export function FabFan({
                       transition={springs.flick}
                       className={cn(
                         "pointer-events-auto flex size-9 items-center justify-center rounded-full border border-hairline-strong bg-card text-foreground shadow-sm outline-none hover:bg-accent hover:text-accent-foreground",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       )}
                     >
                       <Glyph name={action.icon} />
@@ -400,7 +400,7 @@ export function FabFan({
           transition={springs.flick}
           className={cn(
             "pointer-events-auto absolute inset-0 z-10 flex items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <motion.span

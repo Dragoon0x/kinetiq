@@ -195,7 +195,7 @@ function PayeeList({
             onKeyDown={(event) => handleKeyDown(event, row)}
             className={cn(
               "flex h-11 items-center gap-2.5 rounded-2 border px-2 text-left transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               active
                 ? "border-cobalt-bright bg-cobalt-wash"
                 : "border-transparent hover:bg-accent",
@@ -502,7 +502,7 @@ export function SendFlow({
                     }}
                     className={cn(
                       "h-11 w-full rounded-2 border border-input bg-surface-0 px-3 font-mono text-lg tabular-nums transition-colors outline-none",
-                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       overBalance && "border-danger text-danger",
                     )}
                   />
@@ -515,7 +515,7 @@ export function SendFlow({
                         onClick={() => setAmount(preset, String(preset))}
                         className={cn(
                           "flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline font-mono text-xs tabular-nums transition-colors outline-none",
-                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                           value === preset
                             ? "border-cobalt-bright bg-cobalt-wash text-foreground"
                             : "text-ink-2 hover:bg-accent",
@@ -601,7 +601,7 @@ export function SendFlow({
             onClick={() => goTo(currentStep === "review" ? "amount" : "who")}
             className={cn(
               "flex h-9 items-center rounded-2 border border-hairline-strong px-3 text-sm font-medium transition-colors outline-none hover:bg-accent",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             Back
@@ -620,7 +620,7 @@ export function SendFlow({
           transition={motionSafe ? springs.flick : { duration: durations.fast }}
           className={cn(
             "flex h-9 flex-1 items-center justify-center rounded-2 bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             primaryBlocked ? "cursor-not-allowed" : "hover:bg-primary/90",
           )}
         >

@@ -8,7 +8,7 @@ const MONEY = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 const money = (value: number) => MONEY.format(value);
 
 const BUTTON =
-  "flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2";
+  "flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2";
 
 export function SpendLimitDemo() {
   const [limit, setLimit] = React.useState(1200);

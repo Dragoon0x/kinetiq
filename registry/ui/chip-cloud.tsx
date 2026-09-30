@@ -106,9 +106,9 @@ export function ChipCloud({
       )}
 
       {/* THE TRAY — what you have picked, in the order you picked it. */}
-      <div className="border-hairline bg-surface-2 flex min-h-14 flex-wrap content-start items-start gap-2 rounded-3 border p-2">
+      <div className="flex min-h-14 flex-wrap content-start items-start gap-2 rounded-3 border border-hairline bg-surface-2 p-2">
         {picked.length === 0 ? (
-          <p className="text-muted-foreground px-1 py-1.5 text-sm">
+          <p className="px-1 py-1.5 text-sm text-muted-foreground">
             {placeholder}
           </p>
         ) : (
@@ -177,10 +177,10 @@ function ChipButton({
       aria-pressed={picked}
       onClick={() => onToggle(chip.id)}
       className={cn(
-        "border-hairline rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
-        "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+        "rounded-full border border-hairline px-3 py-1.5 text-sm font-medium transition-colors",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         picked
-          ? "bg-surface-0 text-foreground border-hairline-strong"
+          ? "border-hairline-strong bg-surface-0 text-foreground"
           : "bg-surface-1 text-muted-foreground hover:text-foreground",
       )}
     >

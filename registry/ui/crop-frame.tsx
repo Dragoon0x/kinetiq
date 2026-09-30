@@ -366,7 +366,7 @@ export function CropFrame({
           onPointerUp={end}
           onPointerCancel={end}
           style={{ ...box, x: rubberX, y: rubberY }}
-          className="absolute cursor-grab border border-cobalt-bright outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:cursor-grabbing"
+          className="absolute cursor-grab border border-cobalt-bright outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid active:cursor-grabbing"
         >
           {/* One spread shadow paints everything outside the frame; the stage
               clips it, so no four-panel scrim has to be kept in sync. */}
@@ -438,7 +438,7 @@ export function CropFrame({
               else return;
               event.preventDefault();
             }}
-            className="flex h-10 flex-col items-center justify-center gap-0.5 rounded-2 border border-hairline bg-surface-1 leading-none outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex h-10 flex-col items-center justify-center gap-0.5 rounded-2 border border-hairline bg-surface-1 leading-none outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             <span className="font-mono text-[9px] tracking-[0.12em] text-ink-3 uppercase">
               {slider.label}

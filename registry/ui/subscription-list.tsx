@@ -301,7 +301,7 @@ function Row({
           className={cn(
             "flex size-7 shrink-0 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none",
             "hover:bg-accent hover:text-foreground active:bg-cobalt-wash",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <svg

@@ -343,7 +343,7 @@ export function SpeedScrub({
   const ended = position >= length && length > 0;
   const held = playing ? undefined : heldIn(position);
   const control =
-    "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+    "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
   return (
     <div

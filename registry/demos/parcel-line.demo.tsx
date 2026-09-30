@@ -33,7 +33,7 @@ export function ParcelLineDemo() {
         <button
           type="button"
           onClick={() => setCurrent((n) => (n >= last ? 0 : n + 1))}
-          className="inline-flex h-9 cursor-pointer items-center rounded-2 bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="inline-flex h-9 cursor-pointer items-center rounded-2 bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           {current >= last ? "Send another" : "Advance"}
         </button>
@@ -41,7 +41,7 @@ export function ParcelLineDemo() {
           type="button"
           onClick={() => setCurrent(0)}
           disabled={current === 0}
-          className="inline-flex h-9 cursor-pointer items-center rounded-2 border border-hairline-strong px-3 text-sm font-medium text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-default disabled:opacity-50"
+          className="inline-flex h-9 cursor-pointer items-center rounded-2 border border-hairline-strong px-3 text-sm font-medium text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:cursor-default disabled:opacity-50"
         >
           Reset
         </button>

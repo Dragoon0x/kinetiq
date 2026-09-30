@@ -203,7 +203,7 @@ export function ReplyCite({
   };
 
   const quiet =
-    "flex items-center rounded-2 transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+    "flex items-center rounded-2 transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
   const meta = "flex items-center gap-1.5 px-1 text-[11px] text-ink-3";
   const canSend = text.trim().length > 0;
 
@@ -236,7 +236,7 @@ export function ReplyCite({
               }
               className={cn(
                 "flex flex-col gap-0.5 rounded-3 outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 own ? "items-end" : "items-start",
               )}
             >

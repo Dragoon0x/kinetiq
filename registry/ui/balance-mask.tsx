@@ -185,7 +185,7 @@ export function BalanceMask({
         }}
         className={cn(
           "-mx-1 flex w-full touch-none items-center gap-3 rounded-2 px-1 py-1 text-left transition-colors outline-none select-none",
-          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <span className="grid min-w-0 flex-1 font-mono text-2xl leading-tight font-medium tabular-nums">

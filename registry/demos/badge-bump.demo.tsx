@@ -5,7 +5,7 @@ import * as React from "react";
 import { BadgeBump } from "@/registry/ui/badge-bump";
 
 const CONTROL =
-  "inline-flex h-8 items-center rounded-2 border border-input px-3 text-xs font-medium outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-40";
+  "inline-flex h-8 items-center rounded-2 border border-input px-3 text-xs font-medium outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-40";
 
 export function BadgeBumpDemo() {
   const [count, setCount] = React.useState(3);
@@ -17,7 +17,7 @@ export function BadgeBumpDemo() {
           <button
             type="button"
             aria-label="Waylight inbox"
-            className="flex size-11 items-center justify-center rounded-2 border border-input outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex size-11 items-center justify-center rounded-2 border border-input outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             <svg
               viewBox="0 0 24 24"

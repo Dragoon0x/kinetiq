@@ -107,7 +107,7 @@ export function TransferBarDemo() {
           setJobs(START);
           setStarted(true);
         }}
-        className="inline-flex h-9 w-fit items-center rounded-2 border border-input px-4 text-sm font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="inline-flex h-9 w-fit items-center rounded-2 border border-input px-4 text-sm font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         {started ? "Restart upload" : "Start upload"}
       </button>

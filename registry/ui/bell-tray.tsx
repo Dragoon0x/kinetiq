@@ -163,7 +163,7 @@ export function BellTray({
         onClick={() => setOpen(!isOpen)}
         className={cn(
           "relative flex size-9 items-center justify-center rounded-2 border border-hairline-strong transition-colors outline-none",
-          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           isOpen && "bg-accent",
         )}
       >
@@ -216,7 +216,7 @@ export function BellTray({
                 type="button"
                 disabled={unread.length === 0}
                 onClick={() => onRead?.(unread.map((item) => item.id))}
-                className="rounded-1 text-[11px] font-medium text-cobalt-bright transition-colors outline-none hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:no-underline disabled:opacity-40"
+                className="rounded-1 text-[11px] font-medium text-cobalt-bright transition-colors outline-none hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:no-underline disabled:opacity-40"
               >
                 Mark all read
               </button>
@@ -261,7 +261,7 @@ export function BellTray({
                           stepFocus(index, -1);
                         }
                       }}
-                      className="flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
+                      className="flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                     >
                       {/* The dot keeps its slot whether it is lit or swept, so
                           marking all read never shifts a title. */}

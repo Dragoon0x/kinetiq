@@ -161,7 +161,7 @@ export function SizeTiles({
                 transition={motionSafe ? springs.snap : { duration: 0 }}
                 className={cn(
                   "relative flex h-11 flex-1 basis-12 items-center justify-center rounded-2 border text-sm font-medium transition-colors outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   selected
                     ? "border-hairline-strong bg-surface-2 text-ink"
                     : "border-hairline bg-surface-1 text-ink-2 hover:text-ink",

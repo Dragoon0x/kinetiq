@@ -69,7 +69,7 @@ const STRIPES = 7;
 const MOTES = 3;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * A 32-bit integer hash. Deterministic and, unlike `Math.sin` seeding, free of

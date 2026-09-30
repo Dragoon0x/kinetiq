@@ -432,7 +432,7 @@ export function LatencyHist({
                   className={cn(
                     "relative flex h-full w-full items-end rounded-1 transition-colors outline-none",
                     isActive ? "bg-accent" : "hover:bg-accent",
-                    "focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring focus-visible:outline-solid",
                   )}
                 >
                   <span className="relative block h-full w-full">
@@ -522,7 +522,7 @@ export function LatencyHist({
               }
               className={cn(
                 "flex h-8 min-w-0 flex-1 items-center justify-between gap-1 rounded-2 border px-2 font-mono text-[10px] transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 "disabled:opacity-50",
                 on
                   ? "border-transparent bg-cobalt-bright text-primary-foreground"

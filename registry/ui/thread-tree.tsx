@@ -388,7 +388,7 @@ export function ThreadTree({
                   }}
                   className={cn(
                     "absolute size-6 -translate-x-1/2 -translate-y-1/2 border transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     user ? "rounded-full" : "rounded-2",
                     lit
                       ? "border-cobalt-bright bg-cobalt-bright"

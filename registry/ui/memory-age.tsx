@@ -205,7 +205,7 @@ export function MemoryAge({
                 onClick={() => onRefresh?.(item.id)}
                 className={cn(
                   "relative flex h-7 shrink-0 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 Refresh

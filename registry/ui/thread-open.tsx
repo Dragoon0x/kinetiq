@@ -180,7 +180,7 @@ export function ThreadOpen({
 
   const fade = { duration: durations.fast, ease: easings.enter } as const;
   const quiet =
-    "flex items-center rounded-2 outline-none transition-colors focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2";
+    "flex items-center rounded-2 outline-none transition-colors focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2";
   const canSend = draft.trim().length > 0;
 
   return (

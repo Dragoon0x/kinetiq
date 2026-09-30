@@ -18,7 +18,7 @@ const REPLY =
   "The queued badge means a report is written and waiting for signal. It clears on its own once the crew is back in range, and the retry runs on a backoff of 2, 8 and 30 seconds so a dead spot no longer drains the battery.";
 
 const buttonClass =
-  "h-8 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "h-8 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 type Last =
   { kind: "picked"; index: number; prompt: string } | { kind: "sent" } | null;

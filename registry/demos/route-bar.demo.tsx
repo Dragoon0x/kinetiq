@@ -67,7 +67,7 @@ export function RouteBarDemo() {
             onClick={() => setPending({ id: entry.id, ms: entry.ms })}
             className={cn(
               "flex h-8 flex-1 cursor-pointer items-center justify-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               entry.id === view
                 ? "border-cobalt-bright text-foreground"
                 : "border-input text-muted-foreground hover:text-foreground",

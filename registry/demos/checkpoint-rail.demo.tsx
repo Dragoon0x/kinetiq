@@ -28,7 +28,7 @@ type Run = { shown: number; gens: number[]; gen: number };
 const FRESH: Run = { shown: 0, gens: [], gen: 0 };
 
 const button =
-  "flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
+  "flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
 
 export function CheckpointRailDemo() {
   const [run, setRun] = React.useState<Run>(FRESH);

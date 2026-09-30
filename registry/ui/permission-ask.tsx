@@ -214,7 +214,7 @@ function AskCard({
           onClick={() => onDeny?.()}
           className={cn(
             "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           Deny
@@ -230,7 +230,7 @@ function AskCard({
           className={cn(
             "relative flex h-8 items-center overflow-hidden rounded-2 border border-primary bg-primary px-3 text-xs font-medium text-primary-foreground transition-[opacity,background-color] duration-150 outline-none hover:bg-primary/90",
             "disabled:cursor-default disabled:opacity-55",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <span className="relative">Allow</span>

@@ -96,7 +96,7 @@ export function AlertBar({
           }
           className={cn("w-full overflow-hidden", className)}
         >
-          <div className="border-hairline bg-surface-1 relative flex items-start gap-3 rounded-3 border p-3 pl-4">
+          <div className="relative flex items-start gap-3 rounded-3 border border-hairline bg-surface-1 p-3 pl-4">
             <motion.span
               aria-hidden
               className={cn(
@@ -107,7 +107,11 @@ export function AlertBar({
               animate={{ scaleY: 1 }}
               transition={
                 motionSafe
-                  ? { duration: durations.base, ease: easings.enter, delay: 0.04 }
+                  ? {
+                      duration: durations.base,
+                      ease: easings.enter,
+                      delay: 0.04,
+                    }
                   : { duration: 0 }
               }
             />
@@ -117,7 +121,7 @@ export function AlertBar({
                 {title}
               </p>
               {children && (
-                <div className="text-ink-2 mt-1 text-sm">{children}</div>
+                <div className="mt-1 text-sm text-ink-2">{children}</div>
               )}
             </div>
 
@@ -126,7 +130,7 @@ export function AlertBar({
                 type="button"
                 onClick={close}
                 aria-label={`Dismiss: ${title}`}
-                className="text-ink-3 hover:text-ink hover:bg-surface-2 -m-1 shrink-0 rounded-2 p-1 transition-colors focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="-m-1 shrink-0 rounded-2 p-1 text-ink-3 transition-colors hover:bg-surface-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               >
                 <X className="size-4" aria-hidden />
               </button>

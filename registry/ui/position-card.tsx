@@ -592,7 +592,7 @@ export function PositionCard({
             style={{ touchAction: "pan-y" }}
             className={cn(
               "relative h-9 w-full overflow-hidden rounded-2 border border-hairline-strong bg-surface-2 select-none",
-              "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               dragging ? "cursor-grabbing" : "cursor-grab",
             )}
           >

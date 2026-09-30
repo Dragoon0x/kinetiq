@@ -68,7 +68,7 @@ const endStop = (text: string): string =>
   /[.!?]$/.test(text.trim()) ? text.trim() : `${text.trim()}.`;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-ring";
 
 /**
  * The note a release writes about itself while it is still being cut. Commits

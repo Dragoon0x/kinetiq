@@ -232,7 +232,7 @@ function DeleteRow({
               onClick={() => onDelete(message.id)}
               className={cn(
                 "mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none hover:bg-accent hover:text-danger",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               <svg
@@ -307,7 +307,7 @@ function DeleteRow({
                   }}
                   className={cn(
                     "flex h-7 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent active:bg-cobalt-wash",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   )}
                 >
                   Undo

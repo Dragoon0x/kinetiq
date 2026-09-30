@@ -173,7 +173,7 @@ export function MorphIcon({
       aria-label={names[on ? 1 : 0]}
       onClick={toggle}
       className={cn(
-        "inline-flex items-center justify-center rounded-2 border border-input bg-transparent p-2.5 text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "inline-flex items-center justify-center rounded-2 border border-input bg-transparent p-2.5 text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         className,
       )}
     >

@@ -78,9 +78,7 @@ export function TriToggle({
     const clamped = Math.min(options.length - 1, Math.max(0, index));
     const option = options[clamped];
     if (!option) return;
-    document
-      .getElementById(`${baseId}-stop-${option.value}`)
-      ?.focus();
+    document.getElementById(`${baseId}-stop-${option.value}`)?.focus();
     select(option.value);
   };
 
@@ -117,7 +115,7 @@ export function TriToggle({
         role="radiogroup"
         aria-labelledby={label ? labelId : undefined}
         aria-label={label ? undefined : ariaLabel}
-        className="bg-surface-2 border-hairline inline-flex h-9 items-stretch rounded-full border p-1"
+        className="inline-flex h-9 items-stretch rounded-full border border-hairline bg-surface-2 p-1"
       >
         {options.map((option, index) => {
           const checked = option.value === current;
@@ -133,7 +131,7 @@ export function TriToggle({
                 onKeyDown={(event) => handleKeyDown(event, index)}
                 className={cn(
                   "relative flex min-w-14 flex-1 items-center justify-center rounded-full px-3 text-sm font-medium transition-colors outline-none",
-                  "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   checked
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground",
@@ -145,12 +143,12 @@ export function TriToggle({
                       aria-hidden
                       layoutId={knobId}
                       transition={springs.snap}
-                      className="bg-surface-0 border-hairline absolute inset-0 rounded-full border shadow-sm"
+                      className="absolute inset-0 rounded-full border border-hairline bg-surface-0 shadow-sm"
                     />
                   ) : (
                     <span
                       aria-hidden
-                      className="bg-surface-0 border-hairline absolute inset-0 rounded-full border shadow-sm"
+                      className="absolute inset-0 rounded-full border border-hairline bg-surface-0 shadow-sm"
                     />
                   ))}
                 <span className="relative">{option.label}</span>

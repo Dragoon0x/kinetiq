@@ -162,7 +162,7 @@ function StepButton({ label, direction, disabled, onClick }: StepButtonProps) {
       onClick={onClick}
       className={cn(
         "flex size-7 items-center justify-center rounded-full border border-hairline-strong bg-surface-0 text-ink transition-colors outline-none hover:bg-accent disabled:opacity-40",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
       )}
     >
       <svg
@@ -374,7 +374,7 @@ export function SplitWays({
               onKeyDown={(event) => handleModeKeyDown(event, index)}
               className={cn(
                 "relative flex min-w-0 flex-1 items-center justify-center rounded-1 px-1 text-xs font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground",
@@ -504,7 +504,7 @@ export function SplitWays({
                             onClick={() => moveItem(item)}
                             className={cn(
                               "flex h-7 max-w-full items-center gap-1.5 rounded-full border border-hairline-strong bg-surface-0 pr-2 pl-2.5 text-xs text-ink transition-colors outline-none hover:bg-accent",
-                              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                             )}
                           >
                             <span className="truncate">{item.label}</span>

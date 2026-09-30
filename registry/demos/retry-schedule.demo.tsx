@@ -14,7 +14,7 @@ const SCHEDULE: RetryAttempt[] = [
 ];
 
 const BUTTON =
-  "inline-flex h-8 items-center justify-center rounded-2 border px-3 text-xs font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex h-8 items-center justify-center rounded-2 border px-3 text-xs font-medium outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50";
 
 const pad = (value: number) => String(value).padStart(2, "0");
 

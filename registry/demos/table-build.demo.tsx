@@ -42,7 +42,7 @@ const HEADER_HOLD_MS = 600;
 const DELAYS = [420, 300, 520, 360, 460, 340];
 
 const button =
-  "flex h-8 items-center self-start rounded-2 border border-primary bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
+  "flex h-8 items-center self-start rounded-2 border border-primary bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
 
 export function TableBuildDemo() {
   const [arrived, setArrived] = React.useState(0);

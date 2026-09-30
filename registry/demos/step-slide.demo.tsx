@@ -5,7 +5,7 @@ import * as React from "react";
 import { StepSlide } from "@/registry/ui/step-slide";
 
 const FIELD =
-  "h-9 w-full rounded-2 border border-input bg-surface-0 px-3 text-sm text-foreground outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "h-9 w-full rounded-2 border border-input bg-surface-0 px-3 text-sm text-foreground outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const CREW = [
   { id: "wl-1", name: "Rosa Amberlink", email: "rosa@waylight.test" },

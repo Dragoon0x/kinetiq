@@ -208,7 +208,7 @@ function ArrivalCard({
         onClick={() => onDismiss?.(arrival.id, "action")}
         className={cn(
           "flex size-7 shrink-0 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none",
-          "hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <svg

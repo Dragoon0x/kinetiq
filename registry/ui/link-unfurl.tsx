@@ -211,7 +211,7 @@ function PreviewCard({
           aria-label={`Open preview: ${preview.title}, ${preview.domain}`}
           className={cn(
             "flex w-full items-start gap-2.5 rounded-2 border border-hairline bg-surface-0 p-2 text-left transition-colors outline-none",
-            "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <span className="size-14 shrink-0 overflow-hidden rounded-1 bg-surface-2">
@@ -238,7 +238,7 @@ function PreviewCard({
           aria-label="Remove preview"
           className={cn(
             "absolute top-1.5 right-1.5 flex size-6 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none",
-            "hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <svg
@@ -392,7 +392,7 @@ export function LinkUnfurl({
                           onClick={() => onRetry?.()}
                           className={cn(
                             "flex h-7 shrink-0 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none",
-                            "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:bg-cobalt-wash",
+                            "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid active:bg-cobalt-wash",
                           )}
                         >
                           Retry

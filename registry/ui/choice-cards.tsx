@@ -152,7 +152,7 @@ function BillingRail({
             onKeyDown={(event) => handleKeyDown(event, index)}
             className={cn(
               "relative flex items-center justify-center rounded-full px-3 text-xs font-medium transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               active ? "text-ink" : "text-ink-3 hover:text-ink-2",
             )}
           >
@@ -214,7 +214,7 @@ function PlanCard({
       transition={motionSafe ? springs.glide : { duration: 0 }}
       className={cn(
         "relative flex flex-col items-start gap-2 rounded-3 border p-3 text-left transition-[opacity,border-color] duration-150 outline-none",
-        "focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         selected
           ? "border-hairline-strong bg-surface-2 opacity-100 shadow-raised"
           : "border-hairline bg-surface-1 opacity-85 hover:border-hairline-strong hover:opacity-100",

@@ -402,7 +402,7 @@ export function GoalPot({
                   onClick={() => add(step)}
                   className={cn(
                     "flex h-8 items-center rounded-2 border border-hairline-strong bg-surface-2 px-2.5 font-mono text-[11px] font-medium tabular-nums transition-colors outline-none hover:bg-accent active:bg-cobalt-wash",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   )}
                 >
                   +{format(step)}

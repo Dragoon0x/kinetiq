@@ -259,7 +259,7 @@ export function CatchZone({
           onClick={() => inputRef.current?.click()}
           className={cn(
             "inline-flex h-8 items-center rounded-2 border border-hairline-strong bg-surface-0 px-3 text-sm font-medium text-foreground transition-colors outline-none hover:bg-accent",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           Choose {multiple ? "files" : "a file"}
@@ -385,7 +385,7 @@ export function CatchZone({
                     }
                     className={cn(
                       "relative flex size-7 shrink-0 items-center justify-center rounded-2 text-muted-foreground transition-colors outline-none hover:text-foreground",
-                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                      "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     )}
                   >
                     <svg

@@ -345,7 +345,7 @@ export function VariationGrid({
                   }}
                   className={cn(
                     "flex flex-col overflow-hidden rounded-2 border bg-surface-1 text-left transition-[border-color,box-shadow] outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     "disabled:cursor-default",
                     isPicked
                       ? "col-span-2 border-cobalt-bright shadow-raised"
@@ -446,7 +446,7 @@ export function VariationGrid({
             transition={fade}
             className={cn(
               "flex h-7 shrink-0 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             {pickAnotherLabel}

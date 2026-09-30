@@ -12,7 +12,7 @@ const RATES = [
 ];
 
 const button =
-  "flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-8 items-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function InterestDripDemo() {
   const [playing, setPlaying] = React.useState(false);
@@ -54,7 +54,7 @@ export function InterestDripDemo() {
                 type="button"
                 aria-pressed={active}
                 onClick={() => setRate(option.value)}
-                className={`flex items-center rounded-1 px-2.5 font-mono text-[11px] font-medium tabular-nums transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+                className={`flex items-center rounded-1 px-2.5 font-mono text-[11px] font-medium tabular-nums transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid ${
                   active
                     ? "bg-surface-0 text-foreground shadow-sm"
                     : "text-muted-foreground hover:text-foreground"

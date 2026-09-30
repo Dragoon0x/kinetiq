@@ -57,7 +57,7 @@ export function DueBadgeDemo() {
             aria-pressed={status === state.value}
             onClick={() => setStatus(state.value)}
             className={
-              "inline-flex h-8 items-center justify-center rounded-2 border px-3 text-xs font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring " +
+              "inline-flex h-8 items-center justify-center rounded-2 border px-3 text-xs font-medium outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid " +
               (status === state.value
                 ? "border-transparent bg-primary text-primary-foreground"
                 : "border-input bg-surface-1 text-foreground hover:bg-accent")

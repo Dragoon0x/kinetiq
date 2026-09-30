@@ -215,7 +215,7 @@ export function ExportStamp({
               onKeyDown={(event) => onKeyDown(event, index)}
               className={cn(
                 "relative flex h-8 items-center gap-2 rounded-full border px-3 text-xs font-medium transition-colors duration-200 outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 sent
                   ? "border-success/50 bg-success/10 text-success"
                   : checked
@@ -305,7 +305,7 @@ export function ExportStamp({
         aria-busy={exporting || undefined}
         className={cn(
           "relative flex h-9 w-full items-center justify-center overflow-hidden rounded-2 border text-sm font-medium transition-colors duration-300 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           "disabled:cursor-default",
           stamped
             ? "border-success/40 bg-success/10 text-success"

@@ -391,7 +391,7 @@ export function SloBurn({
           aria-checked={showProjection}
           aria-label="Project to window end"
           onClick={() => setProjected(!showProjection)}
-          className="flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-hairline-strong pr-2.5 pl-1 transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex h-8 shrink-0 items-center gap-1.5 rounded-full border border-hairline-strong pr-2.5 pl-1 transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <span
             aria-hidden

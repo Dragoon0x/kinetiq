@@ -163,7 +163,7 @@ function ClusterFace({
         }}
         onFocus={onFocusStop}
         onKeyDown={onKeyDown}
-        className="relative grid size-8 place-items-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="relative grid size-8 place-items-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         <span
           aria-hidden
@@ -404,7 +404,7 @@ export function AvatarCluster({
                 }}
                 onFocus={() => setActiveKey("overflow")}
                 onKeyDown={keyHandler(stops.length - 1)}
-                className="flex size-8 items-center justify-center rounded-full border-2 border-card bg-surface-2 font-mono text-[11px] font-medium text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="flex size-8 items-center justify-center rounded-full border-2 border-card bg-surface-2 font-mono text-[11px] font-medium text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               >
                 <span aria-hidden className="flex items-center leading-none">
                   +

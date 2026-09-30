@@ -239,7 +239,7 @@ export function ShellTail({
           animate={boxHeight === undefined ? undefined : { height: boxHeight }}
           transition={motionSafe ? springs.glide : { duration: durations.fast }}
           className={cn(
-            "overflow-x-auto outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+            "overflow-x-auto outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             scrolls ? "overflow-y-auto" : "overflow-y-hidden",
           )}
         >
@@ -316,7 +316,7 @@ export function ShellTail({
               }
               className={cn(
                 "absolute right-3 bottom-2 flex h-7 items-center gap-1.5 rounded-full border border-hairline-strong bg-popover px-2.5 text-xs font-medium text-popover-foreground shadow-raised transition-colors outline-none hover:bg-accent",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               <svg

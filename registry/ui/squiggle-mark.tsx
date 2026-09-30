@@ -258,7 +258,7 @@ export function SquiggleMark({
                         event.preventDefault();
                         setBubble(null);
                       }}
-                      className="absolute top-0 left-0 cursor-pointer rounded-1 whitespace-pre text-foreground underline-offset-4 outline-none hover:text-danger focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                      className="absolute top-0 left-0 cursor-pointer rounded-1 whitespace-pre text-foreground underline-offset-4 outline-none hover:text-danger focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                     >
                       {display}
                     </motion.button>
@@ -376,7 +376,7 @@ export function SquiggleMark({
                             replacement: issue.suggestion,
                           })
                         }
-                        className="flex h-7 flex-1 cursor-pointer items-center justify-center rounded-2 bg-primary px-2 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                        className="flex h-7 flex-1 cursor-pointer items-center justify-center rounded-2 bg-primary px-2 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                       >
                         Accept
                       </button>
@@ -384,7 +384,7 @@ export function SquiggleMark({
                         type="button"
                         aria-label={`Ignore ${issue.word}`}
                         onClick={() => resolve(index, { status: "ignored" })}
-                        className="flex h-7 flex-1 cursor-pointer items-center justify-center rounded-2 border border-hairline px-2 text-xs font-medium text-ink-2 transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                        className="flex h-7 flex-1 cursor-pointer items-center justify-center rounded-2 border border-hairline px-2 text-xs font-medium text-ink-2 transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                       >
                         Ignore
                       </button>

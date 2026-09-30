@@ -236,7 +236,7 @@ export function ToolToggle({
               onClick={() => flip(tool)}
               className={cn(
                 "flex min-w-0 flex-col gap-2 rounded-2 border p-2.5 text-left transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 on
                   ? "border-cobalt-bright/50 bg-surface-0"
                   : "border-hairline-strong bg-surface-0/60 hover:bg-accent",

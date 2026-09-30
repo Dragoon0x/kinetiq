@@ -60,7 +60,7 @@ const NONE: string[] = [];
 const CLAIM = 4;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const enterFrom = (motionSafe: boolean) =>
   motionSafe ? { opacity: 0, x: -distances.nudge } : { opacity: 0 };

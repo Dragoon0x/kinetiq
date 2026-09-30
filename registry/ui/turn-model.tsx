@@ -12,7 +12,12 @@ import {
 
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
 import { springs } from "@/registry/lib/motion";
-import { angleDelta, clamp, snapAngle, wrapAngle } from "@/registry/lib/spatial";
+import {
+  angleDelta,
+  clamp,
+  snapAngle,
+  wrapAngle,
+} from "@/registry/lib/spatial";
 import { cn } from "@/registry/lib/utils";
 
 /** Degrees of yaw per horizontal pixel dragged. */
@@ -92,13 +97,34 @@ const MONUMENT: TurnModelWireframe = {
     [0, 1.5, 0],
   ],
   edges: [
-    [0, 1], [1, 2], [2, 3], [3, 0],
-    [0, 4], [1, 5], [2, 6], [3, 7],
-    [4, 5], [5, 6], [6, 7], [7, 4],
-    [8, 9], [9, 10], [10, 11], [11, 8],
-    [8, 12], [9, 13], [10, 14], [11, 15],
-    [12, 13], [13, 14], [14, 15], [15, 12],
-    [12, 16], [13, 16], [14, 16], [15, 16],
+    [0, 1],
+    [1, 2],
+    [2, 3],
+    [3, 0],
+    [0, 4],
+    [1, 5],
+    [2, 6],
+    [3, 7],
+    [4, 5],
+    [5, 6],
+    [6, 7],
+    [7, 4],
+    [8, 9],
+    [9, 10],
+    [10, 11],
+    [11, 8],
+    [8, 12],
+    [9, 13],
+    [10, 14],
+    [11, 15],
+    [12, 13],
+    [13, 14],
+    [14, 15],
+    [15, 12],
+    [12, 16],
+    [13, 16],
+    [14, 16],
+    [15, 16],
   ],
 };
 
@@ -226,7 +252,9 @@ const projectScene = (
   }
 
   // Accent dabs on the nearest vertices — hairline segments, round caps.
-  const nearest = [...pts].sort((p, q) => q.depth - p.depth).slice(0, DOT_COUNT);
+  const nearest = [...pts]
+    .sort((p, q) => q.depth - p.depth)
+    .slice(0, DOT_COUNT);
   let dots = "";
   for (const p of nearest) dots += `M${p.x} ${p.y}l0.01 0`;
 
@@ -280,7 +308,9 @@ export function TurnModel({
 
   /** Boot yaw: the controlled angle verbatim, else the snapped default. */
   const [initial] = React.useState(() =>
-    angle !== undefined ? wrapAngle(angle) : snapAngle(defaultAngle, DETENT_DEG),
+    angle !== undefined
+      ? wrapAngle(angle)
+      : snapAngle(defaultAngle, DETENT_DEG),
   );
   /** The one source of truth — unwrapped yaw in degrees. */
   const theta = useMotionValue(initial);
@@ -305,7 +335,9 @@ export function TurnModel({
   const committedRef = React.useRef(wrapAngle(initial));
   /** The unwrapped yaw the platter is resting on (or steering toward). */
   const restRef = React.useRef(initial);
-  const dragRef = React.useRef<{ pointerId: number; lastX: number } | null>(null);
+  const dragRef = React.useRef<{ pointerId: number; lastX: number } | null>(
+    null,
+  );
   const controlsRef = React.useRef<FlightControls>({ glide: null, snap: null });
 
   const onAngleChangeRef = React.useRef(onAngleChange);
@@ -361,7 +393,11 @@ export function TurnModel({
       return;
     }
     const velocity = theta.getVelocity();
-    const carry = clamp(velocity * MOMENTUM_WINDOW, -MAX_CARRY_DEG, MAX_CARRY_DEG);
+    const carry = clamp(
+      velocity * MOMENTUM_WINDOW,
+      -MAX_CARRY_DEG,
+      MAX_CARRY_DEG,
+    );
     const glideTarget = current + carry;
     const detent = snapAngle(glideTarget, DETENT_DEG);
     stopFlights();
@@ -465,7 +501,7 @@ export function TurnModel({
         aria-valuemax={360}
         aria-valuenow={liveDeg}
         aria-valuetext={`${liveDeg} degrees`}
-        className="relative touch-none cursor-ew-resize rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)]"
+        className="relative cursor-ew-resize touch-none rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--accent)] focus-visible:outline-solid"
         style={{ width: size, height: size }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
@@ -535,7 +571,7 @@ export function TurnModel({
       {/* Mono readout chip — the slider aria-valuetext speaks for it. */}
       <span
         aria-hidden="true"
-        className="rounded-1 border border-hairline bg-surface-2 px-2 py-0.5 font-mono text-label tracking-wide text-ink-2 tabular-nums"
+        className="rounded-1 border border-hairline bg-surface-2 px-2 py-0.5 text-label font-mono tracking-wide text-ink-2 tabular-nums"
       >
         YAW &middot; {padded}&deg;
       </span>

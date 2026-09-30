@@ -257,7 +257,7 @@ export function ErrorPin({
           style={{ maxHeight }}
           className={cn(
             "relative flex min-w-0 flex-1 flex-col overflow-x-clip overflow-y-auto rounded-3 border border-hairline bg-surface-1 p-1.5 [contain:paint] focus-visible:outline-ring",
-            "focus-visible:outline-2 focus-visible:-outline-offset-2",
+            "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid",
           )}
         >
           {lines.map((line) => {
@@ -334,7 +334,7 @@ export function ErrorPin({
                   onClick={() => jumpTo(index)}
                   onKeyDown={(event) => handlePinKeys(event, index)}
                   style={{ top: asPercent(at) }}
-                  className="absolute inset-x-0 flex h-3 items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-ring"
+                  className="absolute inset-x-0 flex h-3 items-center justify-center rounded-full outline-none focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-solid"
                   initial={{
                     opacity: 0,
                     scale: motionSafe ? 0.4 : 1,

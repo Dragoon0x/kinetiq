@@ -217,7 +217,7 @@ export function RecallHint({
     ? springs.glide
     : { duration: durations.fast, ease: easings.move };
   const smallButton =
-    "grid size-6 shrink-0 place-items-center rounded-full text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+    "grid size-6 shrink-0 place-items-center rounded-full text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
   return (
     <div
@@ -345,7 +345,7 @@ export function RecallHint({
                   onClick={insert}
                   className={cn(
                     "flex h-6 min-w-0 items-center gap-1.5 rounded-full pr-2 pl-1.5 text-xs font-medium text-foreground transition-colors outline-none hover:bg-surface-0/60",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   )}
                 >
                   <MemoryGlyph className="text-cobalt-bright" />
@@ -373,7 +373,7 @@ export function RecallHint({
           onClick={send}
           className={cn(
             "grid size-8 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground transition-opacity outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             trimmed.length === 0 && "opacity-40",
           )}
         >

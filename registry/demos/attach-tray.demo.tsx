@@ -22,7 +22,7 @@ const STEPS = [0.07, 0.11, 0.05, 0.09, 0.13, 0.06, 0.1];
 const TICK_MS = 90;
 
 const buttonClass =
-  "h-8 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "h-8 rounded-2 border border-hairline-strong bg-surface-2 px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const advance = (file: AttachFile, step: number): AttachFile =>
   file.progress >= 1

@@ -132,7 +132,7 @@ export function OverflowGlideDemo({
               <button
                 type="button"
                 onClick={() => setStatus({ kind: "opened", index })}
-                className="flex w-full items-center gap-3 rounded-2 px-2.5 py-2 text-left transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="flex w-full items-center gap-3 rounded-2 px-2.5 py-2 text-left transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               >
                 <FileGlyph />
                 <span className="flex min-w-0 flex-1 flex-col">

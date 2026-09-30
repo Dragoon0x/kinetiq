@@ -183,7 +183,7 @@ function ArrowButton({
         "flex size-8 shrink-0 items-center justify-center rounded-2 border border-hairline-strong text-ink-2 transition-colors outline-none",
         "hover:bg-accent hover:text-foreground active:bg-cobalt-wash",
         "aria-disabled:pointer-events-none aria-disabled:opacity-40",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
       )}
     >
       <svg
@@ -445,7 +445,7 @@ export function GalleryStrip({
                           aria-label={`${isOpen ? "Close" : "Open"} picture ${index + 1} of ${count}: ${photo.caption}, from ${own ? "you" : peerName}`}
                           className={cn(
                             "block size-16 overflow-hidden rounded-2 border transition-colors outline-none",
-                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                             isOpen
                               ? "border-cobalt-bright ring-2 ring-cobalt-bright"
                               : "border-hairline hover:border-hairline-strong",
@@ -569,7 +569,7 @@ export function GalleryStrip({
                             onClick={close}
                             className={cn(
                               "flex h-8 shrink-0 items-center rounded-2 border border-hairline-strong px-2.5 text-xs font-medium transition-colors outline-none",
-                              "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:bg-cobalt-wash",
+                              "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid active:bg-cobalt-wash",
                             )}
                           >
                             Close

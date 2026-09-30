@@ -314,7 +314,7 @@ export function OrchestraView({
               style={{ left: pct(point.x), top: pct(point.y) }}
               className={cn(
                 "absolute flex w-16 -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 rounded-2 outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               <motion.span

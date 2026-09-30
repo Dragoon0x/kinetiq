@@ -318,7 +318,7 @@ export function CouponSlot({
                   ref={removeRef}
                   type="button"
                   onClick={remove}
-                  className="inline-flex h-9 shrink-0 cursor-pointer items-center rounded-2 border border-hairline-strong px-3 text-sm font-medium text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  className="inline-flex h-9 shrink-0 cursor-pointer items-center rounded-2 border border-hairline-strong px-3 text-sm font-medium text-ink-2 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                 >
                   Remove
                 </button>
@@ -363,7 +363,7 @@ export function CouponSlot({
                     apply();
                   }}
                   className={cn(
-                    "h-9 min-w-0 flex-1 rounded-2 border bg-surface-0 px-3 font-mono text-xs tracking-[0.06em] text-foreground uppercase transition-colors outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "h-9 min-w-0 flex-1 rounded-2 border bg-surface-0 px-3 font-mono text-xs tracking-[0.06em] text-foreground uppercase transition-colors outline-none placeholder:text-ink-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     error ? "border-danger" : "border-input",
                   )}
                 />
@@ -371,7 +371,7 @@ export function CouponSlot({
                   type="button"
                   onClick={apply}
                   disabled={code.trim().length === 0}
-                  className="inline-flex h-9 shrink-0 cursor-pointer items-center rounded-2 bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-default disabled:opacity-50"
+                  className="inline-flex h-9 shrink-0 cursor-pointer items-center rounded-2 bg-primary px-3 text-sm font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:cursor-default disabled:opacity-50"
                 >
                   Apply
                 </button>

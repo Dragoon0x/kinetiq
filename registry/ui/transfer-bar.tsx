@@ -372,7 +372,7 @@ export function TransferBar({
                   <button
                     type="button"
                     onClick={onRetry}
-                    className="inline-flex h-8 shrink-0 items-center rounded-2 border border-input px-3 text-xs font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    className="inline-flex h-8 shrink-0 items-center rounded-2 border border-input px-3 text-xs font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                   >
                     Retry
                   </button>

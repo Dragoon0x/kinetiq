@@ -52,7 +52,7 @@ export type PriorityFlagChatProps = {
 const FADE = { duration: durations.fast, ease: easings.enter } as const;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** One string per reading, so no accessible name is spliced from two nodes. */
 const waitingSentence = (pending: number): string =>

@@ -73,7 +73,7 @@ const FOCUSABLE =
 const PLACED_HOLD_MS = 800;
 
 const BUTTON =
-  "flex h-9 items-center justify-center gap-2 rounded-2 px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none";
+  "flex h-9 items-center justify-center gap-2 rounded-2 px-3 text-xs font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none";
 
 /**
  * Each digit column is a ten-face strip moved by a percentage of its own

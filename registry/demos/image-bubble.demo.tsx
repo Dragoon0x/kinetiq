@@ -65,7 +65,7 @@ export function ImageBubbleDemo() {
         type="button"
         onClick={receive}
         disabled={loadingId !== null}
-        className="h-9 self-start rounded-3 border border-hairline-strong px-3 text-sm font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:bg-cobalt-wash disabled:opacity-50"
+        className="h-9 self-start rounded-3 border border-hairline-strong px-3 text-sm font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid active:bg-cobalt-wash disabled:opacity-50"
       >
         Receive photo
       </button>

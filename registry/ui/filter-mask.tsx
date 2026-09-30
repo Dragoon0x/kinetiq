@@ -251,7 +251,7 @@ export function FilterMask({
           onClick={toggleAll}
           className={cn(
             "flex h-8 shrink-0 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:opacity-50",
           )}
         >
           {allRevealed ? "Mask all" : "Reveal all"}
@@ -281,7 +281,7 @@ export function FilterMask({
                 onClick={() => toggleWord(run.index, run.value)}
                 className={cn(
                   "relative inline-block rounded-1 align-baseline outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-60",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:opacity-60",
                 )}
               >
                 <span aria-hidden>{run.value}</span>

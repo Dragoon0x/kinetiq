@@ -427,7 +427,7 @@ export function WaterfallSteps({
                 }}
                 onBlur={() => setActiveIndex(null)}
                 onKeyDown={(event) => handleKeyDown(event, index)}
-                className="size-full cursor-default rounded-2 outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
+                className="size-full cursor-default rounded-2 outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               />
             </li>
           ))}

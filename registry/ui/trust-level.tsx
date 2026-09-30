@@ -373,7 +373,7 @@ export function TrustLevel({
                 onKeyDown={(event) => onKeyDown(event, index)}
                 className={cn(
                   "flex flex-col items-center gap-1 rounded-2 outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   disabled && "opacity-50",
                 )}
               >
@@ -459,7 +459,7 @@ export function TrustLevel({
             aria-labelledby={tabId(shown)}
             className={cn(
               "flex flex-col gap-1 rounded-2 border border-hairline bg-surface-2 p-2.5 outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             <p className="text-xs leading-snug font-medium">

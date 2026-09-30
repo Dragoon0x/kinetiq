@@ -352,7 +352,7 @@ export function CashClock({
                     aria-hidden
                     className={cn(
                       "flex size-4 shrink-0 items-center justify-center rounded-1 border transition-colors",
-                      "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring",
+                      "peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring peer-focus-visible:outline-solid",
                       on
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-input",

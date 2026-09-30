@@ -206,7 +206,7 @@ export function KeymapSheet({
         onClick={openSheet}
         className={cn(
           "pointer-events-auto absolute top-3 right-3 flex h-8 items-center gap-2 rounded-2 border border-hairline-strong bg-card px-2.5 text-xs font-medium text-foreground shadow-sm transition-colors outline-none hover:bg-accent hover:text-accent-foreground",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         Shortcuts
@@ -267,7 +267,7 @@ export function KeymapSheet({
                 onClick={closeSheet}
                 className={cn(
                   "flex size-7 shrink-0 items-center justify-center rounded-2 text-ink-2 transition-colors outline-none hover:bg-accent hover:text-accent-foreground",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 <svg
@@ -300,7 +300,7 @@ export function KeymapSheet({
                 }}
                 className={cn(
                   "h-8 w-full rounded-2 border border-hairline-strong bg-surface-2 px-2.5 text-xs outline-none placeholder:text-ink-3",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               />
             </div>

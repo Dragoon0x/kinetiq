@@ -272,7 +272,7 @@ export function TenderSwitch({
               onKeyDown={(event) => handleKeyDown(event, index)}
               className={cn(
                 "relative flex items-center justify-center gap-1.5 rounded-full px-2 text-xs font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground",
@@ -390,7 +390,7 @@ export function TenderSwitch({
                   onBlur={() => setDraft(null)}
                   className={cn(
                     "h-9 w-full min-w-0 rounded-2 border border-input bg-surface-0 px-3 font-mono text-sm tabular-nums transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   )}
                 />
               </motion.label>

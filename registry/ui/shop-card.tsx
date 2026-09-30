@@ -261,7 +261,7 @@ export function ShopCard({
           onClick={toggleLike}
           className={cn(
             "absolute top-2 right-2 flex size-8 items-center justify-center rounded-full border border-hairline-strong bg-surface-0/85 backdrop-blur-[2px] transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             isLiked ? "text-danger" : "text-ink-2 hover:text-foreground",
           )}
         >
@@ -312,7 +312,7 @@ export function ShopCard({
                   onKeyDown={(event) => onVariantKeyDown(event, index)}
                   className={cn(
                     "flex h-7 min-w-0 items-center justify-center rounded-full border px-2.5 text-[11px] font-medium transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     checked
                       ? "border-transparent bg-primary text-primary-foreground"
                       : "border-hairline-strong text-ink-2 hover:text-foreground",
@@ -330,7 +330,7 @@ export function ShopCard({
               setAdded(true);
               onAdd?.(variant?.id ?? "");
             }}
-            className="inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-2 bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-2 bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             {added && (
               <motion.svg
@@ -368,7 +368,7 @@ export function ShopCard({
             <a
               href={href}
               title={product.title}
-              className="text-foreground transition-colors outline-none hover:text-cobalt-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="text-foreground transition-colors outline-none hover:text-cobalt-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             >
               {product.title}
             </a>

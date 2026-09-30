@@ -337,7 +337,7 @@ export function TypingCluster({
                 }}
                 className={cn(
                   "flex h-7 min-w-0 items-center gap-2 rounded-2 px-2 text-left transition-colors outline-none",
-                  "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   merged ? "flex-1" : "self-start",
                 )}
               >

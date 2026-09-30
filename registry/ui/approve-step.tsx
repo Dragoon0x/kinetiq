@@ -290,7 +290,7 @@ export function ApproveStep({
               )} ${symbol}`}
               className={cn(
                 "flex h-10 w-full items-center justify-center gap-1.5 overflow-hidden rounded-2 border px-3 text-sm font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 failed
                   ? "border-hairline-strong bg-surface-2 text-warn hover:bg-accent"
                   : "border-hairline-strong bg-surface-2 text-foreground hover:bg-accent active:bg-cobalt-wash",
@@ -324,7 +324,7 @@ export function ApproveStep({
             // explain why it is asleep, and the reason is the whole point here.
             className={cn(
               "flex h-10 w-full items-center justify-center gap-1.5 overflow-hidden rounded-2 px-3 text-sm font-medium transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               asleep
                 ? "cursor-not-allowed border border-hairline bg-surface-2 text-ink-3"
                 : done

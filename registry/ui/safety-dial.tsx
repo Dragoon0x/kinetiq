@@ -340,7 +340,7 @@ export function SafetyDial({
               onKeyDown={(event) => onStopKeyDown(event, index)}
               className={cn(
                 "flex h-8 items-center justify-center rounded-2 border px-2 text-xs font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 checked
                   ? "border-cobalt-bright/50 bg-cobalt-wash text-foreground"
                   : "border-hairline-strong text-ink-2 hover:bg-accent hover:text-foreground",

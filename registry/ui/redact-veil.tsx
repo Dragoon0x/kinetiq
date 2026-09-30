@@ -130,7 +130,7 @@ function Veiled({
       className={cn(
         "relative mx-0.5 inline-block cursor-pointer rounded-1 px-0.5 font-mono text-[0.9em] text-foreground outline-none",
         lifted ? "" : "select-none",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
       )}
     >
       <span aria-hidden>{span.text}</span>

@@ -216,7 +216,7 @@ export function DunningSteps({
           onClick={togglePause}
           className={cn(
             "inline-flex h-8 shrink-0 items-center gap-1.5 rounded-2 border border-input bg-surface-0 px-2.5 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             "disabled:pointer-events-none disabled:opacity-50",
             isPaused && "border-hairline-strong bg-cobalt-wash",
           )}

@@ -168,7 +168,7 @@ export function BalanceCompare({
         }}
         className={cn(
           "flex w-full flex-col gap-3 rounded-3 border border-hairline bg-surface-1 p-3 text-left transition-colors outline-none",
-          "hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <span className="flex items-center justify-between gap-3">

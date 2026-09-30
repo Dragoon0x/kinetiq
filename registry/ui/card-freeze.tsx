@@ -348,7 +348,7 @@ export function CardFreeze({
         }}
         className={cn(
           "relative w-full rounded-full border border-hairline bg-surface-2 outline-none select-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           disabled ? "opacity-50" : "cursor-pointer",
         )}
         style={{ height: TRACK_H }}

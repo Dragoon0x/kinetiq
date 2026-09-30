@@ -439,7 +439,7 @@ export function GoalTimeline({
           onKeyUp={settle}
           className={cn(
             "absolute top-1/2 -mt-2 -ml-2 size-4 rounded-full border-2 border-cobalt-bright bg-surface-0 shadow-sm outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             dragging && "scale-110",
           )}
           initial={false}

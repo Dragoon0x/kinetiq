@@ -216,7 +216,7 @@ export function OutlineGrow({
                       onKeyDown={(event) => onRailKeyDown(event, index)}
                       className={cn(
                         "relative flex h-6 w-full items-center gap-2 rounded-2 pr-1 text-left text-[11px] transition-colors outline-none",
-                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         writing || done
                           ? "text-foreground"
                           : "text-ink-3 hover:text-foreground",
@@ -280,7 +280,7 @@ export function OutlineGrow({
                   <motion.h3
                     id={headingId}
                     tabIndex={-1}
-                    className="rounded-1 text-sm font-semibold text-foreground outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    className="rounded-1 text-sm font-semibold text-foreground outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                     initial={fromBelow}
                     animate={{ opacity: 1, y: 0 }}
                     transition={rise(index * gap)}

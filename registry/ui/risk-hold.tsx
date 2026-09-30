@@ -346,7 +346,7 @@ export function RiskHold({
                   onClick={() => move("released")}
                   className={cn(
                     "flex h-8 flex-1 items-center justify-center rounded-2 bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90 active:bg-primary/95",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   )}
                 >
                   Release
@@ -361,7 +361,7 @@ export function RiskHold({
                   // dropped from the tab order cannot say "already escalated".
                   className={cn(
                     "flex h-8 flex-1 items-center justify-center rounded-2 border px-3 text-xs font-medium transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     escalated
                       ? "cursor-default border-warn/40 text-warn"
                       : "border-hairline-strong bg-surface-2 text-foreground hover:bg-accent active:bg-cobalt-wash",

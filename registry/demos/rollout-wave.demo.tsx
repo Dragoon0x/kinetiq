@@ -12,7 +12,7 @@ const hostName = (index: number): string =>
   `${index < 12 ? "Coldbrook" : "Basinworks"} ${String(index + 1).padStart(2, "0")}`;
 
 const chip =
-  "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
+  "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
 
 export function RolloutWaveDemo() {
   const [wave, setWave] = React.useState(-1);

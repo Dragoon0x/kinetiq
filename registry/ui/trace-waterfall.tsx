@@ -50,7 +50,7 @@ export type TraceWaterfallProps = {
 };
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** A span narrower than this would draw as nothing at all. */
 const MIN_SHARE = 1.5;

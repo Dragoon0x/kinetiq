@@ -355,7 +355,7 @@ export function ExplorerSearch({
             type="button"
             aria-label="Clear the query"
             onClick={() => commit("")}
-            className="flex size-6 shrink-0 items-center justify-center rounded-full text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex size-6 shrink-0 items-center justify-center rounded-full text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             <svg
               viewBox="0 0 16 16"
@@ -433,7 +433,7 @@ export function ExplorerSearch({
                     <button
                       type="button"
                       onClick={() => onOpen?.(hit)}
-                      className="flex h-7 shrink-0 items-center rounded-2 border border-input bg-surface-2 px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                      className="flex h-7 shrink-0 items-center rounded-2 border border-input bg-surface-2 px-2.5 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                     >
                       Open
                     </button>

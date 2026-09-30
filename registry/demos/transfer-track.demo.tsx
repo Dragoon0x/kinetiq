@@ -55,14 +55,14 @@ export function TransferTrackDemo() {
         <button
           type="button"
           onClick={advance}
-          className="flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           Advance
         </button>
         <button
           type="button"
           onClick={() => setFailed(true)}
-          className="flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           Fail the hop
         </button>
@@ -73,7 +73,7 @@ export function TransferTrackDemo() {
             setFailed(false);
             setStamps([OPENED_AT]);
           }}
-          className="flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex h-8 flex-1 items-center justify-center rounded-2 border border-hairline-strong text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           Reset
         </button>

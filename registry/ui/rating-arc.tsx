@@ -123,14 +123,19 @@ export function RatingArc({
   };
 
   const paintGhost = (clientX: number, clientY: number) => {
-    const snapped = clamp(Math.round(scoreAt(clientX, clientY) / step) * step, 0, max);
+    const snapped = clamp(
+      Math.round(scoreAt(clientX, clientY) / step) * step,
+      0,
+      max,
+    );
     ghost.set(snapped / max);
     ghostOn.set(1);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     let next: number | null = null;
-    if (event.key === "ArrowRight" || event.key === "ArrowUp") next = score + step;
+    if (event.key === "ArrowRight" || event.key === "ArrowUp")
+      next = score + step;
     else if (event.key === "ArrowLeft" || event.key === "ArrowDown")
       next = score - step;
     else if (event.key === "Home") next = 0;
@@ -143,7 +148,12 @@ export function RatingArc({
   const ticks = Array.from({ length: max + 1 }, (_, i) => i);
 
   return (
-    <div className={cn("flex w-full max-w-[260px] flex-col items-center", className)}>
+    <div
+      className={cn(
+        "flex w-full max-w-[260px] flex-col items-center",
+        className,
+      )}
+    >
       <div
         role="slider"
         tabIndex={0}
@@ -153,7 +163,7 @@ export function RatingArc({
         aria-valuenow={score}
         aria-valuetext={`${score} of ${max}`}
         onKeyDown={handleKeyDown}
-        className="rounded-3 outline-none focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         <div className="relative w-full">
           <svg
@@ -168,7 +178,8 @@ export function RatingArc({
             }}
             onPointerMove={(event) => {
               paintGhost(event.clientX, event.clientY);
-              if (draggingRef.current) commit(scoreAt(event.clientX, event.clientY));
+              if (draggingRef.current)
+                commit(scoreAt(event.clientX, event.clientY));
             }}
             onPointerUp={(event) => {
               draggingRef.current = false;
@@ -260,9 +271,9 @@ export function RatingArc({
       </div>
 
       {readout && (
-        <p className="text-muted-foreground mt-1 font-mono text-[11px] tracking-[0.08em] uppercase">
-          <span className="text-[var(--signal,var(--primary))]">{score}</span> of{" "}
-          {max}
+        <p className="mt-1 font-mono text-[11px] tracking-[0.08em] text-muted-foreground uppercase">
+          <span className="text-[var(--signal,var(--primary))]">{score}</span>{" "}
+          of {max}
         </p>
       )}
     </div>

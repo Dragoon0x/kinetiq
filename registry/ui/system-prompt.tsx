@@ -177,7 +177,7 @@ export function SystemPrompt({
           onClick={() => setOpen(!isOpen)}
           className={cn(
             "flex h-7 min-w-0 items-center gap-1.5 rounded-2 pr-2 text-sm font-semibold text-foreground outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <motion.svg
@@ -238,7 +238,7 @@ export function SystemPrompt({
             }}
             className={cn(
               "flex h-7 items-center rounded-2 border border-hairline-strong bg-surface-2 px-2 text-xs font-medium text-foreground transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               canReset ? "hover:bg-accent" : "cursor-default opacity-40",
             )}
           >
@@ -285,7 +285,7 @@ export function SystemPrompt({
                   }}
                   className={cn(
                     "block w-full resize-none rounded-2 border border-input bg-surface-0 px-3 py-2 font-mono text-xs leading-5 text-foreground outline-none placeholder:text-ink-3",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   )}
                 />
                 {/* The band is a share of the body, so it can never overhang

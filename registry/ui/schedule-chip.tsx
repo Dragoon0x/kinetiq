@@ -424,7 +424,7 @@ export function ScheduleChip({
   };
 
   const control =
-    "flex items-center rounded-2 transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+    "flex items-center rounded-2 transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
   const handSpring: Transition = motionSafe ? springs.snap : { duration: 0 };
   const enterFrom = (offset: number) =>
     motionSafe ? { opacity: 0, y: offset } : { opacity: 0 };

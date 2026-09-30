@@ -403,7 +403,7 @@ export function CardTap({
             style={{ x, y: "-50%", backgroundImage: SLAB_ART }}
             className={cn(
               "absolute top-1/2 left-[5%] flex w-[59%] flex-col justify-between rounded-2 border border-hairline-strong p-[6%] text-left text-ink outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               idle ? "cursor-grab active:cursor-grabbing" : "cursor-default",
             )}
           >

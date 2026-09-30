@@ -273,7 +273,7 @@ export function CompareLines({
               onClick={() => toggle(entry.id)}
               className={cn(
                 "inline-flex h-8 items-center gap-2 rounded-full border px-3 text-xs font-medium transition-colors outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 off
                   ? "border-hairline bg-transparent text-ink-3 hover:bg-accent"
                   : "border-hairline-strong bg-surface-1 text-foreground hover:bg-accent",
@@ -318,7 +318,7 @@ export function CompareLines({
         onPointerLeave={() => moveCursor(null)}
         onKeyDown={handleKeyDown}
         onBlur={() => moveCursor(null)}
-        className="relative w-full cursor-crosshair touch-pan-y rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="relative w-full cursor-crosshair touch-pan-y rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         style={{ height }}
       >
         <svg

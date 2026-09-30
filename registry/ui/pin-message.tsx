@@ -315,7 +315,7 @@ export function PinMessage({
                             onClick={() => jump(message)}
                             title={message.text}
                             aria-label={`Go to ${message.author}'s message, sent ${message.time}`}
-                            className="flex h-8 min-w-0 flex-1 items-center gap-2 rounded-2 px-2 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                            className="flex h-8 min-w-0 flex-1 items-center gap-2 rounded-2 px-2 text-left transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                           >
                             <span className="shrink-0 text-[11px] font-medium text-ink-2">
                               {message.author}
@@ -328,7 +328,7 @@ export function PinMessage({
                             type="button"
                             onClick={() => toggle(message)}
                             aria-label={`Unpin ${message.author}'s message, sent ${message.time}`}
-                            className="grid size-8 shrink-0 place-items-center rounded-2 text-cobalt-bright transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                            className="grid size-8 shrink-0 place-items-center rounded-2 text-cobalt-bright transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                           >
                             <PinGlyph filled />
                           </button>
@@ -357,7 +357,7 @@ export function PinMessage({
               }}
               tabIndex={-1}
               aria-current={jumped === message.id ? "true" : undefined}
-              className="flex flex-col rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="flex flex-col rounded-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             >
               <div className="flex items-center gap-1.5 px-1">
                 <span className="text-[11px] font-medium text-ink-2">
@@ -395,7 +395,7 @@ export function PinMessage({
                       : `${isPinned ? "Unpin" : "Pin"} ${message.author}'s message, sent ${message.time}`
                   }
                   className={cn(
-                    "grid size-7 shrink-0 place-items-center rounded-full transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "grid size-7 shrink-0 place-items-center rounded-full transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     isPinned ? "text-cobalt-bright" : "text-ink-3",
                     refused && "opacity-50",
                   )}

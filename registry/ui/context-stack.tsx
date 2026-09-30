@@ -174,7 +174,7 @@ export function ContextStack({
               transition={{ height: grow, y: grow }}
               className={cn(
                 "relative flex w-full items-center gap-3 overflow-hidden rounded-2 border bg-surface-0 pr-3 pl-4 text-left transition-[border-color,box-shadow] outline-none",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 up
                   ? "border-cobalt-bright shadow-md"
                   : "border-hairline-strong shadow-none",

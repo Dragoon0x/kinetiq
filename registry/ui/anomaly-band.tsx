@@ -48,7 +48,7 @@ const X_PAD = 4;
 const Y_PAD = 10;
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** Three decimals before a coordinate or a percentage reaches an attribute:
  *  the server and the browser can disagree in the last digits, and that is a

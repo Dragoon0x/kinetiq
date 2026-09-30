@@ -119,7 +119,7 @@ type Beat = {
 };
 
 const CONTROL =
-  "transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * The strip above the thread, holding everything pinned to it. One pin shows at

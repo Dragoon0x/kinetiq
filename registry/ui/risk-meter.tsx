@@ -242,7 +242,7 @@ export function RiskMeter({
             armed
               ? "border-destructive bg-destructive text-destructive-foreground hover:bg-destructive/90"
               : "border-primary bg-primary text-primary-foreground hover:bg-primary/90",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           )}
         >
           <WordRoll

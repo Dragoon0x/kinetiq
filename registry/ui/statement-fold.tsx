@@ -188,7 +188,7 @@ export function StatementFold({
         onClick={() => setOpen(!isOpen)}
         className={cn(
           "flex w-full items-center gap-3 px-3 py-3 text-left transition-colors outline-none",
-          "hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <span className="flex min-w-0 flex-1 flex-col gap-0.5">

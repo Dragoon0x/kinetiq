@@ -67,7 +67,7 @@ function useMeasured(): [(node: HTMLElement | null) => void, number | null] {
 }
 
 const control =
-  "flex h-8 items-center gap-1.5 rounded-full border border-hairline-strong px-3 text-[11px] font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-8 items-center gap-1.5 rounded-full border border-hairline-strong px-3 text-[11px] font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /**
  * Their language, then yours. Pressing Translate turns the bubble about its

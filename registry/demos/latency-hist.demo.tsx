@@ -56,7 +56,7 @@ const requests = (count: number) =>
   `${count.toLocaleString("en-US")} ${count === 1 ? "request" : "requests"}`;
 
 const chip =
-  "flex h-8 min-w-0 flex-1 items-center justify-center rounded-2 border border-hairline-strong px-2 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex h-8 min-w-0 flex-1 items-center justify-center rounded-2 border border-hairline-strong px-2 text-xs font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function LatencyHistDemo() {
   const [windowId, setWindowId] = React.useState<string>("15m");

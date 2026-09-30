@@ -346,7 +346,7 @@ export function ReorderList({
                 style={{ height: ROW_H, touchAction: "none" }}
                 className={cn(
                   "flex w-full items-center gap-2.5 rounded-2 border px-2.5 text-left transition-[background-color,border-color,box-shadow] outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isHeld
                     ? "cursor-grabbing border-cobalt-bright bg-surface-0 shadow-lg"
                     : "cursor-grab border-hairline bg-surface-1 hover:border-hairline-strong hover:bg-surface-2",

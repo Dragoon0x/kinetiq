@@ -308,7 +308,7 @@ export function OverdraftLine({
         style={{ touchAction: "pan-y" }}
         className={cn(
           "relative h-32 cursor-crosshair overflow-hidden rounded-2 outline-none select-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         {/* The band and its fill are HTML rather than SVG: the SVG is stretched

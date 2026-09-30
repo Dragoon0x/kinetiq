@@ -261,7 +261,7 @@ function StickerItem({
         animate={sticker}
         className={cn(
           "relative block size-24 rounded-3 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         {/* The nudge sits on its own element, so the drop's controls and the

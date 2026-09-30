@@ -179,7 +179,7 @@ export function ThumbsMorph({
         onClick={() => press(side)}
         className={cn(
           "flex size-9 shrink-0 items-center justify-center rounded-full border transition-colors duration-150 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           active && !down && "border-success/40 bg-success/10 text-success",
           active && down && "border-danger/40 bg-danger/10 text-danger",
           !active &&
@@ -284,7 +284,7 @@ export function ThumbsMorph({
                   }
                   className={cn(
                     "flex h-7 items-center rounded-full border px-2.5 text-xs font-medium transition-colors duration-150 outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     on
                       ? "border-danger/40 bg-danger/10 text-danger"
                       : "border-hairline-strong bg-surface-1 text-ink-2 hover:bg-accent hover:text-foreground",

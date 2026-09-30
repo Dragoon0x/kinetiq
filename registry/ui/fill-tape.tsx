@@ -274,7 +274,7 @@ export function FillTape({
             onClick={toggleLatch}
             className={cn(
               "flex h-6 items-center rounded-full border border-hairline px-2.5 font-mono text-[10px] tracking-[0.08em] uppercase transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               latched
                 ? "bg-surface-2 text-foreground"
                 : "text-ink-3 hover:bg-accent hover:text-foreground",

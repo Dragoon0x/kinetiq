@@ -262,7 +262,7 @@ function HunkPiece({
             onClick={() => onToggle(hunk)}
             className={cn(
               "ml-0.5 inline-flex size-5 items-center justify-center rounded-full border align-middle transition-colors outline-none",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               accepted
                 ? "border-success bg-success/20 text-success"
                 : "border-input text-ink-3 hover:border-hairline-strong hover:text-foreground",
@@ -400,7 +400,7 @@ export function DiffLines({
           onClick={() => selectView(showResult ? "change" : "result")}
           className={cn(
             "inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full border px-2.5 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             showResult
               ? "border-cobalt-bright/40 bg-cobalt-wash text-cobalt-bright"
               : "border-hairline bg-surface-2 text-ink-2 hover:text-foreground",

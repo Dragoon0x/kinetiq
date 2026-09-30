@@ -369,7 +369,7 @@ export function CardFace({
           onClick={toggle}
           className={cn(
             "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             frozen
               ? "cursor-not-allowed opacity-50"
               : "hover:bg-accent active:bg-cobalt-wash",

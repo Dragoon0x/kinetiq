@@ -107,7 +107,7 @@ export function CopyChip({
         }
         title={variant === "icon" ? label : undefined}
         className={cn(
-          "relative inline-flex h-8 max-w-full shrink-0 items-center justify-center overflow-hidden rounded-2 border border-input font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "relative inline-flex h-8 max-w-full shrink-0 items-center justify-center overflow-hidden rounded-2 border border-input font-medium transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           variant === "icon" ? "w-8" : "gap-1.5 px-2.5 text-xs",
           copied ? "text-success" : "text-foreground",
           // Focus has moved into the invisible fallback field over this box, so

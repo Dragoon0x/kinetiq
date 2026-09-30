@@ -50,7 +50,7 @@ export function ConsentSlabDemo() {
               setGranted(null);
               setOpen(true);
             }}
-            className="h-8 shrink-0 rounded-2 border border-hairline-strong bg-card px-2.5 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent hover:text-accent-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="h-8 shrink-0 rounded-2 border border-hairline-strong bg-card px-2.5 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent hover:text-accent-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             Reset
           </button>

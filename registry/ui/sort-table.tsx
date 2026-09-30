@@ -155,7 +155,7 @@ export function SortTable({
                     onClick={() => cycle(column.id)}
                     className={cn(
                       "flex h-9 w-full cursor-pointer items-center gap-1 px-2 text-[11px] font-medium tracking-[0.06em] uppercase outline-none",
-                      "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                      "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                       column.numeric ? "justify-end" : "justify-start",
                       isSorted
                         ? "text-foreground"

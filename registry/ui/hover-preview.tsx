@@ -193,7 +193,7 @@ export function HoverPreview({
       onBlur={() => setFocused(false)}
       className={cn(
         "flex w-full cursor-pointer flex-col gap-2 rounded-3 text-left outline-none",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         className,
       )}
     >

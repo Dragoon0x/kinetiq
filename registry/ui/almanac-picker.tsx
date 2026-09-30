@@ -265,7 +265,7 @@ export function AlmanacPicker({
       type="button"
       aria-label={by < 0 ? "Previous month" : "Next month"}
       onClick={() => goMonth(by)}
-      className="flex size-8 shrink-0 items-center justify-center rounded-2 border border-hairline bg-surface-1 outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      className="flex size-8 shrink-0 items-center justify-center rounded-2 border border-hairline bg-surface-1 outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
     >
       <svg viewBox="0 0 24 24" aria-hidden className="size-4 shrink-0">
         <path
@@ -401,7 +401,7 @@ export function AlmanacPicker({
                           if (pending) setHover(day);
                         }}
                         className={cn(
-                          "relative flex h-9 items-center justify-center rounded-2 font-mono text-xs tabular-nums outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                          "relative flex h-9 items-center justify-center rounded-2 font-mono text-xs tabular-nums outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                           disabled && "cursor-default opacity-30",
                           selected
                             ? "font-semibold text-primary-foreground"

@@ -304,7 +304,7 @@ export function HeatTiles({
                 }
                 className={cn(
                   "relative flex aspect-square flex-col overflow-hidden rounded-2 border border-hairline bg-surface-2 text-left outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   isOpen ? "p-3" : "p-2",
                 )}
               >

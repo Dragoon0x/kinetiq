@@ -64,7 +64,7 @@ export function TypedConfirmDemo() {
               setMatch(0);
               setOpen(true);
             }}
-            className={`flex h-9 w-full items-center justify-center rounded-2 border text-sm font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+            className={`flex h-9 w-full items-center justify-center rounded-2 border text-sm font-medium transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid ${
               deleted
                 ? "border-hairline-strong hover:bg-accent"
                 : "border-danger/40 text-danger hover:bg-destructive/10"

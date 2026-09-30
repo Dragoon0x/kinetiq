@@ -71,7 +71,7 @@ const currency = new Intl.NumberFormat("en-US", {
 const defaultFormat = (value: number) => currency.format(value);
 
 const FOCUS_INSET =
-  "outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-ring";
 
 /** True when the receipt's merchant, date, note or any line matches the query. */
 export function matchReceipt(receipt: Receipt, query: string): boolean {
@@ -477,7 +477,7 @@ export function ReceiptDrawer({
                 }}
                 className={cn(
                   "h-9 w-full rounded-2 border border-input bg-surface-0 pr-3 pl-9 text-sm text-foreground outline-none placeholder:text-ink-3",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               />
             </div>

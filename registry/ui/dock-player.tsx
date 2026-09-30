@@ -135,7 +135,7 @@ export function DockPlayer({
 
   const iconButton = cn(
     "flex size-7 shrink-0 items-center justify-center rounded-full outline-none transition-colors",
-    "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2",
+    "focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2",
   );
 
   const card = (place: "inline" | "dock") => (
@@ -175,7 +175,7 @@ export function DockPlayer({
             aria-label={`Return ${title} to the article`}
             className={cn(
               "absolute inset-0 cursor-pointer outline-none",
-              "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           />
         ) : null}
@@ -275,7 +275,7 @@ export function DockPlayer({
               onClick={() => setClosed(false)}
               className={cn(
                 "flex h-8 items-center rounded-2 border border-hairline-strong bg-card px-3 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent hover:text-accent-foreground",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               Show player

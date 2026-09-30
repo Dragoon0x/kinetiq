@@ -276,7 +276,7 @@ export function ReadWave({
               }}
               className={cn(
                 "flex h-7 max-w-full items-center gap-1.5 rounded-full py-1 pr-2 pl-1 text-[11px] text-ink-3 transition-colors outline-none hover:bg-accent disabled:hover:bg-transparent",
-                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 expanded && "bg-accent text-foreground",
               )}
             >

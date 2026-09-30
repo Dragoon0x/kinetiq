@@ -29,7 +29,13 @@ type Bit = {
   born: number;
 };
 
-const PALETTE_VARS = ["--primary", "--success", "--warn", "--accent-bright", "--signal"];
+const PALETTE_VARS = [
+  "--primary",
+  "--success",
+  "--warn",
+  "--accent-bright",
+  "--signal",
+];
 const LIFESPAN = 1.8;
 const GRAVITY = 900;
 
@@ -162,7 +168,10 @@ export function ConfettiPop({
           rot: rng() * Math.PI,
           vrot: (rng() - 0.5) * 14,
           size: 5 + rng() * 5,
-          color: palette[Math.floor(rng() * palette.length)] ?? palette[0] ?? "#5b7cfa",
+          color:
+            palette[Math.floor(rng() * palette.length)] ??
+            palette[0] ??
+            "#5b7cfa",
           born: motionSafe ? clock : 0,
         });
       }
@@ -237,7 +246,7 @@ export function ConfettiPop({
       ref={containerRef}
       style={{ height }}
       className={cn(
-        "border-hairline bg-surface-0 relative w-full overflow-hidden rounded-3 border",
+        "relative w-full overflow-hidden rounded-3 border border-hairline bg-surface-0",
         className,
       )}
     >
@@ -249,7 +258,7 @@ export function ConfettiPop({
       <button
         type="button"
         onClick={pop}
-        className="bg-primary text-primary-foreground hover:bg-primary/90 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2 px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-ring focus-visible:outline-2 focus-visible:outline-offset-2"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2 bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         {children}
       </button>

@@ -30,7 +30,7 @@ export function SlippageDialDemo() {
       <button
         type="button"
         onClick={() => setTolerance(wide ? 0.5 : 5)}
-        className="inline-flex h-8 w-fit items-center justify-center rounded-2 border border-input bg-surface-1 px-3 text-xs font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        className="inline-flex h-8 w-fit items-center justify-center rounded-2 border border-input bg-surface-1 px-3 text-xs font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
       >
         {wide ? "Back to 0.5%" : "Widen to 5%"}
       </button>

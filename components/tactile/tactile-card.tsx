@@ -128,7 +128,7 @@ export const TactileCard = React.memo(function TactileCard({
           type="button"
           onClick={open}
           aria-label={`Open ${item.title} on the stage`}
-          className="inline-flex size-8 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none group-hover:text-ink-2 hover:bg-surface-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="inline-flex size-8 items-center justify-center rounded-2 text-ink-3 transition-colors outline-none group-hover:text-ink-2 hover:bg-surface-2 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <Maximize2 aria-hidden className="size-4" />
         </button>
@@ -162,7 +162,7 @@ export const TactileCard = React.memo(function TactileCard({
           <button
             type="button"
             onClick={open}
-            className="rounded-1 text-left outline-none hover:text-cobalt-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="rounded-1 text-left outline-none hover:text-cobalt-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
           >
             {item.title}
           </button>

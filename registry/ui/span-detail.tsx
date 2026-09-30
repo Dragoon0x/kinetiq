@@ -245,7 +245,7 @@ export function SpanDetail({
         aria-label={headLabel}
         className={cn(
           "flex w-full flex-col gap-0.5 px-3 py-2.5 text-left transition-colors outline-none",
-          "hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+          "hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <span className="flex w-full items-center gap-2">
@@ -428,7 +428,7 @@ export function SpanDetail({
                         }
                         className={cn(
                           "shrink-0 rounded-1 border border-hairline-strong px-1.5 py-px font-mono text-[10px] text-ink-3 transition-colors outline-none hover:bg-accent hover:text-foreground",
-                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         )}
                       >
                         {shown ? "Mask" : "Reveal"}
@@ -468,7 +468,7 @@ export function SpanDetail({
                       aria-label={`${sentence(event.label)} at ${formatMs(event.atMs)}.`}
                       className={cn(
                         "flex w-full items-center gap-2 rounded-2 px-1.5 py-1 text-left transition-colors outline-none",
-                        "hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                        "hover:bg-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                         index === activeEvent && "bg-cobalt-wash",
                       )}
                     >

@@ -218,7 +218,7 @@ export function UnreadLine({
               className={cn(
                 "flex h-6 shrink-0 items-center gap-1.5 rounded-full border border-cobalt-bright/40 bg-cobalt-wash px-2.5 text-cobalt-bright",
                 "text-[11px] font-medium transition-colors outline-none",
-                "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                "hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
               )}
             >
               <span>{dividerLabel}</span>
@@ -296,7 +296,7 @@ export function UnreadLine({
         style={{ maxHeight: Math.round(maxHeight) }}
         className={cn(
           "overflow-y-auto overscroll-contain rounded-3 border border-hairline bg-surface-1 p-3 outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <ol role="list" className="flex flex-col gap-3">

@@ -321,7 +321,7 @@ export function AmortiseStack({
         style={{ touchAction: "pan-y" }}
         className={cn(
           "relative h-28 cursor-crosshair rounded-2 outline-none select-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         <div aria-hidden className="flex h-full items-end gap-px">

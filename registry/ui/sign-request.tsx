@@ -238,7 +238,7 @@ function SignSheet({
           role="group"
           tabIndex={0}
           aria-label="Request details"
-          className="min-h-0 flex-1 overflow-y-auto outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
+          className="min-h-0 flex-1 overflow-y-auto outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           <dl className="flex flex-col">
             {fields.map((field, index) => (
@@ -303,7 +303,7 @@ function SignSheet({
               <button
                 type="button"
                 onClick={jumpToEnd}
-                className="flex h-7 shrink-0 items-center gap-1 rounded-2 border border-input px-2 text-[11px] font-medium text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                className="flex h-7 shrink-0 items-center gap-1 rounded-2 border border-input px-2 text-[11px] font-medium text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               >
                 Jump to end
                 <svg
@@ -326,7 +326,7 @@ function SignSheet({
             <button
               type="button"
               onClick={() => onReject?.()}
-              className="flex h-9 flex-1 items-center justify-center rounded-2 border border-input bg-surface-1 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="flex h-9 flex-1 items-center justify-center rounded-2 border border-input bg-surface-1 text-xs font-medium text-foreground transition-colors outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             >
               Reject
             </button>
@@ -335,7 +335,7 @@ function SignSheet({
               aria-disabled={!armed}
               aria-describedby={gateId}
               onClick={press}
-              className="relative flex h-9 flex-1 items-center justify-center overflow-hidden rounded-2 border border-input outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              className="relative flex h-9 flex-1 items-center justify-center overflow-hidden rounded-2 border border-input outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
             >
               {/* The fill sweeps from the left as the gate opens — a switch
                   closing, so it snaps rather than glides. */}

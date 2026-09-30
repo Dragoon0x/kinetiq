@@ -467,7 +467,7 @@ export function OverflowGlide({
       className={cn(
         "relative block min-w-0 rounded-1 outline-none",
         focusable &&
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         className,
       )}
     >

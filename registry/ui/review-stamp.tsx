@@ -181,7 +181,7 @@ export function ReviewStamp({
                 }
                 className={cn(
                   "relative col-start-1 row-start-1 flex h-8 items-center gap-1.5 rounded-full border-2 border-current bg-success/10 px-2.5 font-mono text-[11px] font-semibold tracking-[0.12em] text-success uppercase outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                 )}
               >
                 <span
@@ -253,7 +253,7 @@ export function ReviewStamp({
             onClick={() => onRevoke?.()}
             className={cn(
               "flex h-8 items-center rounded-2 border border-hairline-strong px-3 text-xs font-medium transition-colors outline-none hover:bg-accent",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             Revoke
@@ -264,7 +264,7 @@ export function ReviewStamp({
             onClick={() => onApprove?.()}
             className={cn(
               "flex h-8 items-center rounded-2 border border-primary bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors outline-none hover:bg-primary/90",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             Approve

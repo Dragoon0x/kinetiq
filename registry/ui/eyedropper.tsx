@@ -909,7 +909,7 @@ export function Eyedropper({
           moveTo(at.i + di + 0.5, at.j + dj + 0.5, "key");
           speakSoon();
         }}
-        className="relative block aspect-[2/1] w-full cursor-crosshair overflow-clip rounded-3 border border-hairline bg-surface-2 [contain:paint] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:cursor-not-allowed"
+        className="relative block aspect-[2/1] w-full cursor-crosshair overflow-clip rounded-3 border border-hairline bg-surface-2 [contain:paint] outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:cursor-not-allowed"
       >
         <canvas
           ref={bindCanvas}
@@ -968,7 +968,7 @@ export function Eyedropper({
                     title={text}
                     disabled={waiting}
                     onClick={() => copy(key)}
-                    className="relative flex size-8 items-center justify-center rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    className="relative flex size-8 items-center justify-center rounded-2 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
                   >
                     {waiting ? (
                       <span

@@ -234,18 +234,14 @@ export function PullToRefresh({
         ? "RELEASE"
         : "PULL";
   const liveText =
-    phase === "refreshing"
-      ? "Refreshing…"
-      : refreshNonce > 0
-        ? "Updated"
-        : "";
+    phase === "refreshing" ? "Refreshing…" : refreshNonce > 0 ? "Updated" : "";
 
   return (
     <div
       role="region"
       aria-label={ariaLabel}
       className={cn(
-        "bg-surface-1 border-hairline relative overflow-hidden rounded-3 border",
+        "relative overflow-hidden rounded-3 border border-hairline bg-surface-1",
         className,
       )}
     >
@@ -346,9 +342,9 @@ export function PullToRefresh({
         disabled={phase === "refreshing"}
         aria-label="Refresh"
         className={cn(
-          "text-label absolute top-1.5 right-1.5 z-20 rounded-1 px-2 py-1",
+          "absolute top-1.5 right-1.5 z-20 rounded-1 px-2 py-1 text-label",
           "text-ink-3 hover:text-ink disabled:opacity-50",
-          "focus-visible:outline-2 focus-visible:outline-offset-2",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-solid",
         )}
       >
         {phase === "refreshing" ? "…" : "Refresh"}

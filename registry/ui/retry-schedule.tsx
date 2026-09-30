@@ -496,7 +496,7 @@ export function RetrySchedule({
             className={cn(
               "inline-flex h-8 shrink-0 items-center gap-1.5 rounded-2 border border-input bg-surface-2 px-3 text-xs font-medium text-foreground transition-colors outline-none",
               "hover:bg-accent active:bg-cobalt-wash aria-disabled:opacity-70",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             )}
           >
             <span className="grid size-3.5 shrink-0 place-items-center">

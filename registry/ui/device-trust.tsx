@@ -346,7 +346,7 @@ export function DeviceTrust({
           onBlur={() => setLifted(false)}
           className={cn(
             "inline-flex h-9 shrink-0 items-center justify-center gap-2 rounded-2 px-4 text-sm font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             pending
               ? "cursor-default bg-cobalt-wash text-foreground"
               : isTrusted

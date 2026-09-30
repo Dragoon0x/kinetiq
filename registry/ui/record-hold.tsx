@@ -452,7 +452,7 @@ export function RecordHold({
           style={{ x, rotate: micRotate }}
           className={cn(
             "absolute inset-0 flex items-center justify-center rounded-full transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             armed
               ? "bg-destructive text-destructive-foreground"
               : "bg-primary text-primary-foreground hover:bg-primary/90",

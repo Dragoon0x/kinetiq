@@ -27,7 +27,7 @@ export function SoundSwitch({
       title={on ? "Sound on" : "Sound off"}
       onClick={() => onChange(!on)}
       className={cn(
-        "inline-flex size-9 items-center justify-center rounded-2 transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "inline-flex size-9 items-center justify-center rounded-2 transition-colors outline-none hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         on ? "text-cobalt-bright" : "text-ink-3 hover:text-foreground",
         className,
       )}

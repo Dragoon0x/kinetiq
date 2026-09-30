@@ -136,7 +136,7 @@ export function GlossWord({
       onKeyDown={onKeyDown}
       className={cn(
         "inline cursor-help bg-transparent p-0 text-left font-medium text-foreground underline decoration-ink-3 decoration-dotted decoration-2 underline-offset-4 transition-colors outline-none",
-        "hover:decoration-cobalt-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "hover:decoration-cobalt-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         open && "decoration-cobalt-bright",
       )}
     >

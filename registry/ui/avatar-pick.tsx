@@ -165,7 +165,7 @@ export function AvatarPick({
         onKeyDown={(event) => handleKeyDown(event, index)}
         className={cn(
           "relative rounded-full outline-none",
-          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         )}
       >
         {chosen ? (

@@ -213,7 +213,7 @@ function TransferControl({
       className={cn(
         "relative flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-full border text-xs font-medium transition-colors outline-none",
         "hover:bg-accent active:bg-cobalt-wash",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
         round ? "w-9" : "px-3",
         failed
           ? "border-danger text-danger"

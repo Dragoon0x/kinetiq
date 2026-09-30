@@ -62,10 +62,10 @@ const KEY_STEPS: Record<string, number> = {
  * so at 0 and 100 it would otherwise hang over the component's own edge.
  */
 const TRACK_CLASS =
-  "relative mx-2 h-6 min-w-0 flex-1 touch-none rounded-full outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "relative mx-2 h-6 min-w-0 flex-1 touch-none rounded-full outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const LOCK_CLASS =
-  "flex size-7 shrink-0 items-center justify-center rounded-2 border transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "flex size-7 shrink-0 items-center justify-center rounded-2 border transition-colors outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 const clamp = (value: number, low: number, high: number) =>
   Math.min(high, Math.max(low, value));

@@ -42,7 +42,7 @@ export type CatchupScrollProps = {
 };
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** Nothing reads faster than this, whatever the pace says. */
 const MIN_STEP_MS = 400;

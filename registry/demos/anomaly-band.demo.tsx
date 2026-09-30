@@ -35,7 +35,7 @@ const MORNING = build([46, 49, 47, 51, 48, 44, 50, 49, 46, 52, 47, 45, 88, 49]);
 const DRIFT = build([44, 45, 46, 44, 45, 47, 46, 45, 44, 46, 45, 47, 88, 84]);
 
 const BUTTON =
-  "inline-flex h-8 items-center justify-center rounded-2 border border-input bg-surface-1 px-3 text-xs font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "inline-flex h-8 items-center justify-center rounded-2 border border-input bg-surface-1 px-3 text-xs font-medium text-foreground outline-none hover:bg-accent focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 export function AnomalyBandDemo() {
   const [drift, setDrift] = React.useState(false);

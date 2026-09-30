@@ -344,7 +344,7 @@ export function GraceTimer({
           onClick={pay}
           className={cn(
             "inline-flex h-8 shrink-0 items-center justify-center rounded-2 px-3 text-xs font-medium transition-colors outline-none",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             "disabled:pointer-events-none",
             isPaid
               ? "bg-success/15 text-success"

@@ -102,7 +102,7 @@ export function DeltaTileDemo() {
         <button
           type="button"
           onClick={() => setMonth((current) => (current + 1) % MONTHS.length)}
-          className="flex h-9 shrink-0 cursor-pointer items-center rounded-2 border border-hairline bg-surface-2 px-3 text-sm font-medium text-foreground outline-none hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="flex h-9 shrink-0 cursor-pointer items-center rounded-2 border border-hairline bg-surface-2 px-3 text-sm font-medium text-foreground outline-none hover:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
         >
           Load next month
         </button>

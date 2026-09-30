@@ -296,7 +296,7 @@ export function ReactBurst({
                   onPointerEnter={() => setReading(reaction.id)}
                   className={cn(
                     "relative flex h-7 items-center gap-1.5 rounded-full border px-2 transition-colors outline-none",
-                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
+                    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     reaction.mine
                       ? "border-cobalt-bright/50 bg-cobalt-wash text-cobalt-bright"
                       : "border-hairline-strong bg-surface-1 text-ink-2 hover:bg-accent hover:text-foreground",

@@ -50,7 +50,7 @@ export type LogTailProps = {
 };
 
 const focusRing =
-  "outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring";
+  "outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring";
 
 /** Within this many pixels of the bottom counts as the floor. */
 const FLOOR_SLACK = 4;

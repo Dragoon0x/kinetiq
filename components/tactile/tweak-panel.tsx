@@ -56,7 +56,7 @@ export function TweakPanel({
           type="button"
           onClick={onReset}
           disabled={!changed}
-          className="inline-flex h-7 items-center gap-1.5 rounded-2 px-2 text-xs text-ink-2 transition-colors outline-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-40"
+          className="inline-flex h-7 items-center gap-1.5 rounded-2 px-2 text-xs text-ink-2 transition-colors outline-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-40"
         >
           <RotateCcw aria-hidden className="size-3.5" />
           Reset
