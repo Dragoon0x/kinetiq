@@ -1172,6 +1172,12 @@ import { CrossGridDemo } from "@/registry/demos/cross-grid.demo";
 import { OverflowGlideDemo } from "@/registry/demos/overflow-glide.demo";
 import { TryOnDemo } from "@/registry/demos/try-on.demo";
 import { EyedropperDemo } from "@/registry/demos/eyedropper.demo";
+import { PourHoldDemo } from "@/registry/demos/pour-hold.demo";
+import { PeekHoldDemo } from "@/registry/demos/peek-hold.demo";
+import { FuseButtonDemo } from "@/registry/demos/fuse-button.demo";
+import { PrintHoldDemo } from "@/registry/demos/print-hold.demo";
+import { JiggleModeDemo } from "@/registry/demos/jiggle-mode.demo";
+import { DropPinDemo } from "@/registry/demos/drop-pin.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2358,4 +2364,10 @@ export const demos: Record<string, ComponentType> = {
   "overflow-glide": OverflowGlideDemo,
   "try-on": TryOnDemo,
   eyedropper: EyedropperDemo,
+  "pour-hold": PourHoldDemo,
+  "peek-hold": PeekHoldDemo,
+  "fuse-button": FuseButtonDemo,
+  "print-hold": PrintHoldDemo,
+  "jiggle-mode": JiggleModeDemo,
+  "drop-pin": DropPinDemo,
 };

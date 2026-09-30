@@ -27175,6 +27175,176 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pour-hold",
+      "type": "registry:ui",
+      "title": "Pour Hold",
+      "description": "A value input you fill by pouring: holding tips a carafe on a weighted spring, and once it passes the pour angle a stream leaves the mouth in a real ballistic arc, lands in the glass, and from that frame the level (the value) rises. Letting go rights the carafe, the stream's tail falls and lands as the last drop, and the surface rocks back to level on a spring whose damping is the liquid's viscosity, while the glass's own shape turns volume into height so a flute climbs fast and a jar slowly. It is a slider: arrow keys pour or lower one step, Page keys ten, End pours to the brim, Home empties, and Space or Enter held pours for as long as they are held.",
+      "files": [
+        {
+          "path": "registry/ui/pour-hold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1103"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "peek-hold",
+      "type": "registry:ui",
+      "title": "Peek Hold",
+      "description": "A list whose rows you can look into before you open them: a long press charges while the rest of the list starts to blur, then the row lifts out of the page on the snap spring and grows into a floating preview on the glide spring, with its actions beside it. Without letting go, sliding onto an action highlights it on a snap-spring pill and releasing chooses it; releasing on nothing cancels, and the card glides back down into its row, while a still release leaves the preview open. Right-click, the menu key and Shift+F10 open the same preview, and its actions are a menu driven by the arrow keys, Enter, Escape and Tab.",
+      "files": [
+        {
+          "path": "registry/ui/peek-hold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1104"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fuse-button",
+      "type": "registry:ui",
+      "title": "Fuse Button",
+      "description": "A hold-to-confirm button whose own border is a fuse: holding lights it at the top centre and a spark runs clockwise round the button's edge, leaving a charred thread with a short stretch still glowing behind it, while the face presses in on the flick spring. Letting go pauses it where it is, with the burnt part kept and the spark dimmed to a smouldering ember; completing the lap flares the whole edge, lands the face on the recoil spring and fires onConfirm, and Escape puts a lit fuse out as the char draws back on the glide spring. It is a native button: Space or Enter held burns it exactly as a held pointer does.",
+      "files": [
+        {
+          "path": "registry/ui/fuse-button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1105"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "print-hold",
+      "type": "registry:ui",
+      "title": "Print Hold",
+      "description": "A hold-to-confirm pad drawn as a procedural fingerprint that reads nothing and says so: held, its ridges light along a spiral that unwinds from the press point on a linear read while a hum rises; lifted early they drain back into the press point, and a thumb that slides smears the read, so the pad shakes on a keyframed tween, flashes and buzzes. A complete read runs an optional verify, reports true, and once the value is confirmed every ridge condenses onto one ring on the glide spring while a tick draws inside it or a padlock's shackle springs open on snap. Space or Enter held is the hold, Escape cancels a read, and the caption under the pad says each step in words.",
+      "files": [
+        {
+          "path": "registry/ui/print-hold.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1106"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "jiggle-mode",
+      "type": "registry:ui",
+      "title": "Jiggle Mode",
+      "description": "A grid of shortcut tiles with an edit mode entered by holding any one: the held tile sinks for the hold, pops back on the snap spring, and edit mode ripples outward from it, each tile starting to rock out of phase with its neighbours on a compositor animation and gaining a badge that pops in on snap. In edit mode a tile drags 1:1, lifts on flick, rubber-bands at the edges and parts the others on glide with a tick per slot, and a flick lands in the slot it was heading for; a remove badge takes a tile away with a pop, a check badge marks it for Done, and Undo brings the last removal back. Done or Escape settles every tile from wherever it is in its swing back to upright on snap; on the keyboard a held Space enters edit mode, Space picks a tile up, arrows move it and Delete does the badge's job.",
+      "files": [
+        {
+          "path": "registry/ui/jiggle-mode.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1107"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "drop-pin",
+      "type": "registry:ui",
+      "title": "Drop Pin",
+      "description": "A location picker on an invented, procedurally drawn town with its own survey grid. Holding anywhere grows a shadow under the finger while an aiming ring closes on it; at the delay a pin falls from above the top edge on a gravity tween with a falling whistle, lands with a thock, squashes at its tip on snap and rebounds on a landing spring whose damping comes from bounce (the house recoil by default), reflected off the ground so it hops rather than sinks, and its grid reference fades up above it. The pin drags 1:1, lifting off its shadow on flick and landing where a flick would come to rest on glide; keyboard focus shows a crosshair the arrow keys move, Enter drops the pin there and Delete removes it.",
+      "files": [
+        {
+          "path": "registry/ui/drop-pin.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1108"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

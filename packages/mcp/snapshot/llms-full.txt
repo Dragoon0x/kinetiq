@@ -18838,6 +18838,164 @@ Notes:
 - Under reduced motion there is no flight and no clamp travel: the sheet appears in the clipboard and the clip shows shut, and the words, the hold and the sounds are unchanged.
 - Presses during a flight are absorbed, since the same copy is already on its way; a press while the clip is shut starts the whole thing over, hold clock included.
 
+### Pour Hold (KQ-1103) — `pour-hold`
+Hold to pour; let go to stop.
+
+A value input you fill by pouring: holding tips a carafe on a weighted spring, and once it passes the pour angle a stream leaves the mouth in a real ballistic arc, lands in the glass, and from that frame the level (the value) rises. Letting go rights the carafe, the stream's tail falls and lands as the last drop, and the surface rocks back to level on a spring whose damping is the liquid's viscosity, while the glass's own shape turns volume into height so a flute climbs fast and a jar slowly. It is a slider: arrow keys pour or lower one step, Page keys ten, End pours to the brim, Home empties, and Space or Enter held pours for as long as they are held.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pour-hold`
+
+Props:
+- `value / defaultValue`: number (default 0) — The amount poured, 0 to max. Controlled or uncontrolled; the level follows a pour as it happens and settles on whatever the host says once it ends.
+- `onValueChange`: (value: number) => void — Fires from the pour or the key that changed it: once for each step a pour crosses, and once for each key step or empty.
+- `max`: number (default 100) — What a full glass is worth.
+- `step`: number (default 5) — The value's resolution, what one arrow key pours, and what a tap pours.
+- `label`: string — What is being poured: the slider's accessible name, also shown over the reading.
+- `format`: (value: number, max: number) => string — The reading under the glass and the slider's spoken value. Defaults to a percentage of max.
+- `emptyLabel`: string (default "Empty") — The text of the button that empties the glass.
+- `rate`: number (default 0.5) — How hard it pours, 0 to 1: the tilt, the stream's thickness, the flow (about 6 s to fill at 0, 1.6 s at 1) and the loudness.
+- `viscosity`: number (default 0.2) — Water to syrup, 0 to 1: slower flow, a thicker and denser stream, a lower pour note, and a surface that barely sloshes.
+- `glass`: "tumbler" | "flute" | "jar" (default "tumbler") — The glass's shape, which sets both the drawing and how fast the level climbs for the same pour.
+- `overflow`: boolean (default false) — Let a held pour run over the brim: the surface domes, a sheet runs down the outside and pools, and the value stays at max. Off, the carafe rights itself at the brim and a further hold is refused.
+- `sound`: boolean (default false) — Play the pour, whose pitch rises as the glass fills, and the last drop. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the instrument, takes it out of the tab order and stops any pour.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- The instrument is a vertical role="slider" with aria-valuetext from format: ArrowUp/ArrowRight pour one step (held, they keep pouring), ArrowDown/ArrowLeft lower one, PageUp/PageDown move ten, End pours to the brim, Home empties, and Space or Enter held pours exactly like a held pointer, sounds included. The Empty button is a real button.
+- Under reduced motion the carafe swaps poses with no swing, the stream appears and goes whole and the surface stays flat, while the level still rises for as long as you hold and stops when you let go, because the level is the value.
+- A hold never selects text or opens the browser's menu, and a pour stops at once on pointer cancel, window blur or a hidden page. A tap pours one step.
+
+### Peek Hold (KQ-1104) — `peek-hold`
+Hold to look before you open.
+
+A list whose rows you can look into before you open them: a long press charges while the rest of the list starts to blur, then the row lifts out of the page on the snap spring and grows into a floating preview on the glide spring, with its actions beside it. Without letting go, sliding onto an action highlights it on a snap-spring pill and releasing chooses it; releasing on nothing cancels, and the card glides back down into its row, while a still release leaves the preview open. Right-click, the menu key and Shift+F10 open the same preview, and its actions are a menu driven by the arrow keys, Enter, Escape and Tab.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/peek-hold`
+
+Props:
+- `items`: { id: string; title: string; subtitle?: string; meta?: string; leading?: ReactNode; badge?: ReactNode; preview: ReactNode }[] — The rows. The row's own header becomes the top of its preview, and preview is revealed under it.
+- `menu`: PeekHoldAction[] | ((item: PeekHoldItem) => PeekHoldAction[]) — The actions offered under a preview ({ id, label, icon?, tone?: "default" | "danger" }), or a function of the item that picks them.
+- `onOpen`: (itemId: string) => void — A plain tap or click on a row, or Enter or Space on it.
+- `onAction`: (actionId: string, itemId: string) => void — An action chosen from a preview, by release, click or Enter. Fires before the preview closes.
+- `onPeekChange`: (itemId: string | null) => void — A preview opened, with its item's id, or closed, with null.
+- `label`: string — The list's accessible name.
+- `delay`: number (default 450) — How long a press charges before the row lifts, in ms. The charge (the row sinking, the list blurring) runs exactly this long.
+- `lift`: number (default 12) — How far the row rises as it comes free, in px; its scale and shadow grow with it, and 0 is a flat, in-place expansion.
+- `blur`: number (default 6) — How hard the list behind a preview blurs, in px.
+- `actions`: "list" | "row" (default "list") — The actions as a vertical menu of icon and label, or as one row of icon-over-label buttons.
+- `sound`: boolean (default false) — Play a swell as the row lifts, a tick as the highlight moves between actions, and a pop when one is chosen. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the list, disables its rows and closes any preview.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- Rows are buttons with aria-haspopup="menu" and a shared hint: Enter opens a row, and Shift+F10 or the menu key opens its preview with focus on the first action. The actions are role="menu" items with roving focus: the arrow keys move, Home and End jump, Enter or Space chooses, and Escape or Tab closes and returns focus to the row.
+- Under reduced motion nothing rises, grows or slides: the preview fades in where it will sit and fades out over its row, the charge shows only as the blur building, and the highlight swaps without travelling.
+- A hold never selects text or opens the browser's own menu, and rows keep touch-pan-y, so a swipe still scrolls the page; once a preview is open, touch moves are held so the finger can slide to an action. Pointer cancel, window blur and a hidden page end the hold, and a press outside the list closes the preview.
+- Give the list room for a preview: the card and its actions are kept inside the list's own box, and a preview body taller than the room left is clipped with a fade.
+
+### Fuse Button (KQ-1105) — `fuse-button`
+The spark runs the edge; hold till it lands.
+
+A hold-to-confirm button whose own border is a fuse: holding lights it at the top centre and a spark runs clockwise round the button's edge, leaving a charred thread with a short stretch still glowing behind it, while the face presses in on the flick spring. Letting go pauses it where it is, with the burnt part kept and the spark dimmed to a smouldering ember; completing the lap flares the whole edge, lands the face on the recoil spring and fires onConfirm, and Escape puts a lit fuse out as the char draws back on the glide spring. It is a native button: Space or Enter held burns it exactly as a held pointer does.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/fuse-button`
+
+Props:
+- `label`: string — What holding it does: the button's text and accessible name.
+- `onConfirm`: () => void — Fires once, on the frame the spark completes its last lap.
+- `onStateChange`: (state: "idle" | "burning" | "paused" | "fired", progress: number) => void — Each change of state, with the share of the fuse burnt from 0 to 1. Never called per frame.
+- `laps`: number (default 1) — How many times the spark goes round, 1 or 2. Two laps draw a second, inner strand and take twice as long.
+- `burn`: number (default 2) — Seconds per lap.
+- `spark`: number (default 0.6) — How fierce the spark is, 0 to 1: its glow and core, how many embers fly and how far, and how loud the sizzle and crackle are.
+- `smoke`: boolean (default true) — Smoke curls up off the burning spark, behind the button's face.
+- `sound`: boolean (default false) — Play the sizzle while it burns, its crackle, and the flare when it fires. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims and disables the button and pauses a burning fuse.
+- `className`: string — Merged onto the root's classes (the button and the frame its sparks stay inside).
+
+Notes:
+- A native button described by a hold hint: Space or Enter held burns the fuse for as long as it is held (repeats ignored) and letting go pauses it; a click from assistive technology, whose user cannot hold, burns it through; Escape puts a lit or paused fuse out; and a polite live region speaks each change once (paused at a percentage, confirmed, fuse out).
+- Under reduced motion the spark still runs the edge and the char still grows, because progress is the information, but there are no embers, no smoke, no smoulder and no pressed face, and the flare is a flash of colour.
+- A hold never selects text or opens the browser's menu, the button is touch-none so a resting finger is not taken for a scroll, and pointer cancel, window blur or a hidden page pause the fuse and stop the sizzle. Once fired and released, the fuse is re-laid after a moment.
+
+### Print Hold (KQ-1106) — `print-hold`
+Hold your thumb; the ridges light.
+
+A hold-to-confirm pad drawn as a procedural fingerprint that reads nothing and says so: held, its ridges light along a spiral that unwinds from the press point on a linear read while a hum rises; lifted early they drain back into the press point, and a thumb that slides smears the read, so the pad shakes on a keyframed tween, flashes and buzzes. A complete read runs an optional verify, reports true, and once the value is confirmed every ridge condenses onto one ring on the glide spring while a tick draws inside it or a padlock's shackle springs open on snap. Space or Enter held is the hold, Escape cancels a read, and the caption under the pad says each step in words.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/print-hold`
+
+Props:
+- `label`: string — What holding the pad confirms, as a sentence: the pad's accessible name.
+- `confirmed / defaultConfirmed`: boolean (default false) — Whether a hold has been confirmed. Controlled pads condense only once the host sets it; set it back to false to arm the pad again.
+- `onConfirmedChange`: (confirmed: boolean) => void — Fires with true from the completed hold (after verify, if given).
+- `verify`: () => boolean | void | Promise<boolean | void> — Runs when a hold completes, before anything is confirmed. Return or resolve false to decline the read: the pad shakes, buzzes and drains. While a promise is pending the lit print pulses and the caption says Checking.
+- `scan`: number (default 1.6) — Seconds a full read takes, 1 to 3. A re-press during a drain resumes from where the light is.
+- `ridges`: number (default 10) — How many ridge lines the print has, 6 to 14: fewer is bolder, more is finer.
+- `colour`: "cobalt" | "signal" | "amber" | "ink" (default "cobalt") — The colour the ridges light in, and the confirmed ring and glyph.
+- `feedback`: "tick" | "unlock" (default "tick") — What the lit ridges condense into: a ring with a tick (Confirmed), or a ring with a padlock whose shackle springs open (Unlocked).
+- `sound`: boolean (default false) — Play the rising scan hum, the chime on confirmation and the buzz on a failed read. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the pad, blocks holds and ends one in progress.
+- `className`: string — Merged onto the wrapper that holds the pad and its caption.
+
+Notes:
+- It is a native button named by label and described by its caption, a polite live region that says each step once (reading, checking, confirmed or unlocked, released early, moved, declined). Space or Enter held on the focused pad is the hold and never a click, Escape cancels a read, and a click from assistive technology runs a whole read. A confirmed pad is aria-disabled until the host resets it.
+- Under reduced motion the ridges still light and drain, from the core outward as a widening disc instead of a turning spiral; there is no dip, contact ring or shake (a failure flashes and the caption says why), and the ring and glyph cross-fade in. Sounds are unchanged.
+- A hold on a touch screen never selects text or opens the browser's menu (touch-action none, no callout, contextmenu prevented on the pad only), and the hum stops on lift, a slide, pointer cancel, window blur, a hidden tab, disable and unmount. A change of confirmed made by the host is silent.
+
+### Jiggle Mode (KQ-1107) — `jiggle-mode`
+Hold one; they all get ready.
+
+A grid of shortcut tiles with an edit mode entered by holding any one: the held tile sinks for the hold, pops back on the snap spring, and edit mode ripples outward from it, each tile starting to rock out of phase with its neighbours on a compositor animation and gaining a badge that pops in on snap. In edit mode a tile drags 1:1, lifts on flick, rubber-bands at the edges and parts the others on glide with a tick per slot, and a flick lands in the slot it was heading for; a remove badge takes a tile away with a pop, a check badge marks it for Done, and Undo brings the last removal back. Done or Escape settles every tile from wherever it is in its swing back to upright on snap; on the keyboard a held Space enters edit mode, Space picks a tile up, arrows move it and Delete does the badge's job.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/jiggle-mode`
+
+Props:
+- `items`: { id: string; label: string; glyph?: ReactNode; tone?: "cobalt" | "signal" | "success" | "warn" | "danger" | "ink" }[] — Every tile that can appear. The label is shown under the tile and is its accessible name; the tile is a wash of its tone and the glyph is drawn in it.
+- `value / defaultValue`: string[] (default every item id, in order) — The ids shown, in order.
+- `onValueChange`: (ids: string[]) => void — Fires with the new order once per drop, removal, Done in check mode, or Undo.
+- `editing / defaultEditing`: boolean (default false) — Whether the grid is in edit mode.
+- `onEditingChange`: (editing: boolean) => void — Fires when a hold enters edit mode, and when Done or Escape leaves it.
+- `onOpen`: (id: string) => void — A tile pressed outside edit mode: a tap, or a quick Space or Enter.
+- `label`: string (default "Shortcuts") — The grid's accessible name.
+- `columns`: number (default 4) — Tiles per row, 2 to 6. Each column is 68px; four fit a 320px phone column.
+- `wiggle`: number (default 2) — How far each tile rocks either side in edit mode, in degrees.
+- `frequency`: number (default 3.5) — How fast the tiles rock, in cycles per second; each tile varies it by a few percent so neighbours drift apart.
+- `badge`: "remove" | "check" (default "remove") — A minus badge that removes a tile at once, or a check badge that marks it (the tile dims) so Done removes every marked tile together.
+- `delay`: number (default 500) — How long a hold takes to enter edit mode, in ms, for a finger or a held Space or Enter.
+- `sound`: boolean (default false) — Play the wobble as edit mode starts, a tick per slot and a pop per removal. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the tiles and blocks presses, holds and drags; while disabled the grid is shown out of edit mode.
+- `className`: string — Merged onto the wrapper that holds the grid and its toolbar.
+
+Notes:
+- Tiles are buttons in a list with one tab stop; arrows move between them and Home and End jump. A quick Space or Enter opens a tile and holding it for the delay enters edit mode. In edit mode Space or Enter picks the focused tile up, arrows and Home or End move it, Space or Enter drops it and Escape puts it back; Delete or Backspace removes it or toggles its mark; Escape with nothing picked up leaves edit mode. Badges are real buttons for pointers and screen readers, and a polite live region says each pick-up, move, drop and removal once.
+- Under reduced motion nothing rocks, ripples, lifts or glides: badges fade in, each tile gains a dashed ring, dragged tiles still follow the finger while the rest move straight to their slots, and removals fade. Sounds and announcements are unchanged.
+- A long press never selects text or opens the browser's menu (no callout, contextmenu prevented on the grid only). Outside edit mode tiles keep touch-pan-y so the page scrolls; in edit mode they are touch-none so they drag. The wiggle runs on the compositor, so it costs nothing in script or off-screen.
+
+### Drop Pin (KQ-1108) — `drop-pin`
+Hold to drop a pin.
+
+A location picker on an invented, procedurally drawn town with its own survey grid. Holding anywhere grows a shadow under the finger while an aiming ring closes on it; at the delay a pin falls from above the top edge on a gravity tween with a falling whistle, lands with a thock, squashes at its tip on snap and rebounds on a landing spring whose damping comes from bounce (the house recoil by default), reflected off the ground so it hops rather than sinks, and its grid reference fades up above it. The pin drags 1:1, lifting off its shadow on flick and landing where a flick would come to rest on glide; keyboard focus shows a crosshair the arrow keys move, Enter drops the pin there and Delete removes it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/drop-pin`
+
+Props:
+- `value / defaultValue`: { x: number; y: number } | null (default null) — Where the pin is, in map units (0 to 1200 east, 0 to 200 down from the top edge), or null for no pin. A value set by the host glides, falls or leaves silently.
+- `onValueChange`: (point: { x: number; y: number } | null) => void — Fires once per drop, once per drag on release (with where the throw comes to rest), and with null when the pin is removed.
+- `label`: string (default "Map") — The map's accessible name: what the pin marks.
+- `delay`: number (default 450) — How long a press must be held before the pin drops, in ms.
+- `bounce`: number (default 0.5) — How lively the landing is, 0 to 1: a thud with a small squash, the house recoil's two hops, or a rubber ball.
+- `colour`: "cobalt" | "red" | "green" | "amber" (default "cobalt") — The pin head, the aiming ring and the crosshair.
+- `map`: "paper" | "night" (default "paper") — A warm street map that follows the page theme, or a dark map with lit streets in both themes.
+- `sound`: boolean (default false) — Play the falling whistle and the landing thocks. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the map and takes it out of the tab order; holds, drags and keys do nothing.
+- `className`: string — Merged onto the map box, which is 200px tall, full width up to 1200px.
+
+Notes:
+- The map is one focusable element (role application, described as a map) with a polite live region. Keyboard focus shows a crosshair: the arrow keys move it 10 units, 40 with Shift, and its cell is announced when it changes; Enter or Space drops the pin there with the same fall, landing and sounds as a hold; Delete or Backspace removes the pin. Escape is left to the page.
+- Under reduced motion nothing falls, bounces, lifts or glides: the hold's shadow only darkens, the pin fades in where it lands with the same thock and no whistle, a drag sets down where it is released, and the crosshair jumps.
+- The town, its street names and its survey grid (columns A to T, rows 1 to 4, easting and northing to one decimal) are invented and drawn from a fixed hash, 1:1, so a narrower box shows less of the town, centred. dropPinPlace(point) returns the same cell, easting, northing and text the callout shows. A long press never selects text or opens the browser's menu; the map keeps touch-pan-y so the page scrolls past it, and the pin is touch-none so it drags.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

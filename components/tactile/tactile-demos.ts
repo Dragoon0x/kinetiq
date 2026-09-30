@@ -68,4 +68,28 @@ export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/eyedropper.demo").then((m) =>
       mod(m.EyedropperDemo, m.tweaks),
     ),
+  "pour-hold": () =>
+    import("@/registry/demos/pour-hold.demo").then((m) =>
+      mod(m.PourHoldDemo, m.tweaks),
+    ),
+  "peek-hold": () =>
+    import("@/registry/demos/peek-hold.demo").then((m) =>
+      mod(m.PeekHoldDemo, m.tweaks),
+    ),
+  "fuse-button": () =>
+    import("@/registry/demos/fuse-button.demo").then((m) =>
+      mod(m.FuseButtonDemo, m.tweaks),
+    ),
+  "print-hold": () =>
+    import("@/registry/demos/print-hold.demo").then((m) =>
+      mod(m.PrintHoldDemo, m.tweaks),
+    ),
+  "jiggle-mode": () =>
+    import("@/registry/demos/jiggle-mode.demo").then((m) =>
+      mod(m.JiggleModeDemo, m.tweaks),
+    ),
+  "drop-pin": () =>
+    import("@/registry/demos/drop-pin.demo").then((m) =>
+      mod(m.DropPinDemo, m.tweaks),
+    ),
 };
