@@ -1205,6 +1205,9 @@ import { ToolDockDemo } from "@/registry/demos/tool-dock.demo";
 import { PlainDateDemo } from "@/registry/demos/plain-date.demo";
 import { CalcFieldDemo } from "@/registry/demos/calc-field.demo";
 import { GlideCaretDemo } from "@/registry/demos/glide-caret.demo";
+import { LassoGridDemo } from "@/registry/demos/lasso-grid.demo";
+import { BrushSelectDemo } from "@/registry/demos/brush-select.demo";
+import { ZoneMapDemo } from "@/registry/demos/zone-map.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2424,4 +2427,7 @@ export const demos: Record<string, ComponentType> = {
   "plain-date": PlainDateDemo,
   "calc-field": CalcFieldDemo,
   "glide-caret": GlideCaretDemo,
+  "lasso-grid": LassoGridDemo,
+  "brush-select": BrushSelectDemo,
+  "zone-map": ZoneMapDemo,
 };

@@ -200,4 +200,16 @@ export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/glide-caret.demo").then((m) =>
       mod(m.GlideCaretDemo, m.tweaks),
     ),
+  "lasso-grid": () =>
+    import("@/registry/demos/lasso-grid.demo").then((m) =>
+      mod(m.LassoGridDemo, m.tweaks),
+    ),
+  "brush-select": () =>
+    import("@/registry/demos/brush-select.demo").then((m) =>
+      mod(m.BrushSelectDemo, m.tweaks),
+    ),
+  "zone-map": () =>
+    import("@/registry/demos/zone-map.demo").then((m) =>
+      mod(m.ZoneMapDemo, m.tweaks),
+    ),
 };

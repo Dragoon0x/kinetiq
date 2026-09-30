@@ -19756,6 +19756,84 @@ Notes:
 - Under reduced motion the indicator moves at once, options fade in and out with no reveal or step (a tray opens at full height), and the canvas cursor still follows the pointer but parks at once and swaps its shape with a fade. Sounds are unchanged.
 - The canvas hides the system cursor and draws the tool's own with its hotspot under the pointer, parking it at the centre when the pointer leaves so a keyboard or touch user still sees the tool change; a tap moves it to the finger. A press anywhere outside the rail and its options folds them.
 
+### Lasso Grid (KQ-1136) — `lasso-grid`
+Draw around what you want.
+
+A file grid with rubber-band selection: drag anywhere and a box (or, with Alt or mode="lasso", a freehand loop) follows the pointer 1:1, lighting every tile it catches and squeezing it a little on the snap spring while the band holds it. Let go and the band contracts onto what it caught on the same snap spring, one crisp overshoot like a rubber band let go around a bundle, while a count badge glides after the selection's corner on the glide spring. Arrow keys move and select in two dimensions, Shift+Arrow draws the same band from the keyboard and snaps it tight when Shift is released, Space toggles, Cmd/Ctrl+A selects all and Escape clears.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lasso-grid`
+
+Props:
+- `items`: LassoGridItem[] — The files, in reading order: id, name (the label and accessible name) and an optional kind — folder, image, doc, sheet, audio or video — that picks the glyph.
+- `label`: string — The grid's accessible name.
+- `value / defaultValue`: string[] (default []) — The selected ids, controlled or uncontrolled. A controlled grid shows the host's answer after each band, tap or key.
+- `onValueChange`: (value: string[]) => void — Fires once per band (on release), per tap and per key, with the new selection in item order.
+- `mode`: "box" | "lasso" (default "box") — The band's shape: a rectangle, or a freehand loop that tightens into a box on release. Alt held as a drag starts draws the other one.
+- `hit`: "touch" | "contain" (default "touch") — Whether a tile is caught as soon as the band touches it, or only once the band encloses it.
+- `badge`: boolean (default true) — A count badge that rides the top-right corner of the selection, gliding after it as it changes, its figure rolling.
+- `sound`: boolean (default false) — A tick per tile as the band catches it, climbing a pentatonic step each time, and a tock on release. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the grid and blocks selection; arrow keys still move focus.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- It is a multi-select listbox of options with roving focus: Arrow keys move in two dimensions and select the tile they land on, Ctrl/Cmd+Arrow moves focus only, Space toggles a tile, Shift+Arrow grows a box from the anchor tile — drawn on screen like the pointer's band — and releasing Shift snaps it tight with the tock, Cmd/Ctrl+A selects all, and Escape clears a selection or cancels a band in flight (with nothing selected it is left for the page).
+- A plain band replaces the selection, Shift adds to it and Cmd or Ctrl toggles against it; a click selects one tile, Shift+click a block from the anchor, Cmd/Ctrl+click toggles one. On touch there are no modifiers, so a tap toggles a tile and a band adds.
+- Under reduced motion the band still draws under the pointer and fades on release instead of tightening, tiles do not squeeze and the badge moves without gliding; every tile still lights and every sound still plays.
+- The grid takes touch-action: none so a band can be drawn with a finger; keep it a modest block on long mobile pages.
+
+### Brush Select (KQ-1137) — `brush-select`
+Paint across to pick many.
+
+Filter chips you select by painting: a click toggles one chip, but press on a chip and drag and the press becomes a brush — the first chip flips, and every chip the stroke passes takes its new state (or flips, in toggle mode), once per stroke. The paint wipes across each chip from the side the brush came in on an enter tween, each chip dips under the bristles on an impulse given to the snap spring, and its check draws on the flick; the stroke reports once, on release. Space toggles the focused chip, Shift+Arrow carries its state onto the next chip with the same wipe and tick, and Shift+Home/End or Cmd/Ctrl+A paint a whole run on one staggered beat.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/brush-select`
+
+Props:
+- `items`: BrushSelectItem[] — The chips, in order: id and label.
+- `label`: string — The chip set's accessible name.
+- `value / defaultValue`: string[] (default []) — The selected ids, controlled or uncontrolled. During a stroke the chips show its draft; a controlled set then shows the host's answer.
+- `onValueChange`: (value: string[]) => void — Fires once on the release of a stroke, on a tap and on each key, with the new selection in item order.
+- `mode`: "set" | "toggle" (default "set") — Paint the first chip's new state onto every chip the stroke passes, or flip each one.
+- `layout`: "wrap" | "grid" (default "wrap") — Pills of their natural width in wrapping rows, or equal rounded cells in a grid.
+- `check`: boolean (default true) — A round indicator on every chip that fills and draws a check when the chip turns on. Off, colour alone carries the state.
+- `sound`: boolean (default false) — A tick per chip the brush passes, climbing a pentatonic scale through the stroke (falling when the paint takes chips off). Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the chips and blocks taps, strokes and keys that change them; arrow keys still move focus.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- It is a multi-select listbox of options with roving focus: Left/Right move along the chips, Up/Down to the nearest chip in the row above or below, Home/End to the ends. Space or Enter toggles the focused chip; Shift+Arrow then carries its state onto each chip it moves to (or flips it, in toggle mode) with the next tick of the scale, Shift+Home/End paints to the end, and Cmd/Ctrl+A paints every chip on, or off when all are on.
+- A stroke is sampled every few pixels along its path, so a quick flick across a row still paints every chip it crosses; Escape during a stroke takes it back.
+- Under reduced motion the on face cross-fades instead of wiping, the check appears whole and nothing dips; the painting, the ticks and the result are unchanged.
+- The chip set takes touch-action: none so a finger can paint across it; keep it to a modest block on long mobile pages.
+
+### Zone Map (KQ-1138) — `zone-map`
+Tap the regions you cover.
+
+A stylised map of invented regions, drawn procedurally and identically on server and browser, with a list beside it that keeps the selection in words. Hover or keyboard focus lifts a region above a flat shadow on the snap spring; a click selects it with a fill that floods out from the click point to the coast on an enter tween timed to its reach and an outline that draws both ways round from the nearest vertex, and a second click drains it back into the point you tapped, while list rows arrive and make room on the glide spring. Arrow keys move to the nearest region in that direction, Home and End to the first and last, and Space or Enter toggles with the same flood, from the region's centre, and the same tock.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/zone-map`
+
+Props:
+- `label`: string — The map's accessible name.
+- `names`: string[] (default nine invented names) — Region names in map order, top-left first. They are also the ids in value; regions beyond the list are called Region 8, Region 9 and so on.
+- `value / defaultValue`: string[] (default []) — The selected region names in the order they were picked, controlled or uncontrolled. Names not on the current map are ignored.
+- `onValueChange`: (value: string[]) => void — Fires from the click, key or remove button that changed the selection, with the new list.
+- `regions`: number (default 7) — How many regions the island is cut into. The same count and seed always draw the same map.
+- `lift`: number (default 4) — How far hover and keyboard focus lift a region, in map units (the map is 200 wide). 0 leaves only the tint.
+- `flood`: boolean (default true) — The fill floods out from the click point with a swish; off, it fades in whole and silently.
+- `palette`: "tide" | "ember" | "moss" | "ink" (default "tide") — The two theme colours every selected region's shade is mixed from: accent and signal, warn and danger, success and warn, or ink and ink-3.
+- `seed`: number (default 3) — Another map for the same count.
+- `listLabel`: string (default "Covered") — The heading over the list beside the map, and the list's accessible name.
+- `sound`: boolean (default false) — A tock on every select (lower and softer on a deselect) and a swish riding the flood. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the map, stops the lift and blocks changes from clicks, keys and the remove buttons.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- The map is a multi-select listbox of regions with roving focus: arrow keys move to the nearest region in that direction, Home and End to the first and last, and Space or Enter adds or removes the focused one. The keyboard-focused region lifts like a hovered one and is ringed along its own edge. Each list row has a Remove button named for its region; removing a row moves focus to the row that takes its place.
+- Every coordinate is built with arithmetic alone from constant directions and a seeded integer generator, never trigonometry, so the server's markup and the browser's first render match to the last digit.
+- Under reduced motion nothing lifts, floods or draws: the raised region is tinted, the fill and outline fade in whole and list rows cross-fade; the selection, the list and every sound are unchanged.
+- The component is a row — the map and a 120px list that scrolls inside the map's height — so give it at least about 300px of width.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

@@ -28120,6 +28120,92 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lasso-grid",
+      "type": "registry:ui",
+      "title": "Lasso Grid",
+      "description": "A file grid with rubber-band selection: drag anywhere and a box (or, with Alt or mode=\"lasso\", a freehand loop) follows the pointer 1:1, lighting every tile it catches and squeezing it a little on the snap spring while the band holds it. Let go and the band contracts onto what it caught on the same snap spring, one crisp overshoot like a rubber band let go around a bundle, while a count badge glides after the selection's corner on the glide spring. Arrow keys move and select in two dimensions, Shift+Arrow draws the same band from the keyboard and snaps it tight when Shift is released, Space toggles, Cmd/Ctrl+A selects all and Escape clears.",
+      "files": [
+        {
+          "path": "registry/ui/lasso-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1136"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "brush-select",
+      "type": "registry:ui",
+      "title": "Brush Select",
+      "description": "Filter chips you select by painting: a click toggles one chip, but press on a chip and drag and the press becomes a brush — the first chip flips, and every chip the stroke passes takes its new state (or flips, in toggle mode), once per stroke. The paint wipes across each chip from the side the brush came in on an enter tween, each chip dips under the bristles on an impulse given to the snap spring, and its check draws on the flick; the stroke reports once, on release. Space toggles the focused chip, Shift+Arrow carries its state onto the next chip with the same wipe and tick, and Shift+Home/End or Cmd/Ctrl+A paint a whole run on one staggered beat.",
+      "files": [
+        {
+          "path": "registry/ui/brush-select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1137"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "zone-map",
+      "type": "registry:ui",
+      "title": "Zone Map",
+      "description": "A stylised map of invented regions, drawn procedurally and identically on server and browser, with a list beside it that keeps the selection in words. Hover or keyboard focus lifts a region above a flat shadow on the snap spring; a click selects it with a fill that floods out from the click point to the coast on an enter tween timed to its reach and an outline that draws both ways round from the nearest vertex, and a second click drains it back into the point you tapped, while list rows arrive and make room on the glide spring. Arrow keys move to the nearest region in that direction, Home and End to the first and last, and Space or Enter toggles with the same flood, from the region's centre, and the same tock.",
+      "files": [
+        {
+          "path": "registry/ui/zone-map.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1138"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
