@@ -353,10 +353,18 @@ export function GelSwitch({
   const velocityScale = useTransform(headVelocity, (vx) =>
     r2(Math.min(0.08 + w * 0.2, Math.abs(vx) / (travel * 40))),
   );
-  const squash = useTransform(
-    [head, velocityScale] as MotionValue<number>[],
-    ([h, k]) =>
-      `translate(${r2(h as number)} ${cy}) scale(${r2(1 + (k as number))} ${r2(1 - (k as number) * 0.8)}) translate(${r2(-(h as number))} ${-cy})`,
+  const squashX = useTransform(velocityScale, (k) => r2(1 + k));
+  const squashY = useTransform(velocityScale, (k) => r2(1 - k * 0.8));
+  // Motion writes an SVG element's transform as CSS, so the squash is carried
+  // by its own transform values scaled about the head: the origin is where the
+  // head sits inside the droplet's box, as a fraction of that box.
+  const squashOrigin = useTransform(
+    [head, tail] as MotionValue<number>[],
+    ([h, t]) => {
+      const left = Math.min(h as number, t as number) - g.radius;
+      const width = Math.abs((h as number) - (t as number)) + 2 * g.radius;
+      return Number((((h as number) - left) / width).toFixed(3));
+    },
   );
 
   const fillWidth = useTransform(tail, (t) =>
@@ -426,7 +434,14 @@ export function GelSwitch({
               fill="currentColor"
               style={{ opacity: fillOpacity }}
             />
-            <motion.g transform={squash}>
+            <motion.g
+              style={{
+                scaleX: squashX,
+                scaleY: squashY,
+                originX: squashOrigin,
+                originY: 0.5,
+              }}
+            >
               <motion.path d={neck} fill="currentColor" />
               <motion.circle
                 cx={tail}
