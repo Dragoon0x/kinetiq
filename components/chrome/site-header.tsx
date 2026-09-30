@@ -20,6 +20,7 @@ const NAV = [
   { href: "/explore", label: "Explore" },
   { href: "/spatial", label: "Spatial" },
   { href: "/tactile", label: "Tactile" },
+  { href: "/atelier", label: "Atelier" },
   { href: "/blocks", label: "Blocks" },
   { href: "/pages", label: "Pages" },
   { href: "/templates", label: "Templates" },
@@ -28,9 +29,10 @@ const NAV = [
 ] as const;
 
 /**
- * The nine destinations need 742px of row. At 1280px that still leaves over
- * 100px between the nav and the tools, so the inline nav starts at `xl` and
- * everything below it gets a real menu. Measure again before adding a tenth.
+ * The ten destinations need about 800px of row. At 1280px that still leaves
+ * 61px between the nav and the tools (measured), so the inline nav starts at
+ * `xl` and everything below it gets a real menu. An eleventh will not fit at
+ * 1280 without a narrower gap or a later breakpoint — measure before adding.
  *
  * It used to be an overflow-x-auto strip with the scrollbar hidden, which
  * meant that on a phone you saw "Components", half of "Explore", and no

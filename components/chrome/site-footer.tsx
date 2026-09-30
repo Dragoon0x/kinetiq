@@ -11,6 +11,7 @@ const COLUMNS = [
       { href: "/explore", label: "Explore" },
       { href: "/spatial", label: "Spatial wing" },
       { href: "/tactile", label: "Tactile" },
+      { href: "/atelier", label: "Atelier" },
       { href: "/blocks", label: "Blocks" },
       { href: "/pages", label: "Pages" },
       { href: "/templates", label: "Templates" },

@@ -55,6 +55,7 @@ export const OWN_ROOM: Partial<
 > = {
   spatial: { href: "/spatial", cta: "Enter the Spatial Wing" },
   tactile: { href: "/tactile", cta: "Open Tactile" },
+  atelier: { href: "/atelier", cta: "Open the Atelier" },
 };
 
 /** Every category without a room of its own gets a showcase. */

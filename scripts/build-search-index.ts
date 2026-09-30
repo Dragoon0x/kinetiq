@@ -159,6 +159,22 @@ async function main() {
     },
     {
       s: "x",
+      t: "Atelier",
+      d: "Everyday interface, made by hand — loaders, widgets, notices, fields, menus, frames and backdrops.",
+      h: "/atelier",
+      k: [
+        "atelier",
+        "loaders",
+        "widgets",
+        "notifications",
+        "mockups",
+        "fields",
+        "menus",
+        "backgrounds",
+      ],
+    },
+    {
+      s: "x",
       t: "Blocks",
       d: "Larger assemblies — complete, product-ready sections.",
       h: "/blocks",

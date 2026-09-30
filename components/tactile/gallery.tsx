@@ -6,7 +6,6 @@ import { Search } from "lucide-react";
 import { motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
 
-import { TACTILE_VERBS, type TactileVerb } from "@/content/tactile";
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
 import { springs } from "@/registry/lib/motion";
 import {
@@ -17,6 +16,8 @@ import {
 } from "@/registry/lib/tweaks";
 import { cn } from "@/registry/lib/utils";
 
+import { GroupGlyph } from "./group-glyph";
+import { RoomProvider, type Room } from "./room";
 import { useSoundPref } from "./sound-pref";
 import { SoundSwitch } from "./sound-switch";
 import { StageDialog } from "./stage-dialog";
@@ -24,23 +25,21 @@ import { TactileCard, type TactileItem } from "./tactile-card";
 import { Segmented } from "./tweak-controls";
 import type { TweakState } from "./tweak-panel";
 import { useTactileModule } from "./use-tactile-module";
-import { VerbGlyph } from "./verb-glyph";
 
-type VerbFilter = "all" | TactileVerb;
 type Sort = "newest" | "az";
 
-const isVerb = (value: string | null): value is TactileVerb =>
-  TACTILE_VERBS.some((v) => v.slug === value);
-
 /** Builds the page URL for a state, keeping only what differs from the default. */
-function urlFor(state: {
-  verb: VerbFilter;
-  sort: Sort;
-  open: string | null;
-  tweaks: string;
-}): string {
+function urlFor(
+  param: string,
+  state: {
+    group: string;
+    sort: Sort;
+    open: string | null;
+    tweaks: string;
+  },
+): string {
   const params = new URLSearchParams();
-  if (state.verb !== "all") params.set("verb", state.verb);
+  if (state.group !== "all") params.set(param, state.group);
   if (state.sort !== "newest") params.set("sort", state.sort);
   if (state.open) params.set("b", state.open);
   if (state.open && state.tweaks) params.set("t", state.tweaks);
@@ -49,19 +48,33 @@ function urlFor(state: {
 }
 
 /**
- * The Tactile gallery: every component live in its card, filtered by the verb
- * it answers to, and opened on the stage for tweaking. The filter, the sort,
- * the open component and its tweaks all live in the URL, so any view can be
- * shared and the back button closes the stage.
+ * A room's gallery: every piece live in its card, filtered by its group (a
+ * verb on Tactile, a set on Atelier), and opened on the stage for tweaking.
+ * The filter, the sort, the open piece and its tweaks all live in the URL, so
+ * any view can be shared and the back button closes the stage.
  */
-export function TactileGallery({ items }: { items: TactileItem[] }) {
+export function RoomGallery({
+  room,
+  items,
+}: {
+  room: Room;
+  items: TactileItem[];
+}) {
+  return (
+    <RoomProvider room={room}>
+      <Gallery room={room} items={items} />
+    </RoomProvider>
+  );
+}
+
+function Gallery({ room, items }: { room: Room; items: TactileItem[] }) {
   const motionSafe = useMotionSafe();
   const searchParams = useSearchParams();
   const [sound, setSound] = useSoundPref();
 
-  const [verb, setVerb] = React.useState<VerbFilter>(() => {
-    const v = searchParams.get("verb");
-    return isVerb(v) ? v : "all";
+  const [group, setGroup] = React.useState<string>(() => {
+    const g = searchParams.get(room.param);
+    return g && room.groups.some((r) => r.slug === g) ? g : "all";
   });
   const [sort, setSort] = React.useState<Sort>(() =>
     searchParams.get("sort") === "az" ? "az" : "newest",
@@ -107,20 +120,20 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
   }
 
   const counts = React.useMemo(() => {
-    const byVerb = new Map<TactileVerb, number>();
+    const byGroup = new Map<string, number>();
     for (const item of items) {
-      byVerb.set(item.verb, (byVerb.get(item.verb) ?? 0) + 1);
+      byGroup.set(item.group, (byGroup.get(item.group) ?? 0) + 1);
     }
-    return byVerb;
+    return byGroup;
   }, [items]);
 
   const filtered = React.useMemo(() => {
     const needle = query.trim().toLowerCase();
     const list = items.filter(
       (item) =>
-        (verb === "all" || item.verb === verb) &&
+        (group === "all" || item.group === group) &&
         (needle === "" ||
-          `${item.title} ${item.tagline} ${item.verbLabel} ${item.name}`
+          `${item.title} ${item.tagline} ${item.groupLabel} ${item.name}`
             .toLowerCase()
             .includes(needle)),
     );
@@ -129,7 +142,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
       : [...list].sort((a, b) =>
           b.serial.localeCompare(a.serial, undefined, { numeric: true }),
         );
-  }, [items, query, sort, verb]);
+  }, [items, query, sort, group]);
 
   const shownItem = items.find((i) => i.name === shown) ?? null;
   const values: TweakState = {
@@ -143,8 +156,8 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
   // Keep the address bar in step with the view, without adding history —
   // only opening the stage does that, so Back closes it.
   React.useEffect(() => {
-    const url = urlFor({
-      verb,
+    const url = urlFor(room.param, {
+      group,
       sort,
       open: open?.slug ?? null,
       tweaks: encoded,
@@ -152,7 +165,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
     if (url !== `${window.location.pathname}${window.location.search}`) {
       window.history.replaceState(window.history.state, "", url);
     }
-  }, [verb, sort, open?.slug, encoded]);
+  }, [room.param, group, sort, open?.slug, encoded]);
 
   React.useEffect(() => {
     const onPop = () => {
@@ -174,24 +187,24 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
 
   // Stable, so the memoised cards never re-render just because the gallery
   // did; it reads the current filter from a ref at the moment it is used.
-  const view = React.useRef({ verb, sort });
+  const view = React.useRef({ group, sort });
   React.useEffect(() => {
-    view.current = { verb, sort };
+    view.current = { group, sort };
   });
   const openItem = React.useCallback(
     (item: TactileItem, origin: HTMLElement) => {
       window.history.pushState(
-        { ...window.history.state, tactile: item.name },
+        { ...window.history.state, [room.id]: item.name },
         "",
-        urlFor({ ...view.current, open: item.name, tweaks: "" }),
+        urlFor(room.param, { ...view.current, open: item.name, tweaks: "" }),
       );
       setOpen({ slug: item.name, origin, pushed: true });
     },
-    [],
+    [room.id, room.param],
   );
 
   const requestClose = () => {
-    if (open?.pushed && window.history.state?.tactile) {
+    if (open?.pushed && window.history.state?.[room.id]) {
       window.history.back();
     } else {
       setOpen(null);
@@ -206,15 +219,17 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
     setOpen((current) => (current ? { ...current, slug: next.name } : current));
   };
 
-  const chips: { slug: VerbFilter; label: string; count: number }[] = [
+  const chips: { slug: string; label: string; count: number }[] = [
     { slug: "all", label: "All", count: items.length },
-    ...TACTILE_VERBS.filter((v) => (counts.get(v.slug) ?? 0) > 0).map((v) => ({
-      slug: v.slug as VerbFilter,
-      label: v.label,
-      count: counts.get(v.slug) ?? 0,
-    })),
+    ...room.groups
+      .filter((g) => (counts.get(g.slug) ?? 0) > 0)
+      .map((g) => ({
+        slug: g.slug,
+        label: g.label,
+        count: counts.get(g.slug) ?? 0,
+      })),
   ];
-  const chipRefs = React.useRef(new Map<VerbFilter, HTMLButtonElement>());
+  const chipRefs = React.useRef(new Map<string, HTMLButtonElement>());
 
   const onChipKey = (event: React.KeyboardEvent, index: number) => {
     const delta =
@@ -223,7 +238,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
     event.preventDefault();
     const next = chips[(index + delta + chips.length) % chips.length];
     if (!next) return;
-    setVerb(next.slug);
+    setGroup(next.slug);
     chipRefs.current.get(next.slug)?.focus();
   };
 
@@ -238,17 +253,17 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
   return (
     <div>
       <div className="sticky top-14 z-30 border-y border-hairline bg-surface-0/85 backdrop-blur-md">
-        {/* One row from xl, where ten verbs, search, sort and sound fit side
-            by side; below it the verbs get a full-width row of their own,
+        {/* One row from xl, where ten groups, search, sort and sound fit side
+            by side; below it the groups get a full-width row of their own,
             fading at the edge while they still scroll. */}
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 xl:flex-row xl:items-center">
           <div
             role="radiogroup"
-            aria-label="Filter by what you do"
+            aria-label={room.filterLabel}
             className="-mx-1 flex min-w-0 flex-1 [scrollbar-width:none] gap-0.5 overflow-x-auto px-1 py-0.5 max-lg:[mask-image:linear-gradient(to_right,black_calc(100%-2rem),transparent)]"
           >
             {chips.map((chip, index) => {
-              const active = chip.slug === verb;
+              const active = chip.slug === group;
               return (
                 <button
                   key={chip.slug}
@@ -261,7 +276,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
                   aria-checked={active}
                   aria-label={`${chip.label}, ${chip.count} ${chip.count === 1 ? "component" : "components"}`}
                   tabIndex={active ? 0 : -1}
-                  onClick={() => setVerb(chip.slug)}
+                  onClick={() => setGroup(chip.slug)}
                   onKeyDown={(event) => onChipKey(event, index)}
                   className={cn(
                     "relative inline-flex h-8 shrink-0 items-center gap-1 rounded-full px-2.5 text-xs transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
@@ -270,15 +285,15 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
                 >
                   {active ? (
                     <motion.span
-                      layoutId="tactile-verb-chip"
+                      layoutId={`${room.id}-group-chip`}
                       aria-hidden
                       className="absolute inset-0 rounded-full border border-hairline-strong bg-surface-2"
                       transition={motionSafe ? springs.snap : { duration: 0 }}
                     />
                   ) : null}
                   {chip.slug !== "all" ? (
-                    <VerbGlyph
-                      verb={chip.slug}
+                    <GroupGlyph
+                      group={chip.slug}
                       className="relative size-3.5 shrink-0"
                     />
                   ) : null}
@@ -295,7 +310,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
           </div>
           <div className="flex items-center gap-2">
             <label className="relative flex h-9 min-w-0 flex-1 items-center xl:w-40 xl:flex-none">
-              <span className="sr-only">Search Tactile</span>
+              <span className="sr-only">{`Search ${room.name}`}</span>
               <Search
                 aria-hidden
                 className="pointer-events-none absolute left-2.5 size-3.5 text-ink-3"
@@ -352,7 +367,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
                 type="button"
                 onClick={() => {
                   setQuery("");
-                  setVerb("all");
+                  setGroup("all");
                 }}
                 className="text-xs text-cobalt-bright hover:text-foreground"
               >
@@ -385,7 +400,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
           shareUrl={
             typeof window === "undefined"
               ? ""
-              : `${window.location.origin}/tactile?b=${shownItem.name}${encoded ? `&t=${encoded}` : ""}`
+              : `${window.location.origin}${room.path}?b=${shownItem.name}${encoded ? `&t=${encoded}` : ""}`
           }
           onNavigate={navigate}
           onRequestClose={requestClose}

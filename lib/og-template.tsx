@@ -105,6 +105,7 @@ const CATEGORY_LOOK: Record<
   chat: { spring: "snap", accent: "sky" },
   devtools: { spring: "flick", accent: "amber" },
   tactile: { spring: "recoil", accent: "sky" },
+  atelier: { spring: "glide", accent: "amber" },
 };
 
 export type OgItemKind = "components" | "blocks" | "pages" | "templates";

@@ -5,33 +5,35 @@ import * as React from "react";
 import { Maximize2 } from "lucide-react";
 import { motion } from "motion/react";
 
-import type { TactileAspect, TactileVerb } from "@/content/tactile";
+import type { TactileAspect } from "@/content/tactile";
 import { useMotionSafe } from "@/registry/hooks/use-motion-safe";
 import { durations, easings, springs } from "@/registry/lib/motion";
 import { cn } from "@/registry/lib/utils";
 
+import { GroupGlyph } from "./group-glyph";
+import { useRoom } from "./room";
 import { useMountWindow } from "./use-mount-window";
 import { useTactileModule } from "./use-tactile-module";
-import { VerbGlyph } from "./verb-glyph";
 
 export type TactileItem = {
   name: string;
   title: string;
   tagline: string;
   serial: string;
-  verb: TactileVerb;
-  verbLabel: string;
+  /** The group it files under: a verb on Tactile, a set on Atelier. */
+  group: string;
+  groupLabel: string;
   aspect: TactileAspect;
   exportName: string;
   isNew: boolean;
 };
 
 /**
- * On hover the card's glyph acts out its verb once: a press dips, a spin
- * turns, a drag nudges. A hint, not a loop — it plays when the pointer
+ * On hover the card's glyph acts out its group once: a press dips, a spin
+ * turns, a bell rings. A hint, not a loop — it plays when the pointer
  * arrives and then keeps still.
  */
-const HINT: Record<TactileVerb, Record<string, number[]>> = {
+const HINT: Record<string, Record<string, number[]>> = {
   hover: { x: [0, 2, 0], y: [0, -1, 0] },
   press: { scale: [1, 0.78, 1] },
   hold: { scale: [1, 0.84, 0.84, 1] },
@@ -42,6 +44,16 @@ const HINT: Record<TactileVerb, Record<string, number[]>> = {
   select: { scale: [1, 1.2, 1] },
   draw: { rotate: [0, -14, 0] },
   spin: { rotate: [0, 360] },
+  notices: { rotate: [0, -14, 10, -6, 0] },
+  fields: { x: [0, 3, 0] },
+  menus: { y: [0, 2, -1, 0] },
+  words: { opacity: [1, 0.25, 1] },
+  glyphs: { rotate: [0, 360] },
+  pictures: { scale: [1, 1.18, 1] },
+  widgets: { scale: [1, 0.86, 1] },
+  keepsakes: { rotate: [0, -10, 0] },
+  frames: { y: [0, -2, 0] },
+  backdrops: { opacity: [1, 0.4, 1] },
 };
 
 const SPAN: Record<TactileAspect, string> = {
@@ -54,7 +66,7 @@ const SPAN: Record<TactileAspect, string> = {
  * One live component in the gallery. The demo mounts only while the card is
  * near the viewport and is fully interactive in place; the corner button and
  * the title open it on the stage. Until the demo arrives the card shows its
- * verb, so the grid never jumps when a demo lands.
+ * group, so the grid never jumps when a demo lands.
  *
  * Memoised: the gallery re-renders on every tweak made on the stage, and a
  * wall of live demos must not re-render underneath each one.
@@ -69,11 +81,12 @@ export const TactileCard = React.memo(function TactileCard({
   onOpen: (item: TactileItem, from: HTMLElement) => void;
 }) {
   const motionSafe = useMotionSafe();
+  const room = useRoom();
   const [node, setNode] = React.useState<HTMLElement | null>(null);
   const near = useMountWindow(node);
   const loadedModule = useTactileModule(item.name, near);
   const Demo = near ? loadedModule?.Demo : undefined;
-  const titleId = `tactile-title-${item.name}`;
+  const titleId = `${room.id}-title-${item.name}`;
 
   const open = () => {
     if (node) onOpen(item, node);
@@ -82,7 +95,7 @@ export const TactileCard = React.memo(function TactileCard({
   return (
     <motion.article
       ref={setNode}
-      id={`tactile-card-${item.name}`}
+      id={`${room.id}-card-${item.name}`}
       aria-labelledby={titleId}
       layout={motionSafe ? "position" : false}
       initial={motionSafe ? { opacity: 0, scale: 0.98 } : false}
@@ -110,14 +123,14 @@ export const TactileCard = React.memo(function TactileCard({
             className="inline-flex shrink-0"
             variants={{
               hint: {
-                ...HINT[item.verb],
+                ...HINT[item.group],
                 transition: { duration: 0.55, ease: easings.move },
               },
             }}
           >
-            <VerbGlyph verb={item.verb} className="size-3.5" />
+            <GroupGlyph group={item.group} className="size-3.5" />
           </motion.span>
-          <span className="truncate">{item.verbLabel}</span>
+          <span className="truncate">{item.groupLabel}</span>
           {item.isNew ? (
             <span className="rounded-full bg-cobalt-wash px-1.5 py-0.5 text-cobalt-bright">
               New
@@ -152,7 +165,7 @@ export const TactileCard = React.memo(function TactileCard({
             aria-hidden
             className="flex size-14 items-center justify-center rounded-full border border-hairline text-ink-3"
           >
-            <VerbGlyph verb={item.verb} className="size-5" />
+            <GroupGlyph group={item.group} className="size-5" />
           </div>
         )}
       </div>

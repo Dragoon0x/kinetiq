@@ -33,7 +33,8 @@ export type CategorySlug =
   | "finance"
   | "chat"
   | "devtools"
-  | "tactile";
+  | "tactile"
+  | "atelier";
 
 export type Category = {
   slug: CategorySlug;
@@ -174,6 +175,12 @@ export const CATEGORIES: Category[] = [
     label: "Tactile",
     blurb:
       "Components you can feel \u2014 pressed, held, dragged, thrown and turned, each with its own physics, sound, and live tweaks.",
+  },
+  {
+    slug: "atelier",
+    label: "Atelier",
+    blurb:
+      "Everyday interface, made by hand \u2014 loaders, widgets, notices, fields, menus, device frames, keepsakes and backdrops, each finished to the last frame.",
   },
 ];
 

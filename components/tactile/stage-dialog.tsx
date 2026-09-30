@@ -26,7 +26,7 @@ import type { TactileItem } from "./tactile-card";
 import { Segmented } from "./tweak-controls";
 import { TweakPanel, type TweakState } from "./tweak-panel";
 import { useTactileModule } from "./use-tactile-module";
-import { VerbGlyph } from "./verb-glyph";
+import { GroupGlyph } from "./group-glyph";
 
 type StageTheme = "page" | "light" | "dark";
 
@@ -327,7 +327,7 @@ export function StageDialog({
           <header className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-hairline px-3 sm:px-4">
             <div className="flex min-w-0 items-center gap-3">
               <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-2 bg-surface-2 text-ink-2">
-                <VerbGlyph verb={item.verb} className="size-4" />
+                <GroupGlyph group={item.group} className="size-4" />
               </span>
               <div className="min-w-0">
                 <h2
@@ -337,7 +337,7 @@ export function StageDialog({
                   {item.title}
                 </h2>
                 <p className="truncate font-mono text-[10px] tracking-[0.08em] text-ink-3 uppercase">
-                  {`${item.serial} · ${item.verbLabel} · ${position.index + 1} of ${position.count}`}
+                  {`${item.serial} · ${item.groupLabel} · ${position.index + 1} of ${position.count}`}
                 </p>
               </div>
             </div>

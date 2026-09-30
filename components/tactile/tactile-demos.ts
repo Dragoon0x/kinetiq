@@ -1,17 +1,6 @@
-import type { ComponentType } from "react";
+import { mod, type TactileModule } from "./demo-module";
 
-import type { TactileDemoProps, TweakSchema } from "@/registry/lib/tweaks";
-
-/** What a Tactile demo module gives the gallery: the demo and its tweaks. */
-export type TactileModule = {
-  Demo: ComponentType<TactileDemoProps<TweakSchema> & { chrome?: boolean }>;
-  tweaks: TweakSchema;
-};
-
-const mod = (Demo: unknown, tweaks: TweakSchema): TactileModule => ({
-  Demo: Demo as TactileModule["Demo"],
-  tweaks,
-});
+export type { TactileModule } from "./demo-module";
 
 /**
  * One dynamic import per component, so /tactile ships none of them up front:

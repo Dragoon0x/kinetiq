@@ -3,7 +3,7 @@ import Link from "next/link";
 import { cn } from "@/registry/lib/utils";
 
 import type { TactileItem } from "./tactile-card";
-import { VerbGlyph } from "./verb-glyph";
+import { GroupGlyph } from "./group-glyph";
 
 const SPAN = { square: "", wide: "sm:col-span-2", tall: "row-span-2" } as const;
 
@@ -28,15 +28,15 @@ export function StaticGrid({ items }: { items: TactileItem[] }) {
               )}
             >
               <div className="flex h-11 items-center gap-2 px-4 font-mono text-[10px] tracking-[0.08em] text-ink-3 uppercase">
-                <VerbGlyph verb={item.verb} className="size-3.5" />
-                {item.verbLabel}
+                <GroupGlyph group={item.group} className="size-3.5" />
+                {item.groupLabel}
               </div>
               <div className="flex flex-1 items-center justify-center">
                 <span
                   aria-hidden
                   className="flex size-14 items-center justify-center rounded-full border border-hairline text-ink-3"
                 >
-                  <VerbGlyph verb={item.verb} className="size-5" />
+                  <GroupGlyph group={item.group} className="size-5" />
                 </span>
               </div>
               <div className="px-4 pt-2 pb-4">

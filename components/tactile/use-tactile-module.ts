@@ -2,18 +2,25 @@
 
 import * as React from "react";
 
-import { TACTILE_DEMOS, type TactileModule } from "./tactile-demos";
+import type { TactileModule } from "./demo-module";
+import { useRoom } from "./room";
 
 const loaded = new Map<string, TactileModule>();
 const pending = new Map<string, Promise<TactileModule>>();
 
-/** Starts (or joins) the load of a demo module. Safe to call repeatedly. */
-export function preloadTactile(slug: string): Promise<TactileModule> | null {
+/**
+ * Starts (or joins) the load of a demo module from a room's demo map. Safe to
+ * call repeatedly. Slugs are unique across rooms, so one cache serves both.
+ */
+export function preloadTactile(
+  slug: string,
+  demos: Record<string, () => Promise<TactileModule>>,
+): Promise<TactileModule> | null {
   const done = loaded.get(slug);
   if (done) return Promise.resolve(done);
   const inFlight = pending.get(slug);
   if (inFlight) return inFlight;
-  const loader = TACTILE_DEMOS[slug];
+  const loader = demos[slug];
   if (!loader) return null;
   const promise = loader().then((module) => {
     loaded.set(slug, module);
@@ -26,14 +33,16 @@ export function preloadTactile(slug: string): Promise<TactileModule> | null {
 }
 
 /**
- * The demo module for `slug`, once `enabled` has asked for it. A module that
- * was loaded before is returned on the first render, so a card scrolled back
- * into view or a stage opened on a card already seen never flashes empty.
+ * The demo module for `slug`, once `enabled` has asked for it, from the room
+ * this component sits in. A module that was loaded before is returned on the
+ * first render, so a card scrolled back into view or a stage opened on a card
+ * already seen never flashes empty.
  */
 export function useTactileModule(
   slug: string,
   enabled: boolean,
 ): TactileModule | null {
+  const { demos } = useRoom();
   const [arrived, setArrived] = React.useState<{
     slug: string;
     module: TactileModule;
@@ -42,7 +51,7 @@ export function useTactileModule(
   React.useEffect(() => {
     if (!enabled || loaded.has(slug)) return;
     let live = true;
-    preloadTactile(slug)
+    preloadTactile(slug, demos)
       ?.then((module) => {
         if (live) setArrived({ slug, module });
       })
@@ -50,7 +59,7 @@ export function useTactileModule(
     return () => {
       live = false;
     };
-  }, [slug, enabled]);
+  }, [slug, enabled, demos]);
 
   return loaded.get(slug) ?? (arrived?.slug === slug ? arrived.module : null);
 }
