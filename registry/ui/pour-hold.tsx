@@ -702,6 +702,14 @@ export function PourHold({
       tail.set(0);
       stopLoop();
     }
+    // Pressed while the level is still settling on a value it was given (a
+    // drain after Home, a lower): the pour starts from that value, not from
+    // wherever the drawing has got to, or its reports would jump.
+    const settled = reported.current / top;
+    if (Math.abs(volume.get() - settled) > 1e-3) {
+      halt("flow");
+      volume.set(settled);
+    }
     p.active = true;
     p.stepped = stepped;
     p.target = target;
@@ -978,7 +986,7 @@ export function PourHold({
       }
       return;
     }
-    if (volume.get() >= 0.999 && !overflow) {
+    if (reported.current / top >= 0.999 && !overflow) {
       // Refused: it tips, but nothing comes out of it.
       tip(HOVER_FULL);
       return;
@@ -1014,8 +1022,11 @@ export function PourHold({
       }
       return;
     }
-    const target = Math.min(1, (quantize(volume.get()) + n * unit) / top);
-    if (target <= volume.get() + 1e-4) return;
+    // Steps count from the committed value; the drawing may still be
+    // settling towards it.
+    const from = reported.current / top;
+    const target = Math.min(1, (reported.current + n * unit) / top);
+    if (target <= from + 1e-4) return;
     begin(true, target);
   };
 
@@ -1302,7 +1313,7 @@ export function PourHold({
         onBlur={() => release("key")}
         className={cn(
           "relative block touch-none rounded-3 outline-none select-none [-webkit-touch-callout:none]",
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           disabled ? "cursor-not-allowed" : "cursor-pointer",
         )}
       >
@@ -1411,7 +1422,7 @@ export function PourHold({
           className={cn(
             "inline-flex h-8 shrink-0 items-center rounded-2 border border-hairline px-3 text-xs text-ink-2 transition-colors outline-none",
             "hover:bg-surface-2 hover:text-foreground",
-            "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
             "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent",
           )}
         >

@@ -459,21 +459,24 @@ export function PeekHold({
         return;
       }
       if (Math.hypot(h.x - h.liftX, h.y - h.liftY) > 10) h.slid = true;
+      // The menu can open under a finger that has not moved (on a lower row
+      // it slides up beneath it): only a finger that slid is pointing.
+      if (!h.slid) return;
       const now = latest.current;
       if (!now) return;
-      const i = now.actionAt(h.x, h.y);
-      if (i !== -1 || h.slid) now.highlight(i, true);
+      now.highlight(now.actionAt(h.x, h.y), true);
     };
     const up = (e: PointerEvent) => {
       const h = hold.current;
       if (!h || e.pointerId !== pointerId) return;
       const now = latest.current;
       now?.endHold();
-      if (!h.lifted || !now) return;
+      // Let go where it lifted, whatever slid under it: the preview stays,
+      // as after a right-click.
+      if (!h.lifted || !now || !h.slid) return;
       const i = now.actionAt(e.clientX, e.clientY);
       if (i !== -1) now.choose(i);
-      else if (h.slid) now.close("cancel");
-      // Let go where it lifted: the preview stays, as after a right-click.
+      else now.close("cancel");
     };
     const cancel = (e: PointerEvent) => {
       const h = hold.current;
@@ -792,7 +795,7 @@ export function PeekHold({
                 }}
                 className={cn(
                   "block w-full touch-pan-y rounded-2 outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   "enabled:cursor-pointer disabled:cursor-not-allowed",
                 )}
               >
@@ -938,7 +941,7 @@ export function PeekHold({
                 }
                 className={cn(
                   "relative flex cursor-pointer rounded-2 outline-none",
-                  "focus-visible:outline-2 focus-visible:outline-solid focus-visible:-outline-offset-2 focus-visible:outline-ring",
+                  "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                   action.tone === "danger" ? "text-danger" : "text-foreground",
                   actions === "row"
                     ? "h-14 min-w-0 flex-col items-center justify-center gap-1 px-1 text-[11px]"

@@ -431,7 +431,13 @@ export function PrintHold({
     return rect ? panFrom(rect.left + rect.width / 2, null) : 0;
   };
 
-  const drain = () => {
+  // Whether a press may pick up the draining light where it is: yes after a
+  // read that stopped short, no after a reset, whose light is a finished
+  // read going out — picking that up would approve on a tap.
+  const resumable = React.useRef(true);
+
+  const drain = (resume = true) => {
+    resumable.current = resume;
     const p = progress.get();
     run(
       "progress",
@@ -454,6 +460,11 @@ export function PrintHold({
     stop("shake");
     shake.set(0);
     run("flash", animate(flash, 0, { duration: durations.blink }));
+    if (!resumable.current) {
+      stop("progress");
+      progress.set(0);
+      resumable.current = true;
+    }
     const p = progress.get();
     // A press that lands while the last read is still draining picks it up
     // where it is, from the same centre, rather than jumping the light.
@@ -650,7 +661,7 @@ export function PrintHold({
     run("open", animate(open, 0, { duration: durations.fast }));
     if (motionSafe) run("condense", animate(condense, 0, springs.glide));
     else condense.set(0);
-    drain();
+    drain(false);
   };
 
   const latest = React.useRef({
@@ -884,7 +895,7 @@ export function PrintHold({
         }}
         className={cn(
           "relative block shrink-0 cursor-pointer touch-none overflow-clip rounded-4 border border-hairline-strong bg-surface-2 outline-none select-none [-webkit-touch-callout:none]",
-          "focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-ring",
+          "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
           "disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-default",
         )}
         style={{

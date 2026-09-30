@@ -178,13 +178,18 @@ test.describe("tactile gallery", () => {
     await gotoHydrated(page, "/tactile");
     const sound = page.getByRole("switch", { name: "Sound" });
     await expect(sound).toHaveAttribute("aria-checked", "false");
+    // Cards mount their demos only near the viewport, so the card is brought
+    // into view before its switch is pressed.
+    const gel = page.locator("#tactile-card-gel-switch");
     // Pressing a component with sound off never creates an audio context.
-    await page.locator("#tactile-card-gel-switch").getByRole("switch").click();
+    await gel.scrollIntoViewIfNeeded();
+    await gel.getByRole("switch").click();
     expect(await audioContexts(page)).toBe(0);
 
     await sound.click();
     await expect(sound).toHaveAttribute("aria-checked", "true");
-    await page.locator("#tactile-card-gel-switch").getByRole("switch").click();
+    await gel.scrollIntoViewIfNeeded();
+    await gel.getByRole("switch").click();
     await expect.poll(() => audioContexts(page)).toBe(1);
 
     await page.reload();
@@ -2573,5 +2578,1294 @@ test.describe("tactile hover", () => {
       await expect(line).toHaveText(`1 of 6 picked · last ${dragged}`);
       expect(await audioContexts(page)).toBe(0);
     });
+  });
+});
+
+/**
+ * Loads a page and waits for hydration, patiently: the test server can take
+ * a while to answer while it compiles.
+ */
+const holdGoto = async (page: Page, path: string) => {
+  await page.goto(path, { waitUntil: "domcontentloaded", timeout: 120_000 });
+  await page.waitForSelector("body[data-hydrated]", { timeout: 120_000 });
+};
+
+/**
+ * A component on the gallery stage with tweaks from the deep link. The stage
+ * grows out of its card, so nothing on it is pressed or measured until two
+ * readings of its box, a poll apart, agree.
+ */
+const holdOnStage = async (
+  page: Page,
+  slug: string,
+  title: string,
+  tweaks: string,
+): Promise<Locator> => {
+  await holdGoto(page, `/tactile?b=${slug}&t=${tweaks}`);
+  const dialog = dialogOf(page, title);
+  await expect(dialog).toBeVisible({ timeout: 30_000 });
+  let last = "";
+  await expect
+    .poll(
+      async () => {
+        const box = await dialog.boundingBox();
+        const now = box ? [box.x, box.y, box.width, box.height].join() : "";
+        const still = now !== "" && now === last;
+        last = now;
+        return still;
+      },
+      { intervals: [100], timeout: 30_000 },
+    )
+    .toBe(true);
+  return dialog.locator("[data-specimen-stage]");
+};
+
+/**
+ * Turns the docs page's sound on. That hands the plate over to the live demo,
+ * which mounts afresh, so this waits until `part` is a new element.
+ */
+const holdSoundOn = async (page: Page, part: Locator) => {
+  type Marked = { holdStale?: boolean };
+  await part.evaluate((el) => {
+    (el as unknown as Marked).holdStale = true;
+  });
+  await page.getByRole("switch", { name: "Sound" }).click();
+  await expect
+    .poll(() => part.evaluate((el) => !(el as unknown as Marked).holdStale))
+    .toBe(true);
+};
+
+/** A slider's committed value. */
+const holdValue = async (slider: Locator) =>
+  Number(await slider.getAttribute("aria-valuenow"));
+
+/** Polls a slider until its value has stopped moving, and returns it. */
+const holdSteady = (slider: Locator) => hoverStill(() => holdValue(slider));
+
+/** Pour Hold's demo line for a glass holding `ml`, on top of the 1 l already logged. */
+const holdPoured = (ml: number) => {
+  const today = `${Number(((1000 + ml) / 1000).toFixed(2))} of 2 l today`;
+  if (ml === 0) return "glass empty · hold to pour";
+  return ml === 500 ? `full glass · ${today}` : `poured ${ml} ml · ${today}`;
+};
+
+/** How wide a drawn thing is now: 0 while it is not drawn at all. */
+const holdWidth = async (target: Locator) =>
+  (await target.boundingBox())?.width ?? 0;
+
+/** The whole-number percentage in a line of text. */
+const holdShare = (text: string | null) =>
+  Number(/(\d+)%/.exec(text ?? "")?.[1] ?? Number.NaN);
+
+/** Waits until a log has shown a text, for states that pass too quickly to poll. */
+const holdSaw = (log: () => Promise<PressLog>, text: string) =>
+  expect
+    .poll(async () => (await log()).map(([t]) => t), { intervals: [100] })
+    .toContain(text);
+
+/** A press held still at a point: in, down, and a waver of a pixel that comes back. */
+const holdDownAt = async (page: Page, at: HoverPoint) => {
+  await page.mouse.move(at.x - 30, at.y + 20);
+  await page.mouse.move(at.x, at.y, { steps: 5 });
+  await page.mouse.down();
+  await page.mouse.move(at.x + 1, at.y + 1, { steps: 2 });
+  await page.mouse.move(at.x, at.y, { steps: 2 });
+};
+
+/**
+ * A drag a person settles before letting go: down at `from`, several moves
+ * to `to`, a still moment there on the page's clock, so the release carries
+ * no throw, then up.
+ */
+const holdDrag = async (page: Page, from: HoverPoint, to: HoverPoint) => {
+  await page.mouse.move(from.x, from.y, { steps: 4 });
+  await page.mouse.down();
+  await page.mouse.move(to.x, to.y, { steps: 12 });
+  await hoverFor(page, 150);
+  await page.mouse.up();
+};
+
+/** A point on Drop Pin's town, in map units (0–1200 east, 0–200 down), on the screen. */
+const holdOnMap = (
+  map: { x: number; y: number; width: number },
+  x: number,
+  y: number,
+): HoverPoint => ({ x: map.x + map.width / 2 + (x - 600), y: map.y + y });
+
+test.describe("tactile hold", () => {
+  test("pour-hold: a held pointer and a held Space pour until let go and stop on a whole step, the arrows and Page keys pour or lower exactly one step, a hold to the brim and End both stop at a full glass, and Home or Empty drain it", async ({
+    page,
+  }) => {
+    test.setTimeout(180_000);
+    await countAudio(page);
+    await holdGoto(page, "/components/pour-hold");
+    const stage = pressStage(page);
+    const glass = stage.getByRole("slider", { name: "Water" });
+    const line = stage.getByRole("status").last();
+    const empty = stage.getByRole("button", { name: "Empty" });
+    // A spill's puddle at the glass's foot: the second ellipse drawn.
+    const puddle = glass.locator("svg > ellipse").nth(1);
+
+    await expect(glass).toHaveAttribute("aria-orientation", "vertical");
+    await expect(glass).toHaveAttribute("aria-valuemin", "0");
+    await expect(glass).toHaveAttribute("aria-valuemax", "500");
+    await expect(glass).toHaveAttribute("aria-valuenow", "0");
+    await expect(glass).toHaveAttribute("aria-valuetext", "0 ml");
+    await expect(line).toHaveText(holdPoured(0));
+    await expect(empty).toBeDisabled();
+
+    // Pointer: held, it pours; let go, it stops on a whole step and stays.
+    await pressDown(page, glass);
+    await expect
+      .poll(() => holdValue(glass), { intervals: [50] })
+      .toBeGreaterThanOrEqual(150);
+    await page.mouse.up();
+    const poured = await holdSteady(glass);
+    expect(poured % 10).toBe(0);
+    expect(poured).toBeGreaterThanOrEqual(150);
+    expect(poured).toBeLessThanOrEqual(500);
+    await expect(glass).toHaveAttribute("aria-valuetext", `${poured} ml`);
+    await expect(line).toHaveText(holdPoured(poured));
+    await expect(empty).toBeEnabled();
+
+    // Held on to the brim, it stops there although still held, and nothing
+    // spills over.
+    await pressDown(page, glass);
+    await expect(glass).toHaveAttribute("aria-valuenow", "500", {
+      timeout: 10_000,
+    });
+    await expect(line).toHaveText(holdPoured(500));
+    await hoverFor(page, 600);
+    await expect(glass).toHaveAttribute("aria-valuenow", "500");
+    expect(await holdWidth(puddle)).toBeLessThan(1);
+    await page.mouse.up();
+
+    // Empty drains it.
+    await empty.click();
+    await expect(glass).toHaveAttribute("aria-valuenow", "0");
+    await expect(glass).toHaveAttribute("aria-valuetext", "0 ml");
+    await expect(line).toHaveText(holdPoured(0));
+    await expect(empty).toBeDisabled();
+    expect(await audioContexts(page)).toBe(0);
+
+    // Keyboard, from a fresh glass: an arrow pours exactly one step and
+    // stops, a Page key ten; the lowering keys take the value straight down.
+    await holdGoto(page, "/components/pour-hold");
+    await glass.focus();
+    await page.keyboard.press("ArrowUp");
+    await expect(glass).toHaveAttribute("aria-valuenow", "10");
+    expect(await holdSteady(glass)).toBe(10);
+    await expect(line).toHaveText(holdPoured(10));
+    await page.keyboard.press("ArrowRight");
+    await expect(glass).toHaveAttribute("aria-valuenow", "20");
+    expect(await holdSteady(glass)).toBe(20);
+    await page.keyboard.press("PageUp");
+    await expect(glass).toHaveAttribute("aria-valuenow", "70");
+    expect(await holdSteady(glass)).toBe(70);
+    await expect(line).toHaveText(holdPoured(70));
+    await page.keyboard.press("PageDown");
+    await expect(glass).toHaveAttribute("aria-valuenow", "20");
+    await page.keyboard.press("ArrowDown");
+    await expect(glass).toHaveAttribute("aria-valuenow", "10");
+    await expect(glass).toHaveAttribute("aria-valuetext", "10 ml");
+    await page.keyboard.press("Home");
+    await expect(glass).toHaveAttribute("aria-valuenow", "0");
+    await expect(line).toHaveText(holdPoured(0));
+    expect(await audioContexts(page)).toBe(0);
+
+    // A held Space pours like the held pointer and stops on a whole step; a
+    // held Enter pours on to the same full glass the pointer reached.
+    await holdGoto(page, "/components/pour-hold");
+    await glass.focus();
+    await page.keyboard.down("Space");
+    await expect
+      .poll(() => holdValue(glass), { intervals: [50] })
+      .toBeGreaterThanOrEqual(150);
+    await page.keyboard.up("Space");
+    const spaced = await holdSteady(glass);
+    expect(spaced % 10).toBe(0);
+    expect(spaced).toBeGreaterThanOrEqual(150);
+    expect(spaced).toBeLessThanOrEqual(500);
+    await expect(line).toHaveText(holdPoured(spaced));
+    await page.keyboard.down("Enter");
+    await expect(glass).toHaveAttribute("aria-valuenow", "500", {
+      timeout: 10_000,
+    });
+    await expect(line).toHaveText(holdPoured(500));
+    await page.keyboard.up("Enter");
+    expect(await audioContexts(page)).toBe(0);
+
+    // End pours an empty glass full at the default rate: never in less than
+    // its 2.8 s of flow.
+    await holdGoto(page, "/components/pour-hold");
+    const log = await pressLog(line);
+    await glass.focus();
+    const asked = await pressNow(page);
+    await page.keyboard.press("End");
+    await expect(line).toHaveText(holdPoured(500), { timeout: 10_000 });
+    const fill = pressTook(await log(), holdPoured(500), asked);
+    expect(fill).toBeGreaterThan(2800);
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on (the page hands over to a fresh demo), the pour is heard.
+    await holdSoundOn(page, glass);
+    await expect(line).toHaveText(holdPoured(0));
+    expect(await audioContexts(page)).toBe(0);
+    await pressDown(page, glass);
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+    await page.mouse.up();
+
+    // Tweaks: the gentlest pour is a trickle that takes over 6 s to fill the
+    // glass…
+    let tuned = await holdOnStage(page, "pour-hold", "Pour Hold", "rate:0");
+    let tunedGlass = tuned.getByRole("slider", { name: "Water" });
+    let tunedLine = tuned.getByRole("status").last();
+    const slowLog = await pressLog(tunedLine);
+    await tunedGlass.focus();
+    const go = await pressNow(page);
+    await page.keyboard.press("End");
+    await expect(tunedLine).toHaveText(holdPoured(500), { timeout: 20_000 });
+    expect(pressTook(await slowLog(), holdPoured(500), go)).toBeGreaterThan(
+      6000,
+    );
+
+    // …and with overflow on, a hold past the brim keeps pouring: the value
+    // stays full while a puddle spreads at the foot, until the glass is
+    // emptied.
+    tuned = await holdOnStage(page, "pour-hold", "Pour Hold", "overflow:on");
+    tunedGlass = tuned.getByRole("slider", { name: "Water" });
+    tunedLine = tuned.getByRole("status").last();
+    const spill = tunedGlass.locator("svg > ellipse").nth(1);
+    await pressDown(page, tunedGlass);
+    await expect(tunedGlass).toHaveAttribute("aria-valuenow", "500", {
+      timeout: 10_000,
+    });
+    await expect
+      .poll(() => holdWidth(spill), { timeout: 10_000 })
+      .toBeGreaterThan(12);
+    await expect(tunedGlass).toHaveAttribute("aria-valuenow", "500");
+    await page.mouse.up();
+    await expect(tunedLine).toHaveText(holdPoured(500));
+    expect(await hoverStill(() => holdWidth(spill))).toBeGreaterThan(12);
+    await tuned.getByRole("button", { name: "Empty" }).click();
+    await expect(tunedGlass).toHaveAttribute("aria-valuenow", "0");
+    await expect(tunedLine).toHaveText(holdPoured(0));
+    await expect.poll(() => holdWidth(spill)).toBeLessThan(1);
+  });
+
+  test("peek-hold: a tap opens a row, a held press lifts it into its preview after the delay, sliding onto an action and letting go chooses it, sliding off cancels, a still release leaves it open, and Shift+F10 opens the same menu for the arrows and Enter", async ({
+    page,
+  }) => {
+    test.setTimeout(180_000);
+    await countAudio(page);
+    await holdGoto(page, "/components/peek-hold");
+    const stage = pressStage(page);
+    const line = stage.getByRole("status").last();
+    const inbox = stage.getByRole("list", { name: "Inbox" });
+    const row = (from: string) =>
+      inbox.getByRole("button", { name: new RegExp(from) });
+    const menu = stage.getByRole("menu");
+    const action = (name: string) =>
+      menu.getByRole("menuitem", { name, exact: true });
+    const coldbrook = row("Coldbrook Bank");
+    const gauge = row("Gaugeworks");
+
+    await expect(line).toHaveText(
+      "hold a row to peek · shift+f10 from the keyboard",
+    );
+    await expect(coldbrook).toHaveAttribute("aria-haspopup", "menu");
+    await expect(coldbrook).toHaveAttribute("aria-expanded", "false");
+    await expect(coldbrook).toHaveAccessibleDescription(
+      "Press and hold, or press Shift+F10, for a preview and actions.",
+    );
+    await expect(menu).toHaveCount(0);
+    await hoverCentre(page, inbox);
+
+    // A tap opens the row as usual.
+    await pressTap(page, gauge);
+    await expect(line).toHaveText("opened · gaugeworks");
+    await expect(gauge).not.toHaveAccessibleName(/Unread/);
+    await expect(menu).toHaveCount(0);
+
+    // A held press lifts the row into its preview once the delay has passed.
+    const log = await pressLog(line);
+    const pressed = await pressNow(page);
+    await pressDown(page, coldbrook);
+    await expect(line).toHaveText("peeking · coldbrook bank");
+    const held = pressTook(await log(), "peeking · coldbrook bank", pressed);
+    expect(held).toBeGreaterThan(450);
+    await expect(coldbrook).toHaveAttribute("aria-expanded", "true");
+    await expect(coldbrook).toHaveAttribute(
+      "aria-controls",
+      (await menu.getAttribute("id")) ?? "",
+    );
+    await expect(menu).toHaveAccessibleName("Coldbrook Bank");
+    await expect(menu).toHaveAccessibleDescription(
+      /^Your statement for March is ready to view\./,
+    );
+    await expect(menu.getByRole("menuitem")).toHaveText([
+      "Open",
+      "Reply",
+      "Flag",
+      "Mark read",
+    ]);
+
+    // Still held, the finger slides onto Flag, which is highlighted, and
+    // letting go there chooses it.
+    const flag = action("Flag");
+    await hoverStill(async () => (await hoverBox(flag)).y);
+    const f = await hoverBox(flag);
+    await page.mouse.move(f.x + f.width / 2, f.y + f.height / 2, {
+      steps: 8,
+    });
+    await expect(flag).toBeFocused();
+    await page.mouse.up();
+    await expect(line).toHaveText("flagged · coldbrook bank");
+    await expect(coldbrook).toHaveAccessibleName(/Flagged/);
+    await expect(coldbrook).toHaveAttribute("aria-expanded", "false");
+    await expect(coldbrook).toBeFocused();
+    await expect(menu).toHaveCount(0);
+
+    // Sliding off every action and letting go cancels.
+    const fern = row("Fernworks");
+    await pressDown(page, fern);
+    await expect(line).toHaveText("peeking · fernworks");
+    const list = await hoverBox(inbox);
+    await page.mouse.move(list.x + list.width / 2, list.y - 40, { steps: 8 });
+    await page.mouse.up();
+    await expect(line).toHaveText("peek closed · nothing changed");
+    await expect(fern).toHaveAttribute("aria-expanded", "false");
+    await expect(menu).toHaveCount(0);
+
+    // Let go without moving, the preview stays open, like a right-click;
+    // a tap on an action then chooses it…
+    await pressDown(page, gauge);
+    await expect(line).toHaveText("peeking · gaugeworks");
+    await page.mouse.up();
+    await hoverFor(page, 300);
+    await expect(line).toHaveText("peeking · gaugeworks");
+    await expect(gauge).toHaveAttribute("aria-expanded", "true");
+    const unread = action("Mark unread");
+    await hoverStill(async () => (await hoverBox(unread)).y);
+    await pressTap(page, unread);
+    await expect(line).toHaveText("marked unread · gaugeworks");
+    await expect(gauge).toHaveAccessibleName(/Unread/);
+    await expect(menu).toHaveCount(0);
+
+    // …and a tap on the blurred page closes it.
+    await pressDown(page, gauge);
+    await expect(line).toHaveText("peeking · gaugeworks");
+    await page.mouse.up();
+    await expect(menu).toBeVisible();
+    const veil = await hoverBox(inbox);
+    await page.mouse.click(veil.x + 2, veil.y + veil.height / 2);
+    await expect(line).toHaveText("peek closed · nothing changed");
+    await expect(gauge).toHaveAttribute("aria-expanded", "false");
+    await expect(menu).toHaveCount(0);
+
+    // A right-click opens the same preview at once; Escape closes it and
+    // hands focus back to the row.
+    const basin = row("Basinworks");
+    const b = await hoverBox(basin);
+    await page.mouse.click(b.x + b.width / 2, b.y + b.height / 2, {
+      button: "right",
+    });
+    await expect(line).toHaveText("peeking · basinworks");
+    await expect(basin).toHaveAttribute("aria-expanded", "true");
+    await page.keyboard.press("Escape");
+    await expect(line).toHaveText("peek closed · nothing changed");
+    await expect(basin).toBeFocused();
+    await expect(menu).toHaveCount(0);
+    expect(await audioContexts(page)).toBe(0);
+
+    // Keyboard, from a fresh inbox: Shift+F10 opens the same menu with focus
+    // on its first action, the arrows and Home/End walk it, and Enter lands
+    // where the finger did.
+    await holdGoto(page, "/components/peek-hold");
+    await coldbrook.focus();
+    await page.keyboard.press("Shift+F10");
+    await expect(line).toHaveText("peeking · coldbrook bank");
+    await expect(coldbrook).toHaveAttribute("aria-expanded", "true");
+    await expect(menu).toHaveAttribute("aria-orientation", "vertical");
+    await expect(action("Open")).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await expect(action("Reply")).toBeFocused();
+    // A vertical menu: left and right move nothing.
+    await page.keyboard.press("ArrowRight");
+    await expect(action("Reply")).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(action("Mark read")).toBeFocused();
+    await page.keyboard.press("ArrowUp");
+    await expect(action("Flag")).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(action("Open")).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("ArrowDown");
+    await expect(action("Flag")).toBeFocused();
+    await page.keyboard.press("Enter");
+    await expect(line).toHaveText("flagged · coldbrook bank");
+    await expect(coldbrook).toHaveAccessibleName(/Flagged/);
+    await expect(coldbrook).toHaveAttribute("aria-expanded", "false");
+    await expect(coldbrook).toBeFocused();
+    await expect(menu).toHaveCount(0);
+
+    // The menu key opens it too; Escape and Tab each close it and hand focus
+    // back to the row.
+    await page.keyboard.press("ContextMenu");
+    await expect(line).toHaveText("peeking · coldbrook bank");
+    await expect(action("Open")).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(line).toHaveText("peek closed · nothing changed");
+    await expect(coldbrook).toBeFocused();
+    await page.keyboard.press("Shift+F10");
+    await expect(line).toHaveText("peeking · coldbrook bank");
+    await page.keyboard.press("Tab");
+    await expect(line).toHaveText("peek closed · nothing changed");
+    await expect(coldbrook).toBeFocused();
+    await expect(menu).toHaveCount(0);
+
+    // Enter on a row opens it.
+    await page.keyboard.press("Enter");
+    await expect(line).toHaveText("opened · coldbrook bank");
+    await expect(coldbrook).not.toHaveAccessibleName(/Unread/);
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on (the page hands over to a fresh demo), the lift is heard.
+    await holdSoundOn(page, inbox);
+    await expect(line).toHaveText(
+      "hold a row to peek · shift+f10 from the keyboard",
+    );
+    expect(await audioContexts(page)).toBe(0);
+    await hoverCentre(page, inbox);
+    await pressDown(page, row("Fernworks"));
+    await expect(line).toHaveText("peeking · fernworks");
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+    await page.mouse.up();
+
+    // Tweaks: a 900 ms charge, and the actions as one row the arrows cross.
+    const tuned = await holdOnStage(
+      page,
+      "peek-hold",
+      "Peek Hold",
+      "delay:900,actions:row",
+    );
+    const tunedLine = tuned.getByRole("status").last();
+    const tunedRow = tuned
+      .getByRole("list", { name: "Inbox" })
+      .getByRole("button", { name: /Coldbrook Bank/ });
+    const tunedMenu = tuned.getByRole("menu");
+    const tunedLog = await pressLog(tunedLine);
+    const from = await pressNow(page);
+    await pressDown(page, tunedRow);
+    await expect(tunedLine).toHaveText("peeking · coldbrook bank");
+    await page.mouse.up();
+    const slow = pressTook(await tunedLog(), "peeking · coldbrook bank", from);
+    expect(slow).toBeGreaterThan(900);
+    await expect(tunedMenu).toHaveAttribute("aria-orientation", "horizontal");
+    await expect(tunedMenu).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await expect(
+      tunedMenu.getByRole("menuitem", { name: "Open", exact: true }),
+    ).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await expect(
+      tunedMenu.getByRole("menuitem", { name: "Reply", exact: true }),
+    ).toBeFocused();
+    // Escape closes the preview and nothing else: the stage stays.
+    await page.keyboard.press("Escape");
+    await expect(tunedLine).toHaveText("peek closed · nothing changed");
+    await expect(dialogOf(page, "Peek Hold")).toBeVisible();
+  });
+
+  test("fuse-button: a held pointer and a held Space burn the fuse while held and pause it where it got to, holding again carries on from there and fires once, Escape puts a paused fuse out, and an assistive click burns it through", async ({
+    page,
+  }) => {
+    test.setTimeout(180_000);
+    await countAudio(page);
+    await holdGoto(page, "/components/fuse-button");
+    const stage = pressStage(page);
+    const fuse = stage.getByRole("button", { name: "Hold to deploy" });
+    const said = stage.getByRole("status").first();
+    const line = stage.getByRole("status").last();
+    const idle = "hold to deploy · the fuse is 2 s";
+    const burning = "burning · hold till it lands";
+    const deployed = "deployed 4.2.0 · 1 deploy today";
+    const paused = /^paused at \d+% · hold to relight$/;
+
+    await expect(fuse).toHaveAccessibleDescription(
+      "Press and hold to confirm. Escape puts the fuse out.",
+    );
+    await expect(line).toHaveText(idle);
+    await expect(said).toHaveText("");
+    await expect(stage.getByText("Release 4.2.0 to production")).toBeVisible();
+
+    // Pointer: held, it burns; let go, it pauses where it got to, which is
+    // never more of the 2 s lap than it was held for, and stays there.
+    const log = await pressLog(line);
+    const lit = await pressNow(page);
+    await pressDown(page, fuse);
+    await expect(line).toHaveText(burning);
+    await pressAfter(page, log, 600);
+    await page.mouse.up();
+    await expect(line).toHaveText(paused);
+    const stopped = (await line.textContent()) ?? "";
+    const share = holdShare(stopped);
+    await expect(said).toHaveText(
+      `Paused at ${share} percent. Hold to continue.`,
+    );
+    // Timed from just before the press, so a late render can only lengthen
+    // the hold it is compared with.
+    const heldFor = pressTook(await log(), stopped, lit);
+    expect(share).toBeGreaterThan(0);
+    expect(share).toBeLessThanOrEqual(heldFor / 20 + 1);
+    await hoverFor(page, 400);
+    await expect(line).toHaveText(stopped);
+
+    // Held again for a moment, it relights from there: the burnt share
+    // only grows.
+    await pressDown(page, fuse);
+    await expect(line).toHaveText(burning);
+    await pressAfter(page, log, 300);
+    await page.mouse.up();
+    await expect(line).toHaveText(paused);
+    const more = holdShare(await line.textContent());
+    expect(more).toBeGreaterThan(share);
+    await expect(said).toHaveText(
+      `Paused at ${more} percent. Hold to continue.`,
+    );
+    expect(await audioContexts(page)).toBe(0);
+
+    // Held a third time, it burns the rest of the lap and fires once.
+    await pressDown(page, fuse);
+    await expect(line).toHaveText(deployed);
+    await expect(said).toHaveText("Confirmed.");
+    await expect(stage.getByText("Release 4.2.1 to production")).toBeVisible();
+    // Still held once it has fired, nothing more happens; let go, the fuse
+    // is laid again.
+    await hoverFor(page, 400);
+    await expect(line).toHaveText(deployed);
+    await page.mouse.up();
+    await expect(line).toHaveText(idle);
+    await expect(said).toHaveText("");
+    expect(await audioContexts(page)).toBe(0);
+
+    // Keyboard, from a fresh fuse: a held Space burns and letting go
+    // pauses; Escape puts it out.
+    await holdGoto(page, "/components/fuse-button");
+    const keyLog = await pressLog(line);
+    await fuse.focus();
+    await page.keyboard.down("Space");
+    await expect(line).toHaveText(burning);
+    await pressAfter(page, keyLog, 500);
+    await page.keyboard.up("Space");
+    await expect(line).toHaveText(paused);
+    const keyShare = holdShare(await line.textContent());
+    await expect(said).toHaveText(
+      `Paused at ${keyShare} percent. Hold to continue.`,
+    );
+    await page.keyboard.press("Escape");
+    await expect(said).toHaveText("Fuse out.");
+    await expect(line).toHaveText(idle);
+    // A held Enter, its key repeat no press of its own, burns through and
+    // fires once, where the pointer's hold did.
+    await page.keyboard.down("Enter");
+    await expect(line).toHaveText(burning);
+    await page.keyboard.down("Enter");
+    await expect(line).toHaveText(deployed);
+    await expect(said).toHaveText("Confirmed.");
+    await expect(stage.getByText("Release 4.2.1 to production")).toBeVisible();
+    await page.keyboard.up("Enter");
+    await expect(line).toHaveText(idle);
+    await expect(fuse).toBeFocused();
+    expect(await audioContexts(page)).toBe(0);
+
+    // An assistive click, with nothing to hold, burns the whole fuse through.
+    await holdGoto(page, "/components/fuse-button");
+    const clickLog = await pressLog(line);
+    const clickSaid = await pressLog(said);
+    await fuse.evaluate((button) => (button as HTMLButtonElement).click());
+    await holdSaw(clickLog, deployed);
+    await holdSaw(clickSaid, "Confirmed.");
+    await expect(stage.getByText("Release 4.2.1 to production")).toBeVisible();
+    await expect(line).toHaveText(idle);
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on (the page hands over to a fresh demo), the burn is heard.
+    await holdSoundOn(page, fuse);
+    await expect(stage.getByText("Release 4.2.0 to production")).toBeVisible();
+    expect(await audioContexts(page)).toBe(0);
+    await pressDown(page, fuse);
+    await expect(line).toHaveText(burning);
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+    await page.mouse.up();
+
+    // Tweaks: a 3 s lap takes no less than 3 s of holding to fire…
+    let tuned = await holdOnStage(page, "fuse-button", "Fuse Button", "burn:3");
+    let tunedFuse = tuned.getByRole("button", { name: "Hold to deploy" });
+    let tunedLine = tuned.getByRole("status").last();
+    await expect(tunedLine).toHaveText("hold to deploy · the fuse is 3 s");
+    let tunedLog = await pressLog(tunedLine);
+    let at = await pressNow(page);
+    await pressDown(page, tunedFuse);
+    await expect(tunedLine).toHaveText(deployed, { timeout: 10_000 });
+    await page.mouse.up();
+    expect(pressTook(await tunedLog(), deployed, at)).toBeGreaterThan(3000);
+
+    // …and two laps of the default 2 s take no less than 4 s.
+    tuned = await holdOnStage(page, "fuse-button", "Fuse Button", "laps:2");
+    tunedFuse = tuned.getByRole("button", { name: "Hold to deploy" });
+    tunedLine = tuned.getByRole("status").last();
+    await expect(tunedLine).toHaveText("hold to deploy · the fuse is 4 s");
+    tunedLog = await pressLog(tunedLine);
+    at = await pressNow(page);
+    await pressDown(page, tunedFuse);
+    await expect(tunedLine).toHaveText(deployed, { timeout: 12_000 });
+    await page.mouse.up();
+    expect(pressTook(await tunedLog(), deployed, at)).toBeGreaterThan(4000);
+  });
+
+  test("print-hold: a still held pointer and a held Enter each read the print through Checking to Confirmed, lifting early, slipping past 16px and Escape each stop the read with the reason in words, and Reset arms it again", async ({
+    page,
+  }) => {
+    test.setTimeout(180_000);
+    await countAudio(page);
+    await holdGoto(page, "/components/print-hold");
+    const stage = pressStage(page);
+    const pad = stage.getByRole("button", {
+      name: "Hold to approve 1,240.00 to Fernworks Supply",
+    });
+    const caption = stage.getByRole("status").first();
+    const line = stage.getByRole("status").last();
+    const reset = stage.getByRole("button", { name: "Reset" });
+    const pending = "transfer pending · hold the pad";
+    const approved = "transfer approved · 1,240.00 sent";
+    const reading = "Reading — keep holding";
+
+    await expect(pad).toHaveAccessibleDescription("Press and hold the pad");
+    await expect(pad).not.toHaveAttribute("aria-disabled");
+    await expect(line).toHaveText(pending);
+    await expect(reset).toBeDisabled();
+
+    // Lifted early, the read drains and the caption says why.
+    await pressDown(page, pad);
+    await expect(pad).toHaveAccessibleDescription(reading);
+    await page.mouse.up();
+    await expect(pad).toHaveAccessibleDescription(
+      "Released early — hold until it fills",
+    );
+    await expect(line).toHaveText(pending);
+
+    // Moved more than 16px, the read is refused, however long the thumb
+    // then stays down.
+    await pressDown(page, pad);
+    await expect(pad).toHaveAccessibleDescription(reading);
+    const p = await hoverBox(pad);
+    await page.mouse.move(p.x + p.width / 2 + 20, p.y + p.height / 2, {
+      steps: 5,
+    });
+    await expect(pad).toHaveAccessibleDescription(
+      "Moved — keep your thumb still",
+    );
+    await hoverFor(page, 1800);
+    await page.mouse.up();
+    await expect(pad).toHaveAccessibleDescription(
+      "Moved — keep your thumb still",
+    );
+    await expect(line).toHaveText(pending);
+
+    // Held still: the whole read (never under its 1.6 s), Checking while the
+    // bank answers, then Confirmed, and the pad takes no more holds. Checking
+    // lasts only as long as the bank takes, so it is read from the log.
+    const log = await pressLog(caption, "span:not([aria-hidden])");
+    const pressed = await pressNow(page);
+    await pressDown(page, pad);
+    await expect(pad).toHaveAccessibleDescription("Confirmed");
+    await page.mouse.up();
+    await expect(pad).toHaveAttribute("aria-disabled", "true");
+    await expect(line).toHaveText(approved);
+    await expect(reset).toBeEnabled();
+    const checked = pressTook(await log(), "Checking", pressed);
+    expect(pressTook(await log(), reading, pressed)).toBeLessThan(checked);
+    expect(checked).toBeGreaterThan(1600);
+    await pressDown(page, pad);
+    await hoverFor(page, 400);
+    await page.mouse.up();
+    await expect(pad).toHaveAccessibleDescription("Confirmed");
+    await expect(line).toHaveText(approved);
+
+    // Reset arms it again.
+    await reset.click();
+    await expect(pad).toHaveAccessibleDescription("Press and hold the pad");
+    await expect(pad).not.toHaveAttribute("aria-disabled");
+    await expect(line).toHaveText(pending);
+    await expect(reset).toBeDisabled();
+    expect(await audioContexts(page)).toBe(0);
+
+    // Keyboard, from a fresh pad: a held Space reads and letting go early
+    // drains; Escape mid-read cancels…
+    await holdGoto(page, "/components/print-hold");
+    await pad.focus();
+    await page.keyboard.down("Space");
+    await expect(pad).toHaveAccessibleDescription(reading);
+    await page.keyboard.up("Space");
+    await expect(pad).toHaveAccessibleDescription(
+      "Released early — hold until it fills",
+    );
+    await page.keyboard.down("Space");
+    await expect(pad).toHaveAccessibleDescription(reading);
+    await page.keyboard.press("Escape");
+    await expect(pad).toHaveAccessibleDescription("Cancelled");
+    await page.keyboard.up("Space");
+    await expect(pad).toHaveAccessibleDescription("Cancelled");
+    await expect(line).toHaveText(pending);
+    // …and a held Enter, its key repeat ignored, reads through to the same
+    // Confirmed the pointer reached.
+    const keyLog = await pressLog(caption, "span:not([aria-hidden])");
+    await page.keyboard.down("Enter");
+    await expect(pad).toHaveAccessibleDescription(reading);
+    await page.keyboard.down("Enter");
+    await expect(pad).toHaveAccessibleDescription("Confirmed");
+    await page.keyboard.up("Enter");
+    await holdSaw(keyLog, "Checking");
+    await expect(pad).toHaveAttribute("aria-disabled", "true");
+    await expect(line).toHaveText(approved);
+    await expect(pad).toBeFocused();
+
+    // An assistive click, with no key to hold, runs a whole read.
+    await reset.click();
+    await expect(line).toHaveText(pending);
+    await pad.evaluate((button) => (button as HTMLButtonElement).click());
+    await expect(pad).toHaveAccessibleDescription("Confirmed", {
+      timeout: 10_000,
+    });
+    await expect(line).toHaveText(approved);
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on (the page hands over to a fresh demo), the hold is heard.
+    await holdSoundOn(page, pad);
+    await expect(line).toHaveText(pending);
+    expect(await audioContexts(page)).toBe(0);
+    await pressDown(page, pad);
+    await expect(pad).toHaveAccessibleDescription(reading);
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+    await page.mouse.up();
+
+    // Tweaks: a 3 s read that condenses into a padlock and says Unlocked…
+    let tuned = await holdOnStage(
+      page,
+      "print-hold",
+      "Print Hold",
+      "scan:3,feedback:unlock",
+    );
+    let tunedPad = tuned.getByRole("button", { name: /^Hold to approve/ });
+    const tunedLog = await pressLog(
+      tuned.getByRole("status").first(),
+      "span:not([aria-hidden])",
+    );
+    const from = await pressNow(page);
+    await pressDown(page, tunedPad);
+    await expect(tunedPad).toHaveAccessibleDescription("Unlocked", {
+      timeout: 10_000,
+    });
+    await page.mouse.up();
+    await expect(tuned.getByRole("status").last()).toHaveText(approved);
+    const slowRead = pressTook(await tunedLog(), "Checking", from);
+    expect(pressTook(await tunedLog(), reading, from)).toBeLessThan(slowRead);
+    expect(slowRead).toBeGreaterThan(3000);
+
+    // …and Escape cancels a read without closing the stage.
+    tuned = await holdOnStage(page, "print-hold", "Print Hold", "scan:3");
+    tunedPad = tuned.getByRole("button", { name: /^Hold to approve/ });
+    await tunedPad.focus();
+    await page.keyboard.down("Space");
+    await expect(tunedPad).toHaveAccessibleDescription(reading);
+    await page.keyboard.press("Escape");
+    await expect(tunedPad).toHaveAccessibleDescription("Cancelled");
+    await page.keyboard.up("Space");
+    await expect(dialogOf(page, "Print Hold")).toBeVisible();
+  });
+
+  test("jiggle-mode: a quick press or Space opens a tile, a held pointer or held Space ripples the grid into edit mode, a drag and the arrow keys carry a tile to the same slot, the remove badge and Delete take a tile away and Undo brings it back, and Done or Escape settles it", async ({
+    page,
+  }) => {
+    test.setTimeout(180_000);
+    await countAudio(page);
+    await holdGoto(page, "/components/jiggle-mode");
+    const stage = pressStage(page);
+    const grid = stage.getByRole("list", { name: "Fieldline shortcuts" });
+    const tiles = grid.getByRole("listitem");
+    const tile = (name: string) =>
+      grid.getByRole("button", { name, exact: true });
+    const said = stage.getByRole("status").first();
+    const line = stage.getByRole("status").last();
+    const done = stage.getByRole("button", { name: "Done" });
+    const undo = stage.getByRole("button", { name: "Undo" });
+    const badges = grid.getByRole("button", { name: /^Remove / });
+    const home = [
+      "Inbox",
+      "Calendar",
+      "Files",
+      "Budget",
+      "Notes",
+      "Reports",
+      "Team",
+      "Settings",
+    ];
+    // Budget carried one row down, into the last slot.
+    const moved = [...home.filter((n) => n !== "Budget"), "Budget"];
+    const editing =
+      "Editing Fieldline shortcuts. Drag a tile or press Space to move it, Delete to remove it, Escape when done.";
+
+    await expect(tiles).toHaveText(home);
+    await expect(line).toHaveText("8 shortcuts · hold one to edit");
+    await expect(tile("Budget")).toHaveAccessibleDescription(
+      "Press to open. Hold for a moment, with a finger or with Space, to edit.",
+    );
+    // One tab stop for the whole grid.
+    await expect(grid.locator("button[tabindex='0']")).toHaveCount(1);
+    await expect(badges).toHaveCount(0);
+    await hoverCentre(page, grid);
+
+    // A quick press opens the tile.
+    await pressTap(page, tile("Budget"));
+    await expect(line).toHaveText("8 shortcuts · opened budget");
+
+    // Held for the delay, the grid goes into edit mode, every tile with a
+    // badge; the release after it opens nothing.
+    const log = await pressLog(line);
+    const pressed = await pressNow(page);
+    await pressDown(page, tile("Budget"));
+    await expect(line).toHaveText("editing · drag to reorder");
+    const held = pressTook(await log(), "editing · drag to reorder", pressed);
+    expect(held).toBeGreaterThan(500);
+    await expect(said).toHaveText(editing);
+    await page.mouse.up();
+    await expect(badges).toHaveCount(8);
+    await expect(done).toBeVisible();
+    await expect(tile("Budget")).toHaveAccessibleDescription(
+      "Editing. Space picks a tile up to move it, Delete removes it, Escape finishes.",
+    );
+
+    // A drag carries Budget a row down into the last slot; the new order is
+    // reported once, on the drop.
+    const b = await hoverBox(tile("Budget"));
+    const grip = { x: b.x + b.width / 2, y: b.y + b.height / 2 };
+    await holdDrag(page, grip, { x: grip.x, y: grip.y + 72 });
+    await expect(said).toHaveText("Budget moved, 8 of 8.");
+    await expect(tiles).toHaveText(moved);
+    await expect(line).toHaveText("editing · drag to reorder");
+
+    // The remove badge takes a tile away at once; Undo puts it back in its
+    // slot.
+    // The tiles rock, so each press goes to wherever its target is now.
+    await hoverPress(page, grid.getByRole("button", { name: "Remove Notes" }));
+    await expect(said).toHaveText("Notes removed, 7 left.");
+    await expect(tiles).toHaveText(moved.filter((n) => n !== "Notes"));
+    await undo.click();
+    await expect(said).toHaveText("Notes restored, 8 tiles.");
+    await expect(tiles).toHaveText(moved);
+
+    // Done leaves edit mode.
+    await done.click();
+    await expect(said).toHaveText("Done editing.");
+    await expect(line).toHaveText("8 shortcuts · notes restored");
+    await expect(badges).toHaveCount(0);
+    await expect(done).toHaveCount(0);
+    expect(await audioContexts(page)).toBe(0);
+
+    // Keyboard, from a fresh grid: the arrows walk the tiles in two
+    // dimensions and a quick Space opens one…
+    await holdGoto(page, "/components/jiggle-mode");
+    await tile("Inbox").focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(tile("Calendar")).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await expect(tile("Reports")).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(tile("Settings")).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(tile("Inbox")).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(tile("Budget")).toBeFocused();
+    await expect(tile("Budget")).toHaveAttribute("tabindex", "0");
+    await page.keyboard.press("Space");
+    await expect(line).toHaveText("8 shortcuts · opened budget");
+    // …held for the delay, it ripples the grid into edit mode.
+    await page.keyboard.down("Space");
+    await expect(line).toHaveText("editing · drag to reorder");
+    await expect(said).toHaveText(editing);
+    await page.keyboard.up("Space");
+    await expect(badges).toHaveCount(8);
+    // Space picks Budget up, ArrowDown carries it a row down and Space drops
+    // it: the order the drag made.
+    await page.keyboard.press("Space");
+    await expect(said).toHaveText(
+      "Budget picked up, 4 of 8. Arrows move it, Space drops it, Escape puts it back.",
+    );
+    await page.keyboard.press("ArrowDown");
+    await expect(said).toHaveText("Budget, 8 of 8.");
+    await page.keyboard.press("Space");
+    await expect(said).toHaveText("Budget dropped, 8 of 8.");
+    await expect(tiles).toHaveText(moved);
+    await expect(tile("Budget")).toBeFocused();
+    // Escape with a tile in hand puts it back where it was.
+    await page.keyboard.press("Space");
+    await page.keyboard.press("Home");
+    await expect(said).toHaveText("Budget, 1 of 8.");
+    await page.keyboard.press("Escape");
+    await expect(said).toHaveText("Budget put back, 8 of 8.");
+    await expect(tiles).toHaveText(moved);
+    await expect(line).toHaveText("editing · drag to reorder");
+    // Delete does the badge's job, and focus moves to the tile now in that
+    // slot.
+    await page.keyboard.press("Delete");
+    await expect(said).toHaveText("Budget removed, 7 left.");
+    await expect(tiles).toHaveText(moved.slice(0, 7));
+    await expect(tile("Settings")).toBeFocused();
+    // Escape with nothing in hand leaves edit mode, focus kept on the grid.
+    await page.keyboard.press("Escape");
+    await expect(said).toHaveText("Done editing.");
+    await expect(line).toHaveText("7 shortcuts · budget removed");
+    await expect(badges).toHaveCount(0);
+    await expect(tile("Settings")).toBeFocused();
+    // Undo, outside edit mode too, brings Budget back to its slot.
+    await undo.click();
+    await expect(said).toHaveText("Budget restored, 8 tiles.");
+    await expect(tiles).toHaveText(moved);
+    await expect(line).toHaveText("8 shortcuts · budget restored");
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on (the page hands over to a fresh demo), edit mode
+    // starting is heard.
+    await holdSoundOn(page, grid);
+    await expect(line).toHaveText("8 shortcuts · hold one to edit");
+    expect(await audioContexts(page)).toBe(0);
+    await hoverCentre(page, grid);
+    await pressDown(page, tile("Inbox"));
+    await expect(line).toHaveText("editing · drag to reorder");
+    await page.mouse.up();
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+
+    // Tweaks: a one-second hold, and check badges that mark tiles for Done.
+    const tuned = await holdOnStage(
+      page,
+      "jiggle-mode",
+      "Jiggle Mode",
+      "badge:check,delay:1000",
+    );
+    const tunedGrid = tuned.getByRole("list", { name: "Fieldline shortcuts" });
+    const tunedTile = (name: string) =>
+      tunedGrid.getByRole("button", { name, exact: true });
+    const tunedSaid = tuned.getByRole("status").first();
+    const tunedLine = tuned.getByRole("status").last();
+    const tunedLog = await pressLog(tunedLine);
+    const from = await pressNow(page);
+    await pressDown(page, tunedTile("Budget"));
+    await expect(tunedLine).toHaveText("editing · drag to reorder");
+    await page.mouse.up();
+    const slow = pressTook(await tunedLog(), "editing · drag to reorder", from);
+    expect(slow).toBeGreaterThan(1000);
+    await expect(tunedGrid.getByRole("button", { name: /^Keep / })).toHaveCount(
+      8,
+    );
+    const keep = tunedTile("Keep Budget");
+    await expect(keep).toHaveAttribute("aria-pressed", "true");
+    await hoverPress(page, keep);
+    await expect(keep).toHaveAttribute("aria-pressed", "false");
+    await expect(tunedSaid).toHaveText("Budget will be removed on Done.");
+    // A tap on a tile marks it too, and a second tap keeps it again.
+    await hoverPress(page, tunedTile("Notes"));
+    await expect(tunedSaid).toHaveText("Notes will be removed on Done.");
+    await hoverPress(page, tunedTile("Notes"));
+    await expect(tunedSaid).toHaveText("Notes kept.");
+    await expect(tunedTile("Keep Notes")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    // Escape, claimed from the stage, takes the marked tile away on Done.
+    await tunedTile("Inbox").focus();
+    await page.keyboard.press("Escape");
+    await expect(tunedSaid).toHaveText("Done. 1 removed, 7 left.");
+    await expect(tunedLine).toHaveText("7 shortcuts · budget removed");
+    await expect(tunedGrid.getByRole("listitem")).toHaveText(
+      home.filter((n) => n !== "Budget"),
+    );
+    await expect(dialogOf(page, "Jiggle Mode")).toBeVisible();
+  });
+
+  test("drop-pin: a still held pointer and the keyboard's crosshair drop the pin on the same square, an early lift or a slip drops nothing, a dragged pin and the arrow keys land on the same new square, and Delete or Clear removes it", async ({
+    page,
+  }) => {
+    test.setTimeout(180_000);
+    await countAudio(page);
+    await holdGoto(page, "/components/drop-pin");
+    const stage = pressStage(page);
+    const map = stage.getByRole("application", {
+      name: "Drop-off point for Fernworks order FW-4410",
+    });
+    const said = map.getByRole("status");
+    const line = stage.getByRole("status").last();
+    const clear = stage.getByRole("button", { name: "Clear" });
+    const none = "no pin · hold anywhere on the map";
+    const first = "drop-off set · K3 · 320.0 E · 35.0 N";
+    const second = "drop-off set · L2 · 350.0 E · 55.0 N";
+
+    await expect(map).toHaveAttribute("aria-roledescription", "map");
+    await expect(map).toHaveAccessibleDescription(
+      "Hold anywhere to drop a pin, or use the arrow keys to move the crosshair, Shift to move it further, Enter to drop the pin and Delete to remove it.",
+    );
+    await expect(line).toHaveText(none);
+    await expect(said).toHaveText("");
+    await expect(clear).toBeDisabled();
+
+    await hoverCentre(page, map);
+    const m = await hoverBox(map);
+    const spot = holdOnMap(m, 640, 130);
+
+    // An early lift drops nothing, and nor does a finger that slips 12px,
+    // however long it then stays down.
+    await page.mouse.move(spot.x, spot.y, { steps: 4 });
+    await page.mouse.down();
+    await page.mouse.up();
+    await holdDownAt(page, spot);
+    await page.mouse.move(spot.x + 12, spot.y, { steps: 4 });
+    await hoverFor(page, 900);
+    await page.mouse.up();
+    await expect(line).toHaveText(none);
+    await expect(said).toHaveText("");
+
+    // Held still, the pin drops there once the delay has passed, and its
+    // square and grid reference are said.
+    const log = await pressLog(line);
+    const pressed = await pressNow(page);
+    await holdDownAt(page, spot);
+    await expect(said).toHaveText("Pin dropped at K3, 320.0 east, 35.0 north.");
+    await expect(line).toHaveText(first);
+    await page.mouse.up();
+    const held = pressTook(await log(), first, pressed);
+    expect(held).toBeGreaterThan(450);
+    await expect(clear).toBeEnabled();
+
+    // The pin drags 1:1 to a new square and is set down there.
+    await holdDrag(
+      page,
+      { x: spot.x, y: spot.y - 16 },
+      { x: spot.x + 60, y: spot.y - 56 },
+    );
+    await expect(said).toHaveText("Pin moved to L2, 350.0 east, 55.0 north.");
+    await expect(line).toHaveText(second);
+
+    // Clear, from the host, takes it away.
+    await clear.click();
+    await expect(line).toHaveText(none);
+    await expect(clear).toBeDisabled();
+    expect(await audioContexts(page)).toBe(0);
+
+    // Keyboard, from a fresh map: focus brings a crosshair to the middle,
+    // Shift+arrow moves it 40 units and an arrow 10, and Enter drops the pin
+    // on the square the pointer's hold did.
+    await holdGoto(page, "/components/drop-pin");
+    await map.focus();
+    await page.keyboard.press("Shift+ArrowRight");
+    for (let k = 0; k < 3; k += 1) await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+    await expect(said).toHaveText("Pin dropped at K3, 320.0 east, 35.0 north.");
+    await expect(line).toHaveText(first);
+    // The crosshair names each new square it enters; Space drops the pin on
+    // the square the drag reached.
+    await page.keyboard.press("Shift+ArrowRight");
+    await page.keyboard.press("ArrowRight");
+    await expect(said).toHaveText("Crosshair L3.");
+    await page.keyboard.press("ArrowRight");
+    await page.keyboard.press("Shift+ArrowUp");
+    await expect(said).toHaveText("Crosshair L2.");
+    await page.keyboard.press("Space");
+    await expect(said).toHaveText("Pin dropped at L2, 350.0 east, 55.0 north.");
+    await expect(line).toHaveText(second);
+    // Delete removes it.
+    await page.keyboard.press("Delete");
+    await expect(said).toHaveText("Pin removed.");
+    await expect(line).toHaveText(none);
+    await expect(clear).toBeDisabled();
+    expect(await audioContexts(page)).toBe(0);
+
+    // With sound on (the page hands over to a fresh demo), the drop is heard.
+    await holdSoundOn(page, map);
+    expect(await audioContexts(page)).toBe(0);
+    await map.focus();
+    await page.keyboard.press("Enter");
+    await expect(line).toHaveText(/^drop-off set · /);
+    await expect.poll(() => audioContexts(page)).toBeGreaterThan(0);
+
+    // Tweaks: a one-second hold that drops a red pin.
+    const tuned = await holdOnStage(
+      page,
+      "drop-pin",
+      "Drop Pin",
+      "delay:1000,colour:red",
+    );
+    const tunedMap = tuned.getByRole("application");
+    const tunedLine = tuned.getByRole("status").last();
+    const t = await hoverBox(tunedMap);
+    const tunedLog = await pressLog(tunedLine);
+    const from = await pressNow(page);
+    await holdDownAt(page, holdOnMap(t, 600, 100));
+    await expect(tunedLine).toHaveText("drop-off set · K3 · 300.0 E · 50.0 N");
+    await page.mouse.up();
+    const slow = pressTook(
+      await tunedLog(),
+      "drop-off set · K3 · 300.0 E · 50.0 N",
+      from,
+    );
+    expect(slow).toBeGreaterThan(1000);
+    // The pin's head is painted in the danger colour.
+    const head = await tunedMap
+      .locator("svg[width='24'] path")
+      .first()
+      .evaluate((el) => getComputedStyle(el).fill);
+    const danger = await page.evaluate(() => {
+      const probe = document.createElement("i");
+      probe.style.color = "var(--danger)";
+      document.body.append(probe);
+      const colour = getComputedStyle(probe).color;
+      probe.remove();
+      return colour;
+    });
+    expect(head).toBe(danger);
+  });
+});
+
+/*
+ * The four defects the hold tests found, each pinned where it was fixed:
+ * a key step counted from a level still draining, a menu that slid under a
+ * still finger and was chosen, a reset's fading light picked up by a tap,
+ * and a click during the re-lay that left the fuse held for good.
+ */
+test.describe("tactile hold regressions", () => {
+  test("pour-hold: a key step taken while the glass drains counts from the value it drains to", async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+    await holdGoto(page, "/components/pour-hold");
+    const stage = pressStage(page);
+    const line = stage.getByRole("status").last();
+    const glass = stage.getByRole("slider", { name: "Water" });
+    await glass.focus();
+    await page.keyboard.press("End");
+    await expect(line).toHaveText(/full glass/i, { timeout: 30_000 });
+    await page.keyboard.press("Home");
+    await page.keyboard.press("ArrowUp");
+    await expect(glass).toHaveAttribute("aria-valuenow", "10");
+    await expect(line).not.toHaveText(/full glass/i);
+  });
+
+  test("peek-hold: letting go without sliding keeps a lower row's preview open, whatever lands under the finger", async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+    await holdGoto(page, "/components/peek-hold");
+    const stage = pressStage(page);
+    const line = stage.getByRole("status").last();
+    const inbox = stage.getByRole("list", { name: "Inbox" });
+    for (const name of ["Waylight Pay", "Basinworks"]) {
+      const row = inbox.getByRole("button", { name: new RegExp(name) });
+      await row.scrollIntoViewIfNeeded();
+      const box = await row.boundingBox();
+      if (!box) throw new Error(`no box for ${name}`);
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      await page.mouse.down();
+      await expect(line).toHaveText(`peeking · ${name.toLowerCase()}`);
+      // Let the menu finish sliding into place under the resting finger.
+      await expect(stage.getByRole("menu")).toBeVisible();
+      await page.mouse.up();
+      await expect(line).toHaveText(`peeking · ${name.toLowerCase()}`);
+      await expect(stage.getByRole("menu")).toHaveCount(1);
+      await page.keyboard.press("Escape");
+      await expect(stage.getByRole("menu")).toHaveCount(0);
+    }
+  });
+
+  test("print-hold: after Reset a quick tap starts a fresh read instead of approving", async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+    await holdGoto(page, "/components/print-hold");
+    const stage = pressStage(page);
+    const caption = stage.getByRole("status").first();
+    const line = stage.getByRole("status").last();
+    const pad = stage.getByRole("button", { name: /^Hold to approve/ });
+    await pad.focus();
+    await page.keyboard.down("Enter");
+    await expect(line).toHaveText(/transfer approved/i, { timeout: 30_000 });
+    await page.keyboard.up("Enter");
+    // Reset and put the thumb straight back, while the finished read's light
+    // is still going out: all in one turn of the page, so no round trip lets
+    // the light finish draining first.
+    await stage.evaluate((root) => {
+      const buttons = Array.from(root.querySelectorAll("button"));
+      buttons.find((b) => b.textContent?.trim() === "Reset")?.click();
+      buttons
+        .find((b) =>
+          (b.getAttribute("aria-label") ?? b.textContent ?? "").startsWith(
+            "Hold to approve",
+          ),
+        )
+        ?.focus();
+    });
+    await page.keyboard.down(" ");
+    await page.waitForTimeout(120);
+    await page.keyboard.up(" ");
+    // A 120ms tap is a read stopped short, never an approval.
+    await expect(caption).toHaveText("Released early — hold until it fills");
+    await expect(line).toHaveText(/transfer pending/i);
+  });
+
+  test("fuse-button: a click while a spent fuse is re-laid leaves it ready for the next hold", async ({
+    page,
+  }) => {
+    test.setTimeout(120_000);
+    await holdGoto(page, "/components/fuse-button");
+    const stage = pressStage(page);
+    const line = stage.getByRole("status").last();
+    const fuse = stage.getByRole("button", { name: "Hold to deploy" });
+    // An assistive click burns it through; the moment the demo says the fuse
+    // is re-laid (the spent cord is still fading out), a second click lands.
+    await stage.evaluate(
+      (root) =>
+        new Promise<void>((resolve) => {
+          const button = Array.from(root.querySelectorAll("button")).find((b) =>
+            b.textContent?.includes("Hold to deploy"),
+          );
+          const statuses = root.querySelectorAll("[role=status]");
+          const status = statuses[statuses.length - 1];
+          if (!button || !status) throw new Error("fuse or status missing");
+          let burnt = false;
+          const watch = new MutationObserver(() => {
+            const text = status.textContent ?? "";
+            if (/deployed/i.test(text)) burnt = true;
+            if (burnt && /the fuse is/i.test(text)) {
+              watch.disconnect();
+              button.click();
+              resolve();
+            }
+          });
+          watch.observe(status, {
+            subtree: true,
+            childList: true,
+            characterData: true,
+          });
+          button.click();
+        }),
+    );
+    // Once the fresh cord is in, a held Space burns it through as ever. The
+    // wait is for the re-lay's own fade, which nothing on the page reports.
+    await page.waitForTimeout(1500);
+    await fuse.focus();
+    await page.keyboard.down(" ");
+    await expect(line).toHaveText(/burning/i);
+    await expect(line).toHaveText(/deployed/i, { timeout: 30_000 });
+    await page.keyboard.up(" ");
   });
 });

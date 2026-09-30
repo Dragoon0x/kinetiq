@@ -451,9 +451,11 @@ export function FuseButton({
   const press = (source: Exclude<Held, null>) => {
     if (disabled || held.current) return;
     if (phase.current === "fired") return;
-    held.current = source;
+    // A spent cord still being re-laid takes no hold: recording one here
+    // would leave it held for good, and every later press would bail.
     const from = progress.get();
     if (from >= rounds) return;
+    held.current = source;
     run(
       "burn",
       animate(progress, rounds, {
