@@ -421,7 +421,10 @@ export function StageDialog({
                   data-specimen-stage=""
                   data-tactile-stage=""
                   className={cn(
-                    "relative flex min-h-0 flex-1 items-center justify-center overflow-auto bg-background p-6 text-foreground sm:p-10",
+                    // Safe centring: a demo taller or wider than the stage
+                    // starts at the edge and scrolls, rather than being cut
+                    // off at the top where no scroll can reach it.
+                    "relative flex min-h-0 flex-1 items-center-safe justify-center-safe overflow-auto bg-background p-6 text-foreground sm:p-10",
                     theme !== "page" && theme,
                   )}
                 >
