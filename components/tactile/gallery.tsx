@@ -238,11 +238,14 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
   return (
     <div>
       <div className="sticky top-14 z-30 border-y border-hairline bg-surface-0/85 backdrop-blur-md">
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 lg:flex-row lg:items-center">
+        {/* One row from xl, where ten verbs, search, sort and sound fit side
+            by side; below it the verbs get a full-width row of their own,
+            fading at the edge while they still scroll. */}
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 xl:flex-row xl:items-center">
           <div
             role="radiogroup"
             aria-label="Filter by what you do"
-            className="-mx-1 flex min-w-0 flex-1 [scrollbar-width:none] gap-1 overflow-x-auto px-1 py-0.5"
+            className="-mx-1 flex min-w-0 flex-1 [scrollbar-width:none] gap-0.5 overflow-x-auto px-1 py-0.5 max-lg:[mask-image:linear-gradient(to_right,black_calc(100%-2rem),transparent)]"
           >
             {chips.map((chip, index) => {
               const active = chip.slug === verb;
@@ -261,7 +264,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
                   onClick={() => setVerb(chip.slug)}
                   onKeyDown={(event) => onChipKey(event, index)}
                   className={cn(
-                    "relative inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
+                    "relative inline-flex h-8 shrink-0 items-center gap-1 rounded-full px-2.5 text-xs transition-colors outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid",
                     active ? "text-foreground" : "text-ink-3 hover:text-ink-2",
                   )}
                 >
@@ -291,7 +294,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
             })}
           </div>
           <div className="flex items-center gap-2">
-            <label className="relative flex h-9 min-w-0 flex-1 items-center lg:w-52 lg:flex-none">
+            <label className="relative flex h-9 min-w-0 flex-1 items-center xl:w-40 xl:flex-none">
               <span className="sr-only">Search Tactile</span>
               <Search
                 aria-hidden
@@ -305,7 +308,7 @@ export function TactileGallery({ items }: { items: TactileItem[] }) {
                 className="h-9 w-full rounded-2 border border-hairline bg-surface-1 pr-2 pl-8 text-xs text-foreground outline-none placeholder:text-ink-3 focus-visible:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               />
             </label>
-            <div className="w-36 shrink-0">
+            <div className="shrink-0">
               <Segmented
                 label="Sort"
                 options={[

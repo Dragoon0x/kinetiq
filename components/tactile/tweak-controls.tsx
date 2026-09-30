@@ -202,7 +202,7 @@ export function Segmented({
               onClick={() => onChange(option.value)}
               onKeyDown={(event) => onKeyDown(event, index)}
               className={cn(
-                "relative h-7 rounded-[5px] px-2.5 text-xs transition-colors",
+                "relative h-7 rounded-[5px] px-2.5 text-xs whitespace-nowrap transition-colors",
                 checked ? "text-foreground" : "text-ink-3 hover:text-ink-2",
                 focusRing,
               )}
