@@ -1220,6 +1220,16 @@ import { AnglePickDemo } from "@/registry/demos/angle-pick.demo";
 import { JogShuttleDemo } from "@/registry/demos/jog-shuttle.demo";
 import { ThumbWheelDemo } from "@/registry/demos/thumb-wheel.demo";
 import { RotaryDialDemo } from "@/registry/demos/rotary-dial.demo";
+import { BeeperDemo } from "@/registry/demos/beeper.demo";
+import { IslandPillDemo } from "@/registry/demos/island-pill.demo";
+import { InboxChuteDemo } from "@/registry/demos/inbox-chute.demo";
+import { RibbonUnfurlDemo } from "@/registry/demos/ribbon-unfurl.demo";
+import { EdgeTabDemo } from "@/registry/demos/edge-tab.demo";
+import { QuickReplyDemo } from "@/registry/demos/quick-reply.demo";
+import { LiveActivityDemo } from "@/registry/demos/live-activity.demo";
+import { PaperSlipDemo } from "@/registry/demos/paper-slip.demo";
+import { CorkNotesDemo } from "@/registry/demos/cork-notes.demo";
+import { PneumaticTubeDemo } from "@/registry/demos/pneumatic-tube.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2454,4 +2464,14 @@ export const demos: Record<string, ComponentType> = {
   "jog-shuttle": JogShuttleDemo,
   "thumb-wheel": ThumbWheelDemo,
   "rotary-dial": RotaryDialDemo,
+  beeper: BeeperDemo,
+  "island-pill": IslandPillDemo,
+  "inbox-chute": InboxChuteDemo,
+  "ribbon-unfurl": RibbonUnfurlDemo,
+  "edge-tab": EdgeTabDemo,
+  "quick-reply": QuickReplyDemo,
+  "live-activity": LiveActivityDemo,
+  "paper-slip": PaperSlipDemo,
+  "cork-notes": CorkNotesDemo,
+  "pneumatic-tube": PneumaticTubeDemo,
 };

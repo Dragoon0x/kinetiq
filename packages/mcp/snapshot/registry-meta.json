@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1029,
+      "components": 1039,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -77266,6 +77266,1106 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/angle-pick",
         "bun": "bunx --bun shadcn@latest add @kinetiq/angle-pick",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/angle-pick.json"
+      }
+    },
+    {
+      "slug": "paper-slip",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Paper Slip",
+      "serial": "KQ-1151",
+      "tagline": "Printed, torn off, read.",
+      "description": "Notices print out of a till printer as slips of paper: a new slip's lane opens a print line at a time, pushing the older slips up while the housing chatters, and its loose end curls toward you before relaxing on the drift spring. Pull a slip down and its body strains against the perforation with rubber-band give while seeded fibres stretch and snap one by one; past the tear the last fibres spring apart on the recoil spring, the body flutters out on the exit ease and the older slips drop into its place on glide, while a short pull springs back on snap. Slips share one tab stop where Up and Down move and Delete tears the focused slip through the same pull.",
+      "categories": [
+        "atelier"
+      ],
+      "keywords": [
+        "notification",
+        "receipt",
+        "printer",
+        "tear off",
+        "paper",
+        "toast",
+        "notices"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "{ id: string; title: string; body?: string; tone?: \"info\" | \"success\" | \"warn\" | \"danger\" }[]",
+          "description": "Every notice, oldest first. The newest stands at the printer's slot; only the newest `max` are on the paper."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "Fires the moment a slip tears, from the pull, key or Tear button that tore it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Notifications\"",
+          "description": "The list's accessible name, printed on the printer."
+        },
+        {
+          "name": "curl",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How far the loose end of each slip rolls toward you, 0 to 1."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "Paper feed rate and how fast a torn slip falls, 0.5 to 2."
+        },
+        {
+          "name": "paper",
+          "type": "\"white\" | \"cream\" | \"thermal\"",
+          "defaultValue": "\"thermal\"",
+          "description": "The paper stock and its ink; warnings and alerts print in a second, red ink."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How many slips stand on the paper at once, 2 to 6; older ones are counted above."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The tear, the flutter, and the print head's whir (heard only when a print follows the visitor's own press)."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Slips can be read but not torn."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root; it is 416px tall by default and a height class resizes it."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: slips are articles in one tab stop (the newest by default); Up and Down move between them, Home and End jump, and Delete or Backspace tears the focused slip with the same pull and flutter. Every stub carries a Tear button for assistive technology, and focus moves to the neighbouring slip at the tear.",
+        "Reduced motion: a print fades the slip in at rest with no chatter, the curl is still, and a tear fades the body out instead of fluttering; the paper still follows a pulling finger, and every sound and announcement is unchanged.",
+        "Controlled: onDismiss fires at the tear. Remove the notice and the slip finishes falling; keep it and the slip is printed back where it stood. New notices are announced politely (alerts assertively) once, and removals once the host has removed them."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/paper-slip",
+      "registryItemUrl": "https://www.kinetiqui.com/r/paper-slip.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/paper-slip",
+        "npm": "npx shadcn@latest add @kinetiq/paper-slip",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/paper-slip",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/paper-slip",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/paper-slip.json"
+      }
+    },
+    {
+      "slug": "cork-notes",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Cork Notes",
+      "serial": "KQ-1152",
+      "tagline": "Pinned up where you'll see it.",
+      "description": "Notices land on a framed cork board as small paper cards hanging at seeded angles: each card settles on the glide spring and its pushpin drops in after it on the exit ease, biting with the head taking the hit on the recoil spring as the card jolts, and hovering or focusing a card lifts it to the front on snap. Pull a pin up and away and it gives only a rubber-banded little in the cork, tugging the card's top, then comes out 1:1 with the pointer while the card flutters down off the board on the exit ease, swaying and turning over; a flick pulls, a short pull springs back on snap. Cards share one tab stop where the arrow keys move and Delete pulls the focused card's pin through the same code.",
+      "categories": [
+        "atelier"
+      ],
+      "keywords": [
+        "notification",
+        "cork board",
+        "pin",
+        "sticky note",
+        "board",
+        "notices",
+        "toast"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "{ id: string; title: string; body?: string; tone?: \"info\" | \"success\" | \"warn\" | \"danger\" }[]",
+          "description": "Every notice, oldest first. Only the newest `max` are pinned; the rest are counted on the frame."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "Fires the moment a pin comes out, from the pull or the key that pulled it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Board\"",
+          "description": "The board's accessible name."
+        },
+        {
+          "name": "tilt",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "How crooked the cards hang, in degrees, 0 to 12; each card's angle is seeded from its id."
+        },
+        {
+          "name": "pins",
+          "type": "\"round\" | \"flat\" | \"tack\"",
+          "defaultValue": "\"round\"",
+          "description": "The pin each card hangs from: a glossy ball head, a brass thumbtack, or a tall push-pin."
+        },
+        {
+          "name": "cork",
+          "type": "\"light\" | \"dark\"",
+          "defaultValue": "\"light\"",
+          "description": "The board's cork and frame."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How many cards are pinned at once, 2 to 6."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The pin's thock and the paper (an arrival's thock is heard only when it follows the visitor's own press)."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Cards can be read but not taken down."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root; the board keeps an 8:5 aspect at the root's width."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: cards are articles in one tab stop (the newest by default); the arrow keys move through them in pinning order, Home and End jump, and Delete or Backspace pulls the focused card's pin with the same pull and fall. Each pin is also a real button for assistive technology, and focus moves to the neighbouring card when a pin comes out.",
+        "Reduced motion: cards and pins fade in where they hang, hover lifts with shadow and order only, and a pulled card fades out in place; a dragged pin still follows the pointer, and every sound and announcement is unchanged.",
+        "Controlled: onDismiss fires when the pin comes out. Remove the notice and the card finishes falling; keep it and the card is pinned again. A card keeps its place on the board while it hangs, and new notices are announced once (alerts assertively)."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/cork-notes",
+      "registryItemUrl": "https://www.kinetiqui.com/r/cork-notes.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/cork-notes",
+        "npm": "npx shadcn@latest add @kinetiq/cork-notes",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/cork-notes",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/cork-notes",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/cork-notes.json"
+      }
+    },
+    {
+      "slug": "pneumatic-tube",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pneumatic Tube",
+      "serial": "KQ-1153",
+      "tagline": "Mail by air pressure.",
+      "description": "Notices wait as capsules in the foot of a glass tube and are delivered one at a time: the next shoots up on an accelerating tween, turning with the tube round both bends while the glass fogs behind it and an air gauge's needle swings up on the snap spring, drops into the cup, lands squashing on the recoil spring, pops its cap on snap and unrolls its note on the glide spring. Tap the note and it rolls back up on glide, the cap shuts on flick and the capsule leaves down the return tube on the exit ease as the next one launches. The note and the waiting capsules share one tab stop: Up and Down move, Enter or Delete sends the note back, and Delete drops a waiting capsule unread.",
+      "categories": [
+        "atelier"
+      ],
+      "keywords": [
+        "notification",
+        "pneumatic tube",
+        "capsule",
+        "queue",
+        "inbox",
+        "message",
+        "notices"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "{ id: string; title: string; body?: string; tone?: \"info\" | \"success\" | \"warn\" | \"danger\" }[]",
+          "description": "Every notice, oldest first: the oldest is in the cup, the rest wait in the tube in order."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "Fires when the reader sends a note back, or drops a waiting capsule unread."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Tube mail\"",
+          "description": "The station's accessible name, shown at its top corner with the waiting count."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast capsules travel and drop, 0.5 to 2."
+        },
+        {
+          "name": "glass",
+          "type": "\"clear\" | \"frosted\" | \"amber\"",
+          "defaultValue": "\"clear\"",
+          "description": "The tubes' glass and the colour of the fog it holds."
+        },
+        {
+          "name": "capsule",
+          "type": "\"brass\" | \"copper\" | \"steel\"",
+          "defaultValue": "\"brass\"",
+          "description": "The capsules' metal."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The whoosh, the landing thud and the cap's pop (a delivery is heard only when it follows the visitor's own press)."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Notes are still delivered and can be read, but not sent back or dropped."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root; the station keeps an 8:11 aspect at the root's width."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the note in the cup and the waiting capsules share one tab stop; Up and Down move, Home and End jump. Enter, Space or Delete on the note rolls it up and sends it back (focus waits on the station and moves onto the next note when it lands); Delete on a waiting capsule drops it out of the tube unread.",
+        "Reduced motion: nothing travels, squashes or fogs; a delivery fades the capsule into the cup and the whole note in, and sending back fades them out, while the queue updates in place; sounds and announcements are unchanged.",
+        "Controlled: onDismiss fires at the tap or key. Remove the notice and the capsule goes; keep it and it comes round again in its turn. A notice removed while it is in the cup is rolled up and sent back by itself. Arrivals are announced once (alerts assertively)."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pneumatic-tube",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pneumatic-tube.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pneumatic-tube",
+        "npm": "npx shadcn@latest add @kinetiq/pneumatic-tube",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pneumatic-tube",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pneumatic-tube",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pneumatic-tube.json"
+      }
+    },
+    {
+      "slug": "beeper",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Beeper",
+      "serial": "KQ-1154",
+      "tagline": "It buzzes across the desk.",
+      "description": "A pocket pager on the desk: a new notice buzzes it in pulses that say how urgent it is, and during each pulse it walks a seeded step across the surface and stays where it walked, while the backlight comes up and the message steps across a 14-segment display a whole character at a time. Pressing its one button acknowledges the message and loads the next on springs.flick; holding it charges a bar along the cells and clears everything at 900ms. The display is a focusable message named by its whole text — arrow keys read the others, Delete acknowledges, Shift+Delete clears — and Space or Enter on the button presses or holds it the same way a finger does.",
+      "categories": [
+        "atelier"
+      ],
+      "keywords": [
+        "pager",
+        "notification",
+        "segment display",
+        "buzz",
+        "alert",
+        "on call",
+        "lcd"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "BeeperNotice[]",
+          "description": "The messages waiting, oldest first: { id, title, body?, tone? }. The newest arrival is the one shown."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "A message was acknowledged: the button's press, or Delete on the display."
+        },
+        {
+          "name": "onClearAll",
+          "type": "() => void",
+          "description": "Every message was cleared by holding the button or Shift+Delete. Without it, onDismiss fires for each."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Pager\"",
+          "description": "The pager's accessible name."
+        },
+        {
+          "name": "emptyText",
+          "type": "string",
+          "defaultValue": "\"No messages\"",
+          "description": "What the display reads when nothing waits."
+        },
+        {
+          "name": "buzz",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard it buzzes, 0 to 1: the shake, how far it walks and how loud. 0 is silent mode."
+        },
+        {
+          "name": "lcd",
+          "type": "\"green\" | \"amber\" | \"ice\"",
+          "defaultValue": "\"green\"",
+          "description": "The display's glass."
+        },
+        {
+          "name": "scroll",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "How fast the characters step across the display, 0.5 to 2."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the button and the buzz. An arrival is heard only when the visitor has just acted."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Turns the button and the display off."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the desk the pager lies on."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the display is focusable — ArrowLeft/Up show a newer message, ArrowRight/Down an older one, Home/End the newest and oldest, Delete acknowledges, Shift+Delete clears all. On the button, Space or Enter pressed and released acknowledges; held for 900ms, it clears all.",
+        "Reduced motion: nothing shakes or walks; an arrival flashes the backlight once per pulse, and long messages page in twelve-character chunks instead of travelling across the cells.",
+        "Arrivals are announced politely and danger notices assertively; the marquee is a stepped timer that runs only on screen in a visible page, and the backlight goes out after seven quiet seconds."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/beeper",
+      "registryItemUrl": "https://www.kinetiqui.com/r/beeper.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/beeper",
+        "npm": "npx shadcn@latest add @kinetiq/beeper",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/beeper",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/beeper",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/beeper.json"
+      }
+    },
+    {
+      "slug": "island-pill",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Island Pill",
+      "serial": "KQ-1155",
+      "tagline": "Grows into whatever is happening.",
+      "description": "A black island at the top edge of a screen that carries the live activity — a timer, an upload, a call — and is where notices arrive. Its width, height and corner radius each ride their own spring from one stiffness (the width leads, the height follows, the radius lags) and the body thins while the width travels fast, so it morphs like liquid rather than resizing; a notice grows it into a banner, a tap into a full card with the activity's actions and the notices, and a long press buds the actions off its bottom as droplets joined by metaball necks that pinch on springs.snap. Enter opens the card and focus follows it in, Escape or Shrink brings it back, and Shift+F10 or the menu key opens the quick actions as a menu the arrow keys move through.",
+      "categories": [
+        "atelier"
+      ],
+      "keywords": [
+        "live activity",
+        "notification",
+        "pill",
+        "morph",
+        "timer",
+        "upload",
+        "incoming call"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "IslandPillNotice[]",
+          "description": "Notices waiting in the island, oldest first: { id, title, body?, tone? }. A new one arrives as a banner."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "A notice was dismissed from the open card: its ×, or Delete."
+        },
+        {
+          "name": "state",
+          "type": "\"timer\" | \"upload\" | \"call\"",
+          "defaultValue": "\"timer\"",
+          "description": "The live activity the island carries. Changing it morphs the island."
+        },
+        {
+          "name": "timer",
+          "type": "{ label: string; seconds: number; paused?: boolean }",
+          "description": "The timer's label and the seconds on it; the host advances it."
+        },
+        {
+          "name": "upload",
+          "type": "{ name: string; progress: number; paused?: boolean }",
+          "description": "The file going up and its progress, 0 to 1."
+        },
+        {
+          "name": "call",
+          "type": "{ caller: string; detail?: string; connected?: boolean }",
+          "description": "The caller; once connected the call offers End instead of Decline and Answer."
+        },
+        {
+          "name": "onAction",
+          "type": "(action: IslandPillAction) => void",
+          "description": "An action chosen from the open card or the quick actions: pause, resume, lap, stop, cancel, decline, answer or end."
+        },
+        {
+          "name": "expand",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Open as the full card. A new value opens or closes the island the way a tap does; taps, outside presses and Escape change it too."
+        },
+        {
+          "name": "onExpandChange",
+          "type": "(open: boolean) => void",
+          "description": "The visitor opened or closed the card."
+        },
+        {
+          "name": "stiffness",
+          "type": "number",
+          "defaultValue": "380",
+          "description": "How stiff the liquid is, 200 to 600: slow and wobbly, or quick and firm."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The halo in the live activity's colour, 0 to 1; it flares when a notice arrives."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Live activity\"",
+          "description": "The island's accessible name."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The screen the island floats over."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the morphs and the actions."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Closes the island and takes no presses."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the screen box the island hangs in."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the island is a button — Enter or Space opens the card and focus moves to its first action; Escape or Shrink closes it and focus returns. Shift+F10 or the menu key opens the quick actions: arrows move, Home/End jump, Enter chooses, Escape or Tab closes. In the card, the notices are a list — arrows move, Delete dismisses.",
+        "Reduced motion: width, height and radius change on a short tween with no squash or overshoot, the call does not breathe, and droplets fade in place; the banner, the progress ring and the clock still update.",
+        "The call's breathing runs only on screen in a visible page; the island clips to its box and grows a spacer under the screen when the open card is taller than it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/island-pill",
+      "registryItemUrl": "https://www.kinetiqui.com/r/island-pill.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/island-pill",
+        "npm": "npx shadcn@latest add @kinetiq/island-pill",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/island-pill",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/island-pill",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/island-pill.json"
+      }
+    },
+    {
+      "slug": "inbox-chute",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Inbox Chute",
+      "serial": "KQ-1156",
+      "tagline": "Drops in, piles up.",
+      "description": "An inbox you watch fill: each notice is a card that drops through a glass chute under gravity, solved on one linear clock, lands on the pile in the tray and hops with bounce, then tips to its own seeded lean while the pile gives and the tray's count rolls on springs.snap. A tap on the tray fans the pile into a readable list newest first on springs.glide, a cascade beat apart, and gathers it back with the same bounce; Clear all tips the tray about its right end and the pile slides off, then the tray drops back level on springs.recoil. The tray is a button — Enter fans the list and focus moves to the newest card; arrows move, Delete dismisses and Escape gathers the pile.",
+      "categories": [
+        "atelier"
+      ],
+      "keywords": [
+        "inbox",
+        "notification",
+        "pile",
+        "stack",
+        "gravity",
+        "tray",
+        "clear all"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "InboxChuteNotice[]",
+          "description": "The notices in the tray, oldest first: { id, title, body?, tone? }. A new one drops down the chute."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "A notice was dismissed from the fanned list: its ×, or Delete."
+        },
+        {
+          "name": "onClearAll",
+          "type": "() => void",
+          "description": "Clear all tipped the tray. Without it, onDismiss fires for each."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Inbox\"",
+          "description": "The inbox's accessible name."
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "defaultValue": "\"Clear all\"",
+          "description": "The Clear all button's text."
+        },
+        {
+          "name": "bounce",
+          "type": "number",
+          "defaultValue": "0.35",
+          "description": "How lively a landing is, 0 to 0.8: a dead drop, or a card that hops."
+        },
+        {
+          "name": "lean",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How untidy the pile is, 0 to 10 degrees."
+        },
+        {
+          "name": "tray",
+          "type": "\"steel\" | \"wood\" | \"plastic\"",
+          "defaultValue": "\"steel\"",
+          "description": "What the tray is made of: its look and the landing's voice."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the landings, the fan and the clear. A landing is heard only when the visitor has just acted."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Folds the list and takes no presses."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the instrument's box."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: the tray is a button with aria-expanded — Enter or Space fans the pile and focus moves to the newest card. In the list, ArrowUp/Down move, Home/End jump, Delete or Backspace dismisses (focus goes to the neighbour) and Escape gathers the pile and returns focus to the tray. Clear all is a real button.",
+        "Reduced motion: nothing falls, hops or tips; an arriving card fades in on the pile, fanning and gathering swap places under an opacity dip, Clear all fades the pile out, and the count still updates.",
+        "Arrivals are announced politely and danger notices assertively; the lean is seeded per card id, so server and client draw the same pile and a card keeps its angle as others come and go."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/inbox-chute",
+      "registryItemUrl": "https://www.kinetiqui.com/r/inbox-chute.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/inbox-chute",
+        "npm": "npx shadcn@latest add @kinetiq/inbox-chute",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/inbox-chute",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/inbox-chute",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/inbox-chute.json"
+      }
+    },
+    {
+      "slug": "ribbon-unfurl",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ribbon Unfurl",
+      "serial": "KQ-1157",
+      "tagline": "A banner that rolls down and back up.",
+      "description": "A banner notice on a spring roller along the top edge: the fabric drops on a spring whose bounce is the swing, the cloth sways to rest about the roller line, and a stitched leader above the message winds back in at 7px a second, so the time left is how much leader is still out. Dragged, the ribbon follows 1:1; a throw up rolls it away on an accelerating tween, a pull past full length catches a ratchet and pins it open on snap, and anything else glides back with the release velocity. ArrowUp, Delete or Escape rolls the focused ribbon away and ArrowDown pins it.",
+      "categories": [
+        "atelier"
+      ],
+      "keywords": [
+        "banner",
+        "notice",
+        "roller",
+        "countdown",
+        "toast",
+        "dismiss",
+        "pin"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "{ id: string; title: string; body?: string; tone?: \"info\" | \"success\" | \"warn\" | \"danger\" }[]",
+          "description": "The notices, in the order they drop. One is on the roller at a time; the rest are counted beside it."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "Fires as a ribbon starts to roll away: by the hand, a key, its button, or its time running out."
+        },
+        {
+          "name": "onPin",
+          "type": "(id: string, pinned: boolean) => void",
+          "description": "Fires when the visitor pins a ribbon open, or lets it go again."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "Seconds a ribbon stays down, 3 to 12. Also its leader: 7px of stitched fabric per second, capped to what fits the surface."
+        },
+        {
+          "name": "swing",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much the ribbon bounces and sways as it lands, 0 to 1. At 0 it drops without overshoot."
+        },
+        {
+          "name": "fabric",
+          "type": "\"satin\" | \"canvas\" | \"paper\"",
+          "defaultValue": "\"satin\"",
+          "description": "The cloth and its weight: light satin with a sheen and the most sway, heavy woven canvas, or stiff paper."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Notices\"",
+          "description": "The notice region's accessible name."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The surface the roller is mounted on. The ribbon hangs over it, clipped to it."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a swish when the visitor rolls a ribbon away and a click when they pin or release it."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The ribbon ignores the hand and the keys; its time still runs."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root, which is the surface's box."
+        }
+      ],
+      "usageNotes": [
+        "Each ribbon is a focusable group: ArrowUp, Delete, Backspace or Escape rolls it away (Escape is handled with preventDefault), ArrowDown pins or unpins it, and a visible button dismisses it. A dropping ribbon is announced once, politely, or assertively for a danger tone.",
+        "Under reduced motion there is no drop, bounce, sway or turning cap: the ribbon fades in and out at full length, and the countdown still shows as the leader's stitches fading from the roller end, one a second.",
+        "The countdown holds while the ribbon is hovered, focused, dragged or pinned, while the page is hidden and while it is off screen, so a notice is never timed out while nobody can see it."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/ribbon-unfurl",
+      "registryItemUrl": "https://www.kinetiqui.com/r/ribbon-unfurl.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ribbon-unfurl",
+        "npm": "npx shadcn@latest add @kinetiq/ribbon-unfurl",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ribbon-unfurl",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ribbon-unfurl",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/ribbon-unfurl.json"
+      }
+    },
+    {
+      "slug": "edge-tab",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Edge Tab",
+      "serial": "KQ-1158",
+      "tagline": "Peeking from the side.",
+      "description": "Notices wait as cards tucked behind the edge of a surface, only a peek of each showing as a tone-coloured index tab, stacked by urgency or time and gliding to new places when the order changes. A tab follows the finger 1:1 as it is pulled out and a release past half-way lands it in view on snap with the throw's velocity; pushed back, the card tucks in on glide, clicks into a slot at the bottom and its band drains as a snooze timer, then it wakes with a nudge on snap. Arrow keys move between tabs, Enter or the arrow away from the edge pulls one out and focuses it, Escape puts it back, the arrow toward the edge snoozes and Delete dismisses.",
+      "categories": [
+        "atelier"
+      ],
+      "keywords": [
+        "notice",
+        "tab",
+        "drawer",
+        "snooze",
+        "edge",
+        "stack",
+        "notification"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "{ id: string; title: string; body?: string; tone?: \"info\" | \"success\" | \"warn\" | \"danger\"; time?: string }[]",
+          "description": "The notices, oldest first. Each waits as a tab at the edge."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "Fires from the Done button or Delete, with the dismissed notice's id."
+        },
+        {
+          "name": "onSnooze",
+          "type": "(id: string) => void",
+          "description": "Fires when a card is pushed back to the edge and its timer starts."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(id: string | null) => void",
+          "description": "The card that came out, or null when it went back."
+        },
+        {
+          "name": "peek",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "How much of each tab shows, 8 to 32 px. The tone glyph shows from 22."
+        },
+        {
+          "name": "side",
+          "type": "\"left\" | \"right\"",
+          "defaultValue": "\"right\"",
+          "description": "The edge the tabs wait at. Drag direction and arrow keys mirror with it."
+        },
+        {
+          "name": "stack",
+          "type": "\"urgency\" | \"time\"",
+          "defaultValue": "\"urgency\"",
+          "description": "Order the tabs by urgency (danger first) or by time (newest first). Snoozed tabs sit below both."
+        },
+        {
+          "name": "snoozeFor",
+          "type": "number",
+          "defaultValue": "300",
+          "description": "How long a pushed-back card sleeps, in seconds, shown as its band draining."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Notices\"",
+          "description": "The notice region's accessible name."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "The surface the tabs wait at the edge of. Cards are clipped to it."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a swish when the visitor pulls a card out or dismisses it, and a click when a snoozed card latches."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Tabs can be read but not pulled, snoozed or dismissed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root, which is the surface's box."
+        }
+      ],
+      "usageNotes": [
+        "The tabs are a roving-focus set: ArrowUp and ArrowDown move, Home and End jump, Enter, Space or the arrow away from the edge pulls a card out and moves focus into it; inside, Escape puts it back (with preventDefault), the arrow toward the edge snoozes it and Delete dismisses it. Snooze and Done are real buttons.",
+        "Under reduced motion cards appear out and back in place with a short fade, reorders jump and a wake-up brightens the band instead of nudging; the snooze timer still drains, because the time left is information.",
+        "New notices, snoozes and wake-ups are each announced once in a polite live region; a danger notice is announced assertively. Snooze timers pause while the page is hidden or the component is off screen."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/edge-tab",
+      "registryItemUrl": "https://www.kinetiqui.com/r/edge-tab.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/edge-tab",
+        "npm": "npx shadcn@latest add @kinetiq/edge-tab",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/edge-tab",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/edge-tab",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/edge-tab.json"
+      }
+    },
+    {
+      "slug": "quick-reply",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Quick Reply",
+      "serial": "KQ-1159",
+      "tagline": "Answer without leaving.",
+      "description": "A message notification you answer in place: the sender types as three dots on a staggered tween, then the dots' pill opens into the message on glide as a clip over text already laid out, and Reply expands the notice to a measured height on glide with a real field and three suggestions that slide in on snap in a cascade. Sending lifts the reply off from where its words were and throws it out of the card on an exit tween, the composer folds and a tick draws on flick. Enter replies and Delete dismisses on the notice, Enter sends and Escape goes back in the field, and the suggestions are a toolbar driven by arrow keys.",
+      "categories": [
+        "atelier"
+      ],
+      "keywords": [
+        "message",
+        "reply",
+        "notification",
+        "typing",
+        "suggestions",
+        "chat",
+        "inline"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "{ id: string; title: string; body: string; tone?: \"info\" | \"success\" | \"warn\" | \"danger\"; time?: string; initials?: string }[]",
+          "description": "The messages, front first: title is the sender, body the message. The first is answerable; the rest wait behind it."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "Fires from the dismiss button or Delete on the front message."
+        },
+        {
+          "name": "onReply",
+          "type": "(id: string, text: string) => void",
+          "description": "The reply, sent from the field with Enter or the send button, or from a suggestion."
+        },
+        {
+          "name": "suggestions",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Offer three suggested replies under the field."
+        },
+        {
+          "name": "typing",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the sender typing for a beat before each new message."
+        },
+        {
+          "name": "tone",
+          "type": "\"neutral\" | \"warm\"",
+          "defaultValue": "\"neutral\"",
+          "description": "The suggestions' wording and colour: cool and brief, or warm."
+        },
+        {
+          "name": "suggest",
+          "type": "(notice: QuickReplyNotice, tone: \"neutral\" | \"warm\") => string[]",
+          "description": "Your own three suggestions for a message and tone."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Messages\"",
+          "description": "The region's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a pop on Reply, a whoosh as the reply flies and a tick as it lands."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The message can be read but not answered or dismissed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the region."
+        }
+      ],
+      "usageNotes": [
+        "The front message is a focusable group: Enter opens the reply and Delete dismisses it. In the field Enter sends, Shift+Enter breaks a line and Escape closes it with preventDefault, returning focus to Reply; the suggestions are a toolbar with ArrowLeft, ArrowRight, Home and End.",
+        "Under reduced motion the dots fade in turn instead of bouncing, the message and chips fade in, heights change on a short tween and the reply fades where it was instead of flying; every state and sound still arrives.",
+        "Each message is announced once when it is revealed (a danger tone assertively), and a sent reply is announced once."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/quick-reply",
+      "registryItemUrl": "https://www.kinetiqui.com/r/quick-reply.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/quick-reply",
+        "npm": "npx shadcn@latest add @kinetiq/quick-reply",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/quick-reply",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/quick-reply",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/quick-reply.json"
+      }
+    },
+    {
+      "slug": "live-activity",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Live Activity",
+      "serial": "KQ-1160",
+      "tagline": "Your delivery, on its way.",
+      "description": "A live activity card for something on its way: each reported position eases a van, car or plane along a route line with a tween paced by the distance while the travelled line fills behind it, stops light as the vehicle actually passes them with a ring that pulses out once, the stage name crosses on snap and the ETA counts down from now with its minutes rolling on snap. A tap opens a measured map strip on glide where the same route, seeded streets or a flight arc, is drawn up to the vehicle, rebuilt per frame from the same eased position. The card is a real button that toggles the map with Enter or Space and names its stage and time left; Delete dismisses it.",
+      "categories": [
+        "atelier"
+      ],
+      "keywords": [
+        "delivery",
+        "tracking",
+        "eta",
+        "progress",
+        "route",
+        "map",
+        "status"
+      ],
+      "props": [
+        {
+          "name": "notices",
+          "type": "{ id: string; title: string; body?: string; tone?: \"info\" | \"success\" | \"warn\" | \"danger\"; progress: number; arrival?: number }[]",
+          "description": "The activities: progress is the last reported position (0 to 1), arrival when it is due in ms. The first is in front; the rest wait as pills."
+        },
+        {
+          "name": "onDismiss",
+          "type": "(id: string) => void",
+          "description": "Fires from the dismiss button or Delete on the front card."
+        },
+        {
+          "name": "now",
+          "type": "number | Date",
+          "description": "The current time, so the ETA renders the same on the server. Advance it to count down; without it the card keeps its own clock after mount."
+        },
+        {
+          "name": "stages",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How many stops the route has, 3 to 5, named from the mode's five."
+        },
+        {
+          "name": "mode",
+          "type": "\"courier\" | \"ride\" | \"flight\"",
+          "defaultValue": "\"courier\"",
+          "description": "What is travelling: a van on orthogonal streets, a car on rounded ones, or a plane on an arc over the sea."
+        },
+        {
+          "name": "expand",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the map strip is open. A tap toggles it; changing this prop moves it there."
+        },
+        {
+          "name": "onExpandChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the tap or key that opened or closed the map."
+        },
+        {
+          "name": "labels",
+          "type": "string[]",
+          "description": "Names for the stops, first to last: exactly `stages` of them, or five to sample from."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Live activity\"",
+          "description": "The region's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Tick when the visitor opens or closes the map, and chime each passed stop as the route draws. Live updates stay silent."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "The card still tracks but cannot be opened, switched or dismissed."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the region."
+        }
+      ],
+      "usageNotes": [
+        "The card's main area is a real button with aria-expanded controlling the map: Enter or Space toggles it, Delete dismisses the activity, and its name carries the title, the current stage and the minutes left. The stops are also a list of reached, next and to come for assistive technology.",
+        "Under reduced motion the vehicle moves to each report at once, stops light without a ring, the minutes swap without rolling and the map opens on a short tween with its route drawn whole; the ETA still counts and the stages still light.",
+        "Each newly reached stage is announced once in a polite live region; the per-second ETA is never announced. Sounds only answer the visitor: a live update that reaches a stage lights it silently."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/live-activity",
+      "registryItemUrl": "https://www.kinetiqui.com/r/live-activity.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/live-activity",
+        "npm": "npx shadcn@latest add @kinetiq/live-activity",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/live-activity",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/live-activity",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/live-activity.json"
       }
     },
     {

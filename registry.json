@@ -28554,6 +28554,290 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "beeper",
+      "type": "registry:ui",
+      "title": "Beeper",
+      "description": "A pocket pager on the desk: a new notice buzzes it in pulses that say how urgent it is, and during each pulse it walks a seeded step across the surface and stays where it walked, while the backlight comes up and the message steps across a 14-segment display a whole character at a time. Pressing its one button acknowledges the message and loads the next on springs.flick; holding it charges a bar along the cells and clears everything at 900ms. The display is a focusable message named by its whole text — arrow keys read the others, Delete acknowledges, Shift+Delete clears — and Space or Enter on the button presses or holds it the same way a finger does.",
+      "files": [
+        {
+          "path": "registry/ui/beeper.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1154"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "island-pill",
+      "type": "registry:ui",
+      "title": "Island Pill",
+      "description": "A black island at the top edge of a screen that carries the live activity — a timer, an upload, a call — and is where notices arrive. Its width, height and corner radius each ride their own spring from one stiffness (the width leads, the height follows, the radius lags) and the body thins while the width travels fast, so it morphs like liquid rather than resizing; a notice grows it into a banner, a tap into a full card with the activity's actions and the notices, and a long press buds the actions off its bottom as droplets joined by metaball necks that pinch on springs.snap. Enter opens the card and focus follows it in, Escape or Shrink brings it back, and Shift+F10 or the menu key opens the quick actions as a menu the arrow keys move through.",
+      "files": [
+        {
+          "path": "registry/ui/island-pill.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1155"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "inbox-chute",
+      "type": "registry:ui",
+      "title": "Inbox Chute",
+      "description": "An inbox you watch fill: each notice is a card that drops through a glass chute under gravity, solved on one linear clock, lands on the pile in the tray and hops with bounce, then tips to its own seeded lean while the pile gives and the tray's count rolls on springs.snap. A tap on the tray fans the pile into a readable list newest first on springs.glide, a cascade beat apart, and gathers it back with the same bounce; Clear all tips the tray about its right end and the pile slides off, then the tray drops back level on springs.recoil. The tray is a button — Enter fans the list and focus moves to the newest card; arrows move, Delete dismisses and Escape gathers the pile.",
+      "files": [
+        {
+          "path": "registry/ui/inbox-chute.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1156"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ribbon-unfurl",
+      "type": "registry:ui",
+      "title": "Ribbon Unfurl",
+      "description": "A banner notice on a spring roller along the top edge: the fabric drops on a spring whose bounce is the swing, the cloth sways to rest about the roller line, and a stitched leader above the message winds back in at 7px a second, so the time left is how much leader is still out. Dragged, the ribbon follows 1:1; a throw up rolls it away on an accelerating tween, a pull past full length catches a ratchet and pins it open on snap, and anything else glides back with the release velocity. ArrowUp, Delete or Escape rolls the focused ribbon away and ArrowDown pins it.",
+      "files": [
+        {
+          "path": "registry/ui/ribbon-unfurl.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1157"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "edge-tab",
+      "type": "registry:ui",
+      "title": "Edge Tab",
+      "description": "Notices wait as cards tucked behind the edge of a surface, only a peek of each showing as a tone-coloured index tab, stacked by urgency or time and gliding to new places when the order changes. A tab follows the finger 1:1 as it is pulled out and a release past half-way lands it in view on snap with the throw's velocity; pushed back, the card tucks in on glide, clicks into a slot at the bottom and its band drains as a snooze timer, then it wakes with a nudge on snap. Arrow keys move between tabs, Enter or the arrow away from the edge pulls one out and focuses it, Escape puts it back, the arrow toward the edge snoozes and Delete dismisses.",
+      "files": [
+        {
+          "path": "registry/ui/edge-tab.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1158"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "quick-reply",
+      "type": "registry:ui",
+      "title": "Quick Reply",
+      "description": "A message notification you answer in place: the sender types as three dots on a staggered tween, then the dots' pill opens into the message on glide as a clip over text already laid out, and Reply expands the notice to a measured height on glide with a real field and three suggestions that slide in on snap in a cascade. Sending lifts the reply off from where its words were and throws it out of the card on an exit tween, the composer folds and a tick draws on flick. Enter replies and Delete dismisses on the notice, Enter sends and Escape goes back in the field, and the suggestions are a toolbar driven by arrow keys.",
+      "files": [
+        {
+          "path": "registry/ui/quick-reply.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1159"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "live-activity",
+      "type": "registry:ui",
+      "title": "Live Activity",
+      "description": "A live activity card for something on its way: each reported position eases a van, car or plane along a route line with a tween paced by the distance while the travelled line fills behind it, stops light as the vehicle actually passes them with a ring that pulses out once, the stage name crosses on snap and the ETA counts down from now with its minutes rolling on snap. A tap opens a measured map strip on glide where the same route, seeded streets or a flight arc, is drawn up to the vehicle, rebuilt per frame from the same eased position. The card is a real button that toggles the map with Enter or Space and names its stage and time left; Delete dismisses it.",
+      "files": [
+        {
+          "path": "registry/ui/live-activity.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1160"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "paper-slip",
+      "type": "registry:ui",
+      "title": "Paper Slip",
+      "description": "Notices print out of a till printer as slips of paper: a new slip's lane opens a print line at a time, pushing the older slips up while the housing chatters, and its loose end curls toward you before relaxing on the drift spring. Pull a slip down and its body strains against the perforation with rubber-band give while seeded fibres stretch and snap one by one; past the tear the last fibres spring apart on the recoil spring, the body flutters out on the exit ease and the older slips drop into its place on glide, while a short pull springs back on snap. Slips share one tab stop where Up and Down move and Delete tears the focused slip through the same pull.",
+      "files": [
+        {
+          "path": "registry/ui/paper-slip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1151"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cork-notes",
+      "type": "registry:ui",
+      "title": "Cork Notes",
+      "description": "Notices land on a framed cork board as small paper cards hanging at seeded angles: each card settles on the glide spring and its pushpin drops in after it on the exit ease, biting with the head taking the hit on the recoil spring as the card jolts, and hovering or focusing a card lifts it to the front on snap. Pull a pin up and away and it gives only a rubber-banded little in the cork, tugging the card's top, then comes out 1:1 with the pointer while the card flutters down off the board on the exit ease, swaying and turning over; a flick pulls, a short pull springs back on snap. Cards share one tab stop where the arrow keys move and Delete pulls the focused card's pin through the same code.",
+      "files": [
+        {
+          "path": "registry/ui/cork-notes.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1152"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pneumatic-tube",
+      "type": "registry:ui",
+      "title": "Pneumatic Tube",
+      "description": "Notices wait as capsules in the foot of a glass tube and are delivered one at a time: the next shoots up on an accelerating tween, turning with the tube round both bends while the glass fogs behind it and an air gauge's needle swings up on the snap spring, drops into the cup, lands squashing on the recoil spring, pops its cap on snap and unrolls its note on the glide spring. Tap the note and it rolls back up on glide, the cap shuts on flick and the capsule leaves down the return tube on the exit ease as the next one launches. The note and the waiting capsules share one tab stop: Up and Down move, Enter or Delete sends the note back, and Delete drops a waiting capsule unread.",
+      "files": [
+        {
+          "path": "registry/ui/pneumatic-tube.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1153"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
