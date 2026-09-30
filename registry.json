@@ -29693,6 +29693,291 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ink-bleed",
+      "type": "registry:ui",
+      "title": "Ink Bleed",
+      "description": "A status line written in ink: each phrase soaks into the paper letter by letter on a seeded pen rhythm, landing as a drop on the baseline and wicking up through the glyph behind a feathered front, glossy while wet and drying to a lighter matte, and when it has rested a pad of blotting paper sweeps across and lifts it for the next phrase. Pressing the paper brings the blotter down under the pointer on springs.flick and dragging rubs it along 1:1, blotting every letter still wet under it lighter (and smeared when the pass was fast); the paper's height follows a wrapping phrase on springs.glide. The paper is a real button — Enter or Space runs the same pad along the whole line — and each phrase is announced once.",
+      "files": [
+        {
+          "path": "registry/ui/ink-bleed.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1181"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "platen-print",
+      "type": "registry:ui",
+      "title": "Platen Print",
+      "description": "A status line printed by a platen press: a small head rides a rail over a strip of card stock, and for each letter its plunger falls with the letter, which squashes onto its baseline and springs back on springs.snap while the carriage steps on a stiff spring, every impression a little uneven in density, tilt and inking. A rested phrase is wiped to a ghost as the carriage returns on springs.glide and the next prints over it; hovering or focusing slows the press on springs.drift so each strike reads. The strip is a real button — a press, a tap, Enter or Space strikes the next letter by hand, and on a finished line sends the carriage home — and each phrase is announced once.",
+      "files": [
+        {
+          "path": "registry/ui/platen-print.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1182"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "neon-strike",
+      "type": "registry:ui",
+      "title": "Neon Strike",
+      "description": "A status line in bent neon tube on a dark sign board: each phrase warms up tube by tube in an uneven, seeded order, every tube trying once or twice, striking with a white flash and flickering on keyframed tweens before it settles to a steady glow, while the board takes on the colour as more of it lights and one faulty tube keeps a stutter. Lit phrases hold, power down on an exit tween and hand over to the next; given progress, the sign becomes a meter that lights the share of each phrase its band has reached, mostly left to right. The sign is a real button — the pointer near a tube makes it flicker, a press knocks the glass and sends a flicker outward, Left and Right walk a probe along the letters and Space or Enter knocks from it — and each phrase is announced once.",
+      "files": [
+        {
+          "path": "registry/ui/neon-strike.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1183"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crossword-guess",
+      "type": "registry:ui",
+      "title": "Crossword Guess",
+      "description": "A status line solved into a crossword: each phrase fills a row of squares under its clue numbers while the next phrase waits below as empty squares. A drawn pencil writes the letters in graphite, a few of them near misses; once the row is pencilled it flips end over end on springs.snap, rubs each wrong guess out with crumbs falling, writes the right letter, and a pen then inks the row, the phrase is announced and the grid scrolls up a row on springs.glide, the tool following its targets on springs.flick. The pointer over a square lights its entry and the clue bar reads its number; pressing a square checks it — a wrong guess is rubbed out on the spot, a right one inked — and the keyboard does the same with a cursor square moved by the arrow keys.",
+      "files": [
+        {
+          "path": "registry/ui/crossword-guess.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1184"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sand-script",
+      "type": "registry:ui",
+      "title": "Sand Script",
+      "description": "A status line written in sand on a canvas: a thin stream pours along the line and its grains fall and land in the letter shapes, the lowest first, so each letter heaps up in relief; when the phrase has rested, a wave runs up the beach with a foam lace, loosens every grain it reaches and drains back, leaving wet sand that dries as the next phrase pours. The pointer draws in the sand — a passing mouse leaves a shallow trail and a press digs a channel that pushes the grains aside, then refills — while the tray's height follows the type on springs.glide. The tray is a real button: Enter or Space draws the same finger through the words, and each phrase is announced once.",
+      "files": [
+        {
+          "path": "registry/ui/sand-script.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1185"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "redline-draft",
+      "type": "registry:ui",
+      "title": "Redline Draft",
+      "description": "A status line with an editor at work: each phrase arrives as a rough draft typed in behind a text cursor, then a pen nib, following its marks on springs.flick, strikes weak words through with a swept clip, writes better ones above over a caret, puts a missing word in and curls a filler out. Then the clean version slides into place on springs.glide — struck words and marks fade where they are, kept words glide to their new spots and each written word comes down from above the line as its ink turns to text — and the clean phrase is announced once. The visitor edits too: a drag strikes words under the pointer and a tap or Enter strikes one; a weak word struck is taken and rewritten at once, a good one is marked stet; arrow keys choose the word.",
+      "files": [
+        {
+          "path": "registry/ui/redline-draft.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1186"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "morse-status",
+      "type": "registry:ui",
+      "title": "Morse Status",
+      "description": "A status line that is tapped out in Morse before it is spelled: a signal lamp sends each word with real ratios, and a head travelling the track under the line draws every dot and dash as long as the lamp was lit, so a dash is three dots long because it was on three times as long. When a word is complete each letter's marks lift off the track and condense into the printed letter on the glide spring while the letter resolves out of them, and the head glides on to the next word. The telegraph key is a real button whose lever dips on flick and springs back on snap; a tap, or Space or Enter, adds the visitor's own dot to the line and a hold draws a dash.",
+      "files": [
+        {
+          "path": "registry/ui/morse-status.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1187"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "braille-rise",
+      "type": "registry:ui",
+      "title": "Braille Rise",
+      "description": "A status line felt before it is read: each letter first rises as its real six-dot braille cell, the dots coming up out of the paper on the snap spring so each dome brightens as it overshoots, and a moment behind the dots sink back on a tween while the printed letter comes up out of them, so a band of raised cells rides across the line ahead of the print. Moving the pointer along the line lifts the cells under it again like a finger reading, and a press pops one up on the recoil spring. The line is a slider over its letters: Left and Right move a reading caret that raises the cell under it and names the letter and its dots, Space or Enter presses it, and the phrase waits while someone is reading it.",
+      "files": [
+        {
+          "path": "registry/ui/braille-rise.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1188"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "kiln-glow",
+      "type": "registry:ui",
+      "title": "Kiln Glow",
+      "description": "A determinate text loader fired like a glaze: the phrase stands in a kiln's spy window and its heat is the progress, climbing from dark iron through dull red, cherry, orange and yellow to white, each letter following on the drift spring with its own thermal mass so the heat arrives unevenly, while the letters light their own air, the back wall glows and a band of heat haze wavers above the words. At done the kiln goes out and the letters cool back down through the same colours to the glaze's fired colour, and every loop stops. A quick sweep of the pointer across the window cools the letters it passes for a moment, deeper the faster it goes, with a wisp of steam from the hot ones; the window is a button, and Space or Enter sweeps across every letter.",
+      "files": [
+        {
+          "path": "registry/ui/kiln-glow.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1189"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lens-sweep",
+      "type": "registry:ui",
+      "title": "Lens Sweep",
+      "description": "A status line read over by a loupe: outside the lens the words are soft and faint, under it they are sharp, full ink and magnified about the lens's centre. The lens reads in saccades, gliding from word to word on the glide spring from rest to rest and pausing on each as if checking it, with a small nod and a hairline check drawn under the word that stays as it moves on; a read phrase rests, fades, and the lens sweeps back for the next. The lens follows a finger 1:1 anywhere along the line, ticking as it enters each word, and on release settles onto the word the throw was heading for and reads on from there; a tap on a word sends it there, and as a slider Left, Right, Home and End move it a word at a time.",
+      "files": [
+        {
+          "path": "registry/ui/lens-sweep.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1190"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

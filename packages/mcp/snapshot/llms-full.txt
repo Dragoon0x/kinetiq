@@ -20970,6 +20970,255 @@ Notes:
 - Under reduced motion the drop moves in one piece on a short tween with no neck, squash or bounce; the tint and the tinted icon still move, because which tab is chosen is the information.
 - The drop is geometry, not a blur filter, so its edge stays crisp at any size; before the bar is measured (the server's render) a still drop sits on the chosen tab.
 
+### Ink Bleed (KQ-1181) — `ink-bleed`
+Words soak in, then dry.
+
+A status line written in ink: each phrase soaks into the paper letter by letter on a seeded pen rhythm, landing as a drop on the baseline and wicking up through the glyph behind a feathered front, glossy while wet and drying to a lighter matte, and when it has rested a pad of blotting paper sweeps across and lifts it for the next phrase. Pressing the paper brings the blotter down under the pointer on springs.flick and dragging rubs it along 1:1, blotting every letter still wet under it lighter (and smeared when the pass was fast); the paper's height follows a wrapping phrase on springs.glide. The paper is a real button — Enter or Space runs the same pad along the whole line — and each phrase is announced once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ink-bleed`
+
+Props:
+- `phrases`: string[] — The status phrases, written one after another and cycled in order.
+- `active`: boolean (default true) — Writing. False lifts the line, writes doneText in dry ink and stops every loop.
+- `doneText`: string — What stays written once inactive. Defaults to the last phrase.
+- `speed`: number (default 1) — How fast the pen, the drying, the rest and the blotter run, 0.5 to 2.
+- `spread`: number (default 0.5) — How far the ink feathers into the paper, 0 (a crisp nib) to 1 (blotting paper): the soak front's softness, the halo, the drop and the smear.
+- `paper`: "plain" | "laid" | "kraft" (default "laid") — The stock and how ink behaves on it: plain is coated and dries slowly with a long gloss, laid is cream with laid and chain lines, kraft is brown and thirsty — fast, matte and feathered.
+- `sound`: boolean (default false) — Play the blotter: a soft rustle as the pad comes down, a paper rustle for each letter it blots and a swish for the keyboard's pass or a flicked release. Writing and lifting are silent.
+- `disabled`: boolean (default false) — The line keeps writing but cannot be blotted.
+- `onPhraseChange`: (index: number) => void — A phrase began: its index in phrases, or -1 for doneText. Also reported on the first commit.
+- `className`: string — Classes for the root; it is w-full by default.
+
+Notes:
+- Keyboard: the paper is a button — Enter or Space runs the blotter along the line and blots every letter still wet, the same end state as dragging it across. A lift already under way completes first.
+- Reduced motion: the whole phrase soaks in at once and keeps the reading time the pen would have given it, wet to dry is a colour change with no glint or drop, the lift is a fade and the keyboard blot dries the line in place; the dragged pad still follows the pointer and still lightens what it blots.
+- The phrase sits in a polite live region outside the busy root and is announced once per phrase; the clock runs only while the paper is on screen in a visible page.
+
+### Platen Print (KQ-1182) — `platen-print`
+Every letter struck by hand.
+
+A status line printed by a platen press: a small head rides a rail over a strip of card stock, and for each letter its plunger falls with the letter, which squashes onto its baseline and springs back on springs.snap while the carriage steps on a stiff spring, every impression a little uneven in density, tilt and inking. A rested phrase is wiped to a ghost as the carriage returns on springs.glide and the next prints over it; hovering or focusing slows the press on springs.drift so each strike reads. The strip is a real button — a press, a tap, Enter or Space strikes the next letter by hand, and on a finished line sends the carriage home — and each phrase is announced once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/platen-print`
+
+Props:
+- `phrases`: string[] — The status phrases, printed one after another and cycled in order.
+- `active`: boolean (default true) — Printing. False wipes the line, prints doneText and stops every timer.
+- `doneText`: string — What stays printed once inactive. Defaults to the last phrase.
+- `speed`: number (default 1) — How fast the press strikes, rests and returns, 0.5 to 2.
+- `pressure`: number (default 0.6) — How hard the platen strikes, 0 (a kiss) to 1 (a bite): the drop, the squash, ink squeezed at the edges, the deboss, how even the ink lies and the weight of the thock.
+- `ink`: "black" | "red" | "blue" (default "black") — The pigment on the letters and on the plunger's face.
+- `sound`: boolean (default false) — Play the strikes the visitor makes: a thock at contact with the escapement's click, and a lower click for a carriage return asked for by hand. The press's own rhythm is silent.
+- `disabled`: boolean (default false) — The line prints on its own but cannot be struck by hand.
+- `onPhraseChange`: (index: number) => void — A phrase began: its index in phrases, or -1 for doneText. Also reported on the first commit.
+- `className`: string — Classes for the root; it is w-full by default.
+
+Notes:
+- Keyboard: the strip is a button — Enter or Space strikes the next letter (Enter held repeats), and on a finished line sends the carriage home, the same as a press or a tap. Focus slows the press the way hovering does.
+- Reduced motion: letters appear in place one at a time with their uneven ink (opacity only), the head stays parked at the rail's start, and the wipe is a fade to the ghost; hover still slows the rate and presses still strike.
+- The phrase sits in a polite live region outside the busy root and is announced once per phrase; the press's timer runs only while the strip is on screen in a visible page.
+
+### Neon Strike (KQ-1183) — `neon-strike`
+A sign warming up, tube by tube.
+
+A status line in bent neon tube on a dark sign board: each phrase warms up tube by tube in an uneven, seeded order, every tube trying once or twice, striking with a white flash and flickering on keyframed tweens before it settles to a steady glow, while the board takes on the colour as more of it lights and one faulty tube keeps a stutter. Lit phrases hold, power down on an exit tween and hand over to the next; given progress, the sign becomes a meter that lights the share of each phrase its band has reached, mostly left to right. The sign is a real button — the pointer near a tube makes it flicker, a press knocks the glass and sends a flicker outward, Left and Right walk a probe along the letters and Space or Enter knocks from it — and each phrase is announced once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/neon-strike`
+
+Props:
+- `phrases`: string[] — The status phrases, lit one after another and cycled in order.
+- `active`: boolean (default true) — Warming. False powers the sign down, lights doneText steady and stops every timer and the stutter.
+- `doneText`: string — What stays lit once inactive. Defaults to the last phrase.
+- `progress`: number — Determinate, 0 to 1: phrase i owns the band [i/n, (i+1)/n), and the share of its letters lit is the progress through that band; entering the next band powers the sign down and shows the next phrase.
+- `speed`: number (default 1) — How fast tubes strike, hold, power down and stutter, 0.5 to 2.
+- `glow`: number (default 0.6) — How far the glow spills, 0 (bare tubes) to 1: the halo's layers and the wash the lit sign throws on its board.
+- `colour`: "rose" | "sky" | "amber" | "lime" (default "rose") — The gas in the tubes, as fixed pigments that read the same in both themes.
+- `faulty`: boolean (default true) — One seeded tube keeps a stutter while the sign runs.
+- `sound`: boolean (default false) — Play what the visitor causes: a buzz for a tube the pointer or the probe flickers, a click for a knock. Warming, the fault and power-downs are silent.
+- `disabled`: boolean (default false) — The sign keeps lighting but cannot be knocked or flickered.
+- `onPhraseChange`: (index: number) => void — A phrase began: its index in phrases, or -1 for doneText. Also reported on the first commit.
+- `className`: string — Classes for the root; it is w-full by default.
+
+Notes:
+- Keyboard: the sign is a button — Left and Right move a probe along the letters (Home and End to the ends), flickering each one as the pointer would, with a tick under it while focus is visible; Space or Enter knocks the glass from the probe, as a press does.
+- Reduced motion: no flash, flicker or stutter — tubes light with a colour-and-glow fade in the same order, so the warm-up and the determinate share still show; power-down is a fade, the pointer's proximity does nothing and a knock is a gentle swell.
+- The phrase sits in a polite live region outside the busy root and is announced once per phrase; the timers run only while the sign is on screen in a visible page, and a beat's deadline survives progress updates so a fast-reporting host never starves it.
+
+### Crossword Guess (KQ-1184) — `crossword-guess`
+Pencilled in, then inked.
+
+A status line solved into a crossword: each phrase fills a row of squares under its clue numbers while the next phrase waits below as empty squares. A drawn pencil writes the letters in graphite, a few of them near misses; once the row is pencilled it flips end over end on springs.snap, rubs each wrong guess out with crumbs falling, writes the right letter, and a pen then inks the row, the phrase is announced and the grid scrolls up a row on springs.glide, the tool following its targets on springs.flick. The pointer over a square lights its entry and the clue bar reads its number; pressing a square checks it — a wrong guess is rubbed out on the spot, a right one inked — and the keyboard does the same with a cursor square moved by the arrow keys.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/crossword-guess`
+
+Props:
+- `phrases`: string[] — The status phrases, solved into the grid one row each and cycled in order.
+- `active`: boolean (default true) — Solving. False finishes the row being solved briskly, then solves doneText with no wrong guesses and rests; nothing loops.
+- `doneText`: string — The row that stays once inactive. Defaults to the last phrase.
+- `speed`: number (default 1) — How fast the solver works, 0.5 to 2: the pencil's rhythm, the rubs, the ink and the rest.
+- `guesses`: number (default 1) — Wrong guesses pencilled into each phrase before they are rubbed out, 0 to 3 (never more than a third of its letters). Dealt as each row begins.
+- `grid`: "news" | "pastel" | "ink" (default "news") — How the grid is printed: news is cream squares, black blocks and black ink; pastel gives each entry its own tint with violet ink; ink is a night edition with indigo squares, silver pencil and cream ink.
+- `progress`: number — Determinate progress, 0 to 1. The phrases share it in equal bands, and within its band a row is pencilled, corrected and inked in step with it; entering the next band finishes the row and scrolls on.
+- `sound`: boolean (default false) — Play the visitor's ticks as the pointer or cursor crosses squares and as a check inks a letter, and the scratch of a rub the visitor started. The solver's own work is silent.
+- `disabled`: boolean (default false) — The grid keeps solving, but squares cannot be checked.
+- `onPhraseChange`: (index: number) => void — A row began: its index in phrases, or -1 for doneText. Also reported on the first commit.
+- `className`: string — Classes for the root; it is w-full and sizes its squares from its own width.
+
+Notes:
+- Keyboard: the grid is a button. While it has focus a cursor square shows; Left and Right move it (blocks are skipped), Home and End jump to the ends, and Enter or Space checks it — a wrong guess is rubbed out, a right one inked, an empty one revealed — exactly as a press on that square does. A polite region reads the cursor square and the result of each check.
+- Reduced motion: no tool travels and nothing scrolls. A row is pencilled at once and keeps the reading time the pencil would have given it, corrections and the ink are cross-fades in place, rows swap by cross-fade, and hover, checks and the determinate fill all still work.
+- The phrase sits in a polite live region outside the busy root and is announced once, when its row is inked; the clock runs only while the grid is on screen in a visible page.
+
+### Sand Script (KQ-1185) — `sand-script`
+Written in sand, smoothed by a wave.
+
+A status line written in sand on a canvas: a thin stream pours along the line and its grains fall and land in the letter shapes, the lowest first, so each letter heaps up in relief; when the phrase has rested, a wave runs up the beach with a foam lace, loosens every grain it reaches and drains back, leaving wet sand that dries as the next phrase pours. The pointer draws in the sand — a passing mouse leaves a shallow trail and a press digs a channel that pushes the grains aside, then refills — while the tray's height follows the type on springs.glide. The tray is a real button: Enter or Space draws the same finger through the words, and each phrase is announced once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sand-script`
+
+Props:
+- `phrases`: string[] — The status phrases, written in the sand one after another and cycled in order.
+- `active`: boolean (default true) — Writing. False finishes the pour briskly, sends the wave, writes doneText and stops; the canvas then rests as one still frame.
+- `doneText`: string — What stays written once inactive. Defaults to the last phrase.
+- `speed`: number (default 1) — How fast the sand pours, rests and the wave runs, 0.5 to 2.
+- `grain`: number (default 2) — Grain size in px, 1 (fine silt) to 3 (coarse): the grains, how densely the letters are sampled and the bed's speckle. Coarser grain sets larger type so a letter still reads.
+- `tone`: "dune" | "ash" | "coral" (default "dune") — The beach: golden dune sand with a green-blue sea, grey volcanic ash glinting with mica under a slate sea, or pale pink coral sand with a turquoise sea.
+- `progress`: number — Determinate progress, 0 to 1. The phrases share it in equal bands; within its band the settled share of a phrase's grains follows it, and entering the next band sends the wave for the next phrase.
+- `sound`: boolean (default false) — Play a swish when a pressed finger moves fast through the sand and when the keyboard's finger starts. The pour and the wave are silent.
+- `disabled`: boolean (default false) — The sand keeps being written, but cannot be drawn in.
+- `onPhraseChange`: (index: number) => void — A phrase began: its index in phrases, or -1 for doneText. Also reported on the first commit.
+- `className`: string — Classes for the root; it is w-full and the tray is sized for the longest phrase at its width.
+
+Notes:
+- Keyboard: the tray is a button — Enter or Space draws a finger through the words along the line, the same channel a drag digs, and it refills the same way.
+- Reduced motion: no stream, falling grains or travelling water. A phrase fades in whole and keeps the reading time the pour would have given it, the wave becomes the old phrase fading while the sand darkens and dries, and trails still draw under the pointer and refill as a fade without pushing grains.
+- The phrase sits in a polite live region outside the busy root and is announced once, as it starts to be written. The canvas (device pixel ratio capped at 2) draws only while something moves and only on screen in a visible page.
+
+### Redline Draft (KQ-1186) — `redline-draft`
+Drafted, struck through, rewritten.
+
+A status line with an editor at work: each phrase arrives as a rough draft typed in behind a text cursor, then a pen nib, following its marks on springs.flick, strikes weak words through with a swept clip, writes better ones above over a caret, puts a missing word in and curls a filler out. Then the clean version slides into place on springs.glide — struck words and marks fade where they are, kept words glide to their new spots and each written word comes down from above the line as its ink turns to text — and the clean phrase is announced once. The visitor edits too: a drag strikes words under the pointer and a tap or Enter strikes one; a weak word struck is taken and rewritten at once, a good one is marked stet; arrow keys choose the word.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/redline-draft`
+
+Props:
+- `phrases`: string[] — The status phrases, each drafted, marked up and set clean, cycled in order.
+- `drafts`: string[] — The rough draft each phrase starts as, index for index; a word diff finds the edits. Without it a draft is made from the phrase (weaker word choices, a small word left out, a filler to strike), seeded so the same phrase always gets the same draft.
+- `active`: boolean (default true) — Editing. False sets doneText clean in place of the draft and stops; nothing loops.
+- `doneText`: string — What stays once inactive. Defaults to the last phrase.
+- `speed`: number (default 1) — How fast the draft is typed, marked up and rested, 0.5 to 2.
+- `ink`: "red" | "blue" | "green" (default "red") — The editor's pen: the danger, accent or success text colour, so every mark reads in both themes.
+- `marks`: "few" | "many" (default "few") — How rough a made draft is: one or two edits, or three or four. Applies from the next phrase; drafts given in drafts are used as they are.
+- `sound`: boolean (default false) — Play the scratch of the visitor's strike (following its speed), a tick when an edit is taken or the chosen word moves, and a lower tick for stet. The editor's own marks are silent.
+- `disabled`: boolean (default false) — The editor keeps working, but the visitor cannot strike.
+- `onPhraseChange`: (index: number) => void — A phrase began: its index in phrases, or -1 for doneText. Also reported on the first commit.
+- `className`: string — Classes for the root; it is w-full, and the page's height follows its lines.
+
+Notes:
+- Keyboard: the page is a button. Left and Right choose a word (Home and End jump), shown with a tinted box while focused, and Enter or Space strikes it with the same stroke a tap draws — a weak word is taken and rewritten, a good one marked stet. A polite region reads the chosen word and the outcome.
+- Reduced motion: the draft appears whole and keeps its typing time as reading time, each edit appears in turn with no sweep, the clean line cross-fades in with nothing gliding, and the nib is hidden; a visitor's drag still draws its strike under the pointer.
+- The clean phrase sits in a polite live region outside the busy root and is announced once per phrase; the clock runs only while the page is on screen in a visible document.
+
+### Morse Status (KQ-1187) — `morse-status`
+Tapped out, then spelled.
+
+A status line that is tapped out in Morse before it is spelled: a signal lamp sends each word with real ratios, and a head travelling the track under the line draws every dot and dash as long as the lamp was lit, so a dash is three dots long because it was on three times as long. When a word is complete each letter's marks lift off the track and condense into the printed letter on the glide spring while the letter resolves out of them, and the head glides on to the next word. The telegraph key is a real button whose lever dips on flick and springs back on snap; a tap, or Space or Enter, adds the visitor's own dot to the line and a hold draws a dash.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/morse-status`
+
+Props:
+- `phrases`: string[] — The status phrases, tapped out one after another and cycled in order.
+- `active`: boolean (default true) — Sending. False clears the line, spells doneText and stops the clock and every timer.
+- `doneText`: string — What stays spelled once inactive. Defaults to the last phrase.
+- `speed`: number (default 1) — How fast the code is sent, 0.5 to 2: one unit is 50ms at 1, and the hold and fades scale with it.
+- `lamp`: boolean (default true) — Show the signal lamp, which flashes with the code and lights the mark being drawn. Off, the head and the marks carry the signal alone.
+- `trail`: number (default 0.6) — How long the marks stay lit on the track, 0 (each fades to a ghost within a moment) to 1 (every mark stays until its word is spelled); also the length of the light streak behind the head.
+- `sound`: boolean (default false) — Play the key under the visitor's hand: a click as the contact closes and a tick as the lever returns. The automatic sending is silent.
+- `disabled`: boolean (default false) — The line keeps sending, but the key cannot be pressed.
+- `onPhraseChange`: (index: number) => void — A phrase began: its index in phrases, or -1 for doneText. Also reported on the first commit.
+- `onWordChange`: (word: number) => void — A word of the phrase began to be sent: its index within the phrase. Also reported on the first commit.
+- `className`: string — Classes for the root; it is w-full by default.
+
+Notes:
+- Keyboard: the telegraph key is a button — Space or Enter held closes the line for as long as it is held (a dash), tapped sends a dot, exactly as the pointer does; a click from assistive technology sends one dot.
+- Reduced motion: the lamp glows steadily instead of flashing, each letter's code appears whole on the track in the same rhythm, and a spelled word cross-fades in rather than condensing out of its marks; the key's lever does not travel.
+- The phrase sits in a polite live region outside the busy root and is announced once per phrase, never per word or mark; the clock runs only while the line is on screen in a visible page.
+
+### Braille Rise (KQ-1188) — `braille-rise`
+Felt first, then read.
+
+A status line felt before it is read: each letter first rises as its real six-dot braille cell, the dots coming up out of the paper on the snap spring so each dome brightens as it overshoots, and a moment behind the dots sink back on a tween while the printed letter comes up out of them, so a band of raised cells rides across the line ahead of the print. Moving the pointer along the line lifts the cells under it again like a finger reading, and a press pops one up on the recoil spring. The line is a slider over its letters: Left and Right move a reading caret that raises the cell under it and names the letter and its dots, Space or Enter presses it, and the phrase waits while someone is reading it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/braille-rise`
+
+Props:
+- `phrases`: string[] — The status phrases, embossed and printed one after another, cycled in order.
+- `active`: boolean (default true) — Printing. False clears the line, prints doneText flat and stops every clock and timer.
+- `doneText`: string — What stays printed once inactive. Defaults to the last phrase.
+- `speed`: number (default 1) — How fast the cells rise and print and how long a printed phrase rests, 0.5 to 2.
+- `emboss`: number (default 0.6) — How deep the paper is pressed, 0 (flat ink dots, no shadow or swell) to 1 (paper-coloured domes with a long shadow and a bright rim).
+- `cells`: boolean (default true) — Show each unprinted letter's whole six-dot cell as faint pits, so the blank slate is visible before the dots rise.
+- `sound`: boolean (default false) — Play the reading: a tick for each cell that comes under the finger or the caret, pitched by its dot count, and a pop for a press. The printing itself is silent.
+- `disabled`: boolean (default false) — The line keeps printing, but it cannot be read by hand or by key.
+- `onPhraseChange`: (index: number) => void — A phrase began: its index in phrases, or -1 for doneText. Also reported on the first commit.
+- `className`: string — Classes for the root; it is w-full by default.
+
+Notes:
+- Keyboard: the line is a slider over its letters — arriving by Tab rests the caret on the first letter and raises its cell, Left and Right (Home, End) move it a letter at a time exactly as a finger would, and its value text names the letter and its dots; Space or Enter presses the cell. While a finger or the caret is on the line, a printed phrase waits instead of changing under the reader.
+- Reduced motion: dots appear and sink with short fades in the same order and nothing swells or overshoots, so the phrase still arrives letter by letter and reading by hand still raises the cells.
+- Each letter's height is one motion value written as a CSS variable, and every dot of its cell is a background layer shaded in calc() from it; the phrase sits in a polite live region outside the busy root, announced once, and the print clock runs only on screen in a visible page.
+
+### Kiln Glow (KQ-1189) — `kiln-glow`
+Fired until it's done.
+
+A determinate text loader fired like a glaze: the phrase stands in a kiln's spy window and its heat is the progress, climbing from dark iron through dull red, cherry, orange and yellow to white, each letter following on the drift spring with its own thermal mass so the heat arrives unevenly, while the letters light their own air, the back wall glows and a band of heat haze wavers above the words. At done the kiln goes out and the letters cool back down through the same colours to the glaze's fired colour, and every loop stops. A quick sweep of the pointer across the window cools the letters it passes for a moment, deeper the faster it goes, with a wisp of steam from the hot ones; the window is a button, and Space or Enter sweeps across every letter.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/kiln-glow`
+
+Props:
+- `phrases`: string[] — The status phrases. Without progress each fires by itself in turn, cycled in order.
+- `active`: boolean (default true) — Firing. False lets the kiln go out: doneText arrives as hot as the last phrase was, cools to its glaze, and every timer and loop stops.
+- `doneText`: string — What stays, fired, once inactive. Defaults to the last phrase.
+- `progress`: number — Determinate, 0 to 1: the letters' heat follows it, phrase i owns the band [i/n, (i+1)/n) and arrives at the current heat, and at 1 the kiln soaks for a moment and cools to the glaze.
+- `speed`: number (default 1) — How fast the letters take and lose heat, the self-firing cycle and the haze's pace, 0.5 to 2.
+- `heat`: number (default 0.8) — How hot the kiln gets at full progress, 0 (a dull red) to 1 (white heat), and with it the glow's reach, the wall's light and the haze.
+- `glaze`: "iron" | "copper" | "ash" (default "copper") — The colour the letters cool to once fired, as fixed pigments that read the same in both themes.
+- `sound`: boolean (default false) — Play the quench under the visitor's sweep: a sizzle while hot letters are cooled and a snap of thermal shock for the hottest. Firing and cooling are silent.
+- `disabled`: boolean (default false) — The kiln keeps firing, but the letters cannot be cooled by hand or by key.
+- `onPhraseChange`: (index: number) => void — A phrase began: its index in phrases, or -1 for doneText. Also reported on the first commit.
+- `className`: string — Classes for the root; it is w-full by default.
+
+Notes:
+- Keyboard: the window is a button named Cool the letters — Space or Enter sends the same draught a quick pointer sweep does across every letter, left to right, with the same sound. With progress, a visually hidden progressbar carries the value, labelled by the phrase.
+- Reduced motion: no haze, steam or springs; the letters' colours still follow the heat on short tweens and a self-firing phrase still takes its time, because the heat is the progress, and a quench still darkens the letters and lets them warm back.
+- The kiln's chamber is fixed dark art in both themes; the phrase sits in a polite live region outside the busy root, announced once, and the haze runs only while the kiln is warm, on screen and in a visible page.
+
+### Lens Sweep (KQ-1190) — `lens-sweep`
+Reading it over.
+
+A status line read over by a loupe: outside the lens the words are soft and faint, under it they are sharp, full ink and magnified about the lens's centre. The lens reads in saccades, gliding from word to word on the glide spring from rest to rest and pausing on each as if checking it, with a small nod and a hairline check drawn under the word that stays as it moves on; a read phrase rests, fades, and the lens sweeps back for the next. The lens follows a finger 1:1 anywhere along the line, ticking as it enters each word, and on release settles onto the word the throw was heading for and reads on from there; a tap on a word sends it there, and as a slider Left, Right, Home and End move it a word at a time.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/lens-sweep`
+
+Props:
+- `phrases`: string[] — The status phrases, read over one after another and cycled in order.
+- `active`: boolean (default true) — Reading. False puts the lens down beside the line and leaves doneText sharp, full ink and still; every timer stops.
+- `doneText`: string — What stays, read, once inactive. Defaults to the last phrase.
+- `speed`: number (default 1) — How long the lens checks each word and rests on a read phrase, 0.5 to 2; the glide itself stays the house glide.
+- `zoom`: number (default 1.5) — How much the lens magnifies, 1.2 to 2.
+- `blur`: number (default 1.5) — How soft the words outside the lens are, 0 to 4 px.
+- `lens`: "round" | "bar" (default "round") — A jeweller's loupe, or a reading bar that magnifies a wider span of the line.
+- `sound`: boolean (default false) — Play the lens under the visitor's hand: a tick for each word it enters while dragged, tapped to or moved by key, pitched along the line. The automatic reading is silent.
+- `disabled`: boolean (default false) — The lens keeps reading, but it cannot be moved by hand or by key.
+- `onPhraseChange`: (index: number) => void — A phrase began: its index in phrases, or -1 for doneText. Also reported on the first commit.
+- `onWordChange`: (word: number) => void — The lens came to rest on a word and checked it: its index in the phrase.
+- `className`: string — Classes for the root; it is w-full by default.
+
+Notes:
+- Keyboard: the lens is a slider over the words — Left and Right move it a word, Home and End to the ends, the same end state as putting it down there by hand; its value text names the word, and reading waits a second after each key before going on from there.
+- Reduced motion: the lens does not glide — it appears at each word in turn with a short fade and the check appears whole; dragging is still 1:1 and a drop places it on the word directly.
+- Two copies of the line share one layout: a still, blurred page copy, and a copy clipped to the lens, scaled from its corner and shifted by the centre times one minus the zoom, so the point under the lens stays put. The phrase sits in a polite live region outside the busy root, announced once, and reading runs only on screen in a visible page.
+
 ### Hourglass Turn (KQ-1191) — `hourglass-turn`
 Sand runs out, then it turns itself.
 

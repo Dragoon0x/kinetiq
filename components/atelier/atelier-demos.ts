@@ -167,4 +167,44 @@ export const ATELIER_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/sundial-hour.demo").then((m) =>
       mod(m.SundialHourDemo, m.tweaks),
     ),
+  "ink-bleed": () =>
+    import("@/registry/demos/ink-bleed.demo").then((m) =>
+      mod(m.InkBleedDemo, m.tweaks),
+    ),
+  "platen-print": () =>
+    import("@/registry/demos/platen-print.demo").then((m) =>
+      mod(m.PlatenPrintDemo, m.tweaks),
+    ),
+  "neon-strike": () =>
+    import("@/registry/demos/neon-strike.demo").then((m) =>
+      mod(m.NeonStrikeDemo, m.tweaks),
+    ),
+  "crossword-guess": () =>
+    import("@/registry/demos/crossword-guess.demo").then((m) =>
+      mod(m.CrosswordGuessDemo, m.tweaks),
+    ),
+  "sand-script": () =>
+    import("@/registry/demos/sand-script.demo").then((m) =>
+      mod(m.SandScriptDemo, m.tweaks),
+    ),
+  "redline-draft": () =>
+    import("@/registry/demos/redline-draft.demo").then((m) =>
+      mod(m.RedlineDraftDemo, m.tweaks),
+    ),
+  "morse-status": () =>
+    import("@/registry/demos/morse-status.demo").then((m) =>
+      mod(m.MorseStatusDemo, m.tweaks),
+    ),
+  "braille-rise": () =>
+    import("@/registry/demos/braille-rise.demo").then((m) =>
+      mod(m.BrailleRiseDemo, m.tweaks),
+    ),
+  "kiln-glow": () =>
+    import("@/registry/demos/kiln-glow.demo").then((m) =>
+      mod(m.KilnGlowDemo, m.tweaks),
+    ),
+  "lens-sweep": () =>
+    import("@/registry/demos/lens-sweep.demo").then((m) =>
+      mod(m.LensSweepDemo, m.tweaks),
+    ),
 };

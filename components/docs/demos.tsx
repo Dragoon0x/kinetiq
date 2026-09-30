@@ -1260,6 +1260,16 @@ import { KettleSteamDemo } from "@/registry/demos/kettle-steam.demo";
 import { TapeReelsDemo } from "@/registry/demos/tape-reels.demo";
 import { LavaDriftDemo } from "@/registry/demos/lava-drift.demo";
 import { SundialHourDemo } from "@/registry/demos/sundial-hour.demo";
+import { InkBleedDemo } from "@/registry/demos/ink-bleed.demo";
+import { PlatenPrintDemo } from "@/registry/demos/platen-print.demo";
+import { NeonStrikeDemo } from "@/registry/demos/neon-strike.demo";
+import { CrosswordGuessDemo } from "@/registry/demos/crossword-guess.demo";
+import { SandScriptDemo } from "@/registry/demos/sand-script.demo";
+import { RedlineDraftDemo } from "@/registry/demos/redline-draft.demo";
+import { MorseStatusDemo } from "@/registry/demos/morse-status.demo";
+import { BrailleRiseDemo } from "@/registry/demos/braille-rise.demo";
+import { KilnGlowDemo } from "@/registry/demos/kiln-glow.demo";
+import { LensSweepDemo } from "@/registry/demos/lens-sweep.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2534,4 +2544,14 @@ export const demos: Record<string, ComponentType> = {
   "tape-reels": TapeReelsDemo,
   "lava-drift": LavaDriftDemo,
   "sundial-hour": SundialHourDemo,
+  "ink-bleed": InkBleedDemo,
+  "platen-print": PlatenPrintDemo,
+  "neon-strike": NeonStrikeDemo,
+  "crossword-guess": CrosswordGuessDemo,
+  "sand-script": SandScriptDemo,
+  "redline-draft": RedlineDraftDemo,
+  "morse-status": MorseStatusDemo,
+  "braille-rise": BrailleRiseDemo,
+  "kiln-glow": KilnGlowDemo,
+  "lens-sweep": LensSweepDemo,
 };
