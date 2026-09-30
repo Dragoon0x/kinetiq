@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1005,
+      "components": 1014,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -74326,6 +74326,1202 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/gesture-player",
         "bun": "bunx --bun shadcn@latest add @kinetiq/gesture-player",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/gesture-player.json"
+      }
+    },
+    {
+      "slug": "hang-label",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Hang Label",
+      "serial": "KQ-1127",
+      "tagline": "The label lifts and hangs on the edge.",
+      "description": "A text field whose label lifts off the placeholder on the glide spring, flipping up on a hinge along its top edge as it travels, and lands on the field's top edge where it hangs and swings on an underdamped pendulum spring whose first swing peaks at the swing angle; the outline style cuts a notch in the border under it with a mask, so the field sits on any background. An error shakes the tag on a keyframe tween and a character budget fills as a thread under the field on glide. Tabbing into the field lifts and hangs the label exactly as a click does, and everything else, typing, selection, IME composition, paste and autofill, is the browser's own input.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "text field",
+        "floating label",
+        "input",
+        "pendulum",
+        "character count",
+        "validation",
+        "tactile"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What the field is for: the visible label (the hanging tag is the real label element) and the input's accessible name."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The text. Controlled or uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires with the new text on every edit: typing, paste, composition and autofill."
+        },
+        {
+          "name": "error",
+          "type": "string | null",
+          "description": "What is wrong, in a sentence. Shown under the field in a polite live region, sets aria-invalid, and shakes the label when it arrives or changes."
+        },
+        {
+          "name": "shakeKey",
+          "type": "string | number",
+          "description": "Change it to shake the label again with the same error, e.g. a form's submit count."
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "description": "Helper text under the field, replaced by the error while one shows."
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "description": "The character budget, also the input's native maxlength."
+        },
+        {
+          "name": "swing",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "How far the tag swings when it lands on the edge, in degrees, 0 to 10. A long label swings less, so its rising corner never leaves the component's box."
+        },
+        {
+          "name": "stiffness",
+          "type": "number",
+          "defaultValue": "220",
+          "description": "The pendulum's spring stiffness, 60 to 600: low is a slow, lazy sway, high a quick, tight wobble."
+        },
+        {
+          "name": "style",
+          "type": "\"outline\" | \"filled\" | \"line\"",
+          "defaultValue": "\"outline\"",
+          "description": "A framed field with a notch cut under the tag, a filled field whose tag reads as a raised tab, or an underline."
+        },
+        {
+          "name": "budget",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the budget as a thread filling under the field, cobalt, then warn in the last 20%, with a count. Needs maxLength."
+        },
+        {
+          "name": "type",
+          "type": "\"text\" | \"email\" | \"tel\" | \"url\" | \"password\" | \"search\"",
+          "defaultValue": "\"text\"",
+          "description": "The input's type."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The input's name, for forms."
+        },
+        {
+          "name": "autoComplete",
+          "type": "string",
+          "description": "The input's autocomplete hint. Autofill lifts the label, even before the page has had a key."
+        },
+        {
+          "name": "inputMode",
+          "type": "\"none\" | \"text\" | \"tel\" | \"url\" | \"email\" | \"numeric\" | \"decimal\" | \"search\"",
+          "description": "The on-screen keyboard to offer."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "description": "Shown inside the field only once the label has lifted out of the way."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "description": "The input's native required."
+        },
+        {
+          "name": "onFocus",
+          "type": "(event: React.FocusEvent<HTMLInputElement>) => void",
+          "description": "The input's focus event."
+        },
+        {
+          "name": "onBlur",
+          "type": "(event: React.FocusEvent<HTMLInputElement>) => void",
+          "description": "The input's blur event, e.g. to validate on leaving the field."
+        },
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLInputElement>",
+          "description": "The input element, e.g. to focus the field when a submit is refused."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a tick on the frame the tag lands (only while the field has focus), a shrug with the error shake, and a detent on the key that fills the budget. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dims the field and disables the input; the label stays where the text puts it."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "A real <input> named by a real <label for>: Tab into the field and the label lifts, flips and hangs with the same tick a click gives; typing, selection, IME composition, paste and autofill are native. The field's own frame is the focus indicator (a 2px ring-coloured border, or a 2px rule), deliberately not an outline ring, which would run through the hanging tag. The error and hint are linked with aria-describedby, and the budget is spoken only at thresholds (\"6 characters left.\", \"No characters left.\").",
+        "Under reduced motion the label cross-fades between the placeholder spot and the edge with no travel, flip, swing or shake, while the notch, the colours, the error message and the budget thread still answer.",
+        "Pass the form's submit count as shakeKey (and focus the field through ref) so each refused submit shakes the label again on the edge where it hangs."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/hang-label",
+      "registryItemUrl": "https://www.kinetiqui.com/r/hang-label.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/hang-label",
+        "npm": "npx shadcn@latest add @kinetiq/hang-label",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/hang-label",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/hang-label",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/hang-label.json"
+      }
+    },
+    {
+      "slug": "roll-search",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Roll Search",
+      "serial": "KQ-1128",
+      "tagline": "The lens rolls open into a field.",
+      "description": "A search that lives as a round lens at the right end of its slot: pressed, or with / typed anywhere on the page, the lens rolls to the left end like a wheel on the snap spring while the field unrolls behind it like a strip of carpet, one motion value driving the pill's width, the lens's place and its turn, so the wheel never slips and always lands upright. Results drop in below on snap in a cascade, in a panel whose height is measured and glides, with the query lit in each; Escape rolls it back up on glide. The input is a real combobox: arrows move through the results, Enter picks one, Escape rolls it up and returns focus to the lens.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "search",
+        "expanding search",
+        "combobox",
+        "keyboard shortcut",
+        "results",
+        "highlight",
+        "tactile"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id: string; label: string; meta?: string; keywords?: readonly string[] }[]",
+          "description": "What is searched: the label and meta are shown and lit, keywords only searched."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What is being searched, as \"Search docs\": the lens button's name and the input's visible label, which heads the results panel."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Search\"",
+          "description": "The input's placeholder."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The query. Controlled or uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(query: string) => void",
+          "description": "Fires with the new query on every edit, and with \"\" when the search rolls up."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the field is rolled open. Controlled or uncontrolled; a host change rolls it silently."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the press, key or blur that opened or closed it."
+        },
+        {
+          "name": "onSelect",
+          "type": "(item: RollSearchItem) => void",
+          "description": "Enter, or a press on a result. The search then rolls up and focus returns to the lens."
+        },
+        {
+          "name": "filter",
+          "type": "(item: RollSearchItem, query: string) => boolean",
+          "description": "Whether an item answers a query. Defaults to every word of the query appearing in its label, meta or keywords."
+        },
+        {
+          "name": "limit",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "The most results shown at once; the panel says \"4 of 9\" when there are more."
+        },
+        {
+          "name": "shortcut",
+          "type": "string | null",
+          "defaultValue": "\"/\"",
+          "description": "The key that opens it from anywhere on the page, shown as a small key cap beside the lens; null for none. It never fires while typing in a field, with a modifier, during composition, or behind a dialog."
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "defaultValue": "320",
+          "description": "How far the field unrolls, in px, 200 to 400. It shrinks to fit a narrower box."
+        },
+        {
+          "name": "roll",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "The lens turns as it travels, like a wheel, rocking slightly against the end; off, it slides."
+        },
+        {
+          "name": "results",
+          "type": "\"list\" | \"cards\"",
+          "defaultValue": "\"list\"",
+          "description": "Compact rows with a page glyph and the meta at the end, or small cards in two columns."
+        },
+        {
+          "name": "highlight",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Light every occurrence of the query's words in each result."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a whir while the lens rolls, its gain and pitch following the lens's speed (a swish when it slides), and a tick as each arriving result lands. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the lens, the input and the shortcut."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "Closed, the lens is a button with aria-expanded and aria-keyshortcuts=\"/\"; Enter, Space or / open it and focus lands in the input within the same press, so a phone raises its keyboard. Open, the input is a role=\"combobox\" with aria-activedescendant over a listbox: ArrowDown/ArrowUp move the active result, Enter picks it (the first when none is active), Escape rolls it back up wherever focus is inside the component and returns focus to the lens. Leaving an empty search rolls it up too, and the result count is spoken politely once typing pauses.",
+        "Under reduced motion nothing rolls or drops: the slot cross-fades between closed and open, results fade in place and the panel height changes on a short tween; the result ticks still mark arrivals.",
+        "The results panel sits in the flow under the field and its height is measured, so give the component room below it, or place it where the page can grow."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/roll-search",
+      "registryItemUrl": "https://www.kinetiqui.com/r/roll-search.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/roll-search",
+        "npm": "npx shadcn@latest add @kinetiq/roll-search",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/roll-search",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/roll-search",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/roll-search.json"
+      }
+    },
+    {
+      "slug": "sift-filter",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Sift Filter",
+      "serial": "KQ-1129",
+      "tagline": "Type; what doesn't match falls away.",
+      "description": "A filter field over a two-column set of cards: as you type, every card that stops matching drops off the bottom under constant acceleration with a slight spin, while the matches close ranks on the glide spring, and the set's floor waits for the last faller to pass through it before it glides up to fit. Deleting back or clearing brings the fallen up from below the floor on the snap spring, their spin unwinding, in a stagger that stays inside the choreography budget. The field is a real input: Escape clears it with the same rise as deleting, fallen cards leave the tab order and the accessibility tree at once, and IME composition filters on what was committed.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "filter",
+        "search",
+        "cards",
+        "gravity",
+        "list",
+        "highlight",
+        "tactile"
+      ],
+      "props": [
+        {
+          "name": "items",
+          "type": "{ id: string; title: string; meta?: string; tags?: readonly string[] }[]",
+          "description": "The cards: a title and a short second line, both searched and lit; tags only searched."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What the field filters: its visible label and accessible name."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"Type to filter\"",
+          "description": "The input's placeholder."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The query. Controlled or uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(query: string) => void",
+          "description": "Fires with the new query on every edit, and with \"\" when cleared."
+        },
+        {
+          "name": "filter",
+          "type": "(item: SiftFilterItem, query: string) => boolean",
+          "description": "Whether a card answers a query. Defaults to every word of the query appearing in its title, meta or tags."
+        },
+        {
+          "name": "onSelect",
+          "type": "(item: SiftFilterItem) => void",
+          "description": "Makes each card a button, and fires with the card pressed."
+        },
+        {
+          "name": "gravity",
+          "type": "number",
+          "defaultValue": "2750",
+          "description": "How hard cards fall, in px/s², 1000 to 6000: a fall of d px takes √(2d/g). Also how hard the fallen are thrown back up."
+        },
+        {
+          "name": "spin",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "How far a card turns on its way down, in degrees, 0 to 40. Each card falls its own way, the same way every time."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "35",
+          "description": "The gap between one card leaving (or returning) and the next, in ms, 0 to 100, tightened so a whole cascade stays within 600ms."
+        },
+        {
+          "name": "highlight",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Light the query's words in each card's title and meta."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a patter, a soft plip as each card passes through the floor (pitched per card, panned by column), and a rise when an edit brings cards back. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the field and the clear button, and makes cards plain."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "A real <input> with a visible <label for>; Escape clears it (and only claims the key when there is text to clear), as does the Clear filter button, with the same rise and sound as deleting. The set is a list; fallen cards are aria-hidden and inert from the moment they start to fall, and \"3 of 10 match.\" is spoken politely once typing pauses.",
+        "Under reduced motion nothing falls, spins or travels: cards that stop matching fade out in place, survivors dip and reappear in their new slots, returning cards fade in, and the floor changes height on a short tween; the count, the spoken summary and the patter still answer.",
+        "Cards are a fixed 64px tall in two percentage columns, so the set's height is known before anything is measured and it renders the same on the server; titles and metas truncate with their full text in a tooltip."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/sift-filter",
+      "registryItemUrl": "https://www.kinetiqui.com/r/sift-filter.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/sift-filter",
+        "npm": "npx shadcn@latest add @kinetiq/sift-filter",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/sift-filter",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/sift-filter",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/sift-filter.json"
+      }
+    },
+    {
+      "slug": "plain-date",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Plain Date",
+      "serial": "KQ-1130",
+      "tagline": "Type it the way you say it.",
+      "description": "A date field you type in words: it reads today, tomorrow, next fri 3pm, in 2 weeks or oct 23 against a now you pass, lights the words it used, slides the date out of the end of the phrase as a chip on the snap spring, and lights the day in a mini calendar whose light hops on snap and whose page turns on glide when the month changes. A phrase with two readings offers both chips; ArrowDown and ArrowUp choose, Enter or a click sets, Escape puts back the last set phrase. It is a real input with the combobox pattern, so typing, selection, IME, paste and undo stay native.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "date",
+        "natural language",
+        "date field",
+        "calendar",
+        "parser",
+        "due date",
+        "tactile"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What the date is for. Shown above the field and tied to it by id."
+        },
+        {
+          "name": "now",
+          "type": "Date",
+          "description": "The moment phrases are read against. Required. Pass a fixed moment or one taken in an effect, never new Date() during render."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "Date | null",
+          "defaultValue": "null",
+          "description": "The committed date. Controlled or uncontrolled; a host that sets a date the field did not report sees it written back as a phrase the field reads (\"fri 23 oct 3:00pm\")."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: Date | null, detail: { hasTime: boolean }) => void",
+          "description": "Fires from the Enter, chip click or blur that committed it, with whether a time was given. null when the field is cleared and Enter pressed."
+        },
+        {
+          "name": "defaultText",
+          "type": "string",
+          "description": "The phrase the field starts with, read but not committed."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"tomorrow 9am\"",
+          "description": "The field's placeholder."
+        },
+        {
+          "name": "weekStart",
+          "type": "\"mon\" | \"sun\" | \"sat\"",
+          "defaultValue": "\"mon\"",
+          "description": "The calendar's first column, each day's chime on the scale, and where \"this week\" ends, which decides whether next <weekday> has two readings."
+        },
+        {
+          "name": "format",
+          "type": "\"short\" | \"long\" | \"iso\" | \"relative\"",
+          "defaultValue": "\"short\"",
+          "description": "How the chip writes the date: Fri 23 Oct, Friday 23 October, 2026-10-23 with a 24-hour time, or In 10 days with the date underneath."
+        },
+        {
+          "name": "calendar",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the mini calendar beside the field."
+        },
+        {
+          "name": "strict",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Read only the exact grammar and guess nothing: no short forms or prefixes, no bare hours, unknown words stop the parse, and a phrase with two readings has none chosen until you pick."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A soft chime when the chosen date changes, pitched by weekday and panned by its calendar column, and a click when it is set. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the field and its chips and dims the calendar."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "The grammar: today, tomorrow, in <n> days or weeks, <weekday>, this <weekday>, next <weekday>, <month> <day> [<year>] or <day> <month> [<year>], and a time anywhere (3pm, 3:30pm, 15:00, noon); \"at\", \"on\", \"the\", \"of\" are filler. next <weekday> has two readings while that day is still ahead this week. The input is a combobox whose options are the reading chips: ArrowDown and ArrowUp choose, Enter commits (and is left alone when the chosen date is already set, so a form can submit), Escape restores the last committed phrase undoably, and blur commits an unambiguous reading. Readings are announced once typing settles.",
+        "Under reduced motion the chips and the calendar light fade in place instead of travelling, the month changes with a cross-fade and the check appears without drawing; every reading, highlight, ring and chime still happens.",
+        "Nothing reads the clock during render: every date is local-time arithmetic on the now you pass, so server and browser render the same markup."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/plain-date",
+      "registryItemUrl": "https://www.kinetiqui.com/r/plain-date.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/plain-date",
+        "npm": "npx shadcn@latest add @kinetiq/plain-date",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/plain-date",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/plain-date",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/plain-date.json"
+      }
+    },
+    {
+      "slug": "calc-field",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Calc Field",
+      "serial": "KQ-1131",
+      "tagline": "Type the sum; the answer keeps up.",
+      "description": "An amount field that takes arithmetic: type 1240/3, 12*4+3 or 15% and the answer rides in a bubble just past the last character, kept up with on the snap spring, its digits rolling up as the answer grows and down as it shrinks. Enter or leaving the field commits: the sum folds away, or down into a receipt, on the exit tween while the answer folds down into place on snap; a character that can never be arithmetic is refused with a soft shake. The parser is a small recursive descent with no eval, and the input stays native, so typing, IME, paste and undo work, and undo brings a committed sum back.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "amount",
+        "calculator",
+        "arithmetic",
+        "money input",
+        "expression",
+        "rolling digits",
+        "tactile"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What the amount is. Shown above the field and tied to it by id."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number | null",
+          "defaultValue": "null",
+          "description": "The committed amount, already rounded. Controlled or uncontrolled; a host that sets an amount the field did not report sees it written into the field."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number | null) => void",
+          "description": "Fires from the Enter or blur that committed it, with the rounded amount; null when the field is emptied and committed."
+        },
+        {
+          "name": "defaultText",
+          "type": "string",
+          "description": "A sum the field starts with, worked out but not committed."
+        },
+        {
+          "name": "percentOf",
+          "type": "number",
+          "description": "What a bare percentage is a share of: with 1240, 15% is 186. Without it a bare percentage is its fraction."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "defaultValue": "\"0.00\" at the field's precision",
+          "description": "The field's placeholder."
+        },
+        {
+          "name": "precision",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Decimals in the answer and the committed amount, 0 to 3 — the range currencies use."
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "defaultValue": "\"USD\"",
+          "description": "An ISO currency code whose symbol sits before the field and in the bubble, or \"none\" for a plain number."
+        },
+        {
+          "name": "expression",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Write the sum out under the field while you type (× ÷ −, and which way it was rounded when it was), fold it down into a receipt on commit, and make the receipt a button that brings the sum back. Off, the sum folds away with nothing kept."
+        },
+        {
+          "name": "rounding",
+          "type": "\"half-up\" | \"half-even\" | \"up\" | \"down\"",
+          "defaultValue": "\"half-up\"",
+          "description": "How the answer is brought to precision, on its decimal digits (1.005 is 1.01 half up). \"up\" and \"down\" are away from and toward zero. A rounded answer shows ≈, and the tape names the mode."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A tick as the answer changes, pitched by its size and panned by the bubble's place, a click on commit, and a quiet shrug with each shake. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the field and the receipt."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "Arithmetic: + − × ÷ (also * / x), brackets, unary signs, decimals, thousands commas and %, where a + b% adds b% of a and a bare b% is b% of percentOf. Enter commits and is claimed only when there is something to commit, so a form still submits on a second Enter; blur commits too; Escape restores the last committed text; undo after a commit brings the sum back. An unfinished sum keeps its last answer, dimmed. The answer is in the input's description and announced once typing settles, never per keystroke.",
+        "Under reduced motion the bubble moves without travel, digits cross-fade instead of rolling, the commit is a cross-fade and a failed commit turns the border danger instead of shaking; the answer, receipt and sounds still arrive.",
+        "The parser never throws and never evaluates code: anything it cannot work out comes back as a sentence (\"Two operators in a row\", \"Can’t divide by zero\") shown under the field and set as aria-invalid."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/calc-field",
+      "registryItemUrl": "https://www.kinetiqui.com/r/calc-field.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/calc-field",
+        "npm": "npx shadcn@latest add @kinetiq/calc-field",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/calc-field",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/calc-field",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/calc-field.json"
+      }
+    },
+    {
+      "slug": "glide-caret",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Glide Caret",
+      "serial": "KQ-1132",
+      "tagline": "The caret glides to where you type.",
+      "description": "A native textarea whose caret glides: its place is read from a mirror of the text, a head springs there at the chosen stiffness while a softer, critically damped tail follows, and the caret is drawn as a solid bar with a translucent streak between the two that thins with distance and shrinks back to a bar as the tail catches up. Selecting text draws one highlight per line that springs out from the caret's column, rippling outward on the house cascade, with the caret riding the active end. Everything else — typing, selection, IME, paste, undo, spellcheck, the keyboard — is the textarea's own, and the native caret returns during composition and in forced colours.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "caret",
+        "textarea",
+        "cursor",
+        "smooth caret",
+        "selection",
+        "editor",
+        "tactile"
+      ],
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What the text is. Shown above the field and tied to the textarea by id."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The text. Controlled or uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires on every edit, with the new text."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "description": "The textarea's placeholder."
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "Visible lines, 2 to 12. The textarea scrolls past them, and the caret and selection move with the text."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "description": "The form field name, passed to the textarea."
+        },
+        {
+          "name": "stiffness",
+          "type": "number",
+          "defaultValue": "600",
+          "description": "The caret's spring, 150 to 1200: floaty and lagging at the low end, tight at the top. The selection's growing edge uses it too."
+        },
+        {
+          "name": "stretch",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the caret's tail lags, 0 to 1: at 0 a plain bar glides; toward 1 it trails a long streak."
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The caret's thickness in px, 1 to 4."
+        },
+        {
+          "name": "blink",
+          "type": "\"smooth\" | \"step\" | \"none\"",
+          "defaultValue": "\"smooth\"",
+          "description": "How the caret blinks at rest: a breathing fade, the classic hard on and off, or solid. It restarts solid after every move and runs on the compositor."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Faint taps as the caret lands: a tick per character with its own small pitch, a lower one for deletions, a detent for a new line and a lighter tick for a click or arrow jump, panned by the caret's place. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables the textarea; the drawn caret never shows."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "It is a real textarea with a visible label: every key, shortcut, selection gesture, IME, paste and undo is native, and so is its focus ring. The native caret is hidden only while the drawn caret is showing and focus is inside; during IME composition, before the first measurement, when disabled and in forced-colours mode the native caret and highlight come back. Placing the caret with the arrow keys taps exactly as a click does.",
+        "Under reduced motion the caret moves to each place at once with no streak and does not blink, and a selection fades in line by line instead of growing; the caret and the highlight are still drawn.",
+        "Measurement is coalesced to one read per frame and only runs on input, selection, focus, scroll and resize, so nothing runs while the text sits still; scrolling and resizing move the caret with the text, without travel."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/glide-caret",
+      "registryItemUrl": "https://www.kinetiqui.com/r/glide-caret.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/glide-caret",
+        "npm": "npx shadcn@latest add @kinetiq/glide-caret",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/glide-caret",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/glide-caret",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/glide-caret.json"
+      }
+    },
+    {
+      "slug": "ratio-morph",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Ratio Morph",
+      "serial": "KQ-1133",
+      "tagline": "Pick a shape; the picture reframes.",
+      "description": "An aspect-ratio picker that reframes a picture: choosing a shape glides the frame's width and height to the new ratio on the glide spring, with four corner brackets riding its corners, while the picture is re-laid every frame so its focal point stays as near the centre as its edges allow. Pressing the stage brings the focal reticle to the finger 1:1 (it swells on flick) while a ghost of the whole picture fades in round the frame; past the picture's edge the reticle rubber-bands, and on release the throw is projected and the picture glides to re-centre on the new point. The chips are a radiogroup whose arrows choose and whose Home and End jump; the stage takes arrow keys (Shift for bigger steps) to move the focal point with the same glide and sounds.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "aspect ratio",
+        "focal point",
+        "reframe",
+        "image crop",
+        "cover image",
+        "picker",
+        "brackets"
+      ],
+      "props": [
+        {
+          "name": "ratios",
+          "type": "\"social\" | \"photo\" | \"screen\" | string[]",
+          "defaultValue": "\"social\"",
+          "description": "The shapes offered, in chip order: social is 1:1, 4:5, 16:9 and 9:16; photo is 3:2, 4:3, 1:1 and 2:3; screen is 16:9, 16:10, 21:9 and 4:3. Or your own list of \"w:h\" strings. RATIO_MORPH_SETS exports the named sets."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "the first of ratios",
+          "description": "The chosen ratio, as \"w:h\". A value that is not in the list shows the first ratio."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(ratio: string) => void",
+          "description": "Fires from the press or key that chose a new ratio. In controlled mode the frame morphs once the host passes the new value back."
+        },
+        {
+          "name": "focalPoint / defaultFocalPoint",
+          "type": "{ x: number; y: number }",
+          "defaultValue": "{ x: 0.5, y: 0.5 }",
+          "description": "The point the frame keeps in view as it changes shape, as fractions of the picture's width and height."
+        },
+        {
+          "name": "onFocalPointChange",
+          "type": "(point: { x: number; y: number }) => void",
+          "description": "Fires once per drag release, tap or arrow key, with the new point rounded to three places."
+        },
+        {
+          "name": "brackets",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "The corner brackets' arm length in px, 6 to 40: short ticks to nearly closed corners."
+        },
+        {
+          "name": "focal",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Marks the focal point with a reticle on the picture."
+        },
+        {
+          "name": "grid",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Rule-of-thirds lines inside the frame that ride the morph; faint at rest, brighter while the picture is held."
+        },
+        {
+          "name": "picture",
+          "type": "ReactNode",
+          "defaultValue": "a procedural harbour at dusk",
+          "description": "What is framed. It is laid out in a box of pictureRatio and scaled, so pass something that fills its box, such as an img with object-cover."
+        },
+        {
+          "name": "pictureRatio",
+          "type": "number",
+          "defaultValue": "1.5",
+          "description": "The picture's own width over its height."
+        },
+        {
+          "name": "alt",
+          "type": "string",
+          "description": "What the picture shows, read with the stage's instructions. Defaults to a description of the built-in harbour."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Aspect ratio\"",
+          "description": "The ratio chips' accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A detent when a ratio is chosen and a click on the frame the morph lands, both pitched by the shape; a detent when a drag meets the picture's edge and a click on release. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dims the picker and blocks the chips, drags, taps and keys."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the wrapper that holds the stage and the chips."
+        }
+      ],
+      "usageNotes": [
+        "The chips are a role=radiogroup of radios with one tab stop: any arrow moves and chooses (wrapping), Home and End jump, and each is named as a shape (\"4 by 5, portrait\"). The stage is a focusable role=application (\"picture frame\") described by the alt text and its instructions; arrows move the focal point 5%, Shift+arrows 20%, and a polite live region says the new point once per move.",
+        "Under reduced motion the frame changes shape at once and its brackets fade in at the new corners; the picture re-lays at once. A drag still follows the finger 1:1 but lands without a projected glide, and keys jump. The reticle, grid, ghost fade and sounds are unchanged.",
+        "The stage is touch-action: none, since the drag is two-dimensional. Its width is measured, so the frame is as large as the column allows; the server and the first client render use a 320px stage, then it resizes without a morph or a sound."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/ratio-morph",
+      "registryItemUrl": "https://www.kinetiqui.com/r/ratio-morph.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/ratio-morph",
+        "npm": "npx shadcn@latest add @kinetiq/ratio-morph",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/ratio-morph",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/ratio-morph",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/ratio-morph.json"
+      }
+    },
+    {
+      "slug": "seat-map",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Seat Map",
+      "serial": "KQ-1134",
+      "tagline": "Pick your seats; the row makes room.",
+      "description": "A seating chart for one booking: pressing a free seat flips it over on its centre line to its chosen face on the snap spring, with a clack as it lands flat, and the row makes room as its neighbours in the block are kicked aside by a velocity whose target is their own place, so each sways away and back on snap. While picks remain, the free seats beside yours light as together suggestions; taken seats are hatched, and the total rolls digit by digit on glide with a tick. It is a multi-select grid with one tab stop: arrows roam seat by seat over the aisles, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown jump, and Space or Enter picks with the same flip and sounds.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "seating chart",
+        "seat picker",
+        "tickets",
+        "booking",
+        "venue",
+        "multi-select grid",
+        "rolling total"
+      ],
+      "props": [
+        {
+          "name": "rows",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Rows of seats, 1 to 12, lettered from the stage back with I and O skipped. More rows make smaller seats (at most 22px) so the grid stays within about 172px."
+        },
+        {
+          "name": "columns",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "Seats in each row, 4 to 16, numbered from the left."
+        },
+        {
+          "name": "aisles",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "Aisles splitting each row, 0 to 3. Two make the classic short-long-short blocks; otherwise the blocks are even with any spare seats in the middle."
+        },
+        {
+          "name": "tiers",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Prices the rows in three bands (front, centre and rear by thirds, the centre taking the remainder), each with its own tint and named in the readout."
+        },
+        {
+          "name": "maxPicks",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "The most seats one booking may hold, 1 to 12. At the limit the other free seats dim and a press is refused with a shrug."
+        },
+        {
+          "name": "taken",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Seats already sold, by id (row letter and seat number, \"C7\"). seatMapId(rowIndex, seatNumber) builds an id the way the map does."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "The chosen seats' ids in the order they were chosen. Ids that are off the map or taken are ignored."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(seats: string[]) => void",
+          "description": "Fires from the press or key that chose or released a seat. A seat flips only once the value that is shown includes it."
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "defaultValue": "36",
+          "description": "Every seat's price when tiers is off."
+        },
+        {
+          "name": "tierPrices",
+          "type": "[number, number, number]",
+          "defaultValue": "[48, 36, 24]",
+          "description": "Front, centre and rear prices when tiers is on."
+        },
+        {
+          "name": "format",
+          "type": "(amount: number) => string",
+          "defaultValue": "US dollars",
+          "description": "How prices and the total are printed. The total's digits roll; any other characters stay put."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Seats\"",
+          "description": "The grid's accessible name."
+        },
+        {
+          "name": "stageLabel",
+          "type": "string",
+          "defaultValue": "\"Stage\"",
+          "description": "Printed under the curve at the top of the map."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A clack as a seat lands flat, pitched up with each seat you hold and panned by its column; a softer one as a released seat lands back; a tick as the total rolls; a quiet shrug for a refused seat. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dims the map and blocks picks; no seat takes focus."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the wrapper, whose max width is set from the seat size so the footer lines up with the grid."
+        }
+      ],
+      "usageNotes": [
+        "The map is role=grid with aria-multiselectable; each row has a rowheader letter, and each seat is a gridcell with aria-selected (aria-disabled when taken) and a one-string name such as \"Row C, seat 7, centre, $36.00, suggested\". One seat is the tab stop. Arrows move a seat at a time, stepping over aisles; Home and End go to the row's ends, Ctrl+Home and Ctrl+End to the corners, PageUp and PageDown to the first and last rows; Space or Enter picks or releases. A polite live region says each change once, from the value actually shown.",
+        "Under reduced motion seats cross-fade from their free face to their chosen face instead of flipping, nothing sways, and the total swaps in place. Suggestions, dimming, sounds and announcements are unchanged.",
+        "The footer reads out the seat under the pointer or focus (its band and price, or that it is taken or yours), else the suggestions or your seats. Seats are touch-manipulation, so the page still scrolls from the map."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/seat-map",
+      "registryItemUrl": "https://www.kinetiqui.com/r/seat-map.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/seat-map",
+        "npm": "npx shadcn@latest add @kinetiq/seat-map",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/seat-map",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/seat-map",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/seat-map.json"
+      }
+    },
+    {
+      "slug": "tool-dock",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Tool Dock",
+      "serial": "KQ-1135",
+      "tagline": "Pick a tool; its options unfold beside it.",
+      "description": "The tool rail of a drawing canvas and the canvas it drives: the active tool sits on an indicator that slides to each new choice on the snap spring with a tick pitched up the rail, and a tool with variants unfolds its options beside it with a swish — a panel revealed from the rail's edge whose entries step out on snap, or a drawer that glides open inside the rail on glide. Single-letter shortcuts switch tools while focus or the pointer is on the dock (never while typing), the key of the active tool cycles its variants, and the canvas shows the tool's own cursor, drawn 1:1 under the pointer and popping to each new shape on snap. The rail is a toolbar of pressed buttons with one tab stop: arrows move, Space or Enter choose, and the arrow toward the options opens them as a menu of radio items with focus inside.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "tool rail",
+        "toolbar",
+        "canvas",
+        "drawing tools",
+        "keyboard shortcuts",
+        "flyout",
+        "cursor"
+      ],
+      "props": [
+        {
+          "name": "tools",
+          "type": "{ id: string; label: string; glyph?: ToolDockGlyph; icon?: ReactNode; cursor?: ReactNode; key?: string; variants?: { id: string; label: string; glyph?: ToolDockGlyph; icon?: ReactNode; cursor?: ReactNode; key?: string }[] }[]",
+          "description": "The rail, top to bottom (or left to right). A tool with variants shows the last one used; key is a single letter. Built-in glyphs, each with a cursor: move, hand, frame, rect, ellipse, line, polygon, pen, pencil, brush, text, eraser, comment."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "the first tool (its first variant)",
+          "description": "The active tool's id, or the active variant's id for a tool that has them."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the press, key or shortcut that changed the tool."
+        },
+        {
+          "name": "orientation",
+          "type": "\"vertical\" | \"horizontal\"",
+          "defaultValue": "\"vertical\"",
+          "description": "A rail down the canvas's left, or centred along its foot."
+        },
+        {
+          "name": "shortcuts",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Single-letter keys switch tools and each button shows its letter (and names it in aria-keyshortcuts). Keys act while focus is in the dock, or while the pointer is over it and nothing else has focus; never in a field or with Ctrl, Cmd or Alt, and a handled key is claimed."
+        },
+        {
+          "name": "flyout",
+          "type": "\"side\" | \"tray\"",
+          "defaultValue": "\"side\"",
+          "description": "A tool's options float in a panel beside the rail (over the canvas, placed inside the component's box), or open as a drawer inside the rail that pushes the tools after it."
+        },
+        {
+          "name": "labels",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A label under each icon; the rail widens to fit. Off, the name is still each button's accessible name."
+        },
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "description": "What is on the canvas, laid out inside it (position it absolutely to fill)."
+        },
+        {
+          "name": "canvasHeight",
+          "type": "number",
+          "defaultValue": "400",
+          "description": "The canvas's height in px."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Tools\"",
+          "description": "The rail's accessible name."
+        },
+        {
+          "name": "canvasLabel",
+          "type": "string",
+          "defaultValue": "\"Canvas\"",
+          "description": "The canvas's accessible name."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A tick on every tool or variant change, pitched up the rail on a pentatonic scale and panned to the button; a swish as options unfold and a lower, quieter one as they fold. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dims the dock, disables its buttons and stops the shortcuts; the system cursor comes back over the canvas."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the wrapper that holds the rail and the canvas."
+        }
+      ],
+      "usageNotes": [
+        "The rail is role=toolbar (with aria-orientation) of buttons with aria-pressed and one tab stop: arrows along the rail move focus, Home and End jump, Space or Enter choose. A tool with variants has aria-haspopup=menu and aria-expanded; Space, Enter or the arrow toward the options (Right on a vertical rail, Up on a horizontal one) opens them as a role=menu of menuitemradio with focus on the checked one. There arrows move, Space or Enter choose and fold back to the tool, Escape or the arrow back folds without choosing, and focus leaving folds them. A shortcut's change is announced once in a polite live region.",
+        "Under reduced motion the indicator moves at once, options fade in and out with no reveal or step (a tray opens at full height), and the canvas cursor still follows the pointer but parks at once and swaps its shape with a fade. Sounds are unchanged.",
+        "The canvas hides the system cursor and draws the tool's own with its hotspot under the pointer, parking it at the centre when the pointer leaves so a keyboard or touch user still sees the tool change; a tap moves it to the finger. A press anywhere outside the rail and its options folds them."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/tool-dock",
+      "registryItemUrl": "https://www.kinetiqui.com/r/tool-dock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/tool-dock",
+        "npm": "npx shadcn@latest add @kinetiq/tool-dock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/tool-dock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/tool-dock",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/tool-dock.json"
       }
     },
     {

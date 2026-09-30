@@ -27867,6 +27867,259 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "hang-label",
+      "type": "registry:ui",
+      "title": "Hang Label",
+      "description": "A text field whose label lifts off the placeholder on the glide spring, flipping up on a hinge along its top edge as it travels, and lands on the field's top edge where it hangs and swings on an underdamped pendulum spring whose first swing peaks at the swing angle; the outline style cuts a notch in the border under it with a mask, so the field sits on any background. An error shakes the tag on a keyframe tween and a character budget fills as a thread under the field on glide. Tabbing into the field lifts and hangs the label exactly as a click does, and everything else, typing, selection, IME composition, paste and autofill, is the browser's own input.",
+      "files": [
+        {
+          "path": "registry/ui/hang-label.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1127"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "roll-search",
+      "type": "registry:ui",
+      "title": "Roll Search",
+      "description": "A search that lives as a round lens at the right end of its slot: pressed, or with / typed anywhere on the page, the lens rolls to the left end like a wheel on the snap spring while the field unrolls behind it like a strip of carpet, one motion value driving the pill's width, the lens's place and its turn, so the wheel never slips and always lands upright. Results drop in below on snap in a cascade, in a panel whose height is measured and glides, with the query lit in each; Escape rolls it back up on glide. The input is a real combobox: arrows move through the results, Enter picks one, Escape rolls it up and returns focus to the lens.",
+      "files": [
+        {
+          "path": "registry/ui/roll-search.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1128"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sift-filter",
+      "type": "registry:ui",
+      "title": "Sift Filter",
+      "description": "A filter field over a two-column set of cards: as you type, every card that stops matching drops off the bottom under constant acceleration with a slight spin, while the matches close ranks on the glide spring, and the set's floor waits for the last faller to pass through it before it glides up to fit. Deleting back or clearing brings the fallen up from below the floor on the snap spring, their spin unwinding, in a stagger that stays inside the choreography budget. The field is a real input: Escape clears it with the same rise as deleting, fallen cards leave the tab order and the accessibility tree at once, and IME composition filters on what was committed.",
+      "files": [
+        {
+          "path": "registry/ui/sift-filter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1129"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ratio-morph",
+      "type": "registry:ui",
+      "title": "Ratio Morph",
+      "description": "An aspect-ratio picker that reframes a picture: choosing a shape glides the frame's width and height to the new ratio on the glide spring, with four corner brackets riding its corners, while the picture is re-laid every frame so its focal point stays as near the centre as its edges allow. Pressing the stage brings the focal reticle to the finger 1:1 (it swells on flick) while a ghost of the whole picture fades in round the frame; past the picture's edge the reticle rubber-bands, and on release the throw is projected and the picture glides to re-centre on the new point. The chips are a radiogroup whose arrows choose and whose Home and End jump; the stage takes arrow keys (Shift for bigger steps) to move the focal point with the same glide and sounds.",
+      "files": [
+        {
+          "path": "registry/ui/ratio-morph.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1133"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "seat-map",
+      "type": "registry:ui",
+      "title": "Seat Map",
+      "description": "A seating chart for one booking: pressing a free seat flips it over on its centre line to its chosen face on the snap spring, with a clack as it lands flat, and the row makes room as its neighbours in the block are kicked aside by a velocity whose target is their own place, so each sways away and back on snap. While picks remain, the free seats beside yours light as together suggestions; taken seats are hatched, and the total rolls digit by digit on glide with a tick. It is a multi-select grid with one tab stop: arrows roam seat by seat over the aisles, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown jump, and Space or Enter picks with the same flip and sounds.",
+      "files": [
+        {
+          "path": "registry/ui/seat-map.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1134"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tool-dock",
+      "type": "registry:ui",
+      "title": "Tool Dock",
+      "description": "The tool rail of a drawing canvas and the canvas it drives: the active tool sits on an indicator that slides to each new choice on the snap spring with a tick pitched up the rail, and a tool with variants unfolds its options beside it with a swish — a panel revealed from the rail's edge whose entries step out on snap, or a drawer that glides open inside the rail on glide. Single-letter shortcuts switch tools while focus or the pointer is on the dock (never while typing), the key of the active tool cycles its variants, and the canvas shows the tool's own cursor, drawn 1:1 under the pointer and popping to each new shape on snap. The rail is a toolbar of pressed buttons with one tab stop: arrows move, Space or Enter choose, and the arrow toward the options opens them as a menu of radio items with focus inside.",
+      "files": [
+        {
+          "path": "registry/ui/tool-dock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1135"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "plain-date",
+      "type": "registry:ui",
+      "title": "Plain Date",
+      "description": "A date field you type in words: it reads today, tomorrow, next fri 3pm, in 2 weeks or oct 23 against a now you pass, lights the words it used, slides the date out of the end of the phrase as a chip on the snap spring, and lights the day in a mini calendar whose light hops on snap and whose page turns on glide when the month changes. A phrase with two readings offers both chips; ArrowDown and ArrowUp choose, Enter or a click sets, Escape puts back the last set phrase. It is a real input with the combobox pattern, so typing, selection, IME, paste and undo stay native.",
+      "files": [
+        {
+          "path": "registry/ui/plain-date.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1130"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "calc-field",
+      "type": "registry:ui",
+      "title": "Calc Field",
+      "description": "An amount field that takes arithmetic: type 1240/3, 12*4+3 or 15% and the answer rides in a bubble just past the last character, kept up with on the snap spring, its digits rolling up as the answer grows and down as it shrinks. Enter or leaving the field commits: the sum folds away, or down into a receipt, on the exit tween while the answer folds down into place on snap; a character that can never be arithmetic is refused with a soft shake. The parser is a small recursive descent with no eval, and the input stays native, so typing, IME, paste and undo work, and undo brings a committed sum back.",
+      "files": [
+        {
+          "path": "registry/ui/calc-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1131"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "glide-caret",
+      "type": "registry:ui",
+      "title": "Glide Caret",
+      "description": "A native textarea whose caret glides: its place is read from a mirror of the text, a head springs there at the chosen stiffness while a softer, critically damped tail follows, and the caret is drawn as a solid bar with a translucent streak between the two that thins with distance and shrinks back to a bar as the tail catches up. Selecting text draws one highlight per line that springs out from the caret's column, rippling outward on the house cascade, with the caret riding the active end. Everything else — typing, selection, IME, paste, undo, spellcheck, the keyboard — is the textarea's own, and the native caret returns during composition and in forced colours.",
+      "files": [
+        {
+          "path": "registry/ui/glide-caret.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1132"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

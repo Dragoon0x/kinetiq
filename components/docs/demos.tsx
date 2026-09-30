@@ -1196,6 +1196,15 @@ import { SlotSwipeDemo } from "@/registry/demos/slot-swipe.demo";
 import { StoryCubeDemo } from "@/registry/demos/story-cube.demo";
 import { FilterSwipeDemo } from "@/registry/demos/filter-swipe.demo";
 import { GesturePlayerDemo } from "@/registry/demos/gesture-player.demo";
+import { HangLabelDemo } from "@/registry/demos/hang-label.demo";
+import { RollSearchDemo } from "@/registry/demos/roll-search.demo";
+import { SiftFilterDemo } from "@/registry/demos/sift-filter.demo";
+import { RatioMorphDemo } from "@/registry/demos/ratio-morph.demo";
+import { SeatMapDemo } from "@/registry/demos/seat-map.demo";
+import { ToolDockDemo } from "@/registry/demos/tool-dock.demo";
+import { PlainDateDemo } from "@/registry/demos/plain-date.demo";
+import { CalcFieldDemo } from "@/registry/demos/calc-field.demo";
+import { GlideCaretDemo } from "@/registry/demos/glide-caret.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2406,4 +2415,13 @@ export const demos: Record<string, ComponentType> = {
   "story-cube": StoryCubeDemo,
   "filter-swipe": FilterSwipeDemo,
   "gesture-player": GesturePlayerDemo,
+  "hang-label": HangLabelDemo,
+  "roll-search": RollSearchDemo,
+  "sift-filter": SiftFilterDemo,
+  "ratio-morph": RatioMorphDemo,
+  "seat-map": SeatMapDemo,
+  "tool-dock": ToolDockDemo,
+  "plain-date": PlainDateDemo,
+  "calc-field": CalcFieldDemo,
+  "glide-caret": GlideCaretDemo,
 };

@@ -164,4 +164,40 @@ export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/gesture-player.demo").then((m) =>
       mod(m.GesturePlayerDemo, m.tweaks),
     ),
+  "hang-label": () =>
+    import("@/registry/demos/hang-label.demo").then((m) =>
+      mod(m.HangLabelDemo, m.tweaks),
+    ),
+  "roll-search": () =>
+    import("@/registry/demos/roll-search.demo").then((m) =>
+      mod(m.RollSearchDemo, m.tweaks),
+    ),
+  "sift-filter": () =>
+    import("@/registry/demos/sift-filter.demo").then((m) =>
+      mod(m.SiftFilterDemo, m.tweaks),
+    ),
+  "ratio-morph": () =>
+    import("@/registry/demos/ratio-morph.demo").then((m) =>
+      mod(m.RatioMorphDemo, m.tweaks),
+    ),
+  "seat-map": () =>
+    import("@/registry/demos/seat-map.demo").then((m) =>
+      mod(m.SeatMapDemo, m.tweaks),
+    ),
+  "tool-dock": () =>
+    import("@/registry/demos/tool-dock.demo").then((m) =>
+      mod(m.ToolDockDemo, m.tweaks),
+    ),
+  "plain-date": () =>
+    import("@/registry/demos/plain-date.demo").then((m) =>
+      mod(m.PlainDateDemo, m.tweaks),
+    ),
+  "calc-field": () =>
+    import("@/registry/demos/calc-field.demo").then((m) =>
+      mod(m.CalcFieldDemo, m.tweaks),
+    ),
+  "glide-caret": () =>
+    import("@/registry/demos/glide-caret.demo").then((m) =>
+      mod(m.GlideCaretDemo, m.tweaks),
+    ),
 };

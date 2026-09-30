@@ -19491,6 +19491,271 @@ Notes:
 - Under reduced motion the bubble, meter and ripple appear and fade without travelling or swelling, a released seek or a skip lands at once, and levels settle without springing; the scrub still follows the finger and the readout still counts.
 - The picture takes both axes (touch-action none), as a full-bleed player does; a middle tap plays at once, while a lone tap on a side waits a moment for a second tap.
 
+### Hang Label (KQ-1127) — `hang-label`
+The label lifts and hangs on the edge.
+
+A text field whose label lifts off the placeholder on the glide spring, flipping up on a hinge along its top edge as it travels, and lands on the field's top edge where it hangs and swings on an underdamped pendulum spring whose first swing peaks at the swing angle; the outline style cuts a notch in the border under it with a mask, so the field sits on any background. An error shakes the tag on a keyframe tween and a character budget fills as a thread under the field on glide. Tabbing into the field lifts and hangs the label exactly as a click does, and everything else, typing, selection, IME composition, paste and autofill, is the browser's own input.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/hang-label`
+
+Props:
+- `label`: string — What the field is for: the visible label (the hanging tag is the real label element) and the input's accessible name.
+- `value / defaultValue`: string (default "") — The text. Controlled or uncontrolled.
+- `onValueChange`: (value: string) => void — Fires with the new text on every edit: typing, paste, composition and autofill.
+- `error`: string | null — What is wrong, in a sentence. Shown under the field in a polite live region, sets aria-invalid, and shakes the label when it arrives or changes.
+- `shakeKey`: string | number — Change it to shake the label again with the same error, e.g. a form's submit count.
+- `hint`: string — Helper text under the field, replaced by the error while one shows.
+- `maxLength`: number — The character budget, also the input's native maxlength.
+- `swing`: number (default 5) — How far the tag swings when it lands on the edge, in degrees, 0 to 10. A long label swings less, so its rising corner never leaves the component's box.
+- `stiffness`: number (default 220) — The pendulum's spring stiffness, 60 to 600: low is a slow, lazy sway, high a quick, tight wobble.
+- `style`: "outline" | "filled" | "line" (default "outline") — A framed field with a notch cut under the tag, a filled field whose tag reads as a raised tab, or an underline.
+- `budget`: boolean (default true) — Show the budget as a thread filling under the field, cobalt, then warn in the last 20%, with a count. Needs maxLength.
+- `type`: "text" | "email" | "tel" | "url" | "password" | "search" (default "text") — The input's type.
+- `name`: string — The input's name, for forms.
+- `autoComplete`: string — The input's autocomplete hint. Autofill lifts the label, even before the page has had a key.
+- `inputMode`: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search" — The on-screen keyboard to offer.
+- `placeholder`: string — Shown inside the field only once the label has lifted out of the way.
+- `required`: boolean — The input's native required.
+- `onFocus`: (event: React.FocusEvent<HTMLInputElement>) => void — The input's focus event.
+- `onBlur`: (event: React.FocusEvent<HTMLInputElement>) => void — The input's blur event, e.g. to validate on leaving the field.
+- `ref`: React.Ref<HTMLInputElement> — The input element, e.g. to focus the field when a submit is refused.
+- `sound`: boolean (default false) — Play a tick on the frame the tag lands (only while the field has focus), a shrug with the error shake, and a detent on the key that fills the budget. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the field and disables the input; the label stays where the text puts it.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- A real <input> named by a real <label for>: Tab into the field and the label lifts, flips and hangs with the same tick a click gives; typing, selection, IME composition, paste and autofill are native. The field's own frame is the focus indicator (a 2px ring-coloured border, or a 2px rule), deliberately not an outline ring, which would run through the hanging tag. The error and hint are linked with aria-describedby, and the budget is spoken only at thresholds ("6 characters left.", "No characters left.").
+- Under reduced motion the label cross-fades between the placeholder spot and the edge with no travel, flip, swing or shake, while the notch, the colours, the error message and the budget thread still answer.
+- Pass the form's submit count as shakeKey (and focus the field through ref) so each refused submit shakes the label again on the edge where it hangs.
+
+### Roll Search (KQ-1128) — `roll-search`
+The lens rolls open into a field.
+
+A search that lives as a round lens at the right end of its slot: pressed, or with / typed anywhere on the page, the lens rolls to the left end like a wheel on the snap spring while the field unrolls behind it like a strip of carpet, one motion value driving the pill's width, the lens's place and its turn, so the wheel never slips and always lands upright. Results drop in below on snap in a cascade, in a panel whose height is measured and glides, with the query lit in each; Escape rolls it back up on glide. The input is a real combobox: arrows move through the results, Enter picks one, Escape rolls it up and returns focus to the lens.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/roll-search`
+
+Props:
+- `items`: { id: string; label: string; meta?: string; keywords?: readonly string[] }[] — What is searched: the label and meta are shown and lit, keywords only searched.
+- `label`: string — What is being searched, as "Search docs": the lens button's name and the input's visible label, which heads the results panel.
+- `placeholder`: string (default "Search") — The input's placeholder.
+- `value / defaultValue`: string (default "") — The query. Controlled or uncontrolled.
+- `onValueChange`: (query: string) => void — Fires with the new query on every edit, and with "" when the search rolls up.
+- `open / defaultOpen`: boolean (default false) — Whether the field is rolled open. Controlled or uncontrolled; a host change rolls it silently.
+- `onOpenChange`: (open: boolean) => void — Fires from the press, key or blur that opened or closed it.
+- `onSelect`: (item: RollSearchItem) => void — Enter, or a press on a result. The search then rolls up and focus returns to the lens.
+- `filter`: (item: RollSearchItem, query: string) => boolean — Whether an item answers a query. Defaults to every word of the query appearing in its label, meta or keywords.
+- `limit`: number (default 4) — The most results shown at once; the panel says "4 of 9" when there are more.
+- `shortcut`: string | null (default "/") — The key that opens it from anywhere on the page, shown as a small key cap beside the lens; null for none. It never fires while typing in a field, with a modifier, during composition, or behind a dialog.
+- `width`: number (default 320) — How far the field unrolls, in px, 200 to 400. It shrinks to fit a narrower box.
+- `roll`: boolean (default true) — The lens turns as it travels, like a wheel, rocking slightly against the end; off, it slides.
+- `results`: "list" | "cards" (default "list") — Compact rows with a page glyph and the meta at the end, or small cards in two columns.
+- `highlight`: boolean (default true) — Light every occurrence of the query's words in each result.
+- `sound`: boolean (default false) — Play a whir while the lens rolls, its gain and pitch following the lens's speed (a swish when it slides), and a tick as each arriving result lands. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Disables the lens, the input and the shortcut.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- Closed, the lens is a button with aria-expanded and aria-keyshortcuts="/"; Enter, Space or / open it and focus lands in the input within the same press, so a phone raises its keyboard. Open, the input is a role="combobox" with aria-activedescendant over a listbox: ArrowDown/ArrowUp move the active result, Enter picks it (the first when none is active), Escape rolls it back up wherever focus is inside the component and returns focus to the lens. Leaving an empty search rolls it up too, and the result count is spoken politely once typing pauses.
+- Under reduced motion nothing rolls or drops: the slot cross-fades between closed and open, results fade in place and the panel height changes on a short tween; the result ticks still mark arrivals.
+- The results panel sits in the flow under the field and its height is measured, so give the component room below it, or place it where the page can grow.
+
+### Sift Filter (KQ-1129) — `sift-filter`
+Type; what doesn't match falls away.
+
+A filter field over a two-column set of cards: as you type, every card that stops matching drops off the bottom under constant acceleration with a slight spin, while the matches close ranks on the glide spring, and the set's floor waits for the last faller to pass through it before it glides up to fit. Deleting back or clearing brings the fallen up from below the floor on the snap spring, their spin unwinding, in a stagger that stays inside the choreography budget. The field is a real input: Escape clears it with the same rise as deleting, fallen cards leave the tab order and the accessibility tree at once, and IME composition filters on what was committed.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/sift-filter`
+
+Props:
+- `items`: { id: string; title: string; meta?: string; tags?: readonly string[] }[] — The cards: a title and a short second line, both searched and lit; tags only searched.
+- `label`: string — What the field filters: its visible label and accessible name.
+- `placeholder`: string (default "Type to filter") — The input's placeholder.
+- `value / defaultValue`: string (default "") — The query. Controlled or uncontrolled.
+- `onValueChange`: (query: string) => void — Fires with the new query on every edit, and with "" when cleared.
+- `filter`: (item: SiftFilterItem, query: string) => boolean — Whether a card answers a query. Defaults to every word of the query appearing in its title, meta or tags.
+- `onSelect`: (item: SiftFilterItem) => void — Makes each card a button, and fires with the card pressed.
+- `gravity`: number (default 2750) — How hard cards fall, in px/s², 1000 to 6000: a fall of d px takes √(2d/g). Also how hard the fallen are thrown back up.
+- `spin`: number (default 14) — How far a card turns on its way down, in degrees, 0 to 40. Each card falls its own way, the same way every time.
+- `stagger`: number (default 35) — The gap between one card leaving (or returning) and the next, in ms, 0 to 100, tightened so a whole cascade stays within 600ms.
+- `highlight`: boolean (default true) — Light the query's words in each card's title and meta.
+- `sound`: boolean (default false) — Play a patter, a soft plip as each card passes through the floor (pitched per card, panned by column), and a rise when an edit brings cards back. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Disables the field and the clear button, and makes cards plain.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- A real <input> with a visible <label for>; Escape clears it (and only claims the key when there is text to clear), as does the Clear filter button, with the same rise and sound as deleting. The set is a list; fallen cards are aria-hidden and inert from the moment they start to fall, and "3 of 10 match." is spoken politely once typing pauses.
+- Under reduced motion nothing falls, spins or travels: cards that stop matching fade out in place, survivors dip and reappear in their new slots, returning cards fade in, and the floor changes height on a short tween; the count, the spoken summary and the patter still answer.
+- Cards are a fixed 64px tall in two percentage columns, so the set's height is known before anything is measured and it renders the same on the server; titles and metas truncate with their full text in a tooltip.
+
+### Plain Date (KQ-1130) — `plain-date`
+Type it the way you say it.
+
+A date field you type in words: it reads today, tomorrow, next fri 3pm, in 2 weeks or oct 23 against a now you pass, lights the words it used, slides the date out of the end of the phrase as a chip on the snap spring, and lights the day in a mini calendar whose light hops on snap and whose page turns on glide when the month changes. A phrase with two readings offers both chips; ArrowDown and ArrowUp choose, Enter or a click sets, Escape puts back the last set phrase. It is a real input with the combobox pattern, so typing, selection, IME, paste and undo stay native.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/plain-date`
+
+Props:
+- `label`: string — What the date is for. Shown above the field and tied to it by id.
+- `now`: Date — The moment phrases are read against. Required. Pass a fixed moment or one taken in an effect, never new Date() during render.
+- `value / defaultValue`: Date | null (default null) — The committed date. Controlled or uncontrolled; a host that sets a date the field did not report sees it written back as a phrase the field reads ("fri 23 oct 3:00pm").
+- `onValueChange`: (value: Date | null, detail: { hasTime: boolean }) => void — Fires from the Enter, chip click or blur that committed it, with whether a time was given. null when the field is cleared and Enter pressed.
+- `defaultText`: string — The phrase the field starts with, read but not committed.
+- `placeholder`: string (default "tomorrow 9am") — The field's placeholder.
+- `weekStart`: "mon" | "sun" | "sat" (default "mon") — The calendar's first column, each day's chime on the scale, and where "this week" ends, which decides whether next <weekday> has two readings.
+- `format`: "short" | "long" | "iso" | "relative" (default "short") — How the chip writes the date: Fri 23 Oct, Friday 23 October, 2026-10-23 with a 24-hour time, or In 10 days with the date underneath.
+- `calendar`: boolean (default true) — Show the mini calendar beside the field.
+- `strict`: boolean (default false) — Read only the exact grammar and guess nothing: no short forms or prefixes, no bare hours, unknown words stop the parse, and a phrase with two readings has none chosen until you pick.
+- `sound`: boolean (default false) — A soft chime when the chosen date changes, pitched by weekday and panned by its calendar column, and a click when it is set. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Disables the field and its chips and dims the calendar.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- The grammar: today, tomorrow, in <n> days or weeks, <weekday>, this <weekday>, next <weekday>, <month> <day> [<year>] or <day> <month> [<year>], and a time anywhere (3pm, 3:30pm, 15:00, noon); "at", "on", "the", "of" are filler. next <weekday> has two readings while that day is still ahead this week. The input is a combobox whose options are the reading chips: ArrowDown and ArrowUp choose, Enter commits (and is left alone when the chosen date is already set, so a form can submit), Escape restores the last committed phrase undoably, and blur commits an unambiguous reading. Readings are announced once typing settles.
+- Under reduced motion the chips and the calendar light fade in place instead of travelling, the month changes with a cross-fade and the check appears without drawing; every reading, highlight, ring and chime still happens.
+- Nothing reads the clock during render: every date is local-time arithmetic on the now you pass, so server and browser render the same markup.
+
+### Calc Field (KQ-1131) — `calc-field`
+Type the sum; the answer keeps up.
+
+An amount field that takes arithmetic: type 1240/3, 12*4+3 or 15% and the answer rides in a bubble just past the last character, kept up with on the snap spring, its digits rolling up as the answer grows and down as it shrinks. Enter or leaving the field commits: the sum folds away, or down into a receipt, on the exit tween while the answer folds down into place on snap; a character that can never be arithmetic is refused with a soft shake. The parser is a small recursive descent with no eval, and the input stays native, so typing, IME, paste and undo work, and undo brings a committed sum back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/calc-field`
+
+Props:
+- `label`: string — What the amount is. Shown above the field and tied to it by id.
+- `value / defaultValue`: number | null (default null) — The committed amount, already rounded. Controlled or uncontrolled; a host that sets an amount the field did not report sees it written into the field.
+- `onValueChange`: (value: number | null) => void — Fires from the Enter or blur that committed it, with the rounded amount; null when the field is emptied and committed.
+- `defaultText`: string — A sum the field starts with, worked out but not committed.
+- `percentOf`: number — What a bare percentage is a share of: with 1240, 15% is 186. Without it a bare percentage is its fraction.
+- `placeholder`: string (default "0.00" at the field's precision) — The field's placeholder.
+- `precision`: number (default 2) — Decimals in the answer and the committed amount, 0 to 3 — the range currencies use.
+- `currency`: string (default "USD") — An ISO currency code whose symbol sits before the field and in the bubble, or "none" for a plain number.
+- `expression`: boolean (default true) — Write the sum out under the field while you type (× ÷ −, and which way it was rounded when it was), fold it down into a receipt on commit, and make the receipt a button that brings the sum back. Off, the sum folds away with nothing kept.
+- `rounding`: "half-up" | "half-even" | "up" | "down" (default "half-up") — How the answer is brought to precision, on its decimal digits (1.005 is 1.01 half up). "up" and "down" are away from and toward zero. A rounded answer shows ≈, and the tape names the mode.
+- `sound`: boolean (default false) — A tick as the answer changes, pitched by its size and panned by the bubble's place, a click on commit, and a quiet shrug with each shake. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Disables the field and the receipt.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- Arithmetic: + − × ÷ (also * / x), brackets, unary signs, decimals, thousands commas and %, where a + b% adds b% of a and a bare b% is b% of percentOf. Enter commits and is claimed only when there is something to commit, so a form still submits on a second Enter; blur commits too; Escape restores the last committed text; undo after a commit brings the sum back. An unfinished sum keeps its last answer, dimmed. The answer is in the input's description and announced once typing settles, never per keystroke.
+- Under reduced motion the bubble moves without travel, digits cross-fade instead of rolling, the commit is a cross-fade and a failed commit turns the border danger instead of shaking; the answer, receipt and sounds still arrive.
+- The parser never throws and never evaluates code: anything it cannot work out comes back as a sentence ("Two operators in a row", "Can’t divide by zero") shown under the field and set as aria-invalid.
+
+### Glide Caret (KQ-1132) — `glide-caret`
+The caret glides to where you type.
+
+A native textarea whose caret glides: its place is read from a mirror of the text, a head springs there at the chosen stiffness while a softer, critically damped tail follows, and the caret is drawn as a solid bar with a translucent streak between the two that thins with distance and shrinks back to a bar as the tail catches up. Selecting text draws one highlight per line that springs out from the caret's column, rippling outward on the house cascade, with the caret riding the active end. Everything else — typing, selection, IME, paste, undo, spellcheck, the keyboard — is the textarea's own, and the native caret returns during composition and in forced colours.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/glide-caret`
+
+Props:
+- `label`: string — What the text is. Shown above the field and tied to the textarea by id.
+- `value / defaultValue`: string (default "") — The text. Controlled or uncontrolled.
+- `onValueChange`: (value: string) => void — Fires on every edit, with the new text.
+- `placeholder`: string — The textarea's placeholder.
+- `rows`: number (default 4) — Visible lines, 2 to 12. The textarea scrolls past them, and the caret and selection move with the text.
+- `name`: string — The form field name, passed to the textarea.
+- `stiffness`: number (default 600) — The caret's spring, 150 to 1200: floaty and lagging at the low end, tight at the top. The selection's growing edge uses it too.
+- `stretch`: number (default 0.5) — How far the caret's tail lags, 0 to 1: at 0 a plain bar glides; toward 1 it trails a long streak.
+- `width`: number (default 2) — The caret's thickness in px, 1 to 4.
+- `blink`: "smooth" | "step" | "none" (default "smooth") — How the caret blinks at rest: a breathing fade, the classic hard on and off, or solid. It restarts solid after every move and runs on the compositor.
+- `sound`: boolean (default false) — Faint taps as the caret lands: a tick per character with its own small pitch, a lower one for deletions, a detent for a new line and a lighter tick for a click or arrow jump, panned by the caret's place. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Disables the textarea; the drawn caret never shows.
+- `className`: string — Merged onto the root's classes.
+
+Notes:
+- It is a real textarea with a visible label: every key, shortcut, selection gesture, IME, paste and undo is native, and so is its focus ring. The native caret is hidden only while the drawn caret is showing and focus is inside; during IME composition, before the first measurement, when disabled and in forced-colours mode the native caret and highlight come back. Placing the caret with the arrow keys taps exactly as a click does.
+- Under reduced motion the caret moves to each place at once with no streak and does not blink, and a selection fades in line by line instead of growing; the caret and the highlight are still drawn.
+- Measurement is coalesced to one read per frame and only runs on input, selection, focus, scroll and resize, so nothing runs while the text sits still; scrolling and resizing move the caret with the text, without travel.
+
+### Ratio Morph (KQ-1133) — `ratio-morph`
+Pick a shape; the picture reframes.
+
+An aspect-ratio picker that reframes a picture: choosing a shape glides the frame's width and height to the new ratio on the glide spring, with four corner brackets riding its corners, while the picture is re-laid every frame so its focal point stays as near the centre as its edges allow. Pressing the stage brings the focal reticle to the finger 1:1 (it swells on flick) while a ghost of the whole picture fades in round the frame; past the picture's edge the reticle rubber-bands, and on release the throw is projected and the picture glides to re-centre on the new point. The chips are a radiogroup whose arrows choose and whose Home and End jump; the stage takes arrow keys (Shift for bigger steps) to move the focal point with the same glide and sounds.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ratio-morph`
+
+Props:
+- `ratios`: "social" | "photo" | "screen" | string[] (default "social") — The shapes offered, in chip order: social is 1:1, 4:5, 16:9 and 9:16; photo is 3:2, 4:3, 1:1 and 2:3; screen is 16:9, 16:10, 21:9 and 4:3. Or your own list of "w:h" strings. RATIO_MORPH_SETS exports the named sets.
+- `value / defaultValue`: string (default the first of ratios) — The chosen ratio, as "w:h". A value that is not in the list shows the first ratio.
+- `onValueChange`: (ratio: string) => void — Fires from the press or key that chose a new ratio. In controlled mode the frame morphs once the host passes the new value back.
+- `focalPoint / defaultFocalPoint`: { x: number; y: number } (default { x: 0.5, y: 0.5 }) — The point the frame keeps in view as it changes shape, as fractions of the picture's width and height.
+- `onFocalPointChange`: (point: { x: number; y: number }) => void — Fires once per drag release, tap or arrow key, with the new point rounded to three places.
+- `brackets`: number (default 16) — The corner brackets' arm length in px, 6 to 40: short ticks to nearly closed corners.
+- `focal`: boolean (default true) — Marks the focal point with a reticle on the picture.
+- `grid`: boolean (default false) — Rule-of-thirds lines inside the frame that ride the morph; faint at rest, brighter while the picture is held.
+- `picture`: ReactNode (default a procedural harbour at dusk) — What is framed. It is laid out in a box of pictureRatio and scaled, so pass something that fills its box, such as an img with object-cover.
+- `pictureRatio`: number (default 1.5) — The picture's own width over its height.
+- `alt`: string — What the picture shows, read with the stage's instructions. Defaults to a description of the built-in harbour.
+- `label`: string (default "Aspect ratio") — The ratio chips' accessible name.
+- `sound`: boolean (default false) — A detent when a ratio is chosen and a click on the frame the morph lands, both pitched by the shape; a detent when a drag meets the picture's edge and a click on release. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the picker and blocks the chips, drags, taps and keys.
+- `className`: string — Merged onto the wrapper that holds the stage and the chips.
+
+Notes:
+- The chips are a role=radiogroup of radios with one tab stop: any arrow moves and chooses (wrapping), Home and End jump, and each is named as a shape ("4 by 5, portrait"). The stage is a focusable role=application ("picture frame") described by the alt text and its instructions; arrows move the focal point 5%, Shift+arrows 20%, and a polite live region says the new point once per move.
+- Under reduced motion the frame changes shape at once and its brackets fade in at the new corners; the picture re-lays at once. A drag still follows the finger 1:1 but lands without a projected glide, and keys jump. The reticle, grid, ghost fade and sounds are unchanged.
+- The stage is touch-action: none, since the drag is two-dimensional. Its width is measured, so the frame is as large as the column allows; the server and the first client render use a 320px stage, then it resizes without a morph or a sound.
+
+### Seat Map (KQ-1134) — `seat-map`
+Pick your seats; the row makes room.
+
+A seating chart for one booking: pressing a free seat flips it over on its centre line to its chosen face on the snap spring, with a clack as it lands flat, and the row makes room as its neighbours in the block are kicked aside by a velocity whose target is their own place, so each sways away and back on snap. While picks remain, the free seats beside yours light as together suggestions; taken seats are hatched, and the total rolls digit by digit on glide with a tick. It is a multi-select grid with one tab stop: arrows roam seat by seat over the aisles, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown jump, and Space or Enter picks with the same flip and sounds.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/seat-map`
+
+Props:
+- `rows`: number (default 5) — Rows of seats, 1 to 12, lettered from the stage back with I and O skipped. More rows make smaller seats (at most 22px) so the grid stays within about 172px.
+- `columns`: number (default 12) — Seats in each row, 4 to 16, numbered from the left.
+- `aisles`: number (default 2) — Aisles splitting each row, 0 to 3. Two make the classic short-long-short blocks; otherwise the blocks are even with any spare seats in the middle.
+- `tiers`: boolean (default true) — Prices the rows in three bands (front, centre and rear by thirds, the centre taking the remainder), each with its own tint and named in the readout.
+- `maxPicks`: number (default 4) — The most seats one booking may hold, 1 to 12. At the limit the other free seats dim and a press is refused with a shrug.
+- `taken`: string[] (default []) — Seats already sold, by id (row letter and seat number, "C7"). seatMapId(rowIndex, seatNumber) builds an id the way the map does.
+- `value / defaultValue`: string[] (default []) — The chosen seats' ids in the order they were chosen. Ids that are off the map or taken are ignored.
+- `onValueChange`: (seats: string[]) => void — Fires from the press or key that chose or released a seat. A seat flips only once the value that is shown includes it.
+- `price`: number (default 36) — Every seat's price when tiers is off.
+- `tierPrices`: [number, number, number] (default [48, 36, 24]) — Front, centre and rear prices when tiers is on.
+- `format`: (amount: number) => string (default US dollars) — How prices and the total are printed. The total's digits roll; any other characters stay put.
+- `label`: string (default "Seats") — The grid's accessible name.
+- `stageLabel`: string (default "Stage") — Printed under the curve at the top of the map.
+- `sound`: boolean (default false) — A clack as a seat lands flat, pitched up with each seat you hold and panned by its column; a softer one as a released seat lands back; a tick as the total rolls; a quiet shrug for a refused seat. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the map and blocks picks; no seat takes focus.
+- `className`: string — Merged onto the wrapper, whose max width is set from the seat size so the footer lines up with the grid.
+
+Notes:
+- The map is role=grid with aria-multiselectable; each row has a rowheader letter, and each seat is a gridcell with aria-selected (aria-disabled when taken) and a one-string name such as "Row C, seat 7, centre, $36.00, suggested". One seat is the tab stop. Arrows move a seat at a time, stepping over aisles; Home and End go to the row's ends, Ctrl+Home and Ctrl+End to the corners, PageUp and PageDown to the first and last rows; Space or Enter picks or releases. A polite live region says each change once, from the value actually shown.
+- Under reduced motion seats cross-fade from their free face to their chosen face instead of flipping, nothing sways, and the total swaps in place. Suggestions, dimming, sounds and announcements are unchanged.
+- The footer reads out the seat under the pointer or focus (its band and price, or that it is taken or yours), else the suggestions or your seats. Seats are touch-manipulation, so the page still scrolls from the map.
+
+### Tool Dock (KQ-1135) — `tool-dock`
+Pick a tool; its options unfold beside it.
+
+The tool rail of a drawing canvas and the canvas it drives: the active tool sits on an indicator that slides to each new choice on the snap spring with a tick pitched up the rail, and a tool with variants unfolds its options beside it with a swish — a panel revealed from the rail's edge whose entries step out on snap, or a drawer that glides open inside the rail on glide. Single-letter shortcuts switch tools while focus or the pointer is on the dock (never while typing), the key of the active tool cycles its variants, and the canvas shows the tool's own cursor, drawn 1:1 under the pointer and popping to each new shape on snap. The rail is a toolbar of pressed buttons with one tab stop: arrows move, Space or Enter choose, and the arrow toward the options opens them as a menu of radio items with focus inside.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tool-dock`
+
+Props:
+- `tools`: { id: string; label: string; glyph?: ToolDockGlyph; icon?: ReactNode; cursor?: ReactNode; key?: string; variants?: { id: string; label: string; glyph?: ToolDockGlyph; icon?: ReactNode; cursor?: ReactNode; key?: string }[] }[] — The rail, top to bottom (or left to right). A tool with variants shows the last one used; key is a single letter. Built-in glyphs, each with a cursor: move, hand, frame, rect, ellipse, line, polygon, pen, pencil, brush, text, eraser, comment.
+- `value / defaultValue`: string (default the first tool (its first variant)) — The active tool's id, or the active variant's id for a tool that has them.
+- `onValueChange`: (id: string) => void — Fires from the press, key or shortcut that changed the tool.
+- `orientation`: "vertical" | "horizontal" (default "vertical") — A rail down the canvas's left, or centred along its foot.
+- `shortcuts`: boolean (default true) — Single-letter keys switch tools and each button shows its letter (and names it in aria-keyshortcuts). Keys act while focus is in the dock, or while the pointer is over it and nothing else has focus; never in a field or with Ctrl, Cmd or Alt, and a handled key is claimed.
+- `flyout`: "side" | "tray" (default "side") — A tool's options float in a panel beside the rail (over the canvas, placed inside the component's box), or open as a drawer inside the rail that pushes the tools after it.
+- `labels`: boolean (default false) — A label under each icon; the rail widens to fit. Off, the name is still each button's accessible name.
+- `children`: ReactNode — What is on the canvas, laid out inside it (position it absolutely to fill).
+- `canvasHeight`: number (default 400) — The canvas's height in px.
+- `label`: string (default "Tools") — The rail's accessible name.
+- `canvasLabel`: string (default "Canvas") — The canvas's accessible name.
+- `sound`: boolean (default false) — A tick on every tool or variant change, pitched up the rail on a pentatonic scale and panned to the button; a swish as options unfold and a lower, quieter one as they fold. Nothing plays, and no audio context exists, unless this is on.
+- `disabled`: boolean (default false) — Dims the dock, disables its buttons and stops the shortcuts; the system cursor comes back over the canvas.
+- `className`: string — Merged onto the wrapper that holds the rail and the canvas.
+
+Notes:
+- The rail is role=toolbar (with aria-orientation) of buttons with aria-pressed and one tab stop: arrows along the rail move focus, Home and End jump, Space or Enter choose. A tool with variants has aria-haspopup=menu and aria-expanded; Space, Enter or the arrow toward the options (Right on a vertical rail, Up on a horizontal one) opens them as a role=menu of menuitemradio with focus on the checked one. There arrows move, Space or Enter choose and fold back to the tool, Escape or the arrow back folds without choosing, and focus leaving folds them. A shortcut's change is announced once in a polite live region.
+- Under reduced motion the indicator moves at once, options fade in and out with no reveal or step (a tray opens at full height), and the canvas cursor still follows the pointer but parks at once and swaps its shape with a fade. Sounds are unchanged.
+- The canvas hides the system cursor and draws the tool's own with its hotspot under the pointer, parking it at the centre when the pointer leaves so a keyboard or touch user still sees the tool change; a tap moves it to the finger. A press anywhere outside the rail and its options folds them.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
