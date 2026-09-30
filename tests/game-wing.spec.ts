@@ -116,7 +116,13 @@ test("emote-wheel: a keyboard hold plays, and the cooldown locks out", async ({
   await page.keyboard.press("3");
   await page.keyboard.up(" ");
 
-  await expect(page.getByText(/recent/i).first()).toBeVisible({
+  // Scoped to the stage: the docs sidebar also lists a "Recent Rail".
+  await expect(
+    page
+      .locator("[data-specimen-stage]")
+      .getByText(/recent/i)
+      .first(),
+  ).toBeVisible({
     timeout: 10_000,
   });
   await expect(trigger).toBeDisabled();

@@ -174,10 +174,6 @@ function TouchEchoLayer({
   });
   // Reduced motion keeps exactly one echo, frozen — no pool, no ages.
   const stillEchoRef = React.useRef<EchoShape | null>(null);
-  // Latest rAF timestamp the loop has observed — never Date.now(); read by
-  // the pointerdown handler so a pushed echo is born on the same clock the
-  // loop ages echoes against.
-  const tickRef = React.useRef(0);
 
   const echoVecRef = React.useRef(new Float32Array(MAX_ECHOES * 4));
   const echoRRef = React.useRef(new Float32Array(MAX_ECHOES));
@@ -202,7 +198,6 @@ function TouchEchoLayer({
   // one click, one draw, done.
   const drawFrame = React.useCallback(
     (tick: number) => {
-      tickRef.current = tick;
       const gl = glRef.current;
       const program = programRef.current;
       const tri = triRef.current;
@@ -245,7 +240,11 @@ function TouchEchoLayer({
       } else {
         const echoes = echoesRef.current;
         for (let i = 0; i < MAX_ECHOES; i += 1) {
-          const born = echoes.born[i] ?? -1e6;
+          let born = echoes.born[i] ?? -1e6;
+          if (Number.isNaN(born)) {
+            born = tick;
+            echoes.born[i] = tick;
+          }
           const age = (tick - born) / 1000 / p.duration;
           const alive = age >= 0 && age < 1;
           if (alive) anyAlive = true;
@@ -369,7 +368,10 @@ function TouchEchoLayer({
       echoes.w[i] = shape.w;
       echoes.h[i] = shape.h;
       echoes.r[i] = shape.r;
-      echoes.born[i] = tickRef.current;
+      // Unborn: the first frame that draws it stamps it with that frame's
+      // own timestamp. The loop's last tick is stale after an idle spell,
+      // and an echo born on it would already be over when the loop woke.
+      echoes.born[i] = Number.NaN;
       echoes.cursor = (i + 1) % MAX_ECHOES;
       requestFrame();
     };
