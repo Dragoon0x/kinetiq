@@ -28206,6 +28206,180 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pattern-lock",
+      "type": "registry:ui",
+      "title": "Pattern Lock",
+      "description": "A pattern pad whose line's live end is 1:1 under the finger and snaps through every dot its path crosses, taking any free dot lying straight between two it joins; each caught dot pops on a flick up and a springs.snap back and plays the next note of a rising pentatonic phrase, so the pattern is also a melody. A refused pattern shakes and fades after the clear delay, and an accepted one locks with a ripple that runs along the path in the order it was drawn, with a chord. Arrow keys move between the dots, Space or a number key adds one, Backspace takes the last back, Enter finishes as a lift does and Escape clears.",
+      "files": [
+        {
+          "path": "registry/ui/pattern-lock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1139"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stroke-command",
+      "type": "registry:ui",
+      "title": "Stroke Command",
+      "description": "A gesture pad that runs a command when you draw its shape: a small unistroke matcher resamples the stroke, turns it to its indicative angle, scales it into a square and searches the leftover rotation against a check, a circle, an arrow and a zigzag. A match morphs the stroke you drew, point for point, into the clean shape laid over it on springs.glide, and the command's label lands on springs.recoil with its own chime; a stroke that is no shape shrugs and fades. The command chips are a real toolbar: Arrow keys move along it, and Enter or Space makes the pad draw that shape itself, through the same matcher, morph and sound.",
+      "files": [
+        {
+          "path": "registry/ui/stroke-command.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1140"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "guess-line",
+      "type": "registry:ui",
+      "title": "Guess Line",
+      "description": "A line chart whose latest stretch is hidden: the reader draws what they think comes next across the shaded band, the pen steadied by the smoothing and the drawn line bending through it 1:1 between points, and letting go with every point guessed reveals the truth. The real line continues from the anchor under a clip whose edge sweeps across the band, the gap between guess and truth shades as it passes, a hum follows the real value under the sweep, and on landing the score rolls up on springs.recoil. Every hidden point is also a slider: Up and Down set it, Left and Right move between points carrying the guess on, Enter reveals and Escape clears.",
+      "files": [
+        {
+          "path": "registry/ui/guess-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1141"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "loop-lift",
+      "type": "registry:ui",
+      "title": "Loop Lift",
+      "description": "Draw a loop around part of a picture and the loop closes and smooths on one glide spring — the gap between the pen's end and its start grows shut while the wobble relaxes through a Fourier low-pass — then exactly that part lifts out: a copy of the picture clipped by the loop rises on the snap spring with a geometric glow, a shadow and a caption naming what it caught, while the rest dims. Escape, a tap or a new loop drops it back on glide. The things in the picture are a listbox: the arrow keys walk them, and Enter draws the loop around the chosen one with the same marker squeak, close and lift.",
+      "files": [
+        {
+          "path": "registry/ui/loop-lift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1142"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "measure-line",
+      "type": "registry:ui",
+      "title": "Measure Line",
+      "description": "A plan you measure by dragging: the finger draws a dimension line with end bars, a ruler of ticks and a live length label in real units that stays upright at any angle, hopping over the line on the snap spring when it swings through vertical. The end follows 1:1, catches corners and the ends of other lines, rubber-bands past the sheet and springs back on snap with the release velocity, and every tick the length crosses ratchets. The keyboard walks a cursor corner to corner, Enter anchors a line, the arrows carry its end on the flick spring with the same ratchet, and after any line the arrows adjust its last point.",
+      "files": [
+        {
+          "path": "registry/ui/measure-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1143"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "scratch-card",
+      "type": "registry:ui",
+      "title": "Scratch Card",
+      "description": "A reward under scratch-off foil: the pointer scrapes the foil away with a ragged brush while flakes of the foil that actually came off tumble and fall, and the scrape's sound follows the brush's speed. Once enough is cleared a glint crosses the card, the rest of the foil crumbles behind its front, and the reward settles on the recoil spring with a chime. The foil is a canvas that reads its colours from its own computed style and repaints when the theme changes; before the reveal it is a real button, and Enter or Space sweeps the same brush across the card with the same sound.",
+      "files": [
+        {
+          "path": "registry/ui/scratch-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1144"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

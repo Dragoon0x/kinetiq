@@ -1208,6 +1208,12 @@ import { GlideCaretDemo } from "@/registry/demos/glide-caret.demo";
 import { LassoGridDemo } from "@/registry/demos/lasso-grid.demo";
 import { BrushSelectDemo } from "@/registry/demos/brush-select.demo";
 import { ZoneMapDemo } from "@/registry/demos/zone-map.demo";
+import { PatternLockDemo } from "@/registry/demos/pattern-lock.demo";
+import { StrokeCommandDemo } from "@/registry/demos/stroke-command.demo";
+import { GuessLineDemo } from "@/registry/demos/guess-line.demo";
+import { LoopLiftDemo } from "@/registry/demos/loop-lift.demo";
+import { MeasureLineDemo } from "@/registry/demos/measure-line.demo";
+import { ScratchCardDemo } from "@/registry/demos/scratch-card.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2430,4 +2436,10 @@ export const demos: Record<string, ComponentType> = {
   "lasso-grid": LassoGridDemo,
   "brush-select": BrushSelectDemo,
   "zone-map": ZoneMapDemo,
+  "pattern-lock": PatternLockDemo,
+  "stroke-command": StrokeCommandDemo,
+  "guess-line": GuessLineDemo,
+  "loop-lift": LoopLiftDemo,
+  "measure-line": MeasureLineDemo,
+  "scratch-card": ScratchCardDemo,
 };

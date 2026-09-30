@@ -212,4 +212,28 @@ export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/zone-map.demo").then((m) =>
       mod(m.ZoneMapDemo, m.tweaks),
     ),
+  "pattern-lock": () =>
+    import("@/registry/demos/pattern-lock.demo").then((m) =>
+      mod(m.PatternLockDemo, m.tweaks),
+    ),
+  "stroke-command": () =>
+    import("@/registry/demos/stroke-command.demo").then((m) =>
+      mod(m.StrokeCommandDemo, m.tweaks),
+    ),
+  "guess-line": () =>
+    import("@/registry/demos/guess-line.demo").then((m) =>
+      mod(m.GuessLineDemo, m.tweaks),
+    ),
+  "loop-lift": () =>
+    import("@/registry/demos/loop-lift.demo").then((m) =>
+      mod(m.LoopLiftDemo, m.tweaks),
+    ),
+  "measure-line": () =>
+    import("@/registry/demos/measure-line.demo").then((m) =>
+      mod(m.MeasureLineDemo, m.tweaks),
+    ),
+  "scratch-card": () =>
+    import("@/registry/demos/scratch-card.demo").then((m) =>
+      mod(m.ScratchCardDemo, m.tweaks),
+    ),
 };

@@ -62529,4 +62529,735 @@ export const components: KinetiqItem[] = [
       "The component is a row — the map and a 120px list that scrolls inside the map's height — so give it at least about 300px of width.",
     ],
   },
+  {
+    name: "pattern-lock",
+    type: "registry:ui",
+    title: "Pattern Lock",
+    description:
+      "A pattern pad whose line's live end is 1:1 under the finger and snaps through every dot its path crosses, taking any free dot lying straight between two it joins; each caught dot pops on a flick up and a springs.snap back and plays the next note of a rising pentatonic phrase, so the pattern is also a melody. A refused pattern shakes and fades after the clear delay, and an accepted one locks with a ripple that runs along the path in the order it was drawn, with a chord. Arrow keys move between the dots, Space or a number key adds one, Backspace takes the last back, Enter finishes as a lift does and Escape clears.",
+    files: [
+      {
+        path: "registry/ui/pattern-lock.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1139",
+    },
+    tagline: "Draw the path through the dots.",
+    keywords: [
+      "pattern lock",
+      "unlock",
+      "passcode",
+      "gesture",
+      "security",
+      "melody",
+      "dots",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description: 'The pad\'s accessible name, e.g. "Unlock pattern".',
+      },
+      {
+        name: "value / defaultValue",
+        type: "number[]",
+        defaultValue: "[]",
+        description:
+          "The pattern as dot numbers from 1 (reading order), in drawing order. Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(pattern: number[]) => void",
+        description:
+          "Fires from the catch that added a dot, the key that removed one, and the clear, with the whole pattern.",
+      },
+      {
+        name: "onComplete",
+        type: "(pattern: number[]) => boolean | void | Promise<boolean | void>",
+        description:
+          "Asked when a pattern of at least minLength dots is finished. Return true to accept it (ripple and chord), false to refuse it (shake and buzz), nothing to record it neutrally, or a promise of one of those while the pad waits.",
+      },
+      {
+        name: "minLength",
+        type: "number",
+        defaultValue: "4",
+        description: "Shorter patterns are refused before onComplete is asked.",
+      },
+      {
+        name: "grid",
+        type: '3 | 4 | "3" | "4"',
+        defaultValue: '"3"',
+        description:
+          "Dots per side: a 3 × 3 or a 4 × 4 pad. Changing it clears the pattern.",
+      },
+      {
+        name: "path",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw the line and keep caught dots lit. Off is the private mode: each catch only flashes and pops, the melody is the only trail, and success ripples from the centre so nothing of the pattern shows.",
+      },
+      {
+        name: "line",
+        type: "number",
+        defaultValue: "4",
+        description: "The line's weight in px, 2 to 10.",
+      },
+      {
+        name: "clearDelay",
+        type: "number",
+        defaultValue: "800",
+        description:
+          "How long a wrong, short or recorded pattern stays on the pad before it fades, in ms.",
+      },
+      {
+        name: "size",
+        type: "number",
+        defaultValue: "216",
+        description: "The pad's side in px.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a rising note for each dot, a chord when accepted and a buzz when refused. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the pad and blocks drawing and keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the pad's classes.",
+      },
+    ],
+    usageNotes: [
+      "Every dot is a real button with roving focus: Arrow keys move between dots, Home and End jump, Space adds the focused dot and number keys 1 to 9 add a dot by number (with the same skip rule, pop and note), Backspace removes the last dot, Enter finishes exactly as lifting the finger does, and Escape clears (it is left for the page when the pad is empty). Keyboard additions and every verdict are announced in a polite live region.",
+      "Under reduced motion the line still follows the finger, but no dot pops, nothing shakes and no ring travels: a refused pattern turns danger and fades, an accepted one turns success with its rings filled in place; notes, chord, buzz and verdicts are unchanged.",
+      "onComplete may be async: the pad holds the pattern (aria-busy) until the promise settles, and a new press before then wins. With nothing returned the pattern is recorded and fades after clearDelay, which is the first step of setting a new pattern.",
+    ],
+  },
+  {
+    name: "stroke-command",
+    type: "registry:ui",
+    title: "Stroke Command",
+    description:
+      "A gesture pad that runs a command when you draw its shape: a small unistroke matcher resamples the stroke, turns it to its indicative angle, scales it into a square and searches the leftover rotation against a check, a circle, an arrow and a zigzag. A match morphs the stroke you drew, point for point, into the clean shape laid over it on springs.glide, and the command's label lands on springs.recoil with its own chime; a stroke that is no shape shrugs and fades. The command chips are a real toolbar: Arrow keys move along it, and Enter or Space makes the pad draw that shape itself, through the same matcher, morph and sound.",
+    files: [
+      {
+        path: "registry/ui/stroke-command.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1140",
+    },
+    tagline: "Draw a shape; it runs the command.",
+    keywords: [
+      "gesture",
+      "shape recognition",
+      "unistroke",
+      "commands",
+      "drawing",
+      "shortcuts",
+      "morph",
+    ],
+    props: [
+      {
+        name: "commands",
+        type: "{ shape: StrokeShape; label: string }[]",
+        description:
+          'The commands in chip order, each bound to "check", "circle", "arrow" or "zigzag". Only these shapes are recognised; a shape bound twice keeps its first command.',
+      },
+      {
+        name: "onCommand",
+        type: "(run: { shape, label, score, via }) => void",
+        description:
+          'Fires from the release (or the chip) that ran a command, with the match score from 0 to 1 and how it was run: "stroke", "keyboard" or "pointer".',
+      },
+      {
+        name: "onMiss",
+        type: "(best: { shape, score } | null, threshold: number) => void",
+        description:
+          "Fires when a stroke matched no command, with the nearest upright shape (or null for a line or a scribble too short to judge) and the score it needed.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The accessible name of the whole control; the toolbar is named after it.",
+      },
+      {
+        name: "tolerance",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How forgiving the matcher is, 0 (strict: a score of 0.92 needed) to 1 (loose: 0.74).",
+      },
+      {
+        name: "trail",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the ink while drawing. Off, only the pen tip moves, and the stroke appears as it is judged.",
+      },
+      {
+        name: "width",
+        type: "number",
+        defaultValue: "4",
+        description: "The ink's weight in px, 2 to 10.",
+      },
+      {
+        name: "templates",
+        type: '"ghost" | "off"',
+        defaultValue: '"ghost"',
+        description:
+          "ghost fits the leading template faintly under the stroke while you draw, solid once it would match, and warms its chip; off shows nothing until release.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "176",
+        description: "The pad's height in px; it fills the available width.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a pencil scratch that follows the pen's speed, a chime for a match (a different step of one chord per command) and a shrug for a miss. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Dims the pad and the chips and blocks drawing and commands.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      'The chips are a role="toolbar" with one tab stop: Arrow keys (and Home and End) move between commands, and Enter or Space makes the pad trace that shape and run it through the same matcher, morph, chime and onCommand. The pad itself is a pointer surface hidden from assistive technology; results are announced in a polite live region.',
+      "Under reduced motion drawing still follows the pen, but nothing is traced, morphed or shrugged: the clean shape and the label cross-fade in, an unmatched stroke simply fades, and every sound, callback and announcement is the same.",
+      "Check, arrow and zigzag are recognised only upright (within 50°); circles in either direction and zigzags from either end both count. A straight stroke or one shorter than 24px is never a command.",
+    ],
+  },
+  {
+    name: "guess-line",
+    type: "registry:ui",
+    title: "Guess Line",
+    description:
+      "A line chart whose latest stretch is hidden: the reader draws what they think comes next across the shaded band, the pen steadied by the smoothing and the drawn line bending through it 1:1 between points, and letting go with every point guessed reveals the truth. The real line continues from the anchor under a clip whose edge sweeps across the band, the gap between guess and truth shades as it passes, a hum follows the real value under the sweep, and on landing the score rolls up on springs.recoil. Every hidden point is also a slider: Up and Down set it, Left and Right move between points carrying the guess on, Enter reveals and Escape clears.",
+    files: [
+      {
+        path: "registry/ui/guess-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1141",
+    },
+    tagline: "Draw what you think; then see.",
+    keywords: [
+      "chart",
+      "forecast",
+      "guess",
+      "line chart",
+      "quiz",
+      "data literacy",
+      "draw",
+    ],
+    props: [
+      {
+        name: "series",
+        type: "Record<string, GuessLineSeries>",
+        description:
+          "The charts on offer, by key. Each is { title, caption?, unit?, decimals?, hide?, step?, points: { label, value }[] }; hide is how many of the latest points are hidden (a third by default).",
+      },
+      {
+        name: "dataset",
+        type: "string",
+        description:
+          "Which of series is shown; the first key by default. Switching clears the guess.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "(number | null)[]",
+        defaultValue: "[]",
+        description:
+          "The guess, one value per hidden point, oldest first, null where nothing is drawn yet. Controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(guess: (number | null)[]) => void",
+        description:
+          "Fires from the move, tap or key that changed the guess (while drawing, once a point moves by half a step), and from the reset.",
+      },
+      {
+        name: "onReveal",
+        type: "(result: { score, guess, truth }) => void",
+        description:
+          "Fires when the real line has finished drawing in, with the score from 0 to 100 and both sets of values.",
+      },
+      {
+        name: "smoothing",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "0 to 1: how much the pen is steadied and the guess rounded into a curve. 0 is a raw pen and a straight polyline.",
+      },
+      {
+        name: "reveal",
+        type: "number",
+        defaultValue: "1200",
+        description: "How long the real line takes to sweep in, in ms.",
+      },
+      {
+        name: "score",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show and announce the score. Off, the gap still shades, without a number.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "160",
+        description:
+          "The plot's height in px; the chart fills the available width.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a pencil scratch that follows the pen, a tick per keyboard step, and the reveal: a swish and then a hum whose pitch follows the real line under the sweep. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Dims the chart and blocks drawing and keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      'Each hidden point is a role="slider" on the plot with one tab stop for the set: Up and Down change the guess by one step (Page Up and Page Down by five), Left and Right move between points and moving right onto an empty point carries the guess on, Home and End jump, Enter reveals the real line with the same sweep and sound, and Escape clears the guess. Values read as "52k", "not guessed yet", or after the reveal "guessed 52k, actual 61k"; the reveal and the score are announced in a polite live region.',
+      "Under reduced motion the pen still draws, but the real line and the shaded gap fade in rather than sweep, the score appears without rolling, and the hum that follows the sweep is left out; the swish, the guess, the score and every callback are unchanged.",
+      "The plot is one SVG stretched to the width with non-scaling strokes, so it reads the same at 320px and 720px; the reveal is a clip rectangle, never a dash offset. A new press on the plot, the Guess again button or Escape starts over.",
+    ],
+  },
+  {
+    name: "loop-lift",
+    type: "registry:ui",
+    title: "Loop Lift",
+    description:
+      "Draw a loop around part of a picture and the loop closes and smooths on one glide spring — the gap between the pen's end and its start grows shut while the wobble relaxes through a Fourier low-pass — then exactly that part lifts out: a copy of the picture clipped by the loop rises on the snap spring with a geometric glow, a shadow and a caption naming what it caught, while the rest dims. Escape, a tap or a new loop drops it back on glide. The things in the picture are a listbox: the arrow keys walk them, and Enter draws the loop around the chosen one with the same marker squeak, close and lift.",
+    files: [
+      {
+        path: "registry/ui/loop-lift.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1142",
+    },
+    tagline: "Circle it to lift it out.",
+    keywords: [
+      "lasso",
+      "select subject",
+      "cutout",
+      "image selection",
+      "loop",
+      "photo editor",
+      "draw",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The picture. It is drawn twice: once as itself, and once as the lifted copy, which is aria-hidden and inert.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The accessible name of the list of things in the picture.",
+      },
+      {
+        name: "regions",
+        type: "{ id: string; label: string; x: number; y: number; width: number; height: number }[]",
+        description:
+          "The things in the picture, as fractions (0 to 1) of its box: what a loop can catch, what the caption names and what the keyboard walks.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "{ points: [number, number][]; regions: string[]; area: number } | null",
+        defaultValue: "null",
+        description:
+          "The lifted selection: the closed, smoothed loop as fractions of the picture, the ids of the regions it encloses, and the enclosed share of the picture. null when nothing is lifted.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: LoopLiftValue | null) => void",
+        description:
+          "Fires from the loop, tap or key that changed the selection. Controlled, the piece lifts when the value comes back; a refused selection's outline fades.",
+      },
+      {
+        name: "smoothing",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How much the loop relaxes when it closes, 0 to 1: the harmonics kept run from 14 (every wobble of the hand survives) down to 1 (an ellipse).",
+      },
+      {
+        name: "lift",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "How high the lifted piece rises, in px, 0 to 24: its offset, its scale and how far its shadow falls. 0 is a flat highlight.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "Strength and reach of the halo around the lifted piece, 0 to 1, drawn as layered strokes of the loop rather than a blur.",
+      },
+      {
+        name: "dim",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How dark the rest of the picture goes while a piece is lifted, 0 to 0.8.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the marker's squeak (following the pen's speed), the tick as the loop closes, the lift's shimmer (higher for a smaller piece) and the drop. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Blocks drawing and takes the things in the picture out of the tab order.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the frame's classes.",
+      },
+    ],
+    usageNotes: [
+      "The regions are a listbox with roving focus: the arrow keys and Home and End move between them, each one's focus ring outlines it, Enter or Space draws the loop around it (the same close, lift and sounds as a drawn loop) or drops it if it is already lifted, and Escape drops whatever is lifted — Escape is only claimed when there is something to drop.",
+      "Under reduced motion the stroke still follows the pen, the loop snaps to its smoothed shape without the morph, and the piece is picked out by outline, glow and dim alone, with no rise, scale or shadow; the caption and the announcement are unchanged.",
+      "Because the picture is rendered twice, avoid ids inside it (an SVG gradient with an id would be duplicated); the lifted copy is clipped with a polygon, so any picture that lays out the same at the same width works.",
+      "A polite status line speaks what was lifted and how much of the picture it is, and when it is dropped.",
+    ],
+  },
+  {
+    name: "measure-line",
+    type: "registry:ui",
+    title: "Measure Line",
+    description:
+      "A plan you measure by dragging: the finger draws a dimension line with end bars, a ruler of ticks and a live length label in real units that stays upright at any angle, hopping over the line on the snap spring when it swings through vertical. The end follows 1:1, catches corners and the ends of other lines, rubber-bands past the sheet and springs back on snap with the release velocity, and every tick the length crosses ratchets. The keyboard walks a cursor corner to corner, Enter anchors a line, the arrows carry its end on the flick spring with the same ratchet, and after any line the arrows adjust its last point.",
+    files: [
+      {
+        path: "registry/ui/measure-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1143",
+    },
+    tagline: "Drag across; it reads the distance.",
+    keywords: [
+      "measure",
+      "floor plan",
+      "dimension line",
+      "distance",
+      "ruler",
+      "snap",
+      "draw",
+    ],
+    props: [
+      {
+        name: "width",
+        type: "number",
+        description:
+          "The sheet's width in drawing units (millimetres on paper, say). Lines and corners are in these units.",
+      },
+      {
+        name: "height",
+        type: "number",
+        description: "The sheet's height in drawing units.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The plan: SVG elements in drawing units, drawn over a scale grid and under the lines.",
+      },
+      {
+        name: "corners",
+        type: "[number, number][]",
+        defaultValue: "[]",
+        description:
+          "Points the ends snap to — wall corners, door jambs — in drawing units. The ends of lines already drawn are snap points too.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description: "The plan's accessible name.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "{ id: string; a: [number, number]; b: [number, number] }[]",
+        defaultValue: "[]",
+        description: "The lines, each from a to b in drawing units.",
+      },
+      {
+        name: "onValueChange",
+        type: "(lines: MeasureLineSegment[]) => void",
+        description:
+          "Fires from the drag, key or tap that changed the lines. Controlled, a refused change puts the live end back where the host says it is.",
+      },
+      {
+        name: "units",
+        type: '"m" | "cm" | "ft"',
+        defaultValue: '"m"',
+        description:
+          'How lengths read ("3.42 m", "342 cm", "11′ 3″"), and the spacing of the ticks and the grid.',
+      },
+      {
+        name: "snap",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Ends catch corners and the ends of other lines within 14px, with a catch ring and a snap; the keyboard cursor jumps corner to corner.",
+      },
+      {
+        name: "scale",
+        type: "number",
+        defaultValue: "50",
+        description:
+          "The drawing's scale, 1:n: one drawing unit is n real ones. The same line reads longer at 1:100, and ticks and grid re-space.",
+      },
+      {
+        name: "keep",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Keep every line (six at most, the oldest goes first), or let each new line replace the last.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the ratchet (a detent per tick crossed, rising with the length, louder on long ticks) and the snap as an end catches. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Blocks drawing and removing, and takes the plan out of the tab order.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the wrapper's classes.",
+      },
+    ],
+    usageNotes: [
+      "The plan is a focusable application: the arrow keys walk a cursor between corners (or one tick at a time, Shift for a long tick), Enter anchors a line and the arrows carry its end, Enter finishes and the next Enter starts from there; after any line, drawn or typed, the arrows adjust its last point. Escape stops adjusting or discards an empty line and is only claimed then; Backspace removes the newest line. A tap on a kept line's label removes that line.",
+      "Under reduced motion drawing stays 1:1, and the label's hop, the snap ring's pop, the spring back from past the edge and keyboard moves become jumps; the ratchet and snap sounds and every number are unchanged.",
+      "A polite status line speaks each line's length as it is drawn or adjusted and each removal, and the lines are also listed for assistive technology outside the drawing surface.",
+      "formatMeasure(mm, units) and measureLength(line, scale) are exported so a host can print totals in the same format.",
+    ],
+  },
+  {
+    name: "scratch-card",
+    type: "registry:ui",
+    title: "Scratch Card",
+    description:
+      "A reward under scratch-off foil: the pointer scrapes the foil away with a ragged brush while flakes of the foil that actually came off tumble and fall, and the scrape's sound follows the brush's speed. Once enough is cleared a glint crosses the card, the rest of the foil crumbles behind its front, and the reward settles on the recoil spring with a chime. The foil is a canvas that reads its colours from its own computed style and repaints when the theme changes; before the reveal it is a real button, and Enter or Space sweeps the same brush across the card with the same sound.",
+    files: [
+      {
+        path: "registry/ui/scratch-card.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1144",
+    },
+    tagline: "Scratch it; see what's under.",
+    keywords: [
+      "scratch card",
+      "reveal",
+      "reward",
+      "promo code",
+      "foil",
+      "cashback",
+      "draw",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The reward under the foil. It is inert and hidden from assistive technology until revealed, so it cannot be read or tabbed to through the foil.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          'What is under the foil, e.g. "Weekly reward". The foil button is named "Scratch to reveal: {label}" and the revealed reward is a group with this name.',
+      },
+      {
+        name: "revealed / defaultRevealed",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the foil is gone. Setting it back to false lays fresh foil over the reward before the next frame is painted.",
+      },
+      {
+        name: "onRevealedChange",
+        type: "(revealed: boolean) => void",
+        description:
+          "Fires with true from the scratch or sweep that cleared enough foil. Controlled, the foil dissolves when the host answers.",
+      },
+      {
+        name: "onProgress",
+        type: "(cleared: number) => void",
+        description:
+          "The share of foil cleared, 0 to 1 (two decimals), each time it moves by a whole percent.",
+      },
+      {
+        name: "brush",
+        type: "number",
+        defaultValue: "18",
+        description:
+          "Brush radius in px, 10 to 34: a wider brush clears more per stroke and throws more flakes.",
+      },
+      {
+        name: "autoReveal",
+        type: "number",
+        defaultValue: "60",
+        description:
+          "The percentage cleared, 40 to 80, at which the rest of the foil dissolves by itself.",
+      },
+      {
+        name: "flakes",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Flakes of the foil that comes off tumble and fall out of the card. The frame loop runs only while flakes are falling, on screen, in a visible page.",
+      },
+      {
+        name: "foil",
+        type: '"silver" | "gold"',
+        defaultValue: '"silver"',
+        description:
+          "The foil's colours, mixed from the theme's ink or warning hue, and the chime's pitch (gold rings a fourth higher).",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the scrape (noise whose pitch and level follow the brush's speed), a paper crinkle for a single dab, and the reveal's chime and shimmer. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the foil button: nothing scratches.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the card's classes.",
+      },
+    ],
+    usageNotes: [
+      "Before the reveal the foil is a native button: Space or Enter, or a click from assistive technology, sweeps the brush across the card in rows with the same scrape, flakes and reveal. Once revealed the button leaves, the reward becomes reachable, focus that was on the foil moves to the reward, and a polite status line says it was revealed.",
+      "Under reduced motion scratching still works, but there are no flakes, no glint and no settle: at the threshold the rest of the foil fades on a short tween, the keyboard reveals at once, and the chime still plays.",
+      "The foil paints on a canvas at the device pixel ratio capped at 2, with its colours read from the canvas's own computed style, so it follows a light or dark stage; the scratches are replayed after a resize or a theme change, and coverage is counted on a coarse grid rather than by reading pixels back.",
+      "The card clips to its rounded box; give the reward its own size (an aspect ratio or a height), since the foil covers exactly what the children lay out.",
+    ],
+  },
 ];
