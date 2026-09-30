@@ -1150,6 +1150,16 @@ import { ApdexRingDemo } from "@/registry/demos/apdex-ring.demo";
 import { SparklineGridDemo } from "@/registry/demos/sparkline-grid.demo";
 import { CapacityBarDemo } from "@/registry/demos/capacity-bar.demo";
 import { AnomalyBandDemo } from "@/registry/demos/anomaly-band.demo";
+import { PipelineRailDemo } from "@/registry/demos/pipeline-rail.demo";
+import { RolloutWaveDemo } from "@/registry/demos/rollout-wave.demo";
+import { DeployDiffDemo } from "@/registry/demos/deploy-diff.demo";
+import { CanarySplitDemo } from "@/registry/demos/canary-split.demo";
+import { BuildLogDemo } from "@/registry/demos/build-log.demo";
+import { EnvSwitchDemo } from "@/registry/demos/env-switch.demo";
+import { ReleaseNotesDemo } from "@/registry/demos/release-notes.demo";
+import { HealthCheckDemo } from "@/registry/demos/health-check.demo";
+import { RollbackArcDemo } from "@/registry/demos/rollback-arc.demo";
+import { QueueDepthDemo } from "@/registry/demos/queue-depth.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2314,4 +2324,14 @@ export const demos: Record<string, ComponentType> = {
   "sparkline-grid": SparklineGridDemo,
   "capacity-bar": CapacityBarDemo,
   "anomaly-band": AnomalyBandDemo,
+  "pipeline-rail": PipelineRailDemo,
+  "rollout-wave": RolloutWaveDemo,
+  "deploy-diff": DeployDiffDemo,
+  "canary-split": CanarySplitDemo,
+  "build-log": BuildLogDemo,
+  "env-switch": EnvSwitchDemo,
+  "release-notes": ReleaseNotesDemo,
+  "health-check": HealthCheckDemo,
+  "rollback-arc": RollbackArcDemo,
+  "queue-depth": QueueDepthDemo,
 };

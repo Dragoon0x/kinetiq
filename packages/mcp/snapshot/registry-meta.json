@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 959,
+      "components": 969,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -68966,6 +68966,1068 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/anomaly-band",
         "bun": "bunx --bun shadcn@latest add @kinetiq/anomaly-band",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/anomaly-band.json"
+      }
+    },
+    {
+      "slug": "pipeline-rail",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pipeline Rail",
+      "serial": "KQ-961",
+      "tagline": "Stage by stage.",
+      "description": "A build's stages on one rail, filling in the order they ran: a landed stage's fill scales from its own left origin on glide while the segments arrive in a cascade, and the stage in flight washes its whole segment and pulses between two opacities on a mirrored tween. A failed stage stops the rail, dims every stage after it, and unfolds a ResizeObserver-measured strip on glide whose failure sentence and rerun control rise in on snap. The segments are a roving-tabindex list where Arrow keys step, Home and End jump, and selection moves with focus.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "pipeline",
+        "stages",
+        "build",
+        "rerun",
+        "progress",
+        "rail",
+        "devtools",
+        "failure"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLDivElement>",
+          "description": "Reaches the root group element."
+        },
+        {
+          "name": "stages",
+          "type": "PipelineStage[]",
+          "description": "The rail, in run order: id, name, status, seconds, an optional progress share and an optional failure note."
+        },
+        {
+          "name": "selected / defaultSelected",
+          "type": "string",
+          "description": "Controlled or initial selected stage id; without one the rail follows the stage in flight until a stage is chosen."
+        },
+        {
+          "name": "onSelectedChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the press or key that moved the selection."
+        },
+        {
+          "name": "onRerun",
+          "type": "(id: string) => void",
+          "description": "Fires from the press on the rerun control, with the stage it restarts; without it the failure strip shows no control."
+        },
+        {
+          "name": "onRailChange",
+          "type": "(reading: RailReading) => void",
+          "description": "The whole reading — phase, stage, index, passed count and total seconds — reported from the first commit as well, because it is a state."
+        },
+        {
+          "name": "formatSeconds",
+          "type": "(seconds: number) => string",
+          "defaultValue": "seconds, then m:ss",
+          "description": "Renders every duration on the rail."
+        },
+        {
+          "name": "rerunLabel",
+          "type": "string",
+          "defaultValue": "\"Rerun\"",
+          "description": "Verb on the rerun control, before the stage name."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Pipeline\"",
+          "description": "Names the rail for assistive technology and prints above it."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root element's classes."
+        }
+      ],
+      "usageNotes": [
+        "The segments carry a roving tabindex: Arrow Left and Up step back, Arrow Right and Down step on, Home and End jump, and each button names itself as one sentence with its position, status and time.",
+        "A phase change is announced once through a polite live region, and a failure reads back the host's note; the rerun control hands focus to that stage's segment before the strip leaves, so the keyboard is never dropped on the page.",
+        "Under reduced motion the fills still fill — how far a build got is information — on tweens, with no stagger and no running pulse.",
+        "Every second comes from props, so the rail never reads a clock; pass progress only for a stage that can actually measure it, and a running stage without one washes its whole segment instead."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pipeline-rail",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pipeline-rail.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pipeline-rail",
+        "npm": "npx shadcn@latest add @kinetiq/pipeline-rail",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pipeline-rail",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pipeline-rail",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pipeline-rail.json"
+      }
+    },
+    {
+      "slug": "rollout-wave",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rollout Wave",
+      "serial": "KQ-962",
+      "tagline": "Ten percent, then more.",
+      "description": "A release reaching a fleet one wave at a time: the track carries the share of machines on the new build and scales from its left origin on glide, with a hairline tick at each wave's boundary so the plan shows before it happens. Under it every machine is a dot, and a landing wave lights its own dots in a cascade on snap while a rollback runs the same dots dark in reverse order, because a rollback is the wave run backwards. Holding stops the track where it stands and draws a rule at the current edge; Hold is a real switch and Roll back a plain button reached with Tab.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "rollout",
+        "release",
+        "waves",
+        "fleet",
+        "rollback",
+        "deploy",
+        "devtools",
+        "progress"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLDivElement>",
+          "description": "Reaches the root element."
+        },
+        {
+          "name": "waves",
+          "type": "number[]",
+          "defaultValue": "[0.1, 0.25, 0.5, 1]",
+          "description": "Cumulative shares of the fleet each wave reaches, in order."
+        },
+        {
+          "name": "hosts",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "Machines in the fleet; the grid draws one dot each."
+        },
+        {
+          "name": "wave / defaultWave",
+          "type": "number",
+          "defaultValue": "-1",
+          "description": "Controlled or initial index of the last landed wave; -1 means the fleet is still on the previous build."
+        },
+        {
+          "name": "onWaveChange",
+          "type": "(wave: number) => void",
+          "description": "Fires from the setter behind the roll-back press."
+        },
+        {
+          "name": "paused / defaultPaused",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial held state."
+        },
+        {
+          "name": "onPausedChange",
+          "type": "(paused: boolean) => void",
+          "description": "Fires from the press or key that held or resumed the rollout."
+        },
+        {
+          "name": "onRolloutChange",
+          "type": "(reading: RolloutReading) => void",
+          "description": "The whole reading — wave, share, machines and phase — reported from the first commit as well, because it is a state."
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "description": "The build being rolled out; printed in the header and spoken."
+        },
+        {
+          "name": "hostName",
+          "type": "(index: number) => string",
+          "defaultValue": "\"Machine 01\"",
+          "description": "Names each machine for its dot."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Rollout\"",
+          "description": "Names the rollout and labels the meter."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root element's classes."
+        }
+      ],
+      "usageNotes": [
+        "The track is a role=\"meter\" whose aria-valuetext is a sentence, each dot is a list item naming its own machine and build, and Hold is a role=\"switch\" toggled with Space or Enter; a wave landing, a hold and a rollback are each announced once through a polite live region.",
+        "The wave index comes from props, so the host's own timer drives the advance and the component never reads a clock; pause that timer while paused is true and when the tab is hidden.",
+        "Under reduced motion the track still fills and the dots still light — how far a release has reached is information — on tweens, with no scale and no stagger.",
+        "Roll back never bounces on arrival and nothing pulses while the rollout is held, because neither is progress."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/rollout-wave",
+      "registryItemUrl": "https://www.kinetiqui.com/r/rollout-wave.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rollout-wave",
+        "npm": "npx shadcn@latest add @kinetiq/rollout-wave",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rollout-wave",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rollout-wave",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/rollout-wave.json"
+      }
+    },
+    {
+      "slug": "deploy-diff",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Deploy Diff",
+      "serial": "KQ-963",
+      "tagline": "What this deploy changes.",
+      "description": "The card you read before you ship: the head carries the route, the release and a commit count whose digits roll on snap in a fixed-width column, and pressing it unfolds a ResizeObserver-measured body on glide where the service chips and commits cascade in from 4px away. The deploy control is a slide track whose knob is dragged, with the pointer captured only after 4px of travel, or driven from the keyboard as a real slider; only a full sweep fires the deploy, and a short one springs home on snap. The status comes from the host, so the strip that replaces the track arrives only when the parent answers, and takes focus after this card's own confirm.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "deploy",
+        "diff",
+        "commits",
+        "services",
+        "slide to confirm",
+        "release",
+        "devtools",
+        "disclosure"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLDivElement>",
+          "description": "Reaches the root group element."
+        },
+        {
+          "name": "release",
+          "type": "string",
+          "description": "The build being deployed; printed in the head."
+        },
+        {
+          "name": "from",
+          "type": "string",
+          "description": "The environment this deploy runs from."
+        },
+        {
+          "name": "to",
+          "type": "string",
+          "description": "The environment this deploy runs to; named in every status sentence."
+        },
+        {
+          "name": "commits",
+          "type": "DeployCommit[]",
+          "defaultValue": "[]",
+          "description": "Newest first, each with a short hash, subject and author; the count in the head rolls."
+        },
+        {
+          "name": "services",
+          "type": "ServiceChange[]",
+          "defaultValue": "[]",
+          "description": "The changed services, one chip each with lines added and removed."
+        },
+        {
+          "name": "status",
+          "type": "\"ready\" | \"deploying\" | \"deployed\" | \"blocked\"",
+          "defaultValue": "\"ready\"",
+          "description": "Comes from the host — the card never advances it on its own."
+        },
+        {
+          "name": "blockedNote",
+          "type": "string",
+          "description": "Why the deploy is held; printed and spoken when the status is blocked."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial unfolded state of the body."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "description": "Fires from the press or key that folded or unfolded the body."
+        },
+        {
+          "name": "onDeploy",
+          "type": "() => void",
+          "description": "Fires once, from the gesture that carried the knob to the end."
+        },
+        {
+          "name": "onArmChange",
+          "type": "(share: number) => void",
+          "description": "How far the knob has travelled, 0–1 — a reading, so it also fires on the first commit."
+        },
+        {
+          "name": "slideLabel",
+          "type": "string",
+          "defaultValue": "\"Slide to deploy\"",
+          "description": "Names the slide control and prints on its track."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Deploy\"",
+          "description": "Names the card for assistive technology."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root element's classes."
+        }
+      ],
+      "usageNotes": [
+        "The head is a disclosure button with aria-expanded; the knob is a role=\"slider\" where Arrow keys move it a tenth, Page Up and Page Down a quarter, Home sends it back and End confirms — only a full sweep fires onDeploy, and a press on the bare track never moves it.",
+        "Set status to deploying from onDeploy and to deployed or blocked when the work really lands: the card never claims a deploy happened, and each status change is announced once through a polite live region.",
+        "Under reduced motion the knob still tracks the pointer and the keys but returns home instantly, the digits swap in place, and the rows fade in with no travel or stagger.",
+        "The body's height is measured, never reserved, so a folded card holds no room for its commits and a list that grows while open re-measures on its own."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/deploy-diff",
+      "registryItemUrl": "https://www.kinetiqui.com/r/deploy-diff.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/deploy-diff",
+        "npm": "npx shadcn@latest add @kinetiq/deploy-diff",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/deploy-diff",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/deploy-diff",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/deploy-diff.json"
+      }
+    },
+    {
+      "slug": "canary-split",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Canary Split",
+      "serial": "KQ-964",
+      "tagline": "A slice of traffic, watched.",
+      "description": "How much traffic the new build is taking, and what it is doing with it: the canary holds the left of a split bar whose boundary is a real slider, dragged with the pointer after 4px of travel or driven with the arrow keys, and both shares settle on glide. Under the bar the baseline's error rate and the canary's share one fixed viewBox, and the canary's line draws itself as a clip rect sweeps across the box on a tween, so the stroke keeps an even width to its last sample. When the host's verdict settles, Promote and Abort slide in from 8px away on snap into a ResizeObserver-measured region, and nothing is announced until the host answers.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "canary",
+        "traffic",
+        "split",
+        "slider",
+        "error rate",
+        "promote",
+        "abort",
+        "devtools"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLDivElement>",
+          "description": "Reaches the root group element."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "Controlled or initial share of traffic on the canary, in whole percent."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(percent: number) => void",
+          "description": "Fires from the setter behind the drag or key."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "50",
+          "description": "The most traffic the canary may take."
+        },
+        {
+          "name": "baseline",
+          "type": "CanarySeries",
+          "description": "The current build's line, drawn quiet: a label, error-rate samples oldest first, and the rate now."
+        },
+        {
+          "name": "canary",
+          "type": "CanarySeries",
+          "description": "The new build's line, drawn live in the verdict's colour."
+        },
+        {
+          "name": "verdict",
+          "type": "\"watching\" | \"ready\" | \"failing\" | \"promoted\" | \"aborted\"",
+          "defaultValue": "\"watching\"",
+          "description": "Comes from the host; decides which controls are in."
+        },
+        {
+          "name": "note",
+          "type": "string",
+          "description": "One sentence explaining the verdict; printed and spoken."
+        },
+        {
+          "name": "onPromote",
+          "type": "() => void",
+          "description": "Fires from the press on Promote."
+        },
+        {
+          "name": "onAbort",
+          "type": "() => void",
+          "description": "Fires from the press on Abort."
+        },
+        {
+          "name": "onSplitChange",
+          "type": "(reading: SplitReading) => void",
+          "description": "The whole reading — canary share, baseline share and verdict — reported from the first commit as well, because it is a state."
+        },
+        {
+          "name": "formatRate",
+          "type": "(rate: number) => string",
+          "defaultValue": "two decimals and a percent sign",
+          "description": "Renders both error rates."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Traffic split\"",
+          "description": "Names the control for assistive technology and prints above it."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root element's classes."
+        }
+      ],
+      "usageNotes": [
+        "The boundary is a role=\"slider\" whose value text names both shares: Arrow keys move it one percent, Page Up and Page Down ten, Home drops the canary to zero and End takes it to max; a press on the bar jumps there, while a press on the boundary waits for travel.",
+        "Promote and Abort only fire callbacks: set the verdict from the host once the change has really happened, and the card speaks the new verdict once through a polite live region, with focus handed to the decision region rather than dropped on the page.",
+        "Under reduced motion both lines are painted whole, the shares change without springing, and the controls fade in where they will stand.",
+        "The plot is a role=\"img\" with a sentence naming both rates and the verdict, so the colour of the canary's line never carries the reading on its own."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/canary-split",
+      "registryItemUrl": "https://www.kinetiqui.com/r/canary-split.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/canary-split",
+        "npm": "npx shadcn@latest add @kinetiq/canary-split",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/canary-split",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/canary-split",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/canary-split.json"
+      }
+    },
+    {
+      "slug": "build-log",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Build Log",
+      "serial": "KQ-965",
+      "tagline": "The build, as it runs.",
+      "description": "A build read the way an engineer reads one: step headers that fold, with the step in flight opening itself and tailing, so new lines arrive at the bottom from 4px away on glide while the oldest leave the tail window and the body holds one steady, ResizeObserver-measured height. A step that finishes folds back to its header unless the reader has pressed one, because a reader's choice outranks the script. When the build settles the summary stamps its duration: a pass lands from 1.2× on recoil, and a failure arrives on snap with no bounce at all.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "build",
+        "log",
+        "steps",
+        "tail",
+        "disclosure",
+        "output",
+        "devtools",
+        "duration"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLDivElement>",
+          "description": "Reaches the root group element."
+        },
+        {
+          "name": "steps",
+          "type": "BuildStep[]",
+          "description": "The build, in order: id, name, status, seconds and every line the step has printed, oldest first."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "string[]",
+          "description": "Controlled or initial set of open step ids; without one the log follows the step in flight."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the press or key that folded or unfolded a step."
+        },
+        {
+          "name": "onBuildChange",
+          "type": "(reading: BuildReading) => void",
+          "description": "The whole reading — phase, step, index, passed count and total seconds — reported from the first commit as well, because it is a state."
+        },
+        {
+          "name": "tailLines",
+          "type": "number",
+          "defaultValue": "6",
+          "description": "How many lines a running step shows."
+        },
+        {
+          "name": "totalSeconds",
+          "type": "number",
+          "defaultValue": "the steps added up",
+          "description": "What the summary stamps."
+        },
+        {
+          "name": "formatSeconds",
+          "type": "(seconds: number) => string",
+          "defaultValue": "seconds, then m:ss",
+          "description": "Renders every duration."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Build\"",
+          "description": "Names the log for assistive technology and prints above it."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root element's classes."
+        }
+      ],
+      "usageNotes": [
+        "Every header is a disclosure button with aria-expanded in the tab order: Arrow Up and Down move between headers, Home and End jump, and Enter or Space folds or unfolds.",
+        "The polite live region speaks settled steps and the final verdict only, with the last error line read back on a failure; the tail itself is never announced, because several lines a second would drown a reader.",
+        "Under reduced motion the lines still arrive and the heights still change, on tweens, the running dot does not pulse, and the summary appears at full size.",
+        "Every duration comes from props, so the log never reads a clock; a warn or error line prints its level as a word, and wide lines scroll inside their own box rather than widening the card."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/build-log",
+      "registryItemUrl": "https://www.kinetiqui.com/r/build-log.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/build-log",
+        "npm": "npx shadcn@latest add @kinetiq/build-log",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/build-log",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/build-log",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/build-log.json"
+      }
+    },
+    {
+      "slug": "env-switch",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Env Switch",
+      "serial": "KQ-966",
+      "tagline": "Staging, then production.",
+      "description": "Where the next command lands: the environments share one rail, and the knob travels between them on glide under a useId-prefixed layoutId, while the head washes as the stop changes — a tinted layer cross-fading on a tween, quiet for the first stop, cobalt between, warn for a guarded one. A guarded stop never commits on the first press; it arms, and a confirm row unfolds in flow beneath the rail on glide to a ResizeObserver-measured height, its button focused as it arrives. The stops are a radio group where Arrow keys move and commit unguarded stops, and Escape or Cancel disarms and hands focus back.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "environment",
+        "switch",
+        "staging",
+        "production",
+        "confirm",
+        "guarded",
+        "radio",
+        "devtools"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLDivElement>",
+          "description": "Reaches the root element."
+        },
+        {
+          "name": "stops",
+          "type": "EnvStop[]",
+          "description": "The environments, left to right: id, a short name, the host it points at, and an optional guarded flag."
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "description": "What is being pointed somewhere; printed in the head."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "the first stop",
+          "description": "Controlled or initial committed stop id."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires from the press or key that committed a stop."
+        },
+        {
+          "name": "onArmedChange",
+          "type": "(id: string | null) => void",
+          "description": "The armed guarded stop, or null — a state, so it also fires on mount."
+        },
+        {
+          "name": "armLabel",
+          "type": "(stop: EnvStop) => string",
+          "defaultValue": "\"Switch to <stop name>\"",
+          "description": "Copy on the confirm control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Environment\"",
+          "description": "Names the rail for assistive technology."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root element's classes."
+        }
+      ],
+      "usageNotes": [
+        "The rail is a role=\"radiogroup\" with a roving tabindex: Arrow keys step and commit an unguarded stop as they land, Home and End jump, and arrowing onto a guarded stop only moves focus — Enter or Space arms it, and Escape or Cancel disarms and returns focus to that stop.",
+        "Mark production-like stops guarded so they arm a confirm instead of committing on the first press; a value committed from outside clears any pending confirm, and every arm, confirm and cancel is announced through a polite live region.",
+        "Under reduced motion the knob does not travel — the selected fill fades in where it belongs — while the head wash and the host line still swap, because which environment you are pointed at is information.",
+        "The confirm row sits in flow inside the component's own box rather than as an overlay, so it never escapes a clipped or scrolled container."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/env-switch",
+      "registryItemUrl": "https://www.kinetiqui.com/r/env-switch.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/env-switch",
+        "npm": "npx shadcn@latest add @kinetiq/env-switch",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/env-switch",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/env-switch",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/env-switch.json"
+      }
+    },
+    {
+      "slug": "release-notes",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Release Notes",
+      "serial": "KQ-967",
+      "tagline": "Written as it ships.",
+      "description": "The note a release writes about itself while it is still being cut: commits arrive as props and the card groups them into added, changed, fixed and removed, each group with a count that cross-fades in one cell. A landing line arrives from 4px away on glide, staggered inside its group by cascade, while the lines already there travel under layout on the same spring, so a new entry pushing the rest down reads as a shift rather than a bounce. Pressing a line swaps it for an input in the same cell, focused as it arrives; Enter or blur commits, Escape reverts, and an edited line keeps a quiet edited mark.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "release notes",
+        "changelog",
+        "commits",
+        "inline edit",
+        "grouping",
+        "version",
+        "devtools"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLDivElement>",
+          "description": "Reaches the root group element."
+        },
+        {
+          "name": "commits",
+          "type": "ReleaseCommit[]",
+          "description": "The landed commits, in the order they landed: id, kind, the line as written, and an optional scope."
+        },
+        {
+          "name": "version",
+          "type": "string",
+          "description": "The release being written."
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "description": "What the release is of; printed before the version."
+        },
+        {
+          "name": "dateLabel",
+          "type": "string",
+          "description": "The release date as a string — the card never reads a clock."
+        },
+        {
+          "name": "edits / defaultEdits",
+          "type": "Record<string, string>",
+          "defaultValue": "{}",
+          "description": "Controlled or initial per-commit text overrides, keyed by commit id."
+        },
+        {
+          "name": "onEditsChange",
+          "type": "(edits: Record<string, string>) => void",
+          "description": "Fires from the setter that committed an edit."
+        },
+        {
+          "name": "onEntryCommit",
+          "type": "(id: string, text: string) => void",
+          "description": "Fires once per committed line, with the text it now reads."
+        },
+        {
+          "name": "onEditingChange",
+          "type": "(id: string | null) => void",
+          "description": "Which line is open for editing — a state, so it also fires on mount."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Release notes\"",
+          "description": "Names the card for assistive technology."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root element's classes."
+        }
+      ],
+      "usageNotes": [
+        "The lines read as one list with a roving tabindex across every group: Arrow Up and Down step, Home and End jump, and Enter or Space opens the line for editing; in the field Enter commits, Escape reverts, and focus returns to the line's button either way, while a blur commits without pulling focus back.",
+        "An edit overrides the commit's text without losing it: editing a line back to the original drops its override, and landings and edits share one polite live region where the newest sentence wins.",
+        "Under reduced motion entries appear with opacity only, layout travel is off, and the counts still change — what the release contains is information.",
+        "Commits land from the host in the order they landed; the card groups them itself, so feed it the raw list rather than pre-sorted groups."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/release-notes",
+      "registryItemUrl": "https://www.kinetiqui.com/r/release-notes.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/release-notes",
+        "npm": "npx shadcn@latest add @kinetiq/release-notes",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/release-notes",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/release-notes",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/release-notes.json"
+      }
+    },
+    {
+      "slug": "health-check",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Health Check",
+      "serial": "KQ-968",
+      "tagline": "Every check, ticked.",
+      "description": "The list a deploy has to get through before anyone believes it: a running probe turns its ring at a constant rate, because a spring would imply it is nearly done, a pass stamps on snap from 1.06 and draws its tick on flick, and a failure stamps its cross on snap and unfolds its own detail to a ResizeObserver-measured height on glide. Under the head a rule fills on glide to the share of checks that have settled, and the counts beside it cross-fade in one cell so a fast sequence never blanks the number. The checks are a roving-tabindex list where Arrow Up and Down step, Home and End jump, and Enter or Space folds a row.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "health check",
+        "probe",
+        "readiness",
+        "status",
+        "latency",
+        "spinner",
+        "devtools",
+        "disclosure"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLDivElement>",
+          "description": "Reaches the root group element."
+        },
+        {
+          "name": "checks",
+          "type": "HealthProbe[]",
+          "description": "The checks, in run order: id, probe name, target, status, and once settled the latency, response and an optional detail line."
+        },
+        {
+          "name": "open / defaultOpen",
+          "type": "string[]",
+          "defaultValue": "[]",
+          "description": "Controlled or initial set of expanded check ids."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(ids: string[]) => void",
+          "description": "Fires from the press or key that folded or unfolded a check."
+        },
+        {
+          "name": "onSummaryChange",
+          "type": "(summary: HealthSummary) => void",
+          "description": "The whole reading — passed, failed, running, waiting, settled and total — reported from the first commit as well, because it is a state."
+        },
+        {
+          "name": "onCheckSelect",
+          "type": "(id: string) => void",
+          "description": "Fires when a row is activated by pointer or keyboard."
+        },
+        {
+          "name": "formatMs",
+          "type": "(ms: number) => string",
+          "defaultValue": "ms under a second, seconds to two decimals above",
+          "description": "Renders every latency, so a host changes units in one place."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Health checks\"",
+          "description": "Names the list for assistive technology."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root element's classes."
+        }
+      ],
+      "usageNotes": [
+        "Each row is a disclosure button with aria-expanded that names itself as one sentence — probe, target and how it went — under a roving tabindex: Arrow Up and Down step, Home and End jump, and Enter or Space folds or unfolds.",
+        "An uncontrolled list opens a check the moment it settles to fail, because a failed check must not stay shut; a controlled host keeps its own set and should open the failed id itself from onOpenChange or its own state.",
+        "A failure and the final tally are announced once through a polite live region, and the settled rule is a role=\"meter\" whose value text is a sentence.",
+        "Under reduced motion the ring holds still while the row still prints running, and ticks and crosses appear at full size, because a settled check is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/health-check",
+      "registryItemUrl": "https://www.kinetiqui.com/r/health-check.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/health-check",
+        "npm": "npx shadcn@latest add @kinetiq/health-check",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/health-check",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/health-check",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/health-check.json"
+      }
+    },
+    {
+      "slug": "rollback-arc",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rollback Arc",
+      "serial": "KQ-969",
+      "tagline": "Back to the last good one.",
+      "description": "Every version a service has worn, laid on one static arc with the newest at the frontier and each node's coordinates rounded before they reach an attribute. The deployed marker rides the curve rather than cutting the chord: one scalar motion value carries its position between version indices and useTransform derives cx and cy from it, so a rollback across three versions travels the arc on glide. Choosing an earlier node moves a hollow caret to it on snap and unfolds a roll-back row at a ResizeObserver-measured height, and only when the marker has settled does the version become current and the sentence get spoken.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "rollback",
+        "versions",
+        "release",
+        "arc",
+        "deploy",
+        "listbox",
+        "devtools",
+        "history"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLDivElement>",
+          "description": "Reaches the root group element."
+        },
+        {
+          "name": "versions",
+          "type": "ReleaseVersion[]",
+          "description": "Oldest first, frontier last: id, label, a good, bad or unknown status, and an optional note."
+        },
+        {
+          "name": "service",
+          "type": "string",
+          "description": "Whose versions these are; printed in the head."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "the frontier",
+          "description": "Controlled or initial deployed version id."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(id: string) => void",
+          "description": "Fires when a rollback settles, from the setter that committed it."
+        },
+        {
+          "name": "onChosenChange",
+          "type": "(id: string) => void",
+          "description": "The caret's version — a state, so it also fires on the first commit."
+        },
+        {
+          "name": "onRollbackStart",
+          "type": "(id: string) => void",
+          "description": "Fires from the press that started the travel."
+        },
+        {
+          "name": "rollbackLabel",
+          "type": "(version: ReleaseVersion) => string",
+          "defaultValue": "\"Roll back to <label>\" or \"Roll forward to <label>\"",
+          "description": "Copy on the confirm control; the default names the direction."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Version arc\"",
+          "description": "Names the arc for assistive technology."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root element's classes."
+        }
+      ],
+      "usageNotes": [
+        "The nodes are a role=\"listbox\" of options under a roving tabindex: Arrow Left and Down step toward older versions, Arrow Right and Up toward the frontier, Home and End jump, Enter or Space chooses, and Escape cancels a pending rollback and returns focus to the node.",
+        "The confirm button is focused as its row arrives and uses aria-disabled while the marker travels, so it never drops the keyboard mid-press; onValueChange fires only once the marker has settled, so drive the real rollback from onRollbackStart and treat onValueChange as done.",
+        "Under reduced motion the marker does not travel — it jumps and the arrival is spoken at once — because where the service now stands is information.",
+        "Each version carries its verdict as a word as well as a colour, in the node's own label and in the deployed and chosen readout under the arc."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/rollback-arc",
+      "registryItemUrl": "https://www.kinetiqui.com/r/rollback-arc.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rollback-arc",
+        "npm": "npx shadcn@latest add @kinetiq/rollback-arc",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rollback-arc",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rollback-arc",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/rollback-arc.json"
+      }
+    },
+    {
+      "slug": "queue-depth",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Queue Depth",
+      "serial": "KQ-970",
+      "tagline": "Waiting to deploy.",
+      "description": "What is waiting to go out, in the order it will go: the head carries a rule that drains on glide to its share of the seconds left, and a Hold switch stops it, because a queue you cannot stop is not a queue. Pressing a row promotes it one place and the two neighbours exchange under layout on glide, a FLIP rather than a re-render; two adjacent rows for the same service can be merged, the lower leaving on a fast exit while the upper takes its changes and its count cross-fades in one grid cell. Depth reads as a count and a total wait in the head, and every row is a real button under a roving tabindex whose name says where it sits and where pressing would put it.",
+      "categories": [
+        "devtools"
+      ],
+      "keywords": [
+        "queue",
+        "deploy",
+        "countdown",
+        "reorder",
+        "merge",
+        "flip",
+        "hold",
+        "devtools"
+      ],
+      "props": [
+        {
+          "name": "ref",
+          "type": "React.Ref<HTMLDivElement>",
+          "description": "Reaches the root group element."
+        },
+        {
+          "name": "deploys",
+          "type": "PendingDeploy[]",
+          "description": "The queue as the host knows it: id, service, change, author and seconds waited so far."
+        },
+        {
+          "name": "headSeconds",
+          "type": "number",
+          "description": "Seconds left on the head; the rule drains to its share of the total."
+        },
+        {
+          "name": "headTotalSeconds",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "What the head's countdown started from."
+        },
+        {
+          "name": "held / defaultHeld",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled or initial hold on the head of the queue."
+        },
+        {
+          "name": "onHeldChange",
+          "type": "(held: boolean) => void",
+          "description": "Fires from the press or key that flipped the Hold switch."
+        },
+        {
+          "name": "onQueueChange",
+          "type": "(ids: string[]) => void",
+          "description": "The settled order — a state, so it also fires on the first commit."
+        },
+        {
+          "name": "onPromote",
+          "type": "(id: string) => void",
+          "description": "Fires from the press that moved a row up one place."
+        },
+        {
+          "name": "onMerge",
+          "type": "(intoId: string, fromId: string) => void",
+          "description": "Fires when a row is folded into the one above it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Deploy queue\"",
+          "description": "Names the queue for assistive technology."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root element's classes."
+        }
+      ],
+      "usageNotes": [
+        "The rows carry a roving tabindex: Arrow Up and Down step, Home and End jump, and Enter or Space promotes the focused row one place; the head uses aria-disabled rather than disabled so the keyboard is never locked out of the list, Hold is a role=\"switch\", and each promotion, merge and hold is announced through a polite live region.",
+        "The order and the merges are the queue's own state, reconciled against deploys during render: ids that leave the prop drop out of both and new ids join the back, so the host ships the head by removing it — along with anything merged into it — and reads the order back from onQueueChange.",
+        "The countdown comes from headSeconds, so the queue never reads a clock; stop the host's timer while held is true.",
+        "Under reduced motion nothing FLIPs and a promotion is an instant exchange, while the rule still drains and the counts still change, because how much is waiting is information."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/queue-depth",
+      "registryItemUrl": "https://www.kinetiqui.com/r/queue-depth.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/queue-depth",
+        "npm": "npx shadcn@latest add @kinetiq/queue-depth",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/queue-depth",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/queue-depth",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/queue-depth.json"
       }
     },
     {

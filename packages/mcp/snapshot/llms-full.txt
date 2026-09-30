@@ -18254,6 +18254,267 @@ Notes:
 - Under reduced motion the band still moves to its bounds and the line still reaches full length, on a tween rather than glide, the outlier dots arrive with a fade and no stagger, and the ring pulse does not play.
 - Every clock comes from props, so the chart never reads one; the mean, the band and every deviation are rounded before they reach an attribute.
 
+### Pipeline Rail (KQ-961) — `pipeline-rail`
+Stage by stage.
+
+A build's stages on one rail, filling in the order they ran: a landed stage's fill scales from its own left origin on glide while the segments arrive in a cascade, and the stage in flight washes its whole segment and pulses between two opacities on a mirrored tween. A failed stage stops the rail, dims every stage after it, and unfolds a ResizeObserver-measured strip on glide whose failure sentence and rerun control rise in on snap. The segments are a roving-tabindex list where Arrow keys step, Home and End jump, and selection moves with focus.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pipeline-rail`
+
+Props:
+- `ref`: React.Ref<HTMLDivElement> — Reaches the root group element.
+- `stages`: PipelineStage[] — The rail, in run order: id, name, status, seconds, an optional progress share and an optional failure note.
+- `selected / defaultSelected`: string — Controlled or initial selected stage id; without one the rail follows the stage in flight until a stage is chosen.
+- `onSelectedChange`: (id: string) => void — Fires from the press or key that moved the selection.
+- `onRerun`: (id: string) => void — Fires from the press on the rerun control, with the stage it restarts; without it the failure strip shows no control.
+- `onRailChange`: (reading: RailReading) => void — The whole reading — phase, stage, index, passed count and total seconds — reported from the first commit as well, because it is a state.
+- `formatSeconds`: (seconds: number) => string (default seconds, then m:ss) — Renders every duration on the rail.
+- `rerunLabel`: string (default "Rerun") — Verb on the rerun control, before the stage name.
+- `label`: string (default "Pipeline") — Names the rail for assistive technology and prints above it.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- The segments carry a roving tabindex: Arrow Left and Up step back, Arrow Right and Down step on, Home and End jump, and each button names itself as one sentence with its position, status and time.
+- A phase change is announced once through a polite live region, and a failure reads back the host's note; the rerun control hands focus to that stage's segment before the strip leaves, so the keyboard is never dropped on the page.
+- Under reduced motion the fills still fill — how far a build got is information — on tweens, with no stagger and no running pulse.
+- Every second comes from props, so the rail never reads a clock; pass progress only for a stage that can actually measure it, and a running stage without one washes its whole segment instead.
+
+### Rollout Wave (KQ-962) — `rollout-wave`
+Ten percent, then more.
+
+A release reaching a fleet one wave at a time: the track carries the share of machines on the new build and scales from its left origin on glide, with a hairline tick at each wave's boundary so the plan shows before it happens. Under it every machine is a dot, and a landing wave lights its own dots in a cascade on snap while a rollback runs the same dots dark in reverse order, because a rollback is the wave run backwards. Holding stops the track where it stands and draws a rule at the current edge; Hold is a real switch and Roll back a plain button reached with Tab.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rollout-wave`
+
+Props:
+- `ref`: React.Ref<HTMLDivElement> — Reaches the root element.
+- `waves`: number[] (default [0.1, 0.25, 0.5, 1]) — Cumulative shares of the fleet each wave reaches, in order.
+- `hosts`: number (default 24) — Machines in the fleet; the grid draws one dot each.
+- `wave / defaultWave`: number (default -1) — Controlled or initial index of the last landed wave; -1 means the fleet is still on the previous build.
+- `onWaveChange`: (wave: number) => void — Fires from the setter behind the roll-back press.
+- `paused / defaultPaused`: boolean (default false) — Controlled or initial held state.
+- `onPausedChange`: (paused: boolean) => void — Fires from the press or key that held or resumed the rollout.
+- `onRolloutChange`: (reading: RolloutReading) => void — The whole reading — wave, share, machines and phase — reported from the first commit as well, because it is a state.
+- `version`: string — The build being rolled out; printed in the header and spoken.
+- `hostName`: (index: number) => string (default "Machine 01") — Names each machine for its dot.
+- `label`: string (default "Rollout") — Names the rollout and labels the meter.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- The track is a role="meter" whose aria-valuetext is a sentence, each dot is a list item naming its own machine and build, and Hold is a role="switch" toggled with Space or Enter; a wave landing, a hold and a rollback are each announced once through a polite live region.
+- The wave index comes from props, so the host's own timer drives the advance and the component never reads a clock; pause that timer while paused is true and when the tab is hidden.
+- Under reduced motion the track still fills and the dots still light — how far a release has reached is information — on tweens, with no scale and no stagger.
+- Roll back never bounces on arrival and nothing pulses while the rollout is held, because neither is progress.
+
+### Deploy Diff (KQ-963) — `deploy-diff`
+What this deploy changes.
+
+The card you read before you ship: the head carries the route, the release and a commit count whose digits roll on snap in a fixed-width column, and pressing it unfolds a ResizeObserver-measured body on glide where the service chips and commits cascade in from 4px away. The deploy control is a slide track whose knob is dragged, with the pointer captured only after 4px of travel, or driven from the keyboard as a real slider; only a full sweep fires the deploy, and a short one springs home on snap. The status comes from the host, so the strip that replaces the track arrives only when the parent answers, and takes focus after this card's own confirm.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/deploy-diff`
+
+Props:
+- `ref`: React.Ref<HTMLDivElement> — Reaches the root group element.
+- `release`: string — The build being deployed; printed in the head.
+- `from`: string — The environment this deploy runs from.
+- `to`: string — The environment this deploy runs to; named in every status sentence.
+- `commits`: DeployCommit[] (default []) — Newest first, each with a short hash, subject and author; the count in the head rolls.
+- `services`: ServiceChange[] (default []) — The changed services, one chip each with lines added and removed.
+- `status`: "ready" | "deploying" | "deployed" | "blocked" (default "ready") — Comes from the host — the card never advances it on its own.
+- `blockedNote`: string — Why the deploy is held; printed and spoken when the status is blocked.
+- `open / defaultOpen`: boolean (default false) — Controlled or initial unfolded state of the body.
+- `onOpenChange`: (open: boolean) => void — Fires from the press or key that folded or unfolded the body.
+- `onDeploy`: () => void — Fires once, from the gesture that carried the knob to the end.
+- `onArmChange`: (share: number) => void — How far the knob has travelled, 0–1 — a reading, so it also fires on the first commit.
+- `slideLabel`: string (default "Slide to deploy") — Names the slide control and prints on its track.
+- `label`: string (default "Deploy") — Names the card for assistive technology.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- The head is a disclosure button with aria-expanded; the knob is a role="slider" where Arrow keys move it a tenth, Page Up and Page Down a quarter, Home sends it back and End confirms — only a full sweep fires onDeploy, and a press on the bare track never moves it.
+- Set status to deploying from onDeploy and to deployed or blocked when the work really lands: the card never claims a deploy happened, and each status change is announced once through a polite live region.
+- Under reduced motion the knob still tracks the pointer and the keys but returns home instantly, the digits swap in place, and the rows fade in with no travel or stagger.
+- The body's height is measured, never reserved, so a folded card holds no room for its commits and a list that grows while open re-measures on its own.
+
+### Canary Split (KQ-964) — `canary-split`
+A slice of traffic, watched.
+
+How much traffic the new build is taking, and what it is doing with it: the canary holds the left of a split bar whose boundary is a real slider, dragged with the pointer after 4px of travel or driven with the arrow keys, and both shares settle on glide. Under the bar the baseline's error rate and the canary's share one fixed viewBox, and the canary's line draws itself as a clip rect sweeps across the box on a tween, so the stroke keeps an even width to its last sample. When the host's verdict settles, Promote and Abort slide in from 8px away on snap into a ResizeObserver-measured region, and nothing is announced until the host answers.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/canary-split`
+
+Props:
+- `ref`: React.Ref<HTMLDivElement> — Reaches the root group element.
+- `value / defaultValue`: number (default 10) — Controlled or initial share of traffic on the canary, in whole percent.
+- `onValueChange`: (percent: number) => void — Fires from the setter behind the drag or key.
+- `max`: number (default 50) — The most traffic the canary may take.
+- `baseline`: CanarySeries — The current build's line, drawn quiet: a label, error-rate samples oldest first, and the rate now.
+- `canary`: CanarySeries — The new build's line, drawn live in the verdict's colour.
+- `verdict`: "watching" | "ready" | "failing" | "promoted" | "aborted" (default "watching") — Comes from the host; decides which controls are in.
+- `note`: string — One sentence explaining the verdict; printed and spoken.
+- `onPromote`: () => void — Fires from the press on Promote.
+- `onAbort`: () => void — Fires from the press on Abort.
+- `onSplitChange`: (reading: SplitReading) => void — The whole reading — canary share, baseline share and verdict — reported from the first commit as well, because it is a state.
+- `formatRate`: (rate: number) => string (default two decimals and a percent sign) — Renders both error rates.
+- `label`: string (default "Traffic split") — Names the control for assistive technology and prints above it.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- The boundary is a role="slider" whose value text names both shares: Arrow keys move it one percent, Page Up and Page Down ten, Home drops the canary to zero and End takes it to max; a press on the bar jumps there, while a press on the boundary waits for travel.
+- Promote and Abort only fire callbacks: set the verdict from the host once the change has really happened, and the card speaks the new verdict once through a polite live region, with focus handed to the decision region rather than dropped on the page.
+- Under reduced motion both lines are painted whole, the shares change without springing, and the controls fade in where they will stand.
+- The plot is a role="img" with a sentence naming both rates and the verdict, so the colour of the canary's line never carries the reading on its own.
+
+### Build Log (KQ-965) — `build-log`
+The build, as it runs.
+
+A build read the way an engineer reads one: step headers that fold, with the step in flight opening itself and tailing, so new lines arrive at the bottom from 4px away on glide while the oldest leave the tail window and the body holds one steady, ResizeObserver-measured height. A step that finishes folds back to its header unless the reader has pressed one, because a reader's choice outranks the script. When the build settles the summary stamps its duration: a pass lands from 1.2× on recoil, and a failure arrives on snap with no bounce at all.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/build-log`
+
+Props:
+- `ref`: React.Ref<HTMLDivElement> — Reaches the root group element.
+- `steps`: BuildStep[] — The build, in order: id, name, status, seconds and every line the step has printed, oldest first.
+- `open / defaultOpen`: string[] — Controlled or initial set of open step ids; without one the log follows the step in flight.
+- `onOpenChange`: (ids: string[]) => void — Fires from the press or key that folded or unfolded a step.
+- `onBuildChange`: (reading: BuildReading) => void — The whole reading — phase, step, index, passed count and total seconds — reported from the first commit as well, because it is a state.
+- `tailLines`: number (default 6) — How many lines a running step shows.
+- `totalSeconds`: number (default the steps added up) — What the summary stamps.
+- `formatSeconds`: (seconds: number) => string (default seconds, then m:ss) — Renders every duration.
+- `label`: string (default "Build") — Names the log for assistive technology and prints above it.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- Every header is a disclosure button with aria-expanded in the tab order: Arrow Up and Down move between headers, Home and End jump, and Enter or Space folds or unfolds.
+- The polite live region speaks settled steps and the final verdict only, with the last error line read back on a failure; the tail itself is never announced, because several lines a second would drown a reader.
+- Under reduced motion the lines still arrive and the heights still change, on tweens, the running dot does not pulse, and the summary appears at full size.
+- Every duration comes from props, so the log never reads a clock; a warn or error line prints its level as a word, and wide lines scroll inside their own box rather than widening the card.
+
+### Env Switch (KQ-966) — `env-switch`
+Staging, then production.
+
+Where the next command lands: the environments share one rail, and the knob travels between them on glide under a useId-prefixed layoutId, while the head washes as the stop changes — a tinted layer cross-fading on a tween, quiet for the first stop, cobalt between, warn for a guarded one. A guarded stop never commits on the first press; it arms, and a confirm row unfolds in flow beneath the rail on glide to a ResizeObserver-measured height, its button focused as it arrives. The stops are a radio group where Arrow keys move and commit unguarded stops, and Escape or Cancel disarms and hands focus back.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/env-switch`
+
+Props:
+- `ref`: React.Ref<HTMLDivElement> — Reaches the root element.
+- `stops`: EnvStop[] — The environments, left to right: id, a short name, the host it points at, and an optional guarded flag.
+- `service`: string — What is being pointed somewhere; printed in the head.
+- `value / defaultValue`: string (default the first stop) — Controlled or initial committed stop id.
+- `onValueChange`: (id: string) => void — Fires from the press or key that committed a stop.
+- `onArmedChange`: (id: string | null) => void — The armed guarded stop, or null — a state, so it also fires on mount.
+- `armLabel`: (stop: EnvStop) => string (default "Switch to <stop name>") — Copy on the confirm control.
+- `label`: string (default "Environment") — Names the rail for assistive technology.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- The rail is a role="radiogroup" with a roving tabindex: Arrow keys step and commit an unguarded stop as they land, Home and End jump, and arrowing onto a guarded stop only moves focus — Enter or Space arms it, and Escape or Cancel disarms and returns focus to that stop.
+- Mark production-like stops guarded so they arm a confirm instead of committing on the first press; a value committed from outside clears any pending confirm, and every arm, confirm and cancel is announced through a polite live region.
+- Under reduced motion the knob does not travel — the selected fill fades in where it belongs — while the head wash and the host line still swap, because which environment you are pointed at is information.
+- The confirm row sits in flow inside the component's own box rather than as an overlay, so it never escapes a clipped or scrolled container.
+
+### Release Notes (KQ-967) — `release-notes`
+Written as it ships.
+
+The note a release writes about itself while it is still being cut: commits arrive as props and the card groups them into added, changed, fixed and removed, each group with a count that cross-fades in one cell. A landing line arrives from 4px away on glide, staggered inside its group by cascade, while the lines already there travel under layout on the same spring, so a new entry pushing the rest down reads as a shift rather than a bounce. Pressing a line swaps it for an input in the same cell, focused as it arrives; Enter or blur commits, Escape reverts, and an edited line keeps a quiet edited mark.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/release-notes`
+
+Props:
+- `ref`: React.Ref<HTMLDivElement> — Reaches the root group element.
+- `commits`: ReleaseCommit[] — The landed commits, in the order they landed: id, kind, the line as written, and an optional scope.
+- `version`: string — The release being written.
+- `service`: string — What the release is of; printed before the version.
+- `dateLabel`: string — The release date as a string — the card never reads a clock.
+- `edits / defaultEdits`: Record<string, string> (default {}) — Controlled or initial per-commit text overrides, keyed by commit id.
+- `onEditsChange`: (edits: Record<string, string>) => void — Fires from the setter that committed an edit.
+- `onEntryCommit`: (id: string, text: string) => void — Fires once per committed line, with the text it now reads.
+- `onEditingChange`: (id: string | null) => void — Which line is open for editing — a state, so it also fires on mount.
+- `label`: string (default "Release notes") — Names the card for assistive technology.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- The lines read as one list with a roving tabindex across every group: Arrow Up and Down step, Home and End jump, and Enter or Space opens the line for editing; in the field Enter commits, Escape reverts, and focus returns to the line's button either way, while a blur commits without pulling focus back.
+- An edit overrides the commit's text without losing it: editing a line back to the original drops its override, and landings and edits share one polite live region where the newest sentence wins.
+- Under reduced motion entries appear with opacity only, layout travel is off, and the counts still change — what the release contains is information.
+- Commits land from the host in the order they landed; the card groups them itself, so feed it the raw list rather than pre-sorted groups.
+
+### Health Check (KQ-968) — `health-check`
+Every check, ticked.
+
+The list a deploy has to get through before anyone believes it: a running probe turns its ring at a constant rate, because a spring would imply it is nearly done, a pass stamps on snap from 1.06 and draws its tick on flick, and a failure stamps its cross on snap and unfolds its own detail to a ResizeObserver-measured height on glide. Under the head a rule fills on glide to the share of checks that have settled, and the counts beside it cross-fade in one cell so a fast sequence never blanks the number. The checks are a roving-tabindex list where Arrow Up and Down step, Home and End jump, and Enter or Space folds a row.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/health-check`
+
+Props:
+- `ref`: React.Ref<HTMLDivElement> — Reaches the root group element.
+- `checks`: HealthProbe[] — The checks, in run order: id, probe name, target, status, and once settled the latency, response and an optional detail line.
+- `open / defaultOpen`: string[] (default []) — Controlled or initial set of expanded check ids.
+- `onOpenChange`: (ids: string[]) => void — Fires from the press or key that folded or unfolded a check.
+- `onSummaryChange`: (summary: HealthSummary) => void — The whole reading — passed, failed, running, waiting, settled and total — reported from the first commit as well, because it is a state.
+- `onCheckSelect`: (id: string) => void — Fires when a row is activated by pointer or keyboard.
+- `formatMs`: (ms: number) => string (default ms under a second, seconds to two decimals above) — Renders every latency, so a host changes units in one place.
+- `label`: string (default "Health checks") — Names the list for assistive technology.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- Each row is a disclosure button with aria-expanded that names itself as one sentence — probe, target and how it went — under a roving tabindex: Arrow Up and Down step, Home and End jump, and Enter or Space folds or unfolds.
+- An uncontrolled list opens a check the moment it settles to fail, because a failed check must not stay shut; a controlled host keeps its own set and should open the failed id itself from onOpenChange or its own state.
+- A failure and the final tally are announced once through a polite live region, and the settled rule is a role="meter" whose value text is a sentence.
+- Under reduced motion the ring holds still while the row still prints running, and ticks and crosses appear at full size, because a settled check is information.
+
+### Rollback Arc (KQ-969) — `rollback-arc`
+Back to the last good one.
+
+Every version a service has worn, laid on one static arc with the newest at the frontier and each node's coordinates rounded before they reach an attribute. The deployed marker rides the curve rather than cutting the chord: one scalar motion value carries its position between version indices and useTransform derives cx and cy from it, so a rollback across three versions travels the arc on glide. Choosing an earlier node moves a hollow caret to it on snap and unfolds a roll-back row at a ResizeObserver-measured height, and only when the marker has settled does the version become current and the sentence get spoken.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/rollback-arc`
+
+Props:
+- `ref`: React.Ref<HTMLDivElement> — Reaches the root group element.
+- `versions`: ReleaseVersion[] — Oldest first, frontier last: id, label, a good, bad or unknown status, and an optional note.
+- `service`: string — Whose versions these are; printed in the head.
+- `value / defaultValue`: string (default the frontier) — Controlled or initial deployed version id.
+- `onValueChange`: (id: string) => void — Fires when a rollback settles, from the setter that committed it.
+- `onChosenChange`: (id: string) => void — The caret's version — a state, so it also fires on the first commit.
+- `onRollbackStart`: (id: string) => void — Fires from the press that started the travel.
+- `rollbackLabel`: (version: ReleaseVersion) => string (default "Roll back to <label>" or "Roll forward to <label>") — Copy on the confirm control; the default names the direction.
+- `label`: string (default "Version arc") — Names the arc for assistive technology.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- The nodes are a role="listbox" of options under a roving tabindex: Arrow Left and Down step toward older versions, Arrow Right and Up toward the frontier, Home and End jump, Enter or Space chooses, and Escape cancels a pending rollback and returns focus to the node.
+- The confirm button is focused as its row arrives and uses aria-disabled while the marker travels, so it never drops the keyboard mid-press; onValueChange fires only once the marker has settled, so drive the real rollback from onRollbackStart and treat onValueChange as done.
+- Under reduced motion the marker does not travel — it jumps and the arrival is spoken at once — because where the service now stands is information.
+- Each version carries its verdict as a word as well as a colour, in the node's own label and in the deployed and chosen readout under the arc.
+
+### Queue Depth (KQ-970) — `queue-depth`
+Waiting to deploy.
+
+What is waiting to go out, in the order it will go: the head carries a rule that drains on glide to its share of the seconds left, and a Hold switch stops it, because a queue you cannot stop is not a queue. Pressing a row promotes it one place and the two neighbours exchange under layout on glide, a FLIP rather than a re-render; two adjacent rows for the same service can be merged, the lower leaving on a fast exit while the upper takes its changes and its count cross-fades in one grid cell. Depth reads as a count and a total wait in the head, and every row is a real button under a roving tabindex whose name says where it sits and where pressing would put it.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/queue-depth`
+
+Props:
+- `ref`: React.Ref<HTMLDivElement> — Reaches the root group element.
+- `deploys`: PendingDeploy[] — The queue as the host knows it: id, service, change, author and seconds waited so far.
+- `headSeconds`: number — Seconds left on the head; the rule drains to its share of the total.
+- `headTotalSeconds`: number (default 60) — What the head's countdown started from.
+- `held / defaultHeld`: boolean (default false) — Controlled or initial hold on the head of the queue.
+- `onHeldChange`: (held: boolean) => void — Fires from the press or key that flipped the Hold switch.
+- `onQueueChange`: (ids: string[]) => void — The settled order — a state, so it also fires on the first commit.
+- `onPromote`: (id: string) => void — Fires from the press that moved a row up one place.
+- `onMerge`: (intoId: string, fromId: string) => void — Fires when a row is folded into the one above it.
+- `label`: string (default "Deploy queue") — Names the queue for assistive technology.
+- `className`: string — Merged onto the root element's classes.
+
+Notes:
+- The rows carry a roving tabindex: Arrow Up and Down step, Home and End jump, and Enter or Space promotes the focused row one place; the head uses aria-disabled rather than disabled so the keyboard is never locked out of the list, Hold is a role="switch", and each promotion, merge and hold is announced through a polite live region.
+- The order and the merges are the queue's own state, reconciled against deploys during render: ids that leave the prop drop out of both and new ids join the back, so the host ships the head by removing it — along with anything merged into it — and reads the order back from onQueueChange.
+- The countdown comes from headSeconds, so the queue never reads a clock; stop the host's timer while held is true.
+- Under reduced motion nothing FLIPs and a promotion is an instant exchange, while the rule still drains and the counts still change, because how much is waiting is information.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 
