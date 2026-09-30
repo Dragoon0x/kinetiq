@@ -1184,6 +1184,12 @@ import { SlingSendDemo } from "@/registry/demos/sling-send.demo";
 import { SnapGuidesDemo } from "@/registry/demos/snap-guides.demo";
 import { MeldTagsDemo } from "@/registry/demos/meld-tags.demo";
 import { CornerPipDemo } from "@/registry/demos/corner-pip.demo";
+import { LevelVialDemo } from "@/registry/demos/level-vial.demo";
+import { CurveSliderDemo } from "@/registry/demos/curve-slider.demo";
+import { RulerTapeDemo } from "@/registry/demos/ruler-tape.demo";
+import { FaderSweepDemo } from "@/registry/demos/fader-sweep.demo";
+import { StretchSliderDemo } from "@/registry/demos/stretch-slider.demo";
+import { ClipTrimDemo } from "@/registry/demos/clip-trim.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2382,4 +2388,10 @@ export const demos: Record<string, ComponentType> = {
   "snap-guides": SnapGuidesDemo,
   "meld-tags": MeldTagsDemo,
   "corner-pip": CornerPipDemo,
+  "level-vial": LevelVialDemo,
+  "curve-slider": CurveSliderDemo,
+  "ruler-tape": RulerTapeDemo,
+  "fader-sweep": FaderSweepDemo,
+  "stretch-slider": StretchSliderDemo,
+  "clip-trim": ClipTrimDemo,
 };

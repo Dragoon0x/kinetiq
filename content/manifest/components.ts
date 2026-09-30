@@ -59360,4 +59360,798 @@ export const components: KinetiqItem[] = [
       "The player lives inside the frame and never uses fixed positioning, so it can sit in any panel, preview or card; its resting place is plain CSS, so the server markup is right at any width.",
     ],
   },
+  {
+    name: "level-vial",
+    type: "registry:ui",
+    title: "Level Vial",
+    description:
+      "A two-sided slider drawn as a spirit level: dragging tilts the level 1:1 with the finger toward the end the value is heading for, and the bubble drifts after it through the liquid on a spring whose stiffness and damping are the viscosity, lagging, overshooting, stretching with its speed and flattening against the end of the vial. A release is projected from its velocity so a flick carries, and the level settles on the snap spring with the release velocity. It is a slider: arrows move a step, PageUp and PageDown go to the next graduation, Home and End to the extremes, each tilting the level and sending the bubble exactly as a drag does.",
+    files: [
+      {
+        path: "registry/ui/level-vial.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1115",
+    },
+    tagline: "The bubble finds the value.",
+    keywords: [
+      "slider",
+      "spirit level",
+      "balance",
+      "bubble",
+      "bipolar",
+      "centre",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "the centre",
+        description:
+          "The value, between min and max. Controlled or uncontrolled; a value the host refuses glides back.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the gesture or key that changed it: once per step crossed while dragging, and once on release, tap or key.",
+      },
+      {
+        name: "min",
+        type: "number",
+        defaultValue: "-50",
+        description:
+          "The left extreme. The centre, halfway between min and max, is neutral.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "50",
+        description: "The right extreme.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The value's resolution and what one arrow key moves, counted out from the centre.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What the level sets: the slider's accessible name, shown above it.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "The reading beside the label and in the spoken value. Defaults to a signed offset from the centre.",
+      },
+      {
+        name: "ends",
+        type: "[string, string]",
+        defaultValue: '["left", "right"]',
+        description:
+          'What the two sides are called in the spoken value, as in "L 20, left of centre."',
+      },
+      {
+        name: "viscosity",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "Thin spirit to thick oil, 0 to 1: how far the bubble lags, how much it overshoots and stretches, how far a flick carries, and the glug's pitch.",
+      },
+      {
+        name: "length",
+        type: "number",
+        defaultValue: "360",
+        description:
+          "The level's length in px, 240 to 480; it shrinks to fit a narrower box. The ends always rise the same 10 px, so a longer level tilts less.",
+      },
+      {
+        name: "marks",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "Graduations on each side of the centre, 0 to 8, drawn across the glass and on the housing. PageUp and PageDown move to the next one.",
+      },
+      {
+        name: "tint",
+        type: '"spirit" | "amber" | "cobalt" | "clear"',
+        defaultValue: '"spirit"',
+        description: "The liquid's colour; the bubble and its rim follow it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a bubbly glug while the bubble moves, louder as it moves faster, pitched by the value and panned by its place. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Dims the level, takes it out of the tab order and ignores drags and keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      'The level is a horizontal role="slider" named by its label, with a sentence in aria-valuetext ("L 20, left of centre." or "Level, at the centre."): ArrowRight/ArrowUp move one step up, ArrowLeft/ArrowDown one step down, PageUp/PageDown to the next graduation (a tenth of the range with no marks), Home and End to the extremes. Each key tilts the level and sends the bubble exactly as a drag would, glug included.',
+      "Under reduced motion the level stays flat and the bubble moves in one piece on a short tween with no lag, stretch or overshoot, while the reading, the spoken value and the centre lines lighting at neutral still answer.",
+      "A drag is touch-pan-y, so a vertical swipe over it still scrolls the page. A host changing value moves the bubble silently; only a gesture makes a sound.",
+    ],
+  },
+  {
+    name: "curve-slider",
+    type: "registry:ui",
+    title: "Curve Slider",
+    description:
+      "A slider whose track is any line (an arc, a wave or a spiral): the thumb goes to the point on the path nearest the finger by projection onto the sampled path, the value is arc length so equal steps are equal distances however the line bends, and the fill traces the path behind the thumb. A press away from the thumb chases it on the flick spring and then follows 1:1, the ends rubber-band out along their tangents, and a release is projected along the path so a flick carries on round the curve, gliding to its step on the glide spring with the finger's speed. Arrows move a step, PageUp and PageDown go to the next mark, Home and End to the ends, and the thumb glides along the path each time, ticking at every mark it passes.",
+    files: [
+      {
+        path: "registry/ui/curve-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1116",
+    },
+    tagline: "A slider that follows any line.",
+    keywords: ["slider", "path", "arc", "spiral", "wave", "curve", "tactile"],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "min",
+        description:
+          "The value, between min and max. Controlled or uncontrolled; a value the host refuses glides back along the path.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the gesture or key that changed it: once per step crossed while dragging, and once on release, tap or key.",
+      },
+      {
+        name: "min",
+        type: "number",
+        defaultValue: "0",
+        description: "The value at the start of the path.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "100",
+        description: "The value at the end of the path.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "1",
+        description: "The value's resolution and what one arrow key moves.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What the slider sets: its accessible name, shown above the path.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "The reading beside the label and in the spoken value. Defaults to the number.",
+      },
+      {
+        name: "path",
+        type: '"arc" | "wave" | "spiral"',
+        defaultValue: '"arc"',
+        description:
+          "The line the track follows: a 240° arc, one and a half periods of a wave, or a spiral of 1.75 turns winding outward. All three project, measure and rubber-band the same way.",
+      },
+      {
+        name: "marks",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "Beads at equal steps of value along the path, 0 to 12. They turn to the accent as the thumb passes, tick as it crosses them, and are where PageUp and PageDown go.",
+      },
+      {
+        name: "fill",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Trace the path behind the thumb in the accent colour.",
+      },
+      {
+        name: "thickness",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "Track weight in px, 2 to 14; the thumb and beads grow with it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Tick softly on the frame the thumb crosses a mark (or an end), pitched by its place along the path and panned by where it is. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Dims the slider, takes it out of the tab order and ignores drags and keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      'The path is a role="slider" named by its label, with a sentence in aria-valuetext ("20 min, 33 percent along the spiral."): ArrowRight/ArrowUp move one step up, ArrowLeft/ArrowDown one step down, PageUp/PageDown to the next mark (a tenth of the range with no marks), Home and End to the ends. The thumb glides along the path and ticks at each mark it passes, exactly as a drag would. The focus ring is drawn round the thumb.',
+      "Under reduced motion the thumb and fill jump straight to their place with no chase, glide or swell, while the drag still follows the finger 1:1 and the reading, beads and ticks still answer.",
+      "Only the path and the thumb take a press: a press more than 26 drawing units from the line (the middle of an arc, the gaps of a wave) does nothing. On the spiral a drag keeps to the turn it is on rather than hopping to the next.",
+    ],
+  },
+  {
+    name: "ruler-tape",
+    type: "registry:ui",
+    title: "Ruler Tape",
+    description:
+      "A length picker drawn as a tape measure: the tape is 1:1 under the finger beneath a fixed needle and rubber-bands past its hook and its cut end. Thrown, its landing is projected from the release speed with a rate set by friction and snapped to the nearest mark, then reached on a critically damped spring whose natural frequency is that friction's time constant, so the coast is an exponential slowdown that stops exactly on the mark; a throw off the end hits it on the snap spring instead, and a slow release catches on the nearest mark with the snap spring's small overshoot. A ratchet ticks as each mark passes the needle and a thunk lands when it stops. Arrows move a mark, PageUp and PageDown a numbered mark, Home and End to the ends, with the same ratchet and thunk.",
+    files: [
+      {
+        path: "registry/ui/ruler-tape.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1117",
+    },
+    tagline: "Throw the tape; it stops on a mark.",
+    keywords: [
+      "ruler",
+      "tape measure",
+      "length",
+      "picker",
+      "scale",
+      "momentum",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "min",
+        description:
+          "The length under the needle, in unit. Controlled or uncontrolled; a value the host refuses slides back.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the gesture or key that changed it: per mark while dragging, and once with the landing mark on release, throw, tap or key.",
+      },
+      {
+        name: "min",
+        type: "number",
+        defaultValue: "0",
+        description: "Where the tape starts: its hook.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "300 (cm) or 120 (in)",
+        description: "Where the tape ends.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "1 (cm) or 0.1 (in)",
+        description:
+          "The value of one mark; marks sit on whole multiples of it.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What is being measured: the slider's accessible name, shown above the reading.",
+      },
+      {
+        name: "unit",
+        type: '"cm" | "in"',
+        defaultValue: '"cm"',
+        description:
+          "The scale printed on the tape and the reading. Uncontrolled, switching it converts the value so the same length stays under the needle; controlled, the host converts.",
+      },
+      {
+        name: "friction",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How soon a thrown tape stops, 0 to 1: at 0 it coasts like a light reel (a time constant near 400 ms), at 1 it stops like a heavy one (near 100 ms).",
+      },
+      {
+        name: "spacing",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "Pixels between marks, 6 to 16: a denser or looser tape, and how much value one flick covers.",
+      },
+      {
+        name: "majorEvery",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "Marks per numbered mark, 2 to 10, with a medium mark halfway when it is even. Numbers thin out rather than collide when majors are close. PageUp and PageDown move by one numbered mark.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A ratchet tick as each mark passes the needle (so its rate is the tape's speed; numbered marks tick lower and firmer) and a thunk when the tape comes to rest after a gesture. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Dims the tape, takes it out of the tab order and ignores drags and keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      'The tape window is a horizontal role="slider" named by its label, with a sentence in aria-valuetext ("140 centimetres, 1 metre 40." or "55.1 inches, 4 feet 7.1 inches."): ArrowRight/ArrowUp move one mark up, ArrowLeft/ArrowDown one down, PageUp/PageDown to the next or previous numbered mark, Home and End to the ends. The tape slides there, ratchets past each mark and thunks, exactly as a throw would.',
+      "Under reduced motion the tape still follows the finger 1:1, but every settle, throw, tap and key jumps straight to its mark with no coast, while the reading and the sounds still answer.",
+      "The drawing is rebuilt from one motion value each frame and only near the needle, so a tape of any length costs the same, and the server renders exactly what the browser does. It is touch-pan-y, so a vertical swipe over it still scrolls the page.",
+    ],
+  },
+  {
+    name: "fader-sweep",
+    type: "registry:ui",
+    title: "Fader Sweep",
+    description:
+      "A bank of vertical faders joined by a smooth curve that you paint in one stroke: draw across the bank and every fader you pass takes the height where the stroke crossed it, the ones a fast stroke skips catching up on the flick spring, each playing a note pitched by its value so the sweep is heard as the shape it drew. Grab a knob instead and that one fader follows 1:1, rubber-bands past its ends and settles on the glide spring with the release velocity, while the brush's smoothing relaxes painted faders into a smooth contour behind the finger. Every fader is a vertical slider in one roving tab stop: Up and Down step it, Page keys, Home and End jump, Left and Right move between faders, and Shift with Left or Right carries the value along like a stroke.",
+    files: [
+      {
+        path: "registry/ui/fader-sweep.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1118",
+    },
+    tagline: "Sweep across the faders in one stroke.",
+    keywords: [
+      "equalizer",
+      "faders",
+      "paint",
+      "sweep",
+      "eq",
+      "mixer",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number[]",
+        defaultValue: "all 0",
+        description:
+          "One value per band, each between -range and +range. Controlled or uncontrolled; an array of another length is resampled by relative position to the band count.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number[]) => void",
+        description:
+          "Fires from the stroke, drag or key that changed the bank, with every band quantized to step. While a stroke is live the host's echoes are ignored; on release the faders settle on whatever the host says.",
+      },
+      {
+        name: "bands",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "How many faders, 2 to 10. The values are resampled to the new count so the shape survives, and the faders glide to it.",
+      },
+      {
+        name: "smoothing",
+        type: "number",
+        defaultValue: "0.35",
+        description:
+          "How soft the paint brush is, 0 to 1. At 0 each fader keeps exactly the height the stroke gave it; higher, faders behind the finger relax toward their painted neighbours and untouched faders beyond the stroke feather toward it. The fader under the finger is never smoothed.",
+      },
+      {
+        name: "curve",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw the smooth response curve through the knobs, over a faint fill down to 0.",
+      },
+      {
+        name: "range",
+        type: "number",
+        defaultValue: "12",
+        description:
+          "How far each fader reaches either side of 0. The scale labels follow it and values outside it are shown clamped.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "0.5",
+        description: "The value's resolution and one arrow key's move.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Equalizer"',
+        description: "The bank's accessible name.",
+      },
+      {
+        name: "labels",
+        type: "string[]",
+        description:
+          "One name per band, printed under it and used as its accessible name. Defaults to log-spaced frequencies from 63 Hz to 16 kHz.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          'A band\'s spoken value, its aria-valuetext. Defaults to "Boosted by 3 decibels", "Cut by 1.5 decibels" or "Flat".',
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a note per fader as the stroke catches it and as a moving fader crosses a scale step, pitched by value on a pentatonic scale and panned to its place. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Dims the bank, takes it out of the tab order and ignores strokes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      'Each fader is a vertical role="slider" with a sentence in aria-valuetext, inside a role="group" with one roving tab stop: ArrowUp/ArrowDown step, PageUp/PageDown move a quarter of the range, Home/End go to the ends, ArrowLeft/ArrowRight move between faders, and Shift+ArrowLeft/ArrowRight carry the focused fader\'s value into the next through the same brush, spring and note as a stroke. Escape during a stroke puts the bank back.',
+      "Under reduced motion the faders still follow the finger and the curve still redraws, but nothing springs: caught faders, settles and key steps land in one frame and the catch flash is a colour fade. The notes are unchanged.",
+      "Press on a knob to move one fader; press anywhere else in the bank to paint. A drag that leaves its knob's column by a whole column becomes a paint stroke from there, and a pointer stroke is announced once on release.",
+    ],
+  },
+  {
+    name: "stretch-slider",
+    type: "registry:ui",
+    title: "Stretch Slider",
+    description:
+      "A slider whose track is a rubber band: in range the thumb is 1:1 under the finger and snap points catch it with a quiet detent, but pull past either end and the thumb lifts the band off its peg and stretches it longer and thinner, keeping its area and necking where the finger pulls, with a creak that rises with the tension. Let go and it snaps back on a spring that takes the release velocity and rings as long as the elasticity allows, with a twang pitched by how far it was pulled; a throw that runs into an end is caught by the band the same way. Arrow keys step, Page keys jump between snap points, Home and End go to the ends, and a key that would go past an end plucks the band instead.",
+    files: [
+      {
+        path: "registry/ui/stretch-slider.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1119",
+    },
+    tagline: "Pull past the end; it pulls back.",
+    keywords: [
+      "slider",
+      "rubber band",
+      "elastic",
+      "overscroll",
+      "snap points",
+      "range",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "min",
+        description:
+          "The value, min to max. Controlled or uncontrolled; while a drag is live the host's echoes are ignored, and on release the thumb settles on whatever the host says.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the drag or key that changed the value, quantized to step.",
+      },
+      {
+        name: "min",
+        type: "number",
+        defaultValue: "0",
+        description: "The value at the left peg.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "100",
+        description: "The value at the right peg.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "1",
+        description: "The value's resolution and one arrow key's move.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What the slider sets: its accessible name, shown over the band.",
+      },
+      {
+        name: "format",
+        type: "(value: number) => string",
+        description:
+          "The reading over the band, the captions under it and the spoken value. Defaults to the number itself.",
+      },
+      {
+        name: "elasticity",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How rubbery the band is, 0 to 1: how far it gives for the same pull, and how it rings when let go, from one small overshoot to three or four bounces.",
+      },
+      {
+        name: "maxStretch",
+        type: "number",
+        defaultValue: "40",
+        description:
+          "The furthest the band stretches past a peg, in px. Faint guides past each peg show the reach, and the track is inset by it so a stretch never leaves the box.",
+      },
+      {
+        name: "snapPoints",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Equal divisions that carry magnetic detents and ticks under the band; PageUp and PageDown jump between them. 0 makes a plain precise slider.",
+      },
+      {
+        name: "thickness",
+        type: "number",
+        defaultValue: "8",
+        description: "The band's thickness at rest, in px.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A creak while the band is stretched that rises with the tension, a twang on release pitched by the stretch, and a quiet detent on snap points. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Dims the slider, takes it out of the tab order and ignores drags.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      'The band is a role="slider" with a sentence in aria-valuetext: ArrowRight/ArrowUp and ArrowLeft/ArrowDown step, PageUp/PageDown jump to the next snap point (a tenth of the range when there are none), Home/End go to the ends, and a key that would go past an end plucks the band with the same twang a pull past the end makes. Escape during a drag puts the thumb back.',
+      "Under reduced motion the band still stretches and thins under the finger, but nothing rings: a release puts it back on the peg in one short tween, a key's pluck is an accent flash with the twang, and throws and key jumps land in one frame.",
+      "The creak loop starts only when a drag leaves the pegs and stops when the thumb comes back into range, on release, on cancel, on window blur, on a hidden page and on unmount.",
+    ],
+  },
+  {
+    name: "clip-trim",
+    type: "registry:ui",
+    title: "Clip Trim",
+    description:
+      "A trimmer over a procedural waveform: drag either handle to trim and everything outside it dims while the in point, kept length and out point update frame by frame; drag the middle to slide the whole window. Handles follow the finger 1:1, rubber-band against the clip's ends and against each other at the minimum length, spring back on snap with the release velocity and can be thrown, and with beat snapping every beat of the drawn grid is a detent the handle jumps to on flick with a tick. Space or a tap on the middle previews the kept part with a real-time playhead that blips on every beat; start, kept part and end are three sliders whose arrow keys move a step or a beat, Page keys a second or four beats, and Home and End jump to their limits.",
+    files: [
+      {
+        path: "registry/ui/clip-trim.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1120",
+    },
+    tagline: "Trim the clip from either end.",
+    keywords: [
+      "trim",
+      "clip",
+      "waveform",
+      "audio",
+      "range",
+      "preview",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "{ start: number; end: number }",
+        defaultValue: "the whole clip",
+        description:
+          "The kept span in seconds from the clip's start. Controlled or uncontrolled; while a drag is live the host's echoes are ignored, and on release the handles settle on whatever the host says.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: ClipTrimValue) => void",
+        description:
+          "Fires from the drag or key that changed the span, on a beat or a step.",
+      },
+      {
+        name: "duration",
+        type: "number",
+        defaultValue: "12",
+        description: "The clip's length, in seconds.",
+      },
+      {
+        name: "bpm",
+        type: "number",
+        defaultValue: "120",
+        description:
+          "The clip's tempo: the beat grid, the beat snaps, the preview's blips and the waveform's pulse.",
+      },
+      {
+        name: "seed",
+        type: "number",
+        defaultValue: "7",
+        description:
+          "Seeds the procedural waveform; the same seed always draws the same clip.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Clip"',
+        description:
+          "The clip's name; the start, kept part and end sliders are named after it.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "0.1",
+        description:
+          "The span's resolution when not snapping to beats, and one arrow key's move.",
+      },
+      {
+        name: "format",
+        type: "(seconds: number) => string",
+        description: "A time as printed under the strip. Defaults to m:ss.s.",
+      },
+      {
+        name: "onPreviewChange",
+        type: "(playing: boolean) => void",
+        description:
+          "Fires when the preview starts and when it stops, however it stopped.",
+      },
+      {
+        name: "minLength",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The shortest the kept span can be, in seconds. The handles rubber-band against it.",
+      },
+      {
+        name: "snapBeats",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw the beat grid and move the handles and the window in beats, each one a detent with a tick. Off, they move freely at step resolution.",
+      },
+      {
+        name: "handle",
+        type: '"frame" | "bar" | "tab"',
+        defaultValue: '"frame"',
+        description:
+          "How the handles are drawn: a frame around the kept part with grips outside it, thin bars standing proud of the strip, or a hairline with a round tab under it.",
+      },
+      {
+        name: "density",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "The waveform's resolution in bars per second, from coarse blocks to fine texture.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick when a handle is grabbed, finds a beat or is stepped by a key, and a blip when the preview starts and on every beat it crosses. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Dims the trimmer, takes it out of the tab order, ignores drags and stops a preview.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root's classes.",
+      },
+    ],
+    usageNotes: [
+      'Start, kept part and end are three role="slider" elements with sentences in aria-valuetext: ArrowLeft/ArrowDown and ArrowRight/ArrowUp move a step (a beat when snapping), PageUp/PageDown a second (four beats), Home/End jump to that slider\'s limits, Space starts or stops the preview and Escape stops it. A key that would pass a limit bumps against it. Escape during a drag puts the span back.',
+      "Under reduced motion the handles still follow the finger, but beat snaps, spring-backs, throws and key moves land in one frame; the preview's playhead still runs because it is progress, and the ticks and blips are unchanged.",
+      "The preview runs on one linear tween with no frame loop of its own, and stops on a drag, a value change, a hidden page, window blur, disable and unmount; preview starts and stops are announced politely.",
+    ],
+  },
 ];

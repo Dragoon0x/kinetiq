@@ -116,4 +116,28 @@ export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/corner-pip.demo").then((m) =>
       mod(m.CornerPipDemo, m.tweaks),
     ),
+  "level-vial": () =>
+    import("@/registry/demos/level-vial.demo").then((m) =>
+      mod(m.LevelVialDemo, m.tweaks),
+    ),
+  "curve-slider": () =>
+    import("@/registry/demos/curve-slider.demo").then((m) =>
+      mod(m.CurveSliderDemo, m.tweaks),
+    ),
+  "ruler-tape": () =>
+    import("@/registry/demos/ruler-tape.demo").then((m) =>
+      mod(m.RulerTapeDemo, m.tweaks),
+    ),
+  "fader-sweep": () =>
+    import("@/registry/demos/fader-sweep.demo").then((m) =>
+      mod(m.FaderSweepDemo, m.tweaks),
+    ),
+  "stretch-slider": () =>
+    import("@/registry/demos/stretch-slider.demo").then((m) =>
+      mod(m.StretchSliderDemo, m.tweaks),
+    ),
+  "clip-trim": () =>
+    import("@/registry/demos/clip-trim.demo").then((m) =>
+      mod(m.ClipTrimDemo, m.tweaks),
+    ),
 };

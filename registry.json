@@ -27519,6 +27519,180 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "level-vial",
+      "type": "registry:ui",
+      "title": "Level Vial",
+      "description": "A two-sided slider drawn as a spirit level: dragging tilts the level 1:1 with the finger toward the end the value is heading for, and the bubble drifts after it through the liquid on a spring whose stiffness and damping are the viscosity, lagging, overshooting, stretching with its speed and flattening against the end of the vial. A release is projected from its velocity so a flick carries, and the level settles on the snap spring with the release velocity. It is a slider: arrows move a step, PageUp and PageDown go to the next graduation, Home and End to the extremes, each tilting the level and sending the bubble exactly as a drag does.",
+      "files": [
+        {
+          "path": "registry/ui/level-vial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1115"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "curve-slider",
+      "type": "registry:ui",
+      "title": "Curve Slider",
+      "description": "A slider whose track is any line (an arc, a wave or a spiral): the thumb goes to the point on the path nearest the finger by projection onto the sampled path, the value is arc length so equal steps are equal distances however the line bends, and the fill traces the path behind the thumb. A press away from the thumb chases it on the flick spring and then follows 1:1, the ends rubber-band out along their tangents, and a release is projected along the path so a flick carries on round the curve, gliding to its step on the glide spring with the finger's speed. Arrows move a step, PageUp and PageDown go to the next mark, Home and End to the ends, and the thumb glides along the path each time, ticking at every mark it passes.",
+      "files": [
+        {
+          "path": "registry/ui/curve-slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1116"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ruler-tape",
+      "type": "registry:ui",
+      "title": "Ruler Tape",
+      "description": "A length picker drawn as a tape measure: the tape is 1:1 under the finger beneath a fixed needle and rubber-bands past its hook and its cut end. Thrown, its landing is projected from the release speed with a rate set by friction and snapped to the nearest mark, then reached on a critically damped spring whose natural frequency is that friction's time constant, so the coast is an exponential slowdown that stops exactly on the mark; a throw off the end hits it on the snap spring instead, and a slow release catches on the nearest mark with the snap spring's small overshoot. A ratchet ticks as each mark passes the needle and a thunk lands when it stops. Arrows move a mark, PageUp and PageDown a numbered mark, Home and End to the ends, with the same ratchet and thunk.",
+      "files": [
+        {
+          "path": "registry/ui/ruler-tape.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1117"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fader-sweep",
+      "type": "registry:ui",
+      "title": "Fader Sweep",
+      "description": "A bank of vertical faders joined by a smooth curve that you paint in one stroke: draw across the bank and every fader you pass takes the height where the stroke crossed it, the ones a fast stroke skips catching up on the flick spring, each playing a note pitched by its value so the sweep is heard as the shape it drew. Grab a knob instead and that one fader follows 1:1, rubber-bands past its ends and settles on the glide spring with the release velocity, while the brush's smoothing relaxes painted faders into a smooth contour behind the finger. Every fader is a vertical slider in one roving tab stop: Up and Down step it, Page keys, Home and End jump, Left and Right move between faders, and Shift with Left or Right carries the value along like a stroke.",
+      "files": [
+        {
+          "path": "registry/ui/fader-sweep.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1118"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stretch-slider",
+      "type": "registry:ui",
+      "title": "Stretch Slider",
+      "description": "A slider whose track is a rubber band: in range the thumb is 1:1 under the finger and snap points catch it with a quiet detent, but pull past either end and the thumb lifts the band off its peg and stretches it longer and thinner, keeping its area and necking where the finger pulls, with a creak that rises with the tension. Let go and it snaps back on a spring that takes the release velocity and rings as long as the elasticity allows, with a twang pitched by how far it was pulled; a throw that runs into an end is caught by the band the same way. Arrow keys step, Page keys jump between snap points, Home and End go to the ends, and a key that would go past an end plucks the band instead.",
+      "files": [
+        {
+          "path": "registry/ui/stretch-slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1119"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "clip-trim",
+      "type": "registry:ui",
+      "title": "Clip Trim",
+      "description": "A trimmer over a procedural waveform: drag either handle to trim and everything outside it dims while the in point, kept length and out point update frame by frame; drag the middle to slide the whole window. Handles follow the finger 1:1, rubber-band against the clip's ends and against each other at the minimum length, spring back on snap with the release velocity and can be thrown, and with beat snapping every beat of the drawn grid is a detent the handle jumps to on flick with a tick. Space or a tap on the middle previews the kept part with a real-time playhead that blips on every beat; start, kept part and end are three sliders whose arrow keys move a step or a beat, Page keys a second or four beats, and Home and End jump to their limits.",
+      "files": [
+        {
+          "path": "registry/ui/clip-trim.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1120"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
