@@ -295,3 +295,17 @@
     background-color: var(--accent-wash);
   }
 }
+
+/*
+ * Keyboard focus keeps its ring. Tailwind 4's `outline-none` sets
+ * --tw-outline-style to none, and the width utilities draw with that
+ * variable, so the house pattern `outline-none focus-visible:outline-2
+ * focus-visible:outline-ring` drew a 2px ring in style none — no ring at all
+ * on some 470 components. On keyboard focus the style is put back. This is
+ * deliberately unlayered, so it outranks the utility that cleared it;
+ * `outline-none` alone, or `focus-visible:outline-none`, still sets the
+ * outline style itself and still hides the ring where that was meant.
+ */
+:focus-visible {
+  --tw-outline-style: solid;
+}
