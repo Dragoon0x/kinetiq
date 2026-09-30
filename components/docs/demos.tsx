@@ -1161,6 +1161,11 @@ import { HealthCheckDemo } from "@/registry/demos/health-check.demo";
 import { RollbackArcDemo } from "@/registry/demos/rollback-arc.demo";
 import { QueueDepthDemo } from "@/registry/demos/queue-depth.demo";
 import { GelSwitchDemo } from "@/registry/demos/gel-switch.demo";
+import { ConjureButtonDemo } from "@/registry/demos/conjure-button.demo";
+import { SplitConfirmDemo } from "@/registry/demos/split-confirm.demo";
+import { ClickerCountDemo } from "@/registry/demos/clicker-count.demo";
+import { KeycapPressDemo } from "@/registry/demos/keycap-press.demo";
+import { CopySlipDemo } from "@/registry/demos/copy-slip.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2336,4 +2341,9 @@ export const demos: Record<string, ComponentType> = {
   "rollback-arc": RollbackArcDemo,
   "queue-depth": QueueDepthDemo,
   "gel-switch": GelSwitchDemo,
+  "conjure-button": ConjureButtonDemo,
+  "split-confirm": SplitConfirmDemo,
+  "clicker-count": ClickerCountDemo,
+  "keycap-press": KeycapPressDemo,
+  "copy-slip": CopySlipDemo,
 };

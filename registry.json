@@ -26865,6 +26865,146 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "conjure-button",
+      "type": "registry:ui",
+      "title": "Conjure Button",
+      "description": "A generate button whose own label is the material. Pressed, its letters lift off one after another and become glyph particles orbiting inside the pill on a glide spring while a band of light scans it; when the host's status says done, every particle condenses onto a letter of the new label on the same spring and a spark flares from the icon, and when it says error the orbit scatters and the pill shakes once on a tween. It is a native button: Space and Enter press it, its name is the current label, and it stays busy and focusable while the host works.",
+      "files": [
+        {
+          "path": "registry/ui/conjure-button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1098"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "split-confirm",
+      "type": "registry:ui",
+      "title": "Split Confirm",
+      "description": "A destructive button that asks by coming apart. Pressed, a crack runs down its middle and the halves part on a snap spring into Cancel and Confirm, with the crack left in the gap as a hairline countdown that heals from both ends; when it runs out the halves are thrown shut on the same snap and meet with a clack. Confirm fires once and latches, closing on a flick spring into a muted button that no longer presses. Focus moves to Confirm as it arrives, the arrow keys cross the halves, and Escape closes the question.",
+      "files": [
+        {
+          "path": "registry/ui/split-confirm.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1099"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "clicker-count",
+      "type": "registry:ui",
+      "title": "Clicker Count",
+      "description": "A hand tally counter. Pressing the body sinks the plunger on a flick spring while the units wheel turns one notch on the same spring, then the plunger returns on a snap spring and the wheel stays; with carry on the wheels are geared, so 099 to 100 turns three wheels in one stroke. A long press on the reset knob turns it and winds every wheel back toward zero as the hold fills, and letting go early springs them home. Space and Enter count, and holding Space or Enter on the knob is the long press.",
+      "files": [
+        {
+          "path": "registry/ui/clicker-count.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1100"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "keycap-press",
+      "type": "registry:ui",
+      "title": "Keycap Press",
+      "description": "A mechanical keycap that is a real button: it goes down when it is clicked, when Space or Enter presses it, and when its own shortcut is typed anywhere on the page, and it stays down for as long as the key is held. The switch sets the stroke — a clicky cap holds at the jacket on a decelerating tween then slams to the floor on an underdamped spring that rattles off the bottom, a tactile cap hitches at a softer bump and lands composed, a linear cap falls in one smooth stroke — and every cap returns on the same stem spring carrying its release velocity. The legend lights at actuation, and the switch sounds on the frame the cap passes each point.",
+      "files": [
+        {
+          "path": "registry/ui/keycap-press.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1101"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "copy-slip",
+      "type": "registry:ui",
+      "title": "Copy Slip",
+      "description": "A copy field whose Copy button is a clipboard with its clip standing open. Pressed, a paper slip carrying the text lifts off the value and flies in a true throw — x linear, y a measured arc that never leaves the component — into the clipboard, where the clip clamps shut on snap and the glyph takes the landing on recoil; the button says Copied until the clip reopens. The slip only goes in if the clipboard took the text: a refusal bounces it back out on recoil, selects the text and says why in words, and Enter and Space copy through the same press.",
+      "files": [
+        {
+          "path": "registry/ui/copy-slip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1102"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

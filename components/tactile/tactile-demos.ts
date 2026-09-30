@@ -24,4 +24,24 @@ export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/gel-switch.demo").then((m) =>
       mod(m.GelSwitchDemo, m.tweaks),
     ),
+  "conjure-button": () =>
+    import("@/registry/demos/conjure-button.demo").then((m) =>
+      mod(m.ConjureButtonDemo, m.tweaks),
+    ),
+  "split-confirm": () =>
+    import("@/registry/demos/split-confirm.demo").then((m) =>
+      mod(m.SplitConfirmDemo, m.tweaks),
+    ),
+  "clicker-count": () =>
+    import("@/registry/demos/clicker-count.demo").then((m) =>
+      mod(m.ClickerCountDemo, m.tweaks),
+    ),
+  "keycap-press": () =>
+    import("@/registry/demos/keycap-press.demo").then((m) =>
+      mod(m.KeycapPressDemo, m.tweaks),
+    ),
+  "copy-slip": () =>
+    import("@/registry/demos/copy-slip.demo").then((m) =>
+      mod(m.CopySlipDemo, m.tweaks),
+    ),
 };

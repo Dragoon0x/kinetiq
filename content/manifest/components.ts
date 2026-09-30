@@ -56640,4 +56640,582 @@ export const components: KinetiqItem[] = [
       "Under reduced motion the droplet moves in one piece on a short tween with no neck and no jiggle, and the colour still changes, because on and off are information.",
     ],
   },
+  {
+    name: "conjure-button",
+    type: "registry:ui",
+    title: "Conjure Button",
+    description:
+      "A generate button whose own label is the material. Pressed, its letters lift off one after another and become glyph particles orbiting inside the pill on a glide spring while a band of light scans it; when the host's status says done, every particle condenses onto a letter of the new label on the same spring and a spark flares from the icon, and when it says error the orbit scatters and the pill shakes once on a tween. It is a native button: Space and Enter press it, its name is the current label, and it stays busy and focusable while the host works.",
+    files: [
+      {
+        path: "registry/ui/conjure-button.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1098",
+    },
+    tagline: "The words come apart, then come back finished.",
+    keywords: [
+      "generate",
+      "button",
+      "particles",
+      "orbit",
+      "loading",
+      "async",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "status / defaultStatus",
+        type: '"idle" | "working" | "done" | "error"',
+        defaultValue: '"idle"',
+        description:
+          "The run's state, owned by the host (controlled), or its initial state when uncontrolled. The button never decides it is finished.",
+      },
+      {
+        name: "onStatusChange",
+        type: "(status: ConjureStatus) => void",
+        description:
+          'Reports "working" from the press; uncontrolled, also "done" or "error" when the promise from onConjure settles.',
+      },
+      {
+        name: "onConjure",
+        type: "() => void | Promise<unknown>",
+        description:
+          "The work. Uncontrolled, a returned promise settles the run (resolve for done, reject for error); a plain return means the work is already done.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The label at rest, before a run, and the button's accessible name then.",
+      },
+      {
+        name: "workingLabel",
+        type: "string",
+        defaultValue: '"Working"',
+        description:
+          "The accessible name and spoken status while the host works.",
+      },
+      {
+        name: "doneLabel",
+        type: "string",
+        defaultValue: '"Done"',
+        description: "The finished label the particles condense into.",
+      },
+      {
+        name: "errorLabel",
+        type: "string",
+        defaultValue: '"Try again"',
+        description: "The label after a failed run.",
+      },
+      {
+        name: "particles",
+        type: "number",
+        defaultValue: "24",
+        description: "How many glyphs the label comes apart into, 12 to 48.",
+      },
+      {
+        name: "orbit",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "Orbit speed in laps per second; the shimmer band sweeps with it.",
+      },
+      {
+        name: "palette",
+        type: '"aurora" | "mono" | "ember"',
+        defaultValue: '"aurora"',
+        description:
+          "The particles' colours: accent to signal, the button's own ink, or warn to danger.",
+      },
+      {
+        name: "shimmer",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Scan a band of light across the button while the host works.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the run's synthesised sounds: a shimmer and a rise on the lift, a chime on the spark, a thud on a failure. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the button.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      "It is a native button: Space and Enter press it through the same path as a click. While the host works it is aria-busy and ignores presses but keeps focus, and a polite status announces the working, done or error label once the host has set it.",
+      "Under reduced motion nothing travels: the letters cross-fade, the glyphs appear in place on the orbit and twinkle in opacity, the shimmer breathes instead of sweeping, and a failure turns the border red instead of shaking. The sounds are unchanged.",
+      "The particles are DOM glyphs placed by motion values from one clock and four shared progresses, each mapped through a seeded delay, so nothing re-renders per frame, nothing is random, and the clock runs only while the swarm is alive.",
+    ],
+  },
+  {
+    name: "split-confirm",
+    type: "registry:ui",
+    title: "Split Confirm",
+    description:
+      "A destructive button that asks by coming apart. Pressed, a crack runs down its middle and the halves part on a snap spring into Cancel and Confirm, with the crack left in the gap as a hairline countdown that heals from both ends; when it runs out the halves are thrown shut on the same snap and meet with a clack. Confirm fires once and latches, closing on a flick spring into a muted button that no longer presses. Focus moves to Confirm as it arrives, the arrow keys cross the halves, and Escape closes the question.",
+    files: [
+      {
+        path: "registry/ui/split-confirm.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1099",
+    },
+    tagline: "It splits into yes and no.",
+    keywords: [
+      "confirm",
+      "destructive",
+      "delete",
+      "countdown",
+      "split",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description: "The action, as the button reads before it is pressed.",
+      },
+      {
+        name: "confirmLabel",
+        type: "string",
+        defaultValue: '"Confirm"',
+        description: "The right half's answer.",
+      },
+      {
+        name: "cancelLabel",
+        type: "string",
+        defaultValue: '"Cancel"',
+        description: "The left half's answer.",
+      },
+      {
+        name: "confirmedLabel",
+        type: "string",
+        defaultValue: '"Done"',
+        description:
+          "What the latched button reads once the action is confirmed.",
+      },
+      {
+        name: "confirmed / defaultConfirmed",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Controlled or initial latch. Controlled, the latched face appears only once the host sets it; setting it back to false (an undo) restores the live button.",
+      },
+      {
+        name: "onConfirm",
+        type: "() => void",
+        description: "Fires once, from the Confirm press.",
+      },
+      {
+        name: "onCancel",
+        type: '(reason: "cancel" | "timeout" | "escape") => void',
+        description: "Fires when the question closes unanswered, with why.",
+      },
+      {
+        name: "timeout",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "Seconds the halves stay apart before they rejoin on their own.",
+      },
+      {
+        name: "split",
+        type: '"crack" | "slide"',
+        defaultValue: '"crack"',
+        description:
+          "A zigzag crack that snaps apart, or a clean seam that glides.",
+      },
+      {
+        name: "tone",
+        type: '"danger" | "neutral"',
+        defaultValue: '"danger"',
+        description:
+          "Destructive red, or the primary accent for confirms that are serious but not destructive.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the synthesised tink of the crack, the clack of the rejoin and the thock of the confirm. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the button.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      "Every state is native buttons. Pressing the whole button moves focus to Confirm as it arrives; Left/Right (and Home/End) cross between the halves, Escape cancels and returns focus to the whole button, and a timeout returns focus only if it was inside. Confirm arms about 320ms after the split and ignores key repeat, so a double press or a held Enter cannot confirm by accident.",
+      "Under reduced motion the gap appears at once, the halves cross-fade their colours and labels, and the rejoin is an instant close; the countdown hairline still shortens, because the time left is information. The sounds are unchanged.",
+      "The halves open inside the control's own box (sized for its widest state), so neighbours never move. The countdown pauses while the page is hidden, and a polite status says what is being asked, then Timed out or Cancelled, then the confirmed label once the host holds it.",
+    ],
+  },
+  {
+    name: "clicker-count",
+    type: "registry:ui",
+    title: "Clicker Count",
+    description:
+      "A hand tally counter. Pressing the body sinks the plunger on a flick spring while the units wheel turns one notch on the same spring, then the plunger returns on a snap spring and the wheel stays; with carry on the wheels are geared, so 099 to 100 turns three wheels in one stroke. A long press on the reset knob turns it and winds every wheel back toward zero as the hold fills, and letting go early springs them home. Space and Enter count, and holding Space or Enter on the knob is the long press.",
+    files: [
+      {
+        path: "registry/ui/clicker-count.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1100",
+    },
+    tagline: "Every press, counted by hand.",
+    keywords: [
+      "counter",
+      "tally",
+      "clicker",
+      "odometer",
+      "number wheels",
+      "reset",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Controlled or initial count. It rolls over past the last wheel, like the real thing.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the press or the finished reset, with the new count.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          "What is being counted. Names the counter and its buttons, and is spoken with the count.",
+      },
+      {
+        name: "digits",
+        type: "number",
+        defaultValue: "4",
+        description: "Number wheels in the window, 3 to 5.",
+      },
+      {
+        name: "travel",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "How far the plunger sinks, in px: short and snappy, or long and heavy. The click pitches with it.",
+      },
+      {
+        name: "finish",
+        type: '"steel" | "brass" | "matte"',
+        defaultValue: '"steel"',
+        description:
+          "The body's finish, built from theme tokens so it reads on a light or a dark stage.",
+      },
+      {
+        name: "carry",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Geared wheels: a rollover turns the next wheel in the same stroke and a reset rewinds through every number. Off, the wheels above the units turn freely to their own digits.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the synthesised click and clack of each press, a whir that rises while the knob is held, and the landing on zero. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the plunger and the knob.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      "A group named by its label holds two native buttons. The body counts: Space and Enter make a full stroke with both sounds, and a held Enter keeps counting like a held plunger. The knob resets: hold Space or Enter for the same 800ms as a pointer (key repeat is ignored, Escape or blur lets go), and an assistive-technology click, which cannot hold, runs the full reset. A polite status speaks the count.",
+      "Under reduced motion the plunger darkens instead of travelling, the digits swap in place, and the knob does not turn; its progress ring still fills while it is held and the wheels swap to zero when it completes. The sounds are unchanged.",
+      "Controlled, the press and the finished hold report through onValueChange and the wheels turn when the host's value arrives; if the host refuses a reset, the knob lets go and the wheels run back to the count it still holds.",
+    ],
+  },
+  {
+    name: "keycap-press",
+    type: "registry:ui",
+    title: "Keycap Press",
+    description:
+      "A mechanical keycap that is a real button: it goes down when it is clicked, when Space or Enter presses it, and when its own shortcut is typed anywhere on the page, and it stays down for as long as the key is held. The switch sets the stroke — a clicky cap holds at the jacket on a decelerating tween then slams to the floor on an underdamped spring that rattles off the bottom, a tactile cap hitches at a softer bump and lands composed, a linear cap falls in one smooth stroke — and every cap returns on the same stem spring carrying its release velocity. The legend lights at actuation, and the switch sounds on the frame the cap passes each point.",
+    files: [
+      {
+        path: "registry/ui/keycap-press.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1101",
+    },
+    tagline: "It goes down when you press the real key.",
+    keywords: [
+      "keycap",
+      "shortcut",
+      "keyboard",
+      "button",
+      "mechanical",
+      "switch",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "label",
+        type: "string",
+        description:
+          "The action, in a word or two: the key's accessible name, and the label legend.",
+      },
+      {
+        name: "shortcut",
+        type: "string",
+        description:
+          'The real key that presses it from anywhere on the page: "e", "shift+r", "mod+enter", "space", "/". mod is Command on Apple platforms and Ctrl elsewhere.',
+      },
+      {
+        name: "onPress",
+        type: '(via: "pointer" | "keyboard" | "shortcut") => void',
+        description:
+          "Fires once per press, with what pressed it: on the click for pointer and keyboard presses, on keydown for the shortcut.",
+      },
+      {
+        name: "switch",
+        type: '"clicky" | "tactile" | "linear"',
+        defaultValue: '"clicky"',
+        description:
+          "Sets the travel curve and the sound: a jacket that gives and slams with a click, a rounded bump and a thock, or one smooth stroke and a muted thud.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "The cap's skirt height in px, 4 to 14. Travel is 0.7 of it, and a taller cap sounds deeper.",
+      },
+      {
+        name: "legend",
+        type: '"both" | "key" | "label"',
+        defaultValue: '"both"',
+        description:
+          "What is printed on the cap: the key glyph over the label on a 1.5u cap, the key glyph alone on a 1u cap, or the label alone on a cap that widens to fit.",
+      },
+      {
+        name: "glow",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A backlight halo in the well around the cap, faint at rest and blooming with the legend on actuation.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the switch's synthesised sounds. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Dims the key, blocks presses and stops listening for the shortcut.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the button's classes.",
+      },
+    ],
+    usageNotes: [
+      "It is a native button named by its label, with aria-keyshortcuts: Space and Enter hold it down for as long as they are held and press it through the native click, a click from assistive technology plays a whole tap, and a held Enter does not repeat the action.",
+      "The shortcut listens on the document but never takes a key the page already handled (defaultPrevented) or one typed into a field, a select or editable text; it claims the key when it acts, so a second key with the same shortcut does not also fire, and a key that is disabled, hidden, inert or behind an open dialog does not listen.",
+      "Under reduced motion the cap swaps straight between up and down with no curve, and the legend, the halo and the sound still answer, because a press is information.",
+      "Keep the label to a word or two: the cap is sized by its legend and does not wrap.",
+    ],
+  },
+  {
+    name: "copy-slip",
+    type: "registry:ui",
+    title: "Copy Slip",
+    description:
+      "A copy field whose Copy button is a clipboard with its clip standing open. Pressed, a paper slip carrying the text lifts off the value and flies in a true throw — x linear, y a measured arc that never leaves the component — into the clipboard, where the clip clamps shut on snap and the glyph takes the landing on recoil; the button says Copied until the clip reopens. The slip only goes in if the clipboard took the text: a refusal bounces it back out on recoil, selects the text and says why in words, and Enter and Space copy through the same press.",
+    files: [
+      {
+        path: "registry/ui/copy-slip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["tactile"],
+    meta: {
+      serial: "KQ-1102",
+    },
+    tagline: "The text slips out and into the clipboard.",
+    keywords: [
+      "copy",
+      "clipboard",
+      "paste",
+      "share link",
+      "paper",
+      "button",
+      "tactile",
+    ],
+    props: [
+      {
+        name: "value",
+        type: "string",
+        description: "What is copied, and shown in the field.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          'Names the field. The button is named by its word plus this: "Copy Payment link".',
+      },
+      {
+        name: "arc",
+        type: "number",
+        defaultValue: "0.8",
+        description:
+          "How high the slip is lobbed, 0 to 1: 0 slides it straight along the row, 1 uses all the room above it. The swish rises with it.",
+      },
+      {
+        name: "slip",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How light the paper is, 0 to 1: a stiff card thrown straight and fast, or a slip that hangs, leans along its path, flutters and takes its time.",
+      },
+      {
+        name: "hold",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "Seconds the clip stays shut and the button says Copied. The clock pauses while the page is hidden.",
+      },
+      {
+        name: "showText",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Print the copied text on the slip; off draws ruled lines, for values that should not fly past a shared screen.",
+      },
+      {
+        name: "onCopy",
+        type: "(value: string) => void",
+        description: "Fires once the clipboard has taken the value.",
+      },
+      {
+        name: "onCopyError",
+        type: '(reason: "insecure" | "blocked" | "unavailable") => void',
+        description:
+          "Fires when the clipboard refused: an insecure page, a denied permission, or a writer that failed or did not answer.",
+      },
+      {
+        name: "writer",
+        type: "(text: string) => Promise<void>",
+        description:
+          "Writes the text. Defaults to the system clipboard's writeText; swap in rich copy or a test double.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the paper and the clip. Nothing plays, and no audio context exists, unless this is on.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the button and dims the field.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Merged onto the root element's classes.",
+      },
+    ],
+    usageNotes: [
+      'The Copy button is a native button named by its visible word and the field\'s label ("Copy Payment link", then "Copied Payment link"); Enter and Space copy through the same press, and one polite status line says "Payment link copied." only after the clipboard has answered.',
+      "A refusal is said in words, not colour alone: the button reads Failed, a line under the field names the reason (an insecure page, a blocked clipboard) and the value is selected so ⌘C or Ctrl+C copies it by hand; the line is measured and grows in, never reserved.",
+      "Under reduced motion there is no flight and no clamp travel: the sheet appears in the clipboard and the clip shows shut, and the words, the hold and the sounds are unchanged.",
+      "Presses during a flight are absorbed, since the same copy is already on its way; a press while the clip is shut starts the whole thing over, hold clock included.",
+    ],
+  },
 ];
