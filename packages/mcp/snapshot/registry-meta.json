@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1023,
+      "components": 1029,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -76557,6 +76557,715 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/scratch-card",
         "bun": "bunx --bun shadcn@latest add @kinetiq/scratch-card",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/scratch-card.json"
+      }
+    },
+    {
+      "slug": "jog-shuttle",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Jog Shuttle",
+      "serial": "KQ-1145",
+      "tagline": "Turn to step; twist the ring to fly.",
+      "description": "An edit deck's transport control: a jog wheel that turns 1:1 under the finger and steps the playhead one frame per detent, inside a spring-loaded shuttle ring whose twist sets a speed that doubles zone by zone up to shuttleMax. Let go spinning, the wheel is a flywheel: its landing is projected from the release spin, snapped to a detent and reached on a critically damped spring with the same time constant, so it slows exponentially and stops on a detent, stepping and ticking as it goes; let go of the ring and the playhead stops while the ring swings home on the return spring with the release's spin. Arrows jog a frame (Shift ten, PageUp and PageDown a second) by turning the wheel through the same detents, and J, K and L shuttle reverse, stop and forward, faster each press, with the ring twisting and holding to show it.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "jog wheel",
+        "shuttle",
+        "transport",
+        "scrub",
+        "timecode",
+        "video editing",
+        "playhead"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "min",
+          "description": "The playhead, in frames. Controlled or uncontrolled; a frame the host refuses is not where the next step starts."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(frame: number) => void",
+          "description": "Fires from the jog detent, the shuttle frame or the key that moved the playhead."
+        },
+        {
+          "name": "onSpeedChange",
+          "type": "(speed: number) => void",
+          "description": "Fires when the shuttle speed changes, from the twist or key that changed it: signed (negative in reverse), 0 when stopped."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The first frame."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "1439",
+          "description": "The last frame."
+        },
+        {
+          "name": "fps",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "Frames per second: the timecode, how far PageUp and PageDown jump, and the shuttle's rate (a 4× shuttle runs 4 × fps frames a second)."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What is being scrubbed: the control's accessible name, shown over the timecode."
+        },
+        {
+          "name": "detents",
+          "type": "number",
+          "defaultValue": "24",
+          "description": "Detents per revolution of the jog wheel, 12 to 48. One detent is one frame, so fewer detents are further apart under the finger."
+        },
+        {
+          "name": "inertia",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far the jog wheel coasts when let go spinning, 0 to 1: at 0 it stops dead in the nearest detent, at 1 it runs on like a heavy flywheel."
+        },
+        {
+          "name": "shuttleMax",
+          "type": "number",
+          "defaultValue": "16",
+          "description": "The shuttle's top speed. The ring's travel is split into zones that double from 1× up to it (16 gives 1, 2, 4, 8 and 16×), marked on the collar."
+        },
+        {
+          "name": "spring",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "The ring's return spring, 0 to 1: soft swings past centre and back, firm goes straight home. Key twists move the ring on the same spring."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A detent tick per frame jogged (a clack at either end), a click as the ring enters each zone, and a whir while shuttling whose pitch rises with the speed. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dims the control, stops any shuttle, takes both parts out of the tab order and ignores drags and keys."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "The root is a group named by the label holding two sliders. Jog: ArrowRight/ArrowUp a frame forward, ArrowLeft/ArrowDown back, Shift for ten, PageUp/PageDown a second, Home and End to the first and last frame, its value text a sentence (\"1 minute 12 seconds and 5 frames, frame 1733\"). Shuttle: arrows one zone toward forward or reverse, Home and End to full reverse and full forward. On both, L shuttles forward and J in reverse (again: faster), K stops and Space toggles, with the ring twisting and holding at that zone.",
+        "Under reduced motion the wheel and ring still follow the finger 1:1, but a released wheel settles in its detent at once with no coast, key jogs jump the wheel in one step, and the ring snaps home; the playhead still shuttles and the readout, collar arc and sounds still answer.",
+        "The shuttle's frame loop exists only while the speed is not zero, stops when the page is hidden, and stops at either end of the clip. Turning the jog wheel cancels a shuttle first. Both parts are touch-none, since a rotary drag is two-dimensional."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/jog-shuttle",
+      "registryItemUrl": "https://www.kinetiqui.com/r/jog-shuttle.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/jog-shuttle",
+        "npm": "npx shadcn@latest add @kinetiq/jog-shuttle",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/jog-shuttle",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/jog-shuttle",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/jog-shuttle.json"
+      }
+    },
+    {
+      "slug": "thumb-wheel",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Thumb Wheel",
+      "serial": "KQ-1146",
+      "tagline": "Roll the edge to set it.",
+      "description": "A value set by rolling a knurled wheel seen edge-on in a slot: the knurl scrolls 1:1 under the finger, its ridges bunching toward the top and bottom as the cylinder turns away, while the value sits beside it level with a fixed notch and a gauge shows where the wheel is between its stops. Rolled past a stop it rubber-bands; flicked, its landing is projected at a rate set by friction, snapped to a step when detents are on, and reached on a critically damped spring with that time constant, so it slows exponentially and stops on the step, while a throw past a stop hits it on the snap spring. Arrows step, PageUp and PageDown move ten steps and Home and End go to the stops, rolling the wheel there through the same fine ratchet; the scroll wheel rolls it as it would scroll content.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "thumb wheel",
+        "knurl",
+        "roller",
+        "dimmer",
+        "scroll wheel",
+        "momentum",
+        "vertical slider"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "min",
+          "description": "The value the wheel is set to. Controlled or uncontrolled; a value the host refuses rolls back."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "description": "Fires from the roll, flick, scroll, tap or key that changed it: per step while rolling, and once with the value it lands on."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The bottom stop."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "defaultValue": "100",
+          "description": "The top stop."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "1",
+          "description": "One detent's worth of value, and what a key or a tap moves it by."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What the wheel sets: the slider's accessible name, shown over the value."
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "description": "Printed after the value and read in its value text, as in \"%\" or \"dB\"."
+        },
+        {
+          "name": "knurl",
+          "type": "\"fine\" | \"coarse\" | \"diamond\"",
+          "defaultValue": "\"fine\"",
+          "description": "The pattern cut in the wheel's edge: fine straight ridges, coarse ones twice as far apart, or a diamond crosshatch drawn as the two helices a real knurl leaves."
+        },
+        {
+          "name": "friction",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How soon a flicked wheel stops, 0 to 1: at 0 it coasts a long way, at 1 it stops almost at once."
+        },
+        {
+          "name": "detents",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Click and settle on whole steps. Off, the wheel rolls freely and stops wherever it coasts, and the value shows one more decimal; keys and taps still land on whole steps."
+        },
+        {
+          "name": "range",
+          "type": "number",
+          "defaultValue": "1.5",
+          "description": "How far the wheel turns from one stop to the other, in turns, 0.5 to 3: short is quick and coarse, long is slow and fine. The gauge shows one mark per quarter turn."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A fine ratchet tick per step as the wheel rolls (per ridge, softer, with detents off), rising with the value, and a clack when it meets a stop. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dims the wheel, takes it out of the tab order and ignores drags, scrolls and keys."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "The housing is a vertical role=\"slider\" named by its label, with the value and unit in aria-valuetext (\"60%\"): ArrowUp/ArrowRight one step up, ArrowDown/ArrowLeft one down, PageUp/PageDown ten steps, Home and End to the stops. The wheel rolls there and ratchets past every step, as a drag would. A tap above the notch steps up, below it steps down.",
+        "Under reduced motion the wheel still follows the finger 1:1, but every settle, flick, scroll and key jumps straight to its value with no coast or spring, while the reading, the gauge and the ratchet still answer.",
+        "The scroll wheel is claimed only while the wheel can still move that way, so a scroll that reaches a stop carries on to the page. The drag is touch-pan-x, so a horizontal swipe over the wheel still pans. The reading reserves the width of its widest value, so rolling from 99 to 100 never moves the layout."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/thumb-wheel",
+      "registryItemUrl": "https://www.kinetiqui.com/r/thumb-wheel.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/thumb-wheel",
+        "npm": "npx shadcn@latest add @kinetiq/thumb-wheel",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/thumb-wheel",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/thumb-wheel",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/thumb-wheel.json"
+      }
+    },
+    {
+      "slug": "rotary-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Rotary Dial",
+      "serial": "KQ-1147",
+      "tagline": "Drag to the stop; it winds back.",
+      "description": "A number input drawn as a telephone rotary dial: put a finger in a hole and drag it clockwise to the finger stop, and the wheel turns 1:1 with the pointer, ratcheting as it winds and giving only a few degrees at rest and at the stop. Let go at the stop and it winds back at the constant speed a governor holds, a linear run at returnSpeed pulses a second rather than a spring, ticking once per pulse while the next slot counts them up; it knocks against its rest stop on a stiff, loose spring and the digit lands with a flick. The holes are real buttons in one tab stop: arrows move round the dial, Enter or Space dials the focused hole, number keys dial directly (queued while it is busy), Backspace removes a digit and Escape clears.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "rotary dial",
+        "telephone",
+        "digit input",
+        "phone number",
+        "pin",
+        "governor",
+        "retro"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "defaultValue": "\"\"",
+          "description": "The number dialled so far, digits only; anything longer than digits is cut. Controlled or uncontrolled."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "description": "Fires with the whole number when a digit lands, on Backspace and on clear."
+        },
+        {
+          "name": "onComplete",
+          "type": "(value: string) => void",
+          "description": "Fires when the digit that fills the last slot lands."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What is being dialled: the dial's accessible name."
+        },
+        {
+          "name": "returnSpeed",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "How fast the wheel winds back, in pulses per second (30° each), 6 to 20: the pace of the pulse ticks and of the counting slot."
+        },
+        {
+          "name": "finish",
+          "type": "\"bakelite\" | \"chrome\"",
+          "defaultValue": "\"bakelite\"",
+          "description": "A glossy black wheel over a cream plate with black digits, or a spun-metal wheel over a black plate with white digits. Physical colours mixed from black, white and the theme's ink, so the dial reads the same on a light or dark page."
+        },
+        {
+          "name": "digits",
+          "type": "number",
+          "defaultValue": "7",
+          "description": "How many digits the number has, 3 to 10: the slot count. When every slot is full the holes stop engaging and number keys are ignored."
+        },
+        {
+          "name": "display",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the number above the dial in slots, with a clear button and a polite live region. Off, only the dial renders and the host shows and announces the number."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A ratchet tick every 10° as the wheel winds, rising as it goes, a clack at the finger stop, a tick per pulse on the way back and a knock when it comes to rest. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dims the dial, disables its holes and the clear button, and ignores drags and keys."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "The dial is a group named by its label; its ten holes are buttons named by their digit in one tab stop. ArrowRight/ArrowDown move to the next hole round the dial, ArrowLeft/ArrowUp back, Home to 1 and End to 0; Enter or Space dials the focused hole and number keys dial directly, with the same wind, pulses and sounds as a finger. Backspace removes the last digit, Escape clears the number (and is left alone when there is nothing to clear).",
+        "Under reduced motion a finger still turns the wheel 1:1, but a released, tapped or typed wheel is shown at rest at once while the governed return runs unseen, so the pulses still tick, the slot still counts up and the digit lands on the same beat.",
+        "Releasing short of the stop winds the wheel back silently and dials nothing. Digits typed while the wheel is busy queue, up to the free slots, and dial in turn. The live region speaks the number the host accepted: \"5 5 5 0, 4 of 7 digits.\""
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/rotary-dial",
+      "registryItemUrl": "https://www.kinetiqui.com/r/rotary-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/rotary-dial",
+        "npm": "npx shadcn@latest add @kinetiq/rotary-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/rotary-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/rotary-dial",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/rotary-dial.json"
+      }
+    },
+    {
+      "slug": "straighten-dial",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Straighten Dial",
+      "serial": "KQ-1148",
+      "tagline": "Level the horizon.",
+      "description": "A photo editor's straighten control: a degree ruler under the picture scrolls 1:1 under the finger and turns the picture about its centre, while a thirds grid fades in for as long as it turns and the crop scales, frame by frame from the same angle, just enough to keep the corners covered. Zero is magnetic: the ruler holds at exactly 0 inside the magnet and catches up at double rate beyond it, the ends rubber-band, and a flick coasts to its projected landing on a critically damped spring while a slow release stays put; rubber-banded releases and keys move on the glide spring. Arrows turn a degree (Shift a tenth), PageUp and PageDown five, Home and End to the ends, with the same ticks and the same snap at zero.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "straighten",
+        "rotate image",
+        "crop",
+        "horizon",
+        "photo editor",
+        "degree ruler",
+        "level"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The rotation in degrees, clockwise positive, in tenths. Controlled or uncontrolled; a value the host refuses is turned back to once the finger lets go."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(degrees: number) => void",
+          "description": "Fires from the drag, key, throw or reset that turned the picture, with the new rotation."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "description": "The picture to straighten. It fills the frame and turns inside it."
+        },
+        {
+          "name": "aspect",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "The frame's width over its height. The crop scale is worked out from it."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Straighten\"",
+          "description": "The ruler's accessible name, shown left of the reading."
+        },
+        {
+          "name": "range",
+          "type": "15 | 45 | \"15\" | \"45\"",
+          "defaultValue": "\"45\"",
+          "description": "How far it turns either way. The 15° ruler is also the finer one: 12 px a degree against 6, labelled every 5° rather than every 15°."
+        },
+        {
+          "name": "grid",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Fade a thirds grid over the picture while it turns, and away again once it stops."
+        },
+        {
+          "name": "magnet",
+          "type": "number",
+          "defaultValue": "1.5",
+          "description": "How wide the sticky zone around zero is, 0 to 3 degrees, drawn on the ruler. Inside it the ruler holds at exactly 0; 0 makes zero an ordinary degree."
+        },
+        {
+          "name": "crop",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Scale the picture by the least amount that keeps the frame covered as it turns. Off, it turns at its own size and the empty corners show a checkerboard."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A fine tick as each degree passes the needle, pitched up the further it is from level, and a snap as zero does. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dims the control, takes the ruler out of the tab order and ignores drags, keys and the reset."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "The ruler is a slider named by the label, its value text a sentence (\"3.4 degrees clockwise\", \"Level\"). ArrowRight/ArrowUp turn a degree clockwise, ArrowLeft/ArrowDown back, Shift+Arrow a tenth, PageUp/PageDown five, Home and End to the ends; keys chain from where the last one aimed and are caught by the magnet only on the way in, so they can always step back out. A Reset button turns back to level the same way.",
+        "Under reduced motion the ruler and picture still follow the finger 1:1 and the crop still scales with the angle, but releases, keys and the reset land at once with no coast or spring; the grid still fades in and out.",
+        "The ruler is touch-pan-y, so the page still scrolls vertically over it. The picture and the ruler strip are both clipped to the component's own box however far it turns."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/straighten-dial",
+      "registryItemUrl": "https://www.kinetiqui.com/r/straighten-dial.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/straighten-dial",
+        "npm": "npx shadcn@latest add @kinetiq/straighten-dial",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/straighten-dial",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/straighten-dial",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/straighten-dial.json"
+      }
+    },
+    {
+      "slug": "vinyl-scrub",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Vinyl Scrub",
+      "serial": "KQ-1149",
+      "tagline": "Spin the record to scrub the track.",
+      "description": "A turntable as a track's playhead: at 33⅓ the platter turns 200° a second and one second of the track is exactly that much groove, so while it plays the record spins and the time runs, and turned by hand the time follows the hand, backwards too, with a scratch whose pitch follows the hand's speed. A finger brakes the record under it as hard as grip says, a drag turns it 1:1 about the spindle, and a release keeps the hand's spin while the motor pulls it back to speed on a time constant set by inertia, with a whir; the tonearm's stylus is solved onto the groove for the time and glides to a new groove on the glide spring after a needle drop. An arrow key is a hand on the record, holding it and scrubbing a second of groove per press on the glide spring, and letting go on key-up.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "turntable",
+        "vinyl",
+        "scrub",
+        "scratch",
+        "playhead",
+        "audio player",
+        "DJ"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The playhead in seconds, in tenths. Controlled or uncontrolled; a time the host sets by itself is a needle drop."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(seconds: number) => void",
+          "description": "Fires from the play clock, the scrub or the key that moved the playhead, at tenth-of-a-second steps."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "description": "The track's length in seconds. The stylus runs from the outer groove at 0 to the inner one here."
+        },
+        {
+          "name": "playing / defaultPlaying",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the motor is on. Controlled or uncontrolled."
+        },
+        {
+          "name": "onPlayingChange",
+          "type": "(playing: boolean) => void",
+          "description": "Fires from start/stop, Space or K, and when the track runs out."
+        },
+        {
+          "name": "onScrubChange",
+          "type": "(scrubbing: boolean) => void",
+          "description": "True while a hand, or a held arrow key, is on the record; false when it lets go. Pause real audio output while it is true."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "description": "What is on the deck. The control's accessible name."
+        },
+        {
+          "name": "rpm",
+          "type": "33 | 45 | \"33\" | \"45\"",
+          "defaultValue": "\"33\"",
+          "description": "Platter speed: 33⅓ turns 200° a second, 45 turns 270°. It sets how fast the record spins and how much of the track one turn scrubs, and is lit on the deck and printed on the label."
+        },
+        {
+          "name": "grip",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How hard a finger stops a spinning record, 0 to 1: at 1 it stops dead under the hand, at 0 it slides about 50° before it stops."
+        },
+        {
+          "name": "inertia",
+          "type": "number",
+          "defaultValue": "0.4",
+          "description": "How heavy the platter is, 0 to 1: how long it takes to come back to speed or to rest (60 ms to 900 ms), and so how far a flick carries."
+        },
+        {
+          "name": "tonearm",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the tonearm tracking the groove. Off, a thin ring around the platter fills with the position instead."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A scratch while a hand is on the record, pitched by its angular speed and silent when still, and a whir while the motor spins it up or down after a gesture. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dims the deck, takes it out of the tab order, lets go of any hand and ignores drags and keys."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the deck's classes."
+        }
+      ],
+      "usageNotes": [
+        "The deck is a group named by the label. The record is a slider (\"Position\") whose value text reads \"42 seconds of 3 minutes 24 seconds, stopped\". ArrowRight/ArrowUp scrub a second forward and ArrowLeft/ArrowDown a second back (Shift five): the key holds the record, turns it on the glide spring with the same scratch, keeps scrubbing on repeat and lets go on key-up so the platter spins back up. PageUp and PageDown drop the needle ten seconds on or back, Home and End at either end, and Space or K start and stop; start/stop is also a real Play/Pause button.",
+        "Under reduced motion the record does not spin while it plays, and a release or a key lands at once with no coast or spin-up; the time still counts, the tonearm still tracks it, and the sounds still answer.",
+        "One frame loop drives the deck, and it runs only while the record is turning, held or playing, and only while the deck is on screen and the page is visible; coming back, the time catches up. Nothing sounds on mount, at the end-of-track stop, or when the host changes the state by itself."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/vinyl-scrub",
+      "registryItemUrl": "https://www.kinetiqui.com/r/vinyl-scrub.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/vinyl-scrub",
+        "npm": "npx shadcn@latest add @kinetiq/vinyl-scrub",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/vinyl-scrub",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/vinyl-scrub",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/vinyl-scrub.json"
+      }
+    },
+    {
+      "slug": "angle-pick",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Angle Pick",
+      "serial": "KQ-1150",
+      "tagline": "Set a direction by turning it.",
+      "description": "An angle input for a design tool: a dial whose handle sits under the finger as it turns, a field that takes typed degrees, and a live gradient, shadow or arrow that follows the handle through every spring. Pressed away from the handle, it swings there the short way on the snap spring; dragged, it catches up on the flick spring and then holds 1:1; with Shift it jumps between snap marks on flick like detents; a real spin coasts to its projected landing on a critically damped spring, ticking past the marks, while a slow release stays put. Arrows turn a degree, Shift+Arrow and PageUp/PageDown to the next mark, Home and End to the ends, and the field's own arrows do the same.",
+      "categories": [
+        "tactile"
+      ],
+      "keywords": [
+        "angle input",
+        "degrees",
+        "dial",
+        "gradient angle",
+        "direction",
+        "rotation",
+        "knob"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "defaultValue": "0",
+          "description": "The angle in whole degrees, clockwise from the top: 0 to 359, or −90 to 90 at range 180. Controlled or uncontrolled; a value the host refuses is turned back to."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(degrees: number) => void",
+          "description": "Fires from the drag, tap, key, throw or typed entry that changed the angle."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Angle\"",
+          "description": "What the angle sets: the group's and dial's name, shown over the preview (the field is \"<label> in degrees\")."
+        },
+        {
+          "name": "snap",
+          "type": "number",
+          "defaultValue": "15",
+          "description": "The Shift step and the PageUp/PageDown step in degrees, 5 to 45. The ring's marks and the ticks fall on it."
+        },
+        {
+          "name": "preview",
+          "type": "\"gradient\" | \"shadow\" | \"arrow\"",
+          "defaultValue": "\"gradient\"",
+          "description": "What follows the dial: a gradient whose bright end is where the handle points, a card whose shadow falls that way, or an arrow over a small compass."
+        },
+        {
+          "name": "readout",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the live angle in the dial's hub, counting through every spring. Off, the hub is a small cap."
+        },
+        {
+          "name": "range",
+          "type": "360 | 180 | \"360\" | \"180\"",
+          "defaultValue": "\"360\"",
+          "description": "A full turn, 0 to 359 and wrapping, or a half turn, −90 to 90 with 0 at the top, that rubber-bands past either end."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A tick at every snap mark the handle passes, pitched up with the angle and a touch louder at 0°. Nothing plays, and no audio context exists, unless this is on."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Dims the control, takes the dial out of the tab order, disables the field and ignores drags."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Merged onto the root's classes."
+        }
+      ],
+      "usageNotes": [
+        "The root is a group named by the label. The dial is a slider whose value text names the direction (\"135 degrees, south-east\"): ArrowRight/ArrowUp turn a degree clockwise, ArrowLeft/ArrowDown back, Shift+Arrow and PageUp/PageDown to the next snap mark that way, Home and End to the ends. The field commits on Enter or blur (360 wraps, 180 clamps) and turns the handle the short way; Escape restores it and is claimed so a surrounding dialog does not also close; its ArrowUp/ArrowDown step like the dial's.",
+        "Under reduced motion the handle still follows the finger 1:1, but taps, keys, typed values and the spring back from the ends jump straight to the value with one tick, and nothing coasts; the preview and readout still follow.",
+        "The dial is touch-none, since a rotary drag is two-dimensional, and captures the pointer only after 4px, so a tap is a tap."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/angle-pick",
+      "registryItemUrl": "https://www.kinetiqui.com/r/angle-pick.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/angle-pick",
+        "npm": "npx shadcn@latest add @kinetiq/angle-pick",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/angle-pick",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/angle-pick",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/angle-pick.json"
       }
     },
     {

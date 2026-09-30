@@ -28380,6 +28380,180 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "straighten-dial",
+      "type": "registry:ui",
+      "title": "Straighten Dial",
+      "description": "A photo editor's straighten control: a degree ruler under the picture scrolls 1:1 under the finger and turns the picture about its centre, while a thirds grid fades in for as long as it turns and the crop scales, frame by frame from the same angle, just enough to keep the corners covered. Zero is magnetic: the ruler holds at exactly 0 inside the magnet and catches up at double rate beyond it, the ends rubber-band, and a flick coasts to its projected landing on a critically damped spring while a slow release stays put; rubber-banded releases and keys move on the glide spring. Arrows turn a degree (Shift a tenth), PageUp and PageDown five, Home and End to the ends, with the same ticks and the same snap at zero.",
+      "files": [
+        {
+          "path": "registry/ui/straighten-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1148"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "vinyl-scrub",
+      "type": "registry:ui",
+      "title": "Vinyl Scrub",
+      "description": "A turntable as a track's playhead: at 33⅓ the platter turns 200° a second and one second of the track is exactly that much groove, so while it plays the record spins and the time runs, and turned by hand the time follows the hand, backwards too, with a scratch whose pitch follows the hand's speed. A finger brakes the record under it as hard as grip says, a drag turns it 1:1 about the spindle, and a release keeps the hand's spin while the motor pulls it back to speed on a time constant set by inertia, with a whir; the tonearm's stylus is solved onto the groove for the time and glides to a new groove on the glide spring after a needle drop. An arrow key is a hand on the record, holding it and scrubbing a second of groove per press on the glide spring, and letting go on key-up.",
+      "files": [
+        {
+          "path": "registry/ui/vinyl-scrub.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1149"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "angle-pick",
+      "type": "registry:ui",
+      "title": "Angle Pick",
+      "description": "An angle input for a design tool: a dial whose handle sits under the finger as it turns, a field that takes typed degrees, and a live gradient, shadow or arrow that follows the handle through every spring. Pressed away from the handle, it swings there the short way on the snap spring; dragged, it catches up on the flick spring and then holds 1:1; with Shift it jumps between snap marks on flick like detents; a real spin coasts to its projected landing on a critically damped spring, ticking past the marks, while a slow release stays put. Arrows turn a degree, Shift+Arrow and PageUp/PageDown to the next mark, Home and End to the ends, and the field's own arrows do the same.",
+      "files": [
+        {
+          "path": "registry/ui/angle-pick.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1150"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "jog-shuttle",
+      "type": "registry:ui",
+      "title": "Jog Shuttle",
+      "description": "An edit deck's transport control: a jog wheel that turns 1:1 under the finger and steps the playhead one frame per detent, inside a spring-loaded shuttle ring whose twist sets a speed that doubles zone by zone up to shuttleMax. Let go spinning, the wheel is a flywheel: its landing is projected from the release spin, snapped to a detent and reached on a critically damped spring with the same time constant, so it slows exponentially and stops on a detent, stepping and ticking as it goes; let go of the ring and the playhead stops while the ring swings home on the return spring with the release's spin. Arrows jog a frame (Shift ten, PageUp and PageDown a second) by turning the wheel through the same detents, and J, K and L shuttle reverse, stop and forward, faster each press, with the ring twisting and holding to show it.",
+      "files": [
+        {
+          "path": "registry/ui/jog-shuttle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1145"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "thumb-wheel",
+      "type": "registry:ui",
+      "title": "Thumb Wheel",
+      "description": "A value set by rolling a knurled wheel seen edge-on in a slot: the knurl scrolls 1:1 under the finger, its ridges bunching toward the top and bottom as the cylinder turns away, while the value sits beside it level with a fixed notch and a gauge shows where the wheel is between its stops. Rolled past a stop it rubber-bands; flicked, its landing is projected at a rate set by friction, snapped to a step when detents are on, and reached on a critically damped spring with that time constant, so it slows exponentially and stops on the step, while a throw past a stop hits it on the snap spring. Arrows step, PageUp and PageDown move ten steps and Home and End go to the stops, rolling the wheel there through the same fine ratchet; the scroll wheel rolls it as it would scroll content.",
+      "files": [
+        {
+          "path": "registry/ui/thumb-wheel.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1146"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "rotary-dial",
+      "type": "registry:ui",
+      "title": "Rotary Dial",
+      "description": "A number input drawn as a telephone rotary dial: put a finger in a hole and drag it clockwise to the finger stop, and the wheel turns 1:1 with the pointer, ratcheting as it winds and giving only a few degrees at rest and at the stop. Let go at the stop and it winds back at the constant speed a governor holds, a linear run at returnSpeed pulses a second rather than a spring, ticking once per pulse while the next slot counts them up; it knocks against its rest stop on a stiff, loose spring and the digit lands with a flick. The holes are real buttons in one tab stop: arrows move round the dial, Enter or Space dials the focused hole, number keys dial directly (queued while it is busy), Backspace removes a digit and Escape clears.",
+      "files": [
+        {
+          "path": "registry/ui/rotary-dial.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "tactile"
+      ],
+      "meta": {
+        "serial": "KQ-1147"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

@@ -1214,6 +1214,12 @@ import { GuessLineDemo } from "@/registry/demos/guess-line.demo";
 import { LoopLiftDemo } from "@/registry/demos/loop-lift.demo";
 import { MeasureLineDemo } from "@/registry/demos/measure-line.demo";
 import { ScratchCardDemo } from "@/registry/demos/scratch-card.demo";
+import { StraightenDialDemo } from "@/registry/demos/straighten-dial.demo";
+import { VinylScrubDemo } from "@/registry/demos/vinyl-scrub.demo";
+import { AnglePickDemo } from "@/registry/demos/angle-pick.demo";
+import { JogShuttleDemo } from "@/registry/demos/jog-shuttle.demo";
+import { ThumbWheelDemo } from "@/registry/demos/thumb-wheel.demo";
+import { RotaryDialDemo } from "@/registry/demos/rotary-dial.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2442,4 +2448,10 @@ export const demos: Record<string, ComponentType> = {
   "loop-lift": LoopLiftDemo,
   "measure-line": MeasureLineDemo,
   "scratch-card": ScratchCardDemo,
+  "straighten-dial": StraightenDialDemo,
+  "vinyl-scrub": VinylScrubDemo,
+  "angle-pick": AnglePickDemo,
+  "jog-shuttle": JogShuttleDemo,
+  "thumb-wheel": ThumbWheelDemo,
+  "rotary-dial": RotaryDialDemo,
 };

@@ -236,4 +236,28 @@ export const TACTILE_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/scratch-card.demo").then((m) =>
       mod(m.ScratchCardDemo, m.tweaks),
     ),
+  "straighten-dial": () =>
+    import("@/registry/demos/straighten-dial.demo").then((m) =>
+      mod(m.StraightenDialDemo, m.tweaks),
+    ),
+  "vinyl-scrub": () =>
+    import("@/registry/demos/vinyl-scrub.demo").then((m) =>
+      mod(m.VinylScrubDemo, m.tweaks),
+    ),
+  "angle-pick": () =>
+    import("@/registry/demos/angle-pick.demo").then((m) =>
+      mod(m.AnglePickDemo, m.tweaks),
+    ),
+  "jog-shuttle": () =>
+    import("@/registry/demos/jog-shuttle.demo").then((m) =>
+      mod(m.JogShuttleDemo, m.tweaks),
+    ),
+  "thumb-wheel": () =>
+    import("@/registry/demos/thumb-wheel.demo").then((m) =>
+      mod(m.ThumbWheelDemo, m.tweaks),
+    ),
+  "rotary-dial": () =>
+    import("@/registry/demos/rotary-dial.demo").then((m) =>
+      mod(m.RotaryDialDemo, m.tweaks),
+    ),
 };
