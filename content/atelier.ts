@@ -123,7 +123,7 @@ export const ATELIER_OF: Record<
   "radio-tune": { set: "glyphs", aspect: "square" },
   "abacus-count": { set: "glyphs", aspect: "square" },
   "yarn-knit": { set: "glyphs", aspect: "square" },
-  "spirograph-trace": { set: "glyphs", aspect: "square" },
+  "geared-pen": { set: "glyphs", aspect: "square" },
   "kettle-steam": { set: "glyphs", aspect: "square" },
   "tape-reels": { set: "glyphs", aspect: "square" },
   "lava-drift": { set: "glyphs", aspect: "square" },
