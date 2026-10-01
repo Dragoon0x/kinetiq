@@ -30555,6 +30555,294 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tear-pass",
+      "type": "registry:ui",
+      "title": "Tear Pass",
+      "description": "A boarding pass whose stub tears off along a real perforation: dragging down the stub runs the tear 1:1 with the finger while the torn part peels out about the tear front, and the fibres in each bridge stretch across the gap and snap back as tufts that quiver on the recoil spring. A throw that would finish the tear completes it on the glide spring with the release velocity, the free stub lands a little out and turned on recoil and turns over on glide to show its boarding code, and gate and seat roll to new values in split-flap tiles. The stub is a real button: Enter or Space tears it from the top with the same fibres and sounds, and then turns it over and back.",
+      "files": [
+        {
+          "path": "registry/ui/tear-pass.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1221"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mail-postcard",
+      "type": "registry:ui",
+      "title": "Mail Postcard",
+      "description": "A postcard that turns over on the glide spring with perspective — pressed, swiped 1:1 with the finger and projected on release, or from its Turn over button — and the first time its back comes round the message writes itself, a pen nib running the measured text quick inside words, lifting at spaces and pausing at punctuation. Send lands the postmark on the recoil spring with a thud while the card gives under the blow, then slides the card off into the post on the exit ease and leaves a Posted slip. Turn over and Send are real buttons and focus follows the card to the slip and back.",
+      "files": [
+        {
+          "path": "registry/ui/mail-postcard.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1222"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wax-seal",
+      "type": "registry:ui",
+      "title": "Wax Seal",
+      "description": "A letter folded into panels and closed with a wax seal. Holding the seal makes the wax give on the flick spring while seeded cracks spread from the exact point pressed, drawn to the length the hold has reached; let go early and they close, hold for the full time and it snaps along the flap's edge, chips fly, and each panel unfolds about its crease on the glide spring with perspective while the sheet glides to stay centred. Reseal folds it back, pours a drop of wax that spreads with a wobble on the recoil spring and presses the monogram in; the seal is a real button that Enter or Space cracks to the end, and Escape stops.",
+      "files": [
+        {
+          "path": "registry/ui/wax-seal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1223"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "library-card",
+      "type": "registry:ui",
+      "title": "Library Card",
+      "description": "A library book's date-due card in its pocket, with a wooden date stamp and an ink pad beside it. The card follows a drag up out of its pocket 1:1, rubber-bands at the ends and commits where the throw was heading on the glide spring; a press on the stamp lifts it on snap, glides it over the next empty row while it turns to that row's seeded crooked angle, strikes on an accelerating tween with a thud and inks the date, then sets it back down on recoil. Every strike thins the ink, so each impression is fainter and patchier until the pad re-inks it, and the card, the stamp and the pad are real buttons, so Enter or Space slides the card, stamps the next row and re-inks.",
+      "files": [
+        {
+          "path": "registry/ui/library-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1224"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stat-card",
+      "type": "registry:ui",
+      "title": "Stat Card",
+      "description": "A profile printed as a collectible card, edged in foil the colour of its rarity: the rim is a conic gradient that turns with the light and carries a glint where the light strikes it, and a mouse over the card tilts it toward the pointer in perspective on springs with glide's constants, so the glint runs round the rim as the pointer circles. Its numbers are odometers that roll up on the drift spring in a cascade the first time it is seen and whenever the front comes back round; dragging sideways turns it over 1:1, a release lands on the nearest face on the glide spring with the throw's velocity, and a raised level sweeps a shine across the face while the badge lands on recoil. The flip button on each face is a real toggle that Enter or Space presses, and focus follows it to the other side.",
+      "files": [
+        {
+          "path": "registry/ui/stat-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1225"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wristband",
+      "type": "registry:ui",
+      "title": "Wristband",
+      "description": "An event wristband drawn as 36 flat slices on a cylinder in CSS 3D, each with an outer and an inner face, so it can lie flat and then curl round into a real loop with the inside of the far side showing. A sideways drag curls it 1:1; past 94% the clasp catches and the ends close on the fabric's own spring (drift for woven, snap for silicone, glide for paper), it snaps shut with the loop tightening on recoil, and the tier and the wearer's name print on behind a moving print head. Worn, a tap or Enter lifts it toward the reader on snap while three rings ripple out from its print with a chime, a drag turns it on the wrist and it swings back on glide, and the Unsnap button pops the clasp and lets it fall open.",
+      "files": [
+        {
+          "path": "registry/ui/wristband.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1226"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "emboss-card",
+      "type": "registry:ui",
+      "title": "Emboss Card",
+      "description": "A business card lying on the table with its name blind-debossed and a blind-embossed roundel, lit by one lamp that follows the pointer on the glide spring and drifts back to rest on drift: bevels are shaded analytically (a cosine around each ring, the letters masked against themselves shifted along the light), so the impression turns as the lamp moves. Tap, drag or press Details and the card turns over to its contact details, following the finger 1:1 and committing by projection on the snap spring as it lifts off the table; Copy writes the contact to the clipboard and draws a check on flick. The keyboard reaches the same turn through the Details toggle, and a keyboard arrival sweeps the lamp once across the card.",
+      "files": [
+        {
+          "path": "registry/ui/emboss-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1227"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "punch-card",
+      "type": "registry:ui",
+      "title": "Punch Card",
+      "description": "A loyalty card you punch: each press sinks the next printed spot under the die on the flick spring, then cuts a real hole through the card (an SVG mask, so the table and the card's own shadow show through), the card jolts and recovers on recoil, and a paper chad carrying its piece of the print pops toward you and falls away under gravity on an ease-in tween. The final punch lights the reward with a recoil landing and a ring, then the card turns over on the snap spring to its redeem side; Redeem turns it back, and the holes give way to a fresh card at the instant it is edge-on. The count is a role=\"meter\" and the punch is a real button, so Space or Enter presses and cuts through the same path, and focus follows the card when it turns.",
+      "files": [
+        {
+          "path": "registry/ui/punch-card.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1228"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "award-seal",
+      "type": "registry:ui",
+      "title": "Award Seal",
+      "description": "A certificate that is signed and sealed in front of you: a signature generated from the signer's name writes itself along its own path, then an embosser presses a crimped foil rosette onto the paper on an accelerating tween, settling on the flick spring as the paper dimples around it, the foil flashes as the light sweeps round its crimps, and two ribbon tails unfurl on glide and swing as damped pendulums whose looseness is the swing tweak. The foil is lit analytically from one light — pleats square to it flash in stripes, the medallion's rim follows a cosine, the laurel is raised by shifted highlight and shadow copies — and hovering the seal moves that light with the pointer. The seal is a real button: Space or Enter signs and seals it, then burnishes it, Left and Right swing the ribbons, and Replay plays the whole ceremony again.",
+      "files": [
+        {
+          "path": "registry/ui/award-seal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1229"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "booth-strip",
+      "type": "registry:ui",
+      "title": "Booth Strip",
+      "description": "A photo booth's panel and the strip it prints: for each shot the readout counts down, the reflector charges and fires a white wash over the booth, and the strip feeds out of the slot by one frame on a tween stepped into roller lines, newest shot nearest the slot. A fresh strip is wet — darker and glossy, the gloss shrinking from the edges as it dries — and shaking it dries it faster: it pivots at the slot, follows the finger 1:1 with rubber-banded edges, then swings as a pendulum spring taking the release velocity. Any frame enlarges into a viewer that grows out of the frame's own box on the glide spring and shrinks back on the exit ease; the frames are buttons in one tab stop where Up and Down move, Enter enlarges and Left and Right shake.",
+      "files": [
+        {
+          "path": "registry/ui/booth-strip.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1230"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

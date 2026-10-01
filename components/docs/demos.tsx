@@ -1290,6 +1290,16 @@ import { SummitStepsDemo } from "@/registry/demos/summit-steps.demo";
 import { DandelionAirDemo } from "@/registry/demos/dandelion-air.demo";
 import { WindSockDemo } from "@/registry/demos/wind-sock.demo";
 import { ParkingMeterDemo } from "@/registry/demos/parking-meter.demo";
+import { TearPassDemo } from "@/registry/demos/tear-pass.demo";
+import { MailPostcardDemo } from "@/registry/demos/mail-postcard.demo";
+import { WaxSealDemo } from "@/registry/demos/wax-seal.demo";
+import { LibraryCardDemo } from "@/registry/demos/library-card.demo";
+import { StatCardDemo } from "@/registry/demos/stat-card.demo";
+import { WristbandDemo } from "@/registry/demos/wristband.demo";
+import { EmbossCardDemo } from "@/registry/demos/emboss-card.demo";
+import { PunchCardDemo } from "@/registry/demos/punch-card.demo";
+import { AwardSealDemo } from "@/registry/demos/award-seal.demo";
+import { BoothStripDemo } from "@/registry/demos/booth-strip.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2594,4 +2604,14 @@ export const demos: Record<string, ComponentType> = {
   "dandelion-air": DandelionAirDemo,
   "wind-sock": WindSockDemo,
   "parking-meter": ParkingMeterDemo,
+  "tear-pass": TearPassDemo,
+  "mail-postcard": MailPostcardDemo,
+  "wax-seal": WaxSealDemo,
+  "library-card": LibraryCardDemo,
+  "stat-card": StatCardDemo,
+  wristband: WristbandDemo,
+  "emboss-card": EmbossCardDemo,
+  "punch-card": PunchCardDemo,
+  "award-seal": AwardSealDemo,
+  "booth-strip": BoothStripDemo,
 };

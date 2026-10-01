@@ -72256,4 +72256,1361 @@ export const components: KinetiqItem[] = [
       'A polite live region speaks warnAt minutes left, one minute left and expiry once each as time passes, and every coin ("Added 20 minutes. 32 minutes left, paid until 14:52.") or refusal.',
     ],
   },
+  {
+    name: "tear-pass",
+    type: "registry:ui",
+    title: "Tear Pass",
+    description:
+      "A boarding pass whose stub tears off along a real perforation: dragging down the stub runs the tear 1:1 with the finger while the torn part peels out about the tear front, and the fibres in each bridge stretch across the gap and snap back as tufts that quiver on the recoil spring. A throw that would finish the tear completes it on the glide spring with the release velocity, the free stub lands a little out and turned on recoil and turns over on glide to show its boarding code, and gate and seat roll to new values in split-flap tiles. The stub is a real button: Enter or Space tears it from the top with the same fibres and sounds, and then turns it over and back.",
+    files: [
+      {
+        path: "registry/ui/tear-pass.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1221",
+    },
+    tagline: "Tear here to board.",
+    keywords: [
+      "boarding pass",
+      "ticket stub",
+      "perforation",
+      "tear off",
+      "split-flap",
+      "travel pass",
+      "keepsake",
+    ],
+    props: [
+      {
+        name: "carrier",
+        type: "string",
+        description: "Who flies it, printed in the pass's header.",
+      },
+      {
+        name: "flight",
+        type: "string",
+        description: 'The flight number, e.g. "WL 214".',
+      },
+      {
+        name: "passenger",
+        type: "string",
+        description: "The passenger's name.",
+      },
+      {
+        name: "from",
+        type: "{ code: string; city: string }",
+        description:
+          "Where it leaves from: the code printed large and the city under it.",
+      },
+      {
+        name: "to",
+        type: "{ code: string; city: string }",
+        description: "Where it goes.",
+      },
+      {
+        name: "date",
+        type: "string",
+        description: 'The date as printed, e.g. "07 Oct".',
+      },
+      {
+        name: "boards",
+        type: "string",
+        description: 'The boarding time as printed, e.g. "08:15".',
+      },
+      {
+        name: "gate",
+        type: "string",
+        description:
+          "Printed in split-flap tiles; a new value rolls them and is announced once.",
+      },
+      {
+        name: "seat",
+        type: "string",
+        description:
+          "Printed in split-flap tiles; a new value rolls them and is announced once.",
+      },
+      {
+        name: "zone",
+        type: "string",
+        description: "Boarding group, printed under the seat.",
+      },
+      {
+        name: "code",
+        type: "string",
+        description:
+          "The booking reference, drawn as a seeded two-dimensional code on the stub's back.",
+      },
+      {
+        name: "torn / defaultTorn",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the stub has been torn off. A host that sets it false gets a whole pass back; one that sets it true gets the same tear, silently.",
+      },
+      {
+        name: "onTornChange",
+        type: "(torn: boolean) => void",
+        description:
+          "Fires from the drag or key that freed the stub, with true.",
+      },
+      {
+        name: "perforation",
+        type: '"round" | "slot"',
+        defaultValue: '"round"',
+        description:
+          "Round punched holes or slots along the tear; slots break with a lower snap.",
+      },
+      {
+        name: "paper",
+        type: '"white" | "sky" | "sand"',
+        defaultValue: '"white"',
+        description:
+          "The card stock and its inks, fixed pigments that read the same in either theme.",
+      },
+      {
+        name: "flip",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The torn stub turns over in 3D to show its code; off, it cross-fades flat.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A paper crinkle for each bridge that lets go, a snap when the stub comes free, and a soft paper turn — only for the visitor's own tear and presses.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the pass but takes no drag or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the stub is a button — Enter or Space tears it from the top on a timed sweep that reaches the same end state as the drag (same fibres, same sounds); once it is free the same button turns it to the code and back. A tap on a whole stub only tugs at the seam; it never tears.",
+      "Reduced motion: nothing shears, flies or turns — the drag still runs a hairline down the seam with the finger, the free stub stands a few pixels apart at once, the code cross-fades in, and the flap tiles swap characters at once.",
+      "The stub drags vertically, so it carries touch-pan-x; the pass is a container and steps its type down and its fields to two rows under 440px, about 292×160 in a phone card and 560×187 in a wide one.",
+    ],
+  },
+  {
+    name: "mail-postcard",
+    type: "registry:ui",
+    title: "Mail Postcard",
+    description:
+      "A postcard that turns over on the glide spring with perspective — pressed, swiped 1:1 with the finger and projected on release, or from its Turn over button — and the first time its back comes round the message writes itself, a pen nib running the measured text quick inside words, lifting at spaces and pausing at punctuation. Send lands the postmark on the recoil spring with a thud while the card gives under the blow, then slides the card off into the post on the exit ease and leaves a Posted slip. Turn over and Send are real buttons and focus follows the card to the slip and back.",
+    files: [
+      {
+        path: "registry/ui/mail-postcard.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1222",
+    },
+    tagline: "Flip it, stamp it, send it.",
+    keywords: [
+      "postcard",
+      "card flip",
+      "handwriting",
+      "postmark",
+      "send animation",
+      "greeting card",
+      "keepsake",
+    ],
+    props: [
+      {
+        name: "message",
+        type: "string",
+        description:
+          "What is written on the back — a postcard's worth, about 160 characters.",
+      },
+      {
+        name: "to",
+        type: "{ name: string; lines: string[] }",
+        description:
+          "The address: the name names the card, and up to two more ruled lines.",
+      },
+      {
+        name: "from",
+        type: "string",
+        description: "Signed under the message.",
+      },
+      {
+        name: "place",
+        type: "string",
+        description: "The town on the postmark.",
+      },
+      {
+        name: "date",
+        type: "string",
+        description:
+          'The date on the postmark and the Posted slip, e.g. "07 Oct 26".',
+      },
+      {
+        name: "picture",
+        type: "ReactNode",
+        description:
+          "The picture side: an image or an illustration that fills it.",
+      },
+      {
+        name: "caption",
+        type: "string",
+        description:
+          'Printed on the picture side, e.g. "Greetings from Coldbrook".',
+      },
+      {
+        name: "side / defaultSide",
+        type: '"front" | "back"',
+        defaultValue: '"front"',
+        description: "Which side faces up.",
+      },
+      {
+        name: "onSideChange",
+        type: '(side: "front" | "back") => void',
+        description:
+          "Fires from the swipe, press or button that turned the card.",
+      },
+      {
+        name: "sent / defaultSent",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the card has been posted. Setting it back to false brings a fresh card in from the left.",
+      },
+      {
+        name: "onSentChange",
+        type: "(sent: boolean) => void",
+        description: "Fires from the Send press, with true.",
+      },
+      {
+        name: "hand",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The message is handwritten and writes itself behind a pen nib; off, it is printed in the house sans at once.",
+      },
+      {
+        name: "stamp",
+        type: '"round" | "wave"',
+        defaultValue: '"round"',
+        description:
+          "A circular date stamp with cancel bars, or a machine postmark's wavy lines.",
+      },
+      {
+        name: "paper",
+        type: '"cream" | "white" | "kraft"',
+        defaultValue: '"cream"',
+        description:
+          "The card stock and its inks, fixed pigments that read the same in either theme.",
+      },
+      {
+        name: "sendLabel",
+        type: "string",
+        defaultValue: '"Send"',
+        description: "The Send button's text.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A paper turn, the postmark's thud and the posting's paper — only for the visitor's own presses and swipes.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the card but takes no swipe or presses.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Turn over and Send are real buttons (the card's own press and swipe mirror Turn over). While it posts they stay focusable but inert, and focus moves to the Posted slip when the card has gone, then back to Turn over when a card returns.",
+      "Reduced motion: the sides cross-fade, the message is there whole with no pen, the postmark fades in at rest and the card fades out and back in — every state still changes.",
+      "The handwriting is measured on an untransformed hidden copy with Range rects, so the 3D turn never skews it; the side not showing is aria-hidden, and the message is real text from the start.",
+    ],
+  },
+  {
+    name: "wax-seal",
+    type: "registry:ui",
+    title: "Wax Seal",
+    description:
+      "A letter folded into panels and closed with a wax seal. Holding the seal makes the wax give on the flick spring while seeded cracks spread from the exact point pressed, drawn to the length the hold has reached; let go early and they close, hold for the full time and it snaps along the flap's edge, chips fly, and each panel unfolds about its crease on the glide spring with perspective while the sheet glides to stay centred. Reseal folds it back, pours a drop of wax that spreads with a wobble on the recoil spring and presses the monogram in; the seal is a real button that Enter or Space cracks to the end, and Escape stops.",
+    files: [
+      {
+        path: "registry/ui/wax-seal.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1223",
+    },
+    tagline: "Break the seal to read.",
+    keywords: [
+      "wax seal",
+      "sealed letter",
+      "press and hold",
+      "private message",
+      "unfold",
+      "letter",
+      "keepsake",
+    ],
+    props: [
+      {
+        name: "to",
+        type: "string",
+        description:
+          "Who the letter is for: written on the outside and in the greeting.",
+      },
+      {
+        name: "from",
+        type: "string",
+        description:
+          "Who sealed it: the monogram pressed into the wax and the signature.",
+      },
+      {
+        name: "date",
+        type: "string",
+        description: "Written on the outside and at the head of the letter.",
+      },
+      {
+        name: "message",
+        type: "string",
+        description:
+          "The letter itself, written across the panels and their creases.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the seal is broken and the letter open. A host that changes it gets the same motion, silently.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the hold or key that broke the seal (true) and from Reseal (false).",
+      },
+      {
+        name: "hold",
+        type: "number",
+        defaultValue: "800",
+        description:
+          "How long the seal must be held before it breaks, in ms (400–1500): the cracks spread over exactly this long.",
+      },
+      {
+        name: "wax",
+        type: '"crimson" | "navy" | "forest"',
+        defaultValue: '"crimson"',
+        description:
+          "The wax's pigment, the same in either theme; it also tunes the snap.",
+      },
+      {
+        name: "folds",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "Panels the letter is folded into: 2 (one flap, a wider packet that leaves a wax remnant in the margin) or 3 (two flaps).",
+      },
+      {
+        name: "resealLabel",
+        type: "string",
+        defaultValue: '"Reseal"',
+        description: "The Reseal button's text.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The snap of the wax, a paper sound for each fold and a soft press when it is sealed again — only for the visitor's own hold and presses.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the letter but takes no hold or presses.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the seal is a button named Break the seal — Enter or Space starts the same cracking, which runs to the end on its own, and Escape during it stops it (handled with preventDefault). Focus moves into the open letter, a document region, and back to the new seal button after Reseal.",
+      "Reduced motion: the cracks still draw with the hold, because progress is information, but nothing flies, gives or unfolds — the packet and the open letter cross-fade, and fresh wax fades in whole.",
+      "The letter's text is in the DOM only while it is open: sealed, only the outside (recipient and date) is readable. Pointer holds capture nothing and are released anywhere on the page; leaving the window lets the cracks close.",
+    ],
+  },
+  {
+    name: "library-card",
+    type: "registry:ui",
+    title: "Library Card",
+    description:
+      "A library book's date-due card in its pocket, with a wooden date stamp and an ink pad beside it. The card follows a drag up out of its pocket 1:1, rubber-bands at the ends and commits where the throw was heading on the glide spring; a press on the stamp lifts it on snap, glides it over the next empty row while it turns to that row's seeded crooked angle, strikes on an accelerating tween with a thud and inks the date, then sets it back down on recoil. Every strike thins the ink, so each impression is fainter and patchier until the pad re-inks it, and the card, the stamp and the pad are real buttons, so Enter or Space slides the card, stamps the next row and re-inks.",
+    files: [
+      {
+        path: "registry/ui/library-card.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1224",
+    },
+    tagline: "Stamped every time.",
+    keywords: [
+      "library card",
+      "date due",
+      "rubber stamp",
+      "ink pad",
+      "loan history",
+      "keepsake",
+      "stamp card",
+    ],
+    props: [
+      {
+        name: "title",
+        type: "string",
+        description: "The book's title, printed at the head of the card.",
+      },
+      {
+        name: "author",
+        type: "string",
+        description: "Who wrote it, printed under the title.",
+      },
+      {
+        name: "callNumber",
+        type: "string",
+        description: "The shelf mark, printed beside the author in mono.",
+      },
+      {
+        name: "library",
+        type: "string",
+        defaultValue: '"Public Library"',
+        description:
+          "The library's name, printed on the pocket; its initials are pressed into the cover as a seal.",
+      },
+      {
+        name: "due",
+        type: "string",
+        description:
+          'What the stamp is set to print next, e.g. "14 OCT 2026". Shown under the stamp.',
+      },
+      {
+        name: "value / defaultValue",
+        type: "string[]",
+        defaultValue: "[]",
+        description:
+          "The dates stamped so far, oldest first. Only as many as there are rows are shown.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: string[]) => void",
+        description:
+          "Fires from the strike that inked a row, with every date now on the card.",
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the card is out of its pocket. Stamping a tucked card slides it out first.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from the drag, tap or key that slid the card out or in.",
+      },
+      {
+        name: "rows",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "How many rows the card is ruled into, 4 to 10. They share the card's height, so fewer rows print larger dates.",
+      },
+      {
+        name: "ink",
+        type: '"violet" | "red" | "black"',
+        defaultValue: '"violet"',
+        description:
+          "The colour of the pad, the stamp's rubber and every impression.",
+      },
+      {
+        name: "crooked",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How far a stamp may land off square, in degrees, 0 to 6. Each row's angle and offset are seeded by the row and its date.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A thud for every strike (lighter as the ink runs dry), soft dabs on the pad, and a paper rustle as the card slides.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the card but takes no drags, taps or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the desk's root.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the card\'s head is a button (aria-expanded) that slides it out or in; the stamp is a button named for what it will do ("Stamp 14 OCT 2026 in row 3") and described by its ink level; the pad is a button that re-inks. Enter or Space on each reaches the same end as the drag, and presses made mid-flight are queued, not lost.',
+      "Reduced motion: nothing flies, lifts or bounces — the card jumps between in and out (a drag still follows the finger), a stamping fades the date in where it lands while the stamp dims at home, and re-inking fades the rim back to full. Ink still runs out and every change is still spoken.",
+      "Every change is spoken once in a polite live region: the date and row stamped (with a warning when the stamp is running dry), the card sliding out or in, a re-ink, and a full card. The crooked angles are seeded, so the server and the browser draw the same card.",
+    ],
+  },
+  {
+    name: "stat-card",
+    type: "registry:ui",
+    title: "Stat Card",
+    description:
+      "A profile printed as a collectible card, edged in foil the colour of its rarity: the rim is a conic gradient that turns with the light and carries a glint where the light strikes it, and a mouse over the card tilts it toward the pointer in perspective on springs with glide's constants, so the glint runs round the rim as the pointer circles. Its numbers are odometers that roll up on the drift spring in a cascade the first time it is seen and whenever the front comes back round; dragging sideways turns it over 1:1, a release lands on the nearest face on the glide spring with the throw's velocity, and a raised level sweeps a shine across the face while the badge lands on recoil. The flip button on each face is a real toggle that Enter or Space presses, and focus follows it to the other side.",
+    files: [
+      {
+        path: "registry/ui/stat-card.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1225",
+    },
+    tagline: "A profile you can collect.",
+    keywords: [
+      "profile card",
+      "collectible",
+      "trading card",
+      "flip card",
+      "rarity",
+      "level up",
+      "odometer",
+    ],
+    props: [
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Whose card it is: the heading, the monogram and the group's accessible name.",
+      },
+      {
+        name: "role",
+        type: "string",
+        description: "What they do, under the name and on the type line.",
+      },
+      {
+        name: "team",
+        type: "string",
+        description: "Where they do it, on the type line.",
+      },
+      {
+        name: "level",
+        type: "number",
+        description:
+          "Their level, in the corner badge. Raising it plays the level-up; lowering it only rolls the number down.",
+      },
+      {
+        name: "stats",
+        type: "{ label: string; value: number; max?: number }[]",
+        description:
+          "The numbers on the front, as rolling odometers; a stat with a max also gets a bar that fills with it.",
+      },
+      {
+        name: "bio",
+        type: "string",
+        description: "A few sentences for the back.",
+      },
+      {
+        name: "facts",
+        type: "{ label: string; value: string }[]",
+        description: "Short facts listed on the back.",
+      },
+      {
+        name: "number",
+        type: "string",
+        description:
+          'The card\'s number in its set, e.g. "042/300", in the footer.',
+      },
+      {
+        name: "since",
+        type: "string",
+        description: "The year they joined, in the footer.",
+      },
+      {
+        name: "avatar",
+        type: "ReactNode",
+        description:
+          "A picture for the portrait window. Without it, a monogram on a contour pattern seeded by the name.",
+      },
+      {
+        name: "flipped / defaultFlipped",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Whether the back (the bio) is showing.",
+      },
+      {
+        name: "onFlippedChange",
+        type: "(flipped: boolean) => void",
+        description:
+          "Fires from the drag, tap or key that turned the card over. A controlled host that refuses gets the card turned back.",
+      },
+      {
+        name: "rarity",
+        type: '"common" | "rare" | "epic"',
+        defaultValue: '"rare"',
+        description:
+          "The foil on the rim and the colours of the portrait, bars and gem: matte silver, cobalt, or an iridescent run of hues with sparkles that flare as the glint passes.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "How far the card leans toward the pointer, in degrees, 0 to 20. At 0 it stays flat and only the glint follows.",
+      },
+      {
+        name: "roll",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Roll the numbers up from zero when the front is revealed. Off shows them still.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A pop as a flipped face lands; a shimmer and a pop for a level-up the visitor caused (a level pushed from elsewhere is silent).",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the card but takes no tilt, drags, taps or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the card's root.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: each face has a flip button (aria-pressed, "Show the bio"); Enter or Space turns the card and focus moves to the same button on the side now showing. The face turned away is inert. Drags and taps on the card are pointer mirrors of the button.',
+      "Reduced motion: the card stays flat and never turns — the faces cross-fade (a drag past 40px still flips) — the numbers and bars show their values at once, and a level-up swaps the number and pulses the badge's ring, without the sweep.",
+      "The stats are a description list whose values are real text for assistive technology (the rolling digits are hidden from it), and a polite live region says which side is showing and the new level, once each.",
+    ],
+  },
+  {
+    name: "wristband",
+    type: "registry:ui",
+    title: "Wristband",
+    description:
+      "An event wristband drawn as 36 flat slices on a cylinder in CSS 3D, each with an outer and an inner face, so it can lie flat and then curl round into a real loop with the inside of the far side showing. A sideways drag curls it 1:1; past 94% the clasp catches and the ends close on the fabric's own spring (drift for woven, snap for silicone, glide for paper), it snaps shut with the loop tightening on recoil, and the tier and the wearer's name print on behind a moving print head. Worn, a tap or Enter lifts it toward the reader on snap while three rings ripple out from its print with a chime, a drag turns it on the wrist and it swings back on glide, and the Unsnap button pops the clasp and lets it fall open.",
+    files: [
+      {
+        path: "registry/ui/wristband.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1226",
+    },
+    tagline: "Snap it on, it's yours.",
+    keywords: [
+      "wristband",
+      "event ticket",
+      "access pass",
+      "check-in",
+      "3d wrap",
+      "scan",
+      "keepsake",
+    ],
+    props: [
+      {
+        name: "name",
+        type: "string",
+        description:
+          "Who wears it: printed on the band, and part of its accessible name.",
+      },
+      {
+        name: "event",
+        type: "string",
+        defaultValue: '"Admit one"',
+        description: "The event, repeated along the band and naming the group.",
+      },
+      {
+        name: "code",
+        type: "string",
+        description:
+          "The ticket's code, printed ahead of the event along the band.",
+      },
+      {
+        name: "access",
+        type: "string",
+        defaultValue: "per tier",
+        description:
+          "Where the band lets them in, shown under it and spoken on a scan. GA defaults to Gates A to C, VIP to Lounge, Gate B, Crew to All areas.",
+      },
+      {
+        name: "snapped / defaultSnapped",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the band is snapped on. A host that changes it moves the band silently; one that refuses a snap gets the band back.",
+      },
+      {
+        name: "onSnappedChange",
+        type: "(snapped: boolean) => void",
+        description:
+          "Fires from the drag, tap or key whose clasp caught, or from Unsnap.",
+      },
+      {
+        name: "onScan",
+        type: "() => void",
+        description:
+          "Fires when a worn band is held to the reader: a tap, Enter or Space on it.",
+      },
+      {
+        name: "fabric",
+        type: '"woven" | "silicone" | "paper"',
+        defaultValue: '"woven"',
+        description:
+          "What the band is made of: woven twill with stitched edges and a soft curl, glossy silicone with a travelling highlight and a lively curl, or paper with fibres, die-cut slits and a crisp curl. Each has its own height.",
+      },
+      {
+        name: "tier",
+        type: '"ga" | "vip" | "crew"',
+        defaultValue: '"vip"',
+        description:
+          "The ticket tier: the band's colour (cobalt, gold, red), the word printed on it, the default access and the chime's pitch.",
+      },
+      {
+        name: "wrap",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How much depth the band shows, 0 to 1: worn, 0 is straight on and nearly flat and 1 looks down into the loop with strong perspective; off, it is how much of the wrist's curve the band keeps as it rests.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A snap as the clasp catches (lower as it opens) and a chime on a scan, pitched by tier. Only ever in answer to the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the band but takes no drags, taps or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the band is one real button whose name says what a press does — "Put on the wristband: VIP, Teo Bramhall" or "Scan the wristband: …" — so Enter or Space wraps it on or scans it; Unsnap is a real button shown while it is worn, and focus returns to the band after it. Drags are pointer mirrors of the button.',
+      "Reduced motion: nothing curls, lifts or ripples outward — the flat and worn bands cross-fade, the print still runs on (a clip, not a movement), and a scan shows one ring fading in place while the print panel glows. A drag still follows the finger and lands where it commits.",
+      "The band's length follows its measured width (between 260 and 600px), and the view only tips down into the loop as it closes, so a half-wrapped band never rises out of its box. A polite live region says when the band goes on or off and each scan.",
+    ],
+  },
+  {
+    name: "emboss-card",
+    type: "registry:ui",
+    title: "Emboss Card",
+    description:
+      "A business card lying on the table with its name blind-debossed and a blind-embossed roundel, lit by one lamp that follows the pointer on the glide spring and drifts back to rest on drift: bevels are shaded analytically (a cosine around each ring, the letters masked against themselves shifted along the light), so the impression turns as the lamp moves. Tap, drag or press Details and the card turns over to its contact details, following the finger 1:1 and committing by projection on the snap spring as it lifts off the table; Copy writes the contact to the clipboard and draws a check on flick. The keyboard reaches the same turn through the Details toggle, and a keyboard arrival sweeps the lamp once across the card.",
+    files: [
+      {
+        path: "registry/ui/emboss-card.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1227",
+    },
+    tagline: "Letterpress you can feel.",
+    keywords: [
+      "business card",
+      "emboss",
+      "deboss",
+      "letterpress",
+      "contact",
+      "flip card",
+      "lighting",
+    ],
+    props: [
+      {
+        name: "name",
+        type: "string",
+        description: "The name, blind-debossed on the front.",
+      },
+      {
+        name: "title",
+        type: "string",
+        description: "The job title, printed under the name.",
+      },
+      {
+        name: "company",
+        type: "string",
+        description:
+          "The company, printed in spaced capitals at the top right.",
+      },
+      {
+        name: "details",
+        type: "{ label: string; value: string; href?: string }[]",
+        defaultValue: "[]",
+        description:
+          "Contact lines printed on the back; up to four fit the card. An href makes the value a link.",
+      },
+      {
+        name: "monogram",
+        type: "string",
+        description:
+          "One or two letters debossed into the roundel. Defaults to the name's initials.",
+      },
+      {
+        name: "flipped / defaultFlipped",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the back (the contact details) faces up; controlled or uncontrolled.",
+      },
+      {
+        name: "onFlippedChange",
+        type: "(flipped: boolean) => void",
+        description:
+          "Fires from the tap, drag or button that turned the card, with the new side.",
+      },
+      {
+        name: "copyText",
+        type: "string",
+        description:
+          "What Copy puts on the clipboard. Defaults to the name, title, company and every detail, one per line.",
+      },
+      {
+        name: "onCopy",
+        type: "(text: string) => void",
+        description:
+          "Fires once the contact is on the clipboard, with the text that was copied.",
+      },
+      {
+        name: "depth",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How deep the press is, 0 to 1: the bevel's angle, the walls' width and the rim's cast shadow.",
+      },
+      {
+        name: "stock",
+        type: '"cotton" | "kraft" | "black"',
+        defaultValue: '"cotton"',
+        description:
+          "The board the card is pressed into; black prints its details in white ink.",
+      },
+      {
+        name: "light",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A lamp that follows the pointer, with a sheen on the board. Off: a fixed light from the upper left.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The copy click and the soft click of the card landing after a turn the visitor asked for.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The card can be read but not turned or copied, and the lamp stays at rest.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: Details is a toggle button (aria-pressed) that turns the card through the same spring as a drag, and Copy is a button; the face turned away is inert and hidden from assistive technology, and links on the back (mailto:, tel:, https:) are reachable once it faces up. A keyboard arrival sweeps the lamp once across the card.",
+      "Reduced motion: the card never rotates or lifts — the faces cross-fade on a short tween after a tap, a drag past a third of the card or Details — and the lamp still follows the pointer, directly, because shading is not travel. The check appears without drawing; status and sound are unchanged.",
+      "The lighting is analytic: conic gradients sampled from a cosine for each bevel and masks for the debossed letters, so it stays crisp at any size and costs a few style strings per frame. Copy falls back to a hidden textarea where the clipboard is refused, and says so if both fail.",
+    ],
+  },
+  {
+    name: "punch-card",
+    type: "registry:ui",
+    title: "Punch Card",
+    description:
+      'A loyalty card you punch: each press sinks the next printed spot under the die on the flick spring, then cuts a real hole through the card (an SVG mask, so the table and the card\'s own shadow show through), the card jolts and recovers on recoil, and a paper chad carrying its piece of the print pops toward you and falls away under gravity on an ease-in tween. The final punch lights the reward with a recoil landing and a ring, then the card turns over on the snap spring to its redeem side; Redeem turns it back, and the holes give way to a fresh card at the instant it is edge-on. The count is a role="meter" and the punch is a real button, so Space or Enter presses and cuts through the same path, and focus follows the card when it turns.',
+    files: [
+      {
+        path: "registry/ui/punch-card.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1228",
+    },
+    tagline: "Nine punches, one free.",
+    keywords: [
+      "loyalty card",
+      "punch card",
+      "stamp card",
+      "reward",
+      "counter",
+      "coffee",
+      "redeem",
+    ],
+    props: [
+      {
+        name: "brand",
+        type: "string",
+        description: "The café or shop, printed on the card's band.",
+      },
+      {
+        name: "reward",
+        type: "string",
+        defaultValue: '"One free drink"',
+        description: "What a full card is worth.",
+      },
+      {
+        name: "member",
+        type: "string",
+        description: "The holder's name, printed at the foot of the card.",
+      },
+      {
+        name: "number",
+        type: "string",
+        description: "The card's number, printed on the band.",
+      },
+      {
+        name: "code",
+        type: "string",
+        description:
+          "The redeem code on the back. Defaults to a deterministic code from the brand, the member and the cycle.",
+      },
+      {
+        name: "label",
+        type: "string",
+        description:
+          'The card\'s accessible name. Defaults to "{brand} loyalty card".',
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "How many spots are punched, 0 to holes; controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the press that punched a spot, or from Redeem with 0.",
+      },
+      {
+        name: "onRedeem",
+        type: "() => void",
+        description: "Fires when the reward is redeemed.",
+      },
+      {
+        name: "holes",
+        type: "number",
+        defaultValue: "9",
+        description:
+          "How many punches earn the reward, 6 to 12; the grid re-lays out in two rows.",
+      },
+      {
+        name: "shape",
+        type: '"round" | "star" | "heart"',
+        defaultValue: '"round"',
+        description: "The printed spot, the hole and the chad.",
+      },
+      {
+        name: "chad",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A paper chad pops out of each hole and falls away. Off: a clean cut.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A click at each cut, rising in pitch across the card, a pop as the reward lights, and a click on Redeem.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The card can be read but not punched or redeemed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the Punch button lies over the spots; Space or Enter dimples on key down and cuts on release, exactly as a press does, and once the card is full it reads "Card full. Turn over to redeem". When the card turns, focus moves to the arriving face\'s button (Redeem, or the Punch button again after a redeem). The count is a role="meter" with aria-valuetext such as "6 of 9 punched, 3 to go", and each punch is announced politely.',
+      "Reduced motion: no dimple travel, jolt, chad flight, ring or turn — the chad fades in its hole and the faces cross-fade — while the hole, the count, the reward's colour and every sound still arrive.",
+      "Controlled: onValueChange reports the press; a host that raises value animates the punches without sound, and a host that sets 0 while the redeem side is up turns the card back to a fresh front.",
+    ],
+  },
+  {
+    name: "award-seal",
+    type: "registry:ui",
+    title: "Award Seal",
+    description:
+      "A certificate that is signed and sealed in front of you: a signature generated from the signer's name writes itself along its own path, then an embosser presses a crimped foil rosette onto the paper on an accelerating tween, settling on the flick spring as the paper dimples around it, the foil flashes as the light sweeps round its crimps, and two ribbon tails unfurl on glide and swing as damped pendulums whose looseness is the swing tweak. The foil is lit analytically from one light — pleats square to it flash in stripes, the medallion's rim follows a cosine, the laurel is raised by shifted highlight and shadow copies — and hovering the seal moves that light with the pointer. The seal is a real button: Space or Enter signs and seals it, then burnishes it, Left and Right swing the ribbons, and Replay plays the whole ceremony again.",
+    files: [
+      {
+        path: "registry/ui/award-seal.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1229",
+    },
+    tagline: "Signed, sealed, awarded.",
+    keywords: [
+      "certificate",
+      "award",
+      "seal",
+      "rosette",
+      "signature",
+      "foil",
+      "diploma",
+    ],
+    props: [
+      {
+        name: "issuer",
+        type: "string",
+        description: "Who awards it, printed in spaced capitals at the top.",
+      },
+      {
+        name: "award",
+        type: "string",
+        description: 'The award itself, e.g. "Certificate of Completion".',
+      },
+      {
+        name: "recipient",
+        type: "string",
+        description: "Who receives it.",
+      },
+      {
+        name: "citation",
+        type: "string",
+        description: "One or two lines on what it is for.",
+      },
+      {
+        name: "date",
+        type: "string",
+        description: "The date as it should be printed.",
+      },
+      {
+        name: "signer",
+        type: "string",
+        description:
+          "Whose signature writes itself on the line; the signature is generated from this name.",
+      },
+      {
+        name: "signerTitle",
+        type: "string",
+        description: "Printed after the signer's name.",
+      },
+      {
+        name: "sealed / defaultSealed",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Whether the certificate is signed and sealed; controlled or uncontrolled. Sealing plays the ceremony.",
+      },
+      {
+        name: "onSealedChange",
+        type: "(sealed: boolean) => void",
+        description: "Fires from the press that signs and seals it, with true.",
+      },
+      {
+        name: "foil",
+        type: '"gold" | "silver" | "bronze"',
+        defaultValue: '"gold"',
+        description:
+          "The rosette's foil, its printed accents and its ribbons' satin.",
+      },
+      {
+        name: "ribbons",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Two ribbon tails hang from the seal and swing; they can be brushed, grabbed and thrown.",
+      },
+      {
+        name: "swing",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How loosely the ribbons swing, 0 to 1: their damping, the size of every kick and the whip of their lower half.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A thud as the seal meets the paper, a shimmer with the foil's flash, a softer thud when it is burnished.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The certificate can be read but not sealed, burnished or replayed.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the seal is a button — unsealed, "Sign and seal the certificate"; sealed, it burnishes the foil — and Left and Right swing its ribbons, the keyboard path for a drag. Replay is a button once the certificate is sealed. "Signed by", "Sealed" and "Replaying the seal" are announced politely.',
+      "Reduced motion: the signature fades in instead of writing, the seal fades in at rest with the paper's dimple, and the ribbons hang still; the light still follows a hovering pointer, directly, because shading is not travel. Sounds and announcements are unchanged.",
+      "Printable: every word is real text, and a sealed certificate prints with its signature and seal whatever the animation was doing; Replay is hidden in print.",
+    ],
+  },
+  {
+    name: "booth-strip",
+    type: "registry:ui",
+    title: "Booth Strip",
+    description:
+      "A photo booth's panel and the strip it prints: for each shot the readout counts down, the reflector charges and fires a white wash over the booth, and the strip feeds out of the slot by one frame on a tween stepped into roller lines, newest shot nearest the slot. A fresh strip is wet — darker and glossy, the gloss shrinking from the edges as it dries — and shaking it dries it faster: it pivots at the slot, follows the finger 1:1 with rubber-banded edges, then swings as a pendulum spring taking the release velocity. Any frame enlarges into a viewer that grows out of the frame's own box on the glide spring and shrinks back on the exit ease; the frames are buttons in one tab stop where Up and Down move, Enter enlarges and Left and Right shake.",
+    files: [
+      {
+        path: "registry/ui/booth-strip.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1230",
+    },
+    tagline: "Four frames, and shake it dry.",
+    keywords: [
+      "photo booth",
+      "photo strip",
+      "camera",
+      "flash",
+      "gallery",
+      "keepsake",
+      "shake",
+    ],
+    props: [
+      {
+        name: "caption",
+        type: "string",
+        description: 'Printed on the strip\'s tail, e.g. "Fernworks 01.10.26".',
+      },
+      {
+        name: "photos",
+        type: "React.ReactNode[]",
+        description:
+          "Your own frame contents, used in turn; by default each frame is a drawn booth portrait, new poses every strip.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Photo booth"',
+        description: "The booth's accessible name.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number | null",
+        defaultValue: "null",
+        description:
+          "The shot shown enlarged (0 is the first shot), or null; controlled or uncontrolled.",
+      },
+      {
+        name: "onValueChange",
+        type: "(shot: number | null) => void",
+        description:
+          "Fires from the pick, key or button that opened, stepped or closed a shot.",
+      },
+      {
+        name: "defaultPrinted",
+        type: "boolean",
+        defaultValue: "true",
+        description: "A dry strip already hangs from the slot at first.",
+      },
+      {
+        name: "onPrint",
+        type: "() => void",
+        description: "Fires when a new strip has finished printing.",
+      },
+      {
+        name: "onPhaseChange",
+        type: '(phase: "idle" | "shooting" | "wet" | "dry") => void',
+        description: "Fires as the booth moves between phases.",
+      },
+      {
+        name: "frames",
+        type: "number",
+        defaultValue: "4",
+        description: "Shots per strip, 3 or 4.",
+      },
+      {
+        name: "tone",
+        type: '"bw" | "sepia" | "colour"',
+        defaultValue: '"bw"',
+        description:
+          "The print's chemistry, applied to whatever is in the frames.",
+      },
+      {
+        name: "flash",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The booth flashes white on each shot (never more than once a second). Off: only the reflector lights.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A shutter snap on each shot and the print feed's whir while the strip feeds, only during a strip the visitor started.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The strip can be looked at but not taken, shaken or enlarged.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the shutter is a button; the frames are one tab stop where Up and Down move between shots in their visual order, Home and End jump, Enter or Space enlarges, and Left and Right shake the strip (each a kick that dries it a step). The viewer's Close takes focus when it arrives; Escape closes it and returns focus to the frame, and Left and Right step through the shots.",
+      "Reduced motion: no white wash (the reflector still lights), no feed travel and no swing — the strip stands at full length and each shot fades into its frame, a drag or Left and Right dry it without moving it, and the viewer fades in place. Sounds and announcements are unchanged.",
+      "The timeline and the drying clock pause in a hidden tab, and the drying clock runs only while the strip is wet and on screen.",
+    ],
+  },
 ];

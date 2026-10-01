@@ -287,4 +287,44 @@ export const ATELIER_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/parking-meter.demo").then((m) =>
       mod(m.ParkingMeterDemo, m.tweaks),
     ),
+  "tear-pass": () =>
+    import("@/registry/demos/tear-pass.demo").then((m) =>
+      mod(m.TearPassDemo, m.tweaks),
+    ),
+  "mail-postcard": () =>
+    import("@/registry/demos/mail-postcard.demo").then((m) =>
+      mod(m.MailPostcardDemo, m.tweaks),
+    ),
+  "wax-seal": () =>
+    import("@/registry/demos/wax-seal.demo").then((m) =>
+      mod(m.WaxSealDemo, m.tweaks),
+    ),
+  "library-card": () =>
+    import("@/registry/demos/library-card.demo").then((m) =>
+      mod(m.LibraryCardDemo, m.tweaks),
+    ),
+  "stat-card": () =>
+    import("@/registry/demos/stat-card.demo").then((m) =>
+      mod(m.StatCardDemo, m.tweaks),
+    ),
+  wristband: () =>
+    import("@/registry/demos/wristband.demo").then((m) =>
+      mod(m.WristbandDemo, m.tweaks),
+    ),
+  "emboss-card": () =>
+    import("@/registry/demos/emboss-card.demo").then((m) =>
+      mod(m.EmbossCardDemo, m.tweaks),
+    ),
+  "punch-card": () =>
+    import("@/registry/demos/punch-card.demo").then((m) =>
+      mod(m.PunchCardDemo, m.tweaks),
+    ),
+  "award-seal": () =>
+    import("@/registry/demos/award-seal.demo").then((m) =>
+      mod(m.AwardSealDemo, m.tweaks),
+    ),
+  "booth-strip": () =>
+    import("@/registry/demos/booth-strip.demo").then((m) =>
+      mod(m.BoothStripDemo, m.tweaks),
+    ),
 };
