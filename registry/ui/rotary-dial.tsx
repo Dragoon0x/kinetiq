@@ -429,10 +429,15 @@ export function RotaryDial({
     };
   }, [halt]);
 
-  /** The hole under a point, at the wheel's current turn. */
+  /**
+   * The hole under a point, at the wheel's current turn. The distance is
+   * read in the dial's own units, so a dial inside a scaled or zoomed host
+   * (a canvas tool, a scaled preview) still finds the hole under the finger.
+   */
   const holeAt = (x: number, y: number) => {
     const c = centre();
-    const r = Math.hypot(x - c.x, y - c.y);
+    const shown = dialRef.current?.getBoundingClientRect().width ?? SIZE;
+    const r = Math.hypot(x - c.x, y - c.y) / (shown > 0 ? shown / SIZE : 1);
     if (Math.abs(r - RING) > HOLE + 4) return null;
     const a = bearing(x, y, c);
     const turned = angle.get();
