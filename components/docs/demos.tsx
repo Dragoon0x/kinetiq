@@ -1270,6 +1270,16 @@ import { MorseStatusDemo } from "@/registry/demos/morse-status.demo";
 import { BrailleRiseDemo } from "@/registry/demos/braille-rise.demo";
 import { KilnGlowDemo } from "@/registry/demos/kiln-glow.demo";
 import { LensSweepDemo } from "@/registry/demos/lens-sweep.demo";
+import { DarkroomDevelopDemo } from "@/registry/demos/darkroom-develop.demo";
+import { InstantShakeDemo } from "@/registry/demos/instant-shake.demo";
+import { SketchPaintDemo } from "@/registry/demos/sketch-paint.demo";
+import { ScreenPrintDemo } from "@/registry/demos/screen-print.demo";
+import { KaleidoResolveDemo } from "@/registry/demos/kaleido-resolve.demo";
+import { SlideProjectorDemo } from "@/registry/demos/slide-projector.demo";
+import { PaintNumbersDemo } from "@/registry/demos/paint-numbers.demo";
+import { FilmBurnDemo } from "@/registry/demos/film-burn.demo";
+import { JigsawSetDemo } from "@/registry/demos/jigsaw-set.demo";
+import { EtchRevealDemo } from "@/registry/demos/etch-reveal.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2554,4 +2564,14 @@ export const demos: Record<string, ComponentType> = {
   "braille-rise": BrailleRiseDemo,
   "kiln-glow": KilnGlowDemo,
   "lens-sweep": LensSweepDemo,
+  "darkroom-develop": DarkroomDevelopDemo,
+  "instant-shake": InstantShakeDemo,
+  "sketch-paint": SketchPaintDemo,
+  "screen-print": ScreenPrintDemo,
+  "kaleido-resolve": KaleidoResolveDemo,
+  "slide-projector": SlideProjectorDemo,
+  "paint-numbers": PaintNumbersDemo,
+  "film-burn": FilmBurnDemo,
+  "jigsaw-set": JigsawSetDemo,
+  "etch-reveal": EtchRevealDemo,
 };

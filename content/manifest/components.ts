@@ -69864,4 +69864,1207 @@ export const components: KinetiqItem[] = [
       "Two copies of the line share one layout: a still, blurred page copy, and a copy clipped to the lens, scaled from its corner and shifted by the centre times one minus the zoom, so the point under the lens stays put. The phrase sits in a polite live region outside the busy root, announced once, and reading runs only on screen in a visible page.",
     ],
   },
+  {
+    name: "darkroom-develop",
+    type: "registry:ui",
+    title: "Darkroom",
+    description:
+      "An image placeholder that develops the real picture like a print in a darkroom tray: under a red safelight it comes up from blank paper through a print's tone curve — shadows, then midtones, then highlights — in twelve bands, each sped where the developer's slosh has just washed over it. Dragging tips the tray 1:1 and the liquid, an underdamped oscillator drawn as a travelling crest and the lamp's glint, sloshes after it, so a hard rock brings the print up in half the time; the tray levels on springs.glide with the throw, keyboard rocks go out on springs.snap and home on springs.glide, and when the picture is ready the liquid drains, the safelight switches off and the room light brings up its colour. Arrow keys tip the tray and Enter or Space rocks it both ways.",
+    files: [
+      {
+        path: "registry/ui/darkroom-develop.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1201",
+    },
+    tagline: "Developing in the tray.",
+    keywords: [
+      "image loader",
+      "darkroom",
+      "photo placeholder",
+      "safelight",
+      "developing",
+      "picture loading",
+      "print",
+    ],
+    props: [
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the picture shows. Exposed the whole time, while it develops and after.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description:
+          "The image to develop. Without it, children is the picture.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The finished picture when there is no src: any element that fills its box, such as an inline SVG illustration.",
+      },
+      {
+        name: "ready",
+        type: "boolean",
+        description:
+          "Controlled readiness. Uncontrolled, an image is ready once it has loaded (or failed), and children at once — the print's own development is then the minimum run.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "How much of the picture has arrived, 0 to 1. Until ready, the print holds at that stage.",
+      },
+      {
+        name: "onReady",
+        type: "() => void",
+        description:
+          "Fires once per print, when the lights are on and the picture is whole.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the print comes up and the hand rocks the tray, 0.5 to 2.",
+      },
+      {
+        name: "safelight",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Develop under a red safelight that switches off when the print is done. Off, it develops grey on white in plain light.",
+      },
+      {
+        name: "grain",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "Silver grain that clumps as the image forms and clears with the room light, 0 (clean) to 1 (coarse).",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a swish for each stroke of a rock, each keyboard rock and a flicked release. Development and the switch-off are silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The print still develops; the tray cannot be rocked.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the box; it is aspect-[4/3] w-full by default.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: while developing, the print carries a Rock the tray button — ArrowLeft and ArrowRight tip the tray that way and back, Enter or Space rocks it both ways, through the same liquid as a drag, so the print comes up faster either way. When it is done the button leaves and focus moves to the picture.",
+      "Reduced motion: nothing travels — no rocking, wave or moving glint. The print still comes up, evenly, as a fade of tone and contrast; rocking by pointer or key still speeds it and brightens the sheen; the lights come on as a fade.",
+      "The root is aria-busy until the picture is whole and the picture keeps its alt throughout. The clock runs only while developing, on screen, in a visible page; with src it also waits for the image to arrive before developing past a faint fog.",
+    ],
+  },
+  {
+    name: "instant-shake",
+    type: "registry:ui",
+    title: "Instant Shake",
+    description:
+      "An image placeholder presented as an instant photo: it feeds out of the camera's slot at a motor's steady pace and comes up in the hand, the real picture rising through a blue-grey or brown-amber murk that thins in mottled patches while brightness, contrast and colour return. Grabbing it swings it from the slot 1:1 like a pendulum, and every reversal is a stroke that agitates the chemistry so a hard shake brings it up in about half the time; let go, it swings home on springs.recoil with the throw, and when it is done the caption is written into the chin and the rollers let it drop onto springs.recoil. Arrow keys swing it, Enter or Space shakes it three times, ArrowDown pulls a feeding photo out.",
+    files: [
+      {
+        path: "registry/ui/instant-shake.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1202",
+    },
+    tagline: "Shake it and it comes up faster.",
+    keywords: [
+      "image loader",
+      "instant photo",
+      "photo placeholder",
+      "developing",
+      "shake",
+      "picture loading",
+      "caption",
+    ],
+    props: [
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the picture shows. Exposed the whole time, while it develops and after.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description:
+          "The image to develop. Without it, children is the picture.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The finished picture when there is no src: any element that fills its box, such as an inline SVG illustration.",
+      },
+      {
+        name: "caption",
+        type: "string",
+        description:
+          "Written into the frame's chin, left to right, when the photo is done.",
+      },
+      {
+        name: "ready",
+        type: "boolean",
+        description:
+          "Controlled readiness. Uncontrolled, an image is ready once it has loaded (or failed), and children at once — the photo's own chemistry is then the minimum run.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "How much of the picture has arrived, 0 to 1. Until ready, the chemistry holds exactly at that stage however hard it is shaken.",
+      },
+      {
+        name: "onReady",
+        type: "() => void",
+        description:
+          "Fires once per photo, when it has come up and let go of the camera.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the photo feeds out and the chemistry runs, 0.5 to 2.",
+      },
+      {
+        name: "tint",
+        type: '"cool" | "warm"',
+        defaultValue: '"cool"',
+        description:
+          "The film's murk and colour cast while it develops: blue-grey clearing through cyan, or brown-amber clearing through amber.",
+      },
+      {
+        name: "frame",
+        type: '"classic" | "wide"',
+        defaultValue: '"classic"',
+        description:
+          "The format: a square window with a deep chin, or a landscape window. The whole photo reshapes.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a swish for each shake stroke and the motor's whir while a feeding photo is pulled out. The automatic feed and the chemistry are silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The photo still feeds out and develops; it cannot be shaken or pulled.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Sizes the instrument's width; it is w-full max-w-72 by default and its height follows the format.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: while developing, the photo carries a Shake the photo button — ArrowLeft and ArrowRight swing it (one stroke each), Enter or Space shakes it three times, ArrowDown pulls a still-feeding photo out; each reaches the same faster chemistry as the pointer. When it is done the button leaves and focus moves to the picture.",
+      "Reduced motion: nothing feeds, swings or drops — the photo fades in where it hangs, shakes by pointer or key still count and still speed the chemistry, the murk still clears, and the caption and the camera's departure are fades.",
+      "The root is aria-busy until the photo lets go; the window keeps the picture's alt throughout and the caption is real text. The clock runs only while developing, on screen, in a visible page.",
+    ],
+  },
+  {
+    name: "sketch-paint",
+    type: "registry:ui",
+    title: "Sketch to Paint",
+    description:
+      "An image placeholder that paints the real picture in: a pencil sketch of its own edges (a Sobel edge filter broken by the paper's tooth, hatched in the shadows) is drawn in by one diagonal pass, then watercolour washes — the picture wobbled, softened, posterised and lifted toward the paper — bloom into it region by region in a painter's order, each bloom spreading fast and slowing as it dries to a tide line, and finally the picture resolves through the paint on the enter ease. The pointer is a wet brush: moving a mouse over the paper, or dragging a finger or pen, soaks the wash through under it at once and opens each region's bloom from the brush's own point, pulling the whole schedule forward. Enter or Space runs the brush along the next unpainted row.",
+    files: [
+      {
+        path: "registry/ui/sketch-paint.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1203",
+    },
+    tagline: "Pencil first, then paint.",
+    keywords: [
+      "image loader",
+      "watercolour",
+      "pencil sketch",
+      "photo placeholder",
+      "brush",
+      "picture loading",
+      "painting",
+    ],
+    props: [
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the picture shows. Exposed the whole time, while it is painted and after.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description: "The image to paint. Without it, children is the picture.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The finished picture when there is no src: any element that fills its box, such as an inline SVG illustration.",
+      },
+      {
+        name: "ready",
+        type: "boolean",
+        description:
+          "Controlled readiness. Uncontrolled, an image is ready once it has loaded (or failed), and children at once — the painting itself is then the minimum run.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "How much of the picture has arrived, 0 to 1. Until ready, the painting holds at that stage; the brush can still paint ahead of it.",
+      },
+      {
+        name: "onReady",
+        type: "() => void",
+        description:
+          "Fires once per painting, when the picture has resolved through the paint.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the sketch, the blooms and the drying run, 0.5 to 2.",
+      },
+      {
+        name: "wash",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How wet the paper is, 0 to 1: tight, precise washes with crisp edges, or loose washes whose soft, wandering blooms overrun their regions and the pencil.",
+      },
+      {
+        name: "pencil",
+        type: '"hb" | "4b"',
+        defaultValue: '"hb"',
+        description:
+          "The lead: a fine light HB line with sparse hatching, or a soft dark 4B with heavy hatching in the shadows.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the bristles on the paper, pitched and as loud as the brush is fast, while the visitor paints, and during the keyboard's stroke. The painting itself is silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "It still paints itself; the brush does nothing.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the box; it is aspect-[4/3] w-full by default.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: while painting, the paper carries a Paint ahead button — Enter or Space runs the brush along the next row still unpainted, with the same marks, blooms and sound as the pointer, and pulls the schedule forward the same way. When it is done the button leaves and focus moves to the picture.",
+      "Reduced motion: nothing sweeps or spreads — the sketch fades in, each region's wash fades in at its full shape when its turn comes, brush marks appear in place, and the picture cross-fades in; the brush ring still follows the pointer and painting ahead still hurries it.",
+      "The root is aria-busy until the picture has resolved and the picture keeps its alt throughout; the sketch and wash copies are aria-hidden and inert. The clock runs only while painting, on screen, in a visible page, and the filtered copies sit on their own layers so only the paper cover is redrawn as the washes bloom.",
+    ],
+  },
+  {
+    name: "screen-print",
+    type: "registry:ui",
+    title: "Screen Print",
+    description:
+      "A picture that arrives as a screen print: a squeegee sweeps each ink layer across the sheet, laying it down behind its blade, each colour landing a few pixels off register, and when the picture is ready the last pull snaps every layer home on the snap spring before the print gives way to the picture. The sheet is also the grip — a drag pulls the blade 1:1 and a release finishes the pull on the glide spring with the throw's velocity. Enter or Space on the focused sheet pulls one layer.",
+    files: [
+      {
+        path: "registry/ui/screen-print.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1204",
+    },
+    tagline: "Four pulls of the squeegee.",
+    keywords: [
+      "image loader",
+      "screen print",
+      "squeegee",
+      "registration",
+      "cmyk",
+      "riso",
+      "placeholder",
+    ],
+    props: [
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the picture shows. On the picture from the first frame, loading or not.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description: "An image to load. Without it, children is the picture.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The finished picture when there is no src: an illustration, a figure.",
+      },
+      {
+        name: "ready",
+        type: "boolean",
+        description:
+          "Controlled readiness. Uncontrolled, an image is ready once it has loaded (or failed), and children once every pull but the last has run.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "How far the load has got, 0 to 1. The pulls follow it; the last one still waits for ready.",
+      },
+      {
+        name: "onReady",
+        type: "() => void",
+        description:
+          "Fires once per load, when the print has resolved into the picture.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The pace of every pull, return and flood stroke, 0.5 to 2.",
+      },
+      {
+        name: "register",
+        type: "number",
+        defaultValue: "2",
+        description:
+          "How far off register each ink lands, in px, 0 to 4. At 0 every pull is a clean proof.",
+      },
+      {
+        name: "inks",
+        type: '"cmyk" | "riso" | "duo"',
+        defaultValue: '"cmyk"',
+        description:
+          "Four process inks, three risograph inks, or a two-ink duotone.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A swish for the visitor's own pulls. The automatic pulls are silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The print still runs; the squeegee cannot be taken.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the sheet. Defaults to w-full aspect-[3/2].",
+      },
+    ],
+    usageNotes: [
+      'The sheet is a button while printing, named for the next ink: Enter or Space pulls one layer, a drag pulls by hand, and each visitor pull is announced politely ("Magenta pulled, 2 of 4."). When the print resolves, focus that was on it moves to the picture.',
+      "Under reduced motion each pull is a cross-fade at the same pace, the squeegee rests at the edge, and the inks come into register in one frame before the print cross-fades to the picture.",
+      "The separations are CSS filters over copies of the picture, so any children or src works; the root carries aria-busy until the picture shows, and the picture keeps its alt throughout.",
+    ],
+  },
+  {
+    name: "kaleido-resolve",
+    type: "registry:ui",
+    title: "Kaleido Resolve",
+    description:
+      "A picture that loads as a kaleidoscope of its own wedges: one slice is turned into the even pieces and reflected into the odd, so every seam meets, and it keeps turning behind the mirrors while the picture loads. When the picture is ready the pieces open one by one clockwise on the snap spring — even pieces turn back upright, odd ones flip over on their hinges — until the plain picture remains. Circling the pointer turns it 1:1 and a throw carries on along the drift spring; it is a slider, so arrow keys turn it a step, Page keys a whole piece and Home turns it back.",
+    files: [
+      {
+        path: "registry/ui/kaleido-resolve.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1205",
+    },
+    tagline: "Pieces turn until they fit.",
+    keywords: [
+      "image loader",
+      "kaleidoscope",
+      "mirror",
+      "mandala",
+      "resolve",
+      "placeholder",
+    ],
+    props: [
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the picture shows. On the picture from the first frame, loading or not.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description: "An image to load. Without it, children is the picture.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The finished picture when there is no src: an illustration, a figure.",
+      },
+      {
+        name: "ready",
+        type: "boolean",
+        description:
+          "Controlled readiness. Uncontrolled, an image is ready once it has loaded (or failed), and children after 1.6 s of on-screen turning.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "How far the load has got, 0 to 1: that share of the pieces turns into place. The last piece waits for ready.",
+      },
+      {
+        name: "onReady",
+        type: "() => void",
+        description: "Fires once per load, when the last piece has landed.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The pace of the turning and of the pieces opening, 0.5 to 2.",
+      },
+      {
+        name: "wedges",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "How many mirrored pieces the kaleidoscope is cut into: 6, 8, 10 or 12 (rounded to an even count).",
+      },
+      {
+        name: "spin",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How briskly it turns while it waits, 0 (a still mandala) to 1.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A shimmer each time a hand turns the pattern past another piece. The automatic spin and the resolve are silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "It still resolves; it cannot be turned.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Sizes the box. Defaults to w-full aspect-[3/2]; the box is a size container, so give it a definite size.",
+      },
+    ],
+    usageNotes: [
+      'While loading, the kaleidoscope is a role="slider" named "Turn the kaleidoscope": arrow keys turn it 15°, Page keys one piece, Home back to 0, a drag circling the centre turns it 1:1. It leaves when the picture resolves; focus on it moves to the picture, and "Picture in place." is announced.',
+      "Under reduced motion the mandala holds still (a hand still re-aims it directly) and the pieces fade away clockwise instead of turning, revealing the picture beneath.",
+      "Each piece is a clipped, transformed copy of the picture, so any children or src works; the root carries aria-busy until the picture shows, and the picture keeps its alt throughout.",
+    ],
+  },
+  {
+    name: "slide-projector",
+    type: "registry:ui",
+    title: "Slide Projector",
+    description:
+      "A picture that arrives as a projected slide: it drops into the gate on the recoil spring while the lamp warms from amber to white, keystoned and out of focus, and while it loads the lens hunts either side of sharp on the drift spring with dust glinting in the beam. When the picture is ready the focus racks it sharp and the keystone squares up on the glide spring before the plain picture takes over. The focus ring in the deck is a slider dragged 1:1 or turned with the arrow keys, and an optional advance button clicks the next slide in.",
+    files: [
+      {
+        path: "registry/ui/slide-projector.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1206",
+    },
+    tagline: "Click, warm up, focus.",
+    keywords: [
+      "image loader",
+      "slide projector",
+      "focus",
+      "keystone",
+      "slideshow",
+      "placeholder",
+    ],
+    props: [
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the picture shows. On the picture from the first frame, loading or not.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description: "An image to load. Without it, children is the picture.",
+      },
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The finished picture when there is no src: an illustration, a slide.",
+      },
+      {
+        name: "ready",
+        type: "boolean",
+        description:
+          "Controlled readiness; going from true to false clicks the next slide in. Uncontrolled, an image is ready once it has loaded (or failed), and children after a 2.4 s warm-up on screen.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "How far the load has got, 0 to 1: the lens racks toward sharp as it climbs (no hunting), never reaching it before ready.",
+      },
+      {
+        name: "onReady",
+        type: "() => void",
+        description:
+          "Fires once per load, when the picture is sharp and square on the screen.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "The pace of the lamp, the focus hunt and the rack, 0.5 to 2.",
+      },
+      {
+        name: "keystone",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "How far off square the slide arrives, 0 to 1 (up to 22° of tilt).",
+      },
+      {
+        name: "dust",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Dust drifting and glinting in the beam while it loads.",
+      },
+      {
+        name: "ratio",
+        type: "number",
+        defaultValue: "16 / 9",
+        description: "The screen's width over its height.",
+      },
+      {
+        name: "onAdvance",
+        type: "() => void",
+        description:
+          "Shows the advance button. A press clacks, calls this, and clicks the next slide in.",
+      },
+      {
+        name: "advanceLabel",
+        type: "string",
+        defaultValue: '"Next slide"',
+        description: "The advance button's accessible name.",
+      },
+      {
+        name: "focusLabel",
+        type: "string",
+        defaultValue: '"Focus"',
+        description: "The focus ring's name, shown beside it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A clack for the visitor's advance and a hum while their hand turns the ring. Automatic loads are silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The load still plays; the ring and the advance cannot be used.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Sizes the projector (screen and deck). Defaults to w-full.",
+      },
+    ],
+    usageNotes: [
+      'The focus ring is a role="slider" labelled by its visible name: arrow keys turn it 2%, Page keys 10%, Home and End go to the stops, a drag turns it 1:1; its value text says whether the picture is sharp and which way to turn. "Slide in focus." is announced when a load resolves.',
+      "Under reduced motion nothing drops, hunts or drifts: the slide fades in keystoned and soft, the lamp still warms, the dust is one still frame, and at ready the sharp, square picture cross-fades in.",
+      "The screen is a darkened room in both themes — fixed art, like the lamp and the black lens barrel — so the beam reads; the root carries aria-busy until the picture is sharp, and the picture keeps its alt throughout.",
+    ],
+  },
+  {
+    name: "paint-numbers",
+    type: "registry:ui",
+    title: "Paint by Numbers",
+    description:
+      "An image placeholder that arrives as a paint-by-numbers kit traced from the picture itself: the pixels are cut into regions that follow its edges, each numbered with the nearest of a few paints from its own colours, the outline wipes in, and the regions fill in number order with brush strokes that sweep across them on the kit's own clock, before the paint lifts on the enter ease and the picture resolves through. Hovering a number or a paint pot hatches every region of that colour, and a press paints them all at once with a plip each. The pots are a real toolbar — arrow keys move, focus previews the colour, Enter paints it.",
+    files: [
+      {
+        path: "registry/ui/paint-numbers.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1207",
+    },
+    tagline: "Colour 3 goes here.",
+    keywords: [
+      "image loader",
+      "placeholder",
+      "paint by numbers",
+      "picture",
+      "colouring",
+      "lazy image",
+      "progressive image",
+    ],
+    props: [
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the picture shows. Always its accessible name: the picture's role=\"img\" label, or the img's own alt for src.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description:
+          "The picture's address. Without it, children is the picture.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "The finished picture when there is no src: an inline SVG or an image, sized to fill the box.",
+      },
+      {
+        name: "ready",
+        type: "boolean",
+        description:
+          "Controlled: the picture may show. Uncontrolled, it is ready once the picture exists (a src has loaded or failed) and the kit has been painted.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "0 to 1, while not ready: how far the effect may come, for a determinate load.",
+      },
+      {
+        name: "onReady",
+        type: "() => void",
+        description:
+          "Fires once per load, when the effect has resolved and the picture is whole.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the kit is printed and painted, 0.5 to 2.",
+      },
+      {
+        name: "regions",
+        type: "number",
+        defaultValue: "30",
+        description:
+          "How many regions the picture is cut into, 12 to 60; the palette grows with it.",
+      },
+      {
+        name: "numbers",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Print the paint numbers in the regions and on the pots. Off leaves a plain colouring outline.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a plip for each region the visitor paints by hand, pitched by its number. The automatic painting is silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The kit still paints itself; previews and painting by hand are off.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the box; the default is aspect-[4/3] w-full.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the paint pots are a toolbar with roving focus — Left and Right (or Up and Down) move and wrap, Home and End jump, focus previews where that colour goes exactly as hovering a number does, and Enter or Space paints it, the same end state as pressing the picture.",
+      "Reduced motion: the outline and numbers fade in instead of wiping, each region fills at once at its turn so the kit still paints in number order, and the picture resolves with a short cross-fade; previews and painting by hand work the same.",
+      "The kit is traced from the picture's own pixels: an inline SVG is read with its computed colours, so token colours trace correctly in either theme; a cross-origin image that cannot be read falls back to the same regions over the ink colour. The clock runs only on screen in a visible page.",
+    ],
+  },
+  {
+    name: "film-burn",
+    type: "registry:ui",
+    title: "Film Burn",
+    description:
+      "An image placeholder that is a frame of unexposed film: light gets in through the flickering perforations first, then burns in from every edge on a ragged, breathing front — white-hot, amber, ember ahead — computed on a coarse grid and scaled up smooth, while a light leak drifts across and the picture it uncovers is blown out and warm. When the burn has taken the frame and the picture is ready, the overexposure, leak and grain clear on the enter ease and the perforations leave. Hovering holds the burn where it is, and the frame is a real toggle button, so a press, Space or Enter latches the hold.",
+    files: [
+      {
+        path: "registry/ui/film-burn.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1208",
+    },
+    tagline: "The frame catches, then clears.",
+    keywords: [
+      "image loader",
+      "placeholder",
+      "film",
+      "light leak",
+      "burn",
+      "picture",
+      "lazy image",
+    ],
+    props: [
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the picture shows. Always its accessible name: the picture's role=\"img\" label, or the img's own alt for src.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description:
+          "The picture's address. Without it, children is the picture.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "The finished picture when there is no src: an inline SVG or an image, sized to fill the box.",
+      },
+      {
+        name: "ready",
+        type: "boolean",
+        description:
+          "Controlled: the picture may show. Uncontrolled, it is ready once the picture exists (a src has loaded or failed) and the burn has had its run.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "0 to 1, while not ready: how far the effect may come, for a determinate load.",
+      },
+      {
+        name: "onReady",
+        type: "() => void",
+        description:
+          "Fires once per load, when the effect has resolved and the picture is whole.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the light burns in and clears, 0.5 to 2.",
+      },
+      {
+        name: "leak",
+        type: '"amber" | "rose" | "teal"',
+        defaultValue: '"amber"',
+        description: "The colour of the light leak drifting across the frame.",
+      },
+      {
+        name: "grain",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Film grain over the film and the burned picture, 0 (clean) to 1 (coarse, dancing). It clears with the frame.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a soft whoosh when a press holds the burn and a brighter one when it lets it catch again. Hover and the burn itself are silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "The film still burns; it cannot be held.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the box; the default is aspect-[21/9] w-full.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: while loading the frame is a toggle button named Hold the burn — Enter or Space holds the burn where it is (aria-pressed) and pressing again lets it catch, the same held state hovering gives. The button leaves when the frame clears, and focus on it moves to the picture.",
+      "Reduced motion: no flicker, no drifting leak and a still grain; the burn still shows progress, advancing in six still steps, and the frame clears with a short fade.",
+      "While not ready the burn waits at 86% of the frame (or progress of it), the heart still glowing; the clock runs only on screen in a visible page and stops once the frame is clear.",
+    ],
+  },
+  {
+    name: "jigsaw-set",
+    type: "registry:ui",
+    title: "Jigsaw",
+    description:
+      "An image placeholder that puts the picture together as a jigsaw: real interlocking tabs, each edge cut once so neighbours share it, clipped from the picture itself and tipped out across a tray where they land on springs.recoil. Pieces go home edges first — lifting on springs.snap, travelling and unwinding on springs.glide, dropping in on springs.flick with a shine round the edge — and the last one hovers over its slot until the picture is ready, then lands on springs.recoil as the seams fade. Any loose piece can be dragged 1:1 and is pulled into its slot on springs.snap with the release velocity; the pieces are a roving group of buttons, so arrow keys move between them and Enter places one.",
+    files: [
+      {
+        path: "registry/ui/jigsaw-set.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1209",
+    },
+    tagline: "The last piece clicks in.",
+    keywords: [
+      "image loader",
+      "placeholder",
+      "jigsaw",
+      "puzzle",
+      "picture",
+      "drag and drop",
+      "lazy image",
+    ],
+    props: [
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the picture shows. Always its accessible name: the picture's role=\"img\" label, or the img's own alt for src.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description:
+          "The picture's address. Without it, children is the picture.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "The finished picture when there is no src: an inline SVG or an image, sized to fill the box.",
+      },
+      {
+        name: "ready",
+        type: "boolean",
+        description:
+          "Controlled: the picture may show. Uncontrolled, it is ready once the picture exists (a src has loaded or failed) and the board is all but done and the last piece has hovered.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "0 to 1, while not ready: how far the effect may come, for a determinate load.",
+      },
+      {
+        name: "onReady",
+        type: "() => void",
+        description:
+          "Fires once per load, when the effect has resolved and the picture is whole.",
+      },
+      {
+        name: "onPlace",
+        type: "(placed: number, total: number) => void",
+        description:
+          "Every piece that locks into place, by hand or not, with the count so far.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description:
+          "How fast the pieces arrive and are put together, 0.5 to 2.",
+      },
+      {
+        name: "pieces",
+        type: '"3" | "4" | "5"',
+        defaultValue: '"4"',
+        description: "The cut: 3 × 3, 4 × 4 or 5 × 5 pieces.",
+      },
+      {
+        name: "scatter",
+        type: "number",
+        defaultValue: "0.6",
+        description:
+          "How far from home, and how turned, the tipped-out pieces lie, 0 (just above their slots) to 1 (anywhere in the tray, up to 28°).",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a snap as a piece placed by hand is pulled in and a click as it locks. The automatic assembly is silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The puzzle still assembles itself; pieces cannot be moved.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the tray; the default is aspect-[4/3] w-full.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the loose pieces are one roving group — Left and Right move through them in reading order, Up and Down by row, Home and End jump — and Enter or Space places the focused piece, the same end state as dragging it home, with focus moving on to the next loose piece and to the picture after the last.",
+      "Reduced motion: nothing travels or bounces — pieces fade in where they lie, each placement is an instant move into its slot, and the last piece waits there at half strength until ready; dragging still follows the pointer directly.",
+      "The tray's rim is exactly the tabs' reach, so pieces lying about and their focus rings stay inside the box; the cut is clipped with objectBoundingBox clip paths, so it renders the same on the server and at any size.",
+    ],
+  },
+  {
+    name: "etch-reveal",
+    type: "registry:ui",
+    title: "Etch Reveal",
+    description:
+      "An image placeholder that is a drawing toy: while the picture loads, one continuous line traced from its own contours runs across a powder screen at a steady mechanical pace, the left knob turning with the stylus's x and the right with its y, and when the line is done and the picture is ready the powder fades into the picture on the enter ease. Turning either knob — dragged round its centre, or by arrow keys, since both are real sliders — draws by hand while the tracing waits, and a turned knob settles on springs.snap. Dragging the frame side to side shakes the toy, rubber-banded within its own padding and settling on springs.snap with the release velocity, and every stroke knocks powder back over the line until the screen is clear; the Shake plate does the same from the keyboard.",
+    files: [
+      {
+        path: "registry/ui/etch-reveal.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1210",
+    },
+    tagline: "Drawn with two knobs.",
+    keywords: [
+      "image loader",
+      "placeholder",
+      "drawing toy",
+      "line drawing",
+      "knobs",
+      "picture",
+      "shake to clear",
+    ],
+    props: [
+      {
+        name: "alt",
+        type: "string",
+        description:
+          "What the picture shows. Always its accessible name: the picture's role=\"img\" label, or the img's own alt for src.",
+      },
+      {
+        name: "src",
+        type: "string",
+        description:
+          "The picture's address. Without it, children is the picture.",
+      },
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "The finished picture when there is no src: an inline SVG or an image, sized to fill the box.",
+      },
+      {
+        name: "ready",
+        type: "boolean",
+        description:
+          "Controlled: the picture may show. Uncontrolled, it is ready once the picture exists (a src has loaded or failed) and the line has been drawn.",
+      },
+      {
+        name: "progress",
+        type: "number",
+        description:
+          "0 to 1, while not ready: how far the effect may come, for a determinate load.",
+      },
+      {
+        name: "onReady",
+        type: "() => void",
+        description:
+          "Fires once per load, when the effect has resolved and the picture is whole.",
+      },
+      {
+        name: "speed",
+        type: "number",
+        defaultValue: "1",
+        description: "How fast the stylus draws by itself, 0.5 to 2.",
+      },
+      {
+        name: "frame",
+        type: '"red" | "teal" | "ink"',
+        defaultValue: '"red"',
+        description: "The toy's colour, a fixed pigment in either theme.",
+      },
+      {
+        name: "line",
+        type: "number",
+        defaultValue: "2",
+        description: "The stylus's line, 1 to 3 px.",
+      },
+      {
+        name: "ratio",
+        type: "number",
+        defaultValue: "2",
+        description: "The screen's width over its height.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the stylus scraping while the visitor turns a knob, and the powder rushing while they shake. Every loop stops on release, key up or blur; the automatic drawing is silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The toy still draws and resolves; knobs and shaking are off.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Sizes the toy; the default is w-full.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the knobs are sliders named Across and Up and down — arrow keys turn them a step (Shift for five), Page keys ten percent, Home and End run to the stops, and a held key draws a continuous line; the Shake plate is a button that shakes the screen clear, the same end state as dragging the frame side to side.",
+      "Reduced motion: the traced line appears in six still steps with no running stylus, the knobs jump to their angles and the frame never moves; each reversal of a drag still fades the drawing, the Shake plate fades it at once, and the picture resolves with a short fade.",
+      "The line is traced from the picture's own pixels (an inline SVG is read with its computed colours); before the picture shows, shaking clears the traced line too and the toy traces it again, and after it shows, shaking clears only what the visitor drew over it.",
+    ],
+  },
 ];

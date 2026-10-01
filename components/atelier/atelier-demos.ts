@@ -207,4 +207,44 @@ export const ATELIER_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/lens-sweep.demo").then((m) =>
       mod(m.LensSweepDemo, m.tweaks),
     ),
+  "darkroom-develop": () =>
+    import("@/registry/demos/darkroom-develop.demo").then((m) =>
+      mod(m.DarkroomDevelopDemo, m.tweaks),
+    ),
+  "instant-shake": () =>
+    import("@/registry/demos/instant-shake.demo").then((m) =>
+      mod(m.InstantShakeDemo, m.tweaks),
+    ),
+  "sketch-paint": () =>
+    import("@/registry/demos/sketch-paint.demo").then((m) =>
+      mod(m.SketchPaintDemo, m.tweaks),
+    ),
+  "screen-print": () =>
+    import("@/registry/demos/screen-print.demo").then((m) =>
+      mod(m.ScreenPrintDemo, m.tweaks),
+    ),
+  "kaleido-resolve": () =>
+    import("@/registry/demos/kaleido-resolve.demo").then((m) =>
+      mod(m.KaleidoResolveDemo, m.tweaks),
+    ),
+  "slide-projector": () =>
+    import("@/registry/demos/slide-projector.demo").then((m) =>
+      mod(m.SlideProjectorDemo, m.tweaks),
+    ),
+  "paint-numbers": () =>
+    import("@/registry/demos/paint-numbers.demo").then((m) =>
+      mod(m.PaintNumbersDemo, m.tweaks),
+    ),
+  "film-burn": () =>
+    import("@/registry/demos/film-burn.demo").then((m) =>
+      mod(m.FilmBurnDemo, m.tweaks),
+    ),
+  "jigsaw-set": () =>
+    import("@/registry/demos/jigsaw-set.demo").then((m) =>
+      mod(m.JigsawSetDemo, m.tweaks),
+    ),
+  "etch-reveal": () =>
+    import("@/registry/demos/etch-reveal.demo").then((m) =>
+      mod(m.EtchRevealDemo, m.tweaks),
+    ),
 };

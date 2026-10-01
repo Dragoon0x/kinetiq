@@ -29978,6 +29978,294 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "darkroom-develop",
+      "type": "registry:ui",
+      "title": "Darkroom",
+      "description": "An image placeholder that develops the real picture like a print in a darkroom tray: under a red safelight it comes up from blank paper through a print's tone curve — shadows, then midtones, then highlights — in twelve bands, each sped where the developer's slosh has just washed over it. Dragging tips the tray 1:1 and the liquid, an underdamped oscillator drawn as a travelling crest and the lamp's glint, sloshes after it, so a hard rock brings the print up in half the time; the tray levels on springs.glide with the throw, keyboard rocks go out on springs.snap and home on springs.glide, and when the picture is ready the liquid drains, the safelight switches off and the room light brings up its colour. Arrow keys tip the tray and Enter or Space rocks it both ways.",
+      "files": [
+        {
+          "path": "registry/ui/darkroom-develop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1201"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "instant-shake",
+      "type": "registry:ui",
+      "title": "Instant Shake",
+      "description": "An image placeholder presented as an instant photo: it feeds out of the camera's slot at a motor's steady pace and comes up in the hand, the real picture rising through a blue-grey or brown-amber murk that thins in mottled patches while brightness, contrast and colour return. Grabbing it swings it from the slot 1:1 like a pendulum, and every reversal is a stroke that agitates the chemistry so a hard shake brings it up in about half the time; let go, it swings home on springs.recoil with the throw, and when it is done the caption is written into the chin and the rollers let it drop onto springs.recoil. Arrow keys swing it, Enter or Space shakes it three times, ArrowDown pulls a feeding photo out.",
+      "files": [
+        {
+          "path": "registry/ui/instant-shake.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1202"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sketch-paint",
+      "type": "registry:ui",
+      "title": "Sketch to Paint",
+      "description": "An image placeholder that paints the real picture in: a pencil sketch of its own edges (a Sobel edge filter broken by the paper's tooth, hatched in the shadows) is drawn in by one diagonal pass, then watercolour washes — the picture wobbled, softened, posterised and lifted toward the paper — bloom into it region by region in a painter's order, each bloom spreading fast and slowing as it dries to a tide line, and finally the picture resolves through the paint on the enter ease. The pointer is a wet brush: moving a mouse over the paper, or dragging a finger or pen, soaks the wash through under it at once and opens each region's bloom from the brush's own point, pulling the whole schedule forward. Enter or Space runs the brush along the next unpainted row.",
+      "files": [
+        {
+          "path": "registry/ui/sketch-paint.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1203"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "screen-print",
+      "type": "registry:ui",
+      "title": "Screen Print",
+      "description": "A picture that arrives as a screen print: a squeegee sweeps each ink layer across the sheet, laying it down behind its blade, each colour landing a few pixels off register, and when the picture is ready the last pull snaps every layer home on the snap spring before the print gives way to the picture. The sheet is also the grip — a drag pulls the blade 1:1 and a release finishes the pull on the glide spring with the throw's velocity. Enter or Space on the focused sheet pulls one layer.",
+      "files": [
+        {
+          "path": "registry/ui/screen-print.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1204"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "kaleido-resolve",
+      "type": "registry:ui",
+      "title": "Kaleido Resolve",
+      "description": "A picture that loads as a kaleidoscope of its own wedges: one slice is turned into the even pieces and reflected into the odd, so every seam meets, and it keeps turning behind the mirrors while the picture loads. When the picture is ready the pieces open one by one clockwise on the snap spring — even pieces turn back upright, odd ones flip over on their hinges — until the plain picture remains. Circling the pointer turns it 1:1 and a throw carries on along the drift spring; it is a slider, so arrow keys turn it a step, Page keys a whole piece and Home turns it back.",
+      "files": [
+        {
+          "path": "registry/ui/kaleido-resolve.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1205"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slide-projector",
+      "type": "registry:ui",
+      "title": "Slide Projector",
+      "description": "A picture that arrives as a projected slide: it drops into the gate on the recoil spring while the lamp warms from amber to white, keystoned and out of focus, and while it loads the lens hunts either side of sharp on the drift spring with dust glinting in the beam. When the picture is ready the focus racks it sharp and the keystone squares up on the glide spring before the plain picture takes over. The focus ring in the deck is a slider dragged 1:1 or turned with the arrow keys, and an optional advance button clicks the next slide in.",
+      "files": [
+        {
+          "path": "registry/ui/slide-projector.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1206"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "paint-numbers",
+      "type": "registry:ui",
+      "title": "Paint by Numbers",
+      "description": "An image placeholder that arrives as a paint-by-numbers kit traced from the picture itself: the pixels are cut into regions that follow its edges, each numbered with the nearest of a few paints from its own colours, the outline wipes in, and the regions fill in number order with brush strokes that sweep across them on the kit's own clock, before the paint lifts on the enter ease and the picture resolves through. Hovering a number or a paint pot hatches every region of that colour, and a press paints them all at once with a plip each. The pots are a real toolbar — arrow keys move, focus previews the colour, Enter paints it.",
+      "files": [
+        {
+          "path": "registry/ui/paint-numbers.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1207"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "film-burn",
+      "type": "registry:ui",
+      "title": "Film Burn",
+      "description": "An image placeholder that is a frame of unexposed film: light gets in through the flickering perforations first, then burns in from every edge on a ragged, breathing front — white-hot, amber, ember ahead — computed on a coarse grid and scaled up smooth, while a light leak drifts across and the picture it uncovers is blown out and warm. When the burn has taken the frame and the picture is ready, the overexposure, leak and grain clear on the enter ease and the perforations leave. Hovering holds the burn where it is, and the frame is a real toggle button, so a press, Space or Enter latches the hold.",
+      "files": [
+        {
+          "path": "registry/ui/film-burn.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1208"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "jigsaw-set",
+      "type": "registry:ui",
+      "title": "Jigsaw",
+      "description": "An image placeholder that puts the picture together as a jigsaw: real interlocking tabs, each edge cut once so neighbours share it, clipped from the picture itself and tipped out across a tray where they land on springs.recoil. Pieces go home edges first — lifting on springs.snap, travelling and unwinding on springs.glide, dropping in on springs.flick with a shine round the edge — and the last one hovers over its slot until the picture is ready, then lands on springs.recoil as the seams fade. Any loose piece can be dragged 1:1 and is pulled into its slot on springs.snap with the release velocity; the pieces are a roving group of buttons, so arrow keys move between them and Enter places one.",
+      "files": [
+        {
+          "path": "registry/ui/jigsaw-set.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1209"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "etch-reveal",
+      "type": "registry:ui",
+      "title": "Etch Reveal",
+      "description": "An image placeholder that is a drawing toy: while the picture loads, one continuous line traced from its own contours runs across a powder screen at a steady mechanical pace, the left knob turning with the stylus's x and the right with its y, and when the line is done and the picture is ready the powder fades into the picture on the enter ease. Turning either knob — dragged round its centre, or by arrow keys, since both are real sliders — draws by hand while the tracing waits, and a turned knob settles on springs.snap. Dragging the frame side to side shakes the toy, rubber-banded within its own padding and settling on springs.snap with the release velocity, and every stroke knocks powder back over the line until the screen is clear; the Shake plate does the same from the keyboard.",
+      "files": [
+        {
+          "path": "registry/ui/etch-reveal.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1210"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
