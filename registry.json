@@ -31131,6 +31131,282 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "loom-field",
+      "type": "registry:ui",
+      "title": "Loom Field",
+      "description": "A background of woven cloth, warp and weft interlaced thread by thread in a plain, twill or basket weave, with your content on top; a hovering hand is a light touch and a press goes in deep, opening an eye in the weave as the warps part sideways and the wefts up and down. Every crossing is a spring held straight along its thread by tension, so the threads lag the finger, a flick runs a ripple down them, and a lifted hand lets the eye close with two small overshoots near the recoil spring's damping, while the press itself eases in over a blink and out over the base duration. A transparent button behind the content is the keyboard's way in: arrow keys move the hand and Space or Enter held presses into the cloth.",
+      "files": [
+        {
+          "path": "registry/ui/loom-field.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1241"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ink-marble",
+      "type": "registry:ui",
+      "title": "Ink Marble",
+      "description": "A background of marbled paper still on the bath, bands of ink floating on the size with your content on top; a drag pulls a comb through the ink, its tines standing across the stroke, and the ink near each tine is carried along, so a stroke across the bands feathers them into chevrons and a second one back makes a nonpareil. Nothing here springs: the comb is direct manipulation, the ink relaxes back into its bands on a seven-second exponential, the sheet sways a few pixels on slow currents while it is on screen, and a keyboard pass travels on a linear tween. A transparent button behind the content is the keyboard's way in: arrow keys comb from the hand and Enter or Space combs a full pass across the sheet.",
+      "files": [
+        {
+          "path": "registry/ui/ink-marble.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1242"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "koi-pond",
+      "type": "registry:ui",
+      "title": "Koi Pond",
+      "description": "A background that is a garden pond seen from above, koi gliding in loose schools under a gently rippling surface while lily pads drift on it, with your content on top; the pointer is a hand over the water, whose shadow makes nearby koi edge away and whose stillness draws the bolder ones back to mill around it. A touch spreads a ring and scatters every koi within reach: they steer away at up to seven radians a second with a burst of speed, glide as the fright fades over a second and a half, then return; the koi steer rather than spring, each body rebuilt every frame from a spine that follows its head, and under reduced motion the scatter is a cross-fade on the base duration. A transparent button behind the content is the keyboard's way in: arrow keys move the hand and Space or Enter touches the water.",
+      "files": [
+        {
+          "path": "registry/ui/koi-pond.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1243"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stained-glass",
+      "type": "registry:ui",
+      "title": "Stained Glass",
+      "description": "A backdrop of leaded glass whose irregular panes, cut from a seed, glow where the light falls: the pointer is the light, trailing the hand on the glide spring and drifting home to its resting place on the drift spring, while the panes' own colours spill over the leads as soft cast light and the came glints along the side that faces it. A new seed, pane count or palette re-leads the window from the light outward, and frames run only while the light moves and the window is on screen. The light is a real 2D slider under the content: arrow keys move it, Home and End go to the side edges, Page Up and Page Down to the top and bottom.",
+      "files": [
+        {
+          "path": "registry/ui/stained-glass.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1244"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "paper-facets",
+      "type": "registry:ui",
+      "title": "Paper Facets",
+      "description": "A backdrop of folded card: a low-poly field of flat facets lit by a lamp the pointer carries over the sheet, each facet shaded from its own normal so faces turned toward the lamp brighten, faces turned away fall into shadow and glints run across the folds. The lamp trails the hand on the glide spring and drifts home on the drift spring when the pointer leaves, and a new seed refolds the sheet on the drift spring as the card relaxes and creases again. The lamp is a real 2D slider under the content: arrow keys move it, Home and End go to the side edges, Page Up and Page Down to the top and bottom.",
+      "files": [
+        {
+          "path": "registry/ui/paper-facets.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1245"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bokeh-night",
+      "type": "registry:ui",
+      "title": "Bokeh Night",
+      "description": "A backdrop of a seeded night street seen through a fast lens, every lamp, headlight, sign and far window drawn as the disc a real lens makes of it, sized by the circle-of-confusion law so near lights balloon when the focus is far and the far city blooms when it is near; discs at the frame's edge are cut into cat's-eyes and street-level lights shine back from the wet road. The pointer's height sets the focus plane and the lens racks to it on the glide spring while the traffic drifts and the camera sways, only on screen. The focus is a real vertical slider under the content: arrow keys rack it nearer or farther, Page Up and Page Down by a quarter, Home to the nearest lights and End to infinity.",
+      "files": [
+        {
+          "path": "registry/ui/bokeh-night.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1246"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "quilt-grid",
+      "type": "registry:ui",
+      "title": "Quilt Grid",
+      "description": "A backdrop sewn from twelve classic quilt blocks — half-square triangles, pinwheels, flying geese, log cabins, Ohio stars — in printed fabrics with seams and running stitches, drawn in SVG and re-coloured by the theme. Waves re-stitch it from the pointer: ring by ring on a cascade delay, each block either turns a quarter turn on the snap spring or trades places with its outward neighbour on the glide spring, lifting with a soft shadow mid-move and landing flat, while a click re-stitches with a wave where half the blocks swap and a gentle ambient wave starts somewhere every few seconds. The keyboard path is a role=\"application\" surface where arrow keys move a stitched marker and turn the blocks round it and Enter or Space re-stitch from it, announced once.",
+      "files": [
+        {
+          "path": "registry/ui/quilt-grid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1247"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "cloud-chamber",
+      "type": "registry:ui",
+      "title": "Cloud Chamber",
+      "description": "A canvas backdrop of a side-lit cloud chamber: invisible particles leave vapour trails that condense just behind them, then broaden, break into droplets, drift down with the gas and curl in its currents until they fade — fat alphas from a source needle, thin betas that wander and tighten into spirals as they slow, long muons from above with the small curls they knock loose. The pointer is a magnet: every particle is integrated a step at a time in the field of the moment (κ = qB/p, falling off like a pole's), so betas hook round it and slow ones are caught in a spiral, while a glow and a curl arrow mark it and its presence eases in on a short tween; a press flips its pole. The keyboard path is a role=\"application\" surface where focus brings the magnet in, arrow keys move it and Enter or Space flip it, with the new pole announced once.",
+      "files": [
+        {
+          "path": "registry/ui/cloud-chamber.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1248"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ferro-pool",
+      "type": "registry:ui",
+      "title": "Ferro Pool",
+      "description": "A canvas backdrop of a ferrofluid pool seen at a low angle — glossy near-black at the front, reflecting more of the room toward the back, with a softbox lying on it as a long soft band. The pointer is a magnet: its footprint is found through the same perspective that draws the pool, every site of a jittered hexagonal lattice feels its field, and above a threshold each rises into a spike on its own underdamped spring, so the crown jiggles up, leans along the field lines toward the magnet, stands on a mound that bulges beneath it and sinks back with a wobble when the magnet leaves, every spike shaded by a lit flank, a specular line and a rim on the side the slowly drifting light comes from. A click pulses the field — it surges and a ring runs out across the pool kicking every spike it passes — and the keyboard path is a role=\"application\" surface where focus brings the magnet in, arrow keys move it and Enter or Space pulse.",
+      "files": [
+        {
+          "path": "registry/ui/ferro-pool.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1249"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tartan-shift",
+      "type": "registry:ui",
+      "title": "Tartan Shift",
+      "description": "A tartan cloth as a backdrop, built the way a weaver builds it from layered SVG patterns: a symmetric sett laid as the weft, the same sett as the warp, and the warp shown only through a stepped 2/2 twill so crossing colours blend on the diagonal, with shaded wales and a broad light across the cloth. When the palette or the sett changes, all sixteen stripes glide from their old places and widths to their new ones on the glide spring while the new colours are laid in behind a diagonal front that crosses the cloth along the twill on a tween, a bright thread in the new pinstripe colour running along it like a shuttle. It drifts gently with scroll — its travel through the viewport, in any scroll container, becomes a diagonal offset the patterns follow on the drift spring — and slides very slowly by itself while on screen; it is decorative, with no gesture of its own, so nothing needs a keyboard path.",
+      "files": [
+        {
+          "path": "registry/ui/tartan-shift.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1250"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

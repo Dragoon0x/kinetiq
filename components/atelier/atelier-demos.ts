@@ -367,4 +367,44 @@ export const ATELIER_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/stand-monitor.demo").then((m) =>
       mod(m.StandMonitorDemo, m.tweaks),
     ),
+  "loom-field": () =>
+    import("@/registry/demos/loom-field.demo").then((m) =>
+      mod(m.LoomFieldDemo, m.tweaks),
+    ),
+  "ink-marble": () =>
+    import("@/registry/demos/ink-marble.demo").then((m) =>
+      mod(m.InkMarbleDemo, m.tweaks),
+    ),
+  "koi-pond": () =>
+    import("@/registry/demos/koi-pond.demo").then((m) =>
+      mod(m.KoiPondDemo, m.tweaks),
+    ),
+  "stained-glass": () =>
+    import("@/registry/demos/stained-glass.demo").then((m) =>
+      mod(m.StainedGlassDemo, m.tweaks),
+    ),
+  "paper-facets": () =>
+    import("@/registry/demos/paper-facets.demo").then((m) =>
+      mod(m.PaperFacetsDemo, m.tweaks),
+    ),
+  "bokeh-night": () =>
+    import("@/registry/demos/bokeh-night.demo").then((m) =>
+      mod(m.BokehNightDemo, m.tweaks),
+    ),
+  "quilt-grid": () =>
+    import("@/registry/demos/quilt-grid.demo").then((m) =>
+      mod(m.QuiltGridDemo, m.tweaks),
+    ),
+  "cloud-chamber": () =>
+    import("@/registry/demos/cloud-chamber.demo").then((m) =>
+      mod(m.CloudChamberDemo, m.tweaks),
+    ),
+  "ferro-pool": () =>
+    import("@/registry/demos/ferro-pool.demo").then((m) =>
+      mod(m.FerroPoolDemo, m.tweaks),
+    ),
+  "tartan-shift": () =>
+    import("@/registry/demos/tartan-shift.demo").then((m) =>
+      mod(m.TartanShiftDemo, m.tweaks),
+    ),
 };

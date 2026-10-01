@@ -22550,6 +22550,231 @@ Notes:
 - Reduced motion: drags still follow the hand 1:1 and land where they are let go, keys jump, the turn is a cross-fade to the other orientation and the cable hangs still.
 - A polite live region says Portrait. or Landscape. on a turn and the reading once at the end of a drag (Height 60%., Tilt 9°.).
 
+### Loom Field (KQ-1241) — `loom-field`
+A weave that ripples under the hand.
+
+A background of woven cloth, warp and weft interlaced thread by thread in a plain, twill or basket weave, with your content on top; a hovering hand is a light touch and a press goes in deep, opening an eye in the weave as the warps part sideways and the wefts up and down. Every crossing is a spring held straight along its thread by tension, so the threads lag the finger, a flick runs a ripple down them, and a lifted hand lets the eye close with two small overshoots near the recoil spring's damping, while the press itself eases in over a blink and out over the base duration. A transparent button behind the content is the keyboard's way in: arrow keys move the hand and Space or Enter held presses into the cloth.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/loom-field`
+
+Props:
+- `children`: ReactNode — The content on top of the cloth, in its own layer that fills the box: a hero, a heading, a call to action.
+- `weave`: "plain" | "twill" | "basket" (default "twill") — How the threads interlace: a checker, a 3/1 diagonal rib like denim, or threads working in pairs.
+- `press`: number (default 0.6) — How hard the hand presses, 0 to 1: how wide the threads part (0.7 to 3.2 thread pitches) and how deep the dent's shade reads.
+- `thread`: "indigo" | "rust" | "moss" (default "indigo") — The warp's dye, a fixed pigment; the weft is the same dye washed into the page, so it follows the theme.
+- `label`: string (default "Woven cloth") — The accessible name of the cloth's keyboard surface.
+- `onPressChange`: (pressed: boolean) => void — The hand pressed into the cloth (true) or let go (false), reported from the pointer or keys that did it.
+- `disabled`: boolean (default false) — The cloth is drawn and holds still; the hand is ignored and touch scrolling is left to the page.
+- `className`: string — Sizes the box; the default is h-full w-full, so it fills its container.
+
+Notes:
+- Keyboard: a transparent button behind the content, after it in tab order, named by label and described by a hint. Focused from the keyboard the hand rests at the centre as a light touch with a ring; arrow keys move it 16 px (Shift: 48), Space or Enter held presses in and releasing lets go, and a click from assistive technology presses for a moment. A polite status says Pressed into the cloth once per press.
+- Reduced motion: no springs, ripple or wake; the threads part to the eye's exact shape on every pointer or key move, redrawn directly, and close at once when the hand lifts. Nothing runs between events.
+- The frame loop runs only while threads are moving, on screen and in a visible page; a still cloth costs nothing. Presses on the content's own links, buttons and fields are left to them.
+
+### Ink Marble (KQ-1242) — `ink-marble`
+Comb the ink.
+
+A background of marbled paper still on the bath, bands of ink floating on the size with your content on top; a drag pulls a comb through the ink, its tines standing across the stroke, and the ink near each tine is carried along, so a stroke across the bands feathers them into chevrons and a second one back makes a nonpareil. Nothing here springs: the comb is direct manipulation, the ink relaxes back into its bands on a seven-second exponential, the sheet sways a few pixels on slow currents while it is on screen, and a keyboard pass travels on a linear tween. A transparent button behind the content is the keyboard's way in: arrow keys comb from the hand and Enter or Space combs a full pass across the sheet.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ink-marble`
+
+Props:
+- `children`: ReactNode — The content on top of the paper, in its own layer that fills the box: a hero, a heading, a call to action.
+- `bands`: number (default 6) — How many bands of ink float across the sheet, 4 to 10.
+- `comb`: number (default 0.5) — The tool, 0 to 1: a single stylus at 0, nine fine tines 12 px apart at 1.
+- `palette`: "ocean" | "ember" | "moss" (default "ocean") — The four inks on the bath, fixed pigments mixed a little into the page, with veins of paper between the bands.
+- `label`: string (default "Marbled paper") — The accessible name of the paper's keyboard surface.
+- `onCombChange`: (combing: boolean) => void — A stroke of the comb began (true) or ended (false), reported from the pointer or keys that made it.
+- `disabled`: boolean (default false) — The ink still drifts; it cannot be combed, and touch scrolling is left to the page.
+- `className`: string — Sizes the box; the default is h-full w-full, so it fills its container.
+
+Notes:
+- Keyboard: a transparent button behind the content, after it in tab order, named by label and described by a hint. Focused from the keyboard the comb shows at the centre; each arrow key combs 24 px that way (Shift: 72) and a held arrow keeps combing; Enter, Space or a click from assistive technology combs one pass right across the sheet through the hand in the last direction. A polite status says Combed across the paper after a pass.
+- Reduced motion: no drift and no continuous relaxing; combing still redraws as the hand moves and a keyboard pass is applied at once. The ink settles in still steps, the marks halving 1.6 s after the last stroke and every 1.6 s after, with no motion between steps.
+- The sheet is a map from each 2 px cell to where its ink came from, resampled by the comb and looked up through prefiltered band tables, so combing never repaints colours and squeezed bands blend instead of flickering. The loop runs only on screen in a visible page, drawing at 30 fps when idle.
+
+### Koi Pond (KQ-1243) — `koi-pond`
+They scatter, then return.
+
+A background that is a garden pond seen from above, koi gliding in loose schools under a gently rippling surface while lily pads drift on it, with your content on top; the pointer is a hand over the water, whose shadow makes nearby koi edge away and whose stillness draws the bolder ones back to mill around it. A touch spreads a ring and scatters every koi within reach: they steer away at up to seven radians a second with a burst of speed, glide as the fright fades over a second and a half, then return; the koi steer rather than spring, each body rebuilt every frame from a spine that follows its head, and under reduced motion the scatter is a cross-fade on the base duration. A transparent button behind the content is the keyboard's way in: arrow keys move the hand and Space or Enter touches the water.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/koi-pond`
+
+Props:
+- `children`: ReactNode — The content on top of the water, in its own layer that fills the box: a hero, a heading, a call to action.
+- `fish`: number (default 7) — How many koi live in the pond, 3 to 12; changing it adds or removes koi without disturbing the others.
+- `ripple`: number (default 0.5) — How alive the surface is, 0 to 1: the glints, the rings, the shimmer over the koi and the pads' bob. At 0 the water is glass.
+- `water`: "jade" | "ink" | "dusk" (default "jade") — The pond's water, pigments mixed a little into the page so the pond sits in its theme.
+- `label`: string (default "Koi pond") — The accessible name of the pond's keyboard surface.
+- `onScatter`: (count: number) => void — A touch on the water scattered this many koi, reported from the press or key that touched it.
+- `disabled`: boolean (default false) — The koi swim on; the hand is ignored and touch scrolling is left to the page.
+- `className`: string — Sizes the box; the default is h-full w-full, so it fills its container.
+
+Notes:
+- Keyboard: a transparent button behind the content, after it in tab order, named by label and described by a hint. Focused from the keyboard the hand hovers at the centre with its shadow and a ring; arrow keys move it 16 px (Shift: 48), Space or Enter touches the water and, held, keeps the hand in so arrow moves sweep a wake; a click from assistive technology touches once. A polite status says how many koi scattered, once per touch.
+- Reduced motion: a still pond with the koi at their places, pads and glints still and no loop. The hand's shadow follows as a direct redraw; a touch cross-fades the near koi to places three body lengths away and a ring outline fades in place, and 2.6 s later they cross-fade back. Nothing travels.
+- The loop runs only while the pond is on screen in a visible page, about a couple of milliseconds a frame for twelve koi. Koi length scales with the box, so a small card has smaller koi rather than fewer.
+
+### Stained Glass (KQ-1244) — `stained-glass`
+Light through leaded glass.
+
+A backdrop of leaded glass whose irregular panes, cut from a seed, glow where the light falls: the pointer is the light, trailing the hand on the glide spring and drifting home to its resting place on the drift spring, while the panes' own colours spill over the leads as soft cast light and the came glints along the side that faces it. A new seed, pane count or palette re-leads the window from the light outward, and frames run only while the light moves and the window is on screen. The light is a real 2D slider under the content: arrow keys move it, Home and End go to the side edges, Page Up and Page Down to the top and bottom.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/stained-glass`
+
+Props:
+- `children`: React.ReactNode — What sits over the window: a hero, a heading, a call to action.
+- `panes`: number (default 36) — How many panes the window is cut into, 12 to 60.
+- `glow`: number (default 0.6) — How hot the light is, 0 to 1: a soft wash, or a bright core whose coloured light spills over the leads.
+- `palette`: "cathedral" | "sea" | "dusk" (default "cathedral") — The glass.
+- `seed`: number (default 1) — Leads the window: the same seed always cuts the same panes. A new one re-leads it, from the light outward.
+- `rest`: { x: number; y: number } (default { x: 0.8, y: 0.2 }) — Where the light rests when nobody is moving it, as fractions of the box.
+- `onLightChange`: (light: { x: number; y: number } | null) => void — Fires when the visitor moves the light (pointer, touch or keys), and with null when it goes back to rest.
+- `interactive`: boolean (default true) — Let the pointer and the keyboard move the light. Off, the window is decoration only: no tab stop, no pointer handling.
+- `label`: string (default "Light") — The light control's accessible name.
+- `className`: string (default "h-full w-full") — Sets the size.
+
+Notes:
+- The light is a role="slider" with aria-roledescription "2D slider" under the content: arrow keys move it 5% (Shift 20%), Home/End go to the left/right edge, Page Up/Page Down to the top/bottom, and keyboard focus lights the window just as hover does.
+- Under reduced motion the light jumps to the pointer instead of gliding, home is instant and a new window cross-fades; nothing runs between moves, and the glow, cast light and glints still show.
+- Content sits in a relative layer over the window; a busy window reads best behind a frosted panel. On touch, a tap or a sideways drag places the light and vertical swipes still scroll the page.
+
+### Paper Facets (KQ-1245) — `paper-facets`
+Folded light.
+
+A backdrop of folded card: a low-poly field of flat facets lit by a lamp the pointer carries over the sheet, each facet shaded from its own normal so faces turned toward the lamp brighten, faces turned away fall into shadow and glints run across the folds. The lamp trails the hand on the glide spring and drifts home on the drift spring when the pointer leaves, and a new seed refolds the sheet on the drift spring as the card relaxes and creases again. The lamp is a real 2D slider under the content: arrow keys move it, Home and End go to the side edges, Page Up and Page Down to the top and bottom.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/paper-facets`
+
+Props:
+- `children`: React.ReactNode — What sits on the paper: a hero, a heading, a call to action. Its text takes an ink that reads on the paper.
+- `facets`: number (default 72) — About how many facets show, 20 to 120: broad folds or a fine crumple.
+- `relief`: number (default 0.6) — How deep the folds are, 0 to 1: flat card, or hard creases with dark valleys.
+- `paper`: "white" | "kraft" | "ink" (default "white") — The card.
+- `seed`: number (default 1) — Folds the sheet: the same seed always makes the same folds. A new one refolds it.
+- `rest`: { x: number; y: number } (default { x: 0.22, y: 0.18 }) — Where the lamp rests when nobody is moving it, as fractions of the box.
+- `onLightChange`: (light: { x: number; y: number } | null) => void — Fires when the visitor moves the lamp (pointer, touch or keys), and with null when it goes back to rest.
+- `interactive`: boolean (default true) — Let the pointer and the keyboard move the lamp. Off, the sheet is decoration only: no tab stop, no pointer handling.
+- `label`: string (default "Light") — The lamp control's accessible name.
+- `className`: string (default "h-full w-full") — Sets the size.
+
+Notes:
+- The lamp is a role="slider" with aria-roledescription "2D slider" under the content: arrow keys move it 5% (Shift 20%), Home/End go to the left/right edge, Page Up/Page Down to the top/bottom, and keyboard focus lights the sheet just as hover does.
+- Under reduced motion the lamp jumps to the pointer instead of gliding, home is instant and a refold cross-fades with no vertex travel; nothing runs between moves, and the shading still follows the lamp.
+- The content layer's text colour is set to an ink that reads on the chosen paper (dark on white and kraft, pale on ink), also exposed as --paper-ink.
+
+### Bokeh Night (KQ-1246) — `bokeh-night`
+City lights out of focus.
+
+A backdrop of a seeded night street seen through a fast lens, every lamp, headlight, sign and far window drawn as the disc a real lens makes of it, sized by the circle-of-confusion law so near lights balloon when the focus is far and the far city blooms when it is near; discs at the frame's edge are cut into cat's-eyes and street-level lights shine back from the wet road. The pointer's height sets the focus plane and the lens racks to it on the glide spring while the traffic drifts and the camera sways, only on screen. The focus is a real vertical slider under the content: arrow keys rack it nearer or farther, Page Up and Page Down by a quarter, Home to the nearest lights and End to infinity.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/bokeh-night`
+
+Props:
+- `children`: React.ReactNode — What sits over the street: a hero, a heading, a call to action. Its text takes a lamp-white that reads on the night.
+- `value / defaultValue`: number (default 0.75) — The focus plane: 0 focuses on the nearest lights (2 m), 1 at infinity.
+- `onValueChange`: (value: number) => void — Fires from the pointer, tap or key that moved the focus, with the new value.
+- `aperture`: "round" | "hex" (default "round") — The lens's aperture: round discs, or six-bladed hexagons.
+- `density`: number (default 0.5) — How busy the street is, 0 to 1: a quiet side street to a busy avenue.
+- `warmth`: number (default 0.5) — The share of sodium lamps, tungsten headlights and warm signs, 0 to 1, against LED white and teal.
+- `seed`: number (default 1) — Lays out the street: the same seed always makes the same street.
+- `interactive`: boolean (default true) — Let the pointer and the keyboard move the focus. Off, the street is decoration only: no tab stop, no pointer handling.
+- `label`: string (default "Focus") — The focus control's accessible name.
+- `className`: string (default "h-full w-full") — Sets the size.
+
+Notes:
+- The focus is a vertical role="slider" under the content with aria-valuetext such as "Focus at 8 m": ArrowUp/ArrowRight rack it 5% farther, ArrowDown/ArrowLeft nearer, Page Up/Page Down by 25%, Home to the nearest lights and End to infinity; on touch a tap focuses at that height.
+- Under reduced motion nothing drifts, sways or twinkles: one still frame that refocuses instantly, one redraw per pointer move or key, because the focus is the value.
+- Controlled: the lens racks only when the host's value changes, so a host that refuses a move keeps its focus. The content layer's text is set to a lamp-white exposed as --bokeh-ink.
+
+### Quilt Grid (KQ-1247) — `quilt-grid`
+A patchwork that re-stitches.
+
+A backdrop sewn from twelve classic quilt blocks — half-square triangles, pinwheels, flying geese, log cabins, Ohio stars — in printed fabrics with seams and running stitches, drawn in SVG and re-coloured by the theme. Waves re-stitch it from the pointer: ring by ring on a cascade delay, each block either turns a quarter turn on the snap spring or trades places with its outward neighbour on the glide spring, lifting with a soft shadow mid-move and landing flat, while a click re-stitches with a wave where half the blocks swap and a gentle ambient wave starts somewhere every few seconds. The keyboard path is a role="application" surface where arrow keys move a stitched marker and turn the blocks round it and Enter or Space re-stitch from it, announced once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/quilt-grid`
+
+Props:
+- `blocks`: number (default 10) — Blocks across the width, 6 to 16. A block is never drawn smaller than 32px, so a narrow quilt has fewer; the motifs stay seeded by cell when it is re-cut.
+- `wave`: number (default 0.5) — How far a wave carries, 0 to 1: the block and its four neighbours at 0, the whole quilt at 1. Ambient waves carry half as far. A change sends one wave from the middle at the new reach.
+- `palette`: "farm" | "sea" | "candy" (default "farm") — The fabrics, as pigments whose lightness follows the theme (full dye on light, dimmed on dark). A change re-dyes the quilt as a wave from the centre.
+- `seed`: number (default 1) — Which quilt: every block's motif, fabrics, print and starting turn follow from it, the same on the server and the client.
+- `label`: string (default "Patchwork quilt") — The accessible name of the keyboard surface.
+- `onWave`: (wave: QuiltGridWave) => void — A hover, an arrow key or a re-stitch started a wave: its origin block (col, row from 0), how many blocks turned and swapped, and press: true for a re-stitch. Ambient waves are not reported.
+- `disabled`: boolean (default false) — Ambient only: the quilt ignores the pointer and the keyboard and leaves the tab order.
+- `children`: React.ReactNode — What sits on the quilt — a hero, a heading — in a layer above it. Presses on its own controls never start a wave.
+- `className`: string — Classes for the root, which fills its container (h-full w-full); set its size and radius here.
+
+Notes:
+- Keyboard: Tab reaches the quilt's role="application" surface; arrow keys move a stitched marker and turn the blocks round it (the same wave a pointer starts entering that block), Home and End jump along the row, Enter or Space re-stitch from it, and a polite live region announces each re-stitch once.
+- Reduced motion: nothing turns, slides or wanders and there are no ambient waves — a wave changes every block in its reach at once and each changed block dips in opacity and comes back, so the new pattern is still seen; palette changes cross-fade.
+- Ambient waves run only while the quilt is on screen in a visible page and nobody is pointing at it; touch uses touch-action: pan-y, so a sideways slide sends waves and a vertical one scrolls the page.
+
+### Cloud Chamber (KQ-1248) — `cloud-chamber`
+Tracks of invisible particles.
+
+A canvas backdrop of a side-lit cloud chamber: invisible particles leave vapour trails that condense just behind them, then broaden, break into droplets, drift down with the gas and curl in its currents until they fade — fat alphas from a source needle, thin betas that wander and tighten into spirals as they slow, long muons from above with the small curls they knock loose. The pointer is a magnet: every particle is integrated a step at a time in the field of the moment (κ = qB/p, falling off like a pole's), so betas hook round it and slow ones are caught in a spiral, while a glow and a curl arrow mark it and its presence eases in on a short tween; a press flips its pole. The keyboard path is a role="application" surface where focus brings the magnet in, arrow keys move it and Enter or Space flip it, with the new pole announced once.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/cloud-chamber`
+
+Props:
+- `rate`: number (default 0.5) — How many particles cross the chamber, 0 to 1: from one every second or so up to about ten a second on a 760×232 box, scaled by area.
+- `field`: number (default 0.6) — The magnet's strength, 0 to 1, with the chamber's own weak field: 0 leaves every track straight, 1 coils slow electrons tight round the pointer. The chamber's own field alone curls slow electrons at the ends of their tracks.
+- `tint`: "mist" | "ember" | "aqua" (default "mist") — The vapour and the chamber's lamp. The trails mix it with the page's foreground: dark ink on the light theme, lit vapour on the dark one.
+- `pole / defaultPole`: "north" | "south" (default "north") — Which way the magnet bends the tracks, controlled or uncontrolled. The curl arrow round the magnet shows the way an electron turns.
+- `onPoleChange`: (pole: "north" | "south") => void — Fires from the press or the key that flipped the pole, with the new pole.
+- `label`: string (default "Cloud chamber") — The accessible name of the keyboard surface.
+- `disabled`: boolean (default false) — Ambient only: the chamber keeps running but ignores the pointer and the keyboard and leaves the tab order.
+- `children`: React.ReactNode — What sits over the chamber — a hero, a heading — in a layer above it. Presses on its own controls never flip the pole.
+- `className`: string — Classes for the root, which fills its container (h-full w-full); set its size and radius here.
+
+Notes:
+- Keyboard: Tab reaches the chamber's role="application" surface and brings the magnet in at the middle with a visible mark; arrow keys move it (Shift for larger steps), Enter or Space flip its pole, and a polite live region says the new pole once. Touch uses touch-action: pan-y: a sideways slide drags the magnet, a tap places it for a moment and a second tap flips it.
+- Reduced motion: the chamber is a still photograph of a seeded set of tracks at assorted ages — no drift, no curl, no new tracks, no frame loop — and moving the magnet re-runs those same tracks in its field and redraws once, so they still bend round it.
+- The canvas is at most 2× resolution, reads its colours from its own computed style (re-read on a theme or tint change) and runs its frame loop only while on screen in a visible page.
+
+### Ferro Pool (KQ-1249) — `ferro-pool`
+Spikes that reach for the magnet.
+
+A canvas backdrop of a ferrofluid pool seen at a low angle — glossy near-black at the front, reflecting more of the room toward the back, with a softbox lying on it as a long soft band. The pointer is a magnet: its footprint is found through the same perspective that draws the pool, every site of a jittered hexagonal lattice feels its field, and above a threshold each rises into a spike on its own underdamped spring, so the crown jiggles up, leans along the field lines toward the magnet, stands on a mound that bulges beneath it and sinks back with a wobble when the magnet leaves, every spike shaded by a lit flank, a specular line and a rim on the side the slowly drifting light comes from. A click pulses the field — it surges and a ring runs out across the pool kicking every spike it passes — and the keyboard path is a role="application" surface where focus brings the magnet in, arrow keys move it and Enter or Space pulse.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/ferro-pool`
+
+Props:
+- `strength`: number (default 0.6) — The magnet, 0 to 1: how far its field reaches across the pool, how tall the spikes grow and how far they lean toward it. On a resting pool a change holds the magnet over the middle for a moment, so the new crown shows.
+- `spikes`: number (default 16) — Spikes across the pool's front edge, 8 to 32: a few tall cones or a dense bristle. The lattice is seeded, so it is the same pool every time. On a resting pool a change shows itself the same way.
+- `sheen`: number (default 0.6) — How much the fluid shines, 0 to 1: the lit flanks, specular lines, rims and the softbox's reflection. 0 is matte ink, and a matte pool stops drawing once it is flat.
+- `label`: string (default "Ferrofluid pool") — The accessible name of the keyboard surface.
+- `onPulse`: () => void — A click, a tap, Enter or Space pulsed the field.
+- `disabled`: boolean (default false) — Ambient only: the pool ignores the pointer and the keyboard and leaves the tab order.
+- `children`: React.ReactNode — What sits over the pool — a hero, a heading — in a layer above it. Presses on its own controls never pulse the field.
+- `className`: string — Classes for the root, which fills its container (h-full w-full); set its size and radius here.
+
+Notes:
+- Keyboard: Tab reaches the pool's role="application" surface and brings the magnet over its middle with a visible mark; arrow keys move it (Shift for larger steps), Enter or Space pulse the field, and leaving takes the magnet away. Touch uses touch-action: pan-y: a tap places the magnet and pulses, a sideways slide drags it, and it lifts away 1.6 seconds after the finger does.
+- Reduced motion: no springs, no wobble, no ripple and a light that stays put — the spikes are drawn exactly where the field puts them, once per move, a pulse shows its surged spikes for a moment and leaving draws the flat pool; no frame loop runs.
+- The canvas is at most 2× resolution, reads its colours from its own computed style (re-read on a theme change) and runs its frame loop only while on screen in a visible page; springs are integrated only while something is moving.
+
+### Tartan Shift (KQ-1250) — `tartan-shift`
+A plaid that slides into place.
+
+A tartan cloth as a backdrop, built the way a weaver builds it from layered SVG patterns: a symmetric sett laid as the weft, the same sett as the warp, and the warp shown only through a stepped 2/2 twill so crossing colours blend on the diagonal, with shaded wales and a broad light across the cloth. When the palette or the sett changes, all sixteen stripes glide from their old places and widths to their new ones on the glide spring while the new colours are laid in behind a diagonal front that crosses the cloth along the twill on a tween, a bright thread in the new pinstripe colour running along it like a shuttle. It drifts gently with scroll — its travel through the viewport, in any scroll container, becomes a diagonal offset the patterns follow on the drift spring — and slides very slowly by itself while on screen; it is decorative, with no gesture of its own, so nothing needs a keyboard path.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/tartan-shift`
+
+Props:
+- `sett`: "fine" | "bold" (default "bold") — The pattern's scale and character: fine is a 96px repeat of 2px threads with narrow lines and overchecks, bold a 180px repeat of 2.5px threads with broad blocks. A change slides the stripes and re-threads the cloth.
+- `palette`: "highland" | "modern" | "earth" (default "highland") — The cloth's dyes — green, navy, black, red and yellow; grey, charcoal, cream, coral and teal; brown, rust, ochre, olive and cream — as pigments whose lightness follows the theme. A change slides the stripes into the new sett and re-threads it; a change mid-crossing finishes from where it is.
+- `drift`: number (default 0.5) — How far scrolling carries the cloth and how fast it slides by itself, 0 to 1. 0 holds it still.
+- `children`: React.ReactNode — What sits on the cloth — a hero, a heading — in a normal layer above it.
+- `className`: string — Classes for the root, which fills its container (h-full w-full); set its size and radius here.
+
+Notes:
+- Decorative: the drawing is aria-hidden and has no gesture of its own. Its two motions are answered by the host (a palette or sett change) and by scrolling, both of which already work from the keyboard; the demo's cloth picker is a role="radiogroup" with arrow keys.
+- Reduced motion: nothing slides or drifts — no scroll drift and no slow slide — and a palette or sett change cross-fades the new cloth over the old one, already in its new sett.
+- Every motion moves the patterns' own x, y, width and height attributes, so nothing lays out again; the slow slide runs only while the cloth is on screen in a visible page and repaints only when it has moved a quarter of a pixel.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

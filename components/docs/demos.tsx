@@ -1310,6 +1310,16 @@ import { PocketConsoleDemo } from "@/registry/demos/pocket-console.demo";
 import { ViewfinderDemo } from "@/registry/demos/viewfinder.demo";
 import { InkReaderDemo } from "@/registry/demos/ink-reader.demo";
 import { StandMonitorDemo } from "@/registry/demos/stand-monitor.demo";
+import { LoomFieldDemo } from "@/registry/demos/loom-field.demo";
+import { InkMarbleDemo } from "@/registry/demos/ink-marble.demo";
+import { KoiPondDemo } from "@/registry/demos/koi-pond.demo";
+import { StainedGlassDemo } from "@/registry/demos/stained-glass.demo";
+import { PaperFacetsDemo } from "@/registry/demos/paper-facets.demo";
+import { BokehNightDemo } from "@/registry/demos/bokeh-night.demo";
+import { QuiltGridDemo } from "@/registry/demos/quilt-grid.demo";
+import { CloudChamberDemo } from "@/registry/demos/cloud-chamber.demo";
+import { FerroPoolDemo } from "@/registry/demos/ferro-pool.demo";
+import { TartanShiftDemo } from "@/registry/demos/tartan-shift.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2634,4 +2644,14 @@ export const demos: Record<string, ComponentType> = {
   viewfinder: ViewfinderDemo,
   "ink-reader": InkReaderDemo,
   "stand-monitor": StandMonitorDemo,
+  "loom-field": LoomFieldDemo,
+  "ink-marble": InkMarbleDemo,
+  "koi-pond": KoiPondDemo,
+  "stained-glass": StainedGlassDemo,
+  "paper-facets": PaperFacetsDemo,
+  "bokeh-night": BokehNightDemo,
+  "quilt-grid": QuiltGridDemo,
+  "cloud-chamber": CloudChamberDemo,
+  "ferro-pool": FerroPoolDemo,
+  "tartan-shift": TartanShiftDemo,
 };
