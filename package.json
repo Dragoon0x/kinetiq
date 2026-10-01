@@ -21,7 +21,8 @@
     "mcp:build": "pnpm --filter @kinetiqui/mcp build",
     "mcp:test": "pnpm --filter @kinetiqui/mcp test",
     "mcp:snapshot": "tsx scripts/build-machine-meta.ts",
-    "seo:indexnow": "tsx scripts/indexnow.ts"
+    "seo:indexnow": "tsx scripts/indexnow.ts",
+    "film:render": "node scripts/film/render.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",

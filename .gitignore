@@ -32,3 +32,6 @@ playwright-report/
 # typescript
 *.tsbuildinfo
 _live*.mjs
+
+# launch film renders (scripts/film/render.mjs)
+/film/out/
