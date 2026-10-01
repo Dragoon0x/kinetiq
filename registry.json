@@ -30266,6 +30266,295 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "sun-arc",
+      "type": "registry:ui",
+      "title": "Sun Arc",
+      "description": "A daylight widget: the sun rides a sine arch from first to last light over a horizon whose sky, ground, glow and stars take the hour's colours, with the daylight left read beside it. Press anywhere in the sky and the sun comes to the finger on the flick spring, follows it 1:1 along the arch and rubber-bands past dawn and dusk; a release projects the throw and the sun glides to the landing on the glide spring with the release velocity, ticking once per hour crossed. The rail under the panel lines up with the arch and is a real slider: arrow keys step the time, Page keys an hour, Home and End jump to first and last light, and Escape or the Now pill brings the sun back to the present.",
+      "files": [
+        {
+          "path": "registry/ui/sun-arc.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1211"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "moon-phase",
+      "type": "registry:ui",
+      "title": "Moon Phase",
+      "description": "A moon widget whose lit part is computed from the date — the elongation with its six largest periodic terms — and drawn as the bright limb closed by the terminator's half ellipse, with the phase's name, the share lit and the next full and new moon beside it. A drag across the moon moves through the nights with the terminator travelling under the finger (its own width is a week), and a release projects the throw and glides to the nearest whole night on the glide spring with the release velocity, ticking once per night; the Full and New rows glide the moon to their nights, and seen from the south the whole moon turns over on glide. The night tile is a slider: arrow keys step a night, Page keys a week, Home and End the reach, and Escape or the Tonight pill returns to tonight.",
+      "files": [
+        {
+          "path": "registry/ui/moon-phase.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1212"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "egg-timer",
+      "type": "registry:ui",
+      "title": "Egg Timer",
+      "description": "A mechanical kitchen timer, face on: drag round the dial and it turns 1:1 with the hand and ratchets, lingering on each minute's detent and clicking across to the next, rubber-bands past zero and the top of the scale, and lands on the nearest detent on the snap spring when let go, which starts it. While it runs the dial turns back to zero, stepping once a second on the flick spring as the escapement lever rocks on snap (or sweeping silently with ticking off), a red band shrinks toward the pointer, and at zero the shell rattles about its feet on a keyframed tween while the bell rings; a tap pauses and resumes. The dial is a slider in minutes: arrows add or take a minute, Page keys five, Home clears and End sets the whole scale, a held key holds the count like a hand on the dial, and Space or Enter pauses.",
+      "files": [
+        {
+          "path": "registry/ui/egg-timer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1213"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "plant-care",
+      "type": "registry:ui",
+      "title": "Plant Care",
+      "description": "A plant-care widget whose plant shows how thirsty it is: as the days since watering pass, a fern's fronds flatten until their tips hang over the rim, a monstera's stalks bend and its split leaves hang, a cactus thins and lets its arms sag, the green drains toward straw and the soil dries and cracks, all rebuilt each frame from analytic curves. Pressing Water brings a can in over the pot and tips it on the snap spring, a seeded shower falls in real arcs and splashes while a wet patch spreads, and when the last drops land the leaves spring back up centre first on a staggered snap; a pointer brushed through the plant flicks the leaves it crosses, crisply when watered and loosely when thirsty. The Water button is the whole keyboard path, and the next watering day is named from `now`.",
+      "files": [
+        {
+          "path": "registry/ui/plant-care.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1214"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "bin-day",
+      "type": "registry:ui",
+      "title": "Bin Day",
+      "description": "A collection-day widget: two to four wheelie bins stand in a row by the house and the one due this collection has been rolled to the kerb, with its name, when it goes out and the bin after it in the header. A bin that moves tips back onto its wheels on the flick spring, rolls on glide taking any release velocity and grows as it comes forward, then drops onto its feet with a rock and a lid thrown open by the jolt, both on recoil; Done rolls it home with a tick and Undo rolls it out with a thud, and the due bin can also be dragged 1:1 between row and kerb while the others refuse. Underneath, the next seven days are a real radio group for the collection day, its pill hopping between days on snap with a crescent on the put-out night; arrows choose, and Home and End jump.",
+      "files": [
+        {
+          "path": "registry/ui/bin-day.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1215"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "commute-line",
+      "type": "registry:ui",
+      "title": "Commute Line",
+      "description": "A transit widget: the line's pill and direction, a delay badge whose figure rolls on the snap spring, a line diagram of stops with the train on it, and the chosen stop's arrival time. The train's position comes from the timetable, `now` and the delay (or a live `position`), with a dwell at each stop and a cosine pull-away and braking between them; each report moves the shown train there — at the pace steady reports set, so it reads as one continuous glide, or on the drift spring with its own velocity for a first or irregular report — and a jump back to the start is a fade, never a reverse. A window of stops follows the train and the chosen stop on glide and can be dragged sideways; each stop the train reaches pulses; the stops are a radio group where a tap or the arrow keys choose one and an ETA flag hops there on snap.",
+      "files": [
+        {
+          "path": "registry/ui/commute-line.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1216"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "summit-steps",
+      "type": "registry:ui",
+      "title": "Summit Steps",
+      "description": "A step count drawn as a climb: the trail up the mountain is the day's goal, and a small walker stands on it at the share walked so far, legs swinging from the distance covered rather than the clock, so they walk while they move and stand still when they stop. Camps pop up on the recoil spring at each quarter of the goal and the summit flag is hoisted on glide and waves itself out; dragging along the trail scrubs back through the day 1:1, rubber-banding past now, and letting go lands on the nearest hour on the glide spring with the release velocity. The picture is a slider in time: arrow keys step an hour, Page keys three, Home goes to midnight, and End or Escape back to now.",
+      "files": [
+        {
+          "path": "registry/ui/summit-steps.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1217"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "dandelion-air",
+      "type": "registry:ui",
+      "title": "Dandelion Air",
+      "description": "An air-quality widget drawn as a dandelion clock: the seeds still on the head are the reading, a full clock in clean air and a bald stalk in hazardous air, and when the index rises the seeds that no longer belong let go in a cascade and sail off downwind, turning pappus-up as they go, while the sky takes a haze in the band's colour and the marker glides along the band scale on the glide spring. A quick swipe across the head blows the seeds it passes along the swipe and the stem takes the gust and springs back on the recoil spring, then the head fills back in to the reading. The head is a real button: a tap, Space or Enter is one gust downwind.",
+      "files": [
+        {
+          "path": "registry/ui/dandelion-air.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1218"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wind-sock",
+      "type": "registry:ui",
+      "title": "Wind Sock",
+      "description": "A wind widget: an airfield windsock on a mast in the middle of a compass rose painted on the grass, built from six hoops projected from 3D so it points the way the wind blows in depth as well as across, with its shadow falling downwind on the rose. It hangs at calm and fills toward level by fifteen knots on the glide spring, its five stripes light one by one with the Beaufort bands and turn red from a near gale, and while it is on screen it flaps with a ripple and a seeded wander that grow with gust. Dragging on the rose moves the wind marker 1:1 and the sock swings after it on a hunting vane spring; arrow keys turn the preview 5°, Page keys 45°, Home faces north, and Escape or Live returns to the real wind.",
+      "files": [
+        {
+          "path": "registry/ui/wind-sock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1219"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "parking-meter",
+      "type": "registry:ui",
+      "title": "Parking Meter",
+      "description": "A parking meter widget: in the classic style a needle sweeps down a cream dial through the time left, in the digital style seven-segment digits and a ten-bar graph show it, and both read one motion value. Tapping the meter or its button drops a coin into the slot on an accelerating tween as it turns edge-on, it clacks as it lands, and the needle kicks up to the new time on the recoil spring, overshooting against its stop pin and ticking past each mark; a full meter bounces the coin back out. In the last minutes the window's rim pulses and the red flag peeks over the sill, popping up on recoil at expiry; the add button is the keyboard's way in, and the time left is announced at the thresholds and after every coin.",
+      "files": [
+        {
+          "path": "registry/ui/parking-meter.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1220"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

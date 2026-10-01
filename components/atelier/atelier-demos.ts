@@ -247,4 +247,44 @@ export const ATELIER_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/etch-reveal.demo").then((m) =>
       mod(m.EtchRevealDemo, m.tweaks),
     ),
+  "sun-arc": () =>
+    import("@/registry/demos/sun-arc.demo").then((m) =>
+      mod(m.SunArcDemo, m.tweaks),
+    ),
+  "moon-phase": () =>
+    import("@/registry/demos/moon-phase.demo").then((m) =>
+      mod(m.MoonPhaseDemo, m.tweaks),
+    ),
+  "egg-timer": () =>
+    import("@/registry/demos/egg-timer.demo").then((m) =>
+      mod(m.EggTimerDemo, m.tweaks),
+    ),
+  "plant-care": () =>
+    import("@/registry/demos/plant-care.demo").then((m) =>
+      mod(m.PlantCareDemo, m.tweaks),
+    ),
+  "bin-day": () =>
+    import("@/registry/demos/bin-day.demo").then((m) =>
+      mod(m.BinDayDemo, m.tweaks),
+    ),
+  "commute-line": () =>
+    import("@/registry/demos/commute-line.demo").then((m) =>
+      mod(m.CommuteLineDemo, m.tweaks),
+    ),
+  "summit-steps": () =>
+    import("@/registry/demos/summit-steps.demo").then((m) =>
+      mod(m.SummitStepsDemo, m.tweaks),
+    ),
+  "dandelion-air": () =>
+    import("@/registry/demos/dandelion-air.demo").then((m) =>
+      mod(m.DandelionAirDemo, m.tweaks),
+    ),
+  "wind-sock": () =>
+    import("@/registry/demos/wind-sock.demo").then((m) =>
+      mod(m.WindSockDemo, m.tweaks),
+    ),
+  "parking-meter": () =>
+    import("@/registry/demos/parking-meter.demo").then((m) =>
+      mod(m.ParkingMeterDemo, m.tweaks),
+    ),
 };

@@ -1280,6 +1280,16 @@ import { PaintNumbersDemo } from "@/registry/demos/paint-numbers.demo";
 import { FilmBurnDemo } from "@/registry/demos/film-burn.demo";
 import { JigsawSetDemo } from "@/registry/demos/jigsaw-set.demo";
 import { EtchRevealDemo } from "@/registry/demos/etch-reveal.demo";
+import { SunArcDemo } from "@/registry/demos/sun-arc.demo";
+import { MoonPhaseDemo } from "@/registry/demos/moon-phase.demo";
+import { EggTimerDemo } from "@/registry/demos/egg-timer.demo";
+import { PlantCareDemo } from "@/registry/demos/plant-care.demo";
+import { BinDayDemo } from "@/registry/demos/bin-day.demo";
+import { CommuteLineDemo } from "@/registry/demos/commute-line.demo";
+import { SummitStepsDemo } from "@/registry/demos/summit-steps.demo";
+import { DandelionAirDemo } from "@/registry/demos/dandelion-air.demo";
+import { WindSockDemo } from "@/registry/demos/wind-sock.demo";
+import { ParkingMeterDemo } from "@/registry/demos/parking-meter.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2574,4 +2584,14 @@ export const demos: Record<string, ComponentType> = {
   "film-burn": FilmBurnDemo,
   "jigsaw-set": JigsawSetDemo,
   "etch-reveal": EtchRevealDemo,
+  "sun-arc": SunArcDemo,
+  "moon-phase": MoonPhaseDemo,
+  "egg-timer": EggTimerDemo,
+  "plant-care": PlantCareDemo,
+  "bin-day": BinDayDemo,
+  "commute-line": CommuteLineDemo,
+  "summit-steps": SummitStepsDemo,
+  "dandelion-air": DandelionAirDemo,
+  "wind-sock": WindSockDemo,
+  "parking-meter": ParkingMeterDemo,
 };

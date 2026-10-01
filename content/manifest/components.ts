@@ -71067,4 +71067,1193 @@ export const components: KinetiqItem[] = [
       "The line is traced from the picture's own pixels (an inline SVG is read with its computed colours); before the picture shows, shaking clears the traced line too and the toy traces it again, and after it shows, shaking clears only what the visitor drew over it.",
     ],
   },
+  {
+    name: "sun-arc",
+    type: "registry:ui",
+    title: "Sun Arc",
+    description:
+      "A daylight widget: the sun rides a sine arch from first to last light over a horizon whose sky, ground, glow and stars take the hour's colours, with the daylight left read beside it. Press anywhere in the sky and the sun comes to the finger on the flick spring, follows it 1:1 along the arch and rubber-bands past dawn and dusk; a release projects the throw and the sun glides to the landing on the glide spring with the release velocity, ticking once per hour crossed. The rail under the panel lines up with the arch and is a real slider: arrow keys step the time, Page keys an hour, Home and End jump to first and last light, and Escape or the Now pill brings the sun back to the present.",
+    files: [
+      {
+        path: "registry/ui/sun-arc.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1211",
+    },
+    tagline: "Where the day has got to.",
+    keywords: [
+      "sunrise",
+      "sunset",
+      "daylight",
+      "weather widget",
+      "time scrubber",
+      "sky",
+      "golden hour",
+    ],
+    props: [
+      {
+        name: "sunrise",
+        type: "number",
+        description: "Sunrise, in minutes after local midnight (06:14 is 374).",
+      },
+      {
+        name: "sunset",
+        type: "number",
+        description: "Sunset, in minutes after local midnight.",
+      },
+      {
+        name: "dawn",
+        type: "number",
+        defaultValue: "sunrise - 30",
+        description:
+          "First light, in minutes after midnight: where the arc's left tail ends.",
+      },
+      {
+        name: "dusk",
+        type: "number",
+        defaultValue: "sunset + 30",
+        description:
+          "Last light, in minutes after midnight: where the arc's right tail ends.",
+      },
+      {
+        name: "now",
+        type: "Date | number",
+        description:
+          "The live moment the sun follows while the value is null. Pass it, with timeZone, to render on the server; without it the widget keeps its own clock after hydration.",
+      },
+      {
+        name: "timeZone",
+        type: "string",
+        description:
+          'The IANA time zone now is read in, e.g. "UTC". Defaults to the runtime\'s own.',
+      },
+      {
+        name: "value / defaultValue",
+        type: "number | null",
+        defaultValue: "null",
+        description:
+          "The time shown, in minutes after midnight; null follows now.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number | null) => void",
+        description:
+          "Fires from the drag, tap, key or Now press that changed the time shown (null when it returns to now).",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "5",
+        description: "Minutes per arrow key, and the grid a scrub lands on.",
+      },
+      {
+        name: "clock",
+        type: '"12" | "24"',
+        defaultValue: '"24"',
+        description:
+          "Print every time in 24-hour (06:14) or 12-hour (6:14 am) form.",
+      },
+      {
+        name: "sky",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Paint the sky, ground, horizon glow and stars with the hour. Off leaves a quiet panel on the card surface.",
+      },
+      {
+        name: "marks",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the dawn and dusk marks with their times, and a dot on the arc for every whole hour.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Daylight"',
+        description:
+          "The widget's name: the group's and the slider's accessible name, shown over the reading when there is room.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Tick once per whole hour the visitor scrubs past, pitched by the sun's height, and brighter at sunrise and sunset.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the day but takes no drag or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the widget's root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the rail is a slider from first to last light — Left/Right (and Down/Up) step `step` minutes, Page Up/Down an hour, Home and End jump to dawn and dusk, and Escape returns to now (handled only when scrubbed). The sky's drag mirrors it for pointers, and the Now pill is a real button.",
+      "Reduced motion: the sun never glides — a throw lands where it was let go and keys jump — while the sky, the reading and the stars still change with the time, because they are the information. The drag itself stays 1:1.",
+      "Pass now and timeZone for server rendering; sunrise, sunset, dawn and dusk are wall-clock minutes in that zone. While live, sunrise, sunset and last light are announced once each as the clock reaches them.",
+    ],
+  },
+  {
+    name: "moon-phase",
+    type: "registry:ui",
+    title: "Moon Phase",
+    description:
+      "A moon widget whose lit part is computed from the date — the elongation with its six largest periodic terms — and drawn as the bright limb closed by the terminator's half ellipse, with the phase's name, the share lit and the next full and new moon beside it. A drag across the moon moves through the nights with the terminator travelling under the finger (its own width is a week), and a release projects the throw and glides to the nearest whole night on the glide spring with the release velocity, ticking once per night; the Full and New rows glide the moon to their nights, and seen from the south the whole moon turns over on glide. The night tile is a slider: arrow keys step a night, Page keys a week, Home and End the reach, and Escape or the Tonight pill returns to tonight.",
+    files: [
+      {
+        path: "registry/ui/moon-phase.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1212",
+    },
+    tagline: "Tonight's moon, and the next.",
+    keywords: [
+      "moon",
+      "lunar phase",
+      "full moon",
+      "night sky",
+      "astronomy widget",
+      "date scrubber",
+    ],
+    props: [
+      {
+        name: "now",
+        type: "Date | number",
+        description:
+          "Tonight: the moment the scrub counts from. Pass it, with timeZone, to render on the server; without it the widget keeps its own clock after hydration.",
+      },
+      {
+        name: "timeZone",
+        type: "string",
+        description:
+          'The IANA time zone the dates are written in, e.g. "UTC". Defaults to the runtime\'s own.',
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description: "The night shown, in whole days from now (0 is tonight).",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the drag, key or button that changed the night shown.",
+      },
+      {
+        name: "range",
+        type: "number",
+        defaultValue: "60",
+        description: "How far the scrub reaches each way, in days.",
+      },
+      {
+        name: "hemisphere",
+        type: '"north" | "south"',
+        defaultValue: '"north"',
+        description:
+          "Which way up the moon is seen: south turns it over (the light on the other side, the seas upside down) and flips the drag so the shadow still follows the finger.",
+      },
+      {
+        name: "detail",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Draw the near side's seas, a few craters with rays and the limb's shading. Off: a flat, graphic moon.",
+      },
+      {
+        name: "glow",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The halo's size and strength, 0 to 1; it also follows how much of the moon is lit.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Moon"',
+        description:
+          "The widget's accessible name; the slider is named after it.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Tick once per night the visitor scrubs past, pitched by how much is lit, and distinctly at full and new.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Shows the night but takes no drag, keys or buttons.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the widget's root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the night tile is a slider — Left/Right (and Down/Up) step a night, Page Up/Down a week, Home and End go to the ends of range, and Escape returns to tonight (handled only when away). The Full moon, New moon and Tonight controls are buttons with full names.",
+      "Reduced motion: nothing glides or turns over — a key, a throw, a row or the hemisphere swaps straight to its night or view — while the drag still moves the terminator under the finger and the share lit, the name and the dates still update.",
+      "The module also exports moonOn(date), which returns the phase's name, the share lit and whether the moon is waxing, for text elsewhere in a product.",
+    ],
+  },
+  {
+    name: "egg-timer",
+    type: "registry:ui",
+    title: "Egg Timer",
+    description:
+      "A mechanical kitchen timer, face on: drag round the dial and it turns 1:1 with the hand and ratchets, lingering on each minute's detent and clicking across to the next, rubber-bands past zero and the top of the scale, and lands on the nearest detent on the snap spring when let go, which starts it. While it runs the dial turns back to zero, stepping once a second on the flick spring as the escapement lever rocks on snap (or sweeping silently with ticking off), a red band shrinks toward the pointer, and at zero the shell rattles about its feet on a keyframed tween while the bell rings; a tap pauses and resumes. The dial is a slider in minutes: arrows add or take a minute, Page keys five, Home clears and End sets the whole scale, a held key holds the count like a hand on the dial, and Space or Enter pauses.",
+    files: [
+      {
+        path: "registry/ui/egg-timer.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1213",
+    },
+    tagline: "Twist to set, and it rings.",
+    keywords: [
+      "kitchen timer",
+      "countdown",
+      "egg timer",
+      "rotary dial",
+      "ratchet",
+      "alarm",
+      "cooking",
+    ],
+    props: [
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description: "Seconds left.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires with the seconds left: on each detent while setting, on each key step, and once a second while running (while on screen; it catches up on return).",
+      },
+      {
+        name: "running / defaultRunning",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Whether it is counting down.",
+      },
+      {
+        name: "onRunningChange",
+        type: "(running: boolean) => void",
+        description:
+          "Fires from the release, key, tap or ring that started or stopped it.",
+      },
+      {
+        name: "onRing",
+        type: "() => void",
+        description: "Fires when the count reaches zero and the bell rings.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "60",
+        description:
+          "The scale in minutes, 15 to 60: the graduations, the numbers (every 5, or every 10 past 30) and the size of each ratchet step.",
+      },
+      {
+        name: "shell",
+        type: '"pear" | "lemon" | "mint"',
+        defaultValue: '"lemon"',
+        description:
+          "The shell's colour, at a fixed lightness so it reads the same in either theme.",
+      },
+      {
+        name: "ticking",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Step once a second with the escapement rocking (and a quiet tick-tock, with sound); off, the dial sweeps back smoothly and silently.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Timer"',
+        description:
+          'What is being timed: shown over the reading and used in the dial\'s name ("Eggs timer").',
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Detents while setting, a tick a second while running and the bell's chime — only once someone has set it (a visitor's turn, key, tap or button, or a host change after mount).",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Keeps counting, but takes no drag, keys or button.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the timer's root.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the dial is a slider in whole minutes — Up/Right add a minute (to the next whole minute), Down/Left take one, Page Up/Down five, Home clears and End sets the whole scale; a held key holds the count and letting go starts it, as letting go of the dial does. Space or Enter pauses and resumes, and the Pause/Start button does the same.",
+      "Reduced motion: nothing springs, rocks or rattles — the dial jumps to each detent and each second, and the ring is the marks flaring — while the drag still turns the dial under the hand, the band and the reading still count down, and the chime still plays.",
+      "The count runs from a deadline, so it keeps real time behind a hidden page or off screen; its once-a-second steps and reports rest there and catch up on return, and the bell is its own timeout so onRing fires on time.",
+    ],
+  },
+  {
+    name: "plant-care",
+    type: "registry:ui",
+    title: "Plant Care",
+    description:
+      "A plant-care widget whose plant shows how thirsty it is: as the days since watering pass, a fern's fronds flatten until their tips hang over the rim, a monstera's stalks bend and its split leaves hang, a cactus thins and lets its arms sag, the green drains toward straw and the soil dries and cracks, all rebuilt each frame from analytic curves. Pressing Water brings a can in over the pot and tips it on the snap spring, a seeded shower falls in real arcs and splashes while a wet patch spreads, and when the last drops land the leaves spring back up centre first on a staggered snap; a pointer brushed through the plant flicks the leaves it crosses, crisply when watered and loosely when thirsty. The Water button is the whole keyboard path, and the next watering day is named from `now`.",
+    files: [
+      {
+        path: "registry/ui/plant-care.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1214",
+    },
+    tagline: "It droops when it's thirsty.",
+    keywords: [
+      "plant",
+      "watering",
+      "widget",
+      "reminder",
+      "droop",
+      "watering can",
+      "houseplant",
+    ],
+    props: [
+      {
+        name: "days / defaultDays",
+        type: "number",
+        defaultValue: "5",
+        description:
+          "Days since the plant was last watered: its thirst, and so its pose, its colour and the soil.",
+      },
+      {
+        name: "onDaysChange",
+        type: "(days: number) => void",
+        description: "Fires from the Water press with 0.",
+      },
+      {
+        name: "plant",
+        type: '"fern" | "monstera" | "cactus"',
+        defaultValue: '"fern"',
+        description:
+          "Which plant is drawn: arching fronds, split leaves on stalks, or a column with two arms that flowers when well watered. It also sets the default interval.",
+      },
+      {
+        name: "pot",
+        type: '"clay" | "stone" | "glaze"',
+        defaultValue: '"clay"',
+        description:
+          "The pot's finish: terracotta, speckled stone, or a deep blue glaze over a bare clay foot.",
+      },
+      {
+        name: "name",
+        type: "string",
+        defaultValue: '"Fern", "Monstera" or "Cactus"',
+        description:
+          "The plant's name: the widget's title and its accessible name.",
+      },
+      {
+        name: "interval",
+        type: "number",
+        defaultValue: "4 / 7 / 10 by plant",
+        description:
+          "Days between waterings. Thirst is days over interval: droop starts at a third of it and is complete at 1.4 times it.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        description:
+          'The current moment. With it the next watering day is named ("Next Sun 11 Oct"); without it, counted ("Next in 3 days").',
+      },
+      {
+        name: "utcOffset",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Minutes east of UTC used to read `now` as a calendar day, so server and client agree.",
+      },
+      {
+        name: "waterLabel",
+        type: "string",
+        defaultValue: '"Water"',
+        description: "The button's text.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "After a Water press: the pour loop while water leaves the can, and a plip as the first, middle and last drops land, rising as the soil fills. Brushing and host changes are silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The button is disabled, brushing does nothing, and a watering in progress finishes at once.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root, a container up to max-w-xs.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: Water is a real button — Enter or Space waters the plant through the same choreography as a press, and it is aria-disabled (focus stays) until the watering ends. Brushing the leaves is decoration and changes no state. A polite live region says "Sill fern watered. Next watering Sunday 11 October." or, when the host changes the days, how long since watering and when it is due.',
+      "Reduced motion: no can travel, flying drops, sway or springs — the can fades in already tipped over a still shower, the soil darkens, the can fades out and the leaves swap to their new pose while the green returns; the pour and plips still answer the press.",
+      "Controlled: onDaysChange(0) fires from the press; the leaves perk up to whatever days the host holds when the water lands, so a host that refuses the watering keeps its plant thirsty. Pass `now` (and `utcOffset`) for a named next day that renders the same on the server.",
+    ],
+  },
+  {
+    name: "bin-day",
+    type: "registry:ui",
+    title: "Bin Day",
+    description:
+      "A collection-day widget: two to four wheelie bins stand in a row by the house and the one due this collection has been rolled to the kerb, with its name, when it goes out and the bin after it in the header. A bin that moves tips back onto its wheels on the flick spring, rolls on glide taking any release velocity and grows as it comes forward, then drops onto its feet with a rock and a lid thrown open by the jolt, both on recoil; Done rolls it home with a tick and Undo rolls it out with a thud, and the due bin can also be dragged 1:1 between row and kerb while the others refuse. Underneath, the next seven days are a real radio group for the collection day, its pill hopping between days on snap with a crescent on the put-out night; arrows choose, and Home and End jump.",
+    files: [
+      {
+        path: "registry/ui/bin-day.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1215",
+    },
+    tagline: "Which one goes out tonight.",
+    keywords: [
+      "bin day",
+      "collection",
+      "recycling",
+      "reminder",
+      "widget",
+      "week strip",
+      "schedule",
+    ],
+    props: [
+      {
+        name: "now",
+        type: "number | Date",
+        description:
+          "The current moment. Today, the seven days on the strip and which bin is due are read from it, so the server and the page render the same.",
+      },
+      {
+        name: "day / defaultDay",
+        type: '"mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun"',
+        defaultValue: '"thu"',
+        description: "The collection weekday. The week strip chooses it.",
+      },
+      {
+        name: "onDayChange",
+        type: "(day: BinDayWeekday) => void",
+        description: "Fires from the week strip with the chosen weekday.",
+      },
+      {
+        name: "done / defaultDone",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "This collection's bin has been dealt with: it stands back in the row. Uncontrolled, it is kept for that collection's date only, so the next bin rolls out once the date passes.",
+      },
+      {
+        name: "onDoneChange",
+        type: "(done: boolean) => void",
+        description: "Fires from Done, Undo or a drag that changed it.",
+      },
+      {
+        name: "bins",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How many bins take turns, one per collection, 2 to 4: Rubbish, Recycling, Garden, Food.",
+      },
+      {
+        name: "colours",
+        type: '"council" | "pastel" | "mono"',
+        defaultValue: '"council"',
+        description:
+          "Strong civic pigments, soft pastels, or greys told apart by the signs on their fronts. Fixed pigments, the same in either theme.",
+      },
+      {
+        name: "names",
+        type: "string[]",
+        description: "Names for the bins, in rotation order.",
+      },
+      {
+        name: "offset",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Shifts which bin a week starts the rotation on (weeks start on Monday).",
+      },
+      {
+        name: "utcOffset",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Minutes east of UTC used to read `now` as a calendar day.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Bin day"',
+        description: "The widget's accessible name.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A thud when a bin the visitor sent lands at the kerb, a tick when it arrives back in the row, a lighter tick per day stepped on the strip. Host changes are silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Done, the strip and the drag do nothing.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root, a container up to max-w-xs.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: Done and Undo are a real button ("Mark Recycling done", "Undo: Recycling back out") and reach the same end states as dragging the bin; the week strip is a radiogroup with roving focus, where arrows move and choose, and Home and End jump to the first and last day. A polite live region speaks a sentence frozen at each change, such as "Recycling done. Next: Garden, Thursday 15 October."',
+      "Reduced motion: nothing tips, rolls, rocks or opens — a bin swaps between its row slot and the kerb at once and the pill swaps days, while the header, chip and tags still change; a drag still follows the finger and lands at once.",
+      'The scene is a role="img" with a sentence of where every bin stands. Only the due bin is draggable (touch-pan-x, so a vertical drag on it never scrolls the page); a tap on it rattles its lid.',
+    ],
+  },
+  {
+    name: "commute-line",
+    type: "registry:ui",
+    title: "Commute Line",
+    description:
+      "A transit widget: the line's pill and direction, a delay badge whose figure rolls on the snap spring, a line diagram of stops with the train on it, and the chosen stop's arrival time. The train's position comes from the timetable, `now` and the delay (or a live `position`), with a dwell at each stop and a cosine pull-away and braking between them; each report moves the shown train there — at the pace steady reports set, so it reads as one continuous glide, or on the drift spring with its own velocity for a first or irregular report — and a jump back to the start is a fade, never a reverse. A window of stops follows the train and the chosen stop on glide and can be dragged sideways; each stop the train reaches pulses; the stops are a radio group where a tap or the arrow keys choose one and an ETA flag hops there on snap.",
+    files: [
+      {
+        path: "registry/ui/commute-line.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1216",
+    },
+    tagline: "Where the train is now.",
+    keywords: [
+      "transit",
+      "train",
+      "line diagram",
+      "arrival time",
+      "eta",
+      "delay",
+      "widget",
+    ],
+    props: [
+      {
+        name: "timetable",
+        type: "{ id: string; name: string; time: number | Date }[]",
+        description:
+          "Every stop on the run, in order, with its scheduled arrival.",
+      },
+      {
+        name: "now",
+        type: "number | Date",
+        description:
+          "The current moment. Each new value is a report: the train moves to where the timetable and delay put it.",
+      },
+      {
+        name: "delay",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "How late the train is running, in minutes: the badge (on time, late, very late from 6), every ETA, and where the train is.",
+      },
+      {
+        name: "position",
+        type: "number",
+        description:
+          "A reported position from a live feed, as a fractional stop index (2.4 is 40% of the way from the third stop to the fourth). Overrides the timetable's.",
+      },
+      {
+        name: "stops",
+        type: "number",
+        defaultValue: "6",
+        description:
+          "How many stops the diagram shows at once, 2 to 8. Labels drop to two rows when the spacing is too small for one.",
+      },
+      {
+        name: "line",
+        type: '"red" | "green" | "blue"',
+        defaultValue: '"blue"',
+        description:
+          "The line's colour, a fixed pigment that reads in either theme, and its default name.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Blue line"',
+        description:
+          "The line's name: its pill and the widget's accessible name.",
+      },
+      {
+        name: "direction",
+        type: "string",
+        description:
+          'Where the train is heading, shown beside the pill, e.g. "to Harbour".',
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "the next stop ahead of the train",
+        description: "The chosen stop's id: its ETA flag and the footer.",
+      },
+      {
+        name: "onValueChange",
+        type: "(id: string) => void",
+        description: "Fires from a tap or a key that chose a stop.",
+      },
+      {
+        name: "utcOffset",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "Minutes east of UTC for the clock times shown, so the server and the page agree.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A chime when the visitor chooses a stop, higher the sooner the train gets there and low for a stop it has left. Reports and arrivals are silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The train still moves; stops cannot be chosen and the line cannot be dragged.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the root, a container up to max-w-[40rem].",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the stops are a radiogroup with roving focus — arrows choose the next or previous stop, Home and End the first and last, and the window slides to keep the choice in view, which is also the keyboard path for dragging the line. Each radio is named with its ETA ("Fieldline, in 10 minutes, 08:57"). A polite live region speaks a sentence frozen at each change that matters: a choice, a delay change, the train arriving at the chosen stop.',
+      "Reduced motion: the train, the window and the flag jump to each report, the arrival pulse is a flash without growth, and the badge swaps; every time, fill and position still updates.",
+      "The host owns the clock: pass a fixed `now` for the first render and advance it in an effect (and pause that while off screen), so the server and the page render the same train.",
+    ],
+  },
+  {
+    name: "summit-steps",
+    type: "registry:ui",
+    title: "Summit Steps",
+    description:
+      "A step count drawn as a climb: the trail up the mountain is the day's goal, and a small walker stands on it at the share walked so far, legs swinging from the distance covered rather than the clock, so they walk while they move and stand still when they stop. Camps pop up on the recoil spring at each quarter of the goal and the summit flag is hoisted on glide and waves itself out; dragging along the trail scrubs back through the day 1:1, rubber-banding past now, and letting go lands on the nearest hour on the glide spring with the release velocity. The picture is a slider in time: arrow keys step an hour, Page keys three, Home goes to midnight, and End or Escape back to now.",
+    files: [
+      {
+        path: "registry/ui/summit-steps.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1217",
+    },
+    tagline: "Every step is a step up.",
+    keywords: [
+      "step counter",
+      "fitness goal",
+      "activity tracker",
+      "progress",
+      "mountain",
+      "scrub timeline",
+      "pedometer",
+    ],
+    props: [
+      {
+        name: "hours",
+        type: "number[]",
+        description:
+          "Steps counted in each hour of the day so far, midnight first.",
+      },
+      {
+        name: "now",
+        type: "Date | number",
+        description:
+          "The moment the day has reached. Pass it, with timeZone, to render on the server; without it the widget keeps its own clock after hydration.",
+      },
+      {
+        name: "timeZone",
+        type: "string",
+        description:
+          'The IANA time zone now is read in, e.g. "UTC". Defaults to the runtime\'s own.',
+      },
+      {
+        name: "value / defaultValue",
+        type: "number | null",
+        defaultValue: "null",
+        description:
+          "The whole hour shown (the steps taken by that hour), or null to follow now.",
+      },
+      {
+        name: "onValueChange",
+        type: "(hour: number | null) => void",
+        description:
+          "Fires from the drag, tap, key or Now press that changed the hour shown.",
+      },
+      {
+        name: "goal",
+        type: "number",
+        defaultValue: "10000",
+        description:
+          "The day's goal in steps: the whole trail, valley to summit. Camps sit at each quarter of it.",
+      },
+      {
+        name: "terrain",
+        type: '"alpine" | "desert" | "coast"',
+        defaultValue: '"alpine"',
+        description:
+          "The landscape and the trail up it: a snow-capped peak with switchbacks, a terracotta butte over dunes, or a grass headland above the sea.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Today"',
+        description:
+          "The widget's name, shown over the picture and used in the slider's name.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A tick for each hour and camp a visitor's scrub passes and a chime on the summit. The count growing on its own is silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Keeps showing the count, but takes no drag, tap or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the tile.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the picture is a slider in time — Left/Down go back an hour, Right/Up forward (past now is now again), Page Up/Down three hours, Home midnight, End now; Escape returns to now and is handled (with preventDefault) only while scrubbed. The Now button does the same.",
+      "Reduced motion: the walker never walks or glides — it stands where the drag, key or count puts it — the camps and the flag appear and leave on opacity and the flag does not wave, while the count, the trodden trail and the time shown still change.",
+      "A polite live region speaks a camp or the summit reached by the live count once, a pointer scrub's reading and a return to now; keyboard changes are read from the slider's value text.",
+    ],
+  },
+  {
+    name: "dandelion-air",
+    type: "registry:ui",
+    title: "Dandelion Air",
+    description:
+      "An air-quality widget drawn as a dandelion clock: the seeds still on the head are the reading, a full clock in clean air and a bald stalk in hazardous air, and when the index rises the seeds that no longer belong let go in a cascade and sail off downwind, turning pappus-up as they go, while the sky takes a haze in the band's colour and the marker glides along the band scale on the glide spring. A quick swipe across the head blows the seeds it passes along the swipe and the stem takes the gust and springs back on the recoil spring, then the head fills back in to the reading. The head is a real button: a tap, Space or Enter is one gust downwind.",
+    files: [
+      {
+        path: "registry/ui/dandelion-air.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1218",
+    },
+    tagline: "Seeds drift off as the air gets worse.",
+    keywords: [
+      "air quality",
+      "aqi",
+      "pollution",
+      "weather widget",
+      "dandelion",
+      "gauge",
+      "particles",
+    ],
+    props: [
+      {
+        name: "aqi",
+        type: "number",
+        description:
+          "The air quality index, 0 to 500: how many seeds stay on the head, the haze, the band and the number.",
+      },
+      {
+        name: "wind",
+        type: "number",
+        defaultValue: "0.4",
+        description:
+          "How hard the wind blows, 0 to 1: the lean of the stem and how fast seeds sail off.",
+      },
+      {
+        name: "seeds",
+        type: "number",
+        defaultValue: "48",
+        description: "How many seeds a full head carries, 24 to 72.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Air quality"',
+        description:
+          "The widget's name, used for the reading and the band announcements.",
+      },
+      {
+        name: "place",
+        type: "string",
+        description: "Where the reading is from, shown over the sky.",
+      },
+      {
+        name: "onBlow",
+        type: "(left: number) => void",
+        description:
+          "After a blow, with how many seeds are left on the head before it fills back in.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A swish for each blow, pitched by the swipe's speed. The index changing is silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Keeps showing the reading, but takes no swipe, tap or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the tile.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the head is a button — Space or Enter blows one gust downwind that takes about half the head, which then fills back in to the reading. The index is a meter (aria-valuetext "72, moderate") and a change of band is announced once in a polite live region.',
+      "Reduced motion: seeds fade off and on where they are, with no flight, sway or stagger, and the number does not roll; the head, the haze, the band and the marker still change, because they are the reading.",
+      "The frame loop runs only while seeds are moving, on screen and in a visible page; going off screen or hidden lands everything at once. The index changing never makes a sound.",
+    ],
+  },
+  {
+    name: "wind-sock",
+    type: "registry:ui",
+    title: "Wind Sock",
+    description:
+      "A wind widget: an airfield windsock on a mast in the middle of a compass rose painted on the grass, built from six hoops projected from 3D so it points the way the wind blows in depth as well as across, with its shadow falling downwind on the rose. It hangs at calm and fills toward level by fifteen knots on the glide spring, its five stripes light one by one with the Beaufort bands and turn red from a near gale, and while it is on screen it flaps with a ripple and a seeded wander that grow with gust. Dragging on the rose moves the wind marker 1:1 and the sock swings after it on a hunting vane spring; arrow keys turn the preview 5°, Page keys 45°, Home faces north, and Escape or Live returns to the real wind.",
+    files: [
+      {
+        path: "registry/ui/wind-sock.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1219",
+    },
+    tagline: "Which way, and how hard.",
+    keywords: [
+      "wind",
+      "windsock",
+      "weather widget",
+      "compass",
+      "wind direction",
+      "beaufort",
+      "airfield",
+    ],
+    props: [
+      {
+        name: "speed",
+        type: "number",
+        description:
+          "Wind speed in knots: how full the sock is, which stripes are lit, how fast it flaps and the reading.",
+      },
+      {
+        name: "direction",
+        type: "number",
+        description:
+          "The bearing the wind blows from, in degrees (270 is a westerly). The sock points the other way.",
+      },
+      {
+        name: "gust",
+        type: "number",
+        defaultValue: "0.35",
+        description:
+          "How gusty it is, 0 to 1: how hard the sock wanders and swells, and the reading's steady, gusty or very gusty.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number | null",
+        defaultValue: "null",
+        description:
+          "The previewed bearing the sock is shown in, or null for the live wind.",
+      },
+      {
+        name: "onValueChange",
+        type: "(bearing: number | null) => void",
+        description:
+          "Fires from the drag, tap, key or Live press that changed the preview.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Wind"',
+        description:
+          "The widget's name, used in the slider's name and the band announcements.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A whoosh as the visitor swings the sock (on a drag at most every 45° and 220 ms, a tap, a key, and the return to live), pitched up with the wind. The flapping itself is silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Keeps showing the wind, but takes no drag, tap or keys.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the tile.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the picture is a slider in degrees — Right/Up turn the preview 5° clockwise, Left/Down 5° anticlockwise, Page Up/Down 45°, Home faces north; Escape returns to the live wind and is handled (with preventDefault) only while previewing. The Live button does the same.",
+      "Reduced motion: nothing flaps or hunts — the sock is drawn still and turns and fills on short tweens — while the stripes, the reading and the preview marker still change.",
+      "The flap loop runs only while the sock is on screen, the page is visible and the wind is above calm; a change of Beaufort band is announced once in a polite live region.",
+    ],
+  },
+  {
+    name: "parking-meter",
+    type: "registry:ui",
+    title: "Parking Meter",
+    description:
+      "A parking meter widget: in the classic style a needle sweeps down a cream dial through the time left, in the digital style seven-segment digits and a ten-bar graph show it, and both read one motion value. Tapping the meter or its button drops a coin into the slot on an accelerating tween as it turns edge-on, it clacks as it lands, and the needle kicks up to the new time on the recoil spring, overshooting against its stop pin and ticking past each mark; a full meter bounces the coin back out. In the last minutes the window's rim pulses and the red flag peeks over the sill, popping up on recoil at expiry; the add button is the keyboard's way in, and the time left is announced at the thresholds and after every coin.",
+    files: [
+      {
+        path: "registry/ui/parking-meter.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1220",
+    },
+    tagline: "Time left on the meter.",
+    keywords: [
+      "parking",
+      "meter",
+      "countdown",
+      "time left",
+      "payment",
+      "needle gauge",
+      "expiry",
+    ],
+    props: [
+      {
+        name: "now",
+        type: "Date | number",
+        description:
+          "The moment it is. Pass it, with timeZone, to render on the server; without it the meter keeps its own clock after hydration.",
+      },
+      {
+        name: "timeZone",
+        type: "string",
+        description:
+          'The IANA time zone times are shown in, e.g. "UTC". Defaults to the runtime\'s own.',
+      },
+      {
+        name: "value / defaultValue",
+        type: "number | null",
+        defaultValue: "null",
+        description:
+          "The moment the meter is paid until, in ms. Null or past is expired.",
+      },
+      {
+        name: "onValueChange",
+        type: "(paidUntil: number) => void",
+        description:
+          "Fires as each coin lands, with the new paid-until moment.",
+      },
+      {
+        name: "max",
+        type: "number",
+        defaultValue: "120",
+        description:
+          "The longest stay, in minutes: the dial's scale and marks, and the cap a coin cannot pass.",
+      },
+      {
+        name: "coin",
+        type: "number",
+        defaultValue: "20",
+        description:
+          "Minutes one coin buys: the slot plate, the button and how far the needle kicks.",
+      },
+      {
+        name: "style",
+        type: '"classic" | "digital"',
+        defaultValue: '"classic"',
+        description:
+          "An enamel dome with a needle dial, or a charcoal digital head with an LCD of segment digits and bars.",
+      },
+      {
+        name: "warnAt",
+        type: "number",
+        defaultValue: "10",
+        description:
+          "Minutes left at which the window starts to pulse, the flag to peek and the reading turns the warning colour.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Parking"',
+        description:
+          "What is parked, shown over the reading and used in its announcements.",
+      },
+      {
+        name: "onRefuse",
+        type: "() => void",
+        description: "A coin refused because the meter is already at max.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The coin's clack (a low one when refused) and a tick for each mark the needle passes on its kick, only after a visitor's tap or press. Time passing is silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Keeps counting down, but takes no coins.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the tile.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the Add button is a real button — Enter or Space drops one coin, exactly as a tap on the meter drawing does (the drawing is a pointer convenience and hidden from assistive technology). The time left is a meter (aria-valuetext "23 minutes left").',
+      "Reduced motion: the coin fades in at the slot instead of falling, the needle and digits move on a short tween with no kick, the flag fades in rather than rising and the rim is a steady amber or red; the reading, the flag and the announcements are unchanged.",
+      'A polite live region speaks warnAt minutes left, one minute left and expiry once each as time passes, and every coin ("Added 20 minutes. 32 minutes left, paid until 14:52.") or refusal.',
+    ],
+  },
 ];
