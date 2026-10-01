@@ -22,6 +22,11 @@ export type Room = {
   param: string;
   /** The accessible name of the filter chips. */
   filterLabel: string;
+  /**
+   * The group chips always take a row of their own, above search and sort.
+   * For a room whose group names are too long to share one row with them.
+   */
+  chipsOwnRow?: boolean;
   groups: RoomGroup[];
   demos: Record<string, () => Promise<TactileModule>>;
 };

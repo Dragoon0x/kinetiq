@@ -67,6 +67,45 @@ export function RoomGallery({
   );
 }
 
+/**
+ * Which ends of a scrolling row hide more of it — measured from the row
+ * itself (its size, its chips' sizes once the fonts land, its scroll), not
+ * guessed from a breakpoint.
+ */
+function useScrollEdges(ref: React.RefObject<HTMLElement | null>) {
+  const [edges, setEdges] = React.useState({ start: false, end: false });
+  React.useEffect(() => {
+    const row = ref.current;
+    if (!row) return;
+    const measure = () => {
+      const start = row.scrollLeft > 1;
+      const end = row.scrollLeft + row.clientWidth < row.scrollWidth - 1;
+      setEdges((was) =>
+        was.start === start && was.end === end ? was : { start, end },
+      );
+    };
+    // A ResizeObserver reports every box once as it starts watching, so
+    // this also takes the first measure.
+    const sizes = new ResizeObserver(measure);
+    sizes.observe(row);
+    for (const chip of Array.from(row.children)) sizes.observe(chip);
+    row.addEventListener("scroll", measure, { passive: true });
+    return () => {
+      sizes.disconnect();
+      row.removeEventListener("scroll", measure);
+    };
+  }, [ref]);
+  return edges;
+}
+
+/** A 2rem fade at each end of a row that has more beyond it. */
+function edgeFade({ start, end }: { start: boolean; end: boolean }) {
+  if (!start && !end) return undefined;
+  const from = start ? "transparent, black 2rem" : "black";
+  const to = end ? "black calc(100% - 2rem), transparent" : "black";
+  return `linear-gradient(to right, ${from}, ${to})`;
+}
+
 function Gallery({ room, items }: { room: Room; items: TactileItem[] }) {
   const motionSafe = useMotionSafe();
   const searchParams = useSearchParams();
@@ -230,6 +269,28 @@ function Gallery({ room, items }: { room: Room; items: TactileItem[] }) {
       })),
   ];
   const chipRefs = React.useRef(new Map<string, HTMLButtonElement>());
+  const chipRow = React.useRef<HTMLDivElement>(null);
+  const edges = useScrollEdges(chipRow);
+  const fade = edgeFade(edges);
+
+  // A chip chosen off the end of a scrolling row (a deep link, a narrow
+  // window) slides into view, so the wall never filters by a hidden chip.
+  React.useEffect(() => {
+    const row = chipRow.current;
+    const chip = chipRefs.current.get(group);
+    if (!row || !chip) return;
+    const r = row.getBoundingClientRect();
+    const c = chip.getBoundingClientRect();
+    const by =
+      c.left < r.left + 32
+        ? c.left - r.left - 32
+        : c.right > r.right - 32
+          ? c.right - r.right + 32
+          : 0;
+    if (by !== 0) {
+      row.scrollBy({ left: by, behavior: motionSafe ? "smooth" : "auto" });
+    }
+  }, [group, motionSafe]);
 
   const onChipKey = (event: React.KeyboardEvent, index: number) => {
     const delta =
@@ -253,14 +314,25 @@ function Gallery({ room, items }: { room: Room; items: TactileItem[] }) {
   return (
     <div>
       <div className="sticky top-14 z-30 border-y border-hairline bg-surface-0/85 backdrop-blur-md">
-        {/* One row from xl, where ten groups, search, sort and sound fit side
-            by side; below it the groups get a full-width row of their own,
-            fading at the edge while they still scroll. */}
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6 xl:flex-row xl:items-center">
+        {/* One row from xl, where ten short groups, search, sort and sound
+            fit side by side; below it — and always, for a room whose group
+            names run long — the groups get a full-width row of their own.
+            Wherever the row still scrolls, it fades at the end that hides
+            more chips. */}
+        <div
+          className={cn(
+            "mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:px-6",
+            !room.chipsOwnRow && "xl:flex-row xl:items-center",
+          )}
+        >
           <div
+            ref={chipRow}
             role="radiogroup"
             aria-label={room.filterLabel}
-            className="-mx-1 flex min-w-0 flex-1 [scrollbar-width:none] gap-0.5 overflow-x-auto px-1 py-0.5 max-lg:[mask-image:linear-gradient(to_right,black_calc(100%-2rem),transparent)]"
+            className="-mx-1 flex min-w-0 flex-1 [scrollbar-width:none] gap-0.5 overflow-x-auto px-1 py-0.5"
+            style={
+              fade ? { maskImage: fade, WebkitMaskImage: fade } : undefined
+            }
           >
             {chips.map((chip, index) => {
               const active = chip.slug === group;
@@ -309,7 +381,12 @@ function Gallery({ room, items }: { room: Room; items: TactileItem[] }) {
             })}
           </div>
           <div className="flex items-center gap-2">
-            <label className="relative flex h-9 min-w-0 flex-1 items-center xl:w-40 xl:flex-none">
+            <label
+              className={cn(
+                "relative flex h-9 min-w-0 flex-1 items-center lg:max-w-sm",
+                !room.chipsOwnRow && "xl:w-40 xl:flex-none",
+              )}
+            >
               <span className="sr-only">{`Search ${room.name}`}</span>
               <Search
                 aria-hidden
@@ -323,7 +400,7 @@ function Gallery({ room, items }: { room: Room; items: TactileItem[] }) {
                 className="h-9 w-full rounded-2 border border-hairline bg-surface-1 pr-2 pl-8 text-xs text-foreground outline-none placeholder:text-ink-3 focus-visible:border-hairline-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid"
               />
             </label>
-            <div className="shrink-0">
+            <div className="shrink-0 lg:ml-auto">
               <Segmented
                 label="Sort"
                 options={[

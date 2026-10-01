@@ -9,6 +9,9 @@ export const ATELIER_ROOM: Room = {
   name: "Atelier",
   param: "set",
   filterLabel: "Filter by set",
+  // Ten set names with their glyphs and counts run past a thousand pixels:
+  // more than the row has once search, sort and sound sit beside them.
+  chipsOwnRow: true,
   groups: ATELIER_SETS.map(({ slug, label }) => ({ slug, label })),
   demos: ATELIER_DEMOS,
 };
