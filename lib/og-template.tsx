@@ -22,6 +22,7 @@ import type { KinetiqItem } from "@/content/manifest/types";
 import { pageFamilyOf } from "@/content/page-categories";
 import type { Showcase } from "@/content/showcases";
 import { templateKindOf } from "@/content/template-categories";
+import { LOGO_PATH, LOGO_VIEWBOX } from "@/lib/logo";
 import type { SpringName } from "@/registry/lib/motion";
 
 import { SPRING_NAMES, springTrace, windowFor } from "./og-curve";
@@ -639,22 +640,9 @@ function Rail({ chip }: { chip: string }) {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: 38,
-            height: 38,
-            borderRadius: 4,
-            border: `1px solid ${HAIRLINE_STRONG}`,
-            color: "#6d7cff",
-            fontFamily: MONO,
-            fontSize: 21,
-          }}
-        >
-          K
-        </div>
+        <svg width={36} height={31} viewBox={LOGO_VIEWBOX} fill={INK}>
+          <path d={LOGO_PATH} />
+        </svg>
         <span style={{ fontFamily: SANS, fontSize: 26, color: INK }}>
           Kinetiq
         </span>

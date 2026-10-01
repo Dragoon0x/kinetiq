@@ -1,9 +1,11 @@
 import { ImageResponse } from "next/og";
 
+import { LOGO_PATH, LOGO_VIEWBOX } from "@/lib/logo";
+
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-/** The K specimen tile at home-screen size. */
+/** The mark in white on the site's night, at home-screen size. */
 export default function AppleIcon() {
   return new ImageResponse(
     <div
@@ -14,13 +16,11 @@ export default function AppleIcon() {
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#10131a",
-        color: "#6d7cff",
-        fontSize: 112,
-        fontWeight: 700,
-        fontFamily: "monospace",
       }}
     >
-      K
+      <svg width={104} height={88} viewBox={LOGO_VIEWBOX} fill="#ffffff">
+        <path d={LOGO_PATH} />
+      </svg>
     </div>,
     size,
   );
