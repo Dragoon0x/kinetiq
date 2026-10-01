@@ -31407,6 +31407,288 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "follow-knot",
+      "type": "registry:ui",
+      "title": "Follow Knot",
+      "description": "A follow button whose plus is one rope: pressed, its free end sweeps round on a tween into a loop that crosses over the standing part, and the loop cinches into a knot at the vertex of a check on the snap spring, thrown hard enough by tension that its one overshoot reads as the knot pulling past tight. The label slides from Follow to Following on snap inside a slot as wide as the longest word, and the follower figure rolls one on, units first; hovering or keyboard-focusing a followed button loosens and turns the knot and offers Unfollow in danger ink, and a press unties it rope-first before the words and figure follow. It is a button with aria-pressed and a constant name, Space and Enter press it, and under reduced motion the rope swaps between plus and check with a short fade while the digits change in place.",
+      "files": [
+        {
+          "path": "registry/ui/follow-knot.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1251"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "mute-cone",
+      "type": "registry:ui",
+      "title": "Mute Cone",
+      "description": "A mute toggle drawn as a speaker cone with up to four waves and a five-pill level meter: muting folds the waves back into the cone outermost first, a cascade apart on the exit ease, then a pen draws the slash; unmuting lifts the pen and releases the waves one by one on the snap spring, each overshooting its own radius, while the meter refills to the kept level on the glide spring. The volume is a second value: a long press arms a scrub, a vertical drag follows the finger 1:1 and rubber-bands past either end, the waves follow the level band by band, and reaching 0 mutes. It is a button with aria-pressed and a constant name; Space and Enter mute, the arrow keys, Page keys, Home and End set the volume, and the change is announced politely.",
+      "files": [
+        {
+          "path": "registry/ui/mute-cone.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1252"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pin-press",
+      "type": "registry:ui",
+      "title": "Pin Press",
+      "description": "A pin toggle drawn as a push-pin over a small cork patch at three-quarters: a press pushes the pin part of the way in on the flick spring, and letting go drives it home with the press's speed while the head shrinks away, its shadow tightens, the head takes the hit on the recoil spring and a dimple ring spreads across the cork, and a to-top tag slides out from under the label on snap. Unpinning pulls the pin up on a heavy spring while the needle wobbles about its tip on an underdamped one and the shadow grows back. It is a button with aria-pressed and a constant name; Space pushes on the way down and pins on the way up, Enter pins at once, and Escape or blur mid-press lets the pin back out without committing.",
+      "files": [
+        {
+          "path": "registry/ui/pin-press.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1253"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "privacy-blinds",
+      "type": "registry:ui",
+      "title": "Privacy Blinds",
+      "description": "A Public / Private toggle drawn as a window with venetian blinds. Going private, each slat tilts shut from the top down on springs.snap in a short cascade, the bands of daylight the window throws across the button thin out until a last sliver stripes the label, and the bottom rail folds into a padlock whose shackle rises on snap; going public, the lock lets go, the slats open from the bottom up and a soft beam sweeps the face on a tween. It is a toggle button with aria-pressed under one constant name: Space and Enter press it, and hovering peeks the slats a few degrees.",
+      "files": [
+        {
+          "path": "registry/ui/privacy-blinds.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1254"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "renew-loop",
+      "type": "registry:ui",
+      "title": "Renew Loop",
+      "description": "An auto-renew switch whose icon is the renewal: switched on, two arc arrows chase round the ring on springs.glide until their heads catch the other's tails and lock into a closed ring on springs.snap, the heads folding to small chevrons as the ring takes the accent, while a split-flap readout beside the label turns over cell by cell to the renewal date. Switched off, the ring breaks at the top, the arrows coast apart under friction on an inertia decay and the readout flips back to the day access ends. Dates come only from props, read in UTC; Space and Enter toggle it, and a polite status speaks the new date.",
+      "files": [
+        {
+          "path": "registry/ui/renew-loop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1255"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "focus-moon",
+      "type": "registry:ui",
+      "title": "Focus Moon",
+      "description": "A do-not-disturb toggle that eclipses its own sun: pressed, a moon slides across it on springs.snap, whose one overshoot flashes the last bead of sun on the far limb before the corona comes up on snap, the face turns to night and stars twinkle in on snap in a cascade; while focusing and on screen the corona breathes from one phase value. Holding the button extends the end time in grid steps, a tick per step as the changed digits roll on snap, and letting go sets it; pressed off, the moon slides away on an exit tween and the sunlight blooms back, settling on springs.drift. Space and Enter toggle it, the Up and Down arrows move the end a step, and times come only from the now prop.",
+      "files": [
+        {
+          "path": "registry/ui/focus-moon.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1256"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "repeat-coil",
+      "type": "registry:ui",
+      "title": "Repeat Coil",
+      "description": "A three-way repeat button whose glyph is two strands rebuilt every frame: off they hang as loose arrows, the first press bends them into one closed loop on the glide spring, and the second winds a third turn inside it on glide while a \"1\" pip pops out of the loop onto its corner on the recoil spring. The third press drops the pip back on an exit tween and lets the loop fall slack again. It reports aria-pressed false, true and mixed; Space and Enter cycle it, the arrow keys step either way, and Home and End jump to the ends.",
+      "files": [
+        {
+          "path": "registry/ui/repeat-coil.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1257"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "latch-lock",
+      "type": "registry:ui",
+      "title": "Latch Lock",
+      "description": "A lock toggle drawn as a padlock whose parts move on their own springs: unlocking lifts the shackle on the snap spring and swings it out about its long leg with one overshoot while the body drops a few pixels and a glint sweeps the keyhole; locking swings it back and drops it home on the flick spring against a hard stop, with a short shake through the whole lock. A disabled lock stays focusable, rattles in place and says why instead of toggling. Space and Enter toggle it through the native click, and aria-pressed reports locked.",
+      "files": [
+        {
+          "path": "registry/ui/latch-lock.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1258"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "eye-lid",
+      "type": "registry:ui",
+      "title": "Eye Lid",
+      "description": "A show/hide toggle drawn as an eye that watches: while open, the iris and pupil follow the pointer anywhere on the page, held inside the eye on a spring whose keenness you set. Pressing blinks the lid shut on the snap spring with its lashes swinging over; shut, the lid twitches when the pointer passes close, and opening wakes it with a couple of slow tweened blinks before the gaze finds the pointer again on the glide spring. Space and Enter toggle it through the native click, and aria-pressed reports hidden.",
+      "files": [
+        {
+          "path": "registry/ui/eye-lid.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1259"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "wish-tag",
+      "type": "registry:ui",
+      "title": "Wish Tag",
+      "description": "A save-to-list toggle that hangs a paper price tag from the button's eyelet: saving swings it in from above the frame as a real pendulum on a recoil-family spring whose period and damping you set, with the tag hinged at its hole so it dangles a beat behind the string, while the counter rolls up on snap and bumps on recoil as the tag first comes taut. Removing snips the string, the stub curls back into the eyelet and the tag drops out of the frame on an ease-in fall. Space and Enter toggle it through the native click, aria-pressed reports saved, and a polite live region says what changed and the new count.",
+      "files": [
+        {
+          "path": "registry/ui/wish-tag.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "studio"
+      ],
+      "meta": {
+        "serial": "KQ-1260"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",

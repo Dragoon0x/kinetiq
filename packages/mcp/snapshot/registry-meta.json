@@ -13,7 +13,7 @@
     "indexUrl": "https://www.kinetiqui.com/r/registry.json",
     "docsUrl": "https://www.kinetiqui.com",
     "counts": {
-      "components": 1129,
+      "components": 1139,
       "blocks": 152,
       "pages": 28,
       "templates": 10,
@@ -88704,6 +88704,1574 @@
         "yarn": "yarn dlx shadcn@latest add @kinetiq/tartan-shift",
         "bun": "bunx --bun shadcn@latest add @kinetiq/tartan-shift",
         "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/tartan-shift.json"
+      }
+    },
+    {
+      "slug": "follow-knot",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Follow Knot",
+      "serial": "KQ-1251",
+      "tagline": "The plus ties itself into a check.",
+      "description": "A follow button whose plus is one rope: pressed, its free end sweeps round on a tween into a loop that crosses over the standing part, and the loop cinches into a knot at the vertex of a check on the snap spring, thrown hard enough by tension that its one overshoot reads as the knot pulling past tight. The label slides from Follow to Following on snap inside a slot as wide as the longest word, and the follower figure rolls one on, units first; hovering or keyboard-focusing a followed button loosens and turns the knot and offers Unfollow in danger ink, and a press unties it rope-first before the words and figure follow. It is a button with aria-pressed and a constant name, Space and Enter press it, and under reduced motion the rope swaps between plus and check with a short fade while the digits change in place.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "follow button",
+        "subscribe",
+        "toggle",
+        "follower count",
+        "knot",
+        "rope",
+        "social"
+      ],
+      "props": [
+        {
+          "name": "pressed / defaultPressed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the viewer follows, controlled or initial."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "description": "Fires from the press that changed it, with the new state; the rope moves once the state actually changes, so a refused press never shows a false knot."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Follow\"",
+          "description": "The word before following, and the start of the accessible name."
+        },
+        {
+          "name": "pressedLabel",
+          "type": "string",
+          "defaultValue": "\"Following\"",
+          "description": "The word once following; the slot keeps the longest word's width."
+        },
+        {
+          "name": "releaseLabel",
+          "type": "string",
+          "defaultValue": "\"Unfollow\"",
+          "description": "The word while a followed button is hovered or keyboard-focused: what a press will do."
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "description": "Who or what is followed, appended to the accessible name (\"Follow Fieldline Journal\")."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "description": "Followers without this viewer; the button adds one while followed. Omit to hide the figure."
+        },
+        {
+          "name": "formatCount",
+          "type": "(count: number) => string",
+          "defaultValue": "en-US grouping",
+          "description": "How the figure is written; digits roll, other characters swap."
+        },
+        {
+          "name": "describeCount",
+          "type": "(count: number) => string",
+          "defaultValue": "\"1,300 followers\"",
+          "description": "The figure as spoken, read as the button's description."
+        },
+        {
+          "name": "tension",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How hard the knot is pulled, 0 to 1: a loose eye that settles softly, or a hard bead that snaps past tight."
+        },
+        {
+          "name": "untieAngle",
+          "type": "number",
+          "defaultValue": "8",
+          "description": "How far the knot turns as it loosens under a hover, in degrees."
+        },
+        {
+          "name": "tieDuration",
+          "type": "number",
+          "defaultValue": "240",
+          "description": "How long the free end takes to sweep its loop, in ms; the cinch starts 60% of the way in."
+        },
+        {
+          "name": "previewDelay",
+          "type": "number",
+          "defaultValue": "80",
+          "description": "How long a pointer rests on a followed button before it offers to unfollow, in ms."
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Icon only: the knot alone in a round button, the words in its accessible name."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "32, 36 or 44px tall."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent)\"",
+          "description": "The unfollowed pill's fill, any CSS colour."
+        },
+        {
+          "name": "accentInk",
+          "type": "string",
+          "defaultValue": "\"var(--primary-foreground)\"",
+          "description": "Words and rope on that fill."
+        },
+        {
+          "name": "danger",
+          "type": "string",
+          "defaultValue": "\"var(--danger)\"",
+          "description": "Ink of the unfollow preview."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a tick as the free end crosses over and a snap as the knot pulls tight; only ever for the visitor's own press."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Not pressable, drawn at half strength."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the button."
+        }
+      ],
+      "usageNotes": [
+        "Space and Enter press it through the native click; the accessible name stays label + target in both states, aria-pressed carries the state and the figure is the button's description.",
+        "Under reduced motion the rope swaps between plus and check with a 150ms fade, the words cross-fade in place and the digits change without rolling; the fill and ink still change, because following is information.",
+        "Controlled: pass pressed and onPressedChange. The press reports first and the knot ties only when the host answers, so a refused follow never shows a check.",
+        "The Unfollow offer never appears under the pointer that just followed; it waits until the pointer leaves and comes back, or for keyboard focus to arrive.",
+        "count is the figure without this viewer, so a host can pass its server count before the viewer's own follow is counted."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/follow-knot",
+      "registryItemUrl": "https://www.kinetiqui.com/r/follow-knot.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/follow-knot",
+        "npm": "npx shadcn@latest add @kinetiq/follow-knot",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/follow-knot",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/follow-knot",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/follow-knot.json"
+      }
+    },
+    {
+      "slug": "mute-cone",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Mute Cone",
+      "serial": "KQ-1252",
+      "tagline": "Sound folds back into the speaker.",
+      "description": "A mute toggle drawn as a speaker cone with up to four waves and a five-pill level meter: muting folds the waves back into the cone outermost first, a cascade apart on the exit ease, then a pen draws the slash; unmuting lifts the pen and releases the waves one by one on the snap spring, each overshooting its own radius, while the meter refills to the kept level on the glide spring. The volume is a second value: a long press arms a scrub, a vertical drag follows the finger 1:1 and rubber-bands past either end, the waves follow the level band by band, and reaching 0 mutes. It is a button with aria-pressed and a constant name; Space and Enter mute, the arrow keys, Page keys, Home and End set the volume, and the change is announced politely.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "mute",
+        "volume",
+        "speaker",
+        "audio toggle",
+        "level meter",
+        "call controls",
+        "sound"
+      ],
+      "props": [
+        {
+          "name": "pressed / defaultPressed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the sound is muted, controlled or initial."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "description": "Fires from the press, drag or key that muted or unmuted."
+        },
+        {
+          "name": "level / defaultLevel",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "The volume, 0 to 100, controlled or initial. Muting keeps it; 0 is silence."
+        },
+        {
+          "name": "onLevelChange",
+          "type": "(level: number) => void",
+          "description": "Fires from the drag or key that changed the volume, as it changes."
+        },
+        {
+          "name": "waves",
+          "type": "number",
+          "defaultValue": "4",
+          "description": "How many sound waves the cone can hold, 1 to 4; the level fills them in turn and the icon's width follows."
+        },
+        {
+          "name": "slash",
+          "type": "\"line\" | \"cross\" | \"none\"",
+          "defaultValue": "\"line\"",
+          "description": "The mark drawn once the waves have folded: a slash through the cone, a cross where the waves were, or none."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "10",
+          "description": "How far one arrow key moves the level."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Sound on\"",
+          "description": "The word while sound plays."
+        },
+        {
+          "name": "pressedLabel",
+          "type": "string",
+          "defaultValue": "\"Muted\"",
+          "description": "The word while muted, in the muted colour."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "defaultValue": "\"Mute\"",
+          "description": "The toggle's accessible name, the same in both states."
+        },
+        {
+          "name": "formatLevel",
+          "type": "(level: number) => string",
+          "defaultValue": "`${level}%`",
+          "description": "How the level is written while it is scrubbed, and spoken."
+        },
+        {
+          "name": "holdDelay",
+          "type": "number",
+          "defaultValue": "420",
+          "description": "How long a press is held before it starts scrubbing the level, in ms."
+        },
+        {
+          "name": "scrubDistance",
+          "type": "number",
+          "defaultValue": "120",
+          "description": "How far a vertical drag travels to cross the whole range, in px."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "cascade of the wave count",
+          "description": "The beat between one wave and the next as they fold or release, in ms."
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Icon only: the cone over a row of five dots, the words in its accessible name."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "40, 48 or 56px tall."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The waves and the meter, any CSS colour."
+        },
+        {
+          "name": "mutedColor",
+          "type": "string",
+          "defaultValue": "\"var(--danger)\"",
+          "description": "The muted mark and word."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play the fold and release, the slash, and the meter's detents; only ever for the visitor's own press, drag or key."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Not pressable or draggable, drawn at half strength."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the button."
+        }
+      ],
+      "usageNotes": [
+        "Space and Enter mute and unmute; with focus on the button, Arrow Up/Right and Down/Left move the volume by step, Page Up/Down by 25, Home mutes and End plays at 100. A key change and the end of a drag are announced in a polite live region.",
+        "Under reduced motion the waves and the mark appear and disappear in place by opacity, the meter changes on a short tween and nothing stretches; the level and the muted state still show.",
+        "The visible level is level while playing and 0 while muted. Scrubbing to 0 reports level 0 and muted; unmuting a muted control whose level is 0 brings back the last audible level.",
+        "Keep both pairs controlled together (pressed with onPressedChange, level with onLevelChange); a host that refuses a drag gets its own value back when the finger lifts.",
+        "The button takes touch-action: pan-x, so a vertical drag on it scrubs instead of scrolling the page; a horizontal swipe still pans."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/mute-cone",
+      "registryItemUrl": "https://www.kinetiqui.com/r/mute-cone.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/mute-cone",
+        "npm": "npx shadcn@latest add @kinetiq/mute-cone",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/mute-cone",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/mute-cone",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/mute-cone.json"
+      }
+    },
+    {
+      "slug": "pin-press",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Pin Press",
+      "serial": "KQ-1253",
+      "tagline": "Pressed into the board, pulled back out.",
+      "description": "A pin toggle drawn as a push-pin over a small cork patch at three-quarters: a press pushes the pin part of the way in on the flick spring, and letting go drives it home with the press's speed while the head shrinks away, its shadow tightens, the head takes the hit on the recoil spring and a dimple ring spreads across the cork, and a to-top tag slides out from under the label on snap. Unpinning pulls the pin up on a heavy spring while the needle wobbles about its tip on an underdamped one and the shadow grows back. It is a button with aria-pressed and a constant name; Space pushes on the way down and pins on the way up, Enter pins at once, and Escape or blur mid-press lets the pin back out without committing.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "pin",
+        "pin to top",
+        "toggle",
+        "bookmark",
+        "push pin",
+        "notes",
+        "favourite"
+      ],
+      "props": [
+        {
+          "name": "pressed / defaultPressed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the item is pinned, controlled or initial."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "description": "Fires from the press that pinned or unpinned; the pin lands only once the state actually changes."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Pin\"",
+          "description": "The word before pinning."
+        },
+        {
+          "name": "pressedLabel",
+          "type": "string",
+          "defaultValue": "\"Pinned\"",
+          "description": "The word once pinned; the label column keeps the widest of the words and the tag."
+        },
+        {
+          "name": "tag",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the small tag that slides out under the pinned word."
+        },
+        {
+          "name": "tagLabel",
+          "type": "string",
+          "defaultValue": "\"to top\"",
+          "description": "The tag's words: where a pinned item goes. Also read in the pinned description."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "defaultValue": "label",
+          "description": "The toggle's accessible name, the same in both states."
+        },
+        {
+          "name": "depth",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How deep the pin goes in, 0 to 1: the needle hides, the head shrinks away, the shadow tightens and the ring spreads wider."
+        },
+        {
+          "name": "wobble",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How loose the needle is as it comes out, 0 to 1: straight out, or a floppy wobble about its tip."
+        },
+        {
+          "name": "anticipation",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How far a press pushes the pin before it is let go, 0 to 1 of the way home."
+        },
+        {
+          "name": "ringDuration",
+          "type": "number",
+          "defaultValue": "520",
+          "description": "How long the dimple ring takes to spread across the cork, in ms."
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Icon only: the pin and its cork in a round button, the words in its accessible name."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "36, 40 or 48px tall."
+        },
+        {
+          "name": "pinColor",
+          "type": "string",
+          "defaultValue": "\"oklch(from var(--danger) 0.64 0.19 h)\"",
+          "description": "The pin's head, any CSS colour; a fixed lightness reads the same in both themes."
+        },
+        {
+          "name": "corkColor",
+          "type": "string",
+          "defaultValue": "\"oklch(from var(--warn) 0.76 0.07 h)\"",
+          "description": "The cork."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Play a thock as the pin lands home and a pop as the needle leaves the cork; only ever for the visitor's own press."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Not pressable, drawn at half strength."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the button."
+        }
+      ],
+      "usageNotes": [
+        "Space pushes the pin on the way down and commits on the way up, as a pointer press does; Enter commits at once; Escape (handled with preventDefault) or blur while Space is held lets the pin back out without committing.",
+        "Under reduced motion the pin swaps poses with no travel, squash or wobble, the dimple ring fades at full size and the words and tag cross-fade in place; the pinned state always shows.",
+        "Controlled: pass pressed and onPressedChange. The press reports first and the pin lands only when the host answers, so a refused pin never shows a landing.",
+        "The accessible name stays the same in both states (pass name, e.g. \"Pin Q4 field schedule\"); while pinned the button is described as \"Pinned to top\" from pressedLabel and tagLabel.",
+        "Colours are pigments at a fixed lightness, so the pin and cork read the same in light and dark themes; pass any CSS colour to recolour them."
+      ],
+      "dependencies": [
+        "motion",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/pin-press",
+      "registryItemUrl": "https://www.kinetiqui.com/r/pin-press.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/pin-press",
+        "npm": "npx shadcn@latest add @kinetiq/pin-press",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/pin-press",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/pin-press",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/pin-press.json"
+      }
+    },
+    {
+      "slug": "privacy-blinds",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Privacy Blinds",
+      "serial": "KQ-1254",
+      "tagline": "Public, or private — slat by slat.",
+      "description": "A Public / Private toggle drawn as a window with venetian blinds. Going private, each slat tilts shut from the top down on springs.snap in a short cascade, the bands of daylight the window throws across the button thin out until a last sliver stripes the label, and the bottom rail folds into a padlock whose shackle rises on snap; going public, the lock lets go, the slats open from the bottom up and a soft beam sweeps the face on a tween. It is a toggle button with aria-pressed under one constant name: Space and Enter press it, and hovering peeks the slats a few degrees.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "visibility",
+        "privacy",
+        "toggle",
+        "blinds",
+        "public",
+        "private",
+        "lock"
+      ],
+      "props": [
+        {
+          "name": "pressed / defaultPressed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled and initial state; true is Private, the blinds shut."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "description": "Fires from the press that changed it, with the new state."
+        },
+        {
+          "name": "publicLabel",
+          "type": "string",
+          "defaultValue": "\"Public\"",
+          "description": "The word shown while open."
+        },
+        {
+          "name": "privateLabel",
+          "type": "string",
+          "defaultValue": "\"Private\"",
+          "description": "The word shown while shut."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "privateLabel",
+          "description": "The accessible name, the same in both states; aria-pressed carries the state."
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Icon only; the accessible name stays."
+        },
+        {
+          "name": "slats",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "How many slats hang in the window, 3 to 8."
+        },
+        {
+          "name": "tilt",
+          "type": "number",
+          "defaultValue": "15",
+          "description": "The open slats' angle in degrees: 0 is edge-on and all daylight, 45 is half shut."
+        },
+        {
+          "name": "peek",
+          "type": "number",
+          "defaultValue": "14",
+          "description": "How far hovering tips the slats, in degrees: open a crack when private, toward shut when public."
+        },
+        {
+          "name": "beam",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "Strength of the light, 0 to 1: the daylight bands, the sweep when it opens, the last sliver as it shuts."
+        },
+        {
+          "name": "stagger",
+          "type": "number",
+          "defaultValue": "45",
+          "description": "Milliseconds between one slat and the next, tightened by cascade() so the fall stays under 600ms."
+        },
+        {
+          "name": "lock",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Form a padlock out of the bottom rail while private."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Pill height 32, 36 or 44px with a 20, 24 or 28px window."
+        },
+        {
+          "name": "light",
+          "type": "string",
+          "defaultValue": "oklch(from var(--warn) 0.84 0.13 h)",
+          "description": "Daylight colour, any CSS colour."
+        },
+        {
+          "name": "shade",
+          "type": "string",
+          "defaultValue": "var(--ink-2)",
+          "description": "Slat colour, any CSS colour."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "var(--accent-bright)",
+          "description": "Padlock colour, any CSS colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A swish as the slats move, a soft click as each one seats, a firmer click for the lock. Only after a press."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Greys the toggle out and ignores presses and hover."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes for the button."
+        }
+      ],
+      "usageNotes": [
+        "It is a <button aria-pressed>: Space and Enter toggle it through the native click, and the accessible name stays `label` (\"Private\" by default) in both states, so screen readers hear \"Private, pressed\" or \"not pressed\" rather than a name that changes under them.",
+        "Controlled hosts get onPressedChange from the press and the blinds only move once `pressed` changes, so a refused change never shows a false shut; a change the host makes on its own animates silently.",
+        "Under reduced motion all slats turn together on a 150ms tween, the lock fades in at its final shape and the beam does not sweep; the window still shuts and the lock still appears.",
+        "Both words sit in one grid cell, so the pill keeps the width of the longer one and neighbours never shift; pass compact for an icon-only control in dense toolbars.",
+        "Colours are CSS colour strings defaulting to tokens, so the toggle reads in light and dark themes; the daylight is a pigment taken from --warn at a fixed lightness."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/privacy-blinds",
+      "registryItemUrl": "https://www.kinetiqui.com/r/privacy-blinds.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/privacy-blinds",
+        "npm": "npx shadcn@latest add @kinetiq/privacy-blinds",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/privacy-blinds",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/privacy-blinds",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/privacy-blinds.json"
+      }
+    },
+    {
+      "slug": "renew-loop",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Renew Loop",
+      "serial": "KQ-1255",
+      "tagline": "The arrows close the circle, the date turns over.",
+      "description": "An auto-renew switch whose icon is the renewal: switched on, two arc arrows chase round the ring on springs.glide until their heads catch the other's tails and lock into a closed ring on springs.snap, the heads folding to small chevrons as the ring takes the accent, while a split-flap readout beside the label turns over cell by cell to the renewal date. Switched off, the ring breaks at the top, the arrows coast apart under friction on an inertia decay and the readout flips back to the day access ends. Dates come only from props, read in UTC; Space and Enter toggle it, and a polite status speaks the new date.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "auto-renew",
+        "subscription",
+        "billing",
+        "toggle",
+        "split-flap",
+        "renewal date"
+      ],
+      "props": [
+        {
+          "name": "pressed / defaultPressed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled and initial state; true while the plan renews by itself."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "description": "Fires from the press that changed it, with the new state."
+        },
+        {
+          "name": "renewsOn",
+          "type": "Date | number | string",
+          "defaultValue": "renewedOn plus one period",
+          "description": "The next renewal date, when your billing system already knows it."
+        },
+        {
+          "name": "renewedOn",
+          "type": "Date | number | string",
+          "defaultValue": "\"2026-10-15\"",
+          "description": "The day the current term began: the last renewal, or the purchase."
+        },
+        {
+          "name": "period",
+          "type": "\"month\" | \"quarter\" | \"year\"",
+          "defaultValue": "\"month\"",
+          "description": "The billing period: how far each renewal carries the plan."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Auto-renew\"",
+          "description": "What the switch controls; the button's accessible name."
+        },
+        {
+          "name": "renewsLabel",
+          "type": "string",
+          "defaultValue": "\"Renews\"",
+          "description": "The word before the date while on."
+        },
+        {
+          "name": "endsLabel",
+          "type": "string",
+          "defaultValue": "\"Ends\"",
+          "description": "The word before the date while off."
+        },
+        {
+          "name": "formatDate",
+          "type": "(date: Date) => string",
+          "defaultValue": "\"15 Nov\" in UTC",
+          "description": "How a date is written in the readout and the description."
+        },
+        {
+          "name": "chase",
+          "type": "number",
+          "defaultValue": "240",
+          "description": "How far the arrows chase before their heads lock, in degrees."
+        },
+        {
+          "name": "flip",
+          "type": "number",
+          "defaultValue": "90",
+          "description": "How long one flap takes to fall, in ms."
+        },
+        {
+          "name": "friction",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How quickly the released arrows coast to a stop, 0 (they glide on) to 1 (they stop short)."
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Ring only; the label becomes the accessible name and the date its description and title."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Pill height 32, 36 or 44px with the readout scaled to match."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "var(--accent-bright)",
+          "description": "The closed ring's colour, any CSS colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A ratchet tick per 30° of spin, a snap when the heads lock or the ring breaks, a faint tick per flap. Only after a press."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Greys the switch out and ignores presses and hover."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes for the root, which wraps the button."
+        }
+      ],
+      "usageNotes": [
+        "Pass the term start (renewedOn) and the period, or the renewal date your billing system already has (renewsOn); the readout shows the renewal date while on and the last day of access, the day before it, while off. Dates are read in UTC, so server and client agree; pass formatDate for another style.",
+        "It is a <button aria-pressed> named by its visible label: Space and Enter toggle it, the full sentence (\"Renews 15 Nov, then every month.\") is its description, and a polite status speaks the new sentence after each change.",
+        "Controlled hosts get onPressedChange from the press; the ring only chases once `pressed` changes, so a refused change never shows a false lock. A period or date change flips only the cells that changed, silently.",
+        "The readout keeps the width of the longer sentence in fixed cells, so the pill never changes width as it flips; the label truncates with a title before anything overflows.",
+        "Under reduced motion the ring swaps shape under a short fade and the readout changes in place; the colour, the date and the announcement still change."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/renew-loop",
+      "registryItemUrl": "https://www.kinetiqui.com/r/renew-loop.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/renew-loop",
+        "npm": "npx shadcn@latest add @kinetiq/renew-loop",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/renew-loop",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/renew-loop",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/renew-loop.json"
+      }
+    },
+    {
+      "slug": "focus-moon",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Focus Moon",
+      "serial": "KQ-1256",
+      "tagline": "An eclipse for your notifications.",
+      "description": "A do-not-disturb toggle that eclipses its own sun: pressed, a moon slides across it on springs.snap, whose one overshoot flashes the last bead of sun on the far limb before the corona comes up on snap, the face turns to night and stars twinkle in on snap in a cascade; while focusing and on screen the corona breathes from one phase value. Holding the button extends the end time in grid steps, a tick per step as the changed digits roll on snap, and letting go sets it; pressed off, the moon slides away on an exit tween and the sunlight blooms back, settling on springs.drift. Space and Enter toggle it, the Up and Down arrows move the end a step, and times come only from the now prop.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "do not disturb",
+        "focus",
+        "notifications",
+        "toggle",
+        "eclipse",
+        "snooze",
+        "hold to extend"
+      ],
+      "props": [
+        {
+          "name": "pressed / defaultPressed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Controlled and initial state; true while notifications are held."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "description": "Fires from the tap, the hold or the key that changed it, with the new state."
+        },
+        {
+          "name": "until / defaultUntil",
+          "type": "Date | number",
+          "defaultValue": "now plus minutes once it starts",
+          "description": "Controlled and initial end of the focus."
+        },
+        {
+          "name": "onUntilChange",
+          "type": "(until: Date) => void",
+          "description": "Fires when a tap, a released hold or an arrow key sets a new end time."
+        },
+        {
+          "name": "now",
+          "type": "Date | number",
+          "description": "The current time. Pass it from your clock so server and client agree; without it a press reads the clock when it happens."
+        },
+        {
+          "name": "minutes",
+          "type": "number",
+          "defaultValue": "60",
+          "description": "How long a tap focuses for, in minutes."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "defaultValue": "30",
+          "description": "What one hold step or arrow key adds, in minutes; steps land on this grid (15:07 to 15:30)."
+        },
+        {
+          "name": "maxMinutes",
+          "type": "number",
+          "defaultValue": "480",
+          "description": "The furthest a hold can push the end, in minutes from now."
+        },
+        {
+          "name": "holdDelay",
+          "type": "number",
+          "defaultValue": "450",
+          "description": "How long a press must be held before it starts extending, in ms."
+        },
+        {
+          "name": "holdInterval",
+          "type": "number",
+          "defaultValue": "420",
+          "description": "Time between steps while held, in ms."
+        },
+        {
+          "name": "stars",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "How many stars come out around the eclipse, 0 to 8."
+        },
+        {
+          "name": "glow",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "Strength of the light, 0 to 1: the sun's bloom, the corona and its breathing."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "defaultValue": "\"Do not disturb\"",
+          "description": "The button's accessible name and its words while off."
+        },
+        {
+          "name": "focusLabel",
+          "type": "string",
+          "defaultValue": "\"Focusing until\"",
+          "description": "The words before the end time while on."
+        },
+        {
+          "name": "format",
+          "type": "(date: Date) => string",
+          "defaultValue": "24-hour \"15:00\" in timeZone",
+          "description": "How the end time is written."
+        },
+        {
+          "name": "timeZone",
+          "type": "string",
+          "defaultValue": "\"UTC\"",
+          "description": "The IANA time zone the default format writes in."
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Icon only; the name stays and the end time moves to the description and title."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Pill height 32, 40 or 48px with a 24, 30 or 36px sky."
+        },
+        {
+          "name": "sun",
+          "type": "string",
+          "defaultValue": "oklch(from var(--warn) 0.84 0.13 h)",
+          "description": "The sun, the corona and the bloom, any CSS colour."
+        },
+        {
+          "name": "night",
+          "type": "string",
+          "defaultValue": "oklch(from var(--accent) 0.27 0.07 h)",
+          "description": "The night the face turns while focusing, any CSS colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A chime at totality (lower when it ends) and a rising tick per hold step or arrow key. Only after the visitor acts."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Greys the toggle out and ignores presses, holds and keys."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra classes for the root, which wraps the button."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Space and Enter toggle it (on at the default length); the Up and Right arrows add a step (turning it on when off) and Down and Left take one away, never before the next step after now. A held press does the same with the pointer: past holdDelay it adds a step every holdInterval and letting go sets the time.",
+        "Pass now from your own clock (a ticking state or a server timestamp) so the label renders the same on server and client. The toggle never turns itself off: when now passes until, set pressed to false from that clock.",
+        "Controlled hosts get onPressedChange and onUntilChange from the gesture; a hold shows its draft time while held and commits once, on release, so the host hears one change rather than every step. A refused change slides the moon back away.",
+        "A polite status speaks each committed change (\"Focusing until 15:30\", \"Do not disturb off\"); the end time and the hold hint are the button's description, and the name stays constant while aria-pressed carries the state.",
+        "The corona's breathing runs only while focusing, on screen and in a visible tab. Under reduced motion the moon fades in over the sun and nothing slides, breathes or rolls; the night face, the label and the time still change."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/focus-moon",
+      "registryItemUrl": "https://www.kinetiqui.com/r/focus-moon.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/focus-moon",
+        "npm": "npx shadcn@latest add @kinetiq/focus-moon",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/focus-moon",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/focus-moon",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/focus-moon.json"
+      }
+    },
+    {
+      "slug": "repeat-coil",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Repeat Coil",
+      "serial": "KQ-1257",
+      "tagline": "Off, all, then just this one.",
+      "description": "A three-way repeat button whose glyph is two strands rebuilt every frame: off they hang as loose arrows, the first press bends them into one closed loop on the glide spring, and the second winds a third turn inside it on glide while a \"1\" pip pops out of the loop onto its corner on the recoil spring. The third press drops the pip back on an exit tween and lets the loop fall slack again. It reports aria-pressed false, true and mixed; Space and Enter cycle it, the arrow keys step either way, and Home and End jump to the ends.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "repeat",
+        "loop",
+        "playback",
+        "tri-state toggle",
+        "media control",
+        "coil"
+      ],
+      "props": [
+        {
+          "name": "value / defaultValue",
+          "type": "\"off\" | \"all\" | \"one\"",
+          "defaultValue": "\"off\"",
+          "description": "The repeat mode, controlled or initial."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(mode: RepeatMode) => void",
+          "description": "Fires from the press or key that changed the mode."
+        },
+        {
+          "name": "labels",
+          "type": "Partial<Record<RepeatMode, string>>",
+          "defaultValue": "Repeat off / Repeat all / Repeat one",
+          "description": "Text for each mode; the button keeps the width of the longest."
+        },
+        {
+          "name": "allowOne",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Offer repeat-one; off, the button cycles off and all only."
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Icon only, with the mode's label as the accessible name."
+        },
+        {
+          "name": "coil",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How far and how deep the third turn winds in repeat-one, 0 to 1."
+        },
+        {
+          "name": "pip",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Pop a \"1\" badge out of the loop in repeat-one."
+        },
+        {
+          "name": "slack",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How much the loose arrows sag while repeat is off, 0 to 1."
+        },
+        {
+          "name": "pipDelay",
+          "type": "number",
+          "defaultValue": "90",
+          "description": "Milliseconds from the coil starting to the pip popping out."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Button height 32, 40 or 48 px with the glyph scaled to match."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The loop, the pip and the pressed tint; any CSS colour."
+        },
+        {
+          "name": "idleColor",
+          "type": "string",
+          "defaultValue": "\"var(--ink-3)\"",
+          "description": "The loose arrows' colour while repeat is off."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A click on every press and a pop as the pip lands."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Ignores presses and keys and dims the button."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Space and Enter cycle off, all, one; ArrowRight and ArrowUp step forward, ArrowLeft and ArrowDown step back (both wrap), Home goes to off and End to the last mode.",
+        "aria-pressed reads false for off, true for all and \"mixed\" for one, and a polite live region speaks the new label after a change the visitor made, once a controlled host has accepted it.",
+        "Controlled: pass value and onValueChange; the glyph animates when the host's value changes, so a refused change never shows a false state.",
+        "Reduced motion swaps the glyph to each state at once, cross-fades the colour and fades the pip in on its corner, with no bend, coil travel or bounce.",
+        "With allowOne off it is a two-state repeat toggle; a host value of \"one\" is then shown as all."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/repeat-coil",
+      "registryItemUrl": "https://www.kinetiqui.com/r/repeat-coil.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/repeat-coil",
+        "npm": "npx shadcn@latest add @kinetiq/repeat-coil",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/repeat-coil",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/repeat-coil",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/repeat-coil.json"
+      }
+    },
+    {
+      "slug": "latch-lock",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Latch Lock",
+      "serial": "KQ-1258",
+      "tagline": "The shackle drops home.",
+      "description": "A lock toggle drawn as a padlock whose parts move on their own springs: unlocking lifts the shackle on the snap spring and swings it out about its long leg with one overshoot while the body drops a few pixels and a glint sweeps the keyhole; locking swings it back and drops it home on the flick spring against a hard stop, with a short shake through the whole lock. A disabled lock stays focusable, rattles in place and says why instead of toggling. Space and Enter toggle it through the native click, and aria-pressed reports locked.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "lock",
+        "padlock",
+        "freeze",
+        "security toggle",
+        "card lock",
+        "shackle"
+      ],
+      "props": [
+        {
+          "name": "pressed / defaultPressed",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Locked state, controlled or initial; true is locked."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(locked: boolean) => void",
+          "description": "Fires from the press that changed it."
+        },
+        {
+          "name": "lockedLabel",
+          "type": "string",
+          "defaultValue": "\"Locked\"",
+          "description": "Text and accessible name while locked."
+        },
+        {
+          "name": "unlockedLabel",
+          "type": "string",
+          "defaultValue": "\"Unlocked\"",
+          "description": "Text and accessible name while unlocked; the button keeps the wider label's width."
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Icon only, with the label as the accessible name."
+        },
+        {
+          "name": "weight",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How heavy the lock is, 0 to 1: slower swing, deeper drop, lower thock."
+        },
+        {
+          "name": "rattle",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How hard the lock shakes as the shackle seats and when a disabled lock is pressed."
+        },
+        {
+          "name": "glint",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "Strength of the keyhole glint on unlocking; 0 hides it."
+        },
+        {
+          "name": "swing",
+          "type": "number",
+          "defaultValue": "26",
+          "description": "How far the open shackle swings out, in degrees."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Button height 32, 40 or 48 px with the padlock scaled to match."
+        },
+        {
+          "name": "lockedColor",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The body's colour while locked and the pressed tint; any CSS colour."
+        },
+        {
+          "name": "unlockedColor",
+          "type": "string",
+          "defaultValue": "\"var(--ink-3)\"",
+          "description": "The body's colour while unlocked."
+        },
+        {
+          "name": "disabledNote",
+          "type": "string",
+          "defaultValue": "\"This lock can't be changed right now\"",
+          "description": "Spoken in a polite live region when a disabled lock is pressed."
+        },
+        {
+          "name": "onRefused",
+          "type": "() => void",
+          "description": "A press on a disabled lock, after it rattled and stayed put."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Clack as the shackle lets go, thock as it seats, muted clacks for a refusal."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Rattles instead of toggling; stays in the tab order via aria-disabled."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Space and Enter toggle through the native click; aria-pressed is true while locked, and the visible label is the accessible name (aria-label in compact mode).",
+        "Disabled uses aria-disabled rather than the native attribute, so keyboard users can reach it and hear disabledNote when they press it; wire onRefused to explain the hold elsewhere too.",
+        "Controlled: pass pressed and onPressedChange; the padlock moves when the host's value changes, so a refused change never shows a false state.",
+        "Reduced motion jumps the shackle and body to each pose, cross-fades the colour, turns the glint into a short flash and the refusal rattle into a flash of the rim.",
+        "lockedColor and unlockedColor take any CSS colour, so a lock that guards something risky can use var(--warn) for its unlocked body."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/latch-lock",
+      "registryItemUrl": "https://www.kinetiqui.com/r/latch-lock.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/latch-lock",
+        "npm": "npx shadcn@latest add @kinetiq/latch-lock",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/latch-lock",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/latch-lock",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/latch-lock.json"
+      }
+    },
+    {
+      "slug": "eye-lid",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Eye Lid",
+      "serial": "KQ-1259",
+      "tagline": "It watches until you close it.",
+      "description": "A show/hide toggle drawn as an eye that watches: while open, the iris and pupil follow the pointer anywhere on the page, held inside the eye on a spring whose keenness you set. Pressing blinks the lid shut on the snap spring with its lashes swinging over; shut, the lid twitches when the pointer passes close, and opening wakes it with a couple of slow tweened blinks before the gaze finds the pointer again on the glide spring. Space and Enter toggle it through the native click, and aria-pressed reports hidden.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "show hide",
+        "visibility",
+        "password reveal",
+        "balance mask",
+        "eye",
+        "blink"
+      ],
+      "props": [
+        {
+          "name": "pressed / defaultPressed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Hidden state, controlled or initial; true is hidden, the eye shut."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(hidden: boolean) => void",
+          "description": "Fires from the press that changed it."
+        },
+        {
+          "name": "shownLabel",
+          "type": "string",
+          "defaultValue": "\"Visible\"",
+          "description": "Text and accessible name while the eye is open."
+        },
+        {
+          "name": "hiddenLabel",
+          "type": "string",
+          "defaultValue": "\"Hidden\"",
+          "description": "Text and accessible name while the eye is shut; the button keeps the wider label's width."
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Icon only, with the label as the accessible name."
+        },
+        {
+          "name": "follow",
+          "type": "number",
+          "defaultValue": "0.6",
+          "description": "How keenly the pupil chases the pointer, 0 to 1: spring stiffness and reach."
+        },
+        {
+          "name": "blink",
+          "type": "number",
+          "defaultValue": "2",
+          "description": "How many slow blinks it takes to wake when opened, 0 to 3."
+        },
+        {
+          "name": "blinkDuration",
+          "type": "number",
+          "defaultValue": "260",
+          "description": "How long one waking blink lasts, in ms."
+        },
+        {
+          "name": "lashes",
+          "type": "number",
+          "defaultValue": "5",
+          "description": "Lashes on the upper lid, 0 to 8."
+        },
+        {
+          "name": "twitch",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Let the shut lid twitch when the pointer passes close."
+        },
+        {
+          "name": "twitchRadius",
+          "type": "number",
+          "defaultValue": "72",
+          "description": "How close the pointer must pass to make the shut lid twitch, in px."
+        },
+        {
+          "name": "irisColor",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The iris colour; any CSS colour."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Button height 32, 40 or 48 px with the eye scaled to match."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "A tick each time the lids meet, after a press."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Ignores presses; the gaze rests centred."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the wrapper."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Space and Enter toggle through the native click; aria-pressed is true while hidden, and the visible label is the accessible name (aria-label in compact mode).",
+        "The watching is decoration: the eye listens to the pointer only while it is on screen and the page is visible, reads it once per frame, and never runs a loop while the pointer is still.",
+        "Use it beside a balance or a password field and mask the value from pressed; the component only reports, it never hides anything itself.",
+        "Reduced motion keeps the gaze centred and swaps the lid between open and shut at once, with no blinks or twitches; the label still changes.",
+        "A press during the waking blinks shuts it again at once; in controlled mode the lid only moves when the host's pressed value changes."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/eye-lid",
+      "registryItemUrl": "https://www.kinetiqui.com/r/eye-lid.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/eye-lid",
+        "npm": "npx shadcn@latest add @kinetiq/eye-lid",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/eye-lid",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/eye-lid",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/eye-lid.json"
+      }
+    },
+    {
+      "slug": "wish-tag",
+      "kind": "component",
+      "type": "registry:ui",
+      "title": "Wish Tag",
+      "serial": "KQ-1260",
+      "tagline": "A price tag swings onto your list.",
+      "description": "A save-to-list toggle that hangs a paper price tag from the button's eyelet: saving swings it in from above the frame as a real pendulum on a recoil-family spring whose period and damping you set, with the tag hinged at its hole so it dangles a beat behind the string, while the counter rolls up on snap and bumps on recoil as the tag first comes taut. Removing snips the string, the stub curls back into the eyelet and the tag drops out of the frame on an ease-in fall. Space and Enter toggle it through the native click, aria-pressed reports saved, and a polite live region says what changed and the new count.",
+      "categories": [
+        "studio"
+      ],
+      "keywords": [
+        "wishlist",
+        "save",
+        "bookmark",
+        "price tag",
+        "favourite",
+        "pendulum",
+        "commerce"
+      ],
+      "props": [
+        {
+          "name": "pressed / defaultPressed",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Saved state, controlled or initial; true is on the list."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(saved: boolean) => void",
+          "description": "Fires from the press that changed it."
+        },
+        {
+          "name": "price",
+          "type": "number",
+          "defaultValue": "129",
+          "description": "The amount the tag prints; the tag widens to fit it."
+        },
+        {
+          "name": "format",
+          "type": "(price: number) => string",
+          "defaultValue": "Intl.NumberFormat en-GB GBP",
+          "description": "How the price is printed."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "Items on the list without this one; the counter shows one more while saved."
+        },
+        {
+          "name": "showCount",
+          "type": "boolean",
+          "defaultValue": "true",
+          "description": "Show the list counter."
+        },
+        {
+          "name": "countLabel",
+          "type": "string",
+          "defaultValue": "\"saved\"",
+          "description": "The word after the counter's number."
+        },
+        {
+          "name": "saveLabel",
+          "type": "string",
+          "defaultValue": "\"Save\"",
+          "description": "Text and accessible name while not saved."
+        },
+        {
+          "name": "savedLabel",
+          "type": "string",
+          "defaultValue": "\"On your list\"",
+          "description": "Text and accessible name while saved; the button keeps the wider label's width."
+        },
+        {
+          "name": "compact",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Icon only, with the label as the accessible name and the counter beside it."
+        },
+        {
+          "name": "swing",
+          "type": "number",
+          "defaultValue": "0.5",
+          "description": "How loosely the tag swings, 0 to 1; the middle is the house recoil."
+        },
+        {
+          "name": "stringLength",
+          "type": "number",
+          "defaultValue": "12",
+          "description": "From the eyelet to the tag's hole, in px."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "defaultValue": "\"md\"",
+          "description": "Button height 32, 40 or 48 px with the tag scaled to match."
+        },
+        {
+          "name": "tagColor",
+          "type": "string",
+          "defaultValue": "manila pigment from --warn",
+          "description": "The tag's paper; any CSS colour."
+        },
+        {
+          "name": "accent",
+          "type": "string",
+          "defaultValue": "\"var(--accent-bright)\"",
+          "description": "The saved tint and the tick; any CSS colour."
+        },
+        {
+          "name": "sound",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Paper as the tag comes taut, pop with the counter bump, a short snip on removal."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Ignores presses and dims the button."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Classes for the root."
+        }
+      ],
+      "usageNotes": [
+        "Keyboard: Space and Enter toggle through the native click; aria-pressed is true while saved, and a polite live region says \"Added to your list, 13 saved\" or \"Removed from your list, 12 saved\" after the visitor's change.",
+        "The tag swings inside the component's own box, which includes a strip under and to the right of the button; the counter sits in that strip, so leave the component room rather than clipping it.",
+        "Controlled: pass pressed and onPressedChange; the tag hangs or falls when the host's value changes, so a refused save never shows a tag.",
+        "Reduced motion fades the tag in hanging still and fades it out, with the counter cross-fading and no swing, fall, nudge or bump.",
+        "Pass format for other currencies or decimals; the tag's width follows the printed string, so the same price always draws the same tag on the server and the client."
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "docsUrl": "https://www.kinetiqui.com/components/wish-tag",
+      "registryItemUrl": "https://www.kinetiqui.com/r/wish-tag.json",
+      "install": {
+        "pnpm": "pnpm dlx shadcn@latest add @kinetiq/wish-tag",
+        "npm": "npx shadcn@latest add @kinetiq/wish-tag",
+        "yarn": "yarn dlx shadcn@latest add @kinetiq/wish-tag",
+        "bun": "bunx --bun shadcn@latest add @kinetiq/wish-tag",
+        "direct": "npx shadcn@latest add https://www.kinetiqui.com/r/wish-tag.json"
       }
     },
     {

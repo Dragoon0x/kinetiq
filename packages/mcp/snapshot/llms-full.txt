@@ -22775,6 +22775,352 @@ Notes:
 - Reduced motion: nothing slides or drifts — no scroll drift and no slow slide — and a palette or sett change cross-fades the new cloth over the old one, already in its new sett.
 - Every motion moves the patterns' own x, y, width and height attributes, so nothing lays out again; the slow slide runs only while the cloth is on screen in a visible page and repaints only when it has moved a quarter of a pixel.
 
+### Follow Knot (KQ-1251) — `follow-knot`
+The plus ties itself into a check.
+
+A follow button whose plus is one rope: pressed, its free end sweeps round on a tween into a loop that crosses over the standing part, and the loop cinches into a knot at the vertex of a check on the snap spring, thrown hard enough by tension that its one overshoot reads as the knot pulling past tight. The label slides from Follow to Following on snap inside a slot as wide as the longest word, and the follower figure rolls one on, units first; hovering or keyboard-focusing a followed button loosens and turns the knot and offers Unfollow in danger ink, and a press unties it rope-first before the words and figure follow. It is a button with aria-pressed and a constant name, Space and Enter press it, and under reduced motion the rope swaps between plus and check with a short fade while the digits change in place.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/follow-knot`
+
+Props:
+- `pressed / defaultPressed`: boolean (default false) — Whether the viewer follows, controlled or initial.
+- `onPressedChange`: (pressed: boolean) => void — Fires from the press that changed it, with the new state; the rope moves once the state actually changes, so a refused press never shows a false knot.
+- `label`: string (default "Follow") — The word before following, and the start of the accessible name.
+- `pressedLabel`: string (default "Following") — The word once following; the slot keeps the longest word's width.
+- `releaseLabel`: string (default "Unfollow") — The word while a followed button is hovered or keyboard-focused: what a press will do.
+- `target`: string — Who or what is followed, appended to the accessible name ("Follow Fieldline Journal").
+- `count`: number — Followers without this viewer; the button adds one while followed. Omit to hide the figure.
+- `formatCount`: (count: number) => string (default en-US grouping) — How the figure is written; digits roll, other characters swap.
+- `describeCount`: (count: number) => string (default "1,300 followers") — The figure as spoken, read as the button's description.
+- `tension`: number (default 0.5) — How hard the knot is pulled, 0 to 1: a loose eye that settles softly, or a hard bead that snaps past tight.
+- `untieAngle`: number (default 8) — How far the knot turns as it loosens under a hover, in degrees.
+- `tieDuration`: number (default 240) — How long the free end takes to sweep its loop, in ms; the cinch starts 60% of the way in.
+- `previewDelay`: number (default 80) — How long a pointer rests on a followed button before it offers to unfollow, in ms.
+- `compact`: boolean (default false) — Icon only: the knot alone in a round button, the words in its accessible name.
+- `size`: "sm" | "md" | "lg" (default "md") — 32, 36 or 44px tall.
+- `accent`: string (default "var(--accent)") — The unfollowed pill's fill, any CSS colour.
+- `accentInk`: string (default "var(--primary-foreground)") — Words and rope on that fill.
+- `danger`: string (default "var(--danger)") — Ink of the unfollow preview.
+- `sound`: boolean (default false) — Play a tick as the free end crosses over and a snap as the knot pulls tight; only ever for the visitor's own press.
+- `disabled`: boolean (default false) — Not pressable, drawn at half strength.
+- `className`: string — Classes for the button.
+
+Notes:
+- Space and Enter press it through the native click; the accessible name stays label + target in both states, aria-pressed carries the state and the figure is the button's description.
+- Under reduced motion the rope swaps between plus and check with a 150ms fade, the words cross-fade in place and the digits change without rolling; the fill and ink still change, because following is information.
+- Controlled: pass pressed and onPressedChange. The press reports first and the knot ties only when the host answers, so a refused follow never shows a check.
+- The Unfollow offer never appears under the pointer that just followed; it waits until the pointer leaves and comes back, or for keyboard focus to arrive.
+- count is the figure without this viewer, so a host can pass its server count before the viewer's own follow is counted.
+
+### Mute Cone (KQ-1252) — `mute-cone`
+Sound folds back into the speaker.
+
+A mute toggle drawn as a speaker cone with up to four waves and a five-pill level meter: muting folds the waves back into the cone outermost first, a cascade apart on the exit ease, then a pen draws the slash; unmuting lifts the pen and releases the waves one by one on the snap spring, each overshooting its own radius, while the meter refills to the kept level on the glide spring. The volume is a second value: a long press arms a scrub, a vertical drag follows the finger 1:1 and rubber-bands past either end, the waves follow the level band by band, and reaching 0 mutes. It is a button with aria-pressed and a constant name; Space and Enter mute, the arrow keys, Page keys, Home and End set the volume, and the change is announced politely.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/mute-cone`
+
+Props:
+- `pressed / defaultPressed`: boolean (default false) — Whether the sound is muted, controlled or initial.
+- `onPressedChange`: (pressed: boolean) => void — Fires from the press, drag or key that muted or unmuted.
+- `level / defaultLevel`: number (default 60) — The volume, 0 to 100, controlled or initial. Muting keeps it; 0 is silence.
+- `onLevelChange`: (level: number) => void — Fires from the drag or key that changed the volume, as it changes.
+- `waves`: number (default 4) — How many sound waves the cone can hold, 1 to 4; the level fills them in turn and the icon's width follows.
+- `slash`: "line" | "cross" | "none" (default "line") — The mark drawn once the waves have folded: a slash through the cone, a cross where the waves were, or none.
+- `step`: number (default 10) — How far one arrow key moves the level.
+- `label`: string (default "Sound on") — The word while sound plays.
+- `pressedLabel`: string (default "Muted") — The word while muted, in the muted colour.
+- `name`: string (default "Mute") — The toggle's accessible name, the same in both states.
+- `formatLevel`: (level: number) => string (default `${level}%`) — How the level is written while it is scrubbed, and spoken.
+- `holdDelay`: number (default 420) — How long a press is held before it starts scrubbing the level, in ms.
+- `scrubDistance`: number (default 120) — How far a vertical drag travels to cross the whole range, in px.
+- `stagger`: number (default cascade of the wave count) — The beat between one wave and the next as they fold or release, in ms.
+- `compact`: boolean (default false) — Icon only: the cone over a row of five dots, the words in its accessible name.
+- `size`: "sm" | "md" | "lg" (default "md") — 40, 48 or 56px tall.
+- `accent`: string (default "var(--accent-bright)") — The waves and the meter, any CSS colour.
+- `mutedColor`: string (default "var(--danger)") — The muted mark and word.
+- `sound`: boolean (default false) — Play the fold and release, the slash, and the meter's detents; only ever for the visitor's own press, drag or key.
+- `disabled`: boolean (default false) — Not pressable or draggable, drawn at half strength.
+- `className`: string — Classes for the button.
+
+Notes:
+- Space and Enter mute and unmute; with focus on the button, Arrow Up/Right and Down/Left move the volume by step, Page Up/Down by 25, Home mutes and End plays at 100. A key change and the end of a drag are announced in a polite live region.
+- Under reduced motion the waves and the mark appear and disappear in place by opacity, the meter changes on a short tween and nothing stretches; the level and the muted state still show.
+- The visible level is level while playing and 0 while muted. Scrubbing to 0 reports level 0 and muted; unmuting a muted control whose level is 0 brings back the last audible level.
+- Keep both pairs controlled together (pressed with onPressedChange, level with onLevelChange); a host that refuses a drag gets its own value back when the finger lifts.
+- The button takes touch-action: pan-x, so a vertical drag on it scrubs instead of scrolling the page; a horizontal swipe still pans.
+
+### Pin Press (KQ-1253) — `pin-press`
+Pressed into the board, pulled back out.
+
+A pin toggle drawn as a push-pin over a small cork patch at three-quarters: a press pushes the pin part of the way in on the flick spring, and letting go drives it home with the press's speed while the head shrinks away, its shadow tightens, the head takes the hit on the recoil spring and a dimple ring spreads across the cork, and a to-top tag slides out from under the label on snap. Unpinning pulls the pin up on a heavy spring while the needle wobbles about its tip on an underdamped one and the shadow grows back. It is a button with aria-pressed and a constant name; Space pushes on the way down and pins on the way up, Enter pins at once, and Escape or blur mid-press lets the pin back out without committing.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/pin-press`
+
+Props:
+- `pressed / defaultPressed`: boolean (default false) — Whether the item is pinned, controlled or initial.
+- `onPressedChange`: (pressed: boolean) => void — Fires from the press that pinned or unpinned; the pin lands only once the state actually changes.
+- `label`: string (default "Pin") — The word before pinning.
+- `pressedLabel`: string (default "Pinned") — The word once pinned; the label column keeps the widest of the words and the tag.
+- `tag`: boolean (default true) — Show the small tag that slides out under the pinned word.
+- `tagLabel`: string (default "to top") — The tag's words: where a pinned item goes. Also read in the pinned description.
+- `name`: string (default label) — The toggle's accessible name, the same in both states.
+- `depth`: number (default 0.6) — How deep the pin goes in, 0 to 1: the needle hides, the head shrinks away, the shadow tightens and the ring spreads wider.
+- `wobble`: number (default 0.5) — How loose the needle is as it comes out, 0 to 1: straight out, or a floppy wobble about its tip.
+- `anticipation`: number (default 0.5) — How far a press pushes the pin before it is let go, 0 to 1 of the way home.
+- `ringDuration`: number (default 520) — How long the dimple ring takes to spread across the cork, in ms.
+- `compact`: boolean (default false) — Icon only: the pin and its cork in a round button, the words in its accessible name.
+- `size`: "sm" | "md" | "lg" (default "md") — 36, 40 or 48px tall.
+- `pinColor`: string (default "oklch(from var(--danger) 0.64 0.19 h)") — The pin's head, any CSS colour; a fixed lightness reads the same in both themes.
+- `corkColor`: string (default "oklch(from var(--warn) 0.76 0.07 h)") — The cork.
+- `sound`: boolean (default false) — Play a thock as the pin lands home and a pop as the needle leaves the cork; only ever for the visitor's own press.
+- `disabled`: boolean (default false) — Not pressable, drawn at half strength.
+- `className`: string — Classes for the button.
+
+Notes:
+- Space pushes the pin on the way down and commits on the way up, as a pointer press does; Enter commits at once; Escape (handled with preventDefault) or blur while Space is held lets the pin back out without committing.
+- Under reduced motion the pin swaps poses with no travel, squash or wobble, the dimple ring fades at full size and the words and tag cross-fade in place; the pinned state always shows.
+- Controlled: pass pressed and onPressedChange. The press reports first and the pin lands only when the host answers, so a refused pin never shows a landing.
+- The accessible name stays the same in both states (pass name, e.g. "Pin Q4 field schedule"); while pinned the button is described as "Pinned to top" from pressedLabel and tagLabel.
+- Colours are pigments at a fixed lightness, so the pin and cork read the same in light and dark themes; pass any CSS colour to recolour them.
+
+### Privacy Blinds (KQ-1254) — `privacy-blinds`
+Public, or private — slat by slat.
+
+A Public / Private toggle drawn as a window with venetian blinds. Going private, each slat tilts shut from the top down on springs.snap in a short cascade, the bands of daylight the window throws across the button thin out until a last sliver stripes the label, and the bottom rail folds into a padlock whose shackle rises on snap; going public, the lock lets go, the slats open from the bottom up and a soft beam sweeps the face on a tween. It is a toggle button with aria-pressed under one constant name: Space and Enter press it, and hovering peeks the slats a few degrees.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/privacy-blinds`
+
+Props:
+- `pressed / defaultPressed`: boolean (default false) — Controlled and initial state; true is Private, the blinds shut.
+- `onPressedChange`: (pressed: boolean) => void — Fires from the press that changed it, with the new state.
+- `publicLabel`: string (default "Public") — The word shown while open.
+- `privateLabel`: string (default "Private") — The word shown while shut.
+- `label`: string (default privateLabel) — The accessible name, the same in both states; aria-pressed carries the state.
+- `compact`: boolean (default false) — Icon only; the accessible name stays.
+- `slats`: number (default 5) — How many slats hang in the window, 3 to 8.
+- `tilt`: number (default 15) — The open slats' angle in degrees: 0 is edge-on and all daylight, 45 is half shut.
+- `peek`: number (default 14) — How far hovering tips the slats, in degrees: open a crack when private, toward shut when public.
+- `beam`: number (default 0.6) — Strength of the light, 0 to 1: the daylight bands, the sweep when it opens, the last sliver as it shuts.
+- `stagger`: number (default 45) — Milliseconds between one slat and the next, tightened by cascade() so the fall stays under 600ms.
+- `lock`: boolean (default true) — Form a padlock out of the bottom rail while private.
+- `size`: "sm" | "md" | "lg" (default "md") — Pill height 32, 36 or 44px with a 20, 24 or 28px window.
+- `light`: string (default oklch(from var(--warn) 0.84 0.13 h)) — Daylight colour, any CSS colour.
+- `shade`: string (default var(--ink-2)) — Slat colour, any CSS colour.
+- `accent`: string (default var(--accent-bright)) — Padlock colour, any CSS colour.
+- `sound`: boolean (default false) — A swish as the slats move, a soft click as each one seats, a firmer click for the lock. Only after a press.
+- `disabled`: boolean (default false) — Greys the toggle out and ignores presses and hover.
+- `className`: string — Extra classes for the button.
+
+Notes:
+- It is a <button aria-pressed>: Space and Enter toggle it through the native click, and the accessible name stays `label` ("Private" by default) in both states, so screen readers hear "Private, pressed" or "not pressed" rather than a name that changes under them.
+- Controlled hosts get onPressedChange from the press and the blinds only move once `pressed` changes, so a refused change never shows a false shut; a change the host makes on its own animates silently.
+- Under reduced motion all slats turn together on a 150ms tween, the lock fades in at its final shape and the beam does not sweep; the window still shuts and the lock still appears.
+- Both words sit in one grid cell, so the pill keeps the width of the longer one and neighbours never shift; pass compact for an icon-only control in dense toolbars.
+- Colours are CSS colour strings defaulting to tokens, so the toggle reads in light and dark themes; the daylight is a pigment taken from --warn at a fixed lightness.
+
+### Renew Loop (KQ-1255) — `renew-loop`
+The arrows close the circle, the date turns over.
+
+An auto-renew switch whose icon is the renewal: switched on, two arc arrows chase round the ring on springs.glide until their heads catch the other's tails and lock into a closed ring on springs.snap, the heads folding to small chevrons as the ring takes the accent, while a split-flap readout beside the label turns over cell by cell to the renewal date. Switched off, the ring breaks at the top, the arrows coast apart under friction on an inertia decay and the readout flips back to the day access ends. Dates come only from props, read in UTC; Space and Enter toggle it, and a polite status speaks the new date.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/renew-loop`
+
+Props:
+- `pressed / defaultPressed`: boolean (default false) — Controlled and initial state; true while the plan renews by itself.
+- `onPressedChange`: (pressed: boolean) => void — Fires from the press that changed it, with the new state.
+- `renewsOn`: Date | number | string (default renewedOn plus one period) — The next renewal date, when your billing system already knows it.
+- `renewedOn`: Date | number | string (default "2026-10-15") — The day the current term began: the last renewal, or the purchase.
+- `period`: "month" | "quarter" | "year" (default "month") — The billing period: how far each renewal carries the plan.
+- `label`: string (default "Auto-renew") — What the switch controls; the button's accessible name.
+- `renewsLabel`: string (default "Renews") — The word before the date while on.
+- `endsLabel`: string (default "Ends") — The word before the date while off.
+- `formatDate`: (date: Date) => string (default "15 Nov" in UTC) — How a date is written in the readout and the description.
+- `chase`: number (default 240) — How far the arrows chase before their heads lock, in degrees.
+- `flip`: number (default 90) — How long one flap takes to fall, in ms.
+- `friction`: number (default 0.5) — How quickly the released arrows coast to a stop, 0 (they glide on) to 1 (they stop short).
+- `compact`: boolean (default false) — Ring only; the label becomes the accessible name and the date its description and title.
+- `size`: "sm" | "md" | "lg" (default "md") — Pill height 32, 36 or 44px with the readout scaled to match.
+- `accent`: string (default var(--accent-bright)) — The closed ring's colour, any CSS colour.
+- `sound`: boolean (default false) — A ratchet tick per 30° of spin, a snap when the heads lock or the ring breaks, a faint tick per flap. Only after a press.
+- `disabled`: boolean (default false) — Greys the switch out and ignores presses and hover.
+- `className`: string — Extra classes for the root, which wraps the button.
+
+Notes:
+- Pass the term start (renewedOn) and the period, or the renewal date your billing system already has (renewsOn); the readout shows the renewal date while on and the last day of access, the day before it, while off. Dates are read in UTC, so server and client agree; pass formatDate for another style.
+- It is a <button aria-pressed> named by its visible label: Space and Enter toggle it, the full sentence ("Renews 15 Nov, then every month.") is its description, and a polite status speaks the new sentence after each change.
+- Controlled hosts get onPressedChange from the press; the ring only chases once `pressed` changes, so a refused change never shows a false lock. A period or date change flips only the cells that changed, silently.
+- The readout keeps the width of the longer sentence in fixed cells, so the pill never changes width as it flips; the label truncates with a title before anything overflows.
+- Under reduced motion the ring swaps shape under a short fade and the readout changes in place; the colour, the date and the announcement still change.
+
+### Focus Moon (KQ-1256) — `focus-moon`
+An eclipse for your notifications.
+
+A do-not-disturb toggle that eclipses its own sun: pressed, a moon slides across it on springs.snap, whose one overshoot flashes the last bead of sun on the far limb before the corona comes up on snap, the face turns to night and stars twinkle in on snap in a cascade; while focusing and on screen the corona breathes from one phase value. Holding the button extends the end time in grid steps, a tick per step as the changed digits roll on snap, and letting go sets it; pressed off, the moon slides away on an exit tween and the sunlight blooms back, settling on springs.drift. Space and Enter toggle it, the Up and Down arrows move the end a step, and times come only from the now prop.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/focus-moon`
+
+Props:
+- `pressed / defaultPressed`: boolean (default false) — Controlled and initial state; true while notifications are held.
+- `onPressedChange`: (pressed: boolean) => void — Fires from the tap, the hold or the key that changed it, with the new state.
+- `until / defaultUntil`: Date | number (default now plus minutes once it starts) — Controlled and initial end of the focus.
+- `onUntilChange`: (until: Date) => void — Fires when a tap, a released hold or an arrow key sets a new end time.
+- `now`: Date | number — The current time. Pass it from your clock so server and client agree; without it a press reads the clock when it happens.
+- `minutes`: number (default 60) — How long a tap focuses for, in minutes.
+- `step`: number (default 30) — What one hold step or arrow key adds, in minutes; steps land on this grid (15:07 to 15:30).
+- `maxMinutes`: number (default 480) — The furthest a hold can push the end, in minutes from now.
+- `holdDelay`: number (default 450) — How long a press must be held before it starts extending, in ms.
+- `holdInterval`: number (default 420) — Time between steps while held, in ms.
+- `stars`: number (default 5) — How many stars come out around the eclipse, 0 to 8.
+- `glow`: number (default 0.6) — Strength of the light, 0 to 1: the sun's bloom, the corona and its breathing.
+- `label`: string (default "Do not disturb") — The button's accessible name and its words while off.
+- `focusLabel`: string (default "Focusing until") — The words before the end time while on.
+- `format`: (date: Date) => string (default 24-hour "15:00" in timeZone) — How the end time is written.
+- `timeZone`: string (default "UTC") — The IANA time zone the default format writes in.
+- `compact`: boolean (default false) — Icon only; the name stays and the end time moves to the description and title.
+- `size`: "sm" | "md" | "lg" (default "md") — Pill height 32, 40 or 48px with a 24, 30 or 36px sky.
+- `sun`: string (default oklch(from var(--warn) 0.84 0.13 h)) — The sun, the corona and the bloom, any CSS colour.
+- `night`: string (default oklch(from var(--accent) 0.27 0.07 h)) — The night the face turns while focusing, any CSS colour.
+- `sound`: boolean (default false) — A chime at totality (lower when it ends) and a rising tick per hold step or arrow key. Only after the visitor acts.
+- `disabled`: boolean (default false) — Greys the toggle out and ignores presses, holds and keys.
+- `className`: string — Extra classes for the root, which wraps the button.
+
+Notes:
+- Keyboard: Space and Enter toggle it (on at the default length); the Up and Right arrows add a step (turning it on when off) and Down and Left take one away, never before the next step after now. A held press does the same with the pointer: past holdDelay it adds a step every holdInterval and letting go sets the time.
+- Pass now from your own clock (a ticking state or a server timestamp) so the label renders the same on server and client. The toggle never turns itself off: when now passes until, set pressed to false from that clock.
+- Controlled hosts get onPressedChange and onUntilChange from the gesture; a hold shows its draft time while held and commits once, on release, so the host hears one change rather than every step. A refused change slides the moon back away.
+- A polite status speaks each committed change ("Focusing until 15:30", "Do not disturb off"); the end time and the hold hint are the button's description, and the name stays constant while aria-pressed carries the state.
+- The corona's breathing runs only while focusing, on screen and in a visible tab. Under reduced motion the moon fades in over the sun and nothing slides, breathes or rolls; the night face, the label and the time still change.
+
+### Repeat Coil (KQ-1257) — `repeat-coil`
+Off, all, then just this one.
+
+A three-way repeat button whose glyph is two strands rebuilt every frame: off they hang as loose arrows, the first press bends them into one closed loop on the glide spring, and the second winds a third turn inside it on glide while a "1" pip pops out of the loop onto its corner on the recoil spring. The third press drops the pip back on an exit tween and lets the loop fall slack again. It reports aria-pressed false, true and mixed; Space and Enter cycle it, the arrow keys step either way, and Home and End jump to the ends.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/repeat-coil`
+
+Props:
+- `value / defaultValue`: "off" | "all" | "one" (default "off") — The repeat mode, controlled or initial.
+- `onValueChange`: (mode: RepeatMode) => void — Fires from the press or key that changed the mode.
+- `labels`: Partial<Record<RepeatMode, string>> (default Repeat off / Repeat all / Repeat one) — Text for each mode; the button keeps the width of the longest.
+- `allowOne`: boolean (default true) — Offer repeat-one; off, the button cycles off and all only.
+- `compact`: boolean (default false) — Icon only, with the mode's label as the accessible name.
+- `coil`: number (default 0.6) — How far and how deep the third turn winds in repeat-one, 0 to 1.
+- `pip`: boolean (default true) — Pop a "1" badge out of the loop in repeat-one.
+- `slack`: number (default 0.5) — How much the loose arrows sag while repeat is off, 0 to 1.
+- `pipDelay`: number (default 90) — Milliseconds from the coil starting to the pip popping out.
+- `size`: "sm" | "md" | "lg" (default "md") — Button height 32, 40 or 48 px with the glyph scaled to match.
+- `accent`: string (default "var(--accent-bright)") — The loop, the pip and the pressed tint; any CSS colour.
+- `idleColor`: string (default "var(--ink-3)") — The loose arrows' colour while repeat is off.
+- `sound`: boolean (default false) — A click on every press and a pop as the pip lands.
+- `disabled`: boolean (default false) — Ignores presses and keys and dims the button.
+- `className`: string — Classes for the wrapper.
+
+Notes:
+- Keyboard: Space and Enter cycle off, all, one; ArrowRight and ArrowUp step forward, ArrowLeft and ArrowDown step back (both wrap), Home goes to off and End to the last mode.
+- aria-pressed reads false for off, true for all and "mixed" for one, and a polite live region speaks the new label after a change the visitor made, once a controlled host has accepted it.
+- Controlled: pass value and onValueChange; the glyph animates when the host's value changes, so a refused change never shows a false state.
+- Reduced motion swaps the glyph to each state at once, cross-fades the colour and fades the pip in on its corner, with no bend, coil travel or bounce.
+- With allowOne off it is a two-state repeat toggle; a host value of "one" is then shown as all.
+
+### Latch Lock (KQ-1258) — `latch-lock`
+The shackle drops home.
+
+A lock toggle drawn as a padlock whose parts move on their own springs: unlocking lifts the shackle on the snap spring and swings it out about its long leg with one overshoot while the body drops a few pixels and a glint sweeps the keyhole; locking swings it back and drops it home on the flick spring against a hard stop, with a short shake through the whole lock. A disabled lock stays focusable, rattles in place and says why instead of toggling. Space and Enter toggle it through the native click, and aria-pressed reports locked.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/latch-lock`
+
+Props:
+- `pressed / defaultPressed`: boolean (default true) — Locked state, controlled or initial; true is locked.
+- `onPressedChange`: (locked: boolean) => void — Fires from the press that changed it.
+- `lockedLabel`: string (default "Locked") — Text and accessible name while locked.
+- `unlockedLabel`: string (default "Unlocked") — Text and accessible name while unlocked; the button keeps the wider label's width.
+- `compact`: boolean (default false) — Icon only, with the label as the accessible name.
+- `weight`: number (default 0.5) — How heavy the lock is, 0 to 1: slower swing, deeper drop, lower thock.
+- `rattle`: number (default 0.5) — How hard the lock shakes as the shackle seats and when a disabled lock is pressed.
+- `glint`: number (default 0.6) — Strength of the keyhole glint on unlocking; 0 hides it.
+- `swing`: number (default 26) — How far the open shackle swings out, in degrees.
+- `size`: "sm" | "md" | "lg" (default "md") — Button height 32, 40 or 48 px with the padlock scaled to match.
+- `lockedColor`: string (default "var(--accent-bright)") — The body's colour while locked and the pressed tint; any CSS colour.
+- `unlockedColor`: string (default "var(--ink-3)") — The body's colour while unlocked.
+- `disabledNote`: string (default "This lock can't be changed right now") — Spoken in a polite live region when a disabled lock is pressed.
+- `onRefused`: () => void — A press on a disabled lock, after it rattled and stayed put.
+- `sound`: boolean (default false) — Clack as the shackle lets go, thock as it seats, muted clacks for a refusal.
+- `disabled`: boolean (default false) — Rattles instead of toggling; stays in the tab order via aria-disabled.
+- `className`: string — Classes for the wrapper.
+
+Notes:
+- Keyboard: Space and Enter toggle through the native click; aria-pressed is true while locked, and the visible label is the accessible name (aria-label in compact mode).
+- Disabled uses aria-disabled rather than the native attribute, so keyboard users can reach it and hear disabledNote when they press it; wire onRefused to explain the hold elsewhere too.
+- Controlled: pass pressed and onPressedChange; the padlock moves when the host's value changes, so a refused change never shows a false state.
+- Reduced motion jumps the shackle and body to each pose, cross-fades the colour, turns the glint into a short flash and the refusal rattle into a flash of the rim.
+- lockedColor and unlockedColor take any CSS colour, so a lock that guards something risky can use var(--warn) for its unlocked body.
+
+### Eye Lid (KQ-1259) — `eye-lid`
+It watches until you close it.
+
+A show/hide toggle drawn as an eye that watches: while open, the iris and pupil follow the pointer anywhere on the page, held inside the eye on a spring whose keenness you set. Pressing blinks the lid shut on the snap spring with its lashes swinging over; shut, the lid twitches when the pointer passes close, and opening wakes it with a couple of slow tweened blinks before the gaze finds the pointer again on the glide spring. Space and Enter toggle it through the native click, and aria-pressed reports hidden.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/eye-lid`
+
+Props:
+- `pressed / defaultPressed`: boolean (default false) — Hidden state, controlled or initial; true is hidden, the eye shut.
+- `onPressedChange`: (hidden: boolean) => void — Fires from the press that changed it.
+- `shownLabel`: string (default "Visible") — Text and accessible name while the eye is open.
+- `hiddenLabel`: string (default "Hidden") — Text and accessible name while the eye is shut; the button keeps the wider label's width.
+- `compact`: boolean (default false) — Icon only, with the label as the accessible name.
+- `follow`: number (default 0.6) — How keenly the pupil chases the pointer, 0 to 1: spring stiffness and reach.
+- `blink`: number (default 2) — How many slow blinks it takes to wake when opened, 0 to 3.
+- `blinkDuration`: number (default 260) — How long one waking blink lasts, in ms.
+- `lashes`: number (default 5) — Lashes on the upper lid, 0 to 8.
+- `twitch`: boolean (default true) — Let the shut lid twitch when the pointer passes close.
+- `twitchRadius`: number (default 72) — How close the pointer must pass to make the shut lid twitch, in px.
+- `irisColor`: string (default "var(--accent-bright)") — The iris colour; any CSS colour.
+- `size`: "sm" | "md" | "lg" (default "md") — Button height 32, 40 or 48 px with the eye scaled to match.
+- `sound`: boolean (default false) — A tick each time the lids meet, after a press.
+- `disabled`: boolean (default false) — Ignores presses; the gaze rests centred.
+- `className`: string — Classes for the wrapper.
+
+Notes:
+- Keyboard: Space and Enter toggle through the native click; aria-pressed is true while hidden, and the visible label is the accessible name (aria-label in compact mode).
+- The watching is decoration: the eye listens to the pointer only while it is on screen and the page is visible, reads it once per frame, and never runs a loop while the pointer is still.
+- Use it beside a balance or a password field and mask the value from pressed; the component only reports, it never hides anything itself.
+- Reduced motion keeps the gaze centred and swaps the lid between open and shut at once, with no blinks or twitches; the label still changes.
+- A press during the waking blinks shuts it again at once; in controlled mode the lid only moves when the host's pressed value changes.
+
+### Wish Tag (KQ-1260) — `wish-tag`
+A price tag swings onto your list.
+
+A save-to-list toggle that hangs a paper price tag from the button's eyelet: saving swings it in from above the frame as a real pendulum on a recoil-family spring whose period and damping you set, with the tag hinged at its hole so it dangles a beat behind the string, while the counter rolls up on snap and bumps on recoil as the tag first comes taut. Removing snips the string, the stub curls back into the eyelet and the tag drops out of the frame on an ease-in fall. Space and Enter toggle it through the native click, aria-pressed reports saved, and a polite live region says what changed and the new count.
+
+Install: `pnpm dlx shadcn@latest add @kinetiq/wish-tag`
+
+Props:
+- `pressed / defaultPressed`: boolean (default false) — Saved state, controlled or initial; true is on the list.
+- `onPressedChange`: (saved: boolean) => void — Fires from the press that changed it.
+- `price`: number (default 129) — The amount the tag prints; the tag widens to fit it.
+- `format`: (price: number) => string (default Intl.NumberFormat en-GB GBP) — How the price is printed.
+- `count`: number (default 12) — Items on the list without this one; the counter shows one more while saved.
+- `showCount`: boolean (default true) — Show the list counter.
+- `countLabel`: string (default "saved") — The word after the counter's number.
+- `saveLabel`: string (default "Save") — Text and accessible name while not saved.
+- `savedLabel`: string (default "On your list") — Text and accessible name while saved; the button keeps the wider label's width.
+- `compact`: boolean (default false) — Icon only, with the label as the accessible name and the counter beside it.
+- `swing`: number (default 0.5) — How loosely the tag swings, 0 to 1; the middle is the house recoil.
+- `stringLength`: number (default 12) — From the eyelet to the tag's hole, in px.
+- `size`: "sm" | "md" | "lg" (default "md") — Button height 32, 40 or 48 px with the tag scaled to match.
+- `tagColor`: string (default manila pigment from --warn) — The tag's paper; any CSS colour.
+- `accent`: string (default "var(--accent-bright)") — The saved tint and the tick; any CSS colour.
+- `sound`: boolean (default false) — Paper as the tag comes taut, pop with the counter bump, a short snip on removal.
+- `disabled`: boolean (default false) — Ignores presses and dims the button.
+- `className`: string — Classes for the root.
+
+Notes:
+- Keyboard: Space and Enter toggle through the native click; aria-pressed is true while saved, and a polite live region says "Added to your list, 13 saved" or "Removed from your list, 12 saved" after the visitor's change.
+- The tag swings inside the component's own box, which includes a strip under and to the right of the button; the counter sits in that strip, so leave the component room rather than clipping it.
+- Controlled: pass pressed and onPressedChange; the tag hangs or falls when the host's value changes, so a refused save never shows a tag.
+- Reduced motion fades the tag in hanging still and fades it out, with the counter cross-fading and no swing, fall, nudge or bump.
+- Pass format for other currencies or decimals; the tag's width follows the printed string, so the same price always draws the same tag on the server and the client.
+
 ### Command Deck (KB-101) — `command-deck`
 A palette that arms before it fires.
 

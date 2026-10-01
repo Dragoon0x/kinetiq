@@ -1320,6 +1320,16 @@ import { QuiltGridDemo } from "@/registry/demos/quilt-grid.demo";
 import { CloudChamberDemo } from "@/registry/demos/cloud-chamber.demo";
 import { FerroPoolDemo } from "@/registry/demos/ferro-pool.demo";
 import { TartanShiftDemo } from "@/registry/demos/tartan-shift.demo";
+import { FollowKnotDemo } from "@/registry/demos/follow-knot.demo";
+import { MuteConeDemo } from "@/registry/demos/mute-cone.demo";
+import { PinPressDemo } from "@/registry/demos/pin-press.demo";
+import { PrivacyBlindsDemo } from "@/registry/demos/privacy-blinds.demo";
+import { RenewLoopDemo } from "@/registry/demos/renew-loop.demo";
+import { FocusMoonDemo } from "@/registry/demos/focus-moon.demo";
+import { RepeatCoilDemo } from "@/registry/demos/repeat-coil.demo";
+import { LatchLockDemo } from "@/registry/demos/latch-lock.demo";
+import { EyeLidDemo } from "@/registry/demos/eye-lid.demo";
+import { WishTagDemo } from "@/registry/demos/wish-tag.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2654,4 +2664,14 @@ export const demos: Record<string, ComponentType> = {
   "cloud-chamber": CloudChamberDemo,
   "ferro-pool": FerroPoolDemo,
   "tartan-shift": TartanShiftDemo,
+  "follow-knot": FollowKnotDemo,
+  "mute-cone": MuteConeDemo,
+  "pin-press": PinPressDemo,
+  "privacy-blinds": PrivacyBlindsDemo,
+  "renew-loop": RenewLoopDemo,
+  "focus-moon": FocusMoonDemo,
+  "repeat-coil": RepeatCoilDemo,
+  "latch-lock": LatchLockDemo,
+  "eye-lid": EyeLidDemo,
+  "wish-tag": WishTagDemo,
 };
