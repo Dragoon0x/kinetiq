@@ -1300,6 +1300,16 @@ import { EmbossCardDemo } from "@/registry/demos/emboss-card.demo";
 import { PunchCardDemo } from "@/registry/demos/punch-card.demo";
 import { AwardSealDemo } from "@/registry/demos/award-seal.demo";
 import { BoothStripDemo } from "@/registry/demos/booth-strip.demo";
+import { PocketPhoneDemo } from "@/registry/demos/pocket-phone.demo";
+import { LidLaptopDemo } from "@/registry/demos/lid-laptop.demo";
+import { SlateTabletDemo } from "@/registry/demos/slate-tablet.demo";
+import { CrownWatchDemo } from "@/registry/demos/crown-watch.demo";
+import { TabBrowserDemo } from "@/registry/demos/tab-browser.demo";
+import { FoldPhoneDemo } from "@/registry/demos/fold-phone.demo";
+import { PocketConsoleDemo } from "@/registry/demos/pocket-console.demo";
+import { ViewfinderDemo } from "@/registry/demos/viewfinder.demo";
+import { InkReaderDemo } from "@/registry/demos/ink-reader.demo";
+import { StandMonitorDemo } from "@/registry/demos/stand-monitor.demo";
 
 /**
  * slug → live preview component. Every catalog item registers its demo here;
@@ -2614,4 +2624,14 @@ export const demos: Record<string, ComponentType> = {
   "punch-card": PunchCardDemo,
   "award-seal": AwardSealDemo,
   "booth-strip": BoothStripDemo,
+  "pocket-phone": PocketPhoneDemo,
+  "lid-laptop": LidLaptopDemo,
+  "slate-tablet": SlateTabletDemo,
+  "crown-watch": CrownWatchDemo,
+  "tab-browser": TabBrowserDemo,
+  "fold-phone": FoldPhoneDemo,
+  "pocket-console": PocketConsoleDemo,
+  viewfinder: ViewfinderDemo,
+  "ink-reader": InkReaderDemo,
+  "stand-monitor": StandMonitorDemo,
 };

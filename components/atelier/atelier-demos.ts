@@ -327,4 +327,44 @@ export const ATELIER_DEMOS: Record<string, () => Promise<TactileModule>> = {
     import("@/registry/demos/booth-strip.demo").then((m) =>
       mod(m.BoothStripDemo, m.tweaks),
     ),
+  "pocket-phone": () =>
+    import("@/registry/demos/pocket-phone.demo").then((m) =>
+      mod(m.PocketPhoneDemo, m.tweaks),
+    ),
+  "lid-laptop": () =>
+    import("@/registry/demos/lid-laptop.demo").then((m) =>
+      mod(m.LidLaptopDemo, m.tweaks),
+    ),
+  "slate-tablet": () =>
+    import("@/registry/demos/slate-tablet.demo").then((m) =>
+      mod(m.SlateTabletDemo, m.tweaks),
+    ),
+  "crown-watch": () =>
+    import("@/registry/demos/crown-watch.demo").then((m) =>
+      mod(m.CrownWatchDemo, m.tweaks),
+    ),
+  "tab-browser": () =>
+    import("@/registry/demos/tab-browser.demo").then((m) =>
+      mod(m.TabBrowserDemo, m.tweaks),
+    ),
+  "fold-phone": () =>
+    import("@/registry/demos/fold-phone.demo").then((m) =>
+      mod(m.FoldPhoneDemo, m.tweaks),
+    ),
+  "pocket-console": () =>
+    import("@/registry/demos/pocket-console.demo").then((m) =>
+      mod(m.PocketConsoleDemo, m.tweaks),
+    ),
+  viewfinder: () =>
+    import("@/registry/demos/viewfinder.demo").then((m) =>
+      mod(m.ViewfinderDemo, m.tweaks),
+    ),
+  "ink-reader": () =>
+    import("@/registry/demos/ink-reader.demo").then((m) =>
+      mod(m.InkReaderDemo, m.tweaks),
+    ),
+  "stand-monitor": () =>
+    import("@/registry/demos/stand-monitor.demo").then((m) =>
+      mod(m.StandMonitorDemo, m.tweaks),
+    ),
 };

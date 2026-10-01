@@ -73613,4 +73613,1200 @@ export const components: KinetiqItem[] = [
       "The timeline and the drying clock pause in a hidden tab, and the drying clock runs only while the strip is wet and on screen.",
     ],
   },
+  {
+    name: "pocket-phone",
+    type: "registry:ui",
+    title: "Pocket Phone",
+    description:
+      "A phone frame that holds any screen and leans toward the pointer under a sheet of glass glare on the glide spring. A corner toggle turns it to landscape on glide while the screen counter-rotates and re-lays its content out in real pixels; its keys sink into the frame on flick, the volume keys raise a level on the glass that slides out on snap, the side key sleeps and wakes the screen, and the island opens on snap into a live activity. Every key is a real button reached by Tab and pressed with Enter or Space (Enter repeats on the volume keys), the island is a disclosure that Escape closes, and keyboard focus tilts the phone toward the key it is on.",
+    files: [
+      {
+        path: "registry/ui/pocket-phone.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1231",
+    },
+    tagline: "A phone that tilts, turns and wakes.",
+    keywords: [
+      "phone",
+      "device frame",
+      "mockup",
+      "mobile",
+      "landscape",
+      "island",
+      "preview",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "The screen's content, laid out in a size container the shape of the screen; use @container (orientation: landscape) for the turned layout.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Phone"',
+        description: "The device's accessible name.",
+      },
+      {
+        name: "island",
+        type: "ReactNode",
+        description:
+          "What the island shows when it opens. Without it the island is only the camera and is not a control.",
+      },
+      {
+        name: "islandLabel",
+        type: "string",
+        defaultValue: '"Live activity"',
+        description: "The island button's accessible name.",
+      },
+      {
+        name: "time",
+        type: "string",
+        defaultValue: '"9:41"',
+        description: "The clock in the status bar.",
+      },
+      {
+        name: "orientation / defaultOrientation",
+        type: '"portrait" | "landscape"',
+        defaultValue: '"portrait"',
+        description: "Controlled or initial orientation.",
+      },
+      {
+        name: "onOrientationChange",
+        type: '(orientation: "portrait" | "landscape") => void',
+        description:
+          "Fires from the turn toggle with the orientation asked for.",
+      },
+      {
+        name: "volume / defaultVolume",
+        type: "number",
+        defaultValue: "0.5",
+        description: "Controlled or initial volume, 0 to 1 in sixteenths.",
+      },
+      {
+        name: "onVolumeChange",
+        type: "(volume: number) => void",
+        description: "Fires from the volume keys with the new level.",
+      },
+      {
+        name: "awake / defaultAwake",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Controlled or initial screen state.",
+      },
+      {
+        name: "onAwakeChange",
+        type: "(awake: boolean) => void",
+        description:
+          "Fires from the side key, or a tap on the dark glass, with the new state.",
+      },
+      {
+        name: "islandOpen / defaultIslandOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial island state.",
+      },
+      {
+        name: "onIslandOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from a tap on the island, Escape, or a press outside it.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "8",
+        description:
+          "How far the phone leans toward the pointer, in degrees, 0 to 15; 0 holds it flat.",
+      },
+      {
+        name: "finish",
+        type: '"graphite" | "silver" | "sand"',
+        defaultValue: '"graphite"',
+        description: "The metal band and keys.",
+      },
+      {
+        name: "glare",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Light across the glass that moves with the tilt.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the keys' clicks. Nothing plays, and no audio context exists, unless this is on; sounds only answer the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables every key and the lean, and dims the phone.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Merged onto the root; the default box is aspect-[3/5] at full width.",
+      },
+    ],
+    usageNotes: [
+      "Volume up, Volume down and Side button are real buttons on the frame: Tab reaches each, Enter or Space presses it (the key sinks), Enter held repeats on the volume keys. The island is a button with aria-expanded; Enter opens it and Escape (with preventDefault) or a press outside closes it. Landscape is a toggle button with aria-pressed. Keyboard focus on any of them tilts the phone toward that key.",
+      "Under reduced motion nothing leans or travels: turning cross-fades the phone to the other orientation, the island opens to size and its content fades, keys darken instead of sinking, and the volume level, screen state and orientation all still show and are announced.",
+      "The frame is sized from one CSS min() of its container, so it fits any box without measurement; while it turns it eases back mid-turn so the rotated body never leaves the box.",
+    ],
+  },
+  {
+    name: "lid-laptop",
+    type: "registry:ui",
+    title: "Lid Laptop",
+    description:
+      "A laptop in real CSS 3D that holds any screen on its lid: the first time it is mostly in view the lid opens on the drift spring, a click opens or shuts it, and a vertical drag turns the hinge with the finger, rubber-bands past its stop and commits by projection on the glide spring with the release velocity. As the lid passes 60° the screen wakes from black; shutting is a landing, a glide fall that strikes the deck and bounces off it on the recoil spring with a thock at each contact, while a sheen slides along the deck after the pointer on drift and the screen's light spills onto it. A real button over the laptop is the keyboard's lid: Enter or Space toggles it, ArrowUp or End opens and ArrowDown or Home shuts.",
+    files: [
+      {
+        path: "registry/ui/lid-laptop.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1232",
+    },
+    tagline: "Opens when you get close.",
+    keywords: [
+      "laptop",
+      "device frame",
+      "mockup",
+      "3d",
+      "hinge",
+      "screen",
+      "preview",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "The screen's content, laid out in a size container the shape of the screen.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Laptop"',
+        description:
+          'The device\'s accessible name; the lid control is named after it ("Laptop lid").',
+      },
+      {
+        name: "open / defaultOpen",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Controlled or initial lid state.",
+      },
+      {
+        name: "onOpenChange",
+        type: "(open: boolean) => void",
+        description:
+          "Fires from a tap, a drag, a key, or the laptop coming into view, with the state asked for.",
+      },
+      {
+        name: "openOnView",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Open a shut lid the first time the laptop is mostly on screen, silently.",
+      },
+      {
+        name: "angle",
+        type: "number",
+        defaultValue: "110",
+        description:
+          "Where the lid rests open, in degrees from the deck, 90 to 130.",
+      },
+      {
+        name: "finish",
+        type: '"space" | "silver" | "midnight"',
+        defaultValue: '"space"',
+        description: "The aluminium of the deck, lip and lid shell.",
+      },
+      {
+        name: "wake",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The screen wakes from black as the lid rises past 60° and sleeps below 40°; off, it is always lit.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the latch and the landing thocks. Only the visitor's own taps, drags and keys make a sound; the open on view never does.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Disables the lid, its keys and its gestures, and dims the laptop.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Merged onto the root; the default box is aspect-[4/3] at full width.",
+      },
+    ],
+    usageNotes: [
+      'The lid is a real button with aria-expanded and aria-controls pointing at the screen, laid over the laptop\'s footprint so its focus ring outlines the laptop: Enter or Space opens and shuts it, ArrowUp or End opens, ArrowDown or Home shuts, and a polite status says "Lid open." or "Lid closed.". Screen content is inert while the lid is shut.',
+      "Under reduced motion the lid is drawn at its new angle at once with no fall or bounce, a drag still follows the finger, the deck's sheen holds still, and the screen still fades from black.",
+      "Pointer gestures start on the laptop itself, never on the empty box around it or on live content on an open screen, which keeps its own presses.",
+    ],
+  },
+  {
+    name: "slate-tablet",
+    type: "registry:ui",
+    title: "Slate Tablet",
+    description:
+      "A tablet frame with its pencil docked magnetically on the long edge: drag the pencil off and it follows the finger 1:1, turning to the writing angle and foreshortening toward the eye as it leaves the magnet, and with it out the screen takes ink whose width follows the hand's speed while the pencil rides the pointer and its shadow closes in. Thrown or brought back to the edge it snaps into the dock on the snap spring with the release velocity and a snap at contact, and the ink fades away on the exit ease; picked up by key it glides to the middle of the screen. The pencil is a real toggle button: Enter or Space picks it up and puts it back, arrow keys write while it is out (Shift moves without ink), and Escape docks it.",
+    files: [
+      {
+        path: "registry/ui/slate-tablet.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1233",
+    },
+    tagline: "A tablet with its pencil.",
+    keywords: [
+      "tablet",
+      "device frame",
+      "pencil",
+      "stylus",
+      "ink",
+      "drawing",
+      "mockup",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "ReactNode",
+        description:
+          "The screen's content, laid out in a size container the shape of the screen, under the ink.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Tablet"',
+        description: "The device's accessible name.",
+      },
+      {
+        name: "docked / defaultDocked",
+        type: "boolean",
+        defaultValue: "true",
+        description: "Controlled or initial pencil state.",
+      },
+      {
+        name: "onDockedChange",
+        type: "(docked: boolean) => void",
+        description:
+          "Fires from the drag, tap or key that picked the pencil up or put it back.",
+      },
+      {
+        name: "onStroke",
+        type: "(points: { x: number; y: number }[]) => void",
+        description:
+          "Each stroke as it is finished, in fractions of the screen's width from its top left.",
+      },
+      {
+        name: "ink",
+        type: '"black" | "blue" | "red"',
+        defaultValue: '"black"',
+        description:
+          "The ink and the pencil's nib; black follows the theme's ink, blue and red are fixed pigments.",
+      },
+      {
+        name: "bezel",
+        type: "number",
+        defaultValue: "14",
+        description: "The black glass around the screen, in px, 8 to 24.",
+      },
+      {
+        name: "orientation",
+        type: '"landscape" | "portrait"',
+        defaultValue: '"landscape"',
+        description:
+          "Lying down with the pencil on top, or standing with it on the right.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the nib's scratch while writing and the magnet's snap. The scratch loop runs only while a stroke moves and stops on lift.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Disables the pencil and the ink, and dims the tablet.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Merged onto the root; the default box is aspect-[4/3] at full width.",
+      },
+    ],
+    usageNotes: [
+      "The pencil is a button with aria-pressed (pressed is in hand): Enter or Space picks it up onto the middle of the screen and docks it again; while it is out, each arrow key writes a short line in that direction, Shift with an arrow moves without ink, and Escape (with preventDefault) docks it and clears the ink. A polite status announces each change.",
+      "Under reduced motion the pencil changes pose without travelling, a drag still follows the finger, and the ink still fades when it docks.",
+      "With the pencil docked the screen's content keeps its own pointer and keyboard; with it out, the screen becomes the ink layer (touch-action none) until the pencil goes back.",
+    ],
+  },
+  {
+    name: "crown-watch",
+    type: "registry:ui",
+    title: "Crown Watch",
+    description:
+      "A watch frame whose crown scrolls its screen: drag or wheel over the crown and its knurl turns 1:1 under the finger, a cylinder seen edge-on whose ridges crowd toward its top and bottom, geared so one notch is one step of content, and a swipe on the glass turns the crown with it. With detents the crown sticks at each notch and jumps through the middle while the content steps on springs.snap with a tick; without them the content follows the crown 1:1 and a flick coasts to its projected landing on springs.glide with the release velocity, and either way the ends rubber-band and spring back on snap. The crown is a vertical slider whose arrow keys turn it a notch, Page keys a screen and Home and End to the ends, and Enter or Space press it, which pushes it in on springs.flick and glides the screen home as the crown unwinds; the whole watch leans toward the pointer under a glare on its crystal.",
+    files: [
+      {
+        path: "registry/ui/crown-watch.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1234",
+    },
+    tagline: "Turn the crown to scroll.",
+    keywords: [
+      "watch mockup",
+      "device frame",
+      "crown",
+      "scroll wheel",
+      "detents",
+      "smartwatch",
+      "rotary input",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The screen's content, in real px, scrolled by the crown. It wears the dark theme: a watch screen is black glass.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Watch"',
+        description:
+          "The watch's accessible name; the screen region is named after it.",
+      },
+      {
+        name: "title",
+        type: "string",
+        description:
+          "The app's name, shown at the top left of the screen's header.",
+      },
+      {
+        name: "time",
+        type: "string",
+        defaultValue: '"10:09"',
+        description: "The clock at the top right of the screen's header.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "The scroll offset in px from the top of the content (controlled / initial). Clamped to the content's measured range.",
+      },
+      {
+        name: "onValueChange",
+        type: "(value: number) => void",
+        description:
+          "Fires from the turn, swipe, wheel, key or press that scrolled it, with the new offset in whole px: each notch as it lands with detents, the landing of a coast without.",
+      },
+      {
+        name: "step",
+        type: "number",
+        defaultValue: "32",
+        description:
+          "Content per notch of the crown, in px (8 or more). Make it your row height so every notch lands on a row.",
+      },
+      {
+        name: "detents",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "The crown ratchets, a notch, a step and a tick at a time. Off, it turns smoothly, the content follows 1:1 and a flick coasts.",
+      },
+      {
+        name: "case",
+        type: '"steel" | "gold" | "black"',
+        defaultValue: '"steel"',
+        description:
+          "The case and crown metal (and a mesh band's), fixed pigments that read the same in either theme.",
+      },
+      {
+        name: "band",
+        type: '"sport" | "leather" | "mesh"',
+        defaultValue: '"sport"',
+        description:
+          "The strap: a moulded sport band with holes, stitched leather, or a fine metal mesh.",
+      },
+      {
+        name: "onCrownPress",
+        type: "() => void",
+        description:
+          "The crown was pressed (tap, Enter or Space). The press also takes the screen back to the top.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play the crown's detents: a tick per notch it turns through (with detents on) and a low knock at an end stop, only ever in answer to the visitor.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The crown and glass stop answering and the screen's content is inert.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root, which keeps a 25:27 aspect ratio and sizes everything from its width.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the crown is a vertical role="slider" named "Crown" that controls the screen region. ArrowDown/ArrowRight turn it a notch down and ArrowUp/ArrowLeft up, PageDown/PageUp move a screen, Home and End go to the top and the end, and Enter or Space press it (back to the top). Focus that lands on content scrolled out of view brings it into view.',
+      "Reduced motion: nothing leans, springs or coasts. Content and crown go straight to each step (the knurl still turns under a dragging finger, since it is the visitor's own hand), a press darkens the crown instead of pushing it in, the ends clamp, and the scroll indicator still shows where the content is.",
+      "The wheel over the glass is only kept while the content can still move that way, so the page scrolls on past either end; over the crown it always turns the crown. The frame scales with its container's width and renders the same on the server: give it a width (around 200–260 px reads as a watch).",
+    ],
+  },
+  {
+    name: "tab-browser",
+    type: "registry:ui",
+    title: "Tab Browser",
+    description:
+      "A browser window around a small site that behaves like one: tabs select on press and drag to reorder, the dragged tab lifting on springs.flick and following the finger 1:1 while the tabs it passes slide aside on springs.glide, each tab keeps its own Back and Forward history, page links navigate in the tab (or open a background tab with Ctrl, Cmd or the middle button), and a link or a host navigation types the new address into the bar from where it first differs. With loading on, a bar runs across under the toolbar on an ease-out for a seeded time per address while the tab's icon spins, then completes and fades as the new page cross-fades in with a short rise on glide; the light and dark skins wear those themes whatever the page does, and glass frosts the chrome over the page scrolling beneath it. The tabs are a tablist whose arrows move and select, Shift with an arrow moves a tab and Delete closes it, the address bar is a real input that takes an address, a path or a page's name, and Alt with an arrow goes back and forward.",
+    files: [
+      {
+        path: "registry/ui/tab-browser.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1235",
+    },
+    tagline: "A browser that behaves like one.",
+    keywords: [
+      "browser mockup",
+      "device frame",
+      "tabs",
+      "address bar",
+      "loading bar",
+      "history",
+      "drag to reorder",
+    ],
+    props: [
+      {
+        name: "pages",
+        type: "{ url: string; title: string; content: React.ReactNode; icon?: React.ReactNode }[]",
+        description:
+          "The site the browser can show; the first page is home, where new tabs open. Plain <a href> links to these addresses (with or without the protocol, or as /paths) navigate inside the frame; any other address shows a built-in nothing-here page, and nothing ever leaves the frame.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Browser"',
+        description: "The browser's accessible name.",
+      },
+      {
+        name: "tabs",
+        type: "number",
+        defaultValue: "3",
+        description:
+          "How many tabs are open, 1 to 4, on the first pages in order. Changing it opens or closes tabs at the end of the strip (never the one in use); the visitor can still open up to six and close them.",
+      },
+      {
+        name: "value / defaultValue",
+        type: "string",
+        defaultValue: "the first page's URL",
+        description:
+          "The address: the active tab's URL (controlled / initial). A new value from the host navigates the active tab there, typing it into the bar.",
+      },
+      {
+        name: "onValueChange",
+        type: "(url: string) => void",
+        description:
+          "Fires from the link, address bar, Back, Forward or tab switch that asked for a new address. Controlled, the navigation is carried out when the host's value arrives, so a refused address never shows.",
+      },
+      {
+        name: "skin",
+        type: '"light" | "dark" | "glass"',
+        defaultValue: '"glass"',
+        description:
+          "Light or dark chrome and pages whatever the page's theme, or translucent, blurred chrome in the page's theme with the page scrolling beneath it.",
+      },
+      {
+        name: "loading",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Navigations take a moment: a loading bar, a spinning tab icon, then the page cross-fades in. Off, pages change at once.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play clicks for the visitor's presses: tabs, each slot a dragged tab crosses, Back, Forward, Reload, links, Enter in the address bar, new and closed tabs. A page finishing loading is silent.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Every control is disabled and the page is inert.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root, a container: the window is 8:5 below 480 px wide and 12:5 above.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the tabs are a role="tablist" with roving focus; ArrowLeft/ArrowRight move to and select a tab, Home and End jump, Shift with an arrow moves the focused tab one place and Delete or Backspace closes it (the × beside each tab is a pointer convenience). Back, Forward, Reload and New tab are buttons; Back and Forward stay focusable when there is nowhere to go (aria-disabled). The address bar is a labelled input: Enter goes there, Escape restores the current address. Alt with an arrow goes back and forward from anywhere in the browser but the address bar.',
+      "Reduced motion: tabs swap places at once (a drag still follows the finger), the address appears whole instead of typing, the spinner holds still and pages cross-fade on opacity alone, while the loading bar still fills because it is information.",
+      'A polite live region says "Loading Routes." and "Routes loaded." once each per navigation, and where a moved tab now sits. The pages scroll inside the window, and each tab keeps its own scroll and history while another is in front.',
+    ],
+  },
+  {
+    name: "fold-phone",
+    type: "registry:ui",
+    title: "Fold Phone",
+    description:
+      "A book-style foldable phone frame: folded it is a tall cover screen, and a sideways drag anywhere on it swings the front half round its hinge in real CSS perspective, the half's free edge following the finger 1:1 (the angle is solved from the finger's position) while its face darkens as it turns edge-on and its shadow falls across the other half, into a wide inner screen whose crease catches the light as the halves pass 150°. The hinge is a free-stop: a slow release rests where it is unless an end is near, a flick commits the way it was thrown, closing snaps shut on springs.snap with its overshoot reflected off the other half and a thock, and opening runs to the flat stop on springs.glide with the release velocity; the content re-flows between the cover's narrow size container and the wide one. The hinge is a slider in degrees whose arrows turn it 30°, Page keys 90°, Home folds, End opens flat and Enter toggles, and the Unfold button under the phone does the same.",
+    files: [
+      {
+        path: "registry/ui/fold-phone.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1236",
+    },
+    tagline: "Open it up for more room.",
+    keywords: [
+      "foldable phone",
+      "device frame",
+      "phone mockup",
+      "hinge",
+      "unfold",
+      "responsive preview",
+      "3d fold",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The screen, laid out in a size container: narrow on the cover, wide inside, so container queries re-flow it. It takes input when the phone is folded or open flat; while it moves or rests part-open it is drawn more than once as a picture, so keep it presentational.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Foldable phone"',
+        description: "The phone's accessible name.",
+      },
+      {
+        name: "time",
+        type: "string",
+        defaultValue: '"10:24"',
+        description: "The clock in both screens' status bars.",
+      },
+      {
+        name: "fold / defaultFold",
+        type: "number",
+        defaultValue: "0",
+        description:
+          "The posture, 0 folded shut to 1 open flat, anything between a hinge angle (controlled / initial). A new value from the host moves the hinge there silently.",
+      },
+      {
+        name: "onFoldChange",
+        type: "(fold: number) => void",
+        description:
+          "Fires from the drag, key or button that moved the hinge, with the posture it comes to rest at (three decimals).",
+      },
+      {
+        name: "finish",
+        type: '"ink" | "cream" | "sage"',
+        defaultValue: '"ink"',
+        description:
+          "The frame and hinge, fixed pigments that read the same in either theme.",
+      },
+      {
+        name: "crease",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "A crease down the inner screen: a hairline, and a highlight that peaks as the halves pass 150° and fades to a faint line when flat. Off, the inner screen is seamless.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Play a thock as the halves clap shut (and a soft second one if they bounce) and a lighter one at the flat stop, only for the visitor's own drag, key or press.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The hinge, button and drag stop answering and the screens are inert.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description:
+          "Classes for the root, a column of the phone's 100:114 stage and the Unfold button; the phone is sized from the root's width.",
+      },
+    ],
+    usageNotes: [
+      'Keyboard: the hinge is a horizontal role="slider" named "Hinge", valued in degrees with text "Folded", "Open flat" or "Open 120°". ArrowRight/ArrowUp open it 30°, ArrowLeft/ArrowDown close it 30°, PageUp/PageDown move 90°, Home folds, End opens flat, and Enter or Space open or fold it all the way. The button under the phone says what it will do (Unfold or Fold).',
+      "Reduced motion: no swing and no springs. The button and keys cross-fade the phone between postures; a drag still turns the half under the finger, since it is the visitor's own hand, and the release rests or commits at once. The crease light holds at the posture's strength, and the posture is still announced.",
+      'Only one copy of the content is exposed to assistive technology at a time — the cover\'s while the cover faces the viewer, the inner screen\'s after — and a polite live region says "Folded, cover screen.", "Open flat, wide screen." or the angle when the hinge comes to rest.',
+    ],
+  },
+  {
+    name: "pocket-console",
+    type: "registry:ui",
+    title: "Pocket Console",
+    description:
+      "A handheld console frame whose keys travel: each cap goes down into its well on the flick spring as its side wall disappears, and the dome pushes it back up on snap with one crisp overshoot; the d-pad is one cross on a pivot that rocks toward the arm under the thumb, and sliding a finger round it rolls through all eight directions. Every press reaches the screen as a real keydown and keyup, so content written for a keyboard runs unchanged, while the LCD shows a pixel grid and backlight and the power light breathes on a slow tween only while it is on and on screen. From any key the arrow keys press the d-pad and A and B press A and B for as long as they are held, and Enter or Space hold the focused key.",
+    files: [
+      {
+        path: "registry/ui/pocket-console.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1237",
+    },
+    tagline: "Buttons that really press.",
+    keywords: [
+      "handheld console",
+      "game controller",
+      "d-pad",
+      "device frame",
+      "pixel screen",
+      "keyboard events",
+      "mockup",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The screen: any content, in a size container the shape of the LCD. It receives every press as a key event.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Handheld console"',
+        description: "The console's accessible name.",
+      },
+      {
+        name: "power / defaultPower",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Whether the console is switched on; the content is inert while it is off.",
+      },
+      {
+        name: "onPowerChange",
+        type: "(power: boolean) => void",
+        description: "Fires from the power switch with the state asked for.",
+      },
+      {
+        name: "onPress",
+        type: "(button: PocketConsoleButton) => void",
+        description:
+          "A key went down (pointer, keyboard or assistive technology) while the console is on.",
+      },
+      {
+        name: "onRelease",
+        type: "(button: PocketConsoleButton) => void",
+        description: "A key came back up.",
+      },
+      {
+        name: "keyMap",
+        type: "Partial<Record<PocketConsoleButton, string>>",
+        defaultValue:
+          '{ up: "ArrowUp", …, a: "a", b: "b", start: "Enter", select: "Shift" }',
+        description:
+          "The key each button sends into the screen. Escape is never sent.",
+      },
+      {
+        name: "shell",
+        type: '"grey" | "teal" | "clear"',
+        defaultValue: '"grey"',
+        description:
+          "The plastic: warm grey, teal, or a smoked clear shell that shows the board inside.",
+      },
+      {
+        name: "grid",
+        type: "number",
+        defaultValue: "0.5",
+        description: "How strongly the LCD's pixel grid shows, 0 to 1.",
+      },
+      {
+        name: "backlight",
+        type: "number",
+        defaultValue: "0.8",
+        description:
+          "How lit the LCD is, 0 (unlit, under a dark film) to 1 (glowing).",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "Each key clicks going down and, quieter, coming up. Nothing plays on its own.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Keys take no presses and anything held is let go.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the 5:8 root; size it by width.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the d-pad is one Tab stop of four buttons with a roving tabindex; from any console control the arrow keys press the d-pad and the A and B keys press A and B for as long as they are held, Enter or Space hold the focused key, and an arrow on the d-pad moves focus to that arm. The power switch is a role=switch.",
+      "Reduced motion: no cap travels and the d-pad does not rock — a pressed key darkens at once — and the power light holds steady; every press still reaches the content and clicks.",
+      "Each press is dispatched as a KeyboardEvent at the element focused inside the screen, or at the content's first element, so an ordinary onKeyDown on the content's root hears it; the console never handles the events it sends.",
+    ],
+  },
+  {
+    name: "viewfinder",
+    type: "registry:ui",
+    title: "Viewfinder",
+    description:
+      "A camera viewfinder over any scene with a two-stage shutter: holding it sinks the cap to its first stage on flick and racks the lens to the focus point's subject on the recoil spring, hunting through sharp twice before the brackets close on snap and turn green. Letting go fires — two curtains meet and part on a tween, and the frame, with the blur, exposure and roll it was taken with, shrinks out of the finder on snap and arcs into the corner slot on glide; released before the lock, the photo is soft. The nine focus points are a radiogroup the arrow keys move through, re-metering the scene and changing the shutter speed, and Space or Enter held on the shutter is the half-press, released the shot, with Escape to cancel.",
+    files: [
+      {
+        path: "registry/ui/viewfinder.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1238",
+    },
+    tagline: "Frame it, focus, shoot.",
+    keywords: [
+      "camera",
+      "viewfinder",
+      "shutter",
+      "autofocus",
+      "photo capture",
+      "device frame",
+      "exposure",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description: "The scene: any content, framed 3:2 in a size container.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Camera"',
+        description: "The camera's accessible name.",
+      },
+      {
+        name: "point / defaultPoint",
+        type: "number",
+        defaultValue: "4",
+        description: "The focus point, 0 to 8, row by row from the top left.",
+      },
+      {
+        name: "onPointChange",
+        type: "(point: number) => void",
+        description:
+          "Fires from a tap on the scene or an arrow key with the point chosen.",
+      },
+      {
+        name: "onShoot",
+        type: "(shot: ViewfinderShot) => void",
+        description:
+          "Fires as the shutter falls, with the photo's count, point and whether focus had locked.",
+      },
+      {
+        name: "grid",
+        type: '"thirds" | "cross" | "none"',
+        defaultValue: '"thirds"',
+        description: "The framing grid.",
+      },
+      {
+        name: "level",
+        type: "boolean",
+        defaultValue: "true",
+        description:
+          "Show the electronic level, which turns green when the frame is level.",
+      },
+      {
+        name: "focus",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Depth of field, 0 (deep, f/11) to 1 (shallow, f/1.4): how soft the scene starts, how far the lens hunts, and the aperture and shutter speed read out.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The half-press detent, the focus beep and the shutter's two curtains. Nothing plays on its own.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Takes no presses; a half-press held is cancelled.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the 2:1 root; size it by width.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the focus points are a role=radiogroup with a roving tabindex — arrow keys move in two dimensions and Home/End jump; on the Shutter, Space or Enter held is the half-press and releasing takes the photo, Escape cancels a half-press (handled with preventDefault) and losing focus cancels it too. An assistive-technology click focuses first and then shoots.",
+      "Reduced motion: no hunting, rolling or flying — focus eases in on a short tween, the brackets turn green without closing, the curtains become one dim, and the photo appears in its slot; the lock, the count and the readout still change.",
+      "A polite live region says Focused. on each lock and Photo 3, sharp. or Photo 3, soft. on each shot. The photo in the slot is a copy of the scene, inert and hidden from assistive technology.",
+    ],
+  },
+  {
+    name: "ink-reader",
+    type: "registry:ui",
+    title: "Ink Reader",
+    description:
+      "An e-reader that lays any long text out in pages exactly as wide as its screen, measured, so a narrower reader has more pages; every turn is an e-ink refresh rather than a slide — the new page shows inverted, snaps to white and clears in three grey steps, or with a fast refresh draws at once and leaves the old page as a ghost that clears the same way, and a full flash never repeats within half a second. A swipe, a tap, the chin's keys (which press on flick and return on snap) or the keyboard turn the page, and the front-light slider follows the finger 1:1 and settles on snap, bringing the paper up from the room's own light and tinting it cool to amber while the ink stays black. On the focused page the arrow, Page and Space keys turn and Home and End jump; the slider takes arrows, Page keys, Home and End.",
+    files: [
+      {
+        path: "registry/ui/ink-reader.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1239",
+    },
+    tagline: "Pages that refresh like paper.",
+    keywords: [
+      "e-reader",
+      "e-ink",
+      "pagination",
+      "book",
+      "front light",
+      "device frame",
+      "reading",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The text: any long content, laid out in pages the size of the screen.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"E-reader"',
+        description: "The reader's accessible name.",
+      },
+      {
+        name: "title",
+        type: "string",
+        description: "The book or chapter, shown at the top of the screen.",
+      },
+      {
+        name: "page / defaultPage",
+        type: "number",
+        defaultValue: "1",
+        description: "The page shown, from 1.",
+      },
+      {
+        name: "onPageChange",
+        type: "(page: number) => void",
+        description:
+          "Fires from a swipe, a tap, a key or a page key with the page asked for.",
+      },
+      {
+        name: "onPageCountChange",
+        type: "(count: number) => void",
+        description:
+          "Fires when the text has been laid out, and again whenever a new size changes its page count.",
+      },
+      {
+        name: "light",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "The front light, 0 (off) to 1. The slider starts here and follows a new value.",
+      },
+      {
+        name: "onLightChange",
+        type: "(light: number) => void",
+        description: "Fires from the slider with the new level.",
+      },
+      {
+        name: "warmth",
+        type: "number",
+        defaultValue: "0.3",
+        description: "The light's colour, 0 (cool white) to 1 (amber).",
+      },
+      {
+        name: "refresh",
+        type: '"full" | "fast"',
+        defaultValue: '"full"',
+        description:
+          "A full flash (inverted, then clean) or a fast draw that leaves a ghost of the last page.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "A page turn's paper crinkle, a little higher going forward. Nothing plays at either end or on its own.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Takes no turns and no light changes.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the 5:7 root; size it by width.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the page is a focusable region named Page 3 of 12 — Right, Down, Page Down and Space turn forward, Left, Up, Page Up and Shift+Space turn back, Home and End go to the first and last page; Previous page and Next page are real buttons; the front light is a role=slider in percent.",
+      "Reduced motion: no inversion flash and no ghost — the new page appears under a paper wash that fades on a short tween — and the keys darken instead of travelling; the page number and the light still change.",
+      "The whole text stays in the DOM, so a screen reader reads it whatever page is shown, and a polite live region says Page 4 of 12. (or Last page.) at each turn. Inside the screen every token is redrawn in grey ink, so content styled with tokens reads as print.",
+    ],
+  },
+  {
+    name: "stand-monitor",
+    type: "registry:ui",
+    title: "Stand Monitor",
+    description:
+      "A desktop display on a height-adjustable stand: dragging the screen lifts the panel on its column 1:1 under the finger, rubber-banding at the stops, and a heavy counterbalanced arm coasts it to where the throw would stop on the glide spring with the release velocity; dragging its top edge tilts it back in 3D on a friction hinge that holds where it is left and snaps to the nearest degree. The turn button pivots it to portrait on glide while the stand lifts it clear of the desk, the pivot height worked out each frame from the turned panel's reach, and once it settles the picture re-orients upright in a container the new shape; a cable hanging from its back swings at every move on a soft underdamped spring. The screen and its top edge are sliders for height and tilt that take arrow, Page, Home and End keys, and the turn button is a toggle.",
+    files: [
+      {
+        path: "registry/ui/stand-monitor.tsx",
+        type: "registry:ui",
+      },
+    ],
+    dependencies: ["motion"],
+    registryDependencies: [
+      "utils",
+      "motion",
+      "use-motion-safe",
+      "tactile-gesture",
+      "tactile-sound",
+    ],
+    categories: ["atelier"],
+    meta: {
+      serial: "KQ-1240",
+    },
+    tagline: "Raise it, tilt it, rotate it.",
+    keywords: [
+      "monitor",
+      "display stand",
+      "rotate to portrait",
+      "tilt",
+      "device frame",
+      "desk setup",
+      "mockup",
+    ],
+    props: [
+      {
+        name: "children",
+        type: "React.ReactNode",
+        description:
+          "The screen: any content, in a size container the shape of the screen in its current orientation.",
+      },
+      {
+        name: "label",
+        type: "string",
+        defaultValue: '"Monitor"',
+        description: "The display's accessible name.",
+      },
+      {
+        name: "height",
+        type: "number",
+        defaultValue: "0.5",
+        description:
+          "Where the panel sits on the column, 0 (lowest) to 1 (highest). Drags start from here, and a new value moves it.",
+      },
+      {
+        name: "onHeightChange",
+        type: "(height: number) => void",
+        description:
+          "Fires from a drag or a key with the height the panel settles at.",
+      },
+      {
+        name: "tilt",
+        type: "number",
+        defaultValue: "4",
+        description:
+          "How far the top leans back, 0 to 15 degrees. Drags start from here, and a new value moves it.",
+      },
+      {
+        name: "onTiltChange",
+        type: "(tilt: number) => void",
+        description:
+          "Fires from a drag or a key with the tilt the hinge settles at.",
+      },
+      {
+        name: "orientation / defaultOrientation",
+        type: '"landscape" | "portrait"',
+        defaultValue: '"landscape"',
+        description: "Which way the panel stands.",
+      },
+      {
+        name: "onOrientationChange",
+        type: "(orientation: StandMonitorOrientation) => void",
+        description:
+          "Fires from the turn button with the orientation asked for.",
+      },
+      {
+        name: "finish",
+        type: '"silver" | "black" | "white"',
+        defaultValue: '"silver"',
+        description: "Stand, back and bezel.",
+      },
+      {
+        name: "sound",
+        type: "boolean",
+        defaultValue: "false",
+        description:
+          "The hinge creaks while the panel is dragged or turning, with the speed of the hand; the loop always stops.",
+      },
+      {
+        name: "disabled",
+        type: "boolean",
+        defaultValue: "false",
+        description: "Takes no drags, keys or turns.",
+      },
+      {
+        name: "className",
+        type: "string",
+        description: "Classes for the 16:9 root; size it by width.",
+      },
+    ],
+    usageNotes: [
+      "Keyboard: the screen is a vertical role=slider for height (arrows 5%, Page keys 25%, Home/End) and its top edge one for tilt (arrows 1°, Page keys 5°, Home/End); Portrait is a toggle button with aria-pressed. The screen's content sits under the handles, not inside them, so it is read as itself.",
+      "Reduced motion: drags still follow the hand 1:1 and land where they are let go, keys jump, the turn is a cross-fade to the other orientation and the cable hangs still.",
+      "A polite live region says Portrait. or Landscape. on a turn and the reading once at the end of a drag (Height 60%., Tilt 9°.).",
+    ],
+  },
 ];

@@ -30843,6 +30843,294 @@
     },
     {
       "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pocket-phone",
+      "type": "registry:ui",
+      "title": "Pocket Phone",
+      "description": "A phone frame that holds any screen and leans toward the pointer under a sheet of glass glare on the glide spring. A corner toggle turns it to landscape on glide while the screen counter-rotates and re-lays its content out in real pixels; its keys sink into the frame on flick, the volume keys raise a level on the glass that slides out on snap, the side key sleeps and wakes the screen, and the island opens on snap into a live activity. Every key is a real button reached by Tab and pressed with Enter or Space (Enter repeats on the volume keys), the island is a disclosure that Escape closes, and keyboard focus tilts the phone toward the key it is on.",
+      "files": [
+        {
+          "path": "registry/ui/pocket-phone.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1231"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "lid-laptop",
+      "type": "registry:ui",
+      "title": "Lid Laptop",
+      "description": "A laptop in real CSS 3D that holds any screen on its lid: the first time it is mostly in view the lid opens on the drift spring, a click opens or shuts it, and a vertical drag turns the hinge with the finger, rubber-bands past its stop and commits by projection on the glide spring with the release velocity. As the lid passes 60° the screen wakes from black; shutting is a landing, a glide fall that strikes the deck and bounces off it on the recoil spring with a thock at each contact, while a sheen slides along the deck after the pointer on drift and the screen's light spills onto it. A real button over the laptop is the keyboard's lid: Enter or Space toggles it, ArrowUp or End opens and ArrowDown or Home shuts.",
+      "files": [
+        {
+          "path": "registry/ui/lid-laptop.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1232"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "slate-tablet",
+      "type": "registry:ui",
+      "title": "Slate Tablet",
+      "description": "A tablet frame with its pencil docked magnetically on the long edge: drag the pencil off and it follows the finger 1:1, turning to the writing angle and foreshortening toward the eye as it leaves the magnet, and with it out the screen takes ink whose width follows the hand's speed while the pencil rides the pointer and its shadow closes in. Thrown or brought back to the edge it snaps into the dock on the snap spring with the release velocity and a snap at contact, and the ink fades away on the exit ease; picked up by key it glides to the middle of the screen. The pencil is a real toggle button: Enter or Space picks it up and puts it back, arrow keys write while it is out (Shift moves without ink), and Escape docks it.",
+      "files": [
+        {
+          "path": "registry/ui/slate-tablet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1233"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "crown-watch",
+      "type": "registry:ui",
+      "title": "Crown Watch",
+      "description": "A watch frame whose crown scrolls its screen: drag or wheel over the crown and its knurl turns 1:1 under the finger, a cylinder seen edge-on whose ridges crowd toward its top and bottom, geared so one notch is one step of content, and a swipe on the glass turns the crown with it. With detents the crown sticks at each notch and jumps through the middle while the content steps on springs.snap with a tick; without them the content follows the crown 1:1 and a flick coasts to its projected landing on springs.glide with the release velocity, and either way the ends rubber-band and spring back on snap. The crown is a vertical slider whose arrow keys turn it a notch, Page keys a screen and Home and End to the ends, and Enter or Space press it, which pushes it in on springs.flick and glides the screen home as the crown unwinds; the whole watch leans toward the pointer under a glare on its crystal.",
+      "files": [
+        {
+          "path": "registry/ui/crown-watch.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1234"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "tab-browser",
+      "type": "registry:ui",
+      "title": "Tab Browser",
+      "description": "A browser window around a small site that behaves like one: tabs select on press and drag to reorder, the dragged tab lifting on springs.flick and following the finger 1:1 while the tabs it passes slide aside on springs.glide, each tab keeps its own Back and Forward history, page links navigate in the tab (or open a background tab with Ctrl, Cmd or the middle button), and a link or a host navigation types the new address into the bar from where it first differs. With loading on, a bar runs across under the toolbar on an ease-out for a seeded time per address while the tab's icon spins, then completes and fades as the new page cross-fades in with a short rise on glide; the light and dark skins wear those themes whatever the page does, and glass frosts the chrome over the page scrolling beneath it. The tabs are a tablist whose arrows move and select, Shift with an arrow moves a tab and Delete closes it, the address bar is a real input that takes an address, a path or a page's name, and Alt with an arrow goes back and forward.",
+      "files": [
+        {
+          "path": "registry/ui/tab-browser.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1235"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "fold-phone",
+      "type": "registry:ui",
+      "title": "Fold Phone",
+      "description": "A book-style foldable phone frame: folded it is a tall cover screen, and a sideways drag anywhere on it swings the front half round its hinge in real CSS perspective, the half's free edge following the finger 1:1 (the angle is solved from the finger's position) while its face darkens as it turns edge-on and its shadow falls across the other half, into a wide inner screen whose crease catches the light as the halves pass 150°. The hinge is a free-stop: a slow release rests where it is unless an end is near, a flick commits the way it was thrown, closing snaps shut on springs.snap with its overshoot reflected off the other half and a thock, and opening runs to the flat stop on springs.glide with the release velocity; the content re-flows between the cover's narrow size container and the wide one. The hinge is a slider in degrees whose arrows turn it 30°, Page keys 90°, Home folds, End opens flat and Enter toggles, and the Unfold button under the phone does the same.",
+      "files": [
+        {
+          "path": "registry/ui/fold-phone.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1236"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "pocket-console",
+      "type": "registry:ui",
+      "title": "Pocket Console",
+      "description": "A handheld console frame whose keys travel: each cap goes down into its well on the flick spring as its side wall disappears, and the dome pushes it back up on snap with one crisp overshoot; the d-pad is one cross on a pivot that rocks toward the arm under the thumb, and sliding a finger round it rolls through all eight directions. Every press reaches the screen as a real keydown and keyup, so content written for a keyboard runs unchanged, while the LCD shows a pixel grid and backlight and the power light breathes on a slow tween only while it is on and on screen. From any key the arrow keys press the d-pad and A and B press A and B for as long as they are held, and Enter or Space hold the focused key.",
+      "files": [
+        {
+          "path": "registry/ui/pocket-console.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1237"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "viewfinder",
+      "type": "registry:ui",
+      "title": "Viewfinder",
+      "description": "A camera viewfinder over any scene with a two-stage shutter: holding it sinks the cap to its first stage on flick and racks the lens to the focus point's subject on the recoil spring, hunting through sharp twice before the brackets close on snap and turn green. Letting go fires — two curtains meet and part on a tween, and the frame, with the blur, exposure and roll it was taken with, shrinks out of the finder on snap and arcs into the corner slot on glide; released before the lock, the photo is soft. The nine focus points are a radiogroup the arrow keys move through, re-metering the scene and changing the shutter speed, and Space or Enter held on the shutter is the half-press, released the shot, with Escape to cancel.",
+      "files": [
+        {
+          "path": "registry/ui/viewfinder.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1238"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "ink-reader",
+      "type": "registry:ui",
+      "title": "Ink Reader",
+      "description": "An e-reader that lays any long text out in pages exactly as wide as its screen, measured, so a narrower reader has more pages; every turn is an e-ink refresh rather than a slide — the new page shows inverted, snaps to white and clears in three grey steps, or with a fast refresh draws at once and leaves the old page as a ghost that clears the same way, and a full flash never repeats within half a second. A swipe, a tap, the chin's keys (which press on flick and return on snap) or the keyboard turn the page, and the front-light slider follows the finger 1:1 and settles on snap, bringing the paper up from the room's own light and tinting it cool to amber while the ink stays black. On the focused page the arrow, Page and Space keys turn and Home and End jump; the slider takes arrows, Page keys, Home and End.",
+      "files": [
+        {
+          "path": "registry/ui/ink-reader.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1239"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
+      "name": "stand-monitor",
+      "type": "registry:ui",
+      "title": "Stand Monitor",
+      "description": "A desktop display on a height-adjustable stand: dragging the screen lifts the panel on its column 1:1 under the finger, rubber-banding at the stops, and a heavy counterbalanced arm coasts it to where the throw would stop on the glide spring with the release velocity; dragging its top edge tilts it back in 3D on a friction hinge that holds where it is left and snaps to the nearest degree. The turn button pivots it to portrait on glide while the stand lifts it clear of the desk, the pivot height worked out each frame from the turned panel's reach, and once it settles the picture re-orients upright in a container the new shape; a cable hanging from its back swings at every move on a soft underdamped spring. The screen and its top edge are sliders for height and tilt that take arrow, Page, Home and End keys, and the turn button is a toggle.",
+      "files": [
+        {
+          "path": "registry/ui/stand-monitor.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [
+        "https://www.kinetiqui.com/r/utils.json",
+        "https://www.kinetiqui.com/r/motion.json",
+        "https://www.kinetiqui.com/r/use-motion-safe.json",
+        "https://www.kinetiqui.com/r/tactile-gesture.json",
+        "https://www.kinetiqui.com/r/tactile-sound.json"
+      ],
+      "categories": [
+        "atelier"
+      ],
+      "meta": {
+        "serial": "KQ-1240"
+      }
+    },
+    {
+      "author": "Dragoon (0xDragoon) <https://x.com/0xDragoonLab>",
       "name": "command-deck",
       "type": "registry:block",
       "title": "Command Deck",
