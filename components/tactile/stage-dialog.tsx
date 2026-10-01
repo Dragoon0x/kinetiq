@@ -27,6 +27,7 @@ import { Segmented } from "./tweak-controls";
 import { TweakPanel, type TweakState } from "./tweak-panel";
 import { useTactileModule } from "./use-tactile-module";
 import { GroupGlyph } from "./group-glyph";
+import { useRoom } from "./room";
 
 type StageTheme = "page" | "light" | "dark";
 
@@ -139,9 +140,10 @@ export function StageDialog({
   const opener = React.useRef<HTMLElement | null>(null);
   const leaving = React.useRef(false);
   // The latest values the one-shot effects need, without re-running them.
-  const latest = React.useRef({ name: item.name, onExited });
+  const room = useRoom();
+  const latest = React.useRef({ name: item.name, onExited, room: room.id });
   React.useEffect(() => {
-    latest.current = { name: item.name, onExited };
+    latest.current = { name: item.name, onExited, room: room.id };
   });
   const titleId = `tactile-stage-title-${item.name}`;
 
@@ -153,9 +155,17 @@ export function StageDialog({
   const veil = useMotionValue(0);
   const face = useMotionValue(0);
 
-  // Portal host, inert background, scroll lock, focus capture — once.
+  // What had focus when the stage opened, noted before the open effect below
+  // moves focus onto the panel (layout effects run in order, passive ones
+  // after them all), so the fallback is never the stage itself.
+  React.useLayoutEffect(() => {
+    if (!opener.current) {
+      opener.current = document.activeElement as HTMLElement | null;
+    }
+  }, []);
+
+  // Portal host, inert background, scroll lock — once.
   React.useEffect(() => {
-    opener.current = document.activeElement as HTMLElement | null;
     const siblings = Array.from(document.body.children).filter(
       (child) =>
         !child.hasAttribute("data-tactile-stage-root") &&
@@ -176,9 +186,11 @@ export function StageDialog({
       root.style.paddingRight = previous.paddingRight;
       // Focus goes back to the card now on show (navigation may have moved
       // on from the one that opened the stage), else to whatever opened it.
+      // Cards are id'd by their room, so the stage finds an Atelier card as
+      // surely as a Tactile one.
       const back =
         document
-          .getElementById(`tactile-card-${latest.current.name}`)
+          .getElementById(`${latest.current.room}-card-${latest.current.name}`)
           ?.querySelector<HTMLElement>("button[aria-label^='Open']") ??
         opener.current;
       back?.focus({ preventScroll: true });
